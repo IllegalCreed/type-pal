@@ -1881,6 +1881,29 @@
         "Whole governance and current product/runtime acceptance remain incomplete."
       ],
       "stopLine": "No old prompt execution, product/schema compatibility, runtime/E2E/visual or coverage credit from document-only acceptance."
+    },
+    {
+      "id": "S17-testing-history-navigation-vs-current-evidence",
+      "from": [
+        "docs/testing/archive/README.md",
+        "docs/testing/archive/legacy/quality/quality-gates/coverage.md",
+        "docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md"
+      ],
+      "to": [
+        "docs/testing/governance.md",
+        "docs/ops/document-quality.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "relationship": "Historical testing navigation is current only as an entry; fixed body/template241 acceptance and124 report-body counters are distinct from all365 preserved sources and historical executions.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz"
+      ],
+      "unresolved": [
+        "124 report bodies have current structural/field-placement counters.",
+        "Historical/manual author timestamps and lost/placeholder identities are not current execution authentication."
+      ],
+      "stopLine": "No coverage/E2E/runtime credit or resurrection of old signatures/product scope from document governance."
     }
   ],
   "acceptance": {

@@ -382,7 +382,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
-      "afterSha256": "fcf355dbd8af0b40fe4fe6db903f1ac13011eae4fe35940f22e4d449fbfb1bd3",
+      "afterSha256": "9e1bb39a3f75f15bc09ff51d1de177a6bacee068ffd6d978998cb8f74fbd723c",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -528,7 +528,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "fcf355dbd8af0b40fe4fe6db903f1ac13011eae4fe35940f22e4d449fbfb1bd3",
+          "afterSha256": "9e1bb39a3f75f15bc09ff51d1de177a6bacee068ffd6d978998cb8f74fbd723c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
@@ -557,7 +568,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
-      "afterSha256": "05c6e2b0187970cfd8bf5bd5685a25e23739aba0511895c0acd7b9eec9fdba94",
+      "afterSha256": "cf806d39488472fa89348233f5c09c512205730c3cfda4a424be78b5d7ba8c3a",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -703,7 +714,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "05c6e2b0187970cfd8bf5bd5685a25e23739aba0511895c0acd7b9eec9fdba94",
+          "afterSha256": "cd4f4ecfb493cf15f8a3ecb2b6fad4689033bf19b3052e3e6196fade7a43d558",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "cd4f4ecfb493cf15f8a3ecb2b6fad4689033bf19b3052e3e6196fade7a43d558",
+          "afterSha256": "cf806d39488472fa89348233f5c09c512205730c3cfda4a424be78b5d7ba8c3a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
@@ -732,7 +763,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
-      "afterSha256": "f07fc07c50517ef76d585105b1bb65211e867330e16f697c007ccd672ee78b5c",
+      "afterSha256": "b210188a86803ca4523984ba489e59ed46797176c97716c1bf25751e47f63740",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -878,7 +909,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "f07fc07c50517ef76d585105b1bb65211e867330e16f697c007ccd672ee78b5c",
+          "afterSha256": "e525645894ab9f1fd0be766f04f21d77781dc67a14e252c7d8e23a1550478ad8",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "e525645894ab9f1fd0be766f04f21d77781dc67a14e252c7d8e23a1550478ad8",
+          "afterSha256": "b210188a86803ca4523984ba489e59ed46797176c97716c1bf25751e47f63740",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
@@ -907,7 +958,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "b78edd35d29a2530723d0eb3494ba3b138b1c717e7f96980e6d64bb6e61e0a81",
+      "afterSha256": "eb4640279c6554a63ed67a40a23af909b7adc643d6bf645917f3b0cf7c059a36",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1053,7 +1104,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "b78edd35d29a2530723d0eb3494ba3b138b1c717e7f96980e6d64bb6e61e0a81",
+          "afterSha256": "7a902990242283cf34e7bae4a1ed959b7f157f0af2114d39e15605c2bb0d2b2a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "7a902990242283cf34e7bae4a1ed959b7f157f0af2114d39e15605c2bb0d2b2a",
+          "afterSha256": "eb4640279c6554a63ed67a40a23af909b7adc643d6bf645917f3b0cf7c059a36",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
@@ -1082,7 +1153,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
-      "afterSha256": "e59df709562c21430ced27dbae57a3cb948ed81edc189c4f7b0bfe6dc39e44b4",
+      "afterSha256": "2bc6a20707fa4d3733ed253c2fc835b092dbb7bbc743b7c5f645250b5390952c",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1228,7 +1299,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "e59df709562c21430ced27dbae57a3cb948ed81edc189c4f7b0bfe6dc39e44b4",
+          "afterSha256": "62a19d5b718b7efeb7f25df2aec94c873c6c5479a53f2f176198635ce374a7f6",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "62a19d5b718b7efeb7f25df2aec94c873c6c5479a53f2f176198635ce374a7f6",
+          "afterSha256": "2bc6a20707fa4d3733ed253c2fc835b092dbb7bbc743b7c5f645250b5390952c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
@@ -1257,7 +1348,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
-      "afterSha256": "6806337bc9a00291543d92c60eabc7ae2677c1563fcf82409a2b9fe21a171d94",
+      "afterSha256": "d9dd141f2347553ee82cdc4bd8f53446332d0ea8df71d9782af76f147353be69",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1403,7 +1494,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "6806337bc9a00291543d92c60eabc7ae2677c1563fcf82409a2b9fe21a171d94",
+          "afterSha256": "7f8f98313f2da27f4b06f02d9aa6d1a3a096b10fc6ad51cfba224035b29d0ca4",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "7f8f98313f2da27f4b06f02d9aa6d1a3a096b10fc6ad51cfba224035b29d0ca4",
+          "afterSha256": "d9dd141f2347553ee82cdc4bd8f53446332d0ea8df71d9782af76f147353be69",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
@@ -1432,7 +1543,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
-      "afterSha256": "b6a185321e7f6e486e7d7ed316ead8e59cc7d3c3d9caf89240a0cdafb7541717",
+      "afterSha256": "135753b3a62d2aa7dd5968edeeae138a3d28d791c100b9ad2a82726113f6c5dc",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1578,7 +1689,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "b6a185321e7f6e486e7d7ed316ead8e59cc7d3c3d9caf89240a0cdafb7541717",
+          "afterSha256": "d29ce6cfc91d2c6fb3528cc4ac70e1c1de774dfebf5060a5e2f781d9e52ef929",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "d29ce6cfc91d2c6fb3528cc4ac70e1c1de774dfebf5060a5e2f781d9e52ef929",
+          "afterSha256": "135753b3a62d2aa7dd5968edeeae138a3d28d791c100b9ad2a82726113f6c5dc",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
@@ -1607,7 +1738,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
-      "afterSha256": "bdb46a88d9965a1ba714bb8bf4a832bb625ff12c8417cb5cc7f67c75e979f407",
+      "afterSha256": "b9b42617da27e532c5baddd63fb35e03fc90391ccab8f3fe77bd9d6a9e480894",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1753,7 +1884,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "bdb46a88d9965a1ba714bb8bf4a832bb625ff12c8417cb5cc7f67c75e979f407",
+          "afterSha256": "8a230ed471b03694b89602732abf6296f455a52f743ea719cc50702121823ee5",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "8a230ed471b03694b89602732abf6296f455a52f743ea719cc50702121823ee5",
+          "afterSha256": "b9b42617da27e532c5baddd63fb35e03fc90391ccab8f3fe77bd9d6a9e480894",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
@@ -1782,7 +1933,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
-      "afterSha256": "aea4bd49b0badfd9f259cd5846f2dc5368d4127f759cbec714eb53319bdd7848",
+      "afterSha256": "5898762cae0b6ab0d4ebfaf88446b00c88eb0f65c53a892894f873c59facea4b",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1928,7 +2079,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "aea4bd49b0badfd9f259cd5846f2dc5368d4127f759cbec714eb53319bdd7848",
+          "afterSha256": "fcbb94f7d06681ff90bf1be1a878b0b206734d40f5e67129cd73bc989bf53be2",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "fcbb94f7d06681ff90bf1be1a878b0b206734d40f5e67129cd73bc989bf53be2",
+          "afterSha256": "5898762cae0b6ab0d4ebfaf88446b00c88eb0f65c53a892894f873c59facea4b",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
@@ -1957,7 +2128,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
-      "afterSha256": "be878bfb97f7a9b6130778c7335656a1c7d7a046ed058c949942187dca0e939a",
+      "afterSha256": "4a24418309467b91ed92e0e3621348bf2d72e2923c0b997d48fa21ab8a622e30",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2103,7 +2274,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "be878bfb97f7a9b6130778c7335656a1c7d7a046ed058c949942187dca0e939a",
+          "afterSha256": "7468240c846a0cf9747fb4450b5670e696b2cbb06dcaac4adf559d4ed75f6e0a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "7468240c846a0cf9747fb4450b5670e696b2cbb06dcaac4adf559d4ed75f6e0a",
+          "afterSha256": "4a24418309467b91ed92e0e3621348bf2d72e2923c0b997d48fa21ab8a622e30",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
@@ -2132,7 +2323,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
-      "afterSha256": "69c117fdf8965f13ec25ffd226bb33d88042f303f94bbd16c1172363616ef889",
+      "afterSha256": "b1c0574bfba3d14e1824f5a82ae3b9c315beea0e702e02f0613672a3cf3180b9",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2278,7 +2469,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "69c117fdf8965f13ec25ffd226bb33d88042f303f94bbd16c1172363616ef889",
+          "afterSha256": "c6b706169804bf6196e3120c7d2ab8f5c112526f14bd1841e79da0ce9493e51e",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "c6b706169804bf6196e3120c7d2ab8f5c112526f14bd1841e79da0ce9493e51e",
+          "afterSha256": "b1c0574bfba3d14e1824f5a82ae3b9c315beea0e702e02f0613672a3cf3180b9",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
@@ -2307,7 +2518,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
-      "afterSha256": "0560f3a23c210deebc04cf3f3524b6d52a0ac00d1e9831ce1c911b66574b7eb8",
+      "afterSha256": "c40b8cdfbf43ad20db520c4e4d9d4308d0c58865a9de89a29925e1209a3f9230",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2453,7 +2664,27 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "0560f3a23c210deebc04cf3f3524b6d52a0ac00d1e9831ce1c911b66574b7eb8",
+          "afterSha256": "dcb873969255fddd8e8a25f6def86b44418b1a1710206f7258d293a51ea2bf62",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 Owner fix61 scalar truthAnchors to exact one-item arrays; no semantic delta",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "dcb873969255fddd8e8a25f6def86b44418b1a1710206f7258d293a51ea2bf62",
+          "afterSha256": "c40b8cdfbf43ad20db520c4e4d9d4308d0c58865a9de89a29925e1209a3f9230",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r83-testing-current.json",

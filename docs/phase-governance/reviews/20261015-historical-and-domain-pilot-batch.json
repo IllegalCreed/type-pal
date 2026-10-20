@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "d80dade2e3354a25cf463c8af164cf7eabe0d44089c3c5e44754f5503b673ecc",
+      "afterSha256": "36770309294161b53cdbd43a636d1428aaa7c717df4917d6faa7ef4118cd24b6",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6871,6 +6871,15 @@
           "previousAfterSha256": "389c9136da6f43007dde5d744917239c221d4354602d4d934285fe74d510f8f5",
           "afterSha256": "d80dade2e3354a25cf463c8af164cf7eabe0d44089c3c5e44754f5503b673ecc",
           "method": "Explicit S16 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 explicit partial acceptance/124 counters and new correction admission controls only",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "d80dade2e3354a25cf463c8af164cf7eabe0d44089c3c5e44754f5503b673ecc",
+          "afterSha256": "36770309294161b53cdbd43a636d1428aaa7c717df4917d6faa7ef4118cd24b6",
+          "method": "Owner actual241/124 decision, risk/counter facts and targeted rework admission; no further document credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 原纠错/S15接收保留；S16固定abff的123篇据证接收并中央接入，8路由已纠；全量硬验收未完成
+Reviewer: S16接收保留；S17据证接收并中央接入241篇、124篇正文模板返工；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-20
 Template: task-card-v1 / 1.0.0
@@ -2085,3 +2085,23 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 
 
 S16末轮实际中央范围[回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-actual-central-123-scope-receipt/85b0b72dbe6df5ea1e7f908e92f9d517a562513b7eccbe7ee9feaacd6c07dd52.gz)：123正文与候选逐字节同，只有123个native逻辑绑定变化、其余2309个对象不变；10分区旧绑定保留。静态组合导航8707链/1265合同/phase184/testing/lint4511均零诊断；strict恰3434项=1714 partial状态+1720待迁移，0漂移或其它问题；完成门仍失败。此回执是Owner中央实施自验，非第二次非作者审，不覆盖565ca829逐篇独立文档裁定。后继仅本段证据导航/针维护另核，无新增语义授信。
+
+
+### S17 固定00319证据验收与限定接入（2026-10-20）
+
+- 作者候选`00319ff897adf7c1a8427b2ada02922cd190fecf`，真实base`c45c31dccbc70afcd43180b2b7d84a72e2a11407`，83提交、恰365白名单；作者481件冻结。365份before/source/after/blob、整段quote tail与精确sep-lf-1逆回逐字节通过；分片365行/380436 UTF8字节/SHA独立复算通过。保全全过不等于正文模板全过。
+- Codex集中核模板职责、153导航入口集合及10个原文/新头/r0风险切片，不重复全文治理365篇。接收241篇（153导航、79执行报告、6设计、2计划、1质量门）；124份执行报告新正文表格仍缺列/错列，共453处行宽不符，另两篇把Python list序列化进正文，部分r0参数旋转仍留下章节错位/重复。G1只查非空章节，不足以识别这些反例；仅这124篇转正文模板返工，已支撑的来源/读域/保全可复用。
+- 小修由Owner直接收口：61篇Results用同页已写的具体「原始结论」复制成明确历史结果，未新增事实；glm-state-commands/codex-integration的新头链接多一级父目录，按原quote与真实目标纠正。quote零改。这62篇维护自验与原GLM语义的非作者据证判断分开记录；准备后的固定241正文提交`90e9b051da6bf2dffd946da73f23f83472cf08ec`，不是把原00319全包标accept。
+- [逐篇裁定及124个path:line反例](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz)；原摘要/file-manifest完整base多写e72、21行commit仍为$SHA、82行作者时间标到10-21，均不当执行身份或时间证明。当前身份/字节从真实Git重算；三处B实为Unicode字符数，另一处记录同时含局部与全量字节，单位澄清不冒充新全文阅读。r0实际提交133路径，所报139修复数量不追认、不倒改原件。
+- Owner独立快检：G1全365、索引72477B相等、testing0issue、lint4511 E0W0I0、diff通过；作者树真实导航为1issue（上述新链接，Owner已修），不是全绿。旧G2恰365模板声明冲突只证明作者未写中央；本次仅241条路由/native类型及原12个review分区接入，另124篇中央正文仍保旧字节，不装作迁移完成。旧绑定完整保留于所记Git revision/文件SHA/唯一path selector及条目hash，避免重复嵌入撑大JSON；原top metadata继续历史，不恢复旧R批信用。
+- 实际组合模板1265合同0issue、导航10010链0issue已核；稳定组合其余门与strict/进度另保真实回执。全量仍rework、不合main、不推main、不done，静态治理不授runtime/E2E/视觉/coverage信用。
+
+### S17 一百二十四篇定点返工准入（2026-10-20）
+
+- Codex build allowed，GLM仅修[124篇冻结反例清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-124-targeted-rework-admission/046d8738f89ce4972f0ce4d3a37144e361adfdd697107ab0026a1397bc4b016d.gz)，payload SHA `046d8738f89ce4972f0ce4d3a37144e361adfdd697107ab0026a1397bc4b016d`；本机`/tmp/type-pal-S17-rework124-handoff-3auccozg`。不要求重做已经成立的全文阅读/保全；只对字段归属不清之处定向回原源。不得靠补空列、泛称、Python repr或照健康页旋转占位过门。
+- 新隔离分支`codex/docs-s17-glm-rework`由Owner在中央241接入后准备：保留已接收241及62处小修，再仅叠入00319的124篇countered正文作为返工起点；实际base以随后execution-manifest为准，00319是来源候选不是新执行base。旧S17分支与481证据保留不动。
+- 只写124篇正文及`/tmp/s17-glm-evidence-correction`新run证据，241篇和中央域/规则/产品/旧测试/coverage只读。quote marker至EOF保持字节；sep-lf-1不变。每篇执行/断言、结果、历史修订与继任按真实含义归位，表格列完整或用具体分项说明；真实缺失写明原时点未知，不编造输入/oracle/结果。
+- 新证据用实际Git身份/UTF8 bytes/真实ISO时间，撤回旧时间/占位hash认证口径而不覆盖旧原件；逐path报告修正、复用读域与新增定向核读。新快检须覆盖124头部表格/章节角色、全365保全、索引/链接/testing/lint/diff与拟模板合同。共享旧routing若仍恰124处冲突须精确诊断，Owner组合接入后归零；不改共享规则、不复跑181/产品/coverage，不逐批问许可。
+
+
+S17实际中央组合[回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-actual-241-central-124-held-receipt/67f67e4b4e1b9c7ef70befe5d675651bc7a3179ca346ad52acc598aed11ea020.gz)：仅241个native逻辑绑定变化，2191个其余对象不变，124篇中央正文/绑定仍旧；旧条目的Git引用、整文件与条目hash逐项复核。当前959 content-reviewed/1473 partial，迁移942/1838+11增量，1479候选待迁移；strict恰2952=1473状态+1479迁移，0 SHA或其它诊断。初中央适配直接继承61个scalar truthAnchors，strict按数组合同拒绝；Owner保原字符串无损套一项数组后这61项清零。首次修正计划遗漏raw报告pin被预写拒绝，原件保留；新独立计划补精确pin后dry/apply通过，没有降低规则或追溯改绿。模板/导航/testing/phase、lint及diff均通过，181复用S16未变工具实现的真实结果；没有本轮整仓check:docs或产品/coverage通过声明。上述是中央维护自验，非第二次非作者审；S17整包和父卡仍rework。
