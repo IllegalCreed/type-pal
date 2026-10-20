@@ -1,40 +1,63 @@
 # TEST-BATTLE-WORKFLOWS-1 r2：Codex独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-BATTLE-WORKFLOWS-1 r2 独立接收（2026-09-23，实现候选 b7ba48bb 远端 tip bf158a63 仅多交接提示；四生产目标对 57dda7ed 零 diff）：**counter，保持 rework，不集成不跑统计并集不转 Kimi**；原 r1 设计不重签；GLM 回执和实现者自签属贡献者声明不能代独立审查。
+
+## Scope
+
+- 已实证修复不重开：fixture 迁至 __tests__/battle-workflows/；不只跑默认 guard 样本（实际构造 BattleSession 前包正式 skills/items/enemies/battleSprites 守卫+validateActors 对实际 wfActorDef——35 会话+5 角色构造全通过 34/34 绿）；ArrowLeft 真实施法/R 重复与耗尽降级/A 真实推进/库存消费/非空成长/victory-defeat-playerFled 精确 resolve；原五针全部转候选自身 AssertionError；本席复跑 34/34+相邻 267/267+全 Reforge 1,412+TC+Biome 12 文件零。
+
+## Execution and assertions
+
+- **C1 W6 完整写回**：writeback:100-108 8 个成长字段只检查 5 个——唯一 fixedCharacterGrowth 分支漏写 magicAttack 整包 34/34 仍绿（灵力 2/身法 1/吉运 1 未对账）；:149-168 限次技能只验计数 1——禁止 removed 删除 learnedSkills 整包仍绿（达到 lifetimeLimit 后技能仍留在 world）；:78-96 标题「HP 终值」实际只验减少且 ≥1——writeBackHp 硬写 1 W6 仍 5/5 绿（未结束战斗未制造 HP0 后胜/逃不能声称验证「胜/逃至少 1」边界）；成长第二次写回与 afterFirst 相等只证幂等不能替代第一次按完整预期正确；selection:26-42「敌 HP 真实下降」实际读玩家被反击 HP；返工=预期从操作前实际输入快照+业务变化构造不能把第一次错误结果当金标准
+- **C2 ready 假证明**：script-flows:53-56 把任意包含 ready-hook 与「攻击」的日志当敌人已行动——但玩家攻击该敌的日志也符合；临时只在生产 :1591 激活 ready 后移走该敌 actionQueue entry 保留 ready 音与玩家攻击整包 34/34 仍绿（没有证明 hook 结束后同一敌正常行动）；:126-128/:184-186 确在 finally 放行 gate 此点已修；但没有保存 await 实际 prepareTurnSounds 返回的 pending 与「放行并消费」不符——本席在已进入屏障后注入独立 AssertionError 在候选测试体拒绝出口观察原 callback Promise：originalFailure=true settledAtBodyExit=false 由观察器额外消费后才 settledAfterObserverConsumes=true（证明缺的是原 pending 收口不宣称 gate 未放行）；返工=ready 前后明确行动者/目标/顺序和实际 HP 变化不以名字子串冒充；保存真正返回的 prepare Promise 在 finally 放行同一 gate 后消费它；不要改为等待可能永不完成的 battle.done
+- **C3 六组合同缺口**：W1/W3：throw/coop 有效与无效选择、上一位回退后重选的真实提交/一次代价、变身/召唤接线；W4：真正敌 hook 等待/选择后恢复（现有 ready/turnStart 仅即时 playSound 音效 prepare 屏障不等于敌 hook 等待）；W5：enemyFled/terminated（公开 cancel 的 AbortError 不等于 BattleResult.terminated）、非胜利零奖励与各屏边界/最终完成逐条对账（多屏用例最后调用 finish 最多额外确认 40 次不能证明第三次确认是最后一次）；W6：C1 所列完整输出/非目标与奖励后保留；不要求重复现有证明允许引用确切旧测试标题+源码位置+该合同实际断言去重；若确不可达给调用域反证交 Codex 裁定不能自行把 r1 已签内容改成无归属后续
+- **C4 判据不精确**：mutants:175 未转义未锚定 leaf 交给 -t；:198 路径后缀/:202 标题后缀/:203 任意 MUTATION_HIT 字样无本针身份；:215-227 不核套件/运行时附加错误；:124-130 只排失败首行 timeout；本席通过 TS AST 取出实际使用的所有谓词与 verdict 表达式执行：不同 suite 相同 leaf 后缀/无关项目同后缀文件/另一针 marker/候选断言+套件普通 Error/首行断言后续明确 timeout 五类均 detected（判据抗误辩测试非声称 9 针实际发生错配；9 针真实业务红照采信）；单针模式 :250 固定宣称 6 controls 未实际执行；回执两勘误：「每文件首组运行 guard」不实只有 selection 第一例调默认样本合法门其他五文件没有（本席插入守卫 40 次全接受不把缺口歪说成数据非法）；controlled-io 3 处 as unknown 是声音/字库/调色板 IO 替身可保留但机账「无 as-unknown」须收窄为业务 fixture 无绕 guard 强转
+
+## Results
+
+- 返工：正控实际拿到的唯一 fullName+规范物理绝对路径固定目标转义锚定 -t；逐针核 marker 身份拒未运行/多执行/套件与运行时混错/timeout；真实总判据加反例自测；汇总只报告实际跑过的控制数；按最终树写回执不要再次宣称 R1-R4 全闭而只更新部分实现。
+
+## Evidence
+
+- 复建：r2 见证隔离树锚 b7ba48bb 候选文件每次运行后 hash 不变；工具 0 退出表示取证成功不是 accept；finally 观察中的故障是本席注入明确标注；未跑官方门主线基线仍 7,826/633；前两卡 TEST-COVERAGE-TRUTH-1 与 TEST-RUNTIME-SHELL-COVERAGE-1 已另以 a13a66f7 核定 done 不互相借签或重开。
+- 证据路径：本接收正文（quote 保全）；机账/r2 见证复建命令/日志清单在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 接收 | 2026-09-23 | 五反证闭+C1-C4 残项 | counter（保持 rework） | r1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/battle 的 r2 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-BATTLE-WORKFLOWS-1 r2：Codex独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter C1（成长 5/8 字段/限次不移除/HP 硬写 1 仍绿）+C2（名字子串冒充行动归属/原 pending 未消费 settledAtBodyExit=false）+C3 六组已签缺口（W1/W3/W4/W5/W6）+C4 判据五类误收+两勘误（guard 不实/as-unknown 收窄）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+C1-C4 反证表、AST 判据执行表与复建记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r3/r4/r5 递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-BATTLE-WORKFLOWS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bf8d55bc42a63877a05d2faaebac6bd1233c9fd313c443458ae0e53ed2a2cac9`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bf8d55bc42a63877a05d2faaebac6bd1233c9fd313c443458ae0e53ed2a2cac9`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-BATTLE-WORKFLOWS-1 r2：Codex独立接收
 >

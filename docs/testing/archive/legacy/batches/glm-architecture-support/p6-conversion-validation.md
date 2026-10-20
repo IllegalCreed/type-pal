@@ -1,40 +1,60 @@
 # P6 · 迁移/校验边界取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 P6 迁移/校验边界取证（2026-09-25，冻结 3270473862；对象 mapScenesStatic :2126、walkBody :977、author-script-core↔enemy-script、migration-transaction 写盘层；纪律：未跑 --write、未改 generated/schema/事务格式、不发明新校验政策，全部静态读取+既有测试对账）。含 r2 返工更正四条（校验递归双向/mapScenesStatic 6 参数/无 fs 收窄四模块/纯函数不作主张）。
+
+## Scope
+
+- 转换与写盘责任图：只读源→mapScenesStatic（无 fs 转换入口）+walkBody（纯递归翻译）+checkEnemyHookFlow（翻译后自检）→内存产物（gap 登记 :878、assertNoMigrationGaps :885 fail-loud）→事务写盘（writeFileSync 只在 commitMigrationTransaction :348 与 journal 持久化 :367；recover/hasPending 供写盘保护恢复——migration-write-guard 卡已三席收口）。
+
+## Execution and assertions
+
+- **校验递归**：checkBaseAuthorCommands 自递归 7 处（:661 then/:663 else/:669 body/:708 onLose/:710 onFlee/:722 onFail/:726 onNo——r3 函数体逐行核对统一口径），author 树七类容器臂全覆盖；另 :712 经 checkBattleChoreography 进 enemy-script；checkEnemyHookFlow 消费 checkCommands+checkAuthorCondition，迁移侧唯一调用域 translate-enemy-scripts.ts:89（翻译后立即校验带 @L_地址定位）；r2 更正为双向协议：author:3/:712→checkBattleChoreography、enemy:6/:598→checkBaseAuthorCommands——共享校验面是双向协议非单向分层；分层方向裁断与下沉建议属实施卡不提
+- **测试对账**：translate-events.test 66 条（stable id 正交重放/未知名字 fail-loud 不泄漏数字/gap 不冒充/root-target 绑定）+author-script-core 17+enemy-script 6+write-guard/baseline/path/project-io 各自测试；输出精确性/错误 fail-loud/gap 不冒充 covered；未覆盖区：mapScenesStatic 顶层入参组合矩阵无逐参数快照（pal-* 集成间接覆盖）标 risk-P6-002
+- **证据条目**：P6-001 covered（66+17+6 精确计数）；P6-002 risk（6 参数签名组合矩阵无直接快照回归）；P6-003 covered r2 收窄（四模块零 fs import grep 实证+grep writeFileSync 仅 transaction 两处——不外推整个管线仅此两写入点，baseline/path/project-io 有只读 fs 其余未审）；P6-004 N/A（双向协议不裁断分层）；P6-005 risk（walkBody 同文件 3 递归点无显式深度上限——原版输入有界，防御性非缺陷不建议加政策）
+
+## Results
+
+- 未证风险：未运行任何迁移命令（--write 明令禁止；连只读 --check 类也未跑——卡面限定迁移写盘回避且沙盒资源不完整）；soundAssetForNum 行为依赖真实资源（V0 已证 worktree 资源不完整）。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| P6 取证 | 2026-09-25 | 责任图+递归+对账+r2 更正 | 5 条目（2 covered/2 risk/1 N/A） | intake counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 P6 取证报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P6 · 迁移/校验边界取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+转换/写盘责任边界+双向校验协议+测试对账；r2 四条更正（双向/6 参数/fs 收窄/纯函数撤回）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+责任图、递归调用域、对账表与五条目在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 静态读取。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `ee2535720670a6304f04ad03a62c47aaa4c94cd0f4e4cca509e99e65dd5e34e9`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `ee2535720670a6304f04ad03a62c47aaa4c94cd0f4e4cca509e99e65dd5e34e9`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # P6 · 迁移/校验边界取证（ARCH-SUPPORT-GLM-1）
 >

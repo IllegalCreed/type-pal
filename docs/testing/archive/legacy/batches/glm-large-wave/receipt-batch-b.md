@@ -1,40 +1,63 @@
 # TEST-GLM-LARGE-WAVE-4 · B 批回执（编辑器会话、索引与派生状态）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 B 批回执（编辑器会话、索引与派生状态；r1 本批 1af7883b、R2 031b3e47、R3 本次推送）：新增 use-editor-project-session 3 项（R2 改名 .tsx→.ts 与源一致 JSX 改 createElement）+B 视觉宿主；3/3 passed；editor tsc 0+新文件 Biome 全零+check.mjs PASS+diff 干净。
+
+## Scope
+
+- 每组处置 12 源：B01 script-editor（27 例）+ScriptTree（摘要/workflow-coverage/coverage-batch）existing-proof；B02 project-reference（10 例）+project-reference-adapters（22 例逐 domain 且 A 批间接消费）existing-proof；B03 edit-session（20 例含地图 revision 失效与异步竞态/LRU pin）+editor-derived-store（12 例三态）existing-proof；B04 use-editor-project-session **新增 3**（hook 此前无行为测试：初始绑定 local 身份/干净脏态/getLocalDirectory、rename 经真实 RenameProjectCommand 改显示名不改 manifest.id、原名 no-op 不入历史）+project-io（5 例+journal 51 同环境）existing-proof；B05 author-save-journal（51 例全量 staging 先于写入/失败不落盘/首存授权/外来变更不写入/恢复语义/fake-expired 拒写/未 await 保持授权）+project-diagnostics（24 例）existing-proof；B06 playback（10 例+七分域黑幕事务）+tileset-references（9 例）existing-proof。
+
+## Execution and assertions
+
+- **不可达/未证 2 条**：save() 全链在测试宿主（内存 FSA+IDB 替身）触发空消息错误（疑似 battle-simulator.json 移除路径 NotFoundError）未证 committed——保存语义由 journal 51 例与 project-io.test 承担不把错误表现钉为合同；requestLeave/continueLeave 决策态属 UI 弹窗流不测
+- **反控**：2 枚 VALID（R2/R3 重跑）：rename 断言改错、hasDirectory 断言取反；恰 exit1、唯一失败、hash 不变；R2 hook 侧强转清零保存链未证维持
+- **视觉**：端口 6087 console 0：B1 会话选择→修改→undo 三图（SHA 1045d525…/a15f428d…/42d57b93…；setVar 2→9 正文/历史版本 1/树行同步→撤销 2 重做 9）；真实 ScriptEditSession+CanonicalScriptBodyEditor 不含 App 壳/保存/预览
+
+## Results
+
+- B 批 3 项新增（hook 行为填补：local 身份/rename 不改 manifest.id/no-op 不入历史）+11 组 existing-proof；save() 全链空消息错误不钉为合同，由 author-save-journal 51 例承担并登记未证。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；B04 hook 专测与 browser-host B1 视觉证据在 quote；save() 全链未证项见 Results 分项。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| B 批回执（含 R2/R3 返工） | 原文时点 | 3 项新增+11 组 existing-proof；删除与 :152 重复的单组 copy 用例 | 交 Codex（整包 R3 accept） | r1 初版 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+本页是 TEST-GLM-LARGE-WAVE-4 B 批回执（编辑器会话、索引与派生状态；r1 本批 1af7883b、R2 031b3e47、R3 本次推送）：新增 use-editor-project-session 3 项（R2 改名 .tsx→.ts 与源一致 JSX 改 createElement）+B 视觉宿主；3/3 passed；editor tsc 0+新文件 Biome 全零+check.mjs PASS+diff 干净。 本节仅描述固定原源及其候选时点。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · B 批回执（编辑器会话、索引与派生状态）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+B 批 3 项新增（hook 行为填补：local 身份/rename 不改 manifest.id/no-op 不入历史）+11 组 existing-proof；save 全链空消息错误不钉为合同由 journal 51 例承担。以上是原卡时点陈述，本页未复跑。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 证据路径：本回执正文（quote 保全）；B04 hook 专测与 browser-host B1 视觉证据在 quote；save() 全链未证项见 Results 分项。
+
+原始执行、反例和后续处理按固定 quote 保留，不由本次静态治理重授。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。B 批 3 项新增（hook 行为填补：local 身份/rename 不改 manifest.id/no-op 不入历史）+11 组 existing-proof；save 全链空消息错误不钉为合同由 journal 51 例承担是固定原源时点的记录；本页不代表当前产品、E2E、视觉或覆盖率通过。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+后续状态以 TEST-GLM-LARGE-WAVE-4 原任务卡及其明确验收链为准；本历史页不新授信用。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `6bf60bce77307c9560745a823ce865f6914888ff783642c2092f463137c42395`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `6bf60bce77307c9560745a823ce865f6914888ff783642c2092f463137c42395`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · B 批回执（编辑器会话、索引与派生状态）
 >

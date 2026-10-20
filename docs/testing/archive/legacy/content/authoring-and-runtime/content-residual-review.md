@@ -1,40 +1,62 @@
 # 内容合同残项：Codex独立接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CONTENT-RESIDUAL-1 独立接收复合复核（首轮 0e49db91 counter CR-R1~R4→返工 ccc67dcc 收窄 counter 仅 CR-R1 残项→**2026-09-21 Codex 接手补正**：CR-R1 已在 b609617b 补正（真实非空输入调用前后快照/当前结构自证/合法无肖像 speaker；五针全 detected/七 fixture accepted/mixedFailureAccepted=false/原 15 跑通过）；统一候选 44b9b763 已过 check 7,988/ratchet/strict 7,497，三席 accept 齐用户授权 done 归档——下方 counter 留历史本轮不重跑产品测试）。
+
+## Scope
+
+- 历史返工复核（ccc67dcc）：CR-R2/R3 主要鉴别力与 CR-R4 计数/格式已闭环，只补原 CR-R1 实际输入保真/守卫自证残项；原三见证全由候选自身检出；五对照全绿中原三针 detected、新增 valid-world-reference-mutates-money 与 nonempty-level-up-mutates-level 均 MISSED 独立 oracle 业务红（注入坏实现证断言漏检非产品突变）。
+
+## Execution and assertions
+
+- **首轮 CR-R1**：asset.residual:19-28 真正扫描合法 cue 后无快照比较、:31-41 保存 cue 但实际传 noPortrait/badAsset 只有 rows 引用共享——改写真实 cue.portrait.side 坏实现仍通过；validate-refs:92-116 world 是三字段对象缺 WorldState 必需 learnedSkills 与 CharacterInstance 数值/装备/tags（as unknown 绕类型非 buildWorld 构造）；:173-177「输入不变」只检查空基线——仅 world 引用扫描改 money 四候选仍绿；owner+skill 组合检查不能替代「合法技能下仅坏 owner」单轴正控；空 levelUp={} 不是 optional 真正缺席
+- **首轮 CR-R2**：frame-sequence:61-66 把完整合法 index 替换成仅含名/值的非法对象再 /toThrow(index 或期望)/——合法解码和 UTF8 拒绝都能过未证完整往返；Codex 将 decodeUtf8 改为拒绝所有合法非 ASCII 解码结果候选 3/3 仍绿；真正完整 index+Unicode 扩展键合法容器被拒独立 oracle 红；返工：保留合法 index 必需字段与真实 payload 只加允许 Unicode 扩展键重写完整 u32 长度；withIndexBytes 读旧长度只取低 16 位改完整 u32
+- **首轮 CR-R3**：mutants:264-284 只查整份输出含 AssertionError+目标 failed，不验目标 failureMessages 错误类型且排除列表漏 STACK_TRACE_ERROR；AST 抽实际两段判据：目标只报 STACK_TRACE_ERROR 另一例 AssertionError 时结果仍接受（mixedFailureAccepted=true）——不能借另一例业务错误认证目标；返工：目标精确标题确已运行+failureMessages 非空+每条首行 AssertionError+全套无宿主错误；自测含目标超时+别例红/未运行/混合宿主错误/纯业务红
+- **首轮 CR-R4**：定向 23 非 24（3/5/3/8/4，refs 4 非 5）；原工具 14 针+1 对照非 13——机器账 newTotal24 与 executedTests23 内部矛盾；Biome 实际 9 文件 1 error（validate-refs:132-134 格式）非 7 文件干净；逐族账须旧测试精确标题与新增差异非模块大类
+- **独立运行表**：五文件定向 23/23；content 全包 60 文件/698 项（675 既有+23 非 674+24）；私有覆盖 before 675/after 698（行 4458→4491/分支 3798→3863）；Codex 合法性抽核实际 bundle 七检查全 accepted（不把根谎称非法）；三业务见证原实现对照绿三坏实现候选仍绿独立 oracle 红 3 MISSED
+
+## Results
+
+- 重建与工具自证：content-residual-review-witnesses.mjs 只读诊断（正常绿坏实现 oracle 必须红、MISSED 仍可 exit0 不能只看退出码）；本席工具开发两失败如实登记（首个 Unicode oracle 误用不存在的 index.frameCount 改 frames 数组合同；world needle 两处匹配被唯一性断言拒绝收窄到 appearance.battleSprite 唯一行）不归 GLM/产品；准入：两包裁决独立无包释放实施槽 TB-02 保持待槽。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；五见证/机账/日志路径与两条重建命令在 quote；GLM 提示词两份（历史）在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 三轮接收 | 2026-09-19/21 | CR-R1~R4→收窄→接手补正 | done（44b9b763 三席 accept） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的内容残项三轮接收复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 内容合同残项：Codex独立接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：CR-R1 四处实际入参保真（cue 快照/buildWorld 非空 levelUp/shops 前后比/结构守卫自证）+CR-R2 完整 Unicode 往返+CR-R3 判据拒 STACK_TRACE_ERROR+CR-R4 计数勘误 23 非 24；五针 detected 七 fixture accepted；统一门通过收口。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+三轮反证、独立运行表、重建命令与工具自证登记在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；A3/rows/owner warn 与 full/Q1/Q2 边界保持。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CONTENT-RESIDUAL-1 完成卡与 tb00-tb01-completion。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `85be779b8e209bacc5733ea5a3238ff9687c97f659d84d1c0afec1eb15230f62`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `85be779b8e209bacc5733ea5a3238ff9687c97f659d84d1c0afec1eb15230f62`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 内容合同残项：Codex独立接收复核
 >

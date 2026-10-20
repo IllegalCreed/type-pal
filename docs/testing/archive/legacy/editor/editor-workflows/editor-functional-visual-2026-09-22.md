@@ -1,40 +1,62 @@
 # 编辑器功能视觉补证（2026-09-22）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是编辑器功能视觉补证 dev-functional 批（2026-09-22，Owner Codex；生产树 `f828b9fc` 相对 `57dda7ed` 产品零改动）的回执：8 项检查=5 通过+1 新提示缺口+1 既有窄窗边界+1 工具阻塞；不是新增 8 条 Vitest 用例。沿用已验收[模拟器设计与实现](../../runtime/battle/battle-simulator-implementation.md)不重开其历史签字。
+
+## Scope
+
+- 环境：6011 正式编辑器配合法自有工程（battle-simulator-functional.mjs 宿主，正式 loader 校验 fixture、HTTP 源只读）；Chrome 两个自有标签 360×800 与 720×480；原生保存专用空目录 /tmp/type-pal-simulator-native-8wFDI6。
+
+## Execution and assertions
+
+- **V01**：原生另存为；Chrome 原生目录选择两次连接超时，无目录句柄、目录复核为空；工具阻塞；原生选择器→保存→重开未完成；没有用替身保存或 HTTP 下载代替原生保存链
+- **V02/V03**：360×800 隐藏对象列表；720×480 添加队员；V02 两态右侧仍被裁切（主壳根 360px 但内部网格约 731px，editor.css:19-29 相关）→既有 360 主壳边界复现不记通过；V03 说明/搜索/列表/确认取消可见、无匹配禁用确认、Tab/Escape/Down/Enter 全通；通过（V03）；未重做宽屏已验收矩阵
+- **V04/V07/V08**：720×480 指定技能多选弹层向上展开；金钱 137 Tab 提交→临时副本确认框完整可见、取消归焦原按钮且 input.value 仍 137；替换确认焦点在取消按钮按 Escape dialog.open 归零；通过；V08 未宣称完成全平台读屏/焦点循环验收；在本批自有内存工程修改未保存
+- **V05/V06**：移出唯一队员滚到底部：配置错误只在长表单顶部，底部仅禁用开始试打无原因/关联说明；空队伍重加 hero 后恢复 enabled、顶部保存仍 disabled；新增提示可见性缺口（BattleSimulatorWorkbench.tsx:367-379 issues 普通段落无 role=alert 动态播报、:679-701 底部无 aria-describedby/错误导航）；校验拒绝本身有效；功能性 UX/可访问性改进项，非校验绕过或存档污染；本轮只测试未顺手改产品
+
+## Results
+
+- 测试过程校正：按「已选0项」定位失败（实际可访问名称「指定技能」）；「调整我方」是内联覆写非 dialog；Tab 越过原生 dialog 末尾时 Escape 不作为弹窗取消证据——重新聚焦复验 V08。
+- 文档校验：check:docs exit0（20/20 工具测试、492 Markdown/2676 links/166 tasks、0 issues）、diff --check 过、`git diff 57dda7ed -- packages/ scripts/` 为空；自建标签关闭、viewport 重置、6011 停止；原生空目录保留作未写入证据。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；截图与 DOM/AX 证据由浏览器工具回传（未宣称有仓内截图文件）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| dev-functional | 2026-09-22 | 8 项检查 | 5 过/1 缺口/1 边界/1 阻塞 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的功能视觉补证回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 编辑器功能视觉补证（2026-09-22）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+V03/V04/V06/V07/V08 通过；V05 新发现启动区配置错误无就近说明（代码锚 367-379/679-701）；V02 既有 360 主壳裁切；V01 原生工具阻塞；不改官方覆盖率（fast 7538 项/633 文件）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+V01–V08 表、代码锚点、可复制步骤与测试过程校正记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。视觉结论按当时候选树；当前编辑器行为以现行实现为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前视觉/焦点结论归现行编辑器验收；360 主壳与原生保存补证另行推进。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `2ed1e749c1062496c097b0387a76496b11b099dbf92af214e920dd087d5db3e7`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `2ed1e749c1062496c097b0387a76496b11b099dbf92af214e920dd087d5db3e7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 编辑器功能视觉补证（2026-09-22）
 >

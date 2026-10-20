@@ -1,40 +1,60 @@
 # V1 · 表单视觉/交互取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 V1 表单取证（2026-09-25 r2 返工同日，冻结 3270473862；In-app Browser 实际看图、1440×1024 与 768×1024、6013 独立实例、工程只读；浏览器内核/缩放/DPR 如实未测量——视觉结论收窄为 CSS px 布局观察）。含 r2 三条更正：撤回「过滤输入无可访问名」（multi-select.tsx:119-121 有 aria-label=搜索${label}，Codex 6010 实测过滤生效）、撤回「语义不一致请产品裁决」（逐击即提交=DS-C.5a 离散动作+Esc=DS-C.6 合同，与 quick-trial 草稿替换是两类控件合同）、补齐 r1 未覆盖六页（v1-06~v1-11 实际执行）。
+
+## Scope
+
+- 覆盖对象：BattleSimulatorWorkbench 试打方案+我方预设、物品/技能+效果链/敌队五槽/战场编辑、TrialDialog 敌队试打弹窗（Esc 已验证）、ActorMode 角色四 tab。
+
+## Execution and assertions
+
+- **证据链 V1-01~11**：试打方案（字段左对齐/三选择器同行等高/动词按钮/间距均匀符合 DS-F.4）、我方预设（3/3 上限/stepper 四列等宽/装备派生值/危险色移出）、技能多选弹层（悬浮无遮挡/全选清空计数/焦点环）、改选→Esc→重开（即时提交已选 6 项+状态条未保存——合同确认非风险）、768 降级（两列网格/菜单收纳）；r2 补：角色 8 位列表四 tab、物品四按钮组+买卖价 stepper、战斗技能基础字段+效果链行编辑（预览黑块=资源缺口）、敌队五槽拖柄+战后结算、战场常驻波动+五灵修正五 stepper、敌队试打弹窗三键 Esc 关闭快照复核；11 条全部 covered（布局层）
+- **分类条目（r3 与机账对齐四条无 005）**：V1-001 covered 布局/间距/文案/状态色符合现行设计系统；V1-002 covered（r2 撤回两条 risk 合并）：多选弹层合同=DS-C.5a+DS-C.6；过滤输入有 aria-label——旧两条结论撤回，无 placeholder 保留为可发现性小建议；V1-003 covered（=r2 补齐六张新截图：v1-06~11）；V1-004 N/A（360px 既有边界未测不提新要求）
+- **复验矩阵**：1440 simulator/schemes·allies；768 simulator/allies 两列；任意宽度技能多选弹层（全选/清空/Esc/即时提交）
+
+## Results
+
+- 未证风险：各数据 Tab 完整表单矩阵未逐字段走查（每页主表单布局层已覆盖）；弹层键盘过滤行为本轮未输入验证（accessible name 缺失已撤回，Codex 6010 过滤生效引用保持）；战斗形象预览黑块与战场背景错误横幅为已知资源缺口不判布局缺陷。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）；11 张截图（/tmp 不入 Git）按证据链表登记。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| V1 表单取证 | 2026-09-25 | V1-01~11+r2 三更正 | 四条目 covered×3+N/A×1 | intake counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 V1 表单取证；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- V1 · 表单视觉/交互取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+11 条证据链全 covered（布局层）；r2 撤回两条旧 risk（有 aria-label/两类控件合同）+补齐六页；视觉结论收窄 CSS px。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+证据链表、分类条目、复验矩阵与未证风险在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `54d14d6253963b378de2569e606196aeff45ff56a5ade68bc61b40b2d3482ab3`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `54d14d6253963b378de2569e606196aeff45ff56a5ade68bc61b40b2d3482ab3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # V1 · 表单视觉/交互取证（ARCH-SUPPORT-GLM-1）
 >

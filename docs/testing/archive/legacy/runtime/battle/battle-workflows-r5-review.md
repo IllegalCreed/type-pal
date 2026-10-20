@@ -1,40 +1,61 @@
 # TEST-BATTLE-WORKFLOWS-1 r5 独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-BATTLE-WORKFLOWS-1 r5 独立接收（2026-09-24 Codex；候选 fd4efd76…b8d5a 设计 r1 保持）：**accept（实现接收）**——r4 唯一业务残项与两处计数勘误均闭合无新增 counter；此签不代表已集成/官方统计门禁通过/done；接收时 Kimi 额度耗尽终审 pending 同日用户明确「豁免他了」任务卡登记仅本候选终审缺签豁免不伪记 Kimi accept；统一质量门另文完成。
+
+## Scope
+
+- 队友消费闭合核：候选 selection-flows:165-201 敌 health=5000 p1 经公开方向键/确认发起合击 p2 非施法队友无私改状态或 mock core；:194/:196/:198/:201 分别钉一轮回 menu、合击恰一次、无 p2 普攻、敌真实行动排除一击致胜掩蔽；:122-162 原用例改名成本正控仍断言 victory 与 [91,91]。
+
+## Execution and assertions
+
+- **消费门见证**：复用冻结 r4 见证只在内存选择前 4 个消费门案例不改历史工具；正常：候选 46/46 绿+独立活敌 oracle 1/1 绿合击后无 p2 普攻；变异（core:1888 消费门 false &&）：候选 45 绿/1 红新增用例自身 AssertionError（:198）+oracle 1 红多出「p2 会心一击 攻击 survivor 造成 108」；唯一替换点与加载路径见证通过测试/产品前后 hash 不变失败非超时环境错误
+- **oracle 对齐**：原 oracle 先复跑同向；另一次仅将 oracle 敌身法改候选默认 10、tick 改候选 500ms 对齐输入后仍同向；正常与变异均真实回 menu 合击伤害 35 敌反击 19 一致差异恰是 p2 多余普攻；复建命令（node --input-type=module 三处替换只对齐 oracle 输入不修改候选）在 quote
+- **计数勘误接受**：TypeScript AST 实数 mutants 工具 11 个 assert.equal(judge(...)) 自测（行号清单）11 条均调用实际 judge 回执/机账已纠正；无尾斜杠 23 文件/333 项带尾斜杠 19 文件/279 项差 4 个 battle-trial 文件 54 项与回执解释相符（历史 r4 对应 19/278、23/332 本轮各 +1）不把不同子串选择范围混作同口径不将此前差异误判环境失败
+- **独立复跑**：定向 6 文件 46/46；全 Reforge 158 文件/1,460；无尾斜杠 23/333、带尾斜杠 19/279；TC exit0；白名单 Biome 12 文件/0；GLM 原工具 6 正控+10 针 detected exit0；r5 相对 r4 的 packages 差异仅 selection-flows 测试；四生产目标相对 57dda7ed 零 diff；旧测试/基线/统计配置/冻结历史见证未改；本人复用 detached 树 GLM 工作树零修改
+
+## Results
+
+- 阶段门与额度：Codex 本席签 accept 原 counter 关闭；GLM 测试贡献者自验不充当独立第三方；本轮只落 Reviewer 席位/证据不合候选不代改 Status；未运行整仓门官方基线仍 7,826/633 不采 GLM 局部增量作全仓并集；用户明确 Kimi 额度耗尽登记 unavailable 接收后同日豁免本候选终审未安排代班未代签——风险缺该席最终实现审查用户已接受补审不再作 done 必需条件不外推其它卡；旧兼容审查 pass；不标 done 不改 full/Q1/Q2 边界；无下一位提示词本轮不转 Kimi。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；机账与两见证目录（原 oracle+输入对齐）链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r5 接收 | 2026-09-24 | 消费门双跑+两勘误核实 | accept（Kimi 豁免登记；门禁另文） | r4 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/battle 的 r5 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-BATTLE-WORKFLOWS-1 r5 独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+accept：合击消费双跑同向（候选新用例 :198 红+oracle 多 p2 普攻 108）；计数勘误 11 自测/23vs19 范围澄清；Kimi 豁免如实登记不伪记。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+消费门表、oracle 对齐、复建命令与独立复跑在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。accept 后统一集成收口 done。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-BATTLE-WORKFLOWS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `259e7f67ffab8ae9cb5334bef575dba64a27f451c21205075a8204d78116c899`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `259e7f67ffab8ae9cb5334bef575dba64a27f451c21205075a8204d78116c899`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-BATTLE-WORKFLOWS-1 r5 独立接收
 >

@@ -1,40 +1,60 @@
 # 一阶段菜单与索引渲染补测 — 正式接入
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Grok 一阶段菜单/索引渲染补测的正式接入回执（2026-09-25）：隔离候选 503a2d24 经三轮独立复核 C1/C2/C3/C1a 全部闭合后，Codex 选择性移入 packages/game/src/present/__tests__/grok-present/（不合入旧分支树避免逆向差异）；正式提交 5fc04913（测试）+ec2bf0f7（文档/基线），原候选存远端标签 archive/grok-present-r1。
+
+## Scope
+
+- 十个测试文件 25 项：P01 物品列表 4/P02 物品目标 3/P03 装备 2/P04 商店 2/P05 菜单栈 4/P06 仙术 4/P07 角色状态 1/P08 结算 1/P09 背景 2/P10 PNG 2；23 项走真实生产绘制/解码、2 项仅检验共享快照工具（计入清单不冒充业务覆盖）。
+
+## Execution and assertions
+
+- **业务合同**：真实 Framebuffer、菜单公开工厂/确认函数、独立手算像素点、typed 输入；合法索引 0 与透明孔、实时库存数量、两人非顺序 roleId、装备有效属性、商店价与库存、背景 nibble 钳制、PNG 失败后 bitmap.close 均有断言；快照与绘制用同一实际 catalog 数组；可变输入先深拍后比
+- **反控与适配**：P02/P05/P10 三针曾在隔离加载下指定业务断言红、磁盘生产源 hash 不变；正式测试只是路径/导入与 Biome 排版适配，断言语义保持；只增 14 个 game 测试/fixture 文件，产品/旧测试/配置/阈值/排除/超时/资产不改
+- **统一门**：定向 25/25+typecheck+14 文件 Biome；完整 check exit0（game 2,426/reforge 1,610/migrate 534/editor 2,754）；ratchet 受保护 exit0 恰 +25 项旧测试无删改；单次严格 fast exit0 8,090/641 基线不降；较前基线 8,065：全仓语句 +335/分支 +157/函数 +37/行 +288；全仓行 77.93%/分支 68.17%
+
+## Results
+
+- full/PAL 真实资源、浏览器剧情视觉、Q1/Q2 及完整 E2E 未跑各按原归属；无新产品修复授权；worktree 与分支已清理（历史由标签恢复）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；三轮复核见 grok-present-review.md。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 正式接入 | 2026-09-25 | 25 项+三针+三门 | done（5fc04913/ec2bf0f7） | 三轮 counter 闭合 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 Grok 渲染补测接入回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 一阶段菜单与索引渲染补测 — 正式接入：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：25 项（23 真实绘制）+三门 exit0；覆盖四维净增分列；archive 标签保历史。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+十项范围、统一门表与覆盖增量在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。接入按当时主线；当前以官方基线为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归官方覆盖账与后续渲染任务。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `af04288497b2fb5bfc70971a9bf4c523e14fea10205dc87a3f1c010198a4857c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `af04288497b2fb5bfc70971a9bf4c523e14fea10205dc87a3f1c010198a4857c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 一阶段菜单与索引渲染补测 — 正式接入
 >

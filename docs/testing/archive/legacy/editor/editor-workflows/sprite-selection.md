@@ -1,40 +1,61 @@
 # 精灵上传选图归属 · 实现与验证
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SPRITE-PICK-1（r1/done；实施基点 `be1868f3`，实现候选 `a88ab18d…88e`；Coding Owner/视觉验证 Codex，GLM 只读探针贡献已披露）的实现与验证回执：SpriteUploadWizard 按 session/assetBase 作用域的「最后选择归属」——旧成功/错误不能更新新选择、bitmap try/finally 恰一次释放、入库 DOM 禁用+真实 submit 入口双重约束。三席 accept+2026-09-18 用户验收，done 归档（同步 `94ef2671`）。
+
+## Scope
+
+- 对象=上传选图归属与资源收尾；不改变控件布局/用途分类/切帧编码/资源 ID 合同/已开始提交后的取消政策（G-I04 仍范围外）。
+
+## Execution and assertions
+
+- **正式回归**：SpriteUploadWizard.selection.test.tsx 新增 20 项+旧 2 项 22/22；SP-01 最后选择（A→B/B→A 两完成序预览与入库均 B）、SP-02 错误归属（旧失败不覆盖新成功/失败后成功不复活）、SP-03 入库准入（DOM 禁用+真实 DsButton 回调独立调用也不得编码）、SP-04 生命周期（cancel/unmount/换 scope 覆盖 pending 与 ready）、SP-05 资源收尾（四种路径 close 一次+getContext null/draw/getImageData/toDataURL 失败逐项释放）、SP-06 字节与历史（gunzip→parseSpriteChunkStrict 全像素/SHA；同内容共用 asset；连续 undo/redo 整状态）、SP-07 原行为保留；与生产主壳同用 React StrictMode；真实 blank loader/EditSession/编解码链，只控制 bitmap/canvas/主色宿主边界
+- **独立负控**：sprite-selection-mutants.mjs：1 正控 exit0+6 针业务红（success/error/bitmap-release/ready-draft-admission/palette-error/busy-state ownership）；唯一替换点+执行日志+AssertionError 同时要求，拒 TypeError/超时/零用例；产品磁盘 SHA 不变；负控首版 ready-draft 未锚行首，唯一性自检发现双命中即停止未执行，补行首约束后完整重跑通过；不拿负控重跑冒充首次先红
+- **浏览器验证**：正式 6010 Chrome+原生文件选择器 1920×960；本地临时红 64×64/蓝 128×64 棋盘及损坏 PNG；默认定格选 A→B 换图；invalid.png 显示真实解码错误且入库 disabled；取消重开重选 B 入库 codex-sp-pick-proof（目录 636→637、源帧 128×64 蓝图）、一次撤销回 636；未点击保存、PAL 作者文件未写入；不冒称精确控制两个解码 Promise 完成序（由组件宿主测试+六针证明）；完整保存→重开→试玩 E2E 登记为 R4 未跑
+- **统一门**：22 定向+36 相邻+typecheck+改动 Biome+6 负控；完整 check exit0 七包 7,302 项；ratchet 与单次严格 fast（BASE_REF=be1868f3）均 exit0，fast 6,814 项/617 生产文件、strict 全指标精确等于 ratchet；218 旧 editor 测试 identity/计数及其它六包基线不变，只新增 20 项；分母净增 31 行/31 语句/3 函数/29 分支不冒称纯补测
+
+## Results
+
+- 旧版本兼容检查 pass：无 schema/save 版本变化、无新 upgrader/旧输入兼容/公共接口。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；负控/相邻工具与十余份 /tmp 日志清单在 quote（按原文时点）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 实施+验收 | 2026-09-18 | 20 项+6 负控+浏览器+三门 | done（三席+用户） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 sprite-selection 实现回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 精灵上传选图归属 · 实现与验证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：最后选择归属+双入口准入+资源恰一次释放；SP-01–SP-07 合同；六针负控；浏览器红蓝/损坏/撤销全流程；三门 exit0。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+SP 表、六针表、浏览器四步与基线核验 JSON 在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；G-I04/R4 边界保持。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-SPRITE-PICK-1 完成卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `47fc9e89223556bb997e2d543aa4035658f028e0682068cf3207c2094d23c68a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `47fc9e89223556bb997e2d543aa4035658f028e0682068cf3207c2094d23c68a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 精灵上传选图归属 · 实现与验证
 >

@@ -1,40 +1,62 @@
 # DOC-CURSOR-6 — 第二阶段作者指南八组只读事实回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-CURSOR-6 的 Cursor 只读取证回执（工作树起点/源码 SHA `b95f218a…d860`；未改五份正式指南/产品/测试/基线，未开 6010/6051、未访问用户工程、未跑提取/迁移/烘焙/E2E/覆盖率；凡需肉眼确认像素的项标 pending-ui）：对 actor-presets/battlefield-authoring/shared-script-author-guide/debug-tools/content-publication 五指南的 A1/A2/B1/B2/C1/C2/D1/D2 八组事实核验，分类小计 confirmed 15 / wrong 7 / pending·pending-ui 8 / blocked-input 1 / historical·另卡 2。
+
+## Scope
+
+- 去重表：DOC-CURSOR-1 H2/T1 旧 ?skill= URL、H6 runDetachedScriptChain、N1/DOC-CURSOR-2 CLI argv、DOC-CURSOR-4 H7 入场三区、DOC-CURSOR-5 migrate README 烘焙错链均不重领。
+
+## Execution and assertions
+
+- **A1/A2 放置与人物**：A1-1 预制人物=角色→角色编辑建人物+场景编排→添加实体→PlacePalette 三段（entity-placement.ts:87-124）confirmed；A1-3 数据句 confirmed/换装同步 pending-ui；A2-1 解除关联 DetachActorEntityCommand 可撤销 confirmed；A2-2 创建 CompositeCommand([UpdateLocaleCommand,AddActorCommand]) 同一撤销事务 confirmed；A2-3 删除门+运行态只读阻断 confirmed/跳转 pending-ui；A2-4「保存为人物」未实现 confirmed；不改或最窄替换；运行态行应写「只读、阻断删除、不可打开」
+- **B1/B2 战场**：B1-1 首次创建同事务登记 manifest 路径/建议编号空表 24 否则 max+1/复制共享背景/系统默认 #24 不可删 confirmed；B1-2 三层优先级 startBattle.fieldId→HostileBehavior→SceneDef→隐式 #24 与三处同一 BattleFieldPicker confirmed；B1-3 悬空文案实为「战场 #N（缺失）」**wrong**（保存门拒绝 confirmed）；B1-4 缺省警告 confirmed；B2-2 「能看到」背景 blocked-input（catalog 52 条 battle-background.pal.00N 已跟踪但 assets/migrated 被 gitignore，本树 006.png 不存在）；B1-3 改「（缺失）」；B2-2 写清入库的是 catalog id、看像素需 gitignored migrated 字节
+- **C1/C2 脚本库**：C1-1 创建对话框只有名称+稳定 ID、self 固定 none **wrong**（说明/self 创建后改）；C1-2 目录无复制操作 **wrong**；C1-3 共用 canonical 编辑器 confirmed/抽屉页签实为「进场脚本/传送出口/交互脚本/自动行为」四实页 **wrong**；C1-4 无迁移分片页 confirmed；C2-1 self 三选项+运行时 confirmed/保存缺 self 是否 fail-loud pending；C2-2 callScript 确认无 jumpScript/「扫描调用位置」按钮不存在 **wrong**（右侧 DsReferencePanel 自动引用）；C2-3 物品私有 confirmed；C2-4 删除门 confirmed/保存不跑作者 callScript 环检查（assertScriptProjectValid 全仓仅定义处）**wrong**
+- **D1/D2 调试与发布**：D1-1 DEV ?debug 安装 confirmed/「引擎试玩」按钮不加 debug **wrong**（play-url.ts:14-25 只拼 project/scene/pos）；D1-2 战斗构建器表单+withWorldPreset 战后恢复 confirmed/pending-ui；D1-3 帧步进=100ms tick、任意战斗启动自动退出 confirmed（控件在图层 tab）；D2-1/2/3 migrate:content argv 只认 --write、pal-extract README、迁移包唯一维护指针均 confirmed（烘焙错链另卡）
+
+## Results
+
+- 未猜产品应长成什么样；未建议恢复复制脚本按钮或给试玩按钮强加 ?debug。
+- 交付：相对 b95f218a 本回执+docs/testing/README 一条索引（check.mjs 目录清单要求）；分支 codex/cursor-author-guides-audit-r1。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；后续 Codex 独立接收见同目录 cursor-author-guides-review.md（accept，只接收八组只读事实回执）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Cursor 取证 r1 | 原文时点 | 八组只读核验 | 待 Codex 接收（后续已 accept） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 DOC-CURSOR-6 取证回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- DOC-CURSOR-6 — 第二阶段作者指南八组只读事实回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+八组核验完成：confirmed 15、wrong 7（B1-3 文案/C1-1 表单/C1-2 复制/C1-3 页签/C2-2 扫描按钮/C2-4 保存查环/D1-1 试玩 debug）、pending 8、blocked-input 1（B2-2 migrated 字节）、另卡 2。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+去重表、逐 ID 锚点表（file:line）与分类小计表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。行号按 b95f218a 时点；指南后续修订与产品保护缺口另卡。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前指南事实以现行五份指南与 cursor-author-guides-review 接收结论为准。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `e86d062630a21d9b9598b6568e22b832b6cea368f52ac397ba269f689ae443e3`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `e86d062630a21d9b9598b6568e22b832b6cea368f52ac397ba269f689ae443e3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-6 — 第二阶段作者指南八组只读事实回执
 >

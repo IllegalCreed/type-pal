@@ -1,40 +1,61 @@
 # V2 · 工作区视觉/交互取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 V2 工作区取证（2026-09-25 r2 返工同日，冻结 3270473862；1440×1024 与 768×1024）：布局判定全部只依赖面板/工具栏/弹层等 DOM 结构（画布 tileset/标准色彩 404 为 V0 已定性环境问题）；含 r2/r3 返工更正（对象列表折叠功能正常归属 Codex 6010 实测、:568 归因更正、剧情空态不冒充 ScriptEditor 编辑合同）。
+
+## Scope
+
+- 证据链 V2-01~07：场景工作区初始态/引用 tab/新建场景弹窗+Esc 取消（取消零创建 ARIA 复核）/地图模块 223 项+工具栏单行/剧情模块空态三栏（基线项目 0 条共享脚本）/对象列表折叠/768 降级（菜单收纳+两列网格无截断）。
+
+## Execution and assertions
+
+- **V2-002 covered（r2 归属更正）**：对象列表折叠：Codex 6010 实测往返正常（原生 AX 点击 checked 1→0、左分栏 194→0、再点恢复；Playwright DOM 核对该控件仍为 button，AX 呈 checkbox 不代表 DOM role 变更）；GLM 6013 环境未复现原因未定位不武断归因（两次 locator 超时+CUA (1064,18) 点击无命中见证，操作链留档）；功能正常不追不存在缺陷
+- **V2-003 covered（r3 双重更正）**：r1 错引 MapMode.test.tsx:568（只调 verifyInspectorTabs 不能证分隔条键盘可达性）；r2 曾误称「无既有测试」——实际存在 PanelResizeHandle-interaction.test.tsx:138-175/178-224/227（键盘 resize/pointerup 结束零继续/disabled-unmount）；三条标题入机账；拖拽可达性按「测试存在+本轮未执行」如实登记
+- **V2-004 covered（导航定位）**：切页后 URL 双写（?module=X&page=Y 可直达）；跨页往返位置由 App.reference-navigation 测试族覆盖（P1 对账表）；本轮 URL 直达场景/地图/剧情/模拟器四模块均成功
+- **矩阵与未证**：1440：场景/地图/剧情/模拟器三栏+弹窗+空态已证；768：模拟器已证、场景/地图未截（同链路可扩）；360 既有披露边界不测不提新政策；未证风险：分隔条拖拽/键盘的本轮执行（测试存在未重跑）；画布内视觉全未判定（资源限制留给 6010/6051 完整环境）
+
+## Results
+
+- 环境披露与 r2 返工更正三处（折叠/归因/空态）全文在 quote；768/1440 复验矩阵表在 quote。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）；截图文件（/tmp 不入 Git）按表登记。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| V2 工作区取证 | 2026-09-25 | V2-01~07 证据链+四分类 | 四条 covered（两处归属更正） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 V2 工作区取证；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- V2 · 工作区视觉/交互取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+V2-001~004 四条 covered：三栏/弹窗焦点 Esc/tab/空态/768 降级；折叠归属 Codex 实测+环境差异留档；分隔条按测试存在未执行登记。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+证据链表、分类条目、复验矩阵与未证风险在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `a47b4c9a086d58d8287cb83eca7da2464ba3b1817127d54a7c62e8369a5f31f5`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `a47b4c9a086d58d8287cb83eca7da2464ba3b1817127d54a7c62e8369a5f31f5`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # V2 · 工作区视觉/交互取证（ARCH-SUPPORT-GLM-1）
 >

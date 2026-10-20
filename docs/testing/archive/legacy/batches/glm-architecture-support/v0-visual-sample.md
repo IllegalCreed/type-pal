@@ -1,40 +1,60 @@
 # V0 视觉小样（视觉通路证明）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 V0 视觉小样（2026-09-25，起点 SHA 3270473862 与冻结 b11d4bc9 生产零 diff；独立 worktree codex/glm-architecture-support-r1、Node22.19/pnpm10.29.2、ZCode In-app Browser 实际看图、6013 独立实例未触碰 6010/6051、1440×1024 CSS px）：证明视觉通路成立——真实页面操作→截图→画面判读全链路可复现，V1/V2 按同链路执行。
+
+## Scope
+
+- 截图 1（初始场景工作区，SHA 95f64439…3417）：左侧场景列表 294 个+落点/实体分组、中部画布、右侧 Inspector、顶部菜单、底部状态条「⚠ 182 项待处理」。
+
+## Execution and assertions
+
+- **操作链**：tabs.new→goto 6013→domSnapshot「载入项目…」→约 2s 就绪（URL 自动带 ?module=scene&page=workspace）；实际交互：点击「引用 1」tab（首测 /引用/ 正则超时——快照显示 tab 文本带计数 span，换 getByRole(tab).filter({hasText:引用}) 成功；定位差异如实记录未反复重试同一 locator）；截图 2（引用页，SHA 51541e6f…49a）：tab 高亮正确、阻断删除警示卡完整、外部引用条目带打开按钮
+- **环境发现（非产品缺陷）**：画布中央「场景渲染失败: tileset AssetId tileset.pal.020: bytes 登记 1437 实际 917」；与 worktree 缺 gitignored 资源/只读接入不完整的预期一致（工作包 README 开工节已预告）；V1/V2 布局判定不依赖 tileset 画面；涉及画布内容的判定先排除此环境因素
+- **交互纪律**：locator 超时后重建（未重试同 locator）、一次操作一观察、截图前不做无谓 snapshot+screenshot 叠加；截图两枚不入 Git
+
+## Results
+
+- 视觉通路成立：操作链→两截图→判读可复现；tileset bytes 1437 vs 917 定性为环境问题非产品缺陷；locator 定位差异如实留档不拔高为缺陷。
+
+## Evidence
+
+- 证据路径：本小样正文（quote 保全）；截图清单表（文件/SHA 前 16/viewport/步骤）在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| V0 视觉小样 | 2026-09-25 | 操作链+两截图 | 视觉通路成立（环境因素已定性） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 V0 视觉小样；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- V0 视觉小样（视觉通路证明）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+视觉通路证明成立；tileset bytes 不符为环境问题非产品缺陷；locator 定位差异如实留档。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+环境记录表、操作链与截图清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。小样按起点 3270473862 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 后续 V1/V2 报告。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `d6a8095f1afa8afac4bed0cb25fca236f1aba040d1ab6e5fccd133b509029d56`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `d6a8095f1afa8afac4bed0cb25fca236f1aba040d1ab6e5fccd133b509029d56`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # V0 视觉小样（视觉通路证明）
 >

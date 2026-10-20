@@ -1,40 +1,61 @@
 # E2 内容校验边界解环与嵌套对话漏检修复
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-CONTINUATION-1 E2 内容校验边界解环与嵌套对话漏检修复回执（2026-09-26，Codex 实施自验；用户授权架构治理；两项变更分提交：ebef3d5a 修真实缺陷、4cdefcf1 拆依赖）。
+
+## Scope
+
+- 缺陷不是架构推测：原 author-script-core.ts:712 调 checkBattleChoreography 漏传校验 options——作者对话 identity 合同由 author-script.ts 注入，直接 dialog 缺 identity 会拒绝、放进 startBattle.choreography 却放行（G06-D1 与本席反证均复现）。
+
+## Execution and assertions
+
+- **修复**：只补该调用 options：不改 runtime cue 方言、不改内容/存档版本；新增 author-battle-dialogue-boundary.test 13 项修前 9 业务红/4 合法对照绿；修后 13/13+content 全包 863/863；覆盖直接与七种递归容器完整错误路径、三种合法作者身份、实际 cue 引用与回调路径；runtime 无作者 identity 仍按既有合同通过
+- **下层边界**：command-validation-options（仅类型协议旧模块 re-export）+enemy-validation-shapes（只含敌人原基础形状不与作者侧合并）+enemy-ai-condition-guard（AI 条件递归守卫不依赖作者命令）+battle-choreography（演出动作依赖上述下层与 script 基础规则）；enemy-script 保留 hook/onDefeated/rules，author-script-core 直接依赖新演出守卫反向边消失
+- **审计复算**：content-validation-refactor-audit.mjs 按 TypeScript 擦除类型后 content 生产静态图：原 author-script-core↔enemy-script 二节点环→无环；旧入口导出集合 52/19 精确保持；以已修缺陷未拆结构的 ebef3d5a 为基点 50 个函数体逐 token 全等、11 个迁入下层——结构提交没有夹带第二处行为修正；动态调用关系不由静态无环证明
+- **接入边界**：与 D1 统一执行本轮完整 check/ratchet/单次受保护 strict，不复用 r11 复核分支含四项 GLM 测试副本的统计；本次 E2 只计 13 项 Codex 回归；r11 原冻结诊断作为历史红保留，GLM 报告和候选不被改写或合入；最终门禁与指标见 D1 回执；full/Q1/Q2/剧情 E2E 不借此关闭
+
+## Results
+
+- E2 修复+四下层拆环：:712 漏传 options 嵌套对话放行真实缺陷 13 项先红后绿；50 函数体逐 token 等证无夹带；与 D1 统一门通过。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；审计工具链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| E2 修复+解环 | 2026-09-26 | 13 项先红后绿+静态无环+逐 token 复算 | 与 D1 统一门 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 E2 修复回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- E2 内容校验边界解环与嵌套对话漏检修复：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+嵌套对话校验漏检真实缺陷（options 漏传）修复+四下层拆环；50 函数体逐 token 等证无夹带。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+修复细节、下层边界与审计复算在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。修复与拆分按当时提交；当前以现行实现为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-CONTINUATION-1 完成卡与 D1 回执。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `df603641731518b8947636ed16196029649b5b237f028b5b04260d64dc4602f5`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `df603641731518b8947636ed16196029649b5b237f028b5b04260d64dc4602f5`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # E2 内容校验边界解环与嵌套对话漏检修复
 >

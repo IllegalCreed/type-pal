@@ -1,40 +1,60 @@
 # 统一步骤后的当前检查点
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是统一步骤工程后的当前检查点回执（2026-10-03 本地验收）：二阶段 001-005 已在冻结统一步骤工程中沿真实前驱重新执行、正式保存并读回；当前格式 content22/SAVE11，作者工程整包 hash 10f2c052…93c4；五份报告均 passed，Root 独立重算当前输入/原档/登记 trace/恢复世界 hash 相符。
+
+## Scope
+
+- 当前可用入口：证据根 build/evidence-archive/unified-steps-20261003/e2e/（目录名用运行器 UTC 时间）；五段落目录与终档 SHA256 表（001 8979da1e…/002 8aa6e6c4…/003 4dd2c63b…/004-saves 85dc16ac…/005-saves 71ccb886…）在 quote；重跑命令示例（pnpm e2e:005:reforge --from …report.json --headed）。
+
+## Execution and assertions
+
+- **已验范围**：001 新的故事自然播放视频（视频交接不露旧菜单/房间演出/55 行对白）；002 20 行对白+500 文赏银+三名苗人进房；003 14 行对白+楼梯动作+厨房交代；004 saves 完整端菜赠酒剧情+正式恢复端菜中途与终点；005 saves 40 行对白+唯一 50 文+报信因果+正常移动+后台返程正式保存恢复；Root 目视楼梯终点/端菜读回/村口读回人物与画面亮度正常
+- **边界**：这是新格式前驱链回归，不是重做第一阶段、004 取消/错误站位专项或 005 guards 完整观感验收，也不替代后期剧情 E2E；当前没有视频录制；五份报告引擎 errors=0；浏览器原 warning 分别 2/1/1/2/2（清工程资源 404 及 Canvas 读回性能建议），原日志保留不与全仓静态零诊断混为一谈；归档映射/原路径/逐文件 hash 见 archive-map.json
+- **历史保留**：上一批 SAVE10 记录（save10-checkpoints-20261002.md）及原档保留为历史，不能手改版本/digest 作为当前前驱；用户 6012 服务和页面继续保留
+
+## Results
+
+- 001-005 沿真实前驱重放五报告 passed（content22/SAVE11 整包 10f2c052…）；引擎 errors=0、warning 口径分列；SAVE10 历史保留。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 检查点回归 | 2026-10-03 | 001-005 前驱链重放+Root 重算 | 五报告 passed | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/script-governance 的当前检查点回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 统一步骤后的当前检查点：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+001-005 新格式前驱链回归五报告 passed（引擎 errors=0）；SAVE10 历史保留；边界如实（非完整观感/无录制）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+五段落 SHA 表、已验范围与 warning 口径在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。检查点按 2026-10-03 时点；当前以最新 e2e 证据为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 e2e stages 报告与后续剧情 E2E。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `8a5d40b301c1012521e3b363543846695169086544e1ad3d6cdfa1f7e70bad5d`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `8a5d40b301c1012521e3b363543846695169086544e1ad3d6cdfa1f7e70bad5d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 统一步骤后的当前检查点
 >

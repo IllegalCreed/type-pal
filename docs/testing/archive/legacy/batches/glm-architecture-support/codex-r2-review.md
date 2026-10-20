@@ -1,40 +1,61 @@
 # Codex r2接收：717d507d / 登记9e5ba310
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 r2 接收（2026-09-25，源报告 717d507d、登记 9e5ba310）：**继续 counter，收窄为 C1-C4；不重开已核事实，不开放 build、不标 done**。源报告和 GLM 机账未改。
+
+## Scope
+
+- 已闭合不重复：白名单 0e751efe..9e5ba310 仅 11 交付文件（产品/scripts 与 b11d4bc9 零 diff；JSON 语义变更仅 finalSha）；38 唯一 ID 机械小计 19/14/5 复算通过；22 源码 SHA 前缀吻合；17 张 PNG 实物/哈希/尺寸吻合（旧 11 张完整 SHA 与 r1 机账相同）；P1 derivedStore 更正/17 导航标题/P2 取消链/P3 50vs81+hooks 三轴/P4 门归属/P5 15 边 SCC/P6 双向递归 6 参数均确认；V1 两撤回正确、V2 折叠归属准确；逐张看过新 6 图可接受为对应画面内有限布局观察（Esc 关闭仍是 GLM 执行记录不冒称本席验证）；39/39 与 66 条静态标题核对沿用。
+
+## Execution and assertions
+
+- **C1 正文矛盾**：顶部更正未完整覆盖正文，代表锚点：p1-app:100-119 新节后再粘旧 P1-003~006 重复扩大；p2:54/:98/:103 仍「blur 清 hover」「pointerCancel 缺口」；p3:72-74 仍 :3174 逐 render；p4:63-74 P4-003 正文 risk vs 机账 covered+括注顺延+末节「因 A3 回避」；p5 图未补回边仍「两环」；p6 仍无 fs 推全纯+自递归 6 处括承认第 7 处；v1 仍 Actor 未进入/blocked/a11y risk；v2 矩阵仍折叠 uncertain；README 仍 32 条/11 图；必须让正文/表/风险列表与最新机账表达一个结论，原文保留应移入明确历史附录；P4 补共享状态完整小表（共享字段→writer→reader→清理）不只列三字段
+- **C2 新盘点源码反证**：App 盘点不实：p1:102-111 及机账称 24 state/8 ref/16 effect，AST 按函数范围实测 29 useState/16 useRef/15 useEffect+1 useLayoutEffect（全文件 33 另 4 属其它组件须分开口径）；App.tsx:634-641 无 saveConfirm/saveProgress/interruptedAttempt/audioPreview 四 state（只有 saveCommandRef 及派生），真实 drawer/focus state/bodyWidth 被漏记；P5 分项 331/102/158/39/30 加和 703 却写 702——冻结树独立 Vitest list 是 326/110/158/37/28/36/7=702 按同口径修各行，无执行记录不称全绿；P6 自递归限函数体实为 7 处（661/663/669/708/710/722/726 对应七容器）；V2 分隔条「无既有测试」错——PanelResizeHandle-interaction.test.tsx:138-175/:178-224/:227 三条改「本轮未执行」
+- **C3 机账/报告未闭合**：summary 各包行数相加 40 不是 38（P3 报告 6 vs 机账 5、V1 报告 5 vs 机账 4）；V1 ID 映射（机账 V1-002 合并 a11y 无 005）与 P4-002/003/004 正文机账不同义须明确 ID 变更映射；JSON sourceHashes 写「见 commands.recompute」（无此字段）与「被 entries.sourceHash 引用」（无此字段）还混写 git hash-object 与 SHA256——去假指针保每条 source 定位真实文件；P3-001 机账把命名守门说成映射对齐证据——test:71-81 只核 RUNTIME_COMMAND_KINDS 与呈现表集合不涉 50 分派
+- **C4 JSON 格式门与命令**：biome check evidence.json 在 9e5ba310 exit1（:673-675 V2-004 tests 数组应单行——登记提交展开坏了）不能只采信口头通过；两条可复制命令：32704738..HEAD 白名单检查包含 Codex 授权修改不能要求空（应比 0e751efe..返工候选）；进 packages/editor 后直接根相对路径不成立（子 shell/根工作目录）；本席未替 GLM 格式化原机账
+
+## Results
+
+- 本轮验证边界：用 Web Design Guidelines 帮区分可访问名称与纯截图布局（项目合同优先）；未新增产品缺陷主张；新 6 图只检查实物与目视未重拍旧图；本席 probe/机账 Biome 与最终 check:docs 通过但不替代 GLM 最终 JSON 格式门；GLM 收窄返工提示词全文在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；codex-r2-evidence.json 与 codex-r2-probe.mjs 链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 接收 | 2026-09-25 | 已核事实+C1-C4 反证 | counter（收窄） | r1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 r2 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex r2接收：717d507d / 登记9e5ba310：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+C1 八文件正文与机账矛盾；C2 四处盘点源码反证（AST 29/16/15+1、702 非 703、自递归 7 处、分隔条测试存在）；C3 行数 40≠38/ID 映射/假 hash 指针；C4 JSON 数组展开 exit1+两条命令错。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+C1-C4 锚点表与验证边界在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r3/f423 递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `76124588ef0cab4fa292298223e723d0429db8c0c7216b32930a2c70191f02e2`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `76124588ef0cab4fa292298223e723d0429db8c0c7216b32930a2c70191f02e2`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex r2接收：717d507d / 登记9e5ba310
 >

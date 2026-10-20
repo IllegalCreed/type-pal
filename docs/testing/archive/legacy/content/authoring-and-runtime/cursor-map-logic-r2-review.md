@@ -1,40 +1,60 @@
 # Cursor地图六组：4dc8fb75窄返工接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-MAP-LOGIC-2 r2 窄返工接收（2026-09-27，候选 4dc8fb75…4a5c 本地/远端一致）：**counter，仅剩 CM1 的计划/patch 输入保真**；不合候选不计覆盖，本轮只提交本席证据不改 Cursor 测试语义。
+
+## Scope
+
+- 已接受不重开：CM1 原两针（draft-move 5 绿/1 红、selection-reducer 2 绿/3 红——真实 draft/state/action 快照已补）；CM2（M4 真实双组目标/成员/高度/碰撞/原格清理/未选哨兵已落；stamp-group-lost-height 3 绿/1 红；删重复 copy 例总数 30→29 允许正确去重）；CM3（judge 拒三种混错+17 项自测+六对照/六针独立通过；M6 收窄公开 owner 查询）；CM4（blank-project→正式 loader→toEditorState 三 map 守卫及 manifest 通过 id=map-logic/content20/SAVE8，不扩大为完整保存/资产闭包）；候选带入的本席旧审查正文与 b4cea56f 逐字一致不计 Cursor 新增；七测试/fixture 外无 packages 增量。
+
+## Execution and assertions
+
+- **唯一残项 CM1**：上轮已明确「传入计划/地图/剪贴板不应被原地改写」，本轮规划后和应用后只比较原 map 仍未比较实际交给 Command 的 plan——计划携带 mapRevision 及 preparedPatch，结果地图正确不等于计划输入保真；本席唯一加载层变异：M4 stamp-group-transform:67/142（stamp-group-command.ts:256 消费 preparedPatch 时给原 plan.mapRevision 加 1）候选 4/4 仍绿、独立 oracle 原实现 5 绿变异 4 绿/1 AssertionError（revision 1 不等于 0）；M5 stamp-placement:114 同一 structuredClone 入口前加 1——4/4 仍绿 oracle 同；两针均不改成功地图只暴露原计划被污染；原函数/候选/fixture hash 不变；M6:98 同一命令入口亦应补；M3 map-transform:79/139 与 M5:86 实际交给 applyPlanPatch 的 patch/requiredWritableLayerIds 也未比较应一并完成原 CM1
+- **最小修订**：在原用例中先独立 structuredClone 实际 plan，构造 Command 后及 dispatch 后立即比较同一 plan；patch/权限数组同样；薄断言助手可复用但必须捕捉调用前对象，不能拿应用后的值再快照或自比较；新返回 map 允许变化 EditSession 会推进，不对这两者强加错误全对象不变合同；不要求新增数量/矩阵不重开 CM2-CM4
+- **复跑**：背景 6 文件 29 项；更宽定向/相邻 19 文件 117/117（29 新+88 旧——额外含 stamp-placement-command 7+mutation 6 不记为作者新增）；全 editor 359 文件 3,048/3,048；TC 零；15 文件 Biome 0/0/0/0 截断；原三针×四跑正控绿候选变异与 oracle 变异均业务红；新两针×四跑候选变异仍绿 oracle 各一红；适配器只适配 async 工厂与 oracle 回调不改原三处变异/判据；四组临时目录与 /tmp 日志清单在 quote；未跑全仓 check/官方 coverage/浏览器/6010
+
+## Results
+
+- 可直接转发 Cursor 的提示词全文在 quote（只闭 CM1、复跑两见证工具、静态零诊断、推送 SHA 交 Codex 统一门禁集成清理）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账与两个见证工具链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 窄返工接收 | 2026-09-27 | CM2-CM4 接受+CM1 plan 保真反证 | counter（仅 CM1） | r1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 Cursor 地图 r2 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Cursor地图六组：4dc8fb75窄返工接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 仅 CM1：加载层变异给原 plan.mapRevision 加 1 候选仍绿 oracle 红——结果地图正确不等于计划输入保真；M3/M5 patch 与权限数组一并完成。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+CM1 变异表、最小修订与复跑数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由集成回执闭合（be9a8636）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CURSOR-MAP-LOGIC-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `200ea3fba477788737efeba384197c8a1b463f20b82b40ecd38bae80b14070dc`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `200ea3fba477788737efeba384197c8a1b463f20b82b40ecd38bae80b14070dc`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Cursor地图六组：4dc8fb75窄返工接收
 >

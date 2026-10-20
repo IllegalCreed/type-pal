@@ -1,40 +1,60 @@
 # 守卫叶补测 r2 独立复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-2 r2 独立复核（2026-09-26，Codex；候选 `99113d22…2d69c`，接收主线 `cc59a2fa`）：**counter，仅 C1/C2**；不合候选、不改 GLM 测试语义、不跑全仓统计。
+
+## Scope
+
+- 已闭不重开：R1 三反例（record 原对象 ms 改写/cue 回调后改写/错误路径前缀污染）分别恰红新断言；R2 wait 缺 ms 同 kind 正控等已落实；R3 judge 复验合法红接受+旧五类误收拒绝；R4 JSON 格式门闭合；白名单无越界、全 content 957/957、Biome 0 error（4 既有模板针 warning）。
+
+## Execution and assertions
+
+- **C1**：expectAcceptsUnchanged 本身正确，问题在调用方：第一参数闭包另造对象、第二参数又一份对象——enemy-validation-shapes.leaf:36/48/53 内联对象分别新建；battle-choreography.leaf:301/314/348 两次 fullInput()、:356-359 两次 [waitAction(0)]；直接反证：exactKeys 正常检查后对 path=v 实际对象改 kind→91/91 绿 MISSED；checkBattleChoreographyBody 完成后对 path=body 数组 splice 一项→91/91 绿 MISSED；应 (input)=>production(input) 或一次创建具名 input 两处同引用；G1 :43-44 合法 exactKeys 仅 not.toThrow、:50/:54 坏输入、G6 :316-317 尚无实际输入快照统一补
+- **C2**：「合法 turn 仅改 op」未执行：enemy-ai-condition-guard.leaf:186-196 正控 not(aloneAlive) 坏输入 not(turn(...))；battle-choreography.leaf:279-348 fullInput() 的 when 是 chance、参数表 turn 行仍用三 hook 输入作正控；直接反证：把所有 .cond/.when 下 turn 一律抛同一 op 错误（合法 turn 也错拒），候选仍 91/91 绿；两处从具名合法 turn（op='>='、value=1）过真实相同入口再复制只改 op；G6 参数表各行明确同形状 good/bad；G3 :199 未知 kind 同入口合法正控顺带落实
+- **停止线**：主线官方基线保持 8,248/701（hash 25a9abb8…579917）；通过后再统一 check→ratchet→单次 strict-fast；视觉 N/A；不占另一 Codex 的 A3 架构工作树
+
+## Results
+
+- 91 个用例数不等同新增分支；没有实际产品缺陷证据，反证均为隔离变异。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；可复建见证工具与命令块在 quote；/tmp 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 复核 | 2026-09-26 | C1/C2 反证 | counter | r1（guard-leaf-intake-review） |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的守卫叶 r2 复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 守卫叶补测 r2 独立复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：七处 helper 调用比较另一份对象（两变异 MISSED）+合法 turn 同型对照缺席（全 turn 错拒仍 91/91 绿）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+C1/C2 反证表、锚点与命令停止线在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r3 闭合（accept）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-CONTENT-GUARDS-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `df317556ec990b95c85e8e133ee4398d318f0e4154fce2c539a42c25251a412a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `df317556ec990b95c85e8e133ee4398d318f0e4154fce2c539a42c25251a412a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 守卫叶补测 r2 独立复核
 >

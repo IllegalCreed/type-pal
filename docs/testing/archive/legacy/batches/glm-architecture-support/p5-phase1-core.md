@@ -1,40 +1,62 @@
 # P5 · 第一阶段环与主控取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 P5 一阶段环与主控取证（2026-09-25，冻结 3270473862；对象 event-system/scene-system/equip-effect/battle-opcodes/menu-driver/menu-mode/magic-script+shell/bootstrap 注入方；纪律：不把二阶段身份模型强加一阶段、环结论以 import 语句实测不从 SCC 推断 bug）。含 r2 三条更正：撤回「6 文件两环」——实测 **7 文件同一强连通分量（15 条 runtime 边）**（r1 漏读 4 条回边：battle-opcodes:25←event-system、equip-effect:19←event-system、event-system:57→equip-effect、scene-system:12→event-system）；测试计数 702 非 703；撤回「最短无行为切法」（切断后剩余 14 边环形态未评估）。
+
+## Scope
+
+- r3 全图：15 条 runtime 边（event-system↔scene-system↔menu-driver↔menu-mode↔magic-script↔equip-effect↔battle-opcodes 闭环）；环外边（equip-effect→game-state、battle-opcodes→battle 子树、event-system→command-bus/dialog-history/word-lookup 等）与 type-only 边（event-system→battle-state）单列。
+
+## Execution and assertions
+
+- **环 A 逐边真实 caller**：event-system→scene-system :80 getCurrentMapNum（_currentMapNum 模块态 scene-system:47-50 loadScene 写 event 读）；scene-system→menu-driver :551-562 大世界快捷键 E/W/F/S 直达子菜单（port sdlpal play.c:558-584）；menu-driver→event-system :17 addItemToInventory/startOverworldItemScript（菜单动作回写大世界）；magic-script→event-system :29 三函数；其余边是真实双向业务语义（play.c 原结构即如此）强切会造回调注入层
+- **切边评估（r2 改述）**：getCurrentMapNum 边是最明确的纯数据候选切边（模块态降 event 自持或改 game-state 字段均纯搬家）；r1「最短无行为切法」撤回：切后剩余 14 边环形态未评估，完整切环方案属实施卡；无缺陷主张——环≠bug
+- **bootstrap 注入边**：shell/bootstrap.ts 组合根：setStartBattleHandler :1197（含 shop :1260-1262）、fetchPalette 注入等；event-system 注释 :867/:873/:900「interpreter 底层不持 items 表 handler 由 bootstrap 注入」；注入模式已把大部分反向依赖收口到 shell；shell 之外残余即实测 15 条
+- **去重表（r3 更正）**：逐文件 vitest list 实测：event-system 326/scene-system 110/battle-opcodes 158/menu-driver 37/magic-script 28/equip-effect 36/menu-mode 7=**702**；r1 的 331/102/39/30 为 grep 计数误差（历史勘误只此一次说明）；环内重构回归门厚；本包不新增一阶段动态测试只交结构图与切环建议
+- **证据条目**：P5-001 covered（7 文件同一 SCC 15 边+分项 702）；P5-002 risk（getCurrentMapNum 纯数据候选切边，其余真实业务回调，无缺陷主张）；P5-003 N/A（「6 文件两环」由 7 节点 15 边取代）；P5-004 risk（_currentMapNum 模块级可变态与注入态并存两种所有权风格，一阶段现状不判缺陷）
+
+## Results
+
+- 未证风险：循环初始化顺序（模块加载期副作用）未运行验证——Node ESM 循环函数级引用通常安全，702 项收集存在（本轮未全部执行不称全绿）是间接证据；如需实证一次全量 phase1 测试（不在本包白名单，接收方可常规命令复核）。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| P5 取证 | 2026-09-25 | 15 边全图+逐边 caller+702 对账+r2 更正 | 4 条目（1 covered/2 risk/1 N/A） | intake counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 P5 取证报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P5 · 第一阶段环与主控取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+7 文件同一 SCC（15 runtime 边含 4 条 r1 漏读回边）；getCurrentMapNum 为最明确候选切边（切法结论已撤回）；702 分项实测；环≠bug。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+import 图、逐边 caller 表、bootstrap 注入、去重表与四条目在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 静态读取。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `bc2528ae0edc79b87888ae307a3e8b886c117d5c1c264298d1f77b0f882d3692`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `bc2528ae0edc79b87888ae307a3e8b886c117d5c1c264298d1f77b0f882d3692`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # P5 · 第一阶段环与主控取证（ARCH-SUPPORT-GLM-1）
 >

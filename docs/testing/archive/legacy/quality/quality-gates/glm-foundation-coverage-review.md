@@ -1,40 +1,61 @@
 # TEST-FOUNDATION-COVERAGE-1 · Codex r1接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-FOUNDATION-COVERAGE-1 的 Codex 三轮接收复合复核（2026-09-16/17；首轮 `01c149b5` counter R1-R4→返工 `c0c94333` 收窄至仅 R2 浅拷贝阻断→定点返工 `639e9e4e` 闭合，集成候选 `48d3b8e3` 三席 accept+用户确认 **done** 收口；check 7,218、ratchet 与受保护 strict fast 6,730/617 均 exit0）。
+
+## Scope
+
+- 产品冻结 d64bbf6d（四目标包源码未变；合入 3b1cff4f 继承主线 dff3442d 保存修复故全仓对 d64 非零产品 diff——按用户授权适配主线）；主线基点 862733ba。
+
+## Execution and assertions
+
+- **首轮 counter（01c149b5）**：R1 交付账不符：19 新增代码文件 Biome 实测 exit1（27 errors/1 info）而回执写 0、B 逐文件 20/8/6/30/12/8 相加 84 写 69（实 20/6/4/21/9/9=69）、pal fixture 路径不在白名单；R2 D 组断言未证合同：冲突删除门真实坏实现（删除循环移出 if(!conflicts.length)）D 组 21/21 仍绿；sha256 自比较恒真；null 与 {a:null} 都存在非缺席；只比 base.files 未验三侧；R3 C2 槽位截断坏实现（equipment/magic rows.slice(0,1).map）C 组 15/15 仍绿；C3 poisons/players 仅「分支较少」后置不接受；R4 分类去重（D5 未证/C3 未做笼统、rng 重复空 chunk 应删、负控红因归因错、可重建命令含 [...] 伪命令）；三项待证裁定：YJ2 树归约可另列后续独立向量、空窗回引保留合法输入合同待核、C3 本轮补齐
+- **返工复核（c0c94333）**：已核通过：139/139 定向+四包 tsc+Biome exit0、4 对照+11 负控、Codex 原始三见证（删除循环外移/装备截断/仙术截断）重跑均业务红（不只采信 GLM 等价新负控）、删除门 fixture+absent/null+完整槽位+C3 补齐；唯一阻断 R2：cloneSnapshot 的 files 数组仍引用原 Map 对象，原地改值时 before 三侧一起变化——Codex 三轴单点见证（canonicalSnapshot(base) 前 v=17 污染各侧，原函数绿+候选用例仍绿+观察断言证实实际执行；同一坏实现只改测试 before 为 structuredClone 深快照三针业务红）证明测试漏检非产品缺陷；回执勘误：冻结 SHA 笔误、D 组 8/8/8、20→21 文件按 git diff --name-status、覆盖表 133 时点不得混用 139
+- **定点返工接收（639e9e4e）**：深快照逐值 structuredClone+独立 Map/Set+自证；Codex immutability.config 三轴（仅更新标题过滤不启用 repair）三用例均输入不变性断言业务红；GLM 反控 4 对照+14 针全 AssertionError 红且三针 plan-pollutes-* 失败名单都含深快照用例；接收时纠正（非产品修复）：增量实 21 文件（20 漏计诊断配置）、诊断配置改正则扫描为直接导入官方 migrateCoverageFastTestExcludes（原正则 29 条中 20 条不匹配迁移包）、GLM 139 项+3 fixture 集成树逐文件保持候选原样
+- **统一门与收口**：check 七包 7,218 项（lint 0 error/既有 48 warning+11 info）；官方 fast 6,730/617 较 6,591 新增恰 139、15 新测试文件、全部旧 fileEntries/identityDigest 不变；四包覆盖：shared 行 94.94%（函数 21/21 100%）、content 84.08%、pal-extract 42.63%、migrate 51.51%；全仓行 70.90%/分支 62.50%；三席 accept（Kimi 终审+GLM 自验登记完成）+用户确认后 Codex 核定 done；YJ2 两项按后续归属保留不标完成
+
+## Results
+
+- 旧版本兼容审查 pass（本批产品零修改、无新升级器；legacyThing/旧 battleSprite 是拒绝测试、地图 v4 是当前格式）；Oracle 首跑 6 次 MODULE_NOT_FOUND 未计证据（改由 vitest 声明依赖后完成）。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；三见证 witness.config/oracle 与 immutability.config 复建命令在 quote；/tmp 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 三轮接收+集成 | 2026-09-16/17 | R1-R4→收窄→闭合 | accept→done（48d3b8e3） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 foundation 三轮接收复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-FOUNDATION-COVERAGE-1 · Codex r1接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：三轮递进；三轴污染见证证明测试漏检非产品缺陷；139 项+14 针；fast 6,730 新增恰 139 无范围移除；YJ2 两项后续归属保留。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+首轮 R1-R4、返工唯一阻断 R2 深快照、定点返工独立核验与四包覆盖表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；覆盖数字按 862733ba 基点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-FOUNDATION-COVERAGE-1 完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ea140aa5736c4d269eff704c47e3544edf47a4df9c4a118814d4418dfc4cc2a2`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ea140aa5736c4d269eff704c47e3544edf47a4df9c4a118814d4418dfc4cc2a2`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > > 当前结论（2026-09-17，集成48d3b8e3）：**done**。最后R2已闭，139项/14反控、check7218与受保护strict fast6730/617均通过；三席accept且用户确认，Codex核候选零漂移后收口归档。
 > > 以下各轮counter按原候选完整保留为历史，不重新要求返工已通过项；最终集成结果见文末。

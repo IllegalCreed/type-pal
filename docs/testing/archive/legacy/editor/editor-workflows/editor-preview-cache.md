@@ -1,40 +1,62 @@
 # 编辑器预览缓存 · E-03/E-04连续修复记录
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 E-03/E-04 连续修复记录（Owner Codex，2026-09-19）：FireEffectPreview 与 SpriteThumb 私有呈现缓存的读取上下文/资源修订身份与失败恢复修复——FIRE 按 AssetBase 身份分区、缩略图按 AssetBase+EditorAssetReader 双身份分区；成功/在途仍去重、失败后重挂载可恢复、同 Root 迟到结果不覆盖。现有加载器/解码器/资源格式/跨包接口/UI 形态全保持。
+
+## Scope
+
+- 对象=两个生产组件之上的身份/修订/失败缓存；范围不含自动轮询/重试按钮、音频异步策略、资源导入、pending FIRE 读取协议、容量/LRU 结论；按「同一 Coding Owner 同会话连续常规迭代」不开卡。
+
+## Execution and assertions
+
+- **前提真值面**：FireEffectPreview.tsx:15 全局 cache 只按 chunk、:28/30 失败或空结果永久 null；SpriteThumb.tsx:15/24 只按 projectId/asset/revision/frame 全局强引用、:36-40 失败永久 null；core/sprite-assets.ts 底层已按 reader 隔离；消费者 SkillAnimationEditor.tsx:274、App.tsx:3745/3775/4099、SpriteImageViewer；替代解释（同内容工程/下层加载器出错/视口未触发/重试未完成/暖缓存零读误判）用合法 catalog+真实 gzip-RLE+真实 SHA+标准色表逐一排除；Canvas/IntersectionObserver 仅宿主边界替身
+- **正式回归**：preview-cache-boundaries.test.tsx 15 项+fixture（catalog 先过现行守卫、真实 gzip-RLE/SHA/色表/解码器，只替 Canvas 与 IntersectionObserver）；13 项实现前先红（11 业务断言失败+2 正常对照）；补两个身份单轴（AssetBase 同 reader 异/reader 同 AssetBase 异）后 15 全绿；源 SHA 与色表修订分开验证；相同元数据跨身份必须真正触发 B 的 IO；在途去重 entered/deferred、同 root A 挂起→B 完成→A 完成仍显示 B
+- **负控**：editor-preview-cache-mutants.mjs：1 正控+7 单点负控；每针只改一个连续片段、生产文件 hash 前后不变；三针破坏 FIRE 上下文/缩略 base/缩略 reader 身份、两针保留失败 null、两针忽略元数据修订；每针须函数运行态见证+15 项实际执行+指定 AssertionError 拒混合失败；测试宿主 React act 告警改为观察真实 Promise+act 内 flushSync，不以告警版为最终证据
+- **浏览器验证**：可重建入口 unresolved-tools/editor-preview-cache-visual.mjs 复用 editor dev 打开 preview-cache-verify.html；A 红→同 ID 同特效号 B 蓝→色表更新绿两图符合；故障计数恰 2 时 FIRE 显示「无法加载」缩略图空白；底层预热后同修订重挂载恢复蓝色；console warn/error 空；浏览器只读 DOM 桥不支持 Canvas getContext，未用桥读像素作证明；实际截图+单测烘焙 RGBA 断言分别证视觉与数值；无剧情视觉 E2E/声音声明
+
+## Results
+
+- 统一门：完整 check 7 包 7,457 项（editor 2,518/241 文件；lint exit0 保留既有 48 warning/11 info 不声称零诊断）；官方 ratchet 6,969 项/617 生产文件；受保护单次严格 fast（BASE_REF=1647d2e1）6,969 全绿与 ratchet 完全一致。
+- 独立对账：221 个旧 editor 测试文件 identity 原样、其它六包基线逐字相同；本轮同时修产品，分母新增 31 行/33 语句/4 函数/14 臂、命中净增 120/133/24/69，不冒称纯补测。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；可重建命令与负控/视觉工具链接在 quote；/tmp、/var/folders 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 连续修复 | 2026-09-19 | 双身份分区+失败驱逐 | E-03/E-04 按私有缓存范围关闭 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 E-03/E-04 修复记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 编辑器预览缓存 · E-03/E-04连续修复记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+私有缓存按读取上下文与资源修订独立、失败可恢复、迟到结果不覆盖；15 项先红后绿+7 针+浏览器验证+三门。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+真值面表、替代解释排除、负控清单与覆盖口径在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。修复按当时代码；当前行为以现行实现与测试为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 canonical 测试；其余审计缺陷及完整 E2E 保持原归属。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `19a0229d371a5908cf574c2b965d1c84b24e482f2e9ae50f6f9455611795d4ae`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `19a0229d371a5908cf574c2b965d1c84b24e482f2e9ae50f6f9455611795d4ae`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 编辑器预览缓存 · E-03/E-04连续修复记录
 >

@@ -1,40 +1,59 @@
 # TEST-GLM-LARGE-WAVE-4 · Codex 独立审核 R2
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 R2 审核（2026-09-29，候选 031b3e47…31f 对照 R1 8cb0af0a）：**仍为 rework，未合 main 未运行官方门**。
+
+## Scope
+
+- 已核闭合：工作树干净 31 文件差异仍在白名单内；60 产品源码 digest 全过未改产品/旧测/配置/锁/基线/F-J；完整 lint 2,666 文件 0/0/0；三包 typecheck 零诊断；定向 editor 50/50、reforge 7/7、migrate 9/9；22 处 as never 和 2 处 as unknown as 已清；两个测试后缀与源一致；DataMode 不再 mock 子组件；并集 17 新增/43 existing-proof；needle-judge.selftest 八项绿；Codex 独立跑一枚真实命令表单针 VALID；66 项新测保持通过。
+
+## Execution and assertions
+
+- **窄返工 1 判据清理**：needle-judge:40-42 的 invalid() 直接 process.exit(2)——注入 try 内 :131-158 调用时 :167-169 的 finally 不执行；Codex 真实故意给错 --name 判据正确报 INVALID/exit2 却留下同目录未跟踪 .needle-tmp.test.tsx；改为所有 INVALID/异常路径均清理后再退出；selftest 逐例断言临时文件不存在；failed[0].file.includes(needleBasename) 和 fullName.includes(name) 只做子串检查——按卡面改解析后精确绝对测试文件与完整 fullName 并核汇总 failed 恰 1 避免错文件/同名误判 VALID
+- **窄返工 2 陈旧锚**：receipt-batch-b:5 仍写旧 .test.tsx 实际已改 .test.ts；五份回执和 rework-r2-evidence:3 只写 r1 批次 SHA 或「R2 见返工提交」没有本次完整 R2 SHA——修正精确记录并更新可复跑反控命令/自测结果；候选 docs check 7 条缺目录索引是 Codex 维护只读 README 的工作不要求 GLM 越界；R2 回执所写「6 条」按实际更正
+
+## Results
+
+- GLM 仅修原卡隔离工具/回执和必要新测试路径不再扩大产品或测试范围；推送 R3 完整 SHA 复跑 judge 自测和 11 枚代表针、定向、三包 typecheck、完整 lint 0/0/0、docs/diff 后交 Codex 再审。
+
+## Evidence
+
+- 证据路径：本审核正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| R2 审核 | 2026-09-29 | 清理路径+陈旧锚两项 | rework | R1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-large-wave 的 R2 审核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · Codex 独立审核 R2：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+rework 两项：invalid() exit(2) 跳过 finally 遗留 .needle-tmp 文件+子串检查不精确；回执陈旧锚与缺 R2 SHA。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+两项窄返工与已闭合清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。rework 由 R3 accept 闭合（4e200099）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-LARGE-WAVE-4 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `4fe7a271c56a47196502dd6ec62e3a3903882fa416c9ec1216661ac3843c992b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `4fe7a271c56a47196502dd6ec62e3a3903882fa416c9ec1216661ac3843c992b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · Codex 独立审核 R2
 >

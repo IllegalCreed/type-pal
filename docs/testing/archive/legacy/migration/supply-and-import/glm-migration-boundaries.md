@@ -1,40 +1,58 @@
 # GLM当前迁移辅助与隔离文件系统补测工作包（TB-10）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-MIGRATION-BOUNDARIES-1（TB-10）工作包：当前 Codex 接收结论 accept（2026-09-20 候选 3d798f7c、统一候选 256116ee；check7709/ratchet/受保护单次严格 fast 7220 通过，三席齐用户授权 done 归档）；首轮接收 counter（定向 22 项过但公共 C0+Biome 11 文件 11 errors）仅留历史；正文含 T01-T09 合同族表、真实文件系统/合法夹具与排除规则、代表性负控要求、冻结目标与白名单及 GLM r1/r2/r3 三轮回执。
+
+## Scope
+
+T01-T09 九族：migration-project-io/transaction/write-plan/project-map-converter/project-map-audit/source-facts/pal-authored-overlays/pal-item-scheme-labels/pal-store-boundary，逐族列当前 caller/既有 test 证据/允许新增候选；规则：所有 repo/root 参数来自本测试 mkdtemp、禁止传主仓根/运行 extract/migrate/bake、afterEach 只删自建临时根、A08/A09 已确认修复项不改、E05 历史输出退役不新增 discovery 旧 chunks 测试、允许去重后减文件不为凑数续测旧接口。GLM r1：8 新测试文件 22 项+9 变异针全钉名；r2 闭 C0（failureMessages 首行判据+四向自测）/C1（11 文件 biome）/R10-1 深快照/R10-2 撤 chunks 轴/R10-3 两操作真实中断 journal/R10-4 菱形；r3 收窄（判据精确唯一目标+全白名单 biome+计数按 Codex 实测更正定向 23）。
+
+## Execution and assertions
+
+- **负控+覆盖对照**：3 对照+9 针 rc=0（越界路径门/journal staged 配对/SceneIndex 提升/tilemap 行守卫/上层第 9 位解码/名字 WORD 指针对调/overlay kind 过滤/labels channel 地址键/Store0 计数门）；覆盖对照逐文件（write-plan L35→37、store L83→89、labels L126→130、io L55→59 等，全包 L3439→3460/B2851→2878）；GLM（作者）→Codex 接收；产品对冻结 e58834f6 零漂移；T02 订正 previousHash=null 对新建目标合法以 hash 篡改为拒绝轴；定向 23/23、；unit；57 文件 393 项（9 项预存 ENOENT 裁决一致）、官方 fast 338→361 双 exit0
+
+## Results
+
+- 首轮 counter（公共 C0+biome 11 errors）→ GLM r1-r3 闭合（判据精确唯一+白名单 biome+真实中断 journal）→ Codex accept done（256116ee）：定向 23、官方 fast 338→361 双 exit0、9 针全钉名。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；机器账 glm-migration-boundaries-evidence.json 与当前接收记录链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-10 工作包 | 2026-09-19/20 | 九族合同+GLM r1-r3 回执 | accept→done（256116ee） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy migration/supply-and-import 的 TB-10 工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM当前迁移辅助与隔离文件系统补测工作包（TB-10）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+当前 accept/done；GLM 回执为候选自验原文以当前 Codex 复核勘误为准；产品零改只指已列新增测试/fixture 之外。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+九族表、负控针点、覆盖对照数字、r1/r2/r3 三轮回执在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。多轮结论链以当前接收（glm-nine-final-review）为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor/testing-records/glm-nine-final-review.md 与完成卡。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `dbed39b72e0bdddd965bc16677347e868101375d0e44eade1db01dbcb4b8acf4`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `dbed39b72e0bdddd965bc16677347e868101375d0e44eade1db01dbcb4b8acf4`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM当前迁移辅助与隔离文件系统补测工作包（TB-10）
 >

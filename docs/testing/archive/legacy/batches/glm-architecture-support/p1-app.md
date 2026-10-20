@@ -1,40 +1,63 @@
 # P1 · App.tsx 所有权与边界取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 P1 取证（2026-09-25，冻结 3270473862；对象 App.tsx 5170 行+直接 hooks/caller，静态只读；covered 以精确测试标题为准无运行证据处标 risk/blocked 不以行数判 bug）。含 r2 五条更正：撤回「props 传入且无 stop」前提（derivedStore 实为 App useMemo 创建 start() 返回 stop，22/22 执行改 covered）；editor-navigation 实为 17 it 测试（r1 grep 只搜 test( 漏 it( 误称 0）；assertSessions 移入 effect 不再作已论证修复；资源清单补全量逐行登记；目录指向更正。
+
+## Scope
+
+- 资源清单（r3 AST 口径 App 作用域 :360-3705）：useState 29/useRef 16/useEffect 15+useLayoutEffect 1/addEventListener 3（均有对称 remove）/rAF 4/setTimeout 1/ResizeObserver 1（disconnect）。
+
+## Execution and assertions
+
+- **所有权表**：trialWindows 集合（App:385 建/:645 删/effect :387-394 卸载逐个 close+clear 闭环）；historyCoordinator props 传入（useLayoutEffect :407-417 connect/dispose 对称，App 作用域唯一 useLayoutEffect——r1/r2 曾误归 useEffect；assertSessions :411 渲染期调用见 risk）；derivedStore：App useMemo :422-425 创建→effect :426 start()（订阅两会话+启动 worker）返回 stop（running=false/epoch+1/退订/port.terminate()/清 inFlight）——r2 闭环确认；soundPreview dispose :491-495/导航 replaceState 幂等/popstate remove/滚动恢复 rAF cancel（:scope > 限定无全局越权）/ResizeObserver disconnect 闭环
+- **导航/保存/历史/试玩**：导航 location+locationRef 镜像、URL replaceState+localStorage 双写、popstate 只读反解、moduleLocations 各模块记忆；保存 executeEditorSaveShortcut 统一入口（registry test:24 Cmd/Ctrl+S 同命令+阻断浏览器保存）；:2200+ activity(preparing)→宏任务让位→serializeEditorSnapshot→isCurrent(lease) 逐段失效→journal 首存资产流→recoverySnapshot 中断恢复；历史 D-01 五条回归（leave-guard:261/318/366/391+199）；试玩窗口集合+onClosed 自删+卸载全关
+- **测试去重表**：app-command-registry 4 条（同 handler 身份/S 键路由/registry 不变量）+App.leave-guard 8 条（三入口同序/不跨界/失败可重试/真实保存失败 undo 修复/丢弃一次/双 session 提交/清理警告/quick-trial 草稿保真）+reference-navigation 20+ 条（场景引用四联动/locator 退出放置/过期子对象不清空先报错）+boundary 5 处（文件计数口径）；未覆盖区：卸载清理（trial.close/derivedStore 生命周期/keydown 解绑）无 unmount 测试驱动；:2225 setTimeout 0 让位序无回归
+- **证据条目**：P1-001 covered（r2 撤回：链路闭环 22/22 执行）；P1-002 risk（assertSessions 渲染期调用失败路径无测试——撤回移入 effect 修复表述仅记录现状）；P1-003 risk 收窄（:1660-1666 ensureMapLoaded 该调用点 catch 吞错不推及整页，App 有可见错误 UI）；P1-004 risk（全局 keydown 依赖数组 13 项解绑重绑 churn——拆分后收进 ref）；P1-005 covered（r3 AST 重做 29/16/15+1+完整标题清单：navigation 17+registry 4+leave-guard 8；boundary 5 处按文件计数登记）；P1-006 N/A（setTimeout :2225 注释明确无泄漏）；r2 曾误写「24 个+saveConfirm 等四 state」——该四者不存在（实为 saveCommandRef 与派生变量），r3 AST 重做
+- **全量登记 §4.1**：useState 29 逐行（:382 trialDraft~:1558 bodyWidth）；useRef 16 逐行；useEffect 15 逐行（试玩关闭/beforeunload/derivedStore/soundPreview/URL/popstate/滚动 rAF/placeSceneId 跟随/ResizeObserver/ensureMapLoaded/焦点重置×2/焦点消费/全局 keydown/document.title）；useLayoutEffect 1（:407）；全文件另 4 useState 属其它组件分开口径不计入；读写/清理归属见 §1 表
+- **拆分建议**：按所有权耦合度低到高：document.title（零耦合）→滚动恢复/ResizeObserver（bodyRef 局部）→导航簇（自洽+已有测试层）→保存流程（lease/recoverySnapshot/journal 风险最高最后拆）；每步回归门=leave-guard+reference-navigation+app-command-registry 三文件；供实施批次参考非本包执行
+
+## Results
+
+- 未证风险：unmount 清理路径无运行时证据（静态对称无泄漏实证）；assertSessions 渲染期失败路径无测试（P1-002）；derivedStore 实例语义已闭（r2 撤回）。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| P1 取证 | 2026-09-25 | 资源清单+边界图+去重表+r2/r3 更正 | 6 条目（2 covered/3 risk/1 N/A） | intake counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 P1 取证报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P1 · App.tsx 所有权与边界取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+AST 全量登记 29/16/15+1（撤回 24+四不存在 state）；derivedStore 闭环改 covered；assertSessions/ensureMapLoaded/keydown churn 三 risk；四步拆分建议。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+所有权表、去重表、§4.1 全量逐行登记与六条目在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 静态读取。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `bff4d4ad7518f51d9447424f5f438e0f4c0a163120066b799a592d4e502068f4`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `bff4d4ad7518f51d9447424f5f438e0f4c0a163120066b799a592d4e502068f4`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # P1 · App.tsx 所有权与边界取证（ARCH-SUPPORT-GLM-1）
 >

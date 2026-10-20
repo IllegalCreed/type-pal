@@ -1,40 +1,58 @@
 # ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 迁出候选
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-F2-DS-LABELS-1 Cursor 迁出候选回执（2026-09-26，分支 codex/cursor-arch-ds-labels-r1，基点 origin/main 56ebed43…2b9）：只把 DsTagTone/DsTag/DsReadonlyValue 从 controls.tsx 搬到 status-values.tsx——controls 继续 re-export、index 仍 export * from controls、新文件只 import HTMLAttributes 不回引、classes 原样局部实现。未合 main 未标 done（Codex 后续已核真实变异与隔离 UI、对 text-overflow adoption 两条旧 owner 登记做最小集成修复并完成全仓与官方门禁，见独立接收记录）。
+
+## Scope
+
+- 拆前测试名全保留（controls Tag 正控/recipes hero 用例/boundary EnemyAnimPreview 静态门）+新增三用例；六组输入服务端字符串搬前搬后一致；三出口同一函数。
+
+## Execution and assertions
+
+- **验证**：controls/recipes/boundary 3 文件 138 tests exit0（main 同三文件 135，+3 为本卡新增）；editor typecheck exit0；改动文件 Biome 无 error（既有 warning 保留未改）；隔离反控：Vite transform 只内存把 tone = 'accent' 换 'neutral'，同一正式用例控制树 exit0、变异树 exit1（AssertionError: expected 'ds-tag ds-tag--neutral' to be 'ds-tag ds-tag--accent'，controls.test.tsx:863）；磁盘 status-values.tsx SHA fef08ab2…2104 前后同；临时配置/JSON 已清理；本机未另开浏览器、6010 未动，视觉由 Codex 接收时补
+
+## Results
+
+- Cursor 自验不是独立证明，Codex 独立复核与集成。
+
+## Evidence
+
+- 证据路径：本候选回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 迁出候选 | 2026-09-26 | 组件搬移+138 验证+单针 | 后续由 Codex 接收集成 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 DsTag/DsReadonlyValue 迁出候选回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 迁出候选：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+纯迁出：出口/DOM/静态门三重等价+tone 变异单针真实红；adoption 两条旧 owner 登记留集成修复。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+测试名清单、DOM 表、反控细节在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。候选时点未合 main；后续集成见独立接收。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归独立接收记录与现行 design-system。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `3963adf5ccc270db23a06924308a10fdf9f12ee3c0ad020c5573772b4a52e1f7`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `3963adf5ccc270db23a06924308a10fdf9f12ee3c0ad020c5573772b4a52e1f7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 迁出候选
 >

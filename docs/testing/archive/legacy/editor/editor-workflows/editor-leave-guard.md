@@ -1,40 +1,62 @@
 # 未保存修改的离开保护：实现与验证
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-LEAVE-GUARD-1（r1 done；实现基线 `d46d63fa`，产品/测试候选 `10c84238`；三席终审 accept 无返工，Codex 核同候选零漂移，用户 2026-09-13 授权收口）的实现与验证回执：session-local ProjectLeaveGuard 管理新建/打开/保存/另存为/导出的同步互斥，主/脚本 session dirty 共同决定提示，显式放弃与修改版本绑定，点击身份（ready/decision）与 React key 区分。
+
+## Scope
+
+- 首批实现 ceec744a+点击身份补强；不改 r1 设计合同、不改变 A-02/A-03 持久化协议；为使 LG-08 入口失效页可达修正 App context 空场景提前解引用（不造默认场景）；D-01 历史算法/schema/content20/SAVE8/玩家存档未改。
+
+## Execution and assertions
+
+- **代码级回归**：project-leave-guard.test.ts 18 项+App.leave-guard.test.tsx 27 项+author-save-conflict 既有 36 项保持；真实双 session+当前 blank seed/loader；dirty 三态/两入口/取消/完全撤销/discardRedo 保守失效/四类 IO 互斥/保存结果/晚到命令/hydrate/卸载重连/unload；替身只提供 FSA 目录/原生 picker/origin 存储边界；AST harness 从实际 App 抽取 save 注入真实新 guard；DS adoption 91→92（2 条既有证据豁免不变）
+- **单点负控**：/tmp/type-pal-leave.MtfuoI/negative.config.mts 五针（script 只留 main dirty/result outcome!==undefined/revision 只查 isCurrent/menu 直接调卸载回调/choice 删 phase 比对）；每模块每次加载命中恰一次、生产文件未改写、无 timeout/skip/排除调整；不设 LEAVE_NC 为正控；五针分别 5/2/7/10/2 项业务红均 exit1；补强后断言先查业务调用非缺 modal 的 TypeError
+- **原生功能与视觉**：独立 Edge profile+专用 6011+真实系统目录 project-a；FSA/IDB/Web Locks 原生；新建→改名→打开先弹三按钮确认框（默认焦点取消）；1280×900/720×640 三按钮 36px 间距 8px 无溢出；真实 Cmd+R 原生 Reload 提醒取消后会话仍在；Writable close 挂起 25.8 秒仅一个保存 modal；激活过期 CDP userGesture:false 测 isActive=false 后 CUA 点击正常打开；目录写入失败回到确认框、重试成功磁盘核对新名；慢 IO 探针只覆盖隔离页面 close、首次调用即还原；截图六张（宽/窄/错误图实际查看；首两张补焦点 fallback 前拍摄不冒称最终焦点证据）
+- **准备期失败不计入通过**：首次键入未提交（后 CUA setValue+Tab 真实提交）；Vite 热更新混杂轮不算保留验证；Playwright 默认 evaluate 带用户手势不能用作激活未过期证据（改 userGesture:false）；context close 协议错误后按主 PID 终止浏览器并核无剩余进程；开发期 fixture/模拟/括号问题均修正，未声称是回归负控
+
+## Results
+
+- 最后自审真实返工：ceec744a 的 confirm() 同时承担 discard 和 ready 只读调用时 phase——后台命令把 ready 降回 decision 后旧继续按钮回调可能错误授予放弃权限；两条正式回归在 ceec744a 上先红，修复为调用方携带 choice+guard 比对 phase+两动作不同 button key 后转绿（81/81），不隐瞒中间候选曾过质量门。
+- 统一门：最终完整 check exit0 七包 6,918 项（editor 226 文件/2,350 项；lint 既有 48 warning/11 info 零 error）；ratchet 与单次严格 fast（BASE_REF=d46d63fa）exit0 6,430 项/616 生产文件；Guard/Dialog/hook 覆盖表逐格在账；guard 两条未命中臂保留分母不凑 100%。第一次完整 check 有 1 失败（DS 统计 91→92 未更新）不取多数放行。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；五针表可按原文重建；/tmp 日志与截图按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 实现+收口 | 2026-09-13 | 18+27 项+五针+原生全流程+三门 | done（三席 accept+用户授权） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 leave-guard 实现回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 未保存修改的离开保护：实现与验证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：离开保护 gate+点击身份+原生功能/视觉+五针负控+三门；真实返工（confirm phase）如实登记；R4 集中用例待执行；不保证系统强杀/未派发 beforeunload/未入 session 草稿。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+五针表、原生操作表、覆盖四口径表与准备期失败清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；当前行为以现行实现为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-LEAVE-GUARD-1 完成卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `62bf88a2e12d011c4462cd07747fee8c21406369908dcac5a2d36ca0c0f5fc07`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `62bf88a2e12d011c4462cd07747fee8c21406369908dcac5a2d36ca0c0f5fc07`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 未保存修改的离开保护：实现与验证
 >

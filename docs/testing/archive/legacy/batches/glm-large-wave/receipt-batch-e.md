@@ -1,40 +1,60 @@
 # TEST-GLM-LARGE-WAVE-4 · E 批回执（当前内容校验与项目读取）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 E 批回执（当前内容校验与项目读取；r1 本批完整提交 8cb0af0a、R2 返工 031b3e47、R3 窄返工本次推送）：新增测试文件 0（六组全部 existing-proof 不凑文件）；按卡精神对覆盖 E01/E05 契约的既有代表套件补 2 枚反控证明鉴别力（干净 bundle 正控翻红与 codec round-trip 等值取反均 VALID；R2 严格判据重跑、R3 完整失败名精确相等重跑）。
+
+## Scope
+
+- 每组处置表：E01 validate（validate.test 50 例形态恰一/字段边界/三字段正控）+validate-refs（68 例+contracts+data-refs：干净 bundle 无 issue 正控、tilesetRefs 悬空 error、levelUp 悬空 warn——精确 issue 语义已证反控 E1 再证）；E02 author-script-core（17 例+wave2+cursor-pure-wave2 复合实体映射/owner-bound cursor/状态机 handoff）+script（checkCommands/checkScriptLibrary/deriveScriptChunk 全轴）；E03 item（9 专项套件）+asset（路径边界/角色切片/闭包校验）；E04 actor-condition（11+2+boundaries：StatusId 词表/快照施加清除/傀儡回合边界）+validate-runtime（3+wave2 嵌套 flow/旧 hostile 拒绝/zone 朝向拒绝）；E05 project-loader（12 例中断保存拒绝/生成代切换/身份失败/只读 current 不读 sidecar/SceneIndex 惰性+current-boundaries 8 批量场景/输入保真/确定性/顺序/中间失败整批拒绝）+current-codec（round-trip 不 mutate+悬空拒绝+restore-preflight.chain 15+current-structure 12——反控 E2 再证）；E06 file-source（8 例 fetch 拼接/绝对路径拒绝/非 200/abort 透传/恢复状态绕缓存 NotFound 区分）+fsa-source（6 例逐段进目录/URL 缓存 dispose revoke/越界/NotFound 透传/已取消即抛）。
+
+## Execution and assertions
+
+- 门禁：check.mjs PASS；diff --check 干净（本批未新增包内测试文件 content/reforge typecheck 在 A/C 批已零诊断未受影响）。
+
+## Results
+
+- 原时点 E 批零新增文件、六组 12 文件均 existing-proof，既有套件两枚反控有效；整包并集按 R2 更正为 17 新增/43 existing-proof，不能采用旧 20/40 重复计数。本页未复跑。
+
+## Evidence
+
+- 未证项：无本批新增；既有累计 A 批 4 条、B 批 2 条、C 批 1 条、D 批 2 条（各批回执）。
+- 证据路径：本回执正文（quote 保全）；两针 fullName 与 R2/R3 附注在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| E 批回执 | 2026-09-29 | 12 组全 existing-proof+2 反控 | 交 Codex（后续 accept） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-large-wave 的 E 批回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · E 批回执（当前内容校验与项目读取）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+E 批零新增文件六组 12 文件全 existing-proof（依据逐组列出）；2 枚既有套件反控三轮判据演进（共用→严格→精确相等）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+处置表、两针与未证项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。回执按候选时点；整包由 R3 accept 集成。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-LARGE-WAVE-4 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `d45af69a30cf95c4894ed205ae74aa18383430ab65740e82e7d963b7816d1c3b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `d45af69a30cf95c4894ed205ae74aa18383430ab65740e82e7d963b7816d1c3b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · E 批回执（当前内容校验与项目读取）
 >

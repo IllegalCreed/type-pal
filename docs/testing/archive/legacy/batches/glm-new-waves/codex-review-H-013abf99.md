@@ -1,40 +1,61 @@
 # TEST-GLM-NEW-H-1 · Codex 独立审核 r1
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-NEW-H-1 首轮审核（2026-09-29，HEAD 013abf99…c6c2、基点 2948810f）：**rework，未合 main，未运行官方门**。
+
+## Scope
+
+- 已独立验证：差异为 12 同目录新测+Wave H typed harness+三份 JSON；产品/旧测/配置基线未改；game typecheck 零诊断；定向 12 文件 48/48；docs 0 issue；派发校验器缺陷 main 修复不归责；一手抽查 fight.c:4719-4775 法术自动防御先掷再跑 scriptOnUse、battle.c:1238-1293 hidden-exp 等级 99 钳制、script.c:3267/3428 ClearDialog 确证；合成 fixture 不冒称原始实测、baseDamage≤0 疑点登记未证未私改。
+
+## Execution and assertions
+
+- **返工 1**：完整 lint 失败 3 errors（wave-H/{counter-controls,receipt,vitest}.json 格式）——局部 13 代码文件 Biome 0 不等于硬门 0/0/0
+- **返工 2**：magic.glm-next-wave.test.ts:66-104「RNG 预掷先于 scriptOnUse」未记录真实交错顺序：runScript 写独立 log 函数结束才构造 rngCalls: [...rng.calls, ...log]——脚本在这个数组中永远排在全部 RNG 之后（无论何时执行）；改 RNG 与脚本回调写同一实时事件轨迹再断言首掷早于脚本；保留孪生战斗结果正反证
+- **返工 3**：counter-controls.json 四枚反控直接临时改 battle-opcodes/anim-timeline/battle-progression/battle-settlement 生产源码并用 checkout 还原——卡面产品只读；改隔离副本或 loader 注入；判据核基线 exit0/针 exit1/唯一注入/预期失败集合/绝对 file-fullName/执行数/无混错-skip-timeout-exit2/生产 hash 不变+可复跑证据
+- **返工 4**：receipt.json:144-147 head 是「branch tip at push」文字非固定完整 SHA；写入 r1 与返工候选完整 SHA、更新新鲜 JSON 与反控；未经实测不把 48/48 推为官方覆盖率收益
+
+## Results
+
+- 返工仅修 Wave H 原白名单；视觉按卡不要求；复跑定向+相邻+game typecheck+完整 lint 0/0/0+docs/diff。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 审核 | 2026-09-29 | 时序拼接+瞬态改生产+JSON 格式+SHA 文字 | rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-new-waves 的 Wave H r1 审核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-NEW-H-1 · Codex 独立审核 r1：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+rework 四项：三 JSON 格式、rngCalls 事后拼接（脚本恒排后）、四针直接改生产源 checkout 还原越只读白名单、head SHA 文字化；一手 C 源抽查确证。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四项返工与一手抽查在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。rework 由 r1 返工 accept 闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 Wave H r1 返工验收回执。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `df0e94054e59f281c463d0953bdb45ed553e9e763bdf2dd3dee010b375e0da6a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `df0e94054e59f281c463d0953bdb45ed553e9e763bdf2dd3dee010b375e0da6a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-NEW-H-1 · Codex 独立审核 r1
 >

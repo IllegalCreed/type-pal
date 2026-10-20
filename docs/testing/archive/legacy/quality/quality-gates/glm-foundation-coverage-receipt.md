@@ -1,40 +1,63 @@
 # GLM四包基础测试补强回执（r1 返工交付 · 2026-09-17 定点返工）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-FOUNDATION-COVERAGE-1 r1 返工交付回执（r1 done；2026-09-17 三席 accept+用户确认 Codex 收口归档；四包源码冻结 `d64bbf6d…7e86`，集成候选 `48d3b8e3…5fef`，分支 codex/glm-foundation-coverage-r1 已合 Codex counter 8126f5c0 与收窄复核 3b1cff4f）：A shared 27+B content 69+C pal-extract 19+D migrate 24=**139 项**四包定向全绿；21 文件增量（15 新测试+3 fixture+1 诊断脚本+1 诊断配置）。
+
+## Scope
+
+- 返工总账：文件清单按 639e9e4e 提交树复算（交接所称 20 漏计新增配置）；本人新增代码文件 Biome exit0；相邻既有 shared 106/content 557/pal-extract 149+3 skip/migrate unit 338 绿。
+
+## Execution and assertions
+
+- **A 组（27）**：mkf 9/rng 13/yj2 5；R4 去重：删与既有 rng.test「空 chunk→空帧数组」重复用例（28→27），保留连续帧基面与容器内空 sub-chunk；负控 mkf-out-of-range-gate-removed、yj2-literal-off-by-one（长度突变被 uncompLen 钳制掩蔽已记录，负控走字面路径）；YJ2 两项待证后续归属：树归约（weight==0x8000 需累计权重超长流，fast 内构造需镜像解码器树更新算法为卡面禁令，列后续有界高资源输入+独立进程）与空窗口回引（dst-pos-1<0 的 JS 越界读语义无一手证据，先查 sdlpal yj1.c 再立合同）
+- **B 组（69）**：start-world 20/actors 6/author-items 4/skills-poisons 21/author-script 9/enemy-script 9（修正首轮 20/8/6/30/12/8 回执笔误，总数 69 无误）；内容与首轮一致仅 Biome 格式化
+- **C 组（19）**：R3 C2 装备/仙术断言改完整数组长度+非首末槽非对称标记（角色 2 装备第 5 行=123、仙术第 31 槽=456）；R3 C3 补齐 parseObjectPoisons/parseObjectPlayers（不再「分支较少」后置；与 tables.test.ts:283-335 重叠的 magicNumber/flags 主字段断言保留，fast 域首次自包含覆盖）；负控含 Codex counter 见证复建 player-roles-equipment/magic-truncated（本轮必红）
+- **D 组（24=8/8/8）**：R2 冲突删除门：fixture 增真实待删除文件（原实现冲突时 deletes=[]；正控证明正常路径）；恒真自比较替换为两次独立构造等值图+真实字段差异双向对照；absent/null 纯函数合同（三向一致 hash）；R2 输入不变定点修复：三侧 before 改真正独立深快照（structuredClone 脱离原引用）+自证，plan-pollutes-{base,ours,theirs} 三轴负控永久钉住；红因更正（R4）：merge-same-ours-theirs-removed 业务红来自 ID 数组新增同 id 无冲突断言非对象同改同值用例——负控有效归因以此为准
+- **负控与覆盖**：4 对照 exit0+14 单点负控全 exit1 业务 AssertionError 红（原 8+Codex 三见证 3+定点新增污染三轴 3）；两时点覆盖对照：历史 133 项树与当前 139 项最终树现场重测（pal-extract 0/215→214/215 分支 0/48→44/48；migrate 318/376→326/376）；八段可复制命令+入仓诊断 config（GLM_FC_EXCLUDE_BOUNDARIES=1 为 before 形态）；正式官方口径由 Codex 集成后统一测量，不冒充官方 fast/full
+
+## Results
+
+- 定点返工仅改：migration-plan 输入不变断言、负控 +3 污染轴（8→11→14 针）、回执勘误；已通过项不重做。逐族分类表：缺陷=0、待证 2 项（YJ2 归属不变）。
+- Codex 接收（639e9e4e）：三轴污染见证按新标题重跑均业务红；862733ba 主线集成统一门 check 7,218、ratchet 与 BASE_REF=862733ba 单次严格 fast 6,730/617 exit0；全仓行 70.90%/分支 62.50%；Kimi 终审+GLM 自验 accept 齐后用户确认 done。两轮 counter 保留历史（01c149b5：Biome 27 错/删除门/槽位/D 组自比较；c0c94333：仅 R2 三侧浅副本阻断+回执勘误）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；完整接收报告见 glm-foundation-coverage-review.md。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1+定点返工 | 2026-09-17 | 139 项+14 针+四包覆盖对照 | accept→done（48d3b8e3） | 两轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 foundation 覆盖回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM四包基础测试补强回执（r1 返工交付 · 2026-09-17 定点返工）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：139 项四包+14 负控+深快照定点修复；YJ2 两项待证归属不变；三门 exit0。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R1-R4 返工总账、逐族分类表、负控总账、八段覆盖命令与三轮 Codex 接收记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；覆盖数字按冻结 d64bbf6d 口径。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-FOUNDATION-COVERAGE-1 完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `05e63e7a3709a5693c1f9b4925ff84e27da5c895ec91b78a391f738ff2a9b593`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `05e63e7a3709a5693c1f9b4925ff84e27da5c895ec91b78a391f738ff2a9b593`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM四包基础测试补强回执（r1 返工交付 · 2026-09-17 定点返工）
 >

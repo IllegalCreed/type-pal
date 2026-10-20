@@ -1,40 +1,62 @@
 # Cursor现行文档轻量核对回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-CURSOR-1 的 Cursor 只读核对回执（证据冻结 a3ceaf05、工作树起点 26c4ae5c、十二份正文与冻结树无 diff；未执行 extract/migrate/bake/部署/发布、未起服务未跑覆盖率）：对 12 份现行文档 C1-C4 核对完成——**确定不符 8（H1-H6、T1、N1）/待确认 1（H7）/历史或示例不改 3（N2-N4）**；窄返工已按 Codex CR-1/CR-2 修正 H7/N1/T1 待再核。
+
+## Scope
+
+- H1：dev-servers 6001 表行与 run e2e 命令应删（冻结 package.json 无 e2e 脚本、无 playwright 配置，退役提交 7aeef72f；E2E=1 仍由 vite.config 识别但与 6001 无关）；H2：两处 ?skill URL 应删（main.ts:267-268 has(skill) → throw「旧试放链接」；面板 skill 命令仍在与 H2 区分）；H3：A7 后 extracted 非 runtime 资源目录、assets/migrated 与 runtime 不进 git 须 migrate --write 物化、index.json 入库。
+
+## Execution and assertions
+
+- **H4**：README pnpm bake 夹在 PAL 段；冻结 bake-assets.mts 只写 reforge engine-chrome/assets/** 不写 projects/pal；移出 PAL 块改为维护者注或删并指向 migrate README
+- **H5**：editor-architecture「八个业务模块」与左栏；冻结 EDITOR_MODULE_IDS 九项含 simulator 与 project；editor-navigation.test「登记九个一级模块（含战斗模拟器）」；权威子页表相对 registry 过时（map 缺组合库/item 缺炼蛊皿/battle 缺敌队等）；改九模块+插入模拟器行+子页整表对齐
+- **H6/T1**：debug-tools runDetachedV5ScriptChain 符号仓内无现行（main.ts:4489 定义 runDetachedScriptChain）；G4 表 skill 行「（?skill 语义）」括号易读成 URL 仍可用；改 runDetachedScriptChain；删括号不改写成任何 URL 承诺
+- **H7**：scene-entry-authoring「界面显示默认场景淡变」；撤销以 ScriptTree 证明界面文案的结论：真实调用链 App.tsx:3200→CanonicalSceneScriptWorkspace→SceneScriptWorkspace.tsx:317→CanonicalFlowBodyTabs 在 prepare 缺席时直接渲染正文，存在时显示「画面出现前/脚本正文」；ScriptTree 生产侧仅被测构造；指南与当前可达 UI 证据不足待另核，不据此给替换句不宣告产品回归，该文件不进机械修订白名单
+- **N1-N4**：dev-servers:18,104 多余 --（Codex 隔离 argv 反证：-- --write 得 ["--","--write"] exit1 未知参数；短写得 ["--write"]）删两处 --；coverage 时点表/editor-architecture 围栏草图/G4 skill 命令本身保持原文
+
+## Results
+
+- 交付验证：窄返工候选 65193a84（相对 tip 8f3b85a7 仅改本文件）；分支 codex/cursor-docs-hygiene-r1；check.mjs exit0（545 Markdown/2,975 links/179 tasks）；diff --check exit0；不以静态核对冒充执行成功。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 只读核对+窄返工 | 原文时点 | 12 文档 C1-C4 | 确定不符 8/待确认 1/不改 3 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 DOC-CURSOR-1 核对回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Cursor现行文档轻量核对回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+12 文档核对完成：八个确定不符（退役命令/拒绝 URL/A7 资源目录/bake 归属/九模块/符号名/括号语义/多余 --）；H7 因证据不足待另核。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+问题修订建议表（含锚点/一手证据/替换文字/确定性四栏）在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。核对按冻结 a3ceaf05 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 DOC-CURSOR-1 后续接收。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `8db596c12bc8f9c432f0cdd5da4200989884d82e5e87dd6a4875b7a1936cc503`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `8db596c12bc8f9c432f0cdd5da4200989884d82e5e87dd6a4875b7a1936cc503`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Cursor现行文档轻量核对回执
 >

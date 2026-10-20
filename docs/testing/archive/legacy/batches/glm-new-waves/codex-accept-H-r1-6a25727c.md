@@ -1,40 +1,60 @@
 # TEST-GLM-NEW-H-1 · Codex r1 返工候选验收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-NEW-H-1 r1 返工验收（2026-09-29，HEAD 6a25727c…7ee8、返工提交 6e9fe6e0…8bfa）：**代码/证据候选 accept；尚未集成 main，任务保持 review，官方门未运行，不标 done**。
+
+## Scope
+
+- 相对首轮仅改 Wave H 专属 harness、H02 新测与 JSON/反控脚本；产品/旧测/配置基线未改。
+
+## Execution and assertions
+
+- **复跑**：完整 lint 2644 文件 0/0/0；game typecheck 零诊断+docs 零 issue；新增定向 12 文件 48/48；battle-opcodes/actions 相邻 247/247；GLM 回执另记录相邻 25 文件 789/789（统一全仓待集成门）；H02 recordingRng(...,trace) 与 runScript 回调事件发生时写同一数组，精确断言 rng:range(0,3)→script:scriptOnUse@9→rng:next 不再事后拼接两份日志，与一手 fight.c:4719-4775 顺序相符
+- **runner**：counter-run.mjs 改 packages/game/node_modules/.glm-counter-H/<id>/ 隔离副本经 Vite resolveId 注入，正式生产源只读（不再瞬态修改产品再 checkout）；Codex 审核 runner 与四枚回执：基线 exit0/针 exit1/预期红绿集合/实际执行数/无 skip-todo-timeout/产品源前后 SHA 一致/Git 干净；反控 runner 本次未在原候选重跑以免重写已提交证据 JSON；统一集成前可在隔离副本复建
+- **登记**：receipt.json 固定首轮候选与返工提交完整 SHA；最终 HEAD 由本回执固定避免自引用；baseDamage≤0 自动防御 RNG 序、physicalResistance=0 疑点仍为未证登记不随测试候选宣布产品结论
+
+## Results
+
+- 后续：选择性集成+统一三门；未过门不标 done。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 返工验收 | 2026-09-29 | 定向 48/48+相邻 247+lint 0/0/0+隔离 runner | accept（候选级 review 保持） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-new-waves 的 Wave H r1 验收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-NEW-H-1 · Codex r1 返工候选验收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+accept：H02 事件时序单数组断言+隔离副本 runner（不再瞬态改产品）；两产品疑点保持未证。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+复跑数字与 runner 细节在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。accept 指当时候选。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 A-J 并集集成回执与任务卡。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `a5e4718eea1b3f252b0f1b5c41dcb80afd928b2f880b3d06aa975912ef25c4f3`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `a5e4718eea1b3f252b0f1b5c41dcb80afd928b2f880b3d06aa975912ef25c4f3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-NEW-H-1 · Codex r1 返工候选验收
 >

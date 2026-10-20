@@ -1,40 +1,60 @@
 # TEST-GLM-NEW-I-1 · Codex r2 独立代码验收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-NEW-I-1 r2 验收（2026-09-29，HEAD 044d3fa4…6d86、内容提交 8f71e0f3…4f57，两者间仅回执维护）：**代码与现有视觉截图候选 accept；尚未集成 main，review 保持，官方门未运行，不标 done**。
+
+## Scope
+
+- 差异只涉 9 冻结目标同目录新测试与 wave-I/** 证据；共享 README 已恢复派发版；产品/旧测/基线未动。
+
+## Execution and assertions
+
+- **复跑**：完整 lint 2641 文件 0/0/0；game typecheck 零诊断；定向 9 文件 40/40；diff 干净；docs check 仅缺共享 README wave-I 导航由 Codex 集成补；回执 9 新测源/3 existing-proof；showError 新测在 fillRect 发生时记录铺满参数、fillText 发生时记录字体位置，不再用结束值冒充铺底时序
+- **AVI 与反控**：AVI 改测试控制的 play deferred Promise 显式 settle+条件等待+finally 释放，无固定 setTimeout(0)（S15 判例：deferred+vi.waitFor）；两枚反控有效：C1 rng 帧窗口 1 failed/3 passed 零 skip；C2 magic-script goto 1 failed 零 skip、基线 4/4、绝对文件与完整 fullName 归属正确、magic-script.ts SHA 注入前后 ed17cafb…3220；旧 C2 filtered（含 skipped）已删除零执行陷阱仅记 invalid 示范
+- **视觉**：两张菜单截图 SHA 与回执一致（R1 已看图高亮从「新的故事」移到「旧的回忆」）；浏览器 console 历史仍未采集非零错误证明未完成——由 Codex 统一视觉补验或显式标未证（后续 codex-I-console-closure 已闭合）；不冒充完整 App/E2E
+
+## Results
+
+- 后续：选择性集成+统一三门；正式覆盖收益按 main 并集实测。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 验收 | 2026-09-29 | 定向 40/40+lint 0/0/0+双反控+截图 | accept（候选级 review；console 后续闭合） | r1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-new-waves 的 Wave I r2 验收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-NEW-I-1 · Codex r2 独立代码验收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+accept：铺底时序事件断言+AVI deferred+双反控（含 SHA 钉定）；console 项当时未采后续补验闭合。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+复跑数字与反控细节在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。accept 指当时候选。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 A-J 并集集成回执与 console 补验。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `822b6f461bb382863d7013e655ce29381fccbf060cf459f2a68f6e38381429bd`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `822b6f461bb382863d7013e655ce29381fccbf060cf459f2a68f6e38381429bd`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-NEW-I-1 · Codex r2 独立代码验收
 >

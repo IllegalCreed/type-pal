@@ -1,40 +1,61 @@
 # 保存恢复：接收侧未覆盖分支台账
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 接收侧未覆盖分支台账（Codex 按正式覆盖报告与源码维护，不沿用 GLM 原回执缺乏证据的结论）：workspace-persistence.ts 与 project-io.ts 未覆盖臂从 119→93→82→66→60→46→39 收敛至 **12+22=34 臂**（4 臂 E0 待确认、30 臂 E3 当前正式调用域构造/前置保证）；branchId/arm 是 V8 报告定位键非产品稳定 ID。
+
+## Scope
+
+- 相邻身份基础模块（不混入主表）：两文件 27 项接收（context 91/93 分支、handle-store 39/39 分支；context30/1 与 32/1 归 E4 严格化审查，缺 scenes/maps 的 helper 回退不符合正式 loader 完整清单合同）。
+
+## Execution and assertions
+
+- **E2 已闭环批次**：前批 9 臂（pal-save-identity.test.ts：sentinel 拒绝/换 workspaceId 拒绝/manifest 指纹/PAL 混入拒绝等）+io 11 臂（15 项新回归，坏元数据被完整 writer 拒绝）+授权生命周期 16 臂（真实 token 回归+单点负控，fast 6,308 确认）+取样/恢复快照 6 臂（fast 6,318）+打开身份 14 缺口（GLM 候选新增 wp182-208 共 14 臂+Codex source 新臂 193/2，分母 435→436、覆盖 400→415，fast 6,337）；wp 最终行 413/423、函数 58/58、分支 415/436→私有 helper 退休后 413/427；io 维持 287/290、52/52、216/241
+- **E3 构造保证**：wp4/0 writeJsonSidecar 缺 token 映射：私有 WeakMap :83 仅 :160 set/:146 get 无 delete/外部入口，唯一调用点 :850-851 直接传刚创建 token 且无 await 泄露；AST 复算引用清单在 /tmp（按原文时点）；保留防御检查；不通过导出私有函数/伪造品牌/篡改 WeakMap 凑覆盖，也不移出统计；io E3 共 10 臂（同步前置世界变量门/Map 相同字符串 ID/私有 signature/sizes Map）
+- **E4 旧路径**：io13/0、29/0 旧分片路径+io48/0 旧 writeFile 辅助：旧 ScriptDrawer 仍有旧命令引用不能误报全部零引用、writeFile 仍导出不能称 JS 不可调用——清理审查候选不以猜测删除；另存为边界：open-actions 新增 38/45/53 三臂覆盖 106/108，剩余 24/0、49/0 标 E3 不删分母
+- **最终收口分类（2026-09-13）**：wp3/1、116/1、120/1 FSA 读取在 try 外；wp113/117/124 PAL 上下文真实构造器冻结；wp121/122/126 私有期望指纹 Map 无 delete/clear；wp98/0 旧复制退役后失去幂等命中（journal:650 唯一 caller，公开 API 仍可重复调用故保留防御不称不可达）；io25/1-33/1 九个工作副本回退由 loader→toEditorState 补齐（只限当前正式入口）；E0 保留 wp158/0 真实 await 窗口未证并发链、io107/109/111 解压/hash/clone 宿主异步未穷尽拒绝类型；这些不是减少校验的理由；发现新入口/可变 proof/丢键 Map/新异常源时应重新核定
+
+## Results
+
+- 私有 helper 退休批次：唯一 caller 先同步拒绝非 local，旧 helper sandbox/非 local 分支无当前生产调用域；重命名 localContextFromRecord 保留本地来源白名单；退休 7 未覆盖臂+2 外层判断臂，wp 415/436→413/427（实际删除冗余代码的分母变化非忽略统计），fast 6,358。
+
+## Evidence
+
+- 证据路径：本台账正文（quote 保全）；各批回执链接（preflight/identity-foundation/capability/project-io/open-identity/closeout）在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 台账维护 | 至 2026-09-13 | 119→34 臂收敛+分类 | 收口记录见 closeout | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的保存恢复未覆盖分支台账；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 保存恢复：接收侧未覆盖分支台账：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+34 臂=4 E0+30 E3；E2 各批闭环（9+11+16+6+14 臂）与私有 helper 退休（-9 臂）全程在账；不把零命中当已覆盖或 bug。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+E2 各批表、E3 源码链、E4 清理候选、最终分类依据与两文件 34 臂清单表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。臂编号与源码行按当时树（wp SHA 603f76ad…/io SHA 9a874384…）；源码升级后须重生成。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-SAVE-RECOVERY-1 完成卡与 closeout。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `7b35a9e1ca397ab96726ad3a16fce458787793d6e11d8adb7f1e666272789493`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `7b35a9e1ca397ab96726ad3a16fce458787793d6e11d8adb7f1e666272789493`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 保存恢复：接收侧未覆盖分支台账
 >

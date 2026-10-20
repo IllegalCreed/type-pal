@@ -1,40 +1,61 @@
 # TEST-GLM-LARGE-WAVE-4 · 五批并集去重清单与局部 coverage 对照配置
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 五批并集去重清单与局部 coverage 对照配置（交 Codex 独立验收与统一覆盖率门；GLM 未运行官方 ratchet/strict-fast 正式收益以 main 并集计；R2 更正：新增源计 17、existing-proof 计 43——r1 回执「20/40」是按组重复计数口径错误）。
+
+## Scope
+
+- 并集总览：冻结 60 生产源（targets.json）与本轮之前 Kimi/三条 GLM 队列零交集（verify-targets 只读校验通过）；新增 17 源（A 12+B 1+C 2+D 2）每源一个同目录同扩展名 .glm-large-wave.test.ts(x)；existing-proof 43 源；隔离宿主/工具（非测试）：browser-host A/B/C 三条+needle-judge R2+selftest。
+
+## Execution and assertions
+
+- A 批 12 源新增（A01 command-form-control/world、A02 dialogue/actor、A03 DataMode/SharedScriptTab、A04 SceneScriptWorkspace/AmbienceTab、A05 StampLibraryTab/SpriteUploadWizard、A06 EnemyAnimPreview/FireEffectPreview）；B 批 B04 hook 新增（B01-B03/B05/B06 11 源 existing-proof）；C 批 C04 两源新增（其余 10 existing-proof）；D 批 D02/D06 两源新增（其余 10）；E 批 12 源全 existing-proof。
+
+## Results
+
+- 可复建 coverage 对照（不改官方配置/基线）：新增文件全集 git diff --name-only；三包定向 vitest run --no-file-parallelism（命令块在 quote）。
+
+## Evidence
+
+- [targets.json](targets.json)冻结 60 源；本回执逐源 disposition 和局部对照命令说明 17 新增/43 existing-proof，官方并集收益留给原集成门，当前未复跑。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 五批并集清单 r2 | 原文时点 | 60 冻结源与既往零交集；17 新增/43 existing-proof（更正 r1 按组双计 20/40） | 交 Codex 验收与统一覆盖率门 | r1 口径错误 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+本页是 TEST-GLM-LARGE-WAVE-4 五批并集去重清单与局部 coverage 对照配置（交 Codex 独立验收与统一覆盖率门；GLM 未运行官方 ratchet/strict-fast 正式收益以 main 并集计；R2 更正：新增源计 17、existing-proof 计 43——r1 回执「20/40」是按组重复计数口径错误）。 本节仅描述固定原源及其候选时点。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · 五批并集去重清单与局部 coverage 对照配置：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+五批并集 60 冻结源与既往零交集；17 新增/43 existing-proof（r1 的 20/40 系按组双计 R2 已更正）。以上是原卡时点陈述，本页未复跑。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- [targets.json](targets.json)冻结 60 源；本回执逐源 disposition 和局部对照命令说明 17 新增/43 existing-proof，官方并集收益留给原集成门，当前未复跑。
+
+原始执行、反例和后续处理按固定 quote 保留，不由本次静态治理重授。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。五批并集 60 冻结源与既往零交集；17 新增/43 existing-proof（r1 的 20/40 系按组双计 R2 已更正）是固定原源时点的记录；本页不代表当前产品、E2E、视觉或覆盖率通过。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+后续状态以 TEST-GLM-LARGE-WAVE-4 原任务卡及其明确验收链为准；本历史页不新授信用。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `0e761a58ad009e1b1840c755d2df93327b629d8f2d0ddd8189b280319551b511`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `0e761a58ad009e1b1840c755d2df93327b629d8f2d0ddd8189b280319551b511`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · 五批并集去重清单与局部 coverage 对照配置
 >

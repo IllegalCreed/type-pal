@@ -1,40 +1,60 @@
 # SAVE10治理检查点历史记录
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 2026-10-02 批次 SAVE10 检查点历史记录（不适用于当前 content22/SAVE11，新入口见 current-checkpoints.md）：脚本内容冻结 e3586965…aeba2，二阶段 002/003/004 saves/005 saves 沿真实前驱链重建，四报告 passed，Root 独立重算登记输入/原档/9 份 trace 保存与正式读回完整世界 hash 相同——是当时检查点刷新，不是重新完成同 revision 双引擎全套验收。
+
+## Scope
+
+- 可继续使用入口：证据根 build/evidence-archive/script-governance-20261002/e2e/；四段落目录与终档 SHA 表（002 5a35393e…/003 1dc676ff…/004-saves 6c479afb…/005-saves 8e8b3de4…）在 quote；复用旧 001 报告（SHA 158d4f59…，无 auto.resume 已过当前生产 preflight）本轮未重播视频未改写。
+
+## Execution and assertions
+
+- **为何旧档不能当当前档**：当前运行器为整个内容模块计算自动续跑指纹：s000-s005 正文原字节未改但段外作者内容变化仍改变指纹；此前 002-005 分别含 1/2/1/19 个旧指纹续跑点，须自然执行并正式保存新档不能手改指纹骗过恢复校验；本轮新续跑指纹统一 c949c06a…1a19；旧回执与原档原样保存
+- **验证与保全**：002 核 20 行+赏银 500+三苗人；003 核 14 行+12 次楼梯位移+厨房交代；004 核 40 行+端菜中途终点两次正式恢复；005 核 40 行+唯一 50 文+报信因果+后台返程恢复；Root 目视 003 厨房/004 端菜/005 村口读回；引擎 errors 均 0，原 warning 1/1/2/2（清工程 404+Canvas 读回建议）不混作静态零诊断；52 个 E2E 文件共 17,990,370 字节逐字节保全映射 archive-map.json
+- **边界**：是当时二阶段检查点刷新不是重新完成同 revision 双引擎 story/guards/items 全套验收；各测试浏览器/服务已退出用户 6012 保持运行；第一阶段既有检查点没有因此失效不为二阶段内容变化重复生成
+
+## Results
+
+- SAVE10 批 002-005 重建四报告 passed；52 文件逐字节保全；续跑指纹机制如实（段外内容变化改变指纹，不能手改）。
+
+## Evidence
+
+- 证据路径：本记录正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| SAVE10 检查点 | 2026-10-02 | 002-005 前驱链重建+Root 重算 | 四报告 passed（已被 SAVE11 批替代） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/script-governance 的 SAVE10 历史检查点；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- SAVE10治理检查点历史记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+SAVE10 批 002-005 重建四报告 passed；指纹机制说明（段外内容变化改变续跑指纹不能手改）；52 文件逐字节保全。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四段落 SHA 表、指纹说明与验证清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。SAVE10 已被 content22/SAVE11 批替代；本页保留为历史证据。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前检查点归 current-checkpoints.md。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `d8d76264b27f0a8ff01064b4c31ac958f59041b0e3920c101b2b41cf4728f467`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `d8d76264b27f0a8ff01064b4c31ac958f59041b0e3920c101b2b41cf4728f467`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # SAVE10治理检查点历史记录
 >

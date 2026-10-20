@@ -1,40 +1,62 @@
 # Codex：真实宿主二批（战斗、物品、装备、实体）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-RUNTIME-SHELL-COVERAGE-2 宿主二批回执（2026-09-24，基点 aa508566、实现 94b59a6f；任务卡已 done；用户明确 Codex 独立推进 Kimi/GLM 缺签只对本批豁免不冒充第三方审查）。
+
+## Scope
+
+- 范围：新增 4 测试+1 薄 fixture+1 负控工具（生产/旧测试/旧探针/配置/排除/超时零改）；28 项（H7 装备 7/H8 物品 8/H9 战斗 6/H10 实体切场 7）；不重领前批 36 宿主与 46 战斗会话测试——前批测空列表或独立会话，本批经真实 bootGame、键盘/作者脚本与真实 BattleSession 连接到宿主 world。
+
+## Execution and assertions
+
+- **四组宿主合同**：H7 确认前/取消零写、空槽精确扣一件、满槽交换换回非空哨兵保真、四方向选择实际装备；H8 连用耗尽回列表、合法 chance=1 门失败零消费、全队直用一次消费、取消与 close 策略、私有脚本 wait 期间拒重复输入钱与消费一起保留、缺 onTeleport 失败、执行期拥有输入、私有脚本切场后不恢复旧菜单；H9 公共 startBattle 精确 victory 及奖励/战后脚本一次结算、作者脚本等战斗完成后续跑、败北 HP=0 只走 onLose、真实投掷库存写回、无敌队先拒、资源在途→切场→旧请求 AbortError 零迟到战斗；H10 绝对/相对定位持久态+活体双核、move 到达端点前不跑后续不提交位置到达后精确提交、hide/restore 活体显隐、默认/显式 loadScene 落点、移动期间输入归属及完成后菜单可用
+- **fixture 与保真**：复用旧外部宿主不 mock loader/runner/menu/session/结算；工程经正式 loader/guard 与资产闭包；新 FileSource 边界保存实际交给 loader 的对象（含 lazy scene）及交付前深快照每项完成后逐对象比较；另比较实际交给 bootGame 的 project 纯数据；取消用例 finally 释放同一 gate 并消费原启动 Promise；异步失败观察先读同步 outcome 避免坏实现永不结束时只能靠 5 秒 timeout 变红；Canvas/位图/最小字库仍非视觉 IO 适配不证像素/浏览器/E2E；不固化满血物品必须拒绝（现行纯回复可消费显式 gate 失败才是失败合同）
+- **鉴别力**：runtime-shell-wave2-mutants：完整 28 正控+8 针业务 AssertionError（唯一源码替换/实际加载 marker/确切文件 fullName/exit1/判据 1 正例+12 反例自测拒内嵌混错 timeout exit2 错标题未执行/633 生产文件 hash 不变）；失败探索针保留披露：仅删 main.ts:3756 投影调用仍绿因 :2967 宿主也调同一定位函数——最终针移除公共 entity.pos={...pos} 不宣称单删任何调用方都红；battle intent 针亦是多 epoch 共用原语
+- **full 校准（28 项之前不写 fast 基线）**：BASE_REF=aa508566 coverage:full exit0 8,230 项/633；七包表（reforge 71.72%/59.83% 1469 项、全仓行 79.13%/分支 69.81%）在 quote；主壳测试未加入该次执行清单；源文件与四维分母与 fast 7893 相同；迁移真实 PAL 已有大量覆盖不能把 fast 缺口当全新工作；该表是 before 不能加 28 后冒称最新 full
+- **验证与失败（不隐去）**：定向 28/28+相邻 31 文件 385+全 reforge 164 文件 1,497+TC；完整 check 8,412 exit0；ratchet+保护 aa508566 单次严格 fast 7,921/633 exit0（Node22.23.2/CI 彩色/主动注入 NODE_COMPILE_CACHE；严格前后基线 hash 一致）；开发失败如实：初轮 14 项 3 红（fixture 删 friend 保留第二开局引用×2、物品脚本期 ] 切场不可达）；战斗 fixture 初漏明确静音（缺 defaultBattleMusic 致准备拒绝）；草稿错误预期纠正（零经验仍半恢复/无升级曲线不建隐藏池/场景 hook 写游标）；满血拒用假设撤销 chance=0 被 guard 拒最终合法 chance=1；生命周期误写 mode/hidden 按 phase=despawned 纠正；full 辅助对账第一次误读 baseline 未保存 identities 改按 identityDigest/fileEntries 核验；净增 715 行/797 语句/118 函数/507 分支；main 33.92%→48.42% 行/22.41%→33.99% 分支；131 文件逐文件无回退；main 仍缺 1733 行长期目标未达
+
+## Results
+
+- 重跑四命令与可选单针（SHELL_WAVE2_MUTANT=battle-intent）在 quote；不开额外 reviewer 无下一位提示词；本卡统一门通过后按用户本批豁免收口不外推下一批授权。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 宿主二批 | 2026-09-24 | 28 项+8 针+full 校准+三门 | done（用户豁免收口） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的宿主二批回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex：真实宿主二批（战斗、物品、装备、实体）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：四组 28 项真实宿主合同+8 针（失败探索针如实披露多调用方）+full before 校准+三门；开发失败八类如实登记。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四组合同表、full 七包表、验证失败清单与覆盖增量表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时豁免授权。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-RUNTIME-SHELL-COVERAGE-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `3f3bdba60b8ba4a148f4dd0dfbc57d65f2e2dffa7dfbc9986f387005fc8baee7`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `3f3bdba60b8ba4a148f4dd0dfbc57d65f2e2dffa7dfbc9986f387005fc8baee7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex：真实宿主二批（战斗、物品、装备、实体）
 >

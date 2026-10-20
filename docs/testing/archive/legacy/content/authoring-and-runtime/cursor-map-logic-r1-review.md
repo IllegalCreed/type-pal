@@ -1,40 +1,61 @@
 # Cursor地图六组：070d3bf3独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-MAP-LOGIC-2 首轮独立接收（2026-09-27，候选 070d3bf3…84e5）：**counter / CM1–CM4**。不合候选、不改其测试语义、不跑全仓门、不恢复主动覆盖率扩展。
+
+## Scope
+
+- 已核通过：六新测试+专属 fixture+导航 README 一行例外接收；定向与相邻 17 文件 105/105（M1-M6=6/5/6/5/4/4=30 新增）；全 editor 359 文件 3,049/3,049；TC/Biome 15 文件 0error0warning/docs/diff 过；原 runner 六正控六反控+15 项自测独立通过；真实 blank/painted/group 三 map 经正式 validateProjectMap 通过；没有证明产品当前存在下方变异——是候选断言与回执不足。
+
+## Execution and assertions
+
+- **CM1 输入保真**：M1 stamp-draft:64-112 移动/resize 成功后不比较原 draft；M2 五例无原 state/map/action 深快照；M3-M6 多数计划与应用前后实际 map/clipboard/template 未逐调用核保真——只检查少数结果或用调用后状态再拍快照不能证明原输入未污染；本席 Vite 加载层两针：draft-move-input-mutation（stamp-draft.ts:388 返回前原地写 draft.layers）候选 6/6 仍绿 oracle 6 绿/1 红；selection-reducer-input-mutation（map-selection.ts:521 原地写 state.maps）5/5 仍绿 oracle 5 绿/1 红；修订：原六文件逐调用前独立 structuredClone 调用后立即比同一原对象（成功与抛错路径都保护）；返回新 map 允许变化传入计划/地图/剪贴板不应被原地改写
+- **CM2 完整搬移结果**：stamp-group-transform:43-69 声称未选普通哨兵保真但夹具所有非空视觉都属于被选两组根本无未选哨兵；tree-b 只断言不等于原值未钉精确目标；M4 主要查 owner/id 未钉高度内容；本席将 :311 heightWrites value 改 0 候选 5/5 仍绿；独立 oracle 真实 plan→Command→EditSession 应用核目标格高度 3 原实现 6 绿变异 5 绿/1 红——owner 更新正确不能证明矩阵内容正确；修订：双组移动钉精确成员/目标/tile/source/height/collision 与原位置清理+真实非空未选哨兵完整比较；M4 单组对账旧测试三个完整合同（111/152/200）无独立新轴删重复记 existing-proof 不为保 30 换标题重报；M5 三通道按真正断言收窄
+- **CM3 判据缩进混错**：module-mutants:113-157 isErrorHeader 锚行首无 trimStart——抽取真实 judgeRed：AssertionError 后带缩进 TypeError/Tab Error 均被接受（错误）；本轮六实际变异红因确是业务 AssertionError 不倒推假结果，阻断是判据未满足拒混错要求；修实际 judge+两种缩进入自测；保留合法 AssertionError 与 runWithTimeout 堆栈正控；m6-inherit-index 实际删 stampVisualOwner 查询不证索引继承保护——命名收窄不要求「去掉继承缓存就必须红」（正确性可能由正式重建路径保护）
+- **CM4 夹具强转**：cursor-map-logic-fixtures:83-106 用 as unknown as EditorState 掩盖不完整 manifest/内容表；本席 Vite 实际调 editorStateWithMap 喂正式 validateCurrentManifestStartup 拒绝「manifest: 缺键 id」——不能把 EditSession 没访问缺失字段当 EditorState 合同成立；改当前 typed 内存 EditorState 或 blank-project 构造入口；仍是命令/地图层单测不要求 PAL 资产/浏览器/完整保存；M1「两点对调」实为重叠平移、M4「普通哨兵」须真实存在——回执按最终 JSON 重新计数
+
+## Results
+
+- 证据：map-review-witnesses.mjs 三针×四跑=12 次（候选原实现/变异都绿，独立 oracle 原实现绿变异各恰一 AssertionError；hash 不变唯一 load 命中）；夹具首试 plain tsx 因 reforge import.meta.glob 环境缺失失败改 Vite 真实加载不计候选业务红；Cursor 返工提示词全文在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账与见证工具链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮接收 | 2026-09-27 | CM1-CM4 反证（两输入针+高度针+缩进判据+强转夹具） | counter | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 Cursor 地图 r1 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Cursor地图六组：070d3bf3独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 四项：逐次实际输入保真未落实（两针候选仍绿）/双组搬移结果与非空哨兵不足（高度改 0 仍绿）+须实质去重/judge 接受带缩进混错/EditorState 夹具强转掩盖 manifest 缺键。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+CM1-CM4 反证表与 Cursor 提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r2/集成递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CURSOR-MAP-LOGIC-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `905ebef379c2e7f64117126e4dd9dd8253c5320f3602b5ef115ba074f79378e8`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `905ebef379c2e7f64117126e4dd9dd8253c5320f3602b5ef115ba074f79378e8`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Cursor地图六组：070d3bf3独立接收
 >

@@ -1,40 +1,59 @@
 # ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 迁出候选
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-F2-DS-OVERFLOW-1 Grok 迁出候选回执（2026-09-25，分支 codex/grok-arch-ds-overflow-r1，基点 origin/main 66bb3edc）：只把 DsOverflowText 从 controls.tsx 搬到 overflow-text.tsx——controls 继续 re-export、index 仍 export * from controls、新文件只 import DsFloatingLayer 不回引、classes 原样局部实现；CSS/DsTooltip/DsHelpTip 未改。未合 main 未标 done（Codex 后续已独立核源码/反控/隔离 Design Lab 实际画面并完成全仓门禁，见独立接收 grok-arch-ds-overflow-review.md）。
+
+## Scope
+
+- 拆前六个测试名保留并新增出口身份检查；同一输入服务端字符串搬前搬后一致；三个出口是同一函数；text-overflow-adoption.json 的 .ds-overflow-text producer 改指 overflow-text.tsx/DsOverflowText（类名与策略不变）。
+
+## Execution and assertions
+
+- **验证**：overflow-text.test.tsx 7/7、text-overflow-adoption.test.ts 9/9、controls+boundary 102/102、editor typecheck exit0；隔离反控：绿对照 7/7 exit0；只去掉 clientWidth + 1 容差后 exit1 恰失败容差用例（AssertionError: expected '0' to be null）；源文件 SHA 32af1ddf…577e4 前后相同；本机未另开浏览器、6010 未动，视觉由 Codex 接收时补
+- **既有诊断**：controls.tsx 原有两处 void；boolean Biome warning 仍在未改签名
+
+## Results
+
+- 反控工具与 JSON 链接及本候选回执全文（quote 保全）。
+
+## Evidence
+
+- 证据路径：unresolved-tools/grok-arch-ds-overflow-mutant.mjs 与 editor/testing-records 下 JSON。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 迁出候选 | 2026-09-25 | 组件搬移+7/9/102 验证+单针 | 后续由 Codex 接收集成 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 DsOverflowText 迁出候选回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 迁出候选：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+纯迁出：出口/DOM/adoption 登记三重等价+单针容差变异真实红；基点与卡面冻结关系已注明。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六测试名、DOM 表、反控细节在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。候选时点未合 main；后续集成见独立接收。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归独立接收记录与现行 design-system。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `63a731244f4376770de59c1e0ca11f44b6cb46260fb6573ba3b18368c1f87d34`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `63a731244f4376770de59c1e0ca11f44b6cb46260fb6573ba3b18368c1f87d34`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 迁出候选
 >

@@ -1,40 +1,59 @@
 # TEST-CURSOR-CONTENT-PURE-WAVE-2 · Codex 首轮接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-CONTENT-PURE-WAVE-2 首轮接收（候选 424ac428…0ecd，起点 8254ce64）：**counter / rework，只退回两处 C3 正控前提**。
+
+## Scope
+
+- 本人复跑：vitest -t C[1-4] 16 文件 26 项执行通过（候选 18 项）；content tsc exit0；17 新增代码文件 Biome 零诊断；module-mutants c1-c4 对照绿目标新例 AssertionError 红源 hash 不变；diff 只有测试/fixture/工具/回执无产品改动——这些通过不能替代输入可达性判断。
+
+## Execution and assertions
+
+- **R1**：C3 成长非正次数是现行防御臂非业务残项：rewards.ts:44-50 applyLevelGrowth 钳非负，但生产调用域仅 rewards.ts:215 常量 1、item.ts:1110 已校验 eff.levels、battle-core.ts:2078 已校验物品效果；validate.ts:1010-1011 明确要求 levelUp.levels 正整数；候选 0/-3/0.9 无法从当前合法工程到达；c3 针恰改 count=1 虽红也不能证明现行业务；撤回「当前剩余合同」归因及 c3 针；纯防御研究须隔离分类不计本包贡献；c3 改选真正可达单点业务反控（grantBattleRewards 死者 hiddenCounts/存活门）
+- **R2**：C3 物品使用正控奖励引用未闭包：item.cursor-pure-wave2.test 只把 gourd 放 items map 却令 drawFromResourcePool.rewards[0].itemId=reward；validate-refs.ts:1554-1562 对每资源池奖励检查 itemIds 必产 error「资源池奖励物品 reward 不在 items」；直接调 resolveWorldItemUse 成功不等于项目可保存；给 reward 建真实物品记录先过现行结构及引用闭包门再断言相同资源池业务结果；不能改产品校验或把缺引用改称合法
+
+## Results
+
+- 不要求重写其它组/旧已核断言/负控；修正后更新十六行账、最终命令与候选 SHA 原隔离分支交付；未接收前不执行全仓门不合 main 不标 done。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮接收 | 原文时点 | R1/R2 正控前提反证 | counter / rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 cursor-wave2 首轮接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-CURSOR-CONTENT-PURE-WAVE-2 · Codex 首轮接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 两项：成长非正次数不可达（生产三调用域全已校验）+资源池奖励引用未闭包（validate-refs 必拒）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R1/R2 锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由后续轮次闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CURSOR-CONTENT-PURE-WAVE-2 后续回执。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `2151ea034e4d3d015253c91653c658f222df1549bee845e6109656b491f2b9ea`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `2151ea034e4d3d015253c91653c658f222df1549bee845e6109656b491f2b9ea`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-CONTENT-PURE-WAVE-2 · Codex 首轮接收
 >

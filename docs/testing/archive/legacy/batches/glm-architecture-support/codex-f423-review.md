@@ -1,40 +1,58 @@
 # Codex定点复核：f4236474
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 定点复核（2026-09-25，基于 ac91bd56，候选 f4236474）：**counter，仅剩 P5 图漏一条已核运行时边；其它 R3-1～R3-3 残项通过**。不改 GLM 报告语义/产品/测试/基线；保持 draft；无需重拍、重跑全仓或新增研究。
+
+## Scope
+
+- 本轮通过：增量恰 5 份 GLM 报告（产品/scripts/GLM JSON 及旧 Codex 反证零 diff）；node 逐 ID 对账 38/38；V1 两条旧 risk 改合同确认；P5 分项 326/110/158/37/28/36/7=702；P4 表分开 pump/终态 1220-1224 与 performAction 1565-1573；summary 增量范围/子 shell 命令/Biome/21-12-5 注释纠正；GLM JSON Biome exit0+check:docs PASS。
+
+## Execution and assertions
+
+- **唯一残项 P5-GRAPH-1**：p5-phase1-core.md:23-38 声称「15 条 runtime 边全图」，展开合并写法后只有 14 条七节点内部边；缺 battle-opcodes → equip-effect（battle-opcodes.ts:18-24 值导入 getPlayerAttackStrength/getPlayerDefense/getPlayerDexterity/getPlayerMagicStrength/getPlayerPoisonResistance——非 type-only 非环外节点）；完成条件：补该条（建议紧邻 battle-opcodes→event-system），展开后集合恰等于已核 15 边（既有集合在 codex-intake-evidence.json 的 mechanical.runtimeEdgesWithinComponent，不要求重新分析 SCC）
+
+## Results
+
+- 其余 14 条与本席 r1 冻结机账完全一致无多余内部边；只读图对账 /tmp/codex-arch-f423-reconcile.json；Kimi 本队列豁免；GLM 提示词全文在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 定点复核 | 2026-09-25 | 38/38 对账+单边残项 | counter（仅 P5-GRAPH-1） | r3 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 f423 定点复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex定点复核：f4236474：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 仅一条：P5 全图漏 battle-opcodes→equip-effect（:18-24 值导入）；补齐后与 15 边清单核对即可。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+本轮通过与唯一残项锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由后续轮次闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `0c8a9636bdd92cac490348c39b607b63570f0222597d81c8231021a9fc58244a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `0c8a9636bdd92cac490348c39b607b63570f0222597d81c8231021a9fc58244a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex定点复核：f4236474
 >

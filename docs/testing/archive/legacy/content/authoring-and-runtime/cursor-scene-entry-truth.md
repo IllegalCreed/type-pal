@@ -1,40 +1,64 @@
 # DOC-CURSOR-4 — 场景入场指南当前 UI 事实表
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-CURSOR-4 的 Cursor 只读取证回执（工作树起点/源码 SHA dbf79106…3fb1；未开 6010、未访问用户工程、未跑覆盖率/E2E/迁移；无隔离浏览器需肉眼项保持 pending-ui；已知项：未渲染的 ScriptTree 文案不能证明当前 UI——DOC-CURSOR-1 H7 反证不计新发现）。
+
+## Scope
+
+- 现行生产渲染链（七步锚点）：App.tsx:1578 脚本抽屉仅场景编排可用→:3136-3144 工具栏切换→:3149/:3200 渲染 CanonicalSceneScriptWorkspace→SceneScriptWorkspace:202-212 页签→:316-320 onEnter/onTeleport→ScriptSceneHookInspector:50-53/185-209→ScriptEditor:3986-4032 prepare/body 交 CanonicalFlowBodyTabs、:3742-3753 prepare 缺席只渲染正文无页签、:3755-3812 有 prepare 时「画面出现前/脚本正文」两页签；ScriptEditor.tsx:66 只导入 describeScriptCommand——SceneEntrySections/「恢复默认」仅存在于 ScriptTree.tsx:660-813 生产页面不渲染。
+
+## Execution and assertions
+
+- **H7-1 wrong**：指南「初始节点三个区域编辑入场契约」——当前只有两页签且仅当 stage.entry?.prepare 已存在；全 ScriptEditor 无 reveal/呈现/逐像素毫秒控件；组件测试 :1336-1360 有 entry 默认见「脚本正文」点「画面出现前」才出准备编辑器；改为两页签表述不写回三块 ScriptTree 分区名
+- **H7-2/H7-3 wrong**：「界面显示默认场景淡变」——仓库内该词只在本指南；prepare===undefined 直接出正文编辑器无默认淡变提示（旧组件文案是「默认淡出→切场→淡入」且未渲染）；「恢复默认会删除 stage.entry」——按钮只在 ScriptTree.tsx:806-808 未渲染；CanonicalScriptFlowEditor 无创建/删除 entry 或 reveal 控件、onPrepareChange 仅在已存在时改 prepare；删当前界面两操作说明；数据层「去掉 entry=恢复引擎默认淡变」留规格不写成可见按钮
+- **H7-4 confirmed/wrong**：校验句 confirmed：author-script-core:956-958/990-992 仅 allowSceneEntry+initial、:1108-1110 只给 hooks.onEnter 开旗标（反例 boundaries.test:24-53）；共享脚本走 CanonicalScriptBodyEditor 正文无 entry 页签；UI 句 wrong：「三区/仅此处可编辑」不存在——进场/传送/实体共用流程编辑器准备页签只在已有 entry.prepare 出现；UI 无「设为显式入场」不能给非 onEnter 新加契约；校验句保留 UI 句改写
+- **H7-5 wrong**：安全表 script.ts:267-350 SCENE_ENTRY_PREPARE_SAFETY（dialog/fade/loadScene/moveParty blocked）——现行 checkSceneEntry（:793-796）只跑 checkBaseAuthorCommands 不查该表；packages/editor 零引用；菜单生产者 insertionGroups（:2832-2918）对 prepare/body 相同常用项含对话淡入淡出切场走到；可证伪：「画面出现前」插入 dialog 仍出现菜单；作者校验不因 blocked fail-loud（运行时旧 checkStages :729-739 才按表拒绝）；改为「安全目录在 SCENE_ENTRY_PREPARE_SAFETY；当前作者保存校验与菜单都未接上这份表」
+- **H7-6 confirmed/pending-ui**：s001.json 已跟踪：hooks.onEnter.initial=default 初始 stage entry.prepare=playMusic music.pal.031+teleportParty{59,-23}、reveal={dither,2160ms,previousPresentedFrame}、body[0] 李大娘对话——与指南三事实一致；其它 variants 无 entry 不冒充第一段；界面读法 pending-ui：作者会在两页签看到 prepare 指令与对话，看不到「呈现/逐像素 2160ms」第三区；未做隔离浏览器不写已亲眼验过；内容样例留改口两页签呈现 reveal 只在数据里
+
+## Results
+
+- 分类小计：confirmed 2（H7-4 校验/H7-6 数据）/wrong 5/pending-ui 1/blocked-input 0；未猜产品形态未建议恢复 ScriptTree 或新呈现控件。
+
+## Evidence
+
+- 交付验证：相对 dbf79106 本回执+docs/testing/README 一条索引（未改指南正文）；分支 codex/cursor-scene-entry-truth-r1。
+- 证据路径：本回执正文（quote 保全）；后续 Codex 接收见 cursor-scene-entry-review.md（accept 已接入）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 只读取证 | 原文时点 | 七步链+六 ID 核对 | confirmed 2/wrong 5/pending 1（后续 accept） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 DOC-CURSOR-4 事实表；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- DOC-CURSOR-4 — 场景入场指南当前 UI 事实表：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+渲染链七步锚定：两页签合同（prepare 缺席只正文）；「三区/默认淡变提示/恢复默认/菜单=安全目录/fail-loud」五 wrong；s001 数据 confirmed 界面读法 pending-ui。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+逐项核对表与分类小计在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按 dbf79106 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 DOC-CURSOR-4 接收回执与现行指南。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `8d76bb369ac47a992ac0456b2559fa32d6d548a24ecea7d371fa529d48f70869`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `8d76bb369ac47a992ac0456b2559fa32d6d548a24ecea7d371fa529d48f70869`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-4 — 场景入场指南当前 UI 事实表
 >

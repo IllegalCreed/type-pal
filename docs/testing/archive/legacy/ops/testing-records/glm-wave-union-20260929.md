@@ -1,40 +1,61 @@
 # GLM A–J 测试 wave 并集集成回执（2026-09-29）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GLM A–J 测试 wave 并集集成回执（集成基点 main 98637364…d9dd，隔离分支 codex/glm-union-intake-r1）：A–E 与 F–J 六条已独立接收候选依次合入无文件冲突；统一门全绿（check exit0/lint 2,749 文件 0/0/0；ratchet+受保护单次 fast exit0 10,659 测试/730 生产文件）；正式覆盖率 78.12% 分支（+448 臂）未达 85%，仍差 4,360 臂。
+
+## Scope
+
+- 六包候选 HEAD：A–E 4e200099…、F c5ecf694…、G fd1189a3…、H 6a25727c…、I 044d3fa4…、J acd67499…（各卡接收结论链接在 quote）。
+
+## Execution and assertions
+
+- **统一门**：集成后 pnpm check exit0（pal-extract 357/game 2,753/Reforge 1,999/migrate 1,008/editor 3,653）；最终 lint 2,749 文件 0/0/0；BASE_REF=origin/main ratchet exit0+同基准单次 fast exit0 与新基线一致零回退；无产品源码/旧测试/include-exclude/官方门规则改动
+- **环境首轮红**：隔离树缺 gitignored data/raw/*.MKF、data/extracted 与 projects/pal/assets/migrated：pal-extract ENOENT 红、editor world-sprite-behavior.pal.test 035/044.rle 缺失红；Codex 只在隔离树建指向主树的本地资源链接（不覆盖不入 Git）；先定向复跑 2/2 再从头重跑完整 check 获单次全绿；环境首轮红不记为候选代码通过证据
+- **覆盖率**：原 main 基线 10,380 fast→10,659（+279）；分支 49,081→49,529/63,398（+448，77.42%→78.12%）；生产文件 730 不变；包级净增 migrate +80/Reforge +80/game +121/editor +167；85% 至少需 53,889 命中分支当前差 4,360——不把隔离分支百分比相加、不缩范围/降门禁宣称达标
+- **视觉与未证**：A–E/F 隔离视觉截图 hash 复核、G 试打/F5/I 菜单高亮已看图，但 G/I browser console 未形成逐条零错误证明（G 1 条 error 未归因、I 未采集）；G/I 保留 review 视觉补验不因集成自动 done；H 的 baseDamage≤0 RNG 消耗序与 physicalResistance=0 偏离仍为未证产品疑点；后续闭合：G favicon 404 URL 级补验消除+其余 8 条可解释（G done）；I 同场景 OpeningMenu 补验全 0（I 可 done，只补视觉不改变覆盖率结论）
+
+## Results
+
+- 新基线 baseline.fast.json SHA256 ea0fcdba…f40c9；A–E 与 F–J 冻结校验器仍用原冻结提交基线字节证派单时口径，不把合法 ratchet 误判成派单漂移（两套 60 源 digest 重核通过）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；六卡接收与 G/I console 补验链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 并集集成 | 2026-09-29 | 六候选合入+三门+覆盖率 | 集成完成；85% 未达（差 4,360 臂） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 A-J 并集集成回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM A–J 测试 wave 并集集成回执（2026-09-29）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+六候选统一门全绿；+448 分支至 78.12%；85% 目标明确未完成；G/I console 补验后续闭合。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+覆盖率对照表、环境首轮红处置与视觉未证清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。集成与覆盖率按当时基点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归官方覆盖账与各 wave 完成卡。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `4c1fe9e3b4e59b496cdc78f28c2bac68882f0e0d36e16a6d5e75970a8b46598f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `4c1fe9e3b4e59b496cdc78f28c2bac68882f0e0d36e16a6d5e75970a8b46598f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM A–J 测试 wave 并集集成回执（2026-09-29）
 >

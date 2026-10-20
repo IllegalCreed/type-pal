@@ -1,40 +1,60 @@
 # Wave G 隔离试打 console 补验（Codex，2026-09-29）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-NEW-G-1 隔离试打宿主 console 补验回执（范围仅隔离 battle trial 宿主非主场景 E2E）：原 r2 四张截图已看图通过，9 条 console error 对 8 条失败请求余 1 条未归因故保持 review——本补验逐条归因闭合。
+
+## Scope
+
+- 第一轮精确定位：8 条 error 来自 save-state.json 404，额外 1 条来自浏览器自动请求 /favicon.ico 404（证据宿主资源噪声非产品异常）；宿主 HTML 加内联 favicon data: 后从头复跑完整链（试打菜单→F5 存读档提示→停止/会话 settle→重启错误回显）。
+
+## Execution and assertions
+
+- **复跑结果**：最终状态「重启失败注入（视觉取证）」与宿主预期一致；console error 8 条每条 location.url 精确等于 save-state.json；≥400 response 8 条一一对应；requestfailed/pageerror 0/0；其它 console error URL 0（favicon 不再请求）
+- **产品语义**：该 404 调用语义可直接复核：file-source.ts:35 把 HTTP 404 转 DOMException(NotFoundError)，project-save-state.ts:39-45 解释为 null（无存档档位）；此宿主流程 console 已逐条归因没有未预期错误——并非声称字面零 error 行
+- **边界**：新补验证据只改隔离宿主 HTML/文档，不改产品源码/测试范围/正式资产/覆盖率基线；A-J 并集统一回执仍适用；本次证据改动后 docs/lint 另行复核
+
+## Results
+
+- 结论：Wave G 卡面功能视觉与 console 项闭合，可由 Codex 收口 done。
+
+## Evidence
+
+- 证据路径：本补验正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| console 补验 | 2026-09-29 | 逐 URL 归因 8 条 404+favicon 修复复跑 | Wave G console 项闭合→可 done | r2 验收未证项 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-new-waves 的 Wave G console 补验回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Wave G 隔离试打 console 补验（Codex，2026-09-29）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+9 条 error 逐条归因（8×save-state 404 一一对应+1×favicon 宿主噪声修复）；404 产品语义 file-source:35+project-save-state:39-45 可复核。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+复跑观察表与产品语义锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。补验按当时 main。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 A-J 并集集成回执。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `f94d698d4256b1764454ec2a00ea31b0a4995eb59705fc4e071ad365478b19e2`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `f94d698d4256b1764454ec2a00ea31b0a4995eb59705fc4e071ad365478b19e2`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Wave G 隔离试打 console 补验（Codex，2026-09-29）
 >

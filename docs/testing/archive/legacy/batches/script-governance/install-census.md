@@ -1,40 +1,62 @@
 # 动态脚本安装边普查
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是动态脚本安装边普查工具报告（为共性治理提供完整原始安装指令分母与保守当前方案映射，帮助审查后继丢失/重复奖励/错误复读；不是退役转换器恢复版、不生成剧情、不修改作者工程、不把候选命中数当缺陷数；任务范围见 SCRIPT-GOV-1 治理卡）。
+
+## Scope
+
+- 重跑：node --test scripts/script-governance/*.test.mjs + run.mjs（Node 22.18+ 与本机原始提取输入；只接受仓库内固定输入不接受修复/工程写入/任意路径）；完整结果写 build/script-governance/install-census.json（保留所有原始边与调用上下文，命中映射附原始段与当前行为 SHA256）；入库快照固定读修复前 8990f0cde（仅地址/身份/计数/摘要/hash 不含对白正文；保留初扫 29 条观察，三条显式交接反例已纠正不用当前修复覆盖旧基线；快照不随产品修改自动成新验收结论）。
+
+## Execution and assertions
+
+- **分母与身份**：原始 all.json 43,503 条指令全部 label 与全局地址一致；完整枚举 639 条 0x24/0x25：auto 418+trigger 221（通道维度）vs 实际非零安装 580+清绑定 53+无操作 6（效果维度）——两维度不能相加；另 48 条 operand0=65535 self；按通道/operand0/入口去重 554 非零绑定，但去重不能替代 639 条调用边分母；场景根来自 295 份原始场景显式字段+道具/法术/敌人/角色脚本根（额外根不冒充世界 NPC 身份）；原始→当前 ID 约定来自 pal-content-supply 非数组顺序；当前作者场景 294 个（index.json 不是第 295 个）
+- **调用上下文与可达性**：每条原始安装指令独立保留不用旧注册缓存，不因另一 call/goto/安装见过同一入口而丢弃本边；显式操作数经存在校验全局 ID；65535 self 从 caller 继承多 owner 全保留；0x04 调用 operand1=0 继承 caller、65535 并非 self；四类可达（直接静态根/经动态安装/仅未证动态根/未在建模根观察到）后两类不等于死代码；条件分支取可能分支不证玩家必能触发；这是结构图不是原引擎执行器
+- **映射与结论等级**：mapped=同实体同通道下原始目标首段可识别正文指纹唯一对应当前方案且竞争源入口无同指纹（用对白 ID/给物品/指定帧/切场稳定标记，不用 legacy-001 名称推断）；映射成立不等于正文未改更不等于后继正确；八级状态表（mapped/unknown/multicontext/author-protected/clear-no-op/proven-missing/already-fixed）各列「能说什么/不能说什么」；自动扫描器不签发 proven-missing 与 already-fixed（计数固定 0），由任务卡与独立验收修复台账维护
+- **首批审查入口**：初扫 29 条风险边 28 唯一绑定：三巡捕三条（s084 e1599/1600/1601）源与作者正文都显式切换完整后继方案归 selection-handoff 不能当必须补段；修复前基线=26 条漏后继/重复奖励候选+3 条交接核验，不是 29 个已确认缺陷；29 条完整清单表（实体/通道/方案/安装指令→入口→后继/后继及副作用/结构可达）在 quote；候选数下降须看实际修复测试不以数字下降验收
+- **测试覆盖**：重复调用边/0 禁用与清绑定/self 未知与多 owner/不同调用操作数语义/错误身份地址/同正文歧义/作者改写保护/未知指令/后继存在游标未证/重复奖励/动态根传播/报告不带对白原文/拒绝任意工程写入参数；只读工具未启动浏览器或剧情录制不能作任何新增 E2E 通过证据
+
+## Results
+
+- 普查分母 639 条（通道 418+221 vs 效果 580+53+6）+48 self；八级映射等级不签发 proven-missing/already-fixed（计数固定 0）；初扫 29 条=26 候选+3 交接反例完整清单。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）；入库快照 install-census.json 链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 安装边普查 | 原文时点 | 639 边分母+八级映射+29 条初扫 | 供共性治理审查（不签发结论） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/script-governance 的安装边普查报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 动态脚本安装边普查：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+639 条 0x24/0x25 分母两维度（418+221 通道 vs 580+53+6 效果）+48 self；八级映射等级不签发已修/缺失；初扫 29 条（26 候选+3 交接反例）完整清单。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+分母表、可达性四类、八级状态表与 29 条清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。普查按固定快照 8990f0cde 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 SCRIPT-GOV-1 治理卡与修复台账。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `0c8e08e7b042b3f48777549444050728af596156156f9eb5ddb05a1b5f375130`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `0c8e08e7b042b3f48777549444050728af596156156f9eb5ddb05a1b5f375130`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 动态脚本安装边普查
 >

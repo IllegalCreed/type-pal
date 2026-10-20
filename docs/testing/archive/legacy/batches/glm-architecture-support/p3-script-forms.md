@@ -1,40 +1,61 @@
 # P3 · ScriptEditor / CommandForm / SceneScriptWorkspace 取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 P3 取证（2026-09-25，冻结 3270473862；对象 ScriptEditor.tsx 4361 行/CommandForm.tsx 2098 行/SceneScriptWorkspace 约 200 行，静态只读）。含 r2 四条更正：区分两套清单（CommandForm 50 case 旧适配表单分派 vs canonical AUTHOR_COMMAND_PRESENTATION_81 键由 test:71-76 守门——两者经映射对齐非同一清单）、WorldVariablePicker 纯计算无 effect（撤回 r1「两个 effect」）、补 default/hook/session 三轴对账（P3-005）、JSON.stringify 指纹真实逐 render 锚 :3149。
+
+## Scope
+
+- 命令族全景：CommandForm 50 case（:337 起，dialog~cameraSnap 完整清单）+共享子件 WorldVariablePicker（:172 按定义过滤+flag/数值占位分叉）与 useDsReorderKeys（dialog 行序/setParty 成员序两族复用）。
+
+## Execution and assertions
+
+- **校验/引用/可用性/存储**：CommandForm 受控原子事务回调（characterization :143 locale+cue 原子事务/:287 world var 只 commit 已注册 id）；类型切换重建 exact condition（:397）；引用：ScriptEditor:793 ref:{chunk:shared,id}+:1803-1811 sharedScripts 注册表校验（缺失有 unavailable 表达）；可用性：unavailableReason 模型（:3098-3105 禁用原因用户可见）；存储层无本地持久化无 localStorage
+- **共享逻辑**：focusRevision 三处同构 effect（:3212 命令路径/:3721 section tab/:3866 flow step）各持 lastApplied*Ref 防重——可抽 useFocusRevision 但目标解析语义不同可合并不等于应强并；SceneScriptWorkspace:94 一处 biome-ignore useExhaustiveDependencies 有注释论证（跨场景复用同实体 ID 跟随）——是语义点非重复；playback 生命周期 :186-193 onUi+stop() 对称、previewSourceKey 变化先停
+- **测试对账 42 条精确标题**：ScriptEditor.test 24 条（:71 守门 81 键全等/:83 中文树语言/:114 对话框插入/:173 共享行/:225 嵌套重排外部 undo 清路径/:273 对话重排一次提交+undo）+CommandForm.current-characterization 13 条+SceneScriptWorkspace 5 条；全部 covered；P3-001 口径：守门只核命名集合不证 50 分派与 81 键映射完全正确（后者无专测列未证）
+- **证据条目**：P3-001 covered（42 条）；P3-002 risk（focusRevision 三处同构可维护性，无行为缺陷证据）；P3-003 covered（playback 对称清理）；P3-004 risk（JSON.stringify 指纹逐 render O(size)——:3149 初始化即序列化+:3174 消费点两处合一；行为正确 :225/:273 钉住，性能随脚本线性）；P3-005 covered（hooks-session 三条 :57/:95/:146+CommandForm 唯一 effect=JsonForm :219-222）
+
+## Results
+
+- 未证风险：50 命令族无逐族快照（characterization 13 条代表性族）；cleanInsertionExample 净化语义未逐 kind 验证；50 分派与 81 键映射正确性无专测。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| P3 取证 | 2026-09-25 | 全景+校验+对账+r2 四更正 | 5 条目（3 covered/2 risk） | intake counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 P3 取证报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P3 · ScriptEditor / CommandForm / SceneScriptWorkspace 取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+两套清单区分（50 旧分派/81 canonical 守门）；42 条精确标题对账；focusRevision 三处同构与 stringify 指纹 O(size) 两 risk。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+命令族清单、四个层面、测试对账表与五条目在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 静态读取。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `889f69911db0f480f6df8cb7a9b63ab96ba5eae1c3ca12aff22ebb97c64ab9a6`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `889f69911db0f480f6df8cb7a9b63ab96ba5eae1c3ca12aff22ebb97c64ab9a6`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # P3 · ScriptEditor / CommandForm / SceneScriptWorkspace 取证（ARCH-SUPPORT-GLM-1）
 >

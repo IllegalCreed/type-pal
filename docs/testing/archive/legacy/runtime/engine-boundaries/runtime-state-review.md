@@ -1,40 +1,63 @@
 # 运行时状态补测：Codex接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-RUNTIME-STATE-BOUNDARIES-1 多轮接收复合复核（首轮 23eb63d2 counter R1-R4 六见证全 MISSED→3c7ae963 收窄三项→6d34ad5a 收窄仅 D6→350da702 收窄仅 D6 finally 清理→**2026-09-21 Codex 接手补正 250814f7**：D6 真实 finally 先红后绿自证+B7 适配已 done 物品身份合同；56 项原 8 针全 detected/四 fixture accepted；统一候选 44b9b763 三席 accept 用户授权 done 归档）。
+
+## Scope
+
+- 接手补正（250814f7）：D6 sequenceAbort 同文件收敛（:225 正常与故意失败共用实际读取/播放；:267 finally 在进入见证或主断言失败时也 abort 释放同一 readGate 并消费原 pendingSlow；:298 失败路径自证故意 AssertionError 检查返回原错误身份+真实轨迹）；自证先红（原顺序清理 9 过/1 失败缺 read-completed/playback-consumed）补正后 10/10 连 B7 15/15。
+
+## Execution and assertions
+
+- **首轮 R1 非法 fixture**：fixtures:154 把 entry 放进 onTeleport 非 initial 状态 b——实际 legalScene() 交 validateAuthorScenes/RuntimeScenes 均拒「只允许 onEnter initial state」，B4/B5/B6 直接投影强转未过 guard；:178-184 外部 runScript 与 itemPrivateScript 并列——实际 legalItems() 交 validateAuthorItemCore 拒「外部脚本/场景钩子必须作为唯一效果」；scene-entry-session:28 source:'held' as never 绕过 union（当前 dither.source 只有 previousPresentedFrame）；设计侧勘误：Codex 原工作包 B5 把「游标选 entry」列候选没先钉非 initial 合法性本次据 guard 收窄
+- **首轮 R2 时序/缓存**：frame:163-186 slow/gate 后 void slow 真正播放仍用即时 h.reader 容器迟到完成无见证；:188-211 只等一个微任务就 abort 不证进入 inflate——仅移除帧 await 取消包装候选 8 项仍绿；:122-135 始终只有 asset a 字节同一 Promise 不证「只清 a 保留 b」——仅保留旧容器候选全绿独立换字节对照抓到 9 仍读成 1；:140-152 frameLimit=3 但所选 0/33/65 并非声称命中序列——删命中刷新触点候选全绿独立对照抓到本应命中又解码；D7 wait 阶段按键不等于 frame 在途 skip
+- **首轮 R3 空断言**：compiler:27-42 只核顶层 metadata 与 leaf.kind——删全部编译 after 候选 4 项仍绿（独立断言抓到 wait100 丢失）；entity-action:85-105 once 动作根本没有 cues 所谓正控断言 cues.length>=0 恒真——越尾重播全部历史 cue 坏实现仍过 9 项；magic-menu:104-139 「world 不可被改」只核 party 长度与技能 ID——magicConfirmSpell 额外扣 HP 候选 4 项仍绿独立 world 深快照红（菜单 state 原地修改仍是正确合同不能反向要求不可变）；B4/B6/B7/E4 标题与断言不符逐族补实证
+- **首轮 R4 卫生**：16 新增文件 Biome 实际 exit1 4 errors/9 warnings（非「干净 rc0」）；Vitest JSON 逐文件 6/4/4/5 vs 机账写 5/5/3/6（总数 53 相等不代表逐文件正确）；reforge 九目标真实 497→533/564、392→444/533 vs 回执写 /541、/343；39 族账同步 R1-R3（未用慢 reader/空 cue/未换字节/未实际命中缓存不能称已完成）
+- **六见证工具与勘误**：六单点坏实现（compiler-after-loss/frame-await-cancel-bypass/invalidate-keeps-old-container/lru-hit-does-not-touch/expired-action-replays-cues/magic-confirm-mutates-world）首轮候选全绿 oracle 业务红全 MISSED；工具勘误（本席承担）：上一版只要求 oracle 是 AssertionError 候选 status=failed 就标 detected——Vitest JSON 把候选超时表现为 STACK_TRACE_ERROR 绕过文本检查；工具改逐一核候选 failureMessages 首行必须 AssertionError 不再借 oracle 错误类型认证候选；修订中误扫普通栈帧 runWithTimeout 已纠正只判错误首行；3c7ae963 轮 7 针：5 detected+frame-await invalid-candidate-failure+magic-cast-all MISSED；工具初轮第四针生成错误（尾部行注释吞闭合）已修生成器不计候选失败
+- **收窄链**：3c7ae963 仅剩三项：R1-F1 虚构 source 只加注释未移除（:32 仍 as never）；R2-D6 负控靠 5000ms 超时失败非观察错误结局后业务红（outcome 是 Promise expect(await) 会挂起 releaseInflate 在其后永远走不到）+E4 深快照只保护末尾单体确认（:116 _wBefore 未用 :139 自比较 allAllies 前扣 HP 单点候选仍绿）；6d34ad5a 仅剩 D6：:238 gate 无 resolver 永不 settle/:252-255 finally 只置局部布尔不释放 gate 不消费原 pendingSlow/:241 slow reader 而 :260 用 h.reader 标题不符——独立注入脱离取消主链的 continuation 坏实现候选 9/9 仍绿 oracle 观测 frames=[7] 而非 []；350da702 仅剩异常路径：:231-287 无 try/finally :267 先主断言 :269 才 releaseRead「finally 收口」只是注释——8 针检出不能替代异常清理合同
+
+## Results
+
+- 数字勘误：GLM 任务卡自验写 56 本树 JSON 实测 10+45=55（工作包正文 55 正确）；F 组逐族账引用旧 ms/source 标题应更新 ms/kind；工具 exit0 表示诊断有效不是任务 accept。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；见证工具（原 7+sequence-late-frame-after-abort 第 8 针）/各轮日志根/重建命令在 quote；GLM 提示词三份（历史）在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 五轮接收+接手 | 2026-09-19/21 | R1-R4 六见证→三项→D6→finally→补正 | done（44b9b763 三席） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的运行时状态多轮复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 运行时状态补测：Codex接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：五轮递进（六见证 MISSED→非法 fixture→超时负控→finally 注释→接手补正先红后绿）；工具自身勘误如实承担（借 oracle 认证候选/STACK_TRACE_ERROR 绕过）；统一 check 7,988/strict 7,497。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六见证表、R1-R4 反证、收窄链、工具勘误与数字勘误在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；frame 在途 invalidate 与 full/Q1/Q2 边界保留。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-RUNTIME-STATE-BOUNDARIES-1 完成卡与 tb00-tb01-completion。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `bdf8115b9b4a87a5ee3f025168b0b2accb80c6550941bccc33e0320b36c5920e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `bdf8115b9b4a87a5ee3f025168b0b2accb80c6550941bccc33e0320b36c5920e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 运行时状态补测：Codex接收复核
 >

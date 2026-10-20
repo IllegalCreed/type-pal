@@ -1,40 +1,62 @@
 # DOC-CURSOR-3 — 覆盖率说明定点核对回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-CURSOR-3 的 Cursor 只读取证回执（工作树起点/证据树 `a2415868`；未运行覆盖率/ratchet/full/全仓测试/E2E/迁移/部署，未授权修改 coverage.md/README/脚本/CI/基线）：C01–C05 五组核验完成，合计确定不符 2 / 日期历史仍正确 6 / 待证 1 / 已有证据 1——不存在的问题不凑数。
+
+## Scope
+
+- 开卡基点 817be7df 的 8,039/641 线索已过时（见 C02-3 待证）；本地 summary 只标「本地快照」；脚本存在≠运行成功。
+
+## Execution and assertions
+
+- **C01 命令**：package.json:6,12-15 与 run.mjs:41-58；coverage:fast 写 fast 报告不写基线（无基线直接失败要求先 ratchet :485-486）；full 直接 --ratchet+full exit2（:52-54）；ratchet 仅提升/范围变化时写 baseline.fast.json（:508-517）；check 只含覆盖率工具自测不含 coverage:fast；C01-1/2 维护命令四条与「check→ratchet→受保护 strict」仪式句均日期历史仍正确不改
+- **C02 快照**：coverage.md:14-30 A3-a 标「最新本地实测」8008/639 vs 入库 baseline.fast.json（08:55:15Z）与本地 summary（08:59:34Z）均 8090/641、四维 77.93/75.75/75.56/68.17%，七包 scope/exec digest 逐包相同；C02-1 确定不符：不改 8008 数字，A3-a 节改「历史本地实测」，文首加「最新本地实测」指向 grok-present-integration 与 baseline 的 8090/641 并声明非远端 CI/full/E2E；C02-2 日期历史表不改；C02-3 开卡 8039/641@05:37:55Z 现已不存在待证不写入正文
+- **C03 范围**：scripts/coverage/config.mjs 七包；生产 include src/**/*.{ts,tsx}；fast 追加 fastPalTestGlobs+fastTestExcludes，full 不追加但要求 raw/extracted/PAL 合同输入（run.mjs:140-148）；C03-1/2 七包表头与 full=fast+PAL 真数据句日期历史仍正确
+- **C04/C05**：README.md:55-56「当前数字见 coverage.md」会把读者带到 8008（确定不符，改「带日期的实测快照…文首最新节须与 baseline 对齐」不手抄 8090）；testing/README:129 索引与 :11 Grok 8090 已写日期历史仍正确；C05-1 C10 CI 映射（coverage.yml:1-54 触发/Node22/pnpm10.29.2/BASE_REF/artifact）已有证据不重报
+
+## Results
+
+- 待证清单：8,039 快照来源未核；8,090/641 未核对远端 Coverage workflow run不得写成 CI 已通过；未读 coverage/full/summary.json。
+- 给 Codex 的可执行修订仅建议（本候选不改这些文件）；交付相对 a2415868 只新增本回执，分支 codex/cursor-coverage-guide-r1。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；后续 Codex 接收见 cursor-coverage-guide-review.md（accept，候选已 cherry-pick 0ba9ed14）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Cursor 取证 | 原文时点 | C01–C05 核验 | 待 Codex 接收（后续已 accept） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 DOC-CURSOR-3 取证回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- DOC-CURSOR-3 — 覆盖率说明定点核对回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+五组核验完成：确定不符仅 C02-1（「最新」入口）与 C04-1（README 当前数字指向）；8039 待证；数字不改写只改入口归属。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+五组结果表、C02 三源对照表与修订建议在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。快照数字按 a2415868 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前覆盖真值归 baseline.fast.json 与官方 ratchet。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `eed4ff0b1c8e33459baf6be82fe79363fd780d2e0971c5bb544db90b5a0b9c2a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `eed4ff0b1c8e33459baf6be82fe79363fd780d2e0971c5bb544db90b5a0b9c2a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-3 — 覆盖率说明定点核对回执
 >

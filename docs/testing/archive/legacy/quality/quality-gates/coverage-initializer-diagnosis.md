@@ -1,40 +1,63 @@
 # STAT-1：类初始化覆盖率合并误报
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-COVERAGE-TRUTH-1 回执（2026-09-23；r1 三席 accept 齐由 Codex 核定 done，统一候选 `b6286df0`）：把宿主补测的 script-runner-core「回退」定位到覆盖率依赖合并身份冲突——`@bcoe/v8-coverage@1.0.2 merge.js:79-86/:125-127` 只按函数根 range 起止分组，Node22.19.0 V8 对同类 `<static_initializer>`/`<instance_members_initializer>` 返回相同位置不同计数，合并错误并成一条；`ast-v8-to-istanbul@1.0.5` 再把整类正计数归到未调用方法形成幻影覆盖。
+
+## Scope
+
+- 三个独立对照证根因：①原生 Node inspector 样本（不导入游戏代码）run 0/0、原合并后 2；②同原始数据分别转换后合并得 0、或内存改合并 key 保留两种 initializer 身份得 0；③真调用 run 正控 1/1 原合并与修订均 2（未粗暴清零）。不是 V8 记 2、不是输入/旧测试删除、不是并发抖动。
+
+## Execution and assertions
+
+- **最小复现**：coverage-initializer-probe.mjs 直接 Profiler.startPreciseCoverage；三种类×四操作 12 组×两独立进程全过诊断断言；反例 both/import actualCalls=[0,0]、reported=[0,0,2,0]；严格核依赖 needle 只一处；不修改 node_modules/产品/旧测试/基线
+- **项目闭环**：coverage-initializer-capture.mjs 用 7790 基线旧 1378 精确文件集合+官方范围；全 1378 通过；未修正式报告四维与官方 Reforge 基线逐项等；触发误报=shop-trial/battle-trial-host 所在 client 组（两套仅导入未调 core，原 client 把 192/195 行染覆盖，与 ssr 158/195 合并变 195/195）；script-runner-core 修正差额 行 195/195→158/195（-37）/语句 -42/函数 -2/分支 -37，与宿主包 before/after 四维下降完全相等；不把 158 绝对化为逐行真值；同形状 script-runner.ts 四维不变
+- **影响盘点**：633 生产文件 AST 形状盘点（含静态块、排除 declare/abstract）；命中 script-runner-core.ts:104 与 script-runner.ts:313 两处；旧原始采样也只见这两文件冲突；另六包未重跑；形状盘点不覆盖所有转换后类，不是覆盖工具无缺陷的保证
+- **r1 正式实施**：设计准入 c5569d1a（Kimi 49269a61/GLM defd960e）；补丁候选 bb0e3c3e；联合验证树 e0803d6e；pnpm 生成 patches/@bcoe__v8-coverage@1.0.2.patch（SHA 2f8a8ecf…f8bd）只改 merge.js initializer 合并 key、普通函数保留 range-only；正式回归 merge-initializers.test.mjs 10 项先红后绿（补丁前 6绿/3红）+撤补丁对照（临时薄工程链接未打补丁依赖 3 反例全 AssertionError+独立 git archive 冻结树重建）；patch-commit 曾机械重解到无关 spessasynth 4.3.22 审 diff 后撤掉、lock 只剩 patch 三处登记
+- **四格对照**：Reforge 同树：旧 1378 未修 8759/9710/1542/5913 vs 已修 8722/9668/1540/5876；加宿主 1414 两格相同 10374/11430/1750/6712；分母均不变；旧 core 的 37/42/2/37 是统计修正；修正口径上 36 项宿主净增 1652L/1762S/210F/836B（相对旧官方口径 1615/1720/208/799），不把统计修正计作新增测试功劳；统一门各一次 exit0：check 七包 8,317 项、ratchet 与受保护 strict 均 7,826/633；全仓 L76.09% 等；三席同候选 accept 齐（aa436d9f/326e4906）+用户确认 a13a66f7 核定 done；远端 525c40cd Coverage ratchet success
+
+## Results
+
+- 实施附注：旧最小 probe 与默认 capture/--replay 针对未装 patch 的准备树 2fcf57d7，不在已装修复树上冒充修复验收；修后旧 1378 用 --installed 在 bb0e3c3e 7790 冻结树运行（最终 7826 树按冻结检查拒绝）。
+- GLM 观察(a)补记 sourceCensusSha256 配方；自查失败不隐藏（/tmp 未 realpath、addFileCoverage 误当替换、structuredClone 丢原型）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；probe/capture 工具、四格 raw 与宿主 8 针目录在 quote（按原文时点）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 诊断+实施 | 2026-09-23 | 根因三对照+patch 先红后绿+四格 | done（a13a66f7） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 STAT-1 诊断与实施回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- STAT-1：类初始化覆盖率合并误报：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：initializer 合并身份冲突根因+patch+10 项回归+四格统计修正与补测收益分开+三门各一次 exit0；类字段逐语句精度/其它 remapper 盲点不作整体担保（DEV-TOAST-1 未修）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+三对照、四维差额表、四格对照表与验证纪律在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。统计按当时依赖版本；当前以官方基线为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-COVERAGE-TRUTH-1 完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `f8222f247efc1e2563a552cc6b8b18cb67cf5b43188b12f8385e86dac38aa7a3`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `f8222f247efc1e2563a552cc6b8b18cb67cf5b43188b12f8385e86dac38aa7a3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # STAT-1：类初始化覆盖率合并误报
 >

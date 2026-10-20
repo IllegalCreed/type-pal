@@ -1,40 +1,63 @@
 # GLM TB-02～TB-10：返工后的独立接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TB-02～TB-10 返工后的独立接收复核（2026-09-19，Codex；main cf33544d、生产冻结 e58834f6；历史二轮报告——最新接收见 glm-nine-final-review）：**原七针与五组夹具已闭合，但九批仍分别 counter**（公共 C0 判据精确唯一性+C1 最终树格式/回执+TB03/06/07 三项业务证明）；文末附 GLM 收窄返工回执（九批全部分别推送）与 Codex 复核提示词。
+
+## Scope
+
+- 本人重跑总账：67 新增测试文件 210/210（TB07=21、TB08=17 非 208）；原工具 27 对照+73 针（非 75）均符合自身预期；九批 Biome 实测共 38 errors/10 warnings/2 infos 均与「最终树 rc0」矛盾；见证 9/9 拒普通 Error 内嵌 AssertionError、5/5 factory accepted、七对照绿七针检出。
+
+## Execution and assertions
+
+- **公共 C0**：九工具仍用 assertions.find(title===redTest；endsWith) 无唯一性检查；抽取实际运行态两块喂反例：只有 other target 失败 target 未执行→九份均接受；两个同名 target 失败→九份均接受；应运行态与自测共用函数：精确身份/命中恰 1/已执行 failed/非空逐首行业务错误+后缀冒名重名反例
+- **公共 C1**：九份机账写最终树 Biome rc0 实测不符（TB02 fsa:165 未格式化、TB06 重复 import、TB10 长行/unused/JSON 失败）；更新 210 与 73 针、TB05 文件 12→11；所有 JSON/SHA 回填后再跑完整白名单 Biome；TB03/TB07 称 audit-performance 超时「Codex 已裁决」须撤回（首轮只豁免具体资产 ENOENT 未豁免超时）
+- **TB03 R03-3**：image-import.stages:28-34 pngPayload 仅签名+递增载荷无 IHDR/IEND；fixtures minimalPng 写零 CRC、IDAT 坏；独立实测三 chunk CRC 错误、zlib invalid stored block lengths、声称 chunk 长 134810123 实际 24/32 均拒绝；同一检查器先接受仓库真实 PNG 作正控；需合法 IHDR/CRC/IDAT/IEND 自包含小 PNG+维度字节摘要匹配；不能靠 createImageBitmap 替身证前半项
+- **TB06 R06-2**：map-transform:62-65/86-91 仍只快照 id/tiles/collision；单点真实 planMapPaste 入口改 map.layers[0].name 候选 3/3 仍绿、独立完整输入 oracle AssertionError 红；实际 map/clipboard 调用前深快照失败及 overwrite 正控后比完整对象
+- **TB07 R07-3**：script-editor.hooks-session:91-120 只有一笔 past canRedo 恒 false；单点失败 dispatch 清空 future 候选 3/3 仍绿；独立 oracle 先合法编辑+undo 建立非空 redo 拒绝后 redo 保留业务红；「拒绝时污染 state」不列 counter（getState 本身深克隆 script-editor.ts:1315）
+- **GLM 收窄返工回执（九批推送）**：TB02 ea276956/TB03 001dc9e1（minimalPng 改真 CRC32+zlib stored+Adler-32 三态过独立检查器）/TB04 69d62dc2/TB05 00801036/TB06 d2667b25（structuredClone 完整 map+clipboard）/TB07 10cc9d4d（先建非空 redo 精确重放）/TB08 bda77494/TB09 ca4c0768/TB10 3d798f7c；C0 判据重构九份同构：filter+length===1+AST 抽取两块拼接 runCriterion 直接执行，反例含后缀冒名/重名/未失败/空 messages/普通 Error 内嵌子串/纯超时；本席复跑见证：9/9 双反例拒绝、PNG 三态 valid、3 针 detected/3 对照绿；audit-performance 归因已撤回；合并后同口径完整 check 仍须实跑
+
+## Results
+
+- 因仍有硬 counter 不合并不执行 ratchet/strict（基线仍 7,049）；Mimosa 不归 Codex 不作门禁；GLM 为测试贡献者，正式接收后再交 Kimi 终审。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账与 nine-rework-witnesses.mjs 复跑命令在 quote；/tmp 与 /var/folders 按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 返工复核+收窄返工 | 2026-09-19 | 210 项/73 针总账+C0/C1+三项业务 | 九批 counter→GLM 收窄返工待复核 | 首轮九批 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 TB-02~10 返工复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM TB-02～TB-10：返工后的独立接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+七针五夹具闭合；公共 C0 判据无唯一性（双反例均被误收）+C1 Biome/计数与树不符+TB03 合法 PNG/TB06 完整 map/TB07 非空 redo三项业务残项；GLM 九批收窄返工回执同文。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+重跑总账表、C0/C1 反例、三项业务残项与两份提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由后续 glm-nine-final-review 接收闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 glm-nine-final-review 与各卡完成卡。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `01199cc5f4c1469df6abf7c627c9b69107fb98f895ec55503bacdb23f66001e7`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `01199cc5f4c1469df6abf7c627c9b69107fb98f895ec55503bacdb23f66001e7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM TB-02～TB-10：返工后的独立接收复核
 >

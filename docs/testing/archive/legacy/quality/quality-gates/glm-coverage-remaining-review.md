@@ -1,40 +1,61 @@
 # GLM后续七批统一细化与审核（TB-04～TB-10）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TB-04～TB-10 七批补测统一细化与审核记录（2026-09-19 r1；策划树 4473c367，生产冻结 e58834f6）：设计阶段证据——七卡设计三签已齐（GLM de698205、Kimi 986e58ab 及 Codex 原签），用户批准先行实施后九批统一接收已分别 counter、卡均 rework 不重签设计；59 目标模块是白名单候选上限不等于必须全加测试。
+
+## Scope
+
+- 七卡：TB-04 原版表格与文本自包含（9 模块）/TB-05 RLE 事件与资源工具（9）/TB-06 地图选区组合模板（8）/TB-07 脚本内容编辑辅助（7）/TB-08 一期菜单导航请求（9）/TB-09 一期宿主隐私计时（8）/TB-10 迁移辅助隔离文件系统（9）；一批 counter 不影响其它已明确合同。
+
+## Execution and assertions
+
+- **本轮真实收窄**：signed giveItem 提取保 u16（disasm.ts:190-196）不转 -1（SDL script.c:970-975 执行才转 SHORT）；BDF 只取宽高无 offset 不立未实现合同；RLE 宽容 parseSpriteChunk 与严格入口分域；asset-manifest.ts:29-40 是 path:size 键；collision-only 组合须至少一视觉槽（placement-mutation:80-82）；五个 script CRUD 导出无当前 caller 不补；一期菜单数量过滤是保留列表+确认门（itemmenu:287-306/340-375）、非顺序 party 返回 roleId；法术过滤差异待查历史裁决不改产品；timer setStep(length) 注释与实现不一致只产生 0..length-1；GA 未订阅 page、fetch AbortError 政策未定；待证归属：菜单差异/timer 极值/fetch 取消/GA 初始化异常归 Codex 核定；A08/A09/E05 归现有迁移纪律台账；GLM 不自行改未知政策或造非法正控
+- **共同实施合同**：逐族唯一 ID+caller/guard+旧测试精确标题+分类互斥（新增边界/输入解耦/已有证据/防御或无 caller/待裁决）；正控先过真实守卫、二进制 oracle 手列不以被测解码器回算；反例仅坏一轴+合法同条件对照+实际入参深快照；宿主替身只替平台边界；FS 只在 mkdtemp、GA/fetch 假网络；负控由业务 AssertionError 检出（TypeError/超时/STACK_TRACE_ERROR/未执行/独立 oracle 红不算）；判据自测含混合错误与未运行偷过反例；只新增白名单文件；每包代表性负控随工作包，去重后真实增量少于建议针数先报 Codex 收窄不凑数字
+- **Codex 验证回执**：只读源码/调用域/参考与已有测试；五包既有 Vitest 62 文件/784 项 exit0（migrate 8/135、editor 15/156、game 25/303、pal-extract 12/164、shared 2/26）——不能据此说 784 项都验证本轮候选；pal-extract DATA chunk9/10 两旧用例输出缺原盘提前 return 不能计真实资源验证；规划一致性：59 路径全部存在互不重复、相对冻结零 diff、拟增路径未占用；check:docs/队列 census（617 文件/10 批 78 候选）/diff --check 过；首次暂存检出六张新卡 EOF 多一空行已去除；现存官方 fast 仍 7,049 不把本轮重跑项加入
+- **并行提示词**：Kimi/GLM 两席同 r1 同冻结每卡独立签（不读对方结论、只改本人席位）；一张有问题只阻塞该卡不笼统批量 accept；历史交接：设计已完成，现在按统一接收逐卡返工，不再索要同轮签字
+
+## Results
+
+- 本长队列不新增 R4 薄 E2E 门槛；未接收实施包最多两批。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；/tmp 探针日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 七批细化审核 | 2026-09-19 | 59 模块白名单+收窄表+验证回执 | 设计三签齐→九批统一接收 counter | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 TB-04~10 细化审核记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM后续七批统一细化与审核（TB-04～TB-10）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+七批设计收口+十一项真实收窄裁决+62 文件 784 项只读验证+规划一致性检查；九批后续见统一接收与各自完成卡。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+七卡表、收窄表、实施合同十条、验证回执命令表与两席提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。设计与审核按 2026-09-19 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TB-04~10 完成卡与九批统一接收记录。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bd7d9d262a2dd46bebc9c8784916fa89a9815900804a432d9ad84f10e3e72c54`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bd7d9d262a2dd46bebc9c8784916fa89a9815900804a432d9ad84f10e3e72c54`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM后续七批统一细化与审核（TB-04～TB-10）
 >

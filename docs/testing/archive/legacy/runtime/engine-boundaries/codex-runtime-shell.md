@@ -1,40 +1,63 @@
 # Codex：真实运行时宿主六组补测
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-RUNTIME-SHELL-COVERAGE-1 宿主六组回执（2026-09-23，r1/done 统一候选 b6286df0；实现候选 1d3d3fb3（前序 542e1c07/cb77adb1）、基点 4872b017、产品冻结 57dda7ed；独立工作树 codex/runtime-shell-coverage-r1）。**本卡已 done**：三席同候选 accept 齐（Kimi aa436d9f/GLM 326e4906）用户确认后 a13a66f7 核定归档；旧计数虚高定位到 V8 两类 initializer 合并冲突另卡修补（coverage-initializer-diagnosis）；宿主测试文件保持 1d3d3fb3 逐字节不变与修补卡组成联合验证树 e0803d6e→b6286df0（全仓 check 8,317/ratchet/strict 7,826/633 exit0）。
+
+## Scope
+
+- 六组真实链表：H1 启动 9（正式 loader→真 bootGame→首帧；两入口不同队伍金钱落点；无效入口回默认；scope/画布/context/旧试放先拒；Chrome 资源失败后新 owner 恢复；真标题选择后进所选世界）、H2 标题/读槽 4（真 runOpeningMenu+真 MemorySaveStore；按键选第二入口/空槽不读/跨页读真实 meta thumb/退出后旧键盘 RAF 不再动作）、H3 菜单 7（两角色状态页/施法人目标精确 HP MP 变化/MP4 拒 MP5 同输入成功/显式静音取消保真/空装备回 hub）、H4 对话脚本 8（四种真实作者 cue 编译菜单不能穿透/六行分页最后确认后才执行后续/gameplay wait 与真实二选一）、H5 保存 5（真 F5/IDB 三 store→菜单施法→F9 恢复/跨工程隔离/NaN 坏档拒绝/两次保存计数/原 IDB 晚到不覆盖新恢复）、H6 场景 3（真公开跳场景往返/真实 map IO 失败保原世界修源重试/悬挂原 map 请求经 B→A 往返后旧结果不得改回 B）。
+
+## Execution and assertions
+
+- **实现纪律**：输入经正式 loadCurrentProjectFrom 及当前 guard；资源过 validateAssetFileClosure（引用错误/字节/摘要均拒）用实际 encodeSpriteChunk/compressGzip/sha256；H1/H3/H4 比较实际交给 bootGame 的 LoadedCurrentProject 纯数据只排除五个 IO/cache 所有者（不用原始文件表快照冒充输入保真）；mutating world 按完整预期变化比较；无 mock loader/projection/codec/store/runner/菜单状态机无 AST 拷贝；renderer/map spy 透明调用原实现（后者只取原本那条 Promise 作收口见证）；IDB 乱序只延迟真实 request 事件交付；每测试重置模块/DOM/内存 IDB
+- **非视觉边界**：Canvas adapter 只记录调用与提供像素缓冲；字库为有效最小 BDF；PNG 样本与仓内 num/1.png 全字节一致 CRC 独立通过；所有 Chrome 图像/缩略图用合法 PNG 替身不证明真实尺寸布局/缩略图像素/中文像素可见性；错误提示只证真实 renderSpans 收到文本；原 SAVE-PREFLIGHT 像素回归不被本卡替代；未操作浏览器未跑剧情/E2E/full/Q1/Q2
+- **反控鉴别力**：runtime-shell-mutants 默认 36 项完整正控+8 针（scope 先核/标题键盘所有权/施法派发/对话推进/保存次数/坏档短提示/场景路由/AsyncIntentController.assertCurrent 公共原语）每针唯一源码替换+实际 load 标记+精确新增标题+候选自身 AssertionError+拒混合 Error/嵌入/timeout/未执行；如实保留一个未通过探索针：单删 main 的 sceneSwitchIntent.assertCurrent 仍绿（abortScript :5168-5171 同时使 world token 失效 :1181 是后层重叠防护）——第 8 针打坏两者共用的公共谓词产出旧 B 覆盖 A 业务红不冒称单删任一调用点即红
+- **覆盖对照（官方 fast 口径不写基线）**：测量点 cb77adb1 before 146 文件 1,378/after 152 文件 1,414；before 四维分子与官方 7790 基线 reforge 对象一致；reforge 行 60.00%→71.06%（+1,615）/分支 52.06%→59.09%（+799）；六直接目标行 main 30→1,140/3,360、opening 9→82/83、menu-box 62→204、save-browser 7→76、magic-box 35→87、dialog-box 17→128；上表已扣除 script-runner-core 的 -37 行/-42 语句/-2 函数/-37 分支（STAT-1）；main 仍缺 2,220 行无 whole-file95/90 或完整 E2E 达标声明后续不重领 36 项
+- **STAT-1 与 DEV-TOAST-1**：旧计数虚高反例：未改的 script-runner-core 旧 1,378 套件报 195/195 行加入本包报 158/195；:123 throw 前临时文件见证 0 次进入而旧报告同 statement 计数为 2——至少一条旧计数虚高；非探针/删用例/放宽断言所得产品字节零改；core-only/+host/+shop/+shop+host 都只 149/195 旧全集回 195 简单二分两半集均不出现不能假定单旧文件根因——后续原生 12 组与项目 raw 对照定位合并器同 range 双 initializer 身份冲突（另卡）不将观察自动当成全量统计豁免；DEV-TOAST-1 产品观察不固化：开发跳场景链旧取消请求经 main 末尾无条件 catch 产生「切场景失败: AbortError…」提示可能覆盖成功反馈——只观察代码与隔离宿主不裁决为已修/必须改变；H6 已撤掉等该文本收口的错误抽象改等实际原 loadSceneMap Promise；反馈政策归后续复核
+- **验证与失败记录**：最终 36 项+全 reforge 1,414 绿+TC+11 文件 Biome+8 针 exit1 业务红总工具 exit0；日志根与复现命令在 quote；开发失败如实：首战 fixture castEffectBase=-1 被 guard 拒改合法 0；初版 TC Canvas this/createImageData 改窄 IO 签名；一次括号遗漏 6 套件解析失败；32 项 21 绿/11 红（scene hook 缺 initial/预载读当在途/SAVE8 归一化预期遗漏）；14 项 10 绿/4 红（确认框未显示就发键/runner 观察太早/错误尾部截断）；H2 自造结果同轮自查撤销改真实播种；临时 import-only probe 模块解析失败未算证据
+
+## Results
+
+- 下一步：本卡与统计修复组合验证不等待未接收 GLM 用例；两卡分别核定 done；无下一位提示词；GLM 战斗返工另行接收。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账与工具链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 宿主六组 | 2026-09-23 | 36 项+8 针+STAT-1 发现+三门 | done（b6286df0 三席） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的宿主六组回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex：真实运行时宿主六组补测：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：六组 36 项真实链（bootGame/openingMenu/菜单施法/四种 cue/IDB 三 store 保存恢复/map 悬挂请求）；8 针+公共原语针如实披露；STAT-1 计数虚高发现（0 次进入 vs 报 2）移交另卡；DEV-TOAST 不固化；覆盖已扣 core 负增量。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组表、覆盖表、STAT-1/DEV-TOAST、验证失败清单与复现命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-RUNTIME-SHELL-COVERAGE-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `cbf3231016ddd740e499c334f14baf29f9fd45cc9ffae3f35e99cb918da283c4`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `cbf3231016ddd740e499c334f14baf29f9fd45cc9ffae3f35e99cb918da283c4`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex：真实运行时宿主六组补测
 >

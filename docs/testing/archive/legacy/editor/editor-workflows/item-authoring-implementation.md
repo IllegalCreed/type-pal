@@ -1,40 +1,61 @@
 # 物品作者记录与脚本身份实施记录
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-ITEM-AUTHORING-1 实施记录（r1 done；统一候选 `451cbbb7`、产品冻结 `1e0388b0`；2026-09-21 Codex 自验 accept `c86ad00f`、GLM 独立代码/矩阵 accept `b895a367`、Kimi 独立实现 accept `139c0b04` 同候选齐，用户授权后 Codex 核定 done 归档）：新建/复制/删除经既有 EditorHistoryCoordinator 成对更新主会话与 canonical item，私有引用固定 `__author-item-private-runtime`。
+
+## Scope
+
+- 对象=物品作者记录与脚本身份（两个 SnapshotCommand 不建第三历史；复制合并未保存私有正文深拷贝；未知 tag/错配会话写入前拒绝）；content20/SAVE8/作者 JSON/私有 use 槽/投掷能力不改。
+
+## Execution and assertions
+
+- **实现边界**：私有 `__author-item-private-runtime`+原始 ItemId、共享 `__author-script-runtime`+原始 ScriptId；构造/识别集中 item-script-runtime-ref.ts 并 reforge 转出；UI/projection/内容运行态 guard/executor/main 同步更新；未知 tag/错误 owner 拒绝、用户 ID 不拼接解析；补充普查：content/validate.ts isItemPrivateRuntimeEffect 也是前缀式消费者，原 GLM「6 站点完整」漏此（已同步更新+共享同前缀不得获私有混合权限回归）
+- **测试与负控**：新增 14 项（content guard 1/reforge identity 5/editor workflows 6/ItemTab 2）；配对 caller census 7→10；真实 executor→ScriptProjectRuntime 执行共享/私有 setFlag（host 只观察已生效标记）；正式 seed/loader→两会话→私有正文→serialize→真实授权/writer/journal→loader 重开核落盘；五组负控 5 对照绿+5 单点变异 exit1 精确钉名；负控开发期未放行失败（零执行/TypeError/异步 resolves 写成 Error/statusIssues 纠正）不冒充业务负控通过
+- **功能界面**：6013 独立只读宿主+真实 buildBlankProject 内存工程；浏览器实际点击：新建→use→私有脚本→等待 200ms→复制→副本 350ms→切回源仍 200ms，状态条无引用诊断；6012 内置浏览器不可操作原生选择框后改 Chrome+原生窗口：专用空目录真实新建空白工程→保存→content/items.json 实读两份独立正文 200/375ms→reload 最近项目重开均显示；不触用户 PAL 工程/普通存档，不算 full/Q1/Q2
+- **统一门**：四轮完整 check（7,909 项：第一轮 ScriptRef 导入模块选错、第二轮 2 旧私有 ref 夹具失败、第三轮全过、第四轮 7,909/7,909 exit0）；首次 ratchet 拒绝更新（content 本包漏覆盖新构造函数微退）→在 guard 用例实际调用公共构造器后 exit0 更新基线；受保护单次严格 fast（BASE_REF=9e220daa）7,418/7,418 与新基线全相等；全仓行 51,025/70,373=72.51%；生产文件 631→632 只增 content 身份 helper；未改 include/exclude/超时/阈值
+
+## Results
+
+- 收口核定：接手 main 工作树干净、候选后产品/脚本/本卡工具零 diff、无 counter/返工/缺签豁免；D-06/D-07 关闭，TB00/TB01 仍按原卡窄 counter 返工，full/Q1/Q2 未跑边界保持（不代表 R4 或 N6b 已开门）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；五组负控工具与 6013 宿主链接在 quote；/tmp 与 /var/folders 日志、原生临时工程按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 实施+收口 | 2026-09-21 | 14 项+五负控+原生保存重开+四轮门 | done（三 accept 齐+用户授权） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 item-authoring 实施记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 物品作者记录与脚本身份实施记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：私有引用身份固定+成对历史+引用校验消费 canonical；14 项+5 负控+原生保存重开最小验证+四轮 check/ratchet/strict。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四轮门过程（含两次失败轮）、ratchet 拒绝-修复-更新链、覆盖指标与 GLM 6 站点漏项普查在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；当前状态以现行实现为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-ITEM-AUTHORING-1 完成卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `02b577f6c339b5ed4b06b0b8d921ab908b4cf0c82b189a794a5d5dfec8b32b98`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `02b577f6c339b5ed4b06b0b8d921ab908b4cf0c82b189a794a5d5dfec8b32b98`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 物品作者记录与脚本身份实施记录
 >

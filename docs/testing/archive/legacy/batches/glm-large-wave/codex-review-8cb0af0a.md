@@ -1,40 +1,60 @@
 # TEST-GLM-LARGE-WAVE-4 · Codex 独立审核 r1
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 r1 审核（2026-09-29，候选 8cb0af0a…aecc 对照派发基点 ced193f4）：**rework，未集成 main 未运行官方门**；以下为当前候选事实不追溯改写 GLM 原始回执。
+
+## Scope
+
+- 独立通过项：工作树干净 46 文件未改产品源/旧测试/依赖锁/基线；verify-targets 60 源码目标及五 digest 通过；check.mjs 758 文档 4,011 链接零问题；diff --check 干净；三包 typecheck exit0；定向 editor 50/50、reforge 7/7、migrate 9/9（17 测试文件 66/66）尚不等于全包或官方覆盖率门；A/B/C 九张截图 SHA 与各回执一致抽看符合**隔离宿主**声明不证明完整 App/剧情 E2E。
+
+## Execution and assertions
+
+- **返工 1-2**：完整 pnpm lint 失败 15 errors/2 warnings/1 info 18 诊断（needle-judge/browser-host/四份 directed JSON/三份浏览器证据 JSON/script-chunk-store 测试）——原规则零诊断不加 ignore 降规则新鲜完整报告作回执；编辑器新增测试 22 处 as never、2 处 as unknown as（EnemyAnimPreview:56-58/117/151、SpriteUploadWizard:55/104-105、DataMode:95-100/131）与合法 typed fixture 规则直接冲突——改当前构造器/类型化端口/真实有效对象不能换一种强转或禁用类型规则；DataMode:31-48 mock UI 子组件按「端口替身只限 browser/FS/Audio/clock」重新证明或收窄声明
+- **返工 3-4**：两个新测试不符冻结清单同扩展名（command-form-world.tsx 源对应 .test.ts、use-editor-project-session.ts 源对应 .test.tsx）——改名后更新 fresh JSON file/fullName/status 和反控文件锚；needle-judge:99-105/122-123 把 productHashUnchanged:false 仍判 VALID/exit0；:76-80 不拒 skip；:96-103 只按名称子串匹配不核绝对测试文件与完整 fullName——修同一严格判据给可复跑 selftest（好针与 hash 漂移/skip/混错/零执行/timeout exit2/错文件错 fullName 的 invalid 反例）再重跑五批代表针
+- **返工 5**：five-batch-union:9-11 写「20 源新增/40 existing-proof」与逐组登记及实际文件 **17 源新增/43 existing-proof** 不符——纠正计数与清单各批回执补本批完整候选 SHA；原派发 README.md 是 GLM 只读范围当前候选改了其索引——请恢复验收后由 Codex 维护链接
+
+## Results
+
+- 返工不得扩到产品/旧测试/共享配置/正式工程/F-J 并行 wave；推送新完整 SHA 后 Codex 重新复核全部硬门和反控再决定选择性集成。
+
+## Evidence
+
+- 证据路径：本审核正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 审核 | 2026-09-29 | 五类返工（lint 18 诊/24 强转/扩展名/判据四缺陷/计数） | rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-large-wave 的 r1 审核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · Codex 独立审核 r1：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+rework 五项：lint 18 诊断、22+2 处强转与 UI 子组件 mock、两个扩展名不符、judge 判据四缺陷（hash 漂移 VALID/不拒 skip/子串匹配）、并集计数 20/40 应 17/43 与 README 越界。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+五类返工与独立通过项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。rework 由 R2/R3 递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-LARGE-WAVE-4 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `cc1268e948a2bc14699315f2e2b5598771dcd5b1461b4a666bd1fbca29c30125`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `cc1268e948a2bc14699315f2e2b5598771dcd5b1461b4a666bd1fbca29c30125`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · Codex 独立审核 r1
 >

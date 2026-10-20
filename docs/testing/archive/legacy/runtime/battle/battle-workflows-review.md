@@ -1,40 +1,63 @@
 # TEST-BATTLE-WORKFLOWS-1 r1：Codex独立接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-BATTLE-WORKFLOWS-1 r1 独立接收复核（2026-09-23，候选 16ac8cee、基点 4872b017、生产冻结 57dda7ed）：**counter，转 rework，不接收实现不合并不更新基线**；设计 r1 保持——本轮问题是未满足已签实现合同不要求新增产品行为或重签方案；GLM 回执/机账/源码在其独立分支未拷贝其不成立结论覆盖本报告。
+
+## Scope
+
+- 已核实通过与边界：工作树干净四生产目标零 diff 无私有反射/核心 mock/视觉操作；本席复跑 6 文件 31/31+battle 相邻 19 文件 264/264+全 reforge 152 文件 1,409+TC exit0；GLM 负控工具复跑 exit0（6 正控+7 钉名各一红）不能替代独立反证；覆盖 config 复用官方选择 before 仅排六文件 1,378→1,409 净 +7L/+11S/+2F/+15B（session +14B、core +1B）不因增量小单独 counter 但不能用「组合回归」掩盖未执行/未断言业务；Biome 实际 exit1 7 errors/4 warnings 并非回执所称 rc0。
+
+## Execution and assertions
+
+- **R1 fixture 不过现行 guard**：catalog:102 attackSkill 非 SkillData 靠 as unknown as 蒙过 TC（正式 validateSkills 拒缺键 cost）；:13 PLAYER_PROFILE castEffectBase=-1（validateBattleSprites 拒非负整数）；writeback:15 wfActor 缺 spriteId 强转（validateActors 首拒）；:40/:70 {} as never 物品（validateItems 拒缺键 id）；:114/session-driver:86 所谓合法门只查少数 id/HP 或 instanceof 未调生产 guard；必须区分：W1/W3 use:{target:scene,effects:[]} 物品结构被 validateItems 接受不误判结构非法——但 itemUseSupportsContext(use,battle) 为 false 不能证战斗用品执行；返工=现行类型完整数据+正式 guard+完整索引帧资源；不拿旧测试强转作豁免不保伪旧技能模型
+- **R2 标题与实际不符**：S 键没有进入法术：selection:44/round:56/action:30/:95 都把 S 当法术菜单但真实 battle-session:1330-1405 用方向键选图标再确认——按候选输入完整重放日志只有三次普攻 MP 一直 40 非回执称 40→20→0；相邻控制 ArrowLeft+确认两次施法后 MP 0（此正控只隔离按键问题不替整份 fixture 洗白）；W2 断言不鉴别：:26 终态允许 menu/:42 退出允许 acting/:54 跨轮允许 over；单点关 A 自动入口 W2 仍 5/5 绿、关 R 入口仍 5/5 绿（「无唯一针」不是约束应锚真实调用点本席两针已给反证）；W1/W3 没兑现动作与代价（readiness 不比动作集合仅 log.length>0/HP>0/not.toThrow；物品空 effects 空格落回普攻也绿）；W6 空写回（:82 无任何成长动作第一次写回后 world 与 before 完全相同；:101 标题 throw :112 实际 not.toThrow；:115 只读 debugPlayers 没调 writeBackHp；把 writeBackPersistentEffects 变 return W6 仍 5/5 绿）
+- **R3 终态与屏障**：terminal:39-50/:75-82/:95-102 用真实 30/50ms Promise.race 允许 pending（败/逃甚至允许 rejected）——独立把 complete() 的 resolveDone 改空操作 victory/defeat/playerFled 三用例全绿尽管永不完成；script:26-54 在断言之后才 gate.resolve 零 finally 任一断言失败遗留挂起 Promise；只看 preparing 标签不等于零提交——独立让 preparing 期间按键偷扣 1MP 不改 phase W4 仍 4/4 绿；W4 构造器未设实际 enemy ready/turnStart hook 只有音效回调；W1/W3 throw/coop 与真实资源一次扣除、W4 取消/迟到和敌钩子、W5 enemyFled/terminated、W6 真实成长都不能以「六组完成」带过；返工=受控 gameplay 时钟+同步 outcome 观察：正确终态精确 resolve 对应 BattleResult 不能把 pending/rejected 放成功集合；证明 300ms 前不结束边界后每屏推进；挂起 IO entered/finally 放行并消费同一 pending 保持最初断言错误
+- **R4 白名单/格式/工具**：原卡要求 __tests__/battle-workflows/ 交付位于 src/battle/__tests__/（移回不改白名单迁就落错）；实际 9 代码+2 工具非「11 新增代码+2 工具」；Biome 12 文件 exit1 7 错 4 警（回执「rc0」与候选不符；候选卡顶实际仍 build 非交接所称 review 本席统一转 rework 不改历史自签）；mutants:166 计算转义 esc 却 :177 传原始标题无首尾锚；:212-226 不核确切 title/file/suite/unhandled/MUTATION_HIT——独立执行实际 business/verdict 表达式：异名 AssertionError 与 waitFor timed out 均判 detected；未知针 does-not-exist 竟 exit0 宣称「6 controls+0 mutations passed」实际零测试；回执修复④称 done 后才断言源码实际允许 pending；W6 标题 throw 却 not.toThrow；所称空 diff 命令覆盖整个 battle 目录会列 9 新增文件；覆盖率分清 session +14B 与全包 +15B
+
+## Results
+
+- 复建与本席自校正：冻结见证工具预计原 31 绿+独立事实 1 绿+5 种坏实现各使 5/5/5/3/4 项继续绿（反证成立非实现通过）；本席首次见证误预期「缺 desc 且 empty-use」必拒——实测结构接受已改为结构接受但 battle 上下文不支持不将误判列 counter；第二次误将 ArrowLeft 即开 skill 实际还需确认已补 phaseAfterChoice 得 40/40/0；两次工具草稿失败产物未冒称候选错误或通过。
+
+## Evidence
+
+- 接收处理：签 Codex counter GLM 按 R1-R4 一次返工不重签设计；只允许原白名单变更不能修产品/旧用例/原探针/官方范围基线/其他卡；不硬凑 31 项按最终树重新计数兑现六组合同；当前不集成不跑全仓门；Codex 宿主包及 STAT-1 独立不互相带过。
+- 证据路径：本复核正文（quote 保全）；见证工具复现命令/产物路径/日志根在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 接收 | 2026-09-23 | R1-R4 四类反证+五坏实现 | counter→rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/battle 的 r1 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-BATTLE-WORKFLOWS-1 r1：Codex独立接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter R1-R4：fixture as unknown 蒙 guard/S 键未接法术 MP 恒 40/W2 断言不鉴别（关 A/R 入口仍绿）/W6 空写回（writeBackPersistentEffects 变 return 仍绿）/终态容 pending（resolveDone 空操作全绿）/屏障后 resolve 零 finally/Biome 7 错非 rc0/判据异名与 timeout 误收+未知针 exit0。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R1-R4 反证表、复建命令与自校正记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r2-r5 递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-BATTLE-WORKFLOWS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `fd9a80c01edc196f5a287e6e5ec1d017660768085b8af8d21476d38e37df7720`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `fd9a80c01edc196f5a287e6e5ec1d017660768085b8af8d21476d38e37df7720`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-BATTLE-WORKFLOWS-1 r1：Codex独立接收复核
 >

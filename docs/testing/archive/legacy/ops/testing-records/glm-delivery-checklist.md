@@ -1,40 +1,62 @@
 # GLM 交付前自检清单（强制）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GLM 交付前自检清单（2026-09-19 立档，依据历次 Codex counter 共性根因复盘，用户要求总结并落盘）：适用 GLM 作为测试 Coding Owner 的每一个实施包/返工包，交付给 Codex 接收之前逐项过完，任何一项不满足不得交差；本清单是自检下限不替代卡面/工作包专项验收条款。
+
+## Scope
+
+- 四类共性根因（已发生≥2 次典型实例）：fixture 未过现行守卫（凭「看起来合理」构造+as never/as unknown 洗白）、回执与提交树不符（凭意图/记忆写不从最终树重跑产物生成）、断言无鉴别力（恒真/同时刻自比较/快照另一对象/没问「什么坏实现能通过这条断言」）、取消异步证据无因果（超时变红非业务红/finally 只置布尔/别的 reader 冒充）。
+
+## Execution and assertions
+
+- **Codex 查法**：拿候选 fixture 直接喂产品守卫（witness 工具 fixture checks）不听「合法」声明；注入单点坏实现看候选自己的测试 AssertionError 业务红（非独立 oracle 红）+构造混合场景验证判据本身；回执对着树核（git show、Vitest JSON 逐文件计数、完整新文件清单 Biome）；逐条读断言找空转
+- **清单 1-2**：fixture 合法性门：每个新 fixture 测试内先过对应现行守卫全绿（assertXFixtureLegal 模式）；grep 本包所有 as never/as unknown 逐个说明合法性依据，说明不了的删掉或归防御/非法域轴；变异自检：自己的 mutants 脚本全绿且每针是新增断言自身 AssertionError 红（钉名精确标题 failed+failureMessages 首行匹配；不允许超时/STACK_TRACE_ERROR/未运行/仅别例红）；有 witness 工具时复跑 detected 全、MISSED/invalid 零、mixedFailureAccepted=false
+- **清单 3-4**：保真断言审计三点：快照的是真正传入对象、调用前拍最后一次消费后比、无恒真无自比较；API 本身原地改 state 的按合同写正向断言；取消/异步三件套：entered 标志证真进入；abort 后同步观察变量断言（不 await 可能永不 settle 的 Promise）；finally 释放创建的那个 deferred 并消费发起的那个播放/读取 Promise、核迟到零提交
+- **清单 5-6**：回执从树生成：所有数字只从最终提交树的重跑产物抄；每句强声明在树上 grep 对应代码确认存在；门禁复跑：定向/相邻/涉及包全测/包 typecheck/全部新增文件 Biome——exit 码如实记录不省略不粉饰
+- **纪律**：清单是下限：卡面/工作包专项条款另行满足；自检问题交付前修完，修不完如实报告延期不带病交差；每次收到 counter 先对照本清单定位哪一档失守，更新错误类表实例列（活文档）
+
+## Results
+
+- 清单立档并按 counter 对照更新：四类共性根因+Codex 四查法+六条强制清单+三条纪律；定位失守档列为最高风险；作为活文档持续校准。
+
+## Evidence
+
+- 证据路径：本清单正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 清单立档 | 2026-09-19 | 四类根因+六条强制+查法 | 长期生效（活文档） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 GLM 交付前自检清单；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 交付前自检清单（强制）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+四类根因表+Codex 四查法+六条强制清单+三条纪律；counter 后对照定位失守档。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+根因表实例列与清单全文在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical（清单立档时点）；清单作为长期纪律由后续各包沿用。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前版本以仓库现行清单为准。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `4b85e83f2407966cd59b4cf72c73e98de7678202cfe3a6e99be108fd14633960`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `4b85e83f2407966cd59b4cf72c73e98de7678202cfe3a6e99be108fd14633960`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 交付前自检清单（强制）
 >

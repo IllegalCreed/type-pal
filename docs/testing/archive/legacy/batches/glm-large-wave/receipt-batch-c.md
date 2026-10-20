@@ -1,40 +1,64 @@
 # TEST-GLM-LARGE-WAVE-4 · C 批回执（Reforge 脚本与演出助手）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 C 批回执（Reforge 脚本与演出助手；r1 本批 0e05c346、R2 031b3e47、R3 本次推送）：新增 script-chunk-store 5 项+dialog-box 2 项+C 视觉宿主；7/7 passed；reforge tsc 0 诊断+新文件 Biome 全零+check.mjs PASS+diff 干净。
+
+## Scope
+
+- 每组处置 12 源：C01 script-runner（49 例+conditions.residual 4 例）+script-runner-core（19 例）existing-proof；C02 script-host-adapter（基础 6+current-dispatch 5+wave2 6）+script-world（13+wave2 8）existing-proof；C03 script-project-core（wave2 11 例 moveEntity 提交控制六边界）+runtime-script-project（7 例含未知目标拒绝/已退役 vanishEntity 编译封闭）existing-proof；C04 script-chunk-store **新增 5**（MemoryScriptResolver 此前零直接测试：提示命中归一/错误 hint 按稳定 id 重推导/chunk 缺失 vs script id 缺失诊断/进入即拒 AbortError/空表按 chunk 缺失拒绝）、dialog-box **新增 2**（异槽共存推进到 top 后 close 重开旧槽渲染零残留 draw 快照断言；关闭后 advance/render/close 幂等 noop）；C05 dither-transition（11 例六相位 RG_INDEX 错峰/边界钳）+frame-animation-player（并发去重 LRU/闭合区间/剧情默认不可跳过 vs 显式 skipKeys）existing-proof；C06 entity-action-player+world-motion-runtime（基础 10+residual 5）existing-proof。
+
+## Execution and assertions
+
+- **不可达/未证**：视觉字形为固定 8×8 点阵替身（与 dialog-box 观察测试同界）证明槽位推进/共存/清空不证明真实字体渲染；光标帧空数组箭头由单测覆盖不重复演示
+- **反控**：2 枚 VALID（R2 严格判据/R3 完整失败名精确相等重跑）：derived 命中 ref 归一断言改错、重开残留断言取反；恰 exit1、AssertionError、唯一失败、产品 hash 不变
+- **视觉**：端口 6088 console 0：C1 DialogBox 槽位共存两图（SHA f47e484a…/8912e9d4…；bottom 槽打字→top 槽接棒 bottom 留显全字→关闭 closed）；真实 DialogBox+真实 rAF 清屏重绘，字形点阵替身不冒充完整引擎
+- **R2/R3 附注**：script-chunk-store 测试格式化至零诊断；C1/C2 针三轮判据演进重跑 VALID
+
+## Results
+
+- C 批 7 项新增（MemoryScriptResolver 5 零直测+dialog-box 2）+10 组 existing-proof；2 反控（R2 严格判据/R3 完整失败名精确相等重跑）；1 视觉条（字形为固定 8×8 点阵替身如实登记）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；batch-c-directed.json、C1/C2 针与 browser-host C1 证据（截图 SHA）在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| C 批回执（含 R2/R3 返工） | 原文时点 | 7 项新增+10 组 existing-proof+2 反控+1 视觉 | 交 Codex（整包 R3 accept） | r1 初版 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+本页是 TEST-GLM-LARGE-WAVE-4 C 批回执（Reforge 脚本与演出助手；r1 本批 0e05c346、R2 031b3e47、R3 本次推送）：新增 script-chunk-store 5 项+dialog-box 2 项+C 视觉宿主；7/7 passed；reforge tsc 0 诊断+新文件 Biome 全零+check.mjs PASS+diff 干净。 本节仅描述固定原源及其候选时点。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · C 批回执（Reforge 脚本与演出助手）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+C 批 7 项新增（MemoryScriptResolver 5 零直接+dialog-box 2）+10 组 existing-proof；2 反控+1 视觉（字形点阵替身如实）。以上是原卡时点陈述，本页未复跑。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 证据路径：本回执正文（quote 保全）；batch-c-directed.json、C1/C2 针与 browser-host C1 证据（截图 SHA）在 quote。
+
+原始执行、反例和后续处理按固定 quote 保留，不由本次静态治理重授。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。C 批 7 项新增（MemoryScriptResolver 5 零直接+dialog-box 2）+10 组 existing-proof；2 反控+1 视觉（字形点阵替身如实）是固定原源时点的记录；本页不代表当前产品、E2E、视觉或覆盖率通过。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+后续状态以 TEST-GLM-LARGE-WAVE-4 原任务卡及其明确验收链为准；本历史页不新授信用。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `df7291d9d0b6ef61c203ec049c3d2ea49f2ef65d578019aa87ffe51b6b261755`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `df7291d9d0b6ef61c203ec049c3d2ea49f2ef65d578019aa87ffe51b6b261755`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · C 批回执（Reforge 脚本与演出助手）
 >
