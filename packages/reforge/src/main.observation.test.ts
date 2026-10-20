@@ -6,8 +6,8 @@ import { shellProject } from './__tests__/runtime-shell/project.js'
 import type { StoredSavePayload } from './save/types.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
   Reflect.deleteProperty(window, '__tpObserve')
 })
@@ -57,12 +57,12 @@ test('runtime observation is detached/read-only and preserves actual world and p
 test('real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back', async () => {
   await boot()
   const payload = await probe().dumpSave()
-  host?.close()
+  await host?.close()
   host = undefined
   const restoredHost = await boot('?e2e-load=/checkpoint.json', payload)
   expect(probe().readBoot().checkpointLoad).toBe('loaded')
   expect(probe().readRuntime().sceneId).toBe(payload.position.sceneId)
-  restoredHost.close()
+  await restoredHost.close()
   host = undefined
   host = await installShellHost('?e2e-load=/checkpoint.json')
   host.overrides.set(

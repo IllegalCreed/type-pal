@@ -6,8 +6,8 @@ import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-
 import { scenarioProject } from './__tests__/runtime-shell/scenarios.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

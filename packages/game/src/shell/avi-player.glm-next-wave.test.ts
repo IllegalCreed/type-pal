@@ -49,20 +49,24 @@ function stubPlay(mode: 'deferred' | 'resolved' | 'rejected'): {
       },
       settled: false,
     }
-    HTMLMediaElement.prototype.play = vi.fn(function (this: HTMLVideoElement) {
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(function (
+      this: HTMLVideoElement,
+    ) {
       played.push(this)
       // 仅首次 play 挂测试受控 deferred(autoplay 拒绝);点击 overlay 后的 retry 走 resolved。
       return played.length === 1 ? deferred!.promise : Promise.resolve()
     })
   } else {
-    HTMLMediaElement.prototype.play = vi.fn(function (this: HTMLVideoElement) {
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(function (
+      this: HTMLVideoElement,
+    ) {
       played.push(this)
       return mode === 'resolved'
         ? Promise.resolve()
         : Promise.reject(new Error('NotAllowedError: play() failed (autoplay policy)'))
     })
   }
-  HTMLMediaElement.prototype.pause = vi.fn()
+  vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
   return { played, deferred }
 }
 
@@ -80,6 +84,7 @@ afterEach(() => {
 
 describe('playAvi autoplay 拒绝 → click-to-start 降级边界', () => {
   it('play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { played, deferred } = stubPlay('deferred')
     const d = deferred!
     try {
@@ -112,6 +117,11 @@ describe('playAvi autoplay 拒绝 → click-to-start 降级边界', () => {
       document.body.querySelector('video')?.dispatchEvent(new Event('ended'))
       await p
       expect(document.body.querySelector('video')).toBeNull()
+      expect(warning.mock.calls).toEqual([
+        [
+          '[avi-player] play() rejected (autoplay policy?): Error: NotAllowedError: play() failed (autoplay policy)',
+        ],
+      ])
     } finally {
       if (!d.settled) d.reject(new Error('teardown: unfinished deferred play'))
     }
@@ -135,7 +145,9 @@ describe('warmUpVideoAutoplay(main.ts onEnter click 同步栈调用)', () => {
   it('play() 拒绝 → 静默不抛、不 pause(最坏退回 playAvi overlay 兜底)', async () => {
     let rejectionHandled = false
     const played: HTMLVideoElement[] = []
-    HTMLMediaElement.prototype.play = vi.fn(function (this: HTMLVideoElement) {
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(function (
+      this: HTMLVideoElement,
+    ) {
       played.push(this)
       const p = Promise.reject(new Error('NotAllowedError: play() failed (autoplay policy)'))
       p.catch(() => {
@@ -143,7 +155,7 @@ describe('warmUpVideoAutoplay(main.ts onEnter click 同步栈调用)', () => {
       })
       return p
     })
-    HTMLMediaElement.prototype.pause = vi.fn()
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
 
     expect(() => warmUpVideoAutoplay('/extracted/videos/1.mp4')).not.toThrow()
     // 条件等待 rejection 链真实执行(handled 标记由微任务置位),随后核 pause 未被调。

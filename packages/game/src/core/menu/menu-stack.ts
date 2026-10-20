@@ -26,7 +26,7 @@ export function openMenu(gs: GameState, entry: ActiveMenuEntry): void {
   gs.mode = 'menu'
 }
 
-/** 关栈顶菜单。若栈空,tickMenu 下帧自动切回 'explore'(避免本帧 mode flip 影响 dispatch)。 */
+/** 只弹栈，不切 mode；由 tickMenu 在 dispatch 返回后或下一次调用时按宿主恢复模式。 */
 export function closeTopMenu(gs: GameState): void {
   gs.menuStack.pop()
 }

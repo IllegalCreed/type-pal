@@ -32,7 +32,7 @@ afterEach(async () => {
   } catch {
     // boot 未完成时无观测面可收口。
   }
-  host?.close()
+  await host?.close()
   host = undefined
 })
 
@@ -105,6 +105,7 @@ test('MHB-ENTRY-REVEAL-1 脚本切场景进入带 fade 入场契约的目标：�
 
 test('MHB-SCRIPT-ERR-1 触发脚本运行期资源失败：公开脚本错误回执、runner 槽释放、世界保持原状，修复后同一公开入口重试成功', async () => {
   host = await installShellHost()
+  const error = vi.spyOn(console, 'error').mockImplementation(() => {})
   const first = sceneWithCommands('a', [])
   first.entities = [
     {
@@ -162,6 +163,15 @@ test('MHB-SCRIPT-ERR-1 触发脚本运行期资源失败：公开脚本错误回
   await key(host, ' ')
   await pumpFrames(80)
   expect(state().sceneId).toBe('b')
+  expect(error.mock.calls).toEqual([
+    [
+      '[script]',
+      'gate',
+      expect.objectContaining({
+        message: expect.stringMatching(/^content\/maps\/b\.json ——.*；source offline$/),
+      }),
+    ],
+  ])
   h.assertInputUnchanged()
 })
 
@@ -200,6 +210,7 @@ test('MHB-TRIAL-ERROR-1 ?battle= 非法敌队：试打失败公开回执、零�
 
 test('MHB-SAVE-FAIL-1 F5 缩略图外部 IO 失败：存档失败公开回执、savedTimes 不消费、写队列不毒化，重试成功得首号', async () => {
   host = await installShellHost()
+  const error = vi.spyOn(console, 'error').mockImplementation(() => {})
   const fixture = await shellProject()
   await (await import('./main.js')).bootGame(fixture.project, {
     kind: 'project',
@@ -224,4 +235,7 @@ test('MHB-SAVE-FAIL-1 F5 缩略图外部 IO 失败：存档失败公开回执、
   const metas = await store.listMeta()
   expect(metas.map((meta) => [meta.slotId, meta.savedTimes])).toEqual([['quick', 1]])
   expect(observation().renderDebug.inBattle).toBe(false)
+  expect(error.mock.calls).toEqual([
+    ['[save] 存档失败:', expect.objectContaining({ message: 'thumbnail: toBlob null' })],
+  ])
 })

@@ -20,8 +20,8 @@ const wired = vi.hoisted(() => ({
 }))
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
   wired.loader = (id: string): Promise<unknown> => {
     throw new Error(`test loader not installed (${id})`)
@@ -57,6 +57,8 @@ test('Q01 VITE_PROJECT_ID 覆写工程 id 并透传给加载器', async () => {
   await import('./boot.js')
   await vi.waitFor(() => expect(document.title).toBe('Shell Project · reforge'))
   expect(calls).toEqual(['pal'])
+  // Title is set before the asynchronous boot body; await its actual RAF ownership.
+  await vi.waitFor(() => expect(host!.frames.size).toBeGreaterThan(0))
   expect(error).not.toHaveBeenCalled()
 })
 

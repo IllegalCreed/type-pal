@@ -11,8 +11,8 @@ import { afterEach, expect, test } from 'vitest'
 import { installShellHost, type ShellHost } from '../__tests__/runtime-shell/dom-host.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

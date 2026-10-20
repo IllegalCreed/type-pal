@@ -28,7 +28,7 @@ function makeItem(id: number, partial: Partial<Item['flags']> = {}): Item {
       sellable: true,
       equipableBy: [false, false, false, false, false, false],
       ...partial,
-    } as Item['flags'],
+    },
   }
 }
 

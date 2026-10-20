@@ -19,7 +19,7 @@
  *   可达且无旧证 → 新增;battle 对话队列/0x69/0x35/0x19 回灌/条件跳转 fall-back 已证不重做。
  */
 import type { Command, Enemy, PlayerRole } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createBattleState } from './battle/battle-state.js'
 import { type CommandBus, createCommandBus } from './command-bus.js'
 import {
@@ -32,6 +32,8 @@ import {
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 import { createSeedableRng } from './rng.js'
+
+afterEach(() => vi.restoreAllMocks())
 
 /** 现行 PlayerRole fixture(battle-state.test.ts minimalRole 同款,合法 CreateBattleStateInput)。 */
 function minimalRole(id: number): PlayerRole {
@@ -207,6 +209,7 @@ describe('K06 battle 具名 giveItem:毒 tick 脚本末尾炼成蛊入包(sdlpal
 
 describe('K06 startOverworldItemScript 失败门:scriptOnUse=0 / label 不在全局表 → false 且零状态副作用', () => {
   it('scriptOnUse=0 与 L_<n> 缺失都拒绝启动;成功对照 = true + mode=event + pendingItemConsume 记账', () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const gsFail = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     try {
       // 全局表无任何 label → L_1 解析不到
@@ -228,6 +231,10 @@ describe('K06 startOverworldItemScript 失败门:scriptOnUse=0 / label 不在全
       expect(gsOk.eventCursor?.ip).toBe(1)
       expect(gsOk.pendingItemConsume).toBe(5) // consuming → 脚本结束后按 fScriptSuccess 扣
       expect(gsOk.fScriptSuccess).toBe(true)
+      expect(warning.mock.calls).toEqual([
+        ['[item-use] scriptOnUse=0 for itemId=5,不可用'],
+        ['[item-use] L_1 不在全局 labelMap(itemId=5)'],
+      ])
     } finally {
       setGlobalEvents([])
     }

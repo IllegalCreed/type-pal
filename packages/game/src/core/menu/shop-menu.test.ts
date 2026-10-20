@@ -159,7 +159,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
   })
 
   it('买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)', () => {
-    gs.dwCash = 50 // 全部商品都买不起(最低 100)
+    gs.dwCash = 50 // 当前首项item87价格100，不能确认；目录中其它商品不参与本次选中门
     loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])
     tickEventSystem(gs, snap(), createCommandBus())
     dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())

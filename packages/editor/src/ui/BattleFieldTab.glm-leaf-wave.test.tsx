@@ -141,7 +141,11 @@ describe('BattleFieldTab 剩余合同', () => {
       label: '云海背景',
       origin: { kind: 'authored' },
     }
-    battleSession.dispatch(new UpsertAssetCommand('battle-bg.leaf.001', record, new ArrayBuffer(4)))
+    await act(async () => {
+      battleSession.dispatch(
+        new UpsertAssetCommand('battle-bg.leaf.001', record, new ArrayBuffer(4)),
+      )
+    })
 
     const historyBefore = battleSession.getHistoryVersion()
     await chooseOption('战场 1 背景', '云海背景')

@@ -12,6 +12,7 @@ import {
 import { act, createElement, useSyncExternalStore } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, expect, vi } from 'vitest'
+import { waitForReact } from '../../__tests__/react-io-wait.js'
 import { fixtureSource } from '../../core/__tests__/battle-trial-project.js'
 import { EditSession } from '../../core/edit-session.js'
 import { createEditorAssetReader } from '../../core/editor-asset-reader.js'
@@ -338,17 +339,8 @@ export async function frameEditor(
     expect(session.getHistoryVersion()).toBe(0)
     expect(session.isDirty()).toBe(false)
   }
-  const wait = async (condition: () => void) => {
-    await vi.waitFor(
-      async () => {
-        await act(async () => {
-          await new Promise((resolve) => setTimeout(resolve, 0))
-        })
-        condition()
-      },
-      { timeout: 3000, interval: 5 },
-    )
-  }
+  const wait = (condition: () => void) => waitForReact(condition, { timeout: 3000, interval: 5 })
+
   const ready = () =>
     wait(() => {
       expect(metadata.mock.lastCall?.[0]).toBeDefined()

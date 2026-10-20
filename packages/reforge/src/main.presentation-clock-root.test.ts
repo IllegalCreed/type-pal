@@ -5,8 +5,8 @@ import { drain, key, observation, until } from './__tests__/runtime-shell/driver
 import { sceneWithCommands, shellProject } from './__tests__/runtime-shell/project.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
   Reflect.deleteProperty(window, '__tpObserve')
 })

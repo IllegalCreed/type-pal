@@ -9,8 +9,8 @@ import { key, observation } from './__tests__/runtime-shell/driver.js'
 import { shellProject, shellScene } from './__tests__/runtime-shell/project.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

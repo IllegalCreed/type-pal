@@ -12,7 +12,7 @@ import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
 
 /** {真 WORD id, choice, fallback文案} → SelectionMenuItem{id, label=getWord(id, fallback)}。 */
-function toItems<C>(defs: ReadonlyArray<{ id: number; choice: C; fallback: string }>) {
+function toItems(defs: ReadonlyArray<{ id: number; fallback: string }>) {
   return defs.map((d) => ({ id: d.id, label: getWord(d.id, d.fallback) }))
 }
 

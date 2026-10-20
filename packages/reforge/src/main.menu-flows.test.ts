@@ -5,8 +5,8 @@ import { key, observation } from './__tests__/runtime-shell/driver.js'
 import { projectData, shellProject } from './__tests__/runtime-shell/project.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 async function boot(options: Parameters<typeof shellProject>[0] = {}) {
@@ -89,7 +89,7 @@ test('H3 insufficient MP cannot enter a cast; exact same skill succeeds with eno
     }
     expect(observation().world).toEqual(expected)
     await h.settleIO()
-    h.close()
+    await h.close()
     host = undefined
   }
 })

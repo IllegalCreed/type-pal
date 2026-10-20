@@ -174,9 +174,13 @@ describe('M05 BattleSpriteLibrary 敌人计时草稿', () => {
     expect(session.getHistoryVersion()).toBe(historyBefore + 1)
     assertProjectSaveValid(session.getState())
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(goblinProfile().idleTicksPerFrame).toBe(idleBefore)
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(goblinProfile().idleTicksPerFrame).toBe(Math.max(1, Math.round(120 / 40)))
   })
 

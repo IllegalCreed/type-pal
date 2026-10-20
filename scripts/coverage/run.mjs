@@ -244,6 +244,8 @@ async function collectPackage(packageConfig, outputRoot) {
     'exec',
     'vitest',
     'run',
+    // Vitest's automatic agent reporter hides passing-test diagnostics.
+    '--reporter=default',
     ...selectedVitestArgs(packageConfig, profile),
     '--coverage',
     '--coverage.provider=v8',

@@ -8,8 +8,8 @@ import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-
 import { drain, until } from './__tests__/runtime-shell/driver.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

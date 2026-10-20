@@ -7,7 +7,7 @@
     "dev": "vite --port 6005 --strictPort",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --reporter=default --passWithNoTests",
     "check": "pnpm typecheck && pnpm test"
   },
   "dependencies": {

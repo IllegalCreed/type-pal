@@ -7,6 +7,17 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-20 complete pre94 + standing dedup authority. CODE88: identical
+    // input as retained MP-sufficient case; exact label list already implies length=2.
+    // No lost zero-slot contract. Proof: pre94 menu-core-closeout.json.
+    {
+      file: 'packages/game/src/core/menu/__tests__/item-magic-select.test.ts',
+      previous: 11,
+      current: 10,
+      previousIdentityDigest: 'f7eb8ac2da235ba950efe122d8c30cd1f7303ad5c0711b42f30624bc8c4145da',
+      currentIdentityDigest: '6cfcd76b318d44b6db25ca39e8e2ba51e4ac4ad070be5ce8d15899d85e2c91a5',
+      fileSha256: 'ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6',
+    },
     // User2026-10-20 five-card necessary rework + standing test-quality/dedup authority.
     // CODE90 seven weaker/invalid cases map to stronger retained tests;three names corrected.
     // CODE80 fake-mode party case maps to realstartBattle DOM lifecycle tests.

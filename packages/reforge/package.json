@@ -18,7 +18,7 @@
     "audit:dialog-wrap": "tsx scripts/audit-dialog-wrap.mts",
     "audit:entity-motion": "tsx scripts/audit-entity-motion.mts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --reporter=default --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
     "dev:pal": "VITE_PROJECT_ID=pal vite --port 6051 --strictPort"
   },

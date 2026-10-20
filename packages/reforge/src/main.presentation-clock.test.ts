@@ -8,8 +8,8 @@ import { bootScenario, installShellHost, state } from './__tests__/runtime-shell
 import type { DialogueObservation, DialogueSlotObservation } from './dialog/dialog-box.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
   for (const property of ['__tpObserve', '__rfDither', '__rfSceneEntry'])
     Reflect.deleteProperty(window, property)

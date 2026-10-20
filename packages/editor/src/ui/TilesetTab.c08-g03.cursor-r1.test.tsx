@@ -12,6 +12,7 @@ import {
   mountTilesetTab,
 } from '../__tests__/cursor-asset-r1/c08-tileset-harness.js'
 import { pickCombobox, stubNodeTestHost, typeDraft } from '../__tests__/cursor-asset-r1/kit.js'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 
 let mounted: MountedTilesetTab | undefined
 
@@ -31,7 +32,7 @@ afterEach(async () => {
 })
 
 async function waitPreview(host: HTMLElement): Promise<void> {
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(host.querySelector('[aria-label="瓦片帧预览"]')).not.toBeNull()
   })
 }
@@ -46,13 +47,15 @@ describe('C08-G03 TilesetTab 库视图与预览', () => {
 
   test('C08-G03-02 搜索瓦片集过滤列表且清空恢复', async () => {
     mounted = await mountTilesetTab('c08-g03-02')
-    await appendAuthoredTileset(mounted.session, {
-      id: 'c08-interior',
-      name: '室内',
-      category: 'indoor',
-      asset: 'tileset.authored.c08interior',
+    const { session } = mounted
+    await act(async () => {
+      await appendAuthoredTileset(session, {
+        id: 'c08-interior',
+        name: '室内',
+        category: 'indoor',
+        asset: 'tileset.authored.c08interior',
+      })
     })
-    await act(async () => Promise.resolve())
     const search = mounted.host.querySelector<HTMLInputElement>('input[aria-label="搜索瓦片集"]')!
     await typeDraft(search, '室内')
     expect(mounted.host.querySelectorAll('.tileset-library-row').length).toBe(1)
@@ -62,13 +65,15 @@ describe('C08-G03 TilesetTab 库视图与预览', () => {
 
   test('C08-G03-03 分类筛选 outdoor 后只剩 starter 行', async () => {
     mounted = await mountTilesetTab('c08-g03-03')
-    await appendAuthoredTileset(mounted.session, {
-      id: 'c08-indoor-only',
-      name: '室内专用',
-      category: 'indoor',
-      asset: 'tileset.authored.c08indoor',
+    const { session } = mounted
+    await act(async () => {
+      await appendAuthoredTileset(session, {
+        id: 'c08-indoor-only',
+        name: '室内专用',
+        category: 'indoor',
+        asset: 'tileset.authored.c08indoor',
+      })
     })
-    await act(async () => Promise.resolve())
     const trigger = mounted.host.querySelector<HTMLButtonElement>(
       'button[role="combobox"][aria-label="筛选瓦片集分类"]',
     )!
@@ -81,13 +86,15 @@ describe('C08-G03 TilesetTab 库视图与预览', () => {
 
   test('C08-G03-04 点击第二行切换检查器标题到新名称', async () => {
     mounted = await mountTilesetTab('c08-g03-04')
-    await appendAuthoredTileset(mounted.session, {
-      id: 'c08-second',
-      name: '第二套',
-      category: 'outdoor',
-      asset: 'tileset.authored.c08second',
+    const { session } = mounted
+    await act(async () => {
+      await appendAuthoredTileset(session, {
+        id: 'c08-second',
+        name: '第二套',
+        category: 'outdoor',
+        asset: 'tileset.authored.c08second',
+      })
     })
-    await act(async () => Promise.resolve())
     const row = [...mounted.host.querySelectorAll<HTMLButtonElement>('.tileset-library-row')].find(
       (candidate) => candidate.querySelector('.mono')?.textContent === 'c08-second',
     )!

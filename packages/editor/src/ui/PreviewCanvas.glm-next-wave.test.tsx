@@ -62,6 +62,7 @@ let host: HTMLDivElement
 let root: Root
 
 beforeEach(() => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   installBrowserHardwarePorts()
   host = document.createElement('div')
   document.body.append(host)

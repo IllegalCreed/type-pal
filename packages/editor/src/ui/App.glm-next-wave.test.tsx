@@ -13,6 +13,7 @@ import {
   type AppScriptContext,
   createAppScriptContext,
 } from '../__tests__/glm-next-wave/F/app-script-kit.js'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 
 vi.mock('./SceneCanvas.js', () => ({ SceneCanvas: () => <div /> }))
 // hoist-safe：mock 工厂只允许依赖 vi.hoisted 绑定与工厂内动态 import；
@@ -55,6 +56,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   vi.stubGlobal('isSecureContext', true)
   vi.stubGlobal(
     'ResizeObserver',
@@ -101,14 +103,14 @@ describe('F01 App 路由→命令编辑回显与取消', () => {
   test('脚本库路由打开共享脚本，命令编辑弹窗回显 ms=17，取消零历史零 dirty', async () => {
     await context.mount('/?module=story&page=scripts')
     // 路由落到脚本库：共享脚本目录含刚登记的「离开测试」。
-    await vi.waitFor(() => expect(context.host.textContent).toContain('离开测试'))
+    await waitForReact(() => expect(context.host.textContent).toContain('离开测试'))
     const scriptEntry = [
       ...context.host.querySelectorAll<HTMLElement>('button, [role="treeitem"]'),
     ].find((candidate) => candidate.textContent?.includes('离开测试'))
     expect(scriptEntry, 'shared script catalog entry').toBeDefined()
     await act(async () => scriptEntry!.click())
     // 命令行双击 → 编辑弹窗回显当前毫秒值。
-    await vi.waitFor(() => expect(scriptRow()).toBeTruthy())
+    await waitForReact(() => expect(scriptRow()).toBeTruthy())
     await act(async () =>
       scriptRow().dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
     )

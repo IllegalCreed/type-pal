@@ -35,6 +35,7 @@ import { buildBlankProjectMap, spriteBlitRect } from '@type-pal/reforge'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { EditSession } from '../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { AddEntityCommand, MoveEntityCommand } from '../core/entity-commands.js'
@@ -239,7 +240,7 @@ async function mount(options: { placing?: boolean; seedActor?: boolean } = {}): 
     )
   })
   const expected = `${Math.round(sceneView(map).zoom * 100)}%`
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(noteText()).toContain(expected)
     expect(noteText()).not.toContain('载入中')
   })
@@ -404,7 +405,7 @@ describe('K12 SceneCanvas 真实布置画布工作流', () => {
         clientY: anchorPoint.clientY,
       })
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(noteText()).toContain(`${Math.round(view.zoom * 1.12 * 100)}%`)
     })
     await pointerAt('pointerdown', anchorPoint)
@@ -427,7 +428,7 @@ describe('K12 SceneCanvas 真实布置画布工作流', () => {
           clientY: anchorPoint.clientY,
         })
       })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(noteText()).toContain('4%')
     })
     await act(async () => {
@@ -530,7 +531,7 @@ describe('K12 SceneCanvas 真实布置画布工作流', () => {
 
     // 首轮磁盘回退真实读图：start 12×12 → 21%。
     await renderScene(sceneA)
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(noteText()).toContain(zoomA)
       expect(noteText()).not.toContain('载入中')
     })
@@ -541,7 +542,7 @@ describe('K12 SceneCanvas 真实布置画布工作流', () => {
     const hold = gate.gate(tilesetPath)
     try {
       await renderScene(sceneB)
-      await vi.waitFor(() => {
+      await waitForReact(() => {
         expect(gate.calls.length).toBe(2)
       })
       expect(noteText()).toContain('载入中')
@@ -549,7 +550,7 @@ describe('K12 SceneCanvas 真实布置画布工作流', () => {
 
       // 在途时切回 start：同一 tileset 读取也被闸住（第三进入、仍零完成增量）。
       await renderScene(sceneA)
-      await vi.waitFor(() => {
+      await waitForReact(() => {
         expect(gate.calls.length).toBe(3)
       })
       expect(gate.completed).toEqual([tilesetPath])
@@ -558,7 +559,7 @@ describe('K12 SceneCanvas 真实布置画布工作流', () => {
     }
 
     // 放行后两条读取都真实完成；当前归属是 start（21%），迟到的 map-b（8×8 → 30%）不得覆盖。
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(noteText()).not.toContain('载入中')
     })
     expect(gate.completed).toEqual([tilesetPath, tilesetPath, tilesetPath])

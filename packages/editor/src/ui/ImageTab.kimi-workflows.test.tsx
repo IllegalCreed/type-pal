@@ -43,6 +43,7 @@ import { type AssetBase, loadStandardPalette } from '@type-pal/reforge'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { UpsertAssetCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -251,7 +252,7 @@ function previewStage(): HTMLElement {
 }
 
 async function waitPreviewSize(text: string): Promise<void> {
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(host.querySelector('.image-preview-size')?.textContent).toBe(text)
   })
 }
@@ -316,7 +317,7 @@ async function flushAnimationFrame(): Promise<void> {
 }
 
 async function waitOutlinerError(): Promise<string> {
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(host.querySelector('.image-library-outliner .cf-err')).not.toBeNull()
   })
   return host.querySelector('.image-library-outliner .cf-err')!.textContent!
@@ -329,7 +330,7 @@ function heroTitle(): string {
 }
 
 async function waitCatalogAsset(mounted: Mounted, id: string): Promise<AssetRecordV1> {
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(mounted.session.getState().assetCatalog.assets[id], `catalog 应有 ${id}`).toBeDefined()
   })
   return mounted.session.getState().assetCatalog.assets[id]!
@@ -490,7 +491,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     const pngB = pngRgba(10, 5, rgbaB)
     const shaB = await sha256Hex(pngB)
     await replacePng('新立绘.png', pngB)
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[id]?.sha256).toBe(shaB)
     })
     // AssetId 与 label 不动；path/bytes/sha/origin.ref 按新内容落账。
@@ -595,7 +596,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
       label: '坏尺寸',
       png: wrongDimsPng,
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.image-preview-error')).not.toBeNull()
     })
     expect(host.querySelector('.image-preview-error')?.textContent).toBe(
@@ -604,7 +605,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     expect(host.querySelector('.image-preview-size')?.textContent).toBe('读取图片…')
     expect(host.querySelector('.image-preview-surface canvas.hidden')).not.toBeNull()
     // 缩略图同一守卫：有界错误徽标而非崩溃。
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.image-asset-thumb.error')).not.toBeNull()
     })
     expect(host.querySelector('.image-asset-thumb.error')?.getAttribute('title')).toBe(
@@ -628,7 +629,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     const bandPng = pngRgba(320, 200, bandRgba)
 
     const openReview = async (): Promise<HTMLElement> => {
-      await vi.waitFor(
+      await waitForReact(
         () => {
           const review = host.querySelector<HTMLElement>('section.image-import-review')
           expect(review, '评审面板').not.toBeNull()
@@ -677,7 +678,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     expect(mounted.session.getHistoryVersion()).toBe(historyAtTab)
 
     await clickButton(review, '取消')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.image-import-review')).toBeNull()
     })
     expect(mounted.session.getHistoryVersion()).toBe(historyAtTab)
@@ -694,7 +695,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     await importPng('原野战场.png', bandPng)
     const review2 = await openReview()
     await clickButton(review2, '使用适配结果')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(
         Object.keys(mounted.session.getState().assetCatalog.assets).filter((key) =>
           key.startsWith('battle-background.authored.'),
@@ -755,7 +756,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     expect(canvasPixel(300, 100)).toEqual([...palette.colors[10]!, 255])
     expect(canvasPixel(50, 100)[0]).not.toBe(canvasPixel(50, 100)[1])
     // 战场背景缩略图经同一色盘链路上图（真实解码 + 重编码 + object URL）。
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.image-asset-thumb img')).not.toBeNull()
     })
     expect(domPort.liveObjectUrls()).toBe(1)
@@ -766,7 +767,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     })
     expect(mounted.session.getState().assetCatalog.assets[id]).toBeUndefined()
     expect(mounted.session.getState().assetBlobs[record.path]).toBeUndefined()
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(domPort.liveObjectUrls()).toBe(0)
     })
     await act(async () => {
@@ -929,7 +930,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     })
     const historyAfterSeeds = mounted.session.getHistoryVersion()
     try {
-      await vi.waitFor(() => {
+      await waitForReact(() => {
         expect(decodePort.entries).toEqual([pngA.byteLength])
       })
       expect(decodePort.completions).toEqual([])
@@ -945,7 +946,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
       hold.resolve()
     }
     // 迟到完成：alpha 位图按归属协议关闭且不落地，beta 画面/选择/错误面全部不动。
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(decodePort.completions).toEqual([pngB.byteLength, pngA.byteLength])
     })
     expect(host.querySelector('.image-preview-size')?.textContent).toBe('10 × 5')
@@ -988,7 +989,7 @@ describe('K05 ImageTab 真实图像工作流', () => {
     await act(async () => {
       buttonByLabel(dialog!, '删除图片').click()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[idA]).toBeUndefined()
     })
     expect(

@@ -19,7 +19,7 @@ const recordOf = (path: string): AssetRecordV1 => ({
 })
 
 /** WAV 合法性自证：产品 assertWave 只查长度/RIFF/WAVE 标记（r2 确认的现行合同域）。 */
-test('fixture 合法性：legalWav 过产品 RIFF/WAVE 门（构造正控）', () => {
+test('fixture 合法性：legalWav 过产品 RIFF/WAVE 门（构造正控）', async () => {
   const reader = { record: () => recordOf('x.wav'), readBytes: async () => legalWav() }
   const adapter: SfxAudioAdapter = {
     state: 'running',
@@ -28,7 +28,7 @@ test('fixture 合法性：legalWav 过产品 RIFF/WAVE 门（构造正控）', (
     play: () => ({ stop: () => {} }),
   }
   const player = new SfxPlayer(reader, adapter)
-  void expect(player.prepare(['sfx.ok'])).resolves.toBeUndefined()
+  await expect(player.prepare(['sfx.ok'])).resolves.toBeUndefined()
 })
 
 describe('B1 RIFF 标记门三轴：坏输入在 decode 前拒绝（decode 零调用见证）', () => {

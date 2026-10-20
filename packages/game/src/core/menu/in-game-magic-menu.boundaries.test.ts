@@ -5,7 +5,8 @@
  * 错 phase 零请求、refresh 后 cursor 落回上次 spell。
  */
 import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { magicWithCost as magic } from './__tests__/magic-cost-fixture.js'
 import {
   cancelInGameMagic,
   confirmCaster,
@@ -13,29 +14,11 @@ import {
   confirmTarget,
   createInGameMagicMenu,
   refreshSpellMenu,
+  rememberMagicCasterCursor,
 } from './in-game-magic-menu.js'
 
-function magic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
+beforeEach(() => rememberMagicCasterCursor(0))
+afterEach(() => rememberMagicCasterCursor(0))
 
 const magics: Magic[] = [magic(1, 4), magic(2, 9)]
 const spells: Spell[] = [

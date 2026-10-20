@@ -1,8 +1,10 @@
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from './command-bus.js'
 import { buildLabelMap, OP_GOTO_IF_NO, OP_SET_CAMERA, tickEventSystem } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
+
+afterEach(() => vi.restoreAllMocks())
 
 /**
  * TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 — 事件解释器控制流残差合同。
@@ -29,6 +31,7 @@ function loadEvent(gs: GameState, commands: Command[], startIp = 0): void {
 
 describe('TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同', () => {
   it('resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)', () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     // sdlpal script.c:3382 `wScriptEntry = operand[0]` 无目标保护;TS 侧目标解不出时按
     // goto 越界同款 fail-closed:清 cursor/问句、消费 pendingItem、复位 iCurEquipPart、
     // restoreModeAfterScript,返回 false 让 tickEventSystem 停在本 tick(1637-1639)。
@@ -64,6 +67,9 @@ describe('TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同', () => {
     expect(gs.dialogBox).toBeUndefined() // 问句被 clearDialogBoxes 清掉
     expect(gs.dialogBoxKept).toBeUndefined()
     expect(gs.dialogHistory?.some((line) => line.text === '不该看到')).toBe(false) // 是分支未跑
+    expect(warning.mock.calls).toEqual([
+      ['event-system: 0x0A goto entry 9 不在 labelMap → 终止脚本'],
+    ])
   })
 
   it('0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘', () => {

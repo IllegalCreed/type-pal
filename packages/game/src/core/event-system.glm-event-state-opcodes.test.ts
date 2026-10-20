@@ -14,7 +14,7 @@
  * 反控针 8 个,一一对应本文件 8 合同,见 evidence/mutation-points.json。
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from './command-bus.js'
 import {
   buildLabelMap,
@@ -31,6 +31,8 @@ import {
   tickEventSystem,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
+
+afterEach(() => vi.restoreAllMocks())
 
 function snap(pressed: AbstractKey[] = [], frameNum = 0): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum }
@@ -151,6 +153,7 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
   })
 
   it('runEnterScript goto 缺失:warn + fail-stop,后续 opcode 不执行(不抛错不自旋)', () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const commands: Command[] = [
       { op: 'raw', opcode: OP_ADD_CASH, operands: [100, 0, 0] },
@@ -162,6 +165,7 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
     expect(gs.dwCash).toBe(100) // goto 前的 opcode 已生效
     expect(gs.party.x).toBe(0) // goto 后的 opcode 不执行
     expect(gs.party.y).toBe(0)
+    expect(warning.mock.calls).toEqual([['runEnterScript: goto label L_MISSING 不在 labelMap']])
   })
 
   it('0x4C 阻挡追击:i+j*2>=48 菱形子格回弹基准双进位(prevx/prevy 各 +1 tile,script.c:356-388)', () => {

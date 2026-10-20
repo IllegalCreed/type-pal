@@ -5,8 +5,8 @@ import { drain, key, observation } from './__tests__/runtime-shell/driver.js'
 import { projectData, shellProject } from './__tests__/runtime-shell/project.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 
@@ -101,7 +101,7 @@ test('H1 failed chrome read rejects the real boot; repaired source boots on a fr
   expect(failure).toContain('503')
   expect(host.frames.size).toBe(0)
   expect(Reflect.has(window, '__reforge')).toBe(false)
-  host.close()
+  await host.close()
   host = await installShellHost()
   await (await import('./main.js')).bootGame((await shellProject()).project, {
     kind: 'project',

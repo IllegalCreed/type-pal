@@ -114,7 +114,9 @@ describe('M01 BattleFieldTab 提交/取消/资源失败边界', () => {
     expect(session.getHistoryVersion()).toBe(before + 1)
     expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('#025')
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().battleFields).toEqual(beforeSnapshot)
   })
 
@@ -158,7 +160,9 @@ describe('M01 BattleFieldTab 提交/取消/资源失败边界', () => {
     expect((session.getState().battleFields ?? [])[1]).toEqual(field(24))
     expect(session.getHistoryVersion()).toBe(before + 1)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect((session.getState().battleFields ?? [])[0]).toEqual(field(6))
   })
 

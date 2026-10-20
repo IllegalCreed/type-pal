@@ -1,7 +1,7 @@
 /**
  * TEST-GAME-MENU-BOUNDARIES-1 G09：in-game-menu 系统菜单状态字段（in-game-menu.ts）。
  * 既有 in-game-menu.test 已覆盖词表/顺序/default/环绕——不重复。本文件：
- * systemMenuEnterConfirm/EnterSwitch/ToggleConfirm 三状态字段（:104/110/118）、
+ * systemMenuEnterConfirm/EnterSwitch/ToggleConfirm 三状态字段、
  * systemMenuChoice 按 id 而非数组位置。
  */
 import { describe, expect, it } from 'vitest'

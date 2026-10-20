@@ -22,8 +22,8 @@ import { IndexedDbSaveStore } from './save/store.js'
 import type { SaveMeta } from './save/types.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

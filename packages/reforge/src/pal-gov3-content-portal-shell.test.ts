@@ -13,8 +13,8 @@ const modules = import.meta.glob<{ default: unknown }>(
 )
 const scenes = validateAuthorScenes(Object.values(modules).map((module) => module.default))
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

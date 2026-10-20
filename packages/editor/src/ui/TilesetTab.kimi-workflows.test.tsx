@@ -47,6 +47,7 @@ import {
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { AddTilesetCommand, UpsertAssetCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -156,7 +157,7 @@ async function mountTab(options?: {
     await Promise.resolve()
   })
   // 真实链路就位见证：标准色盘载入 + starter 瓦片集磁盘字节真实解码出 4 帧网格。
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(previewRange()).toBe('1–4 / 4 块')
   })
   return { session, source, assetBase: legal.assetBase, reader, focusLog, openedReferences }
@@ -189,8 +190,12 @@ async function decodeCurrent(mounted: Mounted, asset: string): Promise<RleFrame[
     mounted.session.getState().assetCatalog.assets[asset],
     `catalog 应有 ${asset}`,
   ).toBeDefined()
-  const map = await loadTilesetAsset(mounted.reader, asset)
-  return [...map.values()]
+  const frames: RleFrame[] = []
+  // The mounted preview shares this reader/cache; its completion can update React too.
+  await act(async () => {
+    frames.push(...(await loadTilesetAsset(mounted.reader, asset)).values())
+  })
+  return frames
 }
 
 function tilesetRow(id: string): HTMLButtonElement {
@@ -217,7 +222,7 @@ async function pickAtlas(
   imgH: number,
 ): Promise<void> {
   await loadFilesIntoInput(inputByAccept(host, ATLAS_ACCEPT), [pngFileOf(name, bytes)])
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(host.querySelector('.tileset-atlas-card')?.textContent ?? '').toContain(
       `${imgW}×${imgH}`,
     )
@@ -226,7 +231,7 @@ async function pickAtlas(
 
 /** 切片汇总文本出现即代表 draft+palette+参数全部就位（量化预览同一渲染拍）。 */
 async function waitCutSummary(frames: number): Promise<void> {
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(host.querySelector('.tileset-cut-summary')?.textContent).toBe(`将切出 ${frames} 块瓦片`)
   })
 }
@@ -251,7 +256,7 @@ function frameCellTitles(): string[] {
 
 /** 移除按钮真实状态机等待（扫描完成后的确定文案）。 */
 async function waitRemovalButton(label: string): Promise<void> {
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(
       [...host.querySelectorAll('button')].some(
         (candidate) => candidate.textContent?.trim() === label,
@@ -311,7 +316,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
 
     await clickButton(host, '入库瓦片集')
     const asset = 'tileset.forest-kit'
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[asset]).toBeDefined()
     })
     const record = mounted.session.getState().assetCatalog.assets[asset]!
@@ -336,7 +341,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     expect(mounted.session.getHistoryVersion()).toBeGreaterThan(historyAtMount)
     expect(mounted.session.isDirty()).toBe(true)
     // 选中保持在新条目：列表选中态、hero、focus 同步与 pending blob 真实预览。
-    await vi.waitFor(() => expect(previewRange()).toBe('1–6 / 6 块'))
+    await waitForReact(() => expect(previewRange()).toBe('1–6 / 6 块'))
     expect(tilesetRow('forest-kit').getAttribute('aria-pressed')).toBe('true')
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('森林套件')
     expect(mounted.focusLog.at(-1)).toBe('forest-kit')
@@ -351,7 +356,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     )
     await expect(loadTilesetAsset(mounted.reader, asset)).rejects.toThrow('不在 catalog')
     // 选中回退到首个瓦片集并同步 focus。
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(tilesetRow('starter').getAttribute('aria-pressed')).toBe('true')
     })
     expect(mounted.focusLog.at(-1)).toBe('starter')
@@ -400,7 +405,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
 
     // 取消侧：零提交、零登记、选中保持 starter。
     await clickButton(host, '取消上传')
-    await vi.waitFor(() => expect(previewRange()).toBe('1–4 / 4 块'))
+    await waitForReact(() => expect(previewRange()).toBe('1–4 / 4 块'))
     expect(mounted.session.getHistoryVersion()).toBe(historyAtMount)
     expect(mounted.session.getState().tilesets?.map((entry) => entry.id)).toEqual(['starter'])
     expect(mounted.session.getState().assetCatalog.assets['tileset.mega-atlas']).toBeUndefined()
@@ -447,7 +452,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     await waitRemovalButton('确认移除')
     const historyBeforeRemove = mounted.session.getHistoryVersion()
     await clickButton(host, '确认移除')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().tilesets?.map((entry) => entry.id)).toEqual(['starter'])
     })
     expect(mounted.session.getState().assetCatalog.assets['tileset.k04-extra']).toBeUndefined()
@@ -458,7 +463,9 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     expect(mounted.session.getHistoryVersion()).toBeGreaterThan(historyBeforeRemove)
     expect(host.querySelector('.tileset-error')).toBeNull()
     // 选中回退到 starter 并同步 focus。
-    await vi.waitFor(() => expect(tilesetRow('starter').getAttribute('aria-pressed')).toBe('true'))
+    await waitForReact(() =>
+      expect(tilesetRow('starter').getAttribute('aria-pressed')).toBe('true'),
+    )
     expect(mounted.focusLog.at(-1)).toBe('starter')
 
     // undo：定义/catalog/pending 字节全还原，真实解码逐帧一致；redo 再移除。
@@ -474,7 +481,9 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     )
     const restoredBlob = mounted.session.getState().assetBlobs[seeded.record.path]
     expect(restoredBlob).toBeDefined()
-    expect(await sha256Hex(restoredBlob!.slice(0))).toBe(seeded.record.sha256)
+    await act(async () => {
+      expect(await sha256Hex(restoredBlob!.slice(0))).toBe(seeded.record.sha256)
+    })
     expect(await decodeCurrent(mounted, 'tileset.k04-extra')).toEqual(seeded.frames)
     assertProjectSaveValid(mounted.session.getState())
     await act(async () => {
@@ -513,7 +522,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     expect(outOfRange!.textContent).toContain('start · #1')
     const historyBeforeBlock = mounted.session.getHistoryVersion()
     await clickButton(host, '替换瓦片集图像')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.tileset-error')).not.toBeNull()
     })
     expect(host.querySelector('.tileset-error')?.textContent).toBe(
@@ -533,7 +542,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     await waitCutSummary(4)
     expect(host.querySelector('section[aria-label="替换越界引用"]')).toBeNull()
     await clickButton(host, '替换瓦片集图像')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[STARTER_ASSET]?.sha256).toBe(
         expected.sha256,
       )
@@ -555,7 +564,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     expect(await decodeCurrent(mounted, STARTER_ASSET)).toEqual(expectedFrames)
     assertProjectSaveValid(mounted.session.getState())
     // 预览按新 sha 真实重载：新帧形 32×16（旧帧 32×15）。
-    await vi.waitFor(() => expect(frameCellTitles()[0]).toBe('#0 · 32×16'))
+    await waitForReact(() => expect(frameCellTitles()[0]).toBe('#0 · 32×16'))
     expect(previewRange()).toBe('1–4 / 4 块')
     expect(confirm).not.toHaveBeenCalled()
 
@@ -567,7 +576,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     )
     expect(mounted.session.getState().assetBlobs[record.path]).toBeUndefined()
     expect(await decodeCurrent(mounted, STARTER_ASSET)).toEqual(originalFrames)
-    await vi.waitFor(() => expect(frameCellTitles()[0]).toBe('#0 · 32×15'))
+    await waitForReact(() => expect(frameCellTitles()[0]).toBe('#0 · 32×15'))
     await act(async () => {
       expect(mounted.session.redo()).toBe(true)
     })
@@ -624,7 +633,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     await pickAtlas('duo.png', solidAtlasPng(32, 16, colors).bytes, 64, 16)
     await waitCutSummary(2)
     await clickButton(host, '替换瓦片集图像')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[STARTER_ASSET]?.sha256).toBe(
         expected.sha256,
       )
@@ -632,7 +641,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     expect(mounted.session.getState().tilesets).toEqual(tilesetsBefore)
     expect(await decodeCurrent(mounted, STARTER_ASSET)).toEqual(expectedFrames)
     assertProjectSaveValid(mounted.session.getState())
-    await vi.waitFor(() => expect(previewRange()).toBe('1–2 / 2 块'))
+    await waitForReact(() => expect(previewRange()).toBe('1–2 / 2 块'))
 
     await act(async () => {
       expect(mounted.session.undo()).toBe(true)
@@ -668,7 +677,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
     const completedBefore = gate.completed.length
     const hold = gate.gate(originalRecord.path)
     await act(async () => buttonByLabel(host, '替换瓦片集图像').click())
-    await vi.waitFor(() => expect(gate.calls.length).toBeGreaterThan(callsBefore))
+    await waitForReact(() => expect(gate.calls.length).toBeGreaterThan(callsBefore))
     expect(gate.calls.at(-1)).toBe(originalRecord.path)
     expect(gate.completed.length).toBe(completedBefore)
 
@@ -689,7 +698,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
       const historyAfterUpsert = mounted.session.getHistoryVersion()
       hold.resolve()
       // 中性等待：报错或提交都能退出在途，随后业务断言分胜负（反控下必须是 AssertionError）。
-      await vi.waitFor(() => {
+      await waitForReact(() => {
         expect(
           host.querySelector('.tileset-error') !== null ||
             mounted.session.getHistoryVersion() !== historyAfterUpsert,
@@ -713,7 +722,7 @@ describe('K04 TilesetTab 真实图集工作流', () => {
 
     // 重试正控：新 record 字节已在 pending blob，不再碰磁盘闸门，真实替换成功。
     await clickButton(host, '替换瓦片集图像')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[STARTER_ASSET]?.sha256).toBe(
         expected.sha256,
       )

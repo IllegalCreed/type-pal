@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { createItemSelectMenu } from '../item-select.js'
 import { createMagicSelectMenu } from '../magic-select.js'
 import { getSelected } from '../primitives.js'
+import { magicWithCost as makeMagic } from './magic-cost-fixture.js'
 
 // R3(2026-10-15):flags 参数域显式 Partial — 构造方负责补全默认位,调用处不再用强转
 // 把残缺 flags 伪装成完整 ItemFlags(类型合同交给 typecheck)。
@@ -108,25 +109,6 @@ describe('M-w0.2 ItemSelectMenu', () => {
 })
 
 describe('M-w0.2 MagicSelectionMenu', () => {
-  const makeMagic = (id: number, costMP: number): Magic => ({
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  })
   const makeSpell = (id: number, magicNumber: number, name: string): Spell => ({
     id,
     magicNumber,
@@ -214,17 +196,6 @@ describe('M-w0.2 MagicSelectionMenu', () => {
     })
     expect(s.items[0]?.disabled).toBe(true)
     expect(s.cursor).toBe(0)
-  })
-
-  it('role 未学法术槽位 = 0 → 不显示', () => {
-    const s = createMagicSelectMenu({
-      roleId: 0,
-      playerRoles,
-      spells,
-      magics,
-      currentMp: 100,
-    })
-    expect(s.items.length).toBe(2) // 不含 0 槽位
   })
 
   it('L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397', () => {

@@ -2,10 +2,13 @@
 import { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import * as controls from './controls.js'
 import { DsHelpTip, DsTooltip } from './help-tips.js'
 import * as root from './index.js'
+
+beforeEach(() => vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true))
+afterEach(() => vi.unstubAllGlobals())
 
 describe('U02 help tips', () => {
   test('keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss', async () => {
@@ -55,7 +58,7 @@ describe('U02 help tips', () => {
     expect(escapeEvent.defaultPrevented).toBe(true)
     expect(wrapper.classList.contains('is-open')).toBe(false)
 
-    reactRoot.unmount()
+    await act(async () => reactRoot.unmount())
     host.remove()
   })
 })

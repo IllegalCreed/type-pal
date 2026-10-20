@@ -153,7 +153,9 @@ describe('U1a SkillTab 残差', () => {
       { kind: 'damage', power: 10, elemental: 0 },
     ])
     expect(session.getHistoryVersion()).toBe(before + 1)
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects).toEqual([])
   })
 
@@ -186,7 +188,9 @@ describe('U1a SkillTab 残差', () => {
     const gateInput = fieldControlByLabel<HTMLInputElement>(host, '概率%')
     await setInputValue(gateInput, '80')
     expect(session.getState().skills[0]!.effects[0]).toEqual({ kind: 'gate', chance: 80 })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects[0]).toEqual({ kind: 'gate', chance: 50 })
 
     const focus: string[] = []
@@ -227,7 +231,9 @@ describe('U1a SkillTab 残差', () => {
     await clickButton(host, '添加玩家施法分支')
     expect(session.getState().skills[0]!.execution).toEqual({ player: { effects: [] } })
     expect(session.getHistoryVersion()).toBe(before + 1)
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.execution).toBeUndefined()
     await act(async () => {
       root.render(<Harness session={session} focusObjectId="352" />)

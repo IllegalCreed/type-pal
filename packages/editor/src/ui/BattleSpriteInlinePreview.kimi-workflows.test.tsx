@@ -19,6 +19,7 @@ import {
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
 import { AddBattleSpriteCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -125,7 +126,7 @@ describe('K01 BattleSpriteInlinePreview 异步归属', () => {
       root.render(renderPreview(assetB))
       await Promise.resolve()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(proofs.at(-1)?.asset).toBe(assetB)
     })
     expect(proofs.at(-1)?.actualFrameCount).toBe(6)
@@ -167,7 +168,7 @@ describe('K01 BattleSpriteInlinePreview 异步归属', () => {
       )
       await Promise.resolve()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('[role="alert"]')?.textContent).toContain(
         'AssetId "battle-sprite.absent" 不在 catalog',
       )
@@ -188,7 +189,7 @@ describe('K01 BattleSpriteInlinePreview 异步归属', () => {
       )
       await Promise.resolve()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('[role="alert"]')?.textContent).toContain(
         '期望 battle-sprite，实际 tileset',
       )
@@ -213,7 +214,7 @@ describe('K01 BattleSpriteInlinePreview 异步归属', () => {
       )
       await Promise.resolve()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(proofs.at(-1)?.actualFrameCount).toBe(decoded.frames.length)
     })
     expect(proofs.at(-1)?.sha256).toBe(record.sha256)
@@ -259,7 +260,7 @@ describe('K01 BattleSpriteInlinePreview 异步归属', () => {
       )
       await Promise.resolve()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.err')?.textContent).toContain(
         'profile 期望 player-fighter，实际 enemy',
       )
@@ -279,7 +280,7 @@ describe('K01 BattleSpriteInlinePreview 异步归属', () => {
       )
       await Promise.resolve()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(proofs.at(-1)?.actualFrameCount).toBe(4)
     })
     expect(host.textContent).toContain(

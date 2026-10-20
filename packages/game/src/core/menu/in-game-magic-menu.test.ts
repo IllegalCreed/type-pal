@@ -12,7 +12,8 @@
  */
 
 import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'
 import {
   cancelInGameMagic,
   confirmCaster,
@@ -28,7 +29,11 @@ import {
   inGameMagicPageDown,
   inGameMagicPageUp,
   refreshSpellMenu,
+  rememberMagicCasterCursor,
 } from './in-game-magic-menu.js'
+
+beforeEach(() => rememberMagicCasterCursor(0))
+afterEach(() => rememberMagicCasterCursor(0))
 
 // ── fixtures ────────────────────────────────────────────────────────────────
 
@@ -165,28 +170,6 @@ const SPELLS: Spell[] = [
     _name: '飞龙探云手',
   },
 ]
-
-function mkMagic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
 
 const MAGICS: Magic[] = [
   mkMagic(33, 6),

@@ -92,8 +92,10 @@ async function chooseAddPickerOption(
   trigger: HTMLButtonElement,
   label: string,
 ): Promise<HTMLDialogElement> {
-  trigger.focus()
-  await act(async () => trigger.click())
+  await act(async () => {
+    trigger.focus()
+    trigger.click()
+  })
   await nextAnimationFrame()
   const dialog = host.querySelector<HTMLDialogElement>('dialog[open]')
   expect(dialog).not.toBeNull()
@@ -480,14 +482,18 @@ describe('入口开局世界资源', () => {
         ?.textContent,
     ).toBe('备用入口')
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints.map((entry) => entry.id)).toEqual([
       'main',
       'alternate',
       'challenge',
     ])
     expect(session.getState().manifest.defaultEntryId).toBe('main')
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints.map((entry) => entry.id)).toEqual([
       'alternate',
       'main',
@@ -578,9 +584,13 @@ describe('入口开局世界资源', () => {
     expect(session.getState().manifest.entryPoints.some((entry) => entry.id === copy.id)).toBe(
       false,
     )
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints.some((entry) => entry.id === copy.id)).toBe(true)
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints.some((entry) => entry.id === copy.id)).toBe(
       false,
     )
@@ -686,11 +696,17 @@ describe('入口开局世界资源', () => {
     expect(document.activeElement?.getAttribute('aria-label')).toBe(
       '调整伙伴顺序，第 1 项，共 2 项',
     )
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['friend', 'hero'])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
 
     await act(async () => root.render(projectTab('entrypoint', session)))
@@ -720,7 +736,9 @@ describe('入口开局世界资源', () => {
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(liveAnnouncement(host).textContent).toContain('伙伴移出初始队伍')
     expect(document.activeElement?.getAttribute('aria-label')).toBe('移出主角')
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
       hero: { hp: 90 },
@@ -730,7 +748,9 @@ describe('入口开局世界资源', () => {
     expect(() =>
       validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
     ).not.toThrow()
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero'])
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
       hero: { hp: 90 },
@@ -757,9 +777,13 @@ describe('入口开局世界资源', () => {
     )!
     expect(readdedFriendHp.value).toBe('')
     expect(readdedFriendHp.placeholder).toBe('继承 80')
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero'])
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
   })
 
@@ -811,9 +835,13 @@ describe('入口开局世界资源', () => {
       { itemId: 'pill', count: 1 },
     ])
     expect(document.activeElement).toBe(adder)
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([])
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
       { itemId: 'pill', count: 1 },
     ])
@@ -865,7 +893,9 @@ describe('入口开局世界资源', () => {
         .closest<HTMLElement>('.project-card')
         ?.querySelector('.ds-empty-state--embedded')?.textContent,
     ).toContain('暂无初始道具')
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
       { itemId: 'pill', count: 6 },
     ])
@@ -1000,11 +1030,15 @@ describe('入口开局世界资源', () => {
       { itemId: 'pill', count: 3 },
       { itemId: 'herb', count: 2 },
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory?.[0]?.itemId).toBe(
       'herb',
     )
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory?.[0]?.itemId).toBe(
       'pill',
     )
@@ -1101,9 +1135,13 @@ describe('入口开局世界资源', () => {
       },
     })
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toBeUndefined()
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toEqual({
       hero: {
         poisonIds: [7],
@@ -1172,7 +1210,9 @@ describe('入口开局世界资源', () => {
     await act(async () => save.click())
     expect(session.getHistoryVersion()).toBe(1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toBeUndefined()
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(
       session.getState().manifest.entryPoints[0]!.startWorld.seedConditions?.hero?.statuses,
     ).toEqual([{ status: 'legacy-status', turns: 3 }])
@@ -1277,7 +1317,9 @@ describe('入口开局世界资源', () => {
     })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toBeUndefined()
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toBeUndefined()
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
       friend: { hp: 12 },
     })
@@ -1353,12 +1395,16 @@ describe('入口开局世界资源', () => {
       hero: { mp: 0 },
     })
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(
       host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')?.value,
     ).toBe('80')
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(
       host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')?.value,
@@ -1488,7 +1534,9 @@ describe('入口开局世界资源', () => {
       expect(() =>
         validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
       ).not.toThrow()
-      expect(session.undo()).toBe(true)
+      await act(async () => {
+        expect(session.undo()).toBe(true)
+      })
       expect(
         session.getState().manifest.entryPoints[0]!.startWorld.seedStats?.[actorId],
       ).toBeDefined()
@@ -1641,7 +1689,9 @@ describe('入口开局世界资源', () => {
     expect(session.getHistoryVersion()).toBe(beforeRepair + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toBeUndefined()
     expect(liveAnnouncement(host).textContent).toContain('已清理未被使用的世界资源 legacyEnergy')
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     await act(async () => root.render(projectTab('entrypoint', session)))
 
     const resourceTrigger = button(host, '添加资源')
@@ -1663,13 +1713,17 @@ describe('入口开局世界资源', () => {
     expect(session.getState().manifest.entryPoints[1]!.startWorld.resources).toEqual({
       alchemyEnergy: 3,
     })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
       legacyEnergy: 4,
     })
     expect(button(host, '添加资源').textContent).toContain('添加资源')
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(host.textContent).toContain('当前入口已配置所有正在使用的自定义资源')
 
@@ -1697,7 +1751,9 @@ describe('入口开局世界资源', () => {
       legacyEnergy: 4,
     })
     expect(liveAnnouncement(host).textContent).toContain('已删除炼化壶使用的初始世界资源')
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
       legacyEnergy: 4,
       alchemyEnergy: 9,

@@ -35,6 +35,7 @@ import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from '../../ui/FrameAnimationEditor.js'
+import { installReactActEnvironment, waitForReact } from '../react-io-wait.js'
 import {
   dispatchDragEvent,
   installBrowserHardwarePorts,
@@ -155,8 +156,7 @@ export interface QuantizeWorkerHandle {
 
 export async function mountFrameEditor(options: C04Options = {}) {
   installBrowserHardwarePorts()
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
-  const cleanups: Cleanup[] = []
+  const cleanups: Cleanup[] = [installReactActEnvironment()]
   const { state: initialState, assetBase, source, records } = await buildState(options)
   const before = structuredClone(initialState)
   const session = new EditSession(initialState)
@@ -292,14 +292,8 @@ export async function mountFrameEditor(options: C04Options = {}) {
       if (blur) input.dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
     })
   }
-  /** 默认可观察就绪：不扩 timeout/interval，靠 drawn/cards 条件收敛。 */
-  const wait = (condition: () => void) =>
-    vi.waitFor(async () => {
-      await act(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 0))
-      })
-      condition()
-    })
+  /** Keep save/decode updates inside act between observable DOM checks. */
+  const wait = (condition: () => void) => waitForReact(condition)
   /** drawFrame 把画布设为帧尺寸后才算真正绘制（默认 300x150 不算）。 */
   const drawn = (canvas: HTMLCanvasElement | null) => canvas?.width === 2 && canvas.height === 1
   const ready = () =>

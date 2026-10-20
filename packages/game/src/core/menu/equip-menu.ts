@@ -36,7 +36,7 @@ export interface EquipMenuState {
   selectedItemId?: number
   /** sdlpal `iCurrentPlayer`(uigame.c:1853)— role cursor 0..wMaxPartyMemberIndex,wrap。 */
   playerCursor: number
-  /** party members snapshot(close 判断 wrap 用)。 */
+  /** 队伍roleId快照；角色导航按长度环绕，确认时由位置映射为roleId。 */
   partyMembers: number[]
 }
 

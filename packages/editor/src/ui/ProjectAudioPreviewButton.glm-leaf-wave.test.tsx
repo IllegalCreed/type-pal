@@ -24,9 +24,12 @@ beforeEach(() => {
 })
 
 afterEach(async () => {
-  stopEditorAudioPreview()
-  await act(async () => root.unmount())
+  await act(async () => {
+    stopEditorAudioPreview()
+    root.unmount()
+  })
   host.remove()
+  vi.useRealTimers()
   vi.restoreAllMocks()
 })
 

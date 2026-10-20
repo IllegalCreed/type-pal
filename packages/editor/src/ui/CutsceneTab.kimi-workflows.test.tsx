@@ -47,6 +47,7 @@ import {
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { SetStartupEntriesCommand } from '../core/commands.js'
@@ -215,7 +216,7 @@ function openDialogByTitle(title: string): HTMLDialogElement {
 
 async function waitOpenDialog(title: string): Promise<HTMLDialogElement> {
   let dialog: HTMLDialogElement | null = null
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     dialog = host.querySelector<HTMLDialogElement>(`dialog[aria-label="${title}"]`)
     expect(dialog?.open, `弹窗 ${title} 打开`).toBe(true)
   })
@@ -257,7 +258,7 @@ function propertyRowValue(label: string): string | null {
 
 async function currentVideoElement(): Promise<HTMLVideoElement> {
   let video: HTMLVideoElement | null = null
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     video = host.querySelector<HTMLVideoElement>('video')
     expect(video, '视频元素已挂载').not.toBeNull()
   })
@@ -376,7 +377,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     })
     // 中性退出等待：资源出现与否不预设帧序结论，帧序差异由下方解码断言分胜负。
     let createdId = ''
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       const hit = Object.keys(mounted.session.getState().assetCatalog.assets).find((key) =>
         key.startsWith('frame-animation.authored.'),
       )
@@ -481,7 +482,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
       buttonByLabel(dialog, '创建').click()
     })
     // 中性等待：错误出现或资源创建都代表退出在途，业务断言随后分胜负。
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(
         host.querySelector('.cutscene-side-error') !== null ||
           Object.keys(mounted.session.getState().assetCatalog.assets).some((id) =>
@@ -505,7 +506,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
       buttonByLabel(dialog, '创建').click()
     })
     let createdId = ''
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       const hit = Object.keys(mounted.session.getState().assetCatalog.assets).find((key) =>
         key.startsWith('frame-animation.authored.'),
       )
@@ -542,7 +543,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
       focus: 'frame-animation.k06-old',
     })
     // 真实 FrameAnimationEditor 装载旧动画（编辑器内部就绪见证，与 metadata 断言无关）。
-    await vi.waitFor(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
+    await waitForReact(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
     const originalRecord =
       mounted.session.getState().assetCatalog.assets['frame-animation.k06-old']!
     const originalDecoded = await decodeAnimation(mounted.reader, 'frame-animation.k06-old')
@@ -586,7 +587,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
       await act(async () => {
         buttonByLabel(dialog, '创建').click()
       })
-      await vi.waitFor(() => expect(mounted.gate.calls.length).toBeGreaterThan(callsBefore))
+      await waitForReact(() => expect(mounted.gate.calls.length).toBeGreaterThan(callsBefore))
       expect(mounted.gate.calls.at(-1)).toBe(originalRecord.path)
       expect(mounted.gate.completed.length).toBe(completedBefore)
       expect(dialog.getAttribute('aria-busy')).toBe('true')
@@ -595,7 +596,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
         hold.resolve()
       })
       // 中性等待：sha 变化或错误出现都代表退出在途，业务断言随后分胜负。
-      await vi.waitFor(() => {
+      await waitForReact(() => {
         expect(
           mounted.session.getState().assetCatalog.assets['frame-animation.k06-old']!.sha256 !==
             originalRecord.sha256 || host.querySelector('.cutscene-side-error') !== null,
@@ -625,7 +626,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     expect(decoded.index.frames).toHaveLength(2)
     expect(decoded.frames).toEqual(quantized)
     // 选中保持同 id；编辑器按新 sha 真实重载出 2 帧。
-    await vi.waitFor(() => expect(host.querySelectorAll('.fa-frame').length).toBe(2))
+    await waitForReact(() => expect(host.querySelectorAll('.fa-frame').length).toBe(2))
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('旧片头')
     expect(mounted.session.getHistoryVersion()).toBe(historyAtMount + 1)
     assertProjectSaveValid(mounted.session.getState())
@@ -643,7 +644,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     expect((await decodeAnimation(mounted.reader, 'frame-animation.k06-old')).frames).toEqual(
       oldFrames,
     )
-    await vi.waitFor(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
+    await waitForReact(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
 
     await act(async () => {
       expect(mounted.session.redo()).toBe(true)
@@ -697,7 +698,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
       await act(async () => {
         hold.resolve()
       })
-      await vi.waitFor(() => expect(host.querySelector('video')).not.toBeNull())
+      await waitForReact(() => expect(host.querySelector('video')).not.toBeNull())
     } finally {
       hold.resolve()
     }
@@ -744,7 +745,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     await act(async () => {
       hold.reject(new Error('磁盘读取失败'))
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.cutscene-video-stage .cf-err')?.textContent).toBe('磁盘读取失败')
     })
     expect(host.querySelector('video')).toBeNull()
@@ -768,7 +769,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     await act(async () => {
       catalogRow('损坏视频').click()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.cutscene-video-stage .cf-err')?.textContent).toBe('磁盘读取失败')
     })
     expect(propertyRowValue('分辨率')).toBe('读取中')
@@ -833,7 +834,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
         hold.resolve()
       })
       // 中性等待：错误出现或资源被删都代表退出在途，业务断言随后分胜负。
-      await vi.waitFor(() => {
+      await waitForReact(() => {
         expect(
           host.querySelector('.cutscene-side-error') !== null ||
             mounted.session.getState().assetCatalog.assets['video.k06-target'] === undefined,
@@ -864,7 +865,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
       await act(async () => {
         buttonByLabel(dialog, '删除资源').click()
       })
-      await vi.waitFor(() => {
+      await waitForReact(() => {
         expect(mounted.session.getState().assetCatalog.assets['video.k06-target']).toBeUndefined()
       })
       expect(mounted.session.getHistoryVersion()).toBe(historyAfterUndo + 1)
@@ -917,7 +918,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     })
     const historyAtMount = mounted.session.getHistoryVersion()
     // 真实编辑器就绪（内部见证）：3 张帧卡。
-    await vi.waitFor(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
+    await waitForReact(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
     // 检查器动画区：metadata 由真实解码链经 onFrameMetadata（430）上报。
     expect(propertyRowValue('画布')).toBe('2 × 1')
     expect(propertyRowValue('帧数')).toBe('3')
@@ -940,7 +941,7 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     await act(async () => {
       catalogRow('徽标动画').click()
     })
-    await vi.waitFor(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
+    await waitForReact(() => expect(host.querySelectorAll('.fa-frame').length).toBe(3))
     expect(propertyRowValue('画布')).toBe('2 × 1')
     expect(propertyRowValue('帧数')).toBe('3')
     expect(mounted.session.getHistoryVersion()).toBe(historyAtMount)

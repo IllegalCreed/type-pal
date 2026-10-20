@@ -6,29 +6,8 @@
  */
 import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { magicWithCost as magic } from './__tests__/magic-cost-fixture.js'
 import { createMagicSelectMenu } from './magic-select.js'
-
-function magic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
 
 const magics: Magic[] = [magic(1, 5), magic(2, 12)]
 const spells: Spell[] = [

@@ -7,8 +7,8 @@ import { shellProject } from './__tests__/runtime-shell/project.js'
 import { scenarioProject } from './__tests__/runtime-shell/scenarios.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 
@@ -91,7 +91,7 @@ test('Q01 坏偏好 JSON 静默回退全开，不抛出', async () => {
   ])
 })
 
-test('Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume', async () => {
+test('Q01 手势解锁接线：pointerdown/keydown 捕获相各自恢复音乐与音效', async () => {
   host = await installShellHost()
   const bgmModule = await import('./audio/bgm.js')
   const resumes: number[] = []
@@ -109,14 +109,23 @@ test('Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.res
     projectId: 'shell-project',
   })
   expect(resumes).toEqual([])
+  expect(host.audioContexts).toHaveLength(2) // main constructs SFX first, then BGM.
+  const audio = host.audioContexts[0]!
+  expect(audio.state).toBe('suspended')
   window.dispatchEvent(new Event('pointerdown'))
+  await Promise.resolve()
   expect(resumes).toHaveLength(1)
+  expect(audio.state).toBe('running')
+  expect(audio.resumeCalls).toBe(1)
   window.dispatchEvent(new KeyboardEvent('keydown', { key: 'x' }))
+  await Promise.resolve()
   expect(resumes).toHaveLength(2)
-  host.close()
+  expect(audio.resumeCalls).toBe(1) // Already running: the real SFX player does not resume twice.
+  await host.close()
   host = undefined
   window.dispatchEvent(new KeyboardEvent('keydown', { key: 'x' }))
   expect(resumes).toHaveLength(2) // close 后监听已移除
+  expect(audio.state).toBe('closed')
 })
 
 test('Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回', async () => {

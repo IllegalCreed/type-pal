@@ -4,6 +4,183 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // User-authorized structural recounts, pinned to complete old baseline and current
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
+  {
+    id: 'pre94-menu-valid-dialog-fixture-20261020',
+    authority:
+      '用户授权合理代码/测试质量整改造成覆盖率变化可精确调整baseline，不恢复死代码或堆弱测试。Codex冻结旧测试全包复现原floor，LCOV仅旧非法对话夹具引起的越界/旧fallback计数减少。',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-gate-diagnostics.json',
+    baselineSha256: 'eb186a03856b7d7b4788dc3de8750b119ef816054149063c91cc451e570971b9',
+    sources: [
+      {
+        path: 'packages/game/src/core/event-system.glm-event-control-flow.test.ts',
+        sha256: 'e78448b39b02a39b29c1f83d4140a0692c0b7f566a85dd94d0f3be8667e9bb6d',
+      },
+      {
+        path: 'packages/game/src/core/event-system.glm-event-k06.test.ts',
+        sha256: '3149fd807f9b2360cb14890b6ff4cfbdc97630c2ff98c7dfd1f353b50b3f1618',
+      },
+      {
+        path: 'packages/game/src/core/event-system.glm-event-state-opcodes.test.ts',
+        sha256: '0326438d65bb1e1b799c90f6ff860930c9edd8aecb99ca675768129777c12371',
+      },
+      {
+        path: 'packages/game/src/core/event-system.ts',
+        sha256: '4bdfc8e1fa9347d6bcb3531dbd74a01e700ce517b77fe76ddedcafc3d55e04dc',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/inventory-menu.test.ts',
+        sha256: 'f00b0aa6ef3451448e6e53c11c14b814323c9d6e44e81af69c186c1829d38bbb',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/item-magic-select.test.ts',
+        sha256: 'ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/magic-cost-fixture.ts',
+        sha256: '7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109',
+      },
+      {
+        path: 'packages/game/src/core/menu/equip-menu.ts',
+        sha256: '4772de391847ad8f1adc86029a4f6479b2874d97d09cd9bcdc418733642289f1',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts',
+        sha256: 'be6d3c92e120609fa7f78413d9acc2560e2a20f2d1935de27ff703d72954e219',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts',
+        sha256: '927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.test.ts',
+        sha256: '2448a923a06960f0461c4a0c3a65edbba38e0f40b063268dd819be7cf9492188',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.ts',
+        sha256: '33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-menu.boundaries.test.ts',
+        sha256: 'af352cee89772ea59adf77c0b127250d837f9e84faf6751435a60bd313f1497e',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts',
+        sha256: '3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-menu.ts',
+        sha256: '0252edd4a38dff6612decf42ef4d61d36fa689c0aa5471ab41b36be3115bc480',
+      },
+      {
+        path: 'packages/game/src/core/menu/inventory-action-menu.ts',
+        sha256: 'f809ecede6a78cb803df3b23615fd7eaa2b910d76b9b16e756d2ed26064831fd',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-select.boundaries.test.ts',
+        sha256: '01c9290e0f87266e70e33bc91336ba96031d0a73275ca064b13358d99fea7484',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts',
+        sha256: '7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-select.ts',
+        sha256: '60898f2b0a25d9aabf965cb247d2f7d00defad9f3450967259ea7ace0efe6fbb',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-mode.ts',
+        sha256: 'bb7a60e8d2f1660b96502b0361f996e84dca32ecadbb24326bab8e78af4d3d94',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-stack.ts',
+        sha256: '7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46',
+      },
+      {
+        path: 'packages/game/src/core/menu/shop-menu.test.ts',
+        sha256: '3a05fc9e29925a77e57e0ef21f11a166505f1e5f2406f6bcaae055312d4e073c',
+      },
+      {
+        path: 'packages/game/src/core/mode.test.ts',
+        sha256: '47a5301a3250c4c8e231605b967f5e09e929fa36a95575652ee5f5f20feec62f',
+      },
+      {
+        path: 'packages/game/src/core/mode.ts',
+        sha256: '4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328',
+      },
+      {
+        path: 'packages/game/src/core/scene-system.test.ts',
+        sha256: 'f96ec2fe2c09eed0bbf5cbb8300dbcf5f224fa0315876f7ea359c1bfce534eb2',
+      },
+      {
+        path: 'packages/game/src/present/dialog-box.ts',
+        sha256: 'd326e5b04d37a4c92a31166307e551dab6c5d61dfbf790ad61b9494e8d993eec',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.glm-next-wave.test.ts',
+        sha256: 'e281ff32cbba090e93c2d1cf28376c7700d9c0812096ed6c7265d7a30a2935a5',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.test.ts',
+        sha256: '3e7e858605aa0828ac442a31d145ab9864aec8d7bc01651653dacd82297c46f5',
+      },
+      {
+        path: 'packages/game/src/shell/rng-window.grok-r1.test.ts',
+        sha256: '36a751339800f6efa684ea351916e2c39b1b3c7825edb73bf1585efdff527dbd',
+      },
+      {
+        path: 'packages/game/vitest.config.ts',
+        sha256: 'eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: '7968e44488786d6c7f30c383082b4a8830803f1423820c834601b18818cc21f0',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 14359,
+            total: 16083,
+          },
+          branches: {
+            covered: 9336,
+            total: 11634,
+          },
+          functions: {
+            covered: 1677,
+            total: 1966,
+          },
+          lines: {
+            covered: 12807,
+            total: 14097,
+          },
+        },
+        after: {
+          statements: {
+            covered: 14346,
+            total: 16083,
+          },
+          branches: {
+            covered: 9333,
+            total: 11634,
+          },
+          functions: {
+            covered: 1677,
+            total: 1966,
+          },
+          lines: {
+            covered: 12795,
+            total: 14097,
+          },
+        },
+      },
+    },
+  },
   // Current five-card exact recount. Reviewed source/test delta and native old floor retained.
   {
     id: 'pre94-five-card-game-recount-20261020',

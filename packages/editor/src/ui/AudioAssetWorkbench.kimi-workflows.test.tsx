@@ -54,6 +54,7 @@ import {
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import { sha256Hex } from '../core/binary-signature.js'
@@ -229,7 +230,7 @@ async function selectRow(id: string): Promise<void> {
 
 /** 等播放器状态文本出现（反控下失败形态必须是 AssertionError 而非超时）。 */
 async function waitPlayerState(text: string): Promise<void> {
-  await vi.waitFor(() => {
+  await waitForReact(() => {
     expect(host.querySelector('.audio-player__state')?.textContent).toBe(text)
   })
 }
@@ -272,7 +273,7 @@ describe('K07 MusicTab 真实 wrapper 策略连接', () => {
     const id = `music.authored.${sha.slice(0, 16)}`
     const historyBefore = mounted.session.getHistoryVersion()
     await loadFilesIntoInput(importInput, [fileOfBytes('主题.mid', 'audio/midi', THEME_MIDI)])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[id]).toBeDefined()
     })
 
@@ -327,7 +328,7 @@ describe('K07 MusicTab 真实 wrapper 策略连接', () => {
     expect(mounted.session.getState().assetBlobs[record.path]?.byteLength).toBe(
       THEME_MIDI.byteLength,
     )
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('主题')
     })
     await waitPlayerState('就绪')
@@ -335,7 +336,7 @@ describe('K07 MusicTab 真实 wrapper 策略连接', () => {
     // 无 AudioContext 的 jsdom 下 MIDI 播放走产品既定降级：错误面可见且零提交。
     const historyAtReady = mounted.session.getHistoryVersion()
     await clickButton(host, '播放')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.textContent).toContain('当前浏览器不支持 MIDI 试听。')
     })
     expect(mounted.session.getHistoryVersion()).toBe(historyAtReady)
@@ -349,13 +350,13 @@ describe('K07 MusicTab 真实 wrapper 策略连接', () => {
     const input = inputByAriaLabel<HTMLInputElement>(host, '导入音乐')
 
     await loadFilesIntoInput(input, [fileOfBytes('a.mid', 'audio/midi', THEME_MIDI)])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[firstId]).toBeDefined()
     })
     // nextMusicId 碰撞后缀：同字节第二次导入得到 '<base>-2'，两条记录共存同一路径。
     await loadFilesIntoInput(input, [fileOfBytes('副本.mid', 'audio/midi', THEME_MIDI)])
     const secondId = `${firstId}-2`
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[secondId]).toBeDefined()
     })
     expect(mounted.session.getState().assetCatalog.assets[secondId]).toEqual({
@@ -370,7 +371,7 @@ describe('K07 MusicTab 真实 wrapper 策略连接', () => {
     // 非法扩展名：真实 assertMidi 拒绝，零提交且选择/记录保全。
     const historyBefore = mounted.session.getHistoryVersion()
     await loadFilesIntoInput(input, [fileOfBytes('bad.dat', 'audio/midi', THEME_MIDI)])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.textContent).toContain('只允许导入 .mid 文件')
     })
     expect(mounted.session.getHistoryVersion()).toBe(historyBefore)
@@ -378,7 +379,7 @@ describe('K07 MusicTab 真实 wrapper 策略连接', () => {
     await loadFilesIntoInput(input, [
       fileOfBytes('bad.mid', 'audio/midi', new TextEncoder().encode('NOPE')),
     ])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.textContent).toContain('不是有效 MIDI 文件')
     })
     expect(mounted.session.getHistoryVersion()).toBe(historyBefore)
@@ -425,7 +426,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     const id = `sound.authored.${sha.slice(0, 16)}`
     const historyBefore = mounted.session.getHistoryVersion()
     await loadFilesIntoInput(importInput, [fileOfBytes('激光.wav', 'audio/wav', wav)])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[id]).toBeDefined()
     })
 
@@ -461,7 +462,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     // authoredSoundId 稳定：同字节再导入覆盖同一 id（与 music 的 -2 后缀相对），label 更新。
     const duplicateBefore = mounted.session.getHistoryVersion()
     await loadFilesIntoInput(importInput, [fileOfBytes('激光副本.wav', 'audio/wav', wav)])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets[id]?.label).toBe('激光副本')
     })
     expect(mounted.session.getHistoryVersion()).toBe(duplicateBefore + 1)
@@ -599,7 +600,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     await selectRow('sound.heal')
     expect(context.sources[0]!.stopCalls).toBe(1)
     expect(context.sources[0]!.disconnectCalls).toBe(1)
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('治疗音效')
     })
     await waitPlayerState('就绪')
@@ -622,7 +623,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
 
     // 卸载：transport.dispose → 硬件端口 close（dispose 经 queueMicrotask 放行）。
     await unmountHost()
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(context.closeCalls).toBe(1)
     })
   })
@@ -642,7 +643,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     await loadFilesIntoInput(inputByAriaLabel<HTMLInputElement>(host, '替换音效'), [
       fileOfBytes('hit.wav', 'audio/wav', new Uint8Array(24)),
     ])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.textContent).toContain('不是有效 WAV 文件')
     })
 
@@ -673,7 +674,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     expect(deleteDialog().textContent).toContain('0 处')
     const historyBefore = mounted.session.getHistoryVersion()
     await clickButton(deleteDialog(), '取消')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(deleteDialog().open).toBe(false)
     })
     expect(mounted.session.getHistoryVersion()).toBe(historyBefore)
@@ -685,14 +686,14 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
         new UpdateManifestAssetRolesCommand({ 'audio.battleItemUseSound': 'sound.hit' }),
       )
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(buttonByLabel(host, '删除').title).toBe('查看 1 处阻断引用')
     })
     await clickButton(host, '删除')
     expect(deleteDialog().textContent).toContain('1 处')
     expect(buttonByLabel(deleteDialog(), '删除音效').disabled).toBe(true)
     await clickButton(deleteDialog(), '取消')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(deleteDialog().open).toBe(false)
     })
     expect(mounted.session.getState().assetCatalog.assets['sound.hit']).toBeDefined()
@@ -706,18 +707,18 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
         new UpdateManifestAssetRolesCommand({ 'audio.battleItemUseSound': undefined }),
       )
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(buttonByLabel(host, '删除').title).toBe('删除当前音效')
     })
     await clickButton(host, '删除')
     await clickButton(deleteDialog(), '删除音效')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().assetCatalog.assets['sound.hit']).toBeUndefined()
     })
     expect(mounted.session.getState().assetBlobs[seeded.path]).toBeUndefined()
     expect(deleteDialog().open).toBe(false)
     expect(mounted.focusLog.at(-1)).toBe('sound.heal')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('治疗音效')
     })
     expect(catalogRow('sound.heal').hasAttribute('data-selected')).toBe(true)
@@ -771,7 +772,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     // 播放器读取先卡在闸门（进入见证），放行后真实解码到就绪（退出见证）。
     const playerGate = gated.gate(path)
     await renderTab('sound', { session, source: gated.source }, 'sound.disk')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(gated.calls).toContain(path)
     })
     expect(gated.completed).not.toContain(path)
@@ -790,7 +791,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     await act(async () => {
       buttonByLabel(deleteDialog(), '删除音效').click()
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(gated.calls.filter((entry) => entry === path)).toHaveLength(2)
     })
     expect(gated.completed.filter((entry) => entry === path)).toHaveLength(1)
@@ -803,7 +804,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     await act(async () => {
       deleteGate.reject(new Error('注入磁盘故障'))
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.textContent).toContain('注入磁盘故障')
     })
     expect(session.getHistoryVersion()).toBe(historyBefore)
@@ -817,7 +818,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
 
     // 取消收尾：对话框关闭，仍零提交。
     await clickButton(deleteDialog(), '取消')
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(deleteDialog().open).toBe(false)
     })
     expect(session.getHistoryVersion()).toBe(historyBefore)

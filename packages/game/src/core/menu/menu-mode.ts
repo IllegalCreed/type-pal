@@ -4,7 +4,7 @@
  * sdlpal `PAL_InGameMenu` / `PAL_SystemMenu` 等是 modal blocking 函数,
  * 内部 while loop 调 `PAL_ProcessEvent` 直到用户按 ESC/Confirm 退出。
  * ts 端用 gs.mode='menu' + gs.menuStack 显式化此栈,逐 tick 推进:
- *   - 栈空 → 切回 'explore'
+ *   - 栈空 → 按宿主恢复 battle、等待商店脚本的 event，或普通 explore
  *   - 栈顶 entry.kind 决定 dispatch 哪个 menu 的输入处理
  *
  * Push/pop 不在这里 — 由 scene-system(开菜单)+ menu-driver(子菜单进出)调用 openMenu / closeTopMenu。

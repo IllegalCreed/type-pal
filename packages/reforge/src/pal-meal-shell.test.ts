@@ -32,8 +32,8 @@ import { loadAllScenes, loadCurrentProjectFrom, loadScene } from './project-load
 import type { CurrentSavePayload } from './save/types.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 // Dynamic relative values keep Vite from turning filesystem test inputs into browser asset URLs.
@@ -623,7 +623,7 @@ test('normal manual save and fresh current-codec restore retain the actual carri
   if (!payload) throw new Error('manual tray snapshot missing')
   const before = structuredClone(payload)
   carrying.fixture.assertPristine()
-  h.close()
+  await h.close()
   host = undefined
   // Fresh boot consumes the untouched manual payload through production load preflight/codec.
   const served = await boot('kitchen', 1, '?e2e-load=/carried.save.json', payload)

@@ -1,7 +1,6 @@
 /**
- * 顶层模式机分发(02 架构)。
- * M2:explore → tickSceneSystem,event → tickEventSystem。
- * M3 (T14):battle → tickBattle(T14 stub,T22 真实现)。
+ * 顶层模式调度：统一推进逻辑帧和允许的场景自动脚本，再交给当前模式的 Owner。
+ * 战斗/菜单返回事件脚本时同帧续跑到等待点，避免呈现一帧未推进的场景。
  */
 
 import type { InputSnapshot } from '@type-pal/shared'
@@ -67,7 +66,7 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       break
     case 'menu':
       // M5.6 W0.a:大世界菜单 modal 子 mode;dispatch 输入到栈顶 menu,
-      // 栈空时 tickMenu 自动切回 'explore'。
+      // 栈空时 tickMenu 按宿主恢复战斗、商店脚本或探索模式。
       tickMenu(gs, input, bus)
       break
   }

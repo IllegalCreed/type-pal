@@ -1,9 +1,11 @@
 // @vitest-environment jsdom
+
 import type { StampTemplate } from '@type-pal/content'
 import { loadTilesetAsset } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../__tests__/react-io-wait.js'
 import { StampPreviewCanvas } from './StampPreviewCanvas.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
@@ -40,7 +42,10 @@ const template: StampTemplate = {
 let host: HTMLDivElement
 let root: ReturnType<typeof createRoot>
 
+let restoreActEnvironment = () => {}
+
 beforeEach(() => {
+  restoreActEnvironment = installReactActEnvironment()
   vi.clearAllMocks()
   host = document.createElement('div')
   document.body.append(host)
@@ -69,6 +74,7 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
+  restoreActEnvironment()
 })
 
 describe('StampPreviewCanvas', () => {

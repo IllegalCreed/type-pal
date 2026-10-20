@@ -496,13 +496,17 @@ describe('EnemyTab shared workbench', () => {
       'flee',
       'attack',
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().enemies?.[0]?.ai.rules?.map((rule) => rule.do.kind)).toEqual([
       'attack',
       'attack',
       'flee',
     ])
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().enemies?.[0]?.ai.rules?.map((rule) => rule.do.kind)).toEqual([
       'attack',
       'flee',

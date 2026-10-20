@@ -38,6 +38,7 @@ import {
   bsuSummary,
   bsuThumbs,
 } from '../__tests__/cursor-asset-r1/upload-ui.js'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 
 let project: LegalProject
 let mounted: MountedUploader | undefined
@@ -65,11 +66,11 @@ describe('C03-G05 战斗精灵上传叶', () => {
     mounted = await mountUploader(project.assetBase)
     const atlas = solidAtlasPng(16, 16, atlasColors(3))
     await bsuPick(m().host, pngFileOf('row.png', atlas.bytes))
-    await vi.waitFor(() => expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）'))
+    await waitForReact(() => expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）'))
     expect(bsuNumber(m().host, '战斗精灵帧宽').value).toBe('16')
     expect(bsuThumbs(m().host)).toBe(3)
     await act(async () => bsuButton(m().host, '应用外观')!.click())
-    await vi.waitFor(() => expect(m().applies).toHaveLength(1))
+    await waitForReact(() => expect(m().applies).toHaveLength(1))
     expect(m().applies[0]!.frameCount).toBe(3)
     expect(m().applies[0]!.blob.byteLength).toBeGreaterThan(0)
   })
@@ -80,7 +81,7 @@ describe('C03-G05 战斗精灵上传叶', () => {
     await bsuPick(m().host, atlasFile('grid.png', atlas))
     await typeDraft(bsuNumber(m().host, '战斗精灵帧宽'), '16')
     await typeDraft(bsuNumber(m().host, '战斗精灵帧高'), '16')
-    await vi.waitFor(() => expect(bsuSummary(m().host)).toBe('共 4 帧（横排逐行切）'))
+    await waitForReact(() => expect(bsuSummary(m().host)).toBe('共 4 帧（横排逐行切）'))
     expect(bsuThumbs(m().host)).toBe(4)
   })
 
@@ -88,7 +89,7 @@ describe('C03-G05 战斗精灵上传叶', () => {
     mounted = await mountUploader(project.assetBase)
     const atlas = solidAtlasPng(16, 16, atlasColors(3))
     await bsuPick(m().host, pngFileOf('row.png', atlas.bytes))
-    await vi.waitFor(() => expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）'))
+    await waitForReact(() => expect(bsuSummary(m().host)).toBe('共 3 帧（横排逐行切）'))
     await typeDraft(bsuNumber(m().host, '战斗精灵帧宽'), '10')
     expect(bsuSummary(m().host)).toBe('图 48×16 切不开（宽高须整除）')
     expect(bsuButton(m().host, '应用外观')!.disabled).toBe(true)
@@ -99,7 +100,7 @@ describe('C03-G05 战斗精灵上传叶', () => {
     mounted = await mountUploader(project.assetBase)
     const atlas = solidAtlasPng(16, 16, atlasColors(2))
     await bsuPick(m().host, pngFileOf('pair.png', atlas.bytes))
-    await vi.waitFor(() => expect(bsuThumbs(m().host)).toBe(2))
+    await waitForReact(() => expect(bsuThumbs(m().host)).toBe(2))
     await act(async () => bsuButton(m().host, '取消')!.click())
     expect(mounted.cancels).toHaveLength(1)
     expect(m().applies).toEqual([])
@@ -115,24 +116,24 @@ describe('C03-G05 战斗精灵上传叶', () => {
       hold.resolve()
       await Promise.resolve()
     })
-    await vi.waitFor(() => expect(bsuThumbs(m().host)).toBe(1))
+    await waitForReact(() => expect(bsuThumbs(m().host)).toBe(1))
     await act(async () => bsuButton(m().host, '应用外观')!.click())
-    await vi.waitFor(() => expect(m().applies).toHaveLength(1))
+    await waitForReact(() => expect(m().applies).toHaveLength(1))
   })
 
   test('C03-G05-06 色盘失败回显 err；换合法 assetBase 并重选后可应用', async () => {
     const broken = failingPalette(project.assetBase, 'bsu-palette-down')
     mounted = await mountUploader(broken)
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted!.host.querySelector('.bsu .err')?.textContent).toBe('bsu-palette-down')
     })
     await mounted.setAssetBase(project.assetBase)
     const atlas = solidAtlasPng(16, 16, atlasColors(1))
     await bsuPick(m().host, pngFileOf('ok.png', atlas.bytes))
-    await vi.waitFor(() => expect(mounted!.host.querySelector('.bsu .err')).toBeNull())
-    await vi.waitFor(() => expect(bsuThumbs(m().host)).toBe(1))
+    await waitForReact(() => expect(mounted!.host.querySelector('.bsu .err')).toBeNull())
+    await waitForReact(() => expect(bsuThumbs(m().host)).toBe(1))
     await act(async () => bsuButton(m().host, '应用外观')!.click())
-    await vi.waitFor(() => expect(m().applies).toHaveLength(1))
+    await waitForReact(() => expect(m().applies).toHaveLength(1))
   })
 
   test('C03-G05-07 应用在途：compress 扣留期间按钮禁用且最终只 apply 一次', async () => {
@@ -140,21 +141,21 @@ describe('C03-G05 战斗精灵上传叶', () => {
     mounted = await mountUploader(project.assetBase)
     const atlas = solidAtlasPng(16, 16, atlasColors(1))
     await bsuPick(m().host, pngFileOf('one.png', atlas.bytes))
-    await vi.waitFor(() => expect(bsuThumbs(m().host)).toBe(1))
+    await waitForReact(() => expect(bsuThumbs(m().host)).toBe(1))
     const apply = bsuButton(m().host, '应用外观')!
     await act(async () => apply.click())
-    await vi.waitFor(() => expect(apply.disabled).toBe(true))
+    await waitForReact(() => expect(apply.disabled).toBe(true))
     expect(bsuButton(m().host, '取消')!.disabled).toBe(true)
     expect(m().applies).toHaveLength(0)
     gate.hold.resolve()
-    await vi.waitFor(() => expect(m().applies).toHaveLength(1))
+    await waitForReact(() => expect(m().applies).toHaveLength(1))
     gate.restore()
   })
 
   test('C03-G05-08 坏文件字节：err 回显且无预览网格', async () => {
     mounted = await mountUploader(project.assetBase)
     await bsuPick(m().host, pngFileOf('bad.png', new Uint8Array([1, 2, 3])))
-    await vi.waitFor(() => expect(m().host.querySelector('.bsu .err')).not.toBeNull())
+    await waitForReact(() => expect(m().host.querySelector('.bsu .err')).not.toBeNull())
     expect(bsuThumbs(m().host)).toBe(0)
   })
 
@@ -162,9 +163,9 @@ describe('C03-G05 战斗精灵上传叶', () => {
     mounted = await mountUploader(project.assetBase)
     const good = solidAtlasPng(16, 16, atlasColors(1))
     await bsuPick(m().host, pngFileOf('good.png', good.bytes))
-    await vi.waitFor(() => expect(bsuThumbs(m().host)).toBe(1))
+    await waitForReact(() => expect(bsuThumbs(m().host)).toBe(1))
     await bsuPick(m().host, pngFileOf('bad.png', new Uint8Array([0])))
-    await vi.waitFor(() => expect(m().host.querySelector('.bsu .err')).not.toBeNull())
+    await waitForReact(() => expect(m().host.querySelector('.bsu .err')).not.toBeNull())
     await act(async () => bsuButton(m().host, '取消')!.click())
     expect(m().applies).toEqual([])
   })
@@ -175,9 +176,9 @@ describe('C03-G05 战斗精灵上传叶', () => {
     })
     const atlas = solidAtlasPng(16, 16, atlasColors(1))
     await bsuPick(m().host, pngFileOf('one.png', atlas.bytes))
-    await vi.waitFor(() => expect(bsuThumbs(m().host)).toBe(1))
+    await waitForReact(() => expect(bsuThumbs(m().host)).toBe(1))
     await act(async () => bsuButton(m().host, '应用外观')!.click())
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(m().host.querySelector('.bsu .err')?.textContent).toBe('apply-rejected')
     })
     expect(bsuButton(m().host, '应用外观')!.disabled).toBe(false)

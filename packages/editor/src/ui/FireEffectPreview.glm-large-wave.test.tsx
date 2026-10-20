@@ -10,6 +10,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { spyCanvas2dPort } from '../__tests__/glm-large-wave/canvas-2d-port.js'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
 import { deferred, previewCacheFixture } from './__tests__/preview-cache-fixture.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
@@ -50,8 +51,7 @@ async function mountFire(
       <FireEffectPreview assetBase={fixture.base} assetReader={fixture.reader} anim={anim} />,
     ),
   )
-  await vi.waitFor(async () => {
-    await act(async () => {})
+  await waitForReact(() => {
     expect(host.querySelector('canvas')).not.toBeNull()
   })
   return fixture
@@ -88,8 +88,7 @@ test('无音效特效可播放/暂停并切换倍速，figcaption 标注帧数�
 test('音效准备失败时错误可见且不进入播放', async () => {
   await mountFire({ effectSprite: 4202, sound: 'sfx-glw-missing' }, 4202)
   await act(async () => playButton().click())
-  await vi.waitFor(async () => {
-    await act(async () => {})
+  await waitForReact(() => {
     expect(host.querySelector('.cf-err')?.textContent).toBeTruthy()
   })
   expect(playButton().getAttribute('aria-label')).toBe('播放 FIRE 特效预览')
@@ -107,8 +106,7 @@ test('真实 fire 字节读取失败时给出失败态且无画布', async () =>
       />,
     ),
   )
-  await vi.waitFor(async () => {
-    await act(async () => {})
+  await waitForReact(() => {
     expect(host.textContent).toContain('无法加载 FIRE #4301')
   })
   expect(host.querySelector('canvas')).toBeNull()
@@ -138,8 +136,7 @@ test('闸门未释放时保持加载态不出现画布，释放后真实解码�
     release.resolve()
     await rendered
   })
-  await vi.waitFor(async () => {
-    await act(async () => {})
+  await waitForReact(() => {
     expect(host.querySelector('canvas')).not.toBeNull()
   })
 })

@@ -1688,11 +1688,20 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
     expect(gs.walkingFrame.stepFrame).toBe(2)
   })
 
-  it('contact NPC(triggerMode >= 4)不阻挡走路 → walking=true', () => {
+  it('sState=1 的 contact NPC 不阻挡走路 → walking=true', () => {
     const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' }) // M5:起点 col8/row8(避开边缘带)
     // contact 怪:走进触发战斗但不阻挡走路
     gs.npcs = [
-      { id: 7, x: 17 * 16, y: 17 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+      // mode4 threshold16; initial distance32 is outside, walking enters the zone.
+      {
+        id: 7,
+        x: 17 * 16,
+        y: 17 * 8,
+        spriteNum: 468,
+        triggerLabel: 'L_42',
+        triggerMode: 4,
+        sState: 1,
+      },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -1700,6 +1709,7 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
       { op: 'showDialog' as const, messageIndex: 0, text: '草妖来袭', label: 'L_42' },
       { op: 'end' as const },
     ]
+    setGlobalEvents(commands)
     tickSceneSystem(gs, snap(['Right']), bus, {
       tilemap: map,
       eventCommands: commands,
@@ -1710,6 +1720,7 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
     // contact 怪不阻挡走路 → walking=true, stepFrame=1。
     expect(gs.walkingFrame.walking).toBe(true)
     expect(gs.walkingFrame.stepFrame).toBe(1)
+    expect(gs.party).toMatchObject({ x: 17 * 16, y: 17 * 8 })
   })
 })
 
@@ -1866,14 +1877,24 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     expect((gs as any).wNumMusic).toBe(31)
   })
 
-  it('setSceneObjectState opcode 不报错(no-op, M5+ field)', async () => {
+  it('setSceneObjectState 缺失目标时告警并跳过，场景仍完成装载', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const assets = makeFakeAssetsWithEnterScript(5, [
       { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [1, 0, 0] },
     ])
     const cache = new SceneAssetsCache(async () => assets)
-    // 不应抛错
-    await expect(loadScene({ gs, sceneId: 5, assets: cache })).resolves.toBeUndefined()
+    try {
+      await expect(loadScene({ gs, sceneId: 5, assets: cache })).resolves.toBeUndefined()
+      expect(gs.npcs).toEqual([])
+      expect(warning.mock.calls).toEqual([
+        [
+          'event-system: setSceneObjectState id(1-based)=1 → idx=0 不在当前 scene 也不在全局表,跳过',
+        ],
+      ])
+    } finally {
+      warning.mockRestore()
+    }
   })
 
   it('enter script 含 showDialog → skip(不阻塞,party 位置已设)', async () => {

@@ -20,8 +20,8 @@ import { IndexedDbSaveStore } from './save/store.js'
 const doors = ['e73', 'e74']
 type AuthorSceneEntity = AuthorSceneDef['entities'][number]
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

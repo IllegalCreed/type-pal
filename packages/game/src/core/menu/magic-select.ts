@@ -2,7 +2,7 @@
  * M5.M-w0.2:MagicSelectionMenu — 法术列表(sdlpal `magicmenu.c:413`)。
  *
  * 显示 player 已学的全部 magic + MP cost,**MP 不够灰色 + 不可选**。
- * 数据层只生成 SelectionMenuItem 列表;渲染层后续接入。
+ * 数据层生成SelectionMenuItem；调用方负责大世界/战斗可用域过滤，呈现层读取状态。
  */
 
 import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
@@ -16,7 +16,7 @@ export interface MagicSelectMenuConfig {
   playerRoles: PlayerRoles
   /** 全部 spells.json — spell.magicNumber 反查 magic.json。 */
   spells: Spell[]
-  /** 全部 magic.json — 取 baseMpCost / name。 */
+  /** 全部magic.json，按spell.magicNumber关联并读取costMP；名称来自Spell._name。 */
   magics: Magic[]
   /** 当前 player MP(运行时用,SAVEDGAME PlayerRoles.rgwMP[roleId] 等价)。 */
   currentMp: number

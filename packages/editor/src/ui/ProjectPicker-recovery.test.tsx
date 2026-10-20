@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
+
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../__tests__/react-io-wait.js'
 
 const host = vi.hoisted(() => ({ open: vi.fn(), pick: vi.fn(), recent: vi.fn(), clone: vi.fn() }))
 vi.mock('../core/file-system-access.js', () => ({
@@ -25,7 +27,10 @@ vi.mock('../core/handle-store.js', async (original) => ({
 import { ProjectPicker } from './ProjectPicker.js'
 
 let root: Root, container: HTMLDivElement
+let restoreActEnvironment = () => {}
+
 beforeEach(() => {
+  restoreActEnvironment = installReactActEnvironment()
   host.open.mockReset()
   host.clone.mockReset()
   host.pick.mockResolvedValue({ name: 'test-dir' })
@@ -37,6 +42,7 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   container.remove()
+  restoreActEnvironment()
 })
 function button(label: string) {
   const result = [...container.querySelectorAll('button')].find(

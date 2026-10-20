@@ -12,6 +12,7 @@ import type { AssetBase } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import {
   inputByAccept,
   loadFilesIntoInput,
@@ -86,7 +87,7 @@ describe('F04 BattleSpriteUploader 预览与取消零提交', () => {
       pngFileOf('atlas.png', atlas.bytes),
     ])
     // 缺省猜测：单行图 → 帧高=图高 16，宽被整除 → 帧宽=16，共 3 帧。
-    await vi.waitFor(() => expect(summaryText()).toBe('共 3 帧（横排逐行切）'))
+    await waitForReact(() => expect(summaryText()).toBe('共 3 帧（横排逐行切）'))
     expect(host.querySelector<HTMLInputElement>('[aria-label="战斗精灵帧宽"]')?.value).toBe('16')
     expect(host.querySelector<HTMLInputElement>('[aria-label="战斗精灵帧高"]')?.value).toBe('16')
     const thumbs = [...host.querySelectorAll('.bsu-frame-grid canvas')]
@@ -98,7 +99,7 @@ describe('F04 BattleSpriteUploader 预览与取消零提交', () => {
     ])
     expect(applyButton().disabled).toBe(false)
     await act(async () => applyButton().click())
-    await vi.waitFor(() => expect(onApply).toHaveBeenCalledTimes(1))
+    await waitForReact(() => expect(onApply).toHaveBeenCalledTimes(1))
     const blob = onApply.mock.calls[0]![0] as ArrayBuffer
     expect(onApply.mock.calls[0]![1]).toBe(3)
     expect(blob.byteLength).toBeGreaterThan(0)
@@ -112,7 +113,7 @@ describe('F04 BattleSpriteUploader 预览与取消零提交', () => {
     await loadFilesIntoInput(inputByAccept(host, 'image/png,image/webp,image/gif'), [
       pngFileOf('atlas.png', atlas.bytes),
     ])
-    await vi.waitFor(() => expect(summaryText()).toBe('共 3 帧（横排逐行切）'))
+    await waitForReact(() => expect(summaryText()).toBe('共 3 帧（横排逐行切）'))
     const width = host.querySelector<HTMLInputElement>('[aria-label="战斗精灵帧宽"]')!
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     await act(async () => {

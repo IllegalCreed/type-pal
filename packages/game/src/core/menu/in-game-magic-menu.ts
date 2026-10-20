@@ -12,8 +12,8 @@
  *
  * ts state machine(对齐 sdlpal 真值流程):
  *  - 'pick-caster' = sdlpal uigame.c:686-723 caster 选择
- *  - 'pick-spell'  = sdlpal `wMagic = PAL_MagicSelectionMenu(...)` 阻塞 — 每次 Confirm 后留在此 phase
- *    (sdlpal `while(TRUE)` 真值),用户可继续选 spell 重用
+ *  - 'pick-spell' = sdlpal `wMagic = PAL_MagicSelectionMenu(...)`：全体法术执行后继续选法术，
+ *    单体法术确认后进入'pick-target'；两条执行路径均由dispatcher承接
  *  - 'pick-target' = sdlpal uigame.c:769-861 player target picker(single-target spell)— 每次
  *    Confirm 后留在此 phase 继续选 target 重用,**MP 不足时退回 'pick-spell'**
  *  - 'done' = 关菜单
@@ -48,7 +48,7 @@ export interface InGameMagicMenuState {
   selectedSpellId?: number
   /** sdlpal `wPlayer`;pick-target picker cursor 0..wMaxPartyMemberIndex。 */
   targetCursor: number
-  /** party members snapshot(close 判断 wrap)。 */
+  /** 队伍roleId快照；目标光标按位置钳制，返回请求时映射为roleId。 */
   partyMembers: number[]
 }
 
