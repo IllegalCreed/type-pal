@@ -384,37 +384,43 @@ describe('EventSystem', () => {
   //   回 PAL_ShowDialogText ++ → 0 → 段末/清屏的 PAL_ClearDialog(TRUE) 见 line==0 不调 PAL_DialogWaitForKey
   //   (text.c:1770)→ **无黄色向下箭头 + 自动推进**。旧实现用恒真的 shownLines/currentLineText 代理 → 误等键画箭头。
   it('梦境序列:`~` 收尾的 center/bottom 三句遇 0x05/0x8E/end 全程不等键、自动推进(sdlpal nCurrentDialogLine=0)', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
-    loadEvent(gs, [
-      { op: 'setDialogStyleCenter' },
-      { op: 'showDialog', messageIndex: 0, text: '李逍遥，李逍遥！~30' }, // center,~ 收尾
-      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] }, // 0x05 PAL_ClearDialog(TRUE)+MakeScene
-      { op: 'setDialogStyleBottom' },
-      { op: 'showDialog', messageIndex: 1, text: '李逍遥:' }, // 姓名 title(不计行)
-      { op: 'showDialog', messageIndex: 2, text: '哇哇！~40' }, // bottom,~ 收尾
-      { op: 'raw', opcode: OP_RESTORE_SCREEN, operands: [0, 0, 0] }, // 0x8E PAL_ClearDialog(TRUE)+RestoreScreen
-      { op: 'showDialog', messageIndex: 3, text: '既然落在你的手里，' }, // 正文(count→1)
-      { op: 'showDialog', messageIndex: 4, text: '要杀要剐！~60' }, // ~ 收尾(count→0)
-      { op: 'end' }, // PAL_EndDialog line==0 不等键
-    ])
-    // 全程不按任何键(原版梦境是自动 cutscene)。逐 tick 检查绝不进等键 phase。
-    let everWaited = false
-    let ticks = 0
-    gs.nowMs = 1000
-    for (; ticks < 300; ticks++) {
-      gs.nowMs += 100 // Bug1 fix:wall-clock 打字,每 tick 推进 100ms
-      tickEventSystem(gs, snap(), bus)
-      // 0x05 redraw 现在按 sdlpal UTIL_Delay(60ms)设 waiting='delay';测试里跳过实时延时(delay 非等键,不影响断言)
-      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
-      const ph = gs.dialogBox?.phase
-      if (ph === 'waiting-end-key' || ph === 'waiting-page-key') everWaited = true
-      if (gs.eventCursor === undefined) break // 脚本自动跑完
+    const debug = vi.spyOn(console, 'debug')
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'setDialogStyleCenter' },
+        { op: 'showDialog', messageIndex: 0, text: '李逍遥，李逍遥！~30' }, // center,~ 收尾
+        { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] }, // 0x05 PAL_ClearDialog(TRUE)+MakeScene
+        { op: 'setDialogStyleBottom' },
+        { op: 'showDialog', messageIndex: 1, text: '李逍遥:' }, // 姓名 title(不计行)
+        { op: 'showDialog', messageIndex: 2, text: '哇哇！~40' }, // bottom,~ 收尾
+        { op: 'raw', opcode: OP_RESTORE_SCREEN, operands: [0, 0, 0] }, // 0x8E PAL_ClearDialog(TRUE)+RestoreScreen
+        { op: 'showDialog', messageIndex: 3, text: '既然落在你的手里，' }, // 正文(count→1)
+        { op: 'showDialog', messageIndex: 4, text: '要杀要剐！~60' }, // ~ 收尾(count→0)
+        { op: 'end' }, // PAL_EndDialog line==0 不等键
+      ])
+      // 全程不按任何键(原版梦境是自动 cutscene)。逐 tick 检查绝不进等键 phase。
+      let everWaited = false
+      let ticks = 0
+      gs.nowMs = 1000
+      for (; ticks < 300; ticks++) {
+        gs.nowMs += 100 // Bug1 fix:wall-clock 打字,每 tick 推进 100ms
+        tickEventSystem(gs, snap(), bus)
+        // 0x05 redraw 现在按 sdlpal UTIL_Delay(60ms)设 waiting='delay';测试里跳过实时延时(delay 非等键,不影响断言)
+        if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
+        const ph = gs.dialogBox?.phase
+        if (ph === 'waiting-end-key' || ph === 'waiting-page-key') everWaited = true
+        if (gs.eventCursor === undefined) break // 脚本自动跑完
+      }
+      expect(everWaited).toBe(false) // 三句全程无等键 → 无黄色箭头(BUG 修复核心断言)
+      expect(gs.eventCursor).toBeUndefined() // 无按键也自动推进到 end
+      expect(gs.dialogBox).toBeUndefined() // 末句 ~ 收尾 → end 直接关 dialog 不等键
+      expect(gs.mode).toBe('explore')
+      expect(debug).not.toHaveBeenCalled()
+    } finally {
+      debug.mockRestore()
     }
-    expect(everWaited).toBe(false) // 三句全程无等键 → 无黄色箭头(BUG 修复核心断言)
-    expect(gs.eventCursor).toBeUndefined() // 无按键也自动推进到 end
-    expect(gs.dialogBox).toBeUndefined() // 末句 ~ 收尾 → end 直接关 dialog 不等键
-    expect(gs.mode).toBe('explore')
   })
 
   // 结局 RNG 演出对话(scene 281 拜月跳水):setDialogStyle 的 arg2(=operand[2]=fPlayingRNG)+ 头像 → dialogPlayingRNG

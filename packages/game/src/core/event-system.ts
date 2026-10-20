@@ -2506,6 +2506,13 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
           return // 等延时完('delay' 等待 handler 到时清 waiting + ip++)
         }
 
+        // 0x8E 的等键/正文清理由外层 pre-op 分支完成；在 trigger 层消费，
+        // 不再交给只负责通用 raw 指令的 applyRawOpcode。
+        if (cmd.opcode === OP_RESTORE_SCREEN) {
+          cursor.ip++
+          break
+        }
+
         // 0x73 fadeScreen:VIDEO_BackupScreen → PAL_MakeScene → VIDEO_FadeScreen(op0)。
         // 使用墙钟等待(speed+1)*10*72ms,不以 rAF 帧数近似 SDL_Delay。
         if (cmd.opcode === OP_FADE_SCREEN) {

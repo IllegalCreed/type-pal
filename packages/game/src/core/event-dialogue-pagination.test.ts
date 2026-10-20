@@ -1,5 +1,5 @@
 import type { Command, InputSnapshot } from '@type-pal/shared'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { createCommandBus } from './command-bus.js'
 import { buildLabelMap, tickEventSystem } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
@@ -92,17 +92,23 @@ describe('event dialogue page continuation', () => {
     { op: 'raw', opcode: 5, operands: [0, 0, 0] },
     { op: 'raw', opcode: 0x8e, operands: [0, 0, 0] },
   ] satisfies Command[])('分页后接 $op/$opcode 完整消费，后续副作用仅一次', (boundary) => {
-    const lines = ['甲一', '甲二', '甲三', '甲四', '甲五', '甲六']
-    const { gs, visible } = run([
-      { op: 'setDialogStyleTop', arg0: 8 },
-      ...lines.map((text, messageIndex): Command => ({ op: 'showDialog', text, messageIndex })),
-      boundary,
-      { op: 'showDialog', text: '乙方最后一句', messageIndex: 8 },
-      { op: 'raw', opcode: 0x1e, operands: [7, 0, 0] },
-      { op: 'end' },
-    ])
-    expect(visible).toEqual([...lines, '乙方最后一句'])
-    expect(gs.dialogHistory?.map((line) => line.text)).toEqual([...lines, '乙方最后一句'])
-    expect(gs.dwCash).toBe(7)
+    const debug = vi.spyOn(console, 'debug')
+    try {
+      const lines = ['甲一', '甲二', '甲三', '甲四', '甲五', '甲六']
+      const { gs, visible } = run([
+        { op: 'setDialogStyleTop', arg0: 8 },
+        ...lines.map((text, messageIndex): Command => ({ op: 'showDialog', text, messageIndex })),
+        boundary,
+        { op: 'showDialog', text: '乙方最后一句', messageIndex: 8 },
+        { op: 'raw', opcode: 0x1e, operands: [7, 0, 0] },
+        { op: 'end' },
+      ])
+      expect(visible).toEqual([...lines, '乙方最后一句'])
+      expect(gs.dialogHistory?.map((line) => line.text)).toEqual([...lines, '乙方最后一句'])
+      expect(gs.dwCash).toBe(7)
+      expect(debug).not.toHaveBeenCalled()
+    } finally {
+      debug.mockRestore()
+    }
   })
 })
