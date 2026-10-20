@@ -7,1499 +7,2037 @@
   "entries": [
     {
       "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "Game 大世界叠层测试性能修复",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371",
-      "afterSha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
-      "publicCallers": ["docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md"
-      ],
-      "businessOracle": {
-        "type": "historical-evidence-receipt",
-        "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md"]
-      },
-      "revision": {
-        "currentSha": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
-        "implementationSha": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
-        "history": [
-          {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371",
-        "candidateSha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
-        "afterSha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
-        "lineCount": 86,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 3834,
-          "sourceLines": 29,
-          "sourceFinalNewline": true,
-          "inverseSha256": "da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 夹具优化消除了 coverage/并行放大的接缝扩散成本（目标用例 5795ms 超时根因），四个合同全绿且判别力增强（新增相位推进帧），不删断言、不改产品。",
+      "truthAnchors": [
+        "SHA 91aac75c5",
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file p12-overlays.test.ts",
+        "file receipt.json",
+        "file counterproof.json",
+        "file p12-overlays.test.ts",
+        "file receipt.json/counterproof.json"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "有限测试合同派发 2026年10月8日",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939",
-      "afterSha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
-      "publicCallers": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 夹具优化消除了 coverage/并行放大的接缝扩散成本（目标用例 5795ms 超时根因），四个合同全绿且判别力增强（新增相位推进帧），不删断言、不改产品。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
-        "implementationSha": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
+            "afterSha256": "8ae9c5ff4d08f99fc4e1e8ed6b85e04193232527abb0ffdf51ff6087ce9a8a49"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939",
-        "candidateSha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
-        "afterSha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
-        "lineCount": 117,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 8349,
-          "sourceLines": 60,
-          "sourceFinalNewline": true,
-          "inverseSha256": "2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "8ae9c5ff4d08f99fc4e1e8ed6b85e04193232527abb0ffdf51ff6087ce9a8a49",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371",
+      "afterSha256": "8ae9c5ff4d08f99fc4e1e8ed6b85e04193232527abb0ffdf51ff6087ce9a8a49",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
+        "afterSha256": "8ae9c5ff4d08f99fc4e1e8ed6b85e04193232527abb0ffdf51ff6087ce9a8a49",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 3834,
+        "inverseBytes": 3835,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md 全文（3834B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 91aac75c5",
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file p12-overlays.test.ts",
+          "file receipt.json",
+          "file counterproof.json",
+          "file p12-overlays.test.ts",
+          "file receipt.json/counterproof.json"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 三包互斥准入+完成标准（五类裁定+锚点）+编码隔离边界+反控判据（四相位+唯一判据+多重集合）+Codex 派发与收口责任。",
+      "truthAnchors": [
+        "SHA 797a46a09",
+        "SHA 797a46a097640206a12b8f61dc014c8db277e457",
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file codex-review.md",
+        "file codex-needles.json",
+        "file codex-replay.mjs",
+        "file targets.json",
+        "file codex-review.md",
+        "file p12-overlays.test.ts"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "三个 GLM 有限测试包独立验收",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4",
-      "afterSha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
-      "publicCallers": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 三包互斥准入+完成标准（五类裁定+锚点）+编码隔离边界+反控判据（四相位+唯一判据+多重集合）+Codex 派发与收口责任。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
-        "implementationSha": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
+            "afterSha256": "1e1578336234f16921451a29b171ef662fc817add59a36d3673acc38173852a0"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4",
-        "candidateSha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
-        "afterSha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
-        "lineCount": 115,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 9679,
-          "sourceLines": 58,
-          "sourceFinalNewline": true,
-          "inverseSha256": "3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "1e1578336234f16921451a29b171ef662fc817add59a36d3673acc38173852a0",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939",
+      "afterSha256": "1e1578336234f16921451a29b171ef662fc817add59a36d3673acc38173852a0",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
+        "afterSha256": "1e1578336234f16921451a29b171ef662fc817add59a36d3673acc38173852a0",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 8349,
+        "inverseBytes": 8350,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md 全文（8349B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 797a46a09",
+          "SHA 797a46a097640206a12b8f61dc014c8db277e457",
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file codex-review.md",
+          "file codex-needles.json",
+          "file codex-replay.mjs",
+          "file targets.json",
+          "file codex-review.md",
+          "file p12-overlays.test.ts"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: plan-status-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: plan-status-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 三包候选接受集成（27 合同/28 针）；B5/B10 撤回、B7 补强、C5 不可达、C10 product-counter；两处 CI 性能修复不改业务断言。",
+      "truthAnchors": [
+        "SHA 89133ca0f",
+        "SHA 9e9fab94",
+        "SHA 21ea24361",
+        "SHA b0a458809",
+        "file codex-needles.json",
+        "file codex-replay.mjs",
+        "file validate.ts",
+        "file App.ts",
+        "file pal-meal-shell.test.ts",
+        "file render.ts",
+        "line ~1282",
+        "line ~108"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-DISPATCH-20261011.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "TEST dispatch 2026-10-11",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
-      "afterSha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
-      "publicCallers": ["docs/ops/evidence/TEST-DISPATCH-20261011.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-DISPATCH-20261011.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 三包候选接受集成（27 合同/28 针）；B5/B10 撤回、B7 补强、C5 不可达、C10 product-counter；两处 CI 性能修复不改业务断言。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-DISPATCH-20261011.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
-        "implementationSha": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
+            "afterSha256": "9c42809b5285748c1258323fcd26d2170e284a92edd25687605ff9f5d5968ab7"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
-        "candidateSha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
-        "afterSha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
-        "lineCount": 68,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 1189,
-          "sourceLines": 11,
-          "sourceFinalNewline": true,
-          "inverseSha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "9c42809b5285748c1258323fcd26d2170e284a92edd25687605ff9f5d5968ab7",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4",
+      "afterSha256": "9c42809b5285748c1258323fcd26d2170e284a92edd25687605ff9f5d5968ab7",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
+        "afterSha256": "9c42809b5285748c1258323fcd26d2170e284a92edd25687605ff9f5d5968ab7",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 9679,
+        "inverseBytes": 9680,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md 全文（9679B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 89133ca0f",
+          "SHA 9e9fab94",
+          "SHA 21ea24361",
+          "SHA b0a458809",
+          "file codex-needles.json",
+          "file codex-replay.mjs",
+          "file validate.ts",
+          "file App.ts",
+          "file pal-meal-shell.test.ts",
+          "file render.ts",
+          "line ~1282",
+          "line ~108"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: audit-report-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: audit-report-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 三包互斥白名单+零新增允许+冻结/排重/停止纪律；turn-boundaries 15 合同保持未接收。",
+      "truthAnchors": [
+        "SHA 9aa3bed89",
+        "SHA 9aa3bed892728f17c70d2f86d1fe07db10a718b8",
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "line ~729"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 证据",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "85fdc975aa9f06100fd3fd89d856ae9941f845ea308cd2056d365c9fd7339b6f",
-      "afterSha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
-      "publicCallers": ["docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 三包互斥白名单+零新增允许+冻结/排重/停止纪律；turn-boundaries 15 合同保持未接收。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
-        "implementationSha": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
+            "afterSha256": "462ee2afa9c768603290e3c59cc4ff6aa24271c0b6e3caec3995d1ecf2af85ea"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "85fdc975aa9f06100fd3fd89d856ae9941f845ea308cd2056d365c9fd7339b6f",
-        "candidateSha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
-        "afterSha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
-        "lineCount": 118,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 3801,
-          "sourceLines": 61,
-          "sourceFinalNewline": true,
-          "inverseSha256": "85fdc975aa9f06100fd3fd89d856ae9941f845ea308cd2056d365c9fd7339b6f",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "462ee2afa9c768603290e3c59cc4ff6aa24271c0b6e3caec3995d1ecf2af85ea",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
+      "afterSha256": "462ee2afa9c768603290e3c59cc4ff6aa24271c0b6e3caec3995d1ecf2af85ea",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
+        "afterSha256": "462ee2afa9c768603290e3c59cc4ff6aa24271c0b6e3caec3995d1ecf2af85ea",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 1189,
+        "inverseBytes": 1190,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-DISPATCH-20261011.md 全文（1189B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 9aa3bed89",
+          "SHA 9aa3bed892728f17c70d2f86d1fe07db10a718b8",
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "line ~729"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: plan-status-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: plan-status-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 8 new-contract 交付+2 existing-proof+1 unreachable 证明；验收后 B5/B10 撤回、B7 补强，终态六合同。",
+      "truthAnchors": [
+        "SHA 91aac75c5",
+        "SHA 797a46a09",
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file ItemAlchemyTab.boundary-contracts.test.ts",
+        "file kit.ts",
+        "file ItemAlchemyTab.test.ts",
+        "file contract-ledger.json",
+        "file ItemAlchemyEditors.boundary-contracts.test.ts",
+        "file ItemAlchemyTab.test.ts",
+        "line ~117",
+        "line ~731"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "85fdc975aa9f06100fd3fd89d856ae9941f845ea308cd2056d365c9fd7339b6f",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "85fdc975aa9f06100fd3fd89d856ae9941f845ea308cd2056d365c9fd7339b6f",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "当前作者命令表单引用与草稿合同证据",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "d773f29610f177a19c77ea40439d82a37337c1c90fd1b32d92b1241d72e2a74a",
-      "afterSha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
-      "publicCallers": ["docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 8 new-contract 交付+2 existing-proof+1 unreachable 证明；验收后 B5/B10 撤回、B7 补强，终态六合同。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
-        "implementationSha": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
+            "afterSha256": "afbfe8b86abab5018c2ab21d30503225ce3cfa3ba7c51cfd3bdadfdfe6239d40"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "d773f29610f177a19c77ea40439d82a37337c1c90fd1b32d92b1241d72e2a74a",
-        "candidateSha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
-        "afterSha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
-        "lineCount": 124,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 5233,
-          "sourceLines": 67,
-          "sourceFinalNewline": true,
-          "inverseSha256": "d773f29610f177a19c77ea40439d82a37337c1c90fd1b32d92b1241d72e2a74a",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "afbfe8b86abab5018c2ab21d30503225ce3cfa3ba7c51cfd3bdadfdfe6239d40",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "85fdc975aa9f06100fd3fd89d856ae9941f845ea308cd2056d365c9fd7339b6f",
+      "afterSha256": "afbfe8b86abab5018c2ab21d30503225ce3cfa3ba7c51cfd3bdadfdfe6239d40",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
+        "afterSha256": "afbfe8b86abab5018c2ab21d30503225ce3cfa3ba7c51cfd3bdadfdfe6239d40",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 3801,
+        "inverseBytes": 3802,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md 全文（3801B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 91aac75c5",
+          "SHA 797a46a09",
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file ItemAlchemyTab.boundary-contracts.test.ts",
+          "file kit.ts",
+          "file ItemAlchemyTab.test.ts",
+          "file contract-ledger.json",
+          "file ItemAlchemyEditors.boundary-contracts.test.ts",
+          "file ItemAlchemyTab.test.ts",
+          "line ~117",
+          "line ~731"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 5 新合同（E4/E6×2/E9×2）+5 针三态 ALL-VALID；E1-E12 全轴裁决完毕本卡 done。",
+      "truthAnchors": [
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file contract-ledger.ts",
+        "file CommandForm.author-control-contracts.test.ts",
+        "file CommandForm.author-world-contracts.test.ts",
+        "file author-command-form-fixture.ts",
+        "file App.glm-next-wave.test.ts",
+        "file boundary.test.ts",
+        "line ~2228"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "d773f29610f177a19c77ea40439d82a37337c1c90fd1b32d92b1241d72e2a74a",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
-        {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": [
-        "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md:1"
-      ],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "当前作者命令表单独立验收",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b",
-      "afterSha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
       "publicCallers": [
-        "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md"
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md"
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "d773f29610f177a19c77ea40439d82a37337c1c90fd1b32d92b1241d72e2a74a",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
       ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 5 新合同（E4/E6×2/E9×2）+5 针三态 ALL-VALID；E1-E12 全轴裁决完毕本卡 done。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
         "against": [
-          "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md"
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
         ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
-        "implementationSha": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
+            "afterSha256": "e6125603c4f9ea24cae8ba433e3398e432956d78633c4e904e305d330a0ad86f"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b",
-        "candidateSha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
-        "afterSha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
-        "lineCount": 75,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 2315,
-          "sourceLines": 18,
-          "sourceFinalNewline": true,
-          "inverseSha256": "964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "e6125603c4f9ea24cae8ba433e3398e432956d78633c4e904e305d330a0ad86f",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "d773f29610f177a19c77ea40439d82a37337c1c90fd1b32d92b1241d72e2a74a",
+      "afterSha256": "e6125603c4f9ea24cae8ba433e3398e432956d78633c4e904e305d330a0ad86f",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
+        "afterSha256": "e6125603c4f9ea24cae8ba433e3398e432956d78633c4e904e305d330a0ad86f",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 5233,
+        "inverseBytes": 5234,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md 全文（5233B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file contract-ledger.ts",
+          "file CommandForm.author-control-contracts.test.ts",
+          "file CommandForm.author-world-contracts.test.ts",
+          "file author-command-form-fixture.ts",
+          "file App.glm-next-wave.test.ts",
+          "file boundary.test.ts",
+          "line ~2228"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 五合同+E1-E12 分类接受，本卡 done；两处集成修正账勘误如实。",
+      "truthAnchors": [
+        "SHA 80a9c5c6b",
+        "SHA f43359781",
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file command-form-control.glm-large-wave.test.ts",
+        "file ../TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "TEST-EDITOR-SCRIPT-INTERACTION-1 证据目录",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40",
-      "afterSha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
-      "publicCallers": ["docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 五合同+E1-E12 分类接受，本卡 done；两处集成修正账勘误如实。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
-        "implementationSha": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
+            "afterSha256": "63cabb31ff15f753506ace44603975f1961c176149c2615c13ad9035d2a2dc27"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40",
-        "candidateSha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
-        "afterSha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
-        "lineCount": 104,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 5510,
-          "sourceLines": 47,
-          "sourceFinalNewline": true,
-          "inverseSha256": "658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "63cabb31ff15f753506ace44603975f1961c176149c2615c13ad9035d2a2dc27",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b",
+      "afterSha256": "63cabb31ff15f753506ace44603975f1961c176149c2615c13ad9035d2a2dc27",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
+        "afterSha256": "63cabb31ff15f753506ace44603975f1961c176149c2615c13ad9035d2a2dc27",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 2315,
+        "inverseBytes": 2316,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md 全文（2315B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 80a9c5c6b",
+          "SHA f43359781",
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file command-form-control.glm-large-wave.test.ts",
+          "file ../TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: audit-report-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: audit-report-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 7 new-contract 交付+3 existing-proof+A10 卫生；验收后七合同接受集成（21ea24361）。",
+      "truthAnchors": [
+        "SHA 91aac75c5",
+        "SHA 797a46a09",
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file targets.json",
+        "file ScriptEditor.interaction-boundaries.test.ts",
+        "file harness.ts",
+        "file .test.ts",
+        "file gates.json",
+        "file codex-review.md"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "TEST-GAME-MEDIA-LIFECYCLE-1 交付证据",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11",
-      "afterSha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
-      "publicCallers": ["docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 7 new-contract 交付+3 existing-proof+A10 卫生；验收后七合同接受集成（21ea24361）。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
-        "implementationSha": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
+            "afterSha256": "c1b7c2ffdf4115c8028f99dfe6e55dfd2fc8f2d58b1878659942855b5b233f50"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11",
-        "candidateSha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
-        "afterSha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
-        "lineCount": 129,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 10314,
-          "sourceLines": 72,
-          "sourceFinalNewline": true,
-          "inverseSha256": "77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "c1b7c2ffdf4115c8028f99dfe6e55dfd2fc8f2d58b1878659942855b5b233f50",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40",
+      "afterSha256": "c1b7c2ffdf4115c8028f99dfe6e55dfd2fc8f2d58b1878659942855b5b233f50",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
+        "afterSha256": "c1b7c2ffdf4115c8028f99dfe6e55dfd2fc8f2d58b1878659942855b5b233f50",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 5510,
+        "inverseBytes": 5511,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md 全文（5510B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 91aac75c5",
+          "SHA 797a46a09",
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file targets.json",
+          "file ScriptEditor.interaction-boundaries.test.ts",
+          "file harness.ts",
+          "file .test.ts",
+          "file gates.json",
+          "file codex-review.md"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 7 new-contract+1 product-counter（M3）；两轮 Codex counter 闭合（A-R1/A-R2）；卡 done。",
+      "truthAnchors": [
+        "SHA 2f0fe6d2f",
+        "SHA a2447b5c9",
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file identity.json",
+        "file avi-player.ts",
+        "file repro-m3.json",
+        "file avi-player.async-lifecycle.test.ts",
+        "file rng-player.io-lifecycle.test.ts",
+        "file rng-player.test.ts",
+        "line ~140"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
       },
-      "counterReworkBlocked": [
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md:1"],
-      "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "evidence",
-      "capability": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1 证据索引",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f",
-      "afterSha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
-      "publicCallers": ["docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md"
-      ],
       "businessOracle": {
-        "type": "historical-evidence-receipt",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "original evidence scope remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Historical documentary statement: - 7 new-contract+1 product-counter（M3）；两轮 Codex counter 闭合（A-R1/A-R2）；卡 done。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md"]
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
       "revision": {
-        "currentSha": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
-        "implementationSha": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "history": [
           {
-            "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R63 ops evidence receipt migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
+            "afterSha256": "570c1e8fc09cc545dfc772d98f47b16c2dec743903383391fb89b2a64db30f12"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
-        "sourceSha256": "eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f",
-        "candidateSha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
-        "afterSha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
-        "lineCount": 73,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 946,
-          "sourceLines": 16,
-          "sourceFinalNewline": true,
-          "inverseSha256": "eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f",
-          "exactRoundTrip": true
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "570c1e8fc09cc545dfc772d98f47b16c2dec743903383391fb89b2a64db30f12",
+        "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R63 ops evidence receipt migration",
-          "reviewer": "r63_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
         }
       ],
-      "supersedes": ["governed-legacy evidence presentation; original source retained"],
-      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11",
+      "afterSha256": "570c1e8fc09cc545dfc772d98f47b16c2dec743903383391fb89b2a64db30f12",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
+        "afterSha256": "570c1e8fc09cc545dfc772d98f47b16c2dec743903383391fb89b2a64db30f12",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 10314,
+        "inverseBytes": 10315,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md 全文（10314B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 2f0fe6d2f",
+          "SHA a2447b5c9",
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file identity.json",
+          "file avi-player.ts",
+          "file repro-m3.json",
+          "file avi-player.async-lifecycle.test.ts",
+          "file rng-player.io-lifecycle.test.ts",
+          "file rng-player.test.ts",
+          "line ~140"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "artifactOnly": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-      "candidateSha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - BR-01/02/04/05 四合同交付并集成 main。",
+      "truthAnchors": [
+        "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+        "file BattleSpriteLibrary.glm-battle-registry.test.ts",
+        "file SpriteFrameDeletion.glm-battle-registry.test.ts",
+        "file EnemyTeamTab.glm-battle-registry.test.ts",
+        "file counterproof.json",
+        "file docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/run-counterproof.mjs",
+        "file directed.raw/counterproof.json"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
           "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
           "sha256": "eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and consumer own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+          "revision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+          "sha256": "eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "Historical documentary statement: - BR-01/02/04/05 四合同交付并集成 main。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": [
+          "20261017-r63-ops-evidence-readmes.json",
+          "DOCS-FULL-TEMPLATE-1 prior S18 counters"
+        ]
       },
       "counterReworkBlocked": [
         {
-          "id": "R63-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      "revision": {
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
+            "afterSha256": "6313fc88e1e533e7a8daee3a30bd4f486d292d22fa982a665660236a9afeb45a"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "6313fc88e1e533e7a8daee3a30bd4f486d292d22fa982a665660236a9afeb45a",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r63-ops-evidence-readmes.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+          "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f",
+      "afterSha256": "6313fc88e1e533e7a8daee3a30bd4f486d292d22fa982a665660236a9afeb45a",
+      "sourceGitRevision": "6855e6945bb015df4674dc64ad7410f56702ceee",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
+        "afterSha256": "6313fc88e1e533e7a8daee3a30bd4f486d292d22fa982a665660236a9afeb45a",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 946,
+        "inverseBytes": 947,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 6855e6945bb0:docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md 全文（946B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 6855e6945bb015df4674dc64ad7410f56702ceee",
+          "file BattleSpriteLibrary.glm-battle-registry.test.ts",
+          "file SpriteFrameDeletion.glm-battle-registry.test.ts",
+          "file EnemyTeamTab.glm-battle-registry.test.ts",
+          "file counterproof.json",
+          "file docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/run-counterproof.mjs",
+          "file directed.raw/counterproof.json"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
     }
   ],
   "currentCorrection": {
@@ -1512,5 +2050,178 @@
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
     "recordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
     "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  },
+  "supersededBindings": [
+    {
+      "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "dc413a57dbed9c152b3a3d9b0b155b10bdaca132d604233d3399e43533451f7b",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "dc108670b71342be2d0aa1be478d1d72cd549cbc339b976ed152504df4669a53",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "f2b831fd42f9bfc62165f0cbfb92cdbc15b5a93af0651a1ff43e6a6b6d794544",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "1ce5065192917b6cc92fb7d4471d5be099cef3ec4479a9c07b20cf71e87d8a5b",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "12a9a30de1f667384e19f434a52c0a91b01c2af27258bb79c707a33ce1a909f7",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "c7de8d260a61f11f419bf24556ad76ba0ce6d6c755d81e059ef81a005ee4535e",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "3f92248ee9048dfd0e9c1d833ff4be2c3506a8dc8306da86400ca58ce5b95bd7",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "d0477941f1bc046d560549a5716a89a73da66f8909db89a7eb72cba33d8e6e94",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "c87380915f60c350212bd22f71c32acb95b1fae0c9194a3a6d107afe27842aaa",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "selectorPath": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+        "wholeFileSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+        "entryCanonicalJSONSha256": "ba342ce2482ba093d28fb756304f9f521d0328457f2ec5d80f7d540a6feaa746",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    }
+  ],
+  "currentIntake": {
+    "date": "2026-10-20",
+    "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+    "sourceHead": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+    "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+    "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+    "acceptedDocuments": [
+      "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+      "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+      "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+      "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+      "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+      "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+      "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+      "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+      "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+      "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md"
+    ],
+    "blockedDocuments": [],
+    "scope": "Fresh per-entry S18 current intake; inherited top-level policy/date/receipts are historical, not whole-batch acceptance."
   }
 }

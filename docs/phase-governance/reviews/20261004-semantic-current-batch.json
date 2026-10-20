@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "6e12a7168cafdae8105c7c1d497f78a410621c884bf99f6b3dbf800ea5eec69d",
+      "afterSha256": "c5e40bf0ecb57f73705002f553698a0e61b16783e12f90b0657fee373ca05c62",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1004,6 +1004,24 @@
           "previousAfterSha256": "8d86b653ed54f8e4f8b2f660dfcaf0937519637edbac0d13d063b0fba11a2c17",
           "afterSha256": "6e12a7168cafdae8105c7c1d497f78a410621c884bf99f6b3dbf800ea5eec69d",
           "method": "Exact declared Owner controls/routing after S17 intake, no new semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "6e12a7168cafdae8105c7c1d497f78a410621c884bf99f6b3dbf800ea5eec69d",
+          "afterSha256": "0e96c0a30a80619dca32a514cab435e7e1e54c23a75b5d03a3123d837380bd3c",
+          "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S18 actual73 current controls and S19 bounded61 admission; no new semantic grants",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "0e96c0a30a80619dca32a514cab435e7e1e54c23a75b5d03a3123d837380bd3c",
+          "afterSha256": "c5e40bf0ecb57f73705002f553698a0e61b16783e12f90b0657fee373ca05c62",
+          "method": "Exact declared Owner control/matrix/routing writeback after73 intake",
           "grantsNewSemanticAcceptance": false
         }
       ]

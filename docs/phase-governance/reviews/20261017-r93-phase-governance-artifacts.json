@@ -549,7 +549,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "5bd879bd796c1cb0b5718272d219489dc36538c2173bc1a93cf5c60bb6e3d0c6",
+      "afterSha256": "28a646781587176182df1750bda65a9b04a2708978fd7436736200e9e23fb75b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -879,6 +879,15 @@
           "previousAfterSha256": "de214c7009aaac74f730cb8af05f9d58ccc8357a11433be3efa899a25517b80b",
           "afterSha256": "5bd879bd796c1cb0b5718272d219489dc36538c2173bc1a93cf5c60bb6e3d0c6",
           "method": "Exact declared Owner controls/routing after S17 intake, no new semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "5bd879bd796c1cb0b5718272d219489dc36538c2173bc1a93cf5c60bb6e3d0c6",
+          "afterSha256": "28a646781587176182df1750bda65a9b04a2708978fd7436736200e9e23fb75b",
+          "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1369,7 +1378,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "543a60375c5bf98f13fd625af3b2a704c1ece6675a2d5c64ec2aabdedd659973",
+      "afterSha256": "4c50e5f2016a92330cdccb8fa4c920eea780907068930fc5297acd214b62120d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1626,6 +1635,24 @@
           "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
           "previousAfterSha256": "f68d43e9273f52ad944c20e49c4c9505a5ce6c7af8f5c6f13bc97630bfa38894",
           "afterSha256": "543a60375c5bf98f13fd625af3b2a704c1ece6675a2d5c64ec2aabdedd659973",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "543a60375c5bf98f13fd625af3b2a704c1ece6675a2d5c64ec2aabdedd659973",
+          "afterSha256": "d749e4c08f5295dc1710c7e77710c95778338790e3788d370ac2cde5ec22c6d5",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S18 actual73 current controls and S19 bounded61 admission; no new semantic grants",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "d749e4c08f5295dc1710c7e77710c95778338790e3788d370ac2cde5ec22c6d5",
+          "afterSha256": "4c50e5f2016a92330cdccb8fa4c920eea780907068930fc5297acd214b62120d",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -3709,7 +3736,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c9674a22cfb8a77f1da1ca46167185882b9b51dca04edb09da5f8c19231f2668",
-      "afterSha256": "4e1f0f78dd4abc64576937f495e8e1346b20d5a8bfb0e5933db30561c3885b5c",
+      "afterSha256": "ae8485d94b5907299e38441c4fe2e0dc2e398431cf83dead3ca4de3040468f5f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3957,6 +3984,15 @@
           "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
           "previousAfterSha256": "43d96544f6bfa66ff77c3588edf10408acf1fce554162292270ae1d30524486a",
           "afterSha256": "4e1f0f78dd4abc64576937f495e8e1346b20d5a8bfb0e5933db30561c3885b5c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "4e1f0f78dd4abc64576937f495e8e1346b20d5a8bfb0e5933db30561c3885b5c",
+          "afterSha256": "ae8485d94b5907299e38441c4fe2e0dc2e398431cf83dead3ca4de3040468f5f",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -12713,7 +12749,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "e87a3b59dc254f642948494843d827bd1f35715c70e245a1c25c787a0da42db3",
+      "afterSha256": "5773450aa8783f4bea12abe2f6e063313a98ad746a30d3995d062f0cf79de092",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -12853,6 +12889,15 @@
           "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
           "previousAfterSha256": "629fefc146931f729f387eeb85877e5aab813dc1a13ee695f014e86fee6b4f19",
           "afterSha256": "e87a3b59dc254f642948494843d827bd1f35715c70e245a1c25c787a0da42db3",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "e87a3b59dc254f642948494843d827bd1f35715c70e245a1c25c787a0da42db3",
+          "afterSha256": "5773450aa8783f4bea12abe2f6e063313a98ad746a30d3995d062f0cf79de092",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -15563,7 +15608,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7158bda04775bfed318100cd60af1fdfd6c4da0bb5879ed5165cb5d5ed24e05c",
-      "afterSha256": "52c86c67b0362bef1c86c38530267f2a6dd0729c3d971ac649f423f5d6449e3c",
+      "afterSha256": "358c9217b93f37c59be0fd0482f06e3a9d4fffcb41304e23e97116757ea71880",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15695,7 +15740,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "52c86c67b0362bef1c86c38530267f2a6dd0729c3d971ac649f423f5d6449e3c",
+          "afterSha256": "358c9217b93f37c59be0fd0482f06e3a9d4fffcb41304e23e97116757ea71880",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
@@ -16963,7 +17019,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5dbc3936bd00880e4f242d70b89c57aaf3581597be17889fab9ae031da904d6b",
-      "afterSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+      "afterSha256": "4782a0ea5e76c9e1a05bb257efbc8c0e8cd874616bb83835b89aff030818229e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -17095,7 +17151,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "e4013c4f9ffc2a717cdef107ed57ceaf3e56f8a5aa6a9c993cee6f04db5ac826",
+          "afterSha256": "4782a0ea5e76c9e1a05bb257efbc8c0e8cd874616bb83835b89aff030818229e",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json",
@@ -17124,7 +17191,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d4014f50ace39a760373d77217182028d121577794e8b0451248b1f0b20b5a99",
-      "afterSha256": "4c8b794303466f4fd706e4fd22f41d9c47db45232d9c86600745097b2d30b531",
+      "afterSha256": "68b29e3a4bfffdc81072948c393e1e2f1375efadace4ac9a8d416dcc2fae27b4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -17256,7 +17323,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "4c8b794303466f4fd706e4fd22f41d9c47db45232d9c86600745097b2d30b531",
+          "afterSha256": "68b29e3a4bfffdc81072948c393e1e2f1375efadace4ac9a8d416dcc2fae27b4",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r65-ops-evidence-readmes.json",
@@ -17285,7 +17363,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ef7069db070a80b2dbfdadda4218d34dfdf2475e201c21f3de455076c0972e38",
-      "afterSha256": "f96d78dd7e047bc14610a3b259876fa5256902e6aefdf9f119d72c08ed6ce429",
+      "afterSha256": "edee353efe62df210ecf2c4cc0b3fb3a5af101ffae1e92311f17395e8811153e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -17417,7 +17495,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "f96d78dd7e047bc14610a3b259876fa5256902e6aefdf9f119d72c08ed6ce429",
+          "afterSha256": "edee353efe62df210ecf2c4cc0b3fb3a5af101ffae1e92311f17395e8811153e",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r66-ops-evidence-readmes.json",
@@ -17446,7 +17535,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "03fe63307160e8e9c37c4ff7f83377e69e25cb4496c0946466a3bded53bb557d",
-      "afterSha256": "6db59c462eb005534e9ef1b84b691df8bb4ca9373137c7ba10321b20f0615a9c",
+      "afterSha256": "52274dadeb8cfc8104aa1031dcc62e6dc69135d1aee192fdfaa9a06705698ff3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -17578,7 +17667,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "6db59c462eb005534e9ef1b84b691df8bb4ca9373137c7ba10321b20f0615a9c",
+          "afterSha256": "52274dadeb8cfc8104aa1031dcc62e6dc69135d1aee192fdfaa9a06705698ff3",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
@@ -17768,7 +17868,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "8f751db52247ebf4d81ac906f44be1c80076be363680d7d9788cd17b1fc84a18",
-      "afterSha256": "67230d5f81b9d44d772857948f23a941cdc9db7cdfbebf767924a58a8771e31b",
+      "afterSha256": "e7883dc2f6f28361ccc9743c6352e974401673a41419ec447ac86c4819f72425",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -17900,7 +18000,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "67230d5f81b9d44d772857948f23a941cdc9db7cdfbebf767924a58a8771e31b",
+          "afterSha256": "e7883dc2f6f28361ccc9743c6352e974401673a41419ec447ac86c4819f72425",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/catalog.lore.json",

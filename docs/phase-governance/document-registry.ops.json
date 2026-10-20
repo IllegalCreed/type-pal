@@ -1112,20 +1112,22 @@
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r55-ops-dedup-ledger.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r55-ops-dedup-ledger.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
@@ -1743,19 +1745,19 @@
       "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     },
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     },
     {
@@ -1765,8 +1767,8 @@
       "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     },
     {
@@ -1776,8 +1778,8 @@
       "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     },
     {
@@ -1787,8 +1789,8 @@
       "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     },
     {
@@ -1798,8 +1800,8 @@
       "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     },
     {
@@ -5078,650 +5080,715 @@
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r63-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r64-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/coverage-probe/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/gates/README.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "quality-gate",
+      "templateId": "quality-gate-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r68-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-review-r1.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",

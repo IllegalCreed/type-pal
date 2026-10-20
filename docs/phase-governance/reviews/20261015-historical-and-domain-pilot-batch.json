@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "3db36fdcb3698e5862286af8e6c25e35097e9ecabc74355dba99f9a1ca8bb94b",
+      "afterSha256": "044c5a41aa719780f67c181a9bed2b729ab78016a923a03218fc60b7a77e7917",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6889,6 +6889,15 @@
           "previousAfterSha256": "36770309294161b53cdbd43a636d1428aaa7c717df4917d6faa7ef4118cd24b6",
           "afterSha256": "3db36fdcb3698e5862286af8e6c25e35097e9ecabc74355dba99f9a1ca8bb94b",
           "method": "Explicit S17 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "3db36fdcb3698e5862286af8e6c25e35097e9ecabc74355dba99f9a1ca8bb94b",
+          "afterSha256": "044c5a41aa719780f67c181a9bed2b729ab78016a923a03218fc60b7a77e7917",
+          "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

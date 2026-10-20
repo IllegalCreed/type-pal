@@ -1016,7 +1016,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "8b60aedfc0a47fa2604ad15ff20d72bc370d398368d26a1be33659bafc9fabdd",
+      "afterSha256": "cb903fc0ed8ca0f4b90237695071ced40d7abadecca1dc7d0c2fbd86d9e3d94c",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1195,6 +1195,15 @@
           "afterSha256": "8b60aedfc0a47fa2604ad15ff20d72bc370d398368d26a1be33659bafc9fabdd",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "8b60aedfc0a47fa2604ad15ff20d72bc370d398368d26a1be33659bafc9fabdd",
+          "afterSha256": "cb903fc0ed8ca0f4b90237695071ced40d7abadecca1dc7d0c2fbd86d9e3d94c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1227,7 +1236,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6ca7219abe95944bd7813d21661c03ff5cbe52b3b2c6ffdf721a6b7dd189f00a",
+      "afterSha256": "d7a4e5908d2738642df22e2cb4105410e723e060546ca675c13088da601286ae",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1627,6 +1636,24 @@
           "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
           "previousAfterSha256": "e86390ce6ff85cdb27adc0491137dd133f3efceb656a04d9580229194f3a42f5",
           "afterSha256": "6ca7219abe95944bd7813d21661c03ff5cbe52b3b2c6ffdf721a6b7dd189f00a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "6ca7219abe95944bd7813d21661c03ff5cbe52b3b2c6ffdf721a6b7dd189f00a",
+          "afterSha256": "a8c5bfd858752480108fdf376844d26f5b07db3c683e42edbe2598ca85e8fe36",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S18 actual73 current controls and S19 bounded61 admission; no new semantic grants",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "a8c5bfd858752480108fdf376844d26f5b07db3c683e42edbe2598ca85e8fe36",
+          "afterSha256": "d7a4e5908d2738642df22e2cb4105410e723e060546ca675c13088da601286ae",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5667,7 +5694,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "7c81e69c464f7248e1aca7dd9aba578715f8041e627f97da8a88b3aa981a03c1",
+      "afterSha256": "55fc96c8a5237d99a8822b9d6b30a3990b9ee1128766cdf5e9d9917606fe1a89",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6214,6 +6241,24 @@
           "afterSha256": "7c81e69c464f7248e1aca7dd9aba578715f8041e627f97da8a88b3aa981a03c1",
           "method": "Exact declared Owner controls/routing after S17 intake, no new semantic credit",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "7c81e69c464f7248e1aca7dd9aba578715f8041e627f97da8a88b3aa981a03c1",
+          "afterSha256": "25680d2add497a48f334dbf792a9e5a316fac7809829afd3f7d8a82d53a9214b",
+          "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S18 actual73 current controls and S19 bounded61 admission; no new semantic grants",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "25680d2add497a48f334dbf792a9e5a316fac7809829afd3f7d8a82d53a9214b",
+          "afterSha256": "55fc96c8a5237d99a8822b9d6b30a3990b9ee1128766cdf5e9d9917606fe1a89",
+          "method": "Exact declared Owner control/matrix/routing writeback after73 intake",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6381,7 +6426,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "26dd09516c464a11b090f69b1ac88fc49c5c6613f6ccaa0d294062b928171089",
+      "afterSha256": "c29efcf928c4b9723d549de09e59bf054cd1f44133c720d5ba375fe173ba276a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6715,6 +6760,15 @@
           "afterSha256": "26dd09516c464a11b090f69b1ac88fc49c5c6613f6ccaa0d294062b928171089",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "26dd09516c464a11b090f69b1ac88fc49c5c6613f6ccaa0d294062b928171089",
+          "afterSha256": "c29efcf928c4b9723d549de09e59bf054cd1f44133c720d5ba375fe173ba276a",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6745,7 +6799,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "53bb3c894aecf8903926d21a674fcb3f1aeae081790194e165b325b3fa8a44b9",
+      "afterSha256": "2a66a2aa2e3f54ea4b7e2a6844d72ab9862fddfd885ca6de2d9c76156b8ca972",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6930,6 +6984,15 @@
           "previousAfterSha256": "02c557e5a2da5c1f5d8501c1ea41c4688e8b61425d2028c82e74215ff8731808",
           "afterSha256": "53bb3c894aecf8903926d21a674fcb3f1aeae081790194e165b325b3fa8a44b9",
           "method": "Exact declared Owner controls/routing after S17 intake, no new semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "53bb3c894aecf8903926d21a674fcb3f1aeae081790194e165b325b3fa8a44b9",
+          "afterSha256": "2a66a2aa2e3f54ea4b7e2a6844d72ab9862fddfd885ca6de2d9c76156b8ca972",
+          "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

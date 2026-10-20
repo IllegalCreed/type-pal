@@ -1905,6 +1905,29 @@
         "Historical/manual author timestamps and lost/placeholder identities are not current execution authentication."
       ],
       "stopLine": "No coverage/E2E/runtime credit or resurrection of old signatures/product scope from document governance."
+    },
+    {
+      "id": "S18-ops-historical-evidence-vs-current-test-credit",
+      "from": [
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+        "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/dedup-ledger.md",
+        "docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md"
+      ],
+      "to": [
+        "docs/testing/governance.md",
+        "docs/ops/document-quality.md",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md"
+      ],
+      "relationship": "Historical task evidence and dedup contract registration remain separate from execution acceptance, current catalog publication, coverage targets and nonauthor identity.73 documentary body/template decisions plus6 Owner narrow corrections grant no old runtime credit.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz"
+      ],
+      "unresolved": [
+        "Prior run-meta anchors a pre-final candidate; only fresh Owner fixed-candidate replay authenticates this round.",
+        "Owner metadata mapping and six derivative repairs are self-verified maintenance, not a second nonauthor review."
+      ],
+      "stopLine": "No restored historical deep-review, independence, test/runtime/E2E/visual/coverage credit from document receipt migration."
     }
   ],
   "acceptance": {

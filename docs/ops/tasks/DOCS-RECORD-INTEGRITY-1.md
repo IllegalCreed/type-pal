@@ -195,3 +195,7 @@ S16实际中央接入后共718篇文档接收、1714篇partial，N3本篇blocked
 ### S17 返工真实范围与小修归因（2026-10-20）
 
 124篇453表格反例已由贡献者修复，365原文保全、241只读及旧481件有效性复核保留；新31件冻结不覆盖。作者零占位/重复声明不全，Owner定向查出18篇残留并按授权自行修，详见[逐篇固定裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-correction-124-evidence-led-with-owner18/fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214.gz)。小修是同Owner维护自验，不能伪装第二次独立审；此前时间占位及回执未知不因新正文接收恢复。全量卡继续rework，严格门尚有待迁移项。
+
+### S18 证据映射与执行身份（2026-10-20）
+
+73份作者coreConclusion误抽metadata；Owner以每篇正文明确的原始结论建立当前映射，原字段及40件原件不改。run-meta锚460而非最终b5，旧运行身份不认证，当前使用Owner固定候选真实重放。六篇排重账的执行闭合措辞收窄为合同登记，Owner自验，不编造第二次独立审。详见[固定裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz)。历史验收真伪、产品通过和全量治理均不因本次接入重授。
