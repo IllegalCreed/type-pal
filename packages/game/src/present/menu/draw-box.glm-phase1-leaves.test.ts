@@ -12,8 +12,6 @@ import {
   newFb,
   pixel,
   SENTINEL,
-  solidImage,
-  TILE,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
 import { createFramebuffer } from '../framebuffer.js'
 import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
@@ -26,7 +24,7 @@ describe('L12 drawBox / drawSingleLineBox 剩余合同', () => {
     )
   })
 
-  it('shadowOffset 0：无阴影，(x+6,y+6) 保持底色', () => {
+  it('shadowOffset 0：无阴影，框右侧的阴影域保持底色', () => {
     const fb = newFb()
     drawBox({
       fb,
@@ -39,8 +37,8 @@ describe('L12 drawBox / drawSingleLineBox 剩余合同', () => {
       uiSpriteFrames: makeUiFrames(),
     })
     expect(pixel(fb, 11, 11)).toBe(BOX_STYLE0)
-    // 阴影本应落在 box 区域右下 (+6)：style0 素色图无差异可辨 → 用 box 外一点验证未被改
-    expect(pixel(fb, 10 + TILE * 4 + 2, 10 + 2)).toBe(SENTINEL) // box 右侧 2 列内容之外
+    // 框到x=41；若误画offset=6的阴影，会覆盖(44,18)，但不会覆盖旧采样(44,12)。
+    expect(pixel(fb, 44, 18)).toBe(SENTINEL)
   })
 
   it('box 越出 fb 右/下边界：裁剪不抛错，界内像素照画', () => {
@@ -67,13 +65,5 @@ describe('L12 drawBox / drawSingleLineBox 剩余合同', () => {
     expect(menuTextMaxCols(['甲甲'], fixtureGlyphs)).toBe(1) // (2*16+8)>>4=2 → 2-1，下限 1
     // 'abcdefgh' 不在 fixture 字形表 → measureText 缺字 fallback 16px/字 → (8*16+8)>>4=8 → 7
     expect(menuTextMaxCols(['abcdefgh'], fixtureGlyphs)).toBe(7)
-  })
-})
-
-describe('L12 solidImage 语义（本队列 fixture 自检）', () => {
-  it('素色图 opaque 全 1，blit 后整片覆盖', () => {
-    const img = solidImage(TILE, TILE, BOX_STYLE0)
-    expect(img.opaque.every((v) => v === 1)).toBe(true)
-    expect(img.indices.every((v) => v === BOX_STYLE0)).toBe(true)
   })
 })

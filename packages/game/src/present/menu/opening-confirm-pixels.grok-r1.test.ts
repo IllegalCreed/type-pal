@@ -147,8 +147,8 @@ describe('G07-D 开场与确认像素', () => {
     }
     const no = textDot('否', 0, 145, 110)
     const yes = textDot('是', 0, 220, 110)
-    expect(pixel(fb, no.x, no.y)).not.toBe(SELECTED)
-    expect(pixel(fb, yes.x, yes.y)).not.toBe(NORMAL)
+    expect(pixel(fb, no.x, no.y)).toBe(SENTINEL)
+    expect(pixel(fb, yes.x, yes.y)).toBe(SENTINEL)
     expect(pixel(fb, 140, 104)).toBe(BOX_STYLE0)
     expect(pixel(fb, 215, 104)).toBe(BOX_STYLE0)
   })

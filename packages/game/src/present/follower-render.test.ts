@@ -19,7 +19,7 @@ describe('computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-7
     expect(computeFollowerRenderItems(t, [82], true, 1)).toEqual([])
   })
 
-  it('follower 0 → trail[3] 位置(world,无偏移)+ 角色 id', () => {
+  it('follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk', () => {
     const t = trail(
       [0, 0, 'down'],
       [1, 0, 'down'],
@@ -41,21 +41,15 @@ describe('computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-7
   })
 
   it('行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])', () => {
-    const mk = (_step: number) =>
-      trail(
-        [0, 0, 'down'],
-        [1, 0, 'down'],
-        [2, 0, 'down'],
-        [100, 200, 'right'], // dir=3
-      )
+    const t = trail([0, 0, 'down'], [1, 0, 'down'], [2, 0, 'down'], [100, 200, 'right'])
     // right dir=3 → base 9;step 0/1/2/3 → +0/+2/+0/+1
-    expect(computeFollowerRenderItems(mk(0), [82], true, 0)[0]!.frameIdx).toBe(9 + 0)
-    expect(computeFollowerRenderItems(mk(1), [82], true, 1)[0]!.frameIdx).toBe(9 + 2)
-    expect(computeFollowerRenderItems(mk(2), [82], true, 2)[0]!.frameIdx).toBe(9 + 0)
-    expect(computeFollowerRenderItems(mk(3), [82], true, 3)[0]!.frameIdx).toBe(9 + 1)
+    expect(computeFollowerRenderItems(t, [82], true, 0)[0]!.frameIdx).toBe(9)
+    expect(computeFollowerRenderItems(t, [82], true, 1)[0]!.frameIdx).toBe(11)
+    expect(computeFollowerRenderItems(t, [82], true, 2)[0]!.frameIdx).toBe(9)
+    expect(computeFollowerRenderItems(t, [82], true, 3)[0]!.frameIdx).toBe(10)
   })
 
-  it('两 follower → trail[3]/[4],各自 dir/role/index', () => {
+  it('两 follower → trail[3]/[4],各自 dir/chunk/index', () => {
     const t = trail(
       [0, 0, 'down'],
       [1, 0, 'down'],

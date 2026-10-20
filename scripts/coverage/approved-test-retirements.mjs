@@ -7,6 +7,49 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-20 complete pre94 + standing quality/dedup authority.
+    // CODE43-47: exact duplicate/no-product/sparse-fixture retirements;
+    // contract destinations and full native identities: present-leaves-local.json.
+    {
+      file: 'packages/game/src/present/draw-sprite-clip.grok-r1.test.ts',
+      previous: 8,
+      current: 7,
+      previousIdentityDigest: '2d759a3882d8f4edb40a4fb51841e9b65904650f48a27eebdb35afcc5cece457',
+      currentIdentityDigest: 'c99d72fdd8f7b69d34ab0c89bb705e289f73ff075b94f8ffb705c7104f5d1b3f',
+      fileSha256: '72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d',
+    },
+    {
+      file: 'packages/game/src/present/follower-render-gap.grok-r1.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'f45e3d68b49b72d1355ddcf6455a174890504b6d9bb8882378952d257bd0152d',
+      currentIdentityDigest: 'e5fe95c23e045031fe4aadc8c00e5409a10617fc2be2e35982203427f71b0063',
+      fileSha256: '546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc',
+    },
+    {
+      file: 'packages/game/src/present/font-width.grok-r1.test.ts',
+      previous: 14,
+      current: 10,
+      previousIdentityDigest: '78375df326e9d603337bf01614068b5058b7ade1b5676fcd2ebfe4f9805e4fc4',
+      currentIdentityDigest: '229690aeaad0984ebae36553d1bd131da7f90049eaeaaecb1dd10bcb900f436f',
+      fileSha256: '1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3',
+    },
+    {
+      file: 'packages/game/src/present/font.test.ts',
+      previous: 15,
+      current: 13,
+      previousIdentityDigest: '64c0e0987fa1dbf02d678d704405e0df9309afef0dcb1ee935eb27a508c30ce9',
+      currentIdentityDigest: '3ad5f16d871ba526e0598c7c0cdc57a7f5108a4d2d5ecc332436e2775b5c4dc7',
+      fileSha256: 'd502acc90f477b56a28eef745e17e4f219514ffacb9bbcf96d39992d3219cc6f',
+    },
+    {
+      file: 'packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: 'bdd0b805e6ed539b0d052213e7fca4ad029ea08817ccc4b0f8e25ee5496d5c2b',
+      currentIdentityDigest: '0a0afb1cd010018b305e6c94f97425b71017b7e969aa4aa923a3f94b2948267b',
+      fileSha256: '2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295',
+    },
     // User2026-10-20 complete pre94 + standing test-quality/dedup authority.
     // CODE51 weak cursor subset -> precise L12 colors; CODE54 test-only wrapper
     // -> public drawTilemap subrow/A01/A04 pixel contracts. Exact maps/native:

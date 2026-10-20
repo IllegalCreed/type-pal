@@ -74,12 +74,12 @@ describe('drawSprite', () => {
     expect(fb.indices[10 * 320 + 10]).toBe(0)
   })
 
-  it('屏幕外像素不抛错', () => {
+  it('左上角跨界时仍写入屏内的右下像素', () => {
     const fb = createFramebuffer()
     const indices = new Uint8Array(4).fill(5)
     const opaque = new Uint8Array(4).fill(1)
-    const ok = () =>
-      drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 0, anchorY: 0 }, -1, -1)
-    expect(ok).not.toThrow()
+    drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 0, anchorY: 0 }, -1, -1)
+    expect(fb.indices[0]).toBe(5)
+    expect(fb.indices[1]).toBe(0)
   })
 })

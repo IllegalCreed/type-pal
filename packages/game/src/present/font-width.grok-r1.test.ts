@@ -7,7 +7,6 @@ import {
   type Glyph,
   type GlyphTable,
   loadGlyphs,
-  measureText,
   palCharWidth,
   palWordWidth,
   renderText,
@@ -52,20 +51,15 @@ describe('G05-B font 宽度与字形装载', () => {
     expect(palWordWidth('')).toBe(0)
   })
 
-  it('G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4', () => {
-    expect(palWordWidth('ABCD')).toBe(2)
-  })
-
-  it('G05-B04 两个全角字的 palWordWidth 等于 2', () => {
-    expect(palWordWidth('金钱')).toBe(2)
-  })
-
   it('G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3', () => {
     expect(palWordWidth('AA金')).toBe(2)
   })
 
   it('G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回', async () => {
-    const bitmapBase64 = btoa(String.fromCharCode(0x80, 0x3c))
+    const bitmap = new Uint8Array(16)
+    bitmap[0] = 0x80
+    bitmap[1] = 0x3c
+    const bitmapBase64 = btoa(String.fromCharCode(...bitmap))
     vi.stubGlobal('fetch', () =>
       Promise.resolve(
         new Response(
@@ -79,7 +73,8 @@ describe('G05-B font 宽度与字形装载', () => {
     const table = await loadGlyphs()
     expect(table.has(0x41)).toBe(true)
     expect(table.get(0x41)?.width).toBe(8)
-    expect(Array.from(table.get(0x41)?.bitmap ?? [])).toEqual([0x80, 0x3c])
+    expect(table.get(0x41)?.height).toBe(16)
+    expect(Array.from(table.get(0x41)?.bitmap ?? [])).toEqual(Array.from(bitmap))
     expect(table.has(0x42)).toBe(false)
     expect(table.get(0x42)).toBeUndefined()
   })
@@ -114,18 +109,6 @@ describe('G05-B font 宽度与字形装载', () => {
     expect(table.get(0x41)).toBeUndefined()
   })
 
-  it('G05-B10 表里有宽 8 的字形时，measureText 返回 8', () => {
-    expect(measureText('A', glyphs({ A: 8 }))).toBe(8)
-  })
-
-  it('G05-B11 renderText 半角加全角返回 24，第二字落在 x+8', () => {
-    const fb = createFramebuffer()
-    const width = renderText(fb, 'A乙', 4, 8, 0x22, glyphs({ A: 8, 乙: 16 }), false)
-    expect(width).toBe(24)
-    expect(at(fb, 4, 8)).toBe(0x22)
-    expect(at(fb, 12, 8)).toBe(0x22)
-  })
-
   it('G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景', () => {
     const fb = createFramebuffer()
     fb.indices.fill(77)
@@ -150,6 +133,6 @@ describe('G05-B font 宽度与字形装载', () => {
     const fb = createFramebuffer()
     fb.indices.fill(77)
     expect(renderText(fb, '', 4, 8, 0x22, glyphs({}), false)).toBe(0)
-    expect(at(fb, 4, 8)).toBe(77)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 })
