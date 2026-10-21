@@ -1,7 +1,4 @@
-// C5(2026-10-15) 重写：真实 GameState（createInitialGameState）替代 as never 残缺对象；
-// fake timers + afterEach 清理 toast 容器与计时器；补 preventDefault / 解绑 / 三条异步
-// 反馈 oracle（save reject、load false、load reject）。相邻 tools/toast.test.ts 证明
-// 展示原语；本文件证明 quick-save 的时机门与反馈选择，不重复像素级断言。
+// 快捷键准入、IO 完成后的反馈和解绑；toast 的显示时长由 toast.test.ts 验证。
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState, type GameState } from '../core/game-state.js'
 import { canQuickSave, type QuickSaveDeps, setupQuickSave } from './quick-save.js'
@@ -41,6 +38,15 @@ async function press(code: 'F5' | 'F9'): Promise<KeyboardEvent> {
   window.dispatchEvent(event)
   await vi.advanceTimersByTimeAsync(0)
   return event
+}
+
+function deferred<T>() {
+  // Promise 的 executor 同步执行，返回控制器时回调已赋值。
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
 }
 
 function toastText(): string {
@@ -84,23 +90,27 @@ describe('quick-save', () => {
     ).toBe(false)
   })
 
-  it('F5 可存态 → saveSlot(1, gs) + 成功 toast;F5/F9 均 preventDefault', async () => {
-    const saveSlot = vi.fn(async () => {})
+  it('F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1', async () => {
+    const commit = deferred<void>()
+    const saveSlot = vi.fn(() => commit.promise)
     const gs = exploreGs()
     dispose = setupQuickSave(mkDeps({ saveSlot, getGs: () => gs }))
-    // 直接检查真实事件；无需另装一个跨用例残留的观察监听器。
-    const f5 = await press('F5')
-    expect(saveSlot).toHaveBeenCalledWith(1, gs)
-    expect(toastText()).toContain('已存到存档位 1')
-    const f9 = await press('F9')
-    expect(f5.defaultPrevented).toBe(true)
-    expect(f9.defaultPrevented).toBe(true)
+    try {
+      const f5 = await press('F5')
+      expect(f5.defaultPrevented).toBe(true)
+      expect(saveSlot).toHaveBeenCalledExactlyOnceWith(1, gs)
+      expect(toastText()).toBe('')
+    } finally {
+      commit.resolve()
+      await vi.advanceTimersByTimeAsync(0)
+    }
+    expect(document.querySelector('.tp-toast-success')?.textContent).toBe('✓ 已存到存档位 1')
   })
 
   it('F5 不可存态(战斗) → 不调 saveSlot + 错误 toast', async () => {
     const saveSlot = vi.fn(async () => {})
     dispose = setupQuickSave(mkDeps({ saveSlot, getGs: () => exploreGs({ mode: 'battle' }) }))
-    await press('F5')
+    expect((await press('F5')).defaultPrevented).toBe(true)
     expect(saveSlot).not.toHaveBeenCalled()
     expect(toastText()).toContain('当前无法存档')
   })
@@ -114,22 +124,31 @@ describe('quick-save', () => {
       }),
     )
     await press('F5')
-    expect(toastText()).toContain('存档失败')
-    expect(toastText()).toContain('quota-exceeded')
+    expect(document.querySelector('.tp-toast-error')?.textContent).toBe('✗ 存档失败:quota-exceeded')
+    expect(document.querySelector('.tp-toast-success')).toBeNull()
   })
 
-  it('F9 → loadSlotIntoGame(1) + 成功 toast', async () => {
-    const loadSlotIntoGame = vi.fn(async () => true)
+  it('F9 拦截浏览器默认行为，读档完成后才显示成功', async () => {
+    const load = deferred<boolean>()
+    const loadSlotIntoGame = vi.fn(() => load.promise)
     dispose = setupQuickSave(mkDeps({ loadSlotIntoGame }))
-    await press('F9')
-    expect(loadSlotIntoGame).toHaveBeenCalledWith(1)
-    expect(toastText()).toContain('已从存档位 1 读取')
+    try {
+      const f9 = await press('F9')
+      expect(f9.defaultPrevented).toBe(true)
+      expect(loadSlotIntoGame).toHaveBeenCalledExactlyOnceWith(1)
+      expect(toastText()).toBe('')
+    } finally {
+      load.resolve(true)
+      await vi.advanceTimersByTimeAsync(0)
+    }
+    expect(document.querySelector('.tp-toast-success')?.textContent).toBe('✓ 已从存档位 1 读取')
   })
 
   it('F9 空槽(false) → "为空"错误 toast', async () => {
     dispose = setupQuickSave(mkDeps({ loadSlotIntoGame: vi.fn(async () => false) }))
     await press('F9')
-    expect(toastText()).toContain('存档位 1 为空')
+    expect(document.querySelector('.tp-toast-error')?.textContent).toBe('✗ 存档位 1 为空')
+    expect(document.querySelector('.tp-toast-success')).toBeNull()
   })
 
   it('F9 loadSlotIntoGame reject → "读档失败"错误 toast 带原因', async () => {
@@ -141,8 +160,21 @@ describe('quick-save', () => {
       }),
     )
     await press('F9')
-    expect(toastText()).toContain('读档失败')
-    expect(toastText()).toContain('crc-bad')
+    expect(document.querySelector('.tp-toast-error')?.textContent).toBe('✗ 读档失败:crc-bad')
+    expect(document.querySelector('.tp-toast-success')).toBeNull()
+  })
+
+  it('F6 放行浏览器默认行为，不触发存读档或提示', async () => {
+    const saveSlot = vi.fn(async () => {})
+    const loadSlotIntoGame = vi.fn(async () => true)
+    dispose = setupQuickSave(mkDeps({ saveSlot, loadSlotIntoGame }))
+    const event = new KeyboardEvent('keydown', { code: 'F6', cancelable: true })
+    window.dispatchEvent(event)
+    await vi.advanceTimersByTimeAsync(0)
+    expect(event.defaultPrevented).toBe(false)
+    expect(saveSlot).not.toHaveBeenCalled()
+    expect(loadSlotIntoGame).not.toHaveBeenCalled()
+    expect(toastText()).toBe('')
   })
 
   it('解绑后 F5/F9 不再触发 save/load(解绑 oracle)', async () => {

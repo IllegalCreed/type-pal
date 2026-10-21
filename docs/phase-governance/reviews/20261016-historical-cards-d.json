@@ -176,8 +176,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
-      "coreConclusion": "保存2026-10-04 shared MKF/RNG边界治理：损坏offset、截断payload或surface越界从静默截断/吞写改为明确失败；合法PAL资源字节结果与既有跳过政策保持。只关闭本卡窄域，不代表shared所有caller或全仓代码已审完。",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.;2026-10-21 only new current-acceptance banner read,original history/source-provenance unchanged.",
+      "coreConclusion": "保存2026-10-04 shared MKF/RNG边界治理：损坏offset、截断payload或surface越界从静默截断/吞写改为明确失败；合法PAL资源字节结果与既有跳过政策保持。只关闭本卡窄域，不代表shared所有caller或全仓代码已审完。 Current2026-10-21 codec contract accepted per shared-codecs/evidence.json;historical counts/gates remain historical.",
       "documentStatus": "historical; original done",
       "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
       "originalIdentity": {
@@ -295,10 +295,10 @@
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "b9c8780f230e53dbcb6c3c65e0b76ca607b18acc",
       "candidateSha256": "dcd987d8eeb8faf57aeef300cf2862fc179f8c7d000d1381662ba26675e99dcc",
-      "afterSha256": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
+      "afterSha256": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
-        "implementationSha": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
+        "implementationSha": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
         "history": [
           {
             "date": "2026-10-16",
@@ -306,6 +306,14 @@
             "authorCandidate": "fcd4098ddd377a1c2ccc1e48f97dcb4df6e9c143",
             "independentReviewer": "history_cards_c_tail",
             "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-21",
+            "action": "append-current-codec-acceptance-banner",
+            "previousAfterSha256": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
+            "afterSha256": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json",
+            "scope": "Only banner currentresult added;historical body/source bytes/original provenance retained,not new full-document migration credit."
           }
         ]
       },
@@ -314,8 +322,8 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
         "candidateSha256": "dcd987d8eeb8faf57aeef300cf2862fc179f8c7d000d1381662ba26675e99dcc",
-        "afterSha256": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
-        "lineCount": 204,
+        "afterSha256": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
+        "lineCount": 206,
         "exactOriginalBytes": 6158,
         "originalPreservation": {
           "startMarker": "<!-- original-source-quote:start -->",
@@ -379,8 +387,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
-      "coreConclusion": "保存2026-10-04至05日YJ2位流/回引边界修复：截断位流、负回引窗口和超目标写入明确失败，合法raw、重叠回引及early-EOS零填充不变。不能把早停零尾一概改成伪成功。",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.;2026-10-21 only new current-acceptance banner read,original history/source-provenance unchanged.",
+      "coreConclusion": "保存2026-10-04至05日YJ2位流/回引边界修复：截断位流、负回引窗口和超目标写入明确失败，合法raw、重叠回引及early-EOS零填充不变。不能把早停零尾一概改成伪成功。 Current2026-10-21 codec contract accepted per shared-codecs/evidence.json;historical counts/gates remain historical.",
       "documentStatus": "historical; original done",
       "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
       "originalIdentity": {
@@ -493,10 +501,10 @@
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "4df2fb09fc0e6ee2e7ab50c9935f4fbfba02f6d8",
       "candidateSha256": "602c90e6a183e28999484572cac8364219f17b95f426e12ae92f0b01b140a05b",
-      "afterSha256": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
+      "afterSha256": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
-        "implementationSha": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
+        "implementationSha": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
         "history": [
           {
             "date": "2026-10-16",
@@ -504,6 +512,14 @@
             "authorCandidate": "fcd4098ddd377a1c2ccc1e48f97dcb4df6e9c143",
             "independentReviewer": "history_cards_c_tail",
             "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-21",
+            "action": "append-current-codec-acceptance-banner",
+            "previousAfterSha256": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
+            "afterSha256": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json",
+            "scope": "Only banner currentresult added;historical body/source bytes/original provenance retained,not new full-document migration credit."
           }
         ]
       },
@@ -512,8 +528,8 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
         "candidateSha256": "602c90e6a183e28999484572cac8364219f17b95f426e12ae92f0b01b140a05b",
-        "afterSha256": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
-        "lineCount": 182,
+        "afterSha256": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
+        "lineCount": 184,
         "exactOriginalBytes": 5920,
         "originalPreservation": {
           "startMarker": "<!-- original-source-quote:start -->",
@@ -3122,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Prior fixed-Git review reused; actual owned input/audio delta and version envelope independently checked",
-      "coreConclusion": "CODE73/74 approved direction fix and legacy retirement, scoped MIDI URL reuse; current49accept/34partial. Gates/raw/limits in current receipt; CODE59 approved draft registration only,not save build acceptance; no94-102 expansion.",
+      "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
+      "coreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3274,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
+      "afterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
       "revision": {
-        "currentSha": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
-        "implementationSha": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
+        "currentSha": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+        "implementationSha": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4130,10 +4146,10 @@
         ]
       },
       "evidence": {
-        "kind": "input-audio-closeout-scoped-current-source-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
-        "afterSha256": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
-        "lineCount": 887
+        "kind": "extract-four-card-scoped-current-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
+        "afterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
+        "lineCount": 928
       },
       "history": [
         {
@@ -4539,6 +4555,150 @@
           "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-tools-intermediate",
+          "previousAfterSha256": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
+          "afterSha256": "ec7250a587a66295479bbfeef75bb32e7c5a6545552f675e4f81e9926d3ba012",
+          "scope": "Only CODE59/60 current ledger notes, one old test closure withdrawn and deleted mixed file removed;329closed/129review/2868pending. Unrelated history retained by fixed Git.",
+          "limits": "Only named save-tools status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-cash-limited-build",
+          "previousAfterSha256": "ec7250a587a66295479bbfeef75bb32e7c5a6545552f675e4f81e9926d3ba012",
+          "afterSha256": "e70897e70b73d09afbb56c5e7cca6639e91acfb5d9076b4ec15319a0df9a2cf8",
+          "scope": "Only finite cash guard/test progress in CODE59 rows;329closed/129review/2868pending unchanged. Prior test withdrawal remains historical; no new closure. Unrelated rows retained by fixed Git.",
+          "limits": "Only named finite-cash status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-types-limited-build",
+          "previousAfterSha256": "e70897e70b73d09afbb56c5e7cca6639e91acfb5d9076b4ec15319a0df9a2cf8",
+          "afterSha256": "e53ff8e6e985cc46a384cce50cbeef0cffdd8371a59f6f772168da7de73d185c",
+          "scope": "Only approved Save type separation progress and added pending data.ts;329closed/129review/2869pending. Prior test withdrawal retained;no new closure. Unrelated rows retained by fixed Git.",
+          "limits": "Only named save-type status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "e53ff8e6e985cc46a384cce50cbeef0cffdd8371a59f6f772168da7de73d185c",
+          "afterSha256": "ab2dd1b8bbf42029d9ae6f23bbb29d45114a037156f059432680e8324cb2fb81",
+          "scope": "Only V1 candidate rows/new guarded sources and fixture review inventory;3332total/329closed/135review/2868pending. Prior withdrawals retained,no closure before module gates. Unrelated rows retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "ab2dd1b8bbf42029d9ae6f23bbb29d45114a037156f059432680e8324cb2fb81",
+          "afterSha256": "0ef2fba22729cebd2f9899c751df7e70f0a1990ad7901abb4d1ed4935516da05",
+          "scope": "Only V1 candidate rows/new guarded sources and fixture review inventory;3333total/329closed/136review/2868pending. Prior withdrawals retained,no closure before module gates. Unrelated rows retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-closeout",
+          "previousAfterSha256": "0ef2fba22729cebd2f9899c751df7e70f0a1990ad7901abb4d1ed4935516da05",
+          "afterSha256": "101125e6ace359b65663949900354082051196ec5e0dc361ee03b32399dc02a2",
+          "scope": "Only V1 candidate rows/new guarded sources and fixture review inventory;3333total/339closed/126review/2868pending. Only9V1files+canonical quick-save.test explicitly accepted after A-H and clean module gates;unrelated withdrawals retained. Unrelated rows retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-candidate",
+          "previousAfterSha256": "101125e6ace359b65663949900354082051196ec5e0dc361ee03b32399dc02a2",
+          "afterSha256": "1dd847ff050ab8b0dec540c340fb94a3088df8f975638ffe851f3b9095e26fc8",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-closeout",
+          "previousAfterSha256": "1dd847ff050ab8b0dec540c340fb94a3088df8f975638ffe851f3b9095e26fc8",
+          "afterSha256": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-multi-card-pending",
+          "previousAfterSha256": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
+          "afterSha256": "92a1f3d38072c45455578a0b4eff326b9613e5b12c57c5166cd4e24e5b768a04",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-png-ledger-erratum",
+          "previousAfterSha256": "92a1f3d38072c45455578a0b4eff326b9613e5b12c57c5166cd4e24e5b768a04",
+          "afterSha256": "c3b552673052ec4169222facf0e508fff12fd17e4cc79c9af45772e6d1b8db1e",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-host-category",
+          "previousAfterSha256": "c3b552673052ec4169222facf0e508fff12fd17e4cc79c9af45772e6d1b8db1e",
+          "afterSha256": "f12bb3c24c0b402af2786628f43bad351f5b849ee3dc0718db365a85ce856bac",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "f12bb3c24c0b402af2786628f43bad351f5b849ee3dc0718db365a85ce856bac",
+          "afterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-candidate",
+          "previousAfterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+          "afterSha256": "c7b59cf2b2b67c48c892781e4dff5efd32d5b83775f0972858dc09c37c1776d3",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-sealed",
+          "previousAfterSha256": "c7b59cf2b2b67c48c892781e4dff5efd32d5b83775f0972858dc09c37c1776d3",
+          "afterSha256": "4a2b41f49b738193a6882ed17bff7c6aa190fda76c9fb33e83e0d1c5493999c0",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-final-labels",
+          "previousAfterSha256": "4a2b41f49b738193a6882ed17bff7c6aa190fda76c9fb33e83e0d1c5493999c0",
+          "afterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
         }
       ],
       "supersedes": [
@@ -4549,13 +4709,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue remaining34partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Continue remaining32partial cards; no implicit whole-source/visual/browser acceptance.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only seven current input/audio live state rows/counts, three already-accepted adjacent MIDI/AVI evidence-pointer deltas and approved fixture retirement; historical ledger body retains fixed-Git full review.",
+      "reviewedLines": "Only CLI/event current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

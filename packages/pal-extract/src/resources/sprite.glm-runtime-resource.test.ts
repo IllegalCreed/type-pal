@@ -56,27 +56,29 @@ describe('R04 encodeIndexedPng 真解码像素合同', () => {
 describe('R04 framesToOut 多帧', () => {
   test('3 帧容器：index 0/1/2、逐帧尺寸与真解码像素', () => {
     const chunk = new Uint8Array([
-      0x03,
-      0x00, // frameCount=3，slot0 word=3 → byte 6
-      0x06,
-      0x00, // slot1 → byte 12
-      0x09,
-      0x00, // slot2 → byte 18
-      // frame0 @6：1×1 px 0x11
+      0x04,
+      0x00, // 4 个表项：3 帧 + 空 sentinel；slot0 → byte 8
+      0x07,
+      0x00, // slot1 → byte 14
+      0x0a,
+      0x00, // slot2 → byte 20
+      0x00,
+      0x00, // sentinel 不产生第 4 帧
+      // frame0 @8：1×1 px 0x11
       0x01,
       0x00,
       0x01,
       0x00,
       0x01,
       0x11,
-      // frame1 @12：1×1 px 0x22
+      // frame1 @14：1×1 px 0x22
       0x01,
       0x00,
       0x01,
       0x00,
       0x01,
       0x22,
-      // frame2 @18：2×1（跳1 + px 0x33）
+      // frame2 @20：2×1（跳1 + px 0x33）
       0x02,
       0x00,
       0x01,
@@ -100,8 +102,9 @@ describe('R04 framesToOut 多帧', () => {
 
 describe('R04 extractCharacterSprites 多 id', () => {
   test('输入 id 顺序保留；每 sprite 帧独立解码', () => {
-    const chunk1 = new Uint8Array([0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x01, 0x11])
-    const chunk2 = new Uint8Array([0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x01, 0x22])
+    // 表长 2 WORD（首帧 offset=4、末槽=0），SDLPal 帧数也是 1。
+    const chunk1 = new Uint8Array([0x02, 0x00, 0, 0, 0x01, 0x00, 0x01, 0x00, 0x01, 0x11])
+    const chunk2 = new Uint8Array([0x02, 0x00, 0, 0, 0x01, 0x00, 0x01, 0x00, 0x01, 0x22])
     const chunks = new Map<number, Uint8Array>([
       [78, chunk1],
       [14, chunk2],

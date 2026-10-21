@@ -1,5 +1,97 @@
 # 94前全部治理成果复审
 
+2026-10-22 [CLI主编排与事件测试窗口](cli-slice-closeout/README.md)：入口纯规则拆离IO、两CLI宿主统一、PNG/EO精确oracle；slice真值冻结与17站点静态影响域另列，统一门收尾前不关闭文件。
+
+2026-10-22 [GitHub Documentation CI返工](ci-progress-20261022/README.md)：复现两轮同样7项progress诊断，补当前模板edition保存证据与catalog卡route，并将原进度consumer接入本地check:docs；不降低门或改写旧失败，远端结果据实际run回填。
+
+2026-10-21后继模块收口见[当前六文件回执](3b/closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。
+
+2026-10-21 shared CODE2/2b接受：[11文件八维/完整原件/只读快检](shared-codecs/README.md)。有效native/原盘证据复用，归约独立单红与重复精简成立；shared114/extract18/game31、20386check、ratchet/protected各19988零诊断。6新关闭，固定83卡53accept/30partial；RLE/O-5限制保留，94–102不扩展。
+
+2026-10-21 CODE59/60接受：[九文件A–H/红绿/完整门回执](save-v1-local.json)、[完整原件](save-v1-native.json.gz)、[只读快检](verify-save-v1.mjs)、[原生现场](save-v1-native.png)、[旧V1成功](save-v1-native-result.png)、[非空历史提交](save-v1-native-nested.png)。原10红/历史2红/角色4红/finite单红保留；52相邻、20386check、19988official ratchet/protected零诊断，未降baseline。5次实际FileReader/独立IDB验证，非OS文件选择器或剧情E2E。10文件明确闭合，该存档窗口当时51accept/32partial（最新计数见上方shared窗口）；其余文件不附带接受。
+
+2026-10-21类型合同补核：V1实际导出已有slot，不能只以首个JSON writer为最老数据。store-v2基点6b58f9e84为61根字段，后加12个required根字段、5个runtime行和3个装备行；当前data类型将这些明确为可缺失，未新增运行时补值/迁移。实际旧构造器→当前V1编码与类型正文不变原件见[合同增量](save-wire-contract.json)。前置纯类型包固定于5b0831d5c，不把它的data.ts哈希当作本增量。
+
+2026-10-21已批准纯类型分离：[五文件A–H/19定向与静态结果](save-types-local.json)、[完整原件与正文不变证明](save-types-native.json.gz)。Save/IDB/工具面板接收存档数据，getGs仍为运行态；四既有模块编译正文与9c3d168一致，新模块无执行逻辑。parser完整内容守卫仍待核，未关闭CODE59。现金切片已冻结于9c3d168，不能要求其旧caller哈希匹配当前类型注释。
+
+2026-10-21 V1合同续核：[固定源码/编码事实与未实施的类型方案](save-wire-contract.json)、[完整观察原件（含两次辅助探针错误）](save-wire-contract-native.json.gz)。91→96字段且JSON仍version1；旧样本缺nowMs，Map为JSON对象。只证明类型/编码不等同运行态，不冒充世界/战斗重放或全字段验收；用户已批准内部类型分离，实施与限制见下条。
+
+2026-10-21存档模块中间片：[四文件A–H/合同与迁移](save-tools-local.json)、[完整原件](save-tools-native.json.gz)。CODE59保留已证非法内容问题，96字段声明/具体读档处理清单不冒充合法schema；CODE60主测与相邻18例、typecheck、scoped Biome零诊断。成功提示提前的反控为旧8/8绿、新2条业务AssertionError红，生产正文已恢复。当前0新accept/0新关闭，统一门/coverage/protected留完整模块收尾。
+
+当前现金必要守卫：[两文件八维与正式红绿](save-cash-local.json)、[完整原件](save-cash-native.json.gz)。已核现金为有限number、0保留；两条正式红后当前29例与typecheck零诊断。其它内容/wire和FileReader仍review，0新关闭/49accept不变。前置纯测试片固定在Git `4e5e964874fac1cff244b146640274b4ada92995`，不能拿其中“正文不变”证明当前现金行为修复。
+
+快检只读，同时核当前现金片及冻结的前置片；不执行producer/反控或重跑测试，也不授完整schema/统一门信用。
+
+```sh
+node --input-type=module <<'JS'
+import fs from 'node:fs'
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { relative, resolve } from 'node:path'
+import { gunzipSync } from 'node:zlib'
+const hash = x => createHash('sha256').update(x).digest('hex')
+const dir = 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/'
+function check(r, read, exists) {
+  for (const p of [...r.files, ...r.pins]) assert.equal(hash(read(p.path)), p.sha256, `STALE ${p.path}`)
+  if (r.tests.removedFile) assert.equal(exists(r.tests.removedFile), false)
+  const bytes = read(r.artifact.path)
+  assert.equal(hash(bytes), r.artifact.sha256)
+  const { members } = JSON.parse(gunzipSync(bytes))
+  assert.deepEqual(Object.keys(members).sort(), r.artifact.members.map(x => x.name).sort())
+  for (const m of r.artifact.members) {
+    assert.equal(Buffer.byteLength(members[m.name]), m.bytes)
+    assert.equal(hash(members[m.name]), m.sha256, m.name)
+  }
+  for (const run of r.tests.runs) {
+    const e = JSON.parse(members[`${run.id}.execution.json`])
+    assert.equal(e.exit, run.exit)
+    assert.equal(e.signal, null)
+    assert.equal(e.spawnError, null)
+    for (const stream of ['stdout', 'stderr']) assert.equal(hash(members[e[stream].member]), e[stream].sha256)
+    if (run.passed === undefined) continue
+    const n = JSON.parse(members[`${run.id}.native.json`])
+    assert.equal(n.numPassedTests, run.passed)
+    assert.equal(n.numFailedTests, run.failed)
+    assert.equal(n.numPendingTests, 0)
+    const failed = n.testResults.flatMap(f => f.assertionResults.filter(t => t.status === 'failed').map(t => ({ file: relative(resolve(e.cwd, '../..'), f.name), fullName: t.fullName })))
+    assert.deepEqual(failed, run.failures)
+  }
+}
+const current = JSON.parse(fs.readFileSync(dir + 'save-cash-local.json'))
+const cashRef = '9c3d168914a4d2e7b1dba1144429a3cdff6794bf'
+const cashRead = p => execFileSync('git', ['show', cashRef + ':' + p])
+check(current, cashRead, p => spawnSync('git', ['cat-file', '-e', cashRef + ':' + p]).status === 0)
+const ref = current.priorStage.commit
+const frozen = p => execFileSync('git', ['show', `${ref}:${p}`])
+check(JSON.parse(frozen(current.priorStage.receipt)), frozen, p => spawnSync('git', ['cat-file', '-e', `${ref}:${p}`]).status === 0)
+const typesRef = '5b0831d5cbd0a3d030fc37163f107c76efe3d094'
+const typeRead = p => execFileSync('git', ['show', typesRef + ':' + p])
+const types = JSON.parse(typeRead(dir + 'save-types-local.json'))
+for (const f of types.files) assert.equal(hash(typeRead(f.path)), f.sha256, 'STALE ' + f.path)
+const typeArchive = typeRead(types.artifact.path)
+assert.equal(hash(typeArchive), types.artifact.sha256)
+const typeMembers = JSON.parse(gunzipSync(typeArchive)).members
+assert.deepEqual(Object.keys(typeMembers).sort(), types.artifact.members.map(x => x.name).sort())
+for (const m of types.artifact.members) {
+  assert.equal(Buffer.byteLength(typeMembers[m.name]), m.bytes)
+  assert.equal(hash(typeMembers[m.name]), m.sha256, m.name)
+}
+for (const r of types.runs) {
+  assert.equal(r.exit, 0)
+  assert.equal(r.signal, null)
+  assert.equal(r.spawnError, null)
+  for (const stream of ['stdout', 'stderr']) assert.equal(hash(typeMembers[r[stream].member]), r[stream].sha256)
+  assert.equal(r.stderr.bytes, 0)
+}
+const typeTests = JSON.parse(typeMembers['types-directed.native.json'])
+assert.equal(typeTests.numPassedTests, 19)
+assert.equal(typeTests.numFailedTests, 0)
+assert.equal(typeTests.numPendingTests, 0)
+console.log('MATCH: frozen type/cash/test stages; current store-v2 type refinement has a separate contract pin; no full schema/integration credit')
+JS
+```
+
 2026-10-21 renderer窗口：[逐文件A–H与合同迁移](renderer-local.json)、[完整原件](renderer-native.json.gz)、[集中门](renderer-gates.json)、[精确结构重算](renderer-recount.json)、[只读快检](verify-renderer.mjs)。当前51/52/54/55原范围已接收，15明确文件及3个既有源的共享依赖delta，18文件170定向/相邻及game typecheck通过；31accept/52partial。两共享叶只抽同合同opaque/颜色，先保留旧绿/新红与纯提取证明；当前集中门另列，覆盖率仅在此模块收尾运行。
 
 2026-10-21追加门诊断勘误：[当前门与历史原件复算](present-speedrun-gates.json)。原菜单check/ratchet/protected原件各有两条stdout的0x008E未实现诊断，旧扫描漏计；下文历史“零运行诊断”门信用撤回，原raw/数值不改。九卡逐文件代码结论独立保留，统一门待当前窗口重新建立。trigger已在外层处理该指令，却误入generic fallback；两指定红例与358相邻绿证明当前窄修，未静音console、放宽规则或改变画面机制。

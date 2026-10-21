@@ -52,3 +52,5 @@ CLI的195–218/260–292实际IO接线与落盘区间、schema D17/D20是直接
 [verification.json](verification.json)另进程重建变异/副本SHA、核所有raw/runner、原生身份变化与支持表不变部分、恢复与精确清理；不是第三方签字。[静态门](gates.md)按本轮原命令记录。全仓check/official ratchet/protected fast未新跑，editor诊断和extract假绿未清，不合main。
 
 本片只撤回两测试旧关闭为review，source与支持工具历史状态不改、不重新accept。CODE3/3f均partial，全83卡当前0accept/9partial/74pending。先修六条原盘假绿，再续3b及94–102/editor；无下一位Agent提示词，Codex单Agent继续。
+
+2026-10-21 多卡窗口增量见[八维复核与保留项](../3f/closeout/README.md)；历史原件保持原版本边界。

@@ -7,6 +7,7 @@ import {
   collectFieldInfoReadout,
   collectPartyStatusReadouts,
 } from '../core/inspect/battle-inspect.js'
+import type { SaveSnapshot } from '../core/save/data.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import type { MusicSourceController } from '../shell/music-source.js'
@@ -54,9 +55,9 @@ export interface ToolsPanelDeps {
   /** 视频(过场 mp4)音量,独立通道。三路共用同一静音键 → 主静音一键全覆盖。 */
   videoVolume: AudioVolumeController
   /** 写存档位(导入用)。 */
-  saveSlot: (slot: number, gs: GameState) => Promise<void>
+  saveSlot: (slot: number, gs: SaveSnapshot) => Promise<void>
   /** 读存档位(导出用);该位无存档 → null。 */
-  loadSlot: (slot: number) => Promise<GameState | null>
+  loadSlot: (slot: number) => Promise<SaveSnapshot | null>
   /** 小地图底图:标准地图640×640 PNG dataURL,经bootstrap renderSceneThumbnail缓存;省略则无底图。 */
   getMapThumbnail?: (mapNum: number) => Promise<string | null>
 }

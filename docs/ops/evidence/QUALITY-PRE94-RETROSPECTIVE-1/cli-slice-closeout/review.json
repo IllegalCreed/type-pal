@@ -1,0 +1,1519 @@
+{
+  "schemaVersion": 1,
+  "state": "accepted five bounded file scopes; CODE3/3g remain partial",
+  "base": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+  "ciFixCommit": "f1e56acc2ab08b18a740f8718e89963e7d6de461",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/events/script-entries.ts",
+      "decision": "accepted",
+      "sha256": "33879340659cd516df13adc41b8f1eca627c88f52eae931f7dc6e2e186ee2c04",
+      "lines": 64,
+      "dimensions": {
+        "A": "只读parsed u16表；16字段正值过滤、原顺序/别名和两份新数组；无外部输入策略。",
+        "B": "说明独立label roots、日志保留重复、借用输入与结果ownership；无过时行号。",
+        "C": "仅入口收集；窄readonly Pick域。CLI只负责IO/调用；无runtime import或反向依赖。",
+        "D": "六表字段显式映射；不造模式布尔/动态任意字段helper，不抽冻结BFS。",
+        "E": "两直接合同+14真实CLI接线；五代表hook单点各13绿1业务红；旧生产收集AST逐句相同。",
+        "F": "字段名按来源呈现；无IO闭包；主函数73→51阅读线索，不把数量当质量。",
+        "G": "12个OBJECT guard和4个scene/EO guard各守不同来源；不能删别名或重排日志计数。",
+        "H": "可直接传窄parsed值并观察数组；无fs/console/process/随机/时钟依赖。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-entries.test.ts",
+      "decision": "accepted",
+      "sha256": "188724f87e35e1fa775346b7d678ec89607029015e8f6a374ba745d59199b869",
+      "lines": 43,
+      "dimensions": {
+        "A": "输入仅声明所用parsed域的0..16整数，独立常量期望；借用表freeze不改产品。",
+        "B": "仅解释parsed借用与freeze意图，不用实现分支号冒称行为覆盖。",
+        "C": "两例仅测纯collector；CLI落盘由另一套真实宿主测试承担。",
+        "D": "数据不同语义来源不合万能fixture；同一来源的ownership观察保持一例。",
+        "E": "第一例16个不同值暴露错位/漏接；第二例零/别名+独立返回数组；不以clone结果造oracle。",
+        "F": "数据字面量与完整有序数组一眼对应，不从产品动态生成答案。",
+        "G": "仅新增两个直接设计合同；未把12个CLI字段再拆成12个纯单元重复例。",
+        "H": "确定性、无mock/IO/共享可变fixture；写结果数组再调用只验证同一结果ownership。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "decision": "accepted",
+      "sha256": "20bb5fa429fcdaa161d4b5a51a2b38a36fc819833e82fd08880ac67bea555de5",
+      "lines": 132,
+      "dimensions": {
+        "A": "真实复制CLI/自有raw与输出；独立pngjs解包核全R/G/B/A；两个不同archive组显式输入。",
+        "B": "去掉陈旧行号/冻结本地复制宣称；明确codec与落盘信用边界。",
+        "C": "树/进程Owner移至已接受cliHost，业务输入/oracle留套件；afterAll await关闭。",
+        "D": "删两百余行等合同构造/宿主重复，复用同布局工厂；移除两个模式布尔，用明确archive覆盖。",
+        "E": "两身份保持：sprite解压/raw/manifest；FBP像素/尺寸拒绝。旧两例放过单像素错，新1绿1AssertionError。",
+        "F": "测试直接展示F/ABC或FBP输入，不靠opts解释哪条分支。",
+        "G": "保留字节/manifest/签名/尺寸旧断言并补像素；无skip/only/弱化，无多余自建runner。",
+        "H": "真实子进程退出/signal与双流可观察；PNG oracle独立于产品编码调用，资源finally归宿主。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "decision": "accepted",
+      "sha256": "845dd66a1ac2f2de8eaf84154b82e75e8c822d26dbd6bf0806e629dd169bd5a1",
+      "lines": 358,
+      "dimensions": {
+        "A": "12单hook+alias+scene重合，表值/完整all/scene/shared原始期望；自有目录。",
+        "B": "删失效行号与尚待Codex反控承诺；enemy直接索引fight.c对应表达式已核。",
+        "C": "只读fixture与断言、树/进程交cliHost，生产collector/IO不能由mock代替。",
+        "D": "去掉第二份spawn/copy/清理；14例不因相似文本合并，守12不同字段和2组合。",
+        "E": "既有14身份/业务断言保留；五代表省略分别13绿1指定红，完整stderr精确捕获optional font。",
+        "F": "小Helper命名描述实际JSON字段读取；unknown守卫不用强转造字段。",
+        "G": "保留14真实接线；移除无caller的EntryRun.out及宿主已建raw目录的重复mkdir；未删业务断言。",
+        "H": "全量真实CLI，close后读输出；宿主先登记树并负责在途进程/失败清理。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.boundaries.test.ts",
+      "decision": "accepted",
+      "sha256": "cd6589766f62c3236080b3df551895b405f236b0b2daca590efc2a44b64a1021",
+      "lines": 117,
+      "dimensions": {
+        "A": "Scene4/EO16 raw与声明同步；五例分别全局独达/重合、循环、EO尾区间、raw与goto出口。",
+        "B": "末scene注释指明半开区间；不再用全同end冒称目标身份。",
+        "C": "局部无共享状态；纯slice调用，构造器只承担本套件的输入值。",
+        "D": "scene/global算法两份仍存在，分别核归属；保留短本地fixture不造多模式工厂。",
+        "E": "5例无重复业务原子；EO各ip用真实label区分，错位替换旧5绿/新4绿1指定AssertionError。",
+        "F": "完整有序期望展示EO/enter/teleport来源，比四个匿名end有判别力。",
+        "G": "原5身份保留，数量未增；所有原结果约束仍保留或更强身份等式。",
+        "H": "纯输入/输出无外部IO，无全局/时间/mock；错误切片能因业务等式失败。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "decision": "rework",
+      "sha256": "bac28a79a32548695a368fbd37e49efbe567cd5dfe1d9052e87102b5b9906fa0",
+      "lines": 872,
+      "dimensions": {
+        "A": "清理前已批准lstat守卫/真实进程证据复用；同步IO异常→main catch1，roundtrip失败2，manifest最后。广域fallback/输出域未全部关闭。",
+        "B": "修全局数组默认来源、RNG/FIRE blob、splash先后、MGO旧PNG说明；其它历史锚未本轮全面重推。 模块头all.json仍称全局兜底，这处与当前默认全局caller不符，已明确登记下一CLI注释片，不授本文件B完成。",
+        "C": "抽入口规则离IO；删除无reader的sceneObjsBySliceId；main仍含多资源职责，保持review。",
+        "D": "入口映射有独立域；不将不同MKF fallback/skip政策合通用decoder，不改冻结BFS。",
+        "E": "旧原生与当前74定向复用/补强；raw入口6767/694与严格recompile相同；非整条真实extract重放。",
+        "F": "920行完整重读后对差异/去耦主张复核；main复杂度线索73→51仍标热点，不宣布优良。",
+        "G": "删除只写不读Map及四个无caller私有union值；证明其余emitted JS在替回collector后相同。",
+        "H": "新的入口规则可直接测；大IO编排仍靠合法全管线fixture与真实进程，欠账不以测试全绿抹除。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "decision": "review",
+      "sha256": "8b244790fa3989a6801b613a54815f370627bb3682208c795cfb267131fca4b4",
+      "lines": 239,
+      "dimensions": {
+        "A": "全文复用3证据，当前源码同SHA；metadata伪边/counted goto未修；17站点静态追踪不授运行正确。",
+        "B": "已存在两项语义风险使头注“可达”不能完整兑现；冻结算法期间不改注释包装成通过。",
+        "C": "两个BFS局部状态清楚但重复；控制流前提未定，不抽错误算法固化。",
+        "D": "重复BFS候选保留停止线；输出顺序与仅goto复制仍按旧证。",
+        "E": "旧三业务反控保留，补EO身份；新原盘17站点归属只读证据，不把全局fallback当正确性oracle。",
+        "F": "AST线索28，入口/BFS/归属/改写职责集中但仍有被冻结语义，不给accept。",
+        "G": "不删除现有per-scene出口或兼容分支；未知项不以0caller臆测退出。",
+        "H": "纯函数直接可测，但全字符串扫描契约未定；观察探针不当产品测试合同。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "decision": "review",
+      "sha256": "841447bcf388d2dda305f3b04e4fc281de53de78dd80de8d1cdcf9038f0945a9",
+      "lines": 244,
+      "dimensions": {
+        "A": "复用3的完整读取/类型/真实caller；A2/reset已增强，不重复重做。",
+        "B": "旧语义说明依赖source停止线，未整体更正所有锚/泛化语句。",
+        "C": "测试纯局部；三处旧强转仍为可改善结构候选，未顺手扩大本批。",
+        "D": "保留主套件不同场景/共享/EO/opcode；与boundary分层而非按名称排重。",
+        "E": "原三单红/恢复证据有效；主套件部分匿名end身份与13行内参数反控仍未整体验收。",
+        "F": "既有后半明确输入图，前部cast/匿名身份仍需窄补。",
+        "G": "未删未知轴/堆覆盖；旧撤回登记有明确证据，live恢复review。",
+        "H": "本轮不改源，纯函数环境可靠；未授主套件全八维完成。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "decision": "review",
+      "sha256": "8646977267536d15cc612a2c857a9036b997785edec24747750e27011e4878e8",
+      "lines": 205,
+      "dimensions": {
+        "A": "复用原3全文及当前同SHA；越界EO/缺resetTo不冒称真实生产fixture。",
+        "B": "末text标签例既已声明仅观察；其标题仍不能当控制流正确性合同。",
+        "C": "scene/global残余路径分组局部；无共享外部状态。",
+        "D": "global外部标签与runtime的scene支不同实现分支，不机械删；其它疑重仍未全部闭合。",
+        "E": "auto身份单红复用；text=L_N旧例可顺序抵达、oracle不够独立，保持review。",
+        "F": "分支行号头注陈旧，待语义前提确定后整理，不授B通过。",
+        "G": "不为分支覆盖生成typed不可能输入；现存未知候选不擅删。",
+        "H": "纯函数可测；观测到的字符串伪边应移到真值调查，不变成产品既定期望。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "decision": "review",
+      "sha256": "b5e9d9216141d620da39d60c2c94df873185169d0e3c5b3e8a748db55f116d04",
+      "lines": 46,
+      "dimensions": {
+        "A": "raw4字段修合法；外部标签/越界/负入口为显式防御合成观察，非真实资源执行。",
+        "B": "头注明确三个synthetic guard及生产输入合同未知，撤回“真实runtime resource”泛化。",
+        "C": "三个纯调用，无全局/IO；不重写算法。",
+        "D": "与Kimi global外部路径为两份BFS的不同分支，未自动判重复。",
+        "E": "三旧身份/断言保留；外部标签与负入口是否属当前生产公共合同未核，不能仅凭typed合法关闭。",
+        "F": "短构造和完整输出易读，生产适用范围已写明。",
+        "G": "保留未知防御候选，不把没有资源执行的旧关闭当真实资源已验证。",
+        "H": "确定性直接函数；当前测试只证明防御观察，H可测不替A/E业务合同。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "decision": "review",
+      "sha256": "855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239",
+      "lines": 143,
+      "dimensions": {
+        "A": "全文当前纯构造器已读；SSI/OBJECT/MKF行大小与真实parser对应。enemyId改为直接index，无减一；其它字节/接口/工厂不改。",
+        "B": "只改已证错/过时注释；不重签所有旧历史宣称。",
+        "C": "只造数据，无树/进程；调用方各自管理生命周期。",
+        "D": "本次复用同布局原工厂；specific hook/battle数据归套件，不拼模式万能helper。",
+        "E": "14CLI或两个战斗落盘oracle复核实际生成输入；不授完整format-validation信用。",
+        "F": "字节偏移常量具名；未将全fixture视为产品类型域。",
+        "G": "新注释不关闭所有测试公开出口/布局旁支，继续review。",
+        "H": "纯值确定性、caller真实；fixture无测试计数，不能以helper短/包绿关闭。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "decision": "review",
+      "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+      "lines": 161,
+      "dimensions": {
+        "A": "全文当前纯构造器已读；SSI/OBJECT/MKF行大小与真实parser对应。头注由冻结本地复制改为当前共享caller；WAVDATA仅传输样本。",
+        "B": "只改已证错/过时注释；不重签所有旧历史宣称。",
+        "C": "只造数据，无树/进程；调用方各自管理生命周期。",
+        "D": "本次复用同布局原工厂；specific hook/battle数据归套件，不拼模式万能helper。",
+        "E": "14CLI或两个战斗落盘oracle复核实际生成输入；不授完整format-validation信用。",
+        "F": "字节偏移常量具名；未将全fixture视为产品类型域。",
+        "G": "新注释不关闭所有测试公开出口/布局旁支，继续review。",
+        "H": "纯值确定性、caller真实；fixture无测试计数，不能以helper短/包绿关闭。"
+      }
+    }
+  ],
+  "acceptedAfterGates": [
+    "packages/pal-extract/src/events/script-entries.ts",
+    "packages/pal-extract/src/events/script-entries.test.ts",
+    "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+    "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+    "packages/pal-extract/src/events/slice.boundaries.test.ts"
+  ],
+  "reuse": [
+    "3/README.md and its three exact business counters; source unchanged, not rerun.",
+    "3g/closeout/review.json host ownership and lifecycle; host source unchanged. G sentence mentioning waitFor is a prose erratum: final test uses fs.watch + cancellation; frozen test/source and native results retained.",
+    "3g/README.md and approved output-boundary/entrypoint evidence; root strategies unchanged."
+  ],
+  "boundaries": [
+    "No slice/annotate/disasm/opcodes algorithm edits or extraction output writes.",
+    "No new formats/save/schema/public package exports or gameplay changes.",
+    "CODE3 and CODE3g remain partial; no94-102 work."
+  ],
+  "gateState": "passed",
+  "ledgerCorrection": [
+    "Restore slice.ts and slice.test.ts withdrawn reviews per 3/README; live stale old CODE3a rows did not implement the original withdrawal.",
+    "Restore runtime-resource review: full text shows synthetic defensive cases, no actual resource execution; input-domain claim remains unknown.",
+    "Boundary test is temporarily review after proved identity weakness; fresh acceptance only after exact counter+gates."
+  ],
+  "artifacts": [
+    {
+      "member": "native.json.gz",
+      "bytes": 1936897,
+      "sha256": "4613ff704950ecf77b20fd4b6220e1939eecdf295e7678559c322a30428f80d2",
+      "members": [
+        {
+          "name": "baseline-after.json",
+          "bytes": 528923,
+          "sha256": "03f2ee71e6d1cd593b9db6311d79e615eecb30b3a8cc6c33c4e17b5fe1f273c5"
+        },
+        {
+          "name": "baseline-before.json",
+          "bytes": 528566,
+          "sha256": "96cab6f8c1c8e26d2a315c277a3bbd87fbedbd0514fa9fb631fef94d14db1410"
+        },
+        {
+          "name": "baseline.execution.json",
+          "bytes": 1597,
+          "sha256": "3f3e1a379086370297b2dc19e8ba39259d7055894614dd20a7f84960d7a13042"
+        },
+        {
+          "name": "baseline.native.json",
+          "bytes": 7612,
+          "sha256": "14a3f333becf26c9ac0b433cce7130e35cec35d48bb0010e6f91758b45581de3"
+        },
+        {
+          "name": "baseline.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "baseline.stdout.raw",
+          "bytes": 1496,
+          "sha256": "33f45ed3e0aa42de2e3a103526f7d0898caa68967b8ef8c3fc35135813705719"
+        },
+        {
+          "name": "before-gates-lint.execution.json",
+          "bytes": 3840,
+          "sha256": "81f055ee721c675ee803a409d49c4288d787e9f45d3d282a8c6203219df79f91"
+        },
+        {
+          "name": "before-gates-lint.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "before-gates-lint.stdout.raw",
+          "bytes": 193,
+          "sha256": "8354e48613f33b8f68f24c643e7f18dd15b8a1d900b0379c6fdd43fb9edcbdcb"
+        },
+        {
+          "name": "capture.mjs",
+          "bytes": 7479,
+          "sha256": "4739bb5c1c46b002a3f933723b6c04a0bcdb9dd25b72c8d535efc0c21ac68a1b"
+        },
+        {
+          "name": "counters-final.json",
+          "bytes": 2448,
+          "sha256": "4e36de2cc52c94f84a2dcff935752f5101731c7663517b12922cdf831b49629d"
+        },
+        {
+          "name": "counters-final.mjs",
+          "bytes": 5728,
+          "sha256": "a45b4b32d174a81d151f6a6122fa71d7e9103dc5c986f7f88da2403bc00fc466"
+        },
+        {
+          "name": "counters-hooks-final.json",
+          "bytes": 12796,
+          "sha256": "a9a4c6112e4a9adcba9c605b51a47f8d7aba24a7cda93775a87f9150cd44c200"
+        },
+        {
+          "name": "counters-hooks-final.mjs",
+          "bytes": 5736,
+          "sha256": "960ef8ee34987788573acce0c37b9541436034194483010af4bdb8fc98883ebb"
+        },
+        {
+          "name": "counters.json",
+          "bytes": 21829,
+          "sha256": "bd80ae5dba2c1049e08da088439fe8633799c8648dced683e5cb1db62fb0ed94"
+        },
+        {
+          "name": "counters.mjs",
+          "bytes": 5366,
+          "sha256": "649b3e483b45669e3107dbacf6d331b216acb6747fefd564552c43f8693a9852"
+        },
+        {
+          "name": "directed-final.execution.json",
+          "bytes": 3709,
+          "sha256": "ff11e7222b4faa6670a557dabb663acc43eadf8faf7d603fe3fff0e6861c63bc"
+        },
+        {
+          "name": "directed-final.native.json",
+          "bytes": 25139,
+          "sha256": "c20f90fc77ab58dd6435861628c214c363007b53adcce63c40d311bdfa28d21d"
+        },
+        {
+          "name": "directed-final.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "directed-final.stdout.raw",
+          "bytes": 4421,
+          "sha256": "b6c89e3cd67ace5a50e6e371b30c65dba85c221db243f61106d58bf3be6136ab"
+        },
+        {
+          "name": "directed.execution.json",
+          "bytes": 3440,
+          "sha256": "1683ee2cba0a0b604d0df472a99a8a98291021a156fecd2ab8fbc41d0d795c68"
+        },
+        {
+          "name": "directed.native.json",
+          "bytes": 25126,
+          "sha256": "ce29cbfdc70a06e59dbead0652794dda49b7da22e0f5eac53425b88b24096d55"
+        },
+        {
+          "name": "directed.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "directed.stdout.raw",
+          "bytes": 4416,
+          "sha256": "4c365d239aee1b9ba0882c85174fa98a30efeefdd859b828852ddb87e6307352"
+        },
+        {
+          "name": "fbp-pixel-new-final.execution.json",
+          "bytes": 2236,
+          "sha256": "6a43780496d78e44e116d0cf202628f3bf51b05527246b12359f488cc1a2fa76"
+        },
+        {
+          "name": "fbp-pixel-new-final.native.json",
+          "bytes": 1881,
+          "sha256": "3d8c59cddcebd871c56e9dc138faf768afc2f0344b4cdf1cac19be5c7f4d7380"
+        },
+        {
+          "name": "fbp-pixel-new-final.patch",
+          "bytes": 232,
+          "sha256": "ebabc5b502975ef6da848c8ca6f31fd9386f689fdb20214531e6673a5a564527"
+        },
+        {
+          "name": "fbp-pixel-new-final.stderr.raw",
+          "bytes": 911,
+          "sha256": "512b7a93dd09d378444a628606d821ad91e5b9e9b10ffd2878adfc8ac1220315"
+        },
+        {
+          "name": "fbp-pixel-new-final.stdout.raw",
+          "bytes": 754,
+          "sha256": "1b462ef4c905bde484c8c4e71b9c690a8f4ed8e2edc5fd67cf06d8c3d4978cba"
+        },
+        {
+          "name": "fbp-pixel-new-final.unified.patch",
+          "bytes": 510,
+          "sha256": "9d042b29f10dbb93efa574c29077f2e54cb038a9d38130eed678bf801a7ebd2b"
+        },
+        {
+          "name": "fbp-pixel-new.execution.json",
+          "bytes": 2300,
+          "sha256": "6a3114a0685faa2690943c8c31c47707baf4c0d2e5a189b689c158daf10be184"
+        },
+        {
+          "name": "fbp-pixel-new.native.json",
+          "bytes": 1962,
+          "sha256": "902fc5244206e8963d89d670d9fa1993779e079ca5e000d26a48081c444d24a2"
+        },
+        {
+          "name": "fbp-pixel-new.patch",
+          "bytes": 232,
+          "sha256": "ebabc5b502975ef6da848c8ca6f31fd9386f689fdb20214531e6673a5a564527"
+        },
+        {
+          "name": "fbp-pixel-new.stderr.raw",
+          "bytes": 911,
+          "sha256": "4664786aff6c407b5f5c6368040fa7f43f4a3d3f7659dc879859db711f702a24"
+        },
+        {
+          "name": "fbp-pixel-new.stdout.raw",
+          "bytes": 747,
+          "sha256": "9f6795c0dd17c2579e117cb502729e612ad797ea3f347bc4c13567cf02698e2b"
+        },
+        {
+          "name": "fbp-pixel-new.unified.patch",
+          "bytes": 510,
+          "sha256": "9d042b29f10dbb93efa574c29077f2e54cb038a9d38130eed678bf801a7ebd2b"
+        },
+        {
+          "name": "fbp-pixel-old.execution.json",
+          "bytes": 1395,
+          "sha256": "b45b9d6ecc7f70cee153d4653879b9465f08a631e992851f5c2aff802c5b42ec"
+        },
+        {
+          "name": "fbp-pixel-old.native.json",
+          "bytes": 1415,
+          "sha256": "4bd1643b7468c99ab0fe2b0e83af86738f7e38f36491ce9f480abd5feacb6ef3"
+        },
+        {
+          "name": "fbp-pixel-old.patch",
+          "bytes": 232,
+          "sha256": "ebabc5b502975ef6da848c8ca6f31fd9386f689fdb20214531e6673a5a564527"
+        },
+        {
+          "name": "fbp-pixel-old.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "fbp-pixel-old.stdout.raw",
+          "bytes": 727,
+          "sha256": "cd50145a0f6a1cea3a88b87103e703da1dbe07b482156beaa7a7ed4a31f795a4"
+        },
+        {
+          "name": "fbp-pixel-old.unified.patch",
+          "bytes": 510,
+          "sha256": "9d042b29f10dbb93efa574c29077f2e54cb038a9d38130eed678bf801a7ebd2b"
+        },
+        {
+          "name": "final-ledger.execution.json",
+          "bytes": 2057,
+          "sha256": "1bffd6c398d772f945e31ee973c40a48aae03418b0658da3e82448f13d5e3127"
+        },
+        {
+          "name": "final-ledger.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "final-ledger.stdout.raw",
+          "bytes": 113,
+          "sha256": "69683f172e530960ed2b4d76940c51307fb93427ae8e5c082fe6a62742c21ba8"
+        },
+        {
+          "name": "final-types.execution.json",
+          "bytes": 3879,
+          "sha256": "9e6ee89dfa5ace07e96f6de720624aa44c9bbf2e3497536b231ecfa3d87c4945"
+        },
+        {
+          "name": "final-types.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "final-types.stdout.raw",
+          "bytes": 139,
+          "sha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440"
+        },
+        {
+          "name": "fixture-proof.execution.json",
+          "bytes": 3935,
+          "sha256": "b3775ce603316a9270055b7e544d0d6fdd48071a189c2c0fc4ba92741fbc0dea"
+        },
+        {
+          "name": "fixture-proof.json",
+          "bytes": 4292,
+          "sha256": "789fd89e83f64038f9343958d7689ce814816d973e3b6493fc0a902310e58cfe"
+        },
+        {
+          "name": "fixture-proof.mjs",
+          "bytes": 3862,
+          "sha256": "c6a931c6fba4bcb8812347b2afc8a8cc8cc3d6b50b107a1c41ceedf073768ac4"
+        },
+        {
+          "name": "fixture-proof.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "fixture-proof.stdout.raw",
+          "bytes": 93,
+          "sha256": "13d4c14f3e926bec6b605919374dd924e731aab09f353245b046f39fa358e34d"
+        },
+        {
+          "name": "gates-check.diagnostics.json",
+          "bytes": 84211,
+          "sha256": "28ed8672b8a5e1e69f4d7e8f94bfa119a1690a36697cc11099fb0af1d1eaf642"
+        },
+        {
+          "name": "gates-check.execution.json",
+          "bytes": 1704,
+          "sha256": "e9ae73824a73479d184437900096fbc09720756611cb113faea72868bd445d12"
+        },
+        {
+          "name": "gates-check.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gates-check.stdout.raw",
+          "bytes": 373147,
+          "sha256": "0f3db6d54aa4d23efac58d2be0bce5137638b21efdfbe5873f79e1eb3a2ca4a1"
+        },
+        {
+          "name": "gates-ratchet-protected.coverage-summary.json",
+          "bytes": 8475594,
+          "sha256": "76d06fe0cde12cb1638e8bc87e0c298d82c2b25a10e81d08f8d59fbba6362b36"
+        },
+        {
+          "name": "gates-ratchet-protected.diagnostics.json",
+          "bytes": 81912,
+          "sha256": "8185f04cbaf6e2088a7064d9399d864dac8baaa40ba9427595d7e656ce5cf50a"
+        },
+        {
+          "name": "gates-ratchet-protected.execution.json",
+          "bytes": 1860,
+          "sha256": "18e5593222a2f63501c659ba21416cb93f3634fba385ccaa0a3f6ba7720769e2"
+        },
+        {
+          "name": "gates-ratchet-protected.scan-output.raw",
+          "bytes": 71099,
+          "sha256": "26c1b168a87b6a326959e24c9b481f189cb77b985ab131cc4b6ce329905fc887"
+        },
+        {
+          "name": "gates-ratchet-protected.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gates-ratchet-protected.stdout.raw",
+          "bytes": 202865,
+          "sha256": "dd49dbea6c44b0ba6657fd058a8c7c12c7039076b9e5d77b1a95d5533ac6a1fd"
+        },
+        {
+          "name": "hook-enemy-turn-final.execution.json",
+          "bytes": 2326,
+          "sha256": "b8f869f74fb6bc9aac3ea686f457433e4538d5825c9d40abf56875d5536d098b"
+        },
+        {
+          "name": "hook-enemy-turn-final.native.json",
+          "bytes": 4042,
+          "sha256": "974c67cc4d594e23ca7ceafd6f472b824a5eb8cd3fda764f6c3a388dca2878e2"
+        },
+        {
+          "name": "hook-enemy-turn-final.patch",
+          "bytes": 233,
+          "sha256": "3b3c940230aab067a32c685d01259e12a22849c1170a5ff1a5d4171cadc82d7c"
+        },
+        {
+          "name": "hook-enemy-turn-final.stderr.raw",
+          "bytes": 2915,
+          "sha256": "83a3f542dbcd76559599a1b5c8ebc4b47645eec38bc15db71cf86c6ba4c6d3b4"
+        },
+        {
+          "name": "hook-enemy-turn-final.stdout.raw",
+          "bytes": 1134,
+          "sha256": "e34b881b9c4adb338872fbb8562119aca9de495f092133aa0df579306377610f"
+        },
+        {
+          "name": "hook-enemy-turn-final.unified.patch",
+          "bytes": 526,
+          "sha256": "ef3d068e974ea3a9a7182a314deeebd06ae27c09e749b690ae8b887a64b4687c"
+        },
+        {
+          "name": "hook-enemy-turn.execution.json",
+          "bytes": 2314,
+          "sha256": "b6c68fec80c6c9cd60e52ab4370ecb221fd88ca55a5c48ff07f9c4caaad490ff"
+        },
+        {
+          "name": "hook-enemy-turn.native.json",
+          "bytes": 4056,
+          "sha256": "22a741dc229e932e10e29c8e5cbef28c6e70650b9cafbebbc5bdc7800770bde6"
+        },
+        {
+          "name": "hook-enemy-turn.patch",
+          "bytes": 233,
+          "sha256": "3b3c940230aab067a32c685d01259e12a22849c1170a5ff1a5d4171cadc82d7c"
+        },
+        {
+          "name": "hook-enemy-turn.stderr.raw",
+          "bytes": 2915,
+          "sha256": "29ca8589a68ef8cf82ba4826d5a247b17b24fb8a5dfe410d4da284f1519d7234"
+        },
+        {
+          "name": "hook-enemy-turn.stdout.raw",
+          "bytes": 1128,
+          "sha256": "6304a4cb1362ee39444818ba330f5bd2e8ad369bb5d94c184a43f4f87a937a49"
+        },
+        {
+          "name": "hook-enemy-turn.unified.patch",
+          "bytes": 526,
+          "sha256": "ef3d068e974ea3a9a7182a314deeebd06ae27c09e749b690ae8b887a64b4687c"
+        },
+        {
+          "name": "hook-item-desc-final.execution.json",
+          "bytes": 2380,
+          "sha256": "defbd4123e36c51d3df404555b297abe95a66ecc7ff5fe2a331670c32a14bbdf"
+        },
+        {
+          "name": "hook-item-desc-final.native.json",
+          "bytes": 4100,
+          "sha256": "e1683bcd723077e140f712ebaad29fdc571098c0ca08430080fc1798f5e94f22"
+        },
+        {
+          "name": "hook-item-desc-final.patch",
+          "bytes": 219,
+          "sha256": "4d527c643410fc6b0d5f2cca2fe42cb9c14ab7d18234e02838a07f4f6226a9cd"
+        },
+        {
+          "name": "hook-item-desc-final.stderr.raw",
+          "bytes": 2909,
+          "sha256": "b4558b5e7af07b79e038e6bed99c3f6972c45ca3292384aa598583de236fab4e"
+        },
+        {
+          "name": "hook-item-desc-final.stdout.raw",
+          "bytes": 1133,
+          "sha256": "93fae6d7aea68a3ce03c09a70f73bcbb80084c7f6914c3e193fb97be0d2225cd"
+        },
+        {
+          "name": "hook-item-desc-final.unified.patch",
+          "bytes": 565,
+          "sha256": "6371e21c6ffcf7ade99990fc48c194abaef88dfe48afb510388ba1f2ac9bc8dc"
+        },
+        {
+          "name": "hook-item-desc.execution.json",
+          "bytes": 2368,
+          "sha256": "125994fca04fc2449b380d831b1b1fdd2a9a3f3ee29afd79047ca2f575714233"
+        },
+        {
+          "name": "hook-item-desc.native.json",
+          "bytes": 4117,
+          "sha256": "b19b8332351d71989b6222de566edc9f5464f9c2dc829e8c716f893897e43e9c"
+        },
+        {
+          "name": "hook-item-desc.patch",
+          "bytes": 219,
+          "sha256": "4d527c643410fc6b0d5f2cca2fe42cb9c14ab7d18234e02838a07f4f6226a9cd"
+        },
+        {
+          "name": "hook-item-desc.stderr.raw",
+          "bytes": 2909,
+          "sha256": "9633cf894efde768ab8ff00ca38076d0250b53ba7bc0cfbf1ce420cba46989ea"
+        },
+        {
+          "name": "hook-item-desc.stdout.raw",
+          "bytes": 1131,
+          "sha256": "142ad9a91047cfa9c660d4711a556876b29974c3f4fb03384f057084fe4b90a2"
+        },
+        {
+          "name": "hook-item-desc.unified.patch",
+          "bytes": 565,
+          "sha256": "6371e21c6ffcf7ade99990fc48c194abaef88dfe48afb510388ba1f2ac9bc8dc"
+        },
+        {
+          "name": "hook-item-equip-final.execution.json",
+          "bytes": 2389,
+          "sha256": "3204efdafdb052cf19781c16bce1e7537608d80b2914d10d94c2d78a55b05def"
+        },
+        {
+          "name": "hook-item-equip-final.native.json",
+          "bytes": 4131,
+          "sha256": "bd7bfd747f32d7f553c4ae61eeecb72205d126369e384dc04290a580b62ad586"
+        },
+        {
+          "name": "hook-item-equip-final.patch",
+          "bytes": 225,
+          "sha256": "69d094f3936b5191017db1585eb22105ad72f84428e7e18cf79220d1d941a97b"
+        },
+        {
+          "name": "hook-item-equip-final.stderr.raw",
+          "bytes": 2910,
+          "sha256": "a979477b0a982abf1c11e6dc8f09ebbf3357826650537fe0b366a89f06ac9aab"
+        },
+        {
+          "name": "hook-item-equip-final.stdout.raw",
+          "bytes": 1135,
+          "sha256": "bdb061e8e2c38c3f266ee38e61051c01c17d83bb61711b28f7753465c03a6d0f"
+        },
+        {
+          "name": "hook-item-equip-final.unified.patch",
+          "bytes": 538,
+          "sha256": "84977113e8d41e63926bc36dcb39dba3b02417eee5c0f558f755e21c11069f60"
+        },
+        {
+          "name": "hook-item-equip.execution.json",
+          "bytes": 2377,
+          "sha256": "cf39ab9449ed7683d1790f387d3a434080035a8460d60b8fa249498b0b3fc122"
+        },
+        {
+          "name": "hook-item-equip.native.json",
+          "bytes": 4146,
+          "sha256": "504103c74a3ddd1ee808667eae0db738ae451916b06de351bf13c50e62ecc748"
+        },
+        {
+          "name": "hook-item-equip.patch",
+          "bytes": 225,
+          "sha256": "69d094f3936b5191017db1585eb22105ad72f84428e7e18cf79220d1d941a97b"
+        },
+        {
+          "name": "hook-item-equip.stderr.raw",
+          "bytes": 2910,
+          "sha256": "51f974bcbc6f99b5ebb0464399f8cfd0da0e5cdccca64473e672b90c016ac239"
+        },
+        {
+          "name": "hook-item-equip.stdout.raw",
+          "bytes": 1128,
+          "sha256": "d2a4c3a725794ae4552f85f14295e4d6c4aa0d2794ea25dad2ba9db7dc538953"
+        },
+        {
+          "name": "hook-item-equip.unified.patch",
+          "bytes": 538,
+          "sha256": "84977113e8d41e63926bc36dcb39dba3b02417eee5c0f558f755e21c11069f60"
+        },
+        {
+          "name": "hook-player-friend-death-final.execution.json",
+          "bytes": 2427,
+          "sha256": "aa282e7786d203a093ac39928c12252be4d183d727d549d4c78ddf54598fc725"
+        },
+        {
+          "name": "hook-player-friend-death-final.native.json",
+          "bytes": 4153,
+          "sha256": "b157561d2415652929ee8dc6dda3fd15cbf248c361845d190144ab4b0a863e79"
+        },
+        {
+          "name": "hook-player-friend-death-final.patch",
+          "bytes": 237,
+          "sha256": "244a2c40344180dd26cd39a616c0c33b0a5407a95809eb0e17effd898d02f51d"
+        },
+        {
+          "name": "hook-player-friend-death-final.stderr.raw",
+          "bytes": 2918,
+          "sha256": "60acbeb2315cafeb6c0b91522aa942bd7707f0604590c8cbdd4b615a1e6356a8"
+        },
+        {
+          "name": "hook-player-friend-death-final.stdout.raw",
+          "bytes": 1143,
+          "sha256": "d8937296e1386d38143e722fcf3816ec3ada76e4e74e3ef0b2c1c1d737deaacf"
+        },
+        {
+          "name": "hook-player-friend-death-final.unified.patch",
+          "bytes": 457,
+          "sha256": "a74026c1e855f4ee44d524e2e8764e365ecbef42ce17ca0850aa9b87c5f781d6"
+        },
+        {
+          "name": "hook-player-friend-death.execution.json",
+          "bytes": 2415,
+          "sha256": "12d38debf90d23fbe289c0c40eaa43b8080daf3ff0c4e0f86c41b1f49d583794"
+        },
+        {
+          "name": "hook-player-friend-death.native.json",
+          "bytes": 4132,
+          "sha256": "636705c6b8908fff5a528b0995c5a4a3de3ec9a4e4b18c95eb6a848b4bdc989c"
+        },
+        {
+          "name": "hook-player-friend-death.patch",
+          "bytes": 237,
+          "sha256": "244a2c40344180dd26cd39a616c0c33b0a5407a95809eb0e17effd898d02f51d"
+        },
+        {
+          "name": "hook-player-friend-death.stderr.raw",
+          "bytes": 2918,
+          "sha256": "a4b6dbbe44a9b8de44c876966f3ab3349cc719c99fedecae01f246e740fb8ed1"
+        },
+        {
+          "name": "hook-player-friend-death.stdout.raw",
+          "bytes": 1137,
+          "sha256": "e82c5ea5a9569f39149fc02b096d726ce60fb43b1c38ba7db4f4249b88230390"
+        },
+        {
+          "name": "hook-player-friend-death.unified.patch",
+          "bytes": 457,
+          "sha256": "a74026c1e855f4ee44d524e2e8764e365ecbef42ce17ca0850aa9b87c5f781d6"
+        },
+        {
+          "name": "hook-spell-success-final.execution.json",
+          "bytes": 2402,
+          "sha256": "10072aa55641c58d302abb1b58c0db5e285738c12aceae085ccbd346743efedf"
+        },
+        {
+          "name": "hook-spell-success-final.native.json",
+          "bytes": 4124,
+          "sha256": "5c3330af7b24b58906fc3b5156b04dbcf1df94afc72b4bb679cc40a20a7d6a18"
+        },
+        {
+          "name": "hook-spell-success-final.patch",
+          "bytes": 229,
+          "sha256": "ea844b72c9fcf141ad5b8033b32e2ed197fc1279765831d5a121d1a707075e66"
+        },
+        {
+          "name": "hook-spell-success-final.stderr.raw",
+          "bytes": 2913,
+          "sha256": "21164eff23b5e6351ea5d748aed99596feec57074462511b07b85326ab031995"
+        },
+        {
+          "name": "hook-spell-success-final.stdout.raw",
+          "bytes": 1137,
+          "sha256": "0432aab22426ebdb0cc6228958b6ae5e96ffc9690dd42136ee8a7e56c8b0add5"
+        },
+        {
+          "name": "hook-spell-success-final.unified.patch",
+          "bytes": 466,
+          "sha256": "cd70d3a2b1984685f64186f74d43cfa193c013604d919c799fb2886ee57703c5"
+        },
+        {
+          "name": "hook-spell-success.execution.json",
+          "bytes": 2390,
+          "sha256": "64a6a39778923d22cc87887a10897ad58ccf5f3c6f5f7d91fd24b6ee163c1973"
+        },
+        {
+          "name": "hook-spell-success.native.json",
+          "bytes": 4139,
+          "sha256": "70880cd032fea52da39d1032db6d006368554cd9173aa16720e5ccd27592451f"
+        },
+        {
+          "name": "hook-spell-success.patch",
+          "bytes": 229,
+          "sha256": "ea844b72c9fcf141ad5b8033b32e2ed197fc1279765831d5a121d1a707075e66"
+        },
+        {
+          "name": "hook-spell-success.stderr.raw",
+          "bytes": 2913,
+          "sha256": "1a50b7314fa4f38794999157e4611b7b79fa990308aa2e21c1d656829b305f9e"
+        },
+        {
+          "name": "hook-spell-success.stdout.raw",
+          "bytes": 1132,
+          "sha256": "04254fc4b8a701beecb08006ffedbd016a7fcb5feb53f1020e503cedf7c70a05"
+        },
+        {
+          "name": "hook-spell-success.unified.patch",
+          "bytes": 466,
+          "sha256": "cd70d3a2b1984685f64186f74d43cfa193c013604d919c799fb2886ee57703c5"
+        },
+        {
+          "name": "hooks-recovery.execution.json",
+          "bytes": 2052,
+          "sha256": "fcc6f16e284cd4f3843ab410c1dab6045a43b11bb18a69d2a242e9ea368133cc"
+        },
+        {
+          "name": "hooks-recovery.native.json",
+          "bytes": 3392,
+          "sha256": "b9a278d58e2fa00400bfa853144c46e7f528657eb07ec156abe49ce3efd6853d"
+        },
+        {
+          "name": "hooks-recovery.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "hooks-recovery.stdout.raw",
+          "bytes": 1092,
+          "sha256": "905561d3188388d547feb7c13b7ffe73eccd8fcad8702f69c49b10d8a8c850e6"
+        },
+        {
+          "name": "protected-snapshot.diagnostics.json",
+          "bytes": 572,
+          "sha256": "873148f65fa402a90dab425eff26dfe0e6e9a289bcd66e3f08d9f203e94d6e75"
+        },
+        {
+          "name": "protected-snapshot.execution.json",
+          "bytes": 2290,
+          "sha256": "6bb1683135a204271d2200d5c63669c1a4759186a73cd2b090dca8abe916b0a7"
+        },
+        {
+          "name": "protected-snapshot.json",
+          "bytes": 1647,
+          "sha256": "39281c8324f4a361a91c5f4c6a66bc342d0d7f299b65bca4a034369b60c6a766"
+        },
+        {
+          "name": "protected-snapshot.mjs",
+          "bytes": 4461,
+          "sha256": "f9b1d4866f9084b8604676f91b16be0092ea1c71ec350a35136d84f232e8a2a2"
+        },
+        {
+          "name": "protected-snapshot.scan-output.raw",
+          "bytes": 462,
+          "sha256": "eaa638f58ea48b8d003d9c7b07754636cf02cfc628d81ed178fdcc3f77d474e7"
+        },
+        {
+          "name": "protected-snapshot.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "protected-snapshot.stdout.raw",
+          "bytes": 192,
+          "sha256": "35202064510570a65f611904a9dc18ee78133e4c39ed08e7f4199503dd3ea413"
+        },
+        {
+          "name": "prove-refactor.mjs",
+          "bytes": 7524,
+          "sha256": "3aeae9948d880d0245d7a4bc098b1bcb728880e12aac94aa12d9cdf77885718a"
+        },
+        {
+          "name": "raw-projection.json",
+          "bytes": 4517,
+          "sha256": "8844d3048c5336756f70a4c3d8fc246b1f70c6cd6e8fbf633aa2d5df9f4ce752"
+        },
+        {
+          "name": "raw-projection.mts",
+          "bytes": 5723,
+          "sha256": "6ad7ba680cc72e2ed409ff33ce2c16b934739fd4396847725004a8d4d0ea7cf7"
+        },
+        {
+          "name": "refactor-proof-restored.execution.json",
+          "bytes": 2770,
+          "sha256": "a132c805eb603e961f261c35f63c649e6eae50cc23724c5405bf49bd978ad249"
+        },
+        {
+          "name": "refactor-proof-restored.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "refactor-proof-restored.stdout.raw",
+          "bytes": 1877,
+          "sha256": "73be78be720edc8899db211ab82a89eb488b0d65ab615875d3b6f0b58a950db6"
+        },
+        {
+          "name": "refactor-proof.execution.json",
+          "bytes": 2743,
+          "sha256": "457455e9f8eb7d7d271a0b578239e22192091322e224dd2c9f1d04612d442080"
+        },
+        {
+          "name": "refactor-proof.json",
+          "bytes": 5594,
+          "sha256": "ef6cdbff46327f7096f9740b420b3cc63f14b9ac64e20ddaca6854eaf5c356b9"
+        },
+        {
+          "name": "refactor-proof.stderr.raw",
+          "bytes": 3552,
+          "sha256": "563a5accf0edfdc7f18f985b30adf57258122e49916c784f2679c9350faad30a"
+        },
+        {
+          "name": "refactor-proof.stdout.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "scan-gates.cjs",
+          "bytes": 1990,
+          "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+        },
+        {
+          "name": "sealed-docs-restored.execution.json",
+          "bytes": 2409,
+          "sha256": "8268e2a738286a356487f6777d6eef0cc74da41b9ba225d3407b64af8dd4befd"
+        },
+        {
+          "name": "sealed-docs-restored.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "sealed-docs-restored.stdout.raw",
+          "bytes": 311,
+          "sha256": "0037c8007db81ef42c52f1d96f7745180c453ea4409c29a6ed93b17f0ed22ee5"
+        },
+        {
+          "name": "sealed-docs.execution.json",
+          "bytes": 2355,
+          "sha256": "0c8e163b54ca267b2f68f4b934a10c05be04a5b96ce029fa70d91063bbf298e2"
+        },
+        {
+          "name": "sealed-docs.stderr.raw",
+          "bytes": 846,
+          "sha256": "c1bf2c57d5f06474215798e355a9b64cfa40581fd5fcd757558fedaf0d63e212"
+        },
+        {
+          "name": "sealed-docs.stdout.raw",
+          "bytes": 93,
+          "sha256": "6ae2d955ac1ba29db210c69a90a9e5c542b17d43277475821a09e59abb2050ca"
+        },
+        {
+          "name": "sealed-lint-restored.execution.json",
+          "bytes": 2072,
+          "sha256": "2b497d97dd4aa4533f92f67e40fd47363c7612f74baf43aab6e27305d1c5c385"
+        },
+        {
+          "name": "sealed-lint-restored.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "sealed-lint-restored.stdout.raw",
+          "bytes": 193,
+          "sha256": "a9a03213b10663e6725b9ffa62c3106bda255f11ac4a2a1da55a717486923e10"
+        },
+        {
+          "name": "sealed-lint.execution.json",
+          "bytes": 2019,
+          "sha256": "994d28e5865a1bb45e0732424e446bbaed4c0903ec611d4ef0b40cd8020db99f"
+        },
+        {
+          "name": "sealed-lint.stderr.raw",
+          "bytes": 204,
+          "sha256": "22a18559f3ca1600bc5910dd11342b11b37473fff84e5e43d6fcd14e241973e6"
+        },
+        {
+          "name": "sealed-lint.stdout.raw",
+          "bytes": 167,
+          "sha256": "67abbd7779934ba2192a5352a46a8591ebaaa412e7460de07adcaaa3f87b5165"
+        },
+        {
+          "name": "sealed-progress-final.execution.json",
+          "bytes": 2195,
+          "sha256": "291ddd1e77437cdd6d5af2ef506b23f571bb759f103e66e312078f77eb655794"
+        },
+        {
+          "name": "sealed-progress-final.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "sealed-progress-final.stdout.raw",
+          "bytes": 780037,
+          "sha256": "b759180d8ac9646bd26b67f9efc0fe6dbecff201602bf1283cea9557abaee0e4"
+        },
+        {
+          "name": "sealed-progress.execution.json",
+          "bytes": 2149,
+          "sha256": "ab84c8fd55fbd7d071ad264d48c04a6a833333319310957a82a353af9b2414bc"
+        },
+        {
+          "name": "sealed-progress.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "sealed-progress.stdout.raw",
+          "bytes": 780037,
+          "sha256": "cf25e83091e2c2b334843566df9769246d326990bd50084ce24254b4b1cb9aa4"
+        },
+        {
+          "name": "slice-identity-new.execution.json",
+          "bytes": 3398,
+          "sha256": "0a8ffd7b03463932592aba42c1db48093337f6c3045e5f823f4ec079e010d197"
+        },
+        {
+          "name": "slice-identity-new.native.json",
+          "bytes": 4108,
+          "sha256": "41e355943cca4fa2f7774c3b4cf411baee68cdac75e689fed51796104d2f1f03"
+        },
+        {
+          "name": "slice-identity-new.patch",
+          "bytes": 240,
+          "sha256": "7759d2682171a32e0ea5d535a2b957829ce52c4e4e5eae4fd97b2aba213b35b4"
+        },
+        {
+          "name": "slice-identity-new.stderr.raw",
+          "bytes": 1078,
+          "sha256": "f0c8ee3c8a9028e1419244e9a0d03843bd996eabe8a76378c1c58e5f87ca938d"
+        },
+        {
+          "name": "slice-identity-new.stdout.raw",
+          "bytes": 927,
+          "sha256": "45858aa3fa01758984b78da34a954067768d721a498beeb3efa1eccbd6fde74b"
+        },
+        {
+          "name": "slice-identity-new.unified.patch",
+          "bytes": 396,
+          "sha256": "7585d9d34c5d8126a9c27f235c20881516a15e64bc5336dffa7f8bf9c25eb3ff"
+        },
+        {
+          "name": "slice-identity-old.execution.json",
+          "bytes": 1404,
+          "sha256": "8408e87707197f6c38a13ee8b2ea674d255d036900f32a309af0a415af97e7c9"
+        },
+        {
+          "name": "slice-identity-old.native.json",
+          "bytes": 2494,
+          "sha256": "0bca8fd0810b96a3c91e2e0bbea4048c18572b6322b39f6bda68b3221bccd525"
+        },
+        {
+          "name": "slice-identity-old.patch",
+          "bytes": 240,
+          "sha256": "7759d2682171a32e0ea5d535a2b957829ce52c4e4e5eae4fd97b2aba213b35b4"
+        },
+        {
+          "name": "slice-identity-old.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "slice-identity-old.stdout.raw",
+          "bytes": 488,
+          "sha256": "dd800c4b950982ab17170916fe781b8bcf30f15d17bb3164df4585ec1b26625a"
+        },
+        {
+          "name": "slice-identity-old.unified.patch",
+          "bytes": 396,
+          "sha256": "7585d9d34c5d8126a9c27f235c20881516a15e64bc5336dffa7f8bf9c25eb3ff"
+        },
+        {
+          "name": "tests-reworked.execution.json",
+          "bytes": 2822,
+          "sha256": "8fe143aaa197e1e704e0cf98caa5585240237b9e0d101a101c16306c077bccb3"
+        },
+        {
+          "name": "tests-reworked.native.json",
+          "bytes": 7613,
+          "sha256": "67bfa97f4e758c505c1e86ac4f85ba36edeb18c5dd079d862631babff64ab248"
+        },
+        {
+          "name": "tests-reworked.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "tests-reworked.stdout.raw",
+          "bytes": 1503,
+          "sha256": "b708b17a31d72fe2c1ab54c08d258dbc08f5a6d5419a8caa34d6836bd8590067"
+        },
+        {
+          "name": "unified-patch-proofs.json",
+          "bytes": 5567,
+          "sha256": "2375634d9095c233a51be99926397ebbee05a1f5a86f24e58e3b0760f3ad5c60"
+        }
+      ]
+    }
+  ],
+  "ledger": {
+    "total": 3338,
+    "closed": 356,
+    "review": 126,
+    "pending": 2856
+  },
+  "ledgerBeforeWindow": {
+    "total": 3336,
+    "closed": 355,
+    "review": 120,
+    "pending": 2861
+  },
+  "codeCommit": "07ea453387f7ef0482677874872eda07835a57c9",
+  "stdoutClassification": {
+    "gates-check": {
+      "blocks": 260,
+      "distinctBlocks": 18,
+      "basis": "Read every distinct block; retained all 260 identities/raw. Dev-panel setup/applyFixture, save success, six zero-diff tilesets, debug dump enablement, Reforge room-ready and PAL read-cost are ordinary observations; no warning or generic opcode diagnostic hidden in stdout."
+    }
+  },
+  "collectedCodeCommit": "ff3e96356366ab8ace84979a87c4a39d605698b6",
+  "windowCredit": "4 newly closed + 1 withdrawn boundary scope freshly accepted; 3 other old closures remain withdrawn. Net +1 closed versus window base. No whole-card promotion.",
+  "contextPins": [
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95",
+      "readScope": "unchanged full source; reuse 3g/closeout lifecycle/oracle evidence"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.test.ts",
+      "sha256": "9095e62d4768e00a0ce374685e39f1e807c0ea674735c2be6941881f95ae4177",
+      "readScope": "unchanged tests; reuse prior native three contracts"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "sha256": "a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518",
+      "readScope": "full read, parsed scene/EO ownership and table layout"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.ts",
+      "sha256": "ce10629b77c6ca18c32e755e1b9f7dfd57287558da7eed0e27528fbac52ba7dc",
+      "readScope": "full read; OBJECT field offsets"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/spells.ts",
+      "sha256": "3bf94340d337fb9fee0ca019ce3a9a66f52cf42d671b748e9dfd68868ed4815d",
+      "readScope": "ranges 1-175,215-270; OBJECT hook fields only"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "sha256": "12c0fba0960792c066859a832120c894483d3cdec3d29e0e250db4277573f9b6",
+      "readScope": "range145-205; OBJECT enemy projection only"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828",
+      "readScope": "adjacent parsed item/spell/enemy/player types; not whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "readScope": "full read; independent consumer width/height/pixels"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0",
+      "readScope": "full read; getCmds default global all.json"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "67f008abc2d6013744ce84049556cf987c1c76aff605bc912377f166445c9c8a",
+      "readScope": "ranges1156-1186 and referenced per-scene load; not whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840",
+      "readScope": "ranges1313-1355,1978-2010, count semantics; reuse earlier full review"
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "sha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "readScope": "first100lines and existing schema evidence; human metadata is not numeric truth"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45",
+      "readScope": "actual whole check and CI progress consumer wiring"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "readScope": "official combined fast/ratchet + target baseline protection; existing contract reused"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "03f2ee71e6d1cd593b9db6311d79e615eecb30b3a8cc6c33c4e17b5fe1f273c5",
+      "readScope": "official result, candidate strict canonical projection and origin/main protection"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "readScope": "primary0x0003/0xFFFF ranges3236-3265,3438-3465; no original game runtime claim"
+    }
+  ],
+  "runs": [
+    {
+      "id": "baseline",
+      "exit": 0,
+      "passed": 24,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "id": "tests-reworked",
+      "exit": 0,
+      "passed": 24,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "id": "directed",
+      "exit": 0,
+      "passed": 74,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "id": "directed-final",
+      "exit": 0,
+      "passed": 74,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "id": "hooks-recovery",
+      "exit": 0,
+      "passed": 14,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "id": "fbp-pixel-old",
+      "exit": 0,
+      "passed": 2,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "id": "fbp-pixel-new",
+      "exit": 1,
+      "passed": 1,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-OTvDiu/packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+          "fullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip"
+        }
+      ]
+    },
+    {
+      "id": "fbp-pixel-new-final",
+      "exit": 1,
+      "passed": 1,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-qmZAbX/packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+          "fullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip"
+        }
+      ]
+    },
+    {
+      "id": "slice-identity-old",
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "id": "slice-identity-new",
+      "exit": 1,
+      "passed": 4,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-2tJIzA/packages/pal-extract/src/events/slice.boundaries.test.ts",
+          "fullName": "R06 sliceByScene globalEntries 归属 最后 scene 的 EO 段开区间到 eventObjects 末尾；enter/teleport 双入口都可达"
+        }
+      ]
+    },
+    {
+      "id": "hook-enemy-turn-final",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-zQmtI0/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-08 enemy.turnStart entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-enemy-turn",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-B6pwF0/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-08 enemy.turnStart entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-item-desc-final",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-uL7oLR/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-04 item.desc entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-item-desc",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-6Ove5x/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-04 item.desc entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-item-equip-final",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-yuACeC/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-02 item.equip entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-item-equip",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-gSjNRx/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-02 item.equip entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-player-friend-death-final",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-oXVlqm/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-11 player.friendDeath entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-player-friend-death",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-ZwF3yC/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-11 player.friendDeath entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-spell-success-final",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-DvNahL/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-06 spell.success entry"
+        }
+      ]
+    },
+    {
+      "id": "hook-spell-success",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "failures": [
+        {
+          "file": "../../../../../../../../private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cli-counter-ophzyW/packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "fullName": "Q-NEXT1-06 spell.success entry"
+        }
+      ]
+    },
+    {
+      "id": "final-types",
+      "exit": 0
+    },
+    {
+      "id": "before-gates-lint",
+      "exit": 0
+    },
+    {
+      "id": "gates-check",
+      "exit": 0
+    },
+    {
+      "id": "gates-ratchet-protected",
+      "exit": 0
+    },
+    {
+      "id": "protected-snapshot",
+      "exit": 0
+    },
+    {
+      "id": "fixture-proof",
+      "exit": 0
+    },
+    {
+      "id": "refactor-proof",
+      "exit": 1
+    },
+    {
+      "id": "refactor-proof-restored",
+      "exit": 0
+    },
+    {
+      "id": "final-ledger",
+      "exit": 0
+    },
+    {
+      "id": "sealed-docs",
+      "exit": 1
+    },
+    {
+      "id": "sealed-lint",
+      "exit": 1
+    },
+    {
+      "id": "sealed-progress",
+      "exit": 0
+    },
+    {
+      "id": "sealed-docs-restored",
+      "exit": 0
+    },
+    {
+      "id": "sealed-lint-restored",
+      "exit": 0
+    },
+    {
+      "id": "sealed-progress-final",
+      "exit": 0
+    }
+  ],
+  "gates": ["gates-check", "gates-ratchet-protected", "protected-snapshot"],
+  "gatePolicy": {
+    "check": "20,392 tests; seven packages, typechecks, docs including progress, lint; complete stdout/stderr retained.",
+    "coverage": "One official fast --ratchet sample with TYPE_PAL_COVERAGE_BASE_REF=origin/main:19,994 tests/750 production sources; protected checks executed natively. Eight improvements, no regression/removal or rule change.",
+    "strictRecheck": "Existing exported comparisons run on the identical immutable official summary and new canonical baseline; no second node run.mjs fast invocation or second test sampling.",
+    "diagnostics": "All three gate diagnostic objects zero;260 normal check stdout blocks/18 distinct read explicitly. Expected child CLI font/FBP diagnostics are exact business assertions, not outer suite warnings.",
+    "captureLimit": "Complete Vitest outer streams/native JSON retained. Full child CLI streams are inspected by exact assertions but not separately archived in this window; do not claim byte-preserved child traces.",
+    "history": "Failed refactor-proof is a harness SyntaxError, not a business red. Corrected transpilation passed. Both raw executions retained. Initial bare-@@ patch receipts retained; new *.unified.patch are derived, exact before/after SHA verified."
+  },
+  "postGateStatic": {
+    "firstDocs": "1 task index drift after user-approved draft→build; preserved fail then generator changed exactly one row",
+    "firstLint": "1 format error in CI record; preserved fail then formatting only",
+    "final": "five docs consumers 0 issues; exact CI progress consumer issues=[]; lint5748 0 errors/0 warnings/0 infos; ledger3338/356/126/2856",
+    "readOnlyVerifier": "exit0 MATCH; porcelain before/after byte-equal; does not execute tests"
+  }
+}

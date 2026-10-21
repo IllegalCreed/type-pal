@@ -14,7 +14,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Acceptance field asks for accepted claims/author evidence, actual diff/commands and reasons for targeted inspection, explicitly excluding default duplicate full review. Existing headings and task states preserved.",
+      "coreConclusion": "Acceptance field asks for accepted claims/author evidence, actual diff/commands and reasons for targeted inspection, explicitly excluding default duplicate full review. Existing headings and task states preserved. Current canonical edition frozen at e8566c2c7 with exact Git blob/byte proof; this does not restore historical byte-equality credit for authorized 2026-10-18 edits.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -168,10 +168,22 @@
         ]
       },
       "evidence": {
-        "kind": "user-authorized-evidence-first-acceptance-protocol",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "kind": "current-canonical-template-source-snapshot",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
         "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-        "lineCount": 212
+        "lineCount": 212,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
+          "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+          "sourceGitObject": "dc742a340415a657372edc60677b07514a1c1470",
+          "sourceSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+          "sourceBytes": 6916,
+          "sourceLines": 212,
+          "sourceFinalNewline": true,
+          "inverseSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+          "exactRoundTrip": true
+        }
       },
       "history": [
         {
@@ -185,6 +197,18 @@
           "action": "R58 template source artifact envelope",
           "reviewer": "r58_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Freeze-current-approved-template-edition-with-actual-Git-byte-proof",
+          "previousEvidence": {
+            "kind": "user-authorized-evidence-first-acceptance-protocol",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+            "lineCount": 212
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
+          "scope": "Current e856 canonical bytes only; authorized 2026-10-18 edits are historical deltas, NOT unchanged against 2026-10-17 original."
         }
       ],
       "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
@@ -228,7 +252,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation."
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation."
     },
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
@@ -239,7 +263,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Lite acceptance field adopts the same evidence-first decision record; no duplicate full reading requirement; existing risk upgrade and task structure preserved.",
+      "coreConclusion": "Lite acceptance field adopts the same evidence-first decision record; no duplicate full reading requirement; existing risk upgrade and task structure preserved. Current canonical edition frozen at e8566c2c7 with exact Git blob/byte proof; this does not restore historical byte-equality credit for authorized 2026-10-18 edits.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -393,10 +417,22 @@
         ]
       },
       "evidence": {
-        "kind": "user-authorized-evidence-first-acceptance-protocol",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "kind": "current-canonical-template-source-snapshot",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
         "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-        "lineCount": 75
+        "lineCount": 75,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
+          "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+          "sourceGitObject": "7a4aef174d3db4c75b7a55e3cee47d857fcc63d8",
+          "sourceSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+          "sourceBytes": 3471,
+          "sourceLines": 75,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+          "exactRoundTrip": true
+        }
       },
       "history": [
         {
@@ -410,6 +446,18 @@
           "action": "R58 template source artifact envelope",
           "reviewer": "r58_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Freeze-current-approved-template-edition-with-actual-Git-byte-proof",
+          "previousEvidence": {
+            "kind": "user-authorized-evidence-first-acceptance-protocol",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+            "lineCount": 75
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
+          "scope": "Current e856 canonical bytes only; authorized 2026-10-18 edits are historical deltas, NOT unchanged against 2026-10-17 original."
         }
       ],
       "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
@@ -453,7 +501,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation."
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation."
     }
   ]
 }

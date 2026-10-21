@@ -7,8 +7,8 @@ import { extractCharacterSprites } from './sprite.js'
 describe('extractCharacterSprites', () => {
   it('给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧', () => {
     const fakeMgoChunks = new Map<number, Uint8Array>()
-    const emptySpriteChunk = new Uint8Array(4)
-    new DataView(emptySpriteChunk.buffer).setUint16(0, 0, true) // frameCount=0
+    // 一个 WORD 的空索引表：SDLPal 的帧数是表项数减一，即 0。
+    const emptySpriteChunk = Uint8Array.of(1, 0)
     fakeMgoChunks.set(78, emptySpriteChunk)
 
     const result = extractCharacterSprites([78], fakeMgoChunks)
@@ -19,23 +19,21 @@ describe('extractCharacterSprites', () => {
 
   it('未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const result = extractCharacterSprites([999], new Map())
-    expect(result).toHaveLength(0)
-    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('sprite 999'))
-    warnSpy.mockRestore()
+    try {
+      const result = extractCharacterSprites([999], new Map())
+      expect(result).toHaveLength(0)
+      expect(warnSpy).toHaveBeenCalledTimes(1)
+      expect(warnSpy).toHaveBeenCalledWith('[pal-extract] sprite 999: MGO.MKF chunk 未找到,skip')
+    } finally {
+      warnSpy.mockRestore()
+    }
   })
 })
 
 /**
- * M3.5 T5 sanity:cli.ts sprite 提取 loop scene chain(SLICE_SCENE_IDS = [1, 14, 17])
- *
- * 不重跑 cli(慢 + 依赖 data/raw 原盘);直接读已 dump 产物 verify:
- *  - 跨 scene union 真覆盖了仙靈島碼頭(14) + 仙靈島入口(17),不是只 scene 1
- *  - 同 spriteId 在多 scene 出现仅产一份(Set dedup)
- *  - 每个 EventObject.spriteNum(非 0)都有对应 canonical `data/sprite/NN.rle`
- *
- * data/extracted/ 是 gitignored —— 没跑过 `pnpm extract` 的 clean checkout 直接 skip + warn,
- * 不 block pnpm check(同 D29 tilemap-baseline.test.ts 套路)。
+ * 既有生成物连通性：三个场景引用的非零 sprite 都有 canonical .rle 文件。
+ * 本用例不执行 CLI，不能证明提取器的 union、去重、读取次数或像素内容。
+ * Set 只用于汇总待查 id；产物缺失必须失败，不能把提前 return 计作通过。
  */
 describe('M3.5 T5 character sprite extraction loops scene chain', () => {
   const HERE = dirname(fileURLToPath(import.meta.url))
@@ -44,14 +42,9 @@ describe('M3.5 T5 character sprite extraction loops scene chain', () => {
   const DATA_DIR = resolve(REPO_ROOT, 'data/extracted/data')
   const SLICE_SCENE_IDS = [1, 14, 17] as const
 
-  it('union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump', () => {
+  it('既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物', () => {
     const sceneFiles = SLICE_SCENE_IDS.map((id) => resolve(DATA_DIR, 'scene', `${id}.json`))
-    if (sceneFiles.some((f) => !existsSync(f))) {
-      console.warn(
-        `[M3.5 T5 skip] data/extracted/data/scene/{1,14,17}.json 缺失 —— 跑 \`pnpm extract\` 后启用`,
-      )
-      return
-    }
+    expect(sceneFiles.every(existsSync), '需要既有场景产物；本用例不会执行提取').toBe(true)
 
     // 1) 跨 scene union EventObject.spriteNum(>0)+ dedup
     const unionSpriteNums = new Set<number>()
@@ -69,7 +62,7 @@ describe('M3.5 T5 character sprite extraction loops scene chain', () => {
     expect(perScene[17]!.length).toBeGreaterThan(0)
     // 仙靈島碼頭(scene 14)真有 EventObject
     expect(perScene[14]!.length).toBeGreaterThan(0)
-    // union 至少比 scene 1 单独 strict 多(verify 真合并,不是覆盖)
+    // 固定三个场景的引用集合确实比场景1大，不认证提取器如何生成这些文件。
     expect(unionSpriteNums.size).toBeGreaterThan(perScene[1]!.length)
 
     // 2) canonical sprite/*.rle 文件名解出已 dump 的 sprite id 集合
@@ -79,8 +72,7 @@ describe('M3.5 T5 character sprite extraction loops scene chain', () => {
         .map((f) => parseInt(f.match(/(\d+)\.rle/)![1]!, 10)),
     )
 
-    // 3) verify EventObject.spriteNum 全部都有对应 sprite/*.rle
-    //    (cli.ts 提取 loop union 真覆盖 + 同 id 不重复 fetch + 全产出)
+    // 3) 只核已有产物能覆盖引用，不观察CLI执行。
     const missing: number[] = []
     for (const id of unionSpriteNums) {
       if (!dumpedIds.has(id)) missing.push(id)

@@ -13,7 +13,7 @@
 // OBJECT 表布局（SSS chunk2，551×14B；parsers/_utils.ts）：
 //   item  id 61..295 base=id*14：scriptOnUse@4 / scriptOnEquip@6 / scriptOnThrow@8 / scriptDesc@10
 //   spell id 296..397：scriptOnSuccess@4 / scriptOnUse@6 / scriptDesc@10
-//   enemy obj 398..550：enemyId@0（1-based 指 DATA chunk1）/ resist@2 / turnStart@4 / battleEnd@6 / ready@8
+//   enemy obj 398..550：enemyId@0（直接索引 DATA chunk1，无减一）/ resist@2 / turnStart@4 / battleEnd@6 / ready@8
 //   player obj 36..41：scriptOnFriendDeath@4 / scriptOnDying@6
 
 import { encodeSpriteChunk } from '@type-pal/shared'

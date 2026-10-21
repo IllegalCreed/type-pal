@@ -39,6 +39,7 @@ import type { Symbols } from './events/annotate.js'
 import { annotate, parseSymbols } from './events/annotate.js'
 import { disasm } from './events/disasm.js'
 import { recompile } from './events/recompile.js'
+import { collectScriptEntries } from './events/script-entries.js'
 import { sliceByScene } from './events/slice.js'
 import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
 import { chunkCount, openMkf, readChunk } from './io/mkf.js'
@@ -152,24 +153,9 @@ function magicFireBlobPath(chunkIdx: number): string {
   return resolve(OUT, 'data', 'magic', `fire-${chunkIdx.toString().padStart(2, '0')}.rle`)
 }
 
-/**
- * Build path to `data/{subdir}/{name}.json`. The `name` parameter MAY contain
- * `/` to nest one more level — e.g. `dataSubdirPath('battle-sprite', 'enemy/5')`
- * resolves to `data/battle-sprite/enemy/5.json`. `mkdirSync({ recursive: true })`
- * inside `writeJson` handles the nested mkdir.
- *
- * `'font'` subdir is forward-compat for P4 T2(BDF→JSON glyph 表),目前未使用。
- */
+/** Internal JSON destinations used by this entrypoint; writeJson owns directory creation. */
 function dataSubdirPath(
-  subdir:
-    | 'tilemap'
-    | 'scene'
-    | 'sprite'
-    | 'palette'
-    | 'battle-sprite'
-    | 'font'
-    | 'ui-sprite'
-    | 'magic-sprite',
+  subdir: 'tilemap' | 'scene' | 'palette' | 'ui-sprite',
   name: string,
 ): string {
   return resolve(OUT, 'data', subdir, `${name}.json`)
@@ -228,50 +214,21 @@ async function main(): Promise<void> {
   // ── 事件管线(全量) ─────────────────────────────────────────────
   console.log('[pal-extract] events …')
 
-  // 收集所有入口 ip(可能未被任何跳转指向,但运行时要从此进入,需打 label)。
-  // M5.6 audit 第 3 漏洞修:items/spells/enemyObjects 的 scriptOn* 也加进来,
-  // 否则 disasm 不会给这些命令打 L_ 标签,runtime 无法按 label 查 ip。
-  // (parse items/spells/enemyObjects 见下面 globalScriptEntries 收集段。)
+  // Parse shared OBJECT tables once; their hooks are roots even without a scene reference.
   const sssObjBuf = loadMkfChunk('SSS.MKF', 2)
   const items = parseItems(sssObjBuf, words)
   const spells = parseSpells(sssObjBuf, words)
   const enemyObjects = parseEnemyObjects(sssObjBuf, words)
   const objectPlayers = parseObjectPlayers(sssObjBuf)
 
-  const globalScriptEntries: number[] = []
-  for (const it of items) {
-    if (it.scriptOnUse > 0) globalScriptEntries.push(it.scriptOnUse)
-    if (it.scriptOnEquip > 0) globalScriptEntries.push(it.scriptOnEquip)
-    if (it.scriptOnThrow > 0) globalScriptEntries.push(it.scriptOnThrow)
-    if (it.scriptDesc > 0) globalScriptEntries.push(it.scriptDesc)
-  }
-  for (const sp of spells) {
-    if (sp.scriptOnUse > 0) globalScriptEntries.push(sp.scriptOnUse)
-    if (sp.scriptOnSuccess > 0) globalScriptEntries.push(sp.scriptOnSuccess)
-    if (sp.scriptDesc > 0) globalScriptEntries.push(sp.scriptDesc)
-  }
-  for (const eo of enemyObjects) {
-    if (eo.scriptOnTurnStart > 0) globalScriptEntries.push(eo.scriptOnTurnStart)
-    if (eo.scriptOnBattleEnd > 0) globalScriptEntries.push(eo.scriptOnBattleEnd)
-    if (eo.scriptOnReady > 0) globalScriptEntries.push(eo.scriptOnReady)
-  }
-  for (const op of objectPlayers) {
-    if (op.scriptOnFriendDeath > 0) globalScriptEntries.push(op.scriptOnFriendDeath)
-    if (op.scriptOnDying > 0) globalScriptEntries.push(op.scriptOnDying)
-  }
-
-  const entryIps: number[] = []
-  for (const sc of sss.scenes) {
-    if (sc.scriptOnEnter > 0) entryIps.push(sc.scriptOnEnter)
-    if (sc.scriptOnTeleport > 0) entryIps.push(sc.scriptOnTeleport)
-  }
-  for (const eo of sss.eventObjects) {
-    if (eo.triggerScript > 0) entryIps.push(eo.triggerScript)
-    if (eo.autoScript > 0) entryIps.push(eo.autoScript)
-  }
-  // M5.6 audit 第 3 漏洞修:把 items/spells/enemyObjects scripts 加进 disasm entryIps,
-  // 给它们的入口指令打 L_<ip> 标签,runtime 才能查表。
-  entryIps.push(...globalScriptEntries)
+  const { entryIps, globalScriptEntries } = collectScriptEntries({
+    scenes: sss.scenes,
+    eventObjects: sss.eventObjects,
+    items,
+    spells,
+    enemyObjects,
+    objectPlayers,
+  })
 
   const rawCommands = disasm(sss.bytecode, messages, entryIps)
 
@@ -293,11 +250,8 @@ async function main(): Promise<void> {
   writeJson(resolve(OUT, 'events', 'shared.json'), sliced.shared)
   writeJson(resolve(OUT, 'events', 'objects.json'), sliced.objects)
 
-  // 全局脚本数组(对应 sdlpal 单一 lprgScriptEntry)。annotated 是未切片的全量命令,索引 = 全局
-  // script entry。runtime 把它当**兜底来源**:trigger/autoScript/call 的 label 在 per-scene /
-  // shared 切片找不到时(跨 scene 设的脚本指针,eg. scene-3 `0x25 [20,560]` 把 scene-1 李大娘
-  // trigger 设到 L_560 —— L_560 只切到 scene-3),回退全局数组解析。label = `L_<全局 entry>`,
-  // 全局 labelMap 在 runtime 由索引直接建(L_<i> → i),故这里只 dump commands。
+  // Production cursors default to this full array (script-catalog.ts::getCmds).
+  // Keep global indices/labels; per-scene/shared files remain separate extraction outputs.
   writeJson(resolve(OUT, 'events', 'all.json'), {
     segments: [{ name: 'all', commands: annotated }],
   })
@@ -422,7 +376,7 @@ async function main(): Promise<void> {
 
   // chunk 7/8 空(0 字节);DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
 
-  // M4 P2 T4 → M5.6:RNG/RGM/BALL 均改 PNG 解码(RNG 逐帧 + RGM/BALL 图标),不再 raw dump;FIRE sprite manifest ──
+  // RNG/FIRE保留压缩blob与帧清单；RGM/BALL解码为索引PNG。
   // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。
 
   // RNG.MKF: 12 chunks, 每 chunk 是 sub-MKF + RLE delta 动画帧(rngplay.c)
@@ -613,7 +567,7 @@ async function main(): Promise<void> {
   // sdlpal main.c:42-43:  #define BITMAPNUM_SPLASH_UP (gConfig.fIsWIN95 ? 0x03 : 0x26)
   //                       #define BITMAPNUM_SPLASH_DOWN (gConfig.fIsWIN95 ? 0x04 : 0x27)
   // 读取方式:PAL_MKFReadChunk(raw) → Decompress(=YJ2 for WIN95) → 320×200 raw indexed。
-  // 注:battle bg 循环已把 chunk 3/4 写到 images/battle/bg/003.png + 004.png;
+  // 注:后面的battle bg循环也会把chunk 3/4写到images/battle/bg/003.png + 004.png;
   //     这里单独写到 images/splash/ 便于 M5/M6 直接消费标题画面。
   {
     const splashFbpMkf = openMkf(loadFile('FBP.MKF'))
@@ -711,8 +665,7 @@ async function main(): Promise<void> {
     )
   }
 
-  // M4 P3.T4+T5: 全 295 scene dumpScene 结果 hoisted — T5 写 JSON,T4 复用 sceneObjs 做 sprite union。
-  const sceneObjsBySliceId = new Map<number, ReturnType<typeof dumpScene>>()
+  // Scene objects are written independently; MGO extraction below scans the complete archive.
   {
     let sceneWritten = 0
     // 从 0 起:scene 文件是 0-based(见 CLAUDE.md「scene/N.json 0-based」),scene 0 = 开场梦境
@@ -723,7 +676,6 @@ async function main(): Promise<void> {
       const s = sss.scenes[allSceneId]
       if (!s) continue
       const sceneObjs = dumpScene(allSceneId, sss.scenes, sss.eventObjects)
-      sceneObjsBySliceId.set(allSceneId, sceneObjs)
       writeJson(dataSubdirPath('scene', String(allSceneId)), sceneObjs)
       sceneWritten++
     }
@@ -760,7 +712,7 @@ async function main(): Promise<void> {
   //          → cutscene-only sprite(opcode 0x65 setPlayerSprite 切换的主角 pose group,如 sprite 627 = 李逍遥
   //          躺/起/抱胸/大侠 4 帧 pose)从未在 scene 静态字段出现,被完全漏掉 — 97 个 MGO chunk 缺失。
   // 修法:dump first,filter never。MGO.MKF 全 637 chunks 都尝试解;空 / YJ2 fail chunk 防御 skip。
-  // 体积代价:540 → ~637 个 sprite JSON + per-frame PNG,可接受(单 sprite 几 KB)。
+  // Each accepted chunk is written as a gzip RLE blob; no per-frame PNG or sprite JSON.
   console.log('[pal-extract] character sprites: 全 MGO.MKF chunks (dump-all, no filter) …')
 
   const mgoMkf = openMkf(loadFile('MGO.MKF'))

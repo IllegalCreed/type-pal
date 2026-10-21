@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-10-21
+Last reviewed: 2026-10-22
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,8 +17,26 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,327。
-当前已闭合核验：330；已读但待审：129；尚未逐文件核验：2,868；合计未闭合：2,997。
+2026-10-22 CLI/事件窗口收口：五文件明确范围接受（4新关闭+boundaries撤回后重验1），另3旧关闭维持撤review，相对窗口前净增1closed。全check20392与单次官方ratchet/protected19994零诊断；CLI/其它slice测试仍review，CODE3/3g仍partial。[唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。
+
+2026-10-21提取四卡窗口：3b/3d/3f原合同接受、3g仅测试宿主切片，83卡56accept/27partial。17文件当前逐项接受，其中12未闭合转已验证、5既有关闭刷新不重复计数；此前两PNG漂移撤回已单记，sprite.ts整文件仍review。全check20390、ratchet/protected各19992零诊断；SSS删4条已覆盖临时语句按精确授权重算，测试/范围不删。当前3336/355/120/2861以机器实核。[统一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json)。
+
+2026-10-21 CODE3d窄对账：既有README已经明确撤回sprite.ts与sprite.boundaries.test.ts，live却仍旧已验证行；两项按直接撤回记录恢复review，非本轮新增产品缺陷。当前343closed/126review，后继具体合同完成后再逐项接受。
+
+2026-10-21用户要求多卡集中重门：CODE3b/3d/3f/3g合为同一窗口，新增CLI测试宿主及其3合同测试两路径先登记review，未关闭；6+4+3+5当前文件八维与必要返工/反控已登记，full gates仍待。原53accept/30partial不随包绿变化。[四卡原件入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json)。
+
+2026-10-21 shared CODE2/2b：11文件逐项八维与既有native适用性成立，6review转已验证、5既有关闭重新核当前信用且不重复计数。RNG重复17→16保留强oracle；YJ2新增独立归约单红后恢复，解码正文不变。shared114/extract18/game31、20386check、official ratchet/protected各19988全部零诊断；当前3334/345/122/2867由机器复核。O-5为原卡支持域限制，不新增尺寸cap；RLE与广域caller不附带关闭。[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json)。
+
+2026-10-21 CODE59/60模块收口：九文件逐项A–H及quick-save主测既有八维/反控成立，10review转已验证；quick-save.ts既有关闭不重复计数。原10红/历史2红/角色4红与finite单红保留；52相邻、20386全仓check、19988 official ratchet/protected均零诊断，未降baseline或改规则。当前3333/339closed/126review/2868pending由机器复核；其余pre94与广域Save/IDB/面板不附带关闭。[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
+
+2026-10-21 V1结构候选：4纯守卫+2历史fixture新增，连同data.ts已有类型合同共7pending登记review，0新关闭。96字段/历史非空/角色域、冻结52相邻绿、finite单红和5次原生FileReader/独立IDB证据见[V1入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。当前329/136/2868由机器核对，最终统一门仍待。
+
+2026-10-21已批准Save内部类型分离：新增data.ts仅定义JSON数据/快照，与四既有caller模块编译正文不变。新增路径保持pending，0新关闭；329/129/2869由机器核对。19定向/相邻与typecheck零诊断，不授完整内容校验信用，详见[五文件有限A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json)。
+
+2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
+
+起始基点机器清单：2,962。当前 tracked 清单：3,338。
+当前已闭合核验：356；已读但待审：126；尚未逐文件核验：2,856；合计未闭合：2,982。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -64,28 +82,37 @@ Template: governance-index-v1 / 1.0.0
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/shared/src/__tests__/yj2-rescale.json` | fixture | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/pal-extract/src/io/yj2.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/game/src/tools/__fixtures__/save-v1-store-v2-nested.json` | fixture | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/tools/__fixtures__/save-v1-store-v2.json` | fixture | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/core/save/v1.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/core/save/v1-battle.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/core/save/v1-world.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/core/save/v1-shape.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/core/save/data.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
 | `packages/game/src/core/menu/__tests__/magic-cost-fixture.ts` | fixture | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |
 | `packages/game/src/core/menu/__tests__/inventory-menu.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |
 | `packages/shared/src/rle.ts` | product | review | [CODE1撤回与本次独立校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md) | c727bc81e已撤回；89bf84e16合并旧live表导致状态漂移，本次恢复review；格式/注释/整卡与统一门未收口 |
 | `packages/shared/src/rle.test.ts` | test | review | [CODE1撤回与本次独立校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md) | c727bc81e坏帧catch补证不构成关闭；本次恢复review，51定向通过只证明指定合同，八维整改未收口 |
 | `packages/shared/src/rle.boundaries.test.ts` | test | review | [pre-94 CODE1 RLE复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md)；strict framing、相邻 offset 截断反例 | 新增前一帧帧头截断合同；注释/整卡/统一门仍待，不计 closed |
 | `packages/shared/src/rle.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-1；真实 runtime resource caller | 宽容入口合同 |
-| `packages/shared/src/mkf.ts` | product | 已验证 | CODE-QUALITY-2；raw 2,373 chunks、shared 全包、全仓门 | offset table 边界 |
-| `packages/shared/src/mkf.boundaries.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2原补证已撤回review；整数索引/借用视图反控已登记，整文件/统一门仍待 |
-| `packages/shared/src/rng.ts` | product | 已验证 | CODE-QUALITY-2；raw 1,464 frames、shared 全包、全仓门 | payload/surface 边界 |
-| `packages/shared/src/rng.boundaries.test.ts` | test | review | [pre-94 CODE2 MKF/RNG复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；opcode payload/surface 与连续 delta surface ownership | 新增同一 surface 连续 delta 累加合同；不扩展 runtime 语义，整卡/统一门仍待 |
+| `packages/shared/src/mkf.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/shared/src/mkf.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/shared/src/rng.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/shared/src/rng.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | CODE-QUALITY-1b；collector 直接结果与历史提交证据 | 仅更新过期 oracle |
-| `packages/pal-extract/src/events/annotate.ts` | product | 已验证 | CODE-QUALITY-3a + Q3f；typed annotation 与 symbols sidecar boundary、全仓 gates | Q3f done |
-| `packages/pal-extract/src/events/annotate.test.ts` | test | review | [CODE3/3f既有明文撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)；[83卡范围对账](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json) | 当前SHA与撤回证据精确相同；恢复既有review，不冒称本次重审/重跑或新增语义失败 |
-| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | review | [CODE3/3f既有明文撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)；[83卡范围对账](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json) | 当前SHA与撤回证据精确相同；恢复既有review，不冒称本次重审/重跑或新增语义失败 |
-| `packages/pal-extract/src/events/slice.ts` | product | 已验证 | CODE-QUALITY-3a；BFS/recompile round-trip、全包、全仓门 | typed visitor boundary |
-| `packages/pal-extract/src/events/slice.test.ts` | test | 已验证 | CODE-QUALITY-3a；scene/global/shared 合同 | 不以 coverage 单独验收 |
-| `packages/pal-extract/src/events/slice.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3a；切分边界反例 | 真实 caller |
-| `packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-3a；真实资源 slice 合同 | 不改生成物 |
-| `packages/pal-extract/src/io/msg.ts` | product | 已验证 | CODE-QUALITY-3b；offset 越界/倒序 34/34，pal-extract/full check、ratchet、protected fast | Q3b done |
-| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；越界/倒序反例 | Q3b done |
-| `packages/pal-extract/src/io/sss.ts` | product | 已验证 | CODE-QUALITY-3b；chunk2/3/4 对齐反例，真实 SSS，全包/check/ratchet/protected | Q3b done |
-| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；结构未对齐 34/34 | Q3b done |
+| `packages/pal-extract/src/events/annotate.ts` | product | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/events/annotate.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/events/slice.ts` | product | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体A–H/风险与反控；本窗统一门已过，未修语义及未知合同仍不授关闭 |
+| `packages/pal-extract/src/events/slice.test.ts` | test | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体A–H/风险与反控；本窗统一门已过，未修语义及未知合同仍不授关闭 |
+| `packages/pal-extract/src/events/slice.boundaries.test.ts` | test | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |
+| `packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts` | test | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体A–H/风险与反控；本窗统一门已过，未修语义及未知合同仍不授关闭 |
+| `packages/pal-extract/src/io/msg.ts` | product | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/io/sss.ts` | product | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
 | `packages/shared/package.json` | product | 已验证 | shared check/typecheck；仅 workspace 元数据 | 无运行时逻辑 |
 | `packages/shared/tsconfig.json` | product | 已验证 | shared typecheck；编译边界 | 无产品行为 |
 | `packages/shared/src/events.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
@@ -95,8 +122,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/resources.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
 | `packages/shared/src/rle-encode.ts` | product | 已验证 | encode roundtrip、独立 byte oracle、128KB guard | 与 RLE decoder 合同一致 |
 | `packages/shared/src/tables.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
-| `packages/shared/src/yj2.ts` | product | 已验证 | CODE-QUALITY-2b；2,626 raw chunks / 34,367,608B 逐字节一致，位流/回引边界与反控 | Q2b done |
-| `packages/shared/src/__tests__/glm-foundation-fixtures.ts` | test | 已验证 | YJ2/MKF/RNG 固定向量直接被 shared tests 消费 | test-only fixture |
+| `packages/shared/src/yj2.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/shared/src/__tests__/glm-foundation-fixtures.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/shared/src/__tests__/public-contracts.ts` | test | review | [编译合同与旧用例映射](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 14个类型/本地fixture运行时用例转编译检查；缺flags反控已证；统一门仍待 |
 | `packages/shared/src/index.test.ts` | test | 已验证 | timing constants contract | 公共常量 oracle |
 | `packages/shared/src/pal-map-names.test.ts` | test | 已验证 | 222 entries/hash/undefined gaps | authored fixture oracle |
@@ -104,10 +131,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/rle-encode.glm-runtime-resource.test.ts` | test | 已验证 | 真实 runtime resource encoder contract | caller oracle |
 | `packages/shared/src/rle-encode.test.ts` | test | 已验证 | encoder/decoder roundtrip、128KB guard | 合法输入合同 |
 | `packages/shared/src/rle.glm-o.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2b四条YJ2重复退役时旧关闭已撤回；本批仅作YJ2相邻原生结果，不授整文件八维accept |
-| `packages/shared/src/rng.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2原退役/合同迁移时已撤回review；阶段1只改相邻注释，不构成重新关闭 |
-| `packages/shared/src/yj2.boundaries.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2b明确保持review；独立树归约向量仍待，本批引用修正不解除旧counter |
-| `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
-| `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |
+| `packages/shared/src/rng.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/pal-extract/src/resources/sprite.ts` | product | review | [CODE3d原明文撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md)；[当前逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 原回执已撤关闭但live仍旧行；按结果漂移恢复review，当前同窗最终门前不升格 |
+| `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
 | `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |
 | `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | 已验证 | CODE-QUALITY-3c；缺帧动画时序合同与 fallback mutant 反控 | Q3c done |
 | `packages/pal-extract/src/resources/parsers/_utils.ts` | product | 已验证 | 直接读取 layout 常量与 u16/s16 helper；所有 parser callers、typecheck | 纯布局 helper |
@@ -132,7 +159,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/io/mkf.ts` | product | 已验证 | shared MKF re-export、2,373 raw chunks、shared check | 无重复 codec |
 | `packages/pal-extract/src/io/rle.ts` | product | 已验证 | shared RLE re-export、extractor callers | 无重复 codec |
 | `packages/pal-extract/src/io/word.ts` | product | review | [WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)；真实CLI/MSG/SDL与raw词条、11组新旧回归 | 修CASH/特殊词条注释、私有名与重复解码；flat/分类短输入策略及公共scenes字段保持，旧关闭不继承 |
-| `packages/pal-extract/src/io/yj2.ts` | product | 已验证 | shared YJ2 re-export、2,626 raw segments | 无重复 codec |
+| `packages/pal-extract/src/io/yj2.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/pal-extract/src/resources/asset-manifest.ts` | product | 已验证 | manifest determinism/DS_Store/self exclusion tests、CLI caller | path/version pure contract |
 | `packages/pal-extract/src/resources/battle-sprite.ts` | product | 已验证 | kind/id composite key、missing chunk skip、PNG callers/tests | 不混 enemy/player identity |
 | `packages/pal-extract/src/resources/enemy-pos.ts` | product | 已验证 | 100B fixed table/signed layout boundary tests、CLI caller | layout transpose explicit |
@@ -140,8 +167,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/palette.ts` | product | 已验证 | VGA/night color pins、short-input宽容既有合同、CLI caller | 不改变 palette mapping |
 | `packages/pal-extract/src/resources/scene.ts` | product | 已验证 | scene range dump/real resource tests、CLI caller | dense scene bounds |
 | `packages/pal-extract/src/resources/tables.ts` | product | 已验证 | parser barrel exports、all table callers/typecheck | 无运行时实现 |
-| `packages/pal-extract/src/cli.ts` | product | rework | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
-| `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | review | [C1共享输出反控](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md)；公开CLI子进程、symlink/marker/exit oracle | 新增OUT根与data父symlink两个轴；定向9/9、相邻包72/434通过；仍保留review，未以全绿自动关闭 |
+| `packages/pal-extract/src/cli.ts` | product | rework | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体A–H/风险与反控；本窗统一门已过，未修语义及未知合同仍不授关闭 |
+| `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
 | `packages/pal-extract/src/output-boundary.ts` | product | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；25行全文、CLI及视频两真实caller、lstat合同 | 只纠正raw另检的失实注释；两输出节点守卫执行不变，不认证所有子项/TOCTOU |
 | `packages/pal-extract/src/output-boundary.test.ts` | test | review | [C1输出所有权合同](../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)；prepareOutputRoot 与真实临时 symlink/marker oracle | 3 个合法/拒绝合同；不以独立单元绿灯替代 CLI 全链和统一门 |
 | `packages/content/src/asset.ts` | product | 已验证 | 直接读取 AssetCatalog/path/origin/role closure validators 与 1490 content tests/full check | 保持 stable AssetId/path ownership |
@@ -218,7 +245,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；70行全文、真实缩放/全屏/FPS输入 | 全屏/FPS拆职责；共用宿主恢复监听/音源/偏好与单例，正式合计19tests；新统一门未运行 |
 | `packages/game/src/tools/tools-panel.test-fixtures.ts` | fixture | 已验证 | [CODE58共用宿主](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；89行全文、两公开test caller、跨例旧19绿1AssertionError→新21绿 | 稳定合法初态/typed依赖；call-through监听精确解绑、timer/rAF/controller/DOM/storage/singleton清理；不改生产API |
 | `packages/game/src/tools/quick-save.ts` | product | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；bootstrap setupQuickSave真实注入、Save API/IDB caller、quick-save/toast tests | F5/F9 时机门、preventDefault、错误反馈、SSR no-op、disposer 与依赖 ownership 逐文件核验；无直接缺陷 |
-| `packages/game/src/tools/quick-save.test.ts` | test | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；真实 GameState/KeyboardEvent、save/load/toast oracle 与 finally 清理 | 8 tests；E-13 `as never` 夹具已移除，异步失败/空槽/解绑/计时器和 DOM 隔离均有判别力；无重复 toast 原语断言 |
+| `packages/game/src/tools/quick-save.test.ts` | test | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
 | `packages/game/src/core/save/api.ts` | product | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；Save API 双路径 caller、MAX_SAVE_SLOTS=5、内存/IndexedDB 边界 | 已完整读取；NaN/无穷/小数只通过范围守卫，双路径输入合同未裁决；见 GAME-SAVE-INPUT-DOMAIN-1，禁止实现或标已验证 |
 | `packages/game/src/core/save/indexed-db.ts` | product | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；真实事务测试、IndexedDB 生命周期与公共 Save caller | 事务 complete/abort 由 GAME-SAVE-IDB-COMMIT-1 维护；open 失败缓存与 db.close 生命周期仍缺主路径证据，保持 review |
 | `packages/game/src/core/save/__tests__/api.test.ts` | test | review | [补审漏迁修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；完整Save实现/9合同、真实caller及双向克隆oracle | 六类字段roundtrip、独立读侧深克隆、原存侧保留；显式内存环境/前后清理；双路径输入/IDB生命周期仍待 |
@@ -495,9 +522,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/follower-render.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/draw-tilemap.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |
 | `packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |
-| `packages/game/src/tools/save-io.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
-| `packages/game/src/tools/save-io.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
-| `packages/game/src/tools/save-import-quicksave.glm-msio.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/tools/save-io.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/tools/save-io.test.ts` | test | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
 | `packages/game/src/analytics/analytics-consent-ui.ts` | product | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `packages/game/src/analytics/analytics-consent-ui.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `packages/game/src/core/inspect/battle-inspect.ts` | product | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
@@ -523,6 +549,21 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/shell/audio-midi.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收；本轮[仅注释/纯URL接线增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)复核，原范围accept保留 |
 | `packages/game/src/shell/audio-midi.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收；本轮[仅注释/纯URL接线增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)复核，原范围accept保留 |
+| `packages/pal-extract/src/__tests__/cli-host.ts` | fixture | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/__tests__/cli-host.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/io/sss.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/io/msg.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/resources/sprite.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/cli-isolated.glm-q.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/cli-font-lookup.glm-q.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/events/script-entries.ts` | product | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |
+| `packages/pal-extract/src/events/script-entries.test.ts` | test | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |
+| `packages/pal-extract/src/cli-battle-assets.glm-q.test.ts` | test | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |
+| `packages/pal-extract/src/cli-global-entries.glm-q.test.ts` | test | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |
+| `packages/pal-extract/src/events/slice.kimi-r1.test.ts` | test | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体八维缺口维持review；不以统一门全绿或新路径自动关闭 |
+| `packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts` | fixture | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体八维缺口维持review；不以统一门全绿或新路径自动关闭 |
+| `packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts` | fixture | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体八维缺口维持review；不以统一门全绿或新路径自动关闭 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

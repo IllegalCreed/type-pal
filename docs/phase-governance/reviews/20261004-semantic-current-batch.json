@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read current mobile card and exact board/index diff; no whole-product or unrelated-task reacceptance",
+      "readMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Mobile layout accepted by user; explicit touch visibility switch and standard Gamepad adapter added with typed input tests. Actual gamepad hardware remains unverified; no official coverage or release acceptance.",
+      "coreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "User reviews mobile prototype; gamepad/physical phone and final integration checks remain separate.",
+      "nextStep": "Complete official coverage and CI before merge and issue closure.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "0dd2ff2b69e6b94f60a8a7c75d1883627a6fab34599c1745dddc2c332e3f995f",
+      "afterSha256": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -503,9 +503,9 @@
         "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
-        "currentSha": "0dd2ff2b69e6b94f60a8a7c75d1883627a6fab34599c1745dddc2c332e3f995f",
-        "implementationSha": "0dd2ff2b69e6b94f60a8a7c75d1883627a6fab34599c1745dddc2c332e3f995f",
-        "contentVersion": 32,
+        "currentSha": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
+        "implementationSha": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
+        "contentVersion": 42,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -1645,27 +1645,11 @@
             "previousAfterSha256": "6b9d75f16f7b61ac820787cb44fcf79ad2426fcb3e19580181576ba72dd40212",
             "afterSha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "date": "2026-10-22",
-            "revision": "92e901806 + working tree codex/game-mobile-layout",
-            "action": "Add user-directed mobile layout prototype in review; preserve all unrelated task states",
-            "previousAfterSha256": "09e960889530189805a87f0dea6f5e3e00461a09d42117ad57c23f258c99d6b5",
-            "scope": "Only GAME-MOBILE-LAYOUT-1 row; actual six-key overlay and reduced tools, browser/runner self-check boundaries in card. No phase2/gamepad/deployment or official coverage acceptance.",
-            "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
-          },
-          {
-            "date": "2026-10-22",
-            "revision": "working tree codex/game-mobile-layout",
-            "action": "Record user layout acceptance and touch switch / standard gamepad self-test",
-            "previousAfterSha256": "d88f477bc15c89e81b036ed0b289befef0217e40077bf63493357dd973b609d7",
-            "scope": "Only mobile row; standard adapter is code/simulated input acceptance, not real hardware acceptance",
-            "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
           }
         ]
       },
       "evidence": {
-        "kind": "scoped-mobile-task-navigation-delta",
+        "kind": "mobile-software-integration-scoped-review",
         "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
       },
       "history": [
@@ -1990,33 +1974,135 @@
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
         },
         {
-          "date": "2026-10-22",
-          "revision": "92e901806 + working tree codex/game-mobile-layout",
-          "action": "Add user-directed mobile layout prototype in review; preserve all unrelated task states",
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-tools-intermediate",
           "previousAfterSha256": "09e960889530189805a87f0dea6f5e3e00461a09d42117ad57c23f258c99d6b5",
-          "scope": "Only GAME-MOBILE-LAYOUT-1 row; actual six-key overlay and reduced tools, browser/runner self-check boundaries in card. No phase2/gamepad/deployment or official coverage acceptance.",
-          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
-          "previousEvidence": {
-            "kind": "input-audio-closeout-scoped-current-source-review",
-            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
-            "afterSha256": "09e960889530189805a87f0dea6f5e3e00461a09d42117ad57c23f258c99d6b5",
-            "lineCount": 92
-          },
-          "previousCoreConclusion": "CODE73/74 approved direction fix and legacy retirement, scoped MIDI URL reuse; current49accept/34partial. Gates/raw/limits in current receipt; CODE59 approved draft registration only,not save build acceptance; no94-102 expansion."
+          "afterSha256": "f9a07e26880f3a500449a10d50fe5fedc7cca839d511813a18bc8f670a6e1bd3",
+          "scope": "Only CODE59 contract and CODE60 intermediate test-quality progress;49accept/34partial unchanged, no product build or module gate acceptance. Unrelated body retained by fixed Git.",
+          "limits": "Only named save-tools status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-cash-limited-build",
+          "previousAfterSha256": "f9a07e26880f3a500449a10d50fe5fedc7cca839d511813a18bc8f670a6e1bd3",
+          "afterSha256": "fc9e0fcb4ceaa7d8f26c6dd7992e30d74067054356b5c022f3698e286266c3d1",
+          "scope": "Only authorized finite cash build/result and remaining V1 contract status;49accept/34partial unchanged, no whole-card/merged or module-gate acceptance. Unrelated body retained by fixed Git.",
+          "limits": "Only named finite-cash status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "fc9e0fcb4ceaa7d8f26c6dd7992e30d74067054356b5c022f3698e286266c3d1",
+          "afterSha256": "3196733db5c393e9bb8488c7c9fd96eddee6cfc53e459b5aed4f977207038c72",
+          "scope": "Only approved V1 structure/nativeFileReader candidate progress;49accept/34partial unchanged,no whole-card/merged/module-gate acceptance. Unrelated body retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "3196733db5c393e9bb8488c7c9fd96eddee6cfc53e459b5aed4f977207038c72",
+          "afterSha256": "e90c3567565575eba2e4066730f785e422180738f68019ae498952ac329dd495",
+          "scope": "Only approved V1 structure/nativeFileReader candidate progress;49accept/34partial unchanged,no whole-card/merged/module-gate acceptance. Unrelated body retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-closeout",
+          "previousAfterSha256": "e90c3567565575eba2e4066730f785e422180738f68019ae498952ac329dd495",
+          "afterSha256": "50e93e3ecf59bc44d3ab0b172c792141f0796ca08983ca17902264d1894cf060",
+          "scope": "Only approved V1 structure/nativeFileReader final acceptance progress;51accept/32partial;CODE59/60 original contract accepted after all clean module gates;not yet pushed/merged. Unrelated body retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-closeout",
+          "previousAfterSha256": "50e93e3ecf59bc44d3ab0b172c792141f0796ca08983ca17902264d1894cf060",
+          "afterSha256": "55607bf13a34469b525e0d791d39a9927eced5ea8296a02b1bc910da551938b4",
+          "scope": "Only approved V1 structure/nativeFileReader final acceptance progress;51accept/32partial;CODE59/60 original contract accepted after all clean module gates;not yet pushed/merged. Unrelated body retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-candidate",
+          "previousAfterSha256": "55607bf13a34469b525e0d791d39a9927eced5ea8296a02b1bc910da551938b4",
+          "afterSha256": "5389590eb0f03411dc8dea966e9ba0b9129aae76de2cb3c72e98a38d283fa0b3",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-closeout",
+          "previousAfterSha256": "5389590eb0f03411dc8dea966e9ba0b9129aae76de2cb3c72e98a38d283fa0b3",
+          "afterSha256": "9468682cfd8e18bd0d2173e553562f178779d089c3f3af3b73f7b722f0b1bd7b",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
         },
         {
           "date": "2026-10-22",
-          "revision": "working tree codex/game-mobile-layout",
-          "action": "Record user layout acceptance and touch switch / standard gamepad self-test",
-          "previousAfterSha256": "d88f477bc15c89e81b036ed0b289befef0217e40077bf63493357dd973b609d7",
-          "scope": "Only mobile row; standard adapter is code/simulated input acceptance, not real hardware acceptance",
-          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "9468682cfd8e18bd0d2173e553562f178779d089c3f3af3b73f7b722f0b1bd7b",
+          "afterSha256": "2a5ab4561c1dd8b71f984a4109a47746de295a6db70ffe659c7055ef5600c092",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-candidate",
+          "previousAfterSha256": "2a5ab4561c1dd8b71f984a4109a47746de295a6db70ffe659c7055ef5600c092",
+          "afterSha256": "c3797536d12505e1282217b5971cd83cee863b46cd30dcc76c34ebcdcc0db5d2",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-sealed",
+          "previousAfterSha256": "c3797536d12505e1282217b5971cd83cee863b46cd30dcc76c34ebcdcc0db5d2",
+          "afterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
+          "previousEvidence": {
+            "kind": "extract-four-card-scoped-current-review",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
+            "afterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
+            "lineCount": 91
+          },
+          "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+          "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Exact new task row and generated index delta; prior full/fixed-Git review reused for unchanged body.",
+      "reviewedLines": "Only GAME-MOBILE-LAYOUT-1 row/status or the named child review binding; no unrelated full-document reacceptance.",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2302,21 +2388,21 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read current mobile card and exact board/index diff; no whole-product or unrelated-task reacceptance",
+      "readMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "One new GAME-MOBILE-LAYOUT-1 review row reflects the user-directed runnable mobile prototype; prior rows and their acceptance limits stay unchanged. User experience/independent integration, physical hardware and official coverage remain pending.",
+      "coreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
       ],
-      "nextStep": "User reviews mobile prototype; gamepad/physical phone and final integration checks remain separate.",
+      "nextStep": "Complete official coverage and CI before merge and issue closure.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "1cca09e05d434d52c9f0a530f7e6960a9a1425c7e00ed1d4df5cd74bf6ad32c9",
+      "afterSha256": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2336,9 +2422,9 @@
         "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "1cca09e05d434d52c9f0a530f7e6960a9a1425c7e00ed1d4df5cd74bf6ad32c9",
-        "implementationSha": "1cca09e05d434d52c9f0a530f7e6960a9a1425c7e00ed1d4df5cd74bf6ad32c9",
-        "contentVersion": 27,
+        "currentSha": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
+        "implementationSha": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
+        "contentVersion": 30,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -2678,19 +2764,11 @@
             "previousAfterSha256": "8cff3b3a651969563db1fb783d693e9f75ac82caab087887c285d9471b3723ae",
             "afterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "date": "2026-10-22",
-            "revision": "92e901806 + working tree codex/game-mobile-layout",
-            "action": "Add user-directed mobile layout prototype in review; preserve all unrelated task states",
-            "previousAfterSha256": "bb305de90158637639af378a810fd2f7f5cce0de56ce7ceadc6a4699efe5d4cb",
-            "scope": "Only GAME-MOBILE-LAYOUT-1 row; actual six-key overlay and reduced tools, browser/runner self-check boundaries in card. No phase2/gamepad/deployment or official coverage acceptance.",
-            "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
           }
         ]
       },
       "evidence": {
-        "kind": "scoped-mobile-task-navigation-delta",
+        "kind": "mobile-software-integration-scoped-review",
         "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
       },
       "history": [
@@ -2907,15 +2985,45 @@
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
         },
         {
-          "date": "2026-10-22",
-          "revision": "92e901806 + working tree codex/game-mobile-layout",
-          "action": "Add user-directed mobile layout prototype in review; preserve all unrelated task states",
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-cash-limited-build",
           "previousAfterSha256": "bb305de90158637639af378a810fd2f7f5cce0de56ce7ceadc6a4699efe5d4cb",
-          "scope": "Only GAME-MOBILE-LAYOUT-1 row; actual six-key overlay and reduced tools, browser/runner self-check boundaries in card. No phase2/gamepad/deployment or official coverage acceptance.",
+          "afterSha256": "2a3f8df45b792c3f7a514bf25fd20e61ee26f047a7be510f05b477313b64f380",
+          "scope": "Only authorized finite cash build/result and remaining V1 contract status;49accept/34partial unchanged, no whole-card/merged or module-gate acceptance. Unrelated body retained by fixed Git.",
+          "limits": "Only named finite-cash status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-closeout",
+          "previousAfterSha256": "2a3f8df45b792c3f7a514bf25fd20e61ee26f047a7be510f05b477313b64f380",
+          "afterSha256": "d00282273461de0bf4449767197a431ed4d857e3113b67e0656fea8cb6b52144",
+          "scope": "Only approved V1 structure/nativeFileReader final acceptance progress;51accept/32partial;CODE59/60 original contract accepted after all clean module gates;not yet pushed/merged. Unrelated body retained by fixed Git.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-approved-next-window-index",
+          "previousAfterSha256": "d00282273461de0bf4449767197a431ed4d857e3113b67e0656fea8cb6b52144",
+          "afterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
           "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
           "previousEvidence": {
-            "kind": "input-audio-closeout-scoped-current-source-review",
-            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+            "kind": "save-v1-module-closeout-scoped-current-source-review",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
             "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
             "lineCount": 515,
             "headings": [
@@ -2942,7 +3050,7 @@
               "349:## 已取消（superseded / historical）",
               "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
             ],
-            "afterSha256": "bb305de90158637639af378a810fd2f7f5cce0de56ce7ceadc6a4699efe5d4cb",
+            "afterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
             "currentReading": {
               "date": "2026-10-17",
               "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -3079,13 +3187,14 @@
               }
             ]
           },
-          "previousCoreConclusion": "CODE73/74 approved direction fix and legacy retirement, scoped MIDI URL reuse; current49accept/34partial. Gates/raw/limits in current receipt; CODE59 approved draft registration only,not save build acceptance; no94-102 expansion."
+          "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+          "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Exact new task row and generated index delta; prior full/fixed-Git review reused for unchanged body.",
+      "reviewedLines": "Only GAME-MOBILE-LAYOUT-1 row/status or the named child review binding; no unrelated full-document reacceptance.",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -3577,9 +3686,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-structured-design-review",
+      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "DOCS-CATALOG-SPLIT-1 选择 manifest + phase shards + loader 的结构拆分方案，拒绝全局 maxSize/ignore 救急；卡为 draft，正式迁移在 pilot、consumer 验证与 pin 级联完成前保持 blocked。 DOCS-CATALOG-SPLIT-1 记录实际分片、loader、consumer 和 pin 级联验收 catalog split card 已写入实际 SHA mapping 与独立验收；不代表全 docs 或产品执行完成。 catalog split card 已写入实际 SHA mapping 与独立验收；不代表全 docs 或产品执行完成。",
+      "coreConclusion": "Current completed catalog-split card has all five declared task-card-v1 sections and one exact migrated route. Three heading names changed; historical migration execution claims reused from card evidence, not rerun or promoted to full docs/product acceptance.",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md:1",
         "scripts/docs/check-phase-lore-governance.mjs:1",
@@ -3587,10 +3696,9 @@
         "docs/ops/guides/documentation-model.md:1"
       ],
       "unresolved": [
-        "loader、shard schema 和真实 consumer 回归尚未实现；不能把设计准入当作迁移完成。",
-        "source/target SHA mapping、R93/R94 pin 级联和最终独立验收待正式 build。"
+        "Historical catalog migration execution is not rerun by this narrow CI integrity repair."
       ],
-      "nextStep": "在 codex/docs-catalog-split worktree 先实现 loader contract 和真实 pilot；通过后再做四个 shard 的全量映射与 registry/review 同提交更新。",
+      "nextStep": "Maintain the declared template/route and exact reviewed SHA; actual progress CLI is now part of check:docs.",
       "phase": "ops",
       "module": "catalog-migration",
       "capability": "docs-catalog-split",
@@ -3601,7 +3709,7 @@
         "user-authorized-structural-decision"
       ],
       "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
-      "afterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+      "afterSha256": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
       "publicCallers": [
         "docs/ops/board.md",
         "docs/ops/tasks/index.md",
@@ -3633,7 +3741,7 @@
       },
       "revision": {
         "currentSha": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
-        "implementationSha": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+        "implementationSha": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
         "contentVersion": "N/A-document-design",
         "minimumSaveVersion": "N/A-document-design",
         "history": [
@@ -3659,7 +3767,7 @@
         "kind": "task-card-design-review",
         "path": "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
         "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
-        "afterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+        "afterSha256": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
         "lineCount": 237,
         "currentReading": {
           "date": "2026-10-17",
@@ -3682,6 +3790,14 @@
           "previousAfterSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
           "afterSha256": "7ebc1e3b02ae37c8f9069b17e890fd4a2074fbf4d1bdb42ca29dfc2da80c6334",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+          "afterSha256": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
+          "scope": "Only map three existing headings to already registered task-card-v1 and add exact migrated route; retain original body, status and historical execution claims.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
         }
       ],
       "supersedes": ["byte-level catalog compression rescue as a long-term architecture"],
@@ -3703,7 +3819,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "User permits one large delegated goal with internal2-4file/module slices and continuous progress, module/stage evidence handoffs and risk-local escalation. A-H requirements, zero diagnostics, authorization and evidence-first acceptance unchanged; no per-slice user relay gate.",
+      "coreConclusion": "User permits one large delegated goal with internal2-4file/module slices and continuous progress, module/stage evidence handoffs and risk-local escalation. A-H requirements, zero diagnostics, authorization and evidence-first acceptance unchanged; no per-slice user relay gate. User2026-10-21 explicitly requires multiple related cards per expensive gate window;only new section5paragraph added,all eight-dimensional/evidence/zero-diagnostic requirements retained.",
       "truthAnchors": [
         "AGENTS.md:操作与必读",
         "docs/ops/agent-workflow.md",
@@ -3725,7 +3841,7 @@
         "Existing workflow/test governance and direct route/template consumers"
       ],
       "sourceSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
-      "afterSha256": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
+      "afterSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
       "publicCallers": [
         "AGENTS.md code operation route",
         "CLAUDE.md shared collaboration rules",
@@ -3755,7 +3871,7 @@
       },
       "revision": {
         "currentSha": "0bc82025928b4fe13dce0f34c3a8696507d04032",
-        "implementationSha": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
+        "implementationSha": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
         "history": [
           {
             "revision": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
@@ -3814,8 +3930,8 @@
       "evidence": {
         "kind": "finite-prose-acceptance-and-large-task-routing",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
-        "afterSha256": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
-        "lineCount": 157
+        "afterSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+        "lineCount": 159
       },
       "history": [
         {
@@ -3831,6 +3947,14 @@
           "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
           "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-21",
+          "action": "user-explicit-multi-card-gate-cadence",
+          "previousAfterSha256": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
+          "afterSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+          "scope": "Only added cadence paragraph;no requirement weakening or old guide reacceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
         }
       ],
       "supersedes": [],

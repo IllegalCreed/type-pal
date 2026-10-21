@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T01:59:34.702Z",
+  "generatedAt": "2026-10-21T16:39:20.536Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 744,
-  "testCount": 19968,
+  "sourceFileCount": 750,
+  "testCount": 19994,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -108,8 +108,8 @@
           },
           {
             "file": "packages/shared/src/rng.boundaries.test.ts",
-            "testCount": 17,
-            "identityDigest": "31fb86b20cb39bf54a8c122f19b95557ad62adb4e3c7a7531d0daa15fef5fa7a"
+            "testCount": 16,
+            "identityDigest": "3c4b172f0bad3cf14018ff9b65854fbfc9e34166ae10d579d63ab4f6167a9723"
           },
           {
             "file": "packages/shared/src/rng.test.ts",
@@ -118,21 +118,21 @@
           },
           {
             "file": "packages/shared/src/yj2.boundaries.test.ts",
-            "testCount": 9,
-            "identityDigest": "90db125307e9edff94319870383ad8eb359e0f1ab7adfe35416897dea159f398"
+            "testCount": 10,
+            "identityDigest": "189d28f247a240bdbadaa83e85a8cafade21152487ff285f452f4ccfdc4b88ed"
           }
         ],
-        "identityDigest": "4dfdae9b478fd6ca65bb5e1cd1b2d6146f0009f55bc45dffe5304abcb7656211",
+        "identityDigest": "bafbe885e8071c182cf0d97a4902f37d1166cf1ecdfd32b53d4159bc5625c9c4",
         "duplicateIdentityCount": 0,
-        "executionDigest": "5e5db3a43a181d269328d37da7069f78da65bfdf433429549167daef7d590409"
+        "executionDigest": "24743d628779727fa585b7663f6284a9360e24342b1f8c7c5b706a726cf74df9"
       },
       "metrics": {
         "statements": {
-          "covered": 448,
+          "covered": 459,
           "total": 466
         },
         "branches": {
-          "covered": 204,
+          "covered": 209,
           "total": 218
         },
         "functions": {
@@ -140,7 +140,7 @@
           "total": 23
         },
         "lines": {
-          "covered": 401,
+          "covered": 410,
           "total": 412
         }
       }
@@ -1153,7 +1153,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 40,
+      "sourceFileCount": 41,
       "sourceFiles": [
         "packages/pal-extract/scripts/extract-videos.ts",
         "packages/pal-extract/src/cli.ts",
@@ -1162,6 +1162,7 @@
         "packages/pal-extract/src/events/opcodes.ts",
         "packages/pal-extract/src/events/recompile.ts",
         "packages/pal-extract/src/events/roundtrip.ts",
+        "packages/pal-extract/src/events/script-entries.ts",
         "packages/pal-extract/src/events/slice.ts",
         "packages/pal-extract/src/font/bdf-to-json.ts",
         "packages/pal-extract/src/io/mkf.ts",
@@ -1196,13 +1197,14 @@
         "packages/pal-extract/src/resources/tables.ts",
         "packages/pal-extract/src/utils/gbk.ts"
       ],
-      "scopeDigest": "ae7bbb35c4f644075b309bf105bdad1c66f2ea7c127c87704d32ce510c1ef037",
+      "scopeDigest": "f9d831b9e11e87c9fbeb3806194bffbbb26cc4ae0129b3dcab40e43e2f95f54a",
       "fastTests": {
-        "testCount": 301,
-        "testFileCount": 63,
+        "testCount": 307,
+        "testFileCount": 65,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+          "packages/pal-extract/src/__tests__/cli-host.test.ts",
           "packages/pal-extract/src/audit-data-mkf.test.ts",
           "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
           "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
@@ -1221,6 +1223,7 @@
           "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/events/recompile.test.ts",
           "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+          "packages/pal-extract/src/events/script-entries.test.ts",
           "packages/pal-extract/src/events/slice.boundaries.test.ts",
           "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
@@ -1277,6 +1280,11 @@
             "identityDigest": "705afc3b56efee29e2b13d84330155b8c5649cbe73223d006b659a6ddf9e6fda"
           },
           {
+            "file": "packages/pal-extract/src/__tests__/cli-host.test.ts",
+            "testCount": 3,
+            "identityDigest": "120ee2198e979c6e759bb5089e787402ba081b29c5f14e5cf4c3596af7639543"
+          },
+          {
             "file": "packages/pal-extract/src/audit-data-mkf.test.ts",
             "testCount": 8,
             "identityDigest": "22176039b4f4e3252a13385c182a8cfb04085ba7cd069ad312cc7afca012d562"
@@ -1314,7 +1322,7 @@
           {
             "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
             "testCount": 10,
-            "identityDigest": "3e779fa4b1f09eb36c68b2b983c4ee5cc2dddd62a2f2c69648c5319bd69afeb8"
+            "identityDigest": "ad0736cd1d7bb90ff6e36dcab8a24c999965c7c1ec9256846c52731a3fe8148b"
           },
           {
             "file": "packages/pal-extract/src/events/annotate.test.ts",
@@ -1365,6 +1373,11 @@
             "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
             "testCount": 2,
             "identityDigest": "1c80c35d8c8fd4d251eb1eaaed2bd81cecade6a954bf79efcfa538a8ad789851"
+          },
+          {
+            "file": "packages/pal-extract/src/events/script-entries.test.ts",
+            "testCount": 2,
+            "identityDigest": "9e80b318cb9ba57da027dcde3be4b775d8d1b39ced7b3745414e38131ddd59b0"
           },
           {
             "file": "packages/pal-extract/src/events/slice.boundaries.test.ts",
@@ -1418,8 +1431,8 @@
           },
           {
             "file": "packages/pal-extract/src/io/sss.boundaries.test.ts",
-            "testCount": 7,
-            "identityDigest": "d70386468e10a6e790ad38eaf249b0091db4825ad3f27a25fa21d8bc89ee00ec"
+            "testCount": 8,
+            "identityDigest": "175e4123b9ef8435e2c6757ce548ffba893e584c2fb26e448029d307d641eb90"
           },
           {
             "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
@@ -1582,26 +1595,26 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "e43f686ff2f0add3212b8120477c9e8a84198c073799d45934148fa81715926f",
+        "identityDigest": "c68a2bf89310af53279009a6c8e40e8ec560655821a7ccab195b41c9c9e266f0",
         "duplicateIdentityCount": 1,
-        "executionDigest": "e008a5085bbf37b78eb369fe8dc6b44df616ccc464935c85fc4c6be8c3c3b99a"
+        "executionDigest": "cf6ef4861351b6999131faf01bb789aff5c51ce3a3a1e66679dd84fb3fa1c097"
       },
       "metrics": {
         "statements": {
-          "covered": 1082,
-          "total": 1546
+          "covered": 1120,
+          "total": 1542
         },
         "branches": {
-          "covered": 473,
+          "covered": 503,
           "total": 597
         },
         "functions": {
-          "covered": 114,
-          "total": 142
+          "covered": 115,
+          "total": 143
         },
         "lines": {
-          "covered": 957,
-          "total": 1368
+          "covered": 979,
+          "total": 1364
         }
       }
     },
@@ -4545,7 +4558,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 147,
+      "sourceFileCount": 152,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4616,7 +4629,12 @@
         "packages/game/src/core/player-poison-state.ts",
         "packages/game/src/core/rng.ts",
         "packages/game/src/core/save/api.ts",
+        "packages/game/src/core/save/data.ts",
         "packages/game/src/core/save/indexed-db.ts",
+        "packages/game/src/core/save/v1-battle.ts",
+        "packages/game/src/core/save/v1-shape.ts",
+        "packages/game/src/core/save/v1-world.ts",
+        "packages/game/src/core/save/v1.ts",
         "packages/game/src/core/scene-identity.ts",
         "packages/game/src/core/scene-system-search.ts",
         "packages/game/src/core/scene-system.ts",
@@ -4695,10 +4713,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "a2c95beb98ce984ff93ea4dd79909ea765b3b18f8628b5f223d5acf13bf710a7",
+      "scopeDigest": "a200008d81a243274551d1ba4059033f458276e699d9c68dcf6f59fde964c229",
       "fastTests": {
-        "testCount": 3638,
-        "testFileCount": 321,
+        "testCount": 3658,
+        "testFileCount": 320,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4997,7 +5015,6 @@
           "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/minimap.test.ts",
           "packages/game/src/tools/quick-save.test.ts",
-          "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
           "packages/game/src/tools/save-io.test.ts",
           "packages/game/src/tools/speedrun/checkpoints.test.ts",
           "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
@@ -6505,18 +6522,13 @@
           },
           {
             "file": "packages/game/src/tools/quick-save.test.ts",
-            "testCount": 8,
-            "identityDigest": "27a112eeedf97f4349dda9243c92c59cf679d27e9c362dbccf6746b22e2629fe"
-          },
-          {
-            "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
-            "testCount": 4,
-            "identityDigest": "48f52dafd96c7a91bfd4207d1c3a95c555c2955fd9ddf874677f6871b7b459df"
+            "testCount": 9,
+            "identityDigest": "b41f78663a244cf7bf4098706c10f7b0308b6dedd1e626afba0b672eef19863f"
           },
           {
             "file": "packages/game/src/tools/save-io.test.ts",
-            "testCount": 4,
-            "identityDigest": "d87e17b5bdcf40a9db16725c35c746bdce5424f14b5b06676c9243ab49c38741"
+            "testCount": 27,
+            "identityDigest": "48195e69873a32d4d0216e2ff135ac03d97102156c85f1f024320abad974c0b5"
           },
           {
             "file": "packages/game/src/tools/speedrun/checkpoints.test.ts",
@@ -6629,26 +6641,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "7d884f74757e36c0da011e0fee449e8f854e6c8bf86ffb2ffad46f87b7238b65",
+        "identityDigest": "24be8c8e6ad468e5fe11a8d312dbfb77aecbb64c399879a586ff7baeea06fd68",
         "duplicateIdentityCount": 0,
-        "executionDigest": "251cbf43c4a555b3824c25f4d7d79a8506b05ad8badce9da9bf4bf65a2036e78"
+        "executionDigest": "211b500b9b87fa44e991bbb383c7b347500bf5eb1e18445166a922b8e3953b9d"
       },
       "metrics": {
         "statements": {
-          "covered": 14286,
-          "total": 16019
+          "covered": 14379,
+          "total": 16116
         },
         "branches": {
-          "covered": 9331,
-          "total": 11618
+          "covered": 9382,
+          "total": 11672
         },
         "functions": {
-          "covered": 1668,
-          "total": 1956
+          "covered": 1696,
+          "total": 1987
         },
         "lines": {
-          "covered": 12738,
-          "total": 14038
+          "covered": 12816,
+          "total": 14118
         }
       }
     },
@@ -10667,20 +10679,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71366,
-      "total": 79215
+      "covered": 71508,
+      "total": 79308
     },
     "branches": {
-      "covered": 51844,
-      "total": 61881
+      "covered": 51930,
+      "total": 61935
     },
     "functions": {
-      "covered": 13544,
-      "total": 15093
+      "covered": 13573,
+      "total": 15125
     },
     "lines": {
-      "covered": 63745,
-      "total": 69315
+      "covered": 63854,
+      "total": 69391
     }
   }
 }

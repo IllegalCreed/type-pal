@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 49,
+  "currentAccepted": 56,
   "cards": [
     {
       "id": "1",
@@ -93,8 +93,8 @@
       "sha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
       "lines": 95,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 23,
@@ -119,7 +119,11 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
-      "findings": "two test discrimination gaps repaired, one duplicate retired with exact oracle transfer; native RNG1464 frame parity and raw MKF2373 chunk equality; current unified gates pending; no new closures"
+      "findings": "CODE2/2b exact codec scope:per-fileA-H,currentAST/primary/raw/native logs match;new independentrescale businesssingle-red and exactRNGduplicate failure-conservation. shared114/extract18/game31,20386check,19988ratchet/19988protected-after-newbaseline0diagnostics. O-5 remains explicit supported-domain limitation,no arbitrarycap/securityclaim;RLE/broadcallers not accepted.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
     },
     {
       "id": "2b",
@@ -129,8 +133,8 @@
       "sha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
       "lines": 84,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 17,
@@ -167,7 +171,11 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md",
-      "findings": "native2626 chunks exact bytes; four contracts moved to canonical tests; raw length smoke replaced with independent native golden; unified gates and independent weight-reduction vector pending; no new closure"
+      "findings": "CODE2/2b exact codec scope:per-fileA-H,currentAST/primary/raw/native logs match;new independentrescale businesssingle-red and exactRNGduplicate failure-conservation. shared114/extract18/game31,20386check,19988ratchet/19988protected-after-newbaseline0diagnostics. O-5 remains explicit supported-domain limitation,no arbitrarycap/securityclaim;RLE/broadcallers not accepted.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
     },
     {
       "id": "3",
@@ -207,8 +215,14 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
-      "findings": "slice three old-green/new-single-AssertionError oracles; annotation six discrimination gaps repaired, four proven duplicate identities transferred; current whole card not accepted; extract raw early returns and runtime diagnostics unresolved; product unchanged",
-      "additionalEvidence": ["docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"]
+      "findings": "Five bounded CLI/test/module scopes accepted after check20392 and one official fast ratchet+protected19994, all diagnostics0. CLI IO and remaining slice/tests retain review; whole card partial. Slice two semantic fixes approved by user for next isolated window, not implemented here. No94-102.",
+      "additionalEvidence": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+      ],
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-22",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
     },
     {
       "id": "3b",
@@ -218,8 +232,8 @@
       "sha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13",
       "lines": 141,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 25,
@@ -264,7 +278,9 @@
       ],
       "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md",
-      "findings": "Both parsers/four tests fully read; six boundary oracle gaps fixed and rejection axes split. Raw 9→2: full independent SSS struct oracle and five exact raw MSG samples; five additional old-green/new-single-AssertionError probes and two old-oracle transfers. Production unchanged; full MSG/fixup and unified/editor gates remain, no whole-card acceptance."
+      "findings": "Six files A-H/current caller+independent raw oracle,copy elimination and one ownership counter accepted;GBKfixup and arbitrary dialect remain separate.",
+      "currentReviewer": "Codex",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
     },
     {
       "id": "3c",
@@ -326,8 +342,8 @@
       "sha256": "82433966134db0afc3b50642dbf8e264a2ef52c26b790ac2355cf87f4b5c743c",
       "lines": 65,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -350,8 +366,11 @@
           "text": "- Review：Codex 确认实现范围和 caller 保真；accept。"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json",
+      "findings": "Original PNG input guard contract accepted with six independent rejection axes+preserved height counters;3current test files accepted;whole sprite.ts remainsreview for broader exports/domain."
     },
     {
       "id": "3f",
@@ -361,8 +380,8 @@
       "sha256": "95525424dea3b49d69e92652b4325eb7814e3dce71d011ed14353c2b5d293c9c",
       "lines": 54,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -381,9 +400,11 @@
           "text": "- Codex 前提核验：verified；build allowed；白名单只含 annotate/CLI 入口与专属测试/文档。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
-      "findings": "annotation/symbols tests strengthened with six valid single AssertionError probes; four duplicate identities transferred, bad-input contracts split; 17->16; production unchanged; full extract 433 native green includes six early-return fake passes; CLI/unified gates pending, 0 closure"
+      "findings": "Original parseSymbols/CLI sidecar contract and 3file A-H accepted;private dependency narrowing preserves body,16test assertions unchanged,6original counters reused;unused public constants retained as structural candidate.",
+      "currentReviewer": "Codex",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json"
     },
     {
       "id": "3g",
@@ -421,8 +442,15 @@
           "text": "- 2026-10-05 Codex：CLI 已直接读过并完成 symbols 子批；账本将其余总装 IO/失败策略保留 review。Next: 分段核验清理、写盘、降级与 manifest 的真实调用域。"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
+      "findings": "Five bounded CLI/test/module scopes accepted after check20392 and one official fast ratchet+protected19994, all diagnostics0. CLI IO and remaining slice/tests retain review; whole card partial. Slice two semantic fixes approved by user for next isolated window, not implemented here. No94-102.",
+      "additionalEvidence": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+      ],
+      "currentReviewDate": "2026-10-22"
     },
     {
       "id": "3h",
@@ -2364,8 +2392,8 @@
       "sha256": "0570b597f3073f3d7c3047825926fa1dbc22e96e92aef337ee0a419a5b93047a",
       "lines": 56,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -2380,13 +2408,13 @@
           "text": "- 已完整读取范围实现/测试、tools-panel/quick-save/bootstrap callers、phase1 工具计划、core Save API 与 phase2 current codec。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Version1 boundary is not complete GameState validation; malformed cash persisted in isolated memory Save. User approved contract-first review then formal red/fix. Runtime96-field vs JSON wire mapping pending;implementation unchanged and card stays partial.",
+      "findings": "Original CODE59/60 contract accepted:full per-file A-H,approved structure/history/role-bound fixes with formal reds,52adjacent;20386check and19988official ratchet/protected0diagnostics. Five native FileReader/IDB cases and precise MSIO transfer/canonical quick-save9counter. No broadSave/IDB/panel or94-102 acceptance.",
       "currentReviewer": "Codex",
       "currentReviewDate": "2026-10-21",
-      "currentReviewSha256": "7a60de0438114be9648f5ea0f5e3a3f60622884222dadeeadf538ad7236cb0c9",
-      "currentReviewEvidence": "docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md"
+      "currentReviewSha256": "50c580ed9388986023fadb0cfb24fb68817834fbc5ecb04fcec2524d3ffb052b",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json"
     },
     {
       "id": "60",
@@ -2396,8 +2424,8 @@
       "sha256": "ba7fe741167a330a26b38552c79cd82722b73e68f606d38a20adf8edb1a186bd",
       "lines": 52,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2424,9 +2452,13 @@
           "text": "- 2026-10-13 Codex：F5/F9 准入、preventDefault、解绑函数、Save/loader 异常 toast 与 bootstrap caller 均核验；save wave 全门通过。账本收口为 `3266 / 292 closed / 8 review / 2966 pending`。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "findings": "Original CODE59/60 contract accepted:full per-file A-H,approved structure/history/role-bound fixes with formal reds,52adjacent;20386check and19988official ratchet/protected0diagnostics. Five native FileReader/IDB cases and precise MSIO transfer/canonical quick-save9counter. No broadSave/IDB/panel or94-102 acceptance.",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+      "currentReviewSha256": "322f4fb89980ae81f27c46e7364e9ad282f4f19a80607368aaf6d0ff30693937",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewer": "Codex"
     },
     {
       "id": "61",
@@ -4193,14 +4225,14 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 34,
-    "pending": 0,
-    "accept": 49
+    "accept": 56,
+    "partial": 27,
+    "pending": 0
   },
   "lastIncrementalReview": {
     "date": "2026-10-21",
-    "cards": ["73", "74"],
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
-    "method": "Reuse valid GLM full A-H/per-case and original live-function counter evidence;approved direction fix and unused OGG retirement;precise URL reuse;all module gates clean, no94-102"
+    "cards": ["3b", "3d", "3f", "3g"],
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
+    "method": "Related four-card freeze,evidence reuse+actual eight-dimensional gaps,full observable gates once at closeout;3g wholeCLI remainspartial,no94-102"
   }
 }

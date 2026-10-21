@@ -1,0 +1,2159 @@
+{
+  "base": "3d276b324562f99c895089f9c1cc5021b17d897a",
+  "owner": "Codex",
+  "status": "CODE59/60 accepted within original card contract;51accept/32partial fixed83. Ten file closures explicit;Save API/IDB/tools-panel/bootstrap broader reviews unchanged.",
+  "approval": ["human:批准先核定合法内容合同，再补红例修复", "human:允许分离存档类型（推荐）"],
+  "files": [
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af",
+      "dimensions": {
+        "A": "Full passive declaration read;12 root/5 role/3 equipment historical omissions plus old dialogLineCount,4 battle menu fields and Boolean status data follow frozen6b58 actual producers. Current GameState/BattleStatus unchanged;no hydrated-runtime guarantee.",
+        "B": "Native JSON/method erasure and historical absence documented;not a codec/default claim.",
+        "C": "Type-only dependency on GameState;storage and tools consume data union,loader retains hydration ownership.",
+        "D": "One native JSON mapping plus HistoricalFields for proven added keys;SavedDialog/SavedStatus/SavedBattle express real historical data without restoring engine paths.",
+        "E": "Frozen real old constructor fixture plus current actual startBattle serializer;tsc checks callers. No runtime type-test padding.",
+        "F": "SaveDataV1/SaveSnapshot distinguish file/slot data from live getGs;historical keys are explicit.",
+        "G": "Two consumed exports;no runtime function. Added key optionality follows source history,not blanket Partial.",
+        "H": "Erases to export {};proof and full-game typecheck are direct. Not a runtime hydration test."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9",
+      "dimensions": {
+        "A": "All guards read;reject null/array records,nonfinite numbers,wrong lengths/literals and own __proto__ on shaped objects. JSON parser supplies plain data,not accessors. Variant requires own discriminator to reject constructor;bytes require contiguous native Uint8 keys/integer0..255.",
+        "B": "Comments limit guards to existing native V1 representation and explain mapped completeness/prototype ownership.",
+        "C": "Pure predicates,immutable module descriptors;no IO/global state/mutation/default/async resources.",
+        "D": "Same failure policy/lifetime reused by world,battle and persistent structures. Fixed and variable arrays are actual callers;no boolean mode or universal future abstraction.",
+        "E": "Ten original-parser business reds plus one single-red finite-helper mutation. Actual positive Map/RNG/bytes encodings;no weak helper-only mock assertions.",
+        "F": "Named small guards and explicit typed fields;no any/as/assertion escape. Predicate generic dictionary is statically checked.",
+        "G": "Every export has codec callers;oneOf bound narrowed to actual string enums. No ignore/exclusion/dependency added.",
+        "H": "Deterministic input→boolean;production callback directly tested through parser. Finite mutation restored exact SHA;no test-only API."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-world.ts",
+      "sha256": "9316eab1f0e248a8bb7b6735d843d97819b054c14cba6c99fd7f7bef34fe06bc",
+      "dimensions": {
+        "A": "All authored world guard bodies read;Command15-way union,recursive children,tuple3 operands,NPC cursors/call stacks,dialog/null/optional style and256-color palette/fade declarations covered. Source declarations/events and prior lifecycle reviews reused at pinned SHA. Historical dialogLineCount may be absent. playerRoleId requires finite integer0..5,matching six role slots,not party positions/NPC ids.",
+        "B": "Comments describe exhaustive existing command/data representation;no SDLPal JSON ownership claim or visual equivalence claim.",
+        "C": "World-shaped JSON validation only;does not run scripts,hydrate NPCs,advance dialogs or change palettes.",
+        "D": "Position/style/callStack/commands shared only across same encoded shapes;different NPC/mutable-event contracts remain distinct.",
+        "E": "Inherited command tag rejection and valid recursive sequence/raw source test;other descriptor branches backed by exhaustive TS field/union typing,not claimed individually replayed.",
+        "F": "Explicit named properties correspond to upstream declarations;optional guards preserve absence.",
+        "G": "No dead codecs or new fallback;all exported guards are consumed by root/battle/world schemas.",
+        "H": "Pure validation with recursive callbacks deferred until invocation;no dependency mocking or engine globals."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-battle.ts",
+      "sha256": "5fad387e319e6c4c07884d327e4c97e94a1ccbc08524ec385157b79ee65c8679",
+      "dimensions": {
+        "A": "Full authored battle descriptor read against BattleState/player/enemy/animation/settlement declarations;JSON pending Maps are objects and RNG has no methods. Native snapshot remains data,not a resumed battle. SavedBattle accepts known historical menu omissions/Boolean stored counters;four role-id sites use the fixed six-role guard. Old pseudo actions remain rejected.",
+        "B": "RNG comment makes lost methods explicit;no unsupported save/resume gameplay claim.",
+        "C": "Battle JSON guard isolated from battle execution,IO and resources ownership;imports runtime guard modules only,engine symbols type-only.",
+        "D": "Action used both pending/history data,selection/overlay/damage/summon reused by matching contracts;Enemy vs field share only five numeric-element structure.",
+        "E": "Actual startBattle fixture encodes player/enemy/current state;bad phase has prior real business red. Other animation/settlement shapes compile exhaustive but not claimed all runtime-replayed. Actual frozen old battle through Save fallback/current writer is independently accepted,Boolean haste retained;isolated battle-local role6 rejects while rootparty remains valid.",
+        "F": "Named descriptors follow declared states/literal enums;no wide context/factory injected.",
+        "G": "No actor mutation,sorting,damage/defaults or revived RNG added;all guards are consumed.",
+        "H": "Pure predicate takes unknown;no runScript/timer/random/DOM execution. Test actual factory is a producer,not algorithm oracle."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "52456f6aae023ecc85847b6f723427d13253bf447015cee3dbd1a3939df2dffb",
+      "dimensions": {
+        "A": "Full root/persistent descriptor read;Fields<SaveDataV1> requires all96 root names. SoA6roles/6equipment/5elements/32magic,experience6,7equipment effects,9status columns and7 OBJECT words follow constructors/types. Current/known historical fields preserve values/absence;finite numeric checks add no cash caps/integer/nonnegative policy. Root partyMembers uses role0..5;legal5 retained and -1/fraction/6 rejected. This is indexing-domain validation,not an invented gameplay policy.",
+        "B": "Required/history/completeness comments reflect actual store-v2 export caller. Guard establishes declared shape,not asset existence or cross-world gameplay consistency.",
+        "C": "Root composes world/battle JSON and persistent rows;no loader writes/Save/metadata/DOM dependencies.",
+        "D": "Role rows and repeated small shapes reused;different runtime/equipment field lists remain exhaustive rather than a broad mutable helper.",
+        "E": "Damage cases distinguish element type,row length,OBJECT words,world enum,byte representation and root ownership;frozen old export positive validates missing historical fields.",
+        "F": "Field table is directly comparable to GameState;failure names root field. Valid data traversed once;only rejected data rescanned for error name.",
+        "G": "No unknown fallback/upgrader/coercion or schema/version bump. Unknown menu state remains unknown per declared contract;extra data retained except dangerous own prototype key. Removed impossible non-record fallback from error reporter;its sole caller supplies an already narrowed record.",
+        "H": "Pure deterministic whole-data predicate with compile-time completeness;invalidSaveField is only called after failure. No test seam."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0",
+      "dimensions": {
+        "A": "Full implementation and true panel/Save/load callers read/reused. Header/version remain1;unknown JSON narrowed via real guard,old as Partial/GameState removed. Invalid values fail before Save;old合法 output/control0 retained.",
+        "B": "savedAt comment matches Save Date.now ownership;no SDLPal JSON claim.",
+        "C": "Pure envelope parsing delegates structure;FileReader/transaction/hydration stay with owners.",
+        "D": "Uses one V1 codec;no phase2 model/new IO/parser dependency.",
+        "E": "Ten original-parser business reds,nested two rejection reds and four role-domain reds resolved;final52directed/adjacent with0stderr. Five actual native FileReader/IDB scenarios retain corrupt cash/HP slot/meta and commit old base/dialog/battle data unchanged.",
+        "F": "Linear fail-fast errors keep necessary-field/cash reasons;return data type truthful.",
+        "G": "Both exports have real callers;serialize runtime body unchanged. No compatibility execution/default code.",
+        "H": "Deterministic parser;native IO separately tested through actual panel,not mocked."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "d5d96dc8c1e7efa3d85b5f72f713572a1f2391f48360973839b100597cc55e60",
+      "dimensions": {
+        "A": "Full27cases read;real constructors and frozen historical producers. Each malformed case targets one axis;memorySave reset/indexedDB global restored. No injected parser/Save result.",
+        "B": "Titles/comments limit old fixture to structure and native JSON,not played-game/hydration or full IDB oracle.",
+        "C": "Parser owns header/content;timing/lifecycle remains canonical quick-save tests,driver transactions in API/IDB tests.",
+        "D": "Legacy fixture derived from actual historical producer;current actual battle fixture reused. No copied validation implementation as oracle.",
+        "E": "27parser+25adjacent=52 pass. Original10 business reds,finite single-red mutation,old dialog/battle2 business rejection reds,and4 role-domain reds retained. Highest role5 and real native JSON Map/RNG/byte/sparse follower controls remain. No skip/only/core casts;old MSIO mapping at4e5 retained.",
+        "F": "Corrupt property visible in fixtures;overflow uses checked valid JSON substitution. No illegal typed core fixture hidden by cast.",
+        "G": "No per-field coverage padding;representative distinct type/length/discriminator/byte/ownership axes. Previous MSIO mapping retained at frozen4e5.",
+        "H": "No core mock;JSON/files deterministic;memory map and indexedDB global restored after each test. Browser test owns fresh origin/DB and cleans it."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/tools/__fixtures__/save-v1-store-v2.json",
+      "sha256": "c8fbc8cae6bb99db92e947f1bb9b8428f0e23782c4f9dd856c583fc56ae9c283",
+      "dimensions": {
+        "A": "Frozen values from complete real6b58f9e84 constructor→actual current V1 writer;format1,scene1/cash55,missing later roots/rows. Pretty JSON value checked equal raw encoded sample;constructor/encoding only.",
+        "B": "JSON contains no comments;fixture provenance in test and paired evidence,not injected product metadata.",
+        "C": "Passive test input only;no runtime/product resource or source-of-truth role.",
+        "D": "One fixture consumed by parser regression and owned browser replay;not cloned weak test oracle.",
+        "E": "Legacy input is independent of new guards/current field list;byte SHA and value equality to native sample checked.",
+        "F": "Descriptive name identifies V1 file vs store-v2 payload;ordinary JSON formatter only.",
+        "G": "Retained specifically to catch accidental modern required fields/defaults;not generated product output used as a fix.",
+        "H": "Static local fixture;no network/user save IO needed for unit regression."
+      },
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates"
+    },
+    {
+      "path": "packages/game/src/tools/__fixtures__/save-v1-store-v2-nested.json",
+      "sha256": "4b100817c449477c5e07710a219adad0aebc22735fd54b8fd676c47d80da297b",
+      "status": "accept;explicit per-file A-H with approved fixes and clean module gates",
+      "dimensions": {
+        "A": "Frozen complete6b58 constructor/hydrator/dialog/battle factories→actual old memory JSON Save→current real V1 writer. CommonPSR/deltas exactly equal retained native producer parts;not a played-game save.",
+        "B": "Passive JSON has no comments;provenance and non-gameplay limitation live in test/evidence.",
+        "C": "Test input only;no runtime/resource source ownership.",
+        "D": "Common hydrated runtime stored once;dialog/battle root deltas avoid repeating whole saves.",
+        "E": "Two business reds first rejected these independently produced historical inputs;final controls require exact retained values and absences. Native browser submits both through real FileReader/IDB.",
+        "F": "Named common/dialog/battle parts correspond to actual producer domains.",
+        "G": "Needed to distinguish nonempty historical shapes from empty baseline;not redundant new current constructor fixture.",
+        "H": "Deterministic local fixture,no browser/user data required for unit control."
+      }
+    }
+  ],
+  "pins": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "fbe669229da412574ec13a811b077918d97ab3399da5a3adfdcb10c91b5c7d0f"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "daf404181b9244c98dfb859c7bb5c3befde2fdb1d16027a9318b5f98fff0d1ed"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "d4d85c2c72109a3436edee6da6171fbfa5557823b2cd7cad0d3ca02ca0816ef6"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "7951c6967057b40827e206b028601580214d46fa4b13e96f8bb45ec054399dd0"
+    },
+    {
+      "path": "packages/game/src/core/battle/turn-queue.ts",
+      "sha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "787c0c72a3cad074ac459c0108ea67a088dd21ae465e92a21e33a4f14eb80c88"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "sha256": "40d768ddf911de1ebca4a172ef2448e2a5e777e009cf630e5c11c62b019501a1"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "41bc231d86581da71cea2224ad2b66831cd9b0dd1b8b75bb4f2c84c71eed739e"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "67f008abc2d6013744ce84049556cf987c1c76aff605bc912377f166445c9c8a"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718"
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "3dd47beddd01f2fc24f3389ed59ba5e60184d9952dac0db523dd6d90367c8309"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    }
+  ],
+  "contract": {
+    "kind": "existing V1 declared JSON structure/native container representation and known store-v2 omissions;not hydrated runtime,asset-existence or cross-world consistency validation",
+    "rootFields": 96,
+    "history": "storeV2ExportCompatibility in save-wire-contract.json",
+    "unknownMenuState": "Retained as unknown per ActiveMenuEntry;loader discards saved menuStack. No invented menu runtime shape.",
+    "formatChanges": false,
+    "databaseChanges": false,
+    "defaultsOrMigration": false,
+    "arbitraryCashPolicy": false
+  },
+  "runs": [
+    {
+      "id": "shape-tsc",
+      "exit": 2,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "schema-tsc",
+      "exit": 2,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "schema-tsc-r2",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "schema-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 2099,
+      "passed": 9,
+      "failed": 10,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'party direction'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'party member element'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'inventory count'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'runtime HP element'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'runtime role row length'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'OBJECT word row length'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'inherited command discriminator'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'native byte object range'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'loader prototype write'"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects an unknown battle phase in an otherwise actual startBattle snapshot"
+        }
+      ]
+    },
+    {
+      "id": "schema-green",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0,
+      "passed": 44,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "schema-tsc-final",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "schema-green-final",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0,
+      "passed": 45,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "schema-no-finite",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 700,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects a nonfinite nested HP value from a valid JSON numeric literal"
+        }
+      ]
+    },
+    {
+      "id": "v1-directed",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0,
+      "passed": 45,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "v1-tsc",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-biome",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "nested-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 1647,
+      "passed": 20,
+      "failed": 2,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "existing nonempty store-v2 representations preserves the actual historical dialog producer and JSON-fallback Save output"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "existing nonempty store-v2 representations preserves the actual historical battle producer and JSON-fallback Save output"
+        }
+      ]
+    },
+    {
+      "id": "nested-green",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0,
+      "passed": 47,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "nested-tsc",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-index-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 885,
+      "passed": 23,
+      "failed": 3,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role -1 outside the six integral role slots"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role 0.5 outside the six integral role slots"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role 6 outside the six integral role slots"
+        }
+      ]
+    },
+    {
+      "id": "role-index-red-r2",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 1428,
+      "passed": 23,
+      "failed": 4,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role -1 outside the six integral role slots"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role 0.5 outside the six integral role slots"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role 6 outside the six integral role slots"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects a corrupt battle-local role id even when the saved party is valid"
+        }
+      ]
+    },
+    {
+      "id": "v1-frozen-directed",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0,
+      "passed": 52,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "v1-frozen-tsc",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-frozen-biome",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-final-check",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-final-ratchet",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-frozen-docs",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-final-docs",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 871
+    },
+    {
+      "id": "v1-final-docs-r2",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-closeout-lint",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 190
+    },
+    {
+      "id": "v1-closeout-ledger",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-closeout-diff",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    },
+    {
+      "id": "v1-closeout-lint-r2",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stderrBytes": 0
+    }
+  ],
+  "counter": {
+    "path": "packages/game/src/core/save/v1-shape.ts",
+    "beforeSha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9",
+    "mutatedSha256": "131c8d1722cdb217801cf8074e30d440ff75cca6574dd479fa875fce3b836085",
+    "expected": "only nested nonfinite HP business assertion fails;cash guard remains independent",
+    "restoredSha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9",
+    "failed": [
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects a nonfinite nested HP value from a valid JSON numeric literal"
+      }
+    ]
+  },
+  "browser": {
+    "mode": "CUA actual IAB UI,real panel FileReader/Save/IndexedDB on fresh owned origin;DataTransfer File assignment+change event,not OS file chooser or story E2E",
+    "record": {
+      "owner": "pre94-save-native-20261021-a1ed43aae",
+      "origin": "http://127.0.0.1:58213",
+      "initialDatabases": [],
+      "nativeFileReader": "function FileReader() { [native code] }",
+      "results": [
+        {
+          "kind": "cash",
+          "pass": true,
+          "nativeFileName": "pre94-native-cash.json",
+          "beforeInputValue": "C:\\fakepath\\pre94-native-cash.json",
+          "inputValueReset": true,
+          "toast": {
+            "text": "✗ 导入失败:存档金钱字段非法(dwCash 必须为有限数值)",
+            "className": "tp-toast tp-toast-error"
+          },
+          "sameOriginal": true,
+          "sameMeta": true,
+          "slot": {
+            "scene": 4,
+            "cash": 55,
+            "hasNowMs": true
+          },
+          "databases": [
+            {
+              "name": "type-pal",
+              "version": 2
+            }
+          ]
+        },
+        {
+          "kind": "hp",
+          "pass": true,
+          "nativeFileName": "pre94-native-hp.json",
+          "beforeInputValue": "C:\\fakepath\\pre94-native-hp.json",
+          "inputValueReset": true,
+          "toast": {
+            "text": "✗ 导入失败:存档内容字段非法(PlayerRolesRuntime)",
+            "className": "tp-toast tp-toast-error"
+          },
+          "sameOriginal": true,
+          "sameMeta": true,
+          "slot": {
+            "scene": 4,
+            "cash": 55,
+            "hasNowMs": true
+          },
+          "databases": [
+            {
+              "name": "type-pal",
+              "version": 2
+            }
+          ]
+        },
+        {
+          "kind": "legacy",
+          "pass": true,
+          "nativeFileName": "pre94-native-legacy.json",
+          "beforeInputValue": "C:\\fakepath\\pre94-native-legacy.json",
+          "inputValueReset": true,
+          "toast": {
+            "text": "✓ 已导入到存档位 5",
+            "className": "tp-toast tp-toast-success"
+          },
+          "sameOriginal": false,
+          "sameMeta": false,
+          "slot": {
+            "scene": 1,
+            "cash": 55,
+            "hasNowMs": false
+          },
+          "databases": [
+            {
+              "name": "type-pal",
+              "version": 2
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "ready": true,
+      "baseline": {
+        "slot": 5,
+        "scene": 4,
+        "cash": 55,
+        "liveScene": 9,
+        "liveCash": 999
+      }
+    },
+    "cleanup": {
+      "owner": "pre94-save-native-20261021-a1ed43aae",
+      "marker": "pre94-save-native-20261021-a1ed43aae",
+      "before": [
+        {
+          "name": "type-pal",
+          "version": 2
+        }
+      ],
+      "origin": "http://127.0.0.1:58213",
+      "after": [],
+      "pass": true
+    },
+    "limits": [
+      "Inactive audio/thumbnail ports disclosed;no gameplay/production/UI redesign claim.",
+      "Window error/rejection collection empty;separate browser console warning collection not performed.",
+      "Post-UI changes:string-only oneOf generic bound erases;invalidSaveField redundant non-record branch removed after its only caller has already narrowed gs. Explicit source delta proof is attached;not an additional native replay. Later positive unit case also strengthened to two actual party members/sparse follower cache,without changing production data."
+    ],
+    "postObservationSourceProof": {
+      "method": "Root source read from staged index after native UI,prior to redundant-guard removal;not a physical source checkpoint saved at UI time. Explicit post-UI changes are disclosed.",
+      "root": {
+        "path": "packages/game/src/core/save/v1.ts",
+        "beforeSha256": "5b1e3319ba55c766dcdae241f82a5420e6a3b3624de8cfbd7471bcb6716401d0",
+        "afterSha256": "c56f0b0c5509434410b7da3a29f718db4bcb437b64bf53d88a060437037ad374",
+        "change": "Remove impossible non-record failure branch;only caller already narrows gs with isRecord before invoking guard/error. No other emitted JS difference after removing that branch/import."
+      },
+      "shape": {
+        "change": "oneOf generic bound narrows to actual string callers;no emitted JS difference"
+      },
+      "nativeClaim": "Observed three native scenarios at prior draft;current source uses preserved parser/caller and a proven unreachable-branch simplification. Not claiming an additional native replay."
+    }
+  },
+  "images": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-native.png",
+      "bytes": 91797,
+      "sha256": "f1828662120e559f674a934710571265168da19799931a93a605f15a6f2e12c0"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-native-result.png",
+      "bytes": 70882,
+      "sha256": "b5e24593870c22f3a29dc370f91bcc12f20ecf9486f33e3dfb20032089ba0b9c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-native-nested.png",
+      "sha256": "07f85caab9aedf576ebfa0325d1d7a19f7c1f9544ae5dbc226ebc5d62bb13d28"
+    }
+  ],
+  "priorEvidence": [
+    {
+      "commit": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json"
+    },
+    {
+      "commit": "5b0831d5cbd0a3d030fc37163f107c76efe3d094",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json"
+    },
+    {
+      "commit": "a1ed43aae6b67be162f3d1cae7de2fc00be11d83",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json"
+    },
+    {
+      "commit": "3d276b324562f99c895089f9c1cc5021b17d897a",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json"
+    }
+  ],
+  "manualPreflightDisclosures": [
+    "First unrecorded scoped formatter found1unused-import warning;removed real unused import;not a passing gate.",
+    "Later unrecorded scoped Biome found1import-sort error;sorted real imports. These original consoles are in tool transcript,not saved as standalone raw;subsequent formal gates retain complete raw.",
+    "First native fixture creation used wrong cwd-relative path and Vite bin;no product file wrote;first bin failure stderr retained. Retried corrected fixture+pnpm Vite;owned server intentionally stopped143.",
+    "Evidence writer twice stopped on an incorrect global Markdown table/separator uniqueness assumption (hidden example is legal). No product source changed;finished only the inspected first live table,then ledger3332/329/135/2868 passed. Initial helper/ledger console failures are in tool transcript,not claimed attached raw.",
+    "Final metadata check first rejected the done task still linked from active board;removed only that completed task row,kept parentpre94 active. Full failing raw retained,no source change or rule relaxation."
+  ],
+  "gates": {
+    "state": "All frozen product/module and final metadata/static gates passed;commit/push/main synchronization follows",
+    "directed": {
+      "id": "v1-frozen-directed",
+      "tests": 52,
+      "stderrBytes": 0
+    },
+    "typecheck": "v1-frozen-tsc",
+    "fullCheck": {
+      "id": "v1-final-check",
+      "tests": 20386,
+      "diagnostics": "all scanner counters0;260normal stdout blocks independently classified;complete raw retained",
+      "stderrBytes": 0
+    },
+    "officialRatchetProtected": {
+      "id": "v1-final-ratchet",
+      "tests": 19988,
+      "baseRef": "origin/main",
+      "baseCommit": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "diagnostics": "all scanner counters0;11unique normal message bodies are a subset of checked full-check ordinary setup/success logs",
+      "stderrBytes": 0,
+      "scopeRemoval": "Only actual removed MSIO test file,contract transfer at4e5e964;official --allow-scope-removal,no predicate weakening."
+    },
+    "lint": "full check lint5733files0errors/0warnings/0infos;final static receipt follows",
+    "finalStatic": {
+      "docs": "v1-final-docs-r2:five consumers0issues/stderr0",
+      "lint": "v1-closeout-lint-r2:5733files0errors/0warnings/0infos/stderr0",
+      "ledger": "v1-closeout-ledger:3333/339closed/126review/2868pending",
+      "diff": "v1-closeout-diff:exit0/no output"
+    }
+  },
+  "ledger": {
+    "inventory": 3333,
+    "closed": 339,
+    "review": 126,
+    "pending": 2868,
+    "newClosure": 10
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-native.json.gz",
+    "bytes": 341667,
+    "sha256": "f7b5e24f9c70fcdd5998b23502e933e4aa3cf72376297b0cc117bcb11eb873c4",
+    "members": [
+      {
+        "name": "capture.mjs",
+        "bytes": 6723,
+        "sha256": "4346175291d7500b4359013a6b8784ef7f08ae699d38d8c89dedb3ed8dc4d000"
+      },
+      {
+        "name": "native-fixture.html",
+        "bytes": 4704,
+        "sha256": "9813cf360ac0151ee7319c8ea25cad9d5f41116502a3b6d13f4ad4bbd9a059d0"
+      },
+      {
+        "name": "native-cleanup.html",
+        "bytes": 1177,
+        "sha256": "7b05e4e1ae1e23e731f5d53512b76c4df0537d5c480d04e4e4cc3629238ba48b"
+      },
+      {
+        "name": "native-browser.ax.raw",
+        "bytes": 4255,
+        "sha256": "5de5953d70fbc5a5fdcc622e455c75b251793c732489dcee940ebe093a7774ab"
+      },
+      {
+        "name": "native-cleanup.ax.raw",
+        "bytes": 675,
+        "sha256": "a4832333eb948a4c944bf8636427c50202f566572d707856b3085de9cf5fd0be"
+      },
+      {
+        "name": "native-browser-report.json",
+        "bytes": 2606,
+        "sha256": "c3a40fc9e4453f056c92b12a911ae908016359a198665984ddc1e4f4990e31a5"
+      },
+      {
+        "name": "vite.stdout.raw",
+        "bytes": 144,
+        "sha256": "222988c1b7094f3b46b4b036d2d37e650a0b19c0bca4c62344a11858a4bf18a2"
+      },
+      {
+        "name": "vite.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "vite-first-failure.stderr.raw",
+        "bytes": 64,
+        "sha256": "8aa9f2da2d185c9f4a1f8bdd3591ca8da50bd1627cc65ff744beafa1090bd8d5"
+      },
+      {
+        "name": "finite-before.ts",
+        "bytes": 3049,
+        "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+      },
+      {
+        "name": "finite-removed.patch",
+        "bytes": 523,
+        "sha256": "212a3e31f584cc6108f9f267956577f348db9f0df3c7217acfb3e14be6470412"
+      },
+      {
+        "name": "finite-mutation.json",
+        "bytes": 327,
+        "sha256": "48b94980d776a86287a90ce8e66f3f7a73067b6a1fe11ad22a18fb386b57255b"
+      },
+      {
+        "name": "finite-restored.json",
+        "bytes": 2354,
+        "sha256": "e26bc819cb8bbd476ea28b00284d1a09a48fa431a4e47303a63ef8a738fbbed9"
+      },
+      {
+        "name": "red-save-io.ts",
+        "bytes": 1327,
+        "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+      },
+      {
+        "name": "red-save-io.test.ts",
+        "bytes": 7442,
+        "sha256": "52d1a5085e5b2c9f1127f93d5848eeea5aad5f7718510217be608d160711a445"
+      },
+      {
+        "name": "red-data.ts",
+        "bytes": 2005,
+        "sha256": "3dbb264dc25e62f45d6738e0c4fffb72fce6236fc917971b47f9dc13b0d80b15"
+      },
+      {
+        "name": "red-save-v1-store-v2.json",
+        "bytes": 10140,
+        "sha256": "c8fbc8cae6bb99db92e947f1bb9b8428f0e23782c4f9dd856c583fc56ae9c283"
+      },
+      {
+        "name": "shape-tsc.execution.json",
+        "bytes": 1164,
+        "sha256": "0d75885e31120f4fadb72cead1b8e56d5c019d5ee584955ac754d7851d8ce739"
+      },
+      {
+        "name": "shape-tsc.stdout.raw",
+        "bytes": 630,
+        "sha256": "f4621f63eaeb76ccae6717b905d6cd299911750a4ec884f3a8946b04d3a8803a"
+      },
+      {
+        "name": "shape-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "schema-tsc.execution.json",
+        "bytes": 1484,
+        "sha256": "09aaeb7a8ab4f79110e1bd1c7941f37dc36fd6cf55ff372387d620d651ee0ca5"
+      },
+      {
+        "name": "schema-tsc.stdout.raw",
+        "bytes": 563,
+        "sha256": "5dbe4c0541725ce414d066b66cf3ca25ba9829c2fe99b99ac8dad7433a24e2fe"
+      },
+      {
+        "name": "schema-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "schema-tsc-r2.execution.json",
+        "bytes": 1493,
+        "sha256": "72d9bad5b2e353d43adc8a2534e5b5039816633887d8a340db567a8d52693f12"
+      },
+      {
+        "name": "schema-tsc-r2.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "schema-tsc-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "schema-red.execution.json",
+        "bytes": 1998,
+        "sha256": "f6d598694768bae4fa3dee3c695b38c6cdf7295b41131e116c7d744837097fc7"
+      },
+      {
+        "name": "schema-red.stdout.raw",
+        "bytes": 1814,
+        "sha256": "4a7d38c4a18108a8214da605459329e30a1f5936950d7ed355d20f0b0298f567"
+      },
+      {
+        "name": "schema-red.stderr.raw",
+        "bytes": 2099,
+        "sha256": "96fe0097346073bdcfb3bd653ad1d21062f6b5181ea26b07cad80a3508d803db"
+      },
+      {
+        "name": "schema-red.native.json",
+        "bytes": 22477,
+        "sha256": "816fecaa6b540d51982077035cbac3d861afe19fddf9367eab39a8ce9878625c"
+      },
+      {
+        "name": "schema-green.execution.json",
+        "bytes": 2160,
+        "sha256": "a9a1ed887bb4579eb8b1677f44c6f65faaac1346e0c28761fa754c99043f3698"
+      },
+      {
+        "name": "schema-green.stdout.raw",
+        "bytes": 670,
+        "sha256": "5031b3915ed7ad123fd940dc79577c2aef86e13306e8270a4b908372ea1b8b40"
+      },
+      {
+        "name": "schema-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "schema-green.native.json",
+        "bytes": 14138,
+        "sha256": "21fee187e1ccebe6a1ea096f83c99dd082f2cd2b20c431ee1ca2e16247b1f319"
+      },
+      {
+        "name": "schema-tsc-final.execution.json",
+        "bytes": 1739,
+        "sha256": "cb286fc90a3b96197046704665ad1123150e1843ddecf4f7e63255a0c74cfe30"
+      },
+      {
+        "name": "schema-tsc-final.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "schema-tsc-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "schema-green-final.execution.json",
+        "bytes": 2184,
+        "sha256": "472630d166d4550cab9ecc0cf7bcf6cbc67a27a017ae9aafad70aa447ab6f031"
+      },
+      {
+        "name": "schema-green-final.stdout.raw",
+        "bytes": 676,
+        "sha256": "9f50d76982c48c15f85d7b0ea2ee32066246c6d4b5db4e04fd5e303c3aa4dc34"
+      },
+      {
+        "name": "schema-green-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "schema-green-final.native.json",
+        "bytes": 14472,
+        "sha256": "a6c3dc6ba8f8d6759f404963ce2e6353517d0362c96bc2d0b228a9df82d7c207"
+      },
+      {
+        "name": "schema-no-finite.execution.json",
+        "bytes": 2019,
+        "sha256": "592456de34a66a597d2167422e284b37718d443021d05f6946d5e53334a83819"
+      },
+      {
+        "name": "schema-no-finite.stdout.raw",
+        "bytes": 1911,
+        "sha256": "bfe3acaa5c977af1f5fdd7f654f72ba2710028352ff686376fbc3969da1eb350"
+      },
+      {
+        "name": "schema-no-finite.stderr.raw",
+        "bytes": 700,
+        "sha256": "3d623bbc04dc72acb507d4a076d4225369c6e3f4491d7252be2a334069cfbb55"
+      },
+      {
+        "name": "schema-no-finite.native.json",
+        "bytes": 8131,
+        "sha256": "3fa823e2ca13f69b056d91d7b91cb0046b92687aa2e867e6f740be1ca37e2913"
+      },
+      {
+        "name": "scan-v1.cjs",
+        "bytes": 2017,
+        "sha256": "823ca20ebf88d923054c5b43aa89b6f24bcc507c91bf58a32a3899c7b2de1db8"
+      },
+      {
+        "name": "v1-structure-metrics.json",
+        "bytes": 7876,
+        "sha256": "b7988acc4abf48cd45803df402de4ec97bdc01a0206dd340c4d7dad4c22abd69"
+      },
+      {
+        "name": "update-v1-reviews.cjs",
+        "bytes": 5675,
+        "sha256": "89a704048cf557cb91deefd5accc859bff45ba240372ae30393a633f74cec59d"
+      },
+      {
+        "name": "metadata-before-candidate.json",
+        "bytes": 1882344,
+        "sha256": "c65384df46c093e841660aa38991315cdc4cea8bfd13ea8f491d177c2200bc3b"
+      },
+      {
+        "name": "metadata-candidate.json",
+        "bytes": 1273,
+        "sha256": "96ea8edbbf7e312c34022fdccfc48332a516d13c7d31f50ccfd2cae1c6ece09a"
+      },
+      {
+        "name": "v1-directed.execution.json",
+        "bytes": 4030,
+        "sha256": "294731900653a2c08d316139c04bef77dce5ea1aa7446e4c80f82f0ac28149f6"
+      },
+      {
+        "name": "v1-directed.stdout.raw",
+        "bytes": 669,
+        "sha256": "b4a482bb9ec4c03fab242fbad8c071552e0ea59e16707ab5a43b5eab2dfb28e1"
+      },
+      {
+        "name": "v1-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-directed.native.json",
+        "bytes": 14475,
+        "sha256": "b67fe1e4f37f4a98cefddf0267bf5c19915d443eca168e7896d4b51f8cdfb390"
+      },
+      {
+        "name": "v1-tsc.execution.json",
+        "bytes": 3583,
+        "sha256": "edd7010ff8709c7d354c45ae2c7053468b0da98730f78be7358b9ce5897f5314"
+      },
+      {
+        "name": "v1-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "v1-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-biome.execution.json",
+        "bytes": 3955,
+        "sha256": "b88d38823a1ea971268c9614250bcdf4c7ea66ce67a5f9da4c16c54c81266ac5"
+      },
+      {
+        "name": "v1-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "86370dca6fe681276bcde546a27efae0006dcab830c076152652b4762f5cec8f"
+      },
+      {
+        "name": "v1-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "prove-native-delta.cjs",
+        "bytes": 1816,
+        "sha256": "63076196b105be5088cd442a559f46699309e466ca2ad54a506b3585ba980412"
+      },
+      {
+        "name": "native-v1-root-index.ts",
+        "bytes": 7480,
+        "sha256": "5b1e3319ba55c766dcdae241f82a5420e6a3b3624de8cfbd7471bcb6716401d0"
+      },
+      {
+        "name": "native-delta-proof.json",
+        "bytes": 947,
+        "sha256": "6b240c7b94b27657cac3c40b5d212daf4285841c8fc9f6b9e475b211862edb71"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/core/save/data.ts",
+        "bytes": 2005,
+        "sha256": "3dbb264dc25e62f45d6738e0c4fffb72fce6236fc917971b47f9dc13b0d80b15"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/core/save/v1-shape.ts",
+        "bytes": 3049,
+        "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/core/save/v1-world.ts",
+        "bytes": 6978,
+        "sha256": "11631962191fb0d1636dd31ad47d9f0633d99fa16e012d1a2efa834e99713825"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/core/save/v1-battle.ts",
+        "bytes": 9024,
+        "sha256": "dd8c5f5501d15f025b39034dd915009be43e7352eea1bae016635d1b87259891"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/core/save/v1.ts",
+        "bytes": 7448,
+        "sha256": "c56f0b0c5509434410b7da3a29f718db4bcb437b64bf53d88a060437037ad374"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/tools/save-io.ts",
+        "bytes": 1435,
+        "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/tools/save-io.test.ts",
+        "bytes": 8055,
+        "sha256": "308c94d0d02885ddabb7da1cb35ce632f4a5e426591fda64d09cff7b83855bae"
+      },
+      {
+        "name": "prior-v1-stage/packages/game/src/tools/__fixtures__/save-v1-store-v2.json",
+        "bytes": 10140,
+        "sha256": "c8fbc8cae6bb99db92e947f1bb9b8428f0e23782c4f9dd856c583fc56ae9c283"
+      },
+      {
+        "name": "v1-check.execution.json",
+        "bytes": 3617,
+        "sha256": "33ea880326ab24efa760a83eee430b88de47de81a1b8ede6edfcebc4eae5731f"
+      },
+      {
+        "name": "v1-check.stdout.raw",
+        "bytes": 370013,
+        "sha256": "a8d567e57bf3277bd25f1f9aec581c85fb6e53b355da2051bc7df4c5baf2d869"
+      },
+      {
+        "name": "v1-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-check.diagnostics.json",
+        "bytes": 84208,
+        "sha256": "66182bdcb7dc672390c3330f4450290c99091e068233c6a3e8704d51e2b46c1c"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      {
+        "name": "nested-red.execution.json",
+        "bytes": 4011,
+        "sha256": "9f2d0bf70a4f4f95dd97fc3ff54b331e689988dbf92c0e35f607d15bc5e7c7d5"
+      },
+      {
+        "name": "nested-red.stdout.raw",
+        "bytes": 2086,
+        "sha256": "5e8fa5c124df0de314735da69b82cc9cfc6f9602eb2bcf0c078ac3aa57678ad8"
+      },
+      {
+        "name": "nested-red.stderr.raw",
+        "bytes": 1647,
+        "sha256": "5b6f6045783475e9d974ddcacf99d7e3bfb99ed664a2cd526c9602789ee64895"
+      },
+      {
+        "name": "nested-red.native.json",
+        "bytes": 10657,
+        "sha256": "da7e2de45060aa0c87e1e0af64e3a4c0de2a6061879b7325b35fce005ffa0876"
+      },
+      {
+        "name": "nested-green.execution.json",
+        "bytes": 4175,
+        "sha256": "6c28db45666f5dd768bd69a860860b7e694b600a140e91de797b1717013fe2b4"
+      },
+      {
+        "name": "nested-green.stdout.raw",
+        "bytes": 671,
+        "sha256": "12357ff6f5c81dbc04d59f43c38d0efbd28109aad4a4adf5cd472bf142a8f2cc"
+      },
+      {
+        "name": "nested-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "nested-green.native.json",
+        "bytes": 15218,
+        "sha256": "c07780d7f06583d3ef57ecd4fc5265dcaf2f628ee82f8930237b655d5fb65049"
+      },
+      {
+        "name": "nested-tsc.execution.json",
+        "bytes": 3736,
+        "sha256": "3ef13ddca90beffafab5c7a663a14472f1565e1999e81c975817e1c0fe0272ad"
+      },
+      {
+        "name": "nested-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "nested-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-index-red.execution.json",
+        "bytes": 4205,
+        "sha256": "685b71fc9e4533ddf1c1f1fd29b8492fbb2100d93d5c80925407ad995a40c3f6"
+      },
+      {
+        "name": "role-index-red.stdout.raw",
+        "bytes": 2396,
+        "sha256": "fd9b2c8d11b7b24302336c4d6e5fa5ba8fc2a3e79ca752b92451cae6ea6ff6f3"
+      },
+      {
+        "name": "role-index-red.stderr.raw",
+        "bytes": 885,
+        "sha256": "b6e4ab1882f5c059f59876e14cb4b9d137fb4650ed295b4a73cba7114ee2a685"
+      },
+      {
+        "name": "role-index-red.native.json",
+        "bytes": 13455,
+        "sha256": "dff32b1ad9885fceac92f2817da8db2fd5629bc60b2c194777ffbf58fbe836ab"
+      },
+      {
+        "name": "role-index-red-r2.execution.json",
+        "bytes": 4218,
+        "sha256": "0c760d27e986f65e93f3293fdc108dd3d59d4a14033e0e90837e5845a411d6e4"
+      },
+      {
+        "name": "role-index-red-r2.stdout.raw",
+        "bytes": 2466,
+        "sha256": "6da05980b4e02e904c4d147ec2cc80825c1bd1f06c0f7927b619fdbc39c3e9a5"
+      },
+      {
+        "name": "role-index-red-r2.stderr.raw",
+        "bytes": 1428,
+        "sha256": "f6b65a7f8c75c09e3cd381a7548ded3095d1df6da4e451995ef12af6bc1844e5"
+      },
+      {
+        "name": "role-index-red-r2.native.json",
+        "bytes": 15392,
+        "sha256": "f6a83a0a4b22908bb9187830307e70c7e0359544ac3e05237a77c487bd35879a"
+      },
+      {
+        "name": "v1-frozen-directed.execution.json",
+        "bytes": 4378,
+        "sha256": "2eb5a33c57cf768feee8830a7aa6e241ae40f77f48e4c2d62d7129e7d74c85b2"
+      },
+      {
+        "name": "v1-frozen-directed.stdout.raw",
+        "bytes": 676,
+        "sha256": "c850762e98a321e39f527ad35a7faa234e5ab955d1044345ac5d78cc5c748a92"
+      },
+      {
+        "name": "v1-frozen-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-frozen-directed.native.json",
+        "bytes": 16841,
+        "sha256": "2c226bbba5c36e70a124675d11d921805d46857dca755ed64d90e8746dfb0159"
+      },
+      {
+        "name": "v1-frozen-tsc.execution.json",
+        "bytes": 3924,
+        "sha256": "0c635d6c365a42a891f8e82f3586e6537b32e6aedf4636f04d93bec186f0dc3c"
+      },
+      {
+        "name": "v1-frozen-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "v1-frozen-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-frozen-biome.execution.json",
+        "bytes": 4369,
+        "sha256": "90661217035730364671a2d79477045ceb3185cb1317c837026a5fa06b6af379"
+      },
+      {
+        "name": "v1-frozen-biome.stdout.raw",
+        "bytes": 42,
+        "sha256": "0d5d0facebd60eee2d2e89a58b3c290197211aa90326dbf9e90612e96137db9d"
+      },
+      {
+        "name": "v1-frozen-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "nested-red-test.ts",
+        "bytes": 9224,
+        "sha256": "c6cbc61322cb1ffdf9d47109d6114726ffd07740f6e987cd502e2207200714ec"
+      },
+      {
+        "name": "role-index-red-test.ts",
+        "bytes": 10421,
+        "sha256": "d5d96dc8c1e7efa3d85b5f72f713572a1f2391f48360973839b100597cc55e60"
+      },
+      {
+        "name": "native-nested-fixture.html",
+        "bytes": 4625,
+        "sha256": "896907ebc3abf68576a55850b2dc8daf2325f9bf2ddb754df0b1cdb1999f52f0"
+      },
+      {
+        "name": "native-nested-cleanup.html",
+        "bytes": 1177,
+        "sha256": "53d4f35964da8e414b7ba9ed7bbd0d3b67fbf30de7d412d1b3d38a8e7513ef62"
+      },
+      {
+        "name": "native-nested-browser.ax.raw",
+        "bytes": 2073,
+        "sha256": "96336a084f605358e8af89b679a26afa476c5957f7b1d8cade4e7f424048fff4"
+      },
+      {
+        "name": "native-nested-browser-full.ax.raw",
+        "bytes": 3812,
+        "sha256": "b48eae95741d5d9f6d733c442c6c75745d434fbd7ec84090be5a0c2d9275c01d"
+      },
+      {
+        "name": "native-nested-cleanup.ax.raw",
+        "bytes": 675,
+        "sha256": "137da8e3da20cacf983baa4596021e2534f3d9889696eee26c12b20d226fc313"
+      },
+      {
+        "name": "vite-nested.stdout.raw",
+        "bytes": 74,
+        "sha256": "05872b628602b5a1661e998c1cce50229b1f3056c201d2e32014c89e0183c615"
+      },
+      {
+        "name": "vite-nested.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "native-nested-report.json",
+        "bytes": 2148,
+        "sha256": "20e0a81edfab84aac67d4f4085ee58057a366ad212186d9dec09a6d85084baa0"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/core/save/data.ts",
+        "bytes": 3145,
+        "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/core/save/v1-shape.ts",
+        "bytes": 3049,
+        "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/core/save/v1-world.ts",
+        "bytes": 7239,
+        "sha256": "9316eab1f0e248a8bb7b6735d843d97819b054c14cba6c99fd7f7bef34fe06bc"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/core/save/v1-battle.ts",
+        "bytes": 9332,
+        "sha256": "5fad387e319e6c4c07884d327e4c97e94a1ccbc08524ec385157b79ee65c8679"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/core/save/v1.ts",
+        "bytes": 7470,
+        "sha256": "52456f6aae023ecc85847b6f723427d13253bf447015cee3dbd1a3939df2dffb"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/tools/save-io.ts",
+        "bytes": 1435,
+        "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/tools/save-io.test.ts",
+        "bytes": 10421,
+        "sha256": "d5d96dc8c1e7efa3d85b5f72f713572a1f2391f48360973839b100597cc55e60"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/tools/__fixtures__/save-v1-store-v2.json",
+        "bytes": 10140,
+        "sha256": "c8fbc8cae6bb99db92e947f1bb9b8428f0e23782c4f9dd856c583fc56ae9c283"
+      },
+      {
+        "name": "frozen-candidate/packages/game/src/tools/__fixtures__/save-v1-store-v2-nested.json",
+        "bytes": 4868,
+        "sha256": "4b100817c449477c5e07710a219adad0aebc22735fd54b8fd676c47d80da297b"
+      },
+      {
+        "name": "v1-final-check.execution.json",
+        "bytes": 4038,
+        "sha256": "ff24831a48ccdf4f3df87a8bfbba8fb346ff5c0932ac96ae7578a0e43861c06d"
+      },
+      {
+        "name": "v1-final-check.stdout.raw",
+        "bytes": 370188,
+        "sha256": "70e3c292226bf9b6d486bf406e0dd4f52be915e3ec7cf71394d478e16aba2d35"
+      },
+      {
+        "name": "v1-final-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-final-check.diagnostics.json",
+        "bytes": 84214,
+        "sha256": "ab73dc48b183d233fc796457c6abe4fe26cd45ddab69cd056e1e1d29a5bf0f63"
+      },
+      {
+        "name": "v1-final-ratchet.execution.json",
+        "bytes": 4193,
+        "sha256": "5fe2122814793797bb06de9a7bceaee66b6719e183215f0845c50562e1479f79"
+      },
+      {
+        "name": "v1-final-ratchet.stdout.raw",
+        "bytes": 203362,
+        "sha256": "dc69ce2f0394bc17027eb57cd2b9a515d481245f5eb6af00730bb3e8e2c04d6e"
+      },
+      {
+        "name": "v1-final-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-final-ratchet.coverage-summary.json",
+        "bytes": 8472399,
+        "sha256": "a9f8680b1176523ae371ff4b519480a41af0bb3e8b39ab1fb6bc4e0d34c71259"
+      },
+      {
+        "name": "v1-final-ratchet.diagnostics.json",
+        "bytes": 81905,
+        "sha256": "94650edc168f9224c7c41bd4247e47fd83b973b7df61951588c82a999fc72625"
+      },
+      {
+        "name": "v1-frozen-docs.execution.json",
+        "bytes": 4370,
+        "sha256": "a6a2bd363369f77a42ced8affb88b14a6547d62e9a60ffa790887ea6fbbd4307"
+      },
+      {
+        "name": "v1-frozen-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "72b201ce19e19cd1c3c3a86a19b44c9adeccc4db359cea3587f77405fea74814"
+      },
+      {
+        "name": "v1-frozen-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "metadata-before-frozen.json",
+        "bytes": 1887117,
+        "sha256": "daccf7722d7c1cab5a1a1b617f1ec1274bf42d7c7eba1a0ff82e34a3f4298ff8"
+      },
+      {
+        "name": "metadata-frozen.json",
+        "bytes": 1271,
+        "sha256": "6cb671d72a95143d12ef13cf105b77b96dc0e94aa53ae3610532a1c9db92c9de"
+      },
+      {
+        "name": "v1-final-check.stdout-classification.json",
+        "bytes": 868,
+        "sha256": "954f1e35e04fcec0c5b39ff233ee5593fa33d3c0b8773c3a9b4e050e59d99daf"
+      },
+      {
+        "name": "official-inventory/reforge.fast.json",
+        "bytes": 2206396,
+        "sha256": "ded027b6c4feed3dd81d8a0c7f52cd1fc612d26887a574adaa30d8c70732df8d"
+      },
+      {
+        "name": "official-inventory/shared.fast.json",
+        "bytes": 26797,
+        "sha256": "44122519e312a1045b1f9bdb9292ab49d0e2c3e8cae91e3eade7193faf0693cc"
+      },
+      {
+        "name": "official-inventory/content.fast.json",
+        "bytes": 364424,
+        "sha256": "df76e5b7c744f41b7f7d32b730e23eb5ef7a8374463520530e53ee6f568b8c85"
+      },
+      {
+        "name": "official-inventory/editor.fast.json",
+        "bytes": 1237658,
+        "sha256": "8d87311a303f42a07d309416db2addd39f8913065640179a57753060667545fd"
+      },
+      {
+        "name": "official-inventory/migrate.fast.json",
+        "bytes": 196773,
+        "sha256": "38f0d780bc25427bb0f310395c96cec309744e3d967da2a35acb59fdd5995a32"
+      },
+      {
+        "name": "official-inventory/pal-extract.fast.json",
+        "bytes": 74865,
+        "sha256": "124e3c948576b72aef35ccb2b0b0371556ee3f58ad1630bd884a4ee09a23aae3"
+      },
+      {
+        "name": "official-inventory/game.fast.json",
+        "bytes": 981105,
+        "sha256": "f00f7463fb390a3e37b9b808883c5505ffe9a723de7da8274015ebb54ed42c1c"
+      },
+      {
+        "name": "official-coverage/content.json",
+        "bytes": 19470,
+        "sha256": "6c9a391e15f9acdec4d283743f5c5dc7298ff76a8920d9e28b06a225e9fe5272"
+      },
+      {
+        "name": "official-coverage/shared.json",
+        "bytes": 3971,
+        "sha256": "5f280ed15a29b5588d32fa9ab1348096111f7fa5e49ec540a762b4f181060db6"
+      },
+      {
+        "name": "official-coverage/game.json",
+        "bytes": 53255,
+        "sha256": "2a830a80eed93d6e68413f9bc2501c3fcffaadf08c332be96df591423a631ffd"
+      },
+      {
+        "name": "official-coverage/migrate.json",
+        "bytes": 13444,
+        "sha256": "6f71200a3734a9728a780a1f259e649180527ba99290434ab4a10a0ea198f024"
+      },
+      {
+        "name": "official-coverage/pal-extract.json",
+        "bytes": 14185,
+        "sha256": "7b29165f627a9c230e37fe117598d18889198583e487baa7f243f6595086be58"
+      },
+      {
+        "name": "official-coverage/reforge.json",
+        "bytes": 55112,
+        "sha256": "8c5891cba8cceb0ce366731f9492c21239c8c9ad9a0805ec6afd4664080257e7"
+      },
+      {
+        "name": "official-coverage/editor.json",
+        "bytes": 104248,
+        "sha256": "c03da584eb85ed6e17252741287258d8b5a1b6e3271f41b7a2ce06f53491d40f"
+      },
+      {
+        "name": "v1-final-docs.execution.json",
+        "bytes": 4585,
+        "sha256": "1d497e230f553c12fe50e023a376cb2994cfd9ab6f979c8725fb3f9394e98564"
+      },
+      {
+        "name": "v1-final-docs.stdout.raw",
+        "bytes": 93,
+        "sha256": "3384b8f48743fef929cb5e5dfc3f577a107a25e500f2c277ed6f32367d990903"
+      },
+      {
+        "name": "v1-final-docs.stderr.raw",
+        "bytes": 871,
+        "sha256": "29242dd2550a6e78f22904daa66255bd84d108c7731b1356abfb551a3c446d6a"
+      },
+      {
+        "name": "v1-final-docs-r2.execution.json",
+        "bytes": 4593,
+        "sha256": "071288a9dcb6cb9beeadc4dd774da744d530a89630aeb27f84c2e9d9dd89eb8f"
+      },
+      {
+        "name": "v1-final-docs-r2.stdout.raw",
+        "bytes": 311,
+        "sha256": "8ebfddafe1eb5842626450ef94c44c35769d93916c12c34d9ce95611d0a74c69"
+      },
+      {
+        "name": "v1-final-docs-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-closeout-lint.execution.json",
+        "bytes": 4258,
+        "sha256": "706095e73617fe674ca872fbde6f9e3add113b6910143c3f0dec3bdc31317609"
+      },
+      {
+        "name": "v1-closeout-lint.stdout.raw",
+        "bytes": 167,
+        "sha256": "67abbd7779934ba2192a5352a46a8591ebaaa412e7460de07adcaaa3f87b5165"
+      },
+      {
+        "name": "v1-closeout-lint.stderr.raw",
+        "bytes": 190,
+        "sha256": "296982e0b2dc8c8d40b446c9e6f2b53636f0b552ef4ee8c459c9690e97a7981a"
+      },
+      {
+        "name": "v1-closeout-ledger.execution.json",
+        "bytes": 4299,
+        "sha256": "deff0d05bbb6c6c0d7941ba0499f3d1b9434711b7adfe9aa5e06979bb4aaa000"
+      },
+      {
+        "name": "v1-closeout-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "16c48f01855a53f528a041d9bf9a67303a32fa7f9b58601b4cacab1cf9290b5b"
+      },
+      {
+        "name": "v1-closeout-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-closeout-diff.execution.json",
+        "bytes": 4280,
+        "sha256": "1f8fdbc2e7eb2995ce3d3144a4d386acbb137442ab7532647b4e026998ab154a"
+      },
+      {
+        "name": "v1-closeout-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-closeout-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "v1-closeout-lint-r2.execution.json",
+        "bytes": 4265,
+        "sha256": "89a5ef4965899b940d50b8f713dd77a073e721d52c46119af39c4c0e7665561c"
+      },
+      {
+        "name": "v1-closeout-lint-r2.stdout.raw",
+        "bytes": 193,
+        "sha256": "b0963cd22c381fc3cdf89c8aaa30ae58cd052f72b725925faede4d329be77b14"
+      },
+      {
+        "name": "v1-closeout-lint-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "quantitativeInitialScan": {
+    "kind": "AST branch-syntax heuristic only,not CFG/acceptance target;logical operators counted,nested functions separate",
+    "rootFieldCount": 96,
+    "rootFields": [
+      "party",
+      "partyLeaderSpriteId",
+      "partyScriptedFrame",
+      "camera",
+      "npcs",
+      "partyMembers",
+      "inventory",
+      "mode",
+      "menuStack",
+      "sceneCommands",
+      "sceneLabelMap",
+      "eventCursor",
+      "dialogBox",
+      "dialogBoxKept",
+      "currentDialogStyle",
+      "currentDialogPortraitIcon",
+      "currentDialogPortraitLayout",
+      "currentDialogFontColor",
+      "battleState",
+      "frameNum",
+      "nowMs",
+      "walkingFrame",
+      "trail",
+      "followerFrozenOffset",
+      "palette",
+      "basePalette",
+      "paletteFadeState",
+      "needToFadeIn",
+      "numPalette",
+      "nightPalette",
+      "iCurPlayingRNG",
+      "sWaveProgression",
+      "shakeTime",
+      "shakeLevel",
+      "sceneLoading",
+      "pendingSceneLoad",
+      "suspendRaf",
+      "blackScreenHold",
+      "dialogPlayingRNG",
+      "rngDialogBackup",
+      "rngFrameActive",
+      "wSavedTimes",
+      "currentSaveSlot",
+      "wNumScene",
+      "dialogHistory",
+      "wPaletteOffset",
+      "wNumMusic",
+      "musicLoop",
+      "pendingSounds",
+      "fMusicEnabled",
+      "fSoundEnabled",
+      "wNumBattleMusic",
+      "wNumBattleField",
+      "wScreenWave",
+      "wBattleSpeed",
+      "iCurMainMenuItem",
+      "iCurSystemMenuItem",
+      "iCurInvMenuItem",
+      "iCurInvActionMenuItem",
+      "wCollectValue",
+      "wLayer",
+      "wChaseRange",
+      "wChasespeedChangeCycles",
+      "nFollower",
+      "dwCash",
+      "fAutoBattle",
+      "Exp",
+      "PlayerRolesRuntime",
+      "rgPoisonStatus",
+      "rgPlayerStatus",
+      "rgScene",
+      "sceneOnEnterIp",
+      "sceneOnEnterOverride",
+      "prevBattleActions",
+      "prevBattleActionTargetRoles",
+      "gameOverActive",
+      "deathHoldActive",
+      "postBattleResume",
+      "dialogIDelayFrames",
+      "clearPressedOnce",
+      "suppressAutoTriggerOnce",
+      "sceneOnTeleportOverride",
+      "sceneOnTeleportEntry",
+      "sceneMapNumOverride",
+      "followers",
+      "rgObject",
+      "rgEventObject",
+      "allEventObjects",
+      "sceneEventRanges",
+      "rgEquipmentEffect",
+      "wLastUnequippedItem",
+      "iCurEquipPart",
+      "fScriptSuccess",
+      "pendingItemConsume",
+      "itemUseApplyToAll",
+      "fadeState"
+    ],
+    "runtimeImports": [
+      {
+        "path": "packages/game/src/core/save/v1-world.ts",
+        "module": "./v1-shape.js",
+        "typeOnly": false
+      },
+      {
+        "path": "packages/game/src/core/save/v1-battle.ts",
+        "module": "./v1-shape.js",
+        "typeOnly": false
+      },
+      {
+        "path": "packages/game/src/core/save/v1-battle.ts",
+        "module": "./v1-world.js",
+        "typeOnly": false
+      },
+      {
+        "path": "packages/game/src/core/save/v1.ts",
+        "module": "./v1-battle.js",
+        "typeOnly": false
+      },
+      {
+        "path": "packages/game/src/core/save/v1.ts",
+        "module": "./v1-shape.js",
+        "typeOnly": false
+      },
+      {
+        "path": "packages/game/src/core/save/v1.ts",
+        "module": "./v1-world.js",
+        "typeOnly": false
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "module": "../core/save/v1.js",
+        "typeOnly": false
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "module": "../core/save/v1-shape.js",
+        "typeOnly": false
+      }
+    ],
+    "functions": [
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 5,
+        "name": "isRecord",
+        "estimatedBranches": 3
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 9,
+        "name": "number",
+        "estimatedBranches": 2
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 11,
+        "name": "string",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 12,
+        "name": "boolean",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 13,
+        "name": "unknown",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 15,
+        "name": "optional",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 16,
+        "name": "callback",
+        "estimatedBranches": 2
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 19,
+        "name": "nullable",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 20,
+        "name": "callback",
+        "estimatedBranches": 2
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 23,
+        "name": "oneOf",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 24,
+        "name": "callback",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 24,
+        "name": "callback",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 27,
+        "name": "array",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 28,
+        "name": "callback",
+        "estimatedBranches": 4
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 32,
+        "name": "tuple",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 35,
+        "name": "callback",
+        "estimatedBranches": 3
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 38,
+        "name": "callback",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 41,
+        "name": "record",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 42,
+        "name": "callback",
+        "estimatedBranches": 2
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 48,
+        "name": "object",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 49,
+        "name": "callback",
+        "estimatedBranches": 5
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 56,
+        "name": "variant",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 61,
+        "name": "callback",
+        "estimatedBranches": 4
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 69,
+        "name": "bytes",
+        "estimatedBranches": 2
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "line": 72,
+        "name": "callback",
+        "estimatedBranches": 5
+      },
+      {
+        "path": "packages/game/src/core/save/v1-world.ts",
+        "line": 31,
+        "name": "commands",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-world.ts",
+        "line": 99,
+        "name": "cond",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/core/save/v1-battle.ts",
+        "line": 169,
+        "name": "targetIdx",
+        "estimatedBranches": 2
+      },
+      {
+        "path": "packages/game/src/core/save/v1.ts",
+        "line": 260,
+        "name": "invalidSaveField",
+        "estimatedBranches": 3
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "line": 9,
+        "name": "serializeSave",
+        "estimatedBranches": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "line": 14,
+        "name": "parseImportedSave",
+        "estimatedBranches": 11
+      }
+    ],
+    "flagged": [
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "line": 14,
+        "name": "parseImportedSave",
+        "estimatedBranches": 11
+      }
+    ],
+    "disposition": "parseImportedSave branch-syntax heuristic flags fail-fast checks. Each preserves a distinct error/ownership boundary;retained linear flow rather than moving branches to chase metric. Repeated numeric descriptor rows share scalar/vector guards;world/runtime/equipment meanings remain separate."
+  },
+  "priorDraftSnapshot": {
+    "files": [
+      {
+        "path": "packages/game/src/core/save/data.ts",
+        "member": "prior-v1-stage/packages/game/src/core/save/data.ts",
+        "sha256": "3dbb264dc25e62f45d6738e0c4fffb72fce6236fc917971b47f9dc13b0d80b15"
+      },
+      {
+        "path": "packages/game/src/core/save/v1-shape.ts",
+        "member": "prior-v1-stage/packages/game/src/core/save/v1-shape.ts",
+        "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+      },
+      {
+        "path": "packages/game/src/core/save/v1-world.ts",
+        "member": "prior-v1-stage/packages/game/src/core/save/v1-world.ts",
+        "sha256": "11631962191fb0d1636dd31ad47d9f0633d99fa16e012d1a2efa834e99713825"
+      },
+      {
+        "path": "packages/game/src/core/save/v1-battle.ts",
+        "member": "prior-v1-stage/packages/game/src/core/save/v1-battle.ts",
+        "sha256": "dd8c5f5501d15f025b39034dd915009be43e7352eea1bae016635d1b87259891"
+      },
+      {
+        "path": "packages/game/src/core/save/v1.ts",
+        "member": "prior-v1-stage/packages/game/src/core/save/v1.ts",
+        "sha256": "c56f0b0c5509434410b7da3a29f718db4bcb437b64bf53d88a060437037ad374"
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "member": "prior-v1-stage/packages/game/src/tools/save-io.ts",
+        "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "member": "prior-v1-stage/packages/game/src/tools/save-io.test.ts",
+        "sha256": "308c94d0d02885ddabb7da1cb35ce632f4a5e426591fda64d09cff7b83855bae"
+      },
+      {
+        "path": "packages/game/src/tools/__fixtures__/save-v1-store-v2.json",
+        "member": "prior-v1-stage/packages/game/src/tools/__fixtures__/save-v1-store-v2.json",
+        "sha256": "c8fbc8cae6bb99db92e947f1bb9b8428f0e23782c4f9dd856c583fc56ae9c283"
+      }
+    ],
+    "check": "v1-check",
+    "tests": 20379,
+    "diagnostics": "All scanner diagnostic counters0 and stderr0;ordinary stdout blocks retained in native diagnostics file. Not current final acceptance after later nested counter.",
+    "limits": "Frozen staged bytes before type/guard expansion;preserved even though new files were not committed then."
+  },
+  "nestedBrowser": {
+    "record": {
+      "owner": "pre94-save-nested-20261021-3d276b324",
+      "origin": "http://127.0.0.1:62839",
+      "initialDatabases": [],
+      "nativeFileReader": "function FileReader() { [native code] }",
+      "results": [
+        {
+          "kind": "dialog",
+          "pass": true,
+          "nativeFileName": "pre94-native-dialog.json",
+          "beforeInputValue": "C:\\fakepath\\pre94-native-dialog.json",
+          "inputValueReset": true,
+          "toast": {
+            "text": "✓ 已导入到存档位 5",
+            "className": "tp-toast tp-toast-success"
+          },
+          "sameOriginal": false,
+          "sameMeta": false,
+          "slot": {
+            "scene": 1,
+            "cash": 55,
+            "hasNowMs": false,
+            "dialogHasLineCount": false,
+            "battleHasMenuState": null,
+            "storedHaste": null
+          },
+          "databases": [
+            {
+              "name": "type-pal",
+              "version": 2
+            }
+          ]
+        },
+        {
+          "kind": "battle",
+          "pass": true,
+          "nativeFileName": "pre94-native-battle.json",
+          "beforeInputValue": "C:\\fakepath\\pre94-native-battle.json",
+          "inputValueReset": true,
+          "toast": {
+            "text": "✓ 已导入到存档位 5",
+            "className": "tp-toast tp-toast-success"
+          },
+          "sameOriginal": false,
+          "sameMeta": false,
+          "slot": {
+            "scene": 1,
+            "cash": 55,
+            "hasNowMs": false,
+            "dialogHasLineCount": null,
+            "battleHasMenuState": false,
+            "storedHaste": false
+          },
+          "databases": [
+            {
+              "name": "type-pal",
+              "version": 2
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "ready": true,
+      "baseline": {
+        "slot": 5,
+        "scene": 4,
+        "cash": 55,
+        "liveScene": 9,
+        "liveCash": 999
+      }
+    },
+    "cleanup": {
+      "owner": "pre94-save-nested-20261021-3d276b324",
+      "marker": "pre94-save-nested-20261021-3d276b324",
+      "before": [
+        {
+          "name": "type-pal",
+          "version": 2
+        }
+      ],
+      "origin": "http://127.0.0.1:62839",
+      "after": [],
+      "pass": true
+    },
+    "limits": "Actual native FileReader/panel/Save/IndexedDB on independent owned origin. DataTransfer File+change event;no OS chooser/story gameplay/historical browser replay. Window errors/rejections0;browser console warnings not separately collected. Observed before final role-index guard;all native scenarios use legal role0,which remains accepted by final52 tests."
+  },
+  "historyCompatibility": {
+    "evidence": "save-wire-contract.json@3d276b324562f99c895089f9c1cc5021b17d897a",
+    "fixture": "packages/game/src/tools/__fixtures__/save-v1-store-v2-nested.json",
+    "nativePartsSha256": "9d0a01313690c5c4168dabf59a00cd221b140a6c14118248036c627839e14ff2",
+    "claim": "JSON values equal real producer parts;missing/new fields and Boolean data preserved,no current runtime type/default change."
+  },
+  "evidenceTool": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-save-v1.mjs",
+    "sha256": "662ccdf90f42e9a5c5ec0205477a07ed8f94ee703750d4ca50b31f18129e5041",
+    "dimensions": {
+      "A": "Full read:asserts current hashes,exact raw bytes/run identities,business-red failures,native observations and frozen producer equality;failures exit1. It does not certify design or invoke tests.",
+      "B": "Scope and readonly limits explicit.",
+      "C": "Local filesystem/Git readonly only;no network or product import.",
+      "D": "Existing packets/results reused,no extra execution framework.",
+      "E": "Current exact native results and historical fixture equality are checked,not author passed booleans alone;semantic quality still depends on recorded review.",
+      "F": "Named claim groups and direct assertions.",
+      "G": "No write mode,extra test runs,accept state or automatic closure.",
+      "H": "Deterministic frozen data checker;failure/STALE or missing exits1;no core mocks."
+    }
+  },
+  "baselineReview": {
+    "path": "scripts/coverage/baseline.fast.json",
+    "beforeGit": "92e901806926c0fb08b9787877eed9ed45147d8d:scripts/coverage/baseline.fast.json",
+    "afterSha256": "9abd2df352ee9be26f3e79bf52659b250e069b49d82999d16b365379df14c95a",
+    "changes": "Only game plus derived total/timestamp;5actual sources added,MSIO4 cases moved to parser/quick-save and old file deleted;quick-save8→9,parser4→27;0duplicate identities. All other package baselines byte-value identical. Normal ratchet8improvements/4scope changes,no lowered floor/new adjustment authority/rule/config changes.",
+    "tests": 19988,
+    "sources": 749
+  },
+  "reuse": {
+    "quickSave": {
+      "commit": "4e5e964874fac1cff244b146640274b4ada92995",
+      "evidence": "save-tools-local.json",
+      "scope": "Full current two-file A-H/canonical9/old8green-new2business-red counter. Production quick-save.ts unchanged and already closed;only quick-save.test.ts gains renewed closure."
+    },
+    "limits": "V1 declared structure/native JSON layout and fixed role domain,not asset existence,cross-world consistency or hydrated runtime. Historical producer and native UI limitations retained. No94-102 expansion."
+  },
+  "integration": {
+    "branch": "codex/code-quality-3y",
+    "mainAtGate": "92e901806926c0fb08b9787877eed9ed45147d8d",
+    "fetchRechecked": true,
+    "beforeCommitBehind": 0,
+    "beforeCommitAhead": 5,
+    "state": "Product/evidence commit pushed to governance first,then main fast-forwarded;both refs equal fixed source commit. This final handoff-only revision does not alter product/coverage bytes. Primary checkout remains unchanged at92e901806,behind remote6commits.",
+    "sourceCommit": "d1fdcb1f33c65aebc1eb344da865e59d38889434",
+    "governancePushed": true,
+    "mainFastForwarded": true,
+    "verifiedMain": "d1fdcb1f33c65aebc1eb344da865e59d38889434",
+    "verifiedGovernance": "d1fdcb1f33c65aebc1eb344da865e59d38889434",
+    "ahead": 0,
+    "behind": 0
+  },
+  "nextScope": "Remaining32partial fixed pre94 cards only;shared MKF/RNG/YJ2 evidence-first closure after checking current Owner and unresolved truth/size observations. No94-102."
+}

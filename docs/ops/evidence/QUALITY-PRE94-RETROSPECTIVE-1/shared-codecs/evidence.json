@@ -1,0 +1,1345 @@
+{
+  "schemaVersion": 1,
+  "base": "bee8587f4f31c06f8eb3a4d158ae8195e9beb145",
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "cards": ["2", "2b"],
+  "status": "accept CODE2/2b within original codec contracts;remaining pre94partial not accepted",
+  "files": [
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Prior full CODE2/GLM read reused;current complete read confirms input view offset/table monotonic+bound/index integer contract. AST unchanged;15raw archives2373chunks evidence/input hashes match. Borrowed buffer remains caller-owned/read-only by contract.",
+        "B": "Current docs distinguish SDL trust from TS index-time validation and borrowed view;no fake original correctness claim.",
+        "C": "openMkf alone builds offset list;readChunk only borrows parsed ranges;noIO,globals,reverse deps or runtime context.",
+        "D": "Shared barrel/extract reexport/RNG nested container consume same format/failure contract;no extra codec wrapper abstraction needed.",
+        "E": "11boundaries include hand offsets,nonzero byteOffset,emptychunk,invalidindices and prior integer-guard single-red. No own output as oracle.",
+        "F": "Named three public functions with linear guards and one table loop;count formula documented once.",
+        "G": "All exports have real callers. i0 table-read belongs uniform validation;do not add repeated offset validation perread or public opaque brand.",
+        "H": "Deterministic bytes→parsed offsets/view;no clock/random/mocks/async resource."
+      },
+      "priorEvidence": ["../2/README.md", "../glm-foundation/mkf/README.md"]
+    },
+    {
+      "path": "packages/shared/src/mkf.boundaries.test.ts",
+      "sha256": "9e2c09bd6f12e02955091a10afbc2411ec3248c10df8d17bcaf4237dff1b57be",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Current full11cases:constructor independent explicitoffset expectations;invalid data only byte-boundary domain. Borrowed buffer+byteOffset proves ownership without illegal mutation.",
+        "B": "Head matches actual guarded domain/readChunk trust contract;no stale numbered implementation range.",
+        "C": "Entry-specific describes,local immutable fixture;no globals/teardown needed.",
+        "D": "Uses mkMkf for legal framing;pal-extract3smoke exercises real reexport,not copied decoder. Cross-entry basic overlap retained with narrower integration purpose.",
+        "E": "Prior old11green/new10green1AssertionError integer guard proof remains current body. Outside+descending grouped message family has independent corrupted fixtures;no new redundant examples.",
+        "F": "Titles expose malformed field or exact positive property;explicit literals/offsets readable.",
+        "G": "No skip/mocks/deadhelpers;all11 retained. No conversion to per-number test count padding.",
+        "H": "Direct local bytes;negative fixtures readable and deterministic."
+      },
+      "priorEvidence": ["../2/new-counter-proof.json", "../glm-foundation/mkf/README.md"]
+    },
+    {
+      "path": "packages/shared/src/rng.ts",
+      "sha256": "b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Full read/current AST equals native-tested source. Per-op payload+surface guards precede effect;delta mutates caller surface,decode owns full surface and snapshots. InvalidYJ2 skips only thatframe,delta error propagates. Existing native1464 frames reused.",
+        "B": "Comments accurately limit continued decoding after skipped frame;not visual equivalence. Opcode table is domain specification,not redundant control flow.",
+        "C": "Only runtime dependencies mkf/yj2,pure lower-layer codecs. NoIO/engine/context;single mutable surface Owner percall.",
+        "D": "Literal/repeat opcode families share exact semantics;payload/surface guards distinct errors. Decode reuse by extractor/runtime/migrate prevents duplicate algorithm.",
+        "E": "All-opcode vectors plus incomplete operand,surface bounds,index gaps,copy independence and prior failed-frame base single-red. NativeC full pixels independent of TS delta implementation.",
+        "F": "Switch intentionally groups encoded opcode families;ptr/dst conventions named in domain table. High branch count follows protocol,not mixed responsibilities.",
+        "G": "Constants/functions consumed. One frame loop and two guards;no transactional clone/full-frame rollback invented for caller that discards failure.",
+        "H": "Pure direct data dependency;no test seam/IO state or hidden cache."
+      },
+      "priorEvidence": ["../2/README.md", "../glm-foundation/rng/README.md"]
+    },
+    {
+      "path": "packages/shared/src/rng.test.ts",
+      "sha256": "5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Current six cases small legal surfaces,0x00 end/unknown error/emptychunk;no corrupted typed business fixture.",
+        "B": "Comment names real extraction integration but does not claim independent truth;native proof supplied separately.",
+        "C": "Base opcode/API cases only;full-plane and decode-chain boundaries in canonical neighboring file.",
+        "D": "Old duplicate delta moved to stronger complete-plane case atCODE2;mapping/counter retained. Current six are different opcode/error/inputentry axes.",
+        "E": "Fixed byte oracle percase;not clone-self or length-only business oracle. No new test or assertion removal here.",
+        "F": "Short byte inputs/expected planes convey effects directly.",
+        "G": "No dead fixture import,skip/core mock;fourbyte subset remains basic opcode control,not duplicate accumulation chain.",
+        "H": "No external resources,timers,globals;direct synchronously deterministic."
+      },
+      "priorEvidence": ["../2/README.md", "../2/retirement.json"]
+    },
+    {
+      "path": "packages/shared/src/rng.boundaries.test.ts",
+      "sha256": "941aa095d350a5b093e37b4de2ea082d92a74b7ec3f3c0e27bd3385153c3649b",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Full current16cases from prior17. Direct complete MARK-plane oracles separate payload/surface contracts and frame index/copy ownership. Reused actual renderer/player production caller domain.",
+        "B": "Header lists actual complementary contracts;8byte duplicate title/body retired,not silently rebranded.",
+        "C": "Test-only surface and exact-plane helper local;no shared runtime state.",
+        "D": "Later8byte accumulation case duplicates same literal/skip/literal pattern and weaker first4bytes;retained320x200 case also checks all untouched bytes. Other small-surface base contracts retained.",
+        "E": "Same skip-clearing mutant4business failures before→3after;removed identity alone disappears,strong plane oracle remains red. Prior invalidYJ2 base-clear single-red still applicable. No skip/namefilter.",
+        "F": "Opcode groups and explicit ranges readable;helper describes actual invariant.",
+        "G": "One proven redundant case deleted17→16;no weak coverage replacement. Exact full identities and source pinned in retirement table.",
+        "H": "Pure test data;no setup/collection error credited as counter;source exact restored."
+      },
+      "priorEvidence": ["../2/README.md", "../glm-foundation/rng/README.md"]
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Current full algorithm read and frozen AST/native2626segments34367608B reused. Each call owns tree/output;DataView honors viewoffset. Bit truncation and backref window/remaining guards,overlap and earlyEOS retained. Rescale gap now fixed independently in tests.",
+        "B": "Corrected adaptive wording,fragile global line→symbol and bt pos relative srcOffset. Algorithm/table/invariants comments match C;existing table format directive unchanged.",
+        "C": "buildTree/adjustTree/bt private,pure per-call state. NoIO/imports,cache,caller-state mutation or reverse dependency.",
+        "D": "One shared decoder consumed through real extract reexport and RNG;no universal compression abstraction or helper modes.",
+        "E": "New fixed native-encoded literal sequence traverses one reduction;unchanged C decoder verifies expected formula. TS rescale-delay mutant exactly1AssertionError,9others pass. Original malformed guards/overlap/EOS proofs retained.",
+        "F": "Tree index names follow C nodes;isolated helpers keep traversal readable. Branch-heavy format loop has one decoding responsibility,not an IO/engine mixture.",
+        "G": "All private helpers/tables consumed;no dead export/default/fallback. No arbitrary cap added: original task explicitly excludes invented size limit.",
+        "H": "Pure deterministic bytes;new regression tests without exporting private tree/adjust functions. O-5 limits below,no huge allocation probe."
+      },
+      "priorEvidence": ["../2b/README.md", "../glm-foundation/yj2/README.md"]
+    },
+    {
+      "path": "packages/shared/src/yj2.boundaries.test.ts",
+      "sha256": "44b74b006f31d689b3720c8bc792b94b492034231fa19227b39dc23994ad1c52",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Full current10cases from9,all legal controls fixed literal/overlap/EOS sequences. New long literal vector independent of TS and exercises real reduction.",
+        "B": "Removed obsolete pending-rescale claim,records source and limits. No test coverage claim beyond actual10contracts.",
+        "C": "Header/shortstream/literal/backref/rescale grouped by decoder contracts;no unrelatedRLE/API tests.",
+        "D": "YJ2 four duplicate GLM-o cases already moved to canonical9 with exact failure conservation;RLE remaining file stays review.",
+        "E": "Expected33024bytes are32600xA then independent(i*17+23)&255;not product roundtrip/self comparison. Counter exact1business byteMismatch,restored shared114green. Two prior calls validate no leaked tree state.",
+        "F": "Fixed compressed hex imported with nativeprovenance;visible expected formula communicates oracle.",
+        "G": "One meaningful absent branch regression,not per-field coverage padding;no new timeout/skip/mock/cast.",
+        "H": "Self-contained ~4.6k compressed fixture,no filesystem/browser/toolchain at test runtime. Native generator only offline evidence."
+      },
+      "priorEvidence": ["../2b/README.md", "../glm-foundation/yj2/README.md"]
+    },
+    {
+      "path": "packages/shared/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "6444bc2f80029d5bd827699e2cac29e916fc278858447bf13d6492ac47a181d3",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Full fixture read,mkMkf emits documentedoffset framing;fixedliteral/backref data preserve existing values. Current onlycomment edits;no oracle computed by decoder.",
+        "B": "Replaced stale line anchors with module symbol;fixed overlap equation to out[start+j],source cursor remainsfixed.",
+        "C": "Test-only construction/data,not production imported;no engine/io/globalowner.",
+        "D": "One mkMkf shared by actual codec tests;YJ2_RNG_PAIR and literal bytes same but distinct declared payload purpose/mutablearrays remain independent,no new alias ownership.",
+        "E": "Independent literals/offset math;native provenance of priorvectors retained. No added runtime type assertions.",
+        "F": "Descriptive names and literal data;comments carry provenance/unseen bits rather than restating code.",
+        "G": "All exports consumed;no futurebuilder or product encoder introduced.",
+        "H": "Deterministic pure local constructor/data;input chunks notmodified."
+      },
+      "priorEvidence": ["../2/README.md", "../2b/README.md"]
+    },
+    {
+      "path": "packages/shared/src/__tests__/yj2-rescale.json",
+      "sha256": "af83186c6135ab84e29ed27b7ecab8b126db33ab96122e119850bd1707bd29e1",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "New frozen4619bytehex from original SDL tree helper encoder;original unchanged decoder checks33024literalbytes andone reduction,ASanexit0. Input and expected formula independently specified.",
+        "B": "Passive JSON;source/provenance/method in paired evidence,not arbitrary product metadata.",
+        "C": "Unit-test input only,not asset/migration/production data.",
+        "D": "Single missing rescale contract fixture;not duplicate of shortliteral/overlap fixtures.",
+        "E": "SHA of compressed/nativeexpected retained;semantic oracle formula outside decoder and fixture. Nativefixture→Cfullbytes verification plus TSbusiness red.",
+        "F": "Hex string portable in isomorphic shared package;test uses matchAll parseInt without Node runtime dependency.",
+        "G": "Only compressed bytes;no duplicated33024byte expected dump;no generated product substituted for fix.",
+        "H": "Local JSON import,deterministic,no C/toolchain at normal testtime."
+      },
+      "priorEvidence": []
+    },
+    {
+      "path": "packages/pal-extract/src/io/yj2.ts",
+      "sha256": "b01a32ad4f2a313c52accc8ebecc67e550994fa61c802c031d91a7ad31f126c0",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Full six-line currentreexport unchanged fromCODE2b;real CLI/localfire/PNGcaller paths retained.",
+        "B": "Comment explains ownership/path compatibility exactly,no old product engine claim.",
+        "C": "No algorithm or mutable wrapper;pure downward public import.",
+        "D": "Canonical shared implementation;no duplicated math.",
+        "E": "Actualreexport tested by native MGOcohort,not exportexistence alone.",
+        "F": "Explicit sole export readable.",
+        "G": "Reexport has multiple actualcallers;not dead layer removed on preference.",
+        "H": "Direct shared resolution independently realpathchecked,not main-tree symlink oldcandidate."
+      },
+      "priorEvidence": ["../2b/README.md"]
+    },
+    {
+      "path": "packages/pal-extract/src/io/yj2.test.ts",
+      "sha256": "597ec5e65d42105a76e23c1cae4abca602a4143b5843b9355834feafd1c978dd",
+      "status": "accept;explicit A-H,effective prior evidence,necessary rework and current module gates",
+      "dimensions": {
+        "A": "Full33line source unchanged;actualMGO1..20 requiresdata and exactcompressedpresence;no skip/earlyreturn.",
+        "B": "Comment correctly distinguishes compressedresourcefamilies and independentnative digest.",
+        "C": "One raw integration contract,no codec helper implementation or engine state.",
+        "D": "Oldtwo length-only tests merged into one exactnative byte digest;priorcounter proves zero-output mutant killed onlyneworacle.",
+        "E": "Digest includes indexu32LE,lengthu32LE,everyoutputbyte;nativefunction/inputSHA frozenandverified. Current realreexport18adjacentgreen;not counted syntheticrescale proof.",
+        "F": "Constants expose cohort1..20 and digestcomposition;smalllinearnodestate.",
+        "G": "No per-chunktestpadding;no coremock,catchesor weakenedlength-only oracle.",
+        "H": "Readonlyownedoriginalinput;missingdatafails;no productwritesordb/resources cleanup."
+      },
+      "priorEvidence": ["../2b/README.md", "../2b/after-proof.json"]
+    }
+  ],
+  "reuse": {
+    "sourceProof": {
+      "packages/shared/src/mkf.ts": {
+        "currentSha256": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc",
+        "originalEvidence": "2/mkf.ts.before.gz",
+        "printedSha256": "770ba6916a38b2ee73d0068a4b50825bc9448d2bcb317676707090b959241aa4",
+        "bodyEqual": true
+      },
+      "packages/shared/src/rng.ts": {
+        "currentSha256": "b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e",
+        "originalEvidence": "2/rng.ts.before.gz",
+        "printedSha256": "d16ebeb21b5a628ff8ffacf73672de549f3135048ab94e86bba9359e7c9b644b",
+        "bodyEqual": true
+      },
+      "packages/shared/src/yj2.ts": {
+        "currentSha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4",
+        "originalEvidence": "2b/packages__shared__src__yj2.ts.before.gz",
+        "printedSha256": "cceeef5942746686d21c99d48f583843668c82f8e3ab6bd7045e493acdffd5f3",
+        "bodyEqual": true
+      },
+      "retirementMatcher": {
+        "bodyEqual": true,
+        "sha256": "c44cfab441775e6c97ff78d869788472d81b8cbce2eef05f45df4376578e9924",
+        "scope": "One exact17→16entry+fixed table expectations;no matcher/rule/config change."
+      },
+      "inputs": [
+        {
+          "path": "data/raw/ABC.MKF",
+          "sha256": "f9685ba8d22e851a4be492c6b74fbc671d89112d64394e7af86ec7a23751529c"
+        },
+        {
+          "path": "data/raw/BALL.MKF",
+          "sha256": "b9925833a9d921aa6bea9d0d199dbbe170968716d951036a142c1dd303f99bd0"
+        },
+        {
+          "path": "data/raw/DATA.MKF",
+          "sha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+        },
+        {
+          "path": "data/raw/F.MKF",
+          "sha256": "eb492e6dcd0eefb6fbc1751d775bc8667b46d3cd5231974caa1eef309f3152d7"
+        },
+        {
+          "path": "data/raw/FBP.MKF",
+          "sha256": "29bbc71c10c58a555e5b45b853dfeef3fa0d299ceeb8e7556b6c1d6bc40c4d84"
+        },
+        {
+          "path": "data/raw/FIRE.MKF",
+          "sha256": "5a23940d3daab5bfa95efd3b92b4d1ae481fc4f7ad38374ec66b16c7e7d5d9cf"
+        },
+        {
+          "path": "data/raw/GOP.MKF",
+          "sha256": "5745d016a8d9c280b90a8b92d2871210a2dd0a0c04a79d4c8e65f4d0396aa04b"
+        },
+        {
+          "path": "data/raw/MAP.MKF",
+          "sha256": "bef63043ffcbe9b6de6cbe295891134d7cea74952cb6701b5566049d0eb015e2"
+        },
+        {
+          "path": "data/raw/MGO.MKF",
+          "sha256": "0df639e22da1cf766c821de0b07d8c0bb58602c50ff5a2eea233a9e3c9f6e789"
+        },
+        {
+          "path": "data/raw/PAT.MKF",
+          "sha256": "b2d6a3db53a3e80106a4c041c7f94dfaf9dcb065517fce79b1ff3d413494d997"
+        },
+        {
+          "path": "data/raw/RGM.MKF",
+          "sha256": "fbeb7cbafd374af8c07088ab18996edcadd6ec52b8bb0a0af644c2cee4e26bac"
+        },
+        {
+          "path": "data/raw/RNG.MKF",
+          "sha256": "5d62cad87b330d2e1ec00d7c1acc4de96b8324e547fa8095aab0f64a9811d7bd"
+        },
+        {
+          "path": "data/raw/SOUNDS.MKF",
+          "sha256": "039a5cc64be937168ce458c8288fbd61fb3d2854e9445a775ab67f6af2276e01"
+        },
+        {
+          "path": "data/raw/SSS.MKF",
+          "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+        },
+        {
+          "path": "data/raw/mus.mkf",
+          "sha256": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21"
+        }
+      ],
+      "primaryUnchanged": true,
+      "yj2NativeMaxDecoded": {
+        "bytes": 65536,
+        "samples": 2626,
+        "scope": "Measured current fixed raw set,not supported format cap or trust of arbitrary input."
+      },
+      "priorNativeRawBytesMatch": true,
+      "realSharedResolution": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared"
+    },
+    "priorCohorts": "CODE2:15archives/2373chunks and12animations/1464frames;CODE2b:2626segments/34367608bytes. Current AST/primary/raw hashes verified,not replayed;original logs are authoritative.",
+    "changedScope": "No decoder executable changes;newrescale test/fixture,oneRNGduplicate retirement,commentcorrections,exact table data. No94-102."
+  },
+  "newCounter": {
+    "path": "packages/shared/src/yj2.ts",
+    "beforeSha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4",
+    "mutatedSha256": "5182a0b19acfc1bb1cdba99f1c77fd32e06daefe3a714a41aed08dfd672ee60a",
+    "restoredSha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4",
+    "failedFullName": "decompressYj2 自适应树归约 跨过0x8000权重后仍按原字面序列解码",
+    "businessAssertion": "AssertionError: expected Uint8Array[ 65, 65, 65, 65, 65, …(32960) ] to deeply equal Uint8Array[ 65, 65, 65, 65, 65, …(32960) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/yj2.boundaries.test.ts:90:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+  },
+  "retirement": {
+    "source": "packages/shared/src/rng.ts",
+    "beforeSha256": "b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e",
+    "mutantSha256": "43e034a73694e2b52407f3108c53d46404adf7b663814206ccaeaa8a743bf9d7",
+    "restoredSha256": "b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e",
+    "beforeFailures": [
+      "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+      "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+      "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+      "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧"
+    ],
+    "afterFailures": [
+      "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+      "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+      "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧"
+    ],
+    "removedIdentity": "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+    "retainedContract": "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+    "mapping": "Removed8-byte case asserts only first4bytes. Retained real320x200 MARK case executes same literal/skip2/literal pattern and checks exact4bytes plus every untouched byte. Same numeric/payload/state branch, no size-dependent path. Baseline small-surface opcode cases retained;decode copy/skip failure remain distinct.",
+    "classification": "Multiple distinct business contracts fail this skip-clearing mutant;retirement comparison is exact failure-set subtraction,not claimed a single-red counter."
+  },
+  "nativeFixture": {
+    "primarySha256": "fdcb5f1c4e14712fe96b2214bac6a12f3fa01abcfeeb88cb096886e306e14a0c",
+    "bodySha256": "cf61a6ccd48a3d3e98a75dbbe8fc1cc063355fed125f28de2e0b9795055b2623",
+    "compressedSha256": "5a2d7a5686b701ba89349ea8da37f302dddf10d2c9ef1b39518aa1ad5b2b5a15",
+    "expectedSha256": "6965d0e3ba8561ad1768d29bedd48a0315231715821803ac8e3291217e58ec5f",
+    "reductions": 1,
+    "source": "native-fixture.py",
+    "limits": "Original C decoder byteidentical,encoder harness traverses originalCtree;not general compressor,product asset or malformed-inputC execution."
+  },
+  "O5": {
+    "classification": "domain limitation retained,not a new proven defect or completed hostile-input hardening",
+    "callers": [
+      "shared/rng compressedfixedMKF chunks",
+      "pal-extract CLI fixedrawfamily paths;parserfirecalledwiththosechunks",
+      "game rng-player fixedsameorigin /extracted/data/animation/rng-NN.rle",
+      "migrate pal-assets fixedextracted animationpath;nochanges"
+    ],
+    "observedMaxOutputBytes": 65536,
+    "decision": "Original CODE2b excludes arbitrary cap. Current measuredfixedraw headers maximum65536,not formatsize policy. U32 corrupt header can requestlargeallocation;do not execute. Futureuntrustedupload/externalasset domain invalidates this acceptance and requires supportedsize/ownershipcontract first. No security claim for arbitrary hostile bytes."
+  },
+  "scopeLimits": [
+    "RLE format/card1 and remainingrle.glm-o axes stayreview",
+    "Publictype/callerbroadfiles and secondphasegeneration not accepted",
+    "Native tests are SDLPalC,not originalPAL.EXE or visual/gameplayE2E"
+  ],
+  "pins": [
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "aa5e78f8a222de107f814d11cd9dc52239cc23135fe9c794db754f28b868d99d"
+    },
+    {
+      "path": "packages/shared/package.json",
+      "sha256": "7c052ab5a040325cc70dac55b40f12117570fc8b54e1eea608bfe23ac52d9002"
+    },
+    {
+      "path": "packages/shared/tsconfig.json",
+      "sha256": "d17bc3179d3cfb306f1c4babbd1ad85da4985db4be4fb3ae78226256ea28a95c"
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.ts",
+      "sha256": "ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rng-frames.ts",
+      "sha256": "9a4b1431e8a8d683795b9b5ca1b28e6bc0f22a408cc0cf02c4663ae431f99094"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04"
+    },
+    {
+      "path": "packages/migrate/src/pal-assets.ts",
+      "sha256": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+    },
+    {
+      "path": "reference/sdlpal/yj1.c",
+      "sha256": "fdcb5f1c4e14712fe96b2214bac6a12f3fa01abcfeeb88cb096886e306e14a0c"
+    },
+    {
+      "path": "reference/sdlpal/rngplay.c",
+      "sha256": "3fd4066442ea41352737d30ea3f41d05082137ae788e7d1ac792a62cf6f4e1f1"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "23cf77d5937f2604075567bb3a06298425ee99866e86d74f30146e57a36f24f2"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "663d65326870bc6d8776e82eff8be3cff19bb276e3d129b02ccb2a54bd6fec0e"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    }
+  ],
+  "runs": [
+    {
+      "id": "rng-duplicate-before-counter",
+      "exit": 1,
+      "stderrBytes": 3550,
+      "passed": 13,
+      "failed": 4,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧"
+        }
+      ]
+    },
+    {
+      "id": "extract-adjacent",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 18,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "rng-duplicate-after-counter",
+      "exit": 1,
+      "stderrBytes": 2829,
+      "passed": 13,
+      "failed": 3,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧"
+        }
+      ]
+    },
+    {
+      "id": "shared-restored",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 114,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "shared-before",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 43,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "game-adjacent",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 31,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "rescale-green",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "failures": []
+    },
+    {
+      "id": "retirement-tools",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "shared-tsc",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "rescale-counter",
+      "exit": 1,
+      "stderrBytes": 7683,
+      "passed": 9,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 自适应树归约 跨过0x8000权重后仍按原字面序列解码"
+        }
+      ]
+    },
+    {
+      "id": "shared-final-check",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "shared-final-ratchet",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "shared-final-protected",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "frozen-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "frozen-biome",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-docs",
+      "exit": 1,
+      "stderrBytes": 959
+    },
+    {
+      "id": "final-docs-r2",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-ledger",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-diff",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "integration-check",
+      "exit": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "gates": {
+    "state": "All frozen module and finalstatic gates passed;source integrated and verified,documentation handoff follows",
+    "fullCheck": {
+      "id": "shared-final-check",
+      "tests": 20386,
+      "lintFiles": 5736,
+      "diagnostics": "0errors/0warnings/0infos,stderr0;all18normalstdout message bodies read"
+    },
+    "ratchet": {
+      "id": "shared-final-ratchet",
+      "tests": 19988,
+      "baseRef": "origin/main",
+      "scope": "Normal official ratchet,no lowered rules/floors;only exact documented17→16retirement"
+    },
+    "protectedFast": {
+      "id": "shared-final-protected",
+      "tests": 19988,
+      "baseRef": "origin/main",
+      "scope": "Separate official run AFTER ratchet,so new candidate baseline is actually checked against protected main;retirement matcher must accept exact current bytes/identities."
+    },
+    "adjacent": "shared114/extract18/game31,sharedtsc and scopedbiome0;fullpackagechecks in fullcheck",
+    "limits": "No originalPAL.EXE/visualE2E executed;all product codec executable bodies unchanged.",
+    "finalStatic": {
+      "docs": "final-docs-r2:fiveconsumers0issues/stderr0",
+      "lint": "final-lint:5736files0errors/0warnings/0infos/stderr0",
+      "ledger": "final-ledger:3334/345closed/122review/2867pending",
+      "diff": "final-diff:exit0/no output"
+    }
+  },
+  "ledger": {
+    "inventory": 3334,
+    "closed": 345,
+    "review": 122,
+    "pending": 2867,
+    "newClosure": 6
+  },
+  "issues": [
+    {
+      "kind": "resolved",
+      "claim": "laterRNG8byteweakduplicate",
+      "evidence": "rng-dedup.json"
+    },
+    {
+      "kind": "resolved",
+      "claim": "missingindependentYJ2rescale",
+      "evidence": "rescale-counter.json"
+    },
+    {
+      "kind": "optional structure",
+      "claim": "Pointerless Huffman/tree/table loops retain C variable idioms;no state/IO mixing and no demonstrated restructuring benefit,keep with invariant comments."
+    }
+  ],
+  "disclosures": [
+    "PrepPython UTF8 invocation initially failed before writes;explicitUTF8 used.",
+    "First digest reconstruction used nativefullName whitespace instead of official > separator;assert rejected,table untouched until official list matchedbaseline. One vitest list attempt used missingpackage-localbinary;no filemodified.",
+    "Existinggovernancetree missedmus.mkf inputlink;firstsourceproof ENOENT,noCohortcredit. Added onlyownedignoredlink to primaryreadonlyraw then15inputhashesmatched.",
+    "No arbitrary giantallocation performed.",
+    "Final document consumer initially rejected two historiccard afterSHA values after appending acceptance banners. Only those currentbindings/pairedlinecounts plus descendant bindings updated;originalprovenance/history preserved. Full failing raw attached,not claimed clean."
+  ],
+  "priorEvidence": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
+      "sha256": "70893b26a06bccf7ac25ff0da291affd2b98e096dcfbfab6ffa82eb37c0ac2fa"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/raw-primary-proof.json",
+      "sha256": "77a85d406ff11984adadf1fae9dd5d7f9c87a36d21d1adeb1d471264ce48f69f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/verification.json",
+      "sha256": "0a73e04ca3946404535d4fadec6abc847023e4175d2cc614ddcbc8607a9c1045"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/new-counter-proof.json",
+      "sha256": "bb3e5b5f832a65360e7b57267b455ec1f6673fcfaa65823f991802f2ea81ec88"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md",
+      "sha256": "0a55a00f3e17fa5baad9e4a0479f8578c77d717dcad08b4a6af65f23ff4c7538"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/native-proof.json",
+      "sha256": "5b739bdcc7e44e4d97e3dc307f0868ef9ff80bad1af0d4599412e864b2e2e85d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/verification.json",
+      "sha256": "4c68e563e0f6303ffaf54360926a21cfd96e108f13872f48e1d3025e73cf7108"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/after-proof.json",
+      "sha256": "f1892e9d57baaec2d323ac585115911be7d015a230f83d0d155980acd75df5d7"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/mkf/README.md",
+      "sha256": "4e6627111fdb4c4c6904d6e73d9973406cc4e0790342e9346ddb06b01395c48a"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/rng/README.md",
+      "sha256": "6d982f64e9db6166c59fc6f2d16d3f881ed62f4046a6dbc5b18227bd3c4e1679"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/yj2/README.md",
+      "sha256": "d30299f0455d0501801edbdd087dea8f93a6defd37384bc44b4c79e5e5c5defb"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json",
+      "sha256": "699d2b89570c801f1e6f893aced3474ad90ee8ac31ba1c31ab021bdc40dcd055"
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/raw.json.gz",
+    "sha256": "d0031512813a792f4659335a282b649d5cfcd0b616f2ce27ecde6cff51bb6ea0",
+    "members": [
+      {
+        "name": "shared-restored.native.json",
+        "bytes": 40023,
+        "sha256": "9e3100e261583e6f4789e3c02b0cc78cff6b178183a0e44426ae167bdb05113d"
+      },
+      {
+        "name": "source-proof.stdout.raw",
+        "bytes": 2872,
+        "sha256": "68e2802f8a57389be7868b2b47b51253145a7a681e3bb1c7064aad1ccfdce182"
+      },
+      {
+        "name": "rescale-counter.stderr.raw",
+        "bytes": 7683,
+        "sha256": "ecdd6aa71a791bf608f964fbd7c0b384860f9cdb2596ac8981f53b8cf0d14ceb"
+      },
+      {
+        "name": "rng-duplicate-after-counter.stdout.raw",
+        "bytes": 1605,
+        "sha256": "3a42daba54c6d2636309a7f37e7dc9890eb0ca893a2f053171fda01237b689ce"
+      },
+      {
+        "name": "extract-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "rescale-counter.native.json",
+        "bytes": 5359,
+        "sha256": "36e141eda0c12616d6f3b974e3fefaa80f384fa7f50fe9fffea32dd47581b951"
+      },
+      {
+        "name": "rng-retirement.json",
+        "bytes": 369,
+        "sha256": "7e213792cada61cd1972bbf3f48572a9a2c6756cf18e3b220cbefdbd713b6845"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      {
+        "name": "rescale-native.json",
+        "bytes": 20014,
+        "sha256": "e79b3324c2c40c492c73e3aba1e6b21d671535e94cbae97b408d1d64de192a9e"
+      },
+      {
+        "name": "game-adjacent.stdout.raw",
+        "bytes": 731,
+        "sha256": "810bbeab17b285726d73caf484882ff564d2d2ab5223ce37c2784bf1324e5e92"
+      },
+      {
+        "name": "rng-boundaries-before.ts",
+        "bytes": 8033,
+        "sha256": "4f116a812dcad792e6aa8f148b753b7c8f0caa924cfca199b9caa2a5753536a6"
+      },
+      {
+        "name": "rescale-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shared-before.stdout.raw",
+        "bytes": 586,
+        "sha256": "94d3f9a5a90418e8d3452ad5705e57bf41520b1be91b070d97c0c1d9e55a82dc"
+      },
+      {
+        "name": "rescale-counter.json",
+        "bytes": 2009,
+        "sha256": "d1ab9cb20a39c08b7eb258cdd62a47a608a1d8f7d6b4a725ebe6bf310dd2b208"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 7196,
+        "sha256": "34eede8b93ba8e1931b9674005811351975547701be8628ee0d5856e879f3a62"
+      },
+      {
+        "name": "extract-adjacent.native.json",
+        "bytes": 6798,
+        "sha256": "48adf8809378b598c9b9c34a09c5f75b4af4b31936b14f2a9e6bd887bcb8a5f9"
+      },
+      {
+        "name": "rng-duplicate-before-counter.execution.json",
+        "bytes": 2425,
+        "sha256": "3c7874873ec820709e453e365241a69890bfc9a3f27bc28c05bc8930d9d26f89"
+      },
+      {
+        "name": "shared-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shared-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "extract-adjacent.execution.json",
+        "bytes": 2909,
+        "sha256": "54568f73026de105f04b72b8fb8d1bb640bad04648c8b6719096293414f908e7"
+      },
+      {
+        "name": "rng-skip-counter.patch",
+        "bytes": 219,
+        "sha256": "91b37dec841f3208406493f2eca0eed1ca26ebe1f82bc1c1f6ee873b25c1c82e"
+      },
+      {
+        "name": "rng-duplicate-before-counter.stdout.raw",
+        "bytes": 1689,
+        "sha256": "92bcafc25385e79ec4c3feef227f5df554c0176aa42ecfa6da41d633e173b278"
+      },
+      {
+        "name": "retirement-tools.stdout.raw",
+        "bytes": 13347,
+        "sha256": "7335d7e1d464001ffcdf5ebecc9aac798c4c92ffd13e2cdabd9d1f34f7c9f326"
+      },
+      {
+        "name": "extract-adjacent.stdout.raw",
+        "bytes": 619,
+        "sha256": "9d1e40f5b634cc41330f61e82514346b1f37e0c8071a52210c60495381f1e8bc"
+      },
+      {
+        "name": "rng-duplicate-after-counter.stderr.raw",
+        "bytes": 2829,
+        "sha256": "0a04a9e7a0327ddf1ba52121f352f7b720b201c4a17c134b7095adcbb45996da"
+      },
+      {
+        "name": "rng-duplicate-after-counter.execution.json",
+        "bytes": 2624,
+        "sha256": "e2746c0d67865c4ddbc277f584eaf13ab2c9778d4bea4e87028cf13a845b6112"
+      },
+      {
+        "name": "shared-before.native.json",
+        "bytes": 14364,
+        "sha256": "ad7141b3338ae6f9c7459b892034c48d58ed7ee019d7fb7d1c07ef63f43f6457"
+      },
+      {
+        "name": "rescale-counter.stdout.raw",
+        "bytes": 1168,
+        "sha256": "9e416cb9f6e81f0260369ff54ce4ae43b638d4e0507159f186925ceac76c4b12"
+      },
+      {
+        "name": "shared-restored.execution.json",
+        "bytes": 2368,
+        "sha256": "6e827dbd516a59ab156a99b18faeb9f10e0abd9ee496ac57593d4b90b76faf73"
+      },
+      {
+        "name": "dedup.py",
+        "bytes": 3016,
+        "sha256": "b509385935077d0e61832f54408b89e4f7793827422ee13c87b9bf7073b664cb"
+      },
+      {
+        "name": "shared-before.execution.json",
+        "bytes": 1623,
+        "sha256": "f162638deac16572a646bc26e88b8759e6f28f9c496d7fbfdac7dbafb3bdb615"
+      },
+      {
+        "name": "game-adjacent.execution.json",
+        "bytes": 2961,
+        "sha256": "c89f780100517dd86f58bb9daa8d25b90a22a871ef0daed1d641f33225ed879d"
+      },
+      {
+        "name": "game-adjacent.native.json",
+        "bytes": 13738,
+        "sha256": "23843373034614550cfdaa56b6feb5cc84c472a722f28a16a7fade9dc7b4f5d8"
+      },
+      {
+        "name": "rescale-green.execution.json",
+        "bytes": 2190,
+        "sha256": "0122422d27bb225736ba3782dcaa492fbf5bf8ef29e786804084c6b52ebf6602"
+      },
+      {
+        "name": "rescale-green.stdout.raw",
+        "bytes": 454,
+        "sha256": "4524fa76493e7efde420cc4774b1da40b35bd2830b0ce9fafc503fa7216ee2c1"
+      },
+      {
+        "name": "rescale-counter.patch",
+        "bytes": 398,
+        "sha256": "ac92f09ad0bbac6e91a75a6705d996dc28e0c9da0dade199327bf85cd2d23e9a"
+      },
+      {
+        "name": "record.py",
+        "bytes": 17716,
+        "sha256": "8cb603bad20230e7cc609f3147d4709a2fedc157cd0853a837ab5e6bf9cb8e8e"
+      },
+      {
+        "name": "rng-duplicate-after-counter.native.json",
+        "bytes": 10515,
+        "sha256": "5fd546a2e016c40ecb4506b1fc684383b12dfdae6a23acddaeaa333f3f864a2c"
+      },
+      {
+        "name": "retirement-tools.execution.json",
+        "bytes": 2579,
+        "sha256": "4b518a468ff2892731590e28d4a47b45201ad70b3c38fbc0ba8af4e6b16ddd75"
+      },
+      {
+        "name": "game-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shared-tsc.execution.json",
+        "bytes": 1902,
+        "sha256": "020a6b495e835a66750cf246aecedbf54ba9948b4fbc3f212b91c3394234520a"
+      },
+      {
+        "name": "source-proof.json",
+        "bytes": 3425,
+        "sha256": "803383d13e554786c72b3bef35489298bba851c16ba47405232bca3f0214ba80"
+      },
+      {
+        "name": "rescale-green.native.json",
+        "bytes": 3793,
+        "sha256": "23bb6bb36d77aa954684913362a0a4535cda80fbb422cfc2342415b62c394846"
+      },
+      {
+        "name": "shared-restored.stdout.raw",
+        "bytes": 1016,
+        "sha256": "272b767760819d195d70d2f0c605902f954f5a4f28e045f022f59d3f71c0efad"
+      },
+      {
+        "name": "rng-duplicate-before-counter.native.json",
+        "bytes": 12394,
+        "sha256": "6a14be59e8a01c3fec2f8a33d1c45e62c53039a393925cec802fd737e542247f"
+      },
+      {
+        "name": "shared-before.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "rng-dedup.json",
+        "bytes": 1993,
+        "sha256": "2b239d68e0fbf52bccb7a5916e72295e9d90524959117eeeee298c12037e9f28"
+      },
+      {
+        "name": "rng-list.json",
+        "bytes": 3833,
+        "sha256": "1c09f681f8c513129d246497e03a0dbb50974d9fe55ea7d7e5b670c7bee8ad5a"
+      },
+      {
+        "name": "rng-duplicate-before-counter.stderr.raw",
+        "bytes": 3550,
+        "sha256": "aca54ec7751ba931cce16ce58eeb737c54d85ae99a420f56b9fa37f9c93a59ae"
+      },
+      {
+        "name": "retirement-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "rescale-counter.execution.json",
+        "bytes": 2202,
+        "sha256": "f9bbeadca478eccc6bf139c870741c2e6f4b979b60da12be6b157dc015964e6f"
+      },
+      {
+        "name": "source-proof.cjs",
+        "bytes": 2799,
+        "sha256": "49196faa9d4e9284013d2dc4d3a425753cdd219d874e00561bf1e46c7ea6effd"
+      },
+      {
+        "name": "shared-tsc.stdout.raw",
+        "bytes": 129,
+        "sha256": "7170766449aaa5b66a2c04f973ef245caa95478cf92b4da4bf8dd08974a51cc3"
+      },
+      {
+        "name": "shared-final-check.execution.json",
+        "bytes": 3428,
+        "sha256": "3c91d863c16bce0d081eb8d0e68dd80ca408b3a14111c012400fd67214e17338"
+      },
+      {
+        "name": "shared-final-check.stdout.raw",
+        "bytes": 370860,
+        "sha256": "faed2b5b5df2294bf1c80e7058874ecf9db5b70a014815011767f99bf2730a13"
+      },
+      {
+        "name": "shared-final-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shared-final-check.diagnostics.json",
+        "bytes": 84218,
+        "sha256": "d60cd625dc35480780b17ed43aa3b5e219555984841f7fa6c2960a5826bf868a"
+      },
+      {
+        "name": "shared-final-check.stdout-classification.json",
+        "bytes": 324,
+        "sha256": "06de26e24bb59a9ff00a9e0b50766c72aa644da9982901cd431c771091d7a690"
+      },
+      {
+        "name": "shared-final-ratchet.execution.json",
+        "bytes": 3583,
+        "sha256": "39df04d7dfa9188259705be59624085073167d1eac798f9aab7af6c20349b47a"
+      },
+      {
+        "name": "shared-final-ratchet.stdout.raw",
+        "bytes": 202294,
+        "sha256": "f6456af8974e58d0f7eac4cc6460ce999303a9da077fce8cafcba9f52f4c4da3"
+      },
+      {
+        "name": "shared-final-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shared-final-ratchet.coverage-summary.json",
+        "bytes": 8472361,
+        "sha256": "b12600004c8a71ff258bdfd6ed2760ed9025943eaf5e1bc1a152b889838a456b"
+      },
+      {
+        "name": "shared-final-ratchet.diagnostics.json",
+        "bytes": 81909,
+        "sha256": "afd68886ce166b270d5539ca9e4ce504731febef9029d6ecbed22ba3649c95e7"
+      },
+      {
+        "name": "shared-final-ratchet.stdout-classification.json",
+        "bytes": 230,
+        "sha256": "a231d509c9c8018e5c919e33df5e0d60e9264e9d2e1c1e50896575b4284cdeaa"
+      },
+      {
+        "name": "shared-final-protected.execution.json",
+        "bytes": 3761,
+        "sha256": "5ee0fbe1eae2f1dee8fc6f89ea0f6b17022f532024e3852c53c4f7db93290ce3"
+      },
+      {
+        "name": "shared-final-protected.stdout.raw",
+        "bytes": 181245,
+        "sha256": "e79fc48c90cb46ebc8c1119272f9eccc39a753f0e579944d473c99d2ebf5fc06"
+      },
+      {
+        "name": "shared-final-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shared-final-protected.coverage-summary.json",
+        "bytes": 8472361,
+        "sha256": "c74035af3cc8b108563e98ec38399c87fd1f9c3fdaacd92c0c15472d5b84943e"
+      },
+      {
+        "name": "shared-final-protected.diagnostics.json",
+        "bytes": 81911,
+        "sha256": "29d4d4846198645faa8ecf8553c5ec0dc409f4e83906bbba8014665398aa212f"
+      },
+      {
+        "name": "shared-final-protected.stdout-classification.json",
+        "bytes": 227,
+        "sha256": "aaf0178adbbb3cf24155ed2c1fa1cd3c79071bff977ff646d00f7fc6890a6bfd"
+      },
+      {
+        "name": "frozen-docs.execution.json",
+        "bytes": 3411,
+        "sha256": "807db035ad57a189cde7bc064bf207da962e634db370039571846b662ac8ca95"
+      },
+      {
+        "name": "frozen-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "8c4f558d1f0fb22b47ef6931b1e4e3d52109f1345366af759fbd4c3aefa08ab9"
+      },
+      {
+        "name": "frozen-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "frozen-biome.execution.json",
+        "bytes": 3638,
+        "sha256": "ebd5383c24548b92d1c42d8720cff2965fc3fcb65073ecd5767a2b3aec11a61d"
+      },
+      {
+        "name": "frozen-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "43db2f50167804046685096f370a0729f631cff9c937144a25017f1ce1017750"
+      },
+      {
+        "name": "frozen-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "metadata-candidate.json",
+        "bytes": 1901430,
+        "sha256": "4eae93a144169c25697f082ddb2c5e0db6f116b0dd1ef6fbb4906ab9f5f5b7a5"
+      },
+      {
+        "name": "baseline-review.json",
+        "bytes": 471,
+        "sha256": "3a0f79c26ab1ae2fa0a39393ff87c88b5a6cc82d222e1fc9e5b59f48f44decf7"
+      },
+      {
+        "name": "official-inventory/reforge.fast.json",
+        "bytes": 2206396,
+        "sha256": "32d60de9ec908a6ee50c5daa995a5396eb3a4ab0d18213751ff3d99dd49c3353"
+      },
+      {
+        "name": "official-inventory/shared.fast.json",
+        "bytes": 26777,
+        "sha256": "3a3bd06d96419136055b36caa51e158cdc337747fb28ed33b99ca4451aec3cef"
+      },
+      {
+        "name": "official-inventory/content.fast.json",
+        "bytes": 364424,
+        "sha256": "86fcfa3eda796b7a69aa03ec9753190d259997389d1880b1dda140061ae01b3d"
+      },
+      {
+        "name": "official-inventory/editor.fast.json",
+        "bytes": 1237658,
+        "sha256": "4d2aa8f955c969a4e28cd6de0bc4fadac851b4cf520b9573890cc476619c445a"
+      },
+      {
+        "name": "official-inventory/migrate.fast.json",
+        "bytes": 196773,
+        "sha256": "25962b5983dc28bdbc0b61e2817f6c6c0309f0cfdc403d5d30b77aaa3e327ad2"
+      },
+      {
+        "name": "official-inventory/pal-extract.fast.json",
+        "bytes": 74865,
+        "sha256": "d9f173a35b56bd0deb66ee0314a9c5a3ebdc2a835dfaf6e23a7dd19254c15d67"
+      },
+      {
+        "name": "official-inventory/game.fast.json",
+        "bytes": 981105,
+        "sha256": "faca9606596bf037e3971b1e4715e30cb8ae4421912fb7838f7dabfeee5fbb3f"
+      },
+      {
+        "name": "final-docs.execution.json",
+        "bytes": 4335,
+        "sha256": "bbf56d1bbd3337ba4fc28f6a578fb75f8f5c21d3f7a712adb6220de628d1899b"
+      },
+      {
+        "name": "final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "f4ae129c2ed57e8b9038141a2f23c1e3b262e2e7f2a9cb304fd999ed325b529d"
+      },
+      {
+        "name": "final-docs.stderr.raw",
+        "bytes": 959,
+        "sha256": "ad7eef72ceb82541a06a62d087e4f5ddac78da6a9f61bfd810c28ccd9594b9ce"
+      },
+      {
+        "name": "final-docs-r2.execution.json",
+        "bytes": 4342,
+        "sha256": "77aed7bd1caa06990a88bb465165baa345cf27bfaa04a3a5726d35427454bb8c"
+      },
+      {
+        "name": "final-docs-r2.stdout.raw",
+        "bytes": 311,
+        "sha256": "19ca03c2ced6b744b81c5b2afc0ebf91f52fae69b432eadc7576d986035b254d"
+      },
+      {
+        "name": "final-docs-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-lint.execution.json",
+        "bytes": 3996,
+        "sha256": "e1c9b3e1f56658d19e8b24694cd549196c62b4cc39f408b8238b659abeb3472a"
+      },
+      {
+        "name": "final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "d24e08ccea5aeb2ec2bd70ec9990dea0074f02ce012fa9069e43999b2951015a"
+      },
+      {
+        "name": "final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-ledger.execution.json",
+        "bytes": 4039,
+        "sha256": "6ff6ca975d9d0a6698214375de46095398f8ecf4bb40d971ae158e6db6ba1cdd"
+      },
+      {
+        "name": "final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "f407a999dc352267d8e46d80bb57db6191cd9b7f74569b2876f108bc9f977cfc"
+      },
+      {
+        "name": "final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-diff.execution.json",
+        "bytes": 4020,
+        "sha256": "959399c83e32ceadcc4269eb390960c02d7d07039ec54d202de40e2320ad9000"
+      },
+      {
+        "name": "final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "metadata-closeout.json",
+        "bytes": 1903270,
+        "sha256": "8f6bc0074401bb7073543c6029718cf83c14844a6ca811713251cadfbdc4fa84"
+      },
+      {
+        "name": "metadata-current-cards.json",
+        "bytes": 1906621,
+        "sha256": "2cbb198e57d838e1d2898e777b4b845921d911fc0e1bcc06d5b7dc2b67b5f903"
+      },
+      {
+        "name": "integration-check.execution.json",
+        "bytes": 1214,
+        "sha256": "ed7ceed3499f9d1bf0c32a392defd30fdc01997f3c816fa707bbb5587580c17f"
+      },
+      {
+        "name": "integration-check.stdout.raw",
+        "bytes": 406,
+        "sha256": "25c5bf44c81bb7645a707f4fd57f3dddadc1ebfc7a8f1908dbf2f227122b85eb"
+      },
+      {
+        "name": "integration-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "integration.mjs",
+        "bytes": 1039,
+        "sha256": "0ff35d3069ad3c31f7dfa66cab529315273ad1e62c52b2395de6ae6afdf04263"
+      }
+    ]
+  },
+  "tools": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/verify.mjs",
+      "sha256": "2f913c372e2c645c1e5ff89e9cb16e2368c85e22c421a491c585b92fe80d7c8f",
+      "scope": "Full read:read-only identities/raw/counter/native fixture matcher assertions;no tests/network/writes;semantic review separate. Final gate checks also read actualexecution/diagnostics counts and pinnedbaseline,without running tests.",
+      "dimensions": {
+        "A": "Full read:read-only identities/raw/counter/native fixture matcher assertions;no tests/network/writes;semantic review separate.",
+        "B": "Scope and limits explicit in source/docstring.",
+        "C": "Evidence-only;no product dependency or reversed runtime import.",
+        "D": "Reuses frozen primary/actual results,not second codec/library.",
+        "E": "Checks complete byte/result identities and specified business counter,not passed flags alone;no runtime type-test padding.",
+        "F": "Named data,source and output boundaries.",
+        "G": "No write mode in verifier;generator ownedtemp only,no production codec fork.",
+        "H": "Deterministic explicit dependencies;no console interception or coremock."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/native-fixture.py",
+      "sha256": "3054d10355bb739aa68c252acd4f0598790be1344ee299cfe1938cd6689f2a6f",
+      "scope": "Full read:test-only offline generator,ownedtemp cleanup,C decoder unchanged,formula oracle;compiler subprocess errors propagate,no tracked writes.",
+      "dimensions": {
+        "A": "Full read:test-only offline generator,ownedtemp cleanup,C decoder unchanged,formula oracle;compiler subprocess errors propagate,no tracked writes.",
+        "B": "Scope and limits explicit in source/docstring.",
+        "C": "Evidence-only;no product dependency or reversed runtime import.",
+        "D": "Reuses frozen primary/actual results,not second codec/library.",
+        "E": "Checks complete byte/result identities and specified business counter,not passed flags alone;no runtime type-test padding.",
+        "F": "Named data,source and output boundaries.",
+        "G": "No write mode in verifier;generator ownedtemp only,no production codec fork.",
+        "H": "Deterministic explicit dependencies;no console interception or coremock."
+      }
+    }
+  ],
+  "quantitativeInitialScan": {
+    "method": "TS AST branch-syntax heuristic incl logical expressions;not CFG cyclomatic complexity or acceptance target",
+    "functions": [
+      {
+        "path": "packages/shared/src/mkf.ts",
+        "symbol": "openMkf",
+        "estimatedBranches": 8,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/mkf.ts",
+        "symbol": "chunkCount",
+        "estimatedBranches": 1,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/mkf.ts",
+        "symbol": "readChunk",
+        "estimatedBranches": 4,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/rng.ts",
+        "symbol": "requirePayload",
+        "estimatedBranches": 4,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/rng.ts",
+        "symbol": "requireSurface",
+        "estimatedBranches": 4,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/rng.ts",
+        "symbol": "rngBlitDelta",
+        "estimatedBranches": 26,
+        "flag": true
+      },
+      {
+        "path": "packages/shared/src/rng.ts",
+        "symbol": "decodeRngFrames",
+        "estimatedBranches": 5,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/yj2.ts",
+        "symbol": "buildTree",
+        "estimatedBranches": 5,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/yj2.ts",
+        "symbol": "bt",
+        "estimatedBranches": 3,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/yj2.ts",
+        "symbol": "adjustTree",
+        "estimatedBranches": 7,
+        "flag": false
+      },
+      {
+        "path": "packages/shared/src/yj2.ts",
+        "symbol": "decompressYj2",
+        "estimatedBranches": 16,
+        "flag": true
+      }
+    ],
+    "review": "Flagged protocol switch/Huffman loops stay cohesive pure codec with explicit cursor/invariants;no IO/context/owner mixing or demonstrated extraction benefit. No metric-driven rewrite."
+  },
+  "currentCards": {
+    "accepted": 53,
+    "partial": 30,
+    "pending": 0
+  },
+  "integration": {
+    "state": "Source/evidence commit pushedgovernance first,mainfastforwarded and postmergefetch/0-0 verified. This final handoff is docs/evidence only;its own commit may follow sourceCommit.",
+    "branch": "codex/code-quality-3y",
+    "gateBase": "bee8587f4f31c06f8eb3a4d158ae8195e9beb145",
+    "fetchRechecked": true,
+    "beforeCommitAhead": 0,
+    "beforeCommitBehind": 0,
+    "sourceCommit": "d8995b8d65ee5a1bb64dc4a135405673a6ce5928",
+    "governancePushed": true,
+    "mainFastForwarded": true,
+    "verifiedRefs": "integration-check:HEAD/originmain/origin3y equal sourceCommit;0/0",
+    "primary": "Clean,unchanged92e901806;localmain behindremote8commits,not pulled or reset.",
+    "transport": "Gitgovernance push succeeded. GitHTTPS mainpush/fetch had repeated LibreSSL/EOF failures;connector update_ref was FORBIDDEN(no integrationwriteaccess). Existing localghCLI credential PATCHed mainref with force=false after checking oldSHA bee8587f4;API returnedsourceCommit. Subsequent actualgitfetch succeeded and refs verified. No TLSweakening/forcepush/newbranch."
+  },
+  "baseline": {
+    "path": "scripts/coverage/baseline.fast.json",
+    "sha256": "d6995a810cde6518796ad20d20b9ba244c26ea4f842c5b0b29cf1810624e4e27",
+    "beforeGit": "bee8587f4f31c06f8eb3a4d158ae8195e9beb145:scripts/coverage/baseline.fast.json",
+    "change": "Onlyshared/derivedtotal/time;all6otherpackages exactequal. Sourcecensus749/testcount19988unchanged;RNGboundary17→16,YJ2boundary9→10,0duplicate identities;shared+total6metricimprovements,no loweredfloor/rule/adjustment."
+  }
+}

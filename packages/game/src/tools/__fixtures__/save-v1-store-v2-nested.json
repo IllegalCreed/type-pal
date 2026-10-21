@@ -1,0 +1,182 @@
+{
+  "common": {
+    "PlayerRolesRuntime": {
+      "rgwName": [36, 37, 38, 40, 39, 41],
+      "rgwLevel": [1, 5, 3, 48, 28, 40],
+      "rgwMaxHP": [150, 240, 220, 810, 480, 3600],
+      "rgwMaxMP": [100, 240, 80, 790, 410, 720],
+      "rgwHP": [150, 28, 220, 810, 480, 3600],
+      "rgwMP": [100, 10, 80, 790, 410, 720],
+      "rgwEquipment": [
+        [196, 197, 199, 202, 202, 202],
+        [225, 0, 228, 234, 231, 231],
+        [208, 210, 210, 210, 209, 215],
+        [166, 170, 163, 195, 192, 193],
+        [235, 237, 238, 243, 0, 244],
+        [249, 248, 253, 260, 251, 253]
+      ],
+      "rgwAttackStrength": [33, 20, 38, 168, 168, 120],
+      "rgwMagicStrength": [20, 64, 22, 256, 220, 562],
+      "rgwDefense": [32, 28, 35, 136, 110, 136],
+      "rgwDexterity": [28, 55, 36, 132, 160, 110],
+      "rgwFleeRate": [32, 18, 28, 60, 150, 40],
+      "rgwPoisonResistance": [0, 0, 0, 0, 0, 0],
+      "rgwElementalResistance": [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+      ],
+      "rgwCoveredBy": [2, 0, 0, 0, 0, 4],
+      "rgwMagic": [
+        [296, 312, 298, 295, 353, 353],
+        [0, 316, 337, 304, 352, 329],
+        [0, 321, 0, 299, 329, 323],
+        [0, 327, 0, 315, 318, 374],
+        [0, 332, 0, 320, 394, 308],
+        [0, 306, 0, 325, 308, 298],
+        [0, 297, 0, 389, 299, 304],
+        [0, 309, 0, 336, 302, 0],
+        [0, 303, 0, 302, 305, 0],
+        [0, 307, 0, 308, 304, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+      ],
+      "rgwCooperativeMagic": [0, 0, 0, 0, 0, 0]
+    }
+  },
+  "dialog": {
+    "mode": "event",
+    "dialogBox": {
+      "shownLines": [],
+      "currentLineText": "旧存档对话",
+      "typingFrames": 0,
+      "charsRevealed": 0,
+      "phase": "typing",
+      "style": "bottom",
+      "fontColor": 79,
+      "shadow": false,
+      "keyIconBlink": false
+    }
+  },
+  "battle": {
+    "mode": "battle",
+    "battleState": {
+      "players": [
+        {
+          "roleId": 0,
+          "prevHp": 150,
+          "prevMp": 100,
+          "defending": false,
+          "status": {
+            "sleep": 0,
+            "paralyzed": 0,
+            "confused": 0,
+            "haste": false,
+            "slow": false
+          }
+        }
+      ],
+      "enemies": [
+        {
+          "e": {
+            "id": 1,
+            "idleFrames": 2,
+            "magicFrames": 0,
+            "attackFrames": 2,
+            "idleAnimSpeed": 5,
+            "actWaitFrames": 1,
+            "yPosOffset": 0,
+            "attackSound": 351,
+            "actionSound": 0,
+            "magicSound": 0,
+            "deathSound": 246,
+            "callSound": 91,
+            "health": 28,
+            "exp": 1,
+            "cash": 1,
+            "level": 0,
+            "magic": 0,
+            "magicRate": 0,
+            "attackEquivItem": 0,
+            "attackEquivItemRate": 0,
+            "stealItem": 0,
+            "stealItemCount": 0,
+            "attackStrength": -1,
+            "magicStrength": 0,
+            "defense": -6,
+            "dexterity": 0,
+            "fleeRate": 1,
+            "poisonResistance": 0,
+            "elemResistance": {
+              "wind": 5,
+              "thunder": 5,
+              "water": 0,
+              "fire": 0,
+              "earth": 5
+            },
+            "physicalResistance": 2,
+            "dualMove": 0,
+            "collectValue": 1,
+            "_name": "史莱姆"
+          },
+          "status": {
+            "sleep": 0,
+            "paralyzed": 0,
+            "confused": 0,
+            "haste": false,
+            "slow": false
+          },
+          "prevHp": 28,
+          "scriptOnTurnStart": 0,
+          "scriptOnBattleEnd": 0,
+          "scriptOnReady": 0
+        }
+      ],
+      "field": {
+        "id": 0,
+        "screenWave": 0,
+        "magicEffect": {
+          "wind": 0,
+          "thunder": 0,
+          "water": 0,
+          "fire": 0,
+          "earth": 0
+        }
+      },
+      "isBoss": false,
+      "phase": "preBattle",
+      "turn": 0,
+      "actionQueue": [],
+      "currentActionIndex": 0,
+      "pendingActions": {},
+      "uiState": "hidden",
+      "uiCursor": 0,
+      "expGained": 0,
+      "cashGained": 0,
+      "rng": {},
+      "phaseStallTicks": 0
+    }
+  }
+}

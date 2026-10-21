@@ -78,11 +78,11 @@ function annotateOne(c: Command, words: Words, symbols: Symbols): Command {
 
   switch (c.op) {
     case 'giveItem':
-      return annotateGiveItem(c, words, symbols)
+      return annotateGiveItem(c, words, symbols.item)
     case 'startBattle':
-      return annotateStartBattle(c, symbols)
+      return annotateStartBattle(c, symbols.enemy)
     case 'loadScene':
-      return annotateLoadScene(c, symbols)
+      return annotateLoadScene(c, symbols.scene)
     default:
       return c
   }
@@ -90,20 +90,26 @@ function annotateOne(c: Command, words: Words, symbols: Symbols): Command {
 
 function annotateGiveItem(
   command: GiveItemCommand,
-  words: Words,
-  symbols: Symbols,
+  words: { readonly items: readonly string[] },
+  itemSymbols: Symbols['item'],
 ): GiveItemCommand {
   const name =
-    symbols.item?.[String(command.itemId)] ?? wordAt(words.items, command.itemId, ITEM_OBJ_START)
+    itemSymbols?.[String(command.itemId)] ?? wordAt(words.items, command.itemId, ITEM_OBJ_START)
   return name ? { ...command, _item: name } : command
 }
 
-function annotateStartBattle(command: StartBattleCommand, symbols: Symbols): StartBattleCommand {
-  const name = symbols.enemy?.[String(command.enemyTeamId)]
+function annotateStartBattle(
+  command: StartBattleCommand,
+  teamSymbols: Symbols['enemy'],
+): StartBattleCommand {
+  const name = teamSymbols?.[String(command.enemyTeamId)]
   return name ? { ...command, _enemyTeam: name } : command
 }
 
-function annotateLoadScene(command: LoadSceneCommand, symbols: Symbols): LoadSceneCommand {
-  const name = symbols.scene?.[String(command.sceneId)]
+function annotateLoadScene(
+  command: LoadSceneCommand,
+  sceneSymbols: Symbols['scene'],
+): LoadSceneCommand {
+  const name = sceneSymbols?.[String(command.sceneId)]
   return name ? { ...command, _scene: name } : command
 }

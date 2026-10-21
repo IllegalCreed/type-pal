@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "sourceBase": "4e5e964874fac1cff244b146640274b4ada92995",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex",
+  "status": "Finite authorized behavior fix, not full content/card/module acceptance",
+  "authority": "User2026-10-21 approved contract-first then formal red/fix; build limited to cash necessary contract after its type/zero/finite requirements were checked.",
+  "priorStage": {
+    "commit": "4e5e964874fac1cff244b146640274b4ada92995",
+    "receipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json",
+    "meaning": "Frozen pure-test/comment intermediate stage; read its pins and raw from this Git commit, not current cash-changed files. Retain valid quick-save counters; no repeated whole review."
+  },
+  "contract": {
+    "field": "GameState.dwCash",
+    "required": "finite number; literal0 legal",
+    "preserved": "No amount cap, integer/nonnegative policy, coercion, default, Save API, JSON encoding/version/field-layout, migration or phase2 change",
+    "notClaimed": "Complete GameState/wire validation, browser FileReader smoke or IndexedDB storage isolation proof"
+  },
+  "files": [
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "a18b8765bfff159eab6a0468e0fa915956a4d6c740853dc74fcb69e4226b46ae",
+      "dimensions": {
+        "A": "Necessary cash contract: finite number, zero retained. Refuses text/missing/nonfinite without coercion before the unchanged real Save caller. Formal red2 and final29 green; other content/wire validity and existing whole-GameState assertion remain unresolved, so file/card stay review.",
+        "B": "savedAt ownership comment remains corrected; the new error identifies the corrupt money field. No SDLPal JSON format claim.",
+        "C": "Validation stays in pure parser; DOM/FileReader in tools-panel and transaction/clone ownership in Save are unchanged. Existing overall as-GameState boundary still needs the wider contract.",
+        "D": "One scalar guard, no helper/format migration/phase2 codec/default/upgrader. No duplicate persistence validation introduced.",
+        "E": "Two new failure contracts: actual memory Save overwrite refusal plus independent nonfinite numeric literal. Zero is an explicit control; neighboring9 Save API tests pass. No browser/IndexedDB or complete schema credit.",
+        "F": "Linear fail-fast field check, stable Chinese reason; no mode flag or nested decoder machinery added.",
+        "G": "Both public exports and signatures preserved. Guard is necessary from actual malformed write; no new API/unused abstraction.",
+        "H": "Pure parser remains deterministic; real memory Save can be isolated via its intended test reset and explicit no-indexedDB stub without mocking the parser or Save calls."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "57af1174768ed573d080b465856cc886dacaf19f6cdcaf90b0b136fdd55ceee7",
+      "dimensions": {
+        "A": "All seven cases read. Necessary-field rejection fixtures now begin with a real initial GameState and remove/change only the targeted field. Real-memory Save uses slot5, clears its map and restores globals after each case.",
+        "B": "Titles distinguish corrupt cash, original slot retention, overflow and zero. Comment explicitly limits persistence proof to memory, excluding user IndexedDB.",
+        "C": "Parser tests own header/value guards; real Save is exercised only for write-before-reject ordering. Quick-save timing remains in its canonical file.",
+        "D": "Reuses actual Save and initial-state constructors; no serializer clone used as the only business oracle. Two legacy fixture fixes add no test identities.",
+        "E": "Red:5pass/2fail, one Vitest rejects-expectation Error and one thrown-error AssertionError, both exact business mismatches. Green:7 parser +9 quick-save +4 toast +9 Save API=29, no pending/stderr. Literal prior scene4/cash55 and complete observed metadata preservation establish no overwrite. New cash test bodies unchanged after fixture repair.",
+        "F": "Damaged property is visible in the fixture; overflow is injected into known serializer output with a checked substitution. No any/as-never or core mock added.",
+        "G": "Two new tests correspond to the type and finite-number guard atoms; no coverage padding or weak success-only case. Current total20 includes the prior canonical consolidation; adjacent API adds9.",
+        "H": "Explicit memory backend, actual async Save, no timers/network/browser storage. afterEach clears memory and restores the indexedDB global even after red failures."
+      }
+    }
+  ],
+  "pins": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "sha256": "40d768ddf911de1ebca4a172ef2448e2a5e777e009cf630e5c11c62b019501a1"
+    },
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa"
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "sha256": "1869a14855339f6d97921c499ad0e8e56d2c7bb5052989f15b74561acc685945"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/api.test.ts",
+      "sha256": "280a4677e76b8ecb6f8b8fdd6918ea93e7b5f68997f6523c9ad455efd4d94b20"
+    }
+  ],
+  "tests": {
+    "runs": [
+      {
+        "id": "cash-guard-red",
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "args": [
+          "run",
+          "src/tools/save-io.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-contract-20261021-fgepljs_/cash-guard-red.native.json"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+        "passed": 5,
+        "failed": 2,
+        "pending": 0,
+        "failures": [
+          {
+            "file": "packages/game/src/tools/save-io.test.ts",
+            "fullName": "save-io 现金被改成文本时，在调用真实 Save 写入前拒绝，原槽位与预览保持不变"
+          },
+          {
+            "file": "packages/game/src/tools/save-io.test.ts",
+            "fullName": "save-io 现金数值溢出为 Infinity 时拒绝；正常 V1 的真实 0 保留"
+          }
+        ]
+      },
+      {
+        "id": "cash-guard-green",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "args": [
+          "run",
+          "src/tools/save-io.test.ts",
+          "src/tools/quick-save.test.ts",
+          "src/tools/toast.test.ts",
+          "src/core/save/__tests__/api.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-contract-20261021-fgepljs_/cash-guard-green.native.json"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+        "passed": 29,
+        "failed": 0,
+        "pending": 0,
+        "failures": []
+      },
+      {
+        "id": "cash-guard-tsc",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "pnpm",
+        "args": ["--filter", "@type-pal/game", "typecheck"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-biome",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "pnpm",
+        "args": [
+          "exec",
+          "biome",
+          "check",
+          "packages/game/src/tools/save-io.ts",
+          "packages/game/src/tools/save-io.test.ts"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-final-green",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "args": [
+          "run",
+          "src/tools/save-io.test.ts",
+          "src/tools/quick-save.test.ts",
+          "src/tools/toast.test.ts",
+          "src/core/save/__tests__/api.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-contract-20261021-fgepljs_/cash-guard-final-green.native.json"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+        "passed": 29,
+        "failed": 0,
+        "pending": 0,
+        "failures": []
+      },
+      {
+        "id": "cash-guard-final-tsc",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "pnpm",
+        "args": ["--filter", "@type-pal/game", "typecheck"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-final-docs",
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "command": "node",
+        "args": [
+          "-e",
+          "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-final-lint",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "pnpm",
+        "args": ["lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-final-ledger",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "node",
+        "args": ["scripts/quality/code-quality-ledger.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-final-diff",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "git",
+        "args": ["diff", "--check", "HEAD"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-final-docs-r2",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "node",
+        "args": [
+          "-e",
+          "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      },
+      {
+        "id": "cash-guard-final-lint-r2",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "command": "pnpm",
+        "args": ["lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+      }
+    ],
+    "final": "29/29",
+    "redFailureKinds": [
+      "Vitest rejects expectation: promise unexpectedly resolved after actual Save write",
+      "toThrow expectation: nonfinite cash accepted"
+    ],
+    "fixtureRepair": "Only old partyMembers/wNumScene negative fixtures changed to damage one field in a full real initial state; two formal cash-case callback bodies remain byte-identical to red",
+    "inspectionErratum": "An ad-hoc Python inspection assumed every native business failure string starts AssertionError and rejected the first message. Vitest4.1.7 reports a resolved .rejects expectation as Error with __VITEST_REJECTS__ stack; native red/raw are unchanged. Both failures were checked against exact cases/message kinds, not reclassified as environment errors."
+  },
+  "integration": {
+    "newAcceptedCards": 0,
+    "newClosedFiles": 0,
+    "pre94": "49accept/34partial/0pending",
+    "requiredBeforeIntegration": [
+      "Complete remaining save-content contract and approved build slices",
+      "Actual FileReader/UI no-overwrite proof",
+      "Concentrated full check/official ratchet/protected and final zero-diagnostic statics"
+    ],
+    "publish": "Not pushed or merged; actual local checkpoints are Git refs. Full coverage deferred to complete stable module window."
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-native.json.gz",
+    "bytes": 40129,
+    "sha256": "4271b852025006cc237b81de51db7af0c87d43c1c46a15144f7b7ce6545d8320",
+    "members": [
+      {
+        "name": "cash-red-candidate.test.ts",
+        "bytes": 3208,
+        "sha256": "4ff9497ff30a3a7f3f40b06ad04e3cdb351b09f69f0132d942626f836f21a835"
+      },
+      {
+        "name": "cash-source-before.ts",
+        "bytes": 1115,
+        "sha256": "3d207a5c32cee30f8da91392ba403b2e28b40d8a7d3bb6a1cb69f8e887573f5a"
+      },
+      {
+        "name": "cash-product.patch",
+        "bytes": 626,
+        "sha256": "13635b1929de07149790587962a2dba713361016628a94b8fdaede29b68d99df"
+      },
+      {
+        "name": "cash-red-reconstruction.json",
+        "bytes": 852,
+        "sha256": "fc8c4770e9e43c23d08ef32ad120a33b931e55039c2b0dff29686bf0abf46f95"
+      },
+      {
+        "name": "pack-cash-local.cjs",
+        "bytes": 11255,
+        "sha256": "3ee129d3bb93a0c22792e181839d6dd6be573c4aada41898650de5a59611fd29"
+      },
+      {
+        "name": "cash-guard-red.execution.json",
+        "bytes": 3086,
+        "sha256": "818fb0d297cc49e51c51d63297eaed2a3ead422eb247e390b5e88fc12fd8ce36"
+      },
+      {
+        "name": "cash-guard-red.stdout.raw",
+        "bytes": 1069,
+        "sha256": "df5e850247372512b0fde28f3b729ec19b39b08057444cffa2da53b33fba51b0"
+      },
+      {
+        "name": "cash-guard-red.stderr.raw",
+        "bytes": 1408,
+        "sha256": "fd851beae20f0a7122aebc2bc9e201658a9b58a738436fe154a340d92db3bdef"
+      },
+      {
+        "name": "cash-guard-red.native.json",
+        "bytes": 5390,
+        "sha256": "8923bffcb23d1d427e2c4793baeb5a2967a1767a38634c3c2a8848ed137338f5"
+      },
+      {
+        "name": "cash-guard-green.execution.json",
+        "bytes": 1977,
+        "sha256": "74f472432e84d5ea5bcc4124901c7459bf578f491f787a6452ba6238194c0824"
+      },
+      {
+        "name": "cash-guard-green.stdout.raw",
+        "bytes": 613,
+        "sha256": "fe8590084a08c4db709a4db2944d7d5d736108c76c464adc6558c6c72429e7c7"
+      },
+      {
+        "name": "cash-guard-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-green.native.json",
+        "bytes": 9354,
+        "sha256": "ea4c46e7dc20f9e6351e45be9e6e3c1434e9cd0f92963d95c09af3ebaea8f2b9"
+      },
+      {
+        "name": "cash-guard-green.diagnostics.json",
+        "bytes": 581,
+        "sha256": "bfc1dd3392df375a57a1bcd617ec4deddaa6e17cd63b37c971ce6e4f1a961804"
+      },
+      {
+        "name": "cash-guard-tsc.execution.json",
+        "bytes": 1580,
+        "sha256": "6a7408ae195404901955d6d4bc19e696acb5593a3ef96630f4baf50095804545"
+      },
+      {
+        "name": "cash-guard-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "cash-guard-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-tsc.diagnostics.json",
+        "bytes": 568,
+        "sha256": "e687cc85f98fbe1887bf6581d4ed7b681697d5f49b266886e4e2b369c32eac5f"
+      },
+      {
+        "name": "cash-guard-biome.execution.json",
+        "bytes": 1660,
+        "sha256": "0bfafa5721dc814062bfc9b7511f06971abcc5ec6914c010e338e8c36b01f07c"
+      },
+      {
+        "name": "cash-guard-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "cfe56aff0e5d4055999cf936da66c8122e0bdf34f106573373d97c34aab2c43d"
+      },
+      {
+        "name": "cash-guard-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-biome.diagnostics.json",
+        "bytes": 570,
+        "sha256": "74444dcbed31cd32418dc81291d0a25dbb96f7957f5e3040a620f2d12dd3c63e"
+      },
+      {
+        "name": "cash-guard-final-green.execution.json",
+        "bytes": 2001,
+        "sha256": "2b85e1ee7523175419a2ceb9a9de1c1cfb857f9331ea78a7712bd563d40d8a37"
+      },
+      {
+        "name": "cash-guard-final-green.stdout.raw",
+        "bytes": 620,
+        "sha256": "08c2cdf7aaa24fbb6fcc100c5bddca90fbc7d4c127a9bf86a4311c66f4144be2"
+      },
+      {
+        "name": "cash-guard-final-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-green.native.json",
+        "bytes": 9349,
+        "sha256": "f4278ee61be8d4345e4c3a653a0cd0b9ac2b731b5947f8180d247a50a44bc3b0"
+      },
+      {
+        "name": "cash-guard-final-green.diagnostics.json",
+        "bytes": 587,
+        "sha256": "c168d52a98d52776ce4da4d7345431e735227907e6cf693df9c6e85dd56fa494"
+      },
+      {
+        "name": "cash-guard-final-tsc.execution.json",
+        "bytes": 1598,
+        "sha256": "95975f759154e60de418d0af6e037f4af8c9954f9faa5cca595bec8cd91f0763"
+      },
+      {
+        "name": "cash-guard-final-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "cash-guard-final-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-tsc.diagnostics.json",
+        "bytes": 574,
+        "sha256": "1c82ba1f782e49975ed8411f8687ad4ecd27b050cad54347f49e143365821a60"
+      },
+      {
+        "name": "cash-guard-final-docs.execution.json",
+        "bytes": 2736,
+        "sha256": "b376611fb08d8a225f2e42802dfe62a7caf8e73f071de55fcb6bb100d6e33301"
+      },
+      {
+        "name": "cash-guard-final-docs.stdout.raw",
+        "bytes": 93,
+        "sha256": "75956470715b4fdda376101cf96d19c275753ef164a1eece526b798976cf2e94"
+      },
+      {
+        "name": "cash-guard-final-docs.stderr.raw",
+        "bytes": 846,
+        "sha256": "4b682d4733b50b6ef763e11db15bc3bf6f6dd2963e4e78cebbf1d900ee186cfb"
+      },
+      {
+        "name": "cash-guard-final-lint.execution.json",
+        "bytes": 2398,
+        "sha256": "9f6d81e24ae1023ef3a71c95eb0708ae1c8ca174d0d7914ff709e99fd1604d7d"
+      },
+      {
+        "name": "cash-guard-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "e516b902b383ff8ed3cbd402348137b75a750611b3139231a73a41f29f59bfae"
+      },
+      {
+        "name": "cash-guard-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-ledger.execution.json",
+        "bytes": 2441,
+        "sha256": "dfdefc4cecce5c266b98a58d2545d68d2d7c63f5fc509fe9106022bbf88cf927"
+      },
+      {
+        "name": "cash-guard-final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "d84c512acef8f822dfea2df3981f979b5fd78baf443d4382fd14d0bd146996d4"
+      },
+      {
+        "name": "cash-guard-final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-ledger.diagnostics.json",
+        "bytes": 577,
+        "sha256": "2a3aa9f89a733ed9fe92d3b693946db379ca47b136758812fdef0dd0ebfdad28"
+      },
+      {
+        "name": "cash-guard-final-diff.execution.json",
+        "bytes": 2422,
+        "sha256": "a360b9c67c47c665fffde94ebf29b87a8be2fba1dd2169264c292bff59dd66b1"
+      },
+      {
+        "name": "cash-guard-final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-diff.diagnostics.json",
+        "bytes": 575,
+        "sha256": "8cb798a842f55adc3512485d09c33ba1011c900e48680db8d8fa101db06148ac"
+      },
+      {
+        "name": "cash-guard-final-docs-r2.execution.json",
+        "bytes": 2772,
+        "sha256": "9c1e74346d07333cf5bb38bfd515f692a5d2f01666bcc642e972f681ede06c9c"
+      },
+      {
+        "name": "cash-guard-final-docs-r2.stdout.raw",
+        "bytes": 311,
+        "sha256": "06b8ad9239e81b1ca2cded495b2e8249acf5f99a8f91a9b2dc913a11cac70820"
+      },
+      {
+        "name": "cash-guard-final-docs-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-docs-r2.diagnostics.json",
+        "bytes": 578,
+        "sha256": "4b60cc85641f74f0be76d91fef9b20a979c1b470f5943fbc08f7eafc6d502d0e"
+      },
+      {
+        "name": "cash-guard-final-lint-r2.execution.json",
+        "bytes": 2435,
+        "sha256": "2ea61776dce5abf58360cb36fc4c2d0b41eb48cc7ebdbbce72db984534458532"
+      },
+      {
+        "name": "cash-guard-final-lint-r2.stdout.raw",
+        "bytes": 193,
+        "sha256": "e516b902b383ff8ed3cbd402348137b75a750611b3139231a73a41f29f59bfae"
+      },
+      {
+        "name": "cash-guard-final-lint-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-guard-final-lint-r2.diagnostics.json",
+        "bytes": 578,
+        "sha256": "1ed5fb1e1cce84fa35782dbe5ddf94ff340edb17f1bdb34fe8a174b48c1f2854"
+      },
+      {
+        "name": "update-cash-reviews.cjs",
+        "bytes": 5567,
+        "sha256": "7229f1458399dab04c3631ddc655308e9a593bcf64181da1caa61bfa42d69ea6"
+      },
+      {
+        "name": "metadata-cash-progress.json",
+        "bytes": 1240,
+        "sha256": "e2bf34e0fa2f7afe1ac7840fc523213a0a71785cd1edabd9cfff235bb5121806"
+      },
+      {
+        "name": "metadata-cash-index.json",
+        "bytes": 1271,
+        "sha256": "44c91a26ee1d63743b68533c9c23ead056414d974b1266a473f5a3287ab53118"
+      },
+      {
+        "name": "cash-task-index.stdout.raw",
+        "bytes": 91874,
+        "sha256": "2a3f8df45b792c3f7a514bf25fd20e61ee26f047a7be510f05b477313b64f380"
+      },
+      {
+        "name": "cash-task-index.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-task-index.execution.json",
+        "bytes": 215,
+        "sha256": "eb9631fd5f1d6c27a3c2f836b4d8917226da2e5a3fe557de71840b7ea84dbd1a"
+      },
+      {
+        "name": "cash-metrics.first.cjs",
+        "bytes": 1506,
+        "sha256": "1a318b3e20729dc170bc536555fe40c891e67cc5925f22fb5c9fbff64baf7d72"
+      },
+      {
+        "name": "cash-metrics.json",
+        "bytes": 9042,
+        "sha256": "22dfe49d8a81b78c095034a90190b82c35527b6a9af1252afac35daea2c3b488"
+      },
+      {
+        "name": "cash-metrics.cjs",
+        "bytes": 1491,
+        "sha256": "40b17183888a804ce56fd27185e06ac03f1adf02b66d1179e9364538e7c39929"
+      },
+      {
+        "name": "cash-metrics.final.json",
+        "bytes": 9042,
+        "sha256": "22dfe49d8a81b78c095034a90190b82c35527b6a9af1252afac35daea2c3b488"
+      },
+      {
+        "name": "cash-metrics-final.stdout.raw",
+        "bytes": 15,
+        "sha256": "2c30598f35c7583f7f2644cb06954ea3501fcadb886df63ed1f9ed57f59925c3"
+      },
+      {
+        "name": "cash-metrics-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cash-metrics-execution.json",
+        "bytes": 547,
+        "sha256": "0b59e253b5574d3b3383f26ffe92bf220504da706695e4503742940c8537e71f"
+      }
+    ]
+  }
+}

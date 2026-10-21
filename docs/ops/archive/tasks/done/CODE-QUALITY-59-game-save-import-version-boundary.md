@@ -1,6 +1,6 @@
 # CODE-QUALITY-59 — game save import version boundary
 
-> 2026-10-21当前复审仍partial：原version1门只证明版本拒绝，不证明完整GameState内容合法。真实parse及隔离内存Save接受字符串现金；已登记[高风险裁决卡](../../../tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md)，未改实现/用户槽位。下文done为原历史时点，不覆盖此停止线。
+> 2026-10-21当前复审accept：[CODE59/60逐文件A–H与完整原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。获准结构/历史非空/角色域修复先红后绿，52相邻、20386全仓check、19988 official ratchet/protected全部零诊断；5次原生文件/IDB入口验证。60复用有效九例及反控；不扩大到Save/IDB/面板整文件或94–102。下文保留历史时点。
 
 Status: done
 Owner: Codex

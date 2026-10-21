@@ -1026,14 +1026,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior structured review reused; read exact mobile board/index review-record delta and dependent hash binding",
+      "readMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only the descendant mobile task navigation delta is rebound; prior historical scope and evidence remain traceable. This record does not award runtime, hardware, E2E, coverage or independent product acceptance.",
+      "coreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 phase/lore canonical 文档、task card 和 fresh evidence 复核。",
+      "nextStep": "Complete official coverage and CI before merge and issue closure.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261004-semantic-current-batch.json machine artifact",
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "caae59cc97237a126642eab5f3b989460707f99a53ac4033a94bfac6508bdf9c",
+      "afterSha256": "7cc1e448851753a6f49d51ae13f9145357c2c48ee810e5f620c19dff6edb75e7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1072,8 +1072,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "caae59cc97237a126642eab5f3b989460707f99a53ac4033a94bfac6508bdf9c",
-        "implementationSha": "caae59cc97237a126642eab5f3b989460707f99a53ac4033a94bfac6508bdf9c",
+        "currentSha": "7cc1e448851753a6f49d51ae13f9145357c2c48ee810e5f620c19dff6edb75e7",
+        "implementationSha": "7cc1e448851753a6f49d51ae13f9145357c2c48ee810e5f620c19dff6edb75e7",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1728,44 +1728,12 @@
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "date": "2026-10-22",
-            "revision": "92e901806 + working tree codex/game-mobile-layout",
-            "action": "Rebind exact mobile task navigation review delta only",
-            "previousAfterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
-            "scope": "Only descendant records for GAME-MOBILE-LAYOUT-1 board/index row; retain historical evidence and unrelated entries, no new product or coverage acceptance.",
-            "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
-          },
-          {
-            "date": "2026-10-22",
-            "action": "Bind exact mobile input follow-up record delta",
-            "previousAfterSha256": "84f1081153a382fc74c58e3d14a0c081eaa9b7159311192b9a8b5bca9f5f15b9",
-            "scope": "Only mobile board follow-up descendant record; no real hardware/coverage/release claim",
-            "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
           }
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-        "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
-        "lineCount": 3784,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable phase-governance artifact",
-          "sourceBytes": 110121,
-          "sourceLines": 1987,
-          "sourceFinalNewline": true,
-          "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-          "exactRoundTrip": true
-        },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        }
+        "kind": "mobile-software-integration-scoped-review",
+        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
       },
       "history": [
         {
@@ -2040,20 +2008,180 @@
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
         },
         {
-          "date": "2026-10-22",
-          "revision": "92e901806 + working tree codex/game-mobile-layout",
-          "action": "Rebind exact mobile task navigation review delta only",
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-tools-intermediate",
           "previousAfterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
-          "scope": "Only descendant records for GAME-MOBILE-LAYOUT-1 board/index row; retain historical evidence and unrelated entries, no new product or coverage acceptance.",
-          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
-          "previousCoreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance requires explicit input/audio per-file A-H and complete clean gates; current receipt states actual stage."
+          "afterSha256": "f7412f28d7dca5609a40205f16ba3ba5d2396996b93ff8daec6e99ce7b241fc4",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named save-tools status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-cash-limited-build",
+          "previousAfterSha256": "f7412f28d7dca5609a40205f16ba3ba5d2396996b93ff8daec6e99ce7b241fc4",
+          "afterSha256": "d4225a44e2343bcb1ec29d16ff1222f737e97b1902c8436159f995c41e76074e",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named finite-cash status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-cash-limited-build",
+          "previousAfterSha256": "d4225a44e2343bcb1ec29d16ff1222f737e97b1902c8436159f995c41e76074e",
+          "afterSha256": "e611164b8c757245a5ac2b4c02827a71fc9f4f3154a9dc8bccaf4dfa4de8faeb",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named finite-cash status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "e611164b8c757245a5ac2b4c02827a71fc9f4f3154a9dc8bccaf4dfa4de8faeb",
+          "afterSha256": "b854523999306a7184b5952089eb76631e8d3bcf6975d6299e63657eadf32fda",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "b854523999306a7184b5952089eb76631e8d3bcf6975d6299e63657eadf32fda",
+          "afterSha256": "7470f0907d949e4fe172d1991c54a739bfb3f6f9c887cac26f7a8f2aa7a2123a",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-closeout",
+          "previousAfterSha256": "7470f0907d949e4fe172d1991c54a739bfb3f6f9c887cac26f7a8f2aa7a2123a",
+          "afterSha256": "1046f505c333a6a3ccc7fb7c20ae72a5035bfe7a5e01318eecb11c955ff66fc9",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-closeout",
+          "previousAfterSha256": "1046f505c333a6a3ccc7fb7c20ae72a5035bfe7a5e01318eecb11c955ff66fc9",
+          "afterSha256": "f6b6add1d89e2eaf99d4c4eb32229ce6b7877c03ea6a5cb4a0fe7da44fe24cad",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-candidate",
+          "previousAfterSha256": "f6b6add1d89e2eaf99d4c4eb32229ce6b7877c03ea6a5cb4a0fe7da44fe24cad",
+          "afterSha256": "3961333333143ca0e9d3213dfc901518afbfbc79f5679e5cef0fd17a190cf502",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-closeout",
+          "previousAfterSha256": "3961333333143ca0e9d3213dfc901518afbfbc79f5679e5cef0fd17a190cf502",
+          "afterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-multi-card-pending",
+          "previousAfterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+          "afterSha256": "315b7be8ec2929c1b0564502a3646af539da603a9552fbe0ac122f7186fbb495",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
         },
         {
           "date": "2026-10-22",
-          "action": "Bind exact mobile input follow-up record delta",
-          "previousAfterSha256": "84f1081153a382fc74c58e3d14a0c081eaa9b7159311192b9a8b5bca9f5f15b9",
-          "scope": "Only mobile board follow-up descendant record; no real hardware/coverage/release claim",
-          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "315b7be8ec2929c1b0564502a3646af539da603a9552fbe0ac122f7186fbb495",
+          "afterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+          "afterSha256": "9663a47a48410ea2e66eef24e9bbf9b82c5b7b864ef478d42a3199b7c677b918",
+          "scope": "Only owned CI record child fingerprint; no unrelated review credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-candidate",
+          "previousAfterSha256": "9663a47a48410ea2e66eef24e9bbf9b82c5b7b864ef478d42a3199b7c677b918",
+          "afterSha256": "f8ea6bfabfbbf63e9dafe65b33abea3088db57b59a25cc019593845d4b2483bc",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-sealed",
+          "previousAfterSha256": "f8ea6bfabfbbf63e9dafe65b33abea3088db57b59a25cc019593845d4b2483bc",
+          "afterSha256": "fc5341c70d3880a3cc92d9636da5afd8ac8439d0c5d91cab5cbb1f96420fad1e",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-approved-next-window-index",
+          "previousAfterSha256": "fc5341c70d3880a3cc92d9636da5afd8ac8439d0c5d91cab5cbb1f96420fad1e",
+          "afterSha256": "cc35484f498005471d6fcbb92ad731338606adc4bfa89e027e4d155e2d1f6986",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "cc35484f498005471d6fcbb92ad731338606adc4bfa89e027e4d155e2d1f6986",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+            "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+            "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+            "afterSha256": "cc35484f498005471d6fcbb92ad731338606adc4bfa89e027e4d155e2d1f6986",
+            "lineCount": 3938,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 110121,
+              "sourceLines": 1987,
+              "sourceFinalNewline": true,
+              "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+          "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
         }
       ],
       "supersedes": [
@@ -2061,7 +2189,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+      "reviewedLines": "Only GAME-MOBILE-LAYOUT-1 row/status or the named child review binding; no unrelated full-document reacceptance.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5955,9 +6083,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; actual owned input/audio delta and version envelope independently checked",
+      "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance requires explicit input/audio per-file A-H and complete clean gates; current receipt states actual stage.",
+      "coreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -5978,7 +6106,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
+      "afterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6001,8 +6129,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
-        "implementationSha": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
+        "currentSha": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
+        "implementationSha": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6670,8 +6798,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
-        "lineCount": 6168,
+        "afterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
+        "lineCount": 6328,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -6995,6 +7123,159 @@
           "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-tools-intermediate",
+          "previousAfterSha256": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
+          "afterSha256": "685946812e8d96b0b7b9314dab2a6e64517c09e24522be272ae70158efe68d8b",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named save-tools status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-cash-limited-build",
+          "previousAfterSha256": "685946812e8d96b0b7b9314dab2a6e64517c09e24522be272ae70158efe68d8b",
+          "afterSha256": "f43454212a6667123c6310b7ff82aaefbe94065b9df3320696ae42e3c428d73e",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named finite-cash status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-types-limited-build",
+          "previousAfterSha256": "f43454212a6667123c6310b7ff82aaefbe94065b9df3320696ae42e3c428d73e",
+          "afterSha256": "b0e50335b464674eda2ef154c49170d93284f8dee9d8b62050697fc432a91b99",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named save-type status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "b0e50335b464674eda2ef154c49170d93284f8dee9d8b62050697fc432a91b99",
+          "afterSha256": "2f4cbd8cd7490e1d2cd63828b55c1fdf5c0a620a32d2b2c7c137fd79681d7cd3",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-candidate",
+          "previousAfterSha256": "2f4cbd8cd7490e1d2cd63828b55c1fdf5c0a620a32d2b2c7c137fd79681d7cd3",
+          "afterSha256": "4ecd5b785c87faa063b364672b6b5acff0084cef8bba6299344e4c9751626368",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-v1-module-closeout",
+          "previousAfterSha256": "4ecd5b785c87faa063b364672b6b5acff0084cef8bba6299344e4c9751626368",
+          "afterSha256": "9c9941781233ab4271f01f19c48abff04703c874d07cc61fa51989b1570f7e39",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-candidate",
+          "previousAfterSha256": "9c9941781233ab4271f01f19c48abff04703c874d07cc61fa51989b1570f7e39",
+          "afterSha256": "b36dc53148160259ac5a8df94a18b819b48f3f5d2da09deb9eb8563e7e47f83a",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-closeout",
+          "previousAfterSha256": "b36dc53148160259ac5a8df94a18b819b48f3f5d2da09deb9eb8563e7e47f83a",
+          "afterSha256": "cd571ce3ab7a31ebb7ce89146e420a1dd4d4c1b1e7cf4f28868a9051cda3d3e5",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-current-cards",
+          "previousAfterSha256": "cd571ce3ab7a31ebb7ce89146e420a1dd4d4c1b1e7cf4f28868a9051cda3d3e5",
+          "afterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-multi-card-pending",
+          "previousAfterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+          "afterSha256": "ca56a8ba5fd58bc5297661df84f54f973ec9dfa82310b5bdae1bdb49085299a1",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-png-ledger-erratum",
+          "previousAfterSha256": "ca56a8ba5fd58bc5297661df84f54f973ec9dfa82310b5bdae1bdb49085299a1",
+          "afterSha256": "1b4da20b3a854a2e5fdad4e469a8422098a654fb832c07df4a392a6750a57d70",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-host-category",
+          "previousAfterSha256": "1b4da20b3a854a2e5fdad4e469a8422098a654fb832c07df4a392a6750a57d70",
+          "afterSha256": "678c40427e0f7ee977bc28f33c317bc9c951227edc054e2b0935cda9b35e0767",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "678c40427e0f7ee977bc28f33c317bc9c951227edc054e2b0935cda9b35e0767",
+          "afterSha256": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-candidate",
+          "previousAfterSha256": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
+          "afterSha256": "656676ffbf7ec0cda618e7c1538d80824bf8fb9a569e5273c91b1be5f15aaef9",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-sealed",
+          "previousAfterSha256": "656676ffbf7ec0cda618e7c1538d80824bf8fb9a569e5273c91b1be5f15aaef9",
+          "afterSha256": "f20b9e94b8d13128353d4f7fb98a77e7df8f4afe6e31594b558b0a275b075077",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-final-labels",
+          "previousAfterSha256": "f20b9e94b8d13128353d4f7fb98a77e7df8f4afe6e31594b558b0a275b075077",
+          "afterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
         }
       ],
       "supersedes": [
@@ -7002,7 +7283,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+      "reviewedLines": "Only CLI/event current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -14493,7 +14774,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
       "reviewDepth": "structured-content",
       "coreConclusion": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r58-task-template-sources.json:1"],
@@ -14516,7 +14797,7 @@
         }
       ],
       "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-      "afterSha256": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
+      "afterSha256": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14540,7 +14821,7 @@
       },
       "revision": {
         "currentSha": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-        "implementationSha": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
+        "implementationSha": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
         "history": [
           {
             "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
@@ -14586,8 +14867,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
         "candidateSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-        "afterSha256": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
-        "lineCount": 459,
+        "afterSha256": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
+        "lineCount": 507,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -14614,6 +14895,14 @@
           "action": "R93 phase-governance artifact migration",
           "reviewer": "r93_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
+          "afterSha256": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
+          "scope": "Only owned CI record child fingerprint; no unrelated review credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
         }
       ],
       "supersedes": [
@@ -15099,7 +15388,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
       "reviewDepth": "structured-content",
       "coreConclusion": "docs/phase-governance/reviews/20261017-r62-template-sources.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r62-template-sources.json:1"],
@@ -15122,7 +15411,7 @@
         }
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
+      "afterSha256": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15146,7 +15435,7 @@
       },
       "revision": {
         "currentSha": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-        "implementationSha": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
+        "implementationSha": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
         "history": [
           {
             "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
@@ -15192,8 +15481,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
         "candidateSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-        "afterSha256": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
-        "lineCount": 3355,
+        "afterSha256": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
+        "lineCount": 3379,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -15220,6 +15509,14 @@
           "action": "R93 phase-governance artifact migration",
           "reviewer": "r93_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
+          "afterSha256": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
+          "scope": "Only owned CI record child fingerprint; no unrelated review credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
         }
       ],
       "supersedes": [

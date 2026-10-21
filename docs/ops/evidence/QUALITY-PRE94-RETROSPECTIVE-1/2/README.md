@@ -1,5 +1,6 @@
 # CODE2 MKF/RNG逐文件复审
 
+> 2026-10-21当前accept：[shared逐文件A–H与完整门](../shared-codecs/evidence.json)。归约/重复缺口已闭合，O-5限支持域；以下partial/未跑/旧计数均为历史片段，保留原件，不作为当前门。
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，起点c727bc81e/main=f98d0ddd8，单Agent、唯一3y分支。生产MKF/RNG/YJ2字节未改；本片补两份boundary测试、精简一份主测试、登记精确退役。整卡当前partial，0新增关闭。
 
 ## 实际读取与文件结论
