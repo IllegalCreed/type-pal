@@ -12,14 +12,18 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
+      "readMethod": "Parsed complete 2-entry native object; checked corresponding retired rows, original task cleanup section, actual absence and fixed Git recovery bytes. No new runtime or template acceptance.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "additional-attachments.json：这是 evidence-receipt，当前文档状态为 historical。全文 21 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json:1"],
-      "unresolved": [
-        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      "coreConclusion": "两条attachment记录分别计划将pal0-dialog.png和pal2-dialog.png从foundation/verify-dialog移到archive/evidence/dialogue；保全回执随后将两图列入九张退役图片，当前源与计划目标均缺失符合原卡追加清理，不能据计划重新恢复截图。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json:1",
+        "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json:43",
+        "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md:122"
       ],
-      "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
+      "unresolved": [
+        "Native-format variant/version/consumer pilot remains draft; source/structure checks do not grant migration completion."
+      ],
+      "nextStep": "Resolve/freeze native-format compatibility and pilot with explicit historical unknowns; keep source fields and existing needs-migration.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-additional-attachments",
@@ -38,16 +42,14 @@
       "afterSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json"
+        "33cc固定原件中的purpose/directories和两条from/to/kind/sha256；只读，非当前搬迁指令。"
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
+        "type": "historical-document-provenance",
         "assertions": [
-          "original JSON parses",
-          "all original top-level fields remain",
-          "source and after bytes are identical",
-          "no execution credit"
+          "两条原生字段和值保持；SHA与preservation-report对应退役项相同。",
+          "两图旧路径/计划目标当前均不存在；原recoveryRef的Git字节匹配原SHA。",
+          "中间保留计划不被升格为最终保留状态，本轮未执行旧搬迁。"
         ]
       },
       "dedupe": {
@@ -144,6 +146,14 @@
         "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      },
+      "currentQualification": {
+        "date": "2026-10-21",
+        "task": "DOCS-FULL-TEMPLATE-1/S23",
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "previousRecord": "7be2ee60e:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+        "scope": "Concrete field/provenance qualification; existing structured-content status retained, no new semantic acceptance or migration credit."
       }
     },
     {
@@ -153,14 +163,18 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
+      "readMethod": "Read complete native report and 9 retirement records; verified 9 fixed Git recoveries and task cleanup boundary. Did not rerun historic preservation/consumer/game-mechanics claims.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "preservation-report.json：这是 evidence-receipt，当前文档状态为 historical。全文 71 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/preservation-report.json:1"],
-      "unresolved": [
-        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      "coreConclusion": "原时点回执分别声明419计划、261保留/重定位、134任务、89历史、9媒体、24源码消费者及九图退役；这些是不同轴的旧计数，不能相加。九个recoveryRef现可读取且SHA全部匹配；旧failures=[]、机制保全与消费者纯路径替换声明没有在本轮重跑认证。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json:2",
+        "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json:15",
+        "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md:120"
       ],
-      "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
+      "unresolved": [
+        "Native-format variant/version/consumer pilot remains draft; source/structure checks do not grant migration completion."
+      ],
+      "nextStep": "Resolve/freeze native-format compatibility and pilot with explicit historical unknowns; keep source fields and existing needs-migration.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-preservation-report",
@@ -179,16 +193,14 @@
       "afterSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json"
+        "33cc固定完整回执；原baseline、normalization、historicalProofDigest与9条recoveryRef/sha256是历史来源声明，非本轮执行输入/结果。"
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
+        "type": "historical-document-provenance",
         "assertions": [
-          "original JSON parses",
-          "all original top-level fields remain",
-          "source and after bytes are identical",
-          "no execution credit"
+          "九个恢复Git对象的字节SHA逐一等于原声明，当前九个originalPath均不存在。",
+          "所有旧计数/布尔/failures保持；不把分轴计数相加或当作今天实跑。",
+          "两张对话图与additional-attachments有先计划后退役的明确历史关系。"
         ]
       },
       "dedupe": {
@@ -285,6 +297,14 @@
         "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      },
+      "currentQualification": {
+        "date": "2026-10-21",
+        "task": "DOCS-FULL-TEMPLATE-1/S23",
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "previousRecord": "7be2ee60e:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+        "scope": "Concrete field/provenance qualification; existing structured-content status retained, no new semantic acceptance or migration credit."
       }
     },
     {
@@ -294,14 +314,19 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
+      "readMethod": "Parsed all 419 rows and verified source identity across declared baseline and exact historical path rewrites. Reviewed field roles and exceptions; not a fresh full-semantic acceptance of all 419 historical operations.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "relocation.json：这是 evidence-receipt，当前文档状态为 historical。全文 2532 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/relocation.json:1"],
-      "unresolved": [
-        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      "coreConclusion": "419条唯一from/to及9组目录映射描述历史角色/迁移分类，8种kind不能当作搬迁动作。398条当前from直接匹配04fb基点，19条工具路径沿6a653之前路径回查匹配；另有原看板SHA不符、自身任务在baseline缺失两项未证。三件原生文件均与33cc冻结字节相同，不表示旧419条来源全部认证。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/DOC-IA-2/relocation.json:2",
+        "docs/ops/archive/evidence/DOC-IA-2/relocation.json:43",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md:15"
       ],
-      "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
+      "unresolved": [
+        "Native-format variant/version/consumer pilot remains draft; source/structure checks do not grant migration completion.",
+        "Original board declared SHA does not match 04fb baseline; self task absent at baseline and not found in examined 6 path-history commits. No whole-history absence claim."
+      ],
+      "nextStep": "Resolve/freeze native-format compatibility and pilot with explicit historical unknowns; keep source fields and existing needs-migration.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-relocation",
@@ -320,16 +345,14 @@
       "afterSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/evidence/DOC-IA-2/relocation.json"
+        "33cc固定419条历史映射及其baseline/purpose/directories；原from/to例外按2871f721b和6a653f97d精确历史差异回查，不按目录规则执行替换。"
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
+        "type": "historical-document-provenance",
         "assertions": [
-          "original JSON parses",
-          "all original top-level fields remain",
-          "source and after bytes are identical",
-          "no execution credit"
+          "419项原始kind/sha256和值保留；from/to各自唯一；目录映射不覆盖显式单项例外。",
+          "398直接基点SHA与19原工具路径SHA已匹配；看板不符和自身任务缺失保持unknown。",
+          "源身份遍历不构成逐项业务语义认证；不执行计划、不刷新旧SHA。"
         ]
       },
       "dedupe": {
@@ -426,6 +449,14 @@
         "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      },
+      "currentQualification": {
+        "date": "2026-10-21",
+        "task": "DOCS-FULL-TEMPLATE-1/S23",
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "previousRecord": "7be2ee60e:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+        "scope": "Concrete field/provenance qualification; existing structured-content status retained, no new semantic acceptance or migration credit."
       }
     }
   ],
@@ -465,5 +496,13 @@
     "decision": "same-actor candidate acceptance cannot certify non-author review",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-  }
+  },
+  "maintenanceHistory": [
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S23",
+      "action": "Qualify exactly three existing DOC-IA-2 rows with concrete field/provenance evidence and unresolved source boundaries; no original/native/status/template/version changes or new acceptance. Previous rows recover from 7be2ee60e.",
+      "nonAuthorReviewer": false
+    }
+  ]
 }

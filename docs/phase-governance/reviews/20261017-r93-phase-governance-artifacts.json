@@ -9536,7 +9536,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9d15c483279af11186a6b8534830cb973427a571ed2fb74d035d56527fe57a23",
-      "afterSha256": "9e20274e8317fff9620a6a8baefb0ec51acce792857afaac8a795fa7a89d79ca",
+      "afterSha256": "197339cba185516b23b2e3d10bf0683330f92cc4ab1c6b11cc80b956661e3837",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9717,7 +9717,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e3d1b2e68818af890ab53e7e7f7937282c333f57b98a09a6b81d7cfdcc314e67",
-      "afterSha256": "8bd6e061b6385dc657c6632eb080639328cfd731d5f26f557c95b1590bec934f",
+      "afterSha256": "8c2e4d0ec133c4b13cc6599d205fbc5664407c8b34a7a1db39cc77ebe8a2a111",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13998,7 +13998,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "64729b985063f4dd10fc777a1f1a4d8eba5a0f95d3195a69971d6724e912b5b3",
+      "afterSha256": "5f31634a9248a1da9277367163322d05bb30cf4f66226dcbdbd7bec124550d3f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16029,6 +16029,12 @@
         "docs/phase-governance/reviews/20261004-structured-content-new-01.json"
       ],
       "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S23",
+      "action": "Only specific current source-qualification documentation and transitive after pins; original native files, statuses and migration credit unchanged.",
+      "nonAuthorReviewer": false
     }
   ]
 }

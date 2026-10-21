@@ -302,3 +302,22 @@ I14在根`8aa698c4038bc6553a1a524ca83508cb16e06a32`已获独立接收并稳定�
 一次1.5原子滚动15份已接收machine和默认示例声明，逐篇只改治理templateVersion并同步registry/各review当前所有版本字段/after及完整prior；原生字段/日期/源pin/历史版本/旧变体配置/固定baseline/consumer逻辑保持。新增三JSON须在J0稳定后各自pilot、来源/合法输入/oracle/排重/原始失败与未证项逐篇独立验收，不因登记新变体接收任意同形JSON。完整15路径/固定来源与准入见任务卡；所有产品/旧测/coverage/raw/browser仍禁执行或改写。
 
 历史109针不算本次重跑，9573check与9081/728coverage分母不同；Cursor24/32modules与GLM42candidate/41formal/75ledger、共享8707/strict8215/686排重；wave2新增16测试未新增四维covered，原62/53/55warning及6info、旧CI/zoom/B1/E1缺口保留。wave2旧storedSHA对应4548a895之前仅工具href版本，当前source是该href修复后33cc字节，不刷新旧migration账来伪造无漂移。
+
+## 2026-10-21 S23：历史文档迁移与清理回执原生合同草案
+
+状态：draft，未冻结、未授批量build或新增迁移信用。Owner Codex；范围仅[DOC-IA-2三件JSON](../../ops/archive/evidence/DOC-IA-2/README.md)。它们属于历史证据回执，不能为了套用执行字段改称测试执行，也不新增第18类模板。三个原生对象均与33cc冻结原件字节相同；来源保全与旧执行结论认证分开。
+
+| 拟格式 | 原生字段职责 | 状态、证据与边界 |
+|---|---|---|
+| evidence-receipt / historical-document-relocation | relocation的baseline/purpose/directories/419条entries，以及additional-attachments的purpose/directories/2条entries；逐项from/to/kind/sha256保持，baseline为可选原生字段而非补造字段。 | historical只在治理轴声明；kind是角色，目录前缀不覆盖显式逐项映射。两张中间计划附件随后退役，不把目标当前缺失判为迁移失败。 |
+| evidence-receipt / historical-document-preservation | preservation-report的原baseline、完成卡入口、计数、normalization、历史摘要SHA、retiredArtifacts和failures。 | 9恢复锚可核Git字节，419/261/134/89/9/24不可当互斥分区相加；历史failures和布尔值保持，不能改成当前验证结果。 |
+
+目的与大纲沿用evidence-receipt五项：证据身份、来源与输入、断言与oracle、结果、限制与复核，以JSON字段职责和简短`_governance.currentAudit`承载实际内容；不复制原entries、旧回执或完整清单到envelope，不移到payload、不为三篇各造sidecar。source/after分别在既有review中维护；envelope不自嵌after hash。当前字段审查与旧历史结论不得写成同一状态；旧执行在本轮没有重跑。
+
+来源复核发现：当前419个from中398个直接在04fb975e基点匹配；6a653f97d把19个工具路径加了tools层，沿2871f721b所存原路径回查可再匹配19项。另一个同提交改写的看板路径，原SHA `4b04ef0740b5…`与04fb的原看板SHA `184bc4acf5bc…`仍不同；DOC-IA-2自身任务SHA `d9d1ae6b46c3…`在04fb不存在，已核6次路径历史提交的5种整文件SHA也未命中。故已证417/419；两项保留未知，不能将路径解释冒充SHA全过，不能改写原JSON或声称全历史不存在。9张退役图全部恢复匹配，2张对话图的计划去向与最终退役关系由原卡“用户追加清理”明确说明。
+
+当前实际使用者是DOC-IA-2历史卡与目录导航，代码检索未发现读取这三件JSON并执行搬迁的活跃producer/consumer；这项检索不等于全仓无消费者证明。原JSON是已提交的历史执行输入/回执，治理检查器不能补造当时的生成程序或执行命令。原`relocation.baseline`表示旧业务来源，33cc固定原件表示本轮保全根，二者不可混用。
+
+冻结前须完成：明确多格式选择按变体format而非父模板format；拟变体使用不可变标识及独立合同版本，不借新增JSON格式强迫已有Markdown正文改版本。现有17类、默认合同与其它变体不得滚动获新信用。版本策略未实现并通过反例前，本草案不进入registry，三JSON保持needs-migration。
+
+pilot要求与停止线：先各做一个固定源原生正控，移除唯一新增治理元数据后所有原生字段和值与固定Git原件深等；真实model/progress入口须拒绝改原字段、换source、挪payload、换标为默认合同、伪造本轮执行、把旧失败抹零。按已核历史原文解释419/2/9各自职责，source归属不明的两项显式unknown；来源缺口不能被schema绿清除。受影响迁移不得借旧artifactOnly跳过正文合同或增加完成数，未通过pilot不得批量迁移余下JSON。

@@ -507,7 +507,7 @@
       ],
       "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
       "sourceSha256": "7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5",
-      "afterSha256": "a53d679b365eed9d575258b0b95beb57e57aa372156497226098b8d2c968707f",
+      "afterSha256": "626feb4dd2590d66027f52b8204072ae7f764b4972a5b9eadf05ac1083f9de25",
       "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
       "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
       "beforeAfter": {
@@ -4493,5 +4493,13 @@
     ],
     "blockedDocuments": [],
     "scope": "Fresh per-entry S16 current intake; inherited top-level policy/date/receipts are historical, not whole-batch acceptance."
-  }
+  },
+  "maintenanceHistory": [
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S23",
+      "action": "Only specific current source-qualification documentation and transitive after pins; original native files, statuses and migration credit unchanged.",
+      "nonAuthorReviewer": false
+    }
+  ]
 }

@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "7b9243dac8cc359fd0941d46607d99f5280007f437bb25f3788cce5e53c8dafe",
+      "afterSha256": "c667e4bebd470df9a6ebc1dc3cf0609bfdb14df3c33fbdb51250463de197f5fa",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "824f97c41f9a303033934db17649723c14e5199e366baf80106c58876519a1ee",
+      "afterSha256": "ab06953fe58e0863df87f7e1ffc9c083e2b8ec231b6c15e2167e97b33c2570a2",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -7155,6 +7155,12 @@
         "docs/phase-governance/document-registry.json"
       ],
       "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S23",
+      "action": "Only specific current source-qualification documentation and transitive after pins; original native files, statuses and migration credit unchanged.",
+      "nonAuthorReviewer": false
     }
   ]
 }
