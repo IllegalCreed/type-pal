@@ -1,0 +1,110 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792600628996,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["standard gamepad through real input snapshots"],
+          "fullName": "standard gamepad through real input snapshots maps standard buttons and latches a brief press between logic snapshots",
+          "status": "passed",
+          "title": "maps standard buttons and latches a brief press between logic snapshots",
+          "duration": 1.9472920000000613,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["standard gamepad through real input snapshots"],
+          "fullName": "standard gamepad through real input snapshots does not repeat held buttons or steal direction priority from a later keyboard press",
+          "status": "passed",
+          "title": "does not repeat held buttons or steal direction priority from a later keyboard press",
+          "duration": 0.881958999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["standard gamepad through real input snapshots"],
+          "fullName": "standard gamepad through real input snapshots selects the dominant stick axis, tolerates drift, and releases after returning to center",
+          "status": "passed",
+          "title": "selects the dominant stick axis, tolerates drift, and releases after returning to center",
+          "duration": 0.5959169999999858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["standard gamepad through real input snapshots"],
+          "fullName": "standard gamepad through real input snapshots disconnect releases only gamepad holds and preserves the keyboard owner of the same key",
+          "status": "passed",
+          "title": "disconnect releases only gamepad holds and preserves the keyboard owner of the same key",
+          "duration": 0.2310420000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["standard gamepad through real input snapshots"],
+          "fullName": "standard gamepad through real input snapshots requires neutral after blur or tool blocking before accepting new presses",
+          "status": "passed",
+          "title": "requires neutral after blur or tool blocking before accepting new presses",
+          "duration": 0.12562500000001364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["standard gamepad through real input snapshots"],
+          "fullName": "standard gamepad through real input snapshots ignores nonstandard layouts while accepting sparse standard gamepad slots",
+          "status": "passed",
+          "title": "ignores nonstandard layouts while accepting sparse standard gamepad slots",
+          "duration": 0.12887499999999363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["standard gamepad through real input snapshots"],
+          "fullName": "standard gamepad through real input snapshots keeps another controller hold when one device disappears",
+          "status": "passed",
+          "title": "keeps another controller hold when one device disappears",
+          "duration": 0.09566700000004857,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792600629638,
+      "endTime": 1792600629642.231,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/shell/gamepad-probe-b8z_hj7d/gamepad-input.test.ts"
+    }
+  ]
+}

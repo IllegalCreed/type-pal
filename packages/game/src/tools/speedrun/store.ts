@@ -1,4 +1,6 @@
 // 速通计时器设置与最佳成绩的 localStorage 持久化(全局,跨存档)。
+import { isMobileLayout } from '../../shell/presentation.js'
+
 const K_ENABLED = 'tp-speedrun-enabled'
 const K_SHOW = 'tp-speedrun-show'
 const K_BANANA = 'tp-speedrun-banana'
@@ -17,8 +19,8 @@ const ls = (): Storage | undefined =>
 export function loadSettings(): SpeedrunSettings {
   const s = ls()
   return {
-    enabled: s?.getItem(K_ENABLED) === '1',
-    show: s?.getItem(K_SHOW) !== '0', // 默认显示
+    enabled: !isMobileLayout() && s?.getItem(K_ENABLED) === '1',
+    show: !isMobileLayout() && s?.getItem(K_SHOW) !== '0', // 桌面启用后默认显示
     banana: s?.getItem(K_BANANA) === '1',
   }
 }

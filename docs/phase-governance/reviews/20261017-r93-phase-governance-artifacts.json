@@ -1026,9 +1026,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; actual owned input/audio delta and version envelope independently checked",
+      "readMethod": "Prior structured review reused; read exact mobile board/index review-record delta and dependent hash binding",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance requires explicit input/audio per-file A-H and complete clean gates; current receipt states actual stage.",
+      "coreConclusion": "Only the descendant mobile task navigation delta is rebound; prior historical scope and evidence remain traceable. This record does not award runtime, hardware, E2E, coverage or independent product acceptance.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
+      "afterSha256": "caae59cc97237a126642eab5f3b989460707f99a53ac4033a94bfac6508bdf9c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1072,8 +1072,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
-        "implementationSha": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
+        "currentSha": "caae59cc97237a126642eab5f3b989460707f99a53ac4033a94bfac6508bdf9c",
+        "implementationSha": "caae59cc97237a126642eab5f3b989460707f99a53ac4033a94bfac6508bdf9c",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1728,6 +1728,21 @@
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "92e901806 + working tree codex/game-mobile-layout",
+            "action": "Rebind exact mobile task navigation review delta only",
+            "previousAfterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
+            "scope": "Only descendant records for GAME-MOBILE-LAYOUT-1 board/index row; retain historical evidence and unrelated entries, no new product or coverage acceptance.",
+            "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          {
+            "date": "2026-10-22",
+            "action": "Bind exact mobile input follow-up record delta",
+            "previousAfterSha256": "84f1081153a382fc74c58e3d14a0c081eaa9b7159311192b9a8b5bca9f5f15b9",
+            "scope": "Only mobile board follow-up descendant record; no real hardware/coverage/release claim",
+            "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
           }
         ]
       },
@@ -2023,6 +2038,22 @@
           "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "92e901806 + working tree codex/game-mobile-layout",
+          "action": "Rebind exact mobile task navigation review delta only",
+          "previousAfterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
+          "scope": "Only descendant records for GAME-MOBILE-LAYOUT-1 board/index row; retain historical evidence and unrelated entries, no new product or coverage acceptance.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousCoreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance requires explicit input/audio per-file A-H and complete clean gates; current receipt states actual stage."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Bind exact mobile input follow-up record delta",
+          "previousAfterSha256": "84f1081153a382fc74c58e3d14a0c081eaa9b7159311192b9a8b5bca9f5f15b9",
+          "scope": "Only mobile board follow-up descendant record; no real hardware/coverage/release claim",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
         }
       ],
       "supersedes": [

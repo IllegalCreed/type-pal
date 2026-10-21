@@ -11,6 +11,7 @@ import {
 } from '../core/event-system.js'
 import type { GameState, NpcState } from '../core/game-state.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
+import { LAYOUT_CHANGE, presentationKey } from '../shell/presentation.js'
 
 // ── 世界像素 → 底图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────────
 //   地图恒 64×128 tile(map.c 硬编码),tile 32×16 → 世界 2048×2048;缩略图 framebuffer
@@ -267,7 +268,7 @@ const clampZoom = (i: number): number =>
 export function setupMinimap(deps: MinimapDeps): MinimapController {
   let showNpc = localStorage.getItem(LS_NPC) !== '0'
   let showItems = localStorage.getItem(LS_ITEMS) !== '0'
-  let widgetEnabled = localStorage.getItem(LS_WIDGET) === '1'
+  let widgetEnabled = localStorage.getItem(presentationKey(LS_WIDGET)) === '1'
   const zStored = localStorage.getItem(LS_ZOOM)
   let widgetZoom = clampZoom(zStored === null ? DEFAULT_ZOOM_INDEX : Number(zStored))
 
@@ -374,8 +375,8 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     widgetCanvas.width = Math.round(WIDGET_PX * dpr)
     widgetCanvas.height = Math.round(WIDGET_PX * dpr)
     // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`。
-    widgetCanvas.style.width = `${WIDGET_PX}px`
-    widgetCanvas.style.height = `${WIDGET_PX}px`
+    widgetCanvas.style.width = `var(--tp-minimap-size, ${WIDGET_PX}px)`
+    widgetCanvas.style.height = `var(--tp-minimap-size, ${WIDGET_PX}px)`
     const zoomBox = document.createElement('div')
     zoomBox.className = 'tp-mm-zoom'
     const mkBtn = (txt: string, title: string, onClick: () => void): void => {
@@ -391,15 +392,14 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     document.body.appendChild(widget)
   }
   const syncWidget = (): void => {
+    const inScene = ['explore', 'event'].includes(deps.getGs().mode) && getCurrentMapNum() > 0
     if (!widgetEnabled) {
       if (widget) widget.style.display = 'none'
       return
     }
     ensureWidget()
-    const m = deps.getGs()?.mode
     // 场景态(含剧情对话);battle/menu 隐藏。再加「有有效地图」门:boot 期 mode 默认 explore 但
     // currentMapNum=0(未进场景),不守这道会在标题/加载屏就显出空 widget(user 2026-06-22 报)。
-    const inScene = (m === 'explore' || m === 'event') && getCurrentMapNum() > 0
     widget!.style.display = inScene ? 'block' : 'none' // block:zoomBox 绝对定位浮于右上角,widget 只裹 canvas
     if (inScene && widgetCanvas) drawWidget(widgetCanvas)
   }
@@ -443,6 +443,11 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
 
   // 刷新后若 localStorage 记得已启用 widget,立即起循环显示(不必先开工具面板)。
   if (widgetEnabled) ensureLoop()
+  window.addEventListener(LAYOUT_CHANGE, () => {
+    widgetEnabled = localStorage.getItem(presentationKey(LS_WIDGET)) === '1'
+    syncWidget()
+    ensureLoop()
+  })
 
   return {
     mountSceneView(container, sizePx, onTick) {
@@ -464,7 +469,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     },
     setWidgetEnabled(on) {
       widgetEnabled = on
-      localStorage.setItem(LS_WIDGET, on ? '1' : '0')
+      localStorage.setItem(presentationKey(LS_WIDGET), on ? '1' : '0')
       syncWidget()
       ensureLoop()
     },
