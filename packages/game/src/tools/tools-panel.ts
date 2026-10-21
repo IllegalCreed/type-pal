@@ -11,7 +11,7 @@ import type { SaveSnapshot } from '../core/save/data.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import type { MusicSourceController } from '../shell/music-source.js'
-import { isMobileLayout } from '../shell/presentation.js'
+import { isMobileLayout, LAYOUT_CHANGE } from '../shell/presentation.js'
 import { areTouchControlsVisible, setTouchControlsVisible } from '../shell/touch-preference.js'
 import type { DisplayScaleController } from './display-scale.js'
 import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
@@ -1133,6 +1133,9 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
         }
       : undefined,
   }
+  window.addEventListener(LAYOUT_CHANGE, () => {
+    if (open) render()
+  })
   launcher.addEventListener('click', () => setOpen(!open))
   closeBtn.addEventListener('click', () => setOpen(false))
   document.body.appendChild(launcher)

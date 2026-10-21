@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { LAYOUT_CHANGE } from '../shell/presentation.js'
 import { setupToolsPanel } from './tools-panel.js'
 import { useToolsPanelTestHost } from './tools-panel.test-fixtures.js'
 
@@ -14,6 +15,33 @@ afterEach(() => {
 })
 
 describe('mobile tools', () => {
+  it('updates an open system panel across desktop and mobile layouts', () => {
+    document.documentElement.dataset.tpLayout = 'desktop'
+    setupToolsPanel(makeDeps())
+    document.getElementById('tp-tools-launcher')?.click()
+    document.querySelector<HTMLButtonElement>('.tp-tab[data-key="system"]')?.click()
+    const body = document.querySelector('.tp-body')!
+    expect(body.textContent).toMatch(/FPS/)
+
+    document.documentElement.dataset.tpLayout = 'mobile'
+    window.dispatchEvent(new Event(LAYOUT_CHANGE))
+    expect(body.textContent).not.toMatch(/FPS|全屏|存档|缩放/)
+    expect(document.querySelector<HTMLButtonElement>('.tp-tab[data-key="timer"]')?.hidden).toBe(
+      true,
+    )
+    expect(document.querySelector<HTMLButtonElement>('.tp-tab[data-key="keys"]')?.hidden).toBe(true)
+
+    document.documentElement.dataset.tpLayout = 'desktop'
+    window.dispatchEvent(new Event(LAYOUT_CHANGE))
+    expect(body.textContent).toMatch(/FPS/)
+    expect(document.querySelector<HTMLButtonElement>('.tp-tab[data-key="timer"]')?.hidden).toBe(
+      false,
+    )
+    expect(document.querySelector<HTMLButtonElement>('.tp-tab[data-key="keys"]')?.hidden).toBe(
+      false,
+    )
+  })
+
   it('offers audio controls while omitting display, timer, keyboard and file transfer UI', () => {
     setupToolsPanel(makeDeps())
     document.getElementById('tp-tools-launcher')?.click()
