@@ -7,6 +7,17 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-21: delete unused OGG backend and its two release tests.
+    // Current MIDI/RIX/manager oracles retained; exact removed identities and
+    // source preservation proof are in the pre94 input/audio closeout receipt.
+    {
+      file: 'packages/game/src/shell/audio.test.ts',
+      previous: 20,
+      current: 18,
+      previousIdentityDigest: 'b59841fd098d9d90e1af14028a26f84b385210e133c873934e4b4267d9650b7c',
+      currentIdentityDigest: 'c8e6f8253b3f2f05dca3392a27a3f44e8b0f948687b66f3fabc40a2a6e1918bd',
+      fileSha256: '080bf74a0a111219093299908f93728d44c8735dbfbf3c3bb1f6ce86a56f1475',
+    },
     // User2026-10-20 complete pre94 + standing quality/dedup authority.
     // CODE43-47: exact duplicate/no-product/sparse-fixture retirements;
     // contract destinations and full native identities: present-leaves-local.json.
@@ -285,16 +296,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'cf8fc4b33d31182258a66a795db02590d18e497ee54f25985b08087c9c384d23',
       fileSha256: 'ef558dde1c1fa027c448666aefd8e05a63e3c4e96ff0e4642618fccf49805ddc',
     },
-    // 2026-10-15 Codex verified GAME-RIX-MUSIC-1 under the standing test-quality rule.
-    // Deleted global setBgmVolume API; its notThrow-only case has no observable oracle.
-    // Instance gain, queued initialization and source switching are tested via actual callers.
+    // User2026-10-21 explicitly approved QUALITY-LEGACY-OGG-RETIREMENT-1.
+    // Supersedes the old GAME-RIX-MUSIC-1 live snapshot for this file; that exact
+    // 3->2 approval remains in Git and the input/audio retirement receipt.
+    // Only the unused OGG volume case retires; the MIDI no-WebAudio case remains.
     {
       file: 'packages/game/src/shell/audio.glm-phase1-leaves.test.ts',
-      previous: 3,
-      current: 2,
-      previousIdentityDigest: '6c6ec1df3e8efe2335274ab5ea7033ba08a65d0984db90569993d2f6e6537be7',
-      currentIdentityDigest: '4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5',
-      fileSha256: '3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3',
+      previous: 2,
+      current: 1,
+      previousIdentityDigest: '4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5',
+      currentIdentityDigest: 'bef7ce839ab718a0425a5f682b2682d9201a5c59202887e4d3cbeae1ca742fe3',
+      fileSha256: '8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8',
     },
     // Codex 2026-10-15, standing test-quality rule: C01 G01-10/G03-09/G03-10
     // are strict subsets of G07-06/G03-04/G03-05. Exact snapshots, no relaxed matcher.

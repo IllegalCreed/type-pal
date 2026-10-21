@@ -103,7 +103,6 @@ import {
   battleVictoryTrack,
   createAudioManager,
   pickMusicTrack,
-  setOggVolumeScale,
   setSfxVolume,
   sfxForBattleEvent,
 } from './audio.js'
@@ -1080,7 +1079,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const audioVolume = createAudioVolumeController({
     applyVolume: (v) => {
       musicSource.setVolume?.(v)
-      setOggVolumeScale(v)
     },
   })
   const sfxVolume = createAudioVolumeController({

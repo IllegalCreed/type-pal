@@ -1,21 +1,21 @@
 /**
- * M6 AudioManager —— shell 层 Web Audio 播放。
+ * AudioManager —— shell 层 SFX 播放与 BGM 意图转发。
  *
  * 架构:core / event-system **不碰 Web Audio**,只发音频意图到 GameState:
  *   - SFX:`gs.pendingSounds`(number[] 队列;opcode 0x47 / 战斗 / 菜单 push)→ 本 manager 每帧 drain 播。
  *   - BGM:`gs.wNumMusic`(当前 track,0=停)+ `gs.musicLoop` → 本 manager 轮询 track 变化即切。
  *
- * 资源(M4 已提取,public/extracted 软链):
+ * 资源(M4 已提取，由 Vite 的 /extracted 中间件映射到 data/extracted):
  *   - SFX:SOUNDS.MKF chunk → `/extracted/sounds/{id}.wav`(RIFF,decodeAudioData 直接解)。
- *   - BGM:Musics → `/extracted/music/{NNN}.mid`(MIDI;M6b 接 synth/预渲染,见 setMusicBackend)。
+ *   - BGM:由当前 MIDI/RIX 后端取对应资源，manager 经 setMusicBackend 接收播放端口。
  *
  * sdlpal 真值:`AUDIO_PlaySound(num)`(sound.c) / `AUDIO_PlayMusic(num, loop, fade)`(audio.c)。
  *
- * 浏览器 autoplay policy:AudioContext 须在用户手势后 resume() —— shell 在首个 keydown 调 resume()。
- * 测试 / SSR(无 window.AudioContext)→ 退化为 no-op(loadSfx/play 静默跳过),syncAudio 纯逻辑仍可单测。
+ * 浏览器 autoplay policy:AudioContext 须在用户手势后 resume() —— shell 在 keydown/pointerdown 手势中调 resume()。
+ * 测试 / SSR(无 window.AudioContext)→ 退化为 no-op(loadSfx/play 静默跳过),sync 的转发逻辑仍可单测。
  */
 
-/** BGM 播放后端(M6b 注入:MIDI synth 或预渲染 OGG)。M6a 缺省 no-op。 */
+/** BGM 播放后端(M6b 注入:MIDI/RIX)。M6a 缺省 no-op。 */
 export interface MusicBackend {
   /** Initialization errors are reported by the source selector. */
   ready?: Promise<void>
@@ -44,11 +44,11 @@ export interface AudioManager {
   setSfxEnabled(on: boolean): void
   /** C1 系统菜单「音乐」开关。 */
   setMusicEnabled(on: boolean): void
-  /** M6b:注入 BGM 后端(MIDI synth / 预渲染播放器)。 */
+  /** 注入当前 BGM 后端(MIDI synth / RIX)。 */
   setMusicBackend(backend: MusicBackend | undefined): void
 }
 
-/** SFX chunk id → WAV url(纯,可测)。baseUrl 约定 '/extracted'(public/extracted 软链→data/extracted)。 */
+/** SFX chunk id → WAV url(纯,可测)。baseUrl 约定 '/extracted'(Vite 中间件映射到 data/extracted)。 */
 export function sfxUrl(baseUrl: string, soundId: number): string {
   return `${baseUrl}/sounds/${soundId}.wav`
 }
@@ -140,59 +140,10 @@ export function sfxForBattleEvent(
   }
 }
 
-/**
- * BGM 后端 —— **预渲染 OGG** 播放(HTMLAudioElement,looped)。
- *
- * 此后端只播预渲染的`music/{NNN}.ogg`，不负责合成MIDI或生成资源。
- * MIDI模式由独立的audio-midi后端处理，MusicSourceController选择并替换后端。
- *
- * OGG 缺失(MIDI 未渲染)→ Audio.play() reject → 静默(不阻塞游戏);渲染后即有 BGM。
- */
-// OGG BGM 主音量系数(0..1,默认 1=原样)。播放音量 = 0.6 * oggScale(0.6 为既有基准)。
-//   curOggEl 跟踪当前播放元素(模块级,供 setOggVolumeScale 即时刷新);仅 OGG 后端路径用。
-let oggScale = 1
-let curOggEl: HTMLAudioElement | undefined
-
-export function setOggVolumeScale(s: number): void {
-  oggScale = s
-  if (curOggEl) curOggEl.volume = 0.6 * s // 当前播放即时刷新
-}
-
 // SFX(sounds/*.wav)音量系数(0..1,默认 1)。playSfx 经增益节点应用;改动影响后续 SFX(SFX 短,无需刷正在播的)。
 let sfxScale = 1
 export function setSfxVolume(s: number): void {
   sfxScale = s < 0 ? 0 : s > 1 ? 1 : s
-}
-
-export function createOggMusicBackend(baseUrl: string): MusicBackend {
-  let cur: HTMLAudioElement | undefined
-  const AudioCtor = typeof Audio !== 'undefined' ? Audio : undefined
-  // 释放旧元素:仅 pause 不够 —— src 仍指向 OGG 的媒体元素其解码缓冲/网络流不会立即回收,
-  // 频繁切歌会游离一串待 GC 的 HTMLAudioElement。removeAttribute('src') + load() 才确定释放底层
-  // 媒体资源(用 src='' 会以 base URL 解析并触发 media 'error' 事件喷控制台;removeAttribute 干净)。
-  const release = (el: HTMLAudioElement | undefined): void => {
-    if (!el) return
-    el.pause()
-    el.removeAttribute('src')
-    el.load()
-  }
-  return {
-    play(track, loop) {
-      if (!AudioCtor) return
-      release(cur)
-      const a = new AudioCtor(`${baseUrl}/music/${track.toString().padStart(3, '0')}.ogg`)
-      a.loop = loop
-      a.volume = 0.6 * oggScale // 0.6 基准 × 主音量系数
-      void a.play().catch(() => {}) // OGG 未渲染 / autoplay 受限 → 静默
-      cur = a
-      curOggEl = a // 模块级跟踪,供 setOggVolumeScale 即时刷新
-    },
-    stop() {
-      release(cur)
-      cur = undefined
-      curOggEl = undefined
-    },
-  }
 }
 
 type WebAudioWindow = typeof globalThis & {

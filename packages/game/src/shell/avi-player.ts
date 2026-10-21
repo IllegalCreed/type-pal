@@ -19,8 +19,8 @@
 /**
  * 视频(mp4)主音量系数(0..1,默认 1=满音量,保持历史行为)。工具面板「视频」滑块 + 主静音驱动:
  * bootstrap 注入的 videoVolume controller 的 applyVolume → setVideoVolume(静音时 0)。
- * `curVideoEl` 跟踪当前播放的 `<video>`(模块级),滑块/静音改动即时刷新正在播的视频(对称 audio.ts
- * 的 setOggVolumeScale / curOggEl);视频 cleanup 时解除跟踪,避免悬挂引用误改已移除元素。
+ * `curVideoEl` 跟踪当前播放的 `<video>`(模块级),滑块/静音改动即时刷新正在播的视频(对称 music-source.ts
+ * 的 volume / backend);视频 cleanup 时解除跟踪,避免悬挂引用误改已移除元素。
  */
 let videoVolume = 1
 let curVideoEl: HTMLVideoElement | undefined

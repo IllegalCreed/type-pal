@@ -2,7 +2,6 @@
  * BGM 主音量 controller(0..1 + 静音,localStorage 持久)。
  *
  * `applyVolume(effective)` 由 bootstrap 注入:把有效音量(静音时 0)推给 musicSource.setVolume
- * + audio.ts 的 OGG 系数 setOggVolumeScale。controller 自身只管「目标音量 / 静音 / 持久化」,
  * 不碰 Web Audio —— 输出层缩放放到注入的 applyVolume 里。
  *
  * 构造时读回 localStorage(默认音量 0.8、未静音)并立刻 apply(),开局即上次设定。

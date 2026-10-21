@@ -1,9 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createAudioElementFixture } from './__tests__/audio-element-fixture.js'
+import { describe, expect, it } from 'vitest'
 import {
   battleVictoryTrack,
   createAudioManager,
-  createOggMusicBackend,
   createSfxDedup,
   musicUrl,
   pickMusicTrack,
@@ -12,7 +10,7 @@ import {
 } from './audio.js'
 
 // 本文件未提供Web Audio端口，因此队列测试只证明就地清空；不授予SFX实际播放信用。
-// BGM通过真实manager与记录后端验证转发，OGG以媒体IO替身观察释放，不声称听感验收。
+// BGM uses the real manager with a recording backend; no audible-output claim.
 
 describe('M6 audio url 映射(纯)', () => {
   it('sfxUrl → {base}/sounds/{id}.wav', () => {
@@ -174,41 +172,5 @@ describe('L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 
     expect(d.tryPlay(6)).toBe(false) // lastSFX 仍=6 → 去重生效
     d.markEnded(6)
     expect(d.tryPlay(6)).toBe(true) // 复位后放行
-  })
-})
-
-describe('M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)', () => {
-  let fixture: ReturnType<typeof createAudioElementFixture>
-  let backend: ReturnType<typeof createOggMusicBackend> | undefined
-
-  beforeEach(() => {
-    fixture = createAudioElementFixture()
-    vi.stubGlobal('Audio', fixture.Audio)
-  })
-  afterEach(() => {
-    backend?.stop()
-    backend = undefined
-    vi.unstubAllGlobals()
-  })
-
-  it('切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)', () => {
-    backend = createOggMusicBackend('/extracted')
-    backend.play(1, true) // created[0]
-    backend.play(2, true) // created[1];旧 created[0] 应被释放
-    const old = fixture.created[0]!
-    expect(old.paused).toBe(true)
-    expect(old.src).toBe('') // 旧实现只 pause 不清 src → 游离待 GC
-    expect(old.loaded).toBe(true)
-    expect(fixture.created[1]!.src).toBe('/extracted/music/002.ogg')
-  })
-
-  it('stop:释放当前元素 src', () => {
-    backend = createOggMusicBackend('/extracted')
-    backend.play(1, true)
-    backend.stop()
-    const el = fixture.created[0]!
-    expect(el.paused).toBe(true)
-    expect(el.src).toBe('')
-    expect(el.loaded).toBe(true)
   })
 })
