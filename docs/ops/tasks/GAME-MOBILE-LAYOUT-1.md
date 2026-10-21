@@ -182,3 +182,7 @@ Branch: codex/game-mobile-layout
 - 补审读域：input新增modal消费合同；avi播放容器/inline/监听清理；splash退出finally；ending等键清理；game-shell叠加层；新增测试全文。A核动作消费、下一页泄漏和生命周期，B核注释与不可跳机制边界，C/D复用现有抽象键与单一事件入口，E核合法fixture/真实caller与独立完成oracle，F/G局部新增且无伪键盘或轮询快照第二消费者，H以真实input端口加宿主边界模拟复验。
 - 集成首轮coverage在迁移器未改用例遇5000ms超时；保留[失败原件](../evidence/GAME-MOBILE-LAYOUT-1/coverage-concurrent-timeout.txt)，未提升超时或改测试选择；待全仓check结束后串行重跑。
 - 主分支同步目标e8566c2c7；保留其存档、共享解码和提取器修复。当前卡review，合并/CI/覆盖率结果待实际运行写回。
+- 集成检查：同步主分支前的全仓`pnpm check`通过（含631个editor文件/4943测试、96个migrate文件/739测试）；同步e8566c2c7后全仓`pnpm typecheck`与5774文件零诊断lint通过。两次检查的候选边界不同，不伪称同一提交全仓check。
+- [生产构建实点](../evidence/GAME-MOBILE-LAYOUT-1/production-touch-status.png)：6006本地dist、375×667，取消打开菜单，确认进入状态页并可返回；不是阿里云上线或离线验收。已关闭临时preview实例并恢复视口。
+- 外壳接线补测：`game-shell.test.ts`现为2例，新增真实触控source经外壳连接、隐藏时保留同键键盘owner、重新显示和工具阻塞后恢复；宿主仅模拟媒体查询/ResizeObserver/rAF/capture，测试临时页面监听由宿主清理。未改变产品TS实现。
+- 清理移动端已移除的计时器tab/FPS残留定位CSS；不改变已验收布局。

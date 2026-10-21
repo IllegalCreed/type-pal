@@ -231,9 +231,6 @@ html[data-tp-layout="mobile"] .tp-tab[data-key="system"] {
 html[data-tp-layout="mobile"] .tp-tab[data-key="scene"] {
   order: 1;
 }
-html[data-tp-layout="mobile"] .tp-tab[data-key="timer"] {
-  order: 2;
-}
 html[data-tp-layout="mobile"] #tp-tools-panel .tp-tabs-more {
   display: block;
   order: 3;
@@ -263,10 +260,6 @@ html[data-tp-layout="mobile"] #tp-tools-panel .tp-minimap-canvas {
   max-width: 100%;
   height: auto;
   box-sizing: border-box;
-}
-html[data-tp-layout="mobile"] #tp-fps-overlay {
-  top: 58px;
-  left: 18px;
 }
 html[data-tp-layout="mobile"] #tp-minimap-widget {
   --tp-minimap-size: 120px;
