@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "2b45e5662483ab9e61ace866f85ccfd4a1a31f19819bc9763b8bbdabb12ac6a3",
+      "afterSha256": "144aa4875685d41912debb576a2eb49c52c524540f170aeef6106ed917c8b9e7",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "2b45e5662483ab9e61ace866f85ccfd4a1a31f19819bc9763b8bbdabb12ac6a3",
-        "implementationSha": "2b45e5662483ab9e61ace866f85ccfd4a1a31f19819bc9763b8bbdabb12ac6a3",
+        "currentSha": "144aa4875685d41912debb576a2eb49c52c524540f170aeef6106ed917c8b9e7",
+        "implementationSha": "144aa4875685d41912debb576a2eb49c52c524540f170aeef6106ed917c8b9e7",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1805,8 +1805,27 @@
         ]
       },
       "evidence": {
-        "kind": "mobile-software-integration-scoped-review",
-        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+        "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+        "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+        "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+        "lineCount": 16943,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 616027,
+          "sourceLines": 13734,
+          "sourceFinalNewline": true,
+          "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "byteStable": true
+        }
       },
       "history": [
         {
@@ -2458,6 +2477,46 @@
           },
           "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
           "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "2b45e5662483ab9e61ace866f85ccfd4a1a31f19819bc9763b8bbdabb12ac6a3",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+            "lineCount": 16943,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
         }
       ],
       "supersedes": [
@@ -2499,7 +2558,15 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten."
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.",
+      "maintenanceReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-22",
+        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+        "afterSha256": "144aa4875685d41912debb576a2eb49c52c524540f170aeef6106ed917c8b9e7",
+        "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+        "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
+      }
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",

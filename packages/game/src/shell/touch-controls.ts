@@ -91,6 +91,13 @@ export function bindTouchControls(root: HTMLElement, input: TouchInput): () => v
       input.release('touch:activation')
     }
   }
+  const keyActivation = (event: KeyboardEvent): void => {
+    if (!actionButton(event.target)) return
+    if (event.code !== 'Space' && event.code !== 'Enter' && event.code !== 'NumpadEnter') return
+    // Native button activation emits its own click; the global keyboard source must not emit too.
+    event.stopPropagation()
+    if (event.repeat) event.preventDefault()
+  }
   const clear = (): void => {
     for (const id of pointers.keys()) input.release(`touch:${id}`)
     pointers.clear()
@@ -105,6 +112,7 @@ export function bindTouchControls(root: HTMLElement, input: TouchInput): () => v
   root.addEventListener('pointercancel', up)
   root.addEventListener('lostpointercapture', up)
   root.addEventListener('click', click)
+  root.addEventListener('keydown', keyActivation)
   window.addEventListener('blur', clear)
   document.addEventListener('visibilitychange', visibility)
   return () => {
@@ -115,6 +123,7 @@ export function bindTouchControls(root: HTMLElement, input: TouchInput): () => v
     root.removeEventListener('pointercancel', up)
     root.removeEventListener('lostpointercapture', up)
     root.removeEventListener('click', click)
+    root.removeEventListener('keydown', keyActivation)
     window.removeEventListener('blur', clear)
     document.removeEventListener('visibilitychange', visibility)
   }

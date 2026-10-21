@@ -1,0 +1,17 @@
+import {it,expect} from 'vitest'
+import {KeyboardInputSource} from './input.js'
+import {bindTouchControls,createTouchButton} from './touch-controls.js'
+it('native button activation must not also enter the global keyboard source',()=>{
+ const input=new KeyboardInputSource(window)
+ const root=document.createElement('div')
+ const confirm=createTouchButton('Confirm','Confirm')
+ root.append(confirm);document.body.append(root)
+ const unbind=bindTouchControls(root,input)
+ try{
+ confirm.dispatchEvent(new KeyboardEvent('keydown',{code:'Space',bubbles:true}))
+ expect([...input.nextSnapshot(1).pressed]).toEqual([])
+ confirm.dispatchEvent(new KeyboardEvent('keyup',{code:'Space',bubbles:true}))
+ confirm.click()
+ expect([...input.nextSnapshot(2).pressed]).toEqual(['Confirm'])
+ }finally{unbind();input.detach();root.remove()}
+})

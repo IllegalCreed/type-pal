@@ -1732,8 +1732,25 @@
         ]
       },
       "evidence": {
-        "kind": "mobile-software-integration-scoped-review",
-        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+        "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+        "afterSha256": "cc35484f498005471d6fcbb92ad731338606adc4bfa89e027e4d155e2d1f6986",
+        "lineCount": 3938,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable phase-governance artifact",
+          "sourceBytes": 110121,
+          "sourceLines": 1987,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "byteStable": true
+        }
       },
       "history": [
         {
@@ -2223,7 +2240,15 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten."
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.",
+      "maintenanceReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-22",
+        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+        "afterSha256": "7cc1e448851753a6f49d51ae13f9145357c2c48ee810e5f620c19dff6edb75e7",
+        "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+        "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261004-structured-content-new-01.json",

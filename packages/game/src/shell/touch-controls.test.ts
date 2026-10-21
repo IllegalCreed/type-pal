@@ -39,6 +39,28 @@ describe('touch controls through the live input source', () => {
     expect([...input.nextSnapshot(2).pressed]).toEqual([])
   })
 
+  it('native keyboard button activation does not also enter the global keyboard source', () => {
+    let frame = 0
+    for (const code of ['Space', 'Enter', 'NumpadEnter']) {
+      confirm.dispatchEvent(new KeyboardEvent('keydown', { code, bubbles: true }))
+      expect([...input.nextSnapshot(++frame).pressed]).toEqual([])
+      confirm.dispatchEvent(new KeyboardEvent('keyup', { code, bubbles: true }))
+      confirm.click()
+      expect([...input.nextSnapshot(++frame).pressed]).toEqual(['Confirm'])
+    }
+    const repeat = new KeyboardEvent('keydown', {
+      code: 'Enter',
+      bubbles: true,
+      cancelable: true,
+      repeat: true,
+    })
+    confirm.dispatchEvent(repeat)
+    expect(repeat.defaultPrevented).toBe(true)
+    confirm.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight', bubbles: true }))
+    expect([...input.nextSnapshot(++frame).pressed]).toEqual(['Right'])
+    confirm.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight', bubbles: true }))
+  })
+
   it('releasing touch does not release a matching physical keyboard hold', () => {
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))
     input.nextSnapshot(1)
