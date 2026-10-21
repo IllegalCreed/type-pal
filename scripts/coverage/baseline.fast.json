@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-20T23:18:05.443Z",
+  "generatedAt": "2026-10-21T01:59:34.702Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -6255,13 +6255,13 @@
           },
           {
             "file": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
-            "testCount": 2,
-            "identityDigest": "4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5"
+            "testCount": 1,
+            "identityDigest": "bef7ce839ab718a0425a5f682b2682d9201a5c59202887e4d3cbeae1ca742fe3"
           },
           {
             "file": "packages/game/src/shell/audio.test.ts",
-            "testCount": 20,
-            "identityDigest": "b59841fd098d9d90e1af14028a26f84b385210e133c873934e4b4267d9650b7c"
+            "testCount": 18,
+            "identityDigest": "c8e6f8253b3f2f05dca3392a27a3f44e8b0f948687b66f3fabc40a2a6e1918bd"
           },
           {
             "file": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
@@ -6370,8 +6370,8 @@
           },
           {
             "file": "packages/game/src/shell/input.test.ts",
-            "testCount": 17,
-            "identityDigest": "147af765e11ee1f27094948ce9f737af138b7c8c22e43b6b22fe38ca0a81294b"
+            "testCount": 20,
+            "identityDigest": "1505f922807083b0f25ff0721decce4ad9697ad2fe249575b8be61394af90150"
           },
           {
             "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
@@ -6629,26 +6629,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "2f77ee37ec03373a30436510ec7eb14c8f6967d494ba8eb1ee251c31bdf258d4",
+        "identityDigest": "7d884f74757e36c0da011e0fee449e8f854e6c8bf86ffb2ffad46f87b7238b65",
         "duplicateIdentityCount": 0,
-        "executionDigest": "8dcd546db352ae0912648c7fd87d0506ee07f33dab5c05fa428270f4d61a4070"
+        "executionDigest": "251cbf43c4a555b3824c25f4d7d79a8506b05ad8badce9da9bf4bf65a2036e78"
       },
       "metrics": {
         "statements": {
-          "covered": 14307,
-          "total": 16042
+          "covered": 14286,
+          "total": 16019
         },
         "branches": {
-          "covered": 9333,
-          "total": 11622
+          "covered": 9331,
+          "total": 11618
         },
         "functions": {
-          "covered": 1672,
-          "total": 1961
+          "covered": 1668,
+          "total": 1956
         },
         "lines": {
-          "covered": 12758,
-          "total": 14059
+          "covered": 12738,
+          "total": 14038
         }
       }
     },
@@ -10667,20 +10667,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71387,
-      "total": 79238
+      "covered": 71366,
+      "total": 79215
     },
     "branches": {
-      "covered": 51846,
-      "total": 61885
+      "covered": 51844,
+      "total": 61881
     },
     "functions": {
-      "covered": 13548,
-      "total": 15098
+      "covered": 13544,
+      "total": 15093
     },
     "lines": {
-      "covered": 63765,
-      "total": 69336
+      "covered": 63745,
+      "total": 69315
     }
   }
 }

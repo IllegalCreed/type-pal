@@ -4,6 +4,112 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // User-authorized structural recounts, pinned to complete old baseline and current
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
+  // Approved legacy OGG deletion and current-direction ownership; exact measured snapshot.
+  {
+    id: 'pre94-input-ogg-retirement-20261021',
+    authority:
+      'User2026-10-21 explicitly approves unused OGG retirement and SDLPal direction fix; standing2026-10-20 authorization permits exact measured baseline adjustment after reasonable cleanup,never weak tests/dead code restoration.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json',
+    baselineSha256: 'b85f8a6a5e4dc684f220c704103a6d83f54b968a074a7a89111614ecfa2cbdae',
+    sources: [
+      {
+        path: 'packages/game/src/core/scene-system.ts',
+        sha256: '861d2e43437970d01a59a4507f8165e954057c343c35739b51ec226e812a1cdf',
+      },
+      {
+        path: 'packages/game/src/shell/audio-midi.test.ts',
+        sha256: '7f202281beb0e1c7222b41895aa646737620daa83664ae2568b810520fc6ee17',
+      },
+      {
+        path: 'packages/game/src/shell/audio-midi.ts',
+        sha256: '505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4',
+      },
+      {
+        path: 'packages/game/src/shell/audio-volume.ts',
+        sha256: '2cf70c4cf469c3b337341f999018bfa5f82ab3b21c9a2d95a3794c1c3dc17778',
+      },
+      {
+        path: 'packages/game/src/shell/audio.glm-phase1-leaves.test.ts',
+        sha256: '8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8',
+      },
+      {
+        path: 'packages/game/src/shell/audio.test.ts',
+        sha256: '080bf74a0a111219093299908f93728d44c8735dbfbf3c3bb1f6ce86a56f1475',
+      },
+      {
+        path: 'packages/game/src/shell/audio.ts',
+        sha256: '7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.ts',
+        sha256: '495d3f4c95180244a3f4edbfadb23154604f4c33eeeb1ba12e7db31ed847c5e4',
+      },
+      {
+        path: 'packages/game/src/shell/bootstrap.ts',
+        sha256: '67f008abc2d6013744ce84049556cf987c1c76aff605bc912377f166445c9c8a',
+      },
+      {
+        path: 'packages/game/src/shell/input.test.ts',
+        sha256: '6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d',
+      },
+      {
+        path: 'packages/game/src/shell/input.ts',
+        sha256: '1798b523ecbb3594a8144697844531d955acb23e0b701f7474d66630f15a0704',
+      },
+      {
+        path: 'packages/game/src/shell/main-loop.ts',
+        sha256: '01842b519dd9bc8bee3a221c962d2c9cdec043f7c912f848efd2ef3e1c559847',
+      },
+      {
+        path: 'packages/game/src/shell/music-source.ts',
+        sha256: '5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 14307,
+            total: 16042,
+          },
+          branches: {
+            covered: 9333,
+            total: 11622,
+          },
+          functions: {
+            covered: 1672,
+            total: 1961,
+          },
+          lines: {
+            covered: 12758,
+            total: 14059,
+          },
+        },
+        after: {
+          statements: {
+            covered: 14286,
+            total: 16019,
+          },
+          branches: {
+            covered: 9331,
+            total: 11618,
+          },
+          functions: {
+            covered: 1668,
+            total: 1956,
+          },
+          lines: {
+            covered: 12738,
+            total: 14038,
+          },
+        },
+      },
+    },
+  },
   // Exact covered guard-line retirement; old baseline +9 pinned module inputs only.
   {
     id: 'pre94-shell-dead-dump-20261021',
