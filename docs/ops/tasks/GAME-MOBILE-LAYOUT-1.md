@@ -1,6 +1,6 @@
 # GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持
 
-Status: review
+Status: done
 Phase: phase1
 Capability: mobile presentation / touch / gamepad input
 Coding Owner: Codex
@@ -89,7 +89,7 @@ Branch: codex/game-mobile-layout
 - 贡献者交付与自验：Codex实施/自验；各轮检查及其候选边界保留在下文，不以早期日志冒充最终候选。
 - 独立复核：只读reviewer `/root/mobile_final_review` 核冻结候选与原生证据；唯一P2返工后于356ac4fad定向复验接收，见[独立记录](../evidence/GAME-MOBILE-LAYOUT-1/independent-review.txt)。Codex核差异与原件，收口官方门。
 - 用户体验/产品验收：2026-10-22用户认可设计，确认无实体手柄，授权提交/推送/关闭issue；不记为硬件验收。
-- done 准入：review，集成质量门与CI尚在执行，硬件未测明确披露。
+- done 准入：Codex接受软件交付；9322990af的GitHub文档、安全、类型/lint与protected coverage全部通过，PR #8已合并、issue #7已回复关闭；硬件未测、未部署明确披露。
 
 ## Draft: 设计与风险
 
@@ -148,7 +148,7 @@ Branch: codex/game-mobile-layout
 
 ## 下一位 Agent 提示词
 
-无，当前由Codex完成集成质量门、CI和issue回执。
+无下一位 Agent 提示词。本卡软件交付已收口；实体设备兼容反馈和部署按后续独立授权推进。
 
 ## 2026-10-22 用户认可布局后续
 
@@ -207,3 +207,11 @@ Branch: codex/game-mobile-layout
 - [PR #8](https://github.com/IllegalCreed/type-pal/pull/8)的375bb5a26：文档与安全检查通过；[覆盖率任务](https://github.com/IllegalCreed/type-pal/actions/runs/39651740329)在前置quality-tools被拦，未执行CI类型/覆盖率。原因是本卡新增14个tracked代码路径后，专项账本仍声明3338而真实3352；[失败原件](../evidence/GAME-MOBILE-LAYOUT-1/ci-ledger-before-sync.txt)保留。
 - 本地真实47例quality-tools同样复现恰一登记断言失败；仅同步账本库存3352、pending2870、未闭合2996，既有356closed/126review及逐路径表/历史正文不变，0新增专项closed。14路径由main→本卡实际新增清单核定，不修改工具、测试、规则或产品源码。
 - 同步后47/47通过；这是仓库登记修复，不是游戏行为修复或覆盖率重算。源码与官方20024测试候选仍为1c0b2acbd，后续GitHub门检查实际新提交。
+
+## 软件交付收口
+
+- [PR #8](https://github.com/IllegalCreed/type-pal/pull/8)已于2026-10-22 JST合并为7663b30715ce83160af594ad30895502d18ac9cd；合并前精确head9322990af3fe0599234ffd3c8130e9865946010d的三个检查全部成功。
+- [protected coverage](https://github.com/IllegalCreed/type-pal/actions/runs/39652572817)实跑20024 fast测试，汇总计数与本地最终基线一致；[文档CI](https://github.com/IllegalCreed/type-pal/actions/runs/39652572847)含125工具测试、全部消费者与lint通过；GitGuardian成功。原生状态、远端完整日志及SHA见[合并验收证据](../evidence/GAME-MOBILE-LAYOUT-1/ci-acceptance.json)。
+- 已在[issue #7回复](https://github.com/IllegalCreed/type-pal/issues/7#issuecomment-6323968514)说明标准映射、手机虚拟键/开关与验证边界，并按用户授权关闭。已退役本卡分支；其它活动分支/worktree不在本卡清理范围。
+- 本次收口写回仅文档/证据/状态及相应绑定，packages、scripts、工作流、锁文件和官方基线相对通过CI的head无差异；按纯文档范围核消费者与lint，不为回执重复手工执行全仓产品测试。main自动触发的后续CI不冒充本次合并前回执。
+- 用户产品验收、独立范围复核、官方本地覆盖率与GitHub protected门均成立，Codex判done。未连接实体手柄/手机，未验Safari安全区、全剧情E2E或生产SW；本卡未部署阿里云，不能写“在线已可用”。
