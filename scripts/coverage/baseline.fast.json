@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T18:17:31.616Z",
+  "generatedAt": "2026-10-21T19:30:59.156Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 755,
-  "testCount": 20024,
+  "sourceFileCount": 757,
+  "testCount": 20032,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1153,7 +1153,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 41,
+      "sourceFileCount": 43,
       "sourceFiles": [
         "packages/pal-extract/scripts/extract-videos.ts",
         "packages/pal-extract/src/cli.ts",
@@ -1170,12 +1170,14 @@
         "packages/pal-extract/src/io/rle.ts",
         "packages/pal-extract/src/io/sss.ts",
         "packages/pal-extract/src/io/word.ts",
+        "packages/pal-extract/src/io/write.ts",
         "packages/pal-extract/src/io/yj2.ts",
         "packages/pal-extract/src/output-boundary.ts",
         "packages/pal-extract/src/resources/asset-manifest.ts",
         "packages/pal-extract/src/resources/battle-sprite.ts",
         "packages/pal-extract/src/resources/enemy-pos.ts",
         "packages/pal-extract/src/resources/map.ts",
+        "packages/pal-extract/src/resources/music.ts",
         "packages/pal-extract/src/resources/palette.ts",
         "packages/pal-extract/src/resources/parsers/_utils.ts",
         "packages/pal-extract/src/resources/parsers/ball.ts",
@@ -1197,9 +1199,9 @@
         "packages/pal-extract/src/resources/tables.ts",
         "packages/pal-extract/src/utils/gbk.ts"
       ],
-      "scopeDigest": "f9d831b9e11e87c9fbeb3806194bffbbb26cc4ae0129b3dcab40e43e2f95f54a",
+      "scopeDigest": "4d04031a560fed95dc9addd82a7ed9f7e49152f3bfbc532c4645f78bcf633400",
       "fastTests": {
-        "testCount": 307,
+        "testCount": 315,
         "testFileCount": 65,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
@@ -1296,8 +1298,8 @@
           },
           {
             "file": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
-            "testCount": 5,
-            "identityDigest": "f4de3528979caabb22784fb7d61561797e3f72180a2e6d2939cb7a95149f5a1c"
+            "testCount": 6,
+            "identityDigest": "5becbf29e55d9491a09f9ef6a54b61afc1bc3f1ee3352b34cc5b2e22961b09ef"
           },
           {
             "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
@@ -1391,13 +1393,13 @@
           },
           {
             "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
-            "testCount": 8,
-            "identityDigest": "eac0be09952537f97d51410e5669c7c075838238d4c8d8a9683fd6a01133d671"
+            "testCount": 11,
+            "identityDigest": "3c97afb4afbc2c56eb662325675a022f6d996036d056a8619714788c07438c06"
           },
           {
             "file": "packages/pal-extract/src/events/slice.test.ts",
-            "testCount": 12,
-            "identityDigest": "0d012e10a0253b39ff256a386fdbe25acb2e28328e9a430f7743b5922bcfaee2"
+            "testCount": 14,
+            "identityDigest": "9c6edded672dd857917876880494a98da90afb850a9dac65a368eabed0d2fa7e"
           },
           {
             "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
@@ -1441,8 +1443,8 @@
           },
           {
             "file": "packages/pal-extract/src/output-boundary.test.ts",
-            "testCount": 3,
-            "identityDigest": "2c9496b1b2390eb0ea01ce509ff12ca08ad57f441725dd18158248edd24bacb8"
+            "testCount": 5,
+            "identityDigest": "322ada50aa2427e219be045cb1234d1256962ebe4d7e29dcecc9960515422b84"
           },
           {
             "file": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
@@ -1595,26 +1597,26 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "c68a2bf89310af53279009a6c8e40e8ec560655821a7ccab195b41c9c9e266f0",
+        "identityDigest": "1235f0381e11baa424ca41305593cf8c62ee7f2dda5e47b94f0903c48cccca90",
         "duplicateIdentityCount": 1,
-        "executionDigest": "cf6ef4861351b6999131faf01bb789aff5c51ce3a3a1e66679dd84fb3fa1c097"
+        "executionDigest": "65e5ca100be25f09a4193d2ef010e20b3e95d885c10842a127f85ac47314ddff"
       },
       "metrics": {
         "statements": {
-          "covered": 1120,
-          "total": 1542
+          "covered": 1089,
+          "total": 1512
         },
         "branches": {
-          "covered": 503,
-          "total": 597
+          "covered": 482,
+          "total": 576
         },
         "functions": {
-          "covered": 115,
-          "total": 143
+          "covered": 116,
+          "total": 145
         },
         "lines": {
-          "covered": 979,
-          "total": 1364
+          "covered": 955,
+          "total": 1341
         }
       }
     },
@@ -10732,20 +10734,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71884,
-      "total": 79706
+      "covered": 71853,
+      "total": 79676
     },
     "branches": {
-      "covered": 52105,
-      "total": 62132
+      "covered": 52084,
+      "total": 62111
     },
     "functions": {
-      "covered": 13626,
-      "total": 15182
+      "covered": 13627,
+      "total": 15184
     },
     "lines": {
-      "covered": 64198,
-      "total": 69749
+      "covered": 64174,
+      "total": 69726
     }
   }
 }
