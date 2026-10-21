@@ -1,8 +1,8 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前本地增量：前窗9b4df7145已推送/合main且Documentation CI通过。两项获批slice收集修复6红先行，53相邻/452包绿，纯BFS去重另提交；[本窗原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)。0新关闭，三代码提交尚未推送/合main；继续CLI IO后集中本窗全仓/coverage，不沿用旧门。
+> 当前窗口：6个明确IO文件逐项接受；最新main整合后全check20430、单次official ratchet/protected20032零诊断。账本3354/361closed/123review/2870pending，固定83卡仍56accept/27partial。[原件与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md)。P3待用户裁决，原3/3g不升格；提交/推送/合并以实际Git refs为准。
 
-> 2026-10-22最新：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
+> 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
 > 2026-10-21历史：56accept/27partial/0pending。CODE3b/3d/3f原合同收口，3g完成测试宿主切片，17文件逐项接受（12未闭合转关闭）。四卡check20390、ratchet/protected各19992零诊断；剩余27partial，94–102不扩展。
 
@@ -1229,3 +1229,9 @@ Codex单一Coding Owner，同一3y，以399709863为本地基点、origin/main=9
 ### 2026-10-22 相关卡窗口冻结
 
 冻结代码314fa5eb1，范围CODE3已批准两修复、3g音乐/写盘职责及输出所有权卡三登记缺口；当前3340/355closed/129review/2856pending，旧CLI-isolated透传信用因空MID有效反证先撤review，六文件候选不提前关闭。七IO文件八维及原件见[同一窗口入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md)。原3/3g保持partial：新增P3 raw7的Lost/Fleed两return缺边已有primary/合法probe/raw证据，用户裁决前停线，不能因为准备统一门就给slice或原卡accept。代码冻结后顺序全check、official fast ratchet带origin/main保护、同报告严格scope/protected比较；不是两轮重采，不改规则/选择。当前重门均待，不拿前窗main9b远端Docs/Coverage success替新代码授绿。
+
+### 2026-10-22 CLI IO／事件相关窗口最终验收
+
+六明确文件A–H、正文守恒/真实字节oracle/三有效单红与恢复成立；旧CLI透传信用先撤后按当前证据重验，净增5而非按包绿批量关闭。首次官方指标拒绝及第二次可移动origin/main保护拒绝不改写；已在同一3y整合最新主线aba959e603be755f869c6e6c646afbbb58c479c0，移动端source与其原样一致，双方文档历史合并。有限计数批准只换完整新baseline摘要，166提取/shared输入及四项差额不变，不改game计数/规则/选择。整合后check20430及official fast20032/757源实际零诊断；随后同报告严格canonical投影/compareCoverage/auditScope保护通过，未另采第四轮。全部原件与失败/恢复在本窗包。
+
+3/3g仍partial；P3新双接回边未经批准未实现，原两批准修复保持6红先行及raw严格roundtrip。CLI剩余编排/失败策略与其它slice测试仍review。下一可续范围为pre94 3w/3x：按原卡合同复用已有primary/6+6单红，只补C/D/F/G/H及真实余项；不接94–102或已完成移动端产品开发。无下一位Agent提示词，Codex单Agent继续。

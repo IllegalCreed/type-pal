@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "state": "main7663 mobile source integrated;0closures; merged gates pending",
+  "state": "six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision",
   "owner": "Codex single agent",
   "base": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
-  "sourceCommit": "6d15b6c91633e3937ee0817076d833643e9b9d32",
+  "sourceCommit": "90d2773fe9504bf7274bd41a3123e024a65581a0",
   "behaviorCommit": "2ad4c36e953cb38063179a659e51171b9ed33f96",
   "refactorCommit": "e016c27a3d1dfdff819a1dbdc09dd30ac3726dd2",
   "files": [
@@ -108,8 +108,8 @@
   ],
   "ledger": {
     "total": 3354,
-    "closed": 355,
-    "review": 129,
+    "closed": 361,
+    "review": 123,
     "pending": 2870
   },
   "newClosures": 0,
@@ -532,9 +532,8 @@
     ]
   },
   "notRun": [
-    "current-window whole check",
-    "current-window official coverage ratchet/protected fast",
-    "whole game/E2E/original PAL runtime"
+    "whole game/E2E/original PAL runtime for the asset fixes",
+    "P3 raw7 new behavior repair: not authorized or implemented"
   ],
   "costPolicy": "User asked several related cards before heavy gates. Preceding CLI window completed20392check/19994official combined ratchet-protected then merged9b. Do not reuse those gates as this changed source passing. Continue CLI IO and adjacent cleanup before the next rolling full gates/push/merge; no fresh coverage now.",
   "rawObservation": "43503instructions;raw bytecode recompile exact; union38464→38765,+301/-0;12scene+shared outputs differ in memory only.16/17 counted sites reachable and all16 continuations in union;33964 continuation still in another output,34779 goto uncollected. No source generated output/all.json/raw/save edit or gameplay success claim.",
@@ -546,7 +545,7 @@
     "94–102 not expanded",
     "P3 raw7 loss/flee branches newly disproved, unapproved and not implemented; CODE3 remainspartial."
   ],
-  "staticResults": "five docs consumers0issues; progress issues=[];lint5751 files0errors/0warnings/0infos;ledger3338/356/126/2856;diff --check empty;0stdout diagnostic blocks in53/452 runs",
+  "staticResults": "Final docs/progress/lint/ledger/diff receipts at cli-io-closeout/native.json.gz; unified gates refer only merged-check/merged-ratchet/strict-protected, earlier failures retained.",
   "identityMigration": [
     {
       "oldFile": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
@@ -571,11 +570,21 @@
       "previous": "314fa5eb1138fb734442367888981a0e82f95827",
       "current": "6d15b6c91633e3937ee0817076d833643e9b9d32",
       "reason": "Only exact finite baseline approval data added after failed metrics gate; all package code/tests unchanged.93coverage-tool tests and actual-data/negative-regression proof pass. Official retry required by unchanged runner."
+    },
+    {
+      "previous": "6d15b6c91633e3937ee0817076d833643e9b9d32",
+      "current": "776544f021871fdc5da024496ea0129278aee099",
+      "reason": "Merge latest main aba959e603be755f869c6e6c646afbbb58c479c0 with mobile source exactly intact; rebind only first finite approval complete baseline digest. All extract/shared inputs and four measured extract metric deltas unchanged.0new closures."
+    },
+    {
+      "previous": "776544f021871fdc5da024496ea0129278aee099",
+      "current": "90d2773fe9504bf7274bd41a3123e024a65581a0",
+      "reason": "Only official derived baseline changed after collected code 776544f021871fdc5da024496ea0129278aee099; latest main mobile baseline preserved, final strict snapshot verifies canonical report and scope without test resampling."
     }
   ],
   "ioWindow": {
     "path": "../cli-io-closeout/review.json",
-    "sha256": "d58938accbd460fbfe4b223ae317676408ee711281a50e3bd9c43d9d8f131429",
+    "sha256": "0876e9fe84c96c91f799172cadd4f42086c61a8a67e68a4de8e9e60dc84de167",
     "previousCliSha256": "bac28a79a32548695a368fbd37e49efbe567cd5dfe1d9052e87102b5b9906fa0"
   }
 }

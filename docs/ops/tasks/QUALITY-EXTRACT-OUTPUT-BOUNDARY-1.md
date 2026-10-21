@@ -81,3 +81,7 @@ build allowed：仅上述三实现及新cli-entrypoint-paths.test.ts，一个明
 ## 2026-10-22 三登记缺口的纯测试build allowed
 
 Codex单Owner，白名单output-boundary.test.ts、cli-entrypoint-paths.test.ts及本卡/证据。只补已有待核三轴：data根缺失必须抛原生ENOENT而非误当输出可创建；data为文件导致output lstat的ENOTDIR须原样传播；隔离复制CLI从其它入口import后无参prepareOutputRoot必须检查模块推导的data/extracted链接而非cwd。只使用自有临时树/链接/marker，production helper/CLI/video正文均冻结，保留现有正常/拒绝合同与fixture生命周期。与CLI IO/slice已批准增量合为窗口，重门集中末跑，不修改缺data的提示策略或转码合同。
+
+### 2026-10-22 集中门结果
+
+相关CLI IO/事件/输出边界统一窗口已实跑整合后check20430，official ratchet/protected同报告20032，全部0诊断；原两次拒绝保留，最新主线移动端统计未覆盖。仅本窗六明确IO路径接受，卡内其它余项与P3停止线保持，详见父卡与cli-io-closeout/review.json。推送/合main以实际Git refs为准。

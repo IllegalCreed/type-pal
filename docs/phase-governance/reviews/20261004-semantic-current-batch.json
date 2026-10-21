@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+      "coreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
+      "afterSha256": "82df6619a5fe76ae2514fc5947f364378a3503792dcb2e48615c864d42c87531",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
+        "implementationSha": "82df6619a5fe76ae2514fc5947f364378a3503792dcb2e48615c864d42c87531",
         "contentVersion": 46,
         "minimumSaveVersion": 12,
         "history": [
@@ -1649,8 +1649,8 @@
         ]
       },
       "evidence": {
-        "kind": "mobile-software-integration-scoped-review",
-        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+        "kind": "codex-owned-cli-event-window-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
       },
       "history": [
         {
@@ -2175,6 +2175,19 @@
           "action": "CLI-event-window-main-mobile-merge",
           "previousAfterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
           "afterSha256": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-final-accept",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+          "previousAfterSha256": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
+          "afterSha256": "82df6619a5fe76ae2514fc5947f364378a3503792dcb2e48615c864d42c87531",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
         }

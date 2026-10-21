@@ -34,3 +34,13 @@ disasm的startBattle仍落raw7，而切分单目标表未覆盖其两个return�
 slice两段已覆盖BFS去重，statement/line仍全覆盖；搬出的IO仍纳入统计，真实CLI子进程执行未计入本进程V8覆盖率，不用排除掩盖。依据用户已授合理结构变化可精确校准的权限，6d15b6c91只在现有有限迁移表增加一项：完整旧baseline摘要+166当前路径SHA+四项精确before/after计数。原算法尾与旧条目不变，93工具测试、实际数据核对及两个额外下降反控都过；不改规则、选择、阈值或超时。官方入口无报告复用选项，故校准后必须真实重跑一次；首次失败仍独立保留。
 
 第二次window-ratchet-calibrated仍20,002绿、计数与首次完全相同，exit1；553字节stderr仅为目标分支保护拒绝。共享Git的origin/main在采样期间被其它会话fetch前移至移动端基线，而本治理树尚无这些代码。不得据旧候选覆盖新主线基线，也不加游戏包校准掩盖缺码；当前0关闭，先同步origin/main再跑整合后的门。后续官方保护用启动时最新origin/main的完整SHA，结束后仍fetch核0behind，避免将可移动ref误记成固定采样前提。
+
+补充输入域实测：治理树Musics缺失，主树原盘目录实际存在。real-music只读原盘86个001–087（缺029）MID、8个TRACK02–09 OGG和mus.mkf，运行实际新音乐阶段到唯一自有临时树；95个输出逐字节、manifest逐字段匹配，95个输入的SHA前后一致，输出树已清理。生产源码/原盘/主树产物未改，不是全CLI提取或音频codec/播放验收。原件含95输入的名字/大小/SHA，实际入口和双流；后续可据固定输入身份复验，不把历史样本说成任意音乐文件名政策。
+
+旧CI来源只保留相关pal-extract原始summary/LCOV，不保留整个zip/HTML；服务端artifact摘要是来源字段，并非声称本包重新计算过整个zip摘要。两次本地失败和最终本地门的stdout/stderr则完整未裁剪保存。
+
+## 最终接收
+
+最新主线aba959e603be755f869c6e6c646afbbb58c479c0已整合。最终merged-check为20430项Vitest，merged-ratchet为20032项/757生产源，完整双流及语义分类0诊断；严格protected/scope与canonical投影复用同一官方报告，未再采样。接受六个review.json明确路径，CLI仍rework、CODE3/3g仍partial，账本3354/361/123/2870。六次本窗接受含CLI-isolated撤回后重验，相对最初356closed净增5，不把两个大卡或P3关闭。
+
+之前失败与正常测试输出分类原件完整保留；一个快检格式假设及一次rebind验证器预期数组形状错误已披露/修正，不计产品反控。全部门完成后才更新这六行；发布按Git实际refs，先推同一3y、远端Docs CI，再fetch0behind快进main。后续从3w/3x原证据补真正质量缺口，不扩94–102。

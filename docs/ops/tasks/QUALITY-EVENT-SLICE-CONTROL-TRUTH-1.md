@@ -61,3 +61,9 @@ Visual Verification Timing: N/A（提取器纯收集；无游戏/E2E或原版运
 可review窄修：不改disasm产出/opcode7格式；slice对raw7分别收非零op1/op2，保留原胜利fall-through，补充双目标收集合同说明。先增加正式scene/global失败反例，再最小修复，再核零地址/两目标/共享改写与相邻回归；对真实raw只读比较新增归属。原始bytes/all.json、存档/机制/战斗胜负及逃跑规则不改。用户批准前禁止实现P3或给CODE3/slice授accept；同卡前两获批修复、CLI纯重构可继续独立收尾。原件当前在本轮CLI IO临时证据，收口时接回稳定导航，不能只凭本段文字授通过。
 
 本节归因勘误：此前“旧注还误称7走named-label”未定位到现行源码，撤回这条注释缺陷断言。当前opcodes的named含义与disasm专用emit并非一一对应，已有测试也明确raw fallback；P3由当前真实raw7输出、单目标收集表、SDL/caller及合法探针独立成立，不依赖该无锚注释归因。
+
+### 2026-10-22 集中门结果
+
+相关CLI IO/事件/输出边界统一窗口已实跑整合后check20430，official ratchet/protected同报告20032，全部0诊断；原两次拒绝保留，最新主线移动端统计未覆盖。仅本窗六明确IO路径接受，卡内其它余项与P3停止线保持，详见父卡与cli-io-closeout/review.json。推送/合main以实际Git refs为准。
+
+另记可定位的B维待改项：opcodes.ts模块头及OpcodeDef.named注释将“已具名”概括为disasm必输出结构化Command，而当前startBattle(named)明确经raw fallback，已有两专测也固定该合同。它不是上面已撤回的“跳转表旧注”归因；后续可用纯文案批收窄为注册表命名与实际emit分开，不改字段、字节或行为。opcodes原review状态保持，本窗六IO接受不覆盖它。

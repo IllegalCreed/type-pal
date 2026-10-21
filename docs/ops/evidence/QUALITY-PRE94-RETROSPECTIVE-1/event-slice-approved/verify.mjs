@@ -115,7 +115,7 @@ function verifyIoWindow(parent) {
     )
     assert.deepEqual(changed.sort(), recount.changedFiles.map((item) => item.path).sort())
     assert(Object.keys(oldFiles).every((name) => name in newFiles))
-    const data = from('recount-data-proof.json')
+    const data = from(io.calibration.currentProof ?? 'recount-data-proof.json')
     assert(
       data.algorithmTailUnchanged && data.oldEntriesUnchanged && data.originalBaselineUnchanged,
     )
@@ -130,6 +130,17 @@ function verifyIoWindow(parent) {
       data.calibrationModuleSha256,
     )
   }
+  if (io.musicObservation) {
+    const music = from(io.musicObservation)
+    assert(
+      music.manifestExact && music.allBytesExact && music.inputsUnchanged && music.outputCleaned,
+    )
+    assert.equal(music.inputCount, 95)
+    assert.equal(
+      music.sourceSha256,
+      io.files.find((file) => file.path.endsWith('/resources/music.ts')).sha256,
+    )
+  }
   if (io.gateState !== 'passed') return false
   assert.equal(io.gates.length, 3)
   for (const id of io.gates) {
@@ -140,7 +151,7 @@ function verifyIoWindow(parent) {
   }
   const protectedSnapshot = from('protected-snapshot.json')
   assert(protectedSnapshot.exactCanonicalProjection && !protectedSnapshot.testResampled)
-  assert.equal(protectedSnapshot.officialRun, 'window-ratchet-calibrated')
+  assert.equal(protectedSnapshot.officialRun, io.officialRun)
   assert.deepEqual(protectedSnapshot.protectedCoverage.regressions, [])
   assert.deepEqual(protectedSnapshot.protectedScope.removals, [])
   assert.equal(

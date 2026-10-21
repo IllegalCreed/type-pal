@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "state": "integration resync required; both official metric/protected rejections retained;0new closures",
+  "state": "six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision",
   "owner": "Codex single agent",
   "base": "399709863d5eced20eba4698d169c23f9e61702f",
-  "collectedCodeCommit": "6d15b6c91633e3937ee0817076d833643e9b9d32",
+  "collectedCodeCommit": "776544f021871fdc5da024496ea0129278aee099",
   "files": [
     {
       "path": "packages/pal-extract/src/cli.ts",
@@ -35,23 +35,23 @@
         "G": "两个出口各有真实caller；无新默认、缓存、fallback、未来抽象。",
         "H": "通过显式路径在拥有的临时树中观测真实文件；无隐藏根目录/时钟/共享状态。"
       },
-      "decision": "candidate; whole gates pending"
+      "decision": "accept: named original IO contract and A-H evidence, actual merged unified gates0; no whole-card acceptance"
     },
     {
       "path": "packages/pal-extract/src/resources/music.ts",
       "sha256": "dd488c3e3d1485de41f15d8a9fc95866a2c294d34a9fb8d9e0436b649de65926",
       "lines": 39,
       "dimensions": {
-        "A": "只搬已有文件名/排序/字节透传与RIX头检查政策，两个根路径来自原CLI常量；错误仍抛出，无新格式/资产生成语义。",
+        "A": "只搬已有文件名/排序/字节透传与RIX头检查政策，两个根路径来自原CLI常量；错误仍抛出，无新格式/资产生成语义。 追加只读主树原盘音乐名域核验：MID001–087缺029共86个、8个TRACK02–09 OGG；自有输出95全字节/manifest匹配，输入指纹前后一致。",
         "B": "头注限于RIX既有header check，不冒称完整音频格式验证；保留小写mus.mkf原因。",
         "C": "音乐导出单一职责，局部midiNums/cdTracks独占；原始资源读与该阶段落盘集中，main只调用。",
         "D": "音乐阶段与通用写盘复用有同一失败/同步生命周期合同，不合并各codec解码策略。",
         "E": "MIDI/OGG字节独立常量oracle+原始RIX全字节；空MID针旧全绿新单红；原块alpha一致。",
         "F": "rawRoot/outputRoot直接揭示来源；没有注入万能上下文或布尔模式。",
         "G": "保留实际有用的排序、稀疏track检查和manifest；无死参数，返回值void符合真实caller。",
-        "H": "两个显式目录支持真实临时树测试；不需要全局RAW/OUT或monkeypatch fs；当前治理树data/raw/Musics缺失，未声称真实完整音乐导出。"
+        "H": "两显式目录可真实观察；治理树Musics缺失，已独立用只读主树原盘向新自有临时树运行实际音乐阶段，95文件/manifest一致且清理。未跑全CLI或音频codec/播放。"
       },
-      "decision": "candidate; whole gates pending"
+      "decision": "accept: named original IO contract and A-H evidence, actual merged unified gates0; no whole-card acceptance"
     },
     {
       "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
@@ -67,7 +67,7 @@
         "G": "0增删测试，无skip/only/新强转或弱化；旧已验证因直接oracle反证先撤review，统一门后重新裁定。",
         "H": "真实CLI复制源码、close后读文件；没有mock文件系统或以calls数替代字节正确性。"
       },
-      "decision": "candidate; whole gates pending"
+      "decision": "accept: named original IO contract and A-H evidence, actual merged unified gates0; no whole-card acceptance"
     },
     {
       "path": "packages/pal-extract/src/output-boundary.ts",
@@ -83,7 +83,7 @@
         "G": "每个分支对应批准策略；不加force/ignore/更宽catch，不声称解决所有文件系统race。",
         "H": "显式路径与自有临时树可测；真正lstat负例，不靠mock对象相等自证。"
       },
-      "decision": "candidate; whole gates pending"
+      "decision": "accept: named original IO contract and A-H evidence, actual merged unified gates0; no whole-card acceptance"
     },
     {
       "path": "packages/pal-extract/src/output-boundary.test.ts",
@@ -99,7 +99,7 @@
         "G": "新增2必要错误合同，无弱覆盖例；不添加权限EACCES不稳定测试。",
         "H": "真实fs，无mock/计时；精确清理已登记临时根而非父目录。"
       },
-      "decision": "candidate; whole gates pending"
+      "decision": "accept: named original IO contract and A-H evidence, actual merged unified gates0; no whole-card acceptance"
     },
     {
       "path": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
@@ -115,7 +115,7 @@
         "G": "5旧身份保留，新增1默认路径合同；无新timeout、规则、排除或编码假oracle。",
         "H": "真实进程/路径解析/lstat，fake不替代guard；完整stderr和退出状态可观察。"
       },
-      "decision": "candidate; whole gates pending"
+      "decision": "accept: named original IO contract and A-H evidence, actual merged unified gates0; no whole-card acceptance"
     }
   ],
   "contextPins": [
@@ -256,6 +256,74 @@
     {
       "id": "move-proof-frozen",
       "exit": 0
+    },
+    {
+      "id": "real-music",
+      "exit": 0
+    },
+    {
+      "id": "window-check",
+      "exit": 0
+    },
+    {
+      "id": "window-ratchet-protected",
+      "exit": 1
+    },
+    {
+      "id": "window-ratchet-calibrated",
+      "exit": 1
+    },
+    {
+      "id": "merged-check",
+      "exit": 0
+    },
+    {
+      "id": "merged-ratchet",
+      "exit": 0
+    },
+    {
+      "id": "strict-protected",
+      "exit": 0
+    },
+    {
+      "id": "recount-tools",
+      "exit": 0
+    },
+    {
+      "id": "recount-data-proof",
+      "exit": 0
+    },
+    {
+      "id": "recount-main-proof",
+      "exit": 1
+    },
+    {
+      "id": "recount-main-proof-restored",
+      "exit": 0
+    },
+    {
+      "id": "recount-main-tools",
+      "exit": 0
+    },
+    {
+      "id": "final-docs",
+      "exit": 0
+    },
+    {
+      "id": "final-progress",
+      "exit": 0
+    },
+    {
+      "id": "final-lint",
+      "exit": 0
+    },
+    {
+      "id": "final-ledger",
+      "exit": 0
+    },
+    {
+      "id": "final-diff",
+      "exit": 0
     }
   ],
   "acceptedAfterGates": [
@@ -266,22 +334,27 @@
     "packages/pal-extract/src/output-boundary.test.ts",
     "packages/pal-extract/src/cli-entrypoint-paths.test.ts"
   ],
-  "newClosures": 0,
-  "gates": [],
+  "newClosures": 6,
+  "gates": ["merged-check", "merged-ratchet", "strict-protected"],
   "ledger": {
-    "total": 3340,
-    "closed": 355,
-    "review": 129,
-    "pending": 2856
+    "total": 3354,
+    "closed": 361,
+    "review": 123,
+    "pending": 2870
   },
   "artifact": {
     "member": "native.json.gz",
-    "sha256": "6a301b98426b52866115bdc91eee15b7003c2d6a096cc1faf022b0d7366204cf",
+    "sha256": "cf77e867169a3e049457462459a3ba5652c410b7a910a65570e61358ba588f77",
     "members": [
       {
         "name": "baseline-before.json",
         "bytes": 528923,
         "sha256": "03f2ee71e6d1cd593b9db6311d79e615eecb30b3a8cc6c33c4e17b5fe1f273c5"
+      },
+      {
+        "name": "baseline-main7663.json",
+        "bytes": 531426,
+        "sha256": "0c7911d06bf92c560968ab2723d1ca169aa9aea7b4986bfc820249b3598b1a95"
       },
       {
         "name": "battle-return-counter-frozen.json",
@@ -389,6 +462,16 @@
         "sha256": "64f69c0d9797720f28bd3e34172bb373b0a69bfeb2173d5a08b7675549b4fdbb"
       },
       {
+        "name": "calibrated-pal-extract-coverage-summary.json",
+        "bytes": 15193,
+        "sha256": "e824b9cc4c3bfbff81b097474995a39535cd25a4ba7e6f820dc4c67c97f3097c"
+      },
+      {
+        "name": "calibrated-pal-extract.lcov.info",
+        "bytes": 30429,
+        "sha256": "d22ebafd9a8cd13d92a82c776401d236c0619ecb35473f284b5f696bf4fac589"
+      },
+      {
         "name": "candidate-pal-extract-coverage-summary.json",
         "bytes": 15193,
         "sha256": "e824b9cc4c3bfbff81b097474995a39535cd25a4ba7e6f820dc4c67c97f3097c"
@@ -397,6 +480,11 @@
         "name": "candidate-pal-extract.lcov.info",
         "bytes": 30429,
         "sha256": "d22ebafd9a8cd13d92a82c776401d236c0619ecb35473f284b5f696bf4fac589"
+      },
+      {
+        "name": "capture-pinned.mjs",
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
       },
       {
         "name": "capture.mjs",
@@ -514,6 +602,81 @@
         "sha256": "5cdf982779677f05f8abc78b69c9f615b2b58ffeb361dc1c52532aa32aaee363"
       },
       {
+        "name": "final-diff.execution.json",
+        "bytes": 2104,
+        "sha256": "c7abbb6ad449ae293a88e8334527d4e87afa6133cfdae1af4da7818e6cc238b7"
+      },
+      {
+        "name": "final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.execution.json",
+        "bytes": 2417,
+        "sha256": "526cf9fefde9514fa37091224f49fce428c857273d84b9172c26a2a4d679e009"
+      },
+      {
+        "name": "final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "87b9e034b9d839af8228f5098415cc3df10c7372d85e1d368a262df2d383c70c"
+      },
+      {
+        "name": "final-ledger.execution.json",
+        "bytes": 2123,
+        "sha256": "c0337eccc65bfea5fbad0a0d832d364c342a9d2e0b53ae66be09454084d9e77b"
+      },
+      {
+        "name": "final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "86d9d1c3d185900022e5e809d7861b5269e4daf8f7cd96ddc759d36fdb166e4a"
+      },
+      {
+        "name": "final-lint.execution.json",
+        "bytes": 2080,
+        "sha256": "4e3f401ca56cdc71efee0ce6e467c6220a36bb650bfd4c969e48dc3f5c1eaf46"
+      },
+      {
+        "name": "final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "417c7cb750251886f9c40fc0bce3534f2dc949f73bcc6b6ba884dfbab9a1aec5"
+      },
+      {
+        "name": "final-progress.execution.json",
+        "bytes": 2190,
+        "sha256": "d5bb4afe6c9b95f86cf0084221ae6ecfc51cb8cb02f428cca004d4e93b9cca98"
+      },
+      {
+        "name": "final-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "a7143602041a69f12a436651d7aad2fc451054284816407969e7610066dc57e7"
+      },
+      {
         "name": "freeze-docs.execution.json",
         "bytes": 2310,
         "sha256": "8dca73d8e9c0c9438c9d7ad03ed892d69349679397df62337775d7743d7a8737"
@@ -542,6 +705,101 @@
         "name": "freeze-lint.stdout.raw",
         "bytes": 193,
         "sha256": "6978e3fe1c67a7480ac9b966b52a1aac3c3da821284bc803be7854743e33ff55"
+      },
+      {
+        "name": "merge-main-metadata.cjs",
+        "bytes": 2548,
+        "sha256": "704c1c9f1a79dc8375a8a6c9169f4d406980317bb8852d0710e819cb4a365d1c"
+      },
+      {
+        "name": "merge-main-metadata.json",
+        "bytes": 2402,
+        "sha256": "7814791f308cd71bda6105413a335086adf82155446e548696bcb40e5992826a"
+      },
+      {
+        "name": "merged-check.diagnostics.json",
+        "bytes": 84212,
+        "sha256": "439fd2e506e144ba20602e92f2dabc842e0664a23663c4c19f1cbd6fcd26b95b"
+      },
+      {
+        "name": "merged-check.execution.json",
+        "bytes": 1250,
+        "sha256": "ff863da0106b4afd70c8d3856d6e86a39f64557f8a0cff9f2490db046adc96a2"
+      },
+      {
+        "name": "merged-check.scan-output.raw",
+        "bytes": 73051,
+        "sha256": "d6b37e0324f69eaa1b74af4d5d838565b27fa3d6d1b9f6514f7ad47ac5955fe9"
+      },
+      {
+        "name": "merged-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "merged-check.stdout.raw",
+        "bytes": 372644,
+        "sha256": "d56d48ec72eb40bd1e503c909b18074760c2c27c90a045da362b14d1459ac11c"
+      },
+      {
+        "name": "merged-docs.execution.json",
+        "bytes": 14291,
+        "sha256": "782f3b3fe3197be633cd23bfc35c59960a6d4d8ce746d39c72927174a4326ab3"
+      },
+      {
+        "name": "merged-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "merged-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "646f6a3d4b71b208845ff7323ba9aa50a86277398d33f7adc512c8965b504b46"
+      },
+      {
+        "name": "merged-lint.execution.json",
+        "bytes": 13954,
+        "sha256": "9e711b3999bc646d59dd65d412721fb9ae3ace52048f1b040b84ac2f195b175b"
+      },
+      {
+        "name": "merged-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "merged-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "417c7cb750251886f9c40fc0bce3534f2dc949f73bcc6b6ba884dfbab9a1aec5"
+      },
+      {
+        "name": "merged-ratchet.coverage-summary.json",
+        "bytes": 8494973,
+        "sha256": "f79ce5874b73a541c6558175fba7b78d2228df3248cfefb77e660ec0843fd2b7"
+      },
+      {
+        "name": "merged-ratchet.diagnostics.json",
+        "bytes": 81903,
+        "sha256": "6785bc724f258d7b5e4aa3574fb31ccc9dbff1fc6779a7dfc8ac363d139532a9"
+      },
+      {
+        "name": "merged-ratchet.execution.json",
+        "bytes": 1567,
+        "sha256": "bf783c686ad577ad461462ef1fa64a1d349911670d3c7c584e7c67c233588c8d"
+      },
+      {
+        "name": "merged-ratchet.scan-output.raw",
+        "bytes": 71090,
+        "sha256": "da8e90a59522461ebf8fb74d07b6ecc72b1bbc40e10e83f76ee9f73d54d3b0d4"
+      },
+      {
+        "name": "merged-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "merged-ratchet.stdout.raw",
+        "bytes": 203714,
+        "sha256": "01667b246787a89abb40481c6f621b2e286795aa248566e5cdce832be703150f"
       },
       {
         "name": "move-proof-frozen.execution.json",
@@ -669,6 +927,16 @@
         "sha256": "d1e91edec75c35fb86394d4b5132cfd7f9ba9d29e8723708e0ec8443330259bb"
       },
       {
+        "name": "protected-snapshot-merged.mjs",
+        "bytes": 4561,
+        "sha256": "914a1a2ac8ee6c20afc19127532cf082586953383270c8ecea3830a523260f87"
+      },
+      {
+        "name": "protected-snapshot.json",
+        "bytes": 1473,
+        "sha256": "f27efd506ba3216a0787bfb63d50dac58b0f32f539f355860b6833f85647fbb3"
+      },
+      {
         "name": "protected-snapshot.mjs",
         "bytes": 4473,
         "sha256": "fea7eadf8b60592fbca96fad181795bda0abcd70705073a63959872126e8149a"
@@ -682,6 +950,41 @@
         "name": "prove-move.cjs",
         "bytes": 2849,
         "sha256": "6fa9c9cea3df1229e106fa6d4db9a91b7e65f2b01b4ae09f0820ce8266a4c930"
+      },
+      {
+        "name": "readonly-verification.json",
+        "bytes": 455,
+        "sha256": "76d4e9c093c236185fada7bed735367f2b17ceacda3703d17ad0517d3899678a"
+      },
+      {
+        "name": "real-music-observation.json",
+        "bytes": 14801,
+        "sha256": "23b5c4cdbb7a357b7edb660fc279a95a8d8979ebb68af4302994f2acdc9b3470"
+      },
+      {
+        "name": "real-music.execution.json",
+        "bytes": 1420,
+        "sha256": "a3ea5866aa7bf7b16cd395850890e9e509c4c420671ad6c920bef35e998f7186"
+      },
+      {
+        "name": "real-music.mts",
+        "bytes": 2718,
+        "sha256": "3372e0c8ae8338142c9c140e5707a27ee7b71e309df48a37f3741888806420f1"
+      },
+      {
+        "name": "real-music.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "real-music.stdout.raw",
+        "bytes": 171,
+        "sha256": "623b5995c32c53de24429cc36bc2d4ba057b02a8e8b43273981047a83a783b44"
+      },
+      {
+        "name": "rebind-recount-main.cjs",
+        "bytes": 1758,
+        "sha256": "4639a3c20c1e6756b4043e5bf93cb41fcfa638a20d3406a5c619106d34c5e97c"
       },
       {
         "name": "recount-approval.json",
@@ -704,6 +1007,11 @@
         "sha256": "e5c30fc07d09bf4c6e4bebda58977489ec426c11c066f667073812b4cad1e1af"
       },
       {
+        "name": "recount-data-merged-proof.json",
+        "bytes": 1196,
+        "sha256": "274e697a5b797753fd4291bcf3686ac77e8dbc83674f99a56bf6218d36f39420"
+      },
+      {
         "name": "recount-data-proof.execution.json",
         "bytes": 1505,
         "sha256": "9ba818c49cc05fbf4756f5729a4d4061efa4932be6b4973094ac36a13165e1b6"
@@ -722,6 +1030,56 @@
         "name": "recount-data-proof.stdout.raw",
         "bytes": 870,
         "sha256": "158e03f6cf0ac3c78b39fa261c73e5f1989ad27081360cac1a6a8a188008daf7"
+      },
+      {
+        "name": "recount-main-proof-restored.execution.json",
+        "bytes": 1456,
+        "sha256": "b6b07339424db76d7525bb6260abc022b7ee20cf668e3a610a03fe60746efa12"
+      },
+      {
+        "name": "recount-main-proof-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recount-main-proof-restored.stdout.raw",
+        "bytes": 1034,
+        "sha256": "8c2588b501fa6d000627ccac1f92cb63d53572f3b1885265c471390dc29d5474"
+      },
+      {
+        "name": "recount-main-proof.execution.json",
+        "bytes": 1430,
+        "sha256": "f32a008cfa89d2b1a808ff95bc489a3c9d33bf5c3a1c5c41542c00532e07c63c"
+      },
+      {
+        "name": "recount-main-proof.stderr.raw",
+        "bytes": 65536,
+        "sha256": "6280e5f85e524b965634e5ee932a5313b20c2e2083730b060789edbc2a0a7934"
+      },
+      {
+        "name": "recount-main-proof.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recount-main-rebind.json",
+        "bytes": 572,
+        "sha256": "f5956a422ab5c01ca84837c28c59f2c5472f55c1dc4ecb17d636475042e34967"
+      },
+      {
+        "name": "recount-main-tools.execution.json",
+        "bytes": 1346,
+        "sha256": "c5ebbe56a512fca4f1fa0f147beb9cd7817a2694f1dc4a7fa2ad10b4548f0882"
+      },
+      {
+        "name": "recount-main-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recount-main-tools.stdout.raw",
+        "bytes": 20809,
+        "sha256": "d7adb46fab7888f3a6fc49de934d4fd6960f5e8f982738305b979cefbb2aa649"
       },
       {
         "name": "recount-per-file.json",
@@ -749,6 +1107,51 @@
         "sha256": "57f56447b02f98ea91f9926e8d39c9f2341de1c85835ef823acc93efcd64b0ec"
       },
       {
+        "name": "resync-docs.execution.json",
+        "bytes": 1882,
+        "sha256": "9fb919136141afab2da5d52e669c182c9fc7442ddead78f22d1d8ee46341ad04"
+      },
+      {
+        "name": "resync-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "resync-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "8fc99c2ac5b85a5cc26cb0801d7c21523b25f95489916e79cf8d37e7a795fd71"
+      },
+      {
+        "name": "resync-lint-fixed.execution.json",
+        "bytes": 1563,
+        "sha256": "c58bf641321b59d14150b5ceeae5d76e5914b67175a10953373a4ee9cf44f449"
+      },
+      {
+        "name": "resync-lint-fixed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "resync-lint-fixed.stdout.raw",
+        "bytes": 193,
+        "sha256": "6978e3fe1c67a7480ac9b966b52a1aac3c3da821284bc803be7854743e33ff55"
+      },
+      {
+        "name": "resync-lint.execution.json",
+        "bytes": 1547,
+        "sha256": "6908dbb05288a9b5433686bbd994fa88be755797c3bd9be05be5cfdd970197d0"
+      },
+      {
+        "name": "resync-lint.stderr.raw",
+        "bytes": 199,
+        "sha256": "af0d0a9d09a99f8740d82df75287bb8f9bf5699e23b85ccf5e8cca667546e30b"
+      },
+      {
+        "name": "resync-lint.stdout.raw",
+        "bytes": 167,
+        "sha256": "67abbd7779934ba2192a5352a46a8591ebaaa412e7460de07adcaaa3f87b5165"
+      },
+      {
         "name": "run-battle-frozen.mjs",
         "bytes": 191,
         "sha256": "cfe7d1ebcdd989e8fe46ae992f88db9049fcc47b309d5f1cb7a237d94ce3aa54"
@@ -757,6 +1160,16 @@
         "name": "run-battle-probe.mjs",
         "bytes": 184,
         "sha256": "1b694bff26df047a2d9c1f488de1015088f1b387ff01234d93666ed8d3d67859"
+      },
+      {
+        "name": "run-progress.mjs",
+        "bytes": 156,
+        "sha256": "ea9f15526eecaf84711202cdfa15799d8e0bf51e1902eeb4082371c39cef230c"
+      },
+      {
+        "name": "run-real-music.mjs",
+        "bytes": 212,
+        "sha256": "a3a87ab6b039e430e22949c58be2c126480d7e078f5604a9493971f53d33738c"
       },
       {
         "name": "scan-gates.cjs",
@@ -777,6 +1190,41 @@
         "name": "stage-types.stdout.raw",
         "bytes": 139,
         "sha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440"
+      },
+      {
+        "name": "stdout-classification.json",
+        "bytes": 11743,
+        "sha256": "5a33bcb7702f8b008d1c51c3c60d854a56ef68c11d64e080df061f95e69a60c4"
+      },
+      {
+        "name": "strict-protected.diagnostics.json",
+        "bytes": 570,
+        "sha256": "96b57e047e33f02cdb5642192372323d6c0e7d01ba7607cc9167a333ad61aef0"
+      },
+      {
+        "name": "strict-protected.execution.json",
+        "bytes": 1718,
+        "sha256": "811328672b7fd4673e4da9f30a3681ed127e2966de6d6a321271323dbf3a04bb"
+      },
+      {
+        "name": "strict-protected.scan-output.raw",
+        "bytes": 460,
+        "sha256": "88df202d377ce781f9578ceb71d5053f45f8b32af2c01442af30b4667aa167c4"
+      },
+      {
+        "name": "strict-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "strict-protected.stdout.raw",
+        "bytes": 192,
+        "sha256": "78f0fc1a44ad493c8899936c8f0b110129030ebf0c40b7b5f038b0741b1d21e2"
+      },
+      {
+        "name": "verify-recount-data-merged.mjs",
+        "bytes": 3653,
+        "sha256": "d2e476949bd11b10e92945b04fe6541b1733257b2933bb8cb1c27bb1979918da"
       },
       {
         "name": "verify-recount-data.mjs",
@@ -875,10 +1323,10 @@
       }
     ]
   },
-  "processDisclosure": "Initial default-path-counter had six ENOENT copy errors because scripts/ was not copied by the counter harness; no business counter credit. Original native/streams retained. Recovery copied scripts and gives5green/1exact business AssertionError. boundary errno initial4green/1business AssertionError remains valid. No source/selection/timeout/console rule weakening.",
+  "processDisclosure": "Initial default-path-counter had six ENOENT copy errors because scripts/ was not copied by the counter harness; no business counter credit. Original native/streams retained. Recovery copied scripts and gives5green/1exact business AssertionError. boundary errno initial4green/1business AssertionError remains valid. No source/selection/timeout/console rule weakening. Quick checker initially assumed uniform stream metadata for older counter producers; fixed explicit legacy-layout verification, retaining all manifest hashes/native assertions. Recount-main first producer comparison used the pre-registration array shape and failed; corrected only the expected baseline-rebind comparison, retained failed stdout/stderr; no product counter credit.",
   "stopLine": "P3 raw0x07 lost/fled return collection newly disproved; same existing high-risk control truth card, user question pending; no implementation changes for it. CODE3/slice/current main test remain review.610 reachable nonzero raw return edges,609 missing membership, only3unique targets; no609game-failure claim.",
   "limitations": [
-    "No full real extraction: governance-tree data/raw/Musics is absent. Valid synthetic CLI observes byte transfer and output graph, not audio/video codec validity.",
+    "No full real CLI extraction. Governance-tree data/raw/Musics absent; actual music-only stage separately reads primary raw into owned temp output:86MID/8OGG/RIX opaque bytes and manifest exact, no codec/playback claim.",
     "No new video codec/partial output/mtime policy, atomic directory transaction or abnormal MIDI naming policy.",
     "Shared primary worktree and user mobile changes untouched; all dependencies resolve into governance worktree.",
     "Source2new modules are internal to private package; no format,argv,save or public package export change.",
@@ -927,7 +1375,10 @@
       "G": "旧授权项结构相等，未加未用出口或新的常驻兼容分支；新数据只匹配完整旧摘要。",
       "H": "现有readSource seam可直接核166文件与漂移；纯数据更新不需改生产runner或测试选择。"
     },
-    "reviewScope": "Only new713-line finite data entry and existing39-line algorithm/call sites; previous1017-line entries reused after exact structural comparison, whole file remains review."
+    "reviewScope": "Only new713-line finite data entry and existing39-line algorithm/call sites; previous1017-line entries reused after exact structural comparison, whole file remains review.",
+    "currentProof": "recount-data-merged-proof.json",
+    "mainRebind": "recount-main-rebind.json",
+    "currentCodeCommit": "776544f021871fdc5da024496ea0129278aee099"
   },
   "secondCollection": {
     "id": "window-ratchet-calibrated",
@@ -935,5 +1386,36 @@
     "exit": 1,
     "tests": 20002,
     "reason": "Same production counts as first sample. Protected origin/main moved in shared Git refs to mobile baseline during sampling; no repository runtime diagnostics, 553stderr bytes are protected-baseline rejection. Must integrate latest main before final gates."
+  },
+  "previousCollectedCodeCommit": "6d15b6c91633e3937ee0817076d833643e9b9d32",
+  "integratedMain": "aba959e603be755f869c6e6c646afbbb58c479c0",
+  "officialRun": "merged-ratchet",
+  "musicObservation": "real-music-observation.json",
+  "gateState": "passed",
+  "netChangeFromWindowOpening": 5,
+  "baselineCommit": "90d2773fe9504bf7274bd41a3123e024a65581a0",
+  "actualGateResults": {
+    "checkTests": 20430,
+    "coverageTests": 20032,
+    "sourceFiles": 757,
+    "allDiagnostics": 0,
+    "strictProtectedReusesSameOfficialSample": true
+  },
+  "finalStatic": {
+    "docsIssues": 0,
+    "progressIssues": [],
+    "lint": {
+      "files": 5785,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "ledger": {
+      "total": 3354,
+      "closed": 361,
+      "review": 123,
+      "pending": 2870
+    },
+    "diff": "empty"
   }
 }

@@ -1028,7 +1028,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+      "coreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "686f8286e49e978c4875b458486937734a91fb5bf31ba3c29a042896cf55ab0c",
+      "afterSha256": "fcfdcb5b085dae85f2757f082b1fb79e7728d96dc78e26e324683dc8e2164b07",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1073,7 +1073,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "686f8286e49e978c4875b458486937734a91fb5bf31ba3c29a042896cf55ab0c",
+        "implementationSha": "fcfdcb5b085dae85f2757f082b1fb79e7728d96dc78e26e324683dc8e2164b07",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1732,12 +1732,12 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+        "kind": "codex-owned-cli-event-window-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "686f8286e49e978c4875b458486937734a91fb5bf31ba3c29a042896cf55ab0c",
-        "lineCount": 4074,
+        "afterSha256": "fcfdcb5b085dae85f2757f082b1fb79e7728d96dc78e26e324683dc8e2164b07",
+        "lineCount": 4087,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -2345,6 +2345,36 @@
           "action": "CLI-event-window-main-mobile-merge",
           "previousAfterSha256": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
           "afterSha256": "686f8286e49e978c4875b458486937734a91fb5bf31ba3c29a042896cf55ab0c",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-final-accept",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+            "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+            "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+            "afterSha256": "686f8286e49e978c4875b458486937734a91fb5bf31ba3c29a042896cf55ab0c",
+            "lineCount": 4074,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 110121,
+              "sourceLines": 1987,
+              "sourceFinalNewline": true,
+              "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+          "previousAfterSha256": "686f8286e49e978c4875b458486937734a91fb5bf31ba3c29a042896cf55ab0c",
+          "afterSha256": "fcfdcb5b085dae85f2757f082b1fb79e7728d96dc78e26e324683dc8e2164b07",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
         }
@@ -6258,7 +6288,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+      "coreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -6279,7 +6309,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "d0c7c55414bc41cf2e1a47e6c443c5a7fccc204316766d2c97511ff56dd6d1de",
+      "afterSha256": "7fc95ddb7dd0fa50492dd51d69933c732cb8e28ff0cbc5d8c0aa641bb7c1492c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6303,7 +6333,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "d0c7c55414bc41cf2e1a47e6c443c5a7fccc204316766d2c97511ff56dd6d1de",
+        "implementationSha": "7fc95ddb7dd0fa50492dd51d69933c732cb8e28ff0cbc5d8c0aa641bb7c1492c",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6967,12 +6997,12 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+        "kind": "codex-owned-cli-event-window-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "d0c7c55414bc41cf2e1a47e6c443c5a7fccc204316766d2c97511ff56dd6d1de",
-        "lineCount": 6374,
+        "afterSha256": "7fc95ddb7dd0fa50492dd51d69933c732cb8e28ff0cbc5d8c0aa641bb7c1492c",
+        "lineCount": 6387,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -7541,6 +7571,36 @@
           "action": "CLI-event-window-main-mobile-merge",
           "previousAfterSha256": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
           "afterSha256": "d0c7c55414bc41cf2e1a47e6c443c5a7fccc204316766d2c97511ff56dd6d1de",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-final-accept",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+            "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "afterSha256": "d0c7c55414bc41cf2e1a47e6c443c5a7fccc204316766d2c97511ff56dd6d1de",
+            "lineCount": 6374,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 302305,
+              "sourceLines": 5074,
+              "sourceFinalNewline": true,
+              "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+          "previousAfterSha256": "d0c7c55414bc41cf2e1a47e6c443c5a7fccc204316766d2c97511ff56dd6d1de",
+          "afterSha256": "7fc95ddb7dd0fa50492dd51d69933c732cb8e28ff0cbc5d8c0aa641bb7c1492c",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
         }
