@@ -1261,3 +1261,17 @@ H02补核发现四旧例仍依赖未hydrate运行态，后两例实际0级与注
 ### 2026-10-22 状态／结算／成长相关窗口验收
 
 CODE3u按原状态/资源/位置合同接受，原positions历史信用有限刷新；新data和七明确测试/fixture等合10路径逐项接受，新增关闭10，固定83卡57accept/26partial/0pending。3w Extra动态可达性／C阻塞与TS队列中间时序、3x已证WORD边界仍保留partial，未把其余文件或整战斗模块强关。三接口/叶依赖纯重构与两轮测试整改分提交，全部原件及四维结构补证在battle-quality。完整check20430实际零诊断在150650c59；之后仅H02测试修正输入/oracle,20425未变结果复用,16与TC重验,最后官方fast按新候选实际采集并执行ratchet及固定main保护。不是第二次全check或第二次覆盖率采集；当前scope/metrics的同报告严格比较另存原件。源/测之外只写必要账本/进度与证据，无规则/ignore/排除或弱断言。接下来先推3y/fetch确认0behind/FF main并核实际CI；下一仍固定pre94剩余26partial，不扩94–102。
+
+### 2026-10-22 主线CI异步就绪窄返工 build allowed
+
+cb67a6a0e已先推3y并FF远端main，fetch后三refs同点且治理树干净。main Docs run39681495449成功；Coverage run39681495390失败，editor4781例中1例在M05第170行断言应用按钮可用时实际仍禁用，类型/lint步骤成功且0/0/0。完整远端raw与annotations已保存；本地门原通过保持历史事实，不能替代这次失败。
+
+Codex唯一Owner，白名单仅BattleSpriteLibrary.glm-m.test.tsx及本卡/必要交接证据。真实Preview经reader/cache解码与palette的Promise.all才发asset+SHA证明，按钮依赖proofReady；空Promise不代表外部IO完成。允许等待真实公开按钮就绪并使用既有act等待叶（默认1000/50不变），同文件失实标题/复制换算oracle和自有act环境恢复有限修正。保留2例身份映射及所有业务断言，不改组件、数据、命令、超时、规则或覆盖范围，不授editor整文件/94–102接受。先以隔离真实reader端口迟到复现同一断言，再核修复/相邻；统一结果由远端原入口重验，前窗57/26及十关闭范围不变。
+
+本轮官方fast20032例/758源、全部metrics未变且保护比较exit0，但K06首例出现5条act诊断（2个stderr块），不能作干净统一门；完整原件保留。窄增量build allowed仅CutsceneTab.kimi-workflows.test.tsx，Codex唯一Owner：真实重排按钮安排两帧RAF的settling与下一帧焦点/滚动；测试在其完成前进入异步expected编码，导致更新离开act。按现有公开data-reorder-settling等待实际结束，原1000/50不变，保留帧序、像素、字节、历史、撤销断言及所有用例身份；恢复本文件自有act描述符。不改Reorder/FloatingLayer/Cutscene产品，不授整文件/94–102接受，不以这次exit0掩盖诊断。
+
+### 2026-10-22 两测试CI返工本地验收
+
+M05真实reader迟到旧1绿1指定断言红→新2绿→恢复2绿；K06两帧RAF校准旧5act→新0/恢复0，8业务主体AST不变，五文件29相邻及editor TC零诊断。首轮新增official20032虽exit0但5act/2328stderr明确拒绝；第二轮ci-two-tests-final-ratchet实际20032/758、所有诊断/stderr0，固定cb67a6a0e保护与同报告严格范围/计数复核通过；全部包和总计指标不变。baseline仅一条标题身份/摘要及首次官方生成时间，没有比例下调/删除/新调整授权。完整check仍在150650c59，后继15测试变化另核、20415未变结果复用，未冒称新全check。
+
+逐项A–H、两轮失败/恢复、完整GitHub原件与只读快检仍归battle-quality，0新增closed、两editor文件仍implicit pending，原57accept/26partial与371/114/2870保持。第一次隔离probe的Vite路径collection错误不授红例信用。本地静态及实际发布后CI分开记；继续同一3y先commit/push，fresh fetch确认0behind后FF main并核真实CI，主工作树不改。下一仍pre94 3v基础动作已证参数/夹具余项，94–102不扩展。

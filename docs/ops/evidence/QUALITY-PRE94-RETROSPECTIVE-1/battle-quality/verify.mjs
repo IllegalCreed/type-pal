@@ -83,6 +83,78 @@ for (const [id, passed, failed] of [
     )
   }
 }
+if (review.ciRepair) {
+  const repair = review.ciRepair
+  assert.equal(hash(readFileSync(new URL(repair.file.path, root))), repair.file.sha256)
+  assert.equal(
+    hash(readFileSync(new URL(repair.additionalFile.path, root))),
+    repair.additionalFile.sha256,
+  )
+  for (const pin of repair.contextPins) {
+    assert.equal(hash(readFileSync(new URL(pin.path, root))), pin.sha256, pin.path)
+  }
+  for (const [id, passed, failed] of [
+    ['ci-m05-held-old-red-v2', 1, 1],
+    ['ci-m05-held-new-green-v2', 2, 0],
+    ['ci-m05-restored-green-v2', 2, 0],
+    ['ci-m05-adjacent', 26, 0],
+    ['ci-two-tests-adjacent', 29, 0],
+  ]) {
+    const report = JSON.parse(native[`${id}.native.json`])
+    assert.equal(report.numPassedTests, passed, id)
+    assert.equal(report.numFailedTests, failed, id)
+    assert.equal(report.numPendingTests, 0, id)
+    const failures = report.testResults.flatMap((file) =>
+      file.assertionResults.filter((test) => test.status === 'failed'),
+    )
+    assert.equal(failures.length, failed, id)
+    if (failed) {
+      assert.match(failures[0].fullName, /待机毫秒\/帧 40ms/)
+      assert.match(
+        failures[0].failureMessages.join('\n'),
+        /AssertionError: expected true to be false/,
+      )
+    } else assert.equal(native[`${id}.stderr.raw`], '', id)
+  }
+  const mapping = JSON.parse(native[repair.assertionMapping])
+  assert.equal(mapping.oldCount, 15)
+  assert.equal(mapping.newCount, 15)
+  assert.deepEqual(
+    mapping.old.map((assertion) => assertion.replace('Math.max(1, Math.round(120 / 40))', '3')),
+    mapping.current,
+  )
+  const bodyProof = JSON.parse(native[repair.k06.proof])
+  assert.equal(bodyProof.cases, 8)
+  assert.equal(bodyProof.identitiesUnchanged, true)
+  assert.equal(bodyProof.oldBusinessBodiesUnchanged, true)
+  for (const [id, warnings] of [
+    ['ci-k06-raf-old-diagnostics', 5],
+    ['ci-k06-raf-new-zero', 0],
+    ['ci-k06-restored-zero', 0],
+  ]) {
+    const report = JSON.parse(native[`${id}.native.json`])
+    const diagnostics = JSON.parse(native[`${id}.diagnostics.json`])
+    assert.equal(report.numPassedTests, 1, id)
+    assert.equal(report.numFailedTests, 0, id)
+    assert.equal(report.numPendingTests, 7, id)
+    assert.equal(diagnostics.actWarnings, warnings, id)
+    assert.equal((native[`${id}.stderr.raw`].match(/not wrapped in act/g) ?? []).length, warnings)
+  }
+  const failedRun = JSON.parse(native[repair.failedMain.receipt])
+  assert.equal(failedRun.conclusion, 'failure')
+  assert.equal(failedRun.failure.failed, 1)
+  assert.equal(failedRun.failure.testCount, 4781)
+  assert.equal(hash(Buffer.from(native[repair.failedMain.raw])), failedRun.rawSha256)
+  const official = JSON.parse(native[`${repair.officialRun}.execution.json`])
+  assert.equal(official.exit, 0)
+  assert.equal(official.signal, null)
+  assert.equal(official.stderr.bytes, 0)
+  const protectedProof = JSON.parse(native[repair.protected])
+  assert.equal(protectedProof.exactCanonicalProjection, true)
+  assert.deepEqual(protectedProof.strictCoverage.regressions, [])
+  assert.deepEqual(protectedProof.strictScope.changes, [])
+  assert.deepEqual(protectedProof.protectedCoverage.regressions, [])
+}
 console.log(
   JSON.stringify({
     result: 'MATCH',

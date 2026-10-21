@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T21:31:56.760Z",
+  "generatedAt": "2026-10-21T22:28:35.590Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -9246,7 +9246,7 @@
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
             "testCount": 2,
-            "identityDigest": "d6bf9499b972ff8fb721e5d7d022917546511fb49695b3086ff12182bfd7289f"
+            "identityDigest": "f4b9367cff3e92f563a32a41e67428cd66590de1f89692be1461c199288d781b"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
@@ -10709,9 +10709,9 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "33f7c94a5950bad1fca7b1bc9115e072c5d425ba247d0e515008b0c40a32f49b",
+        "identityDigest": "b38bfabb65329a4f477bb8efce40116831b9e8938f97c03357d2e147214f7768",
         "duplicateIdentityCount": 8,
-        "executionDigest": "1b54d3522062cee7f661f875eccfe3d3423bb290afa142b8529657369cabfc17"
+        "executionDigest": "fc8d0dd87552dd59437228fda60c35f1403c6edf22a515bba23da6d7e7bd8ece"
       },
       "metrics": {
         "statements": {

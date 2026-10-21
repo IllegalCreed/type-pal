@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "state": "accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending",
+  "state": "CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending",
   "owner": "Codex",
   "base": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7",
   "files": [
@@ -498,7 +498,7 @@
   ],
   "artifact": {
     "member": "native.json.gz",
-    "sha256": "902c10477aafa14d699a84c8b96510824f2bb66cef3cf0e460e3a35928b3c81d",
+    "sha256": "17621673ad50effc84606865ec10aa12b78b4516aa6a0657af32645456e856a0",
     "members": [
       {
         "name": "import-binding-proof.execution.json",
@@ -1534,6 +1534,651 @@
         "name": "strict-protected.stdout.raw",
         "bytes": 192,
         "sha256": "40cc2a1c66956ec349afb62c52faa9ac0e0d0a2c084e0d0601d30092afb68604"
+      },
+      {
+        "name": "ci-first-written-baseline.json",
+        "bytes": 531597,
+        "sha256": "f2eca6b2c8559e30d541b62589698a6eea04309606463ec96b9033165ed29670"
+      },
+      {
+        "name": "ci-k06-before.tsx",
+        "bytes": 43650,
+        "sha256": "1ccff4b3561cb03e36c84d3fd06217a90292c840dc067e475ebab8cf398c3da7"
+      },
+      {
+        "name": "ci-k06-final.tsx",
+        "bytes": 43986,
+        "sha256": "de7db180d8856e3f11fcc464dc81c72c26fc77ffaa587e652b6c29d210b075a0"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.diagnostics.json",
+        "bytes": 106,
+        "sha256": "2b9936b32d6ee5f76a5299e083c8ea2547b67f67568bb1ec81bcb65854ccaca7"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.execution.json",
+        "bytes": 863,
+        "sha256": "4c950fbb397e42241af191991448729c056ac35ef7d69c09a2de3d28762e099c"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.native.json",
+        "bytes": 3833,
+        "sha256": "66394a81e2b6322e938fa8bb15244a769a5b46be9f1da1ed77f7a8b18a7e1018"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.stdout.raw",
+        "bytes": 674,
+        "sha256": "cb29a7d6d860b19bcf736d68e537bf820b11227341bb82d55d58327b5dd3d492"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.tsx",
+        "bytes": 44094,
+        "sha256": "3114cc6f8c3320cbaaf001fd4d26ff94eb33d247a1a3c9355d55fc947baceb6e"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.diagnostics.json",
+        "bytes": 109,
+        "sha256": "8b547ecec9e942feab7c6b3a4cad9d1952a988f23d58cfe52b88437eeec499c0"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.execution.json",
+        "bytes": 877,
+        "sha256": "dd2167294440bb8377e1680ae10999717ef69e5edc492ef8826386fc093c0bd6"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.native.json",
+        "bytes": 3841,
+        "sha256": "884f997f10d96043593dd968021ed114e407a47d50e8b6f9f195bd593ed9142e"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.stderr.raw",
+        "bytes": 2328,
+        "sha256": "fd7128e03348d8487bdea6eb72f48e8626ea4b90838d1ff431c1e53f8d7537e7"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.stdout.raw",
+        "bytes": 681,
+        "sha256": "0b36a1e83326d435e0ce09eb3fc0e6d39e2dc725bf5c4294df800e2a93c587fc"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.tsx",
+        "bytes": 43758,
+        "sha256": "937dcdf50f4239256a517e20a5ea2d57b41db5a7cbc70e7c26634dba49e8f814"
+      },
+      {
+        "name": "ci-k06-reproduce.mjs",
+        "bytes": 4593,
+        "sha256": "443553883efc7053e22bef50d98a350f162ee9a155d570fe7ded6633e7c3007a"
+      },
+      {
+        "name": "ci-k06-reproduction.json",
+        "bytes": 3568,
+        "sha256": "f498b606c5f7abb186558a255d3ad2f020ece1516f0e69b673b66179eac0940a"
+      },
+      {
+        "name": "ci-k06-restored-zero.diagnostics.json",
+        "bytes": 106,
+        "sha256": "2b9936b32d6ee5f76a5299e083c8ea2547b67f67568bb1ec81bcb65854ccaca7"
+      },
+      {
+        "name": "ci-k06-restored-zero.execution.json",
+        "bytes": 865,
+        "sha256": "37fd35e6648d359af274c8ee0e35a9813dc0c8de5e73bff6a9e28605c1117206"
+      },
+      {
+        "name": "ci-k06-restored-zero.native.json",
+        "bytes": 3841,
+        "sha256": "e4d653cdb74099b529ae1254450f4f0f21b22acab752cea163be3cf4deebdc12"
+      },
+      {
+        "name": "ci-k06-restored-zero.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-k06-restored-zero.stdout.raw",
+        "bytes": 675,
+        "sha256": "761771796cad64cdc8685a1a52118e0ce4ca2aceaed6b535fa53dc84923c7ac8"
+      },
+      {
+        "name": "ci-k06-restored-zero.tsx",
+        "bytes": 43986,
+        "sha256": "de7db180d8856e3f11fcc464dc81c72c26fc77ffaa587e652b6c29d210b075a0"
+      },
+      {
+        "name": "ci-k06-test-body-proof.json",
+        "bytes": 1907,
+        "sha256": "7961e9f93c2874cf59babd920762ff4d207ace5f41b27608776d639df00678bc"
+      },
+      {
+        "name": "ci-m05-adjacent.execution.json",
+        "bytes": 1931,
+        "sha256": "0f6faccc1153f104cf16f368fdee332b9512f5d2869b01a9812ae2cb7b05546e"
+      },
+      {
+        "name": "ci-m05-adjacent.native.json",
+        "bytes": 9555,
+        "sha256": "673666beeae84be51810978fb13108428ab835f4596c6911c1a8fee33d54916c"
+      },
+      {
+        "name": "ci-m05-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-adjacent.stdout.raw",
+        "bytes": 702,
+        "sha256": "7a869d17784d8533e1a62a78742c8a640378689968606b8dc4d7348ad41f590b"
+      },
+      {
+        "name": "ci-m05-assertion-map.json",
+        "bytes": 2115,
+        "sha256": "8eb1b15ba9333d4e6d7b26e85b056a36c2f00aa6e5a1c958d86cb92bcdf3d49d"
+      },
+      {
+        "name": "ci-m05-before.tsx",
+        "bytes": 8289,
+        "sha256": "6640aa5c9d4749492994aad33791aa2ab0fee97495e41e931f0a046b1852e17a"
+      },
+      {
+        "name": "ci-m05-biome.execution.json",
+        "bytes": 1465,
+        "sha256": "e5fd732133d9e3d3cdd912e6c91f021081af7c913851bd4352d5796605319017"
+      },
+      {
+        "name": "ci-m05-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-biome.stdout.raw",
+        "bytes": 42,
+        "sha256": "c576134cfd3293d78e76f6875af0ac7b1fb95699a1cb855d171e6b5dddae6636"
+      },
+      {
+        "name": "ci-m05-final-ratchet.coverage-summary.json",
+        "bytes": 8495024,
+        "sha256": "38ac09653868487c80d062fb98df4855f63d2d40fe8847c9e0fa36a4c71ceb75"
+      },
+      {
+        "name": "ci-m05-final-ratchet.diagnostics.json",
+        "bytes": 81912,
+        "sha256": "aef486dfa9d8d8f67e7de1c9131b5919290279b2b034a34dbe40a3a834263565"
+      },
+      {
+        "name": "ci-m05-final-ratchet.execution.json",
+        "bytes": 1548,
+        "sha256": "763d8470004a7c61ad3e95c5255e36b19c45fc384e99de2702b94bb7dd6dcc86"
+      },
+      {
+        "name": "ci-m05-final-ratchet.scan-output.raw",
+        "bytes": 71099,
+        "sha256": "9a9ffce5cf7a7bcaf0e3d11c431b17376fe3fe5dccfe3236d0224aecd78cf632"
+      },
+      {
+        "name": "ci-m05-final-ratchet.stderr.raw",
+        "bytes": 2328,
+        "sha256": "fd7128e03348d8487bdea6eb72f48e8626ea4b90838d1ff431c1e53f8d7537e7"
+      },
+      {
+        "name": "ci-m05-final-ratchet.stdout.raw",
+        "bytes": 204191,
+        "sha256": "fa8aa84fd79519ed13a2c2c8446566b5ce23971f69d77fce883ac8233134c84e"
+      },
+      {
+        "name": "ci-m05-final.tsx",
+        "bytes": 8133,
+        "sha256": "fe368560573cafb545b45f0c50393cfbc9478de81a76ad462fbd0761f89d9c5d"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.execution.json",
+        "bytes": 821,
+        "sha256": "fc4973e07d3218d74daf1905658c64322f8a39652db0492cd2989bd4d6630de0"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.native.json",
+        "bytes": 1505,
+        "sha256": "d9cb935cd7f3a05a5500647df2db302462bd4264981756e167b76de918c89a4a"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.stdout.raw",
+        "bytes": 624,
+        "sha256": "d6978838c5abb3fe387baa7a274a0f28eccd2fe1817802306b30cc9ad37ef169"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.tsx",
+        "bytes": 8650,
+        "sha256": "1018b1f218bd407ab0b1e4e719b0754ed0c5cfe161a285b5e42a459dce1784bb"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.execution.json",
+        "bytes": 1442,
+        "sha256": "416ae2a06277b8c9dbf44f5e55fdf0dc92f91724d79751262d74a128783c4a7c"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.native.json",
+        "bytes": 1942,
+        "sha256": "e63faef7b42f3df4eac733a603e5e5b27e4e5a50046b042ab3f1932d83e05918"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.stderr.raw",
+        "bytes": 734,
+        "sha256": "790c4a4f796e97f87e99508a054b272d87ba18f5f13f55db626d3ec657452242"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.stdout.raw",
+        "bytes": 725,
+        "sha256": "d50c74845d03073549caac72ec994d53f218508e4737ea1455fd07723fac39ad"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.tsx",
+        "bytes": 8806,
+        "sha256": "56ded12ada65073551e6d6f9fa6b05906584001a2377a235548d5391548dbee0"
+      },
+      {
+        "name": "ci-m05-held-old-red.execution.json",
+        "bytes": 811,
+        "sha256": "75694be56dee9ea47e0a3e1f9d3125b2d76aec23487280f9a3cbd2614d43ac5a"
+      },
+      {
+        "name": "ci-m05-held-old-red.native.json",
+        "bytes": 900,
+        "sha256": "029ed78b269da6cb9552e81c6ccbebdc6cc3fc9a45f1bbfcc578a75af3df2a96"
+      },
+      {
+        "name": "ci-m05-held-old-red.stderr.raw",
+        "bytes": 1238,
+        "sha256": "5c9b6b5036eced7546d2f75bc1ebb985e466f24bb2b44241a3bf19c4f7b499ee"
+      },
+      {
+        "name": "ci-m05-held-old-red.stdout.raw",
+        "bytes": 496,
+        "sha256": "2f2e395672d309675097f41987b40a8292e8ea6977c5a1945575f7a720fe228f"
+      },
+      {
+        "name": "ci-m05-held-old-red.tsx",
+        "bytes": 8806,
+        "sha256": "56ded12ada65073551e6d6f9fa6b05906584001a2377a235548d5391548dbee0"
+      },
+      {
+        "name": "ci-m05-protected-snapshot.json",
+        "bytes": 1310,
+        "sha256": "6786c1b6b72c25022d36768a2d3dc936fba5aebdb7e0c7cdb3d8091c2c66d338"
+      },
+      {
+        "name": "ci-m05-reproduce-v2.mjs",
+        "bytes": 5099,
+        "sha256": "a518ac0ea0e0821818404c900d6d9ad424f3eefffcc2105b98bea549155ea0bb"
+      },
+      {
+        "name": "ci-m05-reproduce.mjs",
+        "bytes": 4703,
+        "sha256": "396e058f9901d10d5ba82a3abef2dde57b7ffb4124beac9bca286e2369d872fa"
+      },
+      {
+        "name": "ci-m05-reproduction-v2.json",
+        "bytes": 3933,
+        "sha256": "8c485bef94b5c73afd639f573ab565a4ec2fc07f51734f2cabee5589b8269e98"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.execution.json",
+        "bytes": 821,
+        "sha256": "f7b10a70a112494e8a23955cb5f7c6adfc218c670e761301d6c57febfa53a72c"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.native.json",
+        "bytes": 1503,
+        "sha256": "9badc559eecaff32fc6aaa152e2f72a03723be02e7a31872be4e0383f6938b97"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.stdout.raw",
+        "bytes": 516,
+        "sha256": "ebc9d85401eadae27b1163ac14045febbbed2a7361e9f032830c578d4ca701c0"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.tsx",
+        "bytes": 8133,
+        "sha256": "fe368560573cafb545b45f0c50393cfbc9478de81a76ad462fbd0761f89d9c5d"
+      },
+      {
+        "name": "ci-m05-strict-proof.execution.json",
+        "bytes": 1767,
+        "sha256": "586675035d682b89b726c8e02be84f1da398d45fd04cf49851f0916e58c5e0b1"
+      },
+      {
+        "name": "ci-m05-strict-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-strict-proof.stdout.raw",
+        "bytes": 192,
+        "sha256": "40cc2a1c66956ec349afb62c52faa9ac0e0d0a2c084e0d0601d30092afb68604"
+      },
+      {
+        "name": "ci-m05-strict-protected.mjs",
+        "bytes": 4771,
+        "sha256": "62f8f6f882bda00ca989343249629b52b63623fea1311406eb6b0a77a577162c"
+      },
+      {
+        "name": "ci-m05-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-types.stdout.raw",
+        "bytes": 183,
+        "sha256": "576fd568143eed9c8c92c8e31e41ff2ebf7cb1d135cabbf89fe86b5b99d9bc12"
+      },
+      {
+        "name": "ci-two-tests-adjacent.execution.json",
+        "bytes": 2458,
+        "sha256": "a59539361d1fd4c65e789faebe30f93c0677cd41b2a770637cfaedfccb2d729f"
+      },
+      {
+        "name": "ci-two-tests-adjacent.native.json",
+        "bytes": 12104,
+        "sha256": "7227b1400cbd069dacd98dc8d169dff53dffeeb8fb8d7243692c71e8dd49c4d2"
+      },
+      {
+        "name": "ci-two-tests-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-adjacent.stdout.raw",
+        "bytes": 859,
+        "sha256": "d261365b2bfd703e51fe32c46bcb0d9331f1b43e017bb5890cf1e3aa5d486613"
+      },
+      {
+        "name": "ci-two-tests-biome.execution.json",
+        "bytes": 2132,
+        "sha256": "2cef576c0853072dff230c396f0fcc5987111a97f9d88988b477d09c83023518"
+      },
+      {
+        "name": "ci-two-tests-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "2a118c6d22331a9d205d1066d761a01093204f39eddffa9dfd6b98e828a77179"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.coverage-summary.json",
+        "bytes": 8495024,
+        "sha256": "3dfad801e69d282ee42ebe9fb547fffcc477679ba8df3f7b029194d7c50cdd42"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.diagnostics.json",
+        "bytes": 81915,
+        "sha256": "e4a42840ce93922ec3d9b43941fd531edbecda02f3e30b32b1b5eea87d8a04cb"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.execution.json",
+        "bytes": 2065,
+        "sha256": "179b6bf3f71648bbbbdf087072c6f6c47ab8df144c2e70fff2eecc3884230c43"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.scan-output.raw",
+        "bytes": 71102,
+        "sha256": "9749946b453f619c82123e53922208e0cec0fea18402ba71e066d9c3ac265d03"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.stdout-classification.json",
+        "bytes": 511,
+        "sha256": "29cc01bc0353180716bd2302d5e799dce4625b34c887c6a9f0dcf2c485917783"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.stdout.raw",
+        "bytes": 204007,
+        "sha256": "6152ebc5ddf86b6bef48bad89665df0cf44403298bd16619fb86d794858fed4a"
+      },
+      {
+        "name": "ci-two-tests-protected-snapshot.json",
+        "bytes": 1348,
+        "sha256": "1ec0a0d229d1c90d2da26c277d5eb929f8dc868cdf221014b1e0885a43bb10b5"
+      },
+      {
+        "name": "ci-two-tests-strict-proof.execution.json",
+        "bytes": 2026,
+        "sha256": "4d7fc4004598a2edd30f11b94d57c1eae634a7e95c09c941716eb72545855ada"
+      },
+      {
+        "name": "ci-two-tests-strict-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-strict-proof.stdout.raw",
+        "bytes": 192,
+        "sha256": "40cc2a1c66956ec349afb62c52faa9ac0e0d0a2c084e0d0601d30092afb68604"
+      },
+      {
+        "name": "ci-two-tests-strict-protected.mjs",
+        "bytes": 5159,
+        "sha256": "467d69fd86cd4e36a599d6b53fffda051faa8715a723f69ab7842dd8b91e171e"
+      },
+      {
+        "name": "ci-two-tests-types.execution.json",
+        "bytes": 1992,
+        "sha256": "1aeed1c674cf68ce2d4d09e9e47568da9a84c9df96888497eaa8f51bef663499"
+      },
+      {
+        "name": "ci-two-tests-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-types.stdout.raw",
+        "bytes": 183,
+        "sha256": "576fd568143eed9c8c92c8e31e41ff2ebf7cb1d135cabbf89fe86b5b99d9bc12"
+      },
+      {
+        "name": "ci-types-current.mjs",
+        "bytes": 140,
+        "sha256": "9c2a3728c6adbb5ea2d1162268f3e7a2526e3db0378de4a7916a8df656d734c1"
+      },
+      {
+        "name": "github-branch-docs-annotations.json",
+        "bytes": 980,
+        "sha256": "b7c12ac4d8c387947c58ae3fc6ccd6f3d2959f5d4c74370549775cec26bf4864"
+      },
+      {
+        "name": "github-branch-docs-full.raw",
+        "bytes": 2249675,
+        "sha256": "27dc9d38afd6c96987c437b36704e5325fe533b8867e52cd9b2aeb8cba8d2e9c"
+      },
+      {
+        "name": "github-branch-docs-receipt.json",
+        "bytes": 925,
+        "sha256": "e42d4c385e93bb76fd574f06efd393a4e06fab6b47facbfe9af237adeee584ef"
+      },
+      {
+        "name": "github-branch-docs.json",
+        "bytes": 2431,
+        "sha256": "d53ace947e9b64e5b58f1ff995c92e2869126616d6acd2835733ddb49ae5edcb"
+      },
+      {
+        "name": "github-main-coverage-annotations.json",
+        "bytes": 1313,
+        "sha256": "88b458a608c2b1b4f76813644451bd8153c9392d2e19b86cd1521d6ae156598d"
+      },
+      {
+        "name": "github-main-coverage-full.raw",
+        "bytes": 680327,
+        "sha256": "d071393b56ca923d57ceaf220bff26acdf77a58df0cccf57f4937e2a49362945"
+      },
+      {
+        "name": "github-main-coverage-receipt.json",
+        "bytes": 1537,
+        "sha256": "9117131f013dd55f9704e9a9907c96f2b0014a1f745bd5ef2e2e49e9be37e910"
+      },
+      {
+        "name": "github-main-coverage.json",
+        "bytes": 2785,
+        "sha256": "3a8beb3d178aaf3951936872a688ab68b5861a0c4c31da4d08ef4f83c3bcde58"
+      },
+      {
+        "name": "github-main-docs-annotations.json",
+        "bytes": 1114,
+        "sha256": "a2e7b9e4eeb6648983053ace3fdb53e590d7a986048a0e1ce7ff1c8f9d5f708e"
+      },
+      {
+        "name": "github-main-docs-full.raw",
+        "bytes": 2247405,
+        "sha256": "35c73a1fd5d36651f64fdd03a7040f0512951947007e4049fcefc547b6ae3e10"
+      },
+      {
+        "name": "github-main-docs-receipt.json",
+        "bytes": 995,
+        "sha256": "f251c64592fc9b70833e2e57b712806a34b5056b59216b5f50b0c6adcf526a5d"
+      },
+      {
+        "name": "github-main-docs.json",
+        "bytes": 3616,
+        "sha256": "c0739d19ac08d4133ce97f6acdd2ad6b7eb712a9c80894f0a934994c3e50fdff"
+      },
+      {
+        "name": "ci-final-docs.execution.json",
+        "bytes": 2800,
+        "sha256": "b1b91083f60c3a8df55d9c7e402e5ea68573ed14ef412ef96fb05b143fd86da4"
+      },
+      {
+        "name": "ci-final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "41f89f1eb36d513e85838d1c92efaeabb2094bb4a93422718372c2b3f772c563"
+      },
+      {
+        "name": "ci-final-ledger.execution.json",
+        "bytes": 2516,
+        "sha256": "97dfbf343c40a192b850a9ac0fd907d0c38fc858ac526b3ba2500edef044607f"
+      },
+      {
+        "name": "ci-final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "065f1ac994b5d2672af8d647cfd955cbc05d2b6c79dbf0c10702d509dfee0f56"
+      },
+      {
+        "name": "ci-final-lint.execution.json",
+        "bytes": 2473,
+        "sha256": "a79a0c42f8d6931668b845c4ba42111f5657ef793b8188ffdd9011357083bc0c"
+      },
+      {
+        "name": "ci-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "ci-final-progress.execution.json",
+        "bytes": 2589,
+        "sha256": "a2b430a8bfa9466ff4b4b7c48258ed60bbdde610ec038dc0b385ee7d9e7e8cc6"
+      },
+      {
+        "name": "ci-final-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "84676ba6981452b729b6cfbebc6cf559afbd841f88392ec41711bf871be12201"
+      },
+      {
+        "name": "ci-final-checkdocs.execution.json",
+        "bytes": 2501,
+        "sha256": "44f495aea1f599d441b44d81ba74c31634ea9fc6c93146f66dc7e3564f593af8"
+      },
+      {
+        "name": "ci-final-checkdocs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-checkdocs.stdout.raw",
+        "bytes": 30725,
+        "sha256": "fa26a8ef4a04e0d4c3c53f06d0143bddf7d682e2d639f8a859845392da447f07"
+      },
+      {
+        "name": "ci-final-diff.execution.json",
+        "bytes": 2497,
+        "sha256": "10b1a6800bd83d0409b10b07982680507c7b29396c49f00e4f49e7f604c32cc1"
+      },
+      {
+        "name": "ci-final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-docs-r2.execution.json",
+        "bytes": 2809,
+        "sha256": "55d798fcefe5021585337c68e111b28e27c2d3ea12ec0047f2bffe38e035ddee"
+      },
+      {
+        "name": "ci-final-docs-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-docs-r2.stdout.raw",
+        "bytes": 311,
+        "sha256": "41f89f1eb36d513e85838d1c92efaeabb2094bb4a93422718372c2b3f772c563"
+      },
+      {
+        "name": "ci-final-lint-r2.execution.json",
+        "bytes": 2482,
+        "sha256": "47763656b79ef59483452d40ee8c2299559454a39c8325c3e1dc28f1ea232824"
+      },
+      {
+        "name": "ci-final-lint-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-lint-r2.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
       }
     ]
   },
@@ -1544,7 +2189,7 @@
     "pending": 0
   },
   "notRun": [
-    "No second full check after isolated H02 test-only correction;20425 unchanged cases reused,changed5/current adjacent11/TC and final official fast actual.",
+    "No second full check after only H02/M05/K06 test deltas;20415 unchanged cases reused,15 affected cases/current adjacent/editor TC and final official fast verified.",
     "full SDLPal/runtime/browser import",
     "WORD product arithmetic change, awaiting user"
   ],
@@ -1982,7 +2627,223 @@
     "disposition": "structure-disposition.json"
   },
   "integration": {
-    "state": "Final local acceptance ready; stage final3y commit/push,manual branchDocs,fetch0behind,FFremote main then verify actual CI. No integration claimed before tools."
+    "state": "cb67a6a0e was pushed3y then fast-forwarded remote main, verified0behind/0ahead. Main Docs39681495449 succeeded; Coverage39681495390 failed1editor test. Narrow repair is a later candidate, new remoteCI must be checked after its actual push.",
+    "observedMergedHead": "cb67a6a0edb27229099e3c3c1956bc0ed561b81a",
+    "failedMainCoverage": 39681495390,
+    "successfulMainDocs": 39681495449
   },
-  "processDisclosure": "Initial direct-file invocation of temporary acceptance writer returned a UTF8 parse error before any writes; raw not separately saved. Explicit UTF8 Unicode compile validated then same writer succeeded, followed by real ledger/strict docs checks. This is bookkeeping only, no product/gate rerun credit."
+  "processDisclosure": "Initial direct-file invocation of temporary acceptance writer returned a UTF8 parse error before any writes; raw not separately saved. Explicit UTF8 Unicode compile validated then same writer succeeded, followed by real ledger/strict docs checks. This is bookkeeping only, no product/gate rerun credit.",
+  "ciRepair": {
+    "state": "Local CI-repair accepted; publish and new GitHub run must be checked by actual refs/run, not inferred from this receipt",
+    "base": "cb67a6a0edb27229099e3c3c1956bc0ed561b81a",
+    "owner": "Codex",
+    "newFileClosures": 0,
+    "pre94": {
+      "accept": 57,
+      "partial": 26,
+      "pending": 0
+    },
+    "file": {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+      "sha256": "fe368560573cafb545b45f0c50393cfbc9478de81a76ad462fbd0761f89d9c5d",
+      "scope": "Narrow actual CI failure + honest title/oracle/environment ownership; not a whole-file editor acceptance",
+      "dimensions": {
+        "A": "Actual selected-asset decode proof gates the button. Wait for that result, not empty microtasks. No product changes.",
+        "B": "Correct 80ms title, false ceil and obsolete no-older-test keyword claims. Title no longer claims unexecuted0ms/independence.",
+        "C": "Only test host owns its act flag; original descriptor restored. Production proof/reader/session ownership retained.",
+        "D": "Reuse existing waitForReact/act environment leaf, no new universal waiter or duplicate production decode.",
+        "E": "Two cases,15 assertions preserved; exact literal3 replaces two copied formulas. Real reader-held old1red/new2green/restored2green and26adjacent; no core mock.",
+        "F": "Readiness purpose comment states actual reason for await. Correct name maps to actual80ms/discard contract.",
+        "G": "Remove unused apply variable/void; no new test identity or weak filler. One title migration only.",
+        "H": "Control only real reader port scheduling in disposable copy. Full decode/hash/palette/command chain remains real; no test-only product API."
+      }
+    },
+    "failedMain": {
+      "id": 39681495390,
+      "head": "cb67a6a0edb27229099e3c3c1956bc0ed561b81a",
+      "receipt": "github-main-coverage-receipt.json",
+      "raw": "github-main-coverage-full.raw",
+      "scope": "1 failed/4780passed/4781 editor; no coverage acceptance for this failed run"
+    },
+    "successfulDocs": [
+      {
+        "id": 39680869184,
+        "kind": "branch",
+        "receipt": "github-branch-docs-receipt.json"
+      },
+      {
+        "id": 39681495449,
+        "kind": "main",
+        "receipt": "github-main-docs-receipt.json"
+      }
+    ],
+    "reproduction": "ci-m05-reproduction-v2.json",
+    "assertionMapping": "ci-m05-assertion-map.json",
+    "identityMapping": {
+      "unchanged": "待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交",
+      "from": "行动毫秒/帧 0ms 落 0 ticks；两字段独立草稿互不覆盖",
+      "to": "行动毫秒/帧 80ms 只改草稿，放弃修改不提交",
+      "countBefore": 2,
+      "countAfter": 2
+    },
+    "adjacent": {
+      "id": "ci-two-tests-adjacent",
+      "testFiles": 5,
+      "passed": 29,
+      "failed": 0,
+      "stderrBytes": 0
+    },
+    "typecheck": {
+      "command": "pnpm --filter @type-pal/editor typecheck",
+      "exit": 0,
+      "execution": "ci-two-tests-types.execution.json",
+      "stdout": "ci-two-tests-types.stdout.raw",
+      "stderr": "ci-two-tests-types.stderr.raw",
+      "provenance": "Final two-test candidate actual capture exit0; original M05-only typecheck streams retained too."
+    },
+    "officialRun": "ci-two-tests-final-ratchet",
+    "protected": "ci-two-tests-protected-snapshot.json",
+    "heavyCost": "One new official collection after actual main CI failure, with fixed main protection and same-report strict comparison. No additional full check: production unchanged, impacted2 M05/8 K06 and prior5 H02 validated;20415unchanged full-check cases reused from150650c59. Do not call this a new full pnpm check.",
+    "processDisclosure": [
+      "Initial disposable-copy probe was a Vite allow-root collection failure (0cases), not a valid red. Original stdout/stderr/native/execution and producer preserved; v2 changes only private-copy FS allow roots. Original producer assertion stack was returned by the tool, not separately saved.",
+      "GitHub platform Node20-action warning and Ubuntu image notice preserved separately from repository command diagnostics. No warning exemption or workflow change."
+    ],
+    "risk": "No schema/save/asset/API/phase1 mechanism/UI behavior changes; no94-102 acceptance. Existing3w/3x/P3 stops unchanged.",
+    "additionalFile": {
+      "path": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+      "sha256": "de7db180d8856e3f11fcc464dc81c72c26fc77ffaa587e652b6c29d210b075a0",
+      "scope": "First-case actual RAF diagnostic ownership + exact act descriptor restoration only, no whole-file acceptance",
+      "dimensions": {
+        "A": "Actual reorder schedules2RAF settle plus1RAF logicalfocus/scroll. Existing public settling marker is waited underact before external expected-byte IO.",
+        "B": "One purpose comment states why completion is needed; no new product claim.",
+        "C": "Keep pending interaction updates inside the test owner; restore original act flag descriptor. Product queue/session ownership untouched.",
+        "D": "Reuse existing waitForReact/installReactActEnvironment; no generic drain/timer helper or duplicate core.",
+        "E": "8titles and complete business bodies AST-identical after removal of onlynewwait. Original5act→new0 under two-RAF diagnostic calibration; not a business negative control; probe intentionally selects1/8, full29adjacent includes all8.",
+        "F": "Readiness reason next to reorder action. No other control-flow rewrite.",
+        "G": "No new case,skip,timeout,console suppression or weaker assertions.",
+        "H": "Use actual RAF/React/queue/codec, not core mocks; disposable-copy scheduling calibration and normal full neighboring suite remain distinct."
+      }
+    },
+    "k06": {
+      "proof": "ci-k06-test-body-proof.json",
+      "calibration": "ci-k06-reproduction.json",
+      "beforeOfficial": {
+        "run": "ci-m05-final-ratchet",
+        "exit": 0,
+        "passed": 20032,
+        "stderrBytes": 2328,
+        "reactAct": 5,
+        "decision": "Rejected as clean unified gate despite exit0; baseline data were officially written but metrics unchanged"
+      },
+      "limit": "Calibration selects1case/7filtered, no whole-suite0skip claim. Native case assertions remain green; this proves diagnostic ownership, not product mutation discrimination."
+    },
+    "contextPins": [
+      {
+        "path": "packages/editor/src/__tests__/react-io-wait.ts",
+        "sha256": "027c785fd51aad1c05f1661da39c63301cd7a9cc9586d9eab21ac3b3e70bdaa1",
+        "readScope": "full current leaf"
+      },
+      {
+        "path": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+        "sha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427",
+        "readScope": "full current preview"
+      },
+      {
+        "path": "packages/editor/src/core/editor-asset-reader.ts",
+        "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf",
+        "readScope": "full current reader"
+      },
+      {
+        "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+        "sha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+        "readScope": "partial1-90,270-360,390-710,900-1035,1635-1655; no whole-file credit"
+      },
+      {
+        "path": "packages/editor/src/ui/CutsceneTab.tsx",
+        "sha256": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+        "readScope": "partial467-555; actual queue/create caller, no whole-file credit"
+      },
+      {
+        "path": "packages/editor/src/ui/design-system/reorder.tsx",
+        "sha256": "524576947ee10977af9364f711856d4130e88ac76467828054b8dc696d3b2290",
+        "readScope": "partial445-625,650-720,975-1045,1120-1140; settle/focus and public marker only"
+      },
+      {
+        "path": "packages/editor/src/ui/design-system/floating-layer.tsx",
+        "sha256": "bee1820ec6ed2e2a06af5f2ac850ca7554acde2064d22f3e4c4ec7969f0a73ff",
+        "readScope": "full current leaf"
+      },
+      {
+        "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts",
+        "sha256": "2390542354b8dc850176c73645ef438992180258b19c8049388bd05ce0d72d23",
+        "readScope": "partial190-270 hardware setup/restoration only"
+      },
+      {
+        "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts",
+        "sha256": "63d89a1152e9830ebd7d603edbf5431f64e4bf58425c2891adc051debd322aba",
+        "readScope": "full existing hardware kit"
+      },
+      {
+        "path": "packages/editor/src/__tests__/glm-m/kit.ts",
+        "sha256": "2612ec3ed10be2e5236b74b1475b48927dbd5bf2e520570a8ee7412da6bca38d",
+        "readScope": "full existing fixture/input kit"
+      }
+    ],
+    "fullCheckReuse": {
+      "actualWholeRun": "related-window-check at150650c59",
+      "passed": 20430,
+      "currentDeltaFiles": [
+        "packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+        "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "scripts/coverage/baseline.fast.json"
+      ],
+      "impactedCases": 15,
+      "unchangedCasesReused": 20415,
+      "note": "Only5H02+2M05+8K06 test bodies changed. No product/shared fixture/config/dependency/workflow delta after the whole run; current affected cases/editor TC and final officialfast verified separately. No second full check claimed."
+    },
+    "staticFinal": {
+      "ci-final-docs": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-docs.execution.json"
+      },
+      "ci-final-docs-r2": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-docs-r2.execution.json"
+      },
+      "ci-final-checkdocs": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-checkdocs.execution.json"
+      },
+      "ci-final-lint": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-lint.execution.json"
+      },
+      "ci-final-lint-r2": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-lint-r2.execution.json"
+      },
+      "ci-final-ledger": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-ledger.execution.json"
+      },
+      "ci-final-progress": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-progress.execution.json"
+      },
+      "ci-final-diff": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-diff.execution.json"
+      },
+      "progressIssues": []
+    }
+  }
 }

@@ -1,6 +1,6 @@
 # 状态／结算／成长相关窗口验收
 
-Status: accepted within specified scope; integration pending
+Status: accepted within specified scope; original window merged, CI repair locally accepted
 Owner: Codex（单Agent）
 
 同一`codex/code-quality-3y`，基点9a5f80e7c；实现／测试冻结于d05fdc82c，官方派生baseline提交7ea761572。**本窗关闭10个明确文件，CODE3u按原状态／资源／位置合同接受；固定83卡当前57accept/26partial/0pending。**机器账本3355库存、371closed/114review/2870pending。3w/3x仍partial，94–102未扩展。远端集成按实际Git/CI另核，不能从本页推定已合main。
@@ -46,3 +46,17 @@ Owner: Codex（单Agent）
 ## 低成本复验
 
 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/verify.mjs`默认只读，核当前源／caller指纹、79份复用附件、全部原件完整性和指定原生失败／恢复身份；不运行producer、测试、联网或改工作树。MATCH仅表示这些检查匹配，语义取舍见逐文件八维。源／caller／输入／合同变化只重核受影响claim；其它26partial不附带关闭。
+
+## cb67a6a0e远端CI与两测试窄返工
+
+原窗口已先推3y并FF远端main。branch Docs39680869184及main Docs39681495449成功；main Coverage39681495390在M05第170行失败，editor4781例中1失败。完整未裁剪远端日志、job元数据、annotations和诊断计数已入本包；Actions平台Node20动作迁移warning与Ubuntu镜像notice另列，不隐去或当产品诊断。不能从先前本地绿推定这次CI成功。
+
+M05等待真实asset/SHA解码证明后再断言应用可用，默认等待1000/50不变。隔离真实reader闸门：旧1绿1指定AssertionError，新2绿，恢复2绿；15业务断言保留，两处复制公式改为独立字面值3，第二标题从未执行的0ms/两字段改为真实80ms/放弃，删无用变量并恢复自有act描述符。没有改组件或核心算法。
+
+修正后首轮official fast20032例/758源、metrics不变、exit0，但K06出现5条act/2个stderr块，**拒绝作干净统一门**。根因是重排两帧收势及焦点/滚动尚在进行，测试进入外部expected编码IO；按公开data-reorder-settling等待实际结束，并恢复自有act描述符。两帧RAF诊断校准：旧5条、新0、恢复0；只选1/8例，7个filtered明确保留，这不是业务变异反控。八例标题/业务主体去注释AST相同，仅新增一次就绪等待；当前五文件29相邻及editor TC零诊断。
+
+最终`ci-two-tests-final-ratchet`再次从官方入口完整采集20032例/758源，固定cb67a6a0e保护及同报告严格metrics/scope/protected均通过，全部诊断/stderr0；253个正常stdout块与前次逐身份/消息相同。各包/全仓计数完全不变。baseline仅首轮官方写入的一条标题身份与摘要，后轮无提升/范围变化而原样保留其生成时间，未假称重写。
+
+本次确有两轮新增采集：第一轮带诊断拒绝，第二轮才是干净门；同报告严格比较不算第三轮。完整check仍绑定150650c59的20430原件；其后只有5个H02、2个M05、8个K06测试变化，20415未变结果复用，受影响测试/当前TC及最终official另核，未伪造第二次全check。两editor文件仍为隐式pending，0新增关闭；57accept/26partial和371closed/114review/2870pending保持。源码、公共接口、规则、超时、选择、资源与存档未改，不扩94–102。
+
+`review.json.ciRepair`为逐项入口，快检另核两测试/真实caller指纹、M05失败身份、K06诊断校准与当前官方结果。首次私有副本Vite路径权限collection失败不算有效反例，原件保留。当前修正只授本地接受；本笔发布后的远端CI必须按实际Git SHA/run核对，不能从本文推定成功。

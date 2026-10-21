@@ -1023,7 +1023,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read only owned current battle-quality window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+      "coreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "2821358dea811c69f8efa1af72c0697d9f91f11f8b7b3fca623918a5f9896cf4",
+      "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "2821358dea811c69f8efa1af72c0697d9f91f11f8b7b3fca623918a5f9896cf4",
+        "implementationSha": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "2821358dea811c69f8efa1af72c0697d9f91f11f8b7b3fca623918a5f9896cf4",
-        "lineCount": 17472,
+        "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
+        "lineCount": 17532,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -2982,6 +2982,45 @@
           "previousCoreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "7ff1b8a8a1982ab44cacafd850646363707c518db75c413ba9a047f1070e7327",
           "afterSha256": "2821358dea811c69f8efa1af72c0697d9f91f11f8b7b3fca623918a5f9896cf4",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-ci-repair",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "2821358dea811c69f8efa1af72c0697d9f91f11f8b7b3fca623918a5f9896cf4",
+            "lineCount": 17472,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousAfterSha256": "2821358dea811c69f8efa1af72c0697d9f91f11f8b7b3fca623918a5f9896cf4",
+          "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
         }

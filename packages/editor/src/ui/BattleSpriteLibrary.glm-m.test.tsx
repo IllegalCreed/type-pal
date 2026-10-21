@@ -1,9 +1,7 @@
 // @vitest-environment jsdom
 /**
  * TEST-GLM-WAVE-M-1 M05（BattleSpriteLibrary.glm-m）：敌人动作计时草稿当前合同。
- * 去重：BattleSpriteLibrary.test.tsx / glm-ui-wave / kimi-workflows 已证导入/用途/帧替换/
- * 阶段槽拖放/改名/删除/引用门；关键词「待机毫秒/行动毫秒/攻击特效基帧/施法特效基帧」
- * 在全旧测零命中。本文件只补：敌人 profile 计时草稿域——待机毫秒/帧按 40ms/tick 换算
+ * 本文件聚焦敌人 profile 计时草稿域：待机毫秒/帧按 40ms/tick 换算
  * 落入 draft（不直接改 canonical），「应用修改」单命令提交，「放弃修改」零提交，
  * undo/redo 对称且过保存门。播种走真实量化编码 + AddBattleSpriteCommand（K01 同一入口）。
  */
@@ -24,6 +22,7 @@ import {
   loadLegalProject,
   stubNodeTestHost,
 } from '../__tests__/glm-m/kit.js'
+import { installReactActEnvironment, waitForReact } from '../__tests__/react-io-wait.js'
 import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
 import { AddBattleSpriteCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -78,8 +77,10 @@ function Harness(props: {
 
 let root: Root
 let host: HTMLDivElement
+let restoreActEnvironment: () => void
 
 beforeEach(async () => {
+  restoreActEnvironment = installReactActEnvironment()
   await stubNodeTestHost()
   installBrowserHardwarePorts()
   host = document.createElement('div')
@@ -92,6 +93,7 @@ afterEach(async () => {
   host.remove()
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
+  restoreActEnvironment()
 })
 
 interface Mounted {
@@ -163,14 +165,14 @@ describe('M05 BattleSpriteLibrary 敌人计时草稿', () => {
     const apply = buttonByText(host, '应用修改')
     expect(apply.disabled).toBe(true)
 
-    // 120ms → 3 ticks（向上取整换算发生在草稿里，canonical 不动）。
+    // 120ms → 3 ticks；canonical 不动。应用还需等当前帧源的异步解码证明。
     await fillAndBlur(controlByLabel<HTMLInputElement>(host, '待机毫秒/帧'), '120')
     expect(goblinProfile().idleTicksPerFrame).toBe(idleBefore)
     expect(session.getHistoryVersion()).toBe(historyBefore)
-    expect(apply.disabled).toBe(false)
+    await waitForReact(() => expect(apply.disabled).toBe(false))
 
     await act(async () => apply.click())
-    expect(goblinProfile().idleTicksPerFrame).toBe(Math.max(1, Math.round(120 / 40)))
+    expect(goblinProfile().idleTicksPerFrame).toBe(3)
     expect(session.getHistoryVersion()).toBe(historyBefore + 1)
     assertProjectSaveValid(session.getState())
 
@@ -181,10 +183,10 @@ describe('M05 BattleSpriteLibrary 敌人计时草稿', () => {
     await act(async () => {
       expect(session.redo()).toBe(true)
     })
-    expect(goblinProfile().idleTicksPerFrame).toBe(Math.max(1, Math.round(120 / 40)))
+    expect(goblinProfile().idleTicksPerFrame).toBe(3)
   })
 
-  test('行动毫秒/帧 0ms 落 0 ticks；两字段独立草稿互不覆盖', async () => {
+  test('行动毫秒/帧 80ms 只改草稿，放弃修改不提交', async () => {
     const mounted = await mountWithEnemySprite()
     const session = mounted.session
     const row = [...host.querySelectorAll<HTMLElement>('.ds-catalog-row')].find((candidate) =>
@@ -200,7 +202,6 @@ describe('M05 BattleSpriteLibrary 敌人计时草稿', () => {
       return profile
     }
     const actBefore = goblinProfile().actTicksPerFrame
-    const apply = buttonByText(host, '应用修改')
 
     await fillAndBlur(controlByLabel<HTMLInputElement>(host, '行动毫秒/帧'), '80')
     expect(goblinProfile().actTicksPerFrame).toBe(actBefore)
@@ -211,6 +212,5 @@ describe('M05 BattleSpriteLibrary 敌人计时草稿', () => {
     expect(session.getHistoryVersion()).toBe(1) // 仅播种一条 Add 命令
     const applyAfterDiscard = buttonByText(host, '应用修改')
     expect(applyAfterDiscard.disabled).toBe(true)
-    void apply
   })
 })

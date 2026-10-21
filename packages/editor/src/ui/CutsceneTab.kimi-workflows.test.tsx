@@ -47,7 +47,7 @@ import {
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { waitForReact } from '../__tests__/react-io-wait.js'
+import { installReactActEnvironment, waitForReact } from '../__tests__/react-io-wait.js'
 import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { SetStartupEntriesCommand } from '../core/commands.js'
@@ -64,7 +64,6 @@ import {
   fieldControlByLabel,
   loadFilesIntoInput,
   setInputValue,
-  useActEnvironment,
 } from './__tests__/glm-ui-wave-kit.js'
 import {
   installCutsceneHardwarePorts,
@@ -131,9 +130,10 @@ function Harness(props: {
 let root: Root
 let host: HTMLDivElement
 let objectUrls: ObjectUrlWitness
+let restoreActEnvironment: () => void
 
 beforeEach(() => {
-  useActEnvironment()
+  restoreActEnvironment = installReactActEnvironment()
   objectUrls = installCutsceneHardwarePorts()
   host = document.createElement('div')
   document.body.append(host)
@@ -146,6 +146,7 @@ afterEach(async () => {
   restoreCutsceneHardwarePorts()
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
+  restoreActEnvironment()
 })
 
 async function mountTab(
@@ -351,6 +352,11 @@ describe('K06 CutsceneTab 真实过场工作流', () => {
     })
     expect(queueNames(dialog)).toEqual(['delta-2.png', 'alpha-1.png', 'delta-10.png'])
     expect(mounted.session.getHistoryVersion()).toBe(historyAtMount)
+
+    // 重排的两帧收势及焦点恢复仍属于本次交互，先等它们结束再进入外部编码 IO。
+    await waitForReact(() => {
+      expect(dialog.querySelector('[data-reorder-settling="true"]')).toBeNull()
+    })
 
     // 排除 delta-10：队列收缩、描述同步，仍零提交。
     await excludeFrame(dialog, 'delta-10.png')
