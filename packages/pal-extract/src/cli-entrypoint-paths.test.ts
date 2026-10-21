@@ -189,3 +189,27 @@ it('importing CLI from a different real entrypoint stays side-effect free', () =
   expect(result.stderr).toBe('')
   expect(existsSync(join(f.data, 'extracted'))).toBe(false)
 })
+
+it('default prepareOutputRoot checks the imported CLI tree, independently of process cwd', () => {
+  const f = makeTree()
+  const shared = join(f.root, 'shared-output')
+  mkdirSync(shared)
+  writeFileSync(join(shared, 'marker.txt'), 'other-owner')
+  const output = join(f.data, 'extracted')
+  symlinkSync(shared, output, 'dir')
+  const runner = join(f.root, 'check-default-output.mjs')
+  writeFileSync(
+    runner,
+    `const { prepareOutputRoot } = await import(${JSON.stringify(pathToFileURL(join(f.pkg, 'src/cli.ts')).href)});
+try { prepareOutputRoot(); console.log('did-not-reject'); }
+catch (error) { console.log(error instanceof Error ? error.message : 'non-Error'); }`,
+  )
+  const result = f.run(runner)
+  expect(result.status).toBe(0)
+  expect(result.stderr).toBe('')
+  expect(result.stdout).toBe(
+    `[pal-extract] refuse shared output: data/extracted is symlink (${output})\n`,
+  )
+  expect(readFileSync(join(shared, 'marker.txt'), 'utf8')).toBe('other-owner')
+  expect(existsSync(f.trace)).toBe(false)
+})
