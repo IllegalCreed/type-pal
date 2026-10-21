@@ -365,6 +365,8 @@ test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合
   // Musics：{NNN}.MID → 归一化 007.mid；ogg 原名
   expect(existsSync(out('music/007.mid'))).toBe(true)
   expect(existsSync(out('music/TRACK02.ogg'))).toBe(true)
+  expect(readFileSync(out('music/007.mid'))).toEqual(Buffer.from('MIDI7'))
+  expect(readFileSync(out('music/TRACK02.ogg'))).toEqual(Buffer.from('OGG2'))
   expect(readFileSync(out('music/mus.mkf'))).toEqual(readFileSync(join(tree, 'data/raw/mus.mkf')))
   const music = JSON.parse(readFileSync(out('data/music-manifest.json'), 'utf8'))
   expect(music).toEqual({ midi: [7], cdTracks: ['TRACK02.ogg'] })
