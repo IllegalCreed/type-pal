@@ -1,7 +1,7 @@
 /**
  * P01：合成五chunk原始结构，核完整字段与实际输入父buffer所有权。
  * 数值是WORD/SHORT布局向量，不冒充可执行场景或真实剧情。
- * 各chunk拒绝轴独立执行；真实raw sanity另在sss.test.ts。
+ * 各chunk拒绝轴独立执行；完整原盘结构oracle另在sss.test.ts。
  */
 import { describe, expect, test } from 'vitest'
 import { concatBytes, mkfContainer, sssChunks } from '../__tests__/glm-tb04-fixtures.js'
@@ -117,6 +117,24 @@ describe('P01 parseSss 合成 5-chunk MKF', () => {
         0x06,
       ),
     )
+  })
+
+  test('解析后的结构数组独立于输入；字节码借用原输入的精确范围', () => {
+    const { view, wrapped, before } = guardedSss()
+    const sss = parseSss(view)
+    const ownedArrays = [
+      ...sss.eventObjects.map((entry) => entry.raw),
+      ...sss.scenes.map((entry) => entry.raw),
+      sss.objects,
+      sss.messageOffsets,
+    ]
+    for (const array of ownedArrays) array.fill(0)
+    expect(wrapped).toEqual(before)
+    expect(sss.eventObjects[0]!.vanishTime).toBe(-32768)
+    expect(sss.scenes[0]!.mapNum).toBe(0x0102)
+    expect(sss.bytecode.buffer).toBe(view.buffer)
+    expect(sss.bytecode.byteOffset).toBe(view.byteOffset + view.byteLength - 24)
+    expect(sss.bytecode.byteLength).toBe(24)
   })
 
   test.each([

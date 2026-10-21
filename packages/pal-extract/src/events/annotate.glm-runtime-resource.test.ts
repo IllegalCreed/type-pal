@@ -96,7 +96,7 @@ describe('R06 annotate 词表缺名边界', () => {
 })
 
 describe('R06 annotate 输入零突变', () => {
-  test('输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）', () => {
+  test('输入命令、词表与 symbols 保持逐字段不变', () => {
     const commands: Command[] = [
       { op: 'giveItem', itemId: ITEM_OBJ_START + 1, count: 2 },
       { op: 'raw', opcode: 0x50, operands: [1, 2, 3] },
