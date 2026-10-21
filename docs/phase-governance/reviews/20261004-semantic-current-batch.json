@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read only owned current battle-quality window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+      "coreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "ad19a60cb0dbf7c91cb105c80b6924b7a8c4e3f60c581f07707d11fbf70373d6",
+      "afterSha256": "cd8355b1ab5607e84dae797c1903968da00305f701c84f60a09597c0b9cc861f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "ad19a60cb0dbf7c91cb105c80b6924b7a8c4e3f60c581f07707d11fbf70373d6",
+        "implementationSha": "cd8355b1ab5607e84dae797c1903968da00305f701c84f60a09597c0b9cc861f",
         "contentVersion": 46,
         "minimumSaveVersion": 12,
         "history": [
@@ -2201,6 +2201,19 @@
           "previousCoreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
           "previousAfterSha256": "82df6619a5fe76ae2514fc5947f364378a3503792dcb2e48615c864d42c87531",
           "afterSha256": "ad19a60cb0dbf7c91cb105c80b6924b7a8c4e3f60c581f07707d11fbf70373d6",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-accepted",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+          },
+          "previousCoreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousAfterSha256": "ad19a60cb0dbf7c91cb105c80b6924b7a8c4e3f60c581f07707d11fbf70373d6",
+          "afterSha256": "cd8355b1ab5607e84dae797c1903968da00305f701c84f60a09597c0b9cc861f",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
         }

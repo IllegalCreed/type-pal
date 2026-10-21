@@ -1257,3 +1257,7 @@ Codex单一Coding Owner，同一3y，以399709863为本地基点、origin/main=9
 源码150650c59已先推3y，main仍9a5；冻结CODE3u原状态/资源/位置及直接测试、3w/3x本轮有限结构/测试和3b三行阈值注释。15文件八维与候选范围见battle-quality/review.json；19旧单红+原件哈希及当前test SHA核对一致，不重复反控。原3u的Extra清理是相邻callee，不把3w停止线混成状态工厂/资源owner缺陷；3u是否接受仍待完整门。3w/3x的关键未知维持partial，0新关闭/56accept27partial当前不变。依序一次全check/official ratchet和protected报告比较，不增加其它产品修改或94–102。
 
 H02补核发现四旧例仍依赖未hydrate运行态，后两例实际0级与注释1级不符；此前有限夹具信用撤回。新增等级oracle在旧输入2业务红，真实初始化/普攻权重/合法余exp修正后5绿，七池变异仍恰1属性红，canonical16/TC0。产品/共享fixture/配置/依赖未改；150650c59完整check20430及其余20425未变测试复用，实际run SHA与此唯一test增量分开登记，不为了补一个测试输入重跑无关包。最终官方fast将在新候选重跑全部选中测试。
+
+### 2026-10-22 状态／结算／成长相关窗口验收
+
+CODE3u按原状态/资源/位置合同接受，原positions历史信用有限刷新；新data和七明确测试/fixture等合10路径逐项接受，新增关闭10，固定83卡57accept/26partial/0pending。3w Extra动态可达性／C阻塞与TS队列中间时序、3x已证WORD边界仍保留partial，未把其余文件或整战斗模块强关。三接口/叶依赖纯重构与两轮测试整改分提交，全部原件及四维结构补证在battle-quality。完整check20430实际零诊断在150650c59；之后仅H02测试修正输入/oracle,20425未变结果复用,16与TC重验,最后官方fast按新候选实际采集并执行ratchet及固定main保护。不是第二次全check或第二次覆盖率采集；当前scope/metrics的同报告严格比较另存原件。源/测之外只写必要账本/进度与证据，无规则/ignore/排除或弱断言。接下来先推3y/fetch确认0behind/FF main并核实际CI；下一仍固定pre94剩余26partial，不扩94–102。

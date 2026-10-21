@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 状态／结算／成长窗口：10明确文件八维与反控接受，CODE3u按原合同接受；3w/3x关键余项仍partial。当前371closed/114review/2870pending，库存以机器为准。完整check在未变产品执行上20430零诊断，随后唯一H02测试夹具增量16/TC重验；最终official fast及同报告严格protected按原件记录，未伪造第二次全check。[唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)。
+
 2026-10-22 结算／成长窗口：三源直接owner依赖及三个共用type搬移，新增data文件先登记review，0新增关闭；3355/361closed/124review/2870pending。四文件A–H、声明／正文守恒、七真实函数绑定、40相邻及game TC见[本窗入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)。统一门未跑，WORD新反证待裁决、非队员Extra仍未知，3w/3x不升accept。
 
 2026-10-22 CLI IO相关卡窗口：6个明确文件A–H与必要反控成立后接受，冻结后355→361closed/129→123review；相对窗口最初356净增5。移动端14新库存保持pending，当前3354/361/123/2870。最新main整合后全check20430、official ratchet/protected同报告20032零诊断；首次指标拒绝及第二次移动目标保护拒绝完整保留。CLI/slice大范围仍review，CODE3/3g仍partial。[本窗入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md)。
@@ -42,7 +44,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,355。
-当前已闭合核验：361；已读但待审：124；尚未逐文件核验：2,870；合计未闭合：2,994。
+当前已闭合核验：371；已读但待审：114；尚未逐文件核验：2,870；合计未闭合：2,984。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -195,8 +197,8 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/quality/code-quality-inventory.mjs` | tool | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `scripts/quality/code-quality-ledger.mjs` | tool | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
-| `packages/game/src/core/battle/battle-progression.ts` | product | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；源全文/真实settlement caller/原C；错锚与随机算法信用勘误，非执行变化 | 主升级999 cap与隐藏无该cap分清；有限定向/反控不能闭合全部数值域/统一门，旧源关闭转review |
-| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | review | [结算成长质量增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；原五合同保留，七字段/结果/经验余数/RNG完整次序；合法六动作计数+零Dex存留经验边界 | 防御/身法换序旧5绿→新4绿1属性红，恢复5绿；原额外RNG反控保留；统一门待，不冒称正常剧情积身法经验 |
+| `packages/game/src/core/battle/battle-progression.ts` | product | review | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；307行全文及既有primary复用，直接state owner/type依赖的按文件JS守恒 | 普通域/七池测试已补；新WORD65535边界真实分歧待用户裁决，不关实现 |
+| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
 | `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；全文/公开projectRuntimeToBattleRoles/typed makeHRole；11合同数保持 | 移除as any as核心夹具、收窄未开战的标题；未复算原盘真值表/其它数值极端域，旧整文件信用撤回 |
 | `scripts/docs/check.mjs` | tool | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；全文/真实CLI，>1MiB合法路径先红后绿 | 完整NUL枚举有限16MiB；独立4MiB namespace不改，原检查策略保留，0新关闭 |
 | `scripts/docs/check-testing.mjs` | tool | 已验证 | testing catalog/index/legacy flat verifier；testing docs runs | 独立测试文档门 |
@@ -393,21 +395,21 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3t；70 行全文、0x05/0x8E dialog clear 与 0x6B signed blow-away primary contract | 清框只影响下一段对白、SHORT 负值边界与 negative control |
 | `packages/game/src/battle-summon-slot-reuse.glm-q.test.ts` | test | 已验证 | CODE-QUALITY-3t；203 行全文、0x9E 战中死亡空槽复用/对象身份/阵型重算 oracle | 活槽不复用、毒/身份清理与阵型锚点反例 |
 | `packages/game/src/core/game-state.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
-| `packages/game/src/core/battle/battle-state.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
-| `packages/game/src/core/battle/battle-runtime-context.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；98行全文、真实start/finalize及资源/可写投影/runner归属 | 只修“只读表”坏注；公开stash结构不改，跨owner反控支持有限隔离，整卡未闭合 |
-| `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；383行原测全文，现340行；九状态role/局部owner/资源隔离与typed工厂 | 枚举无业务撤销，JSON改真实隔离，快照合并保全；六旧绿新单红，整卡未完 |
-| `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；81行原测全文，现82行；合法MP/零槽与实际活敌layout oracle | 快照迁主测有双红保全，4→3排重；旧关闭重开review，0新增关闭 |
-| `packages/game/src/core/battle/battle-finalization.test.ts` | test | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；80行原测全文，真实factory/hydrate/dialog，九状态与实际cursor交接观察 | 2→6补真实finalize出口；六旧2绿→新5绿1指定红；9直接/266相邻仅有限信用 |
+| `packages/game/src/core/battle/battle-state.ts` | product | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
+| `packages/game/src/core/battle/battle-runtime-context.ts` | product | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
+| `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
+| `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
+| `packages/game/src/core/battle/battle-finalization.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
 | `packages/game/src/core/battle/actions/attack.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |
 | `packages/game/src/core/battle/actions/attack-mate.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:3760-3853；battle-system attack-mate dispatch；attack-mate/action tests | 111 行实现全文核验随机活友军、目标防御/protect、HP clamp、武器声、动画与无目标 Pass；定向6 files/154 tests通过，未发现 direct defect；coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/actions/defend.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:4110-4117,4924-4929；battle-system dispatch；actions tests | 20 行实现全文核验；只写 defending，减伤由 enemy attack owner 消费，越界 no-op 合同闭合；定向6 files/154 tests通过 |
 | `packages/game/src/core/battle/actions/flee.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:4119-4172；battle.c:1455-1528；battle-system dispatch；actions tests | 81 行实现全文核验 flee rate/装备、已批准敌吉运修复、boss RNG、空槽/SHORT 溢出、失败动画与 exp；未发现 direct defect；定向6 files/154 tests通过 |
 | `packages/game/src/core/battle/__tests__/attack-mate.test.ts` | test | 已验证 | CODE-QUALITY-3v；111 行实现对应的 7 个 AttackMate oracle，154 定向/相邻 tests | 148 行全文读取；随机 self/dead 跳过、protect/defend/clamp/无活友军/武器声与 HP ownership 反例 |
 | `packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；64 行命中特效帧基号/缺表反例，定向6 files/154 tests | 全文读取；flat index `sprite*2+1`、×3、undefined fallback 与真实 timeline oracle；未发现重复或弱断言 |
-| `packages/game/src/core/battle/battle-finalization.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；67行全文，真实tick/settlement/resume与C；只修等价范围注释 | 非队员Extra生产可达性另卡draft；两源parsedTS/JS相同，不改机制，不关闭 |
-| `packages/game/src/core/battle/battle-settlement.ts` | product | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；249行全文、原SSS与153敌对象静态对照、C PhaseE/真实caller | 当前15对象10leaf和特殊结局影响域已限定；执行未变，任意扩展脚本/异常/视觉未全验 |
-| `packages/game/src/core/battle/battle-settlement-data.ts` | product | review | [结算成长质量增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；三接口逐声明相同／原出口名集合相同／只发射空export；真实caller game TC | 共享数据独立于结算编排；新源库存不等于关闭，相关窗口门待 |
-| `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；347→379行全文、原八合同保留、两概率边界与三特殊接回 | 8→13；六旧绿新单业务红反控中两枚在本文件；16直接221相邻仅有限信用，不关闭 |
+| `packages/game/src/core/battle/battle-finalization.ts` | product | review | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；67行全文/真实owner，直接leaf导入的绑定同一与规范化正文守恒，旧六反控复用 | 非队员Extra完整生产写入/无重建/清理/消费链仍未知，保留review |
+| `packages/game/src/core/battle/battle-settlement.ts` | product | review | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；当前227行，旧全文/10原盘leaf与当前type搬移原文/执行JS守恒 | 当前特殊路径/hold证据有限成立；C逐脚本阻塞与TS队列中间时序及callee清理边界仍保留，不关实现 |
+| `packages/game/src/core/battle/battle-settlement-data.ts` | product | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
+| `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |
 | `packages/game/src/core/scene-system-search.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 旧normal/far/first-hit声明不实；现12例及六旧绿新单红，保持review不以通过数恢复整文件 |
@@ -417,7 +419,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/__tests__/battle-system.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；SDL fight.c/script.c、真实runScript/action caller、手算oracle | 3s本会话全文读取后SHA未变；本次补读caller/投掷场景并补裸runtime，未重新认证全4248行 |
 | `packages/game/src/core/battle/battle-system.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3s 当前复审；3s-battle-system；公开 startBattle/tickBattle/tickEnemyIdleGestures callers，battle.c/fight.c oracle | 330 行 branch guard/phase/idle/资源缺失/settlement contracts；两个 console.error spy 已用 try/finally 恢复；定向9 files/242 tests通过，coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/battle-system.glm-next-wave.test.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；123→153行全文、三原例保持、真实turnStart/won/PhaseE/dialog/finalize | DL23补活敌双脚本/零击杀奖励/槽caster/掉落一次；四旧3绿新2绿1指定红，不冒充原盘result3可达 |
-| `packages/game/src/core/battle/battle-runtime-context.test.ts` | test | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；75行原测全文，3例保持、去强转、公开getter身份与双GameState owner | 旧3绿→新2绿1指定红；公开身份/runner/释放保留，私有布局断言以独立等价反控排除，0新增关闭 |
+| `packages/game/src/core/battle/battle-runtime-context.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
 | `packages/game/src/core/event-opcode-player.ts` | product | 已验证 | CODE-QUALITY-3p 3p-event-opcode-player；script.c/global.c opcode 0x17-0x2F/0x41/0x55/0x56/0x8D、event-system/equip/inventory/poison callers、四 direct tests | role/slot/SHORT/WORD/fScriptSuccess/owner contracts逐段核对；未发现新缺陷 |
 | `packages/game/src/core/event-opcode-player.test.ts` | test | 已验证 | CODE-QUALITY-3p 3p-event-opcode-player；player/equipment/HP-MP/revive/poison/status/magic opcode contracts | direct opcode oracle |
 | `packages/game/src/core/event-opcode-player.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3p 3p-event-opcode-player；opcode family branch contracts | branch boundary oracle |
@@ -453,7 +455,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/analytics/google-analytics.test-fixtures.ts` | fixture | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `scripts/quality/code-quality-inventory.test.mjs` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `packages/game/src/analytics/google-analytics.install-failure.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
-| `packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；96行全文、两测原重复准备合并，正式hydrate/projection/startBattle与五槽typed资源 | 新测试专用helper；不复制phase/脚本/奖励算法，不计独立运行时合同或closed |
+| `packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
 | `packages/pal-extract/src/cli-entrypoint-paths.test.ts` | test | 已验证 | [CLI IO逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 6真实进程/链接/import/默认根合同；错误cwd仅该例红，fake仅替编码器 |
 | `packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts` | test | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 既有合同补强；旧绿/新红业务反控成立，统一门仍待 |
 | `packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts` | test | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 既有合同补强；旧绿/新红业务反控成立，统一门仍待 |

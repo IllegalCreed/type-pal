@@ -3139,7 +3139,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read only owned current battle-quality window row and exact descendant binding; original unrelated review reused",
-      "coreConclusion": "Current battle-quality window build; structural53fe25e pushed; H02 seven-pool discrimination established, CODE3u current contract prepared; unified gates not run;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+      "coreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "92daca8715e30cf0ad9fe1e0dfabae6ba0567bd0f6f592056d25c64ecbbaaea6",
+      "afterSha256": "85ea687202fbbb9319605cf075dc6e53a8b9ce18b6605f10f0ffadfed09c1c0d",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "92daca8715e30cf0ad9fe1e0dfabae6ba0567bd0f6f592056d25c64ecbbaaea6",
+        "implementationSha": "85ea687202fbbb9319605cf075dc6e53a8b9ce18b6605f10f0ffadfed09c1c0d",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4782,6 +4782,32 @@
           "previousCoreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "6c42a92e75d02df442d61b65a42895f211963f0507a8efebdc14f2c89b019e10",
           "afterSha256": "92daca8715e30cf0ad9fe1e0dfabae6ba0567bd0f6f592056d25c64ecbbaaea6",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-accepted",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+          },
+          "previousCoreConclusion": "Current battle-quality window build; structural53fe25e pushed; H02 seven-pool discrimination established, CODE3u current contract prepared; unified gates not run;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousAfterSha256": "92daca8715e30cf0ad9fe1e0dfabae6ba0567bd0f6f592056d25c64ecbbaaea6",
+          "afterSha256": "37d34065f45aa6a028874c4bbbf39579a35d22132e988f929b050259f3bfdb3a",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-current-review-pointers",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+          },
+          "previousCoreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousAfterSha256": "37d34065f45aa6a028874c4bbbf39579a35d22132e988f929b050259f3bfdb3a",
+          "afterSha256": "85ea687202fbbb9319605cf075dc6e53a8b9ce18b6605f10f0ffadfed09c1c0d",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
         }

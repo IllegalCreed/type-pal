@@ -1,34 +1,48 @@
-# 结算／成长模块质量增量
+# 状态／结算／成长相关窗口验收
 
-Status: recorded
-Owner: Codex
+Status: accepted within specified scope; integration pending
+Owner: Codex（单Agent）
 
-同一3y，基点9a5f80e7c；父卡核定四源纯结构范围，模块大门留相关多卡收尾。当前新关闭0、83卡56accept/27partial不变，不把40条回归当文件或卡accept。
+同一`codex/code-quality-3y`，基点9a5f80e7c；实现／测试冻结于d05fdc82c，官方派生baseline提交7ea761572。**本窗关闭10个明确文件，CODE3u按原状态／资源／位置合同接受；固定83卡当前57accept/26partial/0pending。**机器账本3355库存、371closed/114review/2870pending。3w/3x仍partial，94–102未扩展。远端集成按实际Git/CI另核，不能从本页推定已合main。
 
-## 结构、类型与实际来源
+## 文件与八维依据
 
-四文件逐项A–H和当前SHA见[review.json](review.json)。此前settlement249、finalization67、progression307行全文证据按实际版本复用，本轮重核三源完整正文与所有差异；新增data文件全文。设备状态leaf391行全文、毒状态／真实宿主相关域和两个直接测试全文已核；相邻大型event／GameState仅定向，不授整文件信用。
+[review.json](review.json)列15文件逐项A–H、当前SHA、真实caller、复用证据、接收／保留理由和10个关闭路径。既有源码全文与GLM全文证据按具体版本复用；本轮只重读实际疑点、差异与必要caller，不重复整套原版考据。相邻大型event／GameState／battle-system不授整文件信用。
 
-三个旧type声明逐个原文相同，原settlement type出口名字保留，新文件仅发射空export；其余三文件编译JS在**按文件限定**的三个import目标替换后相同。初版通用路径比较器的原件保留，v2收窄到具体文件，不把同一替换规则套在结算脚本调用上。七个旧转出口与直接owner实际import为同一函数。battle-system仍直接加载equip/event facade；不声称消除了全部循环或证明任意初始化时序等价。
+状态／资源／位置以原CODE3u合同验收，scope不包含整个战斗演出。19个既有单红的原件字节、失败身份与当前测试SHA已实际校验，79份附件沿原路径复用；state去注释TS与旧全文版本相同。positions与DATA阈值parser为既有关闭的有限B维刷新，不增加关闭数。
 
-## 测试、原件与未完成
+## 实际结构整改
 
-六文件40绿、H02+主升级两文件16绿、state/runtime三文件20绿、game typecheck0；这些运行存在文件重叠，不相加冒充唯一测试数。state回归命令的动画路径未匹配，不授动画实跑信用。此前3w的6+6有效单红和迁移可按未变测试/fixture及执行正文复用，不重采。原件、命令/cwd/版本/exit/signal、双流和原生JSON见[native.json.gz](native.json.gz)。类型合同走真实caller/typecheck，不另加镜像运行时测试。H02原两池用例已补强为七池映射／结果／余数／RNG顺序，仍5例。Defense/Dex互换时旧5绿→新4绿1指定属性AssertionError，恢复5绿；唯一改名一一映射见review。当前V1允许的Dex存留经验边界明确标注，不冒充正常动作可积身法经验。
+清毒／装备数值直接依赖真实状态Owner，去除对解释器／装备脚本转出口的无关依赖。七个旧转出口与leaf实际import是同一函数；battle-system仍直接加载两facade，不宣称任意初始化顺序等价或全部循环已消除。
 
-[WORD停止线](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)原生C字段语句及正式TS结算边界反证成立；使用原盘DATA阈值和当前V1允许的65535，未运行完整SDLPal或浏览器导入，不声称普通主线自然触发。原件同包；未改数值、save guard或格式，用户裁决pending。只读枚举43,503条SSS发现Extra 0x17仅大蒜84入口、14处0x30均无显式role override；第一次遗漏wrapper的工具失败原件保留且不计语义信用。完整动态链仍未知，非队员Extra仍按[既有卡](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)核完整写入链，不能凭手塞状态改循环。
+三个type声明原文移到无执行逻辑的数据模块，旧settlement type出口名字／字段保持。新模块只发射空export；settlement执行JS完全相同，其余两源按文件限定import目标替换后其余编译JS相同。原通用比较器原件保留，v2收窄到实际文件。修正空敌槽全无消费、positions缺人数layout返回值、满级阈值零占位三处错注；执行／常量未变，Win95原盘DATA99项实际32000。
 
-只读复验默认不执行测试/producer；当前结构证明默认stdout只读，显式--out才排他写入。完整模块稳定后才集中check/official ratchet/protected，原前窗CI仅属9a5，不替新源授通过。94–102不扩展。
+量化初筛口径、源指纹和热点处置在原件中：逐函数／闭包按JS决策点统计，>10仅作阅读线索；状态seed的19主要为九组可选／默认读取，不据数字拆万能mapper。成长函数仍review。选中8源的80-token原样块未发现重复窗口，不能推定不存在语义重复或其它尺度重复。
 
-3u原状态／资源／位置合同复用全文、六有效单红和公开资源Owner反控；当前类型／执行正文守恒，逐文件C/D/F/G/H依据已补。空槽及positions返回值、DATA满级阈值三处错注仅文案更正。原32,000阈值由原盘观察支持，不据此新造镜像测试；三处发射JS守恒，统一门仍留相关卡窗口冻结后。当前9份文件结论明确其review／历史信用边界，不把原Extra、数值或视觉未知带过。
+## H02判别力及夹具返工
 
-快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/verify.mjs` 默认只读，核当前源／caller指纹、清单内全部原件完整性和指定反控身份，输出MATCH仅代表这些检查相符；不自动运行producer／测试或改变未知状态。原件追加后成员数量以review清单为准。
+原两池case补为七项属性／显示数据／经验余数／RNG顺序，仍5例、仅一标题迁移。Defense/Dex对调：旧5绿→新4绿1指定属性AssertionError→恢复5绿。身法无动作计数来源，case只使用当前V1允许的存留经验边界，不声称正常剧情能积身法经验。
 
-## 相关卡窗口冻结
+补核发现其余四例仍依赖未hydrate运行态，后两例实际0级而注释1级；此前该夹具信用撤回。先加精确等级oracle得3绿2指定业务红，再使用真实初始化；后两例普攻Health2/Attack1配合法存留34/68，保留隐藏涨1/2级、HP/MP恢复和8抽原合同。修正后5绿，同七池变异仍恰1属性红，恢复5绿。前两例是有意helper数值边界。所有身份及旧／新／失败／恢复字节均保留；这修的是测试质量，产品数值未改。
 
-执行源码冻结150650c59。范围仅CODE3u原状态／资源／位置与专测，3w/3x本轮有限结构／测试及3b阈值错注。19个既有单红的原件字节、失败身份和当前测试SHA实际校验一致，未重跑变异；79份原附件沿原路径复用。15文件逐项依据和可验收候选在review，3w的Extra／中间时序及3x的WORD均不强关。冻结后顺序完整check、官方fast ratchet带固定main保护及同报告严格scope比较；当前还未给这些大门授通过。
+## 实际质量门与成本口径
 
-## H02二次夹具补核
+- 定向／相邻40、state/runtime20、最终H02/主升级16及game typecheck通过；运行有重叠，不相加冒充唯一数量。
+- 完整`pnpm check`在150650c59实跑20430例，七包TC、工具、lint均通过；所有运行诊断和stderr为0。260个普通stdout块已逐类核对，与上一可信运行仅耗时值不同。
+- 其后唯一变化是隔离H02测试文件：受影响5例／相邻11与TC已重验，其余20425未变结果复用；**未冒称在后继提交再跑一次完整check**。
+- 最终候选的官方fast实际20032例／758源，联合ratchet与固定main保护通过；同一报告的canonical投影、严格metrics/scope及protected复核通过，未再采集。253个普通stdout块与前次完全一致，诊断／stderr为0。
+- 所有包和总计metrics逐计数完全不变；baseline只同步新type源、单标题身份及其派生摘要／时间。没有新调整授权、退役、范围移除、规则／ignore／exclude变化。
+- 当前文档消费者、严格进度consumer、lint-zero、ledger和diff按最终原件记录。退出码0且带诊断不作为通过；失败原件与后继修正分开保留。
 
-此前四例夹具信用撤回：makeHBattle未hydrate,后两例实际0级而注释1级。先增加精确等级oracle在旧输入得到3绿2指定业务红，再改为真实初始化和普攻Health2/Attack1权重；合法存留34/68分别保持隐藏涨1/2级，原HP/MP及8抽不变。修正后5绿，七池同变异仍4绿1指定红，恢复5绿；canonical16/TC0。不是修复产品数值bug,源码执行未动。阶段一和旧弱夹具原件保留，各自信用范围见review。
+完整命令、cwd、工具版本、exit/signal、双流、原生JSON、原生C／输入与实际SHA见[native.json.gz](native.json.gz)；索引在review。state相邻命令所带动画路径未匹配，只计实际3文件20例，不授动画实跑信用。首次census遗漏wrapper的工具失败有原件且不计语义信用。
 
-完整check在150650c59已20430绿/全部诊断0；其后仅一隔离测试文件变更，其余20425例结果按未变输入复用，改动5例与相邻11/TC已重验。未声称第二次全仓命令；最终官方fast仍会在新候选重跑全部选中测试含新H02。量化初筛原件/口径/热点处置同包，0原样80-token重复窗口不等于无语义重复。
+## 保留的停止线
+
+- [非队员Extra](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)：原盘43503指令中，Extra 0x17仅大蒜84入口，14处0x30均无显式role override；这只是缩小范围，完整动态写入→无重建→清理→消费链仍未知。C逐脚本阻塞与TS先排队的中间时序亦未授全等价。
+- [WORD边界](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)：原生C字段复合赋值与正式TS结算边界已证65535+1分歧；未运行完整SDLPal／浏览器导入，也未证明普通原盘剧情自然触发。数值策略待用户裁决，未改算术／save。
+
+三个相关产品源保持review，不因测试／统一门全绿升格。第一、二阶段不混用；schema/save/资源、公共字段和UI形态未改变。
+
+## 低成本复验
+
+`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/verify.mjs`默认只读，核当前源／caller指纹、79份复用附件、全部原件完整性和指定原生失败／恢复身份；不运行producer、测试、联网或改工作树。MATCH仅表示这些检查匹配，语义取舍见逐文件八维。源／caller／输入／合同变化只重核受影响claim；其它26partial不附带关闭。

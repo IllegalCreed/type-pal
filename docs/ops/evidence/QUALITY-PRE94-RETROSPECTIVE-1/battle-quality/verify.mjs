@@ -58,6 +58,31 @@ for (const [id, passed, failed] of [
     assert.match(failures[0].failureMessages.join('\n'), /AssertionError/)
   }
 }
+const h02 = review.files.find((f) => f.path.endsWith('battle-progression.glm-next-wave.test.ts'))
+const fixtureProof = JSON.parse(native['h02-fixtures-counter.json'])
+assert.equal(h02.sha256, fixtureProof.finalSha256)
+for (const [id, passed, failed] of [
+  ['h02-old-fixtures-level-oracle-red', 3, 2],
+  ['h02-hydrated-fixtures-green', 5, 0],
+  ['h02-hydrated-pool-mutant-red', 4, 1],
+  ['h02-hydrated-restored', 5, 0],
+]) {
+  const report = JSON.parse(native[`${id}.native.json`])
+  assert.equal(report.numPassedTests, passed, id)
+  assert.equal(report.numFailedTests, failed, id)
+  assert.equal(report.numPendingTests, 0, id)
+  const failures = report.testResults.flatMap((f) =>
+    f.assertionResults.filter((t) => t.status === 'failed'),
+  )
+  assert.equal(failures.length, failed, id)
+  for (const failure of failures) {
+    assert.match(failure.failureMessages.join('\n'), /AssertionError/)
+    assert.match(
+      failure.fullName,
+      id.includes('pool-mutant') ? /七池映射/ : /无主升级但|主升级成立/,
+    )
+  }
+}
 console.log(
   JSON.stringify({
     result: 'MATCH',

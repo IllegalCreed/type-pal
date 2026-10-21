@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "state": "whole check20430 clean at frozen implementation; H02 fixture/oracle correction now16/TC0, final official collection pending",
+  "state": "accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending",
   "owner": "Codex",
   "base": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7",
   "files": [
@@ -66,7 +66,7 @@
         "G": "三声明均参与LevelUpScreenData；原公开类型出口不擅自退役，无新运行包装。",
         "H": "纯类型不以运行时mock验证；实际编译与原文等式支持当前合同。"
       },
-      "decision": "review; module gates and actual remaining contracts pending"
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates"
     },
     {
       "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
@@ -82,7 +82,7 @@
         "G": "删除多余SeedableRng/seededRng导入和临时rng展开,无新helper/公开测试端口;未退休整例。",
         "H": "控制七次真实rangeInclusive,同时断言属性值/显示数据/经验余数而非只数mock;隔离副本变异,治理源未污染。"
       },
-      "decision": "review; five contracts ready, whole-file decision after window gates",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": [
         "core-comment-audit/poison-progression-comments/README.md",
         "seven-pools-counter.json",
@@ -103,7 +103,7 @@
         "G": "19出口为声明/纯factory/三人常量;共享字段属于现有动作/呈现协议,不把未完整枚举的动态字段直接删。当前无新死参数/分支。",
         "H": "构造显式GS/资源/RNG,不自行读时钟/网络;状态映射/数组与map ownership可由真实constructor直接观察,不靠访问私有变量。"
       },
-      "decision": "review; bounded original CODE3u state contract ready for module gates",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": [
         "3u-state-factory/README.md",
         "glm-foundation/game-battlestate-ctx/README.md",
@@ -124,7 +124,7 @@
         "G": "各公开getter和setter有真实caller,无新增死出口;不为消除旧私有断言而扩大公共接口。",
         "H": "GameState隔离可直接观察公开资源/runner,不需mock模块或重置模块全局;额外WeakMap改写会触及旧可枚举快照边界,当前收益不足不混入。"
       },
-      "decision": "review; original resource ownership contract ready for module gates",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": ["3u-3w-finalization/README.md", "glm-foundation/game-battlestate-ctx/README.md"]
     },
     {
@@ -175,7 +175,7 @@
         "G": "枚举长度恒真退出映射已在旧assertion-transfers;当前不再添加无业务测试,14身份未动。",
         "H": "公开构造器/输入输出直接观察,无核心mock/私有stash访问;真实RNG只作受控依赖。"
       },
-      "decision": "ready for module gates; no new acceptance yet",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": [
         "3u-state-factory/README.md",
         "3u-state-factory/assertion-transfers.json",
@@ -196,7 +196,7 @@
         "G": "4→3退休重复快照已有逐断言映射及保全红;当前三身份/断言未动,不恢复弱重复用例。",
         "H": "实际factory与受控RNG直接测,无DOM/global模块重置,每例独立GS。"
       },
-      "decision": "ready for module gates; no new acceptance yet",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": ["3u-state-factory/README.md", "reused-controls.json"]
     },
     {
@@ -213,7 +213,7 @@
         "G": "已删无必要的私有键布局断言;三业务case保留,不把类型声明写成runtime用例。",
         "H": "vi.fn仅提供合法函数identity,没有调用次数冒充runner业务;GS/resource真实owner未mock。"
       },
-      "decision": "ready for module gates; no new acceptance yet",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": ["3u-3w-finalization/README.md", "reused-controls.json"]
     },
     {
@@ -230,7 +230,7 @@
         "G": "未新增重复case/强转/宽mock;保留旧两例全部有效公开断言,无整例退役。",
         "H": "真实公开finalize输出/赋值瞬间可观察,无测试端口或私有hook;每例状态本地隔离。"
       },
-      "decision": "ready for module gates; no new acceptance yet",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": ["3u-3w-finalization/README.md", "reused-controls.json"]
     },
     {
@@ -247,7 +247,7 @@
         "G": "没有新增重复case/屏算法镜像/skip或删强断言;同类合法结果table有不同真实分支语义。",
         "H": "公开tick/资源getters可观察恢复/清理,只控制Math.random并精确恢复,不需要mock事件解释器。"
       },
-      "decision": "ready for module gates; no new acceptance yet",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": ["3w-post-scripts/README.md", "reused-controls.json"]
     },
     {
@@ -264,7 +264,7 @@
         "G": "每个option由当前caller使用;无死export或内部算法复制,不向产品暴露fixture入口。",
         "H": "支持输入变体但不注入任意核心mock,每次全新GS/资源/Bus,随机seed明确;无网络/共享文件写。"
       },
-      "decision": "ready for module gates; no new acceptance yet",
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
       "reuses": ["3w-post-scripts/README.md"]
     }
   ],
@@ -444,11 +444,61 @@
       "id": "h02-rework-lint",
       "exit": 0,
       "stderrBytes": 0
+    },
+    {
+      "id": "related-window-ratchet",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "strict-protected",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "accepted-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "accepted-progress",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "accepted-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-progress",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-ledger",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-diff",
+      "exit": 0,
+      "stderrBytes": 0
     }
   ],
   "artifact": {
     "member": "native.json.gz",
-    "sha256": "aea19c63c4f3f32107e2f88cbfd3c23aacf9322dc6502667eb22304055f935b3",
+    "sha256": "902c10477aafa14d699a84c8b96510824f2bb66cef3cf0e460e3a35928b3c81d",
     "members": [
       {
         "name": "import-binding-proof.execution.json",
@@ -1289,25 +1339,220 @@
         "name": "h02-rework-lint.stderr.raw",
         "bytes": 0,
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-baseline.json",
+        "bytes": 531597,
+        "sha256": "2fb63c63ce97687d21a8fd3fbb3c23dbcd14980f1631787966e3a767bb13b371"
+      },
+      {
+        "name": "accepted-docs.execution.json",
+        "bytes": 2240,
+        "sha256": "9c900c4f9a94dd3af64e138965f1fae3067cb6d3893987b41218c19a9456661d"
+      },
+      {
+        "name": "accepted-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "d1a4ccd35c72eaebdfb6ce4fa2c5fe29c25541685f41f14a5f9b8ea11e1844b6"
+      },
+      {
+        "name": "accepted-lint.execution.json",
+        "bytes": 1913,
+        "sha256": "b2ab3bd8409b6b710bcde805ccd94db0bebbd46b06d750225245634959a980bc"
+      },
+      {
+        "name": "accepted-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "accepted-progress.execution.json",
+        "bytes": 2029,
+        "sha256": "abe1a1a25ea6f2ee550c94099763d6088f74c25b46af34b311f3a043abde33c4"
+      },
+      {
+        "name": "accepted-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "b4faab5db3820dca10e4dc414746666d156e23a4278f9c90e966ca072e68e58e"
+      },
+      {
+        "name": "baseline-scope-only.json",
+        "bytes": 784,
+        "sha256": "626b040f38d5ed81d773cbb694e4f88703c1488d061818e7b46763763a486e5d"
+      },
+      {
+        "name": "final-diff.execution.json",
+        "bytes": 1814,
+        "sha256": "7e7c8df1c644d5ca58ef318f7a1f81540743a6cbed6245dd685c706ab49bb6a8"
+      },
+      {
+        "name": "final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.execution.json",
+        "bytes": 2117,
+        "sha256": "a13902eb9856e6ddde28ad9c3641b1f5d3e5358ca5c8f3db139f8ea099d5c5ca"
+      },
+      {
+        "name": "final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "d1a4ccd35c72eaebdfb6ce4fa2c5fe29c25541685f41f14a5f9b8ea11e1844b6"
+      },
+      {
+        "name": "final-ledger.execution.json",
+        "bytes": 1833,
+        "sha256": "73a21b9e3a9f05ba892f09cb4580b7ccb9597915f6707c33c5ecb14e65f41212"
+      },
+      {
+        "name": "final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "065f1ac994b5d2672af8d647cfd955cbc05d2b6c79dbf0c10702d509dfee0f56"
+      },
+      {
+        "name": "final-lint.execution.json",
+        "bytes": 1790,
+        "sha256": "c2ce5d50e7e86a02223bc7fb82def0f2e1cd905ba90fdb8bbd5fdbb2bbe7b239"
+      },
+      {
+        "name": "final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "final-progress.execution.json",
+        "bytes": 1906,
+        "sha256": "2be594733d245341cd5571664318e7ec1068537134f21377d8566ca2b638c171"
+      },
+      {
+        "name": "final-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "f46cc82b1ac9b7b7575b53017220a43cb4acd653cdc4e47b3e7cd61bc14c835f"
+      },
+      {
+        "name": "protected-baseline.json",
+        "bytes": 531530,
+        "sha256": "02375c14f59fea090ca3e43d16b96d4cd137b9e1c86e70db575fcd309b9addae"
+      },
+      {
+        "name": "protected-snapshot.json",
+        "bytes": 1402,
+        "sha256": "3bfdcced9d277100eff3b53cc06168d2ae2d4b7e1dd403c0cc92ffb6e02ca493"
+      },
+      {
+        "name": "protected-snapshot.mjs",
+        "bytes": 4589,
+        "sha256": "700579cced6e77327430694bdfb99635cb9d617578820441b36862b4d2adc5a2"
+      },
+      {
+        "name": "related-window-ratchet.coverage-summary.json",
+        "bytes": 8495044,
+        "sha256": "dbd735bdcf264c13caebaa743bc7b88b46bd76ecd37b7860ab18eb7566730460"
+      },
+      {
+        "name": "related-window-ratchet.diagnostics.json",
+        "bytes": 81911,
+        "sha256": "8a5fbcaa70f62b8f6a5e49ea924808c2cd764a451818a25c2857d15a5f6e7fe0"
+      },
+      {
+        "name": "related-window-ratchet.execution.json",
+        "bytes": 1343,
+        "sha256": "0c13cea235ee78734d273af6cfb2ef1096d19540ccab9aa8c249a3bb51bfb8b4"
+      },
+      {
+        "name": "related-window-ratchet.scan-output.raw",
+        "bytes": 71098,
+        "sha256": "2bfc3340b84d69ce13ef3b49624a88705900f451a2d14170c068fb3815a8b156"
+      },
+      {
+        "name": "related-window-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "related-window-ratchet.stdout-classification.json",
+        "bytes": 1599,
+        "sha256": "f3f763fc5be67fe81065efce6368508d62cec43865f46941385464b5f9e4624f"
+      },
+      {
+        "name": "related-window-ratchet.stdout.raw",
+        "bytes": 203812,
+        "sha256": "22d45f24420b963d1e23c59b54d3ad84d6dcb2a190999d376e72618ab5a8836c"
+      },
+      {
+        "name": "strict-protected.execution.json",
+        "bytes": 1547,
+        "sha256": "342e041d69263716b1ec1978452081212052e529ecfc51ed777c063a4c955f73"
+      },
+      {
+        "name": "strict-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "strict-protected.stdout.raw",
+        "bytes": 192,
+        "sha256": "40cc2a1c66956ec349afb62c52faa9ac0e0d0a2c084e0d0601d30092afb68604"
       }
     ]
   },
-  "newClosures": 0,
+  "newClosures": 10,
   "pre94": {
-    "accepted": 56,
-    "partial": 27,
+    "accepted": 57,
+    "partial": 26,
     "pending": 0
   },
   "notRun": [
-    "official fast ratchet/protected for final candidate pending; full check source150 complete, only H02 test delta separately revalidated",
+    "No second full check after isolated H02 test-only correction;20425 unchanged cases reused,changed5/current adjacent11/TC and final official fast actual.",
     "full SDLPal/runtime/browser import",
     "WORD product arithmetic change, awaiting user"
   ],
   "sourcesInvalidation": "Changed body/type/caller/real data invalidates its associated claim; old counter source versions remain original. Shared state-owner hashes and exact base identify current import proof. No automatic whole-file/card acceptance.",
   "ledger": {
     "inventory": 3355,
-    "closed": 361,
-    "review": 124,
+    "closed": 371,
+    "review": 114,
     "pending": 2870
   },
   "next": "Run one frozen whole check + official fast ratchet/protected with explicit diagnostics. Only after pass decide the named CODE3u/individual file scopes, never close3w/3x or unrelated partials.",
@@ -1324,7 +1569,7 @@
     "additionalFixtureDelta": "Main level source now hydrated; attack hidden boundary level0→2 becomes initial1→3 with same two growth increments. Current ordinary fixture raw inputs replace unhydrated zero baseline, not a product arithmetic change."
   },
   "censusLimit": "Raw43,503/only garlic Extra17/all14 percent buffs override0 narrows normal data. Complete dynamic offparty write→no refresh→cleanup→consumption not proven, Extra card remains draft. First census wrapper missing-module failure preserved and has no semantic credit.",
-  "frozenSourceHead": "150650c59c4677bee57cee8576f40d8f0e1bd768",
+  "frozenSourceHead": "d05fdc82ca52cd225e3c4399d0d3f5ad3addc147",
   "windowCards": [
     "CODE-QUALITY-3u",
     "CODE-QUALITY-3w",
@@ -1679,5 +1924,65 @@
       "reuseRationale": "Do not repeat unrelated20425 unchanged tests solely for this isolated file. Full command remains honestly pinned to150650c59; it is not claimed as a second full command on the later commit."
     }
   },
-  "frozenSourceHeadPending": "Only H02 test fixture rework pending source commit; product implementation remains150650c59. Update frozenSourceHead to actual code commit before official collection."
+  "closedFiles": [
+    "packages/game/src/core/battle/battle-state.ts",
+    "packages/game/src/core/battle/battle-runtime-context.ts",
+    "packages/game/src/core/battle/battle-settlement-data.ts",
+    "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+    "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-runtime-context.test.ts",
+    "packages/game/src/core/battle/battle-finalization.test.ts",
+    "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+    "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts"
+  ],
+  "gates": {
+    "fullCheck": {
+      "run": "related-window-check",
+      "head": "150650c59c4677bee57cee8576f40d8f0e1bd768",
+      "exit": 0,
+      "passed": 20430,
+      "diagnostics": "all scanner categories and stderr0;260normal stdout blocks compared with previous run,only elapsed time varies",
+      "followingDelta": {
+        "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "beforeSha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299",
+        "afterSha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e",
+        "kind": "test fixture/oracle only; all product/shared fixture/config/dependency files unchanged",
+        "verification": "h02-canonical-regression16/current typecheck; final official fast will include all5 currentH02 tests",
+        "reuseRationale": "Do not repeat unrelated20425 unchanged tests solely for this isolated file. Full command remains honestly pinned to150650c59; it is not claimed as a second full command on the later commit."
+      }
+    },
+    "officialFast": {
+      "run": "related-window-ratchet",
+      "head": "d05fdc82ca52cd225e3c4399d0d3f5ad3addc147",
+      "passed": 20032,
+      "sources": 758,
+      "exit": 0,
+      "diagnostics": "all categories0,stderr0;253 complete stdout blocks equal prior normal messages",
+      "mode": "Official single collection executes ratchet plus fixed-main protection; strict-protected reuses the exact report, not a second collection",
+      "protectedRef": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7"
+    },
+    "staticFinal": {
+      "docsConsumers": 5,
+      "progressIssues": 0,
+      "lint": {
+        "files": 5788,
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "ledger": "3355/371/114/2870 actual PASS",
+      "diff": "PASS"
+    },
+    "baseline": "All per-package and total metric counts exactly unchanged. Only one type-source inventory and one title identity plus derived digests/time, no removal or new adjustment/rule."
+  },
+  "quantitativeScreen": {
+    "tool": "TypeScript6.0.3 AST decisions + exact80-token windows; reading clues only",
+    "report": "structure-screen.json",
+    "disposition": "structure-disposition.json"
+  },
+  "integration": {
+    "state": "Final local acceptance ready; stage final3y commit/push,manual branchDocs,fetch0behind,FFremote main then verify actual CI. No integration claimed before tools."
+  },
+  "processDisclosure": "Initial direct-file invocation of temporary acceptance writer returned a UTF8 parse error before any writes; raw not separately saved. Explicit UTF8 Unicode compile validated then same writer succeeded, followed by real ledger/strict docs checks. This is bookkeeping only, no product/gate rerun credit."
 }
