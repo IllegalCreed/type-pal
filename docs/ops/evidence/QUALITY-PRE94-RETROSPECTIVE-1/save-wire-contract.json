@@ -91,8 +91,8 @@
   "status": "Historical contract evidence remains frozen;user approved type separation,implemented as an erased type-only phase;full validation still pending.",
   "artifact": {
     "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz",
-    "bytes": 4731,
-    "sha256": "0b367c46cd5ee6ec39151d99d3ab8b0c3ab0bb21f42cd41f153cb2d0815fb9bc",
+    "bytes": 8829,
+    "sha256": "f149ff283c8a029a880f96ff873015434573a49cfbb463dea0fb98cf8f65a2b6",
     "members": [
       {
         "name": "probe-save-wire-first.mjs",
@@ -153,11 +153,201 @@
         "name": "wire-contract-r3.execution.json",
         "bytes": 663,
         "sha256": "ed38f5f566ccdf5fd126cf33f5299e776ce9473f2b823dee09334d5220dbb8b0"
+      },
+      {
+        "name": "probe-v2-data.mjs",
+        "bytes": 2322,
+        "sha256": "50b659a310c6fc455f8d6346082de6275893fcfd2c9de1f1f4fa84ded914eeb5"
+      },
+      {
+        "name": "v2-export-sample.json",
+        "bytes": 6164,
+        "sha256": "d3ba5cc752dbca93be1f2d0052feea04c8cf339d7fafe29da7e077abd5b2742e"
+      },
+      {
+        "name": "legacy-v2-contract.stdout.raw",
+        "bytes": 7889,
+        "sha256": "98f08f2ce41fc59920fc010bf475e637626646c2506cbf1e93879f918b59a889"
+      },
+      {
+        "name": "legacy-v2-contract.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "legacy-v2-contract.execution.json",
+        "bytes": 1577,
+        "sha256": "6d8ea33ca7b6c5738c07a99f06ee9e1a0ddbc89b255c0afaaf7ccebe330f8b2e"
+      },
+      {
+        "name": "types-v2-body.json",
+        "bytes": 1705,
+        "sha256": "2aeb2bf04e3c345fc08f935c4b862d33ab7a1e30f5de9b9bc114e5c3fa86ce71"
+      },
+      {
+        "name": "prove-save-types.cjs",
+        "bytes": 1272,
+        "sha256": "cbc9c731f18493f94ff3cc53f2d23c8d5e431d2bbd4490ab2fde46a88e6fbf17"
       }
     ]
   },
   "executionErrata": [
     "First helper extraction omitted makeExpEntry; failed before observation output.",
     "Second run used an overbroad identifier absence assumption; unrelated function parameters named nowMs contradicted it. Third run uses actual GameState declarations and serialized values; all three raw runs preserved."
-  ]
+  ],
+  "storeV2ExportCompatibility": {
+    "source": "6b58f9e8472b990080abed384fca95b044baa2f2",
+    "method": "Actual frozen store-v2 GameState constructor passed through current V1 serializer;constructor/encoding contract only,not a played-game or IDB/UI observation.",
+    "declarationCounts": [
+      {
+        "name": "GameState",
+        "old": 61,
+        "current": 96
+      },
+      {
+        "name": "PlayerRolesRuntime",
+        "old": 17,
+        "current": 22
+      },
+      {
+        "name": "EquipmentEffectRoles",
+        "old": 13,
+        "current": 16
+      }
+    ],
+    "laterRequiredFields": {
+      "GameState": [
+        "nowMs",
+        "followerFrozenOffset",
+        "numPalette",
+        "nightPalette",
+        "iCurPlayingRNG",
+        "sWaveProgression",
+        "shakeTime",
+        "shakeLevel",
+        "blackScreenHold",
+        "currentSaveSlot",
+        "fAutoBattle",
+        "rgPlayerStatus"
+      ],
+      "PlayerRolesRuntime": [
+        "rgwSpriteNum",
+        "rgwAvatar",
+        "rgwSpriteNumInBattle",
+        "rgwAttackAll",
+        "rgwWalkFrames"
+      ],
+      "EquipmentEffectRoles": ["rgwSpriteNumInBattle", "rgwAttackAll", "rgwCooperativeMagic"]
+    },
+    "removedFields": {
+      "GameState": [],
+      "PlayerRolesRuntime": [],
+      "EquipmentEffectRoles": []
+    },
+    "pins": [
+      {
+        "ref": "6b58f9e84",
+        "path": "packages/game/src/core/game-state.ts",
+        "sha256": "df76f6659ddf85916f95976015b66002900f3845c094e913a1a8acbf51388d83"
+      },
+      {
+        "ref": "working-tree",
+        "path": "packages/game/src/tools/save-io.ts",
+        "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+      }
+    ],
+    "sample": {
+      "member": "v2-export-sample.json",
+      "sha256": "d3ba5cc752dbca93be1f2d0052feea04c8cf339d7fafe29da7e077abd5b2742e",
+      "bytes": 6164,
+      "format": "type-pal-save",
+      "version": 1,
+      "rootKeys": [
+        "party",
+        "partyScriptedFrame",
+        "camera",
+        "npcs",
+        "partyMembers",
+        "inventory",
+        "mode",
+        "menuStack",
+        "currentDialogStyle",
+        "currentDialogFontColor",
+        "frameNum",
+        "walkingFrame",
+        "trail",
+        "wSavedTimes",
+        "wNumScene",
+        "wPaletteOffset",
+        "wNumMusic",
+        "wNumBattleMusic",
+        "wNumBattleField",
+        "wScreenWave",
+        "wBattleSpeed",
+        "iCurMainMenuItem",
+        "iCurSystemMenuItem",
+        "iCurInvMenuItem",
+        "iCurInvActionMenuItem",
+        "wCollectValue",
+        "wLayer",
+        "wChaseRange",
+        "wChasespeedChangeCycles",
+        "nFollower",
+        "dwCash",
+        "Exp",
+        "PlayerRolesRuntime",
+        "rgPoisonStatus",
+        "rgScene",
+        "sceneOnEnterIp",
+        "rgObject",
+        "rgEventObject",
+        "rgEquipmentEffect",
+        "wLastUnequippedItem",
+        "iCurEquipPart",
+        "fScriptSuccess"
+      ],
+      "missingNowMs": true
+    },
+    "typeBody": {
+      "base": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "files": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "before": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+          "after": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+          "emittedBodySha256": "a98c1c031648691fc886424ae988a63bc45550e1420464778156153fc737c542",
+          "equal": true
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "before": "a10533a1cd2dda82a8d58a5d01443fd84125760e62bf85904442537971bc7197",
+          "after": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97",
+          "emittedBodySha256": "1d39304ffb5e57849d554101c5cb27069c4dc1f481246ffc30209bbc325c41dc",
+          "equal": true
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "before": "a18b8765bfff159eab6a0468e0fa915956a4d6c740853dc74fcb69e4226b46ae",
+          "after": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46",
+          "emittedBodySha256": "38b2244d9e2e2f5aee2a4b5641ad8578f064ea30facfffc7536684db26438812",
+          "equal": true
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "before": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7",
+          "after": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6",
+          "emittedBodySha256": "e747f14c1eab31a6bb2df23527d3f960e02b1db50a06164bf29ec7cc980d9767",
+          "equal": true
+        }
+      ],
+      "newModule": {
+        "path": "packages/game/src/core/save/data.ts",
+        "sha256": "3dbb264dc25e62f45d6738e0c4fffb72fce6236fc917971b47f9dc13b0d80b15",
+        "runtimeBody": "export {};"
+      },
+      "typescript": "6.0.3",
+      "allEqual": true
+    },
+    "limit": "Required-current fields added since store-v2 are optional in saved data only. No loader/default/DB/JSON execution change. Full shape guard is a separate draft;formal red9pass/10fail captured before connection."
+  }
 }

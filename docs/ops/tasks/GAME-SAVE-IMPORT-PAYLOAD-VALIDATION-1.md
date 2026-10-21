@@ -69,3 +69,6 @@ GameState当前有96个运行时字段，并含可选Map、Uint8Array及场景/�
 候选接口改动：parseImportedSave返回经过校验的V1存档数据；serializeSave接收运行态或存档数据；Save.saveSlot/loadSlot及IndexedDbSave的gs、ToolsPanelDeps存读参数/返回类型跟随明确的存档数据定义。方法名、slot参数、Promise形状、JSON格式/版本、数据库版本、数据值及游戏行为不变；不新增upgrader或fallback，逐字段校验仍须完成。Loader的运行态恢复责任另按真实消费者核，不借类型更正宣称已修复所有恢复问题。
 
 用户2026-10-21已回复“允许分离存档类型（推荐）”，该类型调整build allowed，Codex单Owner。现已接通SaveSnapshot/SaveDataV1、Save/IDB与工具面板及序列化输入；四个既有产品模块编译后正文与9c3d168逐字节一致，新模块只输出空export。19定向/相邻与game typecheck、scoped Biome零诊断。parseImportedSave的旧强转将在完整字段守卫阶段移除，本片不冒称完成校验。见[五文件A–H/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json)。JSON/数据库/存档值未改，无新默认或迁移；真实FileReader与完整字段仍待核。
+
+
+2026-10-21类型兼容补核：现有V1导出读取已有slot，store-v2最早记录早于JSON writer。6b58f9e84完整构造器经当前真实V1编码可缺12个后加required根字段、5个runtime行与3个装备行；明确这些字段在SaveDataV1中可缺失，已有行仍保留原值，未改任何loader或默认逻辑。源码声明差异、构造/编码样本与当前类型擦除证明见上述合同证据storeV2ExportCompatibility。它不是剧情/IDB/UI复验，也不授完整内容校验信用。当前新结构反例已先运行：9绿/10条业务断言红，parser尚未接入新守卫；行为实现与测试另提交。

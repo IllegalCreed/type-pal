@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-21类型合同补核：V1实际导出已有slot，不能只以首个JSON writer为最老数据。store-v2基点6b58f9e84为61根字段，后加12个required根字段、5个runtime行和3个装备行；当前data类型将这些明确为可缺失，未新增运行时补值/迁移。实际旧构造器→当前V1编码与类型正文不变原件见[合同增量](save-wire-contract.json)。前置纯类型包固定于5b0831d5c，不把它的data.ts哈希当作本增量。
+
 2026-10-21已批准纯类型分离：[五文件A–H/19定向与静态结果](save-types-local.json)、[完整原件与正文不变证明](save-types-native.json.gz)。Save/IDB/工具面板接收存档数据，getGs仍为运行态；四既有模块编译正文与9c3d168一致，新模块无执行逻辑。parser完整内容守卫仍待核，未关闭CODE59。现金切片已冻结于9c3d168，不能要求其旧caller哈希匹配当前类型注释。
 
 2026-10-21 V1合同续核：[固定源码/编码事实与未实施的类型方案](save-wire-contract.json)、[完整观察原件（含两次辅助探针错误）](save-wire-contract-native.json.gz)。91→96字段且JSON仍version1；旧样本缺nowMs，Map为JSON对象。只证明类型/编码不等同运行态，不冒充世界/战斗重放或全字段验收；用户已批准内部类型分离，实施与限制见下条。
@@ -53,9 +55,11 @@ check(current, cashRead, p => spawnSync('git', ['cat-file', '-e', cashRef + ':' 
 const ref = current.priorStage.commit
 const frozen = p => execFileSync('git', ['show', `${ref}:${p}`])
 check(JSON.parse(frozen(current.priorStage.receipt)), frozen, p => spawnSync('git', ['cat-file', '-e', `${ref}:${p}`]).status === 0)
-const types = JSON.parse(fs.readFileSync(dir + 'save-types-local.json'))
-for (const f of types.files) assert.equal(hash(fs.readFileSync(f.path)), f.sha256, 'STALE ' + f.path)
-const typeArchive = fs.readFileSync(types.artifact.path)
+const typesRef = '5b0831d5cbd0a3d030fc37163f107c76efe3d094'
+const typeRead = p => execFileSync('git', ['show', typesRef + ':' + p])
+const types = JSON.parse(typeRead(dir + 'save-types-local.json'))
+for (const f of types.files) assert.equal(hash(typeRead(f.path)), f.sha256, 'STALE ' + f.path)
+const typeArchive = typeRead(types.artifact.path)
 assert.equal(hash(typeArchive), types.artifact.sha256)
 const typeMembers = JSON.parse(gunzipSync(typeArchive)).members
 assert.deepEqual(Object.keys(typeMembers).sort(), types.artifact.members.map(x => x.name).sort())
@@ -74,7 +78,7 @@ const typeTests = JSON.parse(typeMembers['types-directed.native.json'])
 assert.equal(typeTests.numPassedTests, 19)
 assert.equal(typeTests.numFailedTests, 0)
 assert.equal(typeTests.numPendingTests, 0)
-console.log('MATCH: current erased-type phase and frozen cash/test stages; no full schema/integration credit')
+console.log('MATCH: frozen type/cash/test stages; current store-v2 type refinement has a separate contract pin; no full schema/integration credit')
 JS
 ```
 
