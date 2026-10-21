@@ -24,7 +24,8 @@
  *   `typedef WORD LEVELUPEXP;`
  *   MAX_LEVELS = 99 → 数组长 100,200 字节。
  *
- * index 0 = 升至 1 级所需;index 99 = 升至 100 级所需(sdlpal 中通常为 0 占位)。
+ * 按当前等级索引。当前Win95原盘首项为0、99项为32000,不是满级零占位。
+ * PAL_BattleWon在99级仍扣该阈值;MAX_LEVELS限制等级增加,不禁止满级经验结算。
  */
 export function parseLevelUpExp(buf: Uint8Array): number[] {
   const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)

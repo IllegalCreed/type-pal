@@ -760,7 +760,8 @@ function seedBattleStatus(persistent: number[] | undefined): BattleStatus {
 
 /**
  * DH1:敌队 0 占位槽的零值 Enemy(对照 battle.c:1600 `memset(&rgEnemy[j], 0, sizeof(BATTLEENEMY))`
- * 后仅写 wObjectID=0 —— e 全零)。该槽 defeated=true,不参与任何战斗逻辑,字段值无消费方。
+ * 后仅写 wObjectID=0 —— e 全零)。该槽 defeated=true,跳过行动与渲染;
+ * 仍保留站位／召唤槽位语义,不能把这些零值字段都视为无消费。
  */
 function makeEmptySlotEnemy(): Enemy {
   return {

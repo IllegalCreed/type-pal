@@ -79,7 +79,7 @@ export function getPlayerBasePos(
  * @param enemyCount 当前敌人数(选 layouts[count-1])
  * @param idx        敌人 raw index
  * @param yPosOffset enemy.e.yPosOffset(battle.c:939)
- * @returns idx 越界 / 无 layout → undefined。
+ * @returns idx 超出所选表 → undefined;缺少对应人数的 layout 时使用 fallback 表。
  */
 export function getEnemyBasePos(
   enemyPos: EnemyPosTable | undefined,

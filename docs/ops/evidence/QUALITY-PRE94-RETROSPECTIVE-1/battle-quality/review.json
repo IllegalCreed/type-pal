@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "state": "build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open",
+  "state": "build; structural53fe25e pushed; H02 seven-pool discrimination established, CODE3u current contract prepared; unified gates not run",
   "owner": "Codex",
   "base": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7",
   "files": [
@@ -67,6 +67,98 @@
         "H": "纯类型不以运行时mock验证；实际编译与原文等式支持当前合同。"
       },
       "decision": "review; module gates and actual remaining contracts pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299",
+      "lines": 193,
+      "dimensions": {
+        "A": "五个合同保留;七池输入经正式hydrate/startBattle工厂,六动作计数有生产来源,Dex=0计数/存留exp15明确为V1允许边界。没有宣称正常剧情积身法经验。",
+        "B": "头注和唯一标题改为实际七池断言,删除自报仅两池信用;其余四标题/注释不变。",
+        "C": "复用现有生命周期构造器,不复制Exp分配/状态推进;测试只设置结算helper的边界输入,不把它冒称完整动作循环。",
+        "D": "复用recordingRng取代重复的两池临时RNG实现;期望七字段/七结果/余数均为独立常量,不由被测映射生成。",
+        "E": "旧五绿→交换Defense/Dex时旧五绿、新四绿一属性AssertionError→恢复五绿;16真实定向及TC0。测试数仍5,四身份不变/一显式迁移,没有新增skip或弱例。",
+        "F": "逐行七池输入和结果可直接对照机制映射;避免循环生成fixture与oracle造成同错。",
+        "G": "删除多余SeedableRng/seededRng导入和临时rng展开,无新helper/公开测试端口;未退休整例。",
+        "H": "控制七次真实rangeInclusive,同时断言属性值/显示数据/经验余数而非只数mock;隔离副本变异,治理源未污染。"
+      },
+      "decision": "review; five contracts ready, whole-file decision after window gates",
+      "reuses": [
+        "core-comment-audit/poison-progression-comments/README.md",
+        "seven-pools-counter.json"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "584fab309cc044973207f0ea4d44e3a48bff11c3b1d7ae0d0287a6c2d8774c86",
+      "lines": 917,
+      "dimensions": {
+        "A": "复用3u全文/primary和六单红;当前去注释TS与9c2c5e同字节。唯一生产create caller为startBattle,五敌槽/至多三队员、role→slot九状态/独立队列按原边界;不是认证全部剧情/渲染。",
+        "B": "保留已改buildBattleMagicSelect锚,本轮纠正空槽全无消费错注;类型/可选字段既有GLM全文按其实际内容复用,不信模式扫描零命中等于全B正确。",
+        "C": "同一战斗状态协议供宿主/动作/动画/绘制;工厂创建,宿主推进,finalization释放。field和嵌套静态抗性借用只读,health/局部map/状态独立;未为拆大文件造反向层依赖。",
+        "D": "状态声明/单次构造同一模型,positions/rng既有叶复用;空槽构造和seed私有,无复制解释器/通用上下文。",
+        "E": "当前17工厂专例完整身份/字节等于六单红最终test SHA;20实际state+runtime绿。动画请求路径无匹配,不计动画实跑;40宿主相邻原件另列。",
+        "F": "类型分区与构造/空槽两分支清楚;916行主要声明,不按总行数拆为无真实owner的文件。",
+        "G": "19出口为声明/纯factory/三人常量;共享字段属于现有动作/呈现协议,不把未完整枚举的动态字段直接删。当前无新死参数/分支。",
+        "H": "构造显式GS/资源/RNG,不自行读时钟/网络;状态映射/数组与map ownership可由真实constructor直接观察,不靠访问私有变量。"
+      },
+      "decision": "review; bounded original CODE3u state contract ready for module gates",
+      "reuses": [
+        "3u-state-factory/README.md",
+        "glm-foundation/game-battlestate-ctx/README.md",
+        "state-evidence-bridge.json"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98,
+      "dimensions": {
+        "A": "复用3u/3w全文与原C/host owner链;当前完整读,安装/可选override/两GS隔离及释放后fallback合同不变。",
+        "B": "资源表的playerRoles明确可写投影;undefined不换runner和clear语义与真实caller一致,不沿用旧只读资源表错注。",
+        "C": "唯一stash适配层把隐藏字段限制在本模块;startBattle安装/finalize清,action与present只取公开getters。原强转保留在原封装内,不新增为测试绕类型。",
+        "D": "统一资源和runner入口被宿主/结算复用;两个业务生命周期不同,不以布尔模式混成万能getter。",
+        "E": "现三例hash与3u/3w v3最终源匹配,七反控中的跨Owner针及private-shape独立说明可复用;当前20绿含此三例。",
+        "F": "按安装/取/清短函数直述;资源字段声明与实际用途相邻。",
+        "G": "各公开getter和setter有真实caller,无新增死出口;不为消除旧私有断言而扩大公共接口。",
+        "H": "GameState隔离可直接观察公开资源/runner,不需mock模块或重置模块全局;额外WeakMap改写会触及旧可枚举快照边界,当前收益不足不混入。"
+      },
+      "decision": "review; original resource ownership contract ready for module gates",
+      "reuses": ["3u-3w-finalization/README.md", "glm-foundation/game-battlestate-ctx/README.md"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "lines": 93,
+      "dimensions": {
+        "A": "复用全文和3u/3m已核C/DATA坐标,本轮再全文。getters返回坐标副本,支持输入/零槽布局由真实factory/召唤caller限定,不新增容量。",
+        "B": "修正缺人数layout即undefined错注,实际会选fallback;idx越出选中表才undefined。4/5布局明确既有防御兜底,不称C原表。",
+        "C": "纯坐标叶被core与present共享,不引用业务推进/DOM/GS;不让呈现层反向决定状态位置。",
+        "D": "玩家坐标单一来源,敌方按数据表+fallback共用helper;两套输入/选表语义不同不强拼万能函数。",
+        "E": "复用17工厂的实际布局/offset/空槽及六单红中layout针;非empty实例同null槽数按真实坐标断言,不是只判非空。",
+        "F": "getPlayerBasePos/getEnemyBasePos及人数/槽索引名称可解释;保留坐标领域来源信息。",
+        "G": "四个真实出口消费者已检索定位;原公开备用布局不因factory三人guard自动删除,当前只修错注不擅自删合同。",
+        "H": "无时钟/副作用,输入表显式传入,缺表与返回副本可直接测试;无需stub renderer。"
+      },
+      "decision": "historical verified source, finite B correction; no new closure",
+      "reuses": ["3u-state-factory/README.md", "glm-foundation/game-battlecore-misc/README.md"]
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "sha256": "bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2",
+      "lines": 103,
+      "dimensions": {
+        "A": "3b已接受全文/typed producers与raw对照按未变执行复用;本轮全文核读,实际DATA14首项0/99项32000与两成长caller一致。",
+        "B": "更正满级零占位错注,明示按当前等级查表/仍扣阈值;其它两个parser字段单位与布局保持。",
+        "C": "纯字节解析不访问FS/全局GS,CLI负责输入输出,game负责消费阈值;跨层仅借合同信息不互相import。",
+        "D": "三个chunk布局不同,不将小循环强行做万能宽度parser;继续复用DataView标准读法。",
+        "E": "复用3b closeout字节偏移/边界测试及raw观测,本轮不另堆末项常量镜像测试;去注释发射JS不变。",
+        "F": "函数/字段有明确资源语义;错注修后当前等级索引更易理解。",
+        "G": "未增死参/export/fallback;现三个解析器真实CLI caller保留。",
+        "H": "输入Uint8Array/纯输出可直接测,IO隔离已有证据未失效;注释修正不扩大运行时信用。"
+      },
+      "decision": "historical verified source, finite B correction; no new closure",
+      "reuses": ["3b/closeout/evidence.json", "word-boundary-probe.json", "comment-proof.json"]
     }
   ],
   "contextPins": [
@@ -128,11 +220,88 @@
       "id": "structure-lint",
       "exit": 0,
       "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-green",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 16,
+      "failed": 0,
+      "files": 2
+    },
+    {
+      "id": "seven-pools-discrimination",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-types",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "adjacent-comment-proof",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "state-old-proof-bridge",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "state-context-adjacent",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 20,
+      "failed": 0,
+      "files": 3,
+      "actualSelectionNote": "3 files/20 tests only; requested nonexistent anim-driver path matched no file, no animation-test execution credit."
+    },
+    {
+      "id": "extra-raw-census",
+      "exit": 1,
+      "stderrBytes": 747
+    },
+    {
+      "id": "extra-raw-census-restored",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "positions-comment-proof",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-static-before",
+      "exit": 1,
+      "stderrBytes": 2203
+    },
+    {
+      "id": "seven-pools-static",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-progress",
+      "exit": 0,
+      "stderrBytes": 0
     }
   ],
   "artifact": {
     "member": "native.json.gz",
-    "sha256": "a144d2e9696c9cc1bebc9fc24b59cd8dc7e49fd7d413da4b514e85cbe1dc9edc",
+    "sha256": "8fc9ef56bebd2b2508818402e7137216bae4e2aef7a7bda9c9fceb55f06e95d6",
     "members": [
       {
         "name": "import-binding-proof.execution.json",
@@ -318,6 +487,371 @@
         "name": "structure-lint.stderr.raw",
         "bytes": 0,
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "adjacent-comment-proof.execution.json",
+        "bytes": 1963,
+        "sha256": "c3cebffbe936dd793e1c89dd4c68fcab62b59945a2171a55077bce60ef61ba20"
+      },
+      {
+        "name": "adjacent-comment-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "adjacent-comment-proof.stdout.raw",
+        "bytes": 697,
+        "sha256": "e148b14e750215a41f11e75ff43e234333e8cc68b959899e53c89bf34de8fbfd"
+      },
+      {
+        "name": "comment-proof.json",
+        "bytes": 801,
+        "sha256": "57483e0b7c1af75254e264b2e411e2b5070ce4f9bd1d94dd535837e13d86c0a3"
+      },
+      {
+        "name": "comment-proof.mjs",
+        "bytes": 1297,
+        "sha256": "428e96fc129babd28263a08f41a67929fd3e5d4dc39a77677a6315753ae05a49"
+      },
+      {
+        "name": "extra-census.json",
+        "bytes": 2833,
+        "sha256": "0b895cab9a3ff0a4fb06aae24c495cb0c97fb8f89abb17af577202d49269d3e1"
+      },
+      {
+        "name": "extra-census.py",
+        "bytes": 2215,
+        "sha256": "86cab51d4959ff6d2a74018d614a6658771262bda69db8fc5bc4242def68f52f"
+      },
+      {
+        "name": "extra-raw-census-restored.execution.json",
+        "bytes": 1975,
+        "sha256": "e25140377b21e4911ebedfe271055cf57fae3243a2fc47bbd513413c0c1ca364"
+      },
+      {
+        "name": "extra-raw-census-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "extra-raw-census-restored.stdout.raw",
+        "bytes": 246,
+        "sha256": "da27c84db0dd7b947360e07be9495b0c3f83cabe36850c3dee41b3290b74fa46"
+      },
+      {
+        "name": "extra-raw-census.execution.json",
+        "bytes": 1948,
+        "sha256": "1cab896cedda73997c63b4d94b2bd8bff7777b8647e45449b61d36a30f409283"
+      },
+      {
+        "name": "extra-raw-census.stderr.raw",
+        "bytes": 747,
+        "sha256": "31a14005160a7e1f573eee1676ce7018b227751f0b3a07bca108e781fc84329d"
+      },
+      {
+        "name": "extra-raw-census.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "run-extra-census.mjs",
+        "bytes": 247,
+        "sha256": "7033a601eaf4e23066d3b3dc03c310ae7c3084068cc188dacc3d699c035c6955"
+      },
+      {
+        "name": "seven-pools-counter.json",
+        "bytes": 5899,
+        "sha256": "cb57428b6c5ee10f4bd7c80582e2a4f4142aeb1239347748a9f8d5de799e35c9"
+      },
+      {
+        "name": "seven-pools-counter.mjs",
+        "bytes": 4684,
+        "sha256": "efb2df3a3c29d5a88dddc0ec00afa6ee563cabfe9029de23cf6e505662c35b05"
+      },
+      {
+        "name": "seven-pools-discrimination.execution.json",
+        "bytes": 1491,
+        "sha256": "50d488ecafedc1cbedef9cca55e11f227895ef1485e5314000e8afbc58c16c3c"
+      },
+      {
+        "name": "seven-pools-discrimination.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-discrimination.stdout.raw",
+        "bytes": 467,
+        "sha256": "ea79ed3bb56b5386083f1e65407c4f4381b1ea1ab4b89e8b368e9809d1ade0fa"
+      },
+      {
+        "name": "seven-pools-green.execution.json",
+        "bytes": 1779,
+        "sha256": "d956391dae9bd5d9eff2d40f68464ab2aebfb5c2d3cc8bfca4560741fca8eb0c"
+      },
+      {
+        "name": "seven-pools-green.native.json",
+        "bytes": 7342,
+        "sha256": "15fa21ca266ca5a0a1ea6523ef85833f862f0815ea0e0a3a3ddf78c802d3a3c2"
+      },
+      {
+        "name": "seven-pools-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-green.stdout.raw",
+        "bytes": 547,
+        "sha256": "38c8c98ece7698f9305cc4bf89a83f4a97c2244bc1a84f32c18645f22ffd6955"
+      },
+      {
+        "name": "seven-pools-mutant.ts",
+        "bytes": 13109,
+        "sha256": "d08794f7ba98d86e3143f47b24e65eb8306d0b57477fb3c3e206b115a82cd74a"
+      },
+      {
+        "name": "seven-pools-new-mutant.execution.json",
+        "bytes": 2956,
+        "sha256": "608eee2f0139a9c566440932f9e383e7e985966d0c2bf8da0c584116bbfdd950"
+      },
+      {
+        "name": "seven-pools-new-mutant.native.json",
+        "bytes": 4708,
+        "sha256": "656112b4909a7da32636024cc40f40f1f4ef9db721db8f14b03146ce34cf4fc0"
+      },
+      {
+        "name": "seven-pools-new-mutant.stderr.raw",
+        "bytes": 930,
+        "sha256": "9204c2bf3ee35229cfa79ff012e5f8735a477b4ec3646685c08fec83cb56e09b"
+      },
+      {
+        "name": "seven-pools-new-mutant.stdout.raw",
+        "bytes": 1042,
+        "sha256": "7b3a1fc50e5cd13d502423077b6bae3bb60c02188b33c53f0c1c16fa0df317e6"
+      },
+      {
+        "name": "seven-pools-new-test.ts",
+        "bytes": 8628,
+        "sha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299"
+      },
+      {
+        "name": "seven-pools-old-mutant.execution.json",
+        "bytes": 916,
+        "sha256": "5ead0719a923b715c43cd9c89c9cff0ffa16ab68b01c1d8da6c7e6aaef448ce2"
+      },
+      {
+        "name": "seven-pools-old-mutant.native.json",
+        "bytes": 3076,
+        "sha256": "304ab4f04b2abc96da3e34937ca5e066408bd5f162053cbcd5306caa40963e0f"
+      },
+      {
+        "name": "seven-pools-old-mutant.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-old-mutant.stdout.raw",
+        "bytes": 517,
+        "sha256": "27512768caf1afede770e1f76e2cdab773d75780ed7ffc6ba3ae6a7d17aa8cf2"
+      },
+      {
+        "name": "seven-pools-old-test.ts",
+        "bytes": 6823,
+        "sha256": "e6ed3f211c88243f8f7cc536d97cdcb448f3a81c344d83c9d74eef14f0338389"
+      },
+      {
+        "name": "seven-pools-order-exact.patch",
+        "bytes": 751,
+        "sha256": "2040c9ac1b2e19c7a18d37186505c0ea1ad914ffa037694abb527085174aaf54"
+      },
+      {
+        "name": "seven-pools-order.patch",
+        "bytes": 395,
+        "sha256": "662e41445c7a6cf47a33d85330635b54ca2b2af044e716e3497eb8f2702310ee"
+      },
+      {
+        "name": "seven-pools-restored.execution.json",
+        "bytes": 912,
+        "sha256": "e93b05a1d4b6c65162f45eae64e37c77ee43aea57dd34b8e78d60da0e68a81dd"
+      },
+      {
+        "name": "seven-pools-restored.native.json",
+        "bytes": 3078,
+        "sha256": "c80f07269f985c63dfeb9a806395e2e2fc403fbe41a11dfe07f0a5fd3add73ce"
+      },
+      {
+        "name": "seven-pools-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-restored.stdout.raw",
+        "bytes": 517,
+        "sha256": "a0d3f2fc2124adc923c3acc1e2bb2f1698ded16ec38a635364766c8480bf51f0"
+      },
+      {
+        "name": "seven-pools-types.execution.json",
+        "bytes": 1894,
+        "sha256": "b821782122c0bb3a1de9e2c4bbd48ecd78e5bbc6039c8a0516aee31cd7224385"
+      },
+      {
+        "name": "seven-pools-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-types.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "state-context-adjacent.execution.json",
+        "bytes": 2385,
+        "sha256": "8829d86bd6a5fba8275a6568287a3d592e80b7bce85ab073ae4c698b7a9fe21e"
+      },
+      {
+        "name": "state-context-adjacent.native.json",
+        "bytes": 7437,
+        "sha256": "8393bfa49fed5b79d701d2c07086ead6421bfcdadb39e3a30f3345ea9c0c3c7b"
+      },
+      {
+        "name": "state-context-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "state-context-adjacent.stdout.raw",
+        "bytes": 611,
+        "sha256": "f87cc90de85f201dac7d8dd70f3b6026ec0649387011673337432a0935de276e"
+      },
+      {
+        "name": "state-evidence-bridge.json",
+        "bytes": 570,
+        "sha256": "97ea5663e3873ed58d0302922ceb992d8498875c6d158c06b96b97eb8285a8b1"
+      },
+      {
+        "name": "state-evidence-bridge.mjs",
+        "bytes": 1337,
+        "sha256": "a99331a945083a02b9e44b7a169a56b229d76aebfa7bb1e929b728b633024387"
+      },
+      {
+        "name": "state-old-proof-bridge.execution.json",
+        "bytes": 1971,
+        "sha256": "36ba62d1b75fade02346393ff4f5f27692a6fa389f8a2c4c0046744e25b421bc"
+      },
+      {
+        "name": "state-old-proof-bridge.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "state-old-proof-bridge.stdout.raw",
+        "bytes": 545,
+        "sha256": "03789efccc86386de636ebd9fadc12a0bb6742f3bc43ecb8880174ecd8bf8cbf"
+      },
+      {
+        "name": "positions-comment-proof.execution.json",
+        "bytes": 2354,
+        "sha256": "1433b719df3b199fc00614681f18e121e7f9c4d30de5dfba2794ba8e24cd47a8"
+      },
+      {
+        "name": "positions-comment-proof.json",
+        "bytes": 271,
+        "sha256": "9375969f99d2e9d4a174e4c9c1d76d7fb10bdc96d65b8ec027f7b2e0e92f8a8f"
+      },
+      {
+        "name": "positions-comment-proof.mjs",
+        "bytes": 1040,
+        "sha256": "7923c2ebd58d9faa3d32587bbb54e0e9a4a9a35004a63249606105ff1f6ce3b4"
+      },
+      {
+        "name": "positions-comment-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "positions-comment-proof.stdout.raw",
+        "bytes": 254,
+        "sha256": "2ad49a643ad67a0eb2c708f152746a9de36414a34f5f616cfe6f00615f1e4d12"
+      },
+      {
+        "name": "seven-pools-static-before.execution.json",
+        "bytes": 2964,
+        "sha256": "e89c821e649f1af18583899a4d63d13b6a5ca8575bcb0749f221e10f7c40daaf"
+      },
+      {
+        "name": "seven-pools-static-before.stderr.raw",
+        "bytes": 2203,
+        "sha256": "ef525792df4683e37a227e0ca7d3d35dbecf01838309a5928cf846211bf1ed22"
+      },
+      {
+        "name": "seven-pools-static-before.stdout.raw",
+        "bytes": 58,
+        "sha256": "7dd2042f5aac25531dcce6a2a64bf623df2d685f91e9085dc724325be1ccf6f3"
+      },
+      {
+        "name": "seven-pools-static.execution.json",
+        "bytes": 3099,
+        "sha256": "cdfd41cf4e862a92dad04ea565d1b9f1c83b5a8882a457b1815d73052bd3fe9f"
+      },
+      {
+        "name": "seven-pools-static.stdout.raw",
+        "bytes": 43,
+        "sha256": "1aa67fad31efe1ebf481057eec1c450f618959709570721c8f35c87a7891b7ed"
+      },
+      {
+        "name": "seven-pools-static.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-docs.execution.json",
+        "bytes": 2973,
+        "sha256": "9dc4c4335404061467e6d27d54989cdd33acce3cdc6e06d207a446642622f0d3"
+      },
+      {
+        "name": "seven-pools-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "04f779f07efb2d5357335e8cfaed8322c112b984c8bb749ebf1a6535d67e4b7d"
+      },
+      {
+        "name": "seven-pools-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-lint.execution.json",
+        "bytes": 2646,
+        "sha256": "78ffa9867840a707c851adbd7c12a287f188f1b850378b1680ddf3c4f967ffff"
+      },
+      {
+        "name": "seven-pools-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "seven-pools-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-progress.execution.json",
+        "bytes": 2762,
+        "sha256": "6b2038ea24d020068e08e50e3d999361f89d482f3a6f073bfe489395bc6d754d"
+      },
+      {
+        "name": "seven-pools-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "8ccf716a1e34a86f7b11eb7ecb81b4d511b8655d14cefb561e11789dbeb7f49d"
+      },
+      {
+        "name": "seven-pools-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "run-progress.mjs",
+        "bytes": 156,
+        "sha256": "ea9f15526eecaf84711202cdfa15799d8e0bf51e1902eeb4082371c39cef230c"
       }
     ]
   },
@@ -338,5 +872,18 @@
     "closed": 361,
     "review": 124,
     "pending": 2870
-  }
+  },
+  "next": "Complete original CODE3u dependency/position/type evidence bindings; preserve 3w nonparty Extra and 3x WORD stop lines, then freeze several related scopes for one unified window.",
+  "identityMapping": {
+    "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+    "beforeCount": 5,
+    "afterCount": 5,
+    "unchanged": 4,
+    "renamed": {
+      "before": "多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)",
+      "after": "七池映射与消费顺序:身法只结算存留经验,不伪造动作计数"
+    },
+    "oracleTransfer": "Health/MP values and result order retained as a stronger seven-field/full-result/exp-remainder sequence; four other cases byte-identical except import/heading changes."
+  },
+  "censusLimit": "Raw43,503/only garlic Extra17/all14 percent buffs override0 narrows normal data. Complete dynamic offparty write→no refresh→cleanup→consumption not proven, Extra card remains draft. First census wrapper missing-module failure preserved and has no semantic credit."
 }

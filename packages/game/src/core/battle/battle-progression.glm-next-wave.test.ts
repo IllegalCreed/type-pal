@@ -5,17 +5,12 @@
  * battle-levelup.test.ts 只测主升级。本文件按 CHECK_HIDDEN_EXP 宏(battle.c:1238-1293)一手真值补:
  *  - wLevel > 99 先钳 99(battle.c:1248-1252);99 级上 while 继续扣 exp 涨属性、wLevel 停 99
  *  - 隐藏涨点**无 STAT_LIMIT 999 钳**(宏内无 cap,主升级宏见global.c:2393-2401)
- *  - Health→Magic两池按此顺序消费RandomLong(1,2);其余五池次序不由本文件证明
+ *  - 七池按Health→…→Flee序消费RandomLong(1,2);身法只用存留经验,不伪造动作计数
  *  - battleWonLevelUp:隐藏经验抬了 maxHP 但**无主升级** → 不回满(battle.c:1287-1292 if(fLevelUp))
  */
 import { describe, expect, it } from 'vitest'
-import {
-  makeHBattle,
-  makeHRole,
-  recordingRng,
-  seededRng,
-} from '../../__tests__/glm-next-wave/H/harness.js'
-import type { SeedableRng } from '../rng.js'
+import { makeHBattle, makeHRole, recordingRng } from '../../__tests__/glm-next-wave/H/harness.js'
+import { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'
 import { applyHiddenExpGrowth, battleWonLevelUp } from './battle-progression.js'
 
 const oneRng: { rangeInclusive: (a: number, b: number) => number } = {
@@ -58,34 +53,79 @@ describe('applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1
     expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(2)
   })
 
-  it('多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)', () => {
-    // 脚本化 rng:第一次 R(1,2)=2(Health),第二次=1(Magic)—— 若顺序颠倒断言即翻
-    const seq: number[] = [2, 1]
-    let i = 0
-    const orderRng: SeedableRng = {
-      ...seededRng(1),
-      rangeInclusive: (lo: number, hi: number) => {
-        void lo
-        void hi
-        return seq[i++] ?? 1
+  it('七池映射与消费顺序:身法只结算存留经验,不伪造动作计数', () => {
+    const { gs } = createBattleLifecycleFixture({
+      role: {
+        maxHP: 100,
+        hp: 100,
+        maxMP: 110,
+        attackStrength: 120,
+        magicStrength: 130,
+        defense: 140,
+        dexterity: 150,
+        fleeRate: 160,
       },
-    }
-    const gs = makeHBattle().gs
-    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
-    gs.PlayerRolesRuntime.rgwMaxMP[0] = 100
-    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 0, wCount: 1 }
-    gs.Exp.rgMagicExp[0] = { wExp: 0, wLevel: 0, wCount: 1 }
+    })
+    // 普攻、施法、防御、失败逃跑可形成这六项计数,身法没有动作累计源。
+    // 身法wExp=15是当前V1允许的存留值边界,不声称正常原盘战斗能积出它。
+    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }
+    gs.Exp.rgMagicExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }
+    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }
+    gs.Exp.rgMagicPowerExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }
+    gs.Exp.rgDefenseExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }
+    gs.Exp.rgDexterityExp[0] = { wExp: 15, wLevel: 1, wCount: 0 }
+    gs.Exp.rgFleeExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }
+    // 原盘阈值前缀0/15/40;只读取1、2级,其余级用正数占位。
+    const levelUpExp = Array<number>(100).fill(32000)
+    levelUpExp[0] = 0
+    levelUpExp[1] = 15
+    levelUpExp[2] = 40
+    const rng = recordingRng([2, 1, 2, 1, 2, 1, 2])
+    const rt = gs.PlayerRolesRuntime
     const res = applyHiddenExpGrowth({
       exp: gs.Exp,
-      rt: gs.PlayerRolesRuntime,
+      rt,
       roleId: 0,
-      expGained: 100, // 每池trunc(100*1/2)*2=100 → 各涨1级
-      levelUpExp: Array(100).fill(100),
-      rng: orderRng,
+      expGained: 100, // 总计数10:六池获40/40/20/20/40/40,身法只用原有15。
+      levelUpExp,
+      rng,
     })
-    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(102) // 首个 R(1,2)=2 → Health
-    expect(gs.PlayerRolesRuntime.rgwMaxMP[0]).toBe(101) // 次个 R(1,2)=1 → Magic
-    expect(res.map((r) => r.stat)).toEqual(['rgwMaxHP', 'rgwMaxMP'])
+    expect([
+      rt.rgwMaxHP[0],
+      rt.rgwMaxMP[0],
+      rt.rgwAttackStrength[0],
+      rt.rgwMagicStrength[0],
+      rt.rgwDefense[0],
+      rt.rgwDexterity[0],
+      rt.rgwFleeRate[0],
+    ]).toEqual([102, 111, 122, 131, 142, 151, 162])
+    expect(res).toEqual([
+      { stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 2 },
+      { stat: 'rgwMaxMP', label: 'maxMP', statLabelWord: 50, delta: 1 },
+      { stat: 'rgwAttackStrength', label: 'attack', statLabelWord: 51, delta: 2 },
+      { stat: 'rgwMagicStrength', label: 'magic', statLabelWord: 52, delta: 1 },
+      { stat: 'rgwDefense', label: 'defense', statLabelWord: 53, delta: 2 },
+      { stat: 'rgwDexterity', label: 'dexterity', statLabelWord: 54, delta: 1 },
+      { stat: 'rgwFleeRate', label: 'fleeRate', statLabelWord: 55, delta: 2 },
+    ])
+    expect([
+      gs.Exp.rgHealthExp[0],
+      gs.Exp.rgMagicExp[0],
+      gs.Exp.rgAttackExp[0],
+      gs.Exp.rgMagicPowerExp[0],
+      gs.Exp.rgDefenseExp[0],
+      gs.Exp.rgDexterityExp[0],
+      gs.Exp.rgFleeExp[0],
+    ]).toEqual([
+      { wExp: 25, wLevel: 2, wCount: 2 },
+      { wExp: 25, wLevel: 2, wCount: 2 },
+      { wExp: 5, wLevel: 2, wCount: 1 },
+      { wExp: 5, wLevel: 2, wCount: 1 },
+      { wExp: 25, wLevel: 2, wCount: 2 },
+      { wExp: 0, wLevel: 2, wCount: 0 },
+      { wExp: 25, wLevel: 2, wCount: 2 },
+    ])
+    expect(rng.calls).toEqual(Array<string>(7).fill('rangeInclusive(1,2)'))
   })
 })
 
