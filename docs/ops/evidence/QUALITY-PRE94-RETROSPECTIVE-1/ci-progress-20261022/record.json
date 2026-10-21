@@ -59,7 +59,7 @@
       "lines": 26
     }
   ],
-  "gateState": "Local exact progress0/issues0, five documentation consumers0 and lint0/0/0; remote repair run pending.",
+  "gateState": "Repair at f1e56 passed actual GitHub Documentation CI; later CLI/event code window has its own gate record.",
   "constraints": [
     "No validator weakening/exclusion/status downgrade",
     "Template source bytes unchanged",
@@ -162,5 +162,17 @@
     "conclusion": "success",
     "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39624844407",
     "observedAt": "2026-10-21T15:47Z"
-  }
+  },
+  "remoteRepairSuccess": {
+    "id": 39629198807,
+    "job": 119322473137,
+    "sha": "f1e56acc2ab08b18a740f8718e89963e7d6de461",
+    "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39629198807",
+    "conclusion": "success",
+    "allChecks": ["check:docs", "progress integrity", "lint-zero"],
+    "raw": "github-docs-f1e56.raw.gz",
+    "rawBytes": 1331681,
+    "rawSha256": "2eb811e2e2b111409692d4949f596b207311eda761bcb1640faea8e7e6a10718"
+  },
+  "remoteRawEncoding": "UTF-8 encoding of full connector-decoded job logs, not ZIP transport bytes."
 }

@@ -65,7 +65,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 全部pre94逐卡验收与必要返工 | 56accept/27partial；3b/3d/3f原合同接受，3g测试宿主切片；17文件逐项核验（12新关闭），20390check及ratchet/protected各19992零诊断；94–102不扩展 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 同一3y，CLI与事件窗口 | 56accept/27partial；CLI/事件窗口五明确文件接受，check20392/官方ratchet+protected19994零诊断；3/3g仍partial，94–102不扩展 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 | [非队员Extra可达性](tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | Codex / 只读核完整生产写入链 | C全role/TS party不同，但开战换队全量重建；未证剧情缺陷，不改行为 |
@@ -76,7 +76,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 | [game运行时诊断核清](tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | Codex / 逐file归因后选有限包 | C2 两装备负输入测试已逐文件核验；8/8 绿、0 stderr，game typecheck 与相邻6文件66 tests通过；两行保留review，其余15块stderr仍未全文验收 |
 | QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 | [提取器共享输出清理边界](tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | Codex / 入口补审窄修已测，统一门待续 | 视频共享输出与链接CLI先3红后修，41模块/TC零诊断；raw错注已纠，整卡未闭合 |
 | QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 | [extract原盘执行完整性](tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | Codex / C2证据已落，回编号卡复审 | 完整extract431零stderr、七有效反控；两个测试review，0关闭 |
-| QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | draft | Codex / 算法冻结，核真实影响域 | 更名伪边/计数goto分歧；raw17站点，默认全局runtime，不冒称游戏故障 |
+| QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | build | Codex / 用户已批两项修复，下一窗口红例先行 | 普通元数据不作跳转、计数goto收续行；当前冻结批不混入算法变更，默认全局runtime |
 | QUALITY-RLE-COMMAND-TRUTH-1 | [RLE高位literal格式真值](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | Codex / 只读取证，算法冻结 | SDL native与TS分歧已证；GOP未见分类差异，canonical域/其它资源待核 |
 | GAME-SAVE-IDB-COMMIT-1 | [存档事务提交与失败传播](tasks/GAME-SAVE-IDB-COMMIT-1.md) | review | Codex / 统一门诊断未清零 | ①已修、三条真实IDB回归通过，不改版本/清档/schema |
 | GAME-SAVE-INPUT-DOMAIN-1 | [Save槽位输入域与双路径一致性](tasks/GAME-SAVE-INPUT-DOMAIN-1.md) | draft | Codex / 等用户裁决，禁止实现 | NaN/小数通过内存范围守卫，IndexedDB路径可能不同；不改API/schema |

@@ -215,8 +215,14 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
-      "findings": "slice three old-green/new-single-AssertionError oracles; annotation six discrimination gaps repaired, four proven duplicate identities transferred; current whole card not accepted; extract raw early returns and runtime diagnostics unresolved; product unchanged",
-      "additionalEvidence": ["docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"]
+      "findings": "Five bounded CLI/test/module scopes accepted after check20392 and one official fast ratchet+protected19994, all diagnostics0. CLI IO and remaining slice/tests retain review; whole card partial. Slice two semantic fixes approved by user for next isolated window, not implemented here. No94-102.",
+      "additionalEvidence": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+      ],
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-22",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
     },
     {
       "id": "3b",
@@ -439,8 +445,12 @@
       "scopeConfirmed": true,
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md",
       "currentReviewer": "Codex",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json",
-      "findings": "Only 5test-host files accepted:single resourceOwner,17business identities preserved,strong manifest census,real spawn/close cleanup counter;900line CLI orchestration remainspartial."
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
+      "findings": "Five bounded CLI/test/module scopes accepted after check20392 and one official fast ratchet+protected19994, all diagnostics0. CLI IO and remaining slice/tests retain review; whole card partial. Slice two semantic fixes approved by user for next isolated window, not implemented here. No94-102.",
+      "additionalEvidence": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+      ],
+      "currentReviewDate": "2026-10-22"
     },
     {
       "id": "3h",

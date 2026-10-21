@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Reuse fixed-Git review;only owned four-card board/ledger delta and descendant fingerprints read",
-      "coreConclusion": "Four-card extract window: accepted original3b contract;four-card gate window passed;not all83complete;exact scope/evidence at 3b/closeout/evidence.json. Ledger355/120/2861;no94-102 or unrelated acceptance.",
+      "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
+      "coreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+      "afterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
       "revision": {
         "currentSha": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
-        "implementationSha": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+        "implementationSha": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,8 +4148,8 @@
       "evidence": {
         "kind": "extract-four-card-scoped-current-review",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
-        "afterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
-        "lineCount": 919
+        "afterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
+        "lineCount": 928
       },
       "history": [
         {
@@ -4675,6 +4675,30 @@
           "afterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
           "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-candidate",
+          "previousAfterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+          "afterSha256": "c7b59cf2b2b67c48c892781e4dff5efd32d5b83775f0972858dc09c37c1776d3",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-sealed",
+          "previousAfterSha256": "c7b59cf2b2b67c48c892781e4dff5efd32d5b83775f0972858dc09c37c1776d3",
+          "afterSha256": "4a2b41f49b738193a6882ed17bff7c6aa190fda76c9fb33e83e0d1c5493999c0",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-final-labels",
+          "previousAfterSha256": "4a2b41f49b738193a6882ed17bff7c6aa190fda76c9fb33e83e0d1c5493999c0",
+          "afterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
         }
       ],
       "supersedes": [
@@ -4691,7 +4715,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only 3b/3d/3f/3g status rows,two explicit PNG withdrawal-row restorations and exact owned fingerprints;unrelated body/history not reaccepted.",
+      "reviewedLines": "Only CLI/event current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

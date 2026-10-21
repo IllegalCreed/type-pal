@@ -1,6 +1,6 @@
 # QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界
 
-Status: draft
+Status: build
 Owner: Codex
 Reviewer: Codex（事实核验，不冒充第三方）
 Phase: phase1 asset/event pipeline
@@ -31,3 +31,15 @@ Visual Verification Timing: N/A（本阶段只读取证；运行时影响另核�
 证据见[CODE3复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md)：四个合法text/item更名探针在scene/global两域各使2条切片变3条，原始opcode/operand及recompile字节完全相同；带计数goto合成程序漏续行2/3。实际raw43503指令/295场景/5077对象，694全局入口/6767标签入口，严格字节roundtrip一致；当前词表/sidecar去元数据后投影相同，不能说当前raw已被元数据伪边污染。实有17条非零frameDelay goto，尚未逐站判定局部续行是否由其它入口收集。
 
 当前game的script-catalog.ts全文与bootstrap:1172–1186确认生产默认读全局all.json，event-system.ts:1303–1336/1978–2010实现计数续行；per-scene仍在bootstrap:594和loader:165被加载。不能从局部切片差异直接宣布现行游戏故障，也不能据“默认全局”擅自删除切片出口/兼容代码。原版运行、全caller与生成影响域仍待核。禁止合main或宣布本卡done；无下一位Agent提示词，Codex继续事实核验。
+
+## 2026-10-22 当前只读影响域增量
+
+沿用原3证据，不重复四个metadata合成探针或旧计数反例。[当前CLI/事件窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)用真实raw+当前slice完整遍历17个非零goto；合法label自环仅用于指令身份，去除新增label后逐输出深等于未观测调用结果。14个goto实际入scene片，14个i+1均不在同一输出；其中13个i+1全片缺失，33964的i+1在另一输出，205/32209/34779的goto本身未入片。是实际静态归属，不是运行失效次数。
+
+当前bootstrap::setGlobalEvents之前await all.json、script-catalog::getCmds默认全局与event-system::runOneAutoOp计数续行已定向复核；原版运行未做。collector已抽成无IO内部模块，原循环逐句守恒、6767总入口/694 global及原盘严格recompile相同；未动slice/annotate/disasm/opcodes算法。原draft/停线保持，不据新纯模块绕过两个语义取舍或擅删切片出口。
+
+## 2026-10-22 用户裁决与下一窗口build allowed
+
+用户听取普通文字被误识别为跳转、循环结束后续行漏收的解释后，明确回复“同意修复（推荐）”。先前draft停止线与原件按历史保留；本节是唯一新授权，不追溯改旧结论。Codex单一Coding Owner；当前CLI/测试冻结批先封证据、推送及合并，下一窗口只准修slice的两项收集语义及相邻有效测试/必要私有拆分，先保存失败反例再实现。对白/_item等人读字段不制造边；非零frameDelay goto应保留计数耗尽后的i+1。
+
+原始字节码、全局all.json、schema/save、游戏机制及生成物保持不改；不得借此扩展annotate/disasm/opcodes或删除出口。继续核真实caller、入口顺序、shared归属、结束指令及零计数goto；新增纯结构与行为修复分提交。原版实际游戏未运行的边界保留，不能把静态17站点写成17个游玩缺陷。按相关卡聚合后集中全仓/coverage，不逐小片重复昂贵门。

@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
+      "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Four-card extract window: accepted original3b contract;four-card gate window passed;not all83complete;exact scope/evidence at 3b/closeout/evidence.json. Ledger355/120/2861;no94-102 or unrelated acceptance.",
+      "coreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "ebba22f118e75713120bbcb86bc081df741f16adb9615e60c687cb070ca133bb",
+      "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "275d839792280cc712643b8b8d9db8c6e918112e375539744498a8cd67056e21",
-        "implementationSha": "ebba22f118e75713120bbcb86bc081df741f16adb9615e60c687cb070ca133bb",
+        "implementationSha": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "ebba22f118e75713120bbcb86bc081df741f16adb9615e60c687cb070ca133bb",
-        "lineCount": 16895,
+        "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+        "lineCount": 16943,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -2405,6 +2405,38 @@
           "afterSha256": "ebba22f118e75713120bbcb86bc081df741f16adb9615e60c687cb070ca133bb",
           "scope": "Only exact CI routing/r93 descendant fingerprints; no global hash refresh.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-candidate",
+          "previousAfterSha256": "ebba22f118e75713120bbcb86bc081df741f16adb9615e60c687cb070ca133bb",
+          "afterSha256": "7052bf5ec6834469624c57298af9cb16ae29d674f6a301f608017438edfcded5",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-sealed",
+          "previousAfterSha256": "7052bf5ec6834469624c57298af9cb16ae29d674f6a301f608017438edfcded5",
+          "afterSha256": "f9bb2ed0dbbcde960f24ce13bf16580dfad8cad40988236c05b50fc4746c33d1",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-final-labels",
+          "previousAfterSha256": "f9bb2ed0dbbcde960f24ce13bf16580dfad8cad40988236c05b50fc4746c33d1",
+          "afterSha256": "91b2f1c4694a207e950086f68ca36406b136ecd7941c493bd9c160e35187debd",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-approved-next-window-index",
+          "previousAfterSha256": "91b2f1c4694a207e950086f68ca36406b136ecd7941c493bd9c160e35187debd",
+          "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
         }
       ],
       "supersedes": [
@@ -2412,7 +2444,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only 3b/3d/3f/3g status rows,two explicit PNG withdrawal-row restorations and exact owned fingerprints;unrelated body/history not reaccepted.",
+      "reviewedLines": "Only CLI/event current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

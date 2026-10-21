@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-22 [CLI主编排与事件测试窗口](cli-slice-closeout/README.md)：入口纯规则拆离IO、两CLI宿主统一、PNG/EO精确oracle；slice真值冻结与17站点静态影响域另列，统一门收尾前不关闭文件。
+
 2026-10-22 [GitHub Documentation CI返工](ci-progress-20261022/README.md)：复现两轮同样7项progress诊断，补当前模板edition保存证据与catalog卡route，并将原进度consumer接入本地check:docs；不降低门或改写旧失败，远端结果据实际run回填。
 
 2026-10-21后继模块收口见[当前六文件回执](3b/closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。

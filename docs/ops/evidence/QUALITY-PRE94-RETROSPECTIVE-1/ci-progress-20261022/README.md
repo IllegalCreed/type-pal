@@ -17,7 +17,7 @@ GitHub run39624843994与39600770046的完整job日志，经GitHub connector取�
 
 ## 结果
 
-本地同入口原progress exit1/7项，修复后exit0/0 integrity issues；五文档consumer全部0，lint5744文件0/0/0。完整本地失败/恢复原件见record索引的local-native.json.gz；首check:docs在工具测试通过后被新增目录缺导航拒绝，已补真实父导航并复验五consumer，不把首跑写成成功。最新e856的Coverage ratchet远端已success；本修复远端Documentation尚待运行。不为文档修复重跑产品coverage。
+本地同入口原progress exit1/7项，修复后exit0/0 integrity issues；五文档consumer全部0，lint5744文件0/0/0。完整本地失败/恢复原件见record索引的local-native.json.gz；首check:docs在工具测试通过后被新增目录缺导航拒绝，已补真实父导航并复验五consumer，不把首跑写成成功。最新e856的Coverage ratchet远端已success；本修复f1e56的远端Documentation run39629198807已success，check:docs/进度完整性/lint三步均通过；完整日志github-docs-f1e56.raw.gz保留。不为文档修复重跑产品coverage。
 
 ## 限制与复核
 

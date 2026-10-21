@@ -1,6 +1,8 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 2026-10-21最新：56accept/27partial/0pending。CODE3b/3d/3f原合同收口，3g完成测试宿主切片，17文件逐项接受（12未闭合转关闭）。四卡check20390、ratchet/protected各19992零诊断；剩余27partial，94–102不扩展。
+> 2026-10-22最新：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
+
+> 2026-10-21历史：56accept/27partial/0pending。CODE3b/3d/3f原合同收口，3g完成测试宿主切片，17文件逐项接受（12未闭合转关闭）。四卡check20390、ratchet/protected各19992零诊断；剩余27partial，94–102不扩展。
 
 > 历史59/60中间增量：[前置纯测试八维/合同/迁移](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)冻结于4e5e96487；[现金必要守卫正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json)为当前增量。两条真实业务红后29相邻与typecheck零诊断，原内存槽位/预览保留，零值可用；其余96字段/嵌套wire合同仍review。模块大门未跑，49/34与新关闭0不变；本地分提交，未推送/合并本增量。
 
@@ -20,15 +22,15 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 用户指出最近main提交CI失败。实际e856与0f642的Documentation均在progress integrity步骤报同样7项，check:docs已过但本地收口漏跑独立进度consumer，旧本地门不等于远端CI通过。[唯一返工原件与当前模板edition字节证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/README.md)。Owner Codex，build allowed仅一张已完成catalog卡的三个标题/route、三份未改模板的当前冻结edition证据、相应有限pin链、package.json接入原进度consumer及回执；不改validator、排除、状态或历史失败。CLI新片24定向已绿，主编排重构尚未开始，先修CI再恢复；未据新片提前关闭文件。远端coverage以真实run为准，不概称全部CI失败或通过。
 
-## 2026-10-22 CLI主编排与事件测试窗口（执行中）
+## 2026-10-22 CLI主编排与事件测试窗口（冻结门已过）
 
 统一门已实跑：全check20392零诊断；官方fast --ratchet带TYPE_PAL_COVERAGE_BASE_REF=origin/main，19994测试/750生产源，完整raw双流及stdout普通记录分类均0诊断。原生runner已执行目标baseline保护；随后同一官方报告与新baseline canonical投影逐项相等，直接复验compareCoverage/auditScope为严格scope零变化/零回落，且新candidate对origin/main无回落/无删除，没有重采第二轮测试。非另启node run.mjs fast，不伪称两轮独立采样。baseline仅官方实测提升8项、源749→750/例19992→19994；无下降授权、规则、谓词或排除变更。
 
-主编排纯重构交付：script-entries只接受六种窄parsed域，16字段顺序/正值/别名逐句守恒；无runtime import，两个直接合同。CLI删除无reader Map与私有union死值，其余编译正文在替回collector后相同；raw6767/694与严格recompile守恒。主函数分支初筛73→51仍为热点，不以数字宣布关闭；当前74定向/TC及scoped静态0，最终统一门在代码冻结后集中执行。
+主编排纯重构交付：script-entries只接受六种窄parsed域，16字段顺序/正值/别名逐句守恒；无runtime import，两个直接合同。CLI删除无reader Map与私有union死值，其余编译正文在替回collector后相同；raw6767/694与严格recompile守恒。主函数分支初筛73→51仍为热点，不以数字宣布关闭；当前74定向/TC及scoped静态0，代码冻结后集中统一门现已通过，详见本窗原件。
 
 事件测试切片交付：boundaries五身份不增删，Scene/EO raw形状合法、EO末段用有序label逐个辨识；旧5绿/新4绿1业务红证实判别力。runtime-resource只修raw与范围头注，三防御用例的生产域未核，维持review；不修改两BFS或语义。
 
-CLI测试切片交付：两剩余套件统一已接受宿主、删无caller EntryRun.out和重复mkdir，完整独立PNG像素oracle与精确stderr；原14+2身份不变。所有迁移archive及SSS/WORD/DATA构造字节与e856旧工厂逐项相同；最终五代表hook各13绿1业务红，PNG旧绿/新单红原件齐。仍候选，不据小片触发coverage或关闭CLI。
+CLI测试切片交付：两剩余套件统一已接受宿主、删无caller EntryRun.out和重复mkdir，完整独立PNG像素oracle与精确stderr；原14+2身份不变。所有迁移archive及SSS/WORD/DATA构造字节与e856旧工厂逐项相同；最终五代表hook各13绿1业务红，PNG旧绿/新单红原件齐。五明确文件范围在集中全门后接受；cli.ts及其余slice域仍review，不按包级绿关闭。
 
 同一3y，基点e8566c2c7ea1fbdccdbc782bd54216f94cd0823e，与fetch后origin/main同点；主树只读，Owner Codex。build allowed仅本窗口三个相关切片：3g两份剩余CLI测试复用已接受cli-host，去除重复进程/树Owner，FBP补完整R/G/B/A像素oracle，保留14条独立OBJECT hook合同；新增script-entries.test两例只核纯collector的16字段顺序/零过滤/别名与结果数组ownership；CLI正入口收集抽为只接受已解析表的纯内部模块，保持顺序、重复、正值过滤及调用位置，公共出口/管线输出/退出策略不变；同时删除已无reader的sceneObjsBySliceId、收窄私有JSON目录union并修当前产物/全局脚本注释；CODE3的boundaries/runtime-resource两测试修合法raw与指令身份oracle，核真实反控。相邻global-entry fixture只纠enemyId直接索引错注，pipeline-inputs头注同步当前共享caller。白名单包含这些文件及必要证据/账本；测试与纯重构分提交。
 
@@ -1213,3 +1215,7 @@ CODE73四文件、CODE74三文件A–H接受，47→49accept、36→34partial、
 全仓check20386、ratchet/protected各19988、typecheck/lint/文档全部零诊断；protected在新baseline后单独官方实跑，不把旧baseline保护误记为新候选验证。完整原件、默认只读快检及O-5支持域限制见[shared唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/README.md)。固定83卡53accept/30partial，账本3334/345closed/122review/2867pending；RLE/其它广域或类型文件不附带关闭。提交、推送及主线同步另据Git refs记交接。
 
 2026-10-21 shared发布交接：`d8995b8d65ee5a1bb64dc4a135405673a6ce5928`先推送3y。main的Git HTTPS反复LibreSSL失败、连接器无写权限，随后用本机既有gh凭据以force=false快进main，API返回目标SHA；合并后实际fetch已成功，三refs同源、0ahead/0behind，原件检查integration-check。无TLS放宽、强推或新分支；主工作树仍干净/92e901806、落后远端8提交且未改。此后仅文档交接，53accept/30partial保持；下一窗口从固定pre94余项按实际Owner/有效证据选择提取器窄模块，RLE格式/O-5支持域限制继续保留，94–102不扩展。
+
+### 2026-10-22 事件切分下一窗口用户授权
+
+用户先要求通俗解释，再明确回复“同意修复”：普通文字不作跳转、带计数goto保留结束后的续行。当前冻结CLI/测试窗口不混入这两项算法变化；下一窗口由Codex单Owner先红例后修，限场景/shared切片收集，不改字节码/all.json/存档/游戏机制。授权及未核边界见[控制流真值卡](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md)。
