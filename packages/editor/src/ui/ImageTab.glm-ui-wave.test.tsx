@@ -11,6 +11,7 @@
 import { Blob as NodeBlob } from 'node:buffer'
 // @ts-expect-error Node test-host bridge only.
 import { webcrypto } from 'node:crypto'
+import type { AssetBase } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -25,9 +26,11 @@ import {
 import { ImageTab } from './ImageTab.js'
 
 let reader: ReturnType<typeof createEditorAssetReader>
+let assetBase: AssetBase
 
 async function legalImageSession(): Promise<EditSession> {
-  const { source, state } = await loadLegalUiProject('glm-ui-wave-image')
+  const { source, state, assetBase: loadedBase } = await loadLegalUiProject('glm-ui-wave-image')
+  assetBase = loadedBase
   const session = new EditSession(state)
   reader = createEditorAssetReader(source, () => session.getState())
   return session
@@ -44,11 +47,11 @@ function Harness(props: {
   const current = props.session.getState()
   return (
     <ImageTab
-      assetBase={{} as never}
+      assetBase={assetBase}
       catalog={current.assetCatalog}
       reader={reader}
       session={props.session}
-      assetDiagnostics={[] as never}
+      assetDiagnostics={[]}
       referenceIndex={collectCurrentProjectReferenceIndex(props.session.getState())}
       referenceStatus="current"
       getCurrentReferenceIndex={(state) => collectCurrentProjectReferenceIndex(state)}
@@ -60,14 +63,19 @@ function Harness(props: {
 let root: Root
 let host: HTMLDivElement
 
-function pngFile(name = 'hero.png', bytes = 24): File {
-  const buffer = new Uint8Array(bytes)
-  buffer.set([137, 80, 78, 71, 13, 10, 26, 10], 0)
+function pngFile(name = 'hero.png'): File {
+  // 合法 2×2 RGBA PNG，与解码 IO 替身的尺寸一致，不用只有签名的损坏内容。
+  const buffer = Uint8Array.from(
+    atob(
+      'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADklEQVR42mP4DwUMMAYAj4IP8SHNGCcAAAAASUVORK5CYII=',
+    ),
+    (character) => character.charCodeAt(0),
+  )
   return new File([buffer], name, { type: 'image/png' })
 }
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   // Node test-host bridge：blank seed 的 gzip 与导入 sha256 依赖 Node 桥。
   vi.stubGlobal('Blob', NodeBlob)
   vi.stubGlobal('crypto', webcrypto)
@@ -93,16 +101,17 @@ describe('U3b ImageTab 残差', () => {
     const focused: Array<string | undefined> = []
     await act(async () => {
       root.render(<Harness session={session} onObjectFocus={(id) => focused.push(id)} />)
-      await Promise.resolve()
     })
     const input = inputByAccept(host, '.png,image/png')
-    await loadFilesIntoInput(input, [pngFile('新立绘.png')])
-    await vi.waitFor(() => {
-      expect(
-        Object.keys(session.getState().assetCatalog.assets).filter((id) =>
-          id.startsWith('portrait.authored.'),
-        ),
-      ).toHaveLength(1)
+    await act(async () => {
+      await loadFilesIntoInput(input, [pngFile('新立绘.png')])
+      await vi.waitFor(() => {
+        expect(
+          Object.keys(session.getState().assetCatalog.assets).filter((id) =>
+            id.startsWith('portrait.authored.'),
+          ),
+        ).toHaveLength(1)
+      })
     })
     const id = Object.keys(session.getState().assetCatalog.assets).find((id) =>
       id.startsWith('portrait.authored.'),
@@ -111,7 +120,7 @@ describe('U3b ImageTab 残差', () => {
     expect(record.kind).toBe('portrait')
     expect(record.path).toMatch(/^assets\/authored\/portrait\/[0-9a-f]{64}\.png$/)
     expect(record.label).toBe('新立绘')
-    expect(session.getState().assetBlobs[record.path]?.byteLength).toBe(24)
+    expect(session.getState().assetBlobs[record.path]?.byteLength).toBe(71)
     expect(focused.at(-1)).toBe(id)
   })
 
@@ -119,7 +128,6 @@ describe('U3b ImageTab 残差', () => {
     const session = await legalImageSession()
     await act(async () => {
       root.render(<Harness session={session} />)
-      await Promise.resolve()
     })
     const before = session.getHistoryVersion()
     const input = inputByAccept(host, '.png,image/png')
@@ -139,18 +147,20 @@ describe('U3b ImageTab 残差', () => {
     const session = await legalImageSession()
     await act(async () => {
       root.render(<Harness session={session} />)
-      await Promise.resolve()
     })
     // 先导入一张（选中态来自导入后的自动选择），再走删除-取消
     const input = inputByAccept(host, '.png,image/png')
-    await loadFilesIntoInput(input, [pngFile('待删.png')])
-    await vi.waitFor(() => {
-      expect(host.querySelector('button')).not.toBeNull()
-      expect(
-        [...host.querySelectorAll('button')].some((b) => b.textContent?.trim() === '删除'),
-      ).toBe(true)
+    // WebCrypto 完成后才提交目录；已有的删除按钮不能代表导入已完成。
+    await act(async () => {
+      await loadFilesIntoInput(input, [pngFile('待删.png')])
+      await vi.waitFor(() => {
+        expect(
+          Object.keys(session.getState().assetCatalog.assets).filter((id) =>
+            id.startsWith('portrait.authored.'),
+          ),
+        ).toHaveLength(1)
+      })
     })
-    await act(async () => {})
     const readSpy = vi.spyOn(reader, 'readBytes')
     await clickDelete(host)
     const cancel = [...document.querySelectorAll<HTMLButtonElement>('dialog[open] button')].find(
@@ -159,6 +169,7 @@ describe('U3b ImageTab 残差', () => {
     expect(cancel, '取消 button').not.toBeNull()
     const before = session.getHistoryVersion()
     await act(async () => cancel!.click())
+    expect(document.querySelector('dialog[open]')).toBeNull()
     expect(readSpy).not.toHaveBeenCalled()
     expect(session.getHistoryVersion()).toBe(before)
     expect(
