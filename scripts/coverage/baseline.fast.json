@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-20T22:18:49.351Z",
+  "generatedAt": "2026-10-20T23:18:05.443Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -5026,7 +5026,7 @@
           {
             "file": "packages/game/src/analytics/analytics-consent-ui.test.ts",
             "testCount": 3,
-            "identityDigest": "26704ded88e36edc94f88688b0d1d780df5c4860dd22d476ace6179ae33a683b"
+            "identityDigest": "4c7220048f47c1334d3380670d0a8c1e1e156ae75fd05f359af98430e36023bb"
           },
           {
             "file": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -6629,9 +6629,9 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "caa4da444639e7283aa4d1b483add1b1bc8bc49bb20bacdb408b3e5ad3425f25",
+        "identityDigest": "2f77ee37ec03373a30436510ec7eb14c8f6967d494ba8eb1ee251c31bdf258d4",
         "duplicateIdentityCount": 0,
-        "executionDigest": "f2649158c9f33af2984aae5cd8d6a5cb16dac21d95a7d4ac79869028f59e9f30"
+        "executionDigest": "8dcd546db352ae0912648c7fd87d0506ee07f33dab5c05fa428270f4d61a4070"
       },
       "metrics": {
         "statements": {
