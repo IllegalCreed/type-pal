@@ -201,3 +201,9 @@ Branch: codex/game-mobile-layout
 - 冻结候选全仓`pnpm typecheck`通过，[日志](../evidence/GAME-MOBILE-LAYOUT-1/release-typecheck.txt)；最终产品构建通过，[日志](../evidence/GAME-MOBILE-LAYOUT-1/release-build.txt)。新测试共8文件/30例，使用真实input/adapter/caller；历史完整game check的333文件/3715测试不冒充本轮新增布局用例后的全量结果。
 - 完整文档门含125工具测试和消费者通过，最终证据/卡面delta再核静态消费者；lint重新核最终文件集。原始日志与后续CI保留各自候选，不把新文档增量当成全仓文档迁移完成。
 - 产品已由用户认可，用户明确无实体手柄仍授权软件提交；实体手机/手柄、Safari安全区、完整剧情E2E、生产SW和阿里云部署均未测或未做。卡暂review，待实际PR质量门后收口。
+
+### GitHub首轮库存登记返工
+
+- [PR #8](https://github.com/IllegalCreed/type-pal/pull/8)的375bb5a26：文档与安全检查通过；[覆盖率任务](https://github.com/IllegalCreed/type-pal/actions/runs/39651740329)在前置quality-tools被拦，未执行CI类型/覆盖率。原因是本卡新增14个tracked代码路径后，专项账本仍声明3338而真实3352；[失败原件](../evidence/GAME-MOBILE-LAYOUT-1/ci-ledger-before-sync.txt)保留。
+- 本地真实47例quality-tools同样复现恰一登记断言失败；仅同步账本库存3352、pending2870、未闭合2996，既有356closed/126review及逐路径表/历史正文不变，0新增专项closed。14路径由main→本卡实际新增清单核定，不修改工具、测试、规则或产品源码。
+- 同步后47/47通过；这是仓库登记修复，不是游戏行为修复或覆盖率重算。源码与官方20024测试候选仍为1c0b2acbd，后续GitHub门检查实际新提交。

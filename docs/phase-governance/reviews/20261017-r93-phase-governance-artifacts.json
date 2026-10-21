@@ -2308,7 +2308,7 @@
         "date": "2026-10-22",
         "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
         "afterSha256": "ab4cf8fed6dcd58fdcdd63729b1ea3fa0700be3b12a996c455557e193827064d",
-        "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+        "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
         "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
       }
     },
@@ -6170,14 +6170,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
+      "readMethod": "Read only the mobile task row, 14-new-path inventory summary or named dependency delta; preserve unrelated entries and historical evidence.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+      "coreConclusion": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 phase/lore canonical 文档、task card 和 fresh evidence 复核。",
+      "nextStep": "Complete official coverage and CI before merge and issue closure.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261016-historical-cards-d.json machine artifact",
@@ -6193,7 +6193,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
+      "afterSha256": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6216,8 +6216,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
-        "implementationSha": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
+        "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
+        "implementationSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -7363,6 +7363,68 @@
           "afterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+            "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "afterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
+            "lineCount": 6328,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 302305,
+              "sourceLines": 5074,
+              "sourceFinalNewline": true,
+              "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+          "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after 9b4df7145 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "1eae6c9ccfc3ebec2fc769e87c772ffa135d0406db88ef2e37eb7047b3948818",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+            "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "afterSha256": "bc60ecf2344560985f3377cb9d9cf031554b5221c3ef3b1573d6c541b0f191c9",
+            "lineCount": 6328,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 302305,
+              "sourceLines": 5074,
+              "sourceFinalNewline": true,
+              "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
         }
       ],
       "supersedes": [
@@ -7370,7 +7432,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only CLI/event current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
+      "reviewedLines": "Only mobile task/status, 14-new-path inventory counts or named child review binding; no unrelated full-document reacceptance.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -7404,7 +7466,15 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten."
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.",
+      "maintenanceReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-22",
+        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+        "afterSha256": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
+        "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+        "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",

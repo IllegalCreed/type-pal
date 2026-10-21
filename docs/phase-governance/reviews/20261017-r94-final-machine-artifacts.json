@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence.",
+      "readMethod": "Read only the mobile task row, 14-new-path inventory summary or named dependency delta; preserve unrelated entries and historical evidence.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+      "coreConclusion": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "45f5f7468fbedd400f1df9d5af93b83d72eb17d8782bbd21f28e039b350167fa",
+      "afterSha256": "3ceaa5181a6de538001b6a034dc03349c539273263b12ca33f81146788439f11",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "45f5f7468fbedd400f1df9d5af93b83d72eb17d8782bbd21f28e039b350167fa",
-        "implementationSha": "45f5f7468fbedd400f1df9d5af93b83d72eb17d8782bbd21f28e039b350167fa",
+        "currentSha": "3ceaa5181a6de538001b6a034dc03349c539273263b12ca33f81146788439f11",
+        "implementationSha": "3ceaa5181a6de538001b6a034dc03349c539273263b12ca33f81146788439f11",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -2597,6 +2597,86 @@
           },
           "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
           "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "45f5f7468fbedd400f1df9d5af93b83d72eb17d8782bbd21f28e039b350167fa",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+            "lineCount": 16943,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after 9b4df7145 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "12d0928a2a3f89b49932ee7c1942fec37adc658b42a64af7980ec5bf02d29866",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+            "lineCount": 16943,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
         }
       ],
       "supersedes": [
@@ -2604,7 +2684,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only GAME-MOBILE-LAYOUT-1 row/status or the named child review binding; no unrelated full-document reacceptance.",
+      "reviewedLines": "Only mobile task/status, 14-new-path inventory counts or named child review binding; no unrelated full-document reacceptance.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2643,8 +2723,8 @@
         "reviewer": "Codex",
         "date": "2026-10-22",
         "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
-        "afterSha256": "45f5f7468fbedd400f1df9d5af93b83d72eb17d8782bbd21f28e039b350167fa",
-        "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+        "afterSha256": "3ceaa5181a6de538001b6a034dc03349c539273263b12ca33f81146788439f11",
+        "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
         "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
       }
     },

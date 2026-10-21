@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22移动端集成：新增14个tracked代码路径，仅同步库存与隐式pending数量；既有逐路径状态和历史正文不变，0新增专项closed。软件实现、独立复核和运行证据见[移动端任务](../tasks/GAME-MOBILE-LAYOUT-1.md)；不由本次库存同步授予全仓代码治理关闭信用。
+
 2026-10-22 CLI/事件窗口收口：五文件明确范围接受（4新关闭+boundaries撤回后重验1），另3旧关闭维持撤review，相对窗口前净增1closed。全check20392与单次官方ratchet/protected19994零诊断；CLI/其它slice测试仍review，CODE3/3g仍partial。[唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。
 
 2026-10-21提取四卡窗口：3b/3d/3f原合同接受、3g仅测试宿主切片，83卡56accept/27partial。17文件当前逐项接受，其中12未闭合转已验证、5既有关闭刷新不重复计数；此前两PNG漂移撤回已单记，sprite.ts整文件仍review。全check20390、ratchet/protected各19992零诊断；SSS删4条已覆盖临时语句按精确授权重算，测试/范围不删。当前3336/355/120/2861以机器实核。[统一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json)。
@@ -35,8 +37,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,338。
-当前已闭合核验：356；已读但待审：126；尚未逐文件核验：2,856；合计未闭合：2,982。
+起始基点机器清单：2,962。当前 tracked 清单：3,352。
+当前已闭合核验：356；已读但待审：126；尚未逐文件核验：2,870；合计未闭合：2,996。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
