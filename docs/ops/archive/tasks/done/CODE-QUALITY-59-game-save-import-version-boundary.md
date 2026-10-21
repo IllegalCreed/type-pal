@@ -1,6 +1,6 @@
 # CODE-QUALITY-59 — game save import version boundary
 
-> 2026-10-21当前复审仍partial：原version1门只证明版本拒绝，不证明完整GameState内容合法。真实parse及隔离内存Save接受字符串现金；已登记[高风险裁决卡](../../../tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md)，未改实现/用户槽位。下文done为原历史时点，不覆盖此停止线。
+> 2026-10-21当前复审仍partial：[现金必要守卫正式红绿](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json)。文本/非有限现金先两红，三行守卫后29相邻零诊断，真实内存Save原槽位与预览保留；只补有限number必要条件，完整GameState/wire合同与真实FileReader仍待。下文done是原版本门的历史时点，不授完整内容信用。
 
 Status: done
 Owner: Codex

@@ -2,32 +2,52 @@
 
 2026-10-21存档模块中间片：[四文件A–H/合同与迁移](save-tools-local.json)、[完整原件](save-tools-native.json.gz)。CODE59保留已证非法内容问题，96字段声明/具体读档处理清单不冒充合法schema；CODE60主测与相邻18例、typecheck、scoped Biome零诊断。成功提示提前的反控为旧8/8绿、新2条业务AssertionError红，生产正文已恢复。当前0新accept/0新关闭，统一门/coverage/protected留完整模块收尾。
 
-本片快检只读，不执行包内producer/反控或重新跑测试；在仓库根执行下面代码核冻结输入、原件字节与原生测试集合。它证明指定中间片证据匹配，不认证96字段已合法或统一门通过。
+当前现金必要守卫：[两文件八维与正式红绿](save-cash-local.json)、[完整原件](save-cash-native.json.gz)。已核现金为有限number、0保留；两条正式红后当前29例与typecheck零诊断。其它内容/wire和FileReader仍review，0新关闭/49accept不变。前置纯测试片固定在Git `4e5e964874fac1cff244b146640274b4ada92995`，不能拿其中“正文不变”证明当前现金行为修复。
+
+快检只读，同时核当前现金片及冻结的前置片；不执行producer/反控或重跑测试，也不授完整schema/统一门信用。
 
 ```sh
 node --input-type=module <<'JS'
 import fs from 'node:fs'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { relative, resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 const hash = x => createHash('sha256').update(x).digest('hex')
-const r = JSON.parse(fs.readFileSync('docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json'))
-for (const p of [...r.files, ...r.pins]) assert.equal(hash(fs.readFileSync(p.path)), p.sha256, `STALE ${p.path}`)
-assert.equal(fs.existsSync(r.tests.removedFile), false)
-const bytes = fs.readFileSync(r.artifact.path)
-assert.equal(hash(bytes), r.artifact.sha256)
-const { members } = JSON.parse(gunzipSync(bytes))
-for (const m of r.artifact.members) {
-  assert.equal(Buffer.byteLength(members[m.name]), m.bytes)
-  assert.equal(hash(members[m.name]), m.sha256, m.name)
+const dir = 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/'
+function check(r, read, exists) {
+  for (const p of [...r.files, ...r.pins]) assert.equal(hash(read(p.path)), p.sha256, `STALE ${p.path}`)
+  if (r.tests.removedFile) assert.equal(exists(r.tests.removedFile), false)
+  const bytes = read(r.artifact.path)
+  assert.equal(hash(bytes), r.artifact.sha256)
+  const { members } = JSON.parse(gunzipSync(bytes))
+  assert.deepEqual(Object.keys(members).sort(), r.artifact.members.map(x => x.name).sort())
+  for (const m of r.artifact.members) {
+    assert.equal(Buffer.byteLength(members[m.name]), m.bytes)
+    assert.equal(hash(members[m.name]), m.sha256, m.name)
+  }
+  for (const run of r.tests.runs) {
+    const e = JSON.parse(members[`${run.id}.execution.json`])
+    assert.equal(e.exit, run.exit)
+    assert.equal(e.signal, null)
+    assert.equal(e.spawnError, null)
+    for (const stream of ['stdout', 'stderr']) assert.equal(hash(members[e[stream].member]), e[stream].sha256)
+    if (run.passed === undefined) continue
+    const n = JSON.parse(members[`${run.id}.native.json`])
+    assert.equal(n.numPassedTests, run.passed)
+    assert.equal(n.numFailedTests, run.failed)
+    assert.equal(n.numPendingTests, 0)
+    const failed = n.testResults.flatMap(f => f.assertionResults.filter(t => t.status === 'failed').map(t => ({ file: relative(resolve(e.cwd, '../..'), f.name), fullName: t.fullName })))
+    assert.deepEqual(failed, run.failures)
+  }
 }
-for (const run of r.tests.runs.filter(x => x.passed !== undefined)) {
-  const n = JSON.parse(members[`${run.id}.native.json`])
-  assert.equal(n.numPassedTests, run.passed)
-  assert.equal(n.numFailedTests, run.failed)
-  assert.equal(n.numPendingTests, 0)
-}
-console.log('MATCH: bounded save-tools progress; no integration or full content-validation credit')
+const current = JSON.parse(fs.readFileSync(dir + 'save-cash-local.json'))
+check(current, p => fs.readFileSync(p), p => fs.existsSync(p))
+const ref = current.priorStage.commit
+const frozen = p => execFileSync('git', ['show', `${ref}:${p}`])
+check(JSON.parse(frozen(current.priorStage.receipt)), frozen, p => spawnSync('git', ['cat-file', '-e', `${ref}:${p}`]).status === 0)
+console.log('MATCH: current finite cash guard and frozen test stage; no full schema/integration credit')
 JS
 ```
 

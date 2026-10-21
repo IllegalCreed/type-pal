@@ -52,7 +52,7 @@
 | [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | partial | [minimap lifecycle 复审](56-minimap/README.md)：2 文件/20 直接，tools/dev 51 + picker 5 相邻；loading ownership 变异1红5绿，seam repair 留 CODE-QUALITY-57 |
 | [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | partial | [工具/thumbnail有限切片](core-comment-audit/tools-thumbnail-hotkeys/README.md)：1944行宿主与两helper测试全文，注释/接线已核；未驱动thumbnail，seam/色板/视觉仍review |
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [夹具/隔离勘误](58-tools-panel-fixtures/README.md)：更正核心强转/窗口监听跨例，正式19绿/相邻199绿；无新统一门，save边界不认证 |
-| [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | partial | [合同中间片](save-tools-local.json)：96字段声明/已核读档事实；完整内容合同与正式红绿仍待，非法现金未修 |
+| [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | partial | [现金必要守卫红绿](save-cash-local.json)：两正式红后29相邻零诊断、原内存槽位保留；其余96字段/wire与FileReader仍待，未授整卡信用 |
 | [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | partial | [八维/合同迁移与反控](save-tools-local.json)：18定向/相邻与静态零诊断，模块大门留收尾，未新增accept |
 | [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-62](../../archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |

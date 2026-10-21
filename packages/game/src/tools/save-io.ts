@@ -22,5 +22,8 @@ export function parseImportedSave(text: string): GameState {
   if (!gs || !Array.isArray(gs.partyMembers) || typeof gs.wNumScene !== 'number') {
     throw new Error('存档缺必要字段(partyMembers / wNumScene)')
   }
+  if (typeof gs.dwCash !== 'number' || !Number.isFinite(gs.dwCash)) {
+    throw new Error('存档金钱字段非法(dwCash 必须为有限数值)')
+  }
   return gs as GameState
 }
