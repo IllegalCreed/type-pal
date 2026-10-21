@@ -1236,7 +1236,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "774def7589a02911236703846a8c5978235d2c3850923c8db96b913bd9f99748",
+      "afterSha256": "095f55d199c8171d204d1462bd7e557d0461d204e6ce4f97aed42e154b9c4b47",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1663,6 +1663,15 @@
           "sourceRevision": "b60e0b681e7c1b399b4810d831cd42cdd9215cd7",
           "previousAfterSha256": "d7a4e5908d2738642df22e2cb4105410e723e060546ca675c13088da601286ae",
           "afterSha256": "774def7589a02911236703846a8c5978235d2c3850923c8db96b913bd9f99748",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 actuala13 independent targeted correction verdict and final13 admission; zero new native grants",
+          "sourceRevision": "08377f084daa414b76ae1259766606c06c687343",
+          "previousAfterSha256": "774def7589a02911236703846a8c5978235d2c3850923c8db96b913bd9f99748",
+          "afterSha256": "095f55d199c8171d204d1462bd7e557d0461d204e6ce4f97aed42e154b9c4b47",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5703,7 +5712,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "d73dbdaf20a019514ba4dd51f8436578da790fa691a07b61f6501ed2e59f266f",
+      "afterSha256": "f616b75887ffc838921b04c87c4c377fe1e28dd96ce9a3e1034ec54415e07c05",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6276,6 +6285,15 @@
           "previousAfterSha256": "55fc96c8a5237d99a8822b9d6b30a3990b9ee1128766cdf5e9d9917606fe1a89",
           "afterSha256": "d73dbdaf20a019514ba4dd51f8436578da790fa691a07b61f6501ed2e59f266f",
           "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 actuala13 independent targeted correction verdict and final13 admission; zero new native grants",
+          "sourceRevision": "08377f084daa414b76ae1259766606c06c687343",
+          "previousAfterSha256": "d73dbdaf20a019514ba4dd51f8436578da790fa691a07b61f6501ed2e59f266f",
+          "afterSha256": "f616b75887ffc838921b04c87c4c377fe1e28dd96ce9a3e1034ec54415e07c05",
+          "method": "Actual2026-10-21 Owner counter/admission and matrix controls, zero source body adoption or new semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

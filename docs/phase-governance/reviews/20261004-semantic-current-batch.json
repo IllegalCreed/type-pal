@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "ab2fcc7491aab2c2bbc2162c6846227344435e2cc0d631d71c30ddb0febc5e52",
+      "afterSha256": "cb71e54c8cabfb9c038a273cc6176b23d0be21c1f66defa23a59281b20504f45",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1031,6 +1031,15 @@
           "previousAfterSha256": "c5e40bf0ecb57f73705002f553698a0e61b16783e12f90b0657fee373ca05c62",
           "afterSha256": "ab2fcc7491aab2c2bbc2162c6846227344435e2cc0d631d71c30ddb0febc5e52",
           "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 actuala13 independent targeted correction verdict and final13 admission; zero new native grants",
+          "sourceRevision": "08377f084daa414b76ae1259766606c06c687343",
+          "previousAfterSha256": "ab2fcc7491aab2c2bbc2162c6846227344435e2cc0d631d71c30ddb0febc5e52",
+          "afterSha256": "cb71e54c8cabfb9c038a273cc6176b23d0be21c1f66defa23a59281b20504f45",
+          "method": "Actual2026-10-21 Owner counter/admission and matrix controls, zero source body adoption or new semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

@@ -5,9 +5,9 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: S17/S18接收保留；S19固定039定点返工40篇正文及61条证据结论，21篇正文保留；全量硬验收未完成
+Reviewer: S17/S18接收保留；S19修正a13据证保留48篇，13篇两句说明与对应core仍返工；全量硬验收未完成
 Branch: codex/docs-audit-rework
-Last reviewed: 2026-10-20
+Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -2154,3 +2154,11 @@ S18实际中央[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/centra
 - S19-C02：R41–R53十三篇readonly正文沿用其它轮的WAVE-O/OPS-DOC例子（如R43真源前两项是E2E-001-CLOSE与DOC-CURSOR-5，并无这两外轮任务）；R53又把821–982当清单行数范围，真源实际含更长任务。只修本篇例子与范围/原文自相矛盾边界，不能修改quote里的旧模板错误。
 - [逐篇非作者counter及解除条件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz)，payload SHA 8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353。准入一次定点修正：同分支、同原base，从039追加；仅40篇反例正文可写，21篇其余正文按039整文件SHA保留，61条新review记录修正；新证据仅/tmp/s19-glm-evidence-correction，旧28件不覆盖。438篇/全部quote/R24勘误与中央域、规则、配对JSON、产品/旧测试/coverage只读；已合格保全和正文成果复用，不全文重做。
 - 本轮中央新增content-reviewed/template-compliant为0，不采纳候选正文或改61绑定。当前1156 content-reviewed/1276 partial、1133/1838基线+17增量、1282候选待迁移及strict2558待治理项保持原口径；父卡仍rework，不合main、不推main、不标done。Contributor按document-delivery-acceptance/1.0.0一次回交修正候选与逐命令真实回执，无需逐批请示；无需新产品取舍。
+
+### S19 定点修正a13据证裁定与终修准入（2026-10-21）
+
+- Git真实候选a13de52d169db3957b78ff18036361c742a84e92，base89d4、从039追加61a→a13；tracked干净、仅node_modules未跟踪，所见reflog为连续追加提交（不据此宣称能排除所有历史reset）。回信/HANDBACK手填完整SHA错误，机器review与原始回执均用真实Git身份；旧文字原件保留，以新勘误解决，不倒改。旧调用python3 replay.sh错误，实际使用zsh并留真实命令。
+- Owner重放双verifier与完整replay：bodyChanged40/completed61/blocked0；全部61 source/quote在显式sep-lf-1下精确保全，R24历史块逐字恰一次；21正文与S17/S18既有438整文件只读。旧28文件集合与SHA、修正包30文件清单及9条真实回执一致；本轮实跑导航/索引byte-equal/model1265零issue/testing/lint4511零EWI/双口径diff均绿。61a的双marker形态可由Git重现；丢失assert原始输出仍为未认证，不补造。
+- 原C01的27篇目标/数量/canonical与六无效counter边界已闭合，61条metadata形式问题已修。其余48篇正文与语义字段保留，无需重做全文。仍有同一13篇R41–R53 readonly的两处说明和13条core：R41真实10=2README+8卡却被新增“原文复制矛盾”写成不符；13个真源均不存在新引的Ten documents；R42–R53开头又把两README当实际范围。首两项/数量/范围修正有效，但新core照抄039错误快照，R53仍写821–982而非821–11269。逐篇位置/条件见[固定非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz)。本轮按已知同族矛盾定向展开，未重读61全文。
+- build allowed终修：同分支从真实a13追加，仅13篇已知readonly的开头对象句与复制矛盾说明可写；48其余正文按a13整文件SHA保留。新证据仅/tmp/s19-glm-evidence-final-fix；13 core取实际固定源与最终正文原始结论节，61条身份/after pins程序刷新，48条已合格语义字段不改。旧28+30与全部61quote、R24、438先前正文、共享域/JSON/规则/产品/旧测试/coverage只读，不逐批许可。准入清单[固定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final13-targeted-correction-admission/dd2b3234910a522a59c1f8d2ab90fdb9edfd255ab36a432e7953f97cf0f2e7d8.gz)，本机/tmp/type-pal-S19-final13-handoff-97168u4i，manifest SHA dd2b3234910a522a59c1f8d2ab90fdb9edfd255ab36a432e7953f97cf0f2e7d8，快检verify-final.py。039快照authorBodySpecificConclusion是当时错误观察，不能当推荐终稿。
+- S19尚未整体接收，中央新增正文/semantic/template信用0，仍1156 content-reviewed/1276 partial、1133/1838基线+17增量/1282待迁移；全卡rework，不合main、不推main、不标done。未跑181/整仓check:docs/产品/E2E/coverage；静态绿不追认旧深审、旧门数字或旧独立席位。

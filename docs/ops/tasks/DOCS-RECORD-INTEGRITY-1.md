@@ -203,3 +203,7 @@ S16实际中央接入后共718篇文档接收、1714篇partial，N3本篇blocked
 ### S19 不能缩回初始撤信范围（2026-10-20）
 
 候选039的61份保全及静态门成立，但27篇未引用本卡已接收的扩大纠错，十三篇readonly又混入外轮示例；61条coreConclusion全为metadata。逐篇[具体反例](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz)。只对40正文/61证据字段定点修正、21正文与438前序接收保留；不把目标review撤信当所有旧提案全错、不复活旧深审或旧非作者身份，不重新跑历史产品门。中央零新信用，父卡rework。
+
+### S19 修正后原源与新结论仍须对应（2026-10-21）
+
+真实a13候选的61保全、27扩大撤信边界和48具体review字段已据证保留；旧28与新30件完整冻结，九条实际回执及Owner重放全绿。R41–R53新说明伪引Ten documents，R41正确10=2README+8被误判矛盾，十二后轮开头仍误述README；十三条core又复制039的旧错误。故只退同一13篇两句及对应core，不扩大到61全文。首两项/数量/范围修正保留；新回信需勘误错误完整SHA和python调用zsh脚本，不回写原件。逐篇[裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz)与父卡终修准入为本轮依据，零中央新信用，不追认历史独立/深审/执行，不标S19或全卡done。
