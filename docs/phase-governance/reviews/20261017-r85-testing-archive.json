@@ -2371,10 +2371,10 @@
         "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:21"
       ],
       "unresolved": [
-        "S25 native contract author pilot awaits non-author evidence acceptance; partial-review-unknown and needs-migration remain.",
+        "GLM accepted S25 pilot evidence only; partial-review-unknown/needs-migration remain pending explicit central document migration disposition.",
         "Original outputs include withdrawnB5/B10 and pre-strengtheningB7; old8act warnings are not cleared. No original product test or full8-needle execution re-certified."
       ],
-      "nextStep": "Accept/counter fixed-source native pilot evidence independently, then explicitly decide central document migration credit; new paths require separate admission.",
+      "nextStep": "Owner separately admits a same-kind JSON batch and decides document migration scope; do not expand fixed three-path source/phase contract or grant current product/execution credit.",
       "phase": "ops",
       "module": "evidence-artifact",
       "capability": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json machine artifact",
@@ -2494,8 +2494,8 @@
       "counterReworkBlocked": [
         {
           "id": "S25-NATIVE-PILOT",
-          "status": "awaiting-non-author-evidence-acceptance",
-          "statement": "Author native pilot only; no current product/execution credit or migration completion."
+          "status": "closed-for-pilot-evidence-only",
+          "statement": "GLM non-author evidence accept for candidate24b93ab8f; see s25NonAuthorEvidenceAcceptance. Pending document/migration statuses and all no-execution boundaries retained."
         }
       ],
       "claimCorrection": {
@@ -2513,7 +2513,7 @@
         "owner": "Codex",
         "nonAuthorReviewer": false,
         "previousRecord": "8daab219877b82c96700b1ec19b5a18ff6b4eab3:docs/phase-governance/reviews/20261017-r85-testing-archive.json",
-        "scope": "Native output roles and complete artifact fields only; author pending pilot, not full underlying test-contract certification."
+        "scope": "Codex author native output/complete-field qualification; GLM evidence acceptance recorded separately at s25NonAuthorEvidenceAcceptance. No full underlying test-contract or migration credit."
       }
     },
     {
@@ -3078,10 +3078,10 @@
         "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:21"
       ],
       "unresolved": [
-        "S25 native contract author pilot awaits non-author evidence acceptance; partial-review-unknown and needs-migration remain.",
+        "GLM accepted S25 pilot evidence only; partial-review-unknown/needs-migration remain pending explicit central document migration disposition.",
         "Original outputs include withdrawnB5/B10 and pre-strengtheningB7; old8act warnings are not cleared. No original product test or full8-needle execution re-certified."
       ],
-      "nextStep": "Accept/counter fixed-source native pilot evidence independently, then explicitly decide central document migration credit; new paths require separate admission.",
+      "nextStep": "Owner separately admits a same-kind JSON batch and decides document migration scope; do not expand fixed three-path source/phase contract or grant current product/execution credit.",
       "phase": "ops",
       "module": "evidence-artifact",
       "capability": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json machine artifact",
@@ -3201,8 +3201,8 @@
       "counterReworkBlocked": [
         {
           "id": "S25-NATIVE-PILOT",
-          "status": "awaiting-non-author-evidence-acceptance",
-          "statement": "Author native pilot only; no current product/execution credit or migration completion."
+          "status": "closed-for-pilot-evidence-only",
+          "statement": "GLM non-author evidence accept for candidate24b93ab8f; see s25NonAuthorEvidenceAcceptance. Pending document/migration statuses and all no-execution boundaries retained."
         }
       ],
       "claimCorrection": {
@@ -3220,7 +3220,7 @@
         "owner": "Codex",
         "nonAuthorReviewer": false,
         "previousRecord": "8daab219877b82c96700b1ec19b5a18ff6b4eab3:docs/phase-governance/reviews/20261017-r85-testing-archive.json",
-        "scope": "Native output roles and complete artifact fields only; author pending pilot, not full underlying test-contract certification."
+        "scope": "Codex author native output/complete-field qualification; GLM evidence acceptance recorded separately at s25NonAuthorEvidenceAcceptance. No full underlying test-contract or migration credit."
       }
     },
     {
@@ -5483,10 +5483,10 @@
         "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:21"
       ],
       "unresolved": [
-        "S25 native contract author pilot awaits non-author evidence acceptance; partial-review-unknown and needs-migration remain.",
+        "GLM accepted S25 pilot evidence only; partial-review-unknown/needs-migration remain pending explicit central document migration disposition.",
         "Original outputs include withdrawnB5/B10 and pre-strengtheningB7; old8act warnings are not cleared. No original product test or full8-needle execution re-certified."
       ],
-      "nextStep": "Accept/counter fixed-source native pilot evidence independently, then explicitly decide central document migration credit; new paths require separate admission.",
+      "nextStep": "Owner separately admits a same-kind JSON batch and decides document migration scope; do not expand fixed three-path source/phase contract or grant current product/execution credit.",
       "phase": "ops",
       "module": "evidence-artifact",
       "capability": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json machine artifact",
@@ -5606,8 +5606,8 @@
       "counterReworkBlocked": [
         {
           "id": "S25-NATIVE-PILOT",
-          "status": "awaiting-non-author-evidence-acceptance",
-          "statement": "Author native pilot only; no current product/execution credit or migration completion."
+          "status": "closed-for-pilot-evidence-only",
+          "statement": "GLM non-author evidence accept for candidate24b93ab8f; see s25NonAuthorEvidenceAcceptance. Pending document/migration statuses and all no-execution boundaries retained."
         }
       ],
       "claimCorrection": {
@@ -5625,7 +5625,7 @@
         "owner": "Codex",
         "nonAuthorReviewer": false,
         "previousRecord": "8daab219877b82c96700b1ec19b5a18ff6b4eab3:docs/phase-governance/reviews/20261017-r85-testing-archive.json",
-        "scope": "Native output roles and complete artifact fields only; author pending pilot, not full underlying test-contract certification."
+        "scope": "Codex author native output/complete-field qualification; GLM evidence acceptance recorded separately at s25NonAuthorEvidenceAcceptance. No full underlying test-contract or migration credit."
       }
     },
     {
@@ -18435,6 +18435,84 @@
       "task": "DOCS-FULL-TEMPLATE-1/S25",
       "action": "Exactly3 native Vitest author pilot rows, pending statuses retained; original native bytes unchanged. Prior rows recover from8daab2198.",
       "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
+      "action": "Record human-forwarded GLM non-author evidence acceptance separately from Codex authorship and oldR85withdrawals; native3/other97rows and pending statuses unchanged.",
+      "nonAuthorReviewer": false
     }
-  ]
+  ],
+  "s25NonAuthorEvidenceAcceptance": {
+    "date": "2026-10-21",
+    "task": "DOCS-FULL-TEMPLATE-1/S25",
+    "reviewer": "GLM",
+    "nonAuthorReviewer": true,
+    "verdict": "accept",
+    "counterCount": 0,
+    "base": "8daab219877b82c96700b1ec19b5a18ff6b4eab3",
+    "candidateCommit": "24b93ab8f53aaf9b7cfe963349658dfd5201c86c",
+    "documents": [
+      {
+        "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
+        "verdict": "accept"
+      },
+      {
+        "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json",
+        "verdict": "accept"
+      },
+      {
+        "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
+        "verdict": "accept"
+      }
+    ],
+    "provenance": "Human user forwarded GLM non-author handback in this Codex conversation. Reported GLM executions are attributed here; this object does not manufacture their raw process receipts.",
+    "actualReadDomain": "GLM: complete single23-file commit diff; native3 bytes against base and33cc plus assertion identities/counts; all100 r85 rows (3changed/97unchanged); registry/routing/proposal diffs; two test files and S25 append counters; B4 original failure text.",
+    "verifiedBoundaries": [
+      "adjacent8files/37passed, suite18 is hierarchy not file count; originalB5/B10 withdrawals, B7strengthening and gates8oldact warnings remain explicit.",
+      "directed6files/31passed, suite12 is not file count; historical success does not certify zero diagnostic or current product quality.",
+      "B4red6files/31assertions,30passed/1failed: original ghost-b4 repeated three times; no current rerun or full8-needle certification.",
+      "Native bytes unchanged with no_governance/payload/reorder; fixed33cc/frozen1838 source, bothfalse, existing current review; ownversion1.0, parent1.5/sixoldvariants/sourcePins unchanged.",
+      "Only explicitly authorized F1 olddocs assertion adapted; preexisting complete machine fields/sixvariants/sourcePins remain deepEqual; no rule downgrade or unrelated oldtest changes."
+    ],
+    "reportedExecutions": [
+      {
+        "argv": ["node", "--test", "scripts/docs/historical-vitest-native.test.mjs"],
+        "result": "6 pass / 0 fail"
+      },
+      {
+        "argv": ["node", "scripts/docs/check-document-model.mjs"],
+        "result": "PASS7routes/1271bodycontracts/0issues"
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "8daab219877b82c96700b1ec19b5a18ff6b4eab3..24b93ab8f53aaf9b7cfe963349658dfd5201c86c"
+        ],
+        "result": "exit0, empty output"
+      }
+    ],
+    "reusedEvidence": {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+      "scope": "S25 append:208/208tools, lint4517files0E0W0I and post-scope author originals. GLM did not rerun full gates, product/E2E/coverage or original8needle tests."
+    },
+    "ownerDisposition": {
+      "owner": "Codex",
+      "decision": "accept-pilot-evidence-only",
+      "actualReadDomain": "Confirmed HEAD/trackedstate/candidate23file identity and consistent forwarded evidence with current S25/native contract/r85 fields. No repeat full3artifact or oldtest governance.",
+      "contractReuse": "historical-vitest-native-v1/1.0.0 is a foundation for separately admitted same-kind native receipts; fixed3path/phase/source scope remains, not automatic302scope or batch build.",
+      "unchangedStates": "All3 partial-review-unknown/needs-migration and partial-semantic depth; source/after/nativebytes/33cc binding and bothfalse unchanged. New migration/semantic/execution credit0, strict2382/1194distinct pending; parentrework, no main/push/done.",
+      "notRun": [
+        "repeated full208docs-tool suite for this prose/ledger intake",
+        "product tests",
+        "original8needle execution",
+        "runtime",
+        "E2E",
+        "visual",
+        "coverage"
+      ]
+    }
+  }
 }

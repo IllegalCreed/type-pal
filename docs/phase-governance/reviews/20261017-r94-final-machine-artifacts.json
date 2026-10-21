@@ -1016,7 +1016,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "139fab0d9e27adf1b55f0be3874e19c0eaca142a965540d3be33a01cb4be11b5",
+      "afterSha256": "5d7d4eedcdcfd96d7201cb0d15aeab8e241b12d94803c73ed0d882eef057fd25",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "1f0ed75696cea18e2edb9d47d2b10ae8d61bf54194173bc15341cf30c1029cde",
+      "afterSha256": "c0a3865eed88875e0e94681d30cc35976f40bfd676229c1233c973587bf72db6",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "c517ab5a8fd3c1847384b97af6aa374f1fa49d8554039bd2d227f230429c482f",
+      "afterSha256": "76a7f9c11eddfa4f635df8bda2548c85863f039faca7a35080ef2945865822c8",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -7178,6 +7178,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25",
       "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
+      "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
       "nonAuthorReviewer": false
     }
   ]

@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "fbd6f1810f701eb9682052b5994c7a51cec6f0cb18e39c513760bc3bf0e42990",
+      "afterSha256": "e327656b4c588669cc7a253d1e7a5de9f308c2591afa76809630acb1653d8cac",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -2471,6 +2471,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25",
       "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
+      "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
       "nonAuthorReviewer": false
     }
   ]

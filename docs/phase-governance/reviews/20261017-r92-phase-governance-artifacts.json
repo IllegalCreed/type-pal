@@ -3184,7 +3184,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
-      "afterSha256": "f9d739bd8d230576bae0d7464148c60b9b661d049310513e5cb1e3ae775e1245",
+      "afterSha256": "9194cd1de7b07d27172f0e7947b2f2fd78cf5ff1b05902e2bcc65fe70acf6b4f",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4486,6 +4486,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25",
       "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
+      "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
       "nonAuthorReviewer": false
     }
   ]

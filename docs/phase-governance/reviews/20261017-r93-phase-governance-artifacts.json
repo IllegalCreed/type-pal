@@ -1108,7 +1108,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "05d179f211d327d8a9c122f10d7415809f1176b0e2a542cb38c0e568c2fc8108",
+      "afterSha256": "7bf70ea8b7618928e4d5eded11f7c5ca2587b85ea7bbbe10169f29b7ad83ee87",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2681,7 +2681,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "faf5df94ee853e49ffc5d07fe2e88730ed8d0c6aa8f13746756499b909e9baef",
+      "afterSha256": "be499a5ba2deb19d27810a615d4057bbaea2dde81b7695482425eef1ab283eed",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13998,7 +13998,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "ce12f3b4235c0dac030a17edbd180b1c8d1496d9f52f3e901ce109c00cc7aa44",
+      "afterSha256": "ee1d9cbd54e75a8687484e5b146feb16a9c5ce4132a49032183fef87770ff7a0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16052,6 +16052,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25",
       "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
+      "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
       "nonAuthorReviewer": false
     }
   ]

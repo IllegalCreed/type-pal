@@ -47,7 +47,7 @@ Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、eviden
 
 2026-10-21 evidence-receipt新增两个原生JSON pilot变体：historical-document-relocation-v1、historical-document-preservation-v1，各自1.0.0；默认Markdown合同/版本不滚动，17类总数不变。三件DOC-IA-2使用固定33cc原件，原字段不搬payload；治理五项内容、历史轴/未重跑声明与两项unverified来源由严格JSON及model/progress共同检查。变体format/version优先，无自有声明的旧变体仍继承默认。三篇pilot证据已获GLM非作者accept，canonical仍needs-migration，本次不授迁移完成；见[设计S23](registry-proposal-20261011.md#2026-10-21-s23历史文档迁移与清理回执原生合同草案)。
 
-S25新增test-machine-evidence的historical-vitest-native-v1原生输出变体，自有1.0.0、父1.5.0与原六变体不变。三份固定33cc reporter的原始字节保持，治理内容复用唯一当前review条目，禁止追加_governance、payload、sidecar或新source pin。真实model/progress检查固定三路径、字节/来源、五项治理内容、相位与双false；红相位不强制改绿，suite计数不当文件数，success不证明零诊断。仅供[三篇pilot](registry-proposal-20261011.md#2026-10-21-s25原生vitest历史输出合同)，仍待非作者接受，不自动接入其它302份或授完成。
+S25新增test-machine-evidence的historical-vitest-native-v1原生输出变体，自有1.0.0、父1.5.0与原六变体不变。三份固定33cc reporter的原始字节保持，治理内容复用唯一当前review条目，禁止追加_governance、payload、sidecar或新source pin。真实model/progress检查固定三路径、字节/来源、五项治理内容、相位与双false；红相位不强制改绿，suite计数不当文件数，success不证明零诊断。[三篇pilot证据](registry-proposal-20261011.md#2026-10-21-s25原生vitest历史输出合同)已获GLM非作者accept，可作同类准入基础；三篇partial/needs-migration不变，不自动接入其余候选或授完成。
 
 catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项治理合同与原消费者责任；generatedBy值/null不加新门。
 新增 frozen-document-binding-baseline-v1 仅固定33cc捕获索引八键，专用JSON root/view验证原1838项和19键治理声明，

@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM已接受S24证据；S25原生Vitest三篇作者pilot待非作者验收；全量硬验收未完成
+Reviewer: GLM已接受S24/S25三篇各自pilot证据；迁移信用不变；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
@@ -2276,4 +2276,13 @@ S24作者阶段重跑：202/202文档工具通过，导航/model1268合同/testi
 
 S25作者阶段结果：新六项＋获准旧F1四项定向10/10；完整208/208，导航1302 MD/10160链/364任务、model1271合同、testing与phase/lore184均0issue，lint4517文件E/W/I=0，diff检查0。check:docs仍exit1，仅严格2382＝1188审阅＋1194迁移待办，去重1194篇；1151/1838基线迁移、3显式退役、87增量、0完整性漂移。三篇原生字节/其它模板与source pin不变；治理身份仍partial/needs-migration，不新增接受或完成。Vitest4.1.7本地producer的getSuites递归及success仅依失败计数已定向读源码并留原件，未执行旧产品测试。首轮207/208失败与用户授权后的恢复输出均追加原压缩日志。
 
-下一位只需非作者证据验收，先核本节/设计S25、r85三行与candidate diff，按定向六项和真实model快检；复用208/208/lint与保全原件，不再读全部1121 JSON。不接受时仅退对应合同/记录；父卡rework、三篇pending、批量路径未准入与main未合边界不变。
+作者阶段的下一步为非作者证据验收；后续GLM回执与Owner接入见下节，原208/208/lint与保全原件直接复用。
+
+#### S25 GLM非作者证据接受与Owner接入（2026-10-21）
+
+- 接收用户转交的GLM回执：nonAuthorReviewer=true，adjacent.json、directed.json、counterproof-runs/N-B4-missing-reference-dedup.json分别accept，零counter。唯一机器记录放[r85的s25NonAuthorEvidenceAcceptance](../../phase-governance/reviews/20261017-r85-testing-archive.json)，不另造JSON/sidecar。被验候选24b93ab8f53aaf9b7cfe963349658dfd5201c86c，base为8daab219877b82c96700b1ec19b5a18ff6b4eab3；Codex核HEAD/工作树与候选范围，未冒称复跑GLM的命令。
+- GLM实际读域：单提交全diff、三件双源字节/断言明细复算、r85全部100行对比（3行改、97行不变）、registry/routing/proposal差异、两个测试文件与S25原件关键计数。实际实跑原生定向6/6、model7 routes/1271合同/0issue、base..candidate diff空；208/208、lint4517零诊断及post-scope复用原件。产品/E2E/coverage/旧8针未跑。
+- 关闭S25-NATIVE-PILOT证据接受项，原作者qualification仍nonAuthorReviewer=false，GLM非作者结论独立记录；R85旧撤信原件及信用边界不改。Owner确认historical-vitest-native-v1/1.0.0可作为后续同类原生回执准入基础，当前固定三路径/来源/相位及原父1.5.0、六变体/source pin均不变。
+- 本次仍只接pilot证据：三篇partial-review-unknown/needs-migration与原生字节保持，0新增迁移/语义信用；B5/B10撤回、B7补强与旧8act warning不清除。当前1194篇未完/2382诊断、1151/1838迁移、3显式退役、87增量和父卡rework保持，不合main、不推送、不标done。
+- 下一批前提已只读复核：S21/F01共302件字节均未漂移；295件为原13字段形态，其中272件SHA匹配33cc冻结绑定（含三篇pilot），23件无该绑定成员；另7件字段形态不同（4件短摘要、1件带进程信息摘要、2件附distillation）。272件中余269件仅列同类设计候选，尚未逐篇语义接受或扩大固定三路径；30件例外单列，不补造来源或硬套合同。该结构/绑定核查不等于逐篇全文审阅，也未认证302个Git blob或旧执行。
+- 无下一位Agent提示词；后续由Codex直接拟定269件的独立批次准入和30件例外的来源/格式合同，实际批量迁移另卡。S24三件needs-migration及两项unverified来源不受本次影响，不用本accept扩权。
