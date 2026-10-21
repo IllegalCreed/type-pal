@@ -977,10 +977,11 @@
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
@@ -998,20 +999,22 @@
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/engineering.md",
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
@@ -1029,60 +1032,66 @@
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/summary.md",
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/tools/README.md",
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/world-lifecycle.md",
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r34-ops-pre-e2e.json",
-      "templateVersion": "1.0.0"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/audits/README.md",

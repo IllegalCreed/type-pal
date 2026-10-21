@@ -2,36 +2,38 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-CONTINUATION-1「B3 命令表单族所有权候选」的分项验证快照：Owner Codex，基点 `b3eada17`，实现 `ec813052`/`83a8f7be`/`951131d8`/`a5744ee1`/`e538d924`（另设计审计性能与证据迁移四个提交）；候选不合 main、待原接收对话统一集成。表单族拆分、性能门、12 针反控与隔离 UI 取证在 quote 中保全；统一门与集成状态以统一回执为准。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- B3 命令表单族所有权候选：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 所有权边界：`CommandForm` 从 2098 行降到 203 行（只保留 kind 分派与兼容公共出口）；`DialogueCommandForm`（对话身份/locale/行 reorder/速度/立绘/raw JSON 逃生口）、`ActorCommandForm`（角色条件/队伍 reorder/mount）、`WorldCommandForm`（实体/外观/loadScene 三态）、`ControlCommandForm`（变量/分支/资源/背包/相机/fallback）分治；`command-form-contract.ts` 显式作者专用 kind，`createAuthorCommandFormBridge` 提交边界拒绝 kind 漂移与作者对话 identity 降级；ScriptEditor.tsx 4361→4308。
+- 设计系统证据与性能门：action group/add picker/reorder/number field 等 owner 路径全部迁到真实族文件；路由 owner 变多后既有 CSS-only 失效测试并发 15.35s 超时——不放宽阈值，改为 AST/source facts 内容缓存＋不可能性预筛，定向性能测试 2/2 用时 11.43s、整包 2879/2879 通过。
+- 回归与反控：表单族定向 5 文件 51/51；设计所有权相邻 7 文件 53/53；Editor 整包 334 文件/2879 项；typecheck/build/设计门通过；[十二针] 对话身份/单行删除/队伍删除/角色条件默认/wait/fade/entity state/world variable 提交/loadScene 目标/bridge kind/作者 identity——control 20/20、12 坏实现均单一 AssertionError 检出。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 最终临时机账 `/var/folders/.../type-pal-command-form-families-mutants-sDJzxA/summary.json`。
+- 隔离 UI 取证：6056 隔离编辑器 s000 进场脚本，dialogue/actor-party/world 三族表单完整显示且保存禁用、console warning/error 为零；控制/资源族由现行回归与反控覆盖。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical（分项候选时点）。content20/SAVE8、命令 schema、locale 写回、aggregate draft 提交时点零改；本批是所有权重构无行为修复。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- 统一回执与所属连续治理卡；B3 须统一门并合 main 后才正式标完成。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # B3 命令表单族所有权候选
 >

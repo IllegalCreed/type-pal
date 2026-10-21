@@ -1016,7 +1016,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "0d8b9c7dd3c0e677a421e59490d4c7336ae5549cab5508e23ca93f27cf49a40c",
+      "afterSha256": "e0bcd23751b6bec52abece4ff1a64bfca1a8f734a535a7aeced9642f90cd805b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1213,6 +1213,15 @@
           "afterSha256": "0d8b9c7dd3c0e677a421e59490d4c7336ae5549cab5508e23ca93f27cf49a40c",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "0d8b9c7dd3c0e677a421e59490d4c7336ae5549cab5508e23ca93f27cf49a40c",
+          "afterSha256": "e0bcd23751b6bec52abece4ff1a64bfca1a8f734a535a7aeced9642f90cd805b",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1245,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "631360145a8b1b20848721df88eecf23e03aaa91860ab1adce11a50adad55f5b",
+      "afterSha256": "ad11fa1fd24be36642aaf947d2b9b32aeb31a0cf3cf1fab1ad6d984c3d1ef361",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1690,6 +1699,24 @@
           "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
           "previousAfterSha256": "095f55d199c8171d204d1462bd7e557d0461d204e6ce4f97aed42e154b9c4b47",
           "afterSha256": "631360145a8b1b20848721df88eecf23e03aaa91860ab1adce11a50adad55f5b",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "631360145a8b1b20848721df88eecf23e03aaa91860ab1adce11a50adad55f5b",
+          "afterSha256": "dcc32da651f2d76e9c35e81df640c1d3b616a0d3577a69877c849eb5b61bc69a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accepted27 central controls and S21 read-only JSON contract intake",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "dcc32da651f2d76e9c35e81df640c1d3b616a0d3577a69877c849eb5b61bc69a",
+          "afterSha256": "ad11fa1fd24be36642aaf947d2b9b32aeb31a0cf3cf1fab1ad6d984c3d1ef361",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5730,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "a19d76a754cc38a014ad3ee376200bffed199db21c02a58dee2a60e421fb264b",
+      "afterSha256": "c4136a8a02ca6466756315e41fc9ad5a18423b2927ce3ba98414b34eb855e2a6",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6322,6 +6349,15 @@
           "afterSha256": "a19d76a754cc38a014ad3ee376200bffed199db21c02a58dee2a60e421fb264b",
           "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accepted27 central controls and S21 read-only JSON contract intake",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "a19d76a754cc38a014ad3ee376200bffed199db21c02a58dee2a60e421fb264b",
+          "afterSha256": "c4136a8a02ca6466756315e41fc9ad5a18423b2927ce3ba98414b34eb855e2a6",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6489,7 +6525,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "d3fad7cdadb74cf818a78eb51b18c694f0b9ea8ecc18d18a2d6983b9e743cd41",
+      "afterSha256": "cf09d2d620dc020c1160b5dcd13951f6a7d6b68e1089aeb3ba1206ec7a131ce8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6841,6 +6877,15 @@
           "afterSha256": "d3fad7cdadb74cf818a78eb51b18c694f0b9ea8ecc18d18a2d6983b9e743cd41",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "d3fad7cdadb74cf818a78eb51b18c694f0b9ea8ecc18d18a2d6983b9e743cd41",
+          "afterSha256": "cf09d2d620dc020c1160b5dcd13951f6a7d6b68e1089aeb3ba1206ec7a131ce8",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6871,7 +6916,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "2a66a2aa2e3f54ea4b7e2a6844d72ab9862fddfd885ca6de2d9c76156b8ca972",
+      "afterSha256": "0977a5ab10088f5e31a7a5fe50c9167564479a871bfb0d523dd17121553959dd",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -7065,6 +7110,24 @@
           "previousAfterSha256": "53bb3c894aecf8903926d21a674fcb3f1aeae081790194e165b325b3fa8a44b9",
           "afterSha256": "2a66a2aa2e3f54ea4b7e2a6844d72ab9862fddfd885ca6de2d9c76156b8ca972",
           "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "2a66a2aa2e3f54ea4b7e2a6844d72ab9862fddfd885ca6de2d9c76156b8ca972",
+          "afterSha256": "e2055d28da121561d91cb0502dfb25006185792628affcca663e11f072e25e55",
+          "method": "Owner control/matrix writeback only",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 actual lint format failure repair: routing format before hashes; no logical scope/status changes",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "e2055d28da121561d91cb0502dfb25006185792628affcca663e11f072e25e55",
+          "afterSha256": "0977a5ab10088f5e31a7a5fe50c9167564479a871bfb0d523dd17121553959dd",
+          "method": "Biome canonical formatting of the already approved single README template correction",
           "grantsNewSemanticAcceptance": false
         }
       ]

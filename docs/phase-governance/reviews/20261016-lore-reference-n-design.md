@@ -2,38 +2,47 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「Lore 九篇导航、创作指南与参考资料治理设计」（N）的冻结设计归档：九篇 682 行按内容冻结 3 governance-index＋1 guide-runbook＋5 reference-canon（全部现有 1.0.0、0 overlay）；先准 lore/README、narrative-workflow、taboos 三类各一 pilot。根冻结决定与完整原提案在三层 quote 中保全；设计/结构图不给新迁移 credit。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；Version N-lore-reference / 1.0.0；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- Lore 九篇导航、创作指南与参考资料治理设计：原始正文完整保留于下方 quote。
+- 九篇与绑定：lore/README（62 行，governance-index current）、narrative-workflow（57，guide-runbook current）、versions（106，reference-canon candidate）、taboos（105，current）、world-rules（106，candidate）、world-rules-ghost-realm（93，candidate）、factions（135，candidate）、ideas/README（9，current）、ideas/guijie/README（9，current）；源固定 `40794827…`。
+- 四类事实轴：作者已登记项目约束（T1 不复活/T5.5 月如链/禁天鬼族/6-30 鬼阴山临时入口等）不因外网未核而撤销；旧采集说法（6/25 等 ✅/⚠/❓）不升官方 primary；创作选择与推论不认证为官方命题；月如呈现 A/B、谁用回魂珠（库内另有王小虎第三说）、五珠、影视边界等待作者裁决。
+- 精确修正：README「不入轮回」无条件断语改导航/冲突说明不撤 T1；taboos 自检错指只改 active 引用（月如 T6→T5.5+T7、生育 T7→T8、TV T8→T9）不改 T6 编号；ghost 琉璃谷/酆都并存待核；动态时辰归第三阶段。
+- 写域：作者 10 文件（九 MD＋专属回执）；三 pilot 先行，四大篇（characters/timeline/brainstorm/beat-sheet）只窄读不入写域。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 根三批完整读九源 682 行（三个 /tmp 阅读证据 JSON）＋完整 MD 提案＋独立 849 行报告（design agree 不预签正文实现）；74 原标题/22 表 128 行/76 出链（44 内＋32 外）逐项映射。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。九篇正文迁移与中央接入以继任记录为准。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-lore-reference-n.json`（同目录）：前三篇与后六篇各保固定 source/完整回执及独立接收记录；当前根接入结论唯一见该记录的 n6RootIntake。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5`（blob `8867146194a98f1cfc797660484312a2e191d682`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5`（blob `8867146194a98f1cfc797660484312a2e191d682`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16`，33781B。
+- 第 2 层：SHA `cc6c3753dc56390c799780c95ca63aaca7a00b952f0a8c148b88e4daf686f344`，31792B。
+- 第 3 层：SHA `078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5`，29622B。
+
 <!-- original-source-quote:start -->
 > # Lore 九篇导航、创作指南与参考资料治理设计
 >

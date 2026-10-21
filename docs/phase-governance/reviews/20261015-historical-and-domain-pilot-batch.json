@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "ae1b9d4044cdbc074b06d9ac6f0c3f181c1d45fceeb6941993e284d03c9240f6",
+      "afterSha256": "41bb5023575083b34dd8af9c576cf65582da919ea847e4efae5908d328394bf2",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6924,6 +6924,15 @@
           "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
           "previousAfterSha256": "c7f45c353531de3aeef014474a0e41c3558bce0f5967eb7367effdc1b9628b7c",
           "afterSha256": "ae1b9d4044cdbc074b06d9ac6f0c3f181c1d45fceeb6941993e284d03c9240f6",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accepted27 central controls and S21 read-only JSON contract intake",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "ae1b9d4044cdbc074b06d9ac6f0c3f181c1d45fceeb6941993e284d03c9240f6",
+          "afterSha256": "41bb5023575083b34dd8af9c576cf65582da919ea847e4efae5908d328394bf2",
           "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
         }

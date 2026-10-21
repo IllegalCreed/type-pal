@@ -3,73 +3,69 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: audit-report-v1 / 1.0.0
 
-本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 PRE-E2E-AUDIT-1 的总收口：A–E 五批首轮只读审计完成后的总体判断、修复进度（更新至 2026-09-21）、风险归并与建议推进顺序。各批明细与 GLM 取证包返工史在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 审计问题
 
-- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
+- 要回答的具体问题：五批确认发现如何归并（同家族不膨胀卡数）、哪些是薄 E2E 前置、哪些归 Q2/一阶段/优化；修复按什么顺序推进。
 
 ## 范围与证据
 
-- 版本/时间范围：2026-09-06；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508`。
-- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
-- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
+- 覆盖入口：A 数据安全台账 / B 世界与异步 / C 战斗 / D 编辑器工作流 / E 测试与工程（五批链路与计数见 quote 表）。
+- 七包主要风险调用链均纳入；未声称逐行人工审完每个文件或穷举每个参数组合；测试计数以各批回执为准，跨批不累加。
 
 ## 发现
 
-| ID | 发现 | 证据 | 影响 | 状态 |
-|---|---|---|---|---|
-| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
-- 未决信号：- 正文信号 30:  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
-- 正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。
-- 正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
-- 正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。
-- 正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |
+| 修复组 | 代表卡与候选 | 收口状态（源内时点） |
+|---|---|---|
+| 存档隔离/预检 | SAVE-ISOLATION-1 `526eea00`；SAVE-PREFLIGHT-1 `2c39b1af` | 均 done |
+| 编辑器保存安全 | EDITOR-SAVE-CONFLICT-1 `6780d220`；EDITOR-SAVE-RECOVERY-1（closeout 6,873/6,385）；EDITOR-LEAVE-GUARD-1 `10c84238` | 均 done |
+| 撤销/引用/上传 | EDITOR-HISTORY-ORDER-1 `70e3f627`；EDITOR-SCENE-REF-GUARD-1 `83598cc4`；EDITOR-SPRITE-PICK-1 `a88ab18d` | 均 done |
+| 试玩隔离 | EDITOR-SKILL-TRIAL-1 `fe0fee84`+`d394eccc`（D-04/D-05） | done |
+| 物品作者身份 | EDITOR-ITEM-AUTHORING-1 `451cbbb7`（D-06/D-07） | done |
+| 迁移写盘 | MIGRATION-WRITE-GUARD-1 `57dda7ed`（A-08/A-09） | done |
+| 世界异步/保存屏障 | WORLD-ASYNC-COMMIT-1 `e13216e7`（B-05/08/09）；SAVE-BARRIER-LINEAGE-1 `dff3442d`（B-06/07） | 均 done |
+| 测试可信度/预览缓存/门禁 | E-01/E-03/E-04/E-06 各维护回执 | done |
+- GLM 取证协作史按原文保留：44 项取证包 028ad866 counter→三轮返工→11fb8148 接收；批二 72 检查点 4ffae69b/a5b7cd89 counter→Codex 接手 S1–S6（34 covered/23 reproduced/15 risk）。
 
 ## 结论
 
-- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
-- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
+- 当前能证明：审计发现了真实的存档/作者数据保护缺口、状态所有权与跨会话撤销问题、单测通过但业务调用遗漏的战斗/预览问题；修复进度与各回执可追溯。
+- 当前不能证明：全部缺陷已修、Q2/一阶段独立排期项完成、R4/E2E/full/Q1/Q2 通过；完成审计不代表产品无缺陷。
 
 ## 整改与复核
 
-- 修复 Owner：由后续 task card 和当前 Owner 明确。
-- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.。
+- 建议顺序（原文排期表）：E-06 门禁→A-01/B-04→A-02/03/07+D-01→B-05/08/09→B-06/07+D-02/03/04+E-03/04→C-01..05+Q2→A-08/09+E-05→一阶段独立项。
+- 用户补充已核实问题（s135 默认落点与迁移误配）登记设计议题池，须修迁移上游后重生成。
+- 继任/supersedes：R4 起跑时写清实际项目/存档身份、输入校验与 checkpoint 断言，不以 toast/窗口/success 作通过条件。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-09-06；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508。
+- ops/audits/pre-e2e 历史审计层；日期：2026-09-05 起五批；修复进度更新至 2026-09-21；固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议：这是 audit-report，当前文档状态为 A。全文 264 行、12 个标题；摘要/首段为「状态：A–E五批计划范围的**首轮只读审计完成**；不是产品缺陷已修复、不是全程序无遗漏保证、不是E2E验收。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+- 总收口原文（修复进度全表、结论先说、覆盖阅读入口、排期表、用户补充、产品选择边界、归并与不要误读、待证 U-02、优化安排）完整保留于下方 quote；「修复尚未开始」等排期表时态为原文历史层。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+- 五批各报告与探针、各修复卡三席证据、GLM 取证包各轮接收报告（quote 内链接）。
 
 ## 当前有效性
 
-historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 30:  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
-- 正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。
-- 正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
-- 正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。
-- 正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |
+historical。修复状态以各卡与看板为准；U-02 仍待证，不计已确认缺陷。
 
 ## 继任文档
 
-- Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- R4 薄 E2E 合同与后续修复卡；当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全
 
-固定源 SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议
 >

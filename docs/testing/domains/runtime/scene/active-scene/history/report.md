@@ -2,36 +2,39 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-CONTINUATION-1「A3-c 活动场景与镜头状态归属」的分项验证快照：Owner Codex，冻结 `51048353`，实现 `2dc5d1d5`，Codex 核本分段 accept、统一全仓门已通过（非 A3 整体 done）。17 新例、7 针反控、冻结对照与统一门在 quote 中保全。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- A3-c 活动场景与镜头状态归属：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 实现边界：`ActiveScene` 拥有当前 scene/map/tiles/palette/renderer/wave 缓存/room/bounds/精灵映射（只接收已准备产物，不做 IO、不引入 await）；`WorldCamera` 拥有稳定 position/相对 offset/pan waiter（pre-abort 不打断旧任务、中途 abort 保留部分位移、reset 清 offset 不提前更新像素）；main 6260→6148 行，两模块合计 219 行。
+- 回归与对照：17 新例（ActiveScene 6/WorldCamera 11）；四条 save/async/checkpoint 链 75 项适配不改断言（开发首跑 37 个 AST fixture 绑定失败已闭合）；[冻结对照] 从 Git 提取前一宿主 77 函数反向归一化后 token 全等、80 个受保护函数展开迁移块对账、镜头 64 组确定性序列/2560 步比较位置/偏移/Promise 结果。
+- 反控：[七针] baseline 清空、wave 失效、action 播种、pan 取整、相对偏移、reset 采样、pre-abort 保护均由候选自身 AssertionError 检出；17 正控；判据 2 正/12 反自测、全生产 hash 保持。
+- 统一门：完整 check **8724 项**→官方 ratchet→保护 `51048353` 的单次 strict **8232 项/688 生产文件**全部 exit0；strict 前后基线 SHA `d0b38032…`；ActiveScene 行 37/37、函数 12/12；WorldCamera 三臂未命中防御分支（重复 resolve/abort/非当前 entry 取消）保留为未证不反射凑绿。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 开发证据日志：Reforge 175 文件/1627 项、TC/Biome、production build、链 75/75、mutants 与 parity 临时 summary（quote 内路径）。
+- 最小功能核验：6052 PAL 宿主 `scene s134 40,9` 后 state 刷新确认 s134/40,9/tick643、Esc 菜单可开闭、error/warn 为空；未读写正常存档。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical（分段 accept 时点）。reloadMap 不重算 bounds 等既有采样时机原样保持，不宣称为新规则。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- A3 后续移动/绘制归 A3-d/e（world-runtime）；B1/B2/B3/C1/D2/E1/F1 继续 Codex；当前事实由统一回执与现行回归决定。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # A3-c 活动场景与镜头状态归属
 >

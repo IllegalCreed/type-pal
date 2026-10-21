@@ -2,36 +2,38 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-CONTINUATION-1「B2 地图工作区会话所有权候选」的分项验证快照：Owner Codex，基点 `1e15f64f`，实现 `3c3fccda`/`a2ea1dee`/`3a633ed7`；候选不合 main、待原接收对话统一集成。四类 session 边界、21 新增、9+16 针反控与隔离预览取证在 quote 中保全；统一门与集成状态以统一回执为准。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- B2 地图工作区会话所有权候选：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 所有权边界：`MapPointerGestureSession` 独占单次画布交互（stroke/painting/pan/selection drag/hover，pointerId 隔离与 cancel/blur 同步清场）；`useMapTransformSession` 独占 include-collision 偏好/内部剪贴板/paste/move intent/目标锁（换图保留 cell clipboard、换 EditSession 释放工程态保留显示偏好）；`useMapWorkspaceViewSession` 独占 grid/collision 显示/工具/图章 palette/瓦片/画笔/焦点；`useMapStampStructureSession` 独占删除图层/改尺寸前的 stale-snapshot 确认；MapMode.tsx 3819→3734 行，坐标/命中/命令构造/原子历史仍归 MapMode。
+- 采样、提交与取消合同：selection pointer-up 先原子取走 preview 再向既有 reducer 提交正式 selection；paste/move hover 锁定后权限与冲突规划仍对实时地图执行；组合结构 revision 变化只刷新影响清单要求再次确认。
+- 回归与反控：新增 21 项（pointer 6/transform 7/view 4/stamp 4）；地图/组合相邻 33 文件 260 项、Editor 整包 332 文件/2868 项、typecheck/build 通过；[pointer 九针]＋[会话十六针] control 6/6 与 15/15、坏实现均由指定业务断言检出；两工具均要求精确 file/fullName/exit1/AssertionError/唯一 loader marker/产品 hash 不变。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 两个最终临时机账（map-pointer-gesture-NiFnKl / map-workspace-sessions-5lW5Qf）见 quote 路径。
+- 隔离功能核验：6055 直达 `map/workspace/map-122`，「重复」粘贴预览显示锚点 r126:c33、仅视觉、目标锁定、1 处覆盖冲突；Esc 取消后预览消失选区保留、通知「已取消地图变换预览。」、console 零错；浏览器自动化层截获系统剪贴键，Cmd+C/V 原生快捷键视觉列为未证。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical（分项候选时点）。地图格式、坐标/碰撞语义、UI 形态零改；B2 四类边界齐备仍须统一门并合 main。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- 统一回执与所属连续治理卡。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # B2 地图工作区会话所有权候选
 >

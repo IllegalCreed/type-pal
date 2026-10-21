@@ -3,67 +3,68 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: audit-report-v1 / 1.0.0
 
-本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 SAVE-BARRIER-LINEAGE-1 的只读前提取证：基线 `aefa5b06e067f81a90273cf245c762a9264cc09a`（产品与 WORLD 候选 `e13216e7` 相同），用双状态出口反例排除「只删 begin 的 pending gate」这一不完整修法。后续 r1 已实现并三席终审收口。探针与相邻 3 文件/39 条测试记录在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 审计问题
 
-- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
+- 要回答的具体问题：B-06/B-07（确认框请求保存→开战/内联出口的 lineage 互等）的正确修法边界——只删 begin 处 pending gate 是否足够，会不会破坏独立根安全点暂停。
 
 ## 范围与证据
 
-- 版本/时间范围：2026-09-16；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8`。
-- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
-- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
+- 版本/时间范围：2026-09-16；取证基线 `aefa5b06…`；当前 `script-world.ts` SHA-256 `18b30703a2d5748d4fff54f3e3fd6c2f9bd571c00fd03fb16cc6356917bf3e35`。
+- 一手来源与命令：probe-save-barrier-family.mjs 双模式（original / admission-only）；旧 probe-glm-next-barrier B01–B06 复跑；相邻 `script-world/script-runner-core/runtime-script-project` 3 文件/39 tests 全绿。
+- 边界：confirm 以 entered/deferred 精确控制不用 sleep；诊断 100ms 只缩短已证互等观察，生产默认 10000ms 未改；未跑真实战斗/地图画面。
 
 ## 发现
 
-| ID | 发现 | 证据 | 影响 | 状态 |
-|---|---|---|---|---|
-| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
-- 未决信号：- 正文信号 5:GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)；本次新探针由Codex编写自验，不代表他席签字。
-- 正文信号 19:两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确：
+| 同输入场景 | 原产品 | 仅删 begin 的 pending gate（内存单点） |
+|---|---|---|
+| 未请求保存，内联出口 | first/childEnd/parentEnd 全执行 | 相同（正常对照） |
+| confirm 挂起时请求保存，答 yes 后内联出口 | 保存超时、snapshot 0 次；超时解门后全部标志才执行 | 保存成功、snapshot 1 次，但只有 first/parentEnd，childEnd 缺失；子 cursor 已为 last |
+| 同内容独立 root hook，confirm 后请求保存 | first 执行、cursor=last、成功快照；childEnd 未执行（独立根安全点暂停） | 相同（对照证明不能全局取消安全点 stop） |
+- 单点模式严格验证 needle 唯一且 Vite load 实际命中，磁盘源码前后逐字一致。
+- 旧探针复跑：B01/B03 各 exit1（红因为自身子链不得使原保存超时/内联 onTeleport 与原保存互等至超时）；B02/B04/B05/B06 exit0。B06 证据限制（then 只返回 saved）按原文保留，正式 SL-07 必须直接抓实际 snapshot。
+- 人工 API 组合反例（延迟 registration finally 使 ready 后旧计数仍放行）不证明生产可达，不增确认 bug 数、不裁决 U-02。
 
 ## 结论
 
-- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
-- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
+- 当前能证明：admission-only 单点修改在「confirm 挂起时请求保存后内联出口」场景丢失 childEnd——只删准入 gate 是不完整修法；独立根安全点暂停必须保留。
+- 当前不能证明：生产调用会出现延迟 finally 窗口（U-02 仍待证）；未重跑全部 72 项旧批。
 
 ## 整改与复核
 
-- 修复 Owner：由后续 task card 和当前 Owner 明确。
-- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.。
+- 修复 Owner：SAVE-BARRIER-LINEAGE-1（两入口同族方案）；实现候选 `dff3442d` 已三席终审 accept、43 新增/8 反控、check7,079/严格 fast6,591 通过，2026-09-17 用户要求按齐备终审收口 done。
+- 复核条件：实现后老反例翻转应另记，不回改冻结审计预期冒称旧探针一直绿。
+- 继任/supersedes：SL-E1～E3 集中 R4/Q1 验证；剧情/保存观感不逐卡重复。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-09-16；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8。
+- ops/audits/pre-e2e 历史审计层；日期：2026-09-16；固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例：这是 audit-report，当前文档状态为 draft。全文 76 行、5 个标题；摘要/首段为「2026-09-16，Codex。取证基线`aefa5b06e067f81a90273cf245c762a9264cc09a`，产品与WORLD候选`e13216e7`相同。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+- 取证原文（双模式探针设计、三场景对照表、内部生命周期压力反例、旧证据复跑与限制、修复准入与未做）完整保留于下方 quote；「本次无产品修改」为 2026-09-16 时点陈述。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+- GLM 既有批二原材料及 Codex 接收修正贡献见 quote 内批二回执链接；本次新探针由 Codex 编写自验，不代表他席签字。
+- 临时日志目录 `type-pal-save-barrier-draft.JTwkGI/`（family/B01–B06/adjacent）为可重建证据，不是交付依赖。
 
 ## 当前有效性
 
-historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 5:GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)；本次新探针由Codex编写自验，不代表他席签字。
-- 正文信号 19:两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确：
+historical。r1 实现与收口事实由对应实施记录持有；本页只保留前提时点。
 
 ## 继任文档
 
-- Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- SAVE-BARRIER-LINEAGE-1 已完成卡与实施记录（quote 内链接）拥有修复结论的事实权。
 
 ## 原文保全
 
-固定源 SHA `c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例
 >

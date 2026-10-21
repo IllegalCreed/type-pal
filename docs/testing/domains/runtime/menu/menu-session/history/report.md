@@ -2,36 +2,39 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-REFORGE-MENU-1「Reforge 菜单/物品宿主拆分 A1」的最终报告归档：2026-09-24，基点 `09429b6c`，实现 `dbe55b55`，任务卡已 done（用户批准本批由 Codex 独立实施自验收口，Kimi/GLM 缺签豁免仅本卡）。等价工具、28 项新增、10 针负控与最终统一门在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- Reforge菜单/物品宿主拆分 · A1：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 实现边界：main.ts 7153→6798 行，15 个菜单/物品可变局部状态由 `menu/menu-session.ts`（菜单树/面板/光标记忆/存档浏览 UI/物品执行前后恢复，最大方法 85 行）与 `menu/item-use-session.ts`（pending 与 AbortController，取消后仍占槽直到真正 settle）承接；控制器不接收整个 project/渲染器/runner/saveStore。
+- 不漂移证据：原 H3/H5/H7/H8 等 40 项回归通过；新增 27 直接单元＋1 真实菜单存储接线；[冻结源码等价工具] 对 `09429b6c` 原函数执行 155 组确定性输入/3798 步逐步比较 UI 视图/世界/音频偏好/读写槽（等价脚本首版 stdout 提取 null 已改受控指标文件）；17 个敏感函数源码 hash 与基点逐字节相同。
+- 反控：55 正控＋10 单点针（含菜单 write 误接 load、rejected 误关菜单）；判据初版把 runWithTimeout 误认超时被工具正确拒绝，修正后 8 针重跑全业务红；635 生产文件 hash 前后不变。
+- 最终统一门：实现 `dbe55b55` **check8440、官方 ratchet 与保护 `09429b6c` 的单次严格 fast7949/635 均 exit0**（CI=true/FORCE_COLOR=1/NODE_COMPILE_CACHE；前后基线 SHA `68ce963c…`）；MenuSession 行覆盖 99.62%/ItemUseSession 100%。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 最小浏览器验证：6051 当前 PAL 工程 `?scene=s135&skip-startup=1&give=267`（give 仅当前页内存）：装备交换、土灵珠「无任何效果」对话后数量恢复、音乐开关取消不提交偏好均逐项核过。
+- 既有输入问题单列：demo map-056 version2 被正式 guard 拒绝（相对 09429b6c 零 diff，归架构/输入后续）；s135 调试直达人物位于黑区不改落点。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical。bootGame 仍 6394 行待 A2/A3 继续拆；「main 已全部拆完/一阶段已重构完成」不成立。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- 任务卡 ARCH-REFORGE-MENU-1（done）；后续 A2 战斗宿主、A3 世界/帧循环；当前事实由现行回归与 fresh review 决定。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # Reforge菜单/物品宿主拆分 · A1
 >

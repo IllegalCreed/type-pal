@@ -2,38 +2,47 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「P11 第二阶段目录入口治理」的冻结设计归档：11 份已全文读取的短导航（202 行）迁为现用 governance-index-v1（7 份 archive 下 README 是 current 导航、被链接材料仍按各自历史状态理解）。精确 12 路径白名单、逐篇五章合同与完整源清单在三层 quote 中保全；P 正文尚未写、P0/11。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；Version P-phase2-navigation / 1.0.0；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- P11 第二阶段目录入口治理：冻结设计：原始正文完整保留于下方 quote。
+- 11 篇：phase2/README（20 行）、guides/specs/reference/README（各 14/14/10）、archive/README（14）＋slices/mockups/slices-indoor/designs/plans/audits 七个 README（9/11/15/30/32/33）；固定内容源 `a366ad1b…`、准备基点 `31575c8a…`（实际 build 另取根新基点）。
+- 类型勘误：10 篇旧类型错（guide-runbook/design-spec/reference-canon/archive-record/plan-status/audit-report→governance-index）；root README 类型已对仍未迁移；7 个 archive 导航 catalog archived→current 是按内容勘误。
+- 保真：11 H1 原样、13 原 H2 保 slug 作 live H3、107 列表成员/118 href occurrence 全保、原双空行保源逆回读；historyOverlay=false（历史 collection 不触发本页 archive overlay）。
+- 反例：把归档路径一律加 overlay/Status historical、或把旧「已评审/给 GLM」变成本轮 accepted/build 均拒；最强替代解释（archive 路径使 README 本身是历史正文）被「原文持续承担父子目录路由、108 份 phase2 文档可从导航抵达」推翻。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 202 行逐篇全文读；完整机器 manifest（12 路径、每篇 blob/SHA/标题/成员/href/入链计数）内嵌 quote；根/独立设计/图/catalog probe 五个 /tmp 证据 JSON。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。正文迁移与中央接入（11 中央/唯一 routes/catalog 7 轴校正/两投影）以继任记录为准，均归根维护。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-phase2-navigation-p.json`（同目录）：固定 121ff 真实源/正文/回执获非作者接收；根类型/七导航状态/路由/实际投影另验。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84`（blob `e00f7ff180c6083333e68094456ff98281303928`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84`（blob `e00f7ff180c6083333e68094456ff98281303928`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755`，54617B。
+- 第 2 层：SHA `c1311cf45c8cbe0bc4306119a0e8658f1dff751e98120f7d7d5f186deea7c0df`，51564B。
+- 第 3 层：SHA `22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84`，48334B。
+
 <!-- original-source-quote:start -->
 > # P11 第二阶段目录入口治理：冻结设计
 >

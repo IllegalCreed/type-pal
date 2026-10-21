@@ -2,36 +2,39 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-CONTINUATION-1「D1 第一阶段依赖环拆分」的报告归档：2026-09-26，基点 `4cdefcf1`，Codex 核定 D1/E2 两项 accept/收口（整体卡仍 build）。七节点静态环拆分、161 函数 token 全等、12/12 所有权回归与统一门在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- D1 第一阶段依赖环拆分：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 边界：原静态环七节点（event-system/scene-system/equip-effect/battle-opcodes/menu-driver/menu-mode/magic-script）拆为六个单一所有者（script-catalog/inventory-state/player-poison-state/equipment-state/scene-identity/menu-stack）；旧模块显式 re-export 原符号、无兼容 wrapper、无第二份缓存；环本身不是已证玩法 bug，本批只解依赖不改 opcode/公式。
+- 可重建验证：只读 audit 对七旧入口出口集合逐一全等（186/10/14/1/14/3/2）；161 个原函数体逐 token 核对、32 个迁入下层；仅两处明确等价路由（tickAutoScripts 同步 getter/loadScene 同步 setter）；擦除 type-only 后 game 生产静态 import/export 图唯一七节点 SCC→零 SCC（不外推动态调用或全仓无环）。
+- 回归与反控：新增 8 项所有权回归（含同一函数绑定/命令数组身份/跨入口库存/底层→原装备 runner 同步生效/卸装清理/menu pop→tick 续商店），连既有跨模块 4 项共 12/12；原七定向 554/554、typecheck 通过；三针隔离 load 变异（catalog 偷复制数组/地图赋值丢失/毒入口回调不执行）正控 8 项、每针恰 exit1 AssertionError。
+- 统一门：完整 check **8678 exit0**→官方 ratchet→保护 `8bf40b90` 单次 strict-fast **8186 项/654 生产文件 exit0**（三步串行去 NODE_COMPILE_CACHE）；全仓语句 75.96%/分支 68.48%/行 78.12%。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 复建命令与机账见 quote（phase1-dependency-refactor-audit/mutants 两脚本＋vitest 两文件＋typecheck）。
+- 最小功能验证：`http://127.0.0.1:6006/?skip-intro=1` 真实 PAL 提取资源，Escape→状态页（体力 150/150/真气 100/100/武术 35/装备可见）→回探索，无 error。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical。D1/E2 收口不扩到 ARCH-CONTINUATION-1 其它九项；GLM r11 四项拟接入副本不混入本批。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- ARCH-CONTINUATION-1 连续治理卡；E2 同批收口；当前事实由现行回归与 fresh review 决定。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # D1 第一阶段依赖环拆分
 >

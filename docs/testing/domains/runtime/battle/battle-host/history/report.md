@@ -2,36 +2,40 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-REFORGE-BATTLE-1「Reforge 战斗宿主拆分（A2）」的最终候选报告归档：最终候选 `46287966` 已按用户 2026-09-24 全队列授权由 Codex 独立实施、自验、收口 done。实现边界、23+6 项回归、11 针反控、最终门禁与覆盖口径在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- Reforge 战斗宿主拆分（A2）：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 实现边界：`BattleHost` 独占活动会话/启动 intent/错误去重；`BattleLaunchPreparation` 独占战场表懒加载（prepare/prepareVisuals/prepareTurnSounds/FIRE 准备）；main 6798→6486 行、BattleHost 191 行、准备单元 322 行；BattleSession/battle-core 等生产文件零改。
+- 不漂移证据：对基点 `7f3840e6` AST 逐节点比较 17 个保存/世界/场景关键函数全等（首版脚本漏识别箭头函数报 drift，纳入后全等）；主壳结构对照剥迁出声明后 241,244 字符全等（SHA `c616edf3…`）；两处现行 AST chain fixture 适配而业务断言保留。
+- 回归与鉴别力：新增 23 项＋H9 六项合计 29 项全绿；11 单点针全部候选业务 AssertionError 红、产品 hash 不变；H9 败北随机性由独立提交 `3be0e273` 固定 Math.random=0.5 并以冻结宿主见证双向验证（0.99 连续闪避 exit1/0.5 无闪避 exit0）。
+- 最终门禁：`46287966` 全仓 check **8463**（Reforge 169 文件/1548）、官方 ratchet 与保护 `7f3840e6` 的单次严格 fast **7972 项/637 生产文件** exit0；strict 前后基线 SHA `fe839838…`；全仓覆盖行 77.41%/语句 75.22%/函数 75.18%/分支 67.80%。
+- 开发期失败与补正（7 项全记录）：初版 57794d15 自审发现 prepare 返回前库存副本的异步边界，改为同步 commit 工厂（反例转常驻回归）；348a50d1 再修「清 active 后 await 回主壳才写回」微任务缝；8461/8462 等阶段结果如实保留不替代最终门禁。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 最小浏览器验证：`6051/?scene=s135&skip-startup=1&debug` 原生 DEV 战斗（勾李逍遥/team-0/战场 6），HP150→145、胜利结算、状态页 money0/HP150/MP100/技能 296 完整；error/warn 为空；截图为会话内联证据未入仓，后续补正复用此视觉证据不重截。
+- 证据路径：负控日志 `/tmp/type-pal-battle-host-mutants-atomic-final.log`、统一机账 evidence.json、Vite 正式 build 通过（既有 chunk>500k 提示保留）。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical。模拟器 `battle-trial-host.ts` 不经 main 宿主，不冒充 A2 接线验证；新模块未达 95/90 长期目标（BattleHost 行 91.36%）保留后续覆盖队列。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- 任务卡 ARCH-REFORGE-BATTLE-1（done）；后续 A3 世界/帧循环由 Codex 独立推进；当前事实由现行回归与 fresh review 决定。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # Reforge 战斗宿主拆分（A2）
 >

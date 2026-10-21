@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "60f2b75ade0ba4ccc3ff8617a5dee3618658bc089c1c1920a3958bf9e78c1bff",
+      "afterSha256": "cefe423228bafdf386f5140f2f5ebe78a8308b65695518a72977dedfa026fd4a",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1048,6 +1048,15 @@
           "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
           "previousAfterSha256": "cb71e54c8cabfb9c038a273cc6176b23d0be21c1f66defa23a59281b20504f45",
           "afterSha256": "60f2b75ade0ba4ccc3ff8617a5dee3618658bc089c1c1920a3958bf9e78c1bff",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accepted27 central controls and S21 read-only JSON contract intake",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "60f2b75ade0ba4ccc3ff8617a5dee3618658bc089c1c1920a3958bf9e78c1bff",
+          "afterSha256": "cefe423228bafdf386f5140f2f5ebe78a8308b65695518a72977dedfa026fd4a",
           "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
         }

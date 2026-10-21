@@ -2005,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "c0f49c1d72661a6ae72a1e1335d6bd794afdc5fef45b202737463ba45f66696f",
+      "afterSha256": "40b28686fbab517d77daf4e6eca0d3624331a2f3965c30565037c695e54d46c2",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -2140,6 +2140,15 @@
           "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
           "previousAfterSha256": "881b531cff363900de3cdde6e0e9c8b5e9c3c0664799241048491382e7766d61",
           "afterSha256": "c0f49c1d72661a6ae72a1e1335d6bd794afdc5fef45b202737463ba45f66696f",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accepted27 central controls and S21 read-only JSON contract intake",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "c0f49c1d72661a6ae72a1e1335d6bd794afdc5fef45b202737463ba45f66696f",
+          "afterSha256": "40b28686fbab517d77daf4e6eca0d3624331a2f3965c30565037c695e54d46c2",
           "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
         }
@@ -2471,7 +2480,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "8f59a159e7463c54d716d8d4f863398fce172d1338b42f8073944cc42446c4a4",
+      "afterSha256": "4e21997b90618256b454f20aff20e7698b718b1c0855e6032a97e4ba72a687e4",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2631,6 +2640,15 @@
           "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
           "previousAfterSha256": "47e7284cc9e58c7c697f2ae17f49e7a72810787b4a1fa4d616697ff191e41d00",
           "afterSha256": "8f59a159e7463c54d716d8d4f863398fce172d1338b42f8073944cc42446c4a4",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "8f59a159e7463c54d716d8d4f863398fce172d1338b42f8073944cc42446c4a4",
+          "afterSha256": "4e21997b90618256b454f20aff20e7698b718b1c0855e6032a97e4ba72a687e4",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
@@ -3179,7 +3197,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
-      "afterSha256": "f46241365efaa5b1a73f78e92e5b5a6f21d700597cb6320c0fa60001b1d155ef",
+      "afterSha256": "83e5b35de4dd742e0536187a91d34219c3a912b01f93236807240394f2228a49",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3242,6 +3260,15 @@
           "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
           "previousAfterSha256": "a6dae35f307d4be60a26b8d8930e359a459ef37c1ef6b16fb65b8a1d2d7b931b",
           "afterSha256": "f46241365efaa5b1a73f78e92e5b5a6f21d700597cb6320c0fa60001b1d155ef",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "f46241365efaa5b1a73f78e92e5b5a6f21d700597cb6320c0fa60001b1d155ef",
+          "afterSha256": "83e5b35de4dd742e0536187a91d34219c3a912b01f93236807240394f2228a49",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
@@ -3338,7 +3365,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a",
+      "afterSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3428,6 +3455,15 @@
           "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
           "previousAfterSha256": "15c8301a151f295c78510816e42f8c496e9ca1c4681f845585be4b8a7fdd7249",
           "afterSha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a",
+          "afterSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
@@ -8737,6 +8773,134 @@
           "previousAfterSha256": "cc76b3fc256be20c10e24b8ea2447e6fcd249a7dcfdfb1ab11c9b4cccdd547bb",
           "afterSha256": "ee8ec2e1dfe7e69a359925235e9fdfbaa2f31dac513e3815a1e918aae023b068",
           "method": "Explicit pending registration: Owner-generated ledger schema and explicit per-path61 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Owner-generated ledger schema and explicit per-path27 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "Current S20 per-document review partition. It indexes accepted GLM historical bodies; the new Owner-authored JSON ledger remains partial/needs-migration as a native document.",
+      "truthAnchors": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review the native JSON ledger under the appropriate machine evidence contract; preserve current schema/fields and do not mark template-compliant from generation alone.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "/root same-actor central ledger generation; no artifactOnly/exemption flags"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+          "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "sha256": "4192996e7bb668bd4272946e26d659415b6bd6ab0e93f0fe0d046c110b7f8ee6",
+          "scopeActuallyRead": "Owner-generated ledger schema and explicit per-path27 routing migration; no independent native machine-document semantic/template acceptance.",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/document-registry.mjs",
+        "native registry reviewRecord routing"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz",
+          "sha256": "83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76",
+          "sourceRevision": "ded0ad321084fe62df25a7336ee2f16c153a0d77"
+        }
+      ],
+      "businessOracle": {
+        "type": "central-ledger-integrity-not-self-semantic-acceptance",
+        "assertions": [
+          "27 source-document decisions route uniquely to exactly two successors.",
+          "Prior full review entries recoverable with exact whole-file/entry Git hashes.",
+          "No independent completeness granted to this new Owner ledger."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "4192996e7bb668bd4272946e26d659415b6bd6ab0e93f0fe0d046c110b7f8ee6"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+        "producer": "/root same-actor central ledger generation; no artifactOnly/exemption flags"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "4192996e7bb668bd4272946e26d659415b6bd6ab0e93f0fe0d046c110b7f8ee6",
+      "afterSha256": "7566388627232deb3b15fe43649ba7e3b3929f693de081e066c9aff17c8b9948",
+      "sourceGitRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "reviewedLines": "Owner-generated ledger schema and explicit per-path27 routing migration; no independent native machine-document semantic/template acceptance.; registration only",
+      "beforeAfter": {
+        "before": "No file; explicit central review partition creation under unchanged consumer schema.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "4192996e7bb668bd4272946e26d659415b6bd6ab0e93f0fe0d046c110b7f8ee6",
+          "afterSha256": "6fc1b008eebc461bbb377a9d00b0fbc5e97718ffd7748d19f9ff84c5368b1f0c",
+          "method": "Explicit pending registration: Owner-generated ledger schema and explicit per-path27 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 correct inherited private-builder provenance labels before publication; zero additional status promotions",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "6fc1b008eebc461bbb377a9d00b0fbc5e97718ffd7748d19f9ff84c5368b1f0c",
+          "afterSha256": "7566388627232deb3b15fe43649ba7e3b3929f693de081e066c9aff17c8b9948",
+          "method": "Exact S20 source/actor scope labels; no body or logical status change",
           "grantsNewSemanticAcceptance": false
         }
       ]

@@ -11,7 +11,7 @@
     2263, 2264, 2265, 2266, 2267, 2268, 2269, 2270, 2271, 2272, 2273, 2274, 2275, 2276, 2277, 2278,
     2279, 2280, 2281, 2282, 2283, 2284, 2285, 2286, 2287, 2288, 2289, 2290, 2291, 2292, 2293, 2294,
     2295, 2296, 2297, 2298, 2299, 2300, 2301, 2302, 2303, 2304, 2305, 2306, 2307, 2314, 2315, 2343,
-    2344, 2375, 2376, 2377, 2378, 2379, 2380, 2381, 2382, 2424, 2432, 2433
+    2344, 2375, 2376, 2377, 2378, 2379, 2380, 2381, 2382, 2424, 2432, 2433, 2434
   ],
   "entries": [
     {
@@ -552,10 +552,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-domain-navigation-records-1.json",
@@ -614,10 +615,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-e2e-stage-m.json",
@@ -715,10 +717,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-historical-static-html.json",
@@ -738,10 +741,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
@@ -761,10 +765,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
@@ -784,10 +789,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
@@ -807,10 +813,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
@@ -830,10 +837,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-terminal-a8.json",
@@ -853,10 +861,11 @@
       "phase": "phase-governance",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
@@ -1784,12 +1793,13 @@
     {
       "path": "docs/phase-governance/reviews/README.md",
       "phase": "phase-governance",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r92-phase-governance-artifacts.json",
-      "historyOverlay": true
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261021-s20-accepted-01.json",
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
@@ -1944,6 +1954,16 @@
     },
     {
       "path": "docs/phase-governance/reviews/20261021-s19-accepted-02.json",
+      "phase": "phase-governance",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
       "phase": "phase-governance",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",

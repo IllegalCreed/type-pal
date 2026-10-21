@@ -32,24 +32,24 @@
     }
   ],
   "summary": {
-    "total": 2434,
+    "total": 2435,
     "byPhase": {
       "ops": 1329,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
       "phase3": 5,
-      "phase-governance": 158,
+      "phase-governance": 159,
       "testing": 759
     },
     "byType": {
       "task-card": 364,
       "guide-runbook": 18,
-      "archive-record": 1127,
-      "governance-index": 270,
+      "archive-record": 1126,
+      "governance-index": 271,
       "audit-report": 67,
       "design-spec": 45,
-      "evidence-receipt": 139,
+      "evidence-receipt": 140,
       "quality-gate": 3,
       "test-machine-evidence": 49,
       "reference-canon": 38,
@@ -62,12 +62,12 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1217,
-      "content-reviewed": 1217
+      "partial-review-unknown": 1191,
+      "content-reviewed": 1244
     },
     "templateCompliance": {
-      "needs-migration": 1223,
-      "template-compliant": 1211
+      "needs-migration": 1197,
+      "template-compliant": 1238
     }
   },
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta.",
@@ -85,7 +85,7 @@
       "phase": "ops",
       "path": "document-registry.ops.json",
       "total": 1329,
-      "sha256": "8f59a159e7463c54d716d8d4f863398fce172d1338b42f8073944cc42446c4a4"
+      "sha256": "4e21997b90618256b454f20aff20e7698b718b1c0855e6032a97e4ba72a687e4"
     },
     {
       "key": "lore",
@@ -119,15 +119,15 @@
       "key": "phase-governance",
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
-      "total": 158,
-      "sha256": "f46241365efaa5b1a73f78e92e5b5a6f21d700597cb6320c0fa60001b1d155ef"
+      "total": 159,
+      "sha256": "83e5b35de4dd742e0536187a91d34219c3a912b01f93236807240394f2228a49"
     },
     {
       "key": "testing",
       "phase": "testing",
       "path": "document-registry.testing.json",
       "total": 759,
-      "sha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a"
+      "sha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94"
     }
   ]
 }

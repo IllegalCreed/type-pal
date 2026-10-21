@@ -6,1286 +6,6 @@
   "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
-      "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": [
-        "docs/testing/domains/editor/commands/command-form-families/history/report.md:1"
-      ],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/editor/commands/command-form-families",
-      "capability": "B3 命令表单族所有权候选",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
-      "afterSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
-      "publicCallers": [
-        "docs/testing/domains/editor/commands/command-form-families/report.md",
-        "docs/testing/domains/editor/commands/command-form-families/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/editor/commands/command-form-families/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/editor/commands/command-form-families/history/report.md",
-          "docs/testing/domains/editor/commands/command-form-families/report.md",
-          "docs/testing/domains/editor/commands/command-form-families/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
-        "implementationSha": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
-        "candidateSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
-        "afterSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
-        "lineCount": 93,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 4985,
-          "sourceLines": 56,
-          "sourceFinalNewline": true,
-          "inverseSha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/editor/commands/command-form-families",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": [
-        "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md:1"
-      ],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/editor/map/map-workspace-sessions",
-      "capability": "B2 地图工作区会话所有权候选",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
-      "afterSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
-      "publicCallers": [
-        "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
-        "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
-          "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
-          "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
-        "implementationSha": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
-        "candidateSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
-        "afterSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
-        "lineCount": 103,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 6152,
-          "sourceLines": 66,
-          "sourceFinalNewline": true,
-          "inverseSha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/editor/map/map-workspace-sessions",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": [
-        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md:1"
-      ],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/phase1-runtime/dependencies/dependency-ownership",
-      "capability": "D1 第一阶段依赖环拆分",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
-      "afterSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
-      "publicCallers": [
-        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
-        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
-          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
-          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
-        "implementationSha": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
-        "candidateSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
-        "afterSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
-        "lineCount": 86,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 5729,
-          "sourceLines": 49,
-          "sourceFinalNewline": true,
-          "inverseSha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/phase1-runtime/dependencies/dependency-ownership",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/domains/runtime/battle/battle-host/history/report.md:1"],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/runtime/battle/battle-host",
-      "capability": "Reforge 战斗宿主拆分（A2）",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
-      "afterSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
-      "publicCallers": [
-        "docs/testing/domains/runtime/battle/battle-host/report.md",
-        "docs/testing/domains/runtime/battle/battle-host/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/runtime/battle/battle-host/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/runtime/battle/battle-host/history/report.md",
-          "docs/testing/domains/runtime/battle/battle-host/report.md",
-          "docs/testing/domains/runtime/battle/battle-host/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
-        "implementationSha": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
-        "candidateSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
-        "afterSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
-        "lineCount": 148,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 10117,
-          "sourceLines": 111,
-          "sourceFinalNewline": true,
-          "inverseSha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/runtime/battle/battle-host",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": [
-        "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md:1"
-      ],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/runtime/battle/battle-session-owners",
-      "capability": "C1 BattleSession 状态所有权候选",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
-      "afterSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
-      "publicCallers": [
-        "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
-        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
-          "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
-          "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
-        "implementationSha": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
-        "candidateSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
-        "afterSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
-        "lineCount": 87,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 4491,
-          "sourceLines": 50,
-          "sourceFinalNewline": true,
-          "inverseSha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/runtime/battle/battle-session-owners",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/domains/runtime/menu/menu-session/history/report.md:1"],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/runtime/menu/menu-session",
-      "capability": "Reforge菜单/物品宿主拆分 · A1",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
-      "afterSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
-      "publicCallers": [
-        "docs/testing/domains/runtime/menu/menu-session/report.md",
-        "docs/testing/domains/runtime/menu/menu-session/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/runtime/menu/menu-session/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/runtime/menu/menu-session/history/report.md",
-          "docs/testing/domains/runtime/menu/menu-session/report.md",
-          "docs/testing/domains/runtime/menu/menu-session/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
-        "implementationSha": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
-        "candidateSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
-        "afterSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
-        "lineCount": 136,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 8612,
-          "sourceLines": 99,
-          "sourceFinalNewline": true,
-          "inverseSha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/runtime/menu/menu-session",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/domains/runtime/scene/active-scene/history/report.md:1"],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/runtime/scene/active-scene",
-      "capability": "A3-c 活动场景与镜头状态归属",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
-      "afterSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
-      "publicCallers": [
-        "docs/testing/domains/runtime/scene/active-scene/report.md",
-        "docs/testing/domains/runtime/scene/active-scene/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/runtime/scene/active-scene/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/runtime/scene/active-scene/history/report.md",
-          "docs/testing/domains/runtime/scene/active-scene/report.md",
-          "docs/testing/domains/runtime/scene/active-scene/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
-        "implementationSha": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
-        "candidateSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
-        "afterSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
-        "lineCount": 100,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 5494,
-          "sourceLines": 63,
-          "sourceFinalNewline": true,
-          "inverseSha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/runtime/scene/active-scene",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/domains/runtime/world/world-runtime/history/report.md:1"],
-      "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "domains/runtime/world/world-runtime",
-      "capability": "A3-d/e 世界移动与绘制状态归属候选",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
-      "afterSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
-      "publicCallers": [
-        "docs/testing/domains/runtime/world/world-runtime/report.md",
-        "docs/testing/domains/runtime/world/world-runtime/evidence.json"
-      ],
-      "legalInputs": [
-        "current testing catalog",
-        "historical report/evidence pair",
-        "docs/testing/domains/runtime/world/world-runtime/history/report.md"
-      ],
-      "businessOracle": {
-        "type": "historical-testing-domain-report",
-        "assertions": [
-          "claim/evidence scope remains date-scoped",
-          "history overlay explicit",
-          "paired evidence remains reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/runtime/world/world-runtime/history/report.md",
-          "docs/testing/domains/runtime/world/world-runtime/report.md",
-          "docs/testing/domains/runtime/world/world-runtime/evidence.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
-        "implementationSha": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
-        "history": [
-          {
-            "revision": "01bd03367050801bd2317719f498807ca2f66200",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R61 historical domain report migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
-        "candidateSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
-        "afterSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
-        "lineCount": 98,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 5755,
-          "sourceLines": 61,
-          "sourceFinalNewline": true,
-          "inverseSha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R61 historical domain report migration",
-          "reviewer": "r61_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy historical domain report presentation; original history retained"
-      ],
-      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "historical",
-      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
-      "candidateSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
-      "primarySource": [
-        {
-          "path": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
-          "revision": "01bd03367050801bd2317719f498807ca2f66200",
-          "sha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "domains/runtime/world/world-runtime",
-        "currentBoundary": "current catalog, report and evidence pair own truth"
-      },
-      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
-      "versionScope": {
-        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R61-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
       "path": "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
@@ -2873,5 +1593,137 @@
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
     "recordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
     "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  },
+  "supersededBindings": [
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "db0d762cdd8e61c00e0aa767f638341a478528f64d37dcec669f996eee2fea6e",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "6ecce0bdcc8950d84534285963133633a9a13d1780efa38ef816cc4ce2c3a7d9",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "22af92145fe886247bf4b1fbe465e2d76b8cd933d585b87ab880b584bda803b6",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "9d11966c32a3241d699be78b79973cae48c63a48a27b70d49b5afcc5876f77fb",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "7e274341660d76456e905db5d31c3b9e69412ca166120fe4f1de1cf66c32650d",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "10fb9f298e61f559f4949f9a064ee7861d3efed054d27b40ccee862c6f86aa99",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "642d35c9c130bd485cb9bbe74872da6e7611fbb4a7dcb72f6500561db1da6731",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+      "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+      "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+      "supersededBy": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
+      "reason": "Fresh S20 evidence-led document acceptance; previous withdrawn/partial binding preserved in full. Old batch credit not restored.",
+      "originalEntryRef": {
+        "revision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+        "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "selectorPath": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+        "wholeFileSha256": "f872998ccf18429b2eed433ebfd1371df1a71bfc6eef5d9d9dc826e1926be124",
+        "entryCanonicalJSONSha256": "f44a1242eefc5239d761dc3b154884e2815fd18b756cf78d4d6b7d7d8094ca0c",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    }
+  ],
+  "currentIntake": {
+    "date": "2026-10-21",
+    "candidateCommit": "ded0ad321084fe62df25a7336ee2f16c153a0d77",
+    "sourceHead": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+    "reportSha256": "83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76",
+    "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz",
+    "acceptedDocuments": [],
+    "blockedDocuments": [],
+    "scope": "S20 explicit partition migration; legacy current bindings moved to bounded successor shards. Not whole-batch historical acceptance."
   }
 }

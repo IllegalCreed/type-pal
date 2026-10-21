@@ -2,38 +2,48 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「Terminal A8：有界格式合同与工作树命名空间质量门」的冻结设计归档：针对旧 lint 入口对规范 namespace 内 NOT_GZIP 报零诊断与普通 JSON 1MiB 容量 counter，冻结 A 分包（六新文件＋两改）的 strict codec/精确结构/worktree namespace 门；A 不宣布真实批准或全量完成，B/C0/C1 仍 counter。非作者独立复核附录与固定 928 行 wire 在三层 quote 中保全。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- Terminal A8：有界格式合同与工作树命名空间质量门：原始正文完整保留于下方 quote。
+- A 分包：只新建 scripts/docs/{terminal-json,terminal-codec,terminal-git,terminal-namespace,terminal-contract,terminal-codec.test}.mjs，仅改 check.mjs 与 lint-zero.mjs；namespace `.governance/docs/terminal`，规范 leaf 仅 `<lowercase40D>.json.gz`。
+- 内容选择：qualityView 恒为 worktree、physical 是唯一当前内容对象（index 记身份/差异、HEAD 不当内容门）；成功仅 format-partial（approvalChecked/currentChecked/completeChecked 全 false）；nonGit 且整个 namespace 物理缺席才 namespace-not-applicable（保旧合法 caller）。
+- codec 次序：压缩帧≤8MiB、decoded≤64MiB；固定 header `1f8b08000000000002ff`＋inflateRawSync（Z_FINISH/maxOutputLength）＋恰 8 字节 footer/EOF＋CRC32/ISIZE＋fatal UTF8＋全层 decoded 重复 key 拒＋J 精确字节；拒第二 member/尾零/optional header/fallback。
+- schema 分界：A 解析 13 top keys/named exactKeys/unions（取自固定 928 行 wire，dref-map-v2）；EnhancedCurrentRecord native24+extras 保留旧 strict 详细谓词；A 的 Git 核点限明确清单（nameD==snapshot.commit、33cc 原 blob/rawSHA）；registry/route/审批/DAG 留 B。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 两个真实 probe：旧 lint-zero 合法 nonGit caller（`ok=true` 0 诊断）与 Git 三视图（HEAD/index/physical bytes 可不同、annotated tag type=tag）；源四文件全文读（check333/lint86/strict158/CI31）；旧 lint 测试只读 78–114。
+- 33cc native baseline 实际 849,646B/八键/1,838 项只是 source metadata 非 1838 全文复核；42b7009e docs inventory 505,246B/3,769 records 非批准分母。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。A8 实施与真实 micro/生产 T 后续另准；A-only design agree 不自签旧 v3。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-terminal-a8.json`（同目录）：仅 source-format-partial 及六待核库存；真实批准/current/complete 与后继元数据分别验收。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787`（blob `1400f6a1b4c7381bcb727cbcd325f6d62966cf80`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787`（blob `1400f6a1b4c7381bcb727cbcd325f6d62966cf80`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9`，82276B。
+- 第 2 层：SHA `f1069a912cff7f69eead60475fdf9ffee4fa1fc788724e82b35502d074cd4c75`，78587B。
+- 第 3 层：SHA `c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787`，74720B。
+
 <!-- original-source-quote:start -->
 > # Terminal A8：有界格式合同与工作树命名空间质量门
 >

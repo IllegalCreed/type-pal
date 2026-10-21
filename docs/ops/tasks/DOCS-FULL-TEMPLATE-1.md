@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: S19 final61文档接收；S20历史27篇准入；全量硬验收未完成
+Reviewer: S20历史27篇接收；S21机器JSON合同盘点只读准入；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
@@ -2178,3 +2178,20 @@ S18实际中央[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/centra
 - 逐篇全文核真实源与既有正文/嵌套边界，写本篇实际论点、对象/数量/版本、已确认与未知、原反例/未跑项、当前继任和停止线，不能用标题或行数当core、不能把Owner旧观察快照当建议终稿。旧设计只记当时提议/裁定，不自动变成当前授权；历史审计不按旧快照宣判当前代码有缺陷。原机器字段、数字、原结论和quote全部保留；本批不复跑旧产品、测试或coverage。
 - 采用已有冻结17模板：audit-report/archive-record是当前候选；README职责按实际正文判断，可提议现有governance-index/guide-runbook等。先做每种拟模板一篇本地pilot后自行继续；不强套错误旧routing。贡献者仅交拟routing及相同公共checker的内存零issue检查，实际中央绑定Owner单写；若需新模板/源冲突只停受影响篇。
 - 唯一写入为27白名单正文及/tmp/s20-glm-evidence；父卡/看板/索引/registry/routing/review JSON/catalog/matrix/模板/规则、所有配对机器字段与JSON、产品/测试/coverage只读。S17/S18/S19既有499正文只读，原28+30+30证据不可覆盖。按document-delivery-acceptance/1.0.0交逐篇具体记录和真实读域、before/source/after/Git身份、分片<512KiB、失败/事故原件与输入指纹；只读快检、导航/索引byte-equal、model实际或精确旧路由归因+内存拟绑定0、testing、lint零EWI、base..HEAD diff。181/整仓check:docs/产品门留中央。原源只读不因历史矛盾清理重写；不合main、不推main、不标父卡done。无需逐批确认，最终集中回交并附可转发Owner提示词。
+
+### S20 历史二十七篇据证接收与中央接入（2026-10-21）
+
+- GLM固定d4a86f32d248a88f0e5ab45c804e40ca50f19ffa、base9216bee972267675d500d372ec6059560ad02a03，八提交恰27篇。Owner全读交接和逐篇结论/差异，核27源与H1/quote tail、18单层/9三层、499前序正文及S19旧88原件；80件作者交付冻结，82660B review shard核符。定向核C-01..C-07与X-C01撤回、A-01..09和历史修复SHA、battle-host 46287966/29/11/8463/7972/77.41%、binding-baseline 33cc/849646/1838/F1-C1..C5/22；未重做27全文阅读。
+- 作者完整replay实跑通过；独立另核真实model恰一条README声明/旧routing冲突，不能因replay的`|| true`推断model成功；公共checker内存拟路由0。join-bug在982b34ff逐字符行和48158B失败diff原件均可核，d4修复后无残留；diff只发现空白症状，不是通用可读性/语义oracle。
+- 按用户小修授权，Owner直接维护10篇：9设计补齐已冻结三层SHA/字节声明；当前reviews README改由registry唯一reviewRecord选定当前条目，明确撤信/partial/draft与旧content-reviewed并存，不恢复旧深审/独立/产品信用，并链接S19当前分片。9审计的弱core从现有具体发现表/结论映射，README core改为实际当前导航职责；旧作者记录不改。Owner维护是同主体自验，不伪装第二次独立审。27份合成真实候选ded0ad321084fe62df25a7336ee2f16c153a0d77，保存在codex/docs-s20-owner-minor；未改原作者分支/证据。逐篇[据证限定接收](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz)。
+- 中央只改README一条routing/type；27条native与review迁至一个<512KiB的20261021-s20-accepted-01分区，旧四分区的完整条目按Git全文件/条目SHA引用留存，其他条目不动。新Owner原生JSON另登记partial/needs，不授自我语义完成；私有准备脚本曾把紧凑日期误写20227021，已在任何中央计划执行前修正并保留原脚本/勘误，不改规则放行。
+- S20文档子包done；父卡仍rework。native2435=1244 content-reviewed+1191 partial；迁移1151/1838基线+87增量、1197候选待迁移。未跑181/整仓check:docs/产品/E2E/coverage，不合main、不推main、不标全量done。
+
+### S21 GLM 未完成JSON合同盘点与迁移设计只读准入（2026-10-21）
+
+- 允许只读分析整个当前未完成JSON候选：registry中reviewStatus非content-reviewed或templateCompliance非template-compliant的.json，共1124份（包括3份已获语义接受但仍未迁移的材料，旧合格信用复用）。精确Git基点、SHA/blob/字节集合在本节提交后程序冻结，不靠路径猜类型；不因本轮盘点改变1124份状态或全量分母。
+- GLM在codex/docs-s21-glm-json-contract-intake从Owner固定提交新建分支，复用现有隔离worktree；仅/tmp/s21-glm-evidence可写，整个仓库/全部JSON/模板registry/producer/consumer/产品/测试/coverage只读。已接收526正文与历史原件全部保护。可在/tmp编写只读解析/盘点工具，不import有顶层生成副作用的脚本，不复跑旧产品/测试。
+- 大包先做结构事实：1124/1124精确字节和完整解析/字段路径/类型/数组形态/版本与状态位置、重复键或解析异常、现存envelope/variant/生产者声明；readLevel必须写parsed-structure-only，不能冒称全文语义审阅或content-reviewed。类型归组以实际schema/字段及真实producer/consumer为据，不用目录/标题替代。generatedBy只作原声明，实际调用者须有代码file:line/调用链，未知如实未知。
+- 每个拟迁移合同族至少一份真实字段级样本，逐字段说明机器字段职责、合法输入、oracle、历史运行结果与当前documentAudit的边界、依赖/适用版本/停止线；数组仅声明实际核过的范围，不以遍历hash宣称读懂全部业务。优先覆盖testing机器证据、catalog/index、治理review/receipt、固定源/终端包装与archive等实际出现的类型；既有原字段和日期不修改，不把历史数字写成新执行事实。
+- 输出1124条分片inventory及完整group→path覆盖、分层读域、代码producer/consumer证据、每族现有17模板/版本/variant是否真的适配、缺口与最小新增合同提案、无损迁移/原生字段深等与真实consumer正反例计划、pilot与退出条件。匹配/未核/冲突分开；需要新增variant/模板必须设计提案由Owner冻结后才准canonical build。本轮不批量包envelope、不改JSON、不授1124份完成。
+- 按document-delivery-acceptance/1.0.0交真实Git/文件身份、可回放只读工具和实际输出/失败原件；分片<512KiB，不自嵌hash，不补造旧raw。Owner默认核集合/字段解析与claim证据、代表性合同风险，不重做所有字段语义审查。181/整仓check:docs/产品门不跑；无源改动不重复无关测试。无需逐篇确认，集中回交并附可转发Owner提示词。新产品取舍或不可逆操作仍停线交用户。
