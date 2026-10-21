@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T19:30:59.156Z",
+  "generatedAt": "2026-10-21T21:31:56.760Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 757,
+  "sourceFileCount": 758,
   "testCount": 20032,
   "packages": {
     "shared": {
@@ -4560,7 +4560,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 157,
+      "sourceFileCount": 158,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4588,6 +4588,7 @@
         "packages/game/src/core/battle/battle-positions.ts",
         "packages/game/src/core/battle/battle-progression.ts",
         "packages/game/src/core/battle/battle-runtime-context.ts",
+        "packages/game/src/core/battle/battle-settlement-data.ts",
         "packages/game/src/core/battle/battle-settlement.ts",
         "packages/game/src/core/battle/battle-state.ts",
         "packages/game/src/core/battle/battle-system.ts",
@@ -4720,7 +4721,7 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "bb5bf04ea04c3a7d0f3f925a2e88ec596d22638523341fa81334e74416a88ac5",
+      "scopeDigest": "d5c6813f8de5fd20d05340659feb82110ba67bd5636ebfcab0b8e212979037cf",
       "fastTests": {
         "testCount": 3688,
         "testFileCount": 328,
@@ -5398,7 +5399,7 @@
           {
             "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
             "testCount": 5,
-            "identityDigest": "c6038392adfaaa18d7a67390b367221f87638360cd2b55ef0d05757e88c026f8"
+            "identityDigest": "a92685b0889d37c7a62dc372a542732c1f27781e4041ca8948f5b42ecee33d20"
           },
           {
             "file": "packages/game/src/core/battle/battle-runtime-context.test.ts",
@@ -6696,9 +6697,9 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "74816353650b9cb9db3f44079ac84f1eb13ade344e12415ddd737dcb21879e6f",
+        "identityDigest": "1e4e555064d93aca8ed1ba549a22f4276b7093617a52899f214b526c42dcbf14",
         "duplicateIdentityCount": 0,
-        "executionDigest": "2c6f2b3c704430b412450f5578af80b9a035435fbd65117d02edfbdfd0527ae1"
+        "executionDigest": "53b606da42a1307583e4946ae32727baedefba77f274b38df75e3c3120c5ebff"
       },
       "metrics": {
         "statements": {
