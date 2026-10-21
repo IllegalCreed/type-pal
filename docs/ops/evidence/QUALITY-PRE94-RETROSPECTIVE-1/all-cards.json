@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 43,
+  "currentAccepted": 47,
   "cards": [
     {
       "id": "1",
@@ -1416,8 +1416,8 @@
       "sha256": "fa5cf235109bb1800bec942b24d7ee2457406fe285fabf0d56e384658cad9602",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 11,
@@ -1440,8 +1440,14 @@
           "text": "无下一位 Agent 提示词，等待 Codex 质量门收口；不得扩大范围或标记其它 analytics 文件已验证。"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "140c0e193e34f71cde03e07d213aa78872b7539ac8bc0a9f13ee783eeb29cc84",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+      "findings": "原consent三文件接受。持久提交/广播顺序、DNT/GPC默认和异常边界复用五个既有指定反控；当前同窗生产caller核清。BrowserPrivacySignals已由installer复用，存储/事件与UI/SDK职责分离。"
     },
     {
       "id": "3z",
@@ -1451,8 +1457,8 @@
       "sha256": "d5a8f11926f9d831c5b4f72937212f809329608a64b07aa5e953bb507950635b",
       "lines": 47,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1479,8 +1485,14 @@
           "text": "无下一位 Agent；Codex继续完成本批审计与质量门，不扩大文件白名单。"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "12761354b47d29f649af35f3ece225c3991744df8bdf32a957c043a4bfba30d6",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+      "findings": "原GA三文件及测试专用宿主、批准的安装失败专测共五文件接受。原十个consent/GA反控与五先红后绿按实际版本复用；私有disable键类型收窄，无广域Record强转，发射JS保持；不附带真实Google网络/多property或跨realm承诺。"
     },
     {
       "id": "6a",
@@ -1568,8 +1580,8 @@
       "sha256": "9190895a9625082826e9d368895eb7fa0b6ac0a0d9f67a6125121d2aa15362c9",
       "lines": 41,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1584,9 +1596,13 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，签字门禁未完成前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+      "findings": "原安装器两文件接受。复用已批准失败撤监听/UI并向main传播原错误的实现；隐私信号复用同结构类型。测试使用自有Document/SDK描述符并精确恢复自有键，外部Owner探针旧红新绿。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "16e0f423566824f78fd05b1cba46ae7a76b0c7e57081318141000622e8afcb6c",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json"
     },
     {
       "id": "41",
@@ -1596,8 +1612,8 @@
       "sha256": "07107fcebb1a732bdac61ba7b406e466d139886eb543c6a39073d843cff9a977",
       "lines": 38,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1616,9 +1632,13 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+      "findings": "原UI两文件接受。实现字节未改；补真hidden/偏好切换与已存在焦点，两个旧3绿→新2绿1指定业务红，外部Owner探针恢复。真实浏览器拒绝/重开/允许/再重开/清理通过；旧图片附件缺失明示，当前截图已看。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "4c7089068a1230271acca717594c644f97abd969e3430967cb8b6a5542397f74",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json"
     },
     {
       "id": "42",
@@ -2362,7 +2382,11 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "findings": "Version1 boundary is not complete GameState validation; malformed cash persisted in isolated memory Save. User approved contract-first review then formal red/fix. Runtime96-field vs JSON wire mapping pending;implementation unchanged and card stays partial.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "7a60de0438114be9648f5ea0f5e3a3f60622884222dadeeadf538ad7236cb0c9",
+      "currentReviewEvidence": "docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md"
     },
     {
       "id": "60",
@@ -4169,14 +4193,14 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 40,
+    "partial": 36,
     "pending": 0,
-    "accept": 43
+    "accept": 47
   },
   "lastIncrementalReview": {
     "date": "2026-10-21",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
-    "cards": ["72", "75", "76", "77", "78"],
-    "method": "Reuse fixed-version source/E/real-browser evidence; scoped A-H gap/rework,one fixture,complete zero-diagnostic gates;73 product decision remains open"
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+    "cards": ["3y", "3z", "40", "41"],
+    "method": "Reuse fixed-version source/counter/browser evidence;close actual eight-dimensional gaps and precise test isolation/discrimination;complete clean module gates;73/74 decisions remain open"
   }
 }

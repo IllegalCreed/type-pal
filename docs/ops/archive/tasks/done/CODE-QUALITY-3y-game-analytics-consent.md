@@ -35,3 +35,9 @@ Visual Verification Timing: N/A
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，等待 Codex 质量门收口；不得扩大范围或标记其它 analytics 文件已验证。
+
+## 2026-10-21 analytics四卡收口
+
+原consent三文件接受。持久提交/广播顺序、DNT/GPC默认和异常边界复用五个既有指定反控；当前同窗生产caller核清。BrowserPrivacySignals已由installer复用，存储/事件与UI/SDK职责分离。
+
+[逐文件A–H、完整原件与集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)；只读verify-analytics默认不写树/不重跑测试。原卡范围及明确支持文件接受，广域main/实网/E2E不附带关闭。

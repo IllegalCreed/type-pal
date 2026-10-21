@@ -1,6 +1,6 @@
 # GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权
 
-Status: review
+Status: done
 Owner: Codex
 Phase: phase1 project analytics extension
 Capability: optional analytics / initialization ownership
@@ -71,3 +71,7 @@ A产品方向已批准。本地浏览器诊断宿主实际看到失败后无控�
 ## 下一位Agent提示词
 
 无下一位Agent提示词，Codex单Agent继续；本卡窄功能证据有效但全仓门未收口，随后回pre94 3w settlement，不把本次修复当专项完成。
+
+## 2026-10-21 analytics四卡收口
+
+本卡批准A修复的两实现与专测已据当前版本接受；现版发射JS同先前批准实现，五红/两单针/原生浏览器失败刷新证据复用。统一check/ratchet/protected及严格静态门已通过，当前控件工作流/原件由父卡analytics-closeout.json承载。外部unsubscribe自行抛错/多property/真实Google网络不是本卡承诺。当前风险卡done，不外推CODE109或整个pre94完成；Git发布另核。

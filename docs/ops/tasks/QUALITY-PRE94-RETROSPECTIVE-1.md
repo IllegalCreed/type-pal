@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 2026-10-21最新：43accept/40partial/0pending。本轮72及75–78五卡、14明确文件接受；73方向行为与74旧OGG导出退役仍待裁决。当前入口shell-lifecycle-local.json，Git发布按实际交接核对。
+> 2026-10-21最新：47accept/36partial/0pending。本轮analytics四卡12文件接受；入口analytics-closeout.json。73/74未决项仍保持partial；Git发布另核实际交接。
 
 > 2026-10-21追加勘误：上一菜单窗口的完整check/ratchet/protected原件各有两条stdout的0x008E诊断，旧扫描漏计，原“零运行诊断”统一门信用撤回。原件与旧计数不改，九卡逐文件代码结论独立保留。当前窄修与集中补门见[present/speedrun门记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)；未过门前不合main或新增关闭。
 
@@ -1121,3 +1121,17 @@ CODE72/75/76/77/78原14当前文件（75按旧→新测试迁移）逐项接受�
 - `2572ae326f459fd3b8fc1d4f3e88acb2c7a5188c`：唯一有限baseline数据及正式投影。
 
 默认只读verify-shell-lifecycle已实跑MATCH。完整check20366例、official ratchet与protected各19968例，七包typecheck、91覆盖率工具测试、文档及严格consumer、账本和diff门通过；可见原件的运行诊断与stderr均0，最终lint5718文件的error/warning/info均0。文档提交另封存完整原件与五卡14文件索引；实际推送/main同步核Git ancestry，不把本段提交计划当发布完成。下一范围为固定83卡剩余40partial，73/74只暂停各自未决项，不扩94–102。
+
+## 2026-10-21 analytics四卡补缺口准入
+
+上一窗口四笔已推送并FF main，779163109637a92876d02700bf517ac2f979775f为本轮基点；fresh fetch后3y/main同步且两树干净。Codex唯一Coding Owner，限定CODE3y/3z/40/41原十文件及既有GA测试宿主/安装失败专测。复用3y/3z五反控、用户A失败回滚红绿、GLM全文索引及原浏览器UI证据，不重新生产有效证据。
+
+build allowed：复用consent已有BrowserPrivacySignals类型，GA私有SDK动态disable键改为限定模板键类型，保持公开结构与发射JS；安装器/UI测试只清理自有DOM、持久键和SDK描述符，补真实面板hidden/偏好切换及原焦点判别力。发现“存储失败仍隐藏面板”的测试漏检，保留旧绿新业务红；隔离整改用外部owner哨兵核清，不用宿主清理掩盖产品unsubscribe。无新产品、隐私政策、UI布局、SDK命令、schema/save或公开接口取舍。四卡仍partial，覆盖率集中到整个analytics模块冻结后。
+
+## 2026-10-21 analytics四卡收口
+
+CODE3y/3z/40/41四卡及两个明确测试支持文件共12文件接受，43→47accept、40→36partial、pending仍0。两个产品类型整理发射JS不变，隐私信号结构相同；两个UI指定业务反控与外部Owner探针证明测试整改，30定向/TC和当前实际浏览器控件工作流成立。旧GA失败回滚先红后绿、十个反控和GLM全文索引按具体版本复用，不重复全部审查。
+
+旧浏览器图片附件已丢失，不延续其可复验像素信用；当前截图/AX重新实证。首次本地快检正确拒绝缺失的.ts mutant附件；补齐归档类型后MATCH，产品/测试未因证据修复改动。首轮protected发生合盖休眠、2测试失败/7worker或异步错误，原件保留；不改超时/规则/测试，唤醒后完整重跑protected才作为当前门。集中check/official ratchet/protected与最终静态原件见[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)。同一3y先提交推送，fetch确认0behind后再合main；其余36partial继续，不扩94–102。
+
+本窗口源提交依次为`dc6a5b38a96aaeac54f75906bd9ceaacddf3dceb`、`487fd83fa3c5f0d76d75c7e10eebbf1f358ea79a`、`ffdd9aafaf9b61c1c4b60f7a25285abc71b65ed1`（纯类型整理／测试质量／官方单标题身份基准分提交）。实际集中check20366例、七包TC、ratchet19968例和唤醒后protected19968例干净；最终lint5720files为0error/0warning/0info，五个文档consumer、ledger与diff检查通过。机器账本3328/323closed/137review/2868pending；只增加本轮12文件关闭。存档59批准合同先行，当前实现不动；73/74裁决仍未答，余36partial继续。收口提交与远端/main同步由实际Git ancestry复核，不以文档推定已发布。

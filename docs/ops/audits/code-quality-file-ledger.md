@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,328。
-当前已闭合核验：311；已读但待审：149；尚未逐文件核验：2,868；合计未闭合：3,017。
+当前已闭合核验：323；已读但待审：137；尚未逐文件核验：2,868；合计未闭合：3,005。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -403,20 +403,20 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |
 | `packages/game/src/core/menu/magic-script.ts` | product | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/core/menu/magic-script.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
-| `packages/game/src/analytics/install-analytics.ts` | product | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；64行当前/57行原源全文；main可选catch、实际UI和GA创建者 | 失败撤本次UI并保留原错误；本地刷新重试已实跑，统一门待，不关闭 |
-| `packages/game/src/analytics/install-analytics.test.ts` | test | review | CODE-QUALITY-109；真实 installation return、DOM/storage/dataLayer oracle | 2 tests；补 afterEach destroy，修复第二例 listener/UI 跨用例泄漏；game analytics 6/23 通过，整卡等统一门 |
+| `packages/game/src/analytics/install-analytics.ts` | product | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/install-analytics.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `packages/game/src/present/draw-sprite.ts` | product | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/draw-sprite.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/draw-sprite-clip.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
-| `packages/game/src/analytics/analytics-consent.ts` | product | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；90行全文，真实main/install/UI/GA与OPS项目合同 | 只修广播失败过强注释，parsedTS/JS相同；跨realm/注入组合和实网端到端未知，不关闭 |
-| `packages/game/src/analytics/analytics-consent.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；57行原测全文，独立持久键/真实默认Storage+window、通知时已提交与信号优先级 | 三旧3绿→新2绿1指定AssertionError；3例保持，按自有键/finally隔离；7定向/17相邻仅有限信用 |
-| `packages/game/src/analytics/analytics-consent.boundaries.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；71行原测全文，typed getter/原生EventTarget、无window与失败零通知 | 两旧3绿→新3绿1指定AssertionError；3→4拆职责，读异常/denied与重复detail逐断言迁主测；零新关闭 |
-| `packages/game/src/analytics/google-analytics.ts` | product | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；147行当前/139行原源全文；真实install/main/consent与用户A | 初次安装失败回滚已取得两订阅，五先红后绿/两针；正常合同不改，仍review |
-| `packages/game/src/analytics/google-analytics.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；169行原测与9例当前全文，精确payload/Arguments/stop/重试 | 三旧8绿→新8绿1指定红，隔离外owner旧单红新绿；未知SDK/浏览器不关闭 |
-| `packages/game/src/analytics/google-analytics.boundaries.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；121行原测与当前4例，项目ID6/20与UTM白名单、真实订阅 | 两旧4绿→新3绿1指定红；坏注/伪fetch隔离撤回，13直接/12相邻只是有限证据 |
-| `packages/game/src/analytics/google-analytics.test-fixtures.ts` | fixture | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；新增测试专用共享宿主全文，真实SUT/自有Document与属性描述符 | 完整cohort外owner断言旧8/1红→新10绿；stop断言前不代清；不改公共接口/不关闭 |
+| `packages/game/src/analytics/analytics-consent.ts` | product | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/analytics-consent.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/analytics-consent.boundaries.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/google-analytics.ts` | product | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/google-analytics.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/google-analytics.boundaries.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/google-analytics.test-fixtures.ts` | fixture | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `scripts/quality/code-quality-inventory.test.mjs` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
-| `packages/game/src/analytics/google-analytics.install-failure.test.ts` | test | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；160行全文，真实native ports/安装器/存储/自有宿主 | 五合法错误边界/原Error身份/停止后事件静默；30相邻及两单针，0新增closed |
+| `packages/game/src/analytics/google-analytics.install-failure.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；96行全文、两测原重复准备合并，正式hydrate/projection/startBattle与五槽typed资源 | 新测试专用helper；不复制phase/脚本/奖励算法，不计独立运行时合同或closed |
 | `packages/pal-extract/src/cli-entrypoint-paths.test.ts` | test | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；191行全文、复制源码真实进程/自有文件与链接/外部编码器替身 | 五合同：两共享节点、正常增量/raw链接、绝对链接入口、import无副作用；旧3红5绿→当前41模块全绿，0关闭 |
 | `packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts` | test | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 既有合同补强；旧绿/新红业务反控成立，统一门仍待 |
@@ -496,8 +496,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/save-io.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
 | `packages/game/src/tools/save-io.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
 | `packages/game/src/tools/save-import-quicksave.glm-msio.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
-| `packages/game/src/analytics/analytics-consent-ui.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
-| `packages/game/src/analytics/analytics-consent-ui.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/analytics/analytics-consent-ui.ts` | product | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
+| `packages/game/src/analytics/analytics-consent-ui.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `packages/game/src/core/inspect/battle-inspect.ts` | product | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/core/inspect/battle-inspect.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |

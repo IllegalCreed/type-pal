@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-21当前：43 accept / 40 partial / 0 pending。本轮72及75–78共14明确文件接受；[逐文件、原件与集中门](shell-lifecycle-local.json)可复验。73方向恢复及74旧OGG导出退役待裁决，四个audio/fixture记录不关闭。
+2026-10-21当前：47 accept / 36 partial / 0 pending。本轮3y/3z/40/41共12文件接受；[当前证据与集中门](analytics-closeout.json)。73/74及其它36partial未强关，94–102不扩展。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -30,11 +30,11 @@
 | [CODE-QUALITY-3v](../../archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md) | done | partial | [既有复审切片](3v-battle-actions/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
 | [CODE-QUALITY-3w](../../archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md) | done | partial | [结算复审](3w-settlement/README.md)：真实宿主/六反控与229执行，两旧关闭撤回review；原清理证据保留，Extra/脚本副作用/视觉/统一门仍待 |
 | [CODE-QUALITY-3x](../../archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md) | done | partial | [既有复审切片](3x-battle-progression/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
-| [CODE-QUALITY-3y](../../archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md) | done | partial | [consent三文件](3y-analytics-consent/README.md)：原生存储/事件和五旧绿新单红，7定向/17相邻；跨realm/实网/统一门仍待 |
-| [CODE-QUALITY-3z](../../archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md) | done | partial | [GA四文件](3z-google-analytics/README.md)：共享宿主/五反控，13直接12相邻；初始化泄漏另卡draft，实网/统一门仍待 |
+| [CODE-QUALITY-3y](../../archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；3个原范围/明确支持文件；不授实网/广域信用。 |
+| [CODE-QUALITY-3z](../../archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；5个原范围/明确支持文件；不授实网/广域信用。 |
 | [CODE-QUALITY-6a](../../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | accept | [本次正式验收](completion.json)：逐文件账本与清单工具的真实记录、输出和CLI合同（4文件）；6a-C1是可选的私有函数拆分建议；6a-O1涉及完整Markdown语法、特殊Git环境及符号级调用图，均超出当前声明合同，不冒称已验证，也不是现有canonical账本的未修缺陷。 |
-| [CODE-QUALITY-40](../../archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-41](../../archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-40](../../archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；2个原范围/明确支持文件；不授实网/广域信用。 |
+| [CODE-QUALITY-41](../../archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；2个原范围/明确支持文件；不授实网/广域信用。 |
 | [CODE-QUALITY-42](../../archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md) | done | partial | [既有复审切片](42-dialog-box/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
 | [CODE-QUALITY-43](../../archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md) | done | accept | [Current original scope](present-leaves-gates.json): 3 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-44](../../archive/tasks/done/CODE-QUALITY-44-game-font.md) | done | accept | [Current original scope](present-leaves-gates.json): 4 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |

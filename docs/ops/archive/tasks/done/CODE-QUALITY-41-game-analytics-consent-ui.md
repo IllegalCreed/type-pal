@@ -36,3 +36,9 @@ Visual Verification Timing: dev-functional（现有 DOM UI 形态与可达性；
 ## 下一位 Agent 提示词
 
 无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。
+
+## 2026-10-21 analytics四卡收口
+
+原UI两文件接受。实现字节未改；补真hidden/偏好切换与已存在焦点，两个旧3绿→新2绿1指定业务红，外部Owner探针恢复。真实浏览器拒绝/重开/允许/再重开/清理通过；旧图片附件缺失明示，当前截图已看。
+
+[逐文件A–H、完整原件与集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)；只读verify-analytics默认不写树/不重跑测试。原卡范围及明确支持文件接受，广域main/实网/E2E不附带关闭。

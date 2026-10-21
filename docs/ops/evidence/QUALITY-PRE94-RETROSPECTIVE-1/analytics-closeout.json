@@ -1,0 +1,2053 @@
+{
+  "schemaVersion": 1,
+  "base": "779163109637a92876d02700bf517ac2f979775f",
+  "owner": "Codex single agent",
+  "cards": ["3y", "3z", "40", "41"],
+  "status": "accepted",
+  "files": [
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "sha256": "3a759ca44f2370b66d1c633f084532f7db0fe8242d87c972e2bd75a431f44240",
+      "lines": 93,
+      "dimensions": {
+        "A": "Actual UI commits saved choices through consent API and toggles panel/preferences. Broken storage must keep panel visible; existing enter-button focus is preserved.",
+        "B": "One renamed title explicitly limits layout proof to styles and original focus/button survival; no jsdom claim of actual whole-game occlusion.",
+        "C": "Own button,root and consent key cleaned; preexisting storage/focus restored even after assertion failure. No body-wide or storage-wide reset; external cohort proves foreign owner retained.",
+        "D": "Three cases cover layout/focus,normal choice/reopen,and persistence failure. No SDK host borrowed for actual browser-focus contract; small local setup follows UI lifecycle.",
+        "F": "Named panel/preferences references and direct hidden states express transitions; brokenStorage exposes the one failing IO method.",
+        "G": "Same three cases,one honest rename. Two formerly non-null-only observations replaced with actual hidden-state oracles; no count-driven addition or test retirement.",
+        "H": "Native DOM click/focus/storage exercise real UI; two source mutants give specified business AssertionErrors only after strengthening. Current real browser separately proves visible workflow.",
+        "E": "3 cases retained with one honest layout/focus title mapping. Added hidden/reopen/focus business assertions; old3 missed each single-site mutant,new2green1specifiedred. External owner probe likewise fails old and passes new; no testcase deletion."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52",
+      "lines": 124,
+      "dimensions": {
+        "A": "Actual installer provides same-window storage/events and parsed body. Successful writes hide panel; failed writes keep it; preferences reopen; destroy removes owned root. Current real-browser deny/reopen/grant/reopen/cleanup observed; no network or full-game claim.",
+        "B": "No misleading mechanism/coverage comments. Button copy remains product text; no UI layout/policy change.",
+        "C": "Owns only created DOM and view toggles. Storage commit delegated; no SDK or GameState access. Root replacement is existing one-active-UI behavior,not promise that repeated installer calls auto-stop another controller.",
+        "D": "Button style is one local shared leaf used three times; no cross-layer helper or boolean-driven presentation abstraction added.",
+        "E": "3 current tests strengthen actual hidden/preferences state and preserve original focus; two mutants were missed by old3 and each now yields one specified business AssertionError. Destroy,blocked storage and exact saved choice still observed.",
+        "F": "choose/showPanel/showPreferences and named DOM pieces express ownership and action; long body is one linear DOM construction,not independent competing responsibilities.",
+        "G": "All DOM elements/callbacks have current use. No unused options/exports found. Root-removal lifecycle is bounded by page/controller caller; no speculative teardown abstraction.",
+        "H": "Document/storage/event ports isolate side effects. Real browser validates visible workflow; jsdom validates focus/hidden state. Pixel overlap with complete game is not inferred from styles."
+      },
+      "decision": "accept",
+      "primary": "Current production module/caller;existing project optional extension contract and userA rollback choice"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+      "sha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+      "lines": 98,
+      "dimensions": {
+        "A": "Exercises external storage getter denial,browserless defaults,commit failure,broadcast failure and actual unsubscribe. Native events are sent after unsubscribe to prove callback silence.",
+        "B": "Header explicitly distinguishes main-suite read/default contracts from four host-error contracts; finally cleanup claim matches spies/window stub/subscription handling.",
+        "C": "Only own key is restored; window stub,dispatch spies and native subscription restored in finally. Persistence recorded independently of failing EventTarget.",
+        "D": "Four cases complement main consent suite rather than duplicate invalid stored-choice combinations. Two dispatch policies have different committed/not-committed outcomes and cannot be merged semantically.",
+        "F": "Each case names the failing external boundary and expected result; recorded contains literal key/value,seen native event results. No generic dispatch DSL.",
+        "G": "Every fault branch has a distinct oracle: zero dispatch,true committed value,browserless fallback,or silence. Counts supplement value/order assertions and do not replace them.",
+        "H": "Host errors injected at actual IO getter/methods; core functions remain real. Synchronous real event delivery supports decisive rejection/unsubscribe controls.",
+        "E": "4 same-version cases retained: hostile getter/browserless defaults,failed persistence has zero event,dispatch failure preserves true/commit,real invalid event/unsubscribe silence. No core mocks or casts."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.test.ts",
+      "sha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+      "lines": 85,
+      "dimensions": {
+        "A": "Real resolver/read/write/subscribe entry points used by installer; literal saved values and native callback read establish persistence-before-notify. Storage throwing is the external IO fault,not a substituted business rule.",
+        "B": "Literal-key oracle comment explains independence; three titles match actual failure/default/ordering assertions. No UI/SDK or exhaustive-input claim.",
+        "C": "Own storage key saved/restored in hooks; native subscription finally removed. No DOM or unrelated key reset; recorded callback reads actual localStorage.",
+        "D": "Three contracts differ from boundary suite: read/default policy and real committed publication,not getter/dispatch failures. Small local key hooks share a lifecycle without importing SDK host.",
+        "F": "values table contains direct stored→expected pairs; seen is exact consent+stored pairs. Read/resolve/write names make order and ownership legible.",
+        "G": "One table for read values,one stored-choice loop; each branch asserts a distinct policy. No runtime type-only/unused helper or cloned self-oracle.",
+        "H": "Narrow throwing storage plus real EventTarget/default browser storage make policy and order deterministic without time/network dependencies.",
+        "E": "3 same-version cases retained: literal storage key/read states,commit-before-native-notify,stored-choice privacy precedence. Exact five prior counter native/raw reuse across main/boundary suite."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.ts",
+      "sha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "lines": 90,
+      "dimensions": {
+        "A": "Current main→installer same-window storage/event caller; stored two choices override privacy defaults,invalid/missing/throwing read returns unset; writes publish only after persistence,dispatch failure does not undo persistence. Existing five exact counters reused.",
+        "B": "Existing comment explicitly distinguishes committed storage from failed broadcast; no policy/SDK/legal claim. No SDLPal counterpart for this optional extension.",
+        "C": "Owns only consent value serialization and event subscription. Browser storage getter is isolated; DOM UI and network belong to callers. No GameState/global game writes.",
+        "D": "BrowserPrivacySignals is now the shared structural input for installer and resolver; duplicated local interface removed. Small test key hooks keep individual suite ownership rather than introduce a universal host.",
+        "E": "3 main+4 boundary cases use literal independent key,real events and exact persistence/subscriber results; five old-green/new-one-AssertionError controls and all current7 tests retained.",
+        "F": "Names distinguish read/resolve/write/subscribe; short early returns expose failure policies. No new readability defect in current caller domain.",
+        "G": "Each value/function/type has runtime caller or names an exported function contract; no dead parameter/branch found. Optional browser defaults support current browserless tests; not gratuitous defense.",
+        "H": "Storage/EventTarget are narrow ports,read/resolve deterministic; native event/storage tests can observe order without mocking business logic. Existing ownership finally cleanup retained."
+      },
+      "decision": "accept",
+      "primary": "Current production module/caller;existing project optional extension contract and userA rollback choice"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "sha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+      "lines": 86,
+      "dimensions": {
+        "A": "Real sanitizer/controller validates ID6/20 versus5/21,UTM64/65,optional page subscription,regrant and disable property. Exact before/after event deltas isolate each ID in same owned host.",
+        "B": "H05 header accurately scopes upper-case normalization and IO replacement; script tags are not described as evidence of actual endpoint blocking.",
+        "C": "Uses same owned host; each live controller stopped within its threshold loop and host final cleanup. No production-global document/storage wipe.",
+        "D": "Boundary values extend main normal-policy cases; absent-page subscription and native disable property are distinct contracts. Local create wrapper sets only this suite page default.",
+        "F": "Named ok64/long65 and literal IDs make edge pairs readable; URL parsed independently to compare origin/path/parameter map.",
+        "G": "No mirrored sanitizer algorithm. Repeat stop checks idempotence; lengths track actual queued event deltas,not callbacks alone. No added/deleted test identity.",
+        "H": "Optional page seam is exercised explicitly rather than mocked as always present. SDK commands/property values observable through narrow host ports; no asynchronous wait required.",
+        "E": "4 same-version cases retained:6/20 and5/21 ID boundaries,64/65 token and whitelist,absent page seam,regrant/disable. Public start API real; expectations not cloned from implementation."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.install-failure.test.ts",
+      "sha256": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1",
+      "lines": 160,
+      "dimensions": {
+        "A": "Approved rollback contract: constructor errors preserve error identity,release only acquired subscriptions,retain shared SDK/saved choice/game DOM,and leave consent/page events unable to call recovered SDK.",
+        "B": "Cleanup comment explicitly places forced release after assertions for frozen red replay; initial-read comment identifies callback-unreachability oracle. No claim that unsubscribe itself throwing is covered.",
+        "C": "Own consent key and listener spy restored; host owns SDK/inert Document. Test cleanup occurs after decisive release/silence assertions and cannot make a leaked listener pass.",
+        "D": "Local ports helper is specific to partial acquisition and real EventTargets; not folded into normal host defaults. SDK js/config parameterization shares identical rollback contract; read/subscribe/installer cases remain distinct.",
+        "F": "failureFrom returns actual thrown object; released names consent/page owners. Literal recovered SDK silence makes failed-construction lifetime understandable.",
+        "G": "Five cases each target a separate construction point/owner; no mock call count substitutes for the post-failure native event silence. No new assertions or cases in current window.",
+        "H": "Failure injected only in SDK/page-read/subscription IO; native storage/consent dispatch and controller remain real. Prior chronological five reds/restored green and exact native control rows reused.",
+        "E": "5 same-version cases retain error identity and real subscription/UI lifetime;js/config,page-subscribe/read and installer rollback have chronological five reds plus restored30-suite green. External SDK only is fault port; cleanup executes after assertions."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test-fixtures.ts",
+      "sha256": "c5acdb094a150e357bc4fd67eed04f36e8e19d99d697e32c6b6b4e86d4f63c38",
+      "lines": 148,
+      "dimensions": {
+        "A": "Actual SDK descriptors/inert Document/callback ports saved and restored; test-facing stop calls real stop before cleanup; failed-constructor special spec separately removes leaked native listeners only after assertions.",
+        "B": "Fixture header accurately distinguishes native controller from downloaded SDK and final cleanup from stop oracle.",
+        "C": "Only test IO/state owned; no global head/body/fetch wipes. Fresh native Document per case,SDK descriptors exact restore; no production dependency on tests.",
+        "D": "Reused by three GA specs and now actual installer tests; same SDK/Document lifecycle. UI focus tests deliberately keep a real own button instead of pretending inert document proves browser focus.",
+        "E": "Existing ownership external-cohort counter reused from3z and new two-suite foreign-owner probe passes; before assertion cleanup cannot hide unsubscribe failure.",
+        "F": "entries/commands/events,create and explicit grant/deny/navigate name port actions; validation of unknown SDK queue values remains bounded.",
+        "G": "Every returned seam has a current caller; subscribePage flag mirrors actual optional API; no dead helper mode or exported production artifact.",
+        "H": "Actual SUT with narrow external IO replacement. Descriptor restoration supports suite isolation and source mutants without touching real Google network."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test.ts",
+      "sha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+      "lines": 139,
+      "dimensions": {
+        "A": "Actual public controller and URL sanitizer tested through owned SDK/Document; exact queued page/config payloads,real script error event,and post-stop consent/page changes observe production responsibilities.",
+        "B": "URL-failure note correctly defers SDK construction failure to dedicated spec. Names distinguish tag-load retry from initialization failure; no fetch-replacement network claim.",
+        "C": "Existing test host owns inert Document,SDK descriptors and subscriptions; acquired controllers are stopped. Existing SDK and script identity checked,not cleared as part of product stop.",
+        "D": "Host reused across three GA specs and installer; nine main contracts differ from ID/UTM thresholds and constructor-rollback suite. One inline gtag spy only replaces external SDK.",
+        "F": "grant/deny/navigate/stop express user/port events; literal event payloads and SDK Arguments checks expose intent directly.",
+        "G": "No type-only cases or no-op assertions; event lengths pair with exact payload/config assertions. URL recovery,SDK reuse and script retry are separate failure/lifecycle contracts.",
+        "H": "Native inert Document cannot download Google SDK; fake SDK records command shape only. Real sanitizer/controller/script-event paths are directly exercised,without timers or network expectations.",
+        "E": "9 same-version cases retained: exact URL/payload,SDK Arguments/config,false enable/ID,dedup,existing ownership,script-error retry,real stop. Explicit fixture only owns SDK/Document/ports; old control raw/native reused."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "sha256": "d61ec52e9640137b3f7216fdd6cc8d9f6b5430d1b627aa826e35be086f202ef3",
+      "lines": 148,
+      "dimensions": {
+        "A": "Only optional main page-view extension; project ID/UTM/path dedup policies retained. Initialization owns acquired subscriptions until stop is returned; approved rollback releases actual ports. SDK/source/network failures distinguished; full reused5 controls and rollback reds remain valid under identical emittedJS.",
+        "B": "Arguments-queue justification and rollback ownership comments match actual code. Existing noArguments annotation is unchanged; no new ignore. SDK API evidence reused only for command shape,not project privacy policy.",
+        "C": "Owns SDK command queue,one initialization generation,lastPath and consent; page/consent sources injected. No reverse game dependency. Shared SDK/script globals are deliberately not removed by stop/failed install.",
+        "D": "URL/token normalization remains a pure leaf; UI/consent policies are not folded into GA. Dynamic disable properties now use a ga-disable template key instead of Record<string,unknown> double assertion.",
+        "E": "9 main+4 boundaries+5 install-failure cases retain real SUT/owned IO. Old automatic-page-view/UTM/ID/unsubscribe/retry controls and five chronological business reds are reused by native identity/hash.",
+        "F": "Consent gate,initialize,send and constructor transaction have distinct names and control scopes. Private key typing states the actual mutable namespace without an arbitrary-record cast.",
+        "G": "No API/node deletion; each public type names a used option/result. subscribePage optional seam is used by actual tests; production absence is explicit,not claimed as SPA navigation support.",
+        "H": "Options inject page/consent ports and Document; sanitizer directly testable. SDK global boundary remains a private Window refinement. Real SDK/CSP/network and cross-property ownership are outside current single-installer contract."
+      },
+      "decision": "accept",
+      "primary": "Current production module/caller;existing project optional extension contract and userA rollback choice"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "becb3927cd3c7ece6e229c237d7d5721639a899b385e41c5b508a81527bcca87",
+      "lines": 55,
+      "dimensions": {
+        "A": "Public installer uses actual consent/UI/GA composition. Development-disabled branch proves UI exists without tag; DNT/GPC branch proves default denial while explanation remains visible.",
+        "B": "Two titles name actual public ID/dev/privacy contracts; no real-network or full-page visual conclusion from inert Document.",
+        "C": "Owned SDK/Document host replaces destructive head/body/storage resets; only consent key touched and restored. Installation destroy in finally; external cohort proves foreign DOM/storage/SDK retained.",
+        "D": "Reuses existing host because SDK descriptors and Document share GA lifecycle. Consent-key restoration stays local; no new application seam or universal fixture.",
+        "F": "host.document distinguishes owned tree from global window source; installation handle and storedConsent reveal teardown responsibilities.",
+        "G": "Both original case identities/intent retained; no new type-only/duplicated runtime test. Public ID still consumed by installation API,not an allegedly dead export.",
+        "H": "Actual installer receives inert Document and real window/storage; normal tests are deterministic and external-owner probe observes host restoration after ordinary lifecycle.",
+        "E": "2 case identities and business contracts retained. Current scoped host no longer deletes foreign head/body/localStorage/SDK. Outside-cohort ordinary ownership assertion: old2+probe=2green1red,new3green; combined two-file native5green2red→7green."
+      },
+      "decision": "accept",
+      "primary": "Actual API and native business assertion contracts; prior specific case/counter evidence plus current30 suite"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "e76892321447f054c4a3adb8085f1e53a59c4e6cbda6018cc73e328db0a65809",
+      "lines": 60,
+      "dimensions": {
+        "A": "Actual main prefix installs once and catches optional capability failure. Real window/storage/consent/UI wiring; GA failure removes only installer UI and rethrows same error. Returned destroy stops GA then removes owned UI.",
+        "B": "Existing single rollback comment accurately separates creator responsibilities; no stale line-number/coverage promises.",
+        "C": "Composition root owns UI/controller handles,not consent/SDK/game state. Four explicit inputs and native navigator avoid hidden game context. One Coding Owner and page lifetime at main remain explicit.",
+        "D": "Uses existing BrowserPrivacySignals type; old/new optional fields structurally equal. Reuses consent storage/subscribe/resolve and independent UI/GA modules rather than duplicate policy.",
+        "E": "2 public-entry cases retained; owned inert Document and exact own-key restore replace whole head/body/storage clears. New external-owner cohort proves DOM/storage/SDK descriptors survive; approved failure test covers real installer rollback.",
+        "F": "Short linear setup/try/return structure,meaningful handles. Shared privacy type removes a second name for identical data.",
+        "G": "No unused navigator interface remains. Installation return type describes the public destroy contract and has typed test consumer; not deleted as an allegedly dead export.",
+        "H": "Window/Document/privacy flags injected. SDK fixture reused only for the actual owned Document/global boundary; no new application seam or core mock introduced."
+      },
+      "decision": "accept",
+      "primary": "Current production module/caller;existing project optional extension contract and userA rollback choice"
+    }
+  ],
+  "reuseAssets": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md",
+      "sha256": "9618f867acdad84b45811cc58d1535ac3f2d1387f28fa0015f848ee364f6e733",
+      "bytes": 5921
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/controls.json",
+      "sha256": "8efa234bf1f8df7a035d2a6239004bd1e5a98fc62a2f143e3201ece285e35173",
+      "bytes": 38170
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/read-boundaries.json",
+      "sha256": "94c25b818d9041957b106bd4211d5865dff324116e9e71e7dc550e9326a165f5",
+      "bytes": 7311
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/assertion-transfers.json",
+      "sha256": "02bedc5f0e4eb4c5154b7eb218defb8418baaa07846a50cf4de584e6b4270d72",
+      "bytes": 2428
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/publish-before-persistence.old.raw.gz",
+      "sha256": "85606fd14a724f7f0d4aae34be819ba400120087402f6ec92902b9158dd040f2",
+      "bytes": 534
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/publish-before-persistence.old.vitest.json.gz",
+      "sha256": "903e1b0d8c63dfe94215cc3ce33b5d0b64bf2061943cb50764694cb3b8f2bed6",
+      "bytes": 670
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/publish-before-persistence.current.raw.gz",
+      "sha256": "6ae936d136843d1669956800b578701b63ba2c76a7f82ea5724d9407a4c85a02",
+      "bytes": 938
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/publish-before-persistence.current.vitest.json.gz",
+      "sha256": "c1fa52e73406f9fa1665c27398357c6d5e4f4755d13e1b18fb4f8b45963774ce",
+      "bytes": 928
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/dnt-zero-treated-as-signal.old.raw.gz",
+      "sha256": "ef91bdc2caeaab0f955a516b22d87151f215474de01f81bc50c707bc3ee47a65",
+      "bytes": 535
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/dnt-zero-treated-as-signal.old.vitest.json.gz",
+      "sha256": "afcea7e3b35f9fb5dddfef35aef7e7d1ca5eac716a13868fd3e68e0ab94155c0",
+      "bytes": 669
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/dnt-zero-treated-as-signal.current.raw.gz",
+      "sha256": "a5a322afcc3d3925ebc0c781d0f0e5e366c9a2a18d76e97d52e43c67d9329cb0",
+      "bytes": 939
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/dnt-zero-treated-as-signal.current.vitest.json.gz",
+      "sha256": "c512a678eb549144402c3b9ca9fa7f69662fff0b4fe5656aab78a0775bfd6682",
+      "bytes": 901
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/default-write-host-missing.old.raw.gz",
+      "sha256": "3e04e7c75318854d3c79d5b573ed8ca3777c052f1907d94489838d5ae7c4b17f",
+      "bytes": 534
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/default-write-host-missing.old.vitest.json.gz",
+      "sha256": "e12279803f83e11447aa0812998f7114240a7a4165da46d7194327dc078ee3bf",
+      "bytes": 669
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/default-write-host-missing.current.raw.gz",
+      "sha256": "ea6888efa110100a8f329d9e8826f30352d7761f88e7098e07d5c2aff8ec8c1e",
+      "bytes": 881
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/default-write-host-missing.current.vitest.json.gz",
+      "sha256": "747d5a38c368358385d790ac97aa0e4994fcbba6f533aa450bc8756e14e629b0",
+      "bytes": 903
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/notify-after-storage-failure.old.raw.gz",
+      "sha256": "fbfd5b2d3d6cc414eb75f3d0e128d8a4ff909cd9180825bd64f747d57e256700",
+      "bytes": 579
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/notify-after-storage-failure.old.vitest.json.gz",
+      "sha256": "0f86327da5cf61422c6e4b2914e987c78a2632297c559fd2d9c4830da4b05411",
+      "bytes": 713
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/notify-after-storage-failure.current.raw.gz",
+      "sha256": "891663df7c7126aadca412cbe8b8818fd24d6150cd156f97bcd8005d3ead82bd",
+      "bytes": 1088
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/notify-after-storage-failure.current.vitest.json.gz",
+      "sha256": "f5d9fc4ea2382a45c1507a2e4fbe2024744ec6e858e9b5c33d13468be4b9666a",
+      "bytes": 1186
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/browserless-falls-back-to-global-storage.old.raw.gz",
+      "sha256": "8ebc6875722fc559039f94466cc7e88104826a783c5a4b94439635b7897c877d",
+      "bytes": 588
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/browserless-falls-back-to-global-storage.old.vitest.json.gz",
+      "sha256": "4d664892c6f97ff7f5781af3a8d817beaa5da3ab8ab3728e9d50c9bb3864a250",
+      "bytes": 713
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/browserless-falls-back-to-global-storage.current.raw.gz",
+      "sha256": "2590fca5cc997b82981d416bca453160db3a1cef9656aa5e5005622f853c6bb3",
+      "bytes": 1030
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/browserless-falls-back-to-global-storage.current.vitest.json.gz",
+      "sha256": "3a45a7affb127f5132666f3a8b5654cf937a2bc9b26a2f40e3a65d1bce18a319",
+      "bytes": 1032
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md",
+      "sha256": "c9e279e18f9591b15b519e0cd2d2860f0f4082ba1d4e4f63492bc1398c73f05b",
+      "bytes": 6316
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/controls.json",
+      "sha256": "d141807dff3f036fe671d54a5e5397d03f53f359b0d0134c17a09eb251ef4df7",
+      "bytes": 49243
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/read-boundaries.json",
+      "sha256": "bed9ffa2a0fba351cc0d1c94690fba38e888b53e750de891c31907a9eb7d7881",
+      "bytes": 7592
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/assertion-transfers.json",
+      "sha256": "9a6208a8f5c2b56587dfe55f79bc05c45a9dbbd77bb79e78d028f2c20bf41d69",
+      "bytes": 3078
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/automatic-page-view.old.raw.gz",
+      "sha256": "56563a8831c31350b7896deadc2f2fd3bd29e9507a2175684b8ba54e8cb5ef68",
+      "bytes": 759
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/automatic-page-view.old.vitest.json.gz",
+      "sha256": "3eda3a340cfcf4d59021fa22fb6e1081dbfeaf46cddc1cf1c4019e2826954fae",
+      "bytes": 999
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/automatic-page-view.current.raw.gz",
+      "sha256": "adc6b3f9caf69883abe667f2923d499a63d15c963bf0adfa1fee7c32852bf16b",
+      "bytes": 1268
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/automatic-page-view.current.vitest.json.gz",
+      "sha256": "d474e52cf1646023e309c97db4d60183e5761725be3e0c391bc190f107485a9e",
+      "bytes": 1310
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/page-unsubscribe-missing.old.raw.gz",
+      "sha256": "149a39248cf7c25f5d7bd1c933de72cfd6b0942dff344bac7f49eea81eb5ebae",
+      "bytes": 763
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/page-unsubscribe-missing.old.vitest.json.gz",
+      "sha256": "d188e98c748db661ff8f6311deac784596d9a102d859e507d3320ab2f84dc1c7",
+      "bytes": 993
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/page-unsubscribe-missing.current.raw.gz",
+      "sha256": "c03a3ca4ea172b7638a87164c90c0f98c34d66f1f288464b50be5b43e792b9e3",
+      "bytes": 1192
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/page-unsubscribe-missing.current.vitest.json.gz",
+      "sha256": "45fa96e69f0eaf0c8dde3acdb6a2942989d57cc819d09fdec749028c7863c062",
+      "bytes": 1357
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/reload-resets-command-state.old.raw.gz",
+      "sha256": "f3929827c212cf2e73481853c723580e6e68538a58aa39535196a1e6531b24a1",
+      "bytes": 766
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/reload-resets-command-state.old.vitest.json.gz",
+      "sha256": "74a406f3f91706b953a58596b59d740d3435c7000b9665944f7781ee88777df3",
+      "bytes": 991
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/reload-resets-command-state.current.raw.gz",
+      "sha256": "831817086a7424e38c57ff69439691d731470868be2756a427ce211c84e23ffc",
+      "bytes": 1243
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/reload-resets-command-state.current.vitest.json.gz",
+      "sha256": "b165544fac025f6c9f11c9c8c684225f4f3498aa889ca55fce5023ca151ff1b0",
+      "bytes": 1309
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/utm-term-leak.old.raw.gz",
+      "sha256": "021ef43ff945f854cc0a91b3aaaaf62da3218165887b2d6417912fda640d4acd",
+      "bytes": 673
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/utm-term-leak.old.vitest.json.gz",
+      "sha256": "b971af2853a7077bccb73eba982a34b961ddb91fd1460a244b658816b5e6d69a",
+      "bytes": 835
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/utm-term-leak.current.raw.gz",
+      "sha256": "973b49e776c136d659ec2fd34f0e30bf821b0e9f9b83162e723e42e94db064cd",
+      "bytes": 1084
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/utm-term-leak.current.vitest.json.gz",
+      "sha256": "ac1e1c74321a6d724ab1ce8a255569735bf193d4ff5493ddf27b25e197dad424",
+      "bytes": 1049
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/id-six-rejected.old.raw.gz",
+      "sha256": "20044b7c1499b073e1a63b41fa1f9c26b3aa20dcc948a3d046af45a01d78e869",
+      "bytes": 673
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/id-six-rejected.old.vitest.json.gz",
+      "sha256": "8e805cb34357e37a404d63973c1beef246dbeebcca702ba49f978b214df206e2",
+      "bytes": 832
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/id-six-rejected.current.raw.gz",
+      "sha256": "5c5bd4e4173fc51e57038d27cba663137764a83d81b867770a7155be3782ccb6",
+      "bytes": 1048
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/id-six-rejected.current.vitest.json.gz",
+      "sha256": "2ff869403db4af1d682180e62b6e84f4c902ab3cebb267da5309bfc0d72cfff1",
+      "bytes": 1134
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+      "sha256": "d73d4ee4257bdd290b0293655d161c363269a894699f1ac9f4cb77bc054f2477",
+      "bytes": 4695
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/controls.json",
+      "sha256": "ec5477e7bc20986298939c0fbf1b1cbcdd2f2b44f8daaa09ea98e2c0e949f91c",
+      "bytes": 26969
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/read-boundaries.json",
+      "sha256": "945f800bb72bb7f14a27e42df2f20caf00b174d63ea67ed66bf86eb291ca13e2",
+      "bytes": 3681
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/red-before-fix.json",
+      "sha256": "114c2e851569d3422609e5a5461fd5507cb2bf72fd070e013d0bc7ac19a7e702",
+      "bytes": 10204
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/red-final.vitest.json.gz",
+      "sha256": "182a3a14c19959e96bf298cbb4b69b6c0976b8e098e9854745cd456726534ff4",
+      "bytes": 2263
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/red-final.raw.gz",
+      "sha256": "1b9e3e284c1837b906214515c8654ee014aead5a5cf92edc65eef03cdab13575",
+      "bytes": 2871
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/browser.json",
+      "sha256": "2af3e2429961987a3b4921fc140f25e89aa61a5feac00559fb4c9769ea2563dd",
+      "bytes": 2870
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/browser-privacy-visual-review.json",
+      "sha256": "7a80eeff6b96c14a16ac5b753b6fc727e2191586f069a7224182f2e0fa51cc1c",
+      "bytes": 729
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/test-contracts.json",
+      "sha256": "4fb1b773ba8062efe73d0cddafb1a11937411200c4f61df421e6b474ff7b0d6e",
+      "bytes": 2737
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/old-source-final-spec.raw.gz",
+      "sha256": "4310971319cdd920af77a07f22c2736ed165c7c1cfb8d76a54f4901a7e37eff2",
+      "bytes": 2071
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/old-source-final-spec.vitest.json.gz",
+      "sha256": "0300868cd47e21df78bc4b8508689d949705637bd9c1423c049be8781d38d45c",
+      "bytes": 1040
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/page-subscribe-outside-transaction.raw.gz",
+      "sha256": "cfc57a22f20798194b5924540e55b5f5b2e58e3351c879e54c8bf68cc39e3d6f",
+      "bytes": 945
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/page-subscribe-outside-transaction.vitest.json.gz",
+      "sha256": "e91082a36326b0ba6c61184dbd31b3db53241f96b0a5525cdf3dc4fdd4aae550",
+      "bytes": 919
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/ui-rollback-removed.raw.gz",
+      "sha256": "17f8c5068609cec1233cd447b416a9aa04cbd013ccd28cc60c8bee64ec333202",
+      "bytes": 1688
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/ui-rollback-removed.vitest.json.gz",
+      "sha256": "212820b032522473cb1e3e51354e390d0f196e7c8a49692f1741bddce27853e9",
+      "bytes": 928
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/restored-current.raw.gz",
+      "sha256": "3c855ae5975d4b1a549645a5f84fd10e0a1aaa4125295a62f926a9c5cea05ac0",
+      "bytes": 523
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/restored-current.vitest.json.gz",
+      "sha256": "8874ac129ff91afd8fa2f0bf14676d913b5f5617bac5a06ee5f86e651388945c",
+      "bytes": 692
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/browser-before.ax.txt.gz",
+      "sha256": "a74c9e7a64d5ef5e665c37870f85555d308f83a1b79b59be4685dbe7fd0f3e73",
+      "bytes": 390
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/browser-button.ax.txt.gz",
+      "sha256": "f5af48b7fb3d565a1f97df2d4f7343975678b3c44f18c94b78f4049235ecd549",
+      "bytes": 390
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/browser-refresh.ax.txt.gz",
+      "sha256": "5f7169404249146ed9d991a4f9b378f560fbe31fe40fe802d85b6529b8b50ac1",
+      "bytes": 570
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/browser-privacy.ax.txt.gz",
+      "sha256": "9acb8d161372d0dd83cbe493015d14108e5adeed6664a74a1936ebfa8de9047b",
+      "bytes": 228
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/browser-cleanup.ax.txt.gz",
+      "sha256": "82ff90bdd79f5271e52d8f1851e28649dd12eba24622835dbbfc548bafc12ded",
+      "bytes": 561
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/README.md",
+      "sha256": "a5fda1163547ce099e4145b48a5c79484a35f2003e155a0c0bfba940e4f647d5",
+      "bytes": 3032
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/per-file-index.md",
+      "sha256": "0f5fa81aaedecab139397e2f1184ba1ae885abb63e72ffa9fdee06619bfa1fbf",
+      "bytes": 4214
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/read-boundaries.json",
+      "sha256": "c86a3573c408f2b716a5e720e0d4e2a973ab876479ae2af134bf6c82115db8da",
+      "bytes": 4660
+    }
+  ],
+  "caller": {
+    "path": "packages/game/src/main.ts",
+    "firstLines": 15,
+    "sha256": "3c0b03b8a031fe8389311ad82d732491d09b312c1dd3cdd0d06235669627dcfa",
+    "scope": "Actual optional installation prefix only; no entire main.ts acceptance"
+  },
+  "productProof": {
+    "base": "779163109637a92876d02700bf517ac2f979775f",
+    "typescript": "6.0.3",
+    "files": [
+      {
+        "path": "packages/game/src/analytics/install-analytics.ts",
+        "beforeSha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8",
+        "afterSha256": "e76892321447f054c4a3adb8085f1e53a59c4e6cbda6018cc73e328db0a65809",
+        "emittedSha256": "d2475a491592450174eb903975cf609cf15bca2b19e8c035ad16069ec3051852",
+        "jsEqual": true
+      },
+      {
+        "path": "packages/game/src/analytics/google-analytics.ts",
+        "beforeSha256": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+        "afterSha256": "d61ec52e9640137b3f7216fdd6cc8d9f6b5430d1b627aa826e35be086f202ef3",
+        "emittedSha256": "1567c5de78d4eee59478a239963ac28ff74ee7ed821511f31e6d868b19b64375",
+        "jsEqual": true
+      }
+    ],
+    "navigatorShape": {
+      "before": [
+        {
+          "name": "doNotTrack",
+          "optional": true,
+          "type": "string | null"
+        },
+        {
+          "name": "globalPrivacyControl",
+          "optional": true,
+          "type": "boolean"
+        }
+      ],
+      "after": [
+        {
+          "name": "doNotTrack",
+          "optional": true,
+          "type": "string | null"
+        },
+        {
+          "name": "globalPrivacyControl",
+          "optional": true,
+          "type": "boolean"
+        }
+      ],
+      "equal": true
+    },
+    "unmodifiedPublicExports": "No product export/signature/field names added or removed; navigator structural type reused,private SDK key narrowed; TypeScript confirms callers."
+  },
+  "tests": {
+    "current": 30,
+    "files": 7,
+    "beforeChangedFiles": 5,
+    "afterChangedFiles": 5,
+    "identityMapping": [
+      {
+        "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+        "before": "analytics consent UI P2: 底部居中且高于 loading，不 autofocus、不遮挡进入游戏按钮",
+        "after": "analytics consent UI P2: 底部定位与层级样式，挂载保留进入按钮和原焦点",
+        "reason": "Same layout/focus case,more precise promise and stronger existing-focus oracle; no count retirement"
+      }
+    ]
+  },
+  "counters": [
+    {
+      "id": "ui-hide-after-storage-failure",
+      "find": "if (!writeAnalyticsConsent(consent, options.storage, options.eventTarget)) return",
+      "replace": "writeAnalyticsConsent(consent, options.storage, options.eventTarget)",
+      "productSha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52",
+      "runs": [
+        {
+          "id": "ui-hide-after-storage-failure-old",
+          "exit": 0,
+          "passed": 3,
+          "failed": [],
+          "pending": 0,
+          "configSha256": "d2ff68025d6244e3f938ce2d2139c1a5c4fa36283d43ae6641d0f345aaa0e9b2"
+        },
+        {
+          "id": "ui-hide-after-storage-failure-new",
+          "exit": 1,
+          "passed": 2,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent-ui.test.ts",
+              "fullName": "analytics consent UI 存储不可用时保持面板，不伪装成已保存"
+            }
+          ],
+          "pending": 0,
+          "configSha256": "4ea4074f4f8b4427d20716d0f2f5650501267d3131f9782cd23aa84cc9b66ab3"
+        }
+      ]
+    },
+    {
+      "id": "ui-preferences-does-not-reopen",
+      "find": "preferences.addEventListener('click', showPanel)",
+      "replace": "preferences.addEventListener('click', () => undefined)",
+      "productSha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52",
+      "runs": [
+        {
+          "id": "ui-preferences-does-not-reopen-old",
+          "exit": 0,
+          "passed": 3,
+          "failed": [],
+          "pending": 0,
+          "configSha256": "d82ae59621f36d5bcb6de8f644ce0e43512c89446221ce216fa5a27e49207a8b"
+        },
+        {
+          "id": "ui-preferences-does-not-reopen-new",
+          "exit": 1,
+          "passed": 2,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent-ui.test.ts",
+              "fullName": "analytics consent UI DNT 默认关闭时仍显示说明，访客可明确拒绝或允许"
+            }
+          ],
+          "pending": 0,
+          "configSha256": "56e35d4585595dba40cc838319f6d618dea19e5bf307142cf56619789051d064"
+        }
+      ]
+    },
+    {
+      "id": "host-ownership",
+      "owner": true,
+      "productSha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52",
+      "runs": [
+        {
+          "id": "host-ownership-old",
+          "exit": 1,
+          "passed": 5,
+          "failed": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent-ui.test.ts",
+              "fullName": "external owner survives analytics cohort"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/install-analytics.test.ts",
+              "fullName": "external owner survives analytics cohort"
+            }
+          ],
+          "pending": 0,
+          "configSha256": "ab0407e33b81565885277b3dd06d19df4a7a1b310fb63acf5c946755b0964495"
+        },
+        {
+          "id": "host-ownership-new",
+          "exit": 0,
+          "passed": 7,
+          "failed": [],
+          "pending": 0,
+          "configSha256": "1cce2ecb3749a4aef6d83184c8434da10f05d64f217f1a837b473eed1a9b97d0"
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No SDLPal mechanic for this optional extension;SDK command sources reused only within old verified API shape.",
+    "Current contract is one same-window main installation;cross-realm/multi-property shared script arbitration is not a production caller promise and triggers new review if added.",
+    "Prior UI screenshot file is no longer available in either tree; old visual-review record is historical. Current actual CUAbrowser workflow and viewed screenshot replace current UI pixel evidence.",
+    "Actual current dev diagnostic uses enabled:false and real modules;no Google endpoint/full-game/E2E/network compliance or external unsubscribe-throws guarantee.",
+    "GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 existing approved functional fix is reused;94-102/CODE109 scope not expanded.",
+    "CODE59/60 only pre-read; separate save-import observation/draft records a real malformed-input risk. These five source/test files are unmodified and unaccepted; not part of analytics30 or twelve-file scope.",
+    "Default verifier binds this complete module gate window; later unrelated package/script changes make that current gate binding STALE,not a revocation of unchanged file reviews. --local retains per-file/counter/source evidence checks; subsequent module gates certify the new combined candidate."
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "sha256": "3a759ca44f2370b66d1c633f084532f7db0fe8242d87c972e2bd75a431f44240"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "sha256": "d61ec52e9640137b3f7216fdd6cc8d9f6b5430d1b627aa826e35be086f202ef3"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "becb3927cd3c7ece6e229c237d7d5721639a899b385e41c5b508a81527bcca87"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "e76892321447f054c4a3adb8085f1e53a59c4e6cbda6018cc73e328db0a65809"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "dc47e837fa5987c7fd19c03187e6eced77cc59e30bc71f82185ead9a6717e1fd"
+    }
+  ],
+  "browser": {
+    "tool": "cua_repl/IAB actual controls",
+    "url": "http://localhost:6005/build/pre94-analytics-ui-20261021.html",
+    "stages": [
+      {
+        "stage": "before",
+        "member": "ui-browser-before.ax.raw",
+        "observation": {
+          "choice": null,
+          "panelVisible": true,
+          "preferencesVisible": false,
+          "rootCount": 1,
+          "gaScripts": 0,
+          "cleaned": false,
+          "restored": null
+        }
+      },
+      {
+        "stage": "denied",
+        "member": "ui-browser-denied.ax.raw",
+        "observation": {
+          "choice": "denied",
+          "panelVisible": false,
+          "preferencesVisible": true,
+          "rootCount": 1,
+          "gaScripts": 0,
+          "cleaned": false,
+          "restored": null
+        }
+      },
+      {
+        "stage": "reopened",
+        "member": "ui-browser-reopened.ax.raw",
+        "observation": {
+          "choice": "denied",
+          "panelVisible": true,
+          "preferencesVisible": false,
+          "rootCount": 1,
+          "gaScripts": 0,
+          "cleaned": false,
+          "restored": null
+        }
+      },
+      {
+        "stage": "granted",
+        "member": "ui-browser-granted.ax.raw",
+        "observation": {
+          "choice": "granted",
+          "panelVisible": false,
+          "preferencesVisible": true,
+          "rootCount": 1,
+          "gaScripts": 0,
+          "cleaned": false,
+          "restored": null
+        }
+      },
+      {
+        "stage": "granted-open",
+        "member": "ui-browser-granted-open.ax.raw",
+        "observation": {
+          "choice": "granted",
+          "panelVisible": true,
+          "preferencesVisible": false,
+          "rootCount": 1,
+          "gaScripts": 0,
+          "cleaned": false,
+          "restored": null
+        }
+      },
+      {
+        "stage": "cleaned",
+        "member": "ui-browser-cleaned.ax.raw",
+        "observation": {
+          "choice": null,
+          "panelVisible": false,
+          "preferencesVisible": false,
+          "rootCount": 0,
+          "gaScripts": 0,
+          "cleaned": true,
+          "restored": true
+        }
+      }
+    ],
+    "diagnostics": [],
+    "screenshotViewed": true,
+    "scope": "Real unchanged UI and current installer modules;enabled:false,zero Google script tags;not full game/SDK network test;original own key restored and owned page removed",
+    "screenshot": {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-ui.png",
+      "sha256": "fef22f8e0f32b8426a6cb1d7fac81195555c2aa9b2ecc9754cc94909afd839cb"
+    }
+  },
+  "failedAttempts": [
+    {
+      "status": "failed original retained; complete awake retry clean",
+      "id": "analytics-protected",
+      "exit": 1,
+      "signal": null,
+      "start": "2026-10-20T23:19:24.421Z",
+      "end": "2026-10-21T00:41:59.492Z",
+      "stdout": {
+        "member": "analytics-protected.stdout.raw",
+        "bytes": 105545,
+        "sha256": "48bf66292ef7c126143e27f188032c057bb22e7f514f87a33ae5f6e441039e39"
+      },
+      "stderr": {
+        "member": "analytics-protected.stderr.raw",
+        "bytes": 10645,
+        "sha256": "745578a83360c837b503266315b346082c5af59e3c0245cc836b1107a1fa8433"
+      },
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 10645
+      },
+      "actualFailedTests": [
+        "Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定",
+        "Q01 末项 ArrowDown 环绕回首项并选定第一入口"
+      ],
+      "actualErrors": "Five fork worker-start timeouts plus two unhandled RangeErrors in dom-host addEventListener spy; first test5000ms timeout,second missing cursor.",
+      "systemObservation": "protected-power-events.raw contains machine Deep Idle/Sleep records spanning this run; runtime4865.98s. This establishes interruption,not a proof that helper timeout ownership is sound.",
+      "boundedCauseInference": "Timed-out async opening() can outlive afterEach before host assignment; next host wraps existing vi.spyOn again and recurses. No product/business behavior inferred defective from this interrupted run.",
+      "retry": {
+        "id": "analytics-protected-r2",
+        "command": "caffeinate -i node capture.mjs analytics-protected-r2 protected",
+        "sourceUnchanged": true,
+        "reason": "Fresh complete protected run while awake; child-lifetime idle sleep prevention,not timeout/test/diagnostic/rule change"
+      },
+      "limits": [
+        "No failed result overwritten or counted as clean",
+        "No Reforge changes or acceptance",
+        "If repeat failure occurs awake,investigate exact test host before any integration"
+      ],
+      "recovery": {
+        "id": "analytics-protected-r2",
+        "exit": 0,
+        "stderrBytes": 0,
+        "start": "2026-10-21T00:47:49.339Z",
+        "end": "2026-10-21T00:57:16.148Z",
+        "sameCodeSnapshot": true,
+        "vitestTotal": 19968,
+        "diagnostics": {
+          "reactAct": 0,
+          "actEnvironment": 0,
+          "controlledInput": 0,
+          "unimplementedOpcode": 0,
+          "warnings": 0,
+          "navigation": 0,
+          "audioUnavailable": 0,
+          "staticDiagnosticPrefix": 0,
+          "tsErrors": 0,
+          "unhandled": 0,
+          "failedTap": 0,
+          "testStderrBlocks": 0,
+          "stderrBytes": 0
+        }
+      }
+    }
+  ],
+  "baselineDelta": {
+    "base": "779163109637a92876d02700bf517ac2f979775f",
+    "path": "scripts/coverage/baseline.fast.json",
+    "scopeAndMetricsEqual": true,
+    "testCountEqual": true,
+    "changes": [
+      {
+        "package": "game",
+        "file": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+        "before": {
+          "file": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "testCount": 3,
+          "identityDigest": "26704ded88e36edc94f88688b0d1d780df5c4860dd22d476ace6179ae33a683b"
+        },
+        "after": {
+          "file": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "testCount": 3,
+          "identityDigest": "4c7220048f47c1334d3380670d0a8c1e1e156ae75fd05f359af98430e36023bb"
+        }
+      }
+    ],
+    "explanation": "One corrected UI test title; same test/coverage scope and exact metrics; package identity and execution digests derive from that rename. No removed file/case,ignore/rule/threshold/config change."
+  },
+  "normalStdoutAudit": {
+    "run": "analytics-check",
+    "previousArtifact": {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-native.json.gz",
+      "sha256": "263386a257a7123339d1055b3d0b6bf721a5c6357aa15851f0e7c6af87664756",
+      "bytes": 5081040
+    },
+    "normalBlocks": 260,
+    "newMessages": ["  elapsedMs: 462,"],
+    "classification": "Only elapsed measurement differs from previous accepted current-run normal messages;actual runtime diagnosis flags all0. Historical archive used only for output classification,not inherited test/gate credit."
+  },
+  "complexity": {
+    "tool": "TypeScript 6.0.3 AST branch proxy",
+    "rule": "1+if/conditional/loop/case/catch/short-circuit; nested functions excluded; screening only,not CFG proof or acceptance metric",
+    "flagAbove": 10,
+    "flagged": [],
+    "disposition": "Review C/F/H ownership in per-file index; no metric-driven split. Product emittedJS identical."
+  },
+  "runs": [
+    {
+      "id": "analytics-directed",
+      "role": "test",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 30,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-typecheck",
+      "role": "typecheck",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-check",
+      "role": "check",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 20366,
+      "normalStdoutBlocks": 260
+    },
+    {
+      "id": "analytics-ratchet",
+      "role": "ratchet",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 19968,
+      "normalStdoutBlocks": 253
+    },
+    {
+      "id": "analytics-protected-r2",
+      "role": "protected",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 19968,
+      "normalStdoutBlocks": 253
+    },
+    {
+      "id": "analytics-final-docs",
+      "role": "docs",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-final-lint",
+      "role": "lint",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-final-ledger",
+      "role": "ledger",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-final-diff",
+      "role": "diff",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-evidence-biome",
+      "role": "scoped-biome",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-publication-docs",
+      "role": "docs",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    },
+    {
+      "id": "analytics-publication-diff",
+      "role": "diff",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0,
+      "normalStdoutBlocks": 0
+    }
+  ],
+  "progress": {
+    "partial": 36,
+    "pending": 0,
+    "accept": 47
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-native.json.gz",
+    "bytes": 3119314,
+    "sha256": "688a780969a38cc227fdea426a15db00783e7f3f1923a5affa12b6c7f8949780",
+    "members": [
+      {
+        "name": "analytics-before.execution.json",
+        "bytes": 1533,
+        "sha256": "2a198695ab0cef5a925a3741360182ed1490feae8004f223e30759a7f8639190"
+      },
+      {
+        "name": "analytics-before.native.json",
+        "bytes": 2601,
+        "sha256": "8f032bb4d43106f3ee316f1083f25a36182581b1f078404f2e91507b078bee42"
+      },
+      {
+        "name": "analytics-before.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-before.stdout.raw",
+        "bytes": 534,
+        "sha256": "d53bc62fe257f544de6247c0b4b0f63784c82252b1da837bd310780bd6754fcd"
+      },
+      {
+        "name": "analytics-check.diagnostics.json",
+        "bytes": 84215,
+        "sha256": "6f420acc16d7b3b38066160205b9a843bf0e3f3562017073cd8a2d04b7c1b4a6"
+      },
+      {
+        "name": "analytics-check.execution.json",
+        "bytes": 2032,
+        "sha256": "f400baaad458d60dbb4130abea3554bd627e88d33cc2d8288e71b1bc37e9d6b5"
+      },
+      {
+        "name": "analytics-check.scan.raw",
+        "bytes": 73054,
+        "sha256": "363d866f5ad25a2623338ec2e70c4591e86991abc573ef67b39b577d762b103a"
+      },
+      {
+        "name": "analytics-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-check.stdout.raw",
+        "bytes": 370274,
+        "sha256": "e9ca3214914a082a3cd3a518688ea29ca5c6b757605e66b55a1cd2faaa52c44b"
+      },
+      {
+        "name": "analytics-directed.diagnostics.json",
+        "bytes": 583,
+        "sha256": "99400e5946eaf1c2a110e110797c8dcb0d87f0c9d55a10fc5b4218f88a72bc34"
+      },
+      {
+        "name": "analytics-directed.execution.json",
+        "bytes": 2697,
+        "sha256": "c007eb525db04d61a96f3222d1265a15fdeb5ac3ac1da84b36b591bbcb81aa53"
+      },
+      {
+        "name": "analytics-directed.native.json",
+        "bytes": 11817,
+        "sha256": "2c6a865e62c14d2631d6127044857ad0acc79ef63ccb65f2c1304f87fe748a28"
+      },
+      {
+        "name": "analytics-directed.scan.raw",
+        "bytes": 465,
+        "sha256": "ad3ad3117f2c116541b4d24e8a0a8cd86d467e0507146902374aa58ef18e4b08"
+      },
+      {
+        "name": "analytics-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-directed.stdout.raw",
+        "bytes": 874,
+        "sha256": "554125e53cb4f7822c13b42f9a21fb1a61706a52a213d35981b4fd6dbae1fb98"
+      },
+      {
+        "name": "analytics-evidence-biome.diagnostics.json",
+        "bytes": 578,
+        "sha256": "9bfada3ff5abb39f2b10d4f49977f95d77166aae05df3299df0af0fd0218cac4"
+      },
+      {
+        "name": "analytics-evidence-biome.execution.json",
+        "bytes": 3818,
+        "sha256": "ff7c5c7c44da4aa61c5d453c73c363ecd54f7cb495ba252a2e4350551c51c170"
+      },
+      {
+        "name": "analytics-evidence-biome.scan.raw",
+        "bytes": 468,
+        "sha256": "1e5065b8efebd6950ae63d170e1dc588045f07cf9d1d76f5c255fa8b363e0488"
+      },
+      {
+        "name": "analytics-evidence-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-evidence-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "74d3ec9fb90ada8a004b5d56f1c09dd54302236254261b647d0b9b14721063cb"
+      },
+      {
+        "name": "analytics-final-diff.diagnostics.json",
+        "bytes": 574,
+        "sha256": "532d0353e78fe1448afcd910575b8c60ba41b6e540ff710b36f2fbae6dc9098f"
+      },
+      {
+        "name": "analytics-final-diff.execution.json",
+        "bytes": 3642,
+        "sha256": "7864ae26a36de3a00999412c9ec1c8f7819c8701aa04843399d5c0867f39b299"
+      },
+      {
+        "name": "analytics-final-diff.scan.raw",
+        "bytes": 464,
+        "sha256": "67cdfb2b37d551ec481bdbfb037373c2d2b6069204ee0a1c44bd568db20d7553"
+      },
+      {
+        "name": "analytics-final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-final-docs.diagnostics.json",
+        "bytes": 574,
+        "sha256": "8699b9ebe745d2f797bacde9f1c5e9e50f2cc9a2b9e850331e308f0e913e5b2f"
+      },
+      {
+        "name": "analytics-final-docs.execution.json",
+        "bytes": 3945,
+        "sha256": "afe96ef603f115eb19d9301d93b85ac7ee31d3e00150522aa9ff1234eb1dd5e7"
+      },
+      {
+        "name": "analytics-final-docs.scan.raw",
+        "bytes": 464,
+        "sha256": "2475347af9b3bea2f4de4ea8ea800d6dfc2704d9fe058602d8e4896750d7eccb"
+      },
+      {
+        "name": "analytics-final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "bc4a6d70357118718947e47c0333cb42f78e1f690b73d82c2e8b67a91e570860"
+      },
+      {
+        "name": "analytics-final-ledger.diagnostics.json",
+        "bytes": 576,
+        "sha256": "7d55745c84dbcc63ef3a285bbf2b44a3f4b106631a50a65e5b14be5ab57e83ef"
+      },
+      {
+        "name": "analytics-final-ledger.execution.json",
+        "bytes": 3661,
+        "sha256": "1d7b0c32ff8afa57cd0107995a883768f501601e41722cd10b2c36e5c6f607c6"
+      },
+      {
+        "name": "analytics-final-ledger.scan.raw",
+        "bytes": 466,
+        "sha256": "ba375c657c09bbefd05d89b029ada70ddf9ebdf646be2c706e693b882b08df38"
+      },
+      {
+        "name": "analytics-final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "586df5cacba5716d310bc87cd372d0e02349f59ee1311539d456927520bb735c"
+      },
+      {
+        "name": "analytics-final-lint.diagnostics.json",
+        "bytes": 574,
+        "sha256": "59c180612b9da335f921f6fab1fcdb1f494405fde981a04625b4ec51f1a183d2"
+      },
+      {
+        "name": "analytics-final-lint.execution.json",
+        "bytes": 3618,
+        "sha256": "ee39a3a9e8cdc3e3969b2c36926f7ffee0b8e695cd178ff5a6edc752b756e953"
+      },
+      {
+        "name": "analytics-final-lint.scan.raw",
+        "bytes": 464,
+        "sha256": "ef3a042f14e375772567fcec4567050ce63cc73e8988ca1a8f48b5856ff175ab"
+      },
+      {
+        "name": "analytics-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "f991d4485b870a647800ecfd2dcc08178c1d2558a8507746195869bc28da379b"
+      },
+      {
+        "name": "analytics-preflight-doc-consumers.execution.json",
+        "bytes": 2775,
+        "sha256": "3e2f8a9067d076565d021569ab3334b39b70a4814141c7aeae11d7258caa941f"
+      },
+      {
+        "name": "analytics-preflight-doc-consumers.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-preflight-doc-consumers.stdout.raw",
+        "bytes": 311,
+        "sha256": "09378ac3ba1c97bf14bf124e75389c6e60b8550cd00b9f6e54af2a35e2e08990"
+      },
+      {
+        "name": "analytics-protected-r2.coverage-summary.json",
+        "bytes": 8467135,
+        "sha256": "f52b60dc757f143bcf3dfc69446fe8908e54649756e761dff47976bf8a2f462a"
+      },
+      {
+        "name": "analytics-protected-r2.diagnostics.json",
+        "bytes": 81911,
+        "sha256": "14e02ab7fb038c82fa06feaf186d35859deef2450fc2cc661599463043b28238"
+      },
+      {
+        "name": "analytics-protected-r2.execution.json",
+        "bytes": 2993,
+        "sha256": "0386db56c32b65d5a708b40630e9e94454a46489fb2c33b1525aa915ee8bdac6"
+      },
+      {
+        "name": "analytics-protected-r2.scan.raw",
+        "bytes": 71098,
+        "sha256": "d412c16f2cbe6d6009b916826b0762a7625e229e8f3313042d3092215906582d"
+      },
+      {
+        "name": "analytics-protected-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-protected-r2.stdout.raw",
+        "bytes": 181816,
+        "sha256": "cba1718693e73a82e516f58e59abed9221c5d3fbb7dbdd0353de06d48b1f0d90"
+      },
+      {
+        "name": "analytics-protected.diagnostics.json",
+        "bytes": 70693,
+        "sha256": "f419197221cc3872c256b415bd27c6da3d2788ea32abe79ad364a26bd617c0a1"
+      },
+      {
+        "name": "analytics-protected.execution.json",
+        "bytes": 2988,
+        "sha256": "c8148022619ce6b8fa6c55333eb9032a8d14da07e885421b3d8c8daa73a40c59"
+      },
+      {
+        "name": "analytics-protected.scan.raw",
+        "bytes": 61317,
+        "sha256": "4f05549a7afb530aa340e57aa28db827c3eb580ea23b033ac89b660b93c17291"
+      },
+      {
+        "name": "analytics-protected.stderr.raw",
+        "bytes": 10645,
+        "sha256": "745578a83360c837b503266315b346082c5af59e3c0245cc836b1107a1fa8433"
+      },
+      {
+        "name": "analytics-protected.stdout.raw",
+        "bytes": 105545,
+        "sha256": "48bf66292ef7c126143e27f188032c057bb22e7f514f87a33ae5f6e441039e39"
+      },
+      {
+        "name": "analytics-publication-diff.diagnostics.json",
+        "bytes": 580,
+        "sha256": "4d3eb3cb61b1746b72c94681afc0b30efe3b98bde59de2cd24ed63ad7240ed12"
+      },
+      {
+        "name": "analytics-publication-diff.execution.json",
+        "bytes": 2585,
+        "sha256": "c02f62e4f9451ade417824ed6e64c23558306e7706100fa8acabd89b1ae71c20"
+      },
+      {
+        "name": "analytics-publication-diff.scan.raw",
+        "bytes": 470,
+        "sha256": "91795e2fa297b193bc27522f90244c27accad52f0dad72ac5bda2e263ad4bf3f"
+      },
+      {
+        "name": "analytics-publication-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-publication-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-publication-docs.diagnostics.json",
+        "bytes": 580,
+        "sha256": "44a900513dd925d67d62cb9d1b83458b13a1e3009eb2f4642fbafdbc2840a69f"
+      },
+      {
+        "name": "analytics-publication-docs.execution.json",
+        "bytes": 2888,
+        "sha256": "d23509808399dd533015b88e3a810855d012dd458c15c5677cdd5adb94247883"
+      },
+      {
+        "name": "analytics-publication-docs.scan.raw",
+        "bytes": 470,
+        "sha256": "767f6d9c481b0347abeb0bd29b69ab1a91a1187f0169e74386828e63f30729fb"
+      },
+      {
+        "name": "analytics-publication-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-publication-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "bc4a6d70357118718947e47c0333cb42f78e1f690b73d82c2e8b67a91e570860"
+      },
+      {
+        "name": "analytics-ratchet.coverage-summary.json",
+        "bytes": 8467135,
+        "sha256": "3855050deb2b4b0fb2047a2653c9a898e56a7f63a3b626df56a308a512b88cad"
+      },
+      {
+        "name": "analytics-ratchet.diagnostics.json",
+        "bytes": 81906,
+        "sha256": "ad839bde045de5a26e07bfe11e78f6c574035414bb7bd177150336d30f51fd17"
+      },
+      {
+        "name": "analytics-ratchet.execution.json",
+        "bytes": 2718,
+        "sha256": "79ea95f765286f16b767fc98a4219e7c77d899228112c93872b462631294743c"
+      },
+      {
+        "name": "analytics-ratchet.scan.raw",
+        "bytes": 71093,
+        "sha256": "45a662159387f9f17a1aaebbf2d8def19ea09b506ee901d657251f4e54c44b51"
+      },
+      {
+        "name": "analytics-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-ratchet.stdout.raw",
+        "bytes": 202255,
+        "sha256": "ceb9a9201b0fc0ee33f70670c30f19b96daef546c12132121d6a4368a5d6f805"
+      },
+      {
+        "name": "analytics-typecheck.diagnostics.json",
+        "bytes": 573,
+        "sha256": "f8c5c3818a7e4f7927266f979e28321be79dc2b2789cf2963e23959f07559712"
+      },
+      {
+        "name": "analytics-typecheck.execution.json",
+        "bytes": 2087,
+        "sha256": "8da60f5edcf31b39a67d2046f9e92ad7dfecc26f355a165bcf4c50e1cf8c901b"
+      },
+      {
+        "name": "analytics-typecheck.scan.raw",
+        "bytes": 463,
+        "sha256": "43ee55cd7d1ec90e7fa6891df9e799d6774294a8d9badee1041ff33d1b19aa24"
+      },
+      {
+        "name": "analytics-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "analytics-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "baseline-identity-change.json",
+        "bytes": 948,
+        "sha256": "232b05c3e29a549cdc9a00f47638a1c11dfeed3ddfb500a0734c3b3c1c042aa0"
+      },
+      {
+        "name": "build-review.cjs",
+        "bytes": 15796,
+        "sha256": "416bffcc07223ae000563609cc0a523ab01a671b1f012ec04c2c0ab3f49327ef"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 5986,
+        "sha256": "492ff5ad383c1a33c674d3ca29f53dec86721e4c1bc5d24fc746cbd3d9f6f964"
+      },
+      {
+        "name": "close.cjs",
+        "bytes": 8299,
+        "sha256": "32b9028756480da1887d34602e1cb8f085828a3c7f8371a7cf40ceeae37e626c"
+      },
+      {
+        "name": "complexity.json",
+        "bytes": 339,
+        "sha256": "039d737a6bc4be18acad160becac55bbeb194a73e1a72f1e49b97f84b47c2347"
+      },
+      {
+        "name": "counters.json",
+        "bytes": 9585,
+        "sha256": "0f1a6bceffae8793ab7ce34acc5d77d0d87ea92943fc821f334c22e586038de0"
+      },
+      {
+        "name": "host-ownership-new-analytics-consent-ui.test.ts",
+        "bytes": 5300,
+        "sha256": "1b0f70952646a72fa99a45ac7b5256bbb4f3aa3a18216dd8f3559ef0929c1671"
+      },
+      {
+        "name": "host-ownership-new-install-analytics.test.ts",
+        "bytes": 3553,
+        "sha256": "931006222d9b0eafb5c022875273b4247d0a49fed3d1f968b369081f5bda1e83"
+      },
+      {
+        "name": "host-ownership-new.capture.raw",
+        "bytes": 1197,
+        "sha256": "2032ef3e288dbcae06066fe2ed1473347cc4d8fd9bd23256b093b447edd15931"
+      },
+      {
+        "name": "host-ownership-new.config.mjs",
+        "bytes": 9718,
+        "sha256": "1cce2ecb3749a4aef6d83184c8434da10f05d64f217f1a837b473eed1a9b97d0"
+      },
+      {
+        "name": "host-ownership-new.execution.json",
+        "bytes": 2580,
+        "sha256": "66dac1a9b701bb9854d2cfcd467291bcceb0294e59d9c6c217ff8b1ee34d6276"
+      },
+      {
+        "name": "host-ownership-new.native.json",
+        "bytes": 3296,
+        "sha256": "69532852d1d14e87251efd9f98587dffcb3626ba954354e75d401b66f0688401"
+      },
+      {
+        "name": "host-ownership-new.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "host-ownership-new.stdout.raw",
+        "bytes": 536,
+        "sha256": "32d67cefce9c5b9e488a6f1eea49d65ab7b663233049953b6fb65a330815d1eb"
+      },
+      {
+        "name": "host-ownership-old-analytics-consent-ui.test.ts",
+        "bytes": 3940,
+        "sha256": "147489aa910584fefe544e2ed666b807df1c19bbc5c1fe73338faec8ff880d1e"
+      },
+      {
+        "name": "host-ownership-old-install-analytics.test.ts",
+        "bytes": 3099,
+        "sha256": "9bdc97d1746228cee5e426dbc46712b0c5fbb3c03da8be58a57c856fca7fd118"
+      },
+      {
+        "name": "host-ownership-old.capture.raw",
+        "bytes": 2265,
+        "sha256": "4e16c4af10d8897e0317d1c8b4a0cda62105ea15df513b22c182fbacf005cd83"
+      },
+      {
+        "name": "host-ownership-old.config.mjs",
+        "bytes": 7855,
+        "sha256": "ab0407e33b81565885277b3dd06d19df4a7a1b310fb63acf5c946755b0964495"
+      },
+      {
+        "name": "host-ownership-old.execution.json",
+        "bytes": 2584,
+        "sha256": "f1b07f5fe06ee93a9d95e1f00cd00426f82ee1ca6cd7734342ee6a0c456c3633"
+      },
+      {
+        "name": "host-ownership-old.native.json",
+        "bytes": 6357,
+        "sha256": "de422c8f70421461d6f8a20cce5364486bbddf93411aa67e4f3730f82d7ed7a3"
+      },
+      {
+        "name": "host-ownership-old.stderr.raw",
+        "bytes": 1104,
+        "sha256": "fb28cae9b134f6ef36e8acb65cb2c13238b1729cd2ccb4d4ce6ff83d81546eb7"
+      },
+      {
+        "name": "host-ownership-old.stdout.raw",
+        "bytes": 1093,
+        "sha256": "5db9dbfe80a4c6674b23ffc03a5e11bd646b1a0933316dfca8e56828ac6737b3"
+      },
+      {
+        "name": "metadata-analytics.json",
+        "bytes": 1273,
+        "sha256": "d4e61672d44fe35d880a281e454942d5d29681ac099248e28e119ca6c0e050c6"
+      },
+      {
+        "name": "metadata-before-analytics.json",
+        "bytes": 1849230,
+        "sha256": "badd3a8faf523d2ceb5db0489668b1eb8c7dc66fc28d46aed46fff2b72450674"
+      },
+      {
+        "name": "normal-stdout-audit.json",
+        "bytes": 559,
+        "sha256": "c016c4e6a734b45140d867910a0302482eac148005d0f5bb1f034dc467af7490"
+      },
+      {
+        "name": "pre-close-status.raw",
+        "bytes": 919,
+        "sha256": "98ea2ea7eb9114fe77f4d81f0f4cd3fa57e8f887d767e5d5f64a331fd7ce63ba"
+      },
+      {
+        "name": "product-proof.json",
+        "bytes": 1534,
+        "sha256": "e40459216ba2c37d4e3cb7b075b5fe0c4b877514dfd4debcd4c2dac6f7a9abab"
+      },
+      {
+        "name": "protected-interruption.json",
+        "bytes": 2770,
+        "sha256": "571672c29ad04121230218868a17d8b4644992f9c912a264276bab0bf6fd5655"
+      },
+      {
+        "name": "protected-power-events.raw",
+        "bytes": 2818,
+        "sha256": "30bfd5aa173cb7f6bf9186e6a62a46fa17e1ba12e0018c7a3ed3593e1a7038e2"
+      },
+      {
+        "name": "record-before-ts-archive-fix.cjs",
+        "bytes": 4106,
+        "sha256": "f0f81ddf704d3af32b3634e30891aef057d7d9a3d23e7b0b40db6e0d4de7c0b4"
+      },
+      {
+        "name": "record.cjs",
+        "bytes": 4396,
+        "sha256": "44acce8149e226befced8620542e0d7015c9e655f116e7b280a83b1a2fc3fe5c"
+      },
+      {
+        "name": "refine-test-reviews.cjs",
+        "bytes": 9328,
+        "sha256": "e5940d37c184794fde096c45745dd34281119a518b151570faf28668e58a106b"
+      },
+      {
+        "name": "review.json",
+        "bytes": 54410,
+        "sha256": "ece5674b9ba3b143c07f1c714fede44d67b07513c6e7149317a72d365cb0e1e0"
+      },
+      {
+        "name": "run-counters.cjs",
+        "bytes": 5469,
+        "sha256": "e3a08d47977586c8a75796a64c9dde88417f17bdb585b4bc08ed377e770f56d6"
+      },
+      {
+        "name": "save-contract-field-inventory.json",
+        "bytes": 11116,
+        "sha256": "ac74a0d10b06b64294cb83c525570f0109cbf474e1ce40618e1074aaf13d290c"
+      },
+      {
+        "name": "save-contract-progress.json",
+        "bytes": 23779,
+        "sha256": "f2d4d589feefd3048390e1d37f8874b1bc03cd9eb4fd9edf27c74682c0be227e"
+      },
+      {
+        "name": "save-import-observation.execution.json",
+        "bytes": 375,
+        "sha256": "2db76062af46c35a5fca1d301d3aab2e7c998c109fe82be371aa5379348767a6"
+      },
+      {
+        "name": "save-import-observation.mts",
+        "bytes": 1695,
+        "sha256": "e908da416b16d7af114cdee9c2910f5bf6d1d4a3e5f0c7b2f8039a32630c1edb"
+      },
+      {
+        "name": "save-import-observation.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-import-observation.stdout.raw",
+        "bytes": 481,
+        "sha256": "07a8c81ea98cd5aca2c4916a2cfa4a15c02b2af7ef8722bffb55fb48b6d16c08"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1865,
+        "sha256": "db02c29b5960679f2712de0ca0ee7a753ab668d3eef5dd019eef639bd28e4e31"
+      },
+      {
+        "name": "ui-browser-before.ax.raw",
+        "bytes": 1033,
+        "sha256": "b83aa20b93920478dcf751dfb26b6cbf053b1842c6a11e485592af53ed8d63fa"
+      },
+      {
+        "name": "ui-browser-cleaned.ax.raw",
+        "bytes": 756,
+        "sha256": "d1feb26a4ef9554a573c4f052bcb352b6d748978ef9eb0c7c855b54dfceefb67"
+      },
+      {
+        "name": "ui-browser-console.json",
+        "bytes": 3,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "name": "ui-browser-denied.ax.raw",
+        "bytes": 857,
+        "sha256": "cd5a96f51ee596172128587f006e3d774e9fd90b742282c7de6b3a3150330aaf"
+      },
+      {
+        "name": "ui-browser-fixture.html",
+        "bytes": 1824,
+        "sha256": "84908ab5ae5c9f11bf6e0bfb105fd33fbeb1b5ba8d3f598a389f2396a7034d1b"
+      },
+      {
+        "name": "ui-browser-granted-open.ax.raw",
+        "bytes": 1090,
+        "sha256": "f0cb4dab1bd95bf93295c089c9d542728a8856d5e402404e76cb742d27c48d12"
+      },
+      {
+        "name": "ui-browser-granted.ax.raw",
+        "bytes": 858,
+        "sha256": "1838814315461dddf24bb5ebe7cdabee8a4fb7610f526fdf3899d47453b625a5"
+      },
+      {
+        "name": "ui-browser-reopened.ax.raw",
+        "bytes": 1089,
+        "sha256": "8384796a24070bac02eb441d2ca719d9d6982acf6f158975108703e2e57e0211"
+      },
+      {
+        "name": "ui-browser-served.html",
+        "bytes": 744,
+        "sha256": "292aa0e0938ce0c82e418a4b8387ef04584310eb522b9929ff577e468142d9f7"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-new-analytics-consent-ui.test.ts",
+        "bytes": 3721,
+        "sha256": "3a759ca44f2370b66d1c633f084532f7db0fe8242d87c972e2bd75a431f44240"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-new.capture.raw",
+        "bytes": 1949,
+        "sha256": "dccd0268415e79ff1af88bfa512b37379dd7cc8e4bc032da656906e060c063ac"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-new.config.mjs",
+        "bytes": 8758,
+        "sha256": "4ea4074f4f8b4427d20716d0f2f5650501267d3131f9782cd23aa84cc9b66ab3"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-new.execution.json",
+        "bytes": 2610,
+        "sha256": "dda6720885a0c2143997be03b6e5698d0e12fe8814fc4c5c2bc8a33c98361019"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-new.native.json",
+        "bytes": 3156,
+        "sha256": "f16f6ed2ddb58904d5a3b50c1da3dbc2a69eed35c8e36b784c6716e647a69286"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-new.stderr.raw",
+        "bytes": 683,
+        "sha256": "f0538705dd0765b3223863a18fa1c68fa742a9e92ada75bb96f9a124aca2b854"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-new.stdout.raw",
+        "bytes": 745,
+        "sha256": "7ebf62d665057592bb696cbc2b5b44238d039c3463592764f711240144f775ef"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-old-analytics-consent-ui.test.ts",
+        "bytes": 2361,
+        "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-old.capture.raw",
+        "bytes": 1229,
+        "sha256": "55457e41b02d0a81c322b10e5df9465f292156076109e7d1444b6a30351e5cfe"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-old.config.mjs",
+        "bytes": 7358,
+        "sha256": "d2ff68025d6244e3f938ce2d2139c1a5c4fa36283d43ae6641d0f345aaa0e9b2"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-old.execution.json",
+        "bytes": 2608,
+        "sha256": "c5743463f4d867063cb14aae2fd67bd2853aece865b96fbf18f0940db953d07a"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-old.native.json",
+        "bytes": 1653,
+        "sha256": "7c22778dab67fc6569a231b7357097f22e1c64143d6ddac6605b867c6dfc0384"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ui-hide-after-storage-failure-old.stdout.raw",
+        "bytes": 490,
+        "sha256": "1c4ccc58ed087c51be180e858adcd47c6cbfd1cf6b4dcbdd3b9732959eb2774b"
+      },
+      {
+        "name": "ui-hide-after-storage-failure.mutant.ts",
+        "bytes": 4126,
+        "sha256": "f3b694d2af374425b05294ab796d7fd9a6f2fa11f3124f401f185a8f17933a99"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-new-analytics-consent-ui.test.ts",
+        "bytes": 3721,
+        "sha256": "3a759ca44f2370b66d1c633f084532f7db0fe8242d87c972e2bd75a431f44240"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-new.capture.raw",
+        "bytes": 2028,
+        "sha256": "bf3f028d5aaf6f415b40156dc96201dac09f8e0a875c8cf037a297c3967cfbe2"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-new.config.mjs",
+        "bytes": 8777,
+        "sha256": "56e35d4585595dba40cc838319f6d618dea19e5bf307142cf56619789051d064"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-new.execution.json",
+        "bytes": 2615,
+        "sha256": "c5b85fd8ff63c021282e9661aa57b4a278d71e2871a58e2f9b9c79374e9be04d"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-new.native.json",
+        "bytes": 3148,
+        "sha256": "fa29c561c2aee6d1eaa06bd0348dd931e99416f1c3127a4b4acc7a33d79e24b2"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-new.stderr.raw",
+        "bytes": 756,
+        "sha256": "5e00255353cff6b010e17cfc5cfd55eecb8a128cc8c0ca92dafbdbb752a5e379"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-new.stdout.raw",
+        "bytes": 746,
+        "sha256": "f8accd8f48542eef134674fc86daa06480042fa70bc07210ffead3d6822688c1"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-old-analytics-consent-ui.test.ts",
+        "bytes": 2361,
+        "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-old.capture.raw",
+        "bytes": 1234,
+        "sha256": "55ce93c7b34631256227b54495f0a585c61483a57eb185635e1822b698e61762"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-old.config.mjs",
+        "bytes": 7377,
+        "sha256": "d82ae59621f36d5bcb6de8f644ce0e43512c89446221ce216fa5a27e49207a8b"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-old.execution.json",
+        "bytes": 2613,
+        "sha256": "0a96ef6ec877feac5ebd2e0ae86590422d58ba99014f61325a5440925bef76bf"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-old.native.json",
+        "bytes": 1651,
+        "sha256": "dbfbab09fe338fbca62f6a536dee0b4b77befd9750404e726edc3d90672e3748"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen-old.stdout.raw",
+        "bytes": 491,
+        "sha256": "f9d552320d9cbadee966d9d8b4880b0f228b888035e7208be5548ed5c4b843ee"
+      },
+      {
+        "name": "ui-preferences-does-not-reopen.mutant.ts",
+        "bytes": 4145,
+        "sha256": "1051e6eb7a6b51ba5541756b5792c3696f7fb875f655188a9f89a63778ec1811"
+      },
+      {
+        "name": "update-reviews.cjs",
+        "bytes": 5695,
+        "sha256": "fcbd82c7c2fb4e13af06b9ba88d5b90031a1d1278fa339f1621444935d8ac182"
+      },
+      {
+        "name": "verify-local-incomplete-archive.json",
+        "bytes": 167,
+        "sha256": "72f9313fe69e61e3e107518b1252c4b610199edd89fc7afa715d5714e2134341"
+      },
+      {
+        "name": "verify-local-incomplete-archive.raw",
+        "bytes": 5440,
+        "sha256": "ee05e0e5c4491ef9af1a96d2cbbf244e7e891bbbc7b866176cf5be6ba9d86b86"
+      },
+      {
+        "name": "window.json",
+        "bytes": 2518,
+        "sha256": "d43172d208026fd8ab7df3b3800e7c27a5acaf3d2c952c1c1935178abe518a45"
+      }
+    ]
+  }
+}

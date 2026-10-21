@@ -45,3 +45,9 @@ Visual Verification Timing: N/A
 ## 下一位 Agent 提示词
 
 无下一位 Agent；Codex继续完成本批审计与质量门，不扩大文件白名单。
+
+## 2026-10-21 analytics四卡收口
+
+原GA三文件及测试专用宿主、批准的安装失败专测共五文件接受。原十个consent/GA反控与五先红后绿按实际版本复用；私有disable键类型收窄，无广域Record强转，发射JS保持；不附带真实Google网络/多property或跨realm承诺。
+
+[逐文件A–H、完整原件与集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)；只读verify-analytics默认不写树/不重跑测试。原卡范围及明确支持文件接受，广域main/实网/E2E不附带关闭。

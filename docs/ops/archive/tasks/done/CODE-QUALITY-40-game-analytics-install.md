@@ -39,3 +39,9 @@ schema、输入、公共产品 UI 或正式脚本行为。本批只核 storage/�
 ## 下一位 Agent 提示词
 
 无下一位 Agent；Codex继续完成本批审计，签字门禁未完成前不得扩大范围或标记 done。
+
+## 2026-10-21 analytics四卡收口
+
+原安装器两文件接受。复用已批准失败撤监听/UI并向main传播原错误的实现；隐私信号复用同结构类型。测试使用自有Document/SDK描述符并精确恢复自有键，外部Owner探针旧红新绿。
+
+[逐文件A–H、完整原件与集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)；只读verify-analytics默认不写树/不重跑测试。原卡范围及明确支持文件接受，广域main/实网/E2E不附带关闭。

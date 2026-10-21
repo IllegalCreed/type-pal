@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; actual owned shell lifecycle delta and version envelope independently checked",
+      "readMethod": "Prior fixed-Git review reused; actual owned analytics delta and version envelope independently checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Five original/migrated shell cards accepted with14explicitfiles; four audio/fixture files stay review and73/74 product/export decisions remain open; current43accept/40partial. Gates/raw/limits in current receipt; no94-102 expansion.",
+      "coreConclusion": "Four original analytics cards and two support files accepted with12explicitfiles;73/74 product/export decisions remain open; current47accept/36partial. Gates/raw/limits in current receipt; CODE59 approved draft registration only,not save build acceptance; no94-102 expansion.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Continue remaining40partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Continue remaining36partial cards; no implicit whole-source/visual/browser acceptance.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "283135944262131e8199cc9cf0325406290b003e1c267f379d4e1069b72646a5",
+      "afterSha256": "b60d6844c9997b15e59ede12ece15d3453e4fd41b20675d083f8680383de471f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -503,9 +503,9 @@
         "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
-        "currentSha": "283135944262131e8199cc9cf0325406290b003e1c267f379d4e1069b72646a5",
-        "implementationSha": "283135944262131e8199cc9cf0325406290b003e1c267f379d4e1069b72646a5",
-        "contentVersion": 29,
+        "currentSha": "b60d6844c9997b15e59ede12ece15d3453e4fd41b20675d083f8680383de471f",
+        "implementationSha": "b60d6844c9997b15e59ede12ece15d3453e4fd41b20675d083f8680383de471f",
+        "contentVersion": 30,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -1649,9 +1649,9 @@
         ]
       },
       "evidence": {
-        "kind": "shell-lifecycle-closeout-scoped-current-source-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
-        "afterSha256": "283135944262131e8199cc9cf0325406290b003e1c267f379d4e1069b72646a5",
+        "kind": "analytics-four-card-closeout-scoped-current-source-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+        "afterSha256": "b60d6844c9997b15e59ede12ece15d3453e4fd41b20675d083f8680383de471f",
         "lineCount": 94
       },
       "history": [
@@ -1941,12 +1941,23 @@
           "preflightLabelErratum": "Earlier preflight seven-card action tag was a naming error; it recorded only admission/index/fixture inventory,no acceptance. Original action/source bytes retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
           "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "analytics-four-card-closeout",
+          "previousAfterSha256": "283135944262131e8199cc9cf0325406290b003e1c267f379d4e1069b72646a5",
+          "afterSha256": "b60d6844c9997b15e59ede12ece15d3453e4fd41b20675d083f8680383de471f",
+          "scope": "Only analytics current task/status delta plus approved CODE59 save-import draft registration/index; no save build or acceptance. Unrelated body retains fixed-Git full review.",
+          "limits": "Only named analytics status/index/live-ledger and approved CODE59 draft registration delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only owned shell lifecycle current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
+      "reviewedLines": "Only analytics current task/status delta plus approved CODE59 save-import draft registration/index; no save build or acceptance. Unrelated body retains fixed-Git full review.",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2232,21 +2243,21 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; actual owned shell lifecycle delta and version envelope independently checked",
+      "readMethod": "Prior fixed-Git review reused; actual owned analytics delta and version envelope independently checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Five original/migrated shell cards accepted with14explicitfiles; four audio/fixture files stay review and73/74 product/export decisions remain open; current43accept/40partial. Gates/raw/limits in current receipt; no94-102 expansion.",
+      "coreConclusion": "Four original analytics cards and two support files accepted with12explicitfiles;73/74 product/export decisions remain open; current47accept/36partial. Gates/raw/limits in current receipt; CODE59 approved draft registration only,not save build acceptance; no94-102 expansion.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
       ],
-      "nextStep": "Continue remaining40partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Continue remaining36partial cards; no implicit whole-source/visual/browser acceptance.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "e799f3591a0f0e8a7973ba2084d3ec655380c65f3a86c47e5df9b30ff2e7422f",
+      "afterSha256": "8c89675c4502832da011c267b4b5f7fa4b09f57877801e84ec2c76a6be57424d",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2266,9 +2277,9 @@
         "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "e799f3591a0f0e8a7973ba2084d3ec655380c65f3a86c47e5df9b30ff2e7422f",
-        "implementationSha": "e799f3591a0f0e8a7973ba2084d3ec655380c65f3a86c47e5df9b30ff2e7422f",
-        "contentVersion": 24,
+        "currentSha": "8c89675c4502832da011c267b4b5f7fa4b09f57877801e84ec2c76a6be57424d",
+        "implementationSha": "8c89675c4502832da011c267b4b5f7fa4b09f57877801e84ec2c76a6be57424d",
+        "contentVersion": 25,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -2612,10 +2623,10 @@
         ]
       },
       "evidence": {
-        "kind": "shell-lifecycle-closeout-scoped-current-source-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
+        "kind": "analytics-four-card-closeout-scoped-current-source-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 514,
+        "lineCount": 515,
         "headings": [
           {
             "line": 1,
@@ -2640,7 +2651,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "e799f3591a0f0e8a7973ba2084d3ec655380c65f3a86c47e5df9b30ff2e7422f",
+        "afterSha256": "8c89675c4502832da011c267b4b5f7fa4b09f57877801e84ec2c76a6be57424d",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -2956,12 +2967,23 @@
           "preflightLabelErratum": "Earlier preflight seven-card action tag was a naming error; it recorded only admission/index/fixture inventory,no acceptance. Original action/source bytes retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
           "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "analytics-four-card-closeout",
+          "previousAfterSha256": "e799f3591a0f0e8a7973ba2084d3ec655380c65f3a86c47e5df9b30ff2e7422f",
+          "afterSha256": "8c89675c4502832da011c267b4b5f7fa4b09f57877801e84ec2c76a6be57424d",
+          "scope": "Only analytics current task/status delta plus approved CODE59 save-import draft registration/index; no save build or acceptance. Unrelated body retains fixed-Git full review.",
+          "limits": "Only named analytics status/index/live-ledger and approved CODE59 draft registration delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only owned shell lifecycle current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
+      "reviewedLines": "Only analytics current task/status delta plus approved CODE59 save-import draft registration/index; no save build or acceptance. Unrelated body retains fixed-Git full review.",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
