@@ -17,7 +17,7 @@
  * / `loopCount`(Infinity = 循环)。
  */
 import { Sequencer, WorkletSynthesizer } from 'spessasynth_lib'
-import type { MusicBackend } from './audio.js'
+import { type MusicBackend, musicUrl } from './audio.js'
 
 export interface SpessaSynthBackendOptions {
   /** MIDI 资源 base(`{baseUrl}/music/{NNN}.mid`)。约定 '/extracted'。 */
@@ -79,7 +79,7 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
     try {
       if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
       if (disposed || token !== generation) return
-      const url = `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
+      const url = musicUrl(baseUrl, track)
       const res = await fetch(url, { signal: loading.signal })
       if (!res.ok) throw new Error(`MIDI 曲目 ${track} 加载失败 (${res.status})`)
       const binary = await res.arrayBuffer()
