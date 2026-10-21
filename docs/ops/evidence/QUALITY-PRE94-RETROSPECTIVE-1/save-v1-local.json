@@ -2146,7 +2146,14 @@
     "fetchRechecked": true,
     "beforeCommitBehind": 0,
     "beforeCommitAhead": 5,
-    "state": "Frozen source files and raw receipts accepted;commit/push then main sync to follow,not yet claimed complete."
+    "state": "Product/evidence commit pushed to governance first,then main fast-forwarded;both refs equal fixed source commit. This final handoff-only revision does not alter product/coverage bytes. Primary checkout remains unchanged at92e901806,behind remote6commits.",
+    "sourceCommit": "d1fdcb1f33c65aebc1eb344da865e59d38889434",
+    "governancePushed": true,
+    "mainFastForwarded": true,
+    "verifiedMain": "d1fdcb1f33c65aebc1eb344da865e59d38889434",
+    "verifiedGovernance": "d1fdcb1f33c65aebc1eb344da865e59d38889434",
+    "ahead": 0,
+    "behind": 0
   },
   "nextScope": "Remaining32partial fixed pre94 cards only;shared MKF/RNG/YJ2 evidence-first closure after checking current Owner and unresolved truth/size observations. No94-102."
 }
