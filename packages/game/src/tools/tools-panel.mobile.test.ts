@@ -18,9 +18,13 @@ describe('mobile tools', () => {
   it('updates an open system panel across desktop and mobile layouts', () => {
     document.documentElement.dataset.tpLayout = 'desktop'
     setupToolsPanel(makeDeps())
+    const body = document.querySelector('.tp-body')!
+    document.documentElement.dataset.tpLayout = 'mobile'
+    window.dispatchEvent(new Event(LAYOUT_CHANGE))
+    expect(body.childElementCount).toBe(0)
+    document.documentElement.dataset.tpLayout = 'desktop'
     document.getElementById('tp-tools-launcher')?.click()
     document.querySelector<HTMLButtonElement>('.tp-tab[data-key="system"]')?.click()
-    const body = document.querySelector('.tp-body')!
     expect(body.textContent).toMatch(/FPS/)
 
     document.documentElement.dataset.tpLayout = 'mobile'
