@@ -5,32 +5,19 @@
 // 来自全零全局 hook 构造——旧 CLI 只证 shared 为空的跳过路径，从未证明十二个实际
 // caller 字段接到 entryIps 并产出 shared 输出。items.boundaries 字段映射、spells.boundaries
 // 玩家 4/6 字节映射、slice.test/boundaries 的 global 归 shared 为单元/纯算法旧证，不重领。
-// 本批新信用仅为 CLI 实际接线（源码 cli.ts:225-269 收集 → :272-282 落盘）。
+// 本文件仅证明CLI实际入口收集与落盘接线；不重复认领codec或slice完整算法。
 // 期望来自已核字段布局（parsers/_utils.ts）与独立四指令小程序，不复制 disasm/slice 算法。
-// 反控：本批五个代表产品变异由 Codex 独立阶段统一实采（见 next-batch 协议），此处不伪造。
-import { spawn } from 'node:child_process'
-import {
-  cpSync,
-  mkdirSync,
-  mkdtempSync,
-  readFileSync,
-  rmSync,
-  symlinkSync,
-  writeFileSync,
-} from 'node:fs'
-import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+// 十二单hook、一个别名、一个scene重合分别守不同接线轴；保持原身份。
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { afterAll, expect, test } from 'vitest'
+import { type CliRunResult, createCliTestHost } from './__tests__/cli-host.js'
 import {
   buildGlobalEntryRawInputs,
   GE_ENEMY1_FIELDS,
   GLOBAL_ENTRY_MSG_TEXT,
   type GlobalEntryHook,
 } from './__tests__/glm-q/cli-global-entry-inputs.js'
-
-const HERE = dirname(fileURLToPath(import.meta.url))
-const REAL_PACKAGE = resolve(HERE, '..')
 
 // ── 布局常量（parsers/_utils.ts 已核真值；fixture 侧独立复写，不 import 产品内部）──
 const ITEM_OBJ_START = 61
@@ -51,71 +38,33 @@ const SCENE_ENTRY_COMMANDS = [
   { op: 'end', label: 'L_2' },
 ]
 
-interface RunResult {
-  exitCode: number | null
-  stdout: string
-  stderr: string
-}
-
-function runCli(tree: string): Promise<RunResult> {
-  return new Promise((resolvePromise) => {
-    const child = spawn(
-      process.execPath,
-      [join(REAL_PACKAGE, 'node_modules', 'tsx', 'dist', 'cli.mjs'), 'src/cli.ts'],
-      {
-        cwd: join(tree, 'packages', 'pal-extract'),
-        env: { ...process.env, NODE_COMPILE_CACHE: '' },
-      },
-    )
-    let stdout = ''
-    let stderr = ''
-    child.stdout.on('data', (chunk) => {
-      stdout += String(chunk)
-    })
-    child.stderr.on('data', (chunk) => {
-      stderr += String(chunk)
-    })
-    child.on('close', (exitCode) => resolvePromise({ exitCode, stdout, stderr }))
-  })
-}
-
-const trees: string[] = []
-afterAll(() => {
-  for (const tree of trees) rmSync(tree, { recursive: true, force: true })
-})
+const cliHost = createCliTestHost('cli-global-entries-')
+afterAll(cliHost.disposeAll)
 
 interface EntryRun {
-  result: RunResult
-  out(rel: string): string
+  result: CliRunResult
   readJson(rel: string): unknown
 }
 
 async function runEntry(hooks: GlobalEntryHook[]): Promise<EntryRun> {
-  const tree = mkdtempSync(join(tmpdir(), 'glm-q-cli-ge-'))
-  const pkgDir = join(tree, 'packages', 'pal-extract')
-  mkdirSync(pkgDir, { recursive: true })
-  cpSync(join(REAL_PACKAGE, 'src'), join(pkgDir, 'src'), { recursive: true })
-  cpSync(join(REAL_PACKAGE, 'package.json'), join(pkgDir, 'package.json'))
-  symlinkSync(join(REAL_PACKAGE, 'node_modules'), join(pkgDir, 'node_modules'), 'dir')
+  const tree = cliHost.createTree()
   const rawDir = join(tree, 'data', 'raw')
-  mkdirSync(rawDir, { recursive: true })
   writeFileSync(join(rawDir, 'mus.mkf'), new Uint8Array([8, 0, 0, 0, 8, 0, 0, 0]))
   for (const [name, bytes] of Object.entries(buildGlobalEntryRawInputs(hooks))) {
     writeFileSync(join(rawDir, name), bytes)
   }
   mkdirSync(join(rawDir, 'Musics'), { recursive: true })
-  trees.push(tree)
-  const result = await runCli(tree)
+  const result = await cliHost.runCli(tree)
   const out = (rel: string) => join(tree, 'data', 'extracted', rel)
   return {
     result,
-    out,
     readJson: (rel: string) => JSON.parse(readFileSync(out(rel), 'utf8')),
   }
 }
 
 function expectPipelineOk(r: EntryRun, entryCount: number): void {
   expect(r.result.exitCode).toBe(0)
+  expect(r.result.stderr).toBe('[pal-extract] unifont-cn.bdf 缺,跳过 font\n')
   expect(r.result.stdout).toContain('events round-trip OK')
   expect(r.result.stdout).toContain('done. output →')
   expect(r.result.stdout).toContain(
