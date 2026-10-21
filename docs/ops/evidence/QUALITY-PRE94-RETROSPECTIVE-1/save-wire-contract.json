@@ -539,7 +539,7 @@
       "runtimeBody": "export {};",
       "note": "Only approved passive stored-data declaration changed;current GameState/BattleStatus runtime declarations and all guard execution bodies unchanged in this type step."
     },
-    "currentGuard": "Not corrected yet;two formal business AssertionErrors reject actual old dialog/battle snapshots. Current type step only models historical absence/Boolean data,leaving all runtime mechanism types/values unchanged.",
+    "currentGuard": "Historical checkpoint at3d276b324:two formal rejection reds,type step only. Subsequently corrected guards/tests and current native evidence live in save-v1-local.json;original observation raw bytes preserved.",
     "removedPseudoActions": "summon/trance/equip-battle remain rejected;no former dead action/engine/upgrader/fallback execution restored.",
     "runProvenance": "Observation scripts run directly as node --import tsx with stdout/stderr redirected;exit0 in original tool response,not a synthetic recorder metadata file. Frozen Save uses supported memory JSON path,not real historical IDB/browser replay."
   }

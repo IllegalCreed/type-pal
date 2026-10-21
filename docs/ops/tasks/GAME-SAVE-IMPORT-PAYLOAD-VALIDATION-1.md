@@ -1,6 +1,6 @@
 # GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性
 
-Status: build
+Status: done
 Phase: phase1
 Capability: save import input boundary
 Coding Owner: Codex
@@ -10,7 +10,7 @@ Branch: `codex/code-quality-3y`
 
 ## 目标
 
-按用户2026-10-21批准，先核定第一阶段V1合法内容合同，再以正式红例修复损坏内容入槽。CODE59保持partial；现金必要条件已按有限build先红后绿，其它内容仍在合同阶段，不因版本门或定向全绿接受整个文件。
+按用户批准完成第一阶段V1声明数据结构/已知历史缺失与原生容器的校验，坏内容写槽前拒绝、正常旧值保留。CODE59/60当前accept；新9文件和快存主测共10文件明确闭合，广域Save/IDB/面板不附带关闭。
 
 ## 范围
 
@@ -31,7 +31,7 @@ Branch: `codex/code-quality-3y`
 
 存档输入边界属于用户指定高风险。原最小已证问题是非法现金类型被写入；当前有限现金守卫已修，其他字段/值域的canonical范围仍须明确，不能只补这一字段便冒称完整GameState已验证。before→after候选：损坏内容被当作合法存入，变为在写入前报错并保持槽位原值；本工具正常导出的合法V1存档应保持可用。不改变格式、不迁移存量、不扩展二阶段。
 
-## 当前准入
+## 先前现金有限准入（历史，后续扩展见本卡类型裁决与当前实现）
 
 - 2026-10-21现金必要条件切片 build allowed，Codex单Owner：`dwCash`为有限number，0合法；不新增上限、整数/非负政策或任何默认值。依据为GameState声明、初始值、真实Save metadata消费者与当前V1数值序列化，不声称核完其它字段。
 - 本切片仅准入save-io现金守卫及直接正式反例；真实parse→Save内存路径须在拒绝后保留原槽位。完整内容合同、原生容器与其它字段仍review；不使用已有cast冒称完整GameState已验证。
@@ -72,3 +72,27 @@ GameState当前有96个运行时字段，并含可选Map、Uint8Array及场景/�
 
 
 2026-10-21类型兼容补核：现有V1导出读取已有slot，store-v2最早记录早于JSON writer。6b58f9e84完整构造器经当前真实V1编码可缺12个后加required根字段、5个runtime行与3个装备行；明确这些字段在SaveDataV1中可缺失，已有行仍保留原值，未改任何loader或默认逻辑。源码声明差异、构造/编码样本与当前类型擦除证明见上述合同证据storeV2ExportCompatibility。它不是剧情/IDB/UI复验，也不授完整内容校验信用。当前新结构反例已先运行：9绿/10条业务断言红，parser尚未接入新守卫；行为实现与测试另提交。
+
+
+## 当前实现与模块收尾候选
+
+[八文件A–H、实际合同/红绿/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)：获准内容校验切片为save-io及直接测试/历史fixture和core/save/v1*纯守卫，单一Owner Codex。96根字段/声明嵌套形状按编译合同全覆盖，已知store-v2缺失明确保持缺失；删除旧Partial/GameState强转，返回SaveDataV1。它验证声明数据结构/有限数值/原生容器与已知固定布局，不冒称已hydrate或验证资源存在/跨世界业务一致性，不新增cash上限/整数/负数政策、默认值、迁移或二阶段编码。
+
+10条原parser业务断言先失败，接入后45定向/相邻零stderr；另去掉嵌套finite守卫时恰1个HP业务反例红，按SHA原样恢复。原生FileReader接真实面板和Save/独立IndexedDB：坏cash/坏HP保持原slot与metadata；合法旧V1提交成功且nowMs继续缺失。起初DB为空，按marker核所有权后清理，最终DB列表为空；File为DataTransfer注入并发change事件，不是OS选文件或剧情E2E。原始AX/fixture/截图已保存。当前check/official ratchet/protected尚未运行，0新文件关闭，模块门齐后再裁定59/60。
+
+
+## 非空历史数据反证（3d276b324类型检查点历史）
+
+全仓check第一候选20379例/零诊断完成后，继续核非空旧数据得到具体反证：完整6b58f9e84构造/角色hydrate/对话或战斗工厂→原真实内存JSON fallback Save→当前V1编码。对话无后加dialogLineCount，战斗无后加4个菜单字段，部分状态是原布尔数据；两条正式not.toThrow业务断言红（原20例仍绿）。快照/完整源码与资源输入指纹及原始观察已追加上述wire合同。先修SaveDataV1声明，使其如实承载这些旧值/缺失；当前GameState/BattleStatus运行态仍为现行数值机制，数据不补值、不转换。该纯类型步擦除后仍为空export，game typecheck通过；守卫行为随后另提交。旧候选门不授修复后信用，official coverage/protected尚未跑，59/60继续partial。
+
+## 当前冻结候选（取代上述未修检查点）
+
+非空旧对话/战斗守卫现已修正，未改变运行态GameState/BattleStatus；旧数据的缺失/布尔值原样保留。固定六角色索引的根party与battle/settlement四处接线已核，-1/小数/6拒绝，合法5保留；先4业务红再绿。当前九文件A–H与52定向/相邻、game typecheck及局部Biome零诊断配对。新增历史nested fixture由完整真实旧生产者产生，逐值对冻结原件相等，不是手写schema oracle。
+
+原生入口共5场景：坏cash/HP保留原槽及metadata；旧base/dialog/battle文件提交成功，缺失字段不补、布尔状态不转换。两独立origin均初始无DB，核marker后清理为空；FileReader为原生、Save使用实际IndexedDB。仅DataTransfer注入File及change，不是OS文件选择器或剧情E2E；窗口错误/拒绝为0，浏览器console告警未单独采集。角色域新增后未重复浏览器，原场景role0与新guard不冲突、最终测试另覆盖边界。
+
+最终完整check/official ratchet/protected尚待集中运行；此前20379例check绑定旧快照，不授当前最终信用。CODE59/60仍partial、0新关闭。新九文件与快存测试的明确逐文件结论不扩展Save API、IDB、tools-panel或bootstrap整文件验收。
+
+## 最终验收（取代上述候选/待门状态）
+
+Codex单Owner完成获准整改，九文件八维及quick-save主测有效既有八维/反控成立。52定向/相邻、game typecheck、20386全仓check（含lint5733文件0/0/0）、19988 official ratchet/protected全部零诊断，stderr0；正常stdout另逐类核读。基线正常提升8项/4范围变化，无新增降低授权/配置或规则变化。5次原生FileReader/实际IDB及两测试DB清理完整留证；边界限制见同一[回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。固定83卡51accept/32partial，账本3333/339/126/2868，最终静态消费者复核后提交推送同步主线。

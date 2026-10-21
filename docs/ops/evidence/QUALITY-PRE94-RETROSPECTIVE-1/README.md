@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-21 CODE59/60接受：[九文件A–H/红绿/完整门回执](save-v1-local.json)、[完整原件](save-v1-native.json.gz)、[只读快检](verify-save-v1.mjs)、[原生现场](save-v1-native.png)、[旧V1成功](save-v1-native-result.png)、[非空历史提交](save-v1-native-nested.png)。原10红/历史2红/角色4红/finite单红保留；52相邻、20386check、19988official ratchet/protected零诊断，未降baseline。5次实际FileReader/独立IDB验证，非OS文件选择器或剧情E2E。10文件明确闭合，固定83卡现51accept/32partial；其余文件不附带接受。
+
 2026-10-21类型合同补核：V1实际导出已有slot，不能只以首个JSON writer为最老数据。store-v2基点6b58f9e84为61根字段，后加12个required根字段、5个runtime行和3个装备行；当前data类型将这些明确为可缺失，未新增运行时补值/迁移。实际旧构造器→当前V1编码与类型正文不变原件见[合同增量](save-wire-contract.json)。前置纯类型包固定于5b0831d5c，不把它的data.ts哈希当作本增量。
 
 2026-10-21已批准纯类型分离：[五文件A–H/19定向与静态结果](save-types-local.json)、[完整原件与正文不变证明](save-types-native.json.gz)。Save/IDB/工具面板接收存档数据，getGs仍为运行态；四既有模块编译正文与9c3d168一致，新模块无执行逻辑。parser完整内容守卫仍待核，未关闭CODE59。现金切片已冻结于9c3d168，不能要求其旧caller哈希匹配当前类型注释。

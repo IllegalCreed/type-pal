@@ -1,7 +1,10 @@
 // src/tools/save-io.test.ts
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { createBattleLifecycleFixture } from '../core/battle/battle-lifecycle.test-fixtures.js'
 import { createInitialGameState, type GameState } from '../core/game-state.js'
 import { Save } from '../core/save/api.js'
+import legacyV1 from './__fixtures__/save-v1-store-v2.json' with { type: 'json' }
+import legacyNested from './__fixtures__/save-v1-store-v2-nested.json' with { type: 'json' }
 import { parseImportedSave, serializeSave } from './save-io.js'
 
 function saveState(scene: number, cash = 0): GameState {
@@ -76,5 +79,179 @@ describe('save-io', () => {
     expect(overflow).not.toBe(legal)
     expect(() => parseImportedSave(overflow)).toThrow(/dwCash/)
     expect(parseImportedSave(serializeSave(saveState(9, 0))).dwCash).toBe(0)
+  })
+})
+
+describe('V1 stored-data structure', () => {
+  // Each payload starts with the real current constructor and corrupts one field/shape.
+  const original = saveState(9, 900)
+  const cases = [
+    {
+      name: 'party direction',
+      field: 'party',
+      gs: { ...original, party: { ...original.party, facing: 'sideways' } },
+    },
+    {
+      name: 'party member element',
+      field: 'partyMembers',
+      gs: { ...original, partyMembers: ['0'] },
+    },
+    {
+      name: 'inventory count',
+      field: 'inventory',
+      gs: { ...original, inventory: [{ itemId: 105, count: '3' }] },
+    },
+    {
+      name: 'runtime HP element',
+      field: 'PlayerRolesRuntime',
+      gs: {
+        ...original,
+        PlayerRolesRuntime: { ...original.PlayerRolesRuntime, rgwHP: ['150', 0, 0, 0, 0, 0] },
+      },
+    },
+    {
+      name: 'runtime role row length',
+      field: 'PlayerRolesRuntime',
+      gs: {
+        ...original,
+        PlayerRolesRuntime: {
+          ...original.PlayerRolesRuntime,
+          rgwHP: original.PlayerRolesRuntime.rgwHP.slice(0, 5),
+        },
+      },
+    },
+    {
+      name: 'OBJECT word row length',
+      field: 'rgObject',
+      gs: { ...original, rgObject: { 1: { rgwData: [0, 0, 0, 0, 0, 0] } } },
+    },
+    {
+      name: 'inherited command discriminator',
+      field: 'sceneCommands',
+      gs: { ...original, sceneCommands: [{ op: 'constructor' }] },
+    },
+    {
+      name: 'native byte object range',
+      field: 'rngDialogBackup',
+      gs: { ...original, rngDialogBackup: { 0: 0, 1: 256 } },
+    },
+    {
+      name: 'loader prototype write',
+      field: '__proto__',
+      gs: { ...original, ['__proto__']: { unowned: true } },
+    },
+  ]
+  it.each(cases)('rejects damaged $name', ({ gs, field }) => {
+    const text = JSON.stringify({ format: 'type-pal-save', version: 1, gs })
+    expect(() => parseImportedSave(text)).toThrow(new RegExp(field))
+  })
+
+  it('rejects a nonfinite nested HP value from a valid JSON numeric literal', () => {
+    const legal = serializeSave(saveState(9, 900))
+    const damaged = legal.replace('"rgwHP":[0,0,0,0,0,0]', '"rgwHP":[1e400,0,0,0,0,0]')
+    expect(damaged).not.toBe(legal)
+    expect(() => parseImportedSave(damaged)).toThrow(/PlayerRolesRuntime/)
+  })
+
+  it('preserves a frozen store-v2 snapshot exported as V1 without adding later runtime fields', async () => {
+    // Generated from the complete 6b58f9e84 constructor, then the actual V1 writer.
+    // This is a structural compatibility fixture, not a played-game or hydration oracle.
+    vi.stubGlobal('indexedDB', undefined)
+    const parsed = parseImportedSave(JSON.stringify(legacyV1))
+    expect(parsed).toEqual(legacyV1.gs)
+    expect(parsed.dwCash).toBe(55)
+    expect(Object.hasOwn(parsed, 'nowMs')).toBe(false)
+    expect(Object.hasOwn(parsed.PlayerRolesRuntime, 'rgwSpriteNum')).toBe(false)
+    await Save.saveSlot(5, parsed)
+    const loaded = await Save.loadSlot(5)
+    if (loaded === null) throw new Error('Expected imported legacy slot 5')
+    expect(JSON.parse(serializeSave(loaded)).gs).toEqual(legacyV1.gs)
+  })
+
+  it('preserves native JSON data shapes without manufacturing Map/RNG methods', () => {
+    const { gs } = createBattleLifecycleFixture({ partyMembers: [0, 1] })
+    gs.rngDialogBackup = new Uint8Array([0, 255])
+    // The renderer writes follower slots; native JSON turns the unused leader hole into null.
+    gs.followerFrozenOffset[1] = { dx: 16, dy: 8, dir: 'down' }
+    gs.sceneCommands = [{ op: 'sequence', steps: [{ op: 'raw', opcode: 0, operands: [0, 0, 0] }] }]
+    const parsed = parseImportedSave(serializeSave(gs))
+    expect(parsed.battleState?.phase).toBe('preBattle')
+    expect(parsed.battleState?.players).toHaveLength(2)
+    expect(parsed.battleState?.enemies).toHaveLength(1)
+    expect(parsed.battleState?.pendingActions).toEqual({})
+    expect(parsed.battleState?.rng).toEqual({})
+    expect(parsed.rngDialogBackup).toEqual({ 0: 0, 1: 255 })
+    expect(parsed.followerFrozenOffset).toEqual([null, { dx: 16, dy: 8, dir: 'down' }])
+    expect(parsed.sceneCommands).toEqual([
+      { op: 'sequence', steps: [{ op: 'raw', opcode: 0, operands: [0, 0, 0] }] },
+    ])
+  })
+
+  it('rejects an unknown battle phase in an otherwise actual startBattle snapshot', () => {
+    const { gs, state } = createBattleLifecycleFixture()
+    const text = JSON.stringify({
+      format: 'type-pal-save',
+      version: 1,
+      gs: { ...gs, battleState: { ...state, phase: 'unknown' } },
+    })
+    expect(() => parseImportedSave(text)).toThrow(/battleState/)
+  })
+})
+
+describe('existing nonempty store-v2 representations', () => {
+  const kinds: Array<'dialog' | 'battle'> = ['dialog', 'battle']
+  it.each(
+    kinds,
+  )('preserves the actual historical %s producer and JSON-fallback Save output', (kind) => {
+    // Frozen modules and real memory JSON fallback produced these deltas;no old engine/default is restored.
+    const text = JSON.stringify({
+      ...legacyV1,
+      gs: { ...legacyV1.gs, ...legacyNested.common, ...legacyNested[kind] },
+    })
+    expect(() => parseImportedSave(text)).not.toThrow()
+    const decoded = parseImportedSave(text)
+    if (kind === 'dialog') {
+      expect(decoded.dialogBox?.currentLineText).toBe('旧存档对话')
+      expect(Object.hasOwn(decoded.dialogBox ?? {}, 'dialogLineCount')).toBe(false)
+    } else {
+      expect(decoded.battleState?.players[0]?.status.haste).toBe(false)
+      expect(decoded.battleState?.enemies[0]?.status.slow).toBe(false)
+      expect(Object.hasOwn(decoded.battleState ?? {}, 'menuState')).toBe(false)
+    }
+    expect(decoded.PlayerRolesRuntime).toEqual(legacyNested.common.PlayerRolesRuntime)
+  })
+})
+
+describe('fixed player-role index domain', () => {
+  it.each([-1, 0.5, 6])('rejects party role %s outside the six integral role slots', (role) => {
+    const text = JSON.stringify({
+      format: 'type-pal-save',
+      version: 1,
+      gs: { ...saveState(9), partyMembers: [role] },
+    })
+    expect(() => parseImportedSave(text)).toThrow(/partyMembers/)
+  })
+
+  it('rejects a corrupt battle-local role id even when the saved party is valid', () => {
+    const { gs, state } = createBattleLifecycleFixture()
+    const text = JSON.stringify({
+      format: 'type-pal-save',
+      version: 1,
+      gs: {
+        ...gs,
+        battleState: {
+          ...state,
+          players: state.players.map((player) => ({ ...player, roleId: 6 })),
+        },
+      },
+    })
+    expect(() => parseImportedSave(text)).toThrow(/battleState/)
+  })
+
+  it('keeps the highest real role slot in an actual battle producer', () => {
+    const { gs } = createBattleLifecycleFixture({ partyMembers: [5] })
+    const decoded = parseImportedSave(serializeSave(gs))
+    expect(decoded.partyMembers).toEqual([5])
+    expect(decoded.battleState?.players[0]?.roleId).toBe(5)
   })
 })

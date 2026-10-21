@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T01:59:34.702Z",
+  "generatedAt": "2026-10-21T07:46:19.034Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 744,
-  "testCount": 19968,
+  "sourceFileCount": 749,
+  "testCount": 19988,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4545,7 +4545,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 147,
+      "sourceFileCount": 152,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4616,7 +4616,12 @@
         "packages/game/src/core/player-poison-state.ts",
         "packages/game/src/core/rng.ts",
         "packages/game/src/core/save/api.ts",
+        "packages/game/src/core/save/data.ts",
         "packages/game/src/core/save/indexed-db.ts",
+        "packages/game/src/core/save/v1-battle.ts",
+        "packages/game/src/core/save/v1-shape.ts",
+        "packages/game/src/core/save/v1-world.ts",
+        "packages/game/src/core/save/v1.ts",
         "packages/game/src/core/scene-identity.ts",
         "packages/game/src/core/scene-system-search.ts",
         "packages/game/src/core/scene-system.ts",
@@ -4695,10 +4700,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "a2c95beb98ce984ff93ea4dd79909ea765b3b18f8628b5f223d5acf13bf710a7",
+      "scopeDigest": "a200008d81a243274551d1ba4059033f458276e699d9c68dcf6f59fde964c229",
       "fastTests": {
-        "testCount": 3638,
-        "testFileCount": 321,
+        "testCount": 3658,
+        "testFileCount": 320,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4997,7 +5002,6 @@
           "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/minimap.test.ts",
           "packages/game/src/tools/quick-save.test.ts",
-          "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
           "packages/game/src/tools/save-io.test.ts",
           "packages/game/src/tools/speedrun/checkpoints.test.ts",
           "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
@@ -6505,18 +6509,13 @@
           },
           {
             "file": "packages/game/src/tools/quick-save.test.ts",
-            "testCount": 8,
-            "identityDigest": "27a112eeedf97f4349dda9243c92c59cf679d27e9c362dbccf6746b22e2629fe"
-          },
-          {
-            "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
-            "testCount": 4,
-            "identityDigest": "48f52dafd96c7a91bfd4207d1c3a95c555c2955fd9ddf874677f6871b7b459df"
+            "testCount": 9,
+            "identityDigest": "b41f78663a244cf7bf4098706c10f7b0308b6dedd1e626afba0b672eef19863f"
           },
           {
             "file": "packages/game/src/tools/save-io.test.ts",
-            "testCount": 4,
-            "identityDigest": "d87e17b5bdcf40a9db16725c35c746bdce5424f14b5b06676c9243ab49c38741"
+            "testCount": 27,
+            "identityDigest": "48195e69873a32d4d0216e2ff135ac03d97102156c85f1f024320abad974c0b5"
           },
           {
             "file": "packages/game/src/tools/speedrun/checkpoints.test.ts",
@@ -6629,26 +6628,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "7d884f74757e36c0da011e0fee449e8f854e6c8bf86ffb2ffad46f87b7238b65",
+        "identityDigest": "24be8c8e6ad468e5fe11a8d312dbfb77aecbb64c399879a586ff7baeea06fd68",
         "duplicateIdentityCount": 0,
-        "executionDigest": "251cbf43c4a555b3824c25f4d7d79a8506b05ad8badce9da9bf4bf65a2036e78"
+        "executionDigest": "211b500b9b87fa44e991bbb383c7b347500bf5eb1e18445166a922b8e3953b9d"
       },
       "metrics": {
         "statements": {
-          "covered": 14286,
-          "total": 16019
+          "covered": 14379,
+          "total": 16116
         },
         "branches": {
-          "covered": 9331,
-          "total": 11618
+          "covered": 9382,
+          "total": 11672
         },
         "functions": {
-          "covered": 1668,
-          "total": 1956
+          "covered": 1696,
+          "total": 1987
         },
         "lines": {
-          "covered": 12738,
-          "total": 14038
+          "covered": 12816,
+          "total": 14118
         }
       }
     },
@@ -10667,20 +10666,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71366,
-      "total": 79215
+      "covered": 71459,
+      "total": 79312
     },
     "branches": {
-      "covered": 51844,
-      "total": 61881
+      "covered": 51895,
+      "total": 61935
     },
     "functions": {
-      "covered": 13544,
-      "total": 15093
+      "covered": 13572,
+      "total": 15124
     },
     "lines": {
-      "covered": 63745,
-      "total": 69315
+      "covered": 63823,
+      "total": 69395
     }
   }
 }
