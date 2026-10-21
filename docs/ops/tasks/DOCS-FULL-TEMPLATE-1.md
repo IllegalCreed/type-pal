@@ -2228,3 +2228,22 @@ S22已实施：三个空载体退出当前registry与r93活动条目，原12项�
 - 本节是设计前提，非批量build或新增模板冻结。S22先以实际门结果收口当前实施范围，父卡与剩余JSON继续rework。
 - S22隔离实施提交7be2ee60e，未合main、未done。S23继续核来源：三JSON全部等于33cc固定原件；9个退役恢复锚逐字节相符。419条中398条直接匹配声明baseline，19条由6a653f97d的历史工具路径改写解释并沿原路径复算相符；原看板SHA不符、自身任务在baseline缺失两项显式未证，不刷新原字段或授当前执行信用。
 - 本轮只将具体字段职责/缺口写回既有r37三行及原目录README；保留历史记录入口，不新建逐篇账本。拟格式、兼容与pilot停止条件集中放[现有模板提案S23](../../phase-governance/templates/registry-proposal-20261011.md#2026-10-21-s23历史文档迁移与清理回执原生合同草案)，仍draft，既有17类/模板版本/路由/1838绑定均不变。完整读域是三对象字段解析、全部419条源身份核验与9恢复锚；不将遍历hash或该三份的旧structured-content状态称为新增全文语义接受。
+
+### S24 catalog断言、两项来源与原生pilot准入（2026-10-21）
+
+- 用户明确授权修复旧catalog断言并核清两项来源，再推进JSON原生合同pilot；Codex单一Owner，基点ccb48be40d517878aeb73b1a9767de0bd92cc942，复用隔离分支codex/docs-audit-rework。build allowed包括phase-lore-catalog.test.mjs这一个旧docs测试的过期断言修复；不授权产品/其它旧测试/coverage改动。
+- loader测试改以四份原生分片的独立字段/整项集合为oracle，保留184成员/阶段集合与排序检查；不回退catalog的historical分类、不固定另一套易过期状态快照。
+- 来源核验限定两项claim：原看板SHA、任务卡自引用SHA及其实际生成时点；查Git原件与生成链，确实无法恢复的旧执行来源如实unknown，不补造blob或刷新旧SHA。核清口径后先冻结S23原生格式/版本兼容设计，才做对应pilot；不批量授余下JSON信用。
+- 白名单为本测试、必要docs模板/检查器及其新定向回归、三份DOC-IA-2原生JSON和目录说明、既有registry/routing/review的精确接入与after pin、原模板提案/父卡/看板。复用现有单份压缩命令日志，不新造逐篇账本或来源副本。作者自验明确nonAuthorReviewer=false；硬门未过不合main、不标done。
+- 来源核查扩至四个原/归档路径的全部可达版本，1244个不同blob/13,045,507B均未命中两项SHA；不据此断言全仓或不可达历史无此对象，也不补造未提交来源。两claim维持unverified；两种原生格式1.0.0已按提案冻结仅供三篇pilot，默认Markdown不滚动。先验证原生保全、版本隔离、固定路径防换标、严格JSON和未知不可清零，再做canonical候选；模板接受与全文语义信用不由作者自验授予。
+- 三篇canonical候选已仅追加_governance，原生字段和值均等于固定33cc对象。新合同与真实model/progress的7项定向检查通过，包括联合换标反控（临时移除自有guard才复现假完成，恢复后拒绝）。registry/routing显式绑定三篇、移除旧artifactOnly等存储标志，r37复用原三行；needs-migration保留，未增加迁移信用。完整门与原始失败按既有单份压缩日志的实际输出记录。
+- 首轮完整工具201/202：重复追加三条source pin触发原frozen-binding-baseline测试；实现已改成直接复用1838固定绑定/Git reader，删除三条重复pin，原pin列表及该旧测试未改。失败原件保留，重跑以日志实际输出为准；不靠放宽测试接受额外状态源。
+
+| 受审实现/测试 | 八维自核要点（作者Codex，nonAuthorReviewer=false） |
+|---|---|
+| phase-lore-catalog.test.mjs | 保留成员与排序oracle；从真实分片独立对照状态和完整内容，无第二份时点快照；仅此旧docs测试获用户修改授权。 |
+| document-model.mjs | 变体format/version优先且旧合同回退不变；复用1838固定绑定/Git reader，不新增三份source pin或解析器；真实CLI回归覆盖默认Markdown和JSON。 |
+| historical-document-receipt.mjs | 固定三篇/两变体与13键治理边界；复用严格字节JSON parser；五项内容有类型要求；未知/重跑/换标不准绕过。只检查，不生成数据或授接受。 |
+| historical-document-receipt.test.mjs | 七项合同原子场景，临时共享只读Git对象与隔离文件；原生改值/改来源/空章节/坏字节/假执行/删未知/联合换标皆拒绝，含guard反控校准。未改产品测试或覆盖率。 |
+
+S24重跑：202/202文档工具通过，导航/model1268合同/testing/phase184均0issue，lint4515文件E/W/I=0，diff检查0；无SHA或其它完整性漂移。check:docs最终仍exit1，仅严格审阅2382项（1188 partial＋1194迁移待办）；1151/1838迁移、3显式退役、87增量不变。三篇是原生pilot候选，非新增接受；两项来源仍unverified，父卡rework、不合main、不标done。

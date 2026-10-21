@@ -37,8 +37,8 @@ Template: governance-index-v1 / 1.0.0
 ## 证据与下一步
 
 - 关键来源：目录原卡（源身份与逆回规则见下方程序生成的保全节，不在正文手写哈希）。
-- 未决/阻塞：relocation的原看板条目SHA与声明baseline不同；DOC-IA-2自身任务条目在该baseline不存在，已核的6次路径历史提交仍未定位声明SHA。这是已核范围内的缺口，不是“全历史无此blob”的断言。原JSON三件与33cc冻结字节相同，不刷新旧SHA。
-- 下一步：按[原生格式设计提案S23](../../../../phase-governance/templates/registry-proposal-20261011.md#2026-10-21-s23历史文档迁移与清理回执原生合同草案)处理来源/版本前提；本页只澄清留存价值和历史边界，三件needs-migration不变。
+- 未决/阻塞：relocation的原看板条目SHA与声明baseline不同；DOC-IA-2自身任务条目在该baseline不存在。四个原/归档路径全部可达历史的1244个不同blob仍未命中两项声明SHA，未提交捕获仅是可能解释；不据此断言全仓/不可达对象无此blob。两项保持unverified，不刷新旧SHA。
+- 下一步：[原生格式S23](../../../../phase-governance/templates/registry-proposal-20261011.md#2026-10-21-s23历史文档迁移与清理回执原生合同草案)已冻结三篇pilot，model/progress为当前治理消费者，不执行搬迁。三个JSON仅新增_governance五项说明与历史限制，剥离后所有原生字段和值与固定33cc对象相同；不复制来源，三件needs-migration保持，待证据验收。
 
 ## 原文保全
 

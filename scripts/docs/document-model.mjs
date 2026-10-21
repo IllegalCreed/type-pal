@@ -9,6 +9,10 @@ import {
   inspectFrozenDocumentBaseline,
   readFrozenBaselineRoot,
 } from './frozen-document-source.mjs'
+import {
+  historicalDocumentReceiptIssues,
+  historicalReceiptKind,
+} from './historical-document-receipt.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 
 function documentStatus(text, contract) {
@@ -190,11 +194,30 @@ function preservedSourceIssues(text, doc, registry, contract, read, options) {
     return [] // The body contract reports malformed JSON.
   }
   if (!value || Array.isArray(value) || typeof value !== 'object') return []
-  const pins = Array.isArray(registry.historicalSourcePins)
-    ? registry.historicalSourcePins.filter((pin) => pin.path === doc.path)
-    : []
-  if (pins.length !== 1) return ['historical source requires one approved external path pin']
-  const pin = pins[0]
+  let pin
+  let baseline
+  let source
+  if (contract.preservedSource.kind === historicalReceiptKind) {
+    // Reuse the frozen cohort identity instead of duplicating its source pins.
+    if (!readSource) return ['approved historical Git source unavailable']
+    baseline = inspectFrozenDocumentBaseline(read, readSource, options)
+    if (baseline.issues.length) return baseline.issues
+    const bindings = baseline.entries.filter((entry) => entry.path === doc.path)
+    if (bindings.length !== 1) return ['historical receipt requires one frozen cohort binding']
+    source = readSource({ path: doc.path, revision: frozenDocumentBaseline.revision })
+    pin = {
+      path: doc.path,
+      revision: frozenDocumentBaseline.revision,
+      gitObject: source?.gitObject,
+      sha256: bindings[0].sourceSha256,
+    }
+  } else {
+    const pins = Array.isArray(registry.historicalSourcePins)
+      ? registry.historicalSourcePins.filter((pin) => pin.path === doc.path)
+      : []
+    if (pins.length !== 1) return ['historical source requires one approved external path pin']
+    pin = pins[0]
+  }
   if (
     !/^[a-f\d]{40}$/.test(pin.revision ?? '') ||
     !/^[a-f\d]{40}$/.test(pin.gitObject ?? '') ||
@@ -208,7 +231,7 @@ function preservedSourceIssues(text, doc, registry, contract, read, options) {
     )
       return ['historical source pin is outside the independently frozen snapshot']
     if (!readSource) return ['approved historical Git source unavailable']
-    const baseline = inspectFrozenDocumentBaseline(read, readSource, options)
+    baseline ??= inspectFrozenDocumentBaseline(read, readSource, options)
     if (baseline.issues.length) return baseline.issues
     const bindings = baseline.entries.filter((entry) => entry.path === doc.path)
     if (bindings.length !== 1 || bindings[0].sourceSha256 !== pin.sha256)
@@ -221,7 +244,7 @@ function preservedSourceIssues(text, doc, registry, contract, read, options) {
     metadata?.sourceSha256 !== pin.sha256
   )
     return ['historical source declaration differs from approved external pin']
-  const source = readSource?.(pin)
+  source ??= readSource?.(pin)
   if (!source || typeof source.text !== 'string')
     return ['approved historical Git source unavailable']
   if (
@@ -293,6 +316,7 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   if (doc.historyOverlay && !overlay?.requiredSections?.length)
     issues.push('history overlay contract missing')
   const contract = doc.variant ? template.variants?.[doc.variant] : template
+  issues.push(...(historicalDocumentReceiptIssues(text, doc, template, contract, options) ?? []))
   if (contract) {
     issues.push(...publicationIssues(text, contract, read))
     const baselineIssues = bindingBaselineIssues(doc, template, contract, options)
@@ -301,23 +325,22 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
     )
   }
   if (!contract) issues.push(...(bindingBaselineIssues(doc, template, contract, options) ?? []))
-  if (template.format === 'json') {
+  const format = contract?.format ?? template.format
+  const version = contract?.templateVersion ?? template.templateVersion
+  if (format === 'json') {
     let metadata
     try {
       metadata = JSON.parse(text)._governance
     } catch {
       // The body check already reports malformed JSON.
     }
-    if (
-      metadata?.templateId !== template.templateId ||
-      metadata?.templateVersion !== template.templateVersion
-    )
+    if (metadata?.templateId !== template.templateId || metadata?.templateVersion !== version)
       issues.push('machine template declaration mismatch')
     return issues
   }
   const visible = withoutFences(text)
   if (!/^Last reviewed: \d{4}-\d{2}-\d{2}$/m.test(visible)) issues.push('review date missing')
-  if (!visible.includes(`Template: ${template.templateId} / ${template.templateVersion}`))
+  if (!visible.includes(`Template: ${template.templateId} / ${version}`))
     issues.push('template declaration mismatch')
   return issues
 }

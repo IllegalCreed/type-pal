@@ -12,7 +12,7 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Parsed complete 2-entry native object; checked corresponding retired rows, original task cleanup section, actual absence and fixed Git recovery bytes. No new runtime or template acceptance.",
+      "readMethod": "Parsed complete 2-entry native object; checked corresponding retired rows, original task cleanup section, actual absence and fixed Git recovery bytes. No new runtime or template acceptance. S24: actual native-format model/progress and preservation author pilot; no new full-semantic acceptance.",
       "reviewDepth": "structured-content",
       "coreConclusion": "两条attachment记录分别计划将pal0-dialog.png和pal2-dialog.png从foundation/verify-dialog移到archive/evidence/dialogue；保全回执随后将两图列入九张退役图片，当前源与计划目标均缺失符合原卡追加清理，不能据计划重新恢复截图。",
       "truthAnchors": [
@@ -21,9 +21,9 @@
         "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md:122"
       ],
       "unresolved": [
-        "Native-format variant/version/consumer pilot remains draft; source/structure checks do not grant migration completion."
+        "Native-format author pilot is not independent acceptance; needs-migration retained."
       ],
-      "nextStep": "Resolve/freeze native-format compatibility and pilot with explicit historical unknowns; keep source fields and existing needs-migration.",
+      "nextStep": "Evidence acceptance of these three native candidates; preserve unresolved historical sources and all no-execution boundaries. No bulk migration or full done.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-additional-attachments",
@@ -39,8 +39,12 @@
         }
       ],
       "sourceSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-      "afterSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "963e32f0c90cae70cd6d5d974e4be8939b2b2273f4a6c33b1e198a473471b618",
+      "publicCallers": [
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/report-governance-progress.mjs",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md"
+      ],
       "legalInputs": [
         "33cc固定原件中的purpose/directories和两条from/to/kind/sha256；只读，非当前搬迁指令。"
       ],
@@ -53,12 +57,15 @@
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": ["docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json"]
+        "result": "Three distinct native roles (intermediate attachment plan, full path/role map, final preservation/retirement receipt); original object stored once, no sidecar or payload copies.",
+        "against": [
+          "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+          "docs/ops/archive/evidence/DOC-IA-2/relocation.json"
+        ]
       },
       "revision": {
-        "currentSha": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-        "implementationSha": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+        "currentSha": "963e32f0c90cae70cd6d5d974e4be8939b2b2273f4a6c33b1e198a473471b618",
+        "implementationSha": "963e32f0c90cae70cd6d5d974e4be8939b2b2273f4a6c33b1e198a473471b618",
         "history": [
           {
             "revision": "working-tree",
@@ -71,25 +78,20 @@
             "date": "2026-10-17",
             "action": "R37 JSON artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "ccb48be40d517878aeb73b1a9767de0bd92cc942",
+            "date": "2026-10-21",
+            "action": "S24 explicit native-format pilot; old fields and prior review recover at this commit, no new acceptance."
           }
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r37-ops-json-evidence-20261017.json",
-        "sourceSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-        "candidateSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-        "afterSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-        "lineCount": 783,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 783,
-          "sourceLines": 20,
-          "sourceFinalNewline": true,
-          "inverseSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-          "exactRoundTrip": true
-        }
+        "kind": "native-receipt-pilot-author-validation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "nativeFieldsPreserved": true,
+        "byteStable": false,
+        "method": "Remove only _governance, then deep-equal fixed Git original; after SHA remains outside body."
       },
       "history": [
         {
@@ -107,19 +109,20 @@
       ],
       "supersedes": ["governed-legacy presentation; original machine fields retained"],
       "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 JSON 字段和字节保持 → 增加 artifact envelope、SHA、字段清单和 consumer 复核边界。",
-      "reviewedLines": "1-783",
+      "userVisibleBeforeAfter": "原生机器对象 → 仅追加_governance五项具体说明、固定原件身份、历史限制与未证来源；原字段和值不变。",
+      "reviewedLines": "Fixed native source lines1-20, all original fields; current governance metadata reviewed separately.",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
-      "sourceGitRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
-      "candidateSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "963e32f0c90cae70cd6d5d974e4be8939b2b2273f4a6c33b1e198a473471b618",
       "primarySource": [
         {
           "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
-          "revision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "60537dc33d3005f8c693a1d0bcefb36db681d091",
           "sha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
-          "scope": "full JSON artifact"
+          "scope": "fixed pre-envelope native object; historical business baseline is a separate claim"
         }
       ],
       "phaseAnchors": {
@@ -127,17 +130,17 @@
         "module": "archive/evidence",
         "currentBoundary": "current machine consumer and new receipt own truth"
       },
-      "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "dependencies": "Fixed1838 binding and33cc Git source; real document-model/progress consumers; existingr37 review. Historical runtime was not rerun.",
       "versionScope": {
-        "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "date": "2026-10-21",
+        "validity": "historical-native-receipt-pilot; no repeated old execution"
       },
       "counterReworkBlocked": [
         {
-          "id": "R37-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "id": "S24-NATIVE-PILOT",
+          "status": "awaiting-independent-acceptance",
+          "statement": "Author model/preservation checks passed; needs-migration stays pending and no new semantic or execution credit."
         }
       ],
       "templateCompletionCorrection": {
@@ -149,12 +152,13 @@
       },
       "currentQualification": {
         "date": "2026-10-21",
-        "task": "DOCS-FULL-TEMPLATE-1/S23",
+        "task": "DOCS-FULL-TEMPLATE-1/S24",
         "owner": "Codex",
         "nonAuthorReviewer": false,
-        "previousRecord": "7be2ee60e:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
-        "scope": "Concrete field/provenance qualification; existing structured-content status retained, no new semantic acceptance or migration credit."
-      }
+        "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+        "scope": "Three fixed-source native pilots with actual typed consumers; old semantic status reused, template acceptance still pending."
+      },
+      "templateVariant": "historical-document-relocation-v1"
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
@@ -163,7 +167,7 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Read complete native report and 9 retirement records; verified 9 fixed Git recoveries and task cleanup boundary. Did not rerun historic preservation/consumer/game-mechanics claims.",
+      "readMethod": "Read complete native report and 9 retirement records; verified 9 fixed Git recoveries and task cleanup boundary. Did not rerun historic preservation/consumer/game-mechanics claims. S24: actual native-format model/progress and preservation author pilot; no new full-semantic acceptance.",
       "reviewDepth": "structured-content",
       "coreConclusion": "原时点回执分别声明419计划、261保留/重定位、134任务、89历史、9媒体、24源码消费者及九图退役；这些是不同轴的旧计数，不能相加。九个recoveryRef现可读取且SHA全部匹配；旧failures=[]、机制保全与消费者纯路径替换声明没有在本轮重跑认证。",
       "truthAnchors": [
@@ -172,9 +176,9 @@
         "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md:120"
       ],
       "unresolved": [
-        "Native-format variant/version/consumer pilot remains draft; source/structure checks do not grant migration completion."
+        "Native-format author pilot is not independent acceptance; needs-migration retained."
       ],
-      "nextStep": "Resolve/freeze native-format compatibility and pilot with explicit historical unknowns; keep source fields and existing needs-migration.",
+      "nextStep": "Evidence acceptance of these three native candidates; preserve unresolved historical sources and all no-execution boundaries. No bulk migration or full done.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-preservation-report",
@@ -190,8 +194,12 @@
         }
       ],
       "sourceSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-      "afterSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "d56917857204519b22f0ee7bd841b0d7eb863a5e9e73b912d204aed941674ada",
+      "publicCallers": [
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/report-governance-progress.mjs",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md"
+      ],
       "legalInputs": [
         "33cc固定完整回执；原baseline、normalization、historicalProofDigest与9条recoveryRef/sha256是历史来源声明，非本轮执行输入/结果。"
       ],
@@ -204,12 +212,15 @@
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": ["docs/ops/archive/evidence/DOC-IA-2/preservation-report.json"]
+        "result": "Three distinct native roles (intermediate attachment plan, full path/role map, final preservation/retirement receipt); original object stored once, no sidecar or payload copies.",
+        "against": [
+          "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+          "docs/ops/archive/evidence/DOC-IA-2/relocation.json"
+        ]
       },
       "revision": {
-        "currentSha": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-        "implementationSha": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+        "currentSha": "d56917857204519b22f0ee7bd841b0d7eb863a5e9e73b912d204aed941674ada",
+        "implementationSha": "d56917857204519b22f0ee7bd841b0d7eb863a5e9e73b912d204aed941674ada",
         "history": [
           {
             "revision": "working-tree",
@@ -222,25 +233,20 @@
             "date": "2026-10-17",
             "action": "R37 JSON artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "ccb48be40d517878aeb73b1a9767de0bd92cc942",
+            "date": "2026-10-21",
+            "action": "S24 explicit native-format pilot; old fields and prior review recover at this commit, no new acceptance."
           }
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r37-ops-json-evidence-20261017.json",
-        "sourceSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-        "candidateSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-        "afterSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-        "lineCount": 4063,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 4063,
-          "sourceLines": 70,
-          "sourceFinalNewline": true,
-          "inverseSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-          "exactRoundTrip": true
-        }
+        "kind": "native-receipt-pilot-author-validation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "nativeFieldsPreserved": true,
+        "byteStable": false,
+        "method": "Remove only _governance, then deep-equal fixed Git original; after SHA remains outside body."
       },
       "history": [
         {
@@ -258,19 +264,20 @@
       ],
       "supersedes": ["governed-legacy presentation; original machine fields retained"],
       "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 JSON 字段和字节保持 → 增加 artifact envelope、SHA、字段清单和 consumer 复核边界。",
-      "reviewedLines": "1-4063",
+      "userVisibleBeforeAfter": "原生机器对象 → 仅追加_governance五项具体说明、固定原件身份、历史限制与未证来源；原字段和值不变。",
+      "reviewedLines": "Fixed native source lines1-70, all original fields; current governance metadata reviewed separately.",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
-      "sourceGitRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
-      "candidateSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "d56917857204519b22f0ee7bd841b0d7eb863a5e9e73b912d204aed941674ada",
       "primarySource": [
         {
           "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
-          "revision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "fa0557be05dd2a48afd44abfe93e7b27e2241782",
           "sha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
-          "scope": "full JSON artifact"
+          "scope": "fixed pre-envelope native object; historical business baseline is a separate claim"
         }
       ],
       "phaseAnchors": {
@@ -278,17 +285,17 @@
         "module": "archive/evidence",
         "currentBoundary": "current machine consumer and new receipt own truth"
       },
-      "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "dependencies": "Fixed1838 binding and33cc Git source; real document-model/progress consumers; existingr37 review. Historical runtime was not rerun.",
       "versionScope": {
-        "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "date": "2026-10-21",
+        "validity": "historical-native-receipt-pilot; no repeated old execution"
       },
       "counterReworkBlocked": [
         {
-          "id": "R37-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "id": "S24-NATIVE-PILOT",
+          "status": "awaiting-independent-acceptance",
+          "statement": "Author model/preservation checks passed; needs-migration stays pending and no new semantic or execution credit."
         }
       ],
       "templateCompletionCorrection": {
@@ -300,12 +307,13 @@
       },
       "currentQualification": {
         "date": "2026-10-21",
-        "task": "DOCS-FULL-TEMPLATE-1/S23",
+        "task": "DOCS-FULL-TEMPLATE-1/S24",
         "owner": "Codex",
         "nonAuthorReviewer": false,
-        "previousRecord": "7be2ee60e:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
-        "scope": "Concrete field/provenance qualification; existing structured-content status retained, no new semantic acceptance or migration credit."
-      }
+        "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+        "scope": "Three fixed-source native pilots with actual typed consumers; old semantic status reused, template acceptance still pending."
+      },
+      "templateVariant": "historical-document-preservation-v1"
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
@@ -314,7 +322,7 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Parsed all 419 rows and verified source identity across declared baseline and exact historical path rewrites. Reviewed field roles and exceptions; not a fresh full-semantic acceptance of all 419 historical operations.",
+      "readMethod": "Parsed all 419 rows and verified source identity across declared baseline and exact historical path rewrites. Reviewed field roles and exceptions; not a fresh full-semantic acceptance of all 419 historical operations. S24: actual native-format model/progress and preservation author pilot; no new full-semantic acceptance.",
       "reviewDepth": "structured-content",
       "coreConclusion": "419条唯一from/to及9组目录映射描述历史角色/迁移分类，8种kind不能当作搬迁动作。398条当前from直接匹配04fb基点，19条工具路径沿6a653之前路径回查匹配；另有原看板SHA不符、自身任务在baseline缺失两项未证。三件原生文件均与33cc冻结字节相同，不表示旧419条来源全部认证。",
       "truthAnchors": [
@@ -323,10 +331,10 @@
         "docs/ops/archive/evidence/DOC-IA-2/README.md:15"
       ],
       "unresolved": [
-        "Native-format variant/version/consumer pilot remains draft; source/structure checks do not grant migration completion.",
-        "Original board declared SHA does not match 04fb baseline; self task absent at baseline and not found in examined 6 path-history commits. No whole-history absence claim."
+        "Native-format author pilot is not independent acceptance; needs-migration retained.",
+        "Rows1/58 remain unverified: no matching SHA among1244reachable blobs at four original/archive paths. No whole-repository/unreachable absence claim; no invented working-tree source."
       ],
-      "nextStep": "Resolve/freeze native-format compatibility and pilot with explicit historical unknowns; keep source fields and existing needs-migration.",
+      "nextStep": "Evidence acceptance of these three native candidates; preserve unresolved historical sources and all no-execution boundaries. No bulk migration or full done.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-relocation",
@@ -342,8 +350,12 @@
         }
       ],
       "sourceSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-      "afterSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "66d48b666250907c4dc244459a2ce8953802445b2f9354361a11a27cb31c6660",
+      "publicCallers": [
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/report-governance-progress.mjs",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md"
+      ],
       "legalInputs": [
         "33cc固定419条历史映射及其baseline/purpose/directories；原from/to例外按2871f721b和6a653f97d精确历史差异回查，不按目录规则执行替换。"
       ],
@@ -356,12 +368,15 @@
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": ["docs/ops/archive/evidence/DOC-IA-2/relocation.json"]
+        "result": "Three distinct native roles (intermediate attachment plan, full path/role map, final preservation/retirement receipt); original object stored once, no sidecar or payload copies.",
+        "against": [
+          "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+          "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json"
+        ]
       },
       "revision": {
-        "currentSha": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-        "implementationSha": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+        "currentSha": "66d48b666250907c4dc244459a2ce8953802445b2f9354361a11a27cb31c6660",
+        "implementationSha": "66d48b666250907c4dc244459a2ce8953802445b2f9354361a11a27cb31c6660",
         "history": [
           {
             "revision": "working-tree",
@@ -374,25 +389,20 @@
             "date": "2026-10-17",
             "action": "R37 JSON artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "ccb48be40d517878aeb73b1a9767de0bd92cc942",
+            "date": "2026-10-21",
+            "action": "S24 explicit native-format pilot; old fields and prior review recover at this commit, no new acceptance."
           }
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r37-ops-json-evidence-20261017.json",
-        "sourceSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-        "candidateSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-        "afterSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-        "lineCount": 108662,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 108662,
-          "sourceLines": 2531,
-          "sourceFinalNewline": true,
-          "inverseSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-          "exactRoundTrip": true
-        }
+        "kind": "native-receipt-pilot-author-validation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "nativeFieldsPreserved": true,
+        "byteStable": false,
+        "method": "Remove only _governance, then deep-equal fixed Git original; after SHA remains outside body."
       },
       "history": [
         {
@@ -410,19 +420,20 @@
       ],
       "supersedes": ["governed-legacy presentation; original machine fields retained"],
       "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 JSON 字段和字节保持 → 增加 artifact envelope、SHA、字段清单和 consumer 复核边界。",
-      "reviewedLines": "1-108662",
+      "userVisibleBeforeAfter": "原生机器对象 → 仅追加_governance五项具体说明、固定原件身份、历史限制与未证来源；原字段和值不变。",
+      "reviewedLines": "Root field roles and all419 row identities; not a line-by-line semantic reapproval of419 historical operations.",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
-      "sourceGitRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
-      "candidateSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "66d48b666250907c4dc244459a2ce8953802445b2f9354361a11a27cb31c6660",
       "primarySource": [
         {
           "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
-          "revision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "651aa67cd13ab71b3fede6f037ab1c71873420cb",
           "sha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
-          "scope": "full JSON artifact"
+          "scope": "fixed pre-envelope native object; historical business baseline is a separate claim"
         }
       ],
       "phaseAnchors": {
@@ -430,17 +441,22 @@
         "module": "archive/evidence",
         "currentBoundary": "current machine consumer and new receipt own truth"
       },
-      "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "dependencies": "Fixed1838 binding and33cc Git source; real document-model/progress consumers; existingr37 review. Historical runtime was not rerun.",
       "versionScope": {
-        "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "date": "2026-10-21",
+        "validity": "historical-native-receipt-pilot; no repeated old execution"
       },
       "counterReworkBlocked": [
         {
-          "id": "R37-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "id": "S24-NATIVE-PILOT",
+          "status": "awaiting-independent-acceptance",
+          "statement": "Author model/preservation checks passed; needs-migration stays pending and no new semantic or execution credit."
+        },
+        {
+          "id": "S24-SOURCE-1-58",
+          "status": "unverified",
+          "statement": "Two historical before-images remain unauthenticated; do not certify419/419 or invent an uncommitted source."
         }
       ],
       "templateCompletionCorrection": {
@@ -452,12 +468,13 @@
       },
       "currentQualification": {
         "date": "2026-10-21",
-        "task": "DOCS-FULL-TEMPLATE-1/S23",
+        "task": "DOCS-FULL-TEMPLATE-1/S24",
         "owner": "Codex",
         "nonAuthorReviewer": false,
-        "previousRecord": "7be2ee60e:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
-        "scope": "Concrete field/provenance qualification; existing structured-content status retained, no new semantic acceptance or migration credit."
-      }
+        "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+        "scope": "Three fixed-source native pilots with actual typed consumers; old semantic status reused, template acceptance still pending."
+      },
+      "templateVariant": "historical-document-relocation-v1"
     }
   ],
   "independentReadOnlyReceipt": {
@@ -502,6 +519,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S23",
       "action": "Qualify exactly three existing DOC-IA-2 rows with concrete field/provenance evidence and unresolved source boundaries; no original/native/status/template/version changes or new acceptance. Previous rows recover from 7be2ee60e.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Exactly3native pilot rows; record old source/fields and pending independent acceptance. No new ledger, status grant, product or execution credit.",
       "nonAuthorReviewer": false
     }
   ]

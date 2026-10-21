@@ -78,7 +78,22 @@ test('real phase/lore catalog merges 184 entries with a deterministic path order
   const catalog = loadPhaseLoreCatalog()
   assert.equal(catalog.entries.length, 184)
   assert.deepEqual(catalog.summary.byPhase, { lore: 14, phase1: 60, phase2: 105, phase3: 5 })
-  assert.deepEqual(catalog.summary.byStatus, { current: 54, draft: 53, archived: 77 })
+  // Native shards are the status oracle; a second dated distribution goes stale
+  // when approved document governance changes historical classifications.
+  const nativeEntries = phases.flatMap(
+    (phase) =>
+      JSON.parse(
+        readFileSync(new URL(`../../docs/phase-governance/catalog.${phase}.json`, import.meta.url)),
+      ).entries,
+  )
+  const nativeStatuses = {}
+  for (const item of nativeEntries)
+    nativeStatuses[item.status] = (nativeStatuses[item.status] ?? 0) + 1
+  assert.deepEqual(catalog.summary.byStatus, nativeStatuses)
+  assert.deepEqual(
+    catalog.entries,
+    nativeEntries.sort((a, b) => a.path.localeCompare(b.path, 'en')),
+  )
   assert.deepEqual(
     catalog.entries.map((item) => item.path),
     [...catalog.entries]

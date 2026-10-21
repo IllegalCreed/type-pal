@@ -2480,7 +2480,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "a6da159bbda8f2e1d9a447bef32ec29ff4810a167014d19ec3393e723c8e4f0a",
+      "afterSha256": "9fa688edf7c329668fca89131d56d66fa454efd7118131b9e0ec04e459640b59",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -8927,6 +8927,12 @@
         "docs/phase-governance/reviews/20261021-s20-accepted-01.json"
       ],
       "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
+      "nonAuthorReviewer": false
     }
   ]
 }

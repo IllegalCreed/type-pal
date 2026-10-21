@@ -316,7 +316,7 @@
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "b5650b150fad2ae8b303d1c1ca95a50a4021f03b",
       "sourceState": "present",
-      "afterSha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+      "afterSha256": "e5d684837f20718adf6079a2f4d8af69bb49c714140fab0771b5d53e3b6f2812",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -2990,7 +2990,7 @@
       "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
       "sourceGitObject": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c:docs/ops/guides/documentation-model.md",
       "sourceState": "absent-new-document-empty-byte-source",
-      "afterSha256": "5f54d84c17605e55f742bc263aa69a9b00e3a21dbd355301f4adb374ef941862",
+      "afterSha256": "6b1ef312967698e870f742dd7b7ff1c8f1287b0956ad46937fd72924a1e61409",
       "publicCallers": [
         "AGENTS.md operation routing",
         "docs/README.md",
@@ -3088,6 +3088,12 @@
       "sourceRevision": "19371962230ea46bc97fbd7723cf0192310be4bc",
       "changedTargets": ["docs/ops/guides/documentation-model.md"],
       "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
+      "nonAuthorReviewer": false
     }
   ]
 }

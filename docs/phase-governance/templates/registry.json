@@ -112,7 +112,84 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "historical-document-relocation-v1": {
+          "format": "json",
+          "templateVersion": "1.0.0",
+          "requiredGovernanceFields": [
+            "templateId",
+            "templateVersion",
+            "variant",
+            "lifecycle",
+            "lastReviewed",
+            "owner",
+            "sourceGitRevision",
+            "sourceGitObject",
+            "sourceSha256",
+            "reviewRecord",
+            "currentAudit",
+            "stopLine",
+            "nextStep"
+          ],
+          "requiredValues": {
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false,
+            "_governance.currentAudit.historicClaimsReexecuted": false
+          },
+          "preservedSource": {
+            "kind": "historical-document-receipt-v1",
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          },
+          "purpose": "Historical from/to role and source map; not an executable current migration.",
+          "requiredFields": ["purpose", "directories", "entries", "_governance"]
+        },
+        "historical-document-preservation-v1": {
+          "format": "json",
+          "templateVersion": "1.0.0",
+          "requiredGovernanceFields": [
+            "templateId",
+            "templateVersion",
+            "variant",
+            "lifecycle",
+            "lastReviewed",
+            "owner",
+            "sourceGitRevision",
+            "sourceGitObject",
+            "sourceSha256",
+            "reviewRecord",
+            "currentAudit",
+            "stopLine",
+            "nextStep"
+          ],
+          "requiredValues": {
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false,
+            "_governance.currentAudit.historicClaimsReexecuted": false
+          },
+          "preservedSource": {
+            "kind": "historical-document-receipt-v1",
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          },
+          "purpose": "Historical preservation/retirement claims with explicitly separate current source audit.",
+          "requiredFields": [
+            "baseline",
+            "plannedFiles",
+            "completedTaskReceipt",
+            "retainedRelocated",
+            "archivedTasksWithPreservedBodyAndSignatures",
+            "otherHistoricalSnapshotsWithPreservedBody",
+            "retainedMediaByteIdentical",
+            "sourceConsumersOnlyPathSubstitution",
+            "gameMechanicsBodyAndFormulasPreserved",
+            "historicalProofDigest",
+            "normalization",
+            "retiredArtifacts",
+            "failures",
+            "_governance"
+          ]
+        }
+      }
     },
     {
       "docType": "design-spec",

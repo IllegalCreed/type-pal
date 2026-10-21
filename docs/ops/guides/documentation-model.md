@@ -72,6 +72,8 @@ Template: guide-runbook-v1 / 1.0.0
 
 JSON 保持机器字段和公开 consumer 读取路径；不能把原对象统一移到 `payload` 下就宣布兼容。envelope 优先作为不覆盖业务字段的元数据；原对象不能扩展时使用配对 sidecar，并验证真正 consumer。HTML 保留交互/脚本/资源引用，在可见说明与元数据层记录治理范围，不能转为 Markdown 摘要。
 
+同一文档类型有多种格式时，按已选变体的format及自有templateVersion校验；未声明自有值的旧变体继承父合同。新增原生格式不要求无关Markdown滚动版本，也不能通过换标绕过固定来源和历史限制。原生pilot结构符合与内容接受分别入账，作者通过不自动增加已迁移数。
+
 每个附件记录路径/SHA、产生者、Owner、caller、关联任务/报告、时间/版本范围、保留原因和退出条件。无法确认的归属标 pending，不根据文件名猜测。immutable raw 不因当前判定变化而改写，新判断另存并链接旧记录。
 
 治理记录自身不自嵌自己的内容 hash；通过 Git blob/提交和独立回执定位。正文的 after SHA 放在 review record 中，review/control JSON 的机器字段适用其自身 schema，不能造成无限递归的“给 review 再造 review”。

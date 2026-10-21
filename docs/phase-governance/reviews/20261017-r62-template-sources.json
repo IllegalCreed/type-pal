@@ -512,7 +512,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
-      "afterSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+      "afterSha256": "9f5a395c74ae3dd8d449475cdb9172757daa47db1e2971b7a20e604dc7e3bb77",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1472,7 +1472,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "49e92a2284c729632ed2fd86c47e27d68eb5e56a4c79d4eaac98ceea52543cd4",
+      "afterSha256": "c36d7462078ca5fac52350a5ecbacfb5daa7b5343df0b2a91e4ed45e1e10cc24",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1632,7 +1632,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-      "afterSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+      "afterSha256": "b07238a5d81e599b5926c009b461b605e81f41b214946ddbf4a25bb2bb8cf146",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3666,6 +3666,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S23",
       "action": "Only specific current source-qualification documentation and transitive after pins; original native files, statuses and migration credit unchanged.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
       "nonAuthorReviewer": false
     }
   ]

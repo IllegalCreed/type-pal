@@ -305,7 +305,7 @@ I14在根`8aa698c4038bc6553a1a524ca83508cb16e06a32`已获独立接收并稳定�
 
 ## 2026-10-21 S23：历史文档迁移与清理回执原生合同草案
 
-状态：draft，未冻结、未授批量build或新增迁移信用。Owner Codex；范围仅[DOC-IA-2三件JSON](../../ops/archive/evidence/DOC-IA-2/README.md)。它们属于历史证据回执，不能为了套用执行字段改称测试执行，也不新增第18类模板。三个原生对象均与33cc冻结原件字节相同；来源保全与旧执行结论认证分开。
+状态：2026-10-21经用户续办授权与Owner核定，frozen-for-pilot，仅准[DOC-IA-2三件JSON](../../ops/archive/evidence/DOC-IA-2/README.md)与必要消费者实施；不授批量build或新增迁移信用。Owner Codex。它们属于历史证据回执，不能为了套用执行字段改称测试执行，也不新增第18类模板。三个迁移前原生对象均与33cc冻结原件字节相同；来源保全与旧执行结论认证分开。
 
 | 拟格式 | 原生字段职责 | 状态、证据与边界 |
 |---|---|---|
@@ -318,6 +318,12 @@ I14在根`8aa698c4038bc6553a1a524ca83508cb16e06a32`已获独立接收并稳定�
 
 当前实际使用者是DOC-IA-2历史卡与目录导航，代码检索未发现读取这三件JSON并执行搬迁的活跃producer/consumer；这项检索不等于全仓无消费者证明。原JSON是已提交的历史执行输入/回执，治理检查器不能补造当时的生成程序或执行命令。原`relocation.baseline`表示旧业务来源，33cc固定原件表示本轮保全根，二者不可混用。
 
-冻结前须完成：明确多格式选择按变体format而非父模板format；拟变体使用不可变标识及独立合同版本，不借新增JSON格式强迫已有Markdown正文改版本。现有17类、默认合同与其它变体不得滚动获新信用。版本策略未实现并通过反例前，本草案不进入registry，三JSON保持needs-migration。
+冻结口径：多格式选择按变体format，变体templateVersion独立于父模板默认版本；无自有版本的旧变体仍继承父版本，旧合同零改动。两个新不可变标识为historical-document-relocation-v1、historical-document-preservation-v1，自有版本均1.0.0；evidence-receipt默认Markdown及其1.0.0不滚动。新增requiredFields/requiredValues、固定源保全与下述精确治理字段共同约束，不以artifactOnly绕过。
+
+新增_governance仅含templateId/templateVersion/variant/lifecycle/lastReviewed/owner/sourceGitRevision/sourceGitObject/sourceSha256/reviewRecord/currentAudit/stopLine/nextStep。lifecycle固定historical，reviewRecord复用r37；currentAudit含identity/sourceAndInputs/oracle/result/limits五项具体内容，runtimeExecutionPerformed与historicClaimsReexecuted均固定false，unverifiedClaims显式指向未证条目。三个原生对象不复制；after只留既有review。
+
+来源身份直接复用已冻结1838绑定的sourceSha256与固定33cc路径，Git对象由真实reader取得；不再追加三条historicalSourcePins，既有pin列表原样。首轮实施曾重复追加三pin，完整回归被旧固定源合同拦截；已删除重复项并改为单一来源，没有修改该旧测试或降低校验。
+
+两项来源现已查遍四个原/归档路径在所有可达分支中的1244种blob（13,045,507B），声明SHA均未命中。仅能确定不是已核基点原件、缺少可认证before-image；“未提交时点捕获”仍是可能解释，不当作事实。禁止声称全仓/不可达对象中不存在。合同把relocation第1/58项固定为unverified，另外两件无这两项，不能删除未知或写成419/419已证。此限制阻止重授旧来源信用，不阻止对已固定33cc载体做无损pilot；全量硬验收与迁移接受仍独立，三篇先保持needs-migration。
 
 pilot要求与停止线：先各做一个固定源原生正控，移除唯一新增治理元数据后所有原生字段和值与固定Git原件深等；真实model/progress入口须拒绝改原字段、换source、挪payload、换标为默认合同、伪造本轮执行、把旧失败抹零。按已核历史原文解释419/2/9各自职责，source归属不明的两项显式unknown；来源缺口不能被schema绿清除。受影响迁移不得借旧artifactOnly跳过正文合同或增加完成数，未通过pilot不得批量迁移余下JSON。

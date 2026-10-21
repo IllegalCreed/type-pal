@@ -297,9 +297,8 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "templateVariant": "historical-document-relocation-v1",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
@@ -310,9 +309,8 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "templateVariant": "historical-document-preservation-v1",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
@@ -334,9 +332,8 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "templateVariant": "historical-document-relocation-v1",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/evidence/ED-3/README.md",

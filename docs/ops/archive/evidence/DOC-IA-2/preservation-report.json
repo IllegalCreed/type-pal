@@ -66,5 +66,32 @@
       "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
     }
   ],
-  "failures": []
+  "failures": [],
+  "_governance": {
+    "templateId": "evidence-receipt-v1",
+    "templateVersion": "1.0.0",
+    "variant": "historical-document-preservation-v1",
+    "lifecycle": "historical",
+    "lastReviewed": "2026-10-21",
+    "owner": "Codex",
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "fa0557be05dd2a48afd44abfe93e7b27e2241782",
+    "sourceSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+    "reviewRecord": "20261017-r37-ops-json-evidence.json",
+    "currentAudit": {
+      "identity": "DOC-IA-2历史保全与九图退役回执",
+      "sourceAndInputs": "33cc固定回执中的baseline/计数/normalization/摘要SHA/退役恢复引用；原failures和布尔值仅作当时声明。",
+      "oracle": [
+        "9个recoveryRef逐字节SHA相符，九个originalPath当前不存在。",
+        "419/261/134/89/9/24是分轴计数；不相加、不刷新原日期/历史摘要。"
+      ],
+      "result": "9/9退役图片可恢复；两张中间计划对话图已在最终退役清单中。旧failures=[]不是本轮命令结果。",
+      "limits": "本轮未复跑原134任务/89历史保全、24消费者纯路径替换、机制公式保全或原CI。",
+      "runtimeExecutionPerformed": false,
+      "historicClaimsReexecuted": false,
+      "unverifiedClaims": []
+    },
+    "stopLine": "原生字段/固定源/未知项变化即停止；不以结构通过重授旧执行信用。",
+    "nextStep": "本原生候选待证据验收；needs-migration保持，未通过全部硬门不合main、不标done。"
+  }
 }

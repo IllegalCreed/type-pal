@@ -1108,7 +1108,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "812bb9c6aebb0df5d589de50f6ff1d6bfe4fbb92a47b026a2c3029633d356ff0",
+      "afterSha256": "7bf9738beda8b8f0c3b6f692c164a88ab814cf56beb911531fa7ab88a1c78fdb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2681,7 +2681,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "cc72adff5ed92e916382e7eb49de7327e5f7b91b72aaa7fd8c504d30bd0c0a83",
+      "afterSha256": "f493332e2c0c38f6a5ea2eb85fdeae9f02edf3a6130284adc6c9b711f48f2b1d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9536,7 +9536,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9d15c483279af11186a6b8534830cb973427a571ed2fb74d035d56527fe57a23",
-      "afterSha256": "197339cba185516b23b2e3d10bf0683330f92cc4ab1c6b11cc80b956661e3837",
+      "afterSha256": "27142a838c585def9b0a9322a9baa4d963aa0c6debba2c51b0bacb0eb748e3ed",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9717,7 +9717,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e3d1b2e68818af890ab53e7e7f7937282c333f57b98a09a6b81d7cfdcc314e67",
-      "afterSha256": "8c2e4d0ec133c4b13cc6599d205fbc5664407c8b34a7a1db39cc77ebe8a2a111",
+      "afterSha256": "ee9cd8193c934078f3c11202b99b5a088172816a99de7f43fb35d792119d3396",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13998,7 +13998,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "5f31634a9248a1da9277367163322d05bb30cf4f66226dcbdbd7bec124550d3f",
+      "afterSha256": "28936bf4e56d917472161a3718a1941230d49f6d64b7cfea3ddeff72b0d41c7d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16034,6 +16034,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S23",
       "action": "Only specific current source-qualification documentation and transitive after pins; original native files, statuses and migration credit unchanged.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
       "nonAuthorReviewer": false
     }
   ]

@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0ace648dbd1ccec4aa17da6be4cfaec362caf8f333edd781d69086d814fc5c42",
+      "afterSha256": "c5b0182a705f4f5885e099ff43b218259e7c073f30e29403fc7c970ffc1ed509",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -2454,6 +2454,12 @@
       "sourceRevision": "19371962230ea46bc97fbd7723cf0192310be4bc",
       "changedTargets": ["docs/ops/board.md"],
       "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
+      "nonAuthorReviewer": false
     }
   ]
 }

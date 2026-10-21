@@ -45,6 +45,8 @@ Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、eviden
 
 机器父版本1.5增加三种固定历史集成格式：historical-continuation-integration-v1（15原生键）、historical-intake-completion-v1（10键）、historical-command-integration-v1（22键）。三份批准33cc源、全部键和值与治理 historical/本轮 false 分轴；旧 default 与三个变体保持。15份既有机器文档只对齐治理版本，0新增迁移。三份固定源格式已分别通过真实 consumer/来源反例和 canonical 单篇非作者独立 pilot；三配对历史 MD 已在固定候选 `79dce016` 获逐篇非作者内容接收；根中央记录、路由及矩阵接入须另依当前 [J 分批 review](../reviews/20261016-architecture-integration-history.json) 与实际受审快照核验。其它未读 JSON 仍须逐篇治理，不能由登记格式外推。版本与边界见设计提案 C1/C2/I/J。
 
+2026-10-21 evidence-receipt新增两个原生JSON pilot变体：historical-document-relocation-v1、historical-document-preservation-v1，各自1.0.0；默认Markdown合同/版本不滚动，17类总数不变。三件DOC-IA-2使用固定33cc原件，原字段不搬payload；治理五项内容、历史轴/未重跑声明与两项unverified来源由严格JSON及model/progress共同检查。变体format/version优先，无自有声明的旧变体仍继承默认。此处只冻结三篇pilot合同，canonical候选仍needs-migration，作者自验不授新接受；见[设计S23](registry-proposal-20261011.md#2026-10-21-s23历史文档迁移与清理回执原生合同草案)。
+
 catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项治理合同与原消费者责任；generatedBy值/null不加新门。
 新增 frozen-document-binding-baseline-v1 仅固定33cc捕获索引八键，专用JSON root/view验证原1838项和19键治理声明，
 不要求自身membership、不刷新原15类summary/unread/候选绑定、不发执行信用。默认catalog与示例只滚治理版本，0新增迁移；

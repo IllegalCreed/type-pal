@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "c667e4bebd470df9a6ebc1dc3cf0609bfdb14df3c33fbdb51250463de197f5fa",
+      "afterSha256": "85788035e1cbecc64024465395ff799cfaa978a0b6dd39a2f157f775556de4b1",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "ab06953fe58e0863df87f7e1ffc9c083e2b8ec231b6c15e2167e97b33c2570a2",
+      "afterSha256": "ce44bbdd770f51abfb76d9495393f00fde712523575a1da6d8331ee4566b6970",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6525,7 +6525,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "2108cf8c58459ecd43e040b818c77d96a45c98a05b9dae4e2bdcdcb0a5c28541",
+      "afterSha256": "e1b738b9dcd83e4438c2c5e6c64e65f7b80a77a83b2478035d9f3fe63f01295d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6916,7 +6916,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "0977a5ab10088f5e31a7a5fe50c9167564479a871bfb0d523dd17121553959dd",
+      "afterSha256": "1fe055e90e9a85c2ba136509bff9ae7cb01647270b68bd85bcef2ce46ebeffb9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -7160,6 +7160,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S23",
       "action": "Only specific current source-qualification documentation and transitive after pins; original native files, statuses and migration credit unchanged.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
       "nonAuthorReviewer": false
     }
   ]
