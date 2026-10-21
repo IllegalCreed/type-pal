@@ -1167,3 +1167,5 @@ CODE73四文件、CODE74三文件A–H接受，47→49accept、36→34partial、
 当前独立裁定accept，11文件逐项A–H/依赖与有效旧native适用性成立，6个review关闭，5个既有关闭不重复计数。RNG后来新增的8字节连续delta为完整MARK面例的弱子集，精简17→16且同一变异失败集4→3恰少退休身份；精确表只加数据/固定总数，谓词不改。YJ2独立literal向量由原SDL树函数编码、未改Cdecoder验证，禁用归约恰1个业务字节AssertionError；恢复shared114/114。解码算法/公开接口/格式/输入政策与原盘均未改变，相关坏注释已修。
 
 全仓check20386、ratchet/protected各19988、typecheck/lint/文档全部零诊断；protected在新baseline后单独官方实跑，不把旧baseline保护误记为新候选验证。完整原件、默认只读快检及O-5支持域限制见[shared唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/README.md)。固定83卡53accept/30partial，账本3334/345closed/122review/2867pending；RLE/其它广域或类型文件不附带关闭。提交、推送及主线同步另据Git refs记交接。
+
+2026-10-21 shared发布交接：`d8995b8d65ee5a1bb64dc4a135405673a6ce5928`先推送3y。main的Git HTTPS反复LibreSSL失败、连接器无写权限，随后用本机既有gh凭据以force=false快进main，API返回目标SHA；合并后实际fetch已成功，三refs同源、0ahead/0behind，原件检查integration-check。无TLS放宽、强推或新分支；主工作树仍干净/92e901806、落后远端8提交且未改。此后仅文档交接，53accept/30partial保持；下一窗口从固定pre94余项按实际Owner/有效证据选择提取器窄模块，RLE格式/O-5支持域限制继续保留，94–102不扩展。
