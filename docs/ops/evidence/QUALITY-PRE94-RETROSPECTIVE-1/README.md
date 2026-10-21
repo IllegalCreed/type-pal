@@ -1,5 +1,36 @@
 # 94前全部治理成果复审
 
+2026-10-21存档模块中间片：[四文件A–H/合同与迁移](save-tools-local.json)、[完整原件](save-tools-native.json.gz)。CODE59保留已证非法内容问题，96字段声明/具体读档处理清单不冒充合法schema；CODE60主测与相邻18例、typecheck、scoped Biome零诊断。成功提示提前的反控为旧8/8绿、新2条业务AssertionError红，生产正文已恢复。当前0新accept/0新关闭，统一门/coverage/protected留完整模块收尾。
+
+本片快检只读，不执行包内producer/反控或重新跑测试；在仓库根执行下面代码核冻结输入、原件字节与原生测试集合。它证明指定中间片证据匹配，不认证96字段已合法或统一门通过。
+
+```sh
+node --input-type=module <<'JS'
+import fs from 'node:fs'
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { gunzipSync } from 'node:zlib'
+const hash = x => createHash('sha256').update(x).digest('hex')
+const r = JSON.parse(fs.readFileSync('docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json'))
+for (const p of [...r.files, ...r.pins]) assert.equal(hash(fs.readFileSync(p.path)), p.sha256, `STALE ${p.path}`)
+assert.equal(fs.existsSync(r.tests.removedFile), false)
+const bytes = fs.readFileSync(r.artifact.path)
+assert.equal(hash(bytes), r.artifact.sha256)
+const { members } = JSON.parse(gunzipSync(bytes))
+for (const m of r.artifact.members) {
+  assert.equal(Buffer.byteLength(members[m.name]), m.bytes)
+  assert.equal(hash(members[m.name]), m.sha256, m.name)
+}
+for (const run of r.tests.runs.filter(x => x.passed !== undefined)) {
+  const n = JSON.parse(members[`${run.id}.native.json`])
+  assert.equal(n.numPassedTests, run.passed)
+  assert.equal(n.numFailedTests, run.failed)
+  assert.equal(n.numPendingTests, 0)
+}
+console.log('MATCH: bounded save-tools progress; no integration or full content-validation credit')
+JS
+```
+
 2026-10-21 renderer窗口：[逐文件A–H与合同迁移](renderer-local.json)、[完整原件](renderer-native.json.gz)、[集中门](renderer-gates.json)、[精确结构重算](renderer-recount.json)、[只读快检](verify-renderer.mjs)。当前51/52/54/55原范围已接收，15明确文件及3个既有源的共享依赖delta，18文件170定向/相邻及game typecheck通过；31accept/52partial。两共享叶只抽同合同opaque/颜色，先保留旧绿/新红与纯提取证明；当前集中门另列，覆盖率仅在此模块收尾运行。
 
 2026-10-21追加门诊断勘误：[当前门与历史原件复算](present-speedrun-gates.json)。原菜单check/ratchet/protected原件各有两条stdout的0x008E未实现诊断，旧扫描漏计；下文历史“零运行诊断”门信用撤回，原raw/数值不改。九卡逐文件代码结论独立保留，统一门待当前窗口重新建立。trigger已在外层处理该指令，却误入generic fallback；两指定红例与358相邻绿证明当前窄修，未静音console、放宽规则或改变画面机制。

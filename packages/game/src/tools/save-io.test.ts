@@ -29,6 +29,12 @@ describe('save-io', () => {
     const bad = JSON.stringify({ format: 'type-pal-save', version: 1, gs: { wNumScene: 1 } })
     expect(() => parseImportedSave(bad)).toThrow(/字段/)
   })
+  it('parseImportedSave:partyMembers 合法但 wNumScene 缺失或为文本 → 拒绝', () => {
+    for (const gs of [{ partyMembers: [0] }, { partyMembers: [0], wNumScene: '5' }]) {
+      const text = JSON.stringify({ format: 'type-pal-save', version: 1, gs })
+      expect(() => parseImportedSave(text)).toThrow(/存档缺必要字段/)
+    }
+  })
   it('parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API', () => {
     const raw = JSON.parse(serializeSave(saveState(1)))
     raw.version = 2

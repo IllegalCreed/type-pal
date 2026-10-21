@@ -1,0 +1,1202 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "sourceBase": "92e901806926c0fb08b9787877eed9ed45147d8d",
+  "status": "bounded intermediate work; no new pre94 accept, complete save validation or unified-gate claim",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex",
+  "scope": "CODE59 contract progression and CODE60 test quality; 94-102 not expanded",
+  "authority": "Existing pre94 full eight-dimension/dedup authority; user2026-10-21 approved save-content contract-first then red/fix. No broad save behavior change implemented.",
+  "files": [
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "status": "Existing CODE102 file acceptance retained for unchanged source; CODE60 current card acceptance still pending module integration",
+      "dimensions": {
+        "A": "Complete implementation read. bootstrap supplies real Save.saveSlot and loadGameFromSlot. F5 gates explore/no active dialog/empty menu; F9 delegates complete load, both prevent default. IO awaits resolve/reject before matching feedback; disposer removes exact handler. getGs is a synchronous bootstrap getter, no external IO there.",
+        "B": "Header describes world-only F5 and complete bootstrap load. F5 mention is not exclusive: implementation also intercepts F9. No SDLPal claim for project convenience keys.",
+        "C": "Single browser key adapter; Save owns cloning/transactions and bootstrap owns actual state restore. Full GameState is needed for saving; predicate reads only3 fields and writes none. Intentional window/showToast DOM dependency, contrary to prior overbroad claim that every port was injected.",
+        "D": "Existing toast shared by tools. Save/load have distinct result contracts, so no mode-boolean or universal IO helper extraction.",
+        "E": "Nine canonical driver/predicate cases below; real public KeyboardEvent and rendered toast output. Save pending/rejected counter proves new timing and no-false-success oracles. No claim of a full game/battle scenario from predicate fixtures.",
+        "F": "Short named doQuickSave/doQuickLoad separate guard and distinct result feedback. No nested combined workflow or unnecessary abbreviations.",
+        "G": "All exports/deps have bootstrap or direct test caller. Retain existing no-window no-op as the explicit nonbrowser safety branch; not exercised by current jsdom tests and not counted as new test credit. No added fallback, lock or lifecycle abstraction.",
+        "H": "Browser edges are testable through jsdom and injected real-operation promises; deferred promises control IO independent of time. No need to inject a new window/context API for one stable browser entry."
+      },
+      "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "status": "Current test code reviewed, integration pending; no new closed-file credit",
+      "dimensions": {
+        "A": "Full file read before and after. Actual setup/canQuickSave/DOM toast invoked; typed initial GS supplies storage payload. Guard fixtures test the accepted predicate data, not an active battle-engine scenario. Async pending states settled in finally, listener/DOM/fake timers removed after each.",
+        "B": "Removed obsolete process-history header, retaining why cancelable events and synchronous Promise executor assignment are necessary.",
+        "C": "Separate IO timing, failure, empty-slot, unrelated-key and detach responsibilities; actual toast UI is observed, not a mocked toast counter. getGs/save/load are the intended IO ports.",
+        "D": "Reused existing canonical driver cases; displaced MSIO contracts explicitly map here. One deferred helper serves void-save and boolean-load with the same ownership/lifecycle, not unrelated business modes.",
+        "E": "9 cases: guard; pending-save success; blocked F5; save failure without success; pending-load success; empty-load error without success; failed-load error without success; F6 no action/default cancellation; detach. Exact slot/message/type + independent unresolved promise oracle. Premature-save mutation old8/8 green -> new2 AssertionError failures; implementation restored.",
+        "F": "Named commit/load promises reveal when operations may complete. Exact DOM class/message makes visible outcome readable without callback-count-only claims.",
+        "G": "Removed repeated F9 exercise from F5 success and retired MSIO duplicates; net quick case8->9 adds only the independent F6 contract. Reject callback omitted from helper because unused.",
+        "H": "Fake timers only advance microtasks/zero elapsed time; no sleeps/waitFor polling. Cleanup isolates listener, rendered toasts and their removal timers."
+      },
+      "sha256": "40d768ddf911de1ebca4a172ef2448e2a5e777e009cf630e5c11c62b019501a1"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "status": "review: known unvalidated content defect and full wire/type contract unresolved, no product build or closure",
+      "dimensions": {
+        "A": "Current parser checks format, version and2 necessary fields only. The previously reproduced string-cash write remains unfixed.96-field runtime declaration is not a wire validator; field and nested/value domain progress is archived, not acceptance.",
+        "B": "Corrected savedAt ownership: file value is ignored for restoration and Save metadata supplies Date.now; no caller overwrites envelope.",
+        "C": "Pure envelope module, DOM/file IO in tools-panel, persistence transaction in Save. Existing as GameState return crosses an unproved validation boundary; must resolve honestly in approved content work.",
+        "D": "One actual phase1 format owner. Do not import phase2 codec, revive old upgrader, or merge JSON and IndexedDB contracts.",
+        "E": "Five parser tests after moving D1 preserve version/header/basic necessary-field rejection only. They do not establish complete GameState legality.",
+        "F": "Simple parse sequence is readable, but the return type currently overstates validated content.",
+        "G": "Both exports have real tools and E2E callers; no dead export identified in this bounded review. Only docblock changed, byte-equivalent emitted JS.",
+        "H": "Pure string boundary supports formal invalid-content red tests; no need to alter user storage or UI to establish scalar/nested contracts."
+      },
+      "sha256": "3d207a5c32cee30f8da91392ba403b2e28b40d8a7d3bb6a1cb69f8e887573f5a"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "status": "review: current5 cases pass; content-contract/red/fix still missing",
+      "dimensions": {
+        "A": "Full file read. Success fixtures use actual initial GS. Damaged inputs are confined to explicit rejection cases; no as-never manufactured success fixture.",
+        "B": "D1 title states absent/text scene input; no promise that all content is validated.",
+        "C": "Parser contracts owned here instead of mixed quick-save test file.",
+        "D": "Transferred D1 intact by input/expected-error contract; other necessary-party/version tests have distinct guards.",
+        "E": "5 current cases; D1 covers missing and wrong-type arms, unchanged full-caller contract not substituted with implementation-derived oracle. No full wire-validation claim.",
+        "F": "Input and literal business-error expectation are adjacent, no generic case machinery beyond the two same-field variants.",
+        "G": "No new test file or helper for one moved guard case; removed mixed test owner entirely.",
+        "H": "No DOM/IO/time for pure parser. Real-save-before-write and actual FileReader guard tests remain future approved build work, not claimed here."
+      },
+      "sha256": "4f68395ab1e35644abda044045567c90ce74acd1cdb8f8b1593f67524308cb13"
+    }
+  ],
+  "productPreservation": [
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "beforeSha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0",
+      "afterSha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0",
+      "emittedSha256": "778fe348dc183dd9fbb86da631e49723679c8119616d6f637dd128672ff15c1e",
+      "result": "equal emitted JS; no product behavior change"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "beforeSha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3",
+      "afterSha256": "3d207a5c32cee30f8da91392ba403b2e28b40d8a7d3bb6a1cb69f8e887573f5a",
+      "emittedSha256": "3350cd2be0aba1ac8d66340e6762e03695751e4f0718c6a377a36becd73f6fa4",
+      "result": "equal emitted JS; no product behavior change"
+    }
+  ],
+  "contractProgress": {
+    "member": "save-v1-contract-progress.json",
+    "fields": 96,
+    "meaning": "declaration inventory plus specifically checked load facts; neither complete legal schema nor a validator",
+    "next": "Finish nested/value and ordinary-saved-slot wire domains, then formal red and finite product build under existing user approval"
+  },
+  "tests": {
+    "old": 20,
+    "current": 18,
+    "removedFile": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+    "removedFileDisposition": "contract transfer/dedup, no closed-file credit",
+    "mapping": [
+      {
+        "old": {
+          "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-D1 parseImportedSave:partyMembers 合法但 wNumScene 缺失/非数 → 拒(缺必要字段)",
+          "title": "MSIO-D1 parseImportedSave:partyMembers 合法但 wNumScene 缺失/非数 → 拒(缺必要字段)",
+          "status": "passed"
+        },
+        "new": [
+          {
+            "file": "packages/game/src/tools/save-io.test.ts",
+            "fullName": "save-io parseImportedSave:partyMembers 合法但 wNumScene 缺失或为文本 → 拒绝",
+            "title": "parseImportedSave:partyMembers 合法但 wNumScene 缺失或为文本 → 拒绝",
+            "status": "passed"
+          }
+        ],
+        "disposition": "moved required scene-field rejection to the parser test owner"
+      },
+      {
+        "old": {
+          "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E1 F5/F9 keydown 被 preventDefault 拦浏览器刷新,非目标键(F6)放行",
+          "title": "MSIO-E1 F5/F9 keydown 被 preventDefault 拦浏览器刷新,非目标键(F6)放行",
+          "status": "passed"
+        },
+        "new": [
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1",
+            "title": "F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1",
+            "status": "passed"
+          },
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F9 拦截浏览器默认行为，读档完成后才显示成功",
+            "title": "F9 拦截浏览器默认行为，读档完成后才显示成功",
+            "status": "passed"
+          },
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F6 放行浏览器默认行为，不触发存读档或提示",
+            "title": "F6 放行浏览器默认行为，不触发存读档或提示",
+            "status": "passed"
+          }
+        ],
+        "disposition": "removed duplicate driver contract, retained and strengthened canonical quick-save oracle"
+      },
+      {
+        "old": {
+          "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E2 F5 存档失败(saveSlot 拒绝)→ 错误 toast 带原因,不外抛未捕获异常",
+          "title": "MSIO-E2 F5 存档失败(saveSlot 拒绝)→ 错误 toast 带原因,不外抛未捕获异常",
+          "status": "passed"
+        },
+        "new": [
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F5 saveSlot reject → 存档失败 toast 带原因",
+            "title": "F5 saveSlot reject → 存档失败 toast 带原因",
+            "status": "passed"
+          }
+        ],
+        "disposition": "removed duplicate driver contract, retained and strengthened canonical quick-save oracle"
+      },
+      {
+        "old": {
+          "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E3 F9 读档:空槽 → 错误 toast「存档位 1 为空」;成功 → 成功 toast「已从存档位 1 读取」",
+          "title": "MSIO-E3 F9 读档:空槽 → 错误 toast「存档位 1 为空」;成功 → 成功 toast「已从存档位 1 读取」",
+          "status": "passed"
+        },
+        "new": [
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F9 拦截浏览器默认行为，读档完成后才显示成功",
+            "title": "F9 拦截浏览器默认行为，读档完成后才显示成功",
+            "status": "passed"
+          },
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F9 空槽(false) → \"为空\"错误 toast",
+            "title": "F9 空槽(false) → \"为空\"错误 toast",
+            "status": "passed"
+          }
+        ],
+        "disposition": "removed duplicate driver contract, retained and strengthened canonical quick-save oracle"
+      }
+    ],
+    "currentIdentities": [
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+        "title": "canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1",
+        "title": "F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save F5 不可存态(战斗) → 不调 saveSlot + 错误 toast",
+        "title": "F5 不可存态(战斗) → 不调 saveSlot + 错误 toast",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save F5 saveSlot reject → 存档失败 toast 带原因",
+        "title": "F5 saveSlot reject → 存档失败 toast 带原因",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save F9 拦截浏览器默认行为，读档完成后才显示成功",
+        "title": "F9 拦截浏览器默认行为，读档完成后才显示成功",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save F9 空槽(false) → \"为空\"错误 toast",
+        "title": "F9 空槽(false) → \"为空\"错误 toast",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save F9 loadSlotIntoGame reject → \"读档失败\"错误 toast 带原因",
+        "title": "F9 loadSlotIntoGame reject → \"读档失败\"错误 toast 带原因",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save F6 放行浏览器默认行为，不触发存读档或提示",
+        "title": "F6 放行浏览器默认行为，不触发存读档或提示",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/quick-save.test.ts",
+        "fullName": "quick-save 解绑后 F5/F9 不再触发 save/load(解绑 oracle)",
+        "title": "解绑后 F5/F9 不再触发 save/load(解绑 oracle)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io serializeSave:gs → 带版本头的 JSON 字符串",
+        "title": "serializeSave:gs → 带版本头的 JSON 字符串",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+        "title": "parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:缺必要字段(partyMembers)→ 抛",
+        "title": "parseImportedSave:缺必要字段(partyMembers)→ 抛",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:partyMembers 合法但 wNumScene 缺失或为文本 → 拒绝",
+        "title": "parseImportedSave:partyMembers 合法但 wNumScene 缺失或为文本 → 拒绝",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API",
+        "title": "parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/toast.test.ts",
+        "fullName": "toast 挂出含消息的 toast",
+        "title": "挂出含消息的 toast",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/toast.test.ts",
+        "fullName": "toast success / error 不同类型 class",
+        "title": "success / error 不同类型 class",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/toast.test.ts",
+        "fullName": "toast duration 后淡出并移除(容器也清掉)",
+        "title": "duration 后淡出并移除(容器也清掉)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/toast.test.ts",
+        "fullName": "toast 未到 duration 不得移除，负控证明计时器不是一挂就清",
+        "title": "未到 duration 不得移除，负控证明计时器不是一挂就清",
+        "status": "passed"
+      }
+    ],
+    "runs": [
+      {
+        "id": "baseline-save-test",
+        "exit": 0,
+        "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "args": [
+          "run",
+          "src/tools/save-io.test.ts",
+          "src/tools/quick-save.test.ts",
+          "src/tools/save-import-quicksave.glm-msio.test.ts",
+          "src/tools/toast.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-contract-20261021-fgepljs_/baseline-save-test.native.json"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+        "signal": null,
+        "spawnError": null,
+        "passed": 20,
+        "failed": 0,
+        "pending": 0,
+        "failures": []
+      },
+      {
+        "id": "save-quality-green",
+        "exit": 0,
+        "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "args": [
+          "run",
+          "src/tools/save-io.test.ts",
+          "src/tools/quick-save.test.ts",
+          "src/tools/toast.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-contract-20261021-fgepljs_/save-quality-green.native.json"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+        "signal": null,
+        "spawnError": null,
+        "passed": 18,
+        "failed": 0,
+        "pending": 0,
+        "failures": []
+      },
+      {
+        "id": "premature-save-old",
+        "exit": 0,
+        "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "args": [
+          "run",
+          "src/tools/quick-save.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-contract-20261021-fgepljs_/premature-save-old.native.json"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+        "signal": null,
+        "spawnError": null,
+        "passed": 8,
+        "failed": 0,
+        "pending": 0,
+        "failures": []
+      },
+      {
+        "id": "premature-save-new",
+        "exit": 1,
+        "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "args": [
+          "run",
+          "src/tools/quick-save.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-contract-20261021-fgepljs_/premature-save-new.native.json"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+        "signal": null,
+        "spawnError": null,
+        "passed": 7,
+        "failed": 2,
+        "pending": 0,
+        "failures": [
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1"
+          },
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "fullName": "quick-save F5 saveSlot reject → 存档失败 toast 带原因"
+          }
+        ]
+      },
+      {
+        "id": "save-quality-typecheck",
+        "exit": 0,
+        "command": "pnpm",
+        "args": ["--filter", "@type-pal/game", "typecheck"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      },
+      {
+        "id": "save-quality-biome",
+        "exit": 0,
+        "command": "pnpm",
+        "args": [
+          "exec",
+          "biome",
+          "check",
+          "packages/game/src/tools/quick-save.test.ts",
+          "packages/game/src/tools/save-io.test.ts"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      },
+      {
+        "id": "save-progress-docs",
+        "exit": 1,
+        "command": "node",
+        "args": [
+          "-e",
+          "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      },
+      {
+        "id": "save-progress-lint",
+        "exit": 1,
+        "command": "pnpm",
+        "args": ["lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      },
+      {
+        "id": "save-progress-ledger",
+        "exit": 0,
+        "command": "node",
+        "args": ["scripts/quality/code-quality-ledger.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      },
+      {
+        "id": "save-progress-diff",
+        "exit": 0,
+        "command": "git",
+        "args": ["diff", "--check", "HEAD"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      },
+      {
+        "id": "save-progress-docs-final",
+        "exit": 0,
+        "command": "node",
+        "args": [
+          "-e",
+          "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      },
+      {
+        "id": "save-progress-lint-final",
+        "exit": 0,
+        "command": "pnpm",
+        "args": ["lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "signal": null,
+        "spawnError": null
+      }
+    ],
+    "counter": {
+      "mutation": "move save-success toast before awaited saveSlot; IO promise and rejection propagation otherwise unchanged",
+      "old": "8/8 pass",
+      "new": "7 pass / 2 AssertionError failures",
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1",
+          "failureMessages": [
+            "AssertionError: expected '✓ 已存到存档位 1' to be '' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/quick-save.test.ts:102:27\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F5 saveSlot reject → 存档失败 toast 带原因",
+          "failureMessages": [
+            "AssertionError: expected <div …(2)></div> to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/quick-save.test.ts:128:57\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "notAProductFix": true
+    }
+  },
+  "complexity": {
+    "method": "TypeScriptAST decisions+1, nested function bodies excluded, logical/nullish decisions included; reading hint only",
+    "threshold": 10,
+    "flagged": [],
+    "functions": [
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "line": 18,
+        "symbol": "canQuickSave",
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "line": 23,
+        "symbol": "setupQuickSave",
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "line": 24,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "line": 25,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "line": 35,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "line": 38,
+        "symbol": "doQuickSave",
+        "decisionsPlusOne": 4
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "line": 52,
+        "symbol": "doQuickLoad",
+        "decisionsPlusOne": 5
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 9,
+        "symbol": "exploreGs",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 13,
+        "symbol": "mkDeps",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 15,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 16,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 17,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 23,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 26,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 36,
+        "symbol": "press",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 43,
+        "symbol": "deferred",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 46,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 52,
+        "symbol": "toastText",
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 56,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 57,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 93,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 95,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 97,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 110,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 111,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 112,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 118,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 121,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 131,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 133,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 147,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 148,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 154,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 157,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 167,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 168,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 169,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 180,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 181,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.test.ts",
+        "line": 182,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "line": 7,
+        "symbol": "serializeSave",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "line": 12,
+        "symbol": "parseImportedSave",
+        "decisionsPlusOne": 7
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 6,
+        "symbol": "saveState",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 13,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 14,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 21,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 24,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 25,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 26,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 28,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 30,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 32,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 35,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 38,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "line": 41,
+        "symbol": "<callback>",
+        "decisionsPlusOne": 1
+      }
+    ]
+  },
+  "pins": [
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa"
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "sha256": "1869a14855339f6d97921c499ad0e8e56d2c7bb5052989f15b74561acc685945"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "67f008abc2d6013744ce84049556cf987c1c76aff605bc912377f166445c9c8a"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "a3fed8fc2206af344a9eef7836bfa9ac3e3dd5f9187e92e2cb84d760518dccb5"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "7b3b23839864c9405e91692b42be697c2baa47f11536ea823acde33e722687a2"
+    }
+  ],
+  "readScope": [
+    "Full current quick-save implementation, old/new primary test, old MSIO file, save-io implementation and old/new test, toast implementation/test, Save API",
+    "bootstrap loadGameFromSlot and loadSceneCommon saved-game branch; key/tools injection and tools-panel stored-slot export/FileReader import",
+    "GameState interface/constructor/normalizePlayerRolesRuntime and selected nested declarations; machine96-field inventory is not full nested semantic reading",
+    "menu-driver Save branch and existing battle repeat-action Map revive consumer; GLM40-60 A/E evidence reused only within these unchanged contracts"
+  ],
+  "deferredGates": [
+    "full pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "final module static/docs/ledger recapture; interim whole lint/docs/ledger, including first failures, are preserved in runs"
+  ],
+  "integration": {
+    "acceptedCards": 0,
+    "newClosedFiles": 0,
+    "pre94": "49accept/34partial/0pending unchanged",
+    "state": "Source/test snapshot by fixed file pins over base92e901806; execution was in the working tree, not a gated/pushed module. Product runtime unchanged. Local Git checkpoint may follow; publish/main facts must be read from refs. Heavy gates deferred while save-content module contract remains open."
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-native.json.gz",
+    "bytes": 28317,
+    "sha256": "14325c189c4b985b3bcf425111363e613330c9436a7d7867e4c1b512df3cd130",
+    "members": [
+      {
+        "name": "save-slice.json",
+        "bytes": 1267,
+        "sha256": "20adf6a20d084dc2447fc20024983d70fe13c15b42173cafb938cdef7890bd7e"
+      },
+      {
+        "name": "save-v1-contract-progress.json",
+        "bytes": 46760,
+        "sha256": "9ea2d71d9f9dda809133a28625a6a3c970abbea6dad831927ee9905a5db87711"
+      },
+      {
+        "name": "save-metrics.json",
+        "bytes": 8312,
+        "sha256": "918526374e2b946dbccaf206b510a8321d76b98b61a32b41d5971828a0a900c6"
+      },
+      {
+        "name": "premature-save.patch",
+        "bytes": 946,
+        "sha256": "6aa62a93c35698424e9c205cde18eaeef8e29e2046f4bfbc58339c86b17fb5f8"
+      },
+      {
+        "name": "premature-save-counter.json",
+        "bytes": 1509,
+        "sha256": "822186e24e129e21060aaa3732e60c07f9a8ed8e94cdc35620de719c08f2c1e7"
+      },
+      {
+        "name": "counter-restoration.json",
+        "bytes": 223,
+        "sha256": "925e4024440dd809b7ba24eea33e4f3f17e44aa6cd8a8ee8f4295f7250719db1"
+      },
+      {
+        "name": "quick-counter.mjs",
+        "bytes": 2774,
+        "sha256": "b7c9f9d6006050ef17740bc4da448fbf986cd964145f92d2805a0a5497c6bd21"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 6672,
+        "sha256": "e162d798e61e173074c024779d07c2894e1df87d14d4cb4e61a4a0ef69f4d50a"
+      },
+      {
+        "name": "build-contract-progress.cjs",
+        "bytes": 6789,
+        "sha256": "16b68f073f0bec999310f5077b3e20ba03bf3b89569d8496a02d902dbc54ded2"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      {
+        "name": "update-save-reviews.cjs",
+        "bytes": 5466,
+        "sha256": "3d31e2af36ab9ca6644397aab178c2cfa1b3ec9feb0db922596ba5f1823f6a06"
+      },
+      {
+        "name": "metadata-save-progress.json",
+        "bytes": 1240,
+        "sha256": "d5bf5dd8bd0b6ddce9a83d8f49f0a43f21881b8dab1d6caa7bffc3e969c6dcd9"
+      },
+      {
+        "name": "pack-save-local.cjs",
+        "bytes": 13465,
+        "sha256": "dbd030589def35905d9c4f548200bedc85b6dd2aef577c3dab53ad2b4bb09fb3"
+      },
+      {
+        "name": "baseline-save-test.execution.json",
+        "bytes": 1555,
+        "sha256": "345c6464d25dab6a57d82105a662ea34389e3968ddf42bc1fac30651697dbcc0"
+      },
+      {
+        "name": "baseline-save-test.stdout.raw",
+        "bytes": 630,
+        "sha256": "b832c710e9ef92adf3974b6dc5284e536504bf6dc9136b89940743e6a77fe9de"
+      },
+      {
+        "name": "baseline-save-test.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "baseline-save-test.native.json",
+        "bytes": 7431,
+        "sha256": "35b6ab426389019d522b69a7f84b2740885ee9f22958344c360701a148e2bb9a"
+      },
+      {
+        "name": "baseline-save-test.diagnostics.json",
+        "bytes": 583,
+        "sha256": "a1cbb3e0cf3a1d2bc22835aacea0e77b5400bbc818f6f73c07e5732ae37d1bb6"
+      },
+      {
+        "name": "save-quality-green.execution.json",
+        "bytes": 2079,
+        "sha256": "f48d670d527281afe1db5ea674b4a8814a2e40605a6ab804bd1d466a908ae037"
+      },
+      {
+        "name": "save-quality-green.stdout.raw",
+        "bytes": 559,
+        "sha256": "b8058179e4ea9787d2e8091c2ca35d9c3ec370a4aa1c5e9b0af33689a39e23ef"
+      },
+      {
+        "name": "save-quality-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-quality-green.native.json",
+        "bytes": 6023,
+        "sha256": "cdbae6d45f57a6f1ab269a2cae0b424bd7c304cb51acbfbc8ae102a704900435"
+      },
+      {
+        "name": "save-quality-green.diagnostics.json",
+        "bytes": 583,
+        "sha256": "5736098d9fcec9d5b80b4c994d9bf1ecc05e88ac3922a5902a2f85550f7b8cf6"
+      },
+      {
+        "name": "premature-save-old.execution.json",
+        "bytes": 2005,
+        "sha256": "86ccc34064d52aa2f317448810a3dce03351d7184fa3dcd76fffdf12ad659cfb"
+      },
+      {
+        "name": "premature-save-old.stdout.raw",
+        "bytes": 465,
+        "sha256": "b73c86262bd8a77a3c61e535061059a05b2e3c6e33588780fcd78c37bcfa4fa8"
+      },
+      {
+        "name": "premature-save-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "premature-save-old.native.json",
+        "bytes": 2904,
+        "sha256": "cc67a6ff5ada5e3bc4bdb3e52c78ba5cd9684dca946f2f8a6b6098a3b107387b"
+      },
+      {
+        "name": "premature-save-old.diagnostics.json",
+        "bytes": 581,
+        "sha256": "8aa43723c953e277e9b14e8102407f63716eb126179335179cb04626b83b86a1"
+      },
+      {
+        "name": "premature-save-new.execution.json",
+        "bytes": 2212,
+        "sha256": "51904684e5bc10a9a6bb48f676daa4bff3e38bde237313c1ef620529627038dd"
+      },
+      {
+        "name": "premature-save-new.stdout.raw",
+        "bytes": 1154,
+        "sha256": "40952aab0e92610cd58044b30c3892f82a3cf0c573bd8deaf3b19fc7b66e1887"
+      },
+      {
+        "name": "premature-save-new.stderr.raw",
+        "bytes": 1812,
+        "sha256": "a52cf82ea17bc9ed1d5c3778a0c95c0bf2c8a825511b614cf6e5fc5799e6b14b"
+      },
+      {
+        "name": "premature-save-new.native.json",
+        "bytes": 3954,
+        "sha256": "945b6b8da4d939c1680dec3fbf5724ddb44bb385dc851abe388c124371809f8e"
+      },
+      {
+        "name": "save-quality-typecheck.execution.json",
+        "bytes": 1741,
+        "sha256": "ddbfe7a128bbc84b105c8a7cc2b4c754471c1b8be5867b5f7281f0f6f7144e9b"
+      },
+      {
+        "name": "save-quality-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "save-quality-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-quality-typecheck.diagnostics.json",
+        "bytes": 576,
+        "sha256": "ab62bdf00a0809c74e6d9aa453b694a22aa2a28980e88d336ed4e97d87ca18ee"
+      },
+      {
+        "name": "save-quality-biome.execution.json",
+        "bytes": 1811,
+        "sha256": "4cc397b03e34caa78e7bfaae7560573c19f8bd151e68e4bac0ca7de53a488c00"
+      },
+      {
+        "name": "save-quality-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "314970aeb227788368203172a97ee50112e0aa0b198d526afc142b6cce507f93"
+      },
+      {
+        "name": "save-quality-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-quality-biome.diagnostics.json",
+        "bytes": 572,
+        "sha256": "a4b62fb56b9f3480704026dc098b2a17722f15186b18a8965044da7a42198b5b"
+      },
+      {
+        "name": "save-progress-docs.execution.json",
+        "bytes": 2813,
+        "sha256": "e4d9569bea14e563eae3b49d16c0847c7134051b59a870515f604133f3343ead"
+      },
+      {
+        "name": "save-progress-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "7cd544fcb9c689adf08454a57fa675104fa139f6d575d5e70081b09b02a68ce6"
+      },
+      {
+        "name": "save-progress-docs.stderr.raw",
+        "bytes": 882,
+        "sha256": "592da0d2535223ee067f8486d7716b36b005a64ec34c3fa221a349614e6e7dcb"
+      },
+      {
+        "name": "save-progress-lint.execution.json",
+        "bytes": 2476,
+        "sha256": "c3ed1efbe0236ab4440b6687bee095cd7e048d4486278172d5588fdb72f880d4"
+      },
+      {
+        "name": "save-progress-lint.stdout.raw",
+        "bytes": 167,
+        "sha256": "67abbd7779934ba2192a5352a46a8591ebaaa412e7460de07adcaaa3f87b5165"
+      },
+      {
+        "name": "save-progress-lint.stderr.raw",
+        "bytes": 324,
+        "sha256": "6becba4644dd6a5f483cff6a30a8e801f679c647f5b9db756913bcf2a4a2e98f"
+      },
+      {
+        "name": "save-progress-ledger.execution.json",
+        "bytes": 2517,
+        "sha256": "1c3ee586870e01706dff9b7f198e17f8f0da0c5287a0e7861acbc391fd7ad1a8"
+      },
+      {
+        "name": "save-progress-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "d84c512acef8f822dfea2df3981f979b5fd78baf443d4382fd14d0bd146996d4"
+      },
+      {
+        "name": "save-progress-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-progress-ledger.diagnostics.json",
+        "bytes": 574,
+        "sha256": "8e2d787313eadebcd074f994c63d70cdb935fdceffe0ef56565fb7be2a82c4e9"
+      },
+      {
+        "name": "save-progress-diff.execution.json",
+        "bytes": 2498,
+        "sha256": "503e74a1aca9e9dc8a6368b7aa403285bac2ea4673c321850b582864a1a11d4d"
+      },
+      {
+        "name": "save-progress-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-progress-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-progress-diff.diagnostics.json",
+        "bytes": 572,
+        "sha256": "131b91244515b2e641189ed8ae835b1e32660a34b123b8fe2986787ce084c4e4"
+      },
+      {
+        "name": "save-progress-docs-final.execution.json",
+        "bytes": 3122,
+        "sha256": "d6ec83604b0046b28ffd3cfb1f5d59859023e2a9039438cf31c6eb5f1af3d857"
+      },
+      {
+        "name": "save-progress-docs-final.stdout.raw",
+        "bytes": 311,
+        "sha256": "bffcc4d84ee72a886a7ced227ea618d884a5e3951789782d759d7f084d1c7200"
+      },
+      {
+        "name": "save-progress-docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-progress-docs-final.diagnostics.json",
+        "bytes": 578,
+        "sha256": "4d9d495bed506448662ffa7912ad3e10426877daab246856bdd8526ebbeaa90c"
+      },
+      {
+        "name": "save-progress-lint-final.execution.json",
+        "bytes": 2785,
+        "sha256": "1ce843c3a794a7dc2bfba78a1e9bf8a657f8f18f924dcda7634514a8d1ca4f6f"
+      },
+      {
+        "name": "save-progress-lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "1f73e590fa7c9527e808c90413e8b523a332c9f9e9a36d582b6b41cf3ae111d6"
+      },
+      {
+        "name": "save-progress-lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "save-progress-lint-final.diagnostics.json",
+        "bytes": 578,
+        "sha256": "7705b1bd14eb2dc03ca1b1f55c7a2d2d8f8f00d676b6b648b1117bad50826ade"
+      }
+    ]
+  }
+}

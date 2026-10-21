@@ -65,7 +65,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 全部pre94逐卡验收与必要返工 | 49卡按原合同正式接收、34partial继续补缺口；本轮73/74方向修复/旧OGG退役七文件收口，59继续先核V1合同；复用有效证据，模块收尾集中昂贵门，94–102不扩展 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 全部pre94逐卡验收与必要返工 | 49accept/34partial；73/74已发布；59继续V1合同，60精简/时序反控18例与静态零诊断，中间片不新增关闭；完整存档模块收尾集中昂贵门，94–102不扩展 |
 | GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 | [第一阶段导入内容合法性](tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) | draft | Codex / 用户已批准，先核合法合同 | 隔离内存Save接受非法现金类型；先合同再正式红例修复，59保持partial，尚无产品/用户槽位改动 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |

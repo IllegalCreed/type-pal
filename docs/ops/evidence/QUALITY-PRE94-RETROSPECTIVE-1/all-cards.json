@@ -2382,11 +2382,11 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Version1 boundary is not complete GameState validation; malformed cash persisted in isolated memory Save. User approved contract-first review then formal red/fix. Runtime96-field vs JSON wire mapping pending;implementation unchanged and card stays partial.",
+      "findings": "Contract still pending: archived96-field declaration and actual load reset/rebuild facts; normal producer/export chain checked. Scalar/nested/wire legal domain and formal red/fix not complete; illegal cash defect remains. Docblock savedAt ownership corrected only; no product build or full content-validation credit.",
       "currentReviewer": "Codex",
       "currentReviewDate": "2026-10-21",
       "currentReviewSha256": "7a60de0438114be9648f5ea0f5e3a3f60622884222dadeeadf538ad7236cb0c9",
-      "currentReviewEvidence": "docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md"
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json"
     },
     {
       "id": "60",
@@ -2424,9 +2424,13 @@
           "text": "- 2026-10-13 Codex：F5/F9 准入、preventDefault、解绑函数、Save/loader 异常 toast 与 bootstrap caller 均核验；save wave 全门通过。账本收口为 `3266 / 292 closed / 8 review / 2966 pending`。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "findings": "Current two-file A-H supplemented; canonical test contracts consolidated,20->18 including parser/toast adjacent. Premature success mutation old8 pass,new2 business AssertionError failures;source restored.18 directed/adjacent,game tsc,scoped Biome clean. Module gates deferred,no new acceptance.",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json",
+      "currentReviewSha256": "ed0dc4d9e93803b9ccee6de873209d230124b83f7a55db8624e8a1baf6dfdd36",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewer": "Codex"
     },
     {
       "id": "61",

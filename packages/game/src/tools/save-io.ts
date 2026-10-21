@@ -8,7 +8,7 @@ export function serializeSave(gs: GameState): string {
   return JSON.stringify({ format: FORMAT, version: VERSION, savedAt: 0, gs })
 }
 
-/** 解析导入文件文本 → GameState;格式/字段不合法抛错(带中文原因)。savedAt 由 caller 用导入时刻覆盖。 */
+/** 解析 V1 envelope；写槽时间由 Save API 生成，文件的 savedAt 不参与恢复。 */
 export function parseImportedSave(text: string): GameState {
   let obj: { format?: string; version?: number; gs?: unknown }
   try {

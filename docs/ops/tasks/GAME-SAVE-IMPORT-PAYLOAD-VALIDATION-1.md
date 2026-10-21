@@ -43,6 +43,10 @@ Branch: `codex/code-quality-3y`
 
 ## 合同核读进度
 
+2026-10-21增量：[存档工具中间回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)及其完整原件包保存96字段声明清单与逐项已核读档处理。该清单是定位后续核读的机器事实，不是96项语义验证。实际导出caller读取已有槽位；普通菜单保存与F5是槽位生产入口。已固定显式复位、场景重建、runtime现有归一和未核嵌套域，下一步据此核内容，不重新遍历已成立的caller证据。
+
+仍待闭合：嵌套持久字段的值域/行列长度、哪些暂态/原生容器可到达正常存档、以及在保持当前V1和Save接口下如何诚实表达wire校验。不能从字段名猜现金上限，也不能把Map复活消费者已有行为再报成新缺陷。文件时间归属的注释已改正，产品执行正文未变；已证非法现金写入尚未修复，合同阶段继续，不授完整GameState或产品build信用。
+
 GameState当前有96个运行时字段，并含可选Map、Uint8Array及场景/演出暂态。JSON导出形态与完整运行时类型不完全相同，不能拿初始对象作递归样板，也不能只检查cash后再强转整份GameState。下一步逐项区分需要持久恢复、由loadGameFromSlot/loadScene重建、以及可选暂态的实际读写域；据真实V1导出与当前读档消费者核合同，不擅自新增版本、旧档升级或默认值补洞。当前尚未完成这张映射，不授产品build/完整字段验收。已读loadGameFromSlot完整替换/归一流程和loadSceneCommon读档分支，96字段暂按原样保留与显式重建归类；该分类只是合同规划，尚未核完所有嵌套内容/值域。prevBattleActions的JSON对象已有生产reviveNumberKeyedMap消费者，不能重复报告已处理的Map塌缩错误，也不新增fallback。
 
 ## 交接日志
