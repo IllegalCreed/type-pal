@@ -1023,7 +1023,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+      "coreConclusion": "Current CLI/event window local verified; related-card unified window remains open;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+      "afterSha256": "8b79de05c6fd446b867c7df95662e6140a1d8d749732c88613d247e0ece0ac64",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "275d839792280cc712643b8b8d9db8c6e918112e375539744498a8cd67056e21",
-        "implementationSha": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+        "implementationSha": "8b79de05c6fd446b867c7df95662e6140a1d8d749732c88613d247e0ece0ac64",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
-        "lineCount": 16943,
+        "afterSha256": "8b79de05c6fd446b867c7df95662e6140a1d8d749732c88613d247e0ece0ac64",
+        "lineCount": 16967,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -2437,6 +2437,22 @@
           "afterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-approved-local-repair",
+          "previousAfterSha256": "9a236301c623fc9cd89547296f650b8af2cf3816987947fc8e73a396bd35f129",
+          "afterSha256": "6e2cafefa094fa22299b0708b4726cc9e2249e4a128cd598dcced096c3e0ed75",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-defensive-ledger-scope",
+          "previousAfterSha256": "6e2cafefa094fa22299b0708b4726cc9e2249e4a128cd598dcced096c3e0ed75",
+          "afterSha256": "8b79de05c6fd446b867c7df95662e6140a1d8d749732c88613d247e0ece0ac64",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
         }
       ],
       "supersedes": [

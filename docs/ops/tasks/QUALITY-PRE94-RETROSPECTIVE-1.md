@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前本地增量：前窗9b4df7145已推送/合main且Documentation CI通过。两项获批slice收集修复6红先行，53相邻/452包绿，纯BFS去重另提交；[本窗原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)。0新关闭，三代码提交尚未推送/合main；继续CLI IO后集中本窗全仓/coverage，不沿用旧门。
+
 > 2026-10-22最新：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
 > 2026-10-21历史：56accept/27partial/0pending。CODE3b/3d/3f原合同收口，3g完成测试宿主切片，17文件逐项接受（12未闭合转关闭）。四卡check20390、ratchet/protected各19992零诊断；剩余27partial，94–102不扩展。

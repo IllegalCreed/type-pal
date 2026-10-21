@@ -1,0 +1,21 @@
+{
+  "commit": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
+  "branch": "codex/code-quality-3y",
+  "pushedBeforeMain": true,
+  "mainFastForward": true,
+  "afterFetchAheadBehind": "0 behind /0 ahead before this window",
+  "primaryWorktree": "read-only; other user work present, not touched",
+  "documentationCandidateRun": "https://github.com/IllegalCreed/type-pal/actions/runs/39639288796",
+  "job": 119358280646,
+  "documentationMainRun": "https://github.com/IllegalCreed/type-pal/actions/runs/39639678390",
+  "documentationBoth": "success",
+  "coverageMainRun": "https://github.com/IllegalCreed/type-pal/actions/runs/39639678308",
+  "coverageMainStatus": "in_progress when last observed; not claimed passed",
+  "log": {
+    "member": "predecessor-docs-ci.raw.gz",
+    "decodedUtf8Bytes": 1331705,
+    "decodedSha256": "5638a6e24a22d159ddbcfc75ba68ad5cd21b901850b267952da1a20628b126a2",
+    "source": "complete GitHub connector decoded job text; UTF16 units1331701/UTF8 bytes1331705 independently matched, not original ZIP bytes"
+  },
+  "platformAnnotations": "raw retains GitHub Node20 action deprecation and ubuntu-latest migration notices; repository docs/progress/lint steps zero diagnostics. No platform-zero claim."
+}

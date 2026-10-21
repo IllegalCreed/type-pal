@@ -1,0 +1,563 @@
+{
+  "schemaVersion": 1,
+  "state": "local verified; related-card unified window remains open",
+  "owner": "Codex single agent",
+  "base": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
+  "sourceCommit": "976c0ce5cf56ad17269aedae63be2b81f04cbef7",
+  "behaviorCommit": "2ad4c36e953cb38063179a659e51171b9ed33f96",
+  "refactorCommit": "e016c27a3d1dfdff819a1dbdc09dd30ac3726dd2",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "sha256": "249ef69f1cb4e9e5ed79adbc740c32cd8dd0b7c5cafaf71d6adb79bf43c60e2a",
+      "lines": 191,
+      "read": "base全文+当前全部差异/实现全文；既有primary按具体范围复用",
+      "dimensions": {
+        "A": "唯一生产caller为CLI的dense disasm/annotate与parsed u16入口；6条原生业务红后修两类边，原始字节码roundtrip不变。同步纯函数，无取消/清理资源；未授每个切片独立执行信用。",
+        "B": "删旧用户故障推断头注，说明保守潜在边、借用对象与IO边界；counted goto依据SDL trigger/auto分支，metadata不作为控制流。",
+        "C": "入口、遍历、归属、改写各私有职责明确；局部queue/visited由同一collectReachable独占，无外部状态/反向依赖。",
+        "D": "两份修复后BFS正文alpha等价再合并，无模式布尔；归属规则在遍历外，旧body/新body AST和其它emitted JS守恒。",
+        "E": "6真红、53相邻绿、最终全包452绿；原盘17站点静态观察与纯重构全文输出同一，不当游戏表现oracle。",
+        "F": "main只编排入口/归属/输出，共用短遍历；原下标/owner名保留；不按复杂度数字给accept。",
+        "G": "无新增公共出口、未来抽象或无caller helper；现存typed tuple/同长数组的防御??0仍是精简候选，未顺手改变不支持输入合同。",
+        "H": "parsed值可直接注入，输出可观察、无IO/随机/时钟；真实CLI接线仍由共享宿主全链测试。"
+      },
+      "decision": "review; rolling unified gates not run"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "sha256": "7d5ce4302ff885a2e41cafd0cab5dd0d198d0615e0a1ff3b14e47df6d1816eb8",
+      "lines": 283,
+      "read": "base全文+当前全部差异/实现全文；既有primary按具体范围复用",
+      "dimensions": {
+        "A": "有效u16入口/raw形状；计数循环和零计数自环用不同label隔开，完整数组排除漏收/多收。objects空占位改用正常零入口。",
+        "B": "旧A2/reset/13 opcode来源复用；新计数注释描述为什么要两条边，不冒称回合演出。",
+        "C": "只测纯切片，fixture局部；不mock生产入口或共享持久化状态。",
+        "D": "复用本套件短makeScene；scene/global两入口在同一参数化合同内，不新增万能fixture。",
+        "E": "两条计数红直接因缺L_2/L_3；主测三处asserted command shape删除，换完整业务等式；三个匿名入口改不同身份，原业务期望保留或增强。",
+        "F": "有序字面量对应原ip，root参数只选择caller/owner，不计算可达集合当答案。",
+        "G": "旧错误文本扫描用例不在本文件；主测无新增弱覆盖例/skip/only，运行数14（旧12+2）。",
+        "H": "确定性局部图，完整输出可证伪，外部资源/假时钟/共享mock均不需要。"
+      },
+      "decision": "review; rolling unified gates not run"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "sha256": "638bd917be66aec18addc6ec5baa8e7b4cf4397bf551daaead6f53a337b2acd8",
+      "lines": 187,
+      "read": "base全文+当前全部差异/实现全文；既有primary按具体范围复用",
+      "dimensions": {
+        "A": "四metadata红使用合法showDialog与giveItem，真实end隔断目标，scene/global分别复现；其它越界/缺字段案例的生产合同仍待核。",
+        "B": "删除失效分支行号与测量信用头注，列明合成防御限制；describe历史名字仅作为测试身份，不认证独立BFS实现。",
+        "C": "无IO副作用，两个describe仍是历史身份分组，实际算法共用遍历器。",
+        "D": "不因新共用遍历就机械删除旧global/scene防御观察；与runtime-resource的排重须结合生产域另核。",
+        "E": "以4个独立旧红替代原1个可顺序到达目标的弱观察；完整输出排除raw标记，均在原生53/452绿中恢复。",
+        "F": "显式owner/kind矩阵呈现两种人读字段及两个入口；老分组名不当覆盖指标。",
+        "G": "旧as Command[]随弱例替换删除；新11身份（旧8撤1增4）。防御轴/跨套件排重不以全包绿自动关闭。",
+        "H": "纯值、独立常量期望、无共享mock；负例真实隔断，无法靠普通fall-through伪通过。"
+      },
+      "decision": "review; rolling unified gates not run"
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "bac28a79a32548695a368fbd37e49efbe567cd5dfe1d9052e87102b5b9906fa0",
+      "readScope": "only current production caller line244 and collector domain; reuse full previous CLI window"
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "cacf6a313be2ab3298fb74be07825c12d43c9b21505301a7c037102b28b1bee4",
+      "readScope": "goto schema and JUMP_TARGET_OPERAND/RANDOM_JUMP; full table truth reused"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "e9f628cd665d70f738f44cb0216a9dcf3f8f60a3c853da465b620f584414033b",
+      "readScope": "emitGoto/showDialog/giveItem and label production; previous full contract reused"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.ts",
+      "sha256": "ef31df8d85c291cabc2d1ad836bec706c4f70e8de9c6c20d15d1b098ac86e673",
+      "readScope": "full current text; only human metadata additions"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.ts",
+      "sha256": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+      "readScope": "goto numeric serialization, human fields ignored; prior full proof reused"
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "fbe669229da412574ec13a811b077918d97ab3399da5a3adfdcb10c91b5c7d0f",
+      "readScope": "full current union; named goto/reset vs human fields; no schema edits"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840",
+      "readScope": "ranges1313-1355/1996-2031; count semantics only"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "readScope": "trigger3239-3258 and auto3549-3566 read; no original PAL runtime"
+    },
+    {
+      "path": "packages/pal-extract/package.json",
+      "sha256": "c267ca338e26c4a5e0a4b24bde218bf32f16adfcb1f122cb689b04d07f229f34",
+      "readScope": "full current private package/no public exports; only production slice caller is internal CLI"
+    }
+  ],
+  "ledger": {
+    "total": 3338,
+    "closed": 356,
+    "review": 126,
+    "pending": 2856
+  },
+  "newClosures": 0,
+  "pre94": {
+    "accept": 56,
+    "partial": 27,
+    "pending": 0
+  },
+  "failedIdentities": [
+    "KIMI-R1 sliceByScene globalEntries BFS 残余分支 scene 的人读 dialogue 文本 L_N 不制造控制流边",
+    "KIMI-R1 sliceByScene globalEntries BFS 残余分支 scene 的人读 item 文本 L_N 不制造控制流边",
+    "KIMI-R1 sliceByScene globalEntries BFS 残余分支 global 的人读 dialogue 文本 L_N 不制造控制流边",
+    "KIMI-R1 sliceByScene globalEntries BFS 残余分支 global 的人读 item 文本 L_N 不制造控制流边",
+    "sliceByScene scene 的计数 goto 同时收跳转和计数结束续行，零计数不收续行",
+    "sliceByScene global 的计数 goto 同时收跳转和计数结束续行，零计数不收续行"
+  ],
+  "runs": [
+    {
+      "id": "approved-red",
+      "exit": 1,
+      "passed": 19,
+      "failed": 6,
+      "kind": "intended business AssertionError"
+    },
+    {
+      "id": "approved-fixed",
+      "exit": 0,
+      "passed": 53,
+      "failed": 0
+    },
+    {
+      "id": "module-final",
+      "exit": 1,
+      "passed": 451,
+      "failed": 1,
+      "kind": "FIRE.MKF pixel oracle exceeded unchanged5000ms; incidental timeout, not business counter"
+    },
+    {
+      "id": "module-recovery",
+      "exit": 0,
+      "passed": 452,
+      "failed": 0
+    },
+    {
+      "id": "final-types",
+      "exit": 0
+    },
+    {
+      "id": "pure-proof",
+      "exit": 0
+    },
+    {
+      "id": "raw-impact",
+      "exit": 0
+    },
+    {
+      "id": "docs-current",
+      "exit": 0
+    },
+    {
+      "id": "lint-current",
+      "exit": 0
+    },
+    {
+      "id": "progress-current",
+      "exit": 0
+    },
+    {
+      "id": "ledger-current",
+      "exit": 0
+    },
+    {
+      "id": "docs-final",
+      "exit": 0
+    },
+    {
+      "id": "progress-final",
+      "exit": 0
+    },
+    {
+      "id": "lint-final",
+      "exit": 0
+    }
+  ],
+  "artifact": {
+    "member": "native.json.gz",
+    "sha256": "6b51efabdea7cfd74d6822793b7da8891d05c0b5c0036c85288556e1f339b1d0",
+    "bytes": 339267,
+    "members": [
+      {
+        "name": "approved-fixed.execution.json",
+        "bytes": 2273,
+        "sha256": "c61f158f2dd93364c8c331e2bafd8989bebd5c2f65d0578c6d14d48f707040b9"
+      },
+      {
+        "name": "approved-fixed.native.json",
+        "bytes": 17503,
+        "sha256": "7199fc8a70126c1c09f20d44aaa2db6b954e8e90ab8c99337fc4c1c475ba3f7d"
+      },
+      {
+        "name": "approved-fixed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "approved-fixed.stdout.raw",
+        "bytes": 2124,
+        "sha256": "fed44837e95d1c0663d764004f62b5bf075c9d411b5113c3d5129d36f40416c8"
+      },
+      {
+        "name": "approved-red.execution.json",
+        "bytes": 1891,
+        "sha256": "56100c02017ace13dcc6ba3aa25efedfc3c3fce41e4c9cdbe2a58afe033cb461"
+      },
+      {
+        "name": "approved-red.native.json",
+        "bytes": 18268,
+        "sha256": "51c5a4757fe07b364c17abbd8cffeffba342b40acf8a91fc1550b3f2eee334ac"
+      },
+      {
+        "name": "approved-red.stderr.raw",
+        "bytes": 6208,
+        "sha256": "7f127ae28ae6cc9c19bea3d6aefe9febf25cdc2b2898b13d34dea0a71fae3e0b"
+      },
+      {
+        "name": "approved-red.stdout.raw",
+        "bytes": 2413,
+        "sha256": "c190157bcff348d5e7c6bcb8586b732862141a435a59a1563ac8196524c33e77"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 7479,
+        "sha256": "4739bb5c1c46b002a3f933723b6c04a0bcdb9dd25b72c8d535efc0c21ac68a1b"
+      },
+      {
+        "name": "docs-current.execution.json",
+        "bytes": 2093,
+        "sha256": "fafcf8940e08372ef7cbb2333d55f4ff5ea1d36f5123fc5dd83763fc11d0aeea"
+      },
+      {
+        "name": "docs-current.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-current.stdout.raw",
+        "bytes": 311,
+        "sha256": "d4a2aea42af4a9d5f84f319c31a73f497b3f2db57f365e051610bffa50305639"
+      },
+      {
+        "name": "docs-final.execution.json",
+        "bytes": 2087,
+        "sha256": "164a3e0274245459612821dce46267fda2e03c2a0c77b552725b34b072d71bed"
+      },
+      {
+        "name": "docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-final.stdout.raw",
+        "bytes": 311,
+        "sha256": "d4a2aea42af4a9d5f84f319c31a73f497b3f2db57f365e051610bffa50305639"
+      },
+      {
+        "name": "final-types.execution.json",
+        "bytes": 1570,
+        "sha256": "56bab132c26f5659328e8a38bae29901f539317fb67a4f0719951056de01104d"
+      },
+      {
+        "name": "final-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-types.stdout.raw",
+        "bytes": 139,
+        "sha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440"
+      },
+      {
+        "name": "ledger-current.execution.json",
+        "bytes": 1799,
+        "sha256": "b9939195d95d6c76f57eb6e60cb9f6e5925175dcf012ef31b3154e5e1e5594ad"
+      },
+      {
+        "name": "ledger-current.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger-current.stdout.raw",
+        "bytes": 113,
+        "sha256": "69683f172e530960ed2b4d76940c51307fb93427ae8e5c082fe6a62742c21ba8"
+      },
+      {
+        "name": "lint-current.execution.json",
+        "bytes": 1756,
+        "sha256": "a3d1d958d3e37a0c13e63a063175ecf80f119cf4be59c2e4b0bc855c881eef7a"
+      },
+      {
+        "name": "lint-current.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint-current.stdout.raw",
+        "bytes": 193,
+        "sha256": "67e343bd7464d5e5bfc641b09fd7fb5af1caf71de3f7afb423baaca03508f1ad"
+      },
+      {
+        "name": "lint-final.execution.json",
+        "bytes": 1750,
+        "sha256": "f82649ab98a2f2f0707c0aeed380d7c92837448d828ccace17f1893a32395362"
+      },
+      {
+        "name": "lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "67e343bd7464d5e5bfc641b09fd7fb5af1caf71de3f7afb423baaca03508f1ad"
+      },
+      {
+        "name": "metadata.cjs",
+        "bytes": 3430,
+        "sha256": "d2c3ab5f11f9554ab490e6e2da0543a0559e695886917a5236364cebfd030c93"
+      },
+      {
+        "name": "module-final.execution.json",
+        "bytes": 1818,
+        "sha256": "f5d06b53ea94cb4e3beb4216015670d04a1928b3de5adfe2a959e6904cdef6c1"
+      },
+      {
+        "name": "module-final.native.json",
+        "bytes": 160087,
+        "sha256": "3a3b84005d6a0ec5d6732814fe054778cbb3b4fea55661a8f0b12ab52b558477"
+      },
+      {
+        "name": "module-final.stderr.raw",
+        "bytes": 738,
+        "sha256": "32418e1325e4c8f98c3f7d84a16e887aba7f868e66e73e065cb7d7406ba2a519"
+      },
+      {
+        "name": "module-final.stdout.raw",
+        "bytes": 9188,
+        "sha256": "351d02bc4e20e457e1635e836b0ea861dabdff23c0992f0452105ac2a4bb4011"
+      },
+      {
+        "name": "module-recovery.execution.json",
+        "bytes": 1850,
+        "sha256": "bafd3f6c2543592b048f550007a48070b1e11df30b6856330f7e52eec84eadc9"
+      },
+      {
+        "name": "module-recovery.native.json",
+        "bytes": 158483,
+        "sha256": "b940eed6aedbd55b696d5d74058c45e736937a379054b3a1b51859df85b36b99"
+      },
+      {
+        "name": "module-recovery.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-recovery.stdout.raw",
+        "bytes": 8595,
+        "sha256": "576b84efd2fa327f5d9af57d5e1ddc9dfee196de6af3f4608d2dbbaa97806f3c"
+      },
+      {
+        "name": "opcodes.ts",
+        "bytes": 11810,
+        "sha256": "cacf6a313be2ab3298fb74be07825c12d43c9b21505301a7c037102b28b1bee4"
+      },
+      {
+        "name": "progress-current.execution.json",
+        "bytes": 1890,
+        "sha256": "f147510dcf0152b4d89ea6b55dd6dc786ff62fe3c241be20fae8061473632b16"
+      },
+      {
+        "name": "progress-current.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "progress-current.stdout.raw",
+        "bytes": 780037,
+        "sha256": "80f4ac28d0235e5b8291ea12d22120b942e12472f250b44557dcb7103ae82916"
+      },
+      {
+        "name": "progress-final.execution.json",
+        "bytes": 1884,
+        "sha256": "3679bed1a0026547a9088efb8cd32673e180d55a85fcbc62a35e22291384465e"
+      },
+      {
+        "name": "progress-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "progress-final.stdout.raw",
+        "bytes": 780037,
+        "sha256": "21a0589800328fc5f1823729243c9df8627002fe47265b9bf879e945992a4371"
+      },
+      {
+        "name": "progress.mjs",
+        "bytes": 114,
+        "sha256": "3be8238074e4edfee279478b0edb6e89e9ea13c4c85b174256c58fecea3fca4c"
+      },
+      {
+        "name": "prove-refactor.cjs",
+        "bytes": 2885,
+        "sha256": "4a6d85cbf53aaf649eda7cca9734cd2122aeab5eec0f9cca26f3a81afdc93bdf"
+      },
+      {
+        "name": "pure-proof.execution.json",
+        "bytes": 1386,
+        "sha256": "66945282198e9ec13a0616357504442e15a4093cfddc42f8c171305c4464f9b1"
+      },
+      {
+        "name": "pure-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "pure-proof.stdout.raw",
+        "bytes": 621,
+        "sha256": "def9998c6d9356b5b2e98eb55859fdba82a846edd761e884620ec3fd3d340a59"
+      },
+      {
+        "name": "raw-impact.execution.json",
+        "bytes": 1379,
+        "sha256": "c62accae9a04ae5c0fc4156d4e432ec63338f3ea9b624f8c1ab6c15b907a67d1"
+      },
+      {
+        "name": "raw-impact.json",
+        "bytes": 8310,
+        "sha256": "33ef411f5a2af45cad3bd8fbbbeeb128db4b3592b7d4588bdccfb79d536cc8de"
+      },
+      {
+        "name": "raw-impact.mts",
+        "bytes": 5300,
+        "sha256": "849c47602dfe2f55fcbf42b657975bf73307118c37083fe1dc110a30206f5f5f"
+      },
+      {
+        "name": "raw-impact.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "raw-impact.stdout.raw",
+        "bytes": 170,
+        "sha256": "faa41b718ca0144e37ada6b7f9656e54bdfae2554536af63653556793903716c"
+      },
+      {
+        "name": "red-tests.patch",
+        "bytes": 4541,
+        "sha256": "68e36f8878dc6554af4569063fa950b5c412d9931c0e34ee3369902ad53d9207"
+      },
+      {
+        "name": "refactor-new-block.txt",
+        "bytes": 285,
+        "sha256": "041229fd2978b2576a9fa77614883c27dee4acc94a45bd66e658ab6a20a55f27"
+      },
+      {
+        "name": "refactor-old-block.txt",
+        "bytes": 3099,
+        "sha256": "a38da7cff9b2b09db29e971c488986b440f13156e72461cf08f3d179e520eab1"
+      },
+      {
+        "name": "refactor-proof.json",
+        "bytes": 662,
+        "sha256": "c8e5d81da1933d7faafd0c74535aedc1eb8d2c92fc7823df22746dd411eff589"
+      },
+      {
+        "name": "refactored-types.execution.json",
+        "bytes": 1350,
+        "sha256": "2612bd072556b0163692a850a329fed58a9fdd4051d9c7bda6704db640611cb2"
+      },
+      {
+        "name": "refactored-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "refactored-types.stdout.raw",
+        "bytes": 139,
+        "sha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440"
+      },
+      {
+        "name": "run-raw.mjs",
+        "bytes": 175,
+        "sha256": "282a662240bdecd159d424738608c9dfd6a260756a686244bb7ee6924ec0b0b5"
+      },
+      {
+        "name": "slice-base.ts",
+        "bytes": 8520,
+        "sha256": "8b244790fa3989a6801b613a54815f370627bb3682208c795cfb267131fca4b4"
+      },
+      {
+        "name": "slice-before-refactor.ts",
+        "bytes": 8523,
+        "sha256": "5c0376014a199c514ac08cb0350ca5c9622e37c1651b74b598a8a8f833103318"
+      },
+      {
+        "name": "slice.kimi-r1.test.ts",
+        "bytes": 8891,
+        "sha256": "8646977267536d15cc612a2c857a9036b997785edec24747750e27011e4878e8"
+      },
+      {
+        "name": "slice.test.ts",
+        "bytes": 9451,
+        "sha256": "841447bcf388d2dda305f3b04e4fc281de53de78dd80de8d1cdcf9038f0945a9"
+      },
+      {
+        "name": "slice.ts",
+        "bytes": 8520,
+        "sha256": "8b244790fa3989a6801b613a54815f370627bb3682208c795cfb267131fca4b4"
+      }
+    ]
+  },
+  "notRun": [
+    "current-window whole check",
+    "current-window official coverage ratchet/protected fast",
+    "whole game/E2E/original PAL runtime"
+  ],
+  "costPolicy": "User asked several related cards before heavy gates. Preceding CLI window completed20392check/19994official combined ratchet-protected then merged9b. Do not reuse those gates as this changed source passing. Continue CLI IO and adjacent cleanup before the next rolling full gates/push/merge; no fresh coverage now.",
+  "rawObservation": "43503instructions;raw bytecode recompile exact; union38464→38765,+301/-0;12scene+shared outputs differ in memory only.16/17 counted sites reachable and all16 continuations in union;33964 continuation still in another output,34779 goto uncollected. No source generated output/all.json/raw/save edit or gameplay success claim.",
+  "remaining": [
+    "CODE3/3g remain partial; no per-file independent execution certification",
+    "Kimi/runtime-resource defensive input domain and duplicates remain review",
+    "slice typed tuple/total sceneCount fallback simplification candidate only",
+    "CLI IO/fallback/ownership remaining review; next rolling scope",
+    "94–102 not expanded"
+  ],
+  "staticResults": "five docs consumers0issues; progress issues=[];lint5751 files0errors/0warnings/0infos;ledger3338/356/126/2856;diff --check empty;0stdout diagnostic blocks in53/452 runs",
+  "identityMigration": [
+    {
+      "oldFile": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "oldFullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 字符串字段扫描：text 恰为 L_N 入队、普通文本与数字字段不入队",
+      "replacementFullNames": [
+        "KIMI-R1 sliceByScene globalEntries BFS 残余分支 scene 的人读 dialogue 文本 L_N 不制造控制流边",
+        "KIMI-R1 sliceByScene globalEntries BFS 残余分支 scene 的人读 item 文本 L_N 不制造控制流边",
+        "KIMI-R1 sliceByScene globalEntries BFS 残余分支 global 的人读 dialogue 文本 L_N 不制造控制流边",
+        "KIMI-R1 sliceByScene globalEntries BFS 残余分支 global 的人读 item 文本 L_N 不制造控制流边"
+      ],
+      "reason": "Old L_3 and raw operand3 were both reachable by normal fall-through, so neither could distinguish false control edges. Four replacements insert a real end before the distinct target and preserve human payload; ordinary non-label showDialog fall-through remains the first Kimi case. Raw numeric control behavior retains the existing opcode-table contracts. No prior effective negative oracle is claimed lost or silently inherited.",
+      "authorization": "User retained test-quality rule2026-10-03: proved weak/no-business/duplicate cases must be strengthened or simplified; current explicit two-fix approval2026-10-22. Not covered by an unrelated old blanket retirement header."
+    }
+  ]
+}

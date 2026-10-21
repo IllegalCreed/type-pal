@@ -5,9 +5,9 @@ Owner: Codex
 Reviewer: Codex（事实核验，不冒充第三方）
 Phase: phase1 asset/event pipeline
 Capability: pal-extract reachability truth
-Visual Verification Timing: N/A（本阶段只读取证；运行时影响另核）
+Visual Verification Timing: N/A（提取器纯收集；无游戏/E2E或原版运行通过主张）
 
-## 停线范围
+## 历史停线范围（下方2026-10-22用户新授权覆盖两项窄修）
 
 94前CODE3复审发现：slice.ts两份BFS扫描所有字符串字段，可能将对白text或注释_item中的L_N当控制流；goto分支始终不收续行，而SDLPal的0x0003在非零operand[1]达到计数时会推进i+1。涉及生成的事件切片，立即停止slice/annotate/disasm/opcodes生产算法、公共接口、资源/生成物修改；不得用本卡draft授权实现或改写历史验收。两份BFS重复暂不抽取，避免在前提未核完整时固化错误语义。
 
@@ -43,3 +43,11 @@ Visual Verification Timing: N/A（本阶段只读取证；运行时影响另核�
 用户听取普通文字被误识别为跳转、循环结束后续行漏收的解释后，明确回复“同意修复（推荐）”。先前draft停止线与原件按历史保留；本节是唯一新授权，不追溯改旧结论。Codex单一Coding Owner；当前CLI/测试冻结批先封证据、推送及合并，下一窗口只准修slice的两项收集语义及相邻有效测试/必要私有拆分，先保存失败反例再实现。对白/_item等人读字段不制造边；非零frameDelay goto应保留计数耗尽后的i+1。
 
 原始字节码、全局all.json、schema/save、游戏机制及生成物保持不改；不得借此扩展annotate/disasm/opcodes或删除出口。继续核真实caller、入口顺序、shared归属、结束指令及零计数goto；新增纯结构与行为修复分提交。原版实际游戏未运行的边界保留，不能把静态17站点写成17个游玩缺陷。按相关卡聚合后集中全仓/coverage，不逐小片重复昂贵门。
+
+## 2026-10-22 本地修复与纯结构增量（统一门待聚合）
+
+前窗9b4df7145已先推3y、远端Documentation通过、快进main并fetch核0/0，主树未动。随后本卡单Owner实施两批准项：2ad4c36e9行为修复；e016c27a3纯BFS去重；976c0ce5c主测完整身份等式/去三处强转与头注澄清。先保存6业务AssertionError/19绿，再53相邻绿；全包首跑451绿/1 FIRE像素oracle超5000ms，原件保留，原阈值/规则不改，仅maxWorkers=2复跑76文件452绿、stderr0；TC/scoped Biome均0。
+
+原盘严格字节roundtrip不变，收集union38464→38765（+301/-0），12scene+shared内存结果不同。16/17计数goto可达，其续行全入union；33964续行仍在另一输出，34779 goto本身未入片；不冒称每个切片独立运行已修好。纯重构前后实际完整结果深等，两个原while正文alpha一致、新helper正文不变。仓库原盘/生成物/all.json/存档均未改。[逐文件八维、原件与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)。
+
+本窗0新关闭，3/3g仍partial。按用户多卡聚合要求，继续CLI IO与必要排重后才集中本窗全check/official ratchet/protected，再推送/合main；当前只本地提交，不拿前窗门禁替新源授通过。旧停止线历史保留，新授权只覆盖本节两项，不批准其它算法或表示格式变化。
