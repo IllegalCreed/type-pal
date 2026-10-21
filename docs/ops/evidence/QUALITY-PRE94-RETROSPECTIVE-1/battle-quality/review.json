@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 1,
+  "state": "build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open",
+  "owner": "Codex",
+  "base": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "b7f5b9751b4d766220dcc23e32227113da25ae54e1e7e793f7be17b197f3b51f",
+      "lines": 67,
+      "dimensions": {
+        "A": "函数正文守恒、同一清毒／装备绑定；实际清理与resume序按3u/3w证据复用，非队员Extra仍unknown不改循环。",
+        "B": "现注释明确临时<=999/装备>999及party角色域差异，不冒称全C等价。",
+        "C": "状态清理直接依赖equipment-state/player-poison-state，去除该层对装备脚本/解释器转出口的无关依赖；宿主仍直接加载两facade。",
+        "D": "复用既有owner同一函数，无复制或万能context。",
+        "E": "旧finalization/runtime有效六单红及合法fixture复用；当前40相邻、TC0不作为整文件验收。",
+        "F": "lost/fled/watchdog owner及清理顺序原样，不为行数改名。",
+        "G": "仅移除两条间接导入；没有新出口/模式参数。",
+        "H": "正式GS/startBattle/resume可观察，不新mock清理函数；纯重构用正文/绑定等式和实际回归。"
+      },
+      "decision": "review; module gates and actual remaining contracts pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "40d5caa83a46734d689defc26178679cac6af82b5127d8739264a7aeb626b0a4",
+      "lines": 307,
+      "dimensions": {
+        "A": "普通成长／快照正文不变；WORD新分歧单列draft、未修，不关整文件。",
+        "B": "主999 cap/隐藏不套该cap与RNG算法范围已分开；不授全极端等价。",
+        "C": "getter走equipment-state，数字输出类型走中性data模块，不再依赖结算编排。GS仍按当前公开合同提供Exp/Runtime/装备状态，无新增越层写。",
+        "D": "getter复用同一绑定；主升级/隐藏/0x8D重置与RNG合同不同，不因相似循环强行共享。",
+        "E": "复用11主升级/H02五例及旧额外RNG单红；七池缺口另补，不由40绿推定完成。",
+        "F": "每role的主升级→快照→隐藏→学法术顺序保持；长函数仍作阅读热点，不按指标拆出宽参数helper。",
+        "G": "未增fallback/死分支；现公开stat/label返回字段与party输入合同保留，不擅自删除出口字段。",
+        "H": "RNG可注入，数值直接走公开函数观测；旧记录型RNG的fallback不得替代完整参数/业务值断言。"
+      },
+      "decision": "review; module gates and actual remaining contracts pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9",
+      "lines": 227,
+      "dimensions": {
+        "A": "完整执行JS相同；真实caller与10原盘post leaf、特殊结局/hold/清理原件按原限制复用。",
+        "B": "Phase C/E/F、首帧残键、C恒真半恢复注释与原证据一致；本轮不增加真值断言。",
+        "C": "该模块只组织屏/等待/脚本收尾；纯数据声明移到共享data，避免数字owner反向引用编排。",
+        "D": "三type只有一个定义，原出口仅type re-export；不把数字/IO/屏等待合万能服务。",
+        "E": "旧8例和后继16合同/反控据证复用，当前40包含主测/宿主/绘制相邻；不扩大到视觉验收。",
+        "F": "阶段命名与推进顺序不变，类型转发明确。",
+        "G": "原三声明移走不留双定义；原公共type名字保留，未造兼容执行分支。",
+        "H": "既有真实dialog/资源释放可测；没有为拆类型暴露私有状态。"
+      },
+      "decision": "review; module gates and actual remaining contracts pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement-data.ts",
+      "sha256": "4222387afcf3a0cd52ebb5ecc4d4f51fbad21c93b52d80db194a40c5a4b5b0e1",
+      "lines": 29,
+      "dimensions": {
+        "A": "三个接口逐声明与9a5原文相同；编译只空export，无执行/错误/异步资源。",
+        "B": "保留旧/cur、HPMP/装备有效值/名称来源语义；头注说明共享数据职责，不宣称runtime测过类型。",
+        "C": "计算与结算的共用数据owner，无解释器/IO/状态推进依赖。",
+        "D": "两真实模块共享同一声明，原出口保持；无复制型DTO或未来抽象。",
+        "E": "typecheck验证当前所有真实type消费者与V1映射；不以空运行测试充数。",
+        "F": "接口名/字段形状完全保留，适合与旧caller直接对照。",
+        "G": "三声明均参与LevelUpScreenData；原公开类型出口不擅自退役，无新运行包装。",
+        "H": "纯类型不以运行时mock验证；实际编译与原文等式支持当前合同。"
+      },
+      "decision": "review; module gates and actual remaining contracts pending"
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "84fba11f3597e362fea558feb1ba4c9279c33d7b4ed3ead64b21303acbf9da1a"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "a3fed8fc2206af344a9eef7836bfa9ac3e3dd5f9187e92e2cb84d760518dccb5"
+    }
+  ],
+  "runs": [
+    {
+      "id": "import-binding-proof",
+      "exit": 0
+    },
+    {
+      "id": "structure-proof",
+      "exit": 0
+    },
+    {
+      "id": "structure-proof-v2",
+      "exit": 0
+    },
+    {
+      "id": "structure-regression",
+      "exit": 0,
+      "passed": 40,
+      "failed": 0
+    },
+    {
+      "id": "structure-types",
+      "exit": 0
+    },
+    {
+      "id": "word-boundary-counter",
+      "exit": 1,
+      "kind": "new actual WORD boundary counter; native C+validated numeric wire+real settlement boundary"
+    },
+    {
+      "id": "structure-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "structure-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "artifact": {
+    "member": "native.json.gz",
+    "sha256": "a144d2e9696c9cc1bebc9fc24b59cd8dc7e49fd7d413da4b514e85cbe1dc9edc",
+    "members": [
+      {
+        "name": "import-binding-proof.execution.json",
+        "bytes": 1215,
+        "sha256": "47af2836eec5dd3f990efd329c0db5eac469678e0cef94abaf1cdbe66bb311be"
+      },
+      {
+        "name": "import-binding-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "import-binding-proof.stdout.raw",
+        "bytes": 200,
+        "sha256": "62a0deb2694bb353a98169555b892bfb339401a6bad67be60420ad210cfae72e"
+      },
+      {
+        "name": "import-bindings.json",
+        "bytes": 1346,
+        "sha256": "8b91ffdace8ae325e0472650070614176c0aeff1be74d95a6ebd9ef66eb64592"
+      },
+      {
+        "name": "import-bindings.mts",
+        "bytes": 1887,
+        "sha256": "9502d7bd8a897923873ba6ce07a4665c63d85057645fdfceeb1c09745d3b2f2f"
+      },
+      {
+        "name": "prove-structure-v2.mjs",
+        "bytes": 3634,
+        "sha256": "6b434bfbc1244baf3f6cb6ffd1c3cfbe0ea5d85528a15f5e9a4b629feb0f60e8"
+      },
+      {
+        "name": "prove-structure.mjs",
+        "bytes": 3450,
+        "sha256": "6a3e7c4d6b7bd3381299fcbcf639dcfa60d5ba881b227ccb9ce3eb659afa438a"
+      },
+      {
+        "name": "run-import-bindings.mjs",
+        "bytes": 217,
+        "sha256": "e42622e4a738d82697e245cf4bf04202d64376c58cf3094f69fc2e96d9f5cc4a"
+      },
+      {
+        "name": "run-word-boundary.mjs",
+        "bytes": 285,
+        "sha256": "9d32ee418a3d1177fe8ac8f05fe60559b1088f4ba8a80dbeaa45a7c45d405f82"
+      },
+      {
+        "name": "structure-proof-v2.execution.json",
+        "bytes": 2129,
+        "sha256": "94d5ae2b6cd479c5c73f169690b405a999a9171a191c548fde1ff8c45ef1a130"
+      },
+      {
+        "name": "structure-proof-v2.json",
+        "bytes": 1859,
+        "sha256": "607e43fd676d40e251a0c4829cae0c67dd24d0ed3368d5bb5feeea33ba2db591"
+      },
+      {
+        "name": "structure-proof-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-proof-v2.stdout.raw",
+        "bytes": 1624,
+        "sha256": "8f48697c4d7295d117134fa620a63c4a69bf5a873eaefc4fb3918e72b0350c23"
+      },
+      {
+        "name": "structure-proof.execution.json",
+        "bytes": 2114,
+        "sha256": "2c1ec5f9c0dbfeda772f7dd56db371b0552ccb50c6da84e070769b9c68fbb697"
+      },
+      {
+        "name": "structure-proof.json",
+        "bytes": 1733,
+        "sha256": "d6530b8457b7e345cd1e27216e49a6882dde78f70799c333e7ffe7203f423819"
+      },
+      {
+        "name": "structure-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-proof.stdout.raw",
+        "bytes": 1522,
+        "sha256": "0c120909f6a2734574b7e97cda1a7ba7df2bccede0e1ad92baf0384dc109411b"
+      },
+      {
+        "name": "structure-regression.execution.json",
+        "bytes": 2569,
+        "sha256": "6bd320dc99bd3e9f5464a062196448052c4f582ac6f192d245a92806085b522d"
+      },
+      {
+        "name": "structure-regression.native.json",
+        "bytes": 17249,
+        "sha256": "551d2baa36d64f7cd8f9df4bd99e3f01251578f606c6591fe57a41dfe0229fa1"
+      },
+      {
+        "name": "structure-regression.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-regression.stdout.raw",
+        "bytes": 841,
+        "sha256": "bb0fea192878d23c34b4c92b907e2b15ad69751f924844c6a3367958cf18f2d4"
+      },
+      {
+        "name": "structure-types.execution.json",
+        "bytes": 1936,
+        "sha256": "e40628ce1a462104879b9197547844bca8e819a040ce368c6085b51f0476c208"
+      },
+      {
+        "name": "structure-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-types.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "word-boundary-counter.execution.json",
+        "bytes": 2014,
+        "sha256": "0b92fefc3731cf28850af8372f485a3f327a5edeb08b6a21a6ac589c0e8678bc"
+      },
+      {
+        "name": "word-boundary-counter.stderr.raw",
+        "bytes": 709,
+        "sha256": "bfad166d68b63fde14c971bcb1ca3d02046a47324b0a171eb74bc2224d76f536"
+      },
+      {
+        "name": "word-boundary-counter.stdout.raw",
+        "bytes": 171,
+        "sha256": "440cc2fe618858e4f0f9a2bd18ec85ea3da187122b98245c5ed42967b31f731c"
+      },
+      {
+        "name": "word-boundary-probe.json",
+        "bytes": 2913,
+        "sha256": "e1b235df681e0185a03396bf1e9f623d8f0cb40e574d10f8add268be8b4063ec"
+      },
+      {
+        "name": "word-boundary-probe.mts",
+        "bytes": 5899,
+        "sha256": "8499b31b9eadec5f47d113308debbe52534e8de866ecc5bb927732e44ff18a13"
+      },
+      {
+        "name": "word-native.c",
+        "bytes": 3366,
+        "sha256": "4e345db7d146d7fd416bf9c0062cb36b07b8b0ef470075ba7845100c4d2e0290"
+      },
+      {
+        "name": "word-native.stdout.raw",
+        "bytes": 54,
+        "sha256": "84f01ef1ea7182c7908d0dabb5295331fd73c42a901f0b7b84472736bf0acf12"
+      },
+      {
+        "name": "structure-docs.execution.json",
+        "bytes": 2937,
+        "sha256": "48d94813f3e97a9c80a8afb727f3b9a74657febf99d7788da48ed12bb0563559"
+      },
+      {
+        "name": "structure-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "04f779f07efb2d5357335e8cfaed8322c112b984c8bb749ebf1a6535d67e4b7d"
+      },
+      {
+        "name": "structure-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-lint.execution.json",
+        "bytes": 2610,
+        "sha256": "170902188d72ae259344c343bd24e1b86f7292bfc108feca563fb51b73b8a12a"
+      },
+      {
+        "name": "structure-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "334228669f061e6051b84bc46dc64a17596f4f17243089a0e41b3014efd59246"
+      },
+      {
+        "name": "structure-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "newClosures": 0,
+  "pre94": {
+    "accepted": 56,
+    "partial": 27,
+    "pending": 0
+  },
+  "notRun": [
+    "current window whole check/coverage/protected",
+    "full SDLPal/runtime/browser import",
+    "WORD product arithmetic change, awaiting user"
+  ],
+  "sourcesInvalidation": "Changed body/type/caller/real data invalidates its associated claim; old counter source versions remain original. Shared state-owner hashes and exact base identify current import proof. No automatic whole-file/card acceptance.",
+  "ledger": {
+    "inventory": 3355,
+    "closed": 361,
+    "review": 124,
+    "pending": 2870
+  }
+}

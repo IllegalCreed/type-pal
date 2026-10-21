@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 结算／成长窗口：三源直接owner依赖及三个共用type搬移，新增data文件先登记review，0新增关闭；3355/361closed/124review/2870pending。四文件A–H、声明／正文守恒、七真实函数绑定、40相邻及game TC见[本窗入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)。统一门未跑，WORD新反证待裁决、非队员Extra仍未知，3w/3x不升accept。
+
 2026-10-22 CLI IO相关卡窗口：6个明确文件A–H与必要反控成立后接受，冻结后355→361closed/129→123review；相对窗口最初356净增5。移动端14新库存保持pending，当前3354/361/123/2870。最新main整合后全check20430、official ratchet/protected同报告20032零诊断；首次指标拒绝及第二次移动目标保护拒绝完整保留。CLI/slice大范围仍review，CODE3/3g仍partial。[本窗入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md)。
 
 2026-10-22移动端集成：新增14个tracked代码路径，仅同步库存与隐式pending数量；既有逐路径状态和历史正文不变，0新增专项closed。软件实现、独立复核和运行证据见[移动端任务](../tasks/GAME-MOBILE-LAYOUT-1.md)；不由本次库存同步授予全仓代码治理关闭信用。
@@ -39,8 +41,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,354。
-当前已闭合核验：361；已读但待审：123；尚未逐文件核验：2,870；合计未闭合：2,993。
+起始基点机器清单：2,962。当前 tracked 清单：3,355。
+当前已闭合核验：361；已读但待审：124；尚未逐文件核验：2,870；合计未闭合：2,994。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -404,6 +406,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；64 行命中特效帧基号/缺表反例，定向6 files/154 tests | 全文读取；flat index `sprite*2+1`、×3、undefined fallback 与真实 timeline oracle；未发现重复或弱断言 |
 | `packages/game/src/core/battle/battle-finalization.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；67行全文，真实tick/settlement/resume与C；只修等价范围注释 | 非队员Extra生产可达性另卡draft；两源parsedTS/JS相同，不改机制，不关闭 |
 | `packages/game/src/core/battle/battle-settlement.ts` | product | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；249行全文、原SSS与153敌对象静态对照、C PhaseE/真实caller | 当前15对象10leaf和特殊结局影响域已限定；执行未变，任意扩展脚本/异常/视觉未全验 |
+| `packages/game/src/core/battle/battle-settlement-data.ts` | product | review | [结算成长质量增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；三接口逐声明相同／原出口名集合相同／只发射空export；真实caller game TC | 共享数据独立于结算编排；新源库存不等于关闭，相关窗口门待 |
 | `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；347→379行全文、原八合同保留、两概率边界与三特殊接回 | 8→13；六旧绿新单业务红反控中两枚在本文件；16直接221相邻仅有限信用，不关闭 |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |

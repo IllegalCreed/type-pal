@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
-      "coreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+      "readMethod": "Read only owned current battle-quality window row and exact descendant binding; original unrelated review reused",
+      "coreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "3ee4cee06e5e5efd1a5c29332907558d3a74c3ab70fd00786439377378abd1e9",
+      "afterSha256": "6c42a92e75d02df442d61b65a42895f211963f0507a8efebdc14f2c89b019e10",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "3ee4cee06e5e5efd1a5c29332907558d3a74c3ab70fd00786439377378abd1e9",
+        "implementationSha": "6c42a92e75d02df442d61b65a42895f211963f0507a8efebdc14f2c89b019e10",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,8 +4146,8 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-cli-event-window-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        "kind": "codex-owned-battle-quality-window-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
       },
       "history": [
         {
@@ -4758,6 +4758,19 @@
           "afterSha256": "3ee4cee06e5e5efd1a5c29332907558d3a74c3ab70fd00786439377378abd1e9",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-structure",
+          "previousEvidence": {
+            "kind": "codex-owned-cli-event-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+          },
+          "previousCoreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+          "previousAfterSha256": "3ee4cee06e5e5efd1a5c29332907558d3a74c3ab70fd00786439377378abd1e9",
+          "afterSha256": "6c42a92e75d02df442d61b65a42895f211963f0507a8efebdc14f2c89b019e10",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
         }
       ],
       "supersedes": [
@@ -4774,7 +4787,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only CLI/event current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
+      "reviewedLines": "Only battle-quality current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

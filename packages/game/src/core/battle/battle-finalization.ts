@@ -1,11 +1,11 @@
-import { removeEquipmentEffect } from '../equip-effect.js'
-import { curePlayerPoisonByLevel } from '../event-system.js'
+import { removeEquipmentEffect } from '../equipment-state.js'
 import {
   type BattleOutcome,
   type GameState,
   resumePostBattleScript,
   writeBackBattleRolesToRuntime,
 } from '../game-state.js'
+import { curePlayerPoisonByLevel } from '../player-poison-state.js'
 import type { BattleResources } from './battle-runtime-context.js'
 import { clearBattleRuntimeContext } from './battle-runtime-context.js'
 import type { BattleState } from './battle-state.js'

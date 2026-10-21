@@ -5,10 +5,10 @@ import {
   getPlayerDexterity,
   getPlayerFleeRate,
   getPlayerMagicStrength,
-} from '../equip-effect.js'
+} from '../equipment-state.js'
 import type { AllExperience, GameState, PlayerRolesRuntime } from '../game-state.js'
 import type { SeedableRng } from '../rng.js'
-import type { LevelUpScreenData } from './battle-settlement.js'
+import type { LevelUpScreenData } from './battle-settlement-data.js'
 
 /** SDLPal MAX_LEVELS(palcommon.h:82)。 */
 const LEVELUP_MAX_LEVELS = 99

@@ -1235,3 +1235,13 @@ Codex单一Coding Owner，同一3y，以399709863为本地基点、origin/main=9
 六明确文件A–H、正文守恒/真实字节oracle/三有效单红与恢复成立；旧CLI透传信用先撤后按当前证据重验，净增5而非按包绿批量关闭。首次官方指标拒绝及第二次可移动origin/main保护拒绝不改写；已在同一3y整合最新主线aba959e603be755f869c6e6c646afbbb58c479c0，移动端source与其原样一致，双方文档历史合并。有限计数批准只换完整新baseline摘要，166提取/shared输入及四项差额不变，不改game计数/规则/选择。整合后check20430及official fast20032/757源实际零诊断；随后同报告严格canonical投影/compareCoverage/auditScope保护通过，未另采第四轮。全部原件与失败/恢复在本窗包。
 
 3/3g仍partial；P3新双接回边未经批准未实现，原两批准修复保持6红先行及raw严格roundtrip。CLI剩余编排/失败策略与其它slice测试仍review。下一可续范围为pre94 3w/3x：按原卡合同复用已有primary/6+6单红，只补C/D/F/G/H及真实余项；不接94–102或已完成移动端产品开发。无下一位Agent提示词，Codex单Agent继续。
+
+### 2026-10-22 结算／成长模块质量窗口 build allowed
+
+前窗9a5f80e7c已先推3y并FF远端main，当前fresh fetch0behind/0ahead，主树不改；main文档/coverage CI真实success，原件暂存前窗临时证据，后续交接按确切run读取。Codex单一Coding Owner；旧3w/3x/3u的primary、合法夹具和有效反控按具体SHA/调用域复用，先补实际八维缺口，不重复整套考据。
+
+本窗口纯结构准入仅battle-finalization.ts、battle-progression.ts、battle-settlement.ts及新的battle-settlement-data.ts：清毒／装备数值直接依赖真实状态owner，原event/equip facade在battle-system入口仍直接加载；三接口的数据定义移到无运行逻辑的同模块数据文件，原settlement公共type出口／字段形状保留。七个转发绑定已用真实模块import验证同一函数；再核声明原文、其余发射JS、真实caller和生命周期。无机制、数值、资源、schema/save或公共字段变更；不改Extra遍历角色域。
+
+测试准入仅现有H02的多池用例必要补强及对应头注／身份映射，完整输入先按真实生产可达域核（身法没有动作计数来源，不能凭空给它加计数冒充正常战斗）；必要反控在自有隔离副本，必须指定业务AssertionError。levelup/settlement其它现有测试与helper先据证复用；只有具体缺口才另记窄增量。本片不是行为修复，不制造产品先红；源码纯重构与测试提交分开。16位极端边界及非队员Extra按既有停止线只读核证，有新产品选择先保留证据再裁决。多张相关卡稳定冻结后才集中全仓/coverage，未到收尾不重复昂贵门，94–102不扩展。
+
+3x只读边界核证新增[隐藏成长WORD停止线](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)：当前V1允许65535，真实DATA阈值／正式结算caller下，TS得到65536，原C WORD字段的实际复合赋值为0；原生cc及TS指定AssertionError原件齐。未宣称原盘正常剧情可达，也未改数值／save；先取得产品取舍。该问题与当前三接口／直接owner纯重构独立，3x保持partial。
