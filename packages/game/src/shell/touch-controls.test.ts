@@ -59,6 +59,10 @@ describe('touch controls through the live input source', () => {
     confirm.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight', bubbles: true }))
     expect([...input.nextSnapshot(++frame).pressed]).toEqual(['Right'])
     confirm.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight', bubbles: true }))
+    // The containing game surface still receives ordinary keyboard confirmation.
+    root.dispatchEvent(new KeyboardEvent('keydown', { code: 'Enter', bubbles: true }))
+    expect([...input.nextSnapshot(++frame).pressed]).toEqual(['Confirm'])
+    root.dispatchEvent(new KeyboardEvent('keyup', { code: 'Enter', bubbles: true }))
   })
 
   it('releasing touch does not release a matching physical keyboard hold', () => {
