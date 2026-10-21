@@ -3634,9 +3634,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-structured-design-review",
+      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "DOCS-CATALOG-SPLIT-1 选择 manifest + phase shards + loader 的结构拆分方案，拒绝全局 maxSize/ignore 救急；卡为 draft，正式迁移在 pilot、consumer 验证与 pin 级联完成前保持 blocked。 DOCS-CATALOG-SPLIT-1 记录实际分片、loader、consumer 和 pin 级联验收 catalog split card 已写入实际 SHA mapping 与独立验收；不代表全 docs 或产品执行完成。 catalog split card 已写入实际 SHA mapping 与独立验收；不代表全 docs 或产品执行完成。",
+      "coreConclusion": "Current completed catalog-split card has all five declared task-card-v1 sections and one exact migrated route. Three heading names changed; historical migration execution claims reused from card evidence, not rerun or promoted to full docs/product acceptance.",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md:1",
         "scripts/docs/check-phase-lore-governance.mjs:1",
@@ -3644,10 +3644,9 @@
         "docs/ops/guides/documentation-model.md:1"
       ],
       "unresolved": [
-        "loader、shard schema 和真实 consumer 回归尚未实现；不能把设计准入当作迁移完成。",
-        "source/target SHA mapping、R93/R94 pin 级联和最终独立验收待正式 build。"
+        "Historical catalog migration execution is not rerun by this narrow CI integrity repair."
       ],
-      "nextStep": "在 codex/docs-catalog-split worktree 先实现 loader contract 和真实 pilot；通过后再做四个 shard 的全量映射与 registry/review 同提交更新。",
+      "nextStep": "Maintain the declared template/route and exact reviewed SHA; actual progress CLI is now part of check:docs.",
       "phase": "ops",
       "module": "catalog-migration",
       "capability": "docs-catalog-split",
@@ -3658,7 +3657,7 @@
         "user-authorized-structural-decision"
       ],
       "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
-      "afterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+      "afterSha256": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
       "publicCallers": [
         "docs/ops/board.md",
         "docs/ops/tasks/index.md",
@@ -3690,7 +3689,7 @@
       },
       "revision": {
         "currentSha": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
-        "implementationSha": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+        "implementationSha": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
         "contentVersion": "N/A-document-design",
         "minimumSaveVersion": "N/A-document-design",
         "history": [
@@ -3716,7 +3715,7 @@
         "kind": "task-card-design-review",
         "path": "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
         "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
-        "afterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+        "afterSha256": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
         "lineCount": 237,
         "currentReading": {
           "date": "2026-10-17",
@@ -3739,6 +3738,14 @@
           "previousAfterSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
           "afterSha256": "7ebc1e3b02ae37c8f9069b17e890fd4a2074fbf4d1bdb42ca29dfc2da80c6334",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+          "afterSha256": "99a42e7326eca73301ad31763b5f1845281d371eea6f29d8842fcd9632af7e38",
+          "scope": "Only map three existing headings to already registered task-card-v1 and add exact migrated route; retain original body, status and historical execution claims.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
         }
       ],
       "supersedes": ["byte-level catalog compression rescue as a long-term architecture"],

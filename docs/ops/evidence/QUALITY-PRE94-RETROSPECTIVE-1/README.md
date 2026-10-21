@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-22 [GitHub Documentation CI返工](ci-progress-20261022/README.md)：复现两轮同样7项progress诊断，补当前模板edition保存证据与catalog卡route，并将原进度consumer接入本地check:docs；不降低门或改写旧失败，远端结果据实际run回填。
+
 2026-10-21后继模块收口见[当前六文件回执](3b/closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。
 
 2026-10-21 shared CODE2/2b接受：[11文件八维/完整原件/只读快检](shared-codecs/README.md)。有效native/原盘证据复用，归约独立单红与重复精简成立；shared114/extract18/game31、20386check、ratchet/protected各19988零诊断。6新关闭，固定83卡53accept/30partial；RLE/O-5限制保留，94–102不扩展。

@@ -16,6 +16,16 @@ Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 
+## 2026-10-22 GitHub CI返工（优先）
+
+用户指出最近main提交CI失败。实际e856与0f642的Documentation均在progress integrity步骤报同样7项，check:docs已过但本地收口漏跑独立进度consumer，旧本地门不等于远端CI通过。[唯一返工原件与当前模板edition字节证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/README.md)。Owner Codex，build allowed仅一张已完成catalog卡的三个标题/route、三份未改模板的当前冻结edition证据、相应有限pin链、package.json接入原进度consumer及回执；不改validator、排除、状态或历史失败。CLI新片24定向已绿，主编排重构尚未开始，先修CI再恢复；未据新片提前关闭文件。远端coverage以真实run为准，不概称全部CI失败或通过。
+
+## 2026-10-22 CLI主编排与事件测试窗口（执行中）
+
+同一3y，基点e8566c2c7ea1fbdccdbc782bd54216f94cd0823e，与fetch后origin/main同点；主树只读，Owner Codex。build allowed仅本窗口三个相关切片：3g两份剩余CLI测试复用已接受cli-host，去除重复进程/树Owner，FBP补完整R/G/B/A像素oracle，保留14条独立OBJECT hook合同；CLI正入口收集抽为只接受已解析表的纯内部模块，保持顺序、重复、正值过滤及调用位置，公共出口/管线输出/退出策略不变；CODE3的boundaries/runtime-resource两测试修合法raw与指令身份oracle，核真实反控。相邻global-entry fixture只纠enemyId直接索引错注。白名单包含这些文件及必要证据/账本；测试与纯重构分提交。
+
+复用3/3g和前一窗口已固定的源码、caller及有效单红，不重做已接收宿主/注释模块；当前完整读取CLI/slice及六份测试/fixture，针对C/D/F/G/H展开。slice两BFS、metadata与counted-goto算法冻结保持，QUALITY-EVENT-SLICE-CONTROL-TRUTH-1仍draft；本轮不把17个raw站点称作游戏故障或授算法build。先补实际缺口，稳定后集中check/官方ratchet/protected；此刻未新关闭文件或宣布统一门通过，94–102不扩展。
+
 ## 2026-10-21 提取器多卡窗口
 
 ### 当前收口回执

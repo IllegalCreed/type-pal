@@ -37,7 +37,7 @@ Template: task-card-v1 / 1.0.0
   - 不在未通过 pilot 和 consumer 验证前批量改写正文；
   - 不把当前字节压缩救急当作完成方案。
 
-## 前提真值门
+## 前提与证据
 
 ### 一句话行为 / 工程前提
 
@@ -93,7 +93,7 @@ catalog.json 是 phase/lore 目录的机器事实源，当前 1,048,568 字节�
   - pnpm lint
   - git diff --check
 
-## 验收条件
+## 验收
 
 - 功能:
   - manifest 明确 schemaVersion、catalogId、sourceRevision、shards、summary 和 loader contract；
@@ -226,7 +226,7 @@ check-phase-lore-governance 的 expected set 口径不变：枚举 docs/lore、d
 - 用户结论: 接受结构拆分执行；本卡完成后继续全量 1838 候选治理，不能把本卡完成当作全 docs 完成。
 - 后续任务: 维护四个 shard 与 manifest 的增量 SHA；全 docs 完成仍由 DOCS-FULL-TEMPLATE-1 负责。
 
-## 交接日志
+## 状态与交接
 
 - 2026-10-17 Codex: 核对 catalog 1,048,568 bytes、两个直接 consumer、R93/R94 pin 链；选择 manifest + phase shards + loader，拒绝 maxSize/ignore。Evidence: scripts/docs/check-phase-lore-governance.mjs、pnpm lint。Next: Codex 在隔离 worktree 完成设计 pilot。
 - 2026-10-17 Codex: 完成四 shard 迁移和 loader；5 个负向/正向回归、184/184 phase/lore、registry 2345/2345 与零诊断门禁通过。Evidence: scripts/docs/phase-lore-catalog.mjs、scripts/docs/phase-lore-catalog.test.mjs、R93/R94。Next: 维护 shard 增量，不再恢复巨型单文件。

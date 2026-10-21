@@ -1026,7 +1026,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Reuse fixed-Git review;only owned four-card board/ledger delta and descendant fingerprints read",
+      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
       "reviewDepth": "structured-content",
       "coreConclusion": "Four-card extract window: accepted original3b contract;four-card gate window passed;not all83complete;exact scope/evidence at 3b/closeout/evidence.json. Ledger355/120/2861;no94-102 or unrelated acceptance.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+      "afterSha256": "9663a47a48410ea2e66eef24e9bbf9b82c5b7b864ef478d42a3199b7c677b918",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1073,7 +1073,7 @@
       },
       "revision": {
         "currentSha": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
-        "implementationSha": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+        "implementationSha": "9663a47a48410ea2e66eef24e9bbf9b82c5b7b864ef478d42a3199b7c677b918",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1736,8 +1736,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
-        "lineCount": 3907,
+        "afterSha256": "9663a47a48410ea2e66eef24e9bbf9b82c5b7b864ef478d42a3199b7c677b918",
+        "lineCount": 3914,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -2136,6 +2136,14 @@
           "afterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
           "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+          "afterSha256": "9663a47a48410ea2e66eef24e9bbf9b82c5b7b864ef478d42a3199b7c677b918",
+          "scope": "Only owned CI record child fingerprint; no unrelated review credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
         }
       ],
       "supersedes": [
@@ -14704,7 +14712,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
       "reviewDepth": "structured-content",
       "coreConclusion": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r58-task-template-sources.json:1"],
@@ -14727,7 +14735,7 @@
         }
       ],
       "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-      "afterSha256": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
+      "afterSha256": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14751,7 +14759,7 @@
       },
       "revision": {
         "currentSha": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-        "implementationSha": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
+        "implementationSha": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
         "history": [
           {
             "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
@@ -14797,8 +14805,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
         "candidateSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-        "afterSha256": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
-        "lineCount": 459,
+        "afterSha256": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
+        "lineCount": 507,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -14825,6 +14833,14 @@
           "action": "R93 phase-governance artifact migration",
           "reviewer": "r93_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730",
+          "afterSha256": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
+          "scope": "Only owned CI record child fingerprint; no unrelated review credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
         }
       ],
       "supersedes": [
@@ -15310,7 +15326,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read actual owned CI integrity delta; retain unrelated original review and provenance",
       "reviewDepth": "structured-content",
       "coreConclusion": "docs/phase-governance/reviews/20261017-r62-template-sources.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r62-template-sources.json:1"],
@@ -15333,7 +15349,7 @@
         }
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
+      "afterSha256": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15357,7 +15373,7 @@
       },
       "revision": {
         "currentSha": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-        "implementationSha": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
+        "implementationSha": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
         "history": [
           {
             "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
@@ -15403,8 +15419,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
         "candidateSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-        "afterSha256": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
-        "lineCount": 3355,
+        "afterSha256": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
+        "lineCount": 3379,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -15431,6 +15447,14 @@
           "action": "R93 phase-governance artifact migration",
           "reviewer": "r93_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CI-progress-integrity-owned-delta",
+          "previousAfterSha256": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358",
+          "afterSha256": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
+          "scope": "Only owned CI record child fingerprint; no unrelated review credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json"
         }
       ],
       "supersedes": [
