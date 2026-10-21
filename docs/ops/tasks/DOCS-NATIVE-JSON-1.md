@@ -1,7 +1,7 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
-Status: build
-Execution: build（GLM只读内容交付；原生字节与中央待办保持）
+Status: rework
+Execution: rework（机械成果保留；GLM补强内容判断字段，仓库只读）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: GLM（逐篇语义、来源核实与自验）
@@ -64,9 +64,21 @@ Template: task-card-v1 / 1.0.0
 
 ### 独立接收与停止线
 
-- GLM逐篇稿/自验：pending；候选仓库身份预计保持准入HEAD，无内容提交并非缺失，因为原生字节不可改写。
-- Codex证据验收：pending；充分支持的单篇可保留，counter只退受影响claim；系统性失真才扩大复核。
+- GLM逐篇稿/自验：269条ready稿＋30条例外已交付，自标程序解析而非人工全文语义重审。候选HEAD实取为`ccc094e860e7e118bacb95b61c425f9fc2d037de`，仓库零写入，仅node_modules未跟踪；无内容提交符合原生字节保全要求。
+- Codex非作者证据验收：机械保全与限定例外接受，269条内容判断字段rework。当前工具验证身份/形状/引文，不认证语义；作者未虚报全文深审，但ready条件与本卡具体内容准入不一致。可靠事实保留，不能据机械绿接入语义信用。
 - done准入：blocked。用户体验验收N/A（不改产品行为）；本卡不授任何旧运行、当前产品/E2E/视觉/coverage信用。
+
+### S26 首轮证据裁定（2026-10-21）
+
+- 非作者：Codex，nonAuthorReviewer=true仅指GLM交付证据核验，不指本卡作者自审。全读短回执并回放原工具；独立核红/pending/probe三条的计数、断言/引文与context SHA/行范围；因样本矛盾展开共用生成器和269条claim形状。未重做269份全文治理、未跑产品或旧测试。
+- 通过并保留：302载体字节、279固定Git对象、269条机械稿形状、30例外；23个来源逐条核blob/SHA与可达同路径历史最早匹配提交，分别为08fa561e/99249d61/b74c6d98。这只是载体起点，不认证旧运行/生成命令；原执行来源仍未认证。
+- 七份格式分析作为设计输入限定接收，不冻结新变体/路由。Owner直接订正directed-summary的num*为五个字段，且实核directed.json与directed.raw双链；两份instrumentation的originalFileSha256保留为历史声明。同路径可达历史未找到对应原件，不扩大成全仓/外部不存在的断言，也不能把声明SHA当已认证来源。
+- C01：269稿的共同结论由名称/计数/套件摘录生成，62条baseline/restored/replay/probe相位按文件名判定，13条context只取H1；不能因此授具体相位/producer/consumer/后继判断。N-B10遗漏同卡README第29行的B10撤回；probe-r1在README第70行是时序诊断，无依据写成judge-probe。须补实际上下文和逐篇差异，未知只block受影响篇。
+- C02：199条排重引用相同两份alchemy pilot，其中186条跨任务；其余空比较也不能保留肯定的同卡相位互斥结论。须比较真实相关对象或如实unknown，保留已核原生事实。
+- C03：三份实际四失败报告把前三条截断名称称为完整集合；三份pending报告把失败数0写成非通过数0。只修相应oracle/身份描述，不改原件。
+- 事故原件：错误main cwd的source-start失败、source-start-2恢复、delivery-final双回执及其完整输出/哈希均核过。skipped-bug仅有作者过程说明和当前正确状态，未交初版坏分片；不声称独立重建已丢失中间态，不用作者子代理自验代替本席验收。
+- 完整裁定及精确路径在`/tmp/type-pal-S26-owner-audit-bcj6LrfU/verdict.json`（SHA-256 `26f7c6a21e212cd3040eed9befb475ea95ec004a59c4889d270f296d47a605ef`）；本卡原有单份压缩日志追加冻结原包、裁定、观察及真实命令，不增加canonical账本或native副本。C01/C02/C03只退判断字段，23来源和7格式不重做；新证据唯一写入`/tmp/s26-glm-evidence-correction/`，原包冻结。
+- 当前模型/路由/模板、1838冻结绑定和全部既有文档信用不变；新增语义/迁移信用0，当前1195待办/2384诊断保留。父卡仍rework，不合main、不推送、不标done。
 
 ## 设计与风险
 
@@ -76,14 +88,14 @@ GLM读原生文件及其实际上下文，将历史观察和当前适用性写�
 
 - 当前Owner：GLM执行稿件与自验，Codex维护准入和中央接入。未交付前不宣称269已审/已迁移。
 - 稳定交接入口为授权包中的`INSTRUCTIONS.md`和本卡；进度保存在证据目录review-index/已落盘分片，不依赖聊天记忆。工具/清单hash及原件必须可核；指纹全由程序实取。
-- 下一步：用户将下方提示词一次转交GLM；其内部8–20件一段，无需每段往返。中断续办先核候选/输入指纹和实际分片，再继续pending集合；每回合给自含续办或最终Codex回信。
+- 下一步：用户将下方修正提示词一次转交GLM；实际共同上下文可一次阅读复用，每篇核本轮相位/差异，不重复原机械盘点和30例外。内部自行分段无需往返，中断按新分片恢复。
 
 ## 下一位Agent提示词
 
 ```text
-你是type-pal的GLM贡献者，执行DOCS-NATIVE-JSON-1 / S26一次性大包。
-先读 /tmp/type-pal-S26-GLM-native-json/INSTRUCTIONS.md、AGENTS.md、docs/ops/document-quality.md、docs/ops/tasks/DOCS-NATIVE-JSON-1.md。
-按转发提示词中的完整准入HEAD核分支/工作树；execution-manifest.json SHA应为2a221f1d96184df9213061f0d6acffb33c9287c6c91b635f643ba3cbe83c2fe9。
-269件逐篇内容稿＋23来源/7格式例外分析，唯一写入/tmp/s26-glm-evidence；仓库及三篇pilot只读。
-逐篇具体结论、实际读域、可核原文锚与历史边界；内部自行分段并一次回交。用verify.mjs自验并留真实回执，不改中央或原生字节，不伪造执行/阅读，不合main、不推送、不标done。
+你是type-pal的GLM贡献者，执行DOCS-NATIVE-JSON-1/S26判断字段修正。
+先读 /tmp/type-pal-S26-owner-audit-bcj6LrfU/GLM-PROMPT.md、verdict.json与observations.json，按C01-C03精确范围补强。
+工作树/分支/HEAD固定ccc094e860e7e118bacb95b61c425f9fc2d037de不变，原仓库与/tmp/s26-glm-evidence冻结。
+唯一新写入/tmp/s26-glm-evidence-correction；保留原机械事实，不重做23来源/7格式，不用名称/计数生成语义。共同上下文可准确复用；证据不足只block对应篇。
+新包交唯一269索引/分片和真实快检回执，30例外原行可字节复用并标未重审；最终一次回交。不合main、不推送、不标done。
 ```
