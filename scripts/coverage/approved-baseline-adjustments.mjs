@@ -4,6 +4,719 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // User-authorized structural recounts, pinned to complete old baseline and current
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
+  {
+    id: 'pre94-extract-control-and-io-recount-20261022',
+    authority:
+      'User2026-10-20/21 authorizes exact baseline adjustment for reasonable refactor,never dead-code restoration or weak tests;2026-10-22 approves the two slice control fixes. Standing authorization permits file reorganization. This finite recount covers deduplicated BFS and unchanged moved IO/music bodies only; no rule/selection/threshold relaxation.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json',
+    baselineSha256: '53678cc775c2e85a48e3225ddea15126e480668ddd050592b8619a42c36dd207',
+    sources: [
+      {
+        path: 'packages/pal-extract/README.md',
+        sha256: 'ef3fc9f781bbe58504e5bce6b8736162f894ad254b82fce645bb708a5205b3b2',
+      },
+      {
+        path: 'packages/pal-extract/audit-data-mkf.mjs',
+        sha256: 'dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5',
+      },
+      {
+        path: 'packages/pal-extract/package.json',
+        sha256: 'c267ca338e26c4a5e0a4b24bde218bf32f16adfcb1f122cb689b04d07f229f34',
+      },
+      {
+        path: 'packages/pal-extract/scripts/extract-videos.ts',
+        sha256: '0c149a276bca4fe592142ddfeef06c2268c1642e03dcf05883f5292cbbc22218',
+      },
+      {
+        path: 'packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs',
+        sha256: 'da5d9bc73921f38a2fd5b525761379647a1241ff570021cd8a4dc8e6c11900d9',
+      },
+      {
+        path: 'packages/pal-extract/scripts/grep-sdlpal-chunks.ts',
+        sha256: '3539416fef83525ddc76c93562e7c29191038db52d3c1ecd0181156517b7061f',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts',
+        sha256: '46866511c87751ad77f2d43763d04beb3947b69046877a1f9601342f811f6b86',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/asset-manifest.test.ts',
+        sha256: '47e20b7d623e3549cd43271a321c349bb749684c6d88f4a7487474060bc11d00',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/cli-host.test.ts',
+        sha256: '9095e62d4768e00a0ce374685e39f1e807c0ea674735c2be6941881f95ae4177',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/cli-host.ts',
+        sha256: '6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts',
+        sha256: 'dedcadf9aa816f9b64e01acb840d405dfae89f2eb1e407efd1cc1cd9d3a30ba8',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts',
+        sha256: '855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts',
+        sha256: 'ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts',
+        sha256: '7fd2291608c9a2581adafb86a37e868c7f16640f693b89b0dcb97d76b83fa215',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts',
+        sha256: '6627be6794027e7f1071c8da0d6ffb0c2161851b820c7e9f8f506a495687faab',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts',
+        sha256: 'aa81e2e672a88a28eaa24acf2e123f1b672f260f073499e14cfe2fa1a3173d2c',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/parser-diagnostics.ts',
+        sha256: '81e4c3b53d339c6c95a34ca9cd257d7b2a4541dec9be5ea8f3213d0af45e8010',
+      },
+      {
+        path: 'packages/pal-extract/src/audit-data-mkf.test.ts',
+        sha256: '2ba45d0947f9dc087911131d9288a1feae0bac3ea19c6fecf972dd4225c19e15',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-battle-assets.glm-q.test.ts',
+        sha256: '20bb5fa429fcdaa161d4b5a51a2b38a36fc819833e82fd08880ac67bea555de5',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-entrypoint-paths.test.ts',
+        sha256: '77d75e081d309cde9a917308ac2407fa136690ce42e71b7bf015c9f4fdbf5519',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts',
+        sha256: '4b00dec25c948419a6b35e0d278b5b4995e48473b040503999c2e6d2e9f638b7',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-font-lookup.glm-q.test.ts',
+        sha256: 'ded6e69d721824c14c15d74ed51af4ff57b1900d5bfd13d31ff563a58d4b2c4b',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-global-entries.glm-q.test.ts',
+        sha256: '845dd66a1ac2f2de8eaf84154b82e75e8c822d26dbd6bf0806e629dd169bd5a1',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-isolated.glm-q.test.ts',
+        sha256: '42e74aab061c667d84ca37bd62f54480d84e1177c22b40edffeed0e709906c66',
+      },
+      {
+        path: 'packages/pal-extract/src/cli.ts',
+        sha256: '33e00dd6737c5feaa537736b54e1a82795ccc45503586418f5ee97dce79b78b2',
+      },
+      {
+        path: 'packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts',
+        sha256: 'cf18e63bd8be2d9ec4db111d0155bc12c1191975e17d3b1bdf22d500364285e7',
+      },
+      {
+        path: 'packages/pal-extract/src/events/annotate.test.ts',
+        sha256: '3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d',
+      },
+      {
+        path: 'packages/pal-extract/src/events/annotate.ts',
+        sha256: 'ef31df8d85c291cabc2d1ad836bec706c4f70e8de9c6c20d15d1b098ac86e673',
+      },
+      {
+        path: 'packages/pal-extract/src/events/disasm.boundaries.test.ts',
+        sha256: '2513464e090d42e3ef7c1c2e23cbe4280909fa43c67c4e1be545da9b12c28698',
+      },
+      {
+        path: 'packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts',
+        sha256: 'd8f42c22376c31c7aef1a8e9f1849ffb119c5971927e47f6e80307cd9a9d9ce9',
+      },
+      {
+        path: 'packages/pal-extract/src/events/disasm.kimi-r1.test.ts',
+        sha256: 'a50f4d05fc2dae1e259d5e46b89ff7f4aea73bc0dbc740c0b952f00333294400',
+      },
+      {
+        path: 'packages/pal-extract/src/events/disasm.test.ts',
+        sha256: 'b1d13d7320a52098b2b5278de91f0755a4df08abc9066f71c554822dd7adc1f9',
+      },
+      {
+        path: 'packages/pal-extract/src/events/disasm.ts',
+        sha256: 'e9f628cd665d70f738f44cb0216a9dcf3f8f60a3c853da465b620f584414033b',
+      },
+      {
+        path: 'packages/pal-extract/src/events/opcodes.test.ts',
+        sha256: '8189eedb5cbe6a14a1f3e9817d1af79e904c9bcf1624bce3b12854392726770c',
+      },
+      {
+        path: 'packages/pal-extract/src/events/opcodes.ts',
+        sha256: 'cacf6a313be2ab3298fb74be07825c12d43c9b21505301a7c037102b28b1bee4',
+      },
+      {
+        path: 'packages/pal-extract/src/events/recompile.boundaries.test.ts',
+        sha256: '02766ba23acb6c203738d38ad5f2c7accf9eb52d33127967fe3160e70c01999c',
+      },
+      {
+        path: 'packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts',
+        sha256: '53c33d150aff71d0d2bb58b6e30fe00170d7d580ed762c3817d84082749b6500',
+      },
+      {
+        path: 'packages/pal-extract/src/events/recompile.test.ts',
+        sha256: 'fa5a24dacc0ac97130ff84eef80804538e739bb763b407b9203935b09f9a41e8',
+      },
+      {
+        path: 'packages/pal-extract/src/events/recompile.ts',
+        sha256: '70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f',
+      },
+      {
+        path: 'packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts',
+        sha256: 'ec1ba7fd79340e57f2e9792017a7531059a6545a5c3e286141a7a13dceb66c02',
+      },
+      {
+        path: 'packages/pal-extract/src/events/roundtrip.test.ts',
+        sha256: 'ee6cfbf035101be7a78b95c8fb09e2902a42f4e61f69d57fdd12c6ba7229daf2',
+      },
+      {
+        path: 'packages/pal-extract/src/events/roundtrip.ts',
+        sha256: '06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906',
+      },
+      {
+        path: 'packages/pal-extract/src/events/script-entries.test.ts',
+        sha256: '188724f87e35e1fa775346b7d678ec89607029015e8f6a374ba745d59199b869',
+      },
+      {
+        path: 'packages/pal-extract/src/events/script-entries.ts',
+        sha256: '33879340659cd516df13adc41b8f1eca627c88f52eae931f7dc6e2e186ee2c04',
+      },
+      {
+        path: 'packages/pal-extract/src/events/slice.boundaries.test.ts',
+        sha256: 'cd6589766f62c3236080b3df551895b405f236b0b2daca590efc2a44b64a1021',
+      },
+      {
+        path: 'packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts',
+        sha256: 'b5e9d9216141d620da39d60c2c94df873185169d0e3c5b3e8a748db55f116d04',
+      },
+      {
+        path: 'packages/pal-extract/src/events/slice.kimi-r1.test.ts',
+        sha256: '638bd917be66aec18addc6ec5baa8e7b4cf4397bf551daaead6f53a337b2acd8',
+      },
+      {
+        path: 'packages/pal-extract/src/events/slice.test.ts',
+        sha256: '7d5ce4302ff885a2e41cafd0cab5dd0d198d0615e0a1ff3b14e47df6d1816eb8',
+      },
+      {
+        path: 'packages/pal-extract/src/events/slice.ts',
+        sha256: '249ef69f1cb4e9e5ed79adbc740c32cd8dd0b7c5cafaf71d6adb79bf43c60e2a',
+      },
+      {
+        path: 'packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts',
+        sha256: '05b54e3d21e5c097451ffb2dc9c39c27969a250f50785d8dd75fc74ced2230d8',
+      },
+      {
+        path: 'packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts',
+        sha256: '1795ab0f4412d0a6b44ab35fce8512263301ca1d584bf925cccc0018be8ffc90',
+      },
+      {
+        path: 'packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts',
+        sha256: '8b2b58de7b41cdb5f0b2671a16bf469fade4b721e8872118d6de3337247db707',
+      },
+      {
+        path: 'packages/pal-extract/src/font/bdf-to-json.ts',
+        sha256: '4d57203361b505557c165398d580404579c61964014e2b99aac935307d85aa50',
+      },
+      {
+        path: 'packages/pal-extract/src/io/mkf.test.ts',
+        sha256: '7da6a589a75cac60a352cc156da790c70505235d7be335ddc01d461090dfebb0',
+      },
+      {
+        path: 'packages/pal-extract/src/io/mkf.ts',
+        sha256: 'ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3',
+      },
+      {
+        path: 'packages/pal-extract/src/io/msg.boundaries.test.ts',
+        sha256: 'fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f',
+      },
+      {
+        path: 'packages/pal-extract/src/io/msg.test.ts',
+        sha256: '564ffa152841040b412826e238291103fa69756e6cef236557776cfeb24d4816',
+      },
+      {
+        path: 'packages/pal-extract/src/io/msg.ts',
+        sha256: '1aeede31eec0e5807ca450c7614d3b9719a2e3c1e8ac5940f8a2dd3a3f092006',
+      },
+      {
+        path: 'packages/pal-extract/src/io/rle.test.ts',
+        sha256: '73dcec2dd9260c0449e58b57e904a42a053629c6aa5ee11001d4fd88148222c0',
+      },
+      {
+        path: 'packages/pal-extract/src/io/rle.ts',
+        sha256: '181195581652f4d2985681490e80a4ec9b7f371280fb71aef320a930aa0726bb',
+      },
+      {
+        path: 'packages/pal-extract/src/io/sss.boundaries.test.ts',
+        sha256: '617dd83725bacfe92ca0af771cb3fb61b5b41ff1e801d46c0b22bef28da11eff',
+      },
+      {
+        path: 'packages/pal-extract/src/io/sss.test.ts',
+        sha256: '34207e32602a42b6d2390e7a11e9cf78e44341555f2e3db9376008383fac254f',
+      },
+      {
+        path: 'packages/pal-extract/src/io/sss.ts',
+        sha256: 'a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518',
+      },
+      {
+        path: 'packages/pal-extract/src/io/word.boundaries.test.ts',
+        sha256: '2f169f1fe001832e42d3483ea6be2dffb07a22cefe5a23ecc8cdd0759f0f8e0b',
+      },
+      {
+        path: 'packages/pal-extract/src/io/word.test.ts',
+        sha256: '451ffeb0872156a1ff2660ba039d087642f08efdc596cddf1f38f073e986a760',
+      },
+      {
+        path: 'packages/pal-extract/src/io/word.ts',
+        sha256: 'dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6',
+      },
+      {
+        path: 'packages/pal-extract/src/io/write.ts',
+        sha256: '664539a20d5a23f296dcaeb08e54d32cba0a4789fc5fc8feb56b7de0bffbda77',
+      },
+      {
+        path: 'packages/pal-extract/src/io/yj2.test.ts',
+        sha256: '597ec5e65d42105a76e23c1cae4abca602a4143b5843b9355834feafd1c978dd',
+      },
+      {
+        path: 'packages/pal-extract/src/io/yj2.ts',
+        sha256: 'b01a32ad4f2a313c52accc8ebecc67e550994fa61c802c031d91a7ad31f126c0',
+      },
+      {
+        path: 'packages/pal-extract/src/output-boundary.test.ts',
+        sha256: '367ed813ba41b1797c0c4928d42745aa64f36384fb7c66e53aab26f582f11ea7',
+      },
+      {
+        path: 'packages/pal-extract/src/output-boundary.ts',
+        sha256: '2b7f92f1d5713dd9d1753c14917dca80582add06f304712be857d1cc4e6a0bdd',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts',
+        sha256: 'bfdd1a65bfc5ce183c9801495793b3d040c8b3b1a06d96779a50d01e7ac0f51a',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/asset-manifest.ts',
+        sha256: '6946220262cdd9f490e5469c26e209554e5e87eb8188fb2d144f46d23b801a4b',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/battle-sprite.test.ts',
+        sha256: '9489e0a90ab292172d0edac4c6eaa22bc56b15b70b5086931656bcfc9c690422',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/battle-sprite.ts',
+        sha256: '17027e7427166a332690e9618a3e454e12d1e412963edbc87403ce17bfe8bb68',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts',
+        sha256: 'd8dc28e53680629b4408cb2f2b1429eb45dddb09cd88d7acf792dcfdf1e781d9',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/enemy-pos.ts',
+        sha256: '2fe29a2a1c485929009f6cffec7ad75a75ac695721e0929418f33edd30910505',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/map.test.ts',
+        sha256: '53a65a217b5befb52e01db818722cd3dff57f4720a1de1066204bd3df54e3585',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/map.ts',
+        sha256: '5695f47064b4c2d83d1cbd7f624450feda2b98fe335a6170d6147e5338d4e678',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts',
+        sha256: 'cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/music.ts',
+        sha256: 'dd488c3e3d1485de41f15d8a9fc95866a2c294d34a9fb8d9e0436b649de65926',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/palette.boundaries.test.ts',
+        sha256: '86724be02c3415531d8ce0d8b502df7c4b1b67b73db3fbc6ce061fae1fc152bf',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts',
+        sha256: 'c13ab1fa32032954f6cf97ca9c866f83ce6402a7ea87ad7036347a173dc3b84b',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/palette.test.ts',
+        sha256: 'ad2650b6b0e28a3498b02f91288061caf114a6a43e0ebb9efd8c2525fa2dcdc8',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/palette.ts',
+        sha256: 'ad806bc60aa51e5dd61bbb8c9fe50c2c20ae66feed9fa89944393714d3272ba9',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts',
+        sha256: 'a6f7262bf137ed4958e3e39727b1636f236408c33a0d65deaa64e4976132935b',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts',
+        sha256: '7fbc1f8639c9190f32b886cf261115a0125c156fa6d11cdb5fa709662f6684b3',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts',
+        sha256: '3f13dc170743e59be27cd006bb5bac11b84e0058b480f536ed93435373dc32d0',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts',
+        sha256: '60f468590d88560dfd77d04c472cf2f620ae3fcb59b9457b41269f31b832784d',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts',
+        sha256: 'b20e652c9d85ff27a6e5a64f97a56c18f88dcd09fe3bce7cbf8ddefbc48f19ea',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts',
+        sha256: 'ccdb9eeb55af7027c94087451e27286bfb90a969730addcef0d9b39433284850',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts',
+        sha256: '91cadfd35e0f7c206089503aca0d3da7db4d96179bb8ec41d4fb30f8f308209f',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts',
+        sha256: '6a4f30672f726cc9ec5b3d4066953762051b2562fa074edb984cbc09e74acdb2',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts',
+        sha256: '7c0719614bf246e4d43ff5b5ccd0222a008551b1bf465bef56c5f554550bdff3',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts',
+        sha256: '8892d438a8c88ea2c9f544f2aef90b90283d1934c9618c7d2bbb88d1120d015f',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts',
+        sha256: 'def06f201d8c5c0b622c8a59b3bd3f6998e637b23b77abcd4008e00a09beee75',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts',
+        sha256: '0945a301f7e9996069d9dad0259580cdc8a494598f0e0d4abff6e3f0c3615105',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts',
+        sha256: '1ef19189f922b888a40debfd56d951df272bdcaa92e9f1f015dc12e419949280',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts',
+        sha256: 'c6a79ba5737d556536715fb93e3f28aa2e7b8810083da5767561c93e4aa5d762',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/_utils.ts',
+        sha256: '958dea6b7bec38ca3ae2a467b2d372c28263bedcf2b8a6f92d28f72fee9b3215',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts',
+        sha256: '1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/ball.ts',
+        sha256: '8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts',
+        sha256: '2698d991fea5c3c24349c18356b78a65f7ecbb2410482777e4e141307ce4110c',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/battle-fields.ts',
+        sha256: 'df5ed939b9761da191590e48fe9dd4c1b334c211b4a523cdc4b18df22a9848a2',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/data-misc.ts',
+        sha256: 'be0f30fa87b04813a7f3e8247ceecceb104d6575df573feb6fdc2970f5e6e74c',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/enemies.ts',
+        sha256: '12c0fba0960792c066859a832120c894483d3cdec3d29e0e250db4277573f9b6',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts',
+        sha256: '5ac390a1b612c97ce6d199abd86a172079ac5505643dab330a58292caa1c1c8a',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/enemy-teams.ts',
+        sha256: 'eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts',
+        sha256: '53ad57980bdb47bf3a90832cb87b052bbdd4a3d8eecd6c83e9ad67754335cc15',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/fire.ts',
+        sha256: '0cfc135544de7ae6e1a2571fdb643333eac35833649e17a4e1b57a167849ac76',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts',
+        sha256: '2eb46bfcb73055f3302707ab791eb41659959249bb3c137f6c71c07ca2f0ef1b',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/items.ts',
+        sha256: 'ce10629b77c6ca18c32e755e1b9f7dfd57287558da7eed0e27528fbac52ba7dc',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/player-roles.ts',
+        sha256: 'faddc5642418cfcf1eb639850bc71fbdde2a8784190263fa022d2af42d03da4d',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts',
+        sha256: '326f352769f56e742ed76d449814ab6a4ede96fc9b43db24f73be54a40aa7d8c',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/rgm.ts',
+        sha256: '92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/rix.ts',
+        sha256: '769745e4f7e176fa5ef24d7120d0d6aa8e4651718420ae77a135604edf09e91e',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/rng-frames.test.ts',
+        sha256: '6bc9aab5f5e7d10fac8fe428df6c87dd0611e86d49930142941dda1fbfc09617',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/rng-frames.ts',
+        sha256: '9a4b1431e8a8d683795b9b5ca1b28e6bc0f22a408cc0cf02c4663ae431f99094',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/sounds.ts',
+        sha256: '8e46e879621a448028ce3ed3cbd7a4aca5da85659191ea446b395f5d9e1dce64',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/spells.ts',
+        sha256: '3bf94340d337fb9fee0ca019ce3a9a66f52cf42d671b748e9dfd68868ed4815d',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts',
+        sha256: 'bda5f984c13ca2c8e42b29154ff656ff053b93a4bcef6835892476d9b00dbb3e',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/stores.ts',
+        sha256: 'ac63cfe2cee9ba7ab01d6dd055fb93a78bf0b8a6d61648ac98be0d118d6fc0f4',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts',
+        sha256: 'd64535347174d2c2ec6f872ba3a6165286c6426eb9065cd35109e4846dfc75b2',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/scene.test.ts',
+        sha256: 'fe38963013805973a8bb7500a0270f164ee3f5573fce1fdadf80a3a152f130fe',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/scene.ts',
+        sha256: '59dd66f60f240ebb9bf0ac8141d4c595d6e6e58dcd50fc0e1a66515adbcf1e61',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite.boundaries.test.ts',
+        sha256: 'a1fb4b2867d8e5c9474b7a9c3c90552091afacc13dd600fa83f9ef26976c2846',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts',
+        sha256: '01041e1c52c81ba451f889a80c5a1de9d8ca16059afe55f7a1f2f59ca543fd9d',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite.test.ts',
+        sha256: '214717da50e69860e28775f14ec84a701579e515a4914b0154c1de45a7df623c',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite.ts',
+        sha256: '5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/tables.test.ts',
+        sha256: '1d223df93228b3bd45a4058ce61bd57ad4ee6999b17fa5f4c201353590d78403',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/tables.ts',
+        sha256: '74df97a4874d86525378189cc4f59d118e8d5a002caa3f852212c50c8a409ccd',
+      },
+      {
+        path: 'packages/pal-extract/src/utils/gbk.test.ts',
+        sha256: '6efac88e323fdeaf028e282874efaf3b8a437665b511d658fa0dbd162f7a0dfe',
+      },
+      {
+        path: 'packages/pal-extract/src/utils/gbk.ts',
+        sha256: 'cf74eb8e8b37ab04e8746a9c42391c699f85af9cc02b8e4f1b08b7d7c9ea1a8b',
+      },
+      {
+        path: 'packages/pal-extract/tsconfig.json',
+        sha256: 'c495913f16faed5087b5f04fdf57ea15147633743e2c2b0f4352383a2453ac1b',
+      },
+      {
+        path: 'packages/shared/src/__tests__/glm-foundation-fixtures.ts',
+        sha256: '6444bc2f80029d5bd827699e2cac29e916fc278858447bf13d6492ac47a181d3',
+      },
+      {
+        path: 'packages/shared/src/__tests__/public-contracts.ts',
+        sha256: '9feeacc7e78e6e9a12c47e03779b489426a34c0028e280953fe3c7c243c7f6a4',
+      },
+      {
+        path: 'packages/shared/src/__tests__/yj2-rescale.json',
+        sha256: 'af83186c6135ab84e29ed27b7ecab8b126db33ab96122e119850bd1707bd29e1',
+      },
+      {
+        path: 'packages/shared/src/events.ts',
+        sha256: 'fbe669229da412574ec13a811b077918d97ab3399da5a3adfdcb10c91b5c7d0f',
+      },
+      {
+        path: 'packages/shared/src/index.test.ts',
+        sha256: 'fc92b682b1037bd56eb6e11004013abe4290052ee933a8ecee931f660d4d5ef5',
+      },
+      {
+        path: 'packages/shared/src/index.ts',
+        sha256: 'aa5e78f8a222de107f814d11cd9dc52239cc23135fe9c794db754f28b868d99d',
+      },
+      {
+        path: 'packages/shared/src/input.ts',
+        sha256: 'f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3',
+      },
+      {
+        path: 'packages/shared/src/mkf.boundaries.test.ts',
+        sha256: '9e2c09bd6f12e02955091a10afbc2411ec3248c10df8d17bcaf4237dff1b57be',
+      },
+      {
+        path: 'packages/shared/src/mkf.ts',
+        sha256: '7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc',
+      },
+      {
+        path: 'packages/shared/src/pal-authored-map-names.ts',
+        sha256: '69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a',
+      },
+      {
+        path: 'packages/shared/src/pal-map-names.test.ts',
+        sha256: '3a381f468e7107b93efb25592e6a499d5d62cc0e40fe368701b992dcbe1741fc',
+      },
+      {
+        path: 'packages/shared/src/resources.ts',
+        sha256: 'daf404181b9244c98dfb859c7bb5c3befde2fdb1d16027a9318b5f98fff0d1ed',
+      },
+      {
+        path: 'packages/shared/src/rle-encode.boundaries.test.ts',
+        sha256: 'fc93e0f04f5be79be3c2c15ab83dfc62311d817ef571a9dc3054800dcd7558e3',
+      },
+      {
+        path: 'packages/shared/src/rle-encode.glm-runtime-resource.test.ts',
+        sha256: '2a2bb0336aa3b579462c74832971bb113c7d7b302cecc5c731c8974256d4418e',
+      },
+      {
+        path: 'packages/shared/src/rle-encode.test.ts',
+        sha256: '604eacd989af1111a252f5415700ca070017d60186b8b049955256034deaefe6',
+      },
+      {
+        path: 'packages/shared/src/rle-encode.ts',
+        sha256: '047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36',
+      },
+      {
+        path: 'packages/shared/src/rle.boundaries.test.ts',
+        sha256: '1620ef98dd15a38b908badb32af8d5209e7d070b8f3b69c304d4090d039d800b',
+      },
+      {
+        path: 'packages/shared/src/rle.glm-o.test.ts',
+        sha256: 'b4ff29b83abd05b88307f3cad9eeed7957cc4508cda2f753c60925b20a97ddfc',
+      },
+      {
+        path: 'packages/shared/src/rle.glm-runtime-resource.test.ts',
+        sha256: 'cc41e134f9ff96fdceedc7419bde3a6e95e63efb2a18a6410918ed4ab1727f3b',
+      },
+      {
+        path: 'packages/shared/src/rle.test.ts',
+        sha256: '3f43d8a28da5e41c4b239c6b556bf9b6bae0bfaf4560add747f9ce9a31105e67',
+      },
+      {
+        path: 'packages/shared/src/rle.ts',
+        sha256: '91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e',
+      },
+      {
+        path: 'packages/shared/src/rng.boundaries.test.ts',
+        sha256: '941aa095d350a5b093e37b4de2ea082d92a74b7ec3f3c0e27bd3385153c3649b',
+      },
+      {
+        path: 'packages/shared/src/rng.test.ts',
+        sha256: '5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a',
+      },
+      {
+        path: 'packages/shared/src/rng.ts',
+        sha256: 'b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e',
+      },
+      {
+        path: 'packages/shared/src/tables.ts',
+        sha256: 'efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828',
+      },
+      {
+        path: 'packages/shared/src/yj2.boundaries.test.ts',
+        sha256: '44b74b006f31d689b3720c8bc792b94b492034231fa19227b39dc23994ad1c52',
+      },
+      {
+        path: 'packages/shared/src/yj2.ts',
+        sha256: 'd26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4',
+      },
+      {
+        path: 'pnpm-lock.yaml',
+        sha256: '3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/inventory.mjs',
+        sha256: '8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2',
+      },
+      {
+        path: 'scripts/coverage/metrics.mjs',
+        sha256: '5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684',
+      },
+    ],
+    packages: {
+      'pal-extract': {
+        before: {
+          statements: {
+            covered: 1120,
+            total: 1542,
+          },
+          branches: {
+            covered: 503,
+            total: 597,
+          },
+          functions: {
+            covered: 115,
+            total: 143,
+          },
+          lines: {
+            covered: 979,
+            total: 1364,
+          },
+        },
+        after: {
+          statements: {
+            covered: 1089,
+            total: 1512,
+          },
+          branches: {
+            covered: 482,
+            total: 576,
+          },
+          functions: {
+            covered: 116,
+            total: 145,
+          },
+          lines: {
+            covered: 955,
+            total: 1341,
+          },
+        },
+      },
+    },
+  },
   // Exact four covered temporary-copy declarations removed from SSS parsing.
   {
     id: 'pre94-sss-raw-copy-20261021',
