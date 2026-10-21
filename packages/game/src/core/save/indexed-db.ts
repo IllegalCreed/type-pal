@@ -7,11 +7,11 @@
  * Object store schema:
  *   db name: 'type-pal'
  *   store: 'save-slots',keyPath = slot id(number)
- *   value: { gs: GameState, meta: SlotMeta }
+ *   value: { gs: SaveSnapshot, meta: SlotMeta }（数据快照，不承诺完整运行态）
  */
 
-import type { GameState } from '../game-state.js'
 import type { SlotMeta } from './api.js'
+import type { SaveSnapshot } from './data.js'
 
 const DB_NAME = 'type-pal'
 // P2#5(2026-05-29):脚本游标 ip 从 per-scene 切片本地下标改成单一全局数组下标。旧档持久化的
@@ -22,7 +22,7 @@ const STORE = 'save-slots'
 
 interface StoredSlot {
   id: number
-  gs: GameState
+  gs: SaveSnapshot
   meta: SlotMeta
 }
 
@@ -75,7 +75,7 @@ function commitWrite(db: IDBDatabase, write: (store: IDBObjectStore) => void): P
 }
 
 export const IndexedDbSave = {
-  async saveSlot(slot: number, gs: GameState, meta: SlotMeta): Promise<void> {
+  async saveSlot(slot: number, gs: SaveSnapshot, meta: SlotMeta): Promise<void> {
     const db = await openDb()
     const value: StoredSlot = { id: slot, gs, meta }
     await commitWrite(db, (store) => {
@@ -83,7 +83,7 @@ export const IndexedDbSave = {
     })
   },
 
-  async loadSlot(slot: number): Promise<{ gs: GameState; meta: SlotMeta } | null> {
+  async loadSlot(slot: number): Promise<{ gs: SaveSnapshot; meta: SlotMeta } | null> {
     const db = await openDb()
     const r = await asPromise<StoredSlot | undefined>(txStore(db, 'readonly').get(slot))
     return r ? { gs: r.gs, meta: r.meta } : null

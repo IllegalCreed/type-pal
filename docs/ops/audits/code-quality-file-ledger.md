@@ -17,10 +17,12 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-21已批准Save内部类型分离：新增data.ts仅定义JSON数据/快照，与四既有caller模块编译正文不变。新增路径保持pending，0新关闭；329/129/2869由机器核对。19定向/相邻与typecheck零诊断，不授完整内容校验信用，详见[五文件有限A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json)。
+
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,326。
-当前已闭合核验：329；已读但待审：129；尚未逐文件核验：2,868；合计未闭合：2,997。
+起始基点机器清单：2,962。当前 tracked 清单：3,327。
+当前已闭合核验：329；已读但待审：129；尚未逐文件核验：2,869；合计未闭合：2,998。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 

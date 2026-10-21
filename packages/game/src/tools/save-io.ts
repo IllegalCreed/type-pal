@@ -1,10 +1,11 @@
 // src/tools/save-io.ts —— 存档导入导出(纯序列化/校验;DOM 下载/读文件在 tools-panel 调)。
 import type { GameState } from '../core/game-state.js'
+import type { SaveSnapshot } from '../core/save/data.js'
 
 const FORMAT = 'type-pal-save'
 const VERSION = 1
 
-export function serializeSave(gs: GameState): string {
+export function serializeSave(gs: SaveSnapshot): string {
   return JSON.stringify({ format: FORMAT, version: VERSION, savedAt: 0, gs })
 }
 

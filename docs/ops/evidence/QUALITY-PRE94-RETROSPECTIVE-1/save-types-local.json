@@ -1,0 +1,853 @@
+{
+  "base": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+  "owner": "Codex",
+  "approval": {
+    "date": "2026-10-21",
+    "source": "human user reply to call_354840017a844a21a993175e502a8f9a",
+    "answer": "允许分离存档类型（推荐）",
+    "scope": "Internal TS save/runtime input and output separation;no JSON/DB/value/gameplay change. All-field validation remains required."
+  },
+  "body": {
+    "base": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+    "files": [
+      {
+        "path": "packages/game/src/core/save/api.ts",
+        "before": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+        "after": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+        "emittedBodySha256": "a98c1c031648691fc886424ae988a63bc45550e1420464778156153fc737c542",
+        "equal": true
+      },
+      {
+        "path": "packages/game/src/core/save/indexed-db.ts",
+        "before": "a10533a1cd2dda82a8d58a5d01443fd84125760e62bf85904442537971bc7197",
+        "after": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97",
+        "emittedBodySha256": "1d39304ffb5e57849d554101c5cb27069c4dc1f481246ffc30209bbc325c41dc",
+        "equal": true
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "before": "a18b8765bfff159eab6a0468e0fa915956a4d6c740853dc74fcb69e4226b46ae",
+        "after": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46",
+        "emittedBodySha256": "38b2244d9e2e2f5aee2a4b5641ad8578f064ea30facfffc7536684db26438812",
+        "equal": true
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "before": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7",
+        "after": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6",
+        "emittedBodySha256": "e747f14c1eab31a6bb2df23527d3f960e02b1db50a06164bf29ec7cc980d9767",
+        "equal": true
+      }
+    ],
+    "newModule": {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3",
+      "runtimeBody": "export {};"
+    },
+    "typescript": "6.0.3",
+    "allEqual": true
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3",
+      "dimensions": {
+        "A": "V1 data differs from runtime:91-field original writer lacks nowMs;native JSON drops RNG methods/Map entries and encodes Uint8Array numeric keys. No hydration/validation claim.",
+        "B": "Documents native representation and timestamp absence;not a new codec or default policy.",
+        "C": "Type-only module depends on GameState;Save and tools depend on snapshot types,no runtime dependency or IO.",
+        "D": "Private recursive JsonData models only existing V1 shapes;both runtime and JSON slot producers share one public snapshot union.",
+        "E": "Type contract checked by full game tsc;no runtime test added for erased declarations.19 actual Save/parser/IDB regressions reused.",
+        "F": "SaveDataV1 and SaveSnapshot distinguish encoded data from runtime;function-key exclusion is local and documented.",
+        "G": "Two exports have immediate Save/IDB/serializer/panel consumers;no schema generator/dependency/runtime helper.",
+        "H": "Erases to export {};body proof is read-only and type failures can be checked directly by tsc."
+      },
+      "status": "limited type refactor only;whole file/card not newly accepted"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "dimensions": {
+        "A": "Only snapshot input/output/storage annotations and header changed;actual emitted body equals fixed9c. Metadata uses common unchanged fields.",
+        "B": "Header no longer promises every loaded snapshot is a hydrated GameState;historical clone fallback unchanged.",
+        "C": "Save still owns cloning/metadata/driver choice;data type owns representation only.",
+        "D": "Memory and IDB share snapshot definition;no second validator or new persistence layer.",
+        "E": "Nine memory Save and three real fake-IDB driver tests pass;no assertion/fixture change.",
+        "F": "Signatures name snapshot contract explicitly;method names/Promise shapes preserved.",
+        "G": "No branch/parameter/export removed or added;existing deepClone cast unchanged,not used as import validation.",
+        "H": "Existing backend selection/reset remains;no new test seam or side effect."
+      },
+      "status": "limited type refactor only;whole file/card not newly accepted"
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97",
+      "dimensions": {
+        "A": "StoredSlot and method types follow snapshot;emitted body equals9c,DB name/version/store/commit semantics unchanged.",
+        "B": "Schema comment now says data snapshot,no complete runtime promise.",
+        "C": "Only storage driver ownership;hydration remains loader responsibility.",
+        "D": "Uses same SaveSnapshot as facade,no duplicate DTO.",
+        "E": "Three driver lifecycle tests pass;transaction failure assertions unchanged.",
+        "F": "StoredSlot gs type exposes encoded possibility.",
+        "G": "No runtime helper/config/default/migration added.",
+        "H": "Actual fake-IDB test driver remains isolated;no new seam."
+      },
+      "status": "limited type refactor only;whole file/card not newly accepted"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46",
+      "dimensions": {
+        "A": "serializeSave accepts runtime or stored slot;actual emitted body equal9c. parseImportedSave still has its preexisting false as-GameState until all-field guard phase,explicitly unresolved.",
+        "B": "Existing metadata timestamp ownership comment retained.",
+        "C": "Pure serialization stays apart from DOM/IO;types imported only.",
+        "D": "Snapshot union shared with real loadSlot producer;no codec/fallback.",
+        "E": "Seven parser tests pass;no new runtime case for signature-only change.",
+        "F": "Input annotation now matches real stored-slot export caller.",
+        "G": "One type import/signature adjustment,no runtime additions.",
+        "H": "Pure deterministic serializer unchanged;body identity independently compared."
+      },
+      "status": "limited type refactor only;whole file/card not newly accepted"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6",
+      "dimensions": {
+        "A": "Only save/load dependency annotations changed;getGs remains GameState;FileReader/export implementation body equal9c.",
+        "B": "Dependency import/export comments still identify real slot usage;unrelated historical audio comment not claimed repaired.",
+        "C": "Panel owns DOM,Save owns storage;no cross-layer hydration introduced.",
+        "D": "Uses canonical SaveSnapshot;does not define another wire model.",
+        "E": "Full game tsc checks all panel fixtures/bootstrap wiring;actual FileReader/IDB UI proof still outstanding.",
+        "F": "Storage and live-state deps now explicitly different.",
+        "G": "No new deps parameter/callback/layer;public names unchanged.",
+        "H": "Existing injection seam remains;this phase adds no mocks or browser acceptance."
+      },
+      "status": "limited type refactor only;whole file/card not newly accepted"
+    }
+  ],
+  "runs": [
+    {
+      "id": "types-tsc",
+      "role": "typecheck",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T04:59:38.346Z",
+      "end": "2026-10-21T04:59:42.054Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M packages/game/src/core/save/api.ts\n M packages/game/src/core/save/indexed-db.ts\n M packages/game/src/tools/save-io.ts\n M packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json\n?? packages/game/src/core/save/data.ts",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "386fb5f8bae7f410f7badced1c4311d214204ef37c8b60a38750f86fd07b7963"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "stderr": {
+        "member": "types-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-directed",
+      "role": "test",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/tools/save-io.test.ts",
+        "src/core/save/__tests__/api.test.ts",
+        "src/core/save/__tests__/indexed-db.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-save-wire-20261021-ouysjsri/types-directed.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:00:10.098Z",
+      "end": "2026-10-21T05:00:11.326Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M packages/game/src/core/save/api.ts\n M packages/game/src/core/save/indexed-db.ts\n M packages/game/src/tools/save-io.ts\n M packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json\n?? packages/game/src/core/save/data.ts",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "386fb5f8bae7f410f7badced1c4311d214204ef37c8b60a38750f86fd07b7963"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-directed.stdout.raw",
+        "bytes": 575,
+        "sha256": "7fbd7d65c03c5f3641917e2185562139f6d32140a6a4080cdf546dd39dafb8a7"
+      },
+      "stderr": {
+        "member": "types-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-biome",
+      "role": "scoped-biome",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "biome",
+        "check",
+        "packages/game/src/core/save/data.ts",
+        "packages/game/src/core/save/api.ts",
+        "packages/game/src/core/save/indexed-db.ts",
+        "packages/game/src/tools/save-io.ts",
+        "packages/game/src/tools/tools-panel.ts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:01:52.651Z",
+      "end": "2026-10-21T05:01:52.959Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M packages/game/src/core/save/api.ts\n M packages/game/src/core/save/indexed-db.ts\n M packages/game/src/tools/save-io.ts\n M packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json\n?? packages/game/src/core/save/data.ts",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "5fcdeaba39959b0d62f52e621fdd2406a07d36cbbd775c64540e5d3247401b5c"
+      },
+      "stderr": {
+        "member": "types-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-docs",
+      "role": "docs-consumers",
+      "command": "node",
+      "args": [
+        "-e",
+        "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:03:45.033Z",
+      "end": "2026-10-21T05:03:48.588Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  packages/game/src/core/save/api.ts\nA  packages/game/src/core/save/data.ts\nM  packages/game/src/core/save/indexed-db.ts\nM  packages/game/src/tools/save-io.ts\nM  packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/data.ts",
+          "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "688cd079dedc27d31601abd552416768590edf7b069787e690e3efe31965571f"
+      },
+      "stderr": {
+        "member": "types-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-lint",
+      "role": "lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:03:46.301Z",
+      "end": "2026-10-21T05:03:49.104Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  packages/game/src/core/save/api.ts\nA  packages/game/src/core/save/data.ts\nM  packages/game/src/core/save/indexed-db.ts\nM  packages/game/src/tools/save-io.ts\nM  packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/data.ts",
+          "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "e40dec6e5bdc87ccfcb4e6e0292f5b3f1fd83ccb437adda05466d9e91dd9e216"
+      },
+      "stderr": {
+        "member": "types-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-ledger",
+      "role": "ledger",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:04:41.654Z",
+      "end": "2026-10-21T05:04:42.891Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  packages/game/src/core/save/api.ts\nA  packages/game/src/core/save/data.ts\nM  packages/game/src/core/save/indexed-db.ts\nM  packages/game/src/tools/save-io.ts\nM  packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/data.ts",
+          "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "4b44b4c82ec8e085ecb65e6e016aa93f262ab6a74cbfd30a74fffb6c43439eec"
+      },
+      "stderr": {
+        "member": "types-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-diff",
+      "role": "diff",
+      "command": "git",
+      "args": ["diff", "--check", "HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:04:41.654Z",
+      "end": "2026-10-21T05:04:41.777Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  packages/game/src/core/save/api.ts\nA  packages/game/src/core/save/data.ts\nM  packages/game/src/core/save/indexed-db.ts\nM  packages/game/src/tools/save-io.ts\nM  packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/data.ts",
+          "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "member": "types-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-final-docs",
+      "role": "docs-consumers",
+      "command": "node",
+      "args": [
+        "-e",
+        "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:05:38.331Z",
+      "end": "2026-10-21T05:05:42.599Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  packages/game/src/core/save/api.ts\nA  packages/game/src/core/save/data.ts\nM  packages/game/src/core/save/indexed-db.ts\nM  packages/game/src/tools/save-io.ts\nM  packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/data.ts",
+          "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "688cd079dedc27d31601abd552416768590edf7b069787e690e3efe31965571f"
+      },
+      "stderr": {
+        "member": "types-final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "types-final-lint",
+      "role": "lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-21T05:05:38.331Z",
+      "end": "2026-10-21T05:05:41.810Z",
+      "head": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "targetMain": "92e901806926c0fb08b9787877eed9ed45147d8d",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  packages/game/src/core/save/api.ts\nA  packages/game/src/core/save/data.ts\nM  packages/game/src/core/save/indexed-db.ts\nM  packages/game/src/tools/save-io.ts\nM  packages/game/src/tools/tools-panel.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+        },
+        {
+          "path": "packages/game/src/core/save/data.ts",
+          "sha256": "7bc4a6ab8a6a0a556ed2d0732bf5d79ddafbdf14a15cb7ba7fb2395df485a8b3"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "ddccf18bb581170e852aaaaeca3463d7f59e912b9d045499725aec252bb51c46"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "sha256": "65267cf666344b3a4406215124f995e72a039b47f36b1a177e3d0e38e210bcb6"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "types-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "e40dec6e5bdc87ccfcb4e6e0292f5b3f1fd83ccb437adda05466d9e91dd9e216"
+      },
+      "stderr": {
+        "member": "types-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "tests": {
+    "passed": 19,
+    "failed": 0,
+    "pending": 0,
+    "files": 3,
+    "stderrBytes": 0
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-native.json.gz",
+    "bytes": 222803,
+    "sha256": "e193deeb327e37ba7bf22feaae401ab3228cd106ab928b3cb80bf1bed1292442",
+    "members": [
+      {
+        "name": "prove-save-types.cjs",
+        "bytes": 1272,
+        "sha256": "cbc9c731f18493f94ff3cc53f2d23c8d5e431d2bbd4490ab2fde46a88e6fbf17"
+      },
+      {
+        "name": "types-body.json",
+        "bytes": 1705,
+        "sha256": "cb3169732272d1f28c2c7e1da78a07a38845471bd96e5bf6fcf0fb3683bc2881"
+      },
+      {
+        "name": "types-tsc.execution.json",
+        "bytes": 2215,
+        "sha256": "390f8e2036f91eed6d569501fc5b91b2bb805013b7ef0e6a577a8024273130f3"
+      },
+      {
+        "name": "types-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "types-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-directed.execution.json",
+        "bytes": 2598,
+        "sha256": "80196d9579422214154cc4930aac1dd82ae388d443c9f63c47d53ac705eeb072"
+      },
+      {
+        "name": "types-directed.stdout.raw",
+        "bytes": 575,
+        "sha256": "7fbd7d65c03c5f3641917e2185562139f6d32140a6a4080cdf546dd39dafb8a7"
+      },
+      {
+        "name": "types-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-directed.native.json",
+        "bytes": 6827,
+        "sha256": "01cf024bbcfdb2ae7cdceaef781cf973603bb1efe28d1e727b63d55cf4168b03"
+      },
+      {
+        "name": "types-biome.execution.json",
+        "bytes": 2428,
+        "sha256": "18c2347e520f29f76066405d0b5b2cfc51e5d188beaf0dd931fd5ce1b61f335a"
+      },
+      {
+        "name": "types-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "5fcdeaba39959b0d62f52e621fdd2406a07d36cbbd775c64540e5d3247401b5c"
+      },
+      {
+        "name": "types-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-docs.execution.json",
+        "bytes": 3078,
+        "sha256": "e0b0e19fe3ebeee609e811cc4df32c36d5292e81afe017d2f598fcc9df5bfb5d"
+      },
+      {
+        "name": "types-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "688cd079dedc27d31601abd552416768590edf7b069787e690e3efe31965571f"
+      },
+      {
+        "name": "types-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-lint.execution.json",
+        "bytes": 2741,
+        "sha256": "b35b7a3a57e4c806ab1d93adef2c1dcb8826b19a8b05afaa23b0953d01a69070"
+      },
+      {
+        "name": "types-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "e40dec6e5bdc87ccfcb4e6e0292f5b3f1fd83ccb437adda05466d9e91dd9e216"
+      },
+      {
+        "name": "types-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-ledger-first.execution.json",
+        "bytes": 2532,
+        "sha256": "ff028324784cc3a123060258184498688a3af59e46140ae2318018d4793d1489"
+      },
+      {
+        "name": "types-ledger-first.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-ledger-first.stderr.raw",
+        "bytes": 156,
+        "sha256": "22654d4e126f72d2afb5882c9a1b0320c7877b8c52e7cdb49f7754b549eb6681"
+      },
+      {
+        "name": "types-ledger.execution.json",
+        "bytes": 2784,
+        "sha256": "a09bbe4705baabfa1cbbd23df00bef8fdf7c69411c73a54a16f3cfa846aa23c7"
+      },
+      {
+        "name": "types-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "4b44b4c82ec8e085ecb65e6e016aa93f262ab6a74cbfd30a74fffb6c43439eec"
+      },
+      {
+        "name": "types-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-diff.execution.json",
+        "bytes": 2765,
+        "sha256": "74f3af7c38b6e8468f0417a36aac950155f2bedc77d9d818b6e2372e8ae6ff18"
+      },
+      {
+        "name": "types-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "metadata-before-first.json",
+        "bytes": 1879649,
+        "sha256": "4eea14ba4fd4af465295f6691b85b0917731bf316f44aa13d279a0871700cb47"
+      },
+      {
+        "name": "metadata-first.json",
+        "bytes": 1271,
+        "sha256": "f78239ba86ed39bc7eca9f8b5ca44af8a48ff1924f8bb8e7b69130c4572c0085"
+      },
+      {
+        "name": "update-types-reviews.cjs",
+        "bytes": 5547,
+        "sha256": "7950dadaeacd291634c9da9af1ae8d81bfb711b564dc985c17eada5f552f346d"
+      },
+      {
+        "name": "types-final-docs.execution.json",
+        "bytes": 3096,
+        "sha256": "66cfe28a310889208a34e523b2d91c5c9b40886c30d77f0c6e55dc571f17236e"
+      },
+      {
+        "name": "types-final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "688cd079dedc27d31601abd552416768590edf7b069787e690e3efe31965571f"
+      },
+      {
+        "name": "types-final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "types-final-lint.execution.json",
+        "bytes": 2759,
+        "sha256": "a903f69e47c1f08e359cad8049fe2efdefc3ebb8f755dd328b4120c46648f88b"
+      },
+      {
+        "name": "types-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "e40dec6e5bdc87ccfcb4e6e0292f5b3f1fd83ccb437adda05466d9e91dd9e216"
+      },
+      {
+        "name": "types-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "limits": [
+    "No all-field schema credit;parser existing assertion not yet removed.",
+    "No real FileReader/browser storage observation this phase.",
+    "No full check/official ratchet/protected;reserved for stable module closeout.",
+    "No94-102 expansion,new file acceptance,commit push or merge claim."
+  ],
+  "priorCash": {
+    "commit": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+    "receipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json"
+  },
+  "auxiliaryFailures": [
+    {
+      "id": "types-ledger-first",
+      "exit": 1,
+      "meaning": "New type module enters tracked inventory;declared count had not been updated. Same mismatch also observed once before captured rerun;that initial console is only in tool transcript,not a separately saved raw. Inventory fixed explicitly,follow-up ledger passes;no file closed."
+    }
+  ],
+  "ledger": {
+    "inventory": 3327,
+    "closed": 329,
+    "review": 129,
+    "pending": 2869,
+    "newClosure": 0
+  }
+}

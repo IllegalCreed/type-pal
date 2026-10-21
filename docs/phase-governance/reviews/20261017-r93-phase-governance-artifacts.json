@@ -5957,7 +5957,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; owned finite-cash delta and actual ledger result checked",
+      "readMethod": "Prior fixed-Git review reused; owned save-type delta and actual ledger result checked",
       "reviewDepth": "structured-content",
       "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product/module acceptance requires explicit per-file A-H and complete clean gates; current cash receipt proves only the finite necessary guard build.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
@@ -5980,7 +5980,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "f43454212a6667123c6310b7ff82aaefbe94065b9df3320696ae42e3c428d73e",
+      "afterSha256": "b0e50335b464674eda2ef154c49170d93284f8dee9d8b62050697fc432a91b99",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6003,8 +6003,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "f43454212a6667123c6310b7ff82aaefbe94065b9df3320696ae42e3c428d73e",
-        "implementationSha": "f43454212a6667123c6310b7ff82aaefbe94065b9df3320696ae42e3c428d73e",
+        "currentSha": "b0e50335b464674eda2ef154c49170d93284f8dee9d8b62050697fc432a91b99",
+        "implementationSha": "b0e50335b464674eda2ef154c49170d93284f8dee9d8b62050697fc432a91b99",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6672,8 +6672,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "f43454212a6667123c6310b7ff82aaefbe94065b9df3320696ae42e3c428d73e",
-        "lineCount": 6190,
+        "afterSha256": "b0e50335b464674eda2ef154c49170d93284f8dee9d8b62050697fc432a91b99",
+        "lineCount": 6201,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -7018,6 +7018,17 @@
           "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
           "limits": "Only named finite-cash status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "save-types-limited-build",
+          "previousAfterSha256": "f43454212a6667123c6310b7ff82aaefbe94065b9df3320696ae42e3c428d73e",
+          "afterSha256": "b0e50335b464674eda2ef154c49170d93284f8dee9d8b62050697fc432a91b99",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named save-type status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json",
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
         }
       ],

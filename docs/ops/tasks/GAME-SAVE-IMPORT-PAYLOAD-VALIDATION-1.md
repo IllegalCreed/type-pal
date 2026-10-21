@@ -14,7 +14,7 @@ Branch: `codex/code-quality-3y`
 
 ## 范围
 
-候选为tools/save-io.ts及直接测试；tools-panel的FileReader→parseImportedSave→saveSlot、core/save/api与bootstrap读档是只读caller。除下述已批准的现金必要守卫外，不修改实现、导出格式、Save API、用户slot数据或二阶段codec；不恢复旧upgrader/fallback。
+内容校验候选为tools/save-io.ts及直接测试；真实调用链为tools-panel的FileReader→parseImportedSave→saveSlot→bootstrap读档。用户另已批准core/save/data.ts、Save/IDB存读接口、serializeSave及ToolsPanelDeps的纯类型分离；其执行正文与bootstrap仍不在本类型片行为修改范围。除下述已批准的现金必要守卫与后续明确批准的内部类型分离外，不修改实现、导出格式、Save API运行语义、用户slot数据或二阶段codec；不恢复旧upgrader/fallback。
 
 ## 前提真值门
 
@@ -48,7 +48,7 @@ Branch: `codex/code-quality-3y`
 
 2026-10-21前置纯测试片（冻结于4e5e964874fac1cff244b146640274b4ada92995）：[存档工具中间回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)及其完整原件包保存96字段声明清单与逐项已核读档处理。该清单是定位后续核读的机器事实，不是96项语义验证。实际导出caller读取已有槽位；普通菜单保存与F5是槽位生产入口。已固定显式复位、场景重建、runtime现有归一和未核嵌套域，下一步据此核内容，不重新遍历已成立的caller证据。
 
-仍待闭合：嵌套持久字段的值域/行列长度、哪些暂态/原生容器可到达正常存档、以及在保持当前V1和Save接口下如何诚实表达wire校验。不能从字段名猜现金上限，也不能把Map复活消费者已有行为再报成新缺陷。文件时间归属的注释已改正，产品执行正文未变；现金必要守卫现已先红后绿；其余合同阶段继续，不授完整GameState或其它产品build信用。
+仍待闭合：嵌套持久字段的值域/行列长度、哪些暂态/原生容器可到达正常存档、以及在保持当前V1和Save接口下如何诚实表达wire校验。不能从字段名猜现金上限，也不能把Map复活消费者已有行为再报成新缺陷。前置纯测试片只改时间归属注释、产品执行正文未变；其后的现金必要守卫现已先红后绿；其余合同阶段继续，不授完整GameState或其它产品build信用。
 
 GameState当前有96个运行时字段，并含可选Map、Uint8Array及场景/演出暂态。JSON导出形态与完整运行时类型不完全相同，不能拿初始对象作递归样板，也不能只检查cash后再强转整份GameState。下一步逐项区分需要持久恢复、由loadGameFromSlot/loadScene重建、以及可选暂态的实际读写域；据真实V1导出与当前读档消费者核合同，不擅自新增版本、旧档升级或默认值补洞。当前尚未完成这张映射，除已准入现金必要切片外，不授产品build/完整字段验收。已读loadGameFromSlot完整替换/归一流程和loadSceneCommon读档分支，96字段暂按原样保留与显式重建归类；该分类只是合同规划，尚未核完所有嵌套内容/值域。prevBattleActions的JSON对象已有生产reviveNumberKeyedMap消费者，不能重复报告已处理的Map塌缩错误，也不新增fallback。
 
@@ -59,3 +59,13 @@ GameState当前有96个运行时字段，并含可选Map、Uint8Array及场景/�
 ## 下一位 Agent 提示词
 
 无下一位Agent。Codex继续核合法合同并按既有批准推进；未核完整输入/写入边界前不得将探针当正式红绿或擅自扩大格式/迁移范围。
+
+## 类型接口裁决与纯类型实施
+
+[固定源码/实际编码观察与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json)：首版V1提交20234ea31615260e07ab0c75fdca88f2fde34eb4的GameState为91字段，当前9c3d168914a4d2e7b1dba1144429a3cdff6794bf为96字段；唯一新增required是nowMs。直接执行首版构造器/序列化器产出的V1样本，当前parser仍接受，但nowMs实际缺失。该样本只证明构造/编码合同，不冒充完整剧情存档；类型与编码观察不授全文件语义接受。
+
+当前Map经真实serialize/parse后是无get方法的JSON对象，现行battle revive消费者已处理它，不再冒称新战斗崩溃。两项都说明：完整JSON内容校验不能继续把结果标作已hydrate的GameState，也不能通过补默认值伪造完整运行态。
+
+候选接口改动：parseImportedSave返回经过校验的V1存档数据；serializeSave接收运行态或存档数据；Save.saveSlot/loadSlot及IndexedDbSave的gs、ToolsPanelDeps存读参数/返回类型跟随明确的存档数据定义。方法名、slot参数、Promise形状、JSON格式/版本、数据库版本、数据值及游戏行为不变；不新增upgrader或fallback，逐字段校验仍须完成。Loader的运行态恢复责任另按真实消费者核，不借类型更正宣称已修复所有恢复问题。
+
+用户2026-10-21已回复“允许分离存档类型（推荐）”，该类型调整build allowed，Codex单Owner。现已接通SaveSnapshot/SaveDataV1、Save/IDB与工具面板及序列化输入；四个既有产品模块编译后正文与9c3d168逐字节一致，新模块只输出空export。19定向/相邻与game typecheck、scoped Biome零诊断。parseImportedSave的旧强转将在完整字段守卫阶段移除，本片不冒称完成校验。见[五文件A–H/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json)。JSON/数据库/存档值未改，无新默认或迁移；真实FileReader与完整字段仍待核。

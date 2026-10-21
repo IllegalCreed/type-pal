@@ -1,5 +1,9 @@
 # 94前全部治理成果复审
 
+2026-10-21已批准纯类型分离：[五文件A–H/19定向与静态结果](save-types-local.json)、[完整原件与正文不变证明](save-types-native.json.gz)。Save/IDB/工具面板接收存档数据，getGs仍为运行态；四既有模块编译正文与9c3d168一致，新模块无执行逻辑。parser完整内容守卫仍待核，未关闭CODE59。现金切片已冻结于9c3d168，不能要求其旧caller哈希匹配当前类型注释。
+
+2026-10-21 V1合同续核：[固定源码/编码事实与未实施的类型方案](save-wire-contract.json)、[完整观察原件（含两次辅助探针错误）](save-wire-contract-native.json.gz)。91→96字段且JSON仍version1；旧样本缺nowMs，Map为JSON对象。只证明类型/编码不等同运行态，不冒充世界/战斗重放或全字段验收；用户已批准内部类型分离，实施与限制见下条。
+
 2026-10-21存档模块中间片：[四文件A–H/合同与迁移](save-tools-local.json)、[完整原件](save-tools-native.json.gz)。CODE59保留已证非法内容问题，96字段声明/具体读档处理清单不冒充合法schema；CODE60主测与相邻18例、typecheck、scoped Biome零诊断。成功提示提前的反控为旧8/8绿、新2条业务AssertionError红，生产正文已恢复。当前0新accept/0新关闭，统一门/coverage/protected留完整模块收尾。
 
 当前现金必要守卫：[两文件八维与正式红绿](save-cash-local.json)、[完整原件](save-cash-native.json.gz)。已核现金为有限number、0保留；两条正式红后当前29例与typecheck零诊断。其它内容/wire和FileReader仍review，0新关闭/49accept不变。前置纯测试片固定在Git `4e5e964874fac1cff244b146640274b4ada92995`，不能拿其中“正文不变”证明当前现金行为修复。
@@ -43,11 +47,34 @@ function check(r, read, exists) {
   }
 }
 const current = JSON.parse(fs.readFileSync(dir + 'save-cash-local.json'))
-check(current, p => fs.readFileSync(p), p => fs.existsSync(p))
+const cashRef = '9c3d168914a4d2e7b1dba1144429a3cdff6794bf'
+const cashRead = p => execFileSync('git', ['show', cashRef + ':' + p])
+check(current, cashRead, p => spawnSync('git', ['cat-file', '-e', cashRef + ':' + p]).status === 0)
 const ref = current.priorStage.commit
 const frozen = p => execFileSync('git', ['show', `${ref}:${p}`])
 check(JSON.parse(frozen(current.priorStage.receipt)), frozen, p => spawnSync('git', ['cat-file', '-e', `${ref}:${p}`]).status === 0)
-console.log('MATCH: current finite cash guard and frozen test stage; no full schema/integration credit')
+const types = JSON.parse(fs.readFileSync(dir + 'save-types-local.json'))
+for (const f of types.files) assert.equal(hash(fs.readFileSync(f.path)), f.sha256, 'STALE ' + f.path)
+const typeArchive = fs.readFileSync(types.artifact.path)
+assert.equal(hash(typeArchive), types.artifact.sha256)
+const typeMembers = JSON.parse(gunzipSync(typeArchive)).members
+assert.deepEqual(Object.keys(typeMembers).sort(), types.artifact.members.map(x => x.name).sort())
+for (const m of types.artifact.members) {
+  assert.equal(Buffer.byteLength(typeMembers[m.name]), m.bytes)
+  assert.equal(hash(typeMembers[m.name]), m.sha256, m.name)
+}
+for (const r of types.runs) {
+  assert.equal(r.exit, 0)
+  assert.equal(r.signal, null)
+  assert.equal(r.spawnError, null)
+  for (const stream of ['stdout', 'stderr']) assert.equal(hash(typeMembers[r[stream].member]), r[stream].sha256)
+  assert.equal(r.stderr.bytes, 0)
+}
+const typeTests = JSON.parse(typeMembers['types-directed.native.json'])
+assert.equal(typeTests.numPassedTests, 19)
+assert.equal(typeTests.numFailedTests, 0)
+assert.equal(typeTests.numPendingTests, 0)
+console.log('MATCH: current erased-type phase and frozen cash/test stages; no full schema/integration credit')
 JS
 ```
 

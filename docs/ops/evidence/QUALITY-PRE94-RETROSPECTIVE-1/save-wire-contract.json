@@ -1,0 +1,163 @@
+{
+  "base": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+  "firstV1": "20234ea31615260e07ab0c75fdca88f2fde34eb4",
+  "kind": "historical declaration/encoding contract probe,not full played-game or frame/battle replay",
+  "oldFields": 91,
+  "currentFields": 96,
+  "added": [
+    {
+      "name": "currentDialogPortraitLayout",
+      "optional": true,
+      "type": "boolean"
+    },
+    {
+      "name": "nowMs",
+      "optional": false,
+      "type": "number"
+    },
+    {
+      "name": "dialogPlayingRNG",
+      "optional": true,
+      "type": "boolean"
+    },
+    {
+      "name": "rngDialogBackup",
+      "optional": true,
+      "type": "Uint8Array"
+    },
+    {
+      "name": "rngFrameActive",
+      "optional": true,
+      "type": "boolean"
+    }
+  ],
+  "removed": [],
+  "oldV1": {
+    "version": 1,
+    "currentParserAccepts": true,
+    "hasNowMs": false,
+    "nowMsType": "undefined",
+    "oldDeclarationHasNowMs": false,
+    "broadIdentifierSearch": {
+      "exit": 0,
+      "interpretation": "Unrelated palette/death-fade local parameter names are not GameState fields. Declaration and actual serialized sample are the relevant evidence."
+    }
+  },
+  "mapEncoding": {
+    "beforeHasCallableGet": true,
+    "wire": {},
+    "afterHasCallableGet": false,
+    "note": "Existing production reviveNumberKeyedMap already supports this wire object. This is a type/representation mismatch,not a newly claimed battle crash."
+  },
+  "proposal": {
+    "reason": "parseImportedSave currently promises GameState, but accepted legal legacy/current JSON values are stored-data representations. A complete validator must not invent defaults or assert raw JSON is hydrated runtime.",
+    "typeOnlyBoundary": [
+      "parseImportedSave: string -> ValidatedSaveDataV1",
+      "Save.saveSlot: runtime GameState or validated saved-data snapshot",
+      "Save.loadSlot: stored-data snapshot or null",
+      "serializeSave: runtime or stored-data snapshot -> same V1 JSON",
+      "IndexedDbSave stored gs and ToolsPanelDeps save/load types follow the same snapshot definition"
+    ],
+    "frozenRuntimePolicy": [
+      "No file-format/version/database changes",
+      "No stored-value/default/migration/compatibility fallback changes",
+      "No player-facing/game-mechanic behavior changes",
+      "No claim that type correction replaces all-field validation or fixes loader hydration"
+    ],
+    "requiresUserDecision": "Approved by human2026-10-21:允许分离存档类型（推荐）;implementation facts in save-types-local.json."
+  },
+  "pins": [
+    {
+      "ref": "20234ea31615260e07ab0c75fdca88f2fde34eb4",
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "7b7e66a5478a73853573aa5cfb363b87b3275149e54fa96da486d12f317e5eba"
+    },
+    {
+      "ref": "20234ea31615260e07ab0c75fdca88f2fde34eb4",
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "41fd3452fd077bad3e4cd89c04dd9dc8243395594a024c48e4faa7991c5476ee"
+    },
+    {
+      "ref": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "ref": "9c3d168914a4d2e7b1dba1144429a3cdff6794bf",
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "a18b8765bfff159eab6a0468e0fa915956a4d6c740853dc74fcb69e4226b46ae"
+    }
+  ],
+  "status": "Historical contract evidence remains frozen;user approved type separation,implemented as an erased type-only phase;full validation still pending.",
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz",
+    "bytes": 4731,
+    "sha256": "0b367c46cd5ee6ec39151d99d3ab8b0c3ab0bb21f42cd41f153cb2d0815fb9bc",
+    "members": [
+      {
+        "name": "probe-save-wire-first.mjs",
+        "bytes": 4629,
+        "sha256": "20b02a36e5dbe048a0dd192b9ddabbce2a648ef13d02ddb14db9b68550b22bce"
+      },
+      {
+        "name": "probe-save-wire-r2.mjs",
+        "bytes": 4202,
+        "sha256": "bcc8b7266d91d5c279dcd2bd2dca009a5f8831ab120f357a73958934f6452348"
+      },
+      {
+        "name": "probe-save-wire.mjs",
+        "bytes": 4399,
+        "sha256": "3ba5b032186a86775e53feb4e56383fc98652630bb840f108016e1c40f92c85c"
+      },
+      {
+        "name": "wire-contract.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "wire-contract.stderr.raw",
+        "bytes": 899,
+        "sha256": "a220d55beda005d32e28891d0887cc78b87aad9dfebfa4c8b8e3a5aeb4b1e42d"
+      },
+      {
+        "name": "wire-contract.execution.json",
+        "bytes": 458,
+        "sha256": "f9d291aa3100627f5aed6ec3f90b784ec2f4111051747d9802992f2568753a51"
+      },
+      {
+        "name": "wire-contract-r2.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "wire-contract-r2.stderr.raw",
+        "bytes": 3528,
+        "sha256": "8e0f866c4c92a2c63a67de51e226bf9b2658f1e645a7965a94783b243ee90551"
+      },
+      {
+        "name": "wire-contract-r2.execution.json",
+        "bytes": 683,
+        "sha256": "0e1a4ce7b88bdee32eeb408dc12c0a22144ca63379c3d8d487c90f907da6f9a8"
+      },
+      {
+        "name": "wire-contract-r3.stdout.raw",
+        "bytes": 3367,
+        "sha256": "221099d8aed879166f14dbebf34558692fa8381f2c06d023b6f3becfd00760fc"
+      },
+      {
+        "name": "wire-contract-r3.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "wire-contract-r3.execution.json",
+        "bytes": 663,
+        "sha256": "ed38f5f566ccdf5fd126cf33f5299e776ce9473f2b823dee09334d5220dbb8b0"
+      }
+    ]
+  },
+  "executionErrata": [
+    "First helper extraction omitted makeExpEntry; failed before observation output.",
+    "Second run used an overbroad identifier absence assumption; unrelated function parameters named nowMs contradicted it. Third run uses actual GameState declarations and serialized values; all three raw runs preserved."
+  ]
+}
