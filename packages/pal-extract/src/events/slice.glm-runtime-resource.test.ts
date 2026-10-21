@@ -1,9 +1,7 @@
 /**
- * TEST-GLM-RUNTIME-RESOURCE-2 R06（events/slice.ts）。
- * 去重账：slice.test 覆盖单/双场景、shared 改写、同场景不改写、EO 入口、end 变体、
- * 0x95/0xA2/L29 目标收集；slice.boundaries（RESOURCE-TOOLS R06）覆盖 globalEntries 归属/
- * 循环单收/末景开区间/raw 不改写。本文件只做未占用合同：跨文件标签 goto 的 BFS 死端
- * （不跟外部目标也不 fall-through）、越界目标忽略、globalEntries 过滤非正入口。
+ * sliceByScene的合成防御输入观察：外部标签死端、越界跳转、非正global入口。
+ * 这些不是原盘资源回放；外部标签和负入口的生产输入合同仍待核，不授完整算法信用。
+ * scene/global分支仍各自存在，因此不把Kimi的global外部标签例机械视作重复。
  */
 import type { Command } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
@@ -15,7 +13,7 @@ const scene = (scriptOnEnter: number): Scene => ({
   scriptOnEnter,
   scriptOnTeleport: 0,
   eventObjectIndex: 0,
-  raw: new Uint16Array(),
+  raw: new Uint16Array([0, scriptOnEnter, 0, 0]),
 })
 
 describe('R06 sliceByScene 外部标签与越界', () => {

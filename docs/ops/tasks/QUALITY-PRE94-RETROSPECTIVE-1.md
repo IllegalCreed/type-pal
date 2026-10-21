@@ -22,6 +22,8 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 2026-10-22 CLI主编排与事件测试窗口（执行中）
 
+事件测试切片交付：boundaries五身份不增删，Scene/EO raw形状合法、EO末段用有序label逐个辨识；旧5绿/新4绿1业务红证实判别力。runtime-resource只修raw与范围头注，三防御用例的生产域未核，维持review；不修改两BFS或语义。
+
 CLI测试切片交付：两剩余套件统一已接受宿主、删无caller EntryRun.out和重复mkdir，完整独立PNG像素oracle与精确stderr；原14+2身份不变。所有迁移archive及SSS/WORD/DATA构造字节与e856旧工厂逐项相同；最终五代表hook各13绿1业务红，PNG旧绿/新单红原件齐。仍候选，不据小片触发coverage或关闭CLI。
 
 同一3y，基点e8566c2c7ea1fbdccdbc782bd54216f94cd0823e，与fetch后origin/main同点；主树只读，Owner Codex。build allowed仅本窗口三个相关切片：3g两份剩余CLI测试复用已接受cli-host，去除重复进程/树Owner，FBP补完整R/G/B/A像素oracle，保留14条独立OBJECT hook合同；新增script-entries.test两例只核纯collector的16字段顺序/零过滤/别名与结果数组ownership；CLI正入口收集抽为只接受已解析表的纯内部模块，保持顺序、重复、正值过滤及调用位置，公共出口/管线输出/退出策略不变；同时删除已无reader的sceneObjsBySliceId、收窄私有JSON目录union并修当前产物/全局脚本注释；CODE3的boundaries/runtime-resource两测试修合法raw与指令身份oracle，核真实反控。相邻global-entry fixture只纠enemyId直接索引错注，pipeline-inputs头注同步当前共享caller。白名单包含这些文件及必要证据/账本；测试与纯重构分提交。
