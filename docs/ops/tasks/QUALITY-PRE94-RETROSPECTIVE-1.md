@@ -1,8 +1,8 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 2026-10-21最新：49accept/34partial/0pending。CODE73/74七文件完成批准缺口与八维收口；入口input-audio-closeout.json。59继续按获准合同核验，94–102不扩展；Git发布另核。
+> 2026-10-21最新：53accept/30partial/0pending。shared CODE2/2b完成有效八维与native复用、归约单红和RNG重复精简，11文件接受（6新增关闭）；统一门零诊断。余30partial继续，94–102不扩展。
 
-> 59/60中间增量：[前置纯测试八维/合同/迁移](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)冻结于4e5e96487；[现金必要守卫正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json)为当前增量。两条真实业务红后29相邻与typecheck零诊断，原内存槽位/预览保留，零值可用；其余96字段/嵌套wire合同仍review。模块大门未跑，49/34与新关闭0不变；本地分提交，未推送/合并本增量。
+> 历史59/60中间增量：[前置纯测试八维/合同/迁移](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)冻结于4e5e96487；[现金必要守卫正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json)为当前增量。两条真实业务红后29相邻与typecheck零诊断，原内存槽位/预览保留，零值可用；其余96字段/嵌套wire合同仍review。模块大门未跑，49/34与新关闭0不变；本地分提交，未推送/合并本增量。
 
 > 2026-10-21追加勘误：上一菜单窗口的完整check/ratchet/protected原件各有两条stdout的0x008E诊断，旧扫描漏计，原“零运行诊断”统一门信用撤回。原件与旧计数不改，九卡逐文件代码结论独立保留。当前窄修与集中补门见[present/speedrun门记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)；未过门前不合main或新增关闭。
 
@@ -1157,3 +1157,13 @@ CODE3y/3z/40/41四卡及两个明确测试支持文件共12文件接受，43→4
 CODE73四文件、CODE74三文件A–H接受，47→49accept、36→34partial、pending仍0。73三红先行，修正当前方向状态ownership；实际浏览器main-loop→scene消费恢复左方向并移动。74按明确授权删除旧OGG导出/空写/三专测/唯一fixture；18manager/pure与1无WebAudio合同保全，musicUrl接入真实MIDIcaller，纯重构另提交。不是重新全文复做GLM全部审查。
 
 首轮official19968例全绿，但旧OGG删除后game语句/行比例小降，严格比较exit1原件保留。按用户授权给精确旧baseline+14源码固定的有限计数调整，范围/其它六包计数不变，源码变动和额外下降反控拒绝；比较函数/规则不变，不恢复死代码或弱测试。修复8条act诊断后，官方一次真实采集联合执行ratchet及受保护main比较，严格写后范围/计数均核；不是虚构两次运行，当前联合门才计干净门；统一check和最终静态结果见[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)。第二轮缺退役显式参数、第三轮与check并行时各两测试超时均保留原件；执行入口加重型门排他锁后串行复跑，不改源码/超时/规则。后续收尾先核auditScope与退役参数，禁止重型门并行。两次临时登记脚本原始raw缺失和初次浏览器坐标非法均如实披露，不制造通过信用。机器账本3327/330closed/129review/2868pending，七文件之外未强关。Next：59合法V1内容合同/正式红例与不入槽验证；其它34partial滚动补实缺口。
+
+## shared MKF/RNG/YJ2模块收口准入（2026-10-21）
+
+基点bee8587f4f31c06f8eb3a4d158ae8195e9beb145，fetch后同origin/main，3y干净，Codex单Owner。CODE2/2b、GLM foundation全文A–H与独立native原件按当前AST/输入/primary适用性复用；只补设计依据、O-5输入域与树归约缺口。build allowed：rng.boundaries仅删除已证弱子集的8字节连续delta用例（完整320×200未触区例保留）；yj2.boundaries补独立固定树归约向量/业务反控；相应test-only fixture、注释、精确退役数据和证据。无算法、API、资产、schema或尺寸政策变化，原盘只读。全仓/coverage/protected在模块冻结后一次集中；不得以包绿或旧closed关闭未知项。
+
+### shared CODE2/2b当前收口
+
+当前独立裁定accept，11文件逐项A–H/依赖与有效旧native适用性成立，6个review关闭，5个既有关闭不重复计数。RNG后来新增的8字节连续delta为完整MARK面例的弱子集，精简17→16且同一变异失败集4→3恰少退休身份；精确表只加数据/固定总数，谓词不改。YJ2独立literal向量由原SDL树函数编码、未改Cdecoder验证，禁用归约恰1个业务字节AssertionError；恢复shared114/114。解码算法/公开接口/格式/输入政策与原盘均未改变，相关坏注释已修。
+
+全仓check20386、ratchet/protected各19988、typecheck/lint/文档全部零诊断；protected在新baseline后单独官方实跑，不把旧baseline保护误记为新候选验证。完整原件、默认只读快检及O-5支持域限制见[shared唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/README.md)。固定83卡53accept/30partial，账本3334/345closed/122review/2867pending；RLE/其它广域或类型文件不附带关闭。提交、推送及主线同步另据Git refs记交接。

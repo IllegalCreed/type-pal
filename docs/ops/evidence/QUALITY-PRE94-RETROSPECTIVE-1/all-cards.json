@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 51,
+  "currentAccepted": 53,
   "cards": [
     {
       "id": "1",
@@ -93,8 +93,8 @@
       "sha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
       "lines": 95,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 23,
@@ -119,7 +119,11 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
-      "findings": "two test discrimination gaps repaired, one duplicate retired with exact oracle transfer; native RNG1464 frame parity and raw MKF2373 chunk equality; current unified gates pending; no new closures"
+      "findings": "CODE2/2b exact codec scope:per-fileA-H,currentAST/primary/raw/native logs match;new independentrescale businesssingle-red and exactRNGduplicate failure-conservation. shared114/extract18/game31,20386check,19988ratchet/19988protected-after-newbaseline0diagnostics. O-5 remains explicit supported-domain limitation,no arbitrarycap/securityclaim;RLE/broadcallers not accepted.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
     },
     {
       "id": "2b",
@@ -129,8 +133,8 @@
       "sha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
       "lines": 84,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 17,
@@ -167,7 +171,11 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md",
-      "findings": "native2626 chunks exact bytes; four contracts moved to canonical tests; raw length smoke replaced with independent native golden; unified gates and independent weight-reduction vector pending; no new closure"
+      "findings": "CODE2/2b exact codec scope:per-fileA-H,currentAST/primary/raw/native logs match;new independentrescale businesssingle-red and exactRNGduplicate failure-conservation. shared114/extract18/game31,20386check,19988ratchet/19988protected-after-newbaseline0diagnostics. O-5 remains explicit supported-domain limitation,no arbitrarycap/securityclaim;RLE/broadcallers not accepted.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
     },
     {
       "id": "3",
@@ -4197,13 +4205,14 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 32,
-    "accept": 51
+    "accept": 53,
+    "partial": 30,
+    "pending": 0
   },
   "lastIncrementalReview": {
     "date": "2026-10-21",
-    "cards": ["59", "60"],
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
-    "method": "Reuse valid caller/history/A-H and formal counters;approved data separation/whole-structure guards tested through real Save/native FileReader/IDB;all module gates0,no94-102"
+    "cards": ["2", "2b"],
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json",
+    "method": "Evidence-first native/caller/design reuse;only actualrescale/duplicate/comment gaps fixed,full current gates0,no94-102"
   }
 }

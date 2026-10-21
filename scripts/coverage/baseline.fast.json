@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T07:46:19.034Z",
+  "generatedAt": "2026-10-21T12:10:03.625Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -108,8 +108,8 @@
           },
           {
             "file": "packages/shared/src/rng.boundaries.test.ts",
-            "testCount": 17,
-            "identityDigest": "31fb86b20cb39bf54a8c122f19b95557ad62adb4e3c7a7531d0daa15fef5fa7a"
+            "testCount": 16,
+            "identityDigest": "3c4b172f0bad3cf14018ff9b65854fbfc9e34166ae10d579d63ab4f6167a9723"
           },
           {
             "file": "packages/shared/src/rng.test.ts",
@@ -118,21 +118,21 @@
           },
           {
             "file": "packages/shared/src/yj2.boundaries.test.ts",
-            "testCount": 9,
-            "identityDigest": "90db125307e9edff94319870383ad8eb359e0f1ab7adfe35416897dea159f398"
+            "testCount": 10,
+            "identityDigest": "189d28f247a240bdbadaa83e85a8cafade21152487ff285f452f4ccfdc4b88ed"
           }
         ],
-        "identityDigest": "4dfdae9b478fd6ca65bb5e1cd1b2d6146f0009f55bc45dffe5304abcb7656211",
+        "identityDigest": "bafbe885e8071c182cf0d97a4902f37d1166cf1ecdfd32b53d4159bc5625c9c4",
         "duplicateIdentityCount": 0,
-        "executionDigest": "5e5db3a43a181d269328d37da7069f78da65bfdf433429549167daef7d590409"
+        "executionDigest": "24743d628779727fa585b7663f6284a9360e24342b1f8c7c5b706a726cf74df9"
       },
       "metrics": {
         "statements": {
-          "covered": 448,
+          "covered": 459,
           "total": 466
         },
         "branches": {
-          "covered": 204,
+          "covered": 209,
           "total": 218
         },
         "functions": {
@@ -140,7 +140,7 @@
           "total": 23
         },
         "lines": {
-          "covered": 401,
+          "covered": 410,
           "total": 412
         }
       }
@@ -10666,11 +10666,11 @@
   },
   "total": {
     "statements": {
-      "covered": 71459,
+      "covered": 71470,
       "total": 79312
     },
     "branches": {
-      "covered": 51895,
+      "covered": 51900,
       "total": 61935
     },
     "functions": {
@@ -10678,7 +10678,7 @@
       "total": 15124
     },
     "lines": {
-      "covered": 63823,
+      "covered": 63832,
       "total": 69395
     }
   }

@@ -1026,9 +1026,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; owned V1-structure/native-reader delta and actual ledger result checked",
+      "readMethod": "Reuse fixed-Git review;only owned shared-codec board/ledger delta and descendant fingerprints read",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product/module acceptance requires explicit per-file A-H and complete clean gates; current V1 receipt proves declared-data structure and native file boundary only.",
+      "coreConclusion": "Shared CODE2/2b accept CODE2/2b within original codec contracts;remaining pre94partial not accepted;exact scope/evidence at shared-codecs/evidence.json. Ledger345/122/2867;no94-102 or unrelated acceptance.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "f6b6add1d89e2eaf99d4c4eb32229ce6b7877c03ea6a5cb4a0fe7da44fe24cad",
+      "afterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1072,8 +1072,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "f6b6add1d89e2eaf99d4c4eb32229ce6b7877c03ea6a5cb4a0fe7da44fe24cad",
-        "implementationSha": "f6b6add1d89e2eaf99d4c4eb32229ce6b7877c03ea6a5cb4a0fe7da44fe24cad",
+        "currentSha": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+        "implementationSha": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1736,8 +1736,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "f6b6add1d89e2eaf99d4c4eb32229ce6b7877c03ea6a5cb4a0fe7da44fe24cad",
-        "lineCount": 3872,
+        "afterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+        "lineCount": 3890,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -2100,6 +2100,24 @@
           "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-candidate",
+          "previousAfterSha256": "f6b6add1d89e2eaf99d4c4eb32229ce6b7877c03ea6a5cb4a0fe7da44fe24cad",
+          "afterSha256": "3961333333143ca0e9d3213dfc901518afbfbc79f5679e5cef0fd17a190cf502",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-closeout",
+          "previousAfterSha256": "3961333333143ca0e9d3213dfc901518afbfbc79f5679e5cef0fd17a190cf502",
+          "afterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
         }
       ],
       "supersedes": [
@@ -2107,7 +2125,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+      "reviewedLines": "Only current shared MKF/RNG/YJ2 review/closeout status or exact file-status rows;unrelated body/history not reaccepted.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -6001,9 +6019,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; owned V1-structure/native-reader delta and actual ledger result checked",
+      "readMethod": "Reuse fixed-Git review;only owned shared-codec board/ledger delta and descendant fingerprints read",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product/module acceptance requires explicit per-file A-H and complete clean gates; current V1 receipt proves declared-data structure and native file boundary only.",
+      "coreConclusion": "Shared CODE2/2b accept CODE2/2b within original codec contracts;remaining pre94partial not accepted;exact scope/evidence at shared-codecs/evidence.json. Ledger345/122/2867;no94-102 or unrelated acceptance.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -6024,7 +6042,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "9c9941781233ab4271f01f19c48abff04703c874d07cc61fa51989b1570f7e39",
+      "afterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6047,8 +6065,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "9c9941781233ab4271f01f19c48abff04703c874d07cc61fa51989b1570f7e39",
-        "implementationSha": "9c9941781233ab4271f01f19c48abff04703c874d07cc61fa51989b1570f7e39",
+        "currentSha": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+        "implementationSha": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6716,8 +6734,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "9c9941781233ab4271f01f19c48abff04703c874d07cc61fa51989b1570f7e39",
-        "lineCount": 6234,
+        "afterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+        "lineCount": 6268,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -7107,6 +7125,33 @@
           "limits": "Only named V1-structure/native-reader status/live-ledger and descendant bindings; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
           "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-candidate",
+          "previousAfterSha256": "9c9941781233ab4271f01f19c48abff04703c874d07cc61fa51989b1570f7e39",
+          "afterSha256": "b36dc53148160259ac5a8df94a18b819b48f3f5d2da09deb9eb8563e7e47f83a",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-closeout",
+          "previousAfterSha256": "b36dc53148160259ac5a8df94a18b819b48f3f5d2da09deb9eb8563e7e47f83a",
+          "afterSha256": "cd571ce3ab7a31ebb7ce89146e420a1dd4d4c1b1e7cf4f28868a9051cda3d3e5",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shared-codec-current-cards",
+          "previousAfterSha256": "cd571ce3ab7a31ebb7ce89146e420a1dd4d4c1b1e7cf4f28868a9051cda3d3e5",
+          "afterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
         }
       ],
       "supersedes": [
@@ -7114,7 +7159,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+      "reviewedLines": "Only current shared MKF/RNG/YJ2 review/closeout status or exact file-status rows;unrelated body/history not reaccepted.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -7,6 +7,16 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE2 2026-10-21: later small-plane duplicate transfers to retained complete
+    // MARK-plane delta oracle; exact failure-set subtraction in shared-codecs/evidence.json.
+    {
+      file: 'packages/shared/src/rng.boundaries.test.ts',
+      previous: 17,
+      current: 16,
+      previousIdentityDigest: '31fb86b20cb39bf54a8c122f19b95557ad62adb4e3c7a7531d0daa15fef5fa7a',
+      currentIdentityDigest: '3c4b172f0bad3cf14018ff9b65854fbfc9e34166ae10d579d63ab4f6167a9723',
+      fileSha256: '941aa095d350a5b093e37b4de2ea082d92a74b7ec3f3c0e27bd3385153c3649b',
+    },
     // User2026-10-21: delete unused OGG backend and its two release tests.
     // Current MIDI/RIX/manager oracles retained; exact removed identities and
     // source preservation proof are in the pre94 input/audio closeout receipt.

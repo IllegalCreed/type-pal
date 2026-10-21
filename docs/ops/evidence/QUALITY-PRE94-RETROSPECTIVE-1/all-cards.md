@@ -1,12 +1,12 @@
 # 94前全部83卡复审队列
 
-2026-10-21当前：51 accept / 32 partial / 0 pending。CODE59/60已完成逐文件整改与集中门；[当前存档回执](save-v1-local.json)。其余32partial保持，94–102不扩展。
+2026-10-21当前：53 accept / 30 partial / 0 pending。CODE2/2b完成有效八维/native复用与必要返工；[shared当前回执](shared-codecs/evidence.json)。其余30partial保持，94–102不扩展。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
 | [CODE-QUALITY-1](../../archive/tasks/done/CODE-QUALITY-1-governance.md) | done | partial | [RLE四文件](rle/README.md)：catch补证、格式风险draft；Q1b/其它范围未复验 |
-| [CODE-QUALITY-2](../../archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md) | done | partial | [MKF/RNG四核心文件与相邻](2/README.md)：两补证/一精简，native1464帧一致，统一门待续 |
-| [CODE-QUALITY-2b](../../archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md) | done | partial | [YJ2五文件/四合同转移](2b/README.md)：native2626段一致，独立树归约/统一门待续 |
+| [CODE-QUALITY-2](../../archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md) | done | accept | [shared当前逐文件与全门](shared-codecs/evidence.json)：既有native适用性、归约单红/重复精简成立；20386check、ratchet/protected各19988零诊断；O-5限定域保留 |
+| [CODE-QUALITY-2b](../../archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md) | done | accept | [shared当前逐文件与全门](shared-codecs/evidence.json)：既有native适用性、归约单红/重复精简成立；20386check、ratchet/protected各19988零诊断；O-5限定域保留 |
 | [CODE-QUALITY-3](../../archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md) | done | partial | [切分](3/README.md)与[标注](3-annotate/README.md)：九有效反控，控制流风险draft；raw假绿/统一门待续 |
 | [CODE-QUALITY-3b](../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md) | done | partial | [SSS/M.MSG六文件](3b/README.md)：边界六反控；raw9→2/五新反控、全SSS与五原文已核；全正文/统一门待续 |
 | [CODE-QUALITY-3c](../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md) | done | partial | [动画与清理合同](3c/README.md)：原1例补活动timer卸载、三有效反控，相邻仍6act/统一门待续 |

@@ -1,6 +1,8 @@
 # 94前全部治理成果复审
 
-2026-10-21 CODE59/60接受：[九文件A–H/红绿/完整门回执](save-v1-local.json)、[完整原件](save-v1-native.json.gz)、[只读快检](verify-save-v1.mjs)、[原生现场](save-v1-native.png)、[旧V1成功](save-v1-native-result.png)、[非空历史提交](save-v1-native-nested.png)。原10红/历史2红/角色4红/finite单红保留；52相邻、20386check、19988official ratchet/protected零诊断，未降baseline。5次实际FileReader/独立IDB验证，非OS文件选择器或剧情E2E。10文件明确闭合，固定83卡现51accept/32partial；其余文件不附带接受。
+2026-10-21 shared CODE2/2b接受：[11文件八维/完整原件/只读快检](shared-codecs/README.md)。有效native/原盘证据复用，归约独立单红与重复精简成立；shared114/extract18/game31、20386check、ratchet/protected各19988零诊断。6新关闭，固定83卡53accept/30partial；RLE/O-5限制保留，94–102不扩展。
+
+2026-10-21 CODE59/60接受：[九文件A–H/红绿/完整门回执](save-v1-local.json)、[完整原件](save-v1-native.json.gz)、[只读快检](verify-save-v1.mjs)、[原生现场](save-v1-native.png)、[旧V1成功](save-v1-native-result.png)、[非空历史提交](save-v1-native-nested.png)。原10红/历史2红/角色4红/finite单红保留；52相邻、20386check、19988official ratchet/protected零诊断，未降baseline。5次实际FileReader/独立IDB验证，非OS文件选择器或剧情E2E。10文件明确闭合，该存档窗口当时51accept/32partial（最新计数见上方shared窗口）；其余文件不附带接受。
 
 2026-10-21类型合同补核：V1实际导出已有slot，不能只以首个JSON writer为最老数据。store-v2基点6b58f9e84为61根字段，后加12个required根字段、5个runtime行和3个装备行；当前data类型将这些明确为可缺失，未新增运行时补值/迁移。实际旧构造器→当前V1编码与类型正文不变原件见[合同增量](save-wire-contract.json)。前置纯类型包固定于5b0831d5c，不把它的data.ts哈希当作本增量。
 
