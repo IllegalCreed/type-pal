@@ -4,7 +4,7 @@
  * 调用:pnpm extract (从仓库根)
  *
  * 产出目录:data/extracted/(2026-06-22 资源管线优化后的现状)
- *   events/   scene-NNN.json, shared.json, objects.json, all.json(全局兜底命令)
+ *   events/   scene-NNN.json, shared.json, objects.json, all.json(生产cursor默认的完整命令数组)
  *   data/
  *     tileset/{mapNum}.rle、sprite/{id}.rle、battle-sprite/{kind}/{id}.rle、
  *     magic/{effect,fire-NN}.rle、animation/rng-NN.rle
@@ -19,18 +19,10 @@
  *     portraits/{NN}.png(RGM)、items/{NNN}.png(BALL)、battle/bg/{NNN}.png、
  *     ui/frame-NN.png(chunk 9)、splash/(FBP 3/4)——仍为 PNG 的只有这些
  *   sounds/{i}.wav、music/(MIDI/OGG/mus.mkf)、lookup/{words,strings}.json、
- *   font/glyphs.json、asset-manifest.json
+ *   data/font/glyphs.json、asset-manifest.json
  *   (rng-frames.json 为 frameCount manifest,不含 PNG;RGM/BALL 亦 PNG 解码)
  */
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  realpathSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync } from 'node:fs'
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
@@ -46,11 +38,13 @@ import { chunkCount, openMkf, readChunk } from './io/mkf.js'
 import { parseMessages } from './io/msg.js'
 import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
+import { writeBinary, writeJson } from './io/write.js'
 import { decompressYj2 } from './io/yj2.js'
 import { assertOwnedOutputRoot } from './output-boundary.js'
 import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
 import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
+import { writeMusicAssets } from './resources/music.js'
 import { decodePalette } from './resources/palette.js'
 import { decodeBallIcon } from './resources/parsers/ball.js'
 import {
@@ -59,7 +53,6 @@ import {
   parseLevelUpMagic,
 } from './resources/parsers/data-misc.js'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
-import { inspectRixArchive } from './resources/parsers/rix.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
 import { dumpAllEventObjects, dumpScene } from './resources/scene.js'
 import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './resources/sprite.js'
@@ -90,16 +83,6 @@ const SYMBOLS_PATH = resolve(REPO_ROOT, 'data/symbols.json')
 /** Keep the CLI entrypoint's ownership check directly testable without spawning a child. */
 export function prepareOutputRoot(dataRoot: string = DATA_ROOT, outputRoot: string = OUT): void {
   assertOwnedOutputRoot(dataRoot, outputRoot)
-}
-
-function writeJson(path: string, data: unknown): void {
-  mkdirSync(dirname(path), { recursive: true })
-  writeFileSync(path, JSON.stringify(data, null, 2))
-}
-
-function writeBinary(path: string, data: Uint8Array): void {
-  mkdirSync(dirname(path), { recursive: true })
-  writeFileSync(path, data)
 }
 
 /**
@@ -523,44 +506,8 @@ async function main(): Promise<void> {
   writeJson(resolve(OUT, 'data', 'sounds-metadata.json'), dumpSoundsMetadata(soundsBufs))
   console.log(`[pal-extract] SOUNDS.MKF: ${wavWritten} WAV written + metadata (${soundsN} chunks)`)
 
-  // 音乐:data/raw/Musics/(独立文件,非 MKF)→ data/extracted/music/(纯拷贝)。
-  //   - {NNN}.MID = MIDI 曲,编号 = sdlpal wNumMusic(midi.c:69 `PAL_va("Musics/%.3d.mid", iNumRIX)`)→ 归一化 .mid。
-  //   - TRACKxx.ogg = CD 音轨(sdlpal AUDIO_PlayCDTrack)→ 原名保留。
-  // 2026-05-29 user 要求全提。runtime 消费现状:MIDI 经 game audio-midi/spessasynth,
-  //   RIX 经 audio-rix worklet(下述 mus.mkf),音频系统已接入非"留 M6"。
-  {
-    const musicsDir = resolve(RAW, 'Musics')
-    const midiNums: number[] = []
-    const cdTracks: string[] = []
-    for (const name of readdirSync(musicsDir).sort()) {
-      const lower = name.toLowerCase()
-      if (lower.endsWith('.mid')) {
-        const num = Number(name.replace(/\.mid$/i, ''))
-        const out = `${String(num).padStart(3, '0')}.mid`
-        writeBinary(
-          resolve(OUT, 'music', out),
-          new Uint8Array(readFileSync(resolve(musicsDir, name))),
-        )
-        if (Number.isFinite(num)) midiNums.push(num)
-      } else if (lower.endsWith('.ogg')) {
-        writeBinary(
-          resolve(OUT, 'music', name),
-          new Uint8Array(readFileSync(resolve(musicsDir, name))),
-        )
-        cdTracks.push(name)
-      }
-    }
-    midiNums.sort((a, b) => a - b)
-    // Preserve the original RIX archive and sparse track numbering for DOS FM playback.
-    // (文件名在盘上即小写 mus.mkf,与其余大写 *.MKF 不同;此处按实际名读,勿"纠正"为大写。)
-    const rixBytes = new Uint8Array(readFileSync(resolve(RAW, 'mus.mkf')))
-    const rixTracks = inspectRixArchive(rixBytes)
-    writeBinary(resolve(OUT, 'music', 'mus.mkf'), rixBytes)
-    writeJson(resolve(OUT, 'data', 'music-manifest.json'), { midi: midiNums, cdTracks })
-    console.log(
-      `[pal-extract] Musics: ${midiNums.length} MIDI + ${cdTracks.length} CD ogg + ${rixTracks.length} RIX → music/`,
-    )
-  }
+  // 文件名归一化、原始音乐字节和manifest由音乐阶段统一写出；不负责输出清理。
+  writeMusicAssets(RAW, OUT)
 
   // splash 素材:FBP.MKF chunk 3(BITMAPNUM_SPLASH_UP WIN95=0x03) +
   //             chunk 4(BITMAPNUM_SPLASH_DOWN WIN95=0x04)。
@@ -602,7 +549,7 @@ async function main(): Promise<void> {
 
   // ── 资源(tileset + tilemap:全 295 scene,按 mapNum dedup) ─────────────────────
   // M4 P3.T3:全 295 scene → unique mapNum 集合,每个 mapNum dump 一次 tileset + tilemap。
-  // tilemap JSON 按 mapNum keyed(tilemap-{mapNum}.json),loader 通过 scene→mapNum→tilemap 链查找。
+  // tilemap JSON 按 mapNum keyed(data/tilemap/{mapNum}.json),loader 通过 scene→mapNum→tilemap 链查找。
 
   const mapMkf = openMkf(loadFile('MAP.MKF'))
   const mapChunkCount = chunkCount(mapMkf)
