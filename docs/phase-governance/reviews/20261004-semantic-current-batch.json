@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "ca49bd5fd16f2a3591ab7b144a36e9aa0cf61830fe24bbe2c3f4b6f63cef8bf5",
+      "afterSha256": "445ccfdc55666c4fc578fac1e2389ef2258c6604213063c1aa4c169a87a38710",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1305,7 +1305,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "71bb312f18c84b96b2d7cd24f436777d7f70f7c53558fd8bd5c3eebcc660f71f",
+      "afterSha256": "05ec520d7578f640922e6524aacb720b59d2aab42da4dedd4e877d3e4f9cd9bf",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2444,20 +2444,20 @@
       "historyOverlay": false,
       "templateCompliance": "needs-migration",
       "template": "docs/phase-governance/templates/task-card.md",
-      "readMethod": "Codex authored current rework card after independent evidence acceptance of GLM delivery: replay,3 risk samples,23 carrier anchors/7format outlines and targeted common-generator/claim-shape inspection. Not independent review of this Codex-authored card or269full-text governance.",
+      "readMethod": "Owner-authored card delta after Codex non-author GLM correction evidence acceptance: fixed replay, N-B10/probe/two-family risk checks, all dedupe target/count checks, all269 complete oracle sets, receipt/adapter/freeze verification. Not independent acceptance of this Codex-authored card or269full-text rereading.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S26机械身份/锚/保全通过，23个Git载体起点与7格式分析限定接收；269稿仍为程序计数/名称提取，186串卡排重、相位和历史边界及失败集合声明不足，C01-C03仅退判断字段。Owner不重做逐篇；不接入269中央信用或新增模板。",
+      "coreConclusion": "S26 C01-C03修正证据接受，Owner补207条机械排重计数/歧义与2处撤回锚；原包/原生字节冻结，0review/template/迁移信用。269行中央预演三份越1MiB，未发布；S27仅8源599entry的只读source/consumer/pin映射，Owner设计有界存储。",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
         "docs/phase-governance/templates/registry-proposal-20261011.md:333"
       ],
       "unresolved": [
-        "C01-C03 claim enrichment or explicit per-item blocked state pending GLM correction package.",
-        "Original execution/producer validity not authenticated by23 carrier anchors; distillation original hashes remain historical claims.",
-        "This Codex-authored card retains partial-review-unknown/needs-migration; no independent card or native migration acceptance."
+        "Native contract/path routing and269current-record intake await safe bounded-storage admission; no partial publication.",
+        "S27 actual consumer/test-impact/pin/source mapping pending; no code/old-test/schema implementation authorized by read-only packet.",
+        "Card remains partial-review-unknown/needs-migration; old execution/product/test quality and full governance not accepted."
       ],
-      "nextStep": "GLM writes claim corrections only to /tmp/s26-glm-evidence-correction; retain frozen original/23source/7format findings. Codex evidence acceptance then shared-contract intake.",
+      "nextStep": "GLM executes S27 read-only mapping once; Codex freezes storage/native contract details and implementation admission, then publishes accepted drafts without credit until respective gates.",
       "phase": "ops",
       "module": "native-document-governance",
       "capability": "S26 native historical evidence batch",
@@ -2466,10 +2466,11 @@
         "User restored Codex common design + GLM per-document execution + Codex evidence acceptance",
         "New initial author card; no earlier file/blob at carrier revision4469e2e84",
         "No semantic/independent completion claimed",
-        "S26 delivery ccc094e860e7e118bacb95b61c425f9fc2d037de independently audited by Codex; mechanical evidence retained, semantic claim fields countered. Verdict 26f7c6a21e212cd3040eed9befb475ea95ec004a59c4889d270f296d47a605ef"
+        "S26 delivery ccc094e860e7e118bacb95b61c425f9fc2d037de independently audited by Codex; mechanical evidence retained, semantic claim fields countered. Verdict 26f7c6a21e212cd3040eed9befb475ea95ec004a59c4889d270f296d47a605ef",
+        "Codex accepts corrected GLM evidence atccc094e860e7e118bacb95b61c425f9fc2d037de with explicit Owner mechanical supplements; default1MiB blocked central write. Verdict 91d3ceb661d21a1832b32c4aef4a1ee8f7fb740f91f7bf93c2c41f25815ff429"
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "1f5e3f7b16e4b30fcc30dfdfa94213562bac38828640ce65e4bef3a9ecb78f38",
+      "afterSha256": "38f82719e751fb9f0a61f04f98b7434c0326bf43da53f55a09deb75d7f926008",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2498,8 +2499,8 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "1f5e3f7b16e4b30fcc30dfdfa94213562bac38828640ce65e4bef3a9ecb78f38",
-        "implementationSha": "1f5e3f7b16e4b30fcc30dfdfa94213562bac38828640ce65e4bef3a9ecb78f38",
+        "currentSha": "38f82719e751fb9f0a61f04f98b7434c0326bf43da53f55a09deb75d7f926008",
+        "implementationSha": "38f82719e751fb9f0a61f04f98b7434c0326bf43da53f55a09deb75d7f926008",
         "history": [
           {
             "date": "2026-10-21",
@@ -2510,6 +2511,12 @@
             "revision": "ccc094e860e7e118bacb95b61c425f9fc2d037de",
             "afterSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
             "scope": "Prior author admission card; preserved by fixed Git object. No semantic/independent card acceptance."
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "8cbf0dafba1a8a96914a322719dfeca1e5d58873",
+            "afterSha256": "1f5e3f7b16e4b30fcc30dfdfa94213562bac38828640ce65e4bef3a9ecb78f38",
+            "scope": "Prior S26 rework author card and contributor-delivery counter verdict preserved by fixed Git object."
           }
         ]
       },
@@ -2527,30 +2534,45 @@
         {
           "date": "2026-10-21",
           "action": "GLM S26 evidence mechanically accepted with qualified23source/7format findings; C01-C03 content claims rework; source/old native credit unchanged."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "C01-C03 corrected evidence accepted with Owner mechanical supplements; central269write blocked before publication; S27source/consumer mapping only.",
+          "priorDecision": "rework-content-claims; accept-identity-and-qualified-exception-analysis",
+          "priorRecordRevision": "8cbf0dafba1a8a96914a322719dfeca1e5d58873"
         }
       ],
       "supersedes": [],
       "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
-      "reviewedLines": "Current author card delta and S26 evidence claims; see contributorDeliveryAcceptance for actual non-author scope.",
+      "reviewedLines": "Current authored card delta and corrected delivery evidence checks as precisely bounded in contributorDeliveryAcceptance; not269full prose migration.",
       "documentStatus": "current",
       "currentQualification": {
         "task": "DOCS-NATIVE-JSON-1/S26",
         "owner": "Codex",
         "nonAuthorReviewer": false,
-        "scope": "Author admission only; independent acceptance pending"
+        "scope": "Owner-authored current card remains pending; independent contributor-delivery evidence acceptance is separately attached."
       },
       "contributorDeliveryAcceptance": {
-        "date": "2026-10-21",
+        "date": "2026-10-22",
         "reviewer": "Codex",
         "nonAuthorReviewer": true,
         "author": "GLM",
         "candidateCommit": "ccc094e860e7e118bacb95b61c425f9fc2d037de",
-        "decision": "rework-content-claims; accept-identity-and-qualified-exception-analysis",
-        "scope": "Delivery evidence,3samples,23carrier anchors,7format analyses and demonstrated shared claim defects; not269full-text governance or independent acceptance of this card.",
-        "verdictSHA256": "26f7c6a21e212cd3040eed9befb475ea95ec004a59c4889d270f296d47a605ef",
+        "decision": "accept-correction-evidence-with-owner-mechanical-supplements",
+        "scope": "Corrected draft evidence and exact C01-C03 closure; not269full semantic rereading, independent card acceptance, original runtime or migration credit.",
+        "verdictSHA256": "91d3ceb661d21a1832b32c4aef4a1ee8f7fb740f91f7bf93c2c41f25815ff429",
         "evidencePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "counters": ["S26-C01", "S26-C02", "S26-C03"],
+        "closedCounters": ["S26-C01", "S26-C02", "S26-C03"],
+        "newReviewCredit": 0,
         "newMigrationCredit": 0
+      },
+      "ownerMechanicalSupplements": {
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "dedupeCountSupplements": 207,
+        "withdrawalAnchorAdditions": 2,
+        "sha256": "d6211ed49559bb2db2560c7429595303f649f7fa99674433ace293b9a6b1fa2e",
+        "scope": "Exact mechanical deltas to frozen GLM corrected draft, no native byte/claim credit promotion."
       }
     }
   ],
@@ -2607,6 +2629,12 @@
       "date": "2026-10-21",
       "task": "DOCS-NATIVE-JSON-1/S26",
       "action": "Record qualified GLM evidence acceptance/C01-C03 rework in existing child row; exact changed card/board/index pins. No native/migration credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-22",
+      "task": "DOCS-NATIVE-JSON-1/S26-correction-S27",
+      "action": "Close GLM corrected-evidence counters in existing child row, record Owner mechanical supplements/size stop/S27read-only admission; exact administrative pins. No native/review/migration credit.",
       "nonAuthorReviewer": false
     }
   ]
