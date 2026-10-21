@@ -1,0 +1,100 @@
+{
+  "base": "92e901806",
+  "cwd": "/Users/zhangxu/illegal/type-pal/packages/game",
+  "sourceHashes": {
+    "input.ts": "381fdffe0a072759c7f1b461c8cc7e551aece71efa904604176cad8f1280b579",
+    "touch-controls.ts": "c0723cb5b934e9f740a3ddb68115afcdf7b0a028d7d52d67a9d9be62a1b134f3",
+    "touch-controls.test.ts": "974cab6e46add447f166886c89687a895fe39046d0968b59777f4588d6c0dfcd"
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-MOBILE-LAYOUT-1/control.json"
+      ],
+      "exit": 0,
+      "tests": 9,
+      "passed": 9,
+      "failed": [],
+      "mutantHash": "c0723cb5b934e9f740a3ddb68115afcdf7b0a028d7d52d67a9d9be62a1b134f3",
+      "report": "control.json"
+    },
+    {
+      "name": "duplicate-click",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-MOBILE-LAYOUT-1/duplicate-click.json"
+      ],
+      "exit": 1,
+      "tests": 9,
+      "passed": 8,
+      "failed": [
+        {
+          "title": "a tap between logic ticks latches one press, without a duplicate click edge",
+          "messages": [
+            "AssertionError: expected [ 'Confirm' ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts:39:48\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "mutantHash": "bcc41d7dccc318fb5048b974b0392e9019a2636545483f94943434f7bf2f02ed",
+      "report": "duplicate-click.json"
+    },
+    {
+      "name": "frozen-direction",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-MOBILE-LAYOUT-1/frozen-direction.json"
+      ],
+      "exit": 1,
+      "tests": 9,
+      "passed": 8,
+      "failed": [
+        {
+          "title": "a held thumb slides between four directions, stops in the center, and resumes after leaving the rim",
+          "messages": [
+            "AssertionError: expected [ 'Up' ] to deeply equal [ 'Left' ]\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts:133:45\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "mutantHash": "c318954e5f6a6a83c054f9e39ba84ba3f4c56a2d0198f51d10da6a94d9c42310",
+      "report": "frozen-direction.json"
+    },
+    {
+      "name": "restored",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-MOBILE-LAYOUT-1/restored.json"
+      ],
+      "exit": 0,
+      "tests": 9,
+      "passed": 9,
+      "failed": [],
+      "mutantHash": "c0723cb5b934e9f740a3ddb68115afcdf7b0a028d7d52d67a9d9be62a1b134f3",
+      "report": "restored.json"
+    }
+  ],
+  "scope": "isolated exact source/test copies; not a new official coverage baseline",
+  "temporaryTreeRemoved": true,
+  "reportHandling": "Vitest JSON objects retained with formatting-only normalization; native CLI stdout/stderr kept in matching .txt files. No verdict/assertion fields altered."
+}

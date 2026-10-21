@@ -11,6 +11,8 @@ import type { SaveSnapshot } from '../core/save/data.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import type { MusicSourceController } from '../shell/music-source.js'
+import { isMobileLayout, LAYOUT_CHANGE } from '../shell/presentation.js'
+import { areTouchControlsVisible, setTouchControlsVisible } from '../shell/touch-preference.js'
 import type { DisplayScaleController } from './display-scale.js'
 import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { getMapName } from './map-names.js'
@@ -39,6 +41,8 @@ export interface PanelResources {
 }
 
 export interface ToolsPanelDeps {
+  onOpenChange?: (open: boolean) => void
+  openPrivacySettings?: () => void
   getGs: () => GameState
   /** 战斗 tab 只读用(playerRoles/objectPoisons/items);资源加载后不变。 */
   getResources: () => PanelResources
@@ -605,25 +609,35 @@ function renderSceneTab(parent: HTMLElement, gs: GameState, minimap: MinimapCont
 
 /** 系统 tab:显示(缩放滑块 10%~1000% 正中100% + 全屏) / 音频(BGM 滑块 + 静音) / 存档(导出/导入)。 */
 function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
-  // ── 显示 ──
-  sectionTitle(parent, '显示')
-  const ds = deps.displayScale
-  const { slider: scaleSlider, val: scaleVal } = sliderRow(parent, '缩放', {
-    min: 0,
-    max: 1,
-    step: 0.001,
-    value: pctToPos(ds.getPercent()),
-  })
-  const syncScale = (): void => {
-    scaleVal.textContent = `${posToPct(Number(scaleSlider.value))}%`
+  sectionTitle(parent, '操作')
+  if (isMobileLayout()) {
+    toggleRow(parent, '显示虚拟按键', areTouchControlsVisible(), setTouchControlsVisible)
   }
-  syncScale()
-  scaleSlider.addEventListener('input', () => {
-    ds.setPercent(posToPct(Number(scaleSlider.value)))
+  muted(
+    parent,
+    '手柄：十字键/左摇杆移动，底部面键确认，右侧面键取消，Start打开菜单。连接后按任意键激活。',
+  )
+  // ── 显示 ──
+  const ds = deps.displayScale
+  if (!isMobileLayout()) {
+    sectionTitle(parent, '显示')
+    const { slider: scaleSlider, val: scaleVal } = sliderRow(parent, '缩放', {
+      min: 0,
+      max: 1,
+      step: 0.001,
+      value: pctToPos(ds.getPercent()),
+    })
+    const syncScale = (): void => {
+      scaleVal.textContent = `${posToPct(Number(scaleSlider.value))}%`
+    }
     syncScale()
-  })
-  button(parent, '全屏', () => ds.toggleFullscreen())
-  toggleRow(parent, '左上角显示 FPS', isFpsEnabled(), (v) => setFpsEnabled(v))
+    scaleSlider.addEventListener('input', () => {
+      ds.setPercent(posToPct(Number(scaleSlider.value)))
+      syncScale()
+    })
+    button(parent, '全屏', () => ds.toggleFullscreen())
+    toggleRow(parent, '左上角显示 FPS', isFpsEnabled(), (v) => setFpsEnabled(v))
+  }
 
   // ── 音频(音乐 BGM / 音效 SFX / 视频 mp4 各自独立音量;静音为一键覆盖三路的主开关) ──
   sectionTitle(parent, '音频')
@@ -687,6 +701,11 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     for (const c of muteChannels) c.setMuted(next)
     muteBtn.textContent = muteLabel()
   })
+
+  if (isMobileLayout()) {
+    if (deps.openPrivacySettings) button(parent, '隐私设置', deps.openPrivacySettings)
+    return
+  }
 
   // ── 存档(5 个存档位各自导入/导出) ──
   sectionTitle(parent, '存档导入导出')
@@ -1042,16 +1061,25 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   body.className = 'tp-body'
   main.append(header, body)
 
-  let active: TabKey = 'scene'
+  let active: TabKey = isMobileLayout() ? 'system' : 'scene'
   const tabButtons = new Map<TabKey, HTMLButtonElement>()
   const render = (): void => {
-    for (const [k, btn] of tabButtons) btn.classList.toggle('tp-tab-active', k === active)
+    if (isMobileLayout() && (active === 'timer' || active === 'keys')) active = 'system'
+    for (const [k, btn] of tabButtons) {
+      btn.hidden = isMobileLayout() && (k === 'timer' || k === 'keys')
+      btn.classList.toggle('tp-tab-active', k === active)
+      btn.setAttribute('aria-pressed', String(k === active))
+      if (k === 'scene') btn.textContent = isMobileLayout() ? '地图' : '场景'
+      if (k === 'system') btn.textContent = isMobileLayout() ? '设置' : '系统'
+    }
     body.replaceChildren()
-    renderActiveTab(body, active, deps, minimap)
+    renderActiveTab(body, active, panelDeps, minimap)
   }
   for (const [key, label] of TABS) {
     const b = document.createElement('button')
     b.className = 'tp-tab'
+    b.dataset.key = key
+    if (key === 'battle' || key === 'dialog' || key === 'keys') b.dataset.extra = ''
     b.textContent = label
     b.addEventListener('click', () => {
       active = key
@@ -1060,6 +1088,15 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
     tabButtons.set(key, b)
     tabbar.appendChild(b)
   }
+  const moreTabs = document.createElement('button')
+  moreTabs.className = 'tp-tabs-more'
+  moreTabs.textContent = '更多'
+  moreTabs.setAttribute('aria-expanded', 'false')
+  moreTabs.addEventListener('click', () => {
+    const expanded = tabbar.toggleAttribute('data-expanded')
+    moreTabs.setAttribute('aria-expanded', String(expanded))
+  })
+  tabbar.append(moreTabs)
   root.append(tabbar, main)
   document.body.appendChild(root)
   deps.musicSource.subscribe(() => updateMusicSourceUi(body, deps.musicSource))
@@ -1068,13 +1105,37 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   launcher.id = 'tp-tools-launcher'
   launcher.textContent = '⚙'
   launcher.title = '工具面板(`)'
+  launcher.setAttribute('aria-label', '打开工具面板')
 
   let open = false
+  let previousFocus: HTMLElement | null = null
   const setOpen = (next: boolean): void => {
+    if (next === open) return
     open = next
     root.hidden = !next
-    if (next) render()
+    deps.onOpenChange?.(next)
+    if (next) {
+      previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
+      if (isMobileLayout()) {
+        root.setAttribute('role', 'dialog')
+        root.setAttribute('aria-label', '游戏工具')
+        render()
+        closeBtn.focus()
+      } else render()
+    } else previousFocus?.focus()
   }
+  const panelDeps: ToolsPanelDeps = {
+    ...deps,
+    openPrivacySettings: deps.openPrivacySettings
+      ? () => {
+          setOpen(false)
+          deps.openPrivacySettings?.()
+        }
+      : undefined,
+  }
+  window.addEventListener(LAYOUT_CHANGE, () => {
+    if (open) render()
+  })
   launcher.addEventListener('click', () => setOpen(!open))
   closeBtn.addEventListener('click', () => setOpen(false))
   document.body.appendChild(launcher)
@@ -1089,6 +1150,10 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   // 面板内 keydown 不冒泡给游戏 window 监听(防搜索框打字漏成游戏输入);但 **放行 Backquote** ——
   //   否则点过 tab 后焦点落在面板内按钮上,` 被这里 stopPropagation 拦死,到不了上方 window 切换器 → 关不掉面板。
   root.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape' && isMobileLayout()) {
+      e.preventDefault()
+      setOpen(false)
+    }
     if (e.code !== 'Backquote') e.stopPropagation()
   })
 

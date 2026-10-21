@@ -120,6 +120,7 @@ import {
   waitForKey,
 } from './ending-player.js'
 import { scrollFbp, showFbp } from './fbp-player.js'
+import type { GameShell } from './game-shell.js'
 import { KeyboardInputSource } from './input.js'
 import { type LoopContext, startRafLoop } from './main-loop.js'
 import { createMusicSourceController, readMusicSource } from './music-source.js'
@@ -224,6 +225,8 @@ export function showError(canvas: HTMLCanvasElement, msg: string): void {
 }
 
 export interface BootstrapDeps {
+  gameShell?: GameShell
+  openPrivacySettings?: () => void
   /** soundfontSettled 后调:必要资源就绪(PROD 出「进入游戏」按钮;dev/无门 no-op)。 */
   onPlayable?: () => void
   /** bootstrap await 它:用户点进入 / 自动放行后 resolve(dev 预先 resolved → 不阻塞)。 */
@@ -1092,8 +1095,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     keyVol: 'tp-video-volume',
     keyMute: 'tp-muted',
   })
-  const displayScale = createDisplayScaleController(canvas)
+  const displayScale = createDisplayScaleController(canvas, deps?.gameShell)
   setupToolsPanel({
+    onOpenChange: (open) => deps?.gameShell?.setToolsOpen(open),
+    openPrivacySettings: deps?.openPrivacySettings,
     getGs: () => gs,
     getResources: () => ({ playerRoles, objectPoisons, items, levelUpExp: assets.levelUpExp }),
     displayScale,
@@ -1107,6 +1112,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // 显示缩放由minimap的DPR/裁剪决定;色表与seam边界仍以CODE57为准。
     getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum, 640),
   })
+  deps?.gameShell?.connect(input)
   setupQuickSave({
     getGs: () => gs,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),

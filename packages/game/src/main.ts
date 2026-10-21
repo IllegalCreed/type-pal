@@ -1,21 +1,28 @@
-import { installTypePalAnalytics } from './analytics/install-analytics.js'
+import {
+  installTypePalAnalytics,
+  type TypePalAnalyticsInstallation,
+} from './analytics/install-analytics.js'
 import { warmUpVideoAutoplay } from './shell/avi-player.js'
 import { failBootLoading, initBootLoading, restoreBootFetch } from './shell/boot-loading.js'
 import { bootstrap, showError } from './shell/bootstrap.js'
 import { installFetchRetry } from './shell/fetch-retry.js'
+import { createGameShell } from './shell/game-shell.js'
 import { registerPrecache, startPrecache } from './shell/precache-client.js'
 import { createUnifiedProgressUi } from './shell/precache-ui.js'
 
 if (typeof document !== 'undefined') {
   const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true
+  let analytics: TypePalAnalyticsInstallation | undefined
   try {
-    installTypePalAnalytics({ enabled: isProd, window, document, navigator })
+    analytics = installTypePalAnalytics({ enabled: isProd, window, document, navigator })
   } catch {
     // Analytics 是可选能力，初始化失败不得改变第一阶段游戏启动路径。
   }
 
   const canvas = document.getElementById('screen')
   if (canvas instanceof HTMLCanvasElement) {
+    const gameShell = createGameShell(canvas)
+    const openPrivacySettings = analytics?.openPreferences
     // GET 网络层重试兜底(偶发 net::ERR_FAILED)。必须先于任何 fetch / boot-loading 包装。
     installFetchRetry()
 
@@ -54,6 +61,8 @@ if (typeof document !== 'undefined') {
         releaseGate() // 放行 bootstrap 继续 trademark/splash + 主循环
       }
       void bootstrap(canvas, {
+        gameShell,
+        openPrivacySettings,
         // 必要资源就绪(虚线):停必要资源计数 + 出按钮 + 启动 SW 全量(虚线后段);自动放行时不出按钮。
         onPlayable: () => {
           if (gateReleased) return
@@ -73,12 +82,14 @@ if (typeof document !== 'undefined') {
       // ── dev/e2e(PROD=false)/ 老浏览器无 SW:退化为现状——fetch 计数进度(自渲染)+ 自动进游戏,无门无 SW ──
       initBootLoading() // 包 window.fetch 计数 + 自渲染 #boot-loading(现状)
       releaseGate() // 无门:enterGate 预先放行 → bootstrap 不阻塞
-      void bootstrap(canvas, { enterGate }).catch((err: unknown) => {
-        const msg = err instanceof Error ? err.message : String(err)
-        console.error('bootstrap failed:', err)
-        failBootLoading(msg) // overlay 留在原地显示错误
-        showError(canvas, msg)
-      })
+      void bootstrap(canvas, { enterGate, gameShell, openPrivacySettings }).catch(
+        (err: unknown) => {
+          const msg = err instanceof Error ? err.message : String(err)
+          console.error('bootstrap failed:', err)
+          failBootLoading(msg) // overlay 留在原地显示错误
+          showError(canvas, msg)
+        },
+      )
     }
   }
 }

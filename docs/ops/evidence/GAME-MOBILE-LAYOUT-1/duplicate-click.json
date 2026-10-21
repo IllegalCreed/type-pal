@@ -1,0 +1,132 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 8,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792599181878,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source a tap between logic ticks latches one press, without a duplicate click edge",
+          "status": "failed",
+          "title": "a tap between logic ticks latches one press, without a duplicate click edge",
+          "duration": 15.140874999999994,
+          "failureMessages": [
+            "AssertionError: expected [ 'Confirm' ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts:39:48\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source releasing touch does not release a matching physical keyboard hold",
+          "status": "passed",
+          "title": "releasing touch does not release a matching physical keyboard hold",
+          "duration": 2.950290999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source cancelling one finger preserves the other finger and clears only its visual hold",
+          "status": "passed",
+          "title": "cancelling one finger preserves the other finger and clears only its visual hold",
+          "duration": 2.0636670000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source releasing a newer keyboard alias restores touch direction priority over the older alias",
+          "status": "passed",
+          "title": "releasing a newer keyboard alias restores touch direction priority over the older alias",
+          "duration": 0.9708749999999782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source window blur releases physical and touch holds and unconsumed presses",
+          "status": "passed",
+          "title": "window blur releases physical and touch holds and unconsumed presses",
+          "duration": 1.134999999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source tool input blocking clears old holds and requires a new press after closing",
+          "status": "passed",
+          "title": "tool input blocking clears old holds and requires a new press after closing",
+          "duration": 1.0627079999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source assistive click activation emits a tap without needing pointer events",
+          "status": "passed",
+          "title": "assistive click activation emits a tap without needing pointer events",
+          "duration": 0.5704999999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source disposing a touch surface releases its contacts and removes event producers",
+          "status": "passed",
+          "title": "disposing a touch surface releases its contacts and removes event producers",
+          "duration": 0.3978749999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source a held thumb slides between four directions, stops in the center, and resumes after leaving the rim",
+          "status": "passed",
+          "title": "a held thumb slides between four directions, stops in the center, and resumes after leaving the rim",
+          "duration": 4.4953330000000165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792599182346,
+      "endTime": 1792599182375.4954,
+      "status": "failed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+#tp-game-shell {
+  color-scheme: dark;
+}
+.tp-dpad,
+.tp-touch-actions,
+.tp-tabs-more {
+  display: none;
+}
+#tp-game-shell .tp-dpad[hidden],
+#tp-game-shell .tp-touch-actions[hidden] {
+  display: none;
+}
+:where(#tp-game-shell) button {
+  box-sizing: border-box;
+  color: rgba(255, 242, 214, 0.9);
+  background: rgba(29, 24, 18, 0.34);
+  border: 1px solid rgba(238, 211, 158, 0.48);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    0 2px 10px rgba(0, 0, 0, 0.12);
+  font:
+    18px / 1.2 "Songti SC",
+    "SimSun",
+    serif;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#tp-game-shell button:focus-visible {
+  outline: 2px solid #f0d28b;
+  outline-offset: 3px;
+}
+#tp-game-shell button.is-held,
+#tp-game-shell button:active {
+  color: #fff4d7;
+  border-color: #f0cf8f;
+  background: rgba(136, 91, 48, 0.7);
+}
+html[data-tp-layout="mobile"],
+html[data-tp-layout="mobile"] body {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+html[data-tp-layout="mobile"] #tp-game-shell {
+  --tp-pad: clamp(50px, 13vw, 58px);
+  --tp-face: clamp(64px, 18vw, 80px);
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  box-sizing: border-box;
+  background: #080808;
+}
+html[data-tp-layout="mobile"] #tp-game-stage {
+  position: absolute;
+  inset: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+html[data-tp-layout="mobile"] #screen {
+  max-height: none;
+  max-width: none;
+  aspect-ratio: 8 / 5;
+}
+html[data-tp-layout="mobile"] .tp-dpad {
+  z-index: 10001;
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: block;
+  width: calc(var(--tp-pad) * 3);
+  height: calc(var(--tp-pad) * 3);
+  border: 1px solid rgba(239, 226, 200, 0.34);
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: rgba(18, 18, 17, 0.2);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.tp-dpad::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    linear-gradient(45deg, transparent 49.7%, rgba(239, 226, 200, 0.12) 50%, transparent 50.3%),
+    linear-gradient(-45deg, transparent 49.7%, rgba(239, 226, 200, 0.12) 50%, transparent 50.3%);
+}
+#tp-game-shell .tp-dpad button {
+  position: absolute;
+  width: var(--tp-pad);
+  height: var(--tp-pad);
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+}
+#tp-game-shell .tp-dpad button.is-held {
+  background: rgba(216, 179, 101, 0.4);
+}
+.tp-dpad button svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.tp-dpad [data-action="Up"] {
+  left: 33.333%;
+  top: 0;
+}
+.tp-dpad [data-action="Left"] {
+  left: 0;
+  top: 33.333%;
+}
+.tp-dpad [data-action="Right"] {
+  right: 0;
+  top: 33.333%;
+}
+.tp-dpad [data-action="Down"] {
+  left: 33.333%;
+  bottom: 0;
+}
+.tp-dpad-hub {
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  left: 39%;
+  top: 39%;
+  border-radius: 50%;
+  border: 1px solid rgba(239, 226, 200, 0.25);
+  box-sizing: border-box;
+  background: rgba(239, 226, 200, 0.06);
+  pointer-events: none;
+}
+html[data-tp-layout="mobile"] .tp-touch-actions {
+  z-index: 10001;
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  gap: 12px;
+}
+#tp-game-shell .tp-touch-actions button {
+  width: var(--tp-face);
+  height: var(--tp-face);
+  border-radius: 50%;
+  font-size: 20px;
+  padding: 0;
+}
+#tp-game-shell .tp-touch-confirm {
+  margin-bottom: 44px;
+  border-color: rgba(244, 210, 143, 0.65);
+  background: rgba(134, 54, 33, 0.32);
+}
+html[data-tp-layout="mobile"] #tp-tools-launcher {
+  top: max(8px, env(safe-area-inset-top, 0px));
+  right: max(8px, env(safe-area-inset-right, 0px));
+  bottom: auto;
+  left: auto;
+  width: 44px;
+  height: 44px;
+  background: rgba(29, 24, 18, 0.45);
+  opacity: 0.8;
+}
+html[data-tp-layout="mobile"]:has(#tp-tools-panel) [data-testid="analytics-preferences"] {
+  display: none;
+}
+html[data-tp-layout="mobile"] [data-analytics-consent-root] button {
+  min-height: 44px;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel {
+  --tp-control-height: 44px;
+  --tp-control-font-size: 16px;
+  box-sizing: border-box;
+  inset: max(8px, env(safe-area-inset-top, 0px)) max(8px, env(safe-area-inset-right, 0px))
+    max(8px, env(safe-area-inset-bottom, 0px)) auto;
+  width: min(460px, calc(100vw - 16px));
+  height: auto;
+  max-height: none;
+  flex-direction: column;
+  background: #191612;
+  animation: none;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-tabbar {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 4px;
+  border: 0;
+  border-bottom: 1px solid #553322;
+  gap: 2px;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-tab,
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-tabs-more {
+  min-height: 44px;
+  padding: 8px 2px;
+  text-align: center;
+  letter-spacing: 0;
+  border: 0;
+  border-radius: 5px;
+  font:
+    14px "Songti SC",
+    "SimSun",
+    serif;
+  color: #cbb890;
+  background: transparent;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-tab-active {
+  background: #4a3021;
+}
+html[data-tp-layout="mobile"] .tp-tab[data-key="system"] {
+  order: 0;
+}
+html[data-tp-layout="mobile"] .tp-tab[data-key="scene"] {
+  order: 1;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-tabs-more {
+  display: block;
+  order: 3;
+}
+html[data-tp-layout="mobile"] .tp-tab[data-extra] {
+  display: none;
+  order: 4;
+}
+html[data-tp-layout="mobile"] .tp-tabbar[data-expanded] .tp-tab[data-extra] {
+  display: block;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-main {
+  min-height: 0;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-header {
+  padding: 4px 12px;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-body {
+  padding: 8px 12px 16px;
+  min-height: 0;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-input {
+  font-size: 16px;
+  min-width: 0;
+}
+html[data-tp-layout="mobile"] #tp-tools-panel .tp-minimap-canvas {
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+html[data-tp-layout="mobile"] #tp-minimap-widget {
+  --tp-minimap-size: 120px;
+  left: max(8px, env(safe-area-inset-left, 0px));
+  top: max(8px, env(safe-area-inset-top, 0px));
+  right: auto;
+  bottom: auto;
+  opacity: 0.65;
+}
+html[data-tp-layout="mobile"] .tp-mm-zoom {
+  display: none;
+}
+@media (orientation: landscape) {
+  html[data-tp-layout="mobile"] #tp-game-shell {
+    --tp-pad: clamp(50px, 13vh, 58px);
+    --tp-face: clamp(64px, 18vh, 80px);
+  }
+}

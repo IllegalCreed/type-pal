@@ -1,0 +1,320 @@
+
+> type-pal@ test:quality-tools /Users/zhangxu/illegal/type-pal
+> node --test scripts/quality/*.test.mjs
+
+TAP version 13
+# Subtest: inventory rejects an empty output path without publishing output
+ok 1 - inventory rejects an empty output path without publishing output
+  ---
+  duration_ms: 29.147375
+  type: 'test'
+  ...
+# Subtest: inventory rejects duplicate output options without publishing output
+ok 2 - inventory rejects duplicate output options without publishing output
+  ---
+  duration_ms: 27.640125
+  type: 'test'
+  ...
+# Subtest: code-quality inventory emits deterministic scoped records with caller and category fields
+ok 3 - code-quality inventory emits deterministic scoped records with caller and category fields
+  ---
+  duration_ms: 1819.618125
+  type: 'test'
+  ...
+# Subtest: actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task
+ok 4 - actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task
+  ---
+  duration_ms: 268.7735
+  type: 'test'
+  ...
+# Subtest: actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers
+ok 5 - actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers
+  ---
+  duration_ms: 106.993
+  type: 'test'
+  ...
+# Subtest: unique files determine all counts; running the guard does not change evidence
+ok 6 - unique files determine all counts; running the guard does not change evidence
+  ---
+  duration_ms: 1.299833
+  type: 'test'
+  ...
+# Subtest: duplicate ledger row fails even if the header gives it no extra credit
+ok 7 - duplicate ledger row fails even if the header gives it no extra credit
+  ---
+  duration_ms: 0.246125
+  type: 'test'
+  ...
+# Subtest: untracked evidence path cannot count as a reviewed file
+ok 8 - untracked evidence path cannot count as a reviewed file
+  ---
+  duration_ms: 0.241167
+  type: 'test'
+  ...
+# Subtest: each published status count is checked independently
+ok 9 - each published status count is checked independently
+  ---
+  duration_ms: 0.274792
+  type: 'test'
+  ...
+# Subtest: added and removed tracked files invalidate inventory and pending counts
+ok 10 - added and removed tracked files invalidate inventory and pending counts
+  ---
+  duration_ms: 0.171709
+  type: 'test'
+  ...
+# Subtest: table shape, status and evidence cannot be silently skipped
+ok 11 - table shape, status and evidence cannot be silently skipped
+  ---
+  duration_ms: 0.619125
+  type: 'test'
+  ...
+# Subtest: fenced examples give no credit; duplicate/missing summary or table fails closed
+ok 12 - fenced examples give no credit; duplicate/missing summary or table fails closed
+  ---
+  duration_ms: 0.230459
+  type: 'test'
+  ...
+# Subtest: hidden fenced example with an info-bearing marker cannot publish reviewed-file counts
+ok 13 - hidden fenced example with an info-bearing marker cannot publish reviewed-file counts
+  ---
+  duration_ms: 0.107167
+  type: 'test'
+  ...
+# Subtest: hidden HTML comment cannot publish reviewed-file counts
+ok 14 - hidden HTML comment cannot publish reviewed-file counts
+  ---
+  duration_ms: 0.29675
+  type: 'test'
+  ...
+# Subtest: a fenced block terminates the contiguous machine ledger
+ok 15 - a fenced block terminates the contiguous machine ledger
+  ---
+  duration_ms: 0.404583
+  type: 'test'
+  ...
+# Subtest: comment markers in fenced code do not hide the following live ledger
+ok 16 - comment markers in fenced code do not hide the following live ledger
+  ---
+  duration_ms: 0.127875
+  type: 'test'
+  ...
+# Subtest: comment markers in inline code do not hide the following live ledger
+ok 17 - comment markers in inline code do not hide the following live ledger
+  ---
+  duration_ms: 0.068667
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate inventory is rejected before claiming success
+ok 18 - malformed or duplicate inventory is rejected before claiming success
+  ---
+  duration_ms: 0.11475
+  type: 'test'
+  ...
+# Subtest: importing the validator from an unrelated cwd does not start the CLI
+ok 19 - importing the validator from an unrelated cwd does not start the CLI
+  ---
+  duration_ms: 26.172833
+  type: 'test'
+  ...
+# Subtest: real quality-tools caller checks the current repository ledger against the inventory CLI
+not ok 20 - real quality-tools caller checks the current repository ledger against the inventory CLI
+  ---
+  duration_ms: 1187.667166
+  type: 'test'
+  location: '/Users/zhangxu/illegal/type-pal/scripts/quality/code-quality-ledger.test.mjs:168:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    code-quality ledger: FAIL
+    inventory count mismatch: declared 3,338, actual 3352
+    status count mismatch: declared 356/126/2856/2982, actual 356/126/2870/2996
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/zhangxu/illegal/type-pal/scripts/quality/code-quality-ledger.test.mjs:178:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: accepts a complete, zero-diagnostic report
+ok 21 - accepts a complete, zero-diagnostic report
+  ---
+  duration_ms: 0.560334
+  type: 'test'
+  ...
+# Subtest: rejects nonzero errors even when CLI exits zero
+ok 22 - rejects nonzero errors even when CLI exits zero
+  ---
+  duration_ms: 0.128209
+  type: 'test'
+  ...
+# Subtest: rejects missing errors
+ok 23 - rejects missing errors
+  ---
+  duration_ms: 0.05825
+  type: 'test'
+  ...
+# Subtest: rejects nonzero warnings even when CLI exits zero
+ok 24 - rejects nonzero warnings even when CLI exits zero
+  ---
+  duration_ms: 0.115
+  type: 'test'
+  ...
+# Subtest: rejects missing warnings
+ok 25 - rejects missing warnings
+  ---
+  duration_ms: 0.051042
+  type: 'test'
+  ...
+# Subtest: rejects nonzero infos even when CLI exits zero
+ok 26 - rejects nonzero infos even when CLI exits zero
+  ---
+  duration_ms: 0.038583
+  type: 'test'
+  ...
+# Subtest: rejects missing infos
+ok 27 - rejects missing infos
+  ---
+  duration_ms: 0.093125
+  type: 'test'
+  ...
+# Subtest: rejects nonzero skipped even when CLI exits zero
+ok 28 - rejects nonzero skipped even when CLI exits zero
+  ---
+  duration_ms: 0.036042
+  type: 'test'
+  ...
+# Subtest: rejects missing skipped
+ok 29 - rejects missing skipped
+  ---
+  duration_ms: 0.267833
+  type: 'test'
+  ...
+# Subtest: rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+ok 30 - rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+  ---
+  duration_ms: 0.346666
+  type: 'test'
+  ...
+# Subtest: rejects missing diagnosticsNotPrinted
+ok 31 - rejects missing diagnosticsNotPrinted
+  ---
+  duration_ms: 0.125583
+  type: 'test'
+  ...
+# Subtest: rejects nonzero changed even when CLI exits zero
+ok 32 - rejects nonzero changed even when CLI exits zero
+  ---
+  duration_ms: 0.04475
+  type: 'test'
+  ...
+# Subtest: rejects missing changed
+ok 33 - rejects missing changed
+  ---
+  duration_ms: 0.031917
+  type: 'test'
+  ...
+# Subtest: rejects invalid count -1
+ok 34 - rejects invalid count -1
+  ---
+  duration_ms: 0.048834
+  type: 'test'
+  ...
+# Subtest: rejects invalid count NaN
+ok 35 - rejects invalid count NaN
+  ---
+  duration_ms: 0.028958
+  type: 'test'
+  ...
+# Subtest: rejects invalid count Infinity
+ok 36 - rejects invalid count Infinity
+  ---
+  duration_ms: 0.023041
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 1.5
+ok 37 - rejects invalid count 1.5
+  ---
+  duration_ms: 0.023292
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 0
+ok 38 - rejects invalid count 0
+  ---
+  duration_ms: 0.021292
+  type: 'test'
+  ...
+# Subtest: rejects invalid count null
+ok 39 - rejects invalid count null
+  ---
+  duration_ms: 0.0215
+  type: 'test'
+  ...
+# Subtest: rejects diagnostics even if summary hides them
+ok 40 - rejects diagnostics even if summary hides them
+  ---
+  duration_ms: 0.0405
+  type: 'test'
+  ...
+# Subtest: rejects empty scan
+ok 41 - rejects empty scan
+  ---
+  duration_ms: 0.031375
+  type: 'test'
+  ...
+# Subtest: rejects unknown or malformed report shapes
+ok 42 - rejects unknown or malformed report shapes
+  ---
+  duration_ms: 0.383834
+  type: 'test'
+  ...
+# Subtest: rejects process errors regardless of a clean report
+ok 43 - rejects process errors regardless of a clean report
+  ---
+  duration_ms: 0.062458
+  type: 'test'
+  ...
+# Subtest: real Biome process: clean
+ok 44 - real Biome process: clean
+  ---
+  duration_ms: 77.295666
+  type: 'test'
+  ...
+# Subtest: real Biome process: warning
+ok 45 - real Biome process: warning
+  ---
+  duration_ms: 73.786625
+  type: 'test'
+  ...
+# Subtest: real Biome process: info
+ok 46 - real Biome process: info
+  ---
+  duration_ms: 73.38625
+  type: 'test'
+  ...
+# Subtest: real Biome process: syntax
+ok 47 - real Biome process: syntax
+  ---
+  duration_ms: 73.76975
+  type: 'test'
+  ...
+1..47
+# tests 47
+# suites 0
+# pass 46
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2293.940667
+ ELIFECYCLE  Command failed with exit code 1.

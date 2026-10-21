@@ -14,6 +14,7 @@ import { drawSprite } from '../present/draw-sprite.js'
 import type { Framebuffer } from '../present/framebuffer.js'
 import { flushToCanvas } from '../present/present.js'
 import { applyScreenWave, resetScreenWavePhase } from '../present/screen-wave.js'
+import { listenForModalActions } from './input.js'
 
 const SCREEN_W = 320
 const SCREEN_H = 200
@@ -47,14 +48,19 @@ function sleep(ms: number): Promise<void> {
  */
 export function waitForKey(keys: string[] = ['Space', 'Enter', 'Escape']): Promise<void> {
   return new Promise((resolve) => {
+    const finish = (): void => {
+      window.removeEventListener('keydown', onKey, true)
+      detachActions()
+      resolve()
+    }
     const onKey = (e: KeyboardEvent): void => {
       if (keys.includes(e.code)) {
         e.preventDefault()
-        window.removeEventListener('keydown', onKey, true)
-        resolve()
+        finish()
       }
     }
     window.addEventListener('keydown', onKey, true)
+    const detachActions = listenForModalActions(keys, finish)
   })
 }
 

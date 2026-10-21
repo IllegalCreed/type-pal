@@ -1,0 +1,786 @@
+{
+  "scope": "DOM geometry from local game; browser viewport simulation, not physical phone testing",
+  "url": "http://localhost:6005/?skip-intro=1",
+  "measurements": [
+    {
+      "requested": {
+        "width": 320,
+        "height": 568
+      },
+      "actions": {
+        "bottom": 552,
+        "height": 108,
+        "left": 164,
+        "right": 304,
+        "top": 444,
+        "width": 140,
+        "x": 164,
+        "y": 444
+      },
+      "buttons": [
+        {
+          "label": "向上",
+          "rect": {
+            "bottom": 453,
+            "height": 50,
+            "left": 66.328125,
+            "right": 116.328125,
+            "top": 403,
+            "width": 50,
+            "x": 66.328125,
+            "y": 403
+          }
+        },
+        {
+          "label": "向左",
+          "rect": {
+            "bottom": 502.328125,
+            "height": 50,
+            "left": 17,
+            "right": 67,
+            "top": 452.328125,
+            "width": 50,
+            "x": 17,
+            "y": 452.328125
+          }
+        },
+        {
+          "label": "向右",
+          "rect": {
+            "bottom": 502.328125,
+            "height": 50,
+            "left": 115,
+            "right": 165,
+            "top": 452.328125,
+            "width": 50,
+            "x": 115,
+            "y": 452.328125
+          }
+        },
+        {
+          "label": "向下",
+          "rect": {
+            "bottom": 551,
+            "height": 50,
+            "left": 66.328125,
+            "right": 116.328125,
+            "top": 501,
+            "width": 50,
+            "x": 66.328125,
+            "y": 501
+          }
+        },
+        {
+          "label": "确认 / 交互",
+          "rect": {
+            "bottom": 508,
+            "height": 64,
+            "left": 240,
+            "right": 304,
+            "top": 444,
+            "width": 64,
+            "x": 240,
+            "y": 444
+          }
+        },
+        {
+          "label": "取消 / 菜单",
+          "rect": {
+            "bottom": 552,
+            "height": 64,
+            "left": 164,
+            "right": 228,
+            "top": 488,
+            "width": 64,
+            "x": 164,
+            "y": 488
+          }
+        }
+      ],
+      "layout": "mobile",
+      "minimap": {
+        "bottom": 140,
+        "height": 132,
+        "left": 8,
+        "right": 140,
+        "top": 8,
+        "width": 132,
+        "x": 8,
+        "y": 8
+      },
+      "overflow": false,
+      "pad": {
+        "bottom": 552,
+        "height": 150,
+        "left": 16,
+        "right": 166,
+        "top": 402,
+        "width": 150,
+        "x": 16,
+        "y": 402
+      },
+      "screen": {
+        "bottom": 384,
+        "height": 200,
+        "left": 0,
+        "right": 320,
+        "top": 184,
+        "width": 320,
+        "x": 0,
+        "y": 184
+      },
+      "viewport": [320, 568],
+      "zoomVisible": false
+    },
+    {
+      "requested": {
+        "width": 375,
+        "height": 667
+      },
+      "actions": {
+        "bottom": 651,
+        "height": 111.5,
+        "left": 212,
+        "right": 359,
+        "top": 539.5,
+        "width": 147,
+        "x": 212,
+        "y": 539.5
+      },
+      "buttons": [
+        {
+          "label": "向上",
+          "rect": {
+            "bottom": 552,
+            "height": 50,
+            "left": 66.328125,
+            "right": 116.328125,
+            "top": 502,
+            "width": 50,
+            "x": 66.328125,
+            "y": 502
+          }
+        },
+        {
+          "label": "向左",
+          "rect": {
+            "bottom": 601.328125,
+            "height": 50,
+            "left": 17,
+            "right": 67,
+            "top": 551.328125,
+            "width": 50,
+            "x": 17,
+            "y": 551.328125
+          }
+        },
+        {
+          "label": "向右",
+          "rect": {
+            "bottom": 601.328125,
+            "height": 50,
+            "left": 115,
+            "right": 165,
+            "top": 551.328125,
+            "width": 50,
+            "x": 115,
+            "y": 551.328125
+          }
+        },
+        {
+          "label": "向下",
+          "rect": {
+            "bottom": 650,
+            "height": 50,
+            "left": 66.328125,
+            "right": 116.328125,
+            "top": 600,
+            "width": 50,
+            "x": 66.328125,
+            "y": 600
+          }
+        },
+        {
+          "label": "确认 / 交互",
+          "rect": {
+            "bottom": 607,
+            "height": 67.5,
+            "left": 291.5,
+            "right": 359,
+            "top": 539.5,
+            "width": 67.5,
+            "x": 291.5,
+            "y": 539.5
+          }
+        },
+        {
+          "label": "取消 / 菜单",
+          "rect": {
+            "bottom": 651,
+            "height": 67.5,
+            "left": 212,
+            "right": 279.5,
+            "top": 583.5,
+            "width": 67.5,
+            "x": 212,
+            "y": 583.5
+          }
+        }
+      ],
+      "layout": "mobile",
+      "minimap": {
+        "bottom": 140,
+        "height": 132,
+        "left": 8,
+        "right": 140,
+        "top": 8,
+        "width": 132,
+        "x": 8,
+        "y": 8
+      },
+      "overflow": false,
+      "pad": {
+        "bottom": 651,
+        "height": 150,
+        "left": 16,
+        "right": 166,
+        "top": 501,
+        "width": 150,
+        "x": 16,
+        "y": 501
+      },
+      "screen": {
+        "bottom": 450.6875,
+        "height": 234.375,
+        "left": 0,
+        "right": 375,
+        "top": 216.3125,
+        "width": 375,
+        "x": 0,
+        "y": 216.3125
+      },
+      "viewport": [375, 667],
+      "zoomVisible": false
+    },
+    {
+      "requested": {
+        "width": 390,
+        "height": 844
+      },
+      "actions": {
+        "bottom": 828,
+        "height": 114.1953125,
+        "left": 221.609375,
+        "right": 374,
+        "top": 713.8046875,
+        "width": 152.390625,
+        "x": 221.609375,
+        "y": 713.8046875
+      },
+      "buttons": [
+        {
+          "label": "向上",
+          "rect": {
+            "bottom": 727.6015625,
+            "height": 50.6953125,
+            "left": 67.0234375,
+            "right": 117.71875,
+            "top": 676.90625,
+            "width": 50.6953125,
+            "x": 67.0234375,
+            "y": 676.90625
+          }
+        },
+        {
+          "label": "向左",
+          "rect": {
+            "bottom": 777.625,
+            "height": 50.6953125,
+            "left": 17,
+            "right": 67.6953125,
+            "top": 726.9296875,
+            "width": 50.6953125,
+            "x": 17,
+            "y": 726.9296875
+          }
+        },
+        {
+          "label": "向右",
+          "rect": {
+            "bottom": 777.625,
+            "height": 50.6953125,
+            "left": 116.3984375,
+            "right": 167.09375,
+            "top": 726.9296875,
+            "width": 50.6953125,
+            "x": 116.3984375,
+            "y": 726.9296875
+          }
+        },
+        {
+          "label": "向下",
+          "rect": {
+            "bottom": 827,
+            "height": 50.6953125,
+            "left": 67.0234375,
+            "right": 117.71875,
+            "top": 776.3046875,
+            "width": 50.6953125,
+            "x": 67.0234375,
+            "y": 776.3046875
+          }
+        },
+        {
+          "label": "确认 / 交互",
+          "rect": {
+            "bottom": 784,
+            "height": 70.1953125,
+            "left": 303.8046875,
+            "right": 374,
+            "top": 713.8046875,
+            "width": 70.1953125,
+            "x": 303.8046875,
+            "y": 713.8046875
+          }
+        },
+        {
+          "label": "取消 / 菜单",
+          "rect": {
+            "bottom": 828,
+            "height": 70.1953125,
+            "left": 221.609375,
+            "right": 291.8046875,
+            "top": 757.8046875,
+            "width": 70.1953125,
+            "x": 221.609375,
+            "y": 757.8046875
+          }
+        }
+      ],
+      "layout": "mobile",
+      "minimap": {
+        "bottom": 140,
+        "height": 132,
+        "left": 8,
+        "right": 140,
+        "top": 8,
+        "width": 132,
+        "x": 8,
+        "y": 8
+      },
+      "overflow": false,
+      "pad": {
+        "bottom": 828,
+        "height": 152.09375,
+        "left": 16,
+        "right": 168.09375,
+        "top": 675.90625,
+        "width": 152.09375,
+        "x": 16,
+        "y": 675.90625
+      },
+      "screen": {
+        "bottom": 543.875,
+        "height": 243.75,
+        "left": 0,
+        "right": 390,
+        "top": 300.125,
+        "width": 390,
+        "x": 0,
+        "y": 300.125
+      },
+      "viewport": [390, 844],
+      "zoomVisible": false
+    },
+    {
+      "requested": {
+        "width": 667,
+        "height": 375
+      },
+      "actions": {
+        "bottom": 359,
+        "height": 111.5,
+        "left": 504,
+        "right": 651,
+        "top": 247.5,
+        "width": 147,
+        "x": 504,
+        "y": 247.5
+      },
+      "buttons": [
+        {
+          "label": "向上",
+          "rect": {
+            "bottom": 260,
+            "height": 50,
+            "left": 66.328125,
+            "right": 116.328125,
+            "top": 210,
+            "width": 50,
+            "x": 66.328125,
+            "y": 210
+          }
+        },
+        {
+          "label": "向左",
+          "rect": {
+            "bottom": 309.328125,
+            "height": 50,
+            "left": 17,
+            "right": 67,
+            "top": 259.328125,
+            "width": 50,
+            "x": 17,
+            "y": 259.328125
+          }
+        },
+        {
+          "label": "向右",
+          "rect": {
+            "bottom": 309.328125,
+            "height": 50,
+            "left": 115,
+            "right": 165,
+            "top": 259.328125,
+            "width": 50,
+            "x": 115,
+            "y": 259.328125
+          }
+        },
+        {
+          "label": "向下",
+          "rect": {
+            "bottom": 358,
+            "height": 50,
+            "left": 66.328125,
+            "right": 116.328125,
+            "top": 308,
+            "width": 50,
+            "x": 66.328125,
+            "y": 308
+          }
+        },
+        {
+          "label": "确认 / 交互",
+          "rect": {
+            "bottom": 315,
+            "height": 67.5,
+            "left": 583.5,
+            "right": 651,
+            "top": 247.5,
+            "width": 67.5,
+            "x": 583.5,
+            "y": 247.5
+          }
+        },
+        {
+          "label": "取消 / 菜单",
+          "rect": {
+            "bottom": 359,
+            "height": 67.5,
+            "left": 504,
+            "right": 571.5,
+            "top": 291.5,
+            "width": 67.5,
+            "x": 504,
+            "y": 291.5
+          }
+        }
+      ],
+      "layout": "mobile",
+      "minimap": {
+        "bottom": 140,
+        "height": 132,
+        "left": 8,
+        "right": 140,
+        "top": 8,
+        "width": 132,
+        "x": 8,
+        "y": 8
+      },
+      "overflow": false,
+      "pad": {
+        "bottom": 359,
+        "height": 150,
+        "left": 16,
+        "right": 166,
+        "top": 209,
+        "width": 150,
+        "x": 16,
+        "y": 209
+      },
+      "screen": {
+        "bottom": 375,
+        "height": 375,
+        "left": 33.5,
+        "right": 633.5,
+        "top": 0,
+        "width": 600,
+        "x": 33.5,
+        "y": 0
+      },
+      "viewport": [667, 375],
+      "zoomVisible": false
+    },
+    {
+      "requested": {
+        "width": 844,
+        "height": 390
+      },
+      "actions": {
+        "bottom": 374,
+        "height": 114.1953125,
+        "left": 675.609375,
+        "right": 828,
+        "top": 259.8046875,
+        "width": 152.390625,
+        "x": 675.609375,
+        "y": 259.8046875
+      },
+      "buttons": [
+        {
+          "label": "向上",
+          "rect": {
+            "bottom": 273.6015625,
+            "height": 50.6953125,
+            "left": 67.0234375,
+            "right": 117.71875,
+            "top": 222.90625,
+            "width": 50.6953125,
+            "x": 67.0234375,
+            "y": 222.90625
+          }
+        },
+        {
+          "label": "向左",
+          "rect": {
+            "bottom": 323.625,
+            "height": 50.6953125,
+            "left": 17,
+            "right": 67.6953125,
+            "top": 272.9296875,
+            "width": 50.6953125,
+            "x": 17,
+            "y": 272.9296875
+          }
+        },
+        {
+          "label": "向右",
+          "rect": {
+            "bottom": 323.625,
+            "height": 50.6953125,
+            "left": 116.3984375,
+            "right": 167.09375,
+            "top": 272.9296875,
+            "width": 50.6953125,
+            "x": 116.3984375,
+            "y": 272.9296875
+          }
+        },
+        {
+          "label": "向下",
+          "rect": {
+            "bottom": 373,
+            "height": 50.6953125,
+            "left": 67.0234375,
+            "right": 117.71875,
+            "top": 322.3046875,
+            "width": 50.6953125,
+            "x": 67.0234375,
+            "y": 322.3046875
+          }
+        },
+        {
+          "label": "确认 / 交互",
+          "rect": {
+            "bottom": 330,
+            "height": 70.1953125,
+            "left": 757.8046875,
+            "right": 828,
+            "top": 259.8046875,
+            "width": 70.1953125,
+            "x": 757.8046875,
+            "y": 259.8046875
+          }
+        },
+        {
+          "label": "取消 / 菜单",
+          "rect": {
+            "bottom": 374,
+            "height": 70.1953125,
+            "left": 675.609375,
+            "right": 745.8046875,
+            "top": 303.8046875,
+            "width": 70.1953125,
+            "x": 675.609375,
+            "y": 303.8046875
+          }
+        }
+      ],
+      "layout": "mobile",
+      "minimap": {
+        "bottom": 140,
+        "height": 132,
+        "left": 8,
+        "right": 140,
+        "top": 8,
+        "width": 132,
+        "x": 8,
+        "y": 8
+      },
+      "overflow": false,
+      "pad": {
+        "bottom": 374,
+        "height": 152.09375,
+        "left": 16,
+        "right": 168.09375,
+        "top": 221.90625,
+        "width": 152.09375,
+        "x": 16,
+        "y": 221.90625
+      },
+      "screen": {
+        "bottom": 390,
+        "height": 390,
+        "left": 110,
+        "right": 734,
+        "top": 0,
+        "width": 624,
+        "x": 110,
+        "y": 0
+      },
+      "viewport": [844, 390],
+      "zoomVisible": false
+    },
+    {
+      "requested": {
+        "width": 1280,
+        "height": 800
+      },
+      "actions": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      "buttons": [
+        {
+          "label": "向上",
+          "rect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "label": "向左",
+          "rect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "label": "向右",
+          "rect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "label": "向下",
+          "rect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "label": "确认 / 交互",
+          "rect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "label": "取消 / 菜单",
+          "rect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "layout": "desktop",
+      "minimap": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      "overflow": false,
+      "pad": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      "screen": {
+        "bottom": 700,
+        "height": 600,
+        "left": 160,
+        "right": 1120,
+        "top": 100,
+        "width": 960,
+        "x": 160,
+        "y": 100
+      },
+      "viewport": [1280, 800],
+      "zoomVisible": true
+    }
+  ]
+}

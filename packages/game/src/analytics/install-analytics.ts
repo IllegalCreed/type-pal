@@ -18,6 +18,7 @@ export interface TypePalAnalyticsOptions {
 }
 
 export interface TypePalAnalyticsInstallation {
+  openPreferences(): void
   destroy(): void
 }
 
@@ -52,6 +53,7 @@ export function installTypePalAnalytics(
   }
 
   return {
+    openPreferences: () => ui.openPreferences(),
     destroy(): void {
       stopAnalytics()
       ui.destroy()

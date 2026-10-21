@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ❯ src/tools/tools-panel.mobile.test.ts (3 tests | 1 failed) 222ms
+     × updates an open system panel across desktop and mobile layouts 175ms
+     ✓ offers audio controls while omitting display, timer, keyboard and file transfer UI 39ms
+     ✓ opens privacy preferences from tools and closes the drawer before handing off 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/tools/tools-panel.mobile.test.ts > mobile tools > updates an open system panel across desktop and mobile layouts
+AssertionError: expected '操作手柄：十字键/左摇杆移动，底部面键确认，右侧面键取消，Start打开菜…' not to match /FPS|全屏|存档|缩放/
+
+- Expected:
+/FPS|全屏|存档|缩放/
+
++ Received:
+"操作手柄：十字键/左摇杆移动，底部面键确认，右侧面键取消，Start打开菜单。连接后按任意键激活。显示缩放100%全屏左上角显示 FPS音频音乐80%音源MIDI（当前音色）DOS FM（RIX）正在加载音乐…重试音乐加载音效80%视频80%🔊 静音存档导入导出每个存档位可单独导出为文件、或从文件导入(导入后在读档菜单载入)存档位 1导出导入存档位 2导出导入存档位 3导出导入存档位 4导出导入存档位 5导出导入"
+
+ ❯ src/tools/tools-panel.mobile.test.ts:28:34
+     26|     document.documentElement.dataset.tpLayout = 'mobile'
+     27|     window.dispatchEvent(new Event(LAYOUT_CHANGE))
+     28|     expect(body.textContent).not.toMatch(/FPS|全屏|存档|缩放/)
+       |                                  ^
+     29|     expect(document.querySelector<HTMLButtonElement>('.tp-tab[data-key…
+     30|       true,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  02:55:08
+   Duration  1.03s (transform 265ms, setup 15ms, import 300ms, tests 222ms, environment 420ms)
+
+JSON report written to /tmp/type-pal-mobile-layout-red.json
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/tools/tools-panel.mobile.test.ts --reporter=default --reporter=json --outputFile=/tmp/type-pal-mobile-layout-red.json

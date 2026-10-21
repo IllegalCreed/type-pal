@@ -3,6 +3,8 @@
 //   诊断用:rAF 维持 ~60 = 浏览器无 CPU 卡顿(动画若仍顿挫则属逻辑 tick 量化,非性能);
 //            rAF 掉到 <50 = 真 CPU 瓶颈。绿色 ≥50 / 红色 <50。
 
+import { isMobileLayout } from '../shell/presentation.js'
+
 const K_FPS = 'tp-fps-show'
 const ROOT_ID = 'tp-fps-overlay'
 const STYLE_ID = 'tp-fps-style'
@@ -11,7 +13,7 @@ const ls = (): Storage | undefined =>
   typeof localStorage !== 'undefined' ? localStorage : undefined
 
 export function isFpsEnabled(): boolean {
-  return ls()?.getItem(K_FPS) === '1'
+  return !isMobileLayout() && ls()?.getItem(K_FPS) === '1'
 }
 
 function injectStyles(): void {

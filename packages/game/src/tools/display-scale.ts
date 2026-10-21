@@ -18,12 +18,19 @@ function clampPct(p: number): number {
   return Math.max(MIN_PERCENT, Math.min(MAX_PERCENT, Math.round(p)))
 }
 
-export function createDisplayScaleController(canvas: HTMLCanvasElement): DisplayScaleController {
+export function createDisplayScaleController(
+  canvas: HTMLCanvasElement,
+  layout?: { setScale(percent: number): void },
+): DisplayScaleController {
   const ls = typeof localStorage !== 'undefined' ? localStorage : undefined
   const stored = Number(ls?.getItem(KEY))
   let percent = clampPct(Number.isFinite(stored) && stored > 0 ? stored : 100) // 默认 100%(=960×600 现状)
 
   const apply = (): void => {
+    if (layout) {
+      layout.setScale(percent)
+      return
+    }
     const f = (HUNDRED_SCALE * percent) / 100
     canvas.style.width = `${Math.round(BASE_W * f)}px`
     canvas.style.height = `${Math.round(BASE_H * f)}px`

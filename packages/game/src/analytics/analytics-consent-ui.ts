@@ -12,6 +12,7 @@ export interface AnalyticsConsentUiOptions {
 }
 
 export interface AnalyticsConsentUi {
+  openPreferences(): void
   destroy(): void
 }
 
@@ -117,6 +118,7 @@ export function mountAnalyticsConsentUi(options: AnalyticsConsentUiOptions): Ana
   else showPreferences()
 
   return {
+    openPreferences: showPanel,
     destroy(): void {
       root.remove()
     },
