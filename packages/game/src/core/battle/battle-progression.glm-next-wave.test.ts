@@ -9,7 +9,7 @@
  *  - battleWonLevelUp:隐藏经验抬了 maxHP 但**无主升级** → 不回满(battle.c:1287-1292 if(fLevelUp))
  */
 import { describe, expect, it } from 'vitest'
-import { makeHBattle, makeHRole, recordingRng } from '../../__tests__/glm-next-wave/H/harness.js'
+import { recordingRng } from '../../__tests__/glm-next-wave/H/harness.js'
 import { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'
 import { applyHiddenExpGrowth, battleWonLevelUp } from './battle-progression.js'
 
@@ -19,8 +19,8 @@ const oneRng: { rangeInclusive: (a: number, b: number) => number } = {
 
 describe('applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293)', () => {
   it('wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++', () => {
-    const gs = makeHBattle().gs
-    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    // 120级是有意的防御边界;不声称正常战斗会生成该隐藏等级。
+    const { gs } = createBattleLifecycleFixture({ role: { level: 1, hp: 100, maxHP: 100 } })
     gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 120, wCount: 1 } // >99 → 先钳 99
     // levelUpExp[99]=100;dwExp = trunc(1000*1/1)*2 = 2000 → 99 级上扣 20 次,每次 +R(1,2)=1
     const res = applyHiddenExpGrowth({
@@ -38,9 +38,8 @@ describe('applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1
   })
 
   it('隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)', () => {
-    const gs = makeHBattle().gs
-    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 998
-    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 0, wCount: 1 }
+    const { gs } = createBattleLifecycleFixture({ role: { level: 1, attackStrength: 998 } })
+    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }
     applyHiddenExpGrowth({
       exp: gs.Exp,
       rt: gs.PlayerRolesRuntime,
@@ -50,7 +49,7 @@ describe('applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1
       rng: oneRng,
     })
     expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(1000) // 无 999 clamp
-    expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(2)
+    expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(3)
   })
 
   it('七池映射与消费顺序:身法只结算存留经验,不伪造动作计数', () => {
@@ -131,12 +130,13 @@ describe('applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1
 
 describe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292)', () => {
   it('无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)', () => {
-    const role = makeHRole(0, { hp: 40, maxHP: 100, mp: 5, maxMP: 40 })
-    const { gs } = makeHBattle({ roles: [role] })
-    gs.PlayerRolesRuntime.rgwHP[0] = 40 // 战后受伤值
-    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    const { gs } = createBattleLifecycleFixture({
+      role: { level: 1, hp: 40, maxHP: 100, mp: 5, maxMP: 40 },
+    })
     gs.Exp.rgPrimaryExp[0] = { wExp: 0, wLevel: 1, wCount: 0 }
-    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 0, wCount: 1 }
+    // 一次普攻给Health2/Attack1;合法存留34使本次Health恰过阈值。
+    gs.Exp.rgHealthExp[0] = { wExp: 34, wLevel: 1, wCount: 2 }
+    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }
     const results = battleWonLevelUp({
       gs,
       partyMembers: [0],
@@ -145,8 +145,9 @@ describe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:128
       levelUpMagic: [],
       rng: recordingRng([1]), // 唯一一次 R(1,2)=1(隐藏涨点)
     })
-    // 隐藏涨点成立:dwExp = 50×2 = 100 → 恰 1 隐藏级 → maxHP 100+1、结果条目产出
+    // 隐藏涨点成立:dwExp = trunc(50×2/3)×2+34 = 100 → 恰 1 隐藏级 → maxHP 100+1、结果条目产出
     expect(results.length).toBe(1)
+    expect(results[0]).toMatchObject({ fromLevel: 1, toLevel: 1 })
     expect(results[0]!.fromLevel).toBe(results[0]!.toLevel) // 无主升级
     expect(results[0]!.snapshot).toBeUndefined() // 无主升级 → 无升级 box
     expect(results[0]!.hiddenExpGrowth).toEqual([
@@ -157,13 +158,13 @@ describe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:128
   })
 
   it('主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)', () => {
-    const role = makeHRole(0, { hp: 40, maxHP: 100, mp: 5, maxMP: 40 })
-    const { gs } = makeHBattle({ roles: [role] })
-    gs.PlayerRolesRuntime.rgwHP[0] = 40
-    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
-    gs.PlayerRolesRuntime.rgwMaxMP[0] = 40
+    const { gs } = createBattleLifecycleFixture({
+      role: { level: 1, hp: 40, maxHP: 100, mp: 5, maxMP: 40 },
+    })
     gs.Exp.rgPrimaryExp[0] = { wExp: 50, wLevel: 1, wCount: 0 }
-    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 0, wCount: 1 }
+    // 同一合法普攻计数;trunc(100*2/3)*2+68=200,Health恰涨两级。
+    gs.Exp.rgHealthExp[0] = { wExp: 68, wLevel: 1, wCount: 2 }
+    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }
     const rng = recordingRng([1, 1, 1, 1, 1, 1, 1, 1]) // 主升级6抽、隐藏2抽;不依赖耗尽回退
     const results = battleWonLevelUp({
       gs,
@@ -174,9 +175,10 @@ describe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:128
       rng,
     })
     expect(results.length).toBe(1)
+    expect(results[0]).toMatchObject({ fromLevel: 1, toLevel: 2 })
     expect(results[0]!.snapshot).toBeDefined() // 主升级 → 有升级 box
     const curMax = gs.PlayerRolesRuntime.rgwMaxHP[0]!
-    expect(curMax).toBe(100 + 10 + 1 + 2) // 主升级 +10+R(0,7)=1;隐藏 dwExp=200 → 2 级 × R(1,2)=1
+    expect(curMax).toBe(100 + 10 + 1 + 2) // 主升级 +10+R(0,7)=1;隐藏132+68=200 → 2 级 × R(1,2)=1
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(curMax) // 回满到新 max(含隐藏抬升)
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(gs.PlayerRolesRuntime.rgwMaxMP[0])
     expect(rng.calls).toEqual([

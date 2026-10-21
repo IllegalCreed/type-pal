@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "state": "build; structural53fe25e pushed; H02 seven-pool discrimination established, CODE3u current contract prepared; unified gates not run",
+  "state": "whole check20430 clean at frozen implementation; H02 fixture/oracle correction now16/TC0, final official collection pending",
   "owner": "Codex",
   "base": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7",
   "files": [
@@ -70,14 +70,14 @@
     },
     {
       "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
-      "sha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299",
-      "lines": 193,
+      "sha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e",
+      "lines": 195,
       "dimensions": {
-        "A": "五个合同保留;七池输入经正式hydrate/startBattle工厂,六动作计数有生产来源,Dex=0计数/存留exp15明确为V1允许边界。没有宣称正常剧情积身法经验。",
+        "A": "补核撤回此前四例夹具信用：makeHBattle没有hydrate,后两例实际0级而注释1级。当前全部用loadDefault/project/startBattle真实初始化,后两例普攻Health2/Attack1计数及合法存留34/68;前两例是有意helper数值边界,七池Dex存留域限制保持。",
         "B": "头注和唯一标题改为实际七池断言,删除自报仅两池信用;其余四标题/注释不变。",
         "C": "复用现有生命周期构造器,不复制Exp分配/状态推进;测试只设置结算helper的边界输入,不把它冒称完整动作循环。",
         "D": "复用recordingRng取代重复的两池临时RNG实现;期望七字段/七结果/余数均为独立常量,不由被测映射生成。",
-        "E": "旧五绿→交换Defense/Dex时旧五绿、新四绿一属性AssertionError→恢复五绿;16真实定向及TC0。测试数仍5,四身份不变/一显式迁移,没有新增skip或弱例。",
+        "E": "等级新oracle在旧夹具3绿2指定AssertionError,不是产品bug；修正fixture后5绿,Defense/Dex变异仍4绿1指定属性红,恢复5绿。当前canonical16定向/相邻与TC0；所有5身份保持,旧from/to关系和全部有效业务oracle保留,新增精确1→1/1→2。",
         "F": "逐行七池输入和结果可直接对照机制映射;避免循环生成fixture与oracle造成同错。",
         "G": "删除多余SeedableRng/seededRng导入和临时rng展开,无新helper/公开测试端口;未退休整例。",
         "H": "控制七次真实rangeInclusive,同时断言属性值/显示数据/经验余数而非只数mock;隔离副本变异,治理源未污染。"
@@ -85,7 +85,8 @@
       "decision": "review; five contracts ready, whole-file decision after window gates",
       "reuses": [
         "core-comment-audit/poison-progression-comments/README.md",
-        "seven-pools-counter.json"
+        "seven-pools-counter.json",
+        "h02-fixtures-counter.json"
       ]
     },
     {
@@ -159,6 +160,112 @@
       },
       "decision": "historical verified source, finite B correction; no new closure",
       "reuses": ["3b/closeout/evidence.json", "word-boundary-probe.json", "comment-proof.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "16c1f11837db4fb23df0ff9a07f9bebc9970db875b7e62a582eec9e57bf6d604",
+      "lines": 340,
+      "dimensions": {
+        "A": "复用340行实际全文及6原生反控中的四枚;当前字节与最终旧证据相同。纯factory边界输入/未知role故意反例不冒充正式开战。",
+        "B": "标题只述实际constructor/status/ownership/坐标合同,原枚举恒真与JSON自比已撤;快照不再误称0x64玩家读取。",
+        "C": "仅pure角色/敌/field构造复用H,queue用真实buildActionQueue;每例独立GS/资源,不写全局owner。",
+        "D": "快照主测承接GLM重复例并保留源突变不污染;没有再复制完整领域角色定义。",
+        "E": "14例保留真实边界/独立状态/坐标结果;六旧绿新单红含role/slot、状态索引、复用view/map;快照保全红另计,不是数量验收。",
+        "F": "每例一个factory合同,setup与business断言相邻;完整expected九状态让错索引可读。",
+        "G": "枚举长度恒真退出映射已在旧assertion-transfers;当前不再添加无业务测试,14身份未动。",
+        "H": "公开构造器/输入输出直接观察,无核心mock/私有stash访问;真实RNG只作受控依赖。"
+      },
+      "decision": "ready for module gates; no new acceptance yet",
+      "reuses": [
+        "3u-state-factory/README.md",
+        "3u-state-factory/assertion-transfers.json",
+        "reused-controls.json"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+      "lines": 82,
+      "dimensions": {
+        "A": "复用82行全文,typed enemy/null两槽和合法HP/MP,字节与旧最终反控相同;原版memset primitive合同不等于全字段生产消费。",
+        "B": "开战seed/空槽标题吻合,prevHp/MP移主测并明示,无重复信用。",
+        "C": "局部boot只组资源/公开factory,不替代空槽/位置/状态实现;不装全局script catalog。",
+        "D": "工厂复用H,玩家快照合同已移到主测;与主测layout使用不同null撑列轴。",
+        "E": "三例分别核零槽全部primitive、静态敌health隔离、autoFlag;layout人数和空槽cash两枚独立业务红有效。",
+        "F": "boot具名字段与三合同分组可读,不靠文件很短授信用。",
+        "G": "4→3退休重复快照已有逐断言映射及保全红;当前三身份/断言未动,不恢复弱重复用例。",
+        "H": "实际factory与受控RNG直接测,无DOM/global模块重置,每例独立GS。"
+      },
+      "decision": "ready for module gates; no new acceptance yet",
+      "reuses": ["3u-state-factory/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "sha256": "2fb71bc84e7a5817ff54950166aec14a5de7df5f107b77a995060f294002357d",
+      "lines": 77,
+      "dimensions": {
+        "A": "当前全文及原最终v3 SHA吻合,三例直接调用公开安装/get/clear;不冒充完整startBattle。",
+        "B": "名称中的startBattle是安装资源语义参照,实际执行仅公开端口,本结论明确测试层级。",
+        "C": "每例新GS,第一例两个GS和独立资源对象;不检查私有key形状。",
+        "D": "最小完整BattleResources为本测试fixture,生命周期factory并不比它更同合同,不为消除字面数组共享宽helper。",
+        "E": "精确resource/liveRoles identity、默认/undefined不覆写runner、清理后fallback三合同;跨owner针旧3绿→当前2绿1红,private-shape变形另列。",
+        "F": "安装/取/清三阶段清楚;小fixture fields完整且无强转。",
+        "G": "已删无必要的私有键布局断言;三业务case保留,不把类型声明写成runtime用例。",
+        "H": "vi.fn仅提供合法函数identity,没有调用次数冒充runner业务;GS/resource真实owner未mock。"
+      },
+      "decision": "ready for module gates; no new acceptance yet",
+      "reuses": ["3u-3w-finalization/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "2bd7845ef57f603b1db5801a1b33f08c7f05193c08d3c1d47909b8ac9a18b3fa",
+      "lines": 218,
+      "dimensions": {
+        "A": "当前218行全文,真实hydrate/createBattleState与resume命令域,九状态输入及lost/escape/watchdog边界合法;未假设Extra域全等。",
+        "B": "清理/实际handoff标题与公开断言一致,forced队列断言不再放入不可达lost组合。",
+        "C": "局部资源与GS归fixture,公开eventCursor setter透传真实值只观察时点,不替换核心cleanup/resume。",
+        "D": "角色/敌field复用既有typed stats fixture;不把不同结局合成只测一个resume helper,各生产出口保留。",
+        "E": "六例和六旧绿新指定单红复用;resource release前后/末两状态/role写回/三分支有直接oracle;相邻40绿不授Extra未测合同。",
+        "F": "三个出口table有具名phase/forced/enemyEscape字段,用例一眼能知区别。",
+        "G": "未新增重复case/强转/宽mock;保留旧两例全部有效公开断言,无整例退役。",
+        "H": "真实公开finalize输出/赋值瞬间可观察,无测试端口或私有hook;每例状态本地隔离。"
+      },
+      "decision": "ready for module gates; no new acceptance yet",
+      "reuses": ["3u-3w-finalization/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e",
+      "lines": 379,
+      "dimensions": {
+        "A": "当前379行全文;正式loadDefault/project/startBattle与合法post-action/won边界,真实tick/runner/hold;明确不是打完整场战斗或C原版演出。",
+        "B": "首tick按键策略与C阻塞时序区分,原盘概率leaf和0x89扩展结果域注释有限定。",
+        "C": "局部won边界与共享fixture分层;透传公开runner仅观察真实PhaseE,Math.random只控制真实概率且finally恢复。",
+        "D": "两份开战准备已合并typed factory;公式oracle归progression,不复制算法或重复0x89基本枚举单测。",
+        "E": "13当前合同/六原生反控中的两枚本文件;原八合同/两概率阈值/三结果接回均有业务结果,按实际失败集复用19针,非按mock次数。",
+        "F": "装配、输入/timeout、脚本/hold、特殊接回分组对应宿主顺序,边界命名说明测试层级。",
+        "G": "没有新增重复case/屏算法镜像/skip或删强断言;同类合法结果table有不同真实分支语义。",
+        "H": "公开tick/资源getters可观察恢复/清理,只控制Math.random并精确恢复,不需要mock事件解释器。"
+      },
+      "decision": "ready for module gates; no new acceptance yet",
+      "reuses": ["3w-post-scripts/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "lines": 96,
+      "dimensions": {
+        "A": "当前96行全文;只准备6角色/party/资源并真实loadDefault→project→startBattle,不偷偷置won/杀敌/算奖励。",
+        "B": "头注声明输入准备与preBattle返回,不冒称真实完整动作链;H02对存留Dex的限制写在测试自身。",
+        "C": "测试端拥有准备和GS/Bus;生产脚本/phase/数字公式/清理仍原owner,没有fixture代跑。",
+        "D": "被system/settlement/H02真实复用,options来自StartBattleInput窄Pick加资源参数;不是未来万能fixture。",
+        "E": "当前40/16绿实际消费;旧3w两测试准备迁移映射完整,原反控仍指向真实公开生产代码。",
+        "F": "roles/enemyIds/hooks具名,失败时明确missing state/resources,构造顺序接真实生产生命周期。",
+        "G": "每个option由当前caller使用;无死export或内部算法复制,不向产品暴露fixture入口。",
+        "H": "支持输入变体但不注入任意核心mock,每次全新GS/资源/Bus,随机seed明确;无网络/共享文件写。"
+      },
+      "decision": "ready for module gates; no new acceptance yet",
+      "reuses": ["3w-post-scripts/README.md"]
     }
   ],
   "contextPins": [
@@ -297,11 +404,51 @@
       "id": "seven-pools-progress",
       "exit": 0,
       "stderrBytes": 0
+    },
+    {
+      "id": "reused-controls",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "structure-screen",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-fixture-discrimination",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-canonical-regression",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-canonical-types",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "related-window-check",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-rework-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-rework-lint",
+      "exit": 0,
+      "stderrBytes": 0
     }
   ],
   "artifact": {
     "member": "native.json.gz",
-    "sha256": "8fc9ef56bebd2b2508818402e7137216bae4e2aef7a7bda9c9fceb55f06e95d6",
+    "sha256": "aea19c63c4f3f32107e2f88cbfd3c23aacf9322dc6502667eb22304055f935b3",
     "members": [
       {
         "name": "import-binding-proof.execution.json",
@@ -852,6 +999,296 @@
         "name": "run-progress.mjs",
         "bytes": 156,
         "sha256": "ea9f15526eecaf84711202cdfa15799d8e0bf51e1902eeb4082371c39cef230c"
+      },
+      {
+        "name": "check-reused-controls.py",
+        "bytes": 2074,
+        "sha256": "37170607bdb8f465178d62a894e177451edc7a9267d7eac2fdda6269c13a2943"
+      },
+      {
+        "name": "run-reused-controls.mjs",
+        "bytes": 256,
+        "sha256": "500ef11b085f679c124aa750679afa734eed01369c6a4df06d0045d7249dafdb"
+      },
+      {
+        "name": "reused-controls.json",
+        "bytes": 30448,
+        "sha256": "922472861ba7ad5da175831778c020346e0f8c3c26148bad031305fa7d8e8991"
+      },
+      {
+        "name": "reused-controls.execution.json",
+        "bytes": 1199,
+        "sha256": "9005b48b5bb32301aade828182e931e5b190d64890a8f820f4bda1d0a040ed02"
+      },
+      {
+        "name": "reused-controls.stdout.raw",
+        "bytes": 94,
+        "sha256": "f205fa44db4ad85c1c3cd3af3911d552be01e4ff9845fdb6a2c6e00cab26e192"
+      },
+      {
+        "name": "reused-controls.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-canonical-regression.execution.json",
+        "bytes": 2175,
+        "sha256": "ff26205507054d383b2f762b36d2c279d918ed0e3fa69b181cbcd73ec10daf29"
+      },
+      {
+        "name": "h02-canonical-regression.native.json",
+        "bytes": 7344,
+        "sha256": "c6bd2de590b044437c34d077155d5f16bb20789a446decae9a17fa9f98d1dba1"
+      },
+      {
+        "name": "h02-canonical-regression.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-canonical-regression.stdout.raw",
+        "bytes": 555,
+        "sha256": "dde9d2fa4c84b9004afdab64b86c817d3c0801784ab3df1f7ff6964bd441b500"
+      },
+      {
+        "name": "h02-canonical-types.execution.json",
+        "bytes": 1778,
+        "sha256": "afae65ed2ecad74bedea48b4794e540c24a126da0d1f042edf655a90f28299ea"
+      },
+      {
+        "name": "h02-canonical-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-canonical-types.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "h02-fixture-discrimination.execution.json",
+        "bytes": 1599,
+        "sha256": "25ade34ff05b73b539af32c8e7a3419b3590a7fb77af0cc2079133e23cab3264"
+      },
+      {
+        "name": "h02-fixture-discrimination.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-fixture-discrimination.stdout.raw",
+        "bytes": 844,
+        "sha256": "73d7a6d7a031680cb9c6508d25fbfd89ffb9b4df980e327c336e17c4dfb1e178"
+      },
+      {
+        "name": "h02-fixtures-before.ts",
+        "bytes": 8628,
+        "sha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299"
+      },
+      {
+        "name": "h02-fixtures-counter.json",
+        "bytes": 11395,
+        "sha256": "81121af900f74339944debc2d510d1da0d7941b8b1c2a6260848545d60487a34"
+      },
+      {
+        "name": "h02-fixtures-counter.mjs",
+        "bytes": 4259,
+        "sha256": "2c9ada2b382c5750d99d1b8342515797d2502b09c4210bd6ec169f5bf8373ad9"
+      },
+      {
+        "name": "h02-fixtures-final.ts",
+        "bytes": 8920,
+        "sha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e"
+      },
+      {
+        "name": "h02-fixtures-fixed.ts",
+        "bytes": 8920,
+        "sha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e"
+      },
+      {
+        "name": "h02-fixtures-red.ts",
+        "bytes": 8762,
+        "sha256": "bbef558122278d37dd4cc95ed32fcd5bac710aed5bbf2424031946bf90d531e7"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.execution.json",
+        "bytes": 926,
+        "sha256": "b65b5e6c45569b6b6d9deaf43cd5903f32f5c2e32896e1c615d264b0ce467810"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.native.json",
+        "bytes": 3080,
+        "sha256": "3befdf9bf056929d58ea8adf52bb8ca1c068827e66a84d8149fb53cafbde27a4"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.stdout.raw",
+        "bytes": 524,
+        "sha256": "039f58510b69b04c788a9f65f9f9a2210c35a1ab2118a204592f9f90d40221fd"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.execution.json",
+        "bytes": 2968,
+        "sha256": "ad353c2449ae965156ec10cd058e71d65f4fb13459c09bdfd57eddddd9e364e4"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.native.json",
+        "bytes": 4709,
+        "sha256": "dc22a78283815a5bde9bacba48f2ce2b9af8cd16ec06bd73932002543cc81a29"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.stderr.raw",
+        "bytes": 930,
+        "sha256": "8856bf954fcb24d6f6df456cf3f35017d237e3e0eb47ed64fe4e31f47498b7ba"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.stdout.raw",
+        "bytes": 1048,
+        "sha256": "f73ac3d8dcbbfecb12e1ce04cf6f5f91646321c1841446a1788fce8b004d9a40"
+      },
+      {
+        "name": "h02-hydrated-restored.execution.json",
+        "bytes": 914,
+        "sha256": "85ec0cf8ff5d7100af2d140118682663371a87b61852f176bcf5f9cbca95d9eb"
+      },
+      {
+        "name": "h02-hydrated-restored.native.json",
+        "bytes": 3081,
+        "sha256": "fd11084b2463057b27e3dc3cb046aa56e5f427f6a0f1817bd55b48cf87f84a48"
+      },
+      {
+        "name": "h02-hydrated-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-hydrated-restored.stdout.raw",
+        "bytes": 518,
+        "sha256": "e81a3d4742dc8b8eb3c6936acacd696a60fa7cadb5b99b6cce3f10859a6a4191"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.execution.json",
+        "bytes": 5392,
+        "sha256": "9dba144bb503ab374fcf6040efe739df36ea27defaab48acff24265c1a0f04a6"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.native.json",
+        "bytes": 6676,
+        "sha256": "3578510a5ec430807ace824e571dd368a99708889ff2e906818d6ebf839c6e24"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.stderr.raw",
+        "bytes": 2126,
+        "sha256": "493eb5d6bddfe8cff8ec3e0e79a90221003d82c4109dbc8bda5c0287606bde3a"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.stdout.raw",
+        "bytes": 1052,
+        "sha256": "fece78c46a9ac9d236989be848d5b647e1b60cf5828e998bf689c3ed42404845"
+      },
+      {
+        "name": "prepare-h02-fixtures.py",
+        "bytes": 3370,
+        "sha256": "33b90d634a4934545793ca3ab668a9874e6ad66080018eee6c21d64950adf424"
+      },
+      {
+        "name": "related-window-check.diagnostics.json",
+        "bytes": 84220,
+        "sha256": "3386e8aabbe097bce533bbb90327b37bb6db4892ff599e1bcaec98466e390644"
+      },
+      {
+        "name": "related-window-check.execution.json",
+        "bytes": 1477,
+        "sha256": "7e02ec02d7f65539717a152e62c0fce7b703269abfe133c82e66415b095d757e"
+      },
+      {
+        "name": "related-window-check.scan-output.raw",
+        "bytes": 73059,
+        "sha256": "fdfc480b5a18896969ec9c98cb3ed8ca8882a6b9fc045a5f31f2e1d99aae62ff"
+      },
+      {
+        "name": "related-window-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "related-window-check.stdout-classification.json",
+        "bytes": 2386,
+        "sha256": "2f49d84933d8c62d83779b6de70b295322bbd4cea6ea284cbcd087d0eb43796e"
+      },
+      {
+        "name": "related-window-check.stdout.raw",
+        "bytes": 372010,
+        "sha256": "318def49ff5429ec66735d9b8be22f82c65d4407a0ffcfe1481da518a630a6a9"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      {
+        "name": "structure-disposition.json",
+        "bytes": 1429,
+        "sha256": "4a29aa353e447c193fd82ca60761be9ea5e0b5493f25cbabb13a350453db8115"
+      },
+      {
+        "name": "structure-screen.execution.json",
+        "bytes": 1565,
+        "sha256": "3ea095b1f0e00c6c368d26b423b51016c727405fcb3540f834b90ee6f1a7a4a3"
+      },
+      {
+        "name": "structure-screen.json",
+        "bytes": 11744,
+        "sha256": "7db8ecaaa7ebff6848209560b3552e07dea29e57320d22c4a2e40cb752d1b22b"
+      },
+      {
+        "name": "structure-screen.mjs",
+        "bytes": 3756,
+        "sha256": "a2ad13ad78db09d41813092c17564c4a542511f4ffd096f45bb5d2e72fb69bf3"
+      },
+      {
+        "name": "structure-screen.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-screen.stdout.raw",
+        "bytes": 763,
+        "sha256": "194bd30b621953227e22b1f0f47b9b1d75b2b184c6fcae0a09bec954f170b5dd"
+      },
+      {
+        "name": "h02-rework-docs.execution.json",
+        "bytes": 2045,
+        "sha256": "68b17c9a05fc3da18b78b8e377ccac250fa0489f312c9cb73b5ed082a8c8e1e3"
+      },
+      {
+        "name": "h02-rework-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "04f779f07efb2d5357335e8cfaed8322c112b984c8bb749ebf1a6535d67e4b7d"
+      },
+      {
+        "name": "h02-rework-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-rework-lint.execution.json",
+        "bytes": 1718,
+        "sha256": "49e7704cc418ba1dc580777f93fde4ed3d1acb0ad6d1a6642d3ef12c484e252d"
+      },
+      {
+        "name": "h02-rework-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "h02-rework-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
     ]
   },
@@ -862,7 +1299,7 @@
     "pending": 0
   },
   "notRun": [
-    "current window whole check/coverage/protected",
+    "official fast ratchet/protected for final candidate pending; full check source150 complete, only H02 test delta separately revalidated",
     "full SDLPal/runtime/browser import",
     "WORD product arithmetic change, awaiting user"
   ],
@@ -873,7 +1310,7 @@
     "review": 124,
     "pending": 2870
   },
-  "next": "Complete original CODE3u dependency/position/type evidence bindings; preserve 3w nonparty Extra and 3x WORD stop lines, then freeze several related scopes for one unified window.",
+  "next": "Run one frozen whole check + official fast ratchet/protected with explicit diagnostics. Only after pass decide the named CODE3u/individual file scopes, never close3w/3x or unrelated partials.",
   "identityMapping": {
     "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
     "beforeCount": 5,
@@ -883,7 +1320,364 @@
       "before": "多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)",
       "after": "七池映射与消费顺序:身法只结算存留经验,不伪造动作计数"
     },
-    "oracleTransfer": "Health/MP values and result order retained as a stronger seven-field/full-result/exp-remainder sequence; four other cases byte-identical except import/heading changes."
+    "oracleTransfer": "阶段1两池→七池唯一标题迁移。阶段2全部5身份不动,主无升级/有升级分别明确1→1/1→2;Health按合法普攻权重+存留经验恰涨1/2级,保留HP/MP回满/不回满和完整8抽。无整例退役。",
+    "additionalFixtureDelta": "Main level source now hydrated; attack hidden boundary level0→2 becomes initial1→3 with same two growth increments. Current ordinary fixture raw inputs replace unhydrated zero baseline, not a product arithmetic change."
   },
-  "censusLimit": "Raw43,503/only garlic Extra17/all14 percent buffs override0 narrows normal data. Complete dynamic offparty write→no refresh→cleanup→consumption not proven, Extra card remains draft. First census wrapper missing-module failure preserved and has no semantic credit."
+  "censusLimit": "Raw43,503/only garlic Extra17/all14 percent buffs override0 narrows normal data. Complete dynamic offparty write→no refresh→cleanup→consumption not proven, Extra card remains draft. First census wrapper missing-module failure preserved and has no semantic credit.",
+  "frozenSourceHead": "150650c59c4677bee57cee8576f40d8f0e1bd768",
+  "windowCards": [
+    "CODE-QUALITY-3u",
+    "CODE-QUALITY-3w",
+    "CODE-QUALITY-3x",
+    "CODE3b finite comment correction only"
+  ],
+  "acceptanceCandidates": [
+    "battle-state.ts original factory/type contract",
+    "battle-runtime-context.ts",
+    "battle-settlement-data.ts",
+    "3u three direct test files",
+    "battle-finalization.test.ts",
+    "battle-settlement.glm-next-wave.test.ts",
+    "battle-lifecycle.test-fixtures.ts",
+    "battle-progression.glm-next-wave.test.ts"
+  ],
+  "deferredProducts": [
+    "battle-finalization.ts: Extra role-domain dynamic reachability unresolved",
+    "battle-settlement.ts: source includes cleanup scope and original C blocking vs TS queued inter-script temporal boundary, no blanket equivalence",
+    "battle-progression.ts: proven WORD mismatch awaiting product choice"
+  ],
+  "reusedEvidencePins": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/controls.json",
+      "sha256": "771f08c36431def0306980373c5c46adcca82732e01004a49822006aaa81f5be"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.current.raw.gz",
+      "sha256": "47217815c4e38624b72c3b9f16d320b42c3bc928f3e28134a01cf8464f7b9421"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.current.vitest.json.gz",
+      "sha256": "8d8e3ab897921030b4ea31ff98cc63464a9ad6d6a5aa0d454440d8e77575946c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.old.raw.gz",
+      "sha256": "84c6d79348378e83b71bfa01968074c58b8f9ca6f4946aa13477b51538c3df80"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.old.vitest.json.gz",
+      "sha256": "3ccaedd83f31a0f109cb05e78184ce75d0bca261486d87509adf0b72a9f84c2c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.current.raw.gz",
+      "sha256": "87c0511d80940326a0e57a92243b8eb312f36d0530598e65865f4cecc314093e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.current.vitest.json.gz",
+      "sha256": "28276b5b2b43a7e2ec572a4c956783a4ac4a6c2f3f5ba1121040e9a70779831c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.old.raw.gz",
+      "sha256": "a31c57e2b8f1f044165d77388e64ae3f96e18400df83fcd77cd58ba7531a25c6"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.old.vitest.json.gz",
+      "sha256": "426c7002446681613b58f22133b97f85bad4562d116ac71a32684b3883137f6b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.current.raw.gz",
+      "sha256": "662b39cfabdb55e12c72024ba6226927a05b1b1b72fc1fbf4fde851dc94e5cd9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.current.vitest.json.gz",
+      "sha256": "f56711751f957ebcd03476273c098a8f71d1dc39b131eb7a0079eb6a39999e5e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.old.raw.gz",
+      "sha256": "f802559235da6b10e0ede6d1220a8f192054f88e721619318b20ec5b8b0082d5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.old.vitest.json.gz",
+      "sha256": "34303121d8f4b82b4a6ea19f2fe87d5e4a4362dacf4798372a6e020bd0f4b2c9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.current.raw.gz",
+      "sha256": "0c0f61a776c44de43ee55f8dfbf3accd5339400e9a3c7470d5abd78af551e7b2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.current.vitest.json.gz",
+      "sha256": "bc0fcbe59518161ed7c421eb4015edd3696f1ab66240b9a354a3e4c4f9ee4668"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.old.raw.gz",
+      "sha256": "6c3266dab578de9f1e3bc296973a47cafadbff83ccf98fe2e994eac4350da716"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.old.vitest.json.gz",
+      "sha256": "38631f67e03c8269dc354c7c2717812991810835dabcda5d338ce25ac943e702"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.current.raw.gz",
+      "sha256": "3eb8e1f9dbf07ee880c0f4cce2e4839d95dc61cfbedaed64924fec43ec9c07a6"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.current.vitest.json.gz",
+      "sha256": "d6c530652a13776b6841caad63a158a2da8dcf14cd479450d66bfc9df61ef6ab"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.old.raw.gz",
+      "sha256": "febe78aae51601ceaef2f868f1ea2acf26c3e251434315d2d08fdb63dd85acbd"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.old.vitest.json.gz",
+      "sha256": "c847b6db4eafe790c78ff27fcdf0377e48230686c33144df7f89e2d5aa5963bb"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.current.raw.gz",
+      "sha256": "04dab0013041a7180296aaac7b79bfcb2100c00e622074ac97154c07fdb82cd5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.current.vitest.json.gz",
+      "sha256": "ec36a4543ca4d37ea34cc9337c446496c2ba6a0051c04657eb28c6f3c99f16cc"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.old.raw.gz",
+      "sha256": "dcf2797becc83700c2268ada28626299a2b98a06e2aac12e13459928a750cf16"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.old.vitest.json.gz",
+      "sha256": "82287907e52c47647b834260ebffc1f0aa405ea56a16da60fba07d83c04d99b2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.current.raw.gz",
+      "sha256": "c5e2de2faf7afdd9264ba2552966ecc5abf8613ed802704307987bfc0b6b8ae3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.current.vitest.json.gz",
+      "sha256": "d175cb049e1dc2ac34d91422280f274e5ccfc80485bc0e26d1762c8216bc6bd0"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.old.raw.gz",
+      "sha256": "e4d1f191a745dc5cf5df65dc0078b78fe01a0720236a99875667c80cebad30ab"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.old.vitest.json.gz",
+      "sha256": "415280666e713733d6d7acdde8fb392006099d56dd9d03d64860e7e10259f00d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/controls.json",
+      "sha256": "1f22c6584bad512528f819ae5d05f23305e665ea3c3261f8b5b3ff49895f2aaa"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.current.raw.gz",
+      "sha256": "a8f96e96852716b7ae475c3f02459715022e89dcd164f7690cac3883280fa49d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.current.vitest.json.gz",
+      "sha256": "c40c31cd031fd92653bf0358c868d4a20b05a9e6ae7c90534bbe04c632a27896"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.old.raw.gz",
+      "sha256": "37d5d1ebedd52b8e85163d058718943ff27c6e01df13eab7595d6c6065f74526"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.old.vitest.json.gz",
+      "sha256": "f6b279d99f386eac2880797fd608cf354957b48f257ed781cd3db214aebadcdd"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.current.raw.gz",
+      "sha256": "244622cba6c2087b4d956c3965f1251a1ba07b6e5cb3fee5efc4b4caff034db5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.current.vitest.json.gz",
+      "sha256": "e8798b8dc287b8566a7cb5c0a0b17d4da707d35d0e5f494d6f560d8679b300b3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.old.raw.gz",
+      "sha256": "1165a64981ef61a5176cfb016f8804ad1272be2dc131e3f9f7ae1f3ffac44ac4"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.old.vitest.json.gz",
+      "sha256": "d2889fc095cdc8640c22cfff51bdd62962875fb2d2211676bc7548aa1e678dda"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.current.raw.gz",
+      "sha256": "2721da1fc2323d66321f9db54c06c91efbf67d26311bc9c85a23c8658a3e6092"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.current.vitest.json.gz",
+      "sha256": "9872ac953855e97fb75b531f6dfeb9c7215c2376b319dd2654e361f06b6eae67"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.old.raw.gz",
+      "sha256": "d37725cee0f3d1b0c816ea799ed13a5c350f89c0b13d605f00cd4ce2bc6bc69b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.old.vitest.json.gz",
+      "sha256": "bd2c9794b63999c1b10955cd40b3bbb6cd2e30c499b2c3fcc41b3a52ba051108"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.current.raw.gz",
+      "sha256": "2cd56b5238ddbde7d8a0be567de6ec3806c0efb41727f7df607a148920e62bb7"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.current.vitest.json.gz",
+      "sha256": "20c731e48264b7f94a29d0480e2ebaa7c94835b25b55f715ba4993573de98fde"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.old.raw.gz",
+      "sha256": "b4b1c2d85c4166423eaf8027453b9f958a9b7e7b26243967af6f87a00b8cd907"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.old.vitest.json.gz",
+      "sha256": "1d86c591d58852d0eedfdf1be45355a609b9cb0322871f3bb91027986a0d8016"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.current.raw.gz",
+      "sha256": "8f6a19a107374a03636cc75695dce25005f2e656e34b6b53aa8290047f38cc12"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.current.vitest.json.gz",
+      "sha256": "960473c9310c871e6fb1e2f0ae06c364e370e57ebff430c3d410d8196afa77c3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.old.raw.gz",
+      "sha256": "387e4e29059b2150862b28c311afa8a7f7a1554648d0b1a61106f5b4088d1f10"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.old.vitest.json.gz",
+      "sha256": "59278afb8ffc83dd00c8fd9e92dd01395b0abe563eb5c708de186d960060a75b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.current.raw.gz",
+      "sha256": "ed32f26ca0bc7947d37ee9c629dc3d430e16b9e0a7a6ec1babfd6eb8df38e2f9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.current.vitest.json.gz",
+      "sha256": "e00b2dd93e8d279e2b6e112ed1ff75770070c28f99083b28e6688ccfeaad533c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.old.raw.gz",
+      "sha256": "aa9f14de4c8ee783527dcb73ac05b8786d79d36526bc0a63a8ce091a60120501"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.old.vitest.json.gz",
+      "sha256": "321913e26872d3a2735369a0bfae970d8a6a5a677a4a35e1381422e14386fc00"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/controls.json",
+      "sha256": "c501b97368612405613585569b99b3631147d0e3c0aaa4f45faf3a2504d982b6"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.current.raw.gz",
+      "sha256": "5ceb65d13f565e14334face79209c69cab5bbc956b027bb8932499b82502fba5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.current.vitest.json.gz",
+      "sha256": "fdde6559ff2e83f962a0c37de4f1fef9bea185c6bee113ae1798f7fbc17f52c2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.old.raw.gz",
+      "sha256": "988e01b18b40a65ee84bffaae3fc10c5a3e5ebf78266230da10fa8e0d7f2dd1e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.old.vitest.json.gz",
+      "sha256": "4089a0adb308cfd8bf463370f54abcaecfc30c8b3709c21f4fe0adbfa9f00df0"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.current.raw.gz",
+      "sha256": "935a7676f451b922bea5a259e516d5094916b4efe5eb07dae0bc9f20236989ff"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.current.vitest.json.gz",
+      "sha256": "3423ce39bfd929e3b792df2f7c6d0c956785aec95f35cd0472526a06ae24221d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.old.raw.gz",
+      "sha256": "aa60e0aa9d17fca9f64b52fcb10dd3901b9c23ce343763d2e78f0ed884562e1b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.old.vitest.json.gz",
+      "sha256": "e7367a2c97643e551724e6f84229909c6d2726f2c7f17648d8def1996e6cf8cf"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.current.raw.gz",
+      "sha256": "99129f6e23989e27342798feb582167c52d4961485c5dc39245bf878b1c02aef"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.current.vitest.json.gz",
+      "sha256": "e5dbc10621a4f594f6b119eaad1565cf02721150b4625f8300514d2c6c54b055"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.old.raw.gz",
+      "sha256": "04709907664e608c36e5d692c11d12b278056dff7044fe355fccda7621c192aa"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.old.vitest.json.gz",
+      "sha256": "025eacebe9c1110ea9c1900fb4dff8b8822e2a60fbc063513041ada49fec1f08"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.current.raw.gz",
+      "sha256": "a3287205e976862c1b443dd54845cb1a4d627fb7746fcf2f62e3833af6fe0b70"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.current.vitest.json.gz",
+      "sha256": "762ccd988c00e23eab9e5db2f56a1f20975a3d8b504ad0c023cf9a1956472329"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.old.raw.gz",
+      "sha256": "b1825e66eb947816e9551e1ce542b0863dd895b914ffacf36bae852b942b8bb1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.old.vitest.json.gz",
+      "sha256": "2842a12209c7c45d7220fdaeff8f4289f5698678af3d34e84c1c499794163f9c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.current.raw.gz",
+      "sha256": "2a0ecd9ff0bd1f6d1399276bfc1ead125974f3e8391678315c8b3cbcb5aa5b20"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.current.vitest.json.gz",
+      "sha256": "df68945c225fedd8512c355e5f9e6ebbfb7dcac1929fbc7648d791d6b78b9707"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.old.raw.gz",
+      "sha256": "e65be7b94d80cdf32b51639a03e15faf2bfaa9d16301709aacf231f58b19439c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.old.vitest.json.gz",
+      "sha256": "37b14bbf3a581360c41eefc029eefb99cbaf224d2a7eb724889a1939d0bb8257"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.current.raw.gz",
+      "sha256": "039e35c1b77cf199c4bc10c9f1aac6fa9a3dd697c40103c639314804fa0275e5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.current.vitest.json.gz",
+      "sha256": "c78cea71a31be5711604aec8e168552d883bbe3f21acc9b15ec541a1fbedef75"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.old.raw.gz",
+      "sha256": "fde7af7588cae90f52e0277fc1b37864174d72a5d46df4b37d587a38df73c420"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.old.vitest.json.gz",
+      "sha256": "2eac7c78ffdceadf317e1169a18a206064bf13d725d696ed76e99997395088ae"
+    }
+  ],
+  "wholeCheckEvidence": {
+    "run": "related-window-check",
+    "head": "150650c59c4677bee57cee8576f40d8f0e1bd768",
+    "exit": 0,
+    "passed": 20430,
+    "diagnostics": "all scanner categories and stderr0;260normal stdout blocks compared with previous run,only elapsed time varies",
+    "followingDelta": {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "beforeSha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299",
+      "afterSha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e",
+      "kind": "test fixture/oracle only; all product/shared fixture/config/dependency files unchanged",
+      "verification": "h02-canonical-regression16/current typecheck; final official fast will include all5 currentH02 tests",
+      "reuseRationale": "Do not repeat unrelated20425 unchanged tests solely for this isolated file. Full command remains honestly pinned to150650c59; it is not claimed as a second full command on the later commit."
+    }
+  },
+  "frozenSourceHeadPending": "Only H02 test fixture rework pending source commit; product implementation remains150650c59. Update frozenSourceHead to actual code commit before official collection."
 }

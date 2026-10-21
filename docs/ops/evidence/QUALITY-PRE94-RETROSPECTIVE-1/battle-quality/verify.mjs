@@ -19,6 +19,13 @@ for (const member of review.artifact.members) {
   assert.equal(bytes.length, member.bytes, member.name)
   assert.equal(hash(bytes), member.sha256, member.name)
 }
+for (const row of review.reusedEvidencePins ?? []) {
+  assert.equal(
+    hash(readFileSync(new URL(row.path, root))),
+    row.sha256,
+    `STALE evidence: ${row.path}`,
+  )
+}
 for (const row of [...review.files, ...review.contextPins]) {
   assert.equal(hash(readFileSync(new URL(row.path, root))), row.sha256, `STALE: ${row.path}`)
 }
