@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T12:10:03.625Z",
+  "generatedAt": "2026-10-21T15:03:13.198Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 749,
-  "testCount": 19988,
+  "testCount": 19992,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1198,11 +1198,12 @@
       ],
       "scopeDigest": "ae7bbb35c4f644075b309bf105bdad1c66f2ea7c127c87704d32ce510c1ef037",
       "fastTests": {
-        "testCount": 301,
-        "testFileCount": 63,
+        "testCount": 305,
+        "testFileCount": 64,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+          "packages/pal-extract/src/__tests__/cli-host.test.ts",
           "packages/pal-extract/src/audit-data-mkf.test.ts",
           "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
           "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
@@ -1277,6 +1278,11 @@
             "identityDigest": "705afc3b56efee29e2b13d84330155b8c5649cbe73223d006b659a6ddf9e6fda"
           },
           {
+            "file": "packages/pal-extract/src/__tests__/cli-host.test.ts",
+            "testCount": 3,
+            "identityDigest": "120ee2198e979c6e759bb5089e787402ba081b29c5f14e5cf4c3596af7639543"
+          },
+          {
             "file": "packages/pal-extract/src/audit-data-mkf.test.ts",
             "testCount": 8,
             "identityDigest": "22176039b4f4e3252a13385c182a8cfb04085ba7cd069ad312cc7afca012d562"
@@ -1314,7 +1320,7 @@
           {
             "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
             "testCount": 10,
-            "identityDigest": "3e779fa4b1f09eb36c68b2b983c4ee5cc2dddd62a2f2c69648c5319bd69afeb8"
+            "identityDigest": "ad0736cd1d7bb90ff6e36dcab8a24c999965c7c1ec9256846c52731a3fe8148b"
           },
           {
             "file": "packages/pal-extract/src/events/annotate.test.ts",
@@ -1418,8 +1424,8 @@
           },
           {
             "file": "packages/pal-extract/src/io/sss.boundaries.test.ts",
-            "testCount": 7,
-            "identityDigest": "d70386468e10a6e790ad38eaf249b0091db4825ad3f27a25fa21d8bc89ee00ec"
+            "testCount": 8,
+            "identityDigest": "175e4123b9ef8435e2c6757ce548ffba893e584c2fb26e448029d307d641eb90"
           },
           {
             "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
@@ -1582,14 +1588,14 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "e43f686ff2f0add3212b8120477c9e8a84198c073799d45934148fa81715926f",
+        "identityDigest": "9aad5aae7f0527859019f0bcdd96fcf60631c7f823638262f6ec8aa7bc1d8e01",
         "duplicateIdentityCount": 1,
-        "executionDigest": "e008a5085bbf37b78eb369fe8dc6b44df616ccc464935c85fc4c6be8c3c3b99a"
+        "executionDigest": "ff54a2c5e88627a093b64ba3f1aa7d693691b3fbf2a54647c29a609388ce84f8"
       },
       "metrics": {
         "statements": {
-          "covered": 1082,
-          "total": 1546
+          "covered": 1078,
+          "total": 1542
         },
         "branches": {
           "covered": 473,
@@ -1600,8 +1606,8 @@
           "total": 142
         },
         "lines": {
-          "covered": 957,
-          "total": 1368
+          "covered": 953,
+          "total": 1364
         }
       }
     },
@@ -10666,8 +10672,8 @@
   },
   "total": {
     "statements": {
-      "covered": 71470,
-      "total": 79312
+      "covered": 71466,
+      "total": 79308
     },
     "branches": {
       "covered": 51900,
@@ -10678,8 +10684,8 @@
       "total": 15124
     },
     "lines": {
-      "covered": 63832,
-      "total": 69395
+      "covered": 63828,
+      "total": 69391
     }
   }
 }

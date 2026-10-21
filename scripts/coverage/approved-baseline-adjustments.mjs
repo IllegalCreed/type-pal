@@ -4,6 +4,80 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // User-authorized structural recounts, pinned to complete old baseline and current
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
+  // Exact four covered temporary-copy declarations removed from SSS parsing.
+  {
+    id: 'pre94-sss-raw-copy-20261021',
+    authority:
+      'User permits exact baseline adjustment after reasonable refactor;four covered temporary copy/view declarations removed,not tests or live behavior. User2026-10-21 requires multiple cards per expensive gate window;native first failure retained and final gates deferred to that window.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json',
+    baselineSha256: 'aa096be5d236d60f9f673eb850f3ed296021fceda212e28ab810b6a38562c898',
+    sources: [
+      {
+        path: 'packages/pal-extract/src/io/sss.ts',
+        sha256: 'a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518',
+      },
+      {
+        path: 'packages/pal-extract/src/io/sss.boundaries.test.ts',
+        sha256: '617dd83725bacfe92ca0af771cb3fb61b5b41ff1e801d46c0b22bef28da11eff',
+      },
+      {
+        path: 'packages/pal-extract/src/io/sss.test.ts',
+        sha256: '34207e32602a42b6d2390e7a11e9cf78e44341555f2e3db9376008383fac254f',
+      },
+      {
+        path: 'packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts',
+        sha256: 'aa81e2e672a88a28eaa24acf2e123f1b672f260f073499e14cfe2fa1a3173d2c',
+      },
+      {
+        path: 'packages/shared/src/mkf.ts',
+        sha256: '7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+    ],
+    packages: {
+      'pal-extract': {
+        before: {
+          statements: {
+            covered: 1082,
+            total: 1546,
+          },
+          branches: {
+            covered: 473,
+            total: 597,
+          },
+          functions: {
+            covered: 114,
+            total: 142,
+          },
+          lines: {
+            covered: 957,
+            total: 1368,
+          },
+        },
+        after: {
+          statements: {
+            covered: 1078,
+            total: 1542,
+          },
+          branches: {
+            covered: 473,
+            total: 597,
+          },
+          functions: {
+            covered: 114,
+            total: 142,
+          },
+          lines: {
+            covered: 953,
+            total: 1364,
+          },
+        },
+      },
+    },
+  },
   // Approved legacy OGG deletion and current-direction ownership; exact measured snapshot.
   {
     id: 'pre94-input-ogg-retirement-20261021',
