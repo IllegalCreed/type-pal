@@ -1,4 +1,5 @@
 import {
+  type BrowserPrivacySignals,
   getBrowserConsentStorage,
   hasPrivacySignal,
   resolveInitialAnalyticsConsent,
@@ -9,16 +10,11 @@ import { startGoogleAnalytics } from './google-analytics.js'
 
 export const TYPE_PAL_GA_MEASUREMENT_ID = 'G-9Q2XJV7NJ6'
 
-interface AnalyticsNavigator {
-  doNotTrack?: string | null
-  globalPrivacyControl?: boolean
-}
-
 export interface TypePalAnalyticsOptions {
   enabled: boolean
   window: Window
   document: Document
-  navigator: AnalyticsNavigator
+  navigator: BrowserPrivacySignals
 }
 
 export interface TypePalAnalyticsInstallation {

@@ -22,6 +22,7 @@ export interface GoogleAnalyticsOptions {
 }
 
 type AnalyticsWindow = Window & {
+  [key: `ga-disable-${string}`]: boolean | undefined
   dataLayer?: Array<IArguments | unknown[]>
   gtag?: (...args: unknown[]) => void
 }
@@ -61,7 +62,7 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
   if (!options.enabled || !measurementId) return () => undefined
 
   const analyticsWindow = options.window as AnalyticsWindow
-  const disableKey = `ga-disable-${measurementId}`
+  const disableKey: `ga-disable-${string}` = `ga-disable-${measurementId}`
   let consent = options.readConsent()
   let initialized = false
   let lastPath: string | undefined
@@ -118,7 +119,7 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
 
   const applyConsent = (nextConsent: AnalyticsConsent): void => {
     consent = nextConsent
-    ;(analyticsWindow as unknown as Record<string, unknown>)[disableKey] = nextConsent !== 'granted'
+    analyticsWindow[disableKey] = nextConsent !== 'granted'
 
     if (nextConsent === 'granted') {
       initialize()
