@@ -9,7 +9,7 @@ const approvedAdjustments = [
     authority:
       'User2026-10-20/21 authorizes exact baseline adjustment for reasonable refactor,never dead-code restoration or weak tests;2026-10-22 approves the two slice control fixes. Standing authorization permits file reorganization. This finite recount covers deduplicated BFS and unchanged moved IO/music bodies only; no rule/selection/threshold relaxation.',
     evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json',
-    baselineSha256: '53678cc775c2e85a48e3225ddea15126e480668ddd050592b8619a42c36dd207',
+    baselineSha256: '131f7ec3de15f966fcddb4f218b971861b2b1f95282a27245687ddb77c3ad692',
     sources: [
       {
         path: 'packages/pal-extract/README.md',
