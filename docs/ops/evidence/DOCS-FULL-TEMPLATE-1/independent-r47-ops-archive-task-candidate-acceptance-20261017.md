@@ -1,40 +1,41 @@
 # R47 ops archive task/index candidate independent acceptance
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R47 轮候选接收回执：verdict accept（candidate document reception only），对象为 ops archive task/index Markdown（两 README=governance-index-v1+overlay、已完成卡=task-card-v1+overlay）。本页按 archive-record 接入，原文在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R90。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R47 轮接收回执；S15 R90 迁移层封套。原文为家族模板（R41-R53 同文式），各轮仅轮号与计数行不同。
 
 ## 原始结论
 
-- R47 ops archive task/index candidate independent acceptance：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：正文称「fully read, migrated, checked for quote reversibility, registry/review/routing agreement, source/after SHA, catalog scope」；20/20 bodies pass template/quote inverse/overlay/registry/routing/SHA 检查；ops archive 保持 phase/lore catalog 域外；runtime/E2E/视觉/coverage 信用 0；不标 1838 全量 done。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全原文。
+- 已撤回（本篇关联批次在撤信范围）：correction-scope.json（2026-10-18，kind=withdrawal-scope-not-semantic-review）对 batch 39-94 的 review 记录撤回深审/全文/独立接受信用；本页所引该轮评审深度信用属撤回范围，不恢复。
+- 尚未认证：接收回执本身的「独立」身份与通过口径亦未经当前中央评审认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用与纠错边界见 DOCS-RECORD-INTEGRITY-1（rework）与 correction-scope.json；ops archive 任务卡现行事实以中央 routing 与任务索引为准。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `50b6ccd544558f86f83f9e211237ea0585a575b23e1a395f95102b90de3a278e`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `50b6ccd544558f86f83f9e211237ea0585a575b23e1a395f95102b90de3a278e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R47 ops archive task/index candidate independent acceptance
 >

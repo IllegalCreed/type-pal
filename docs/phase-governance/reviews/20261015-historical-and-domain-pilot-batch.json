@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "c7f45c353531de3aeef014474a0e41c3558bce0f5967eb7367effdc1b9628b7c",
+      "afterSha256": "ae1b9d4044cdbc074b06d9ac6f0c3f181c1d45fceeb6941993e284d03c9240f6",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6916,6 +6916,15 @@
           "previousAfterSha256": "b055a7553be6d282741bf22cccbd2987ffcfaf82a29d262199f434a731feef84",
           "afterSha256": "c7f45c353531de3aeef014474a0e41c3558bce0f5967eb7367effdc1b9628b7c",
           "method": "Actual2026-10-21 Owner counter/admission and matrix controls, zero source body adoption or new semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 final61 accepted and structural review routing; S20 historical27 admission controls only",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "c7f45c353531de3aeef014474a0e41c3558bce0f5967eb7367effdc1b9628b7c",
+          "afterSha256": "ae1b9d4044cdbc074b06d9ac6f0c3f181c1d45fceeb6941993e284d03c9240f6",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

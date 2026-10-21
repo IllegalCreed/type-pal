@@ -3884,7 +3884,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-      "afterSha256": "57a1fa79c59aa0f31ac032894c96a48ff99baca9fc7420ac83d237328a6a0234",
+      "afterSha256": "9e6f6b80117b0a16f9ec74ec7fec4389242cf0eff58146a466e1efeec3237538",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4040,6 +4040,15 @@
           "afterSha256": "57a1fa79c59aa0f31ac032894c96a48ff99baca9fc7420ac83d237328a6a0234",
           "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 accept61 historical bodies; structural two-partition review migration,2 explicit pending native ledgers",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "57a1fa79c59aa0f31ac032894c96a48ff99baca9fc7420ac83d237328a6a0234",
+          "afterSha256": "9e6f6b80117b0a16f9ec74ec7fec4389242cf0eff58146a466e1efeec3237538",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -4070,7 +4079,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-      "afterSha256": "367259ca7c2ef60128f8cc11ac6cf635ed5c4a25f369acb1994107615ae901a0",
+      "afterSha256": "ceae89ebe0fccef74ddee88950dbfe73ac3295e2964dc270bed51b97904e5c5e",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4226,6 +4235,15 @@
           "afterSha256": "367259ca7c2ef60128f8cc11ac6cf635ed5c4a25f369acb1994107615ae901a0",
           "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 accept61 historical bodies; structural two-partition review migration,2 explicit pending native ledgers",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "367259ca7c2ef60128f8cc11ac6cf635ed5c4a25f369acb1994107615ae901a0",
+          "afterSha256": "ceae89ebe0fccef74ddee88950dbfe73ac3295e2964dc270bed51b97904e5c5e",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -4256,7 +4274,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
-      "afterSha256": "a7ae2629b07edc46c0ecb5df3640b6981261c0620b2982c34f05745034dffa04",
+      "afterSha256": "962732bd4e9e5fc5324ea09101740bb82db0240fe1c7682a862860c6a0b3f8e3",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4411,6 +4429,15 @@
           "previousAfterSha256": "41d702dea6763a36e1b8f04212321a375199f85cd6cafb9d797e85055da0e4dd",
           "afterSha256": "a7ae2629b07edc46c0ecb5df3640b6981261c0620b2982c34f05745034dffa04",
           "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 accept61 historical bodies; structural two-partition review migration,2 explicit pending native ledgers",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "a7ae2629b07edc46c0ecb5df3640b6981261c0620b2982c34f05745034dffa04",
+          "afterSha256": "962732bd4e9e5fc5324ea09101740bb82db0240fe1c7682a862860c6a0b3f8e3",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
       ]

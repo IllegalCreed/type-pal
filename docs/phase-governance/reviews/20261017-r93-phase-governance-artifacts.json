@@ -549,7 +549,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "60f6a6b307ec7836983aa990fd318e41dd759bd96258fe9234c852812d03b818",
+      "afterSha256": "30edda983e1b7b57e674cebfec84d76478fc112c0c17ce955e87eb5a59255bd3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -906,6 +906,15 @@
           "previousAfterSha256": "335af24641f86060cfaab79c7b676f383524ec631c32b175bc751dc79c15f53a",
           "afterSha256": "60f6a6b307ec7836983aa990fd318e41dd759bd96258fe9234c852812d03b818",
           "method": "Actual2026-10-21 Owner counter/admission and matrix controls, zero source body adoption or new semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 final61 accepted and structural review routing; S20 historical27 admission controls only",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "60f6a6b307ec7836983aa990fd318e41dd759bd96258fe9234c852812d03b818",
+          "afterSha256": "30edda983e1b7b57e674cebfec84d76478fc112c0c17ce955e87eb5a59255bd3",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1396,7 +1405,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "04c7cd06308f18d4c1c0a736ab6f2f73acd5aeb08706b8508165c71a64346b68",
+      "afterSha256": "bf83842dc4f4c61a697a75211b1c19fbe1063803193fddf228119e744cbdada4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1689,6 +1698,15 @@
           "sourceRevision": "08377f084daa414b76ae1259766606c06c687343",
           "previousAfterSha256": "a45fdfb47058c339b13bf349e435a2ee55e88979fbe0be29f9abd174ab7d5ae8",
           "afterSha256": "04c7cd06308f18d4c1c0a736ab6f2f73acd5aeb08706b8508165c71a64346b68",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 final61 accepted and structural review routing; S20 historical27 admission controls only",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "04c7cd06308f18d4c1c0a736ab6f2f73acd5aeb08706b8508165c71a64346b68",
+          "afterSha256": "bf83842dc4f4c61a697a75211b1c19fbe1063803193fddf228119e744cbdada4",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -3772,7 +3790,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c9674a22cfb8a77f1da1ca46167185882b9b51dca04edb09da5f8c19231f2668",
-      "afterSha256": "2c396c03580a71df1e615db274d148c48f9a12e0446cf04a2735729a0e93f442",
+      "afterSha256": "f88cf1cc4a0257bc9b278de4100912a514d8488644a2f3067fa9a223cec1c6c1",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4047,6 +4065,15 @@
           "sourceRevision": "08377f084daa414b76ae1259766606c06c687343",
           "previousAfterSha256": "64501df76af03c83752720c6fb62981d42348b0a62b2ac8af797fef54a5c0868",
           "afterSha256": "2c396c03580a71df1e615db274d148c48f9a12e0446cf04a2735729a0e93f442",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 final61 accepted and structural review routing; S20 historical27 admission controls only",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "2c396c03580a71df1e615db274d148c48f9a12e0446cf04a2735729a0e93f442",
+          "afterSha256": "f88cf1cc4a0257bc9b278de4100912a514d8488644a2f3067fa9a223cec1c6c1",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }

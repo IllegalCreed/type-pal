@@ -1,40 +1,44 @@
 # R22 候选独立接收（2026-10-17）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOCS-FULL-TEMPLATE-1 早期 R22 轮的候选独立接收回执：verdict accept，对象为 22 篇候选（18 audit-report、3 plan-status、1 reference-canon，全部附 archive-record-v1@1.0.0 overlay）；固定 source 655b8c68、工作树 HEAD 5e78f6f6。本页按 archive-record 接入，原文全文在下方 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R89。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R22 轮接收回执；固定源 revision 2dd1768c675d…（S15 R90 迁移层）。
+- 声称的复核门（原文口径）：check-document-model PASS（273 body contracts）、check-content-review --strict PASS（733 documents）、check.mjs PASS（1232 Markdown/8069 links/361 tasks/content22 SAVE12）、pnpm check:docs 120 docs-tools、git diff --check 空、GFM inventory 22 docs/264 wrapper headings/127 links/0 重复 slug。
 
 ## 原始结论
 
-- R22 候选独立接收（2026-10-17）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：22/22 的 source SHA/Git object/quote inverse/after SHA、模板节与 archive overlay、registry/routing/catalog（catalog 1048119 bytes<1MiB、metadata mismatch 0）全过；历史冲突保留 22 候选 entry、44 个 unresolved/counter 字段；此前 13 篇只读回执的 38 条冲突仍在。
+- 只读回执边界：independent-r22-review-20261017.json SHA 1f2188bd…，覆盖 13/22、38 条冲突，verdict accept-readonly-proposal，source zero drift=true。
+- 明确不授 runtime/E2E/视觉/coverage 信用，不改变仓库、不写 ledger。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全原文（含逐篇 SHA/逆回摘要表 22 行、复核门数字、只读回执边界段）；这是字节身份支持，不是语义认证。
+- 已撤回：无本篇专属撤回（R22 轮评审记录不在 correction-scope 撤信批次 39-94 内）。
+- 尚未认证：「独立接收」「22/22 全过」等深审/完成口径仅按原文声称保留——当前中央评审状态为 DOCS-RECORD-INTEGRITY-1 rework，独立接收基础设施未恢复认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。原文数字（273 contracts/733 documents/1232 Markdown 等）为 2026-10-17 时点快照，与当前树无对应关系。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用与纠错边界见 DOCS-RECORD-INTEGRITY-1（rework）与 docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json；现行文档治理以中央 registry/routing 与 S17/S18 已接收正文为准。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `84abe0db4ab007fb96a57012bef9c79c6eb9d85a52ffe0d58d190c80304f8bf5`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `84abe0db4ab007fb96a57012bef9c79c6eb9d85a52ffe0d58d190c80304f8bf5`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R22 候选独立接收（2026-10-17）
 >

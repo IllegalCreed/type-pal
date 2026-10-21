@@ -1,40 +1,44 @@
 # R23 ops audits independent readonly review
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R23 轮的独立只读评审回执：verdict accept-readonly-proposal，对象为 docs/ops/archive/audits/ 9 篇（base 81d01fa9）；零仓库写入、零迁移/registry/routing/catalog 变更；blocking counters 0、non-blocking 2。本页按 archive-record 接入，原文全文（含逐篇 per-document review）在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R89。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R23 轮只读评审；固定源 revision 2dd1768c675d…。
+- 模板建议（原文）：8 篇 audit-report-v1@1.0.0+historical overlay；README 改判 governance-index-v1（原 registry 绑 audit-report 为内容分类错误）；OPS-TST-PERF-g1 保持 audit-report（改 test-domain-report 需另立冻结设计与 consumer 证明）。
 
 ## 原始结论
 
-- R23 ops audits independent readonly review：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：逐篇给出 classification/status/exact source（行数/字节/SHA-256/afterSha256）/semantic outline/primary sources/issues/counters/boundary——如 b10-1（77 行/3238B/SHA 6961c437，B10-1 G1/G2 使用边界、380 源敌队/1900 原始条目/861 语义槽/757 有效敌槽/104 空槽总账、20 支含空槽队伍交叉清单、65535 与 0 槽位解释）等 9 篇。
+- 原文自记边界：历史 census 未在当前树重跑、输入 SHA 与 v12 迁移目标需当前候选重新绑定、仅静态核对不证明 runtime 行为。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全 9 篇 per-document 全文与两个 non-blocking counter。
+- 已撤回（目标 review 深审信用）：docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json 的 expandedAudit20261018.originalClaimRows 覆盖本批（R23）9 个目标的旧深审 claim（如 b10-1-source-slot-census-2026-08-09.md、codex-p7-r13-three-way-adjudication.md 等 9 个目标；完整清单见该 canonical 文件）。该扩展审计共 152 个旧 claim 跨 13 批、151 个旧 binding 降档；真实 S01 后继 docs/phase2/READ-FIRST.md 保留不降档。
+- 三分边界：目标 review 深审信用撤回不等于本篇旧只读/接收提案每句话都假——本页 quote 保真的字节事实仍成立；本篇自己的「独立/全文/门数字」声称仍属未认证；合格后继（READ-FIRST S01）不在撤回范围。
+- 尚未认证：「独立只读评审」「完整读取」为原文声称；当前中央评审状态 rework，该独立席位未恢复；b10-1 等历史 census 数字未在当前树重跑（原文自己已声明）。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。评审锚点（81d01fa9/6961c437 等）为当时树。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用边界见 DOCS-RECORD-INTEGRITY-1/correction-scope.json；README 分类错误已由后续中央 routing 修正。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `1e7c60329772c47ae2286f283ff598d701746c7c49aff22f83bd1b029b2f99e5`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `1e7c60329772c47ae2286f283ff598d701746c7c49aff22f83bd1b029b2f99e5`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R23 ops audits independent readonly review
 >

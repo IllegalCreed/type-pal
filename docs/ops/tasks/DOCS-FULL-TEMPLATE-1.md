@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: S17/S18接收保留；S19修正a13据证保留48篇，13篇两句说明与对应core仍返工；全量硬验收未完成
+Reviewer: S19 final61文档接收；S20历史27篇准入；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
@@ -2162,3 +2162,19 @@ S18实际中央[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/centra
 - 原C01的27篇目标/数量/canonical与六无效counter边界已闭合，61条metadata形式问题已修。其余48篇正文与语义字段保留，无需重做全文。仍有同一13篇R41–R53 readonly的两处说明和13条core：R41真实10=2README+8卡却被新增“原文复制矛盾”写成不符；13个真源均不存在新引的Ten documents；R42–R53开头又把两README当实际范围。首两项/数量/范围修正有效，但新core照抄039错误快照，R53仍写821–982而非821–11269。逐篇位置/条件见[固定非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz)。本轮按已知同族矛盾定向展开，未重读61全文。
 - build allowed终修：同分支从真实a13追加，仅13篇已知readonly的开头对象句与复制矛盾说明可写；48其余正文按a13整文件SHA保留。新证据仅/tmp/s19-glm-evidence-final-fix；13 core取实际固定源与最终正文原始结论节，61条身份/after pins程序刷新，48条已合格语义字段不改。旧28+30与全部61quote、R24、438先前正文、共享域/JSON/规则/产品/旧测试/coverage只读，不逐批许可。准入清单[固定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final13-targeted-correction-admission/dd2b3234910a522a59c1f8d2ab90fdb9edfd255ab36a432e7953f97cf0f2e7d8.gz)，本机/tmp/type-pal-S19-final13-handoff-97168u4i，manifest SHA dd2b3234910a522a59c1f8d2ab90fdb9edfd255ab36a432e7953f97cf0f2e7d8，快检verify-final.py。039快照authorBodySpecificConclusion是当时错误观察，不能当推荐终稿。
 - S19尚未整体接收，中央新增正文/semantic/template信用0，仍1156 content-reviewed/1276 partial、1133/1838基线+17增量/1282待迁移；全卡rework，不合main、不推main、不标done。未跑181/整仓check:docs/产品/E2E/coverage；静态绿不追认旧深审、旧门数字或旧独立席位。
+
+### S19 final13闭合、六十一篇文档包接收（2026-10-21）
+
+- 固定GLM候选4e571f79a877430a236329b670da094d92e89fae，从真实a13单提交13文件38+/38−；tracked干净，仅node_modules未跟踪。全部61保全、48正文/十项语义保护字段及此前438全文件只读；旧28+30与新30件冻结核符。最终review61行、UTF8 shard291373B与SHA实符，全部身份实取；13 core等最终原始结论节，不再复制039错误观察。
+- C01/E01/C02闭合：R41的10=2README+8卡明确一致；R42–R53实际20/16卡且无README，真实Two README/eight completed旧句按历史矛盾登记；伪引Ten documents已移除。R43首两项及57–113、R53首两项及821–11269保留。Owner复用48合格成果，据证核最终13差异和风险切片，未重读61全文；双verifier与实际zsh replay均通过，model1265零issue、导航0、索引byte-equal、testing0、lint4511零EWI、双diff0。逐篇[非作者限定接收](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz)。
+- erratum两项勘误成立；其中revParseRawOutput实际是终修4e的输出，Owner另核旧a13^{commit}明确身份，未把当前输出冒充旧原始回执。旧双marker事故的缺失assert原件仍未认证，历史深审/独立/产品通过不恢复。
+- 中央结构方案：原R90展开50条完整记录的1208346B、引用版1150169B均被预检阻断，尚无写入。使用现有reviewRecord路由分为31/30条新分区20261021-s19-accepted-01/02；旧R89/R90/R91仅迁出61当前条目，旧完整条目以全文件/条目Git SHA引用留存，其他条目不动。新分区各小于512KiB，consumer/schema/质量规则不变，不放宽maxSize。两份Owner新JSON另登记partial/needs-migration，不自授机器文档独立完成。
+- S19子包done仅指61份GLM历史正文/模板及中央接入。父卡继续rework：native2434=1217 content-reviewed+1217 partial；迁移1133/1838基线+78增量、1223候选待迁移；新账本2份仍待治理。未跑181/整仓check:docs/产品/E2E/coverage，不合main、不推main，不标全量done。
+
+### S20 GLM 二十七篇历史审计/域报告/治理设计准入（2026-10-21）
+
+- Codex build allowed，一次交付27篇：9份pre-e2e历史审计、8份testing history/report、9份20261016治理设计及reviews历史README。源范围/逐篇before/source/blob/quote SHA见[固定源清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-historical27-fixed-source-admission/1f24d215fb4ce5dcc5703343fdbb8c56192cffdf623ea1cc090ed1cc6839590e.gz)，本机/tmp/type-pal-S20-source-admission-ie1d1ba4。完整真实源557446B；18篇单层sep-lf-1，9篇设计三层各排除恰一个结构分隔LF才等真实Git源，不得把外层复合体SHA当源SHA。保全既有整个外层quote tail与H1，不trim/codec/统一字符替换。
+- GLM在新隔离分支codex/docs-s20-glm-historical-reports执行，真实execution base由本节提交后程序实取写清单，复用docs-archive-navigation工作树；开工tracked须净。Owner仅核了范围、来源字节、模板候选和读域前提，不声称已经全文语义审过27篇。
+- 逐篇全文核真实源与既有正文/嵌套边界，写本篇实际论点、对象/数量/版本、已确认与未知、原反例/未跑项、当前继任和停止线，不能用标题或行数当core、不能把Owner旧观察快照当建议终稿。旧设计只记当时提议/裁定，不自动变成当前授权；历史审计不按旧快照宣判当前代码有缺陷。原机器字段、数字、原结论和quote全部保留；本批不复跑旧产品、测试或coverage。
+- 采用已有冻结17模板：audit-report/archive-record是当前候选；README职责按实际正文判断，可提议现有governance-index/guide-runbook等。先做每种拟模板一篇本地pilot后自行继续；不强套错误旧routing。贡献者仅交拟routing及相同公共checker的内存零issue检查，实际中央绑定Owner单写；若需新模板/源冲突只停受影响篇。
+- 唯一写入为27白名单正文及/tmp/s20-glm-evidence；父卡/看板/索引/registry/routing/review JSON/catalog/matrix/模板/规则、所有配对机器字段与JSON、产品/测试/coverage只读。S17/S18/S19既有499正文只读，原28+30+30证据不可覆盖。按document-delivery-acceptance/1.0.0交逐篇具体记录和真实读域、before/source/after/Git身份、分片<512KiB、失败/事故原件与输入指纹；只读快检、导航/索引byte-equal、model实际或精确旧路由归因+内存拟绑定0、testing、lint零EWI、base..HEAD diff。181/整仓check:docs/产品门留中央。原源只读不因历史矛盾清理重写；不合main、不推main、不标父卡done。无需逐批确认，最终集中回交并附可转发Owner提示词。

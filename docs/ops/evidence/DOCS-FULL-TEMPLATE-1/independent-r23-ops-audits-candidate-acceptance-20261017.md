@@ -1,40 +1,45 @@
 # R23 ops audits candidate independent acceptance
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R23 轮候选接收回执：verdict accept，对象为 docs/ops/archive/audits/ 下 9 篇候选（8 audit-report + 1 README 治理索引）；candidate base/source 81d01fa9、独立只读回执 7d4331a3。本页按 archive-record 接入，原文全文在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R89。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R23 轮接收回执；固定源 revision 2dd1768c675d…。
+- 声称的门：check:docs/check-document-model/check-content-review --strict 零 issue；无 runtime/E2E/视觉/coverage 执行。
 
 ## 原始结论
 
-- R23 ops audits candidate independent acceptance：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：8 篇 audit-report 五 live 节+五 overlay 节齐全；README 为 governance-index-v1 且 archive 标题只出现在惰性 quote；每篇 quote inverse 复现精确 source SHA 与字节数；review/registry/routing 各 9/9 对齐 docType/template/historyOverlay/after SHA。
+- 候选账本表 9 行（b10-1-source-slot-census/codex-p7-r13 三方裁决/r13-4/r13-5/documentation-2026-09-06/glm-p7/kimi-p7/OPS-TST-PERF-g1/README，各带 after SHA/行数/模板/quote/registry/route/counters 列）。
+- 接收边界：仅文档模板迁移与账本一致性；历史结论/静态审计映射/quote 保全不升格当前产品真值；runtime/E2E/视觉/coverage 信用 0。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全候选账本表与全部数字。
+- 已撤回（目标 review 深审信用）：docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json 的 expandedAudit20261018.originalClaimRows 覆盖本批（R23）9 个目标的旧深审 claim（如 b10-1-source-slot-census-2026-08-09.md、codex-p7-r13-three-way-adjudication.md 等 9 个目标；完整清单见该 canonical 文件）。该扩展审计共 152 个旧 claim 跨 13 批、151 个旧 binding 降档；真实 S01 后继 docs/phase2/READ-FIRST.md 保留不降档。
+- 三分边界：目标 review 深审信用撤回不等于本篇旧只读/接收提案每句话都假——本页 quote 保真的字节事实仍成立；本篇自己的「独立/全文/门数字」声称仍属未认证；合格后继（READ-FIRST S01）不在撤回范围。
+- 尚未认证：「independent acceptance」「9/9 全过」为原文声称，未由当前中央评审认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-10-17 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用边界见 DOCS-RECORD-INTEGRITY-1 与 correction-scope.json；ops/audits 域现行为中央 routing 所接收的 S17/S18 正文。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `30c960246c02bc96fd5f9be73ed20988c10b5b9e47e0d14fd7ca329ec0f850f3`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `30c960246c02bc96fd5f9be73ed20988c10b5b9e47e0d14fd7ca329ec0f850f3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R23 ops audits candidate independent acceptance
 >

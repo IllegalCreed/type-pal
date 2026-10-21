@@ -1941,15 +1941,16 @@
         "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
         "docs/phase2/READ-FIRST.md"
       ],
-      "relationship": "Preserved historical receipts remain original claims. Expanded152 old target-review depth withdrawals and six invalid copied counters coexist with original1896scope; qualified successors retained. S19 fixed039 has40 body counters and61 metadata-core defects, with21 other bodies retained and no central promotion. Fixed actuala13 closes27 expanded-boundary corrections and preserves61 source bytes;48 bodies/core fields retained. Known13 readonly paths still need two-sentence/source-claim and stale-core correction; no new central promotion.",
+      "relationship": "Preserved historical receipts remain original claims. Expanded152 old target-review depth withdrawals and six invalid copied counters coexist with original1896scope; qualified successors retained. S19 fixed039 has40 body counters and61 metadata-core defects, with21 other bodies retained and no central promotion. Fixed actuala13 closes27 expanded-boundary corrections and preserves61 source bytes;48 bodies/core fields retained. Known13 readonly paths still need two-sentence/source-claim and stale-core correction; no new central promotion. Final4e closes the same13 paths; all61 documentary bodies accepted, old execution/depth/independence not restored. Native review routing moves61 entries into two bounded successor ledgers; those two Owner-authored JSON documents remain partial/needs-migration.",
       "status": "guarded",
       "evidence": [
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz",
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz"
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz"
       ],
       "unresolved": [
-        "Only13 already-countered readonly heads and13 stale conclusion fields remain;48 supported bodies/core fields retained, no whole61 source reread required.",
-        "Original correction handback full Git SHA and Python invocation are erroneous; real machine identities/replay are verified and old artifacts retained."
+        "Two newly generated native review ledgers await machine-document semantic/template review; S19 source-body acceptance does not certify them.",
+        "Historical independent/full-depth/execution claims stay withdrawn or unverified exactly as canonical correction states."
       ],
       "stopLine": "No new deep semantics, old execution or independent identity from source-byte preservation; no whole-goal/main/done credit."
     }
