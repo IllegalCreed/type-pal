@@ -1,3 +1,4 @@
+import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { sliceByScene } from './slice.js'
 
@@ -56,6 +57,35 @@ describe('sliceByScene', () => {
     expect((result.scenes[1]!.segments[0]!.commands[0] as { op: string; to: string }).to).toBe(
       'shared#L_3',
     )
+  })
+
+  it.each([
+    'scene',
+    'global',
+  ] as const)('%s 的计数 goto 同时收跳转和计数结束续行，零计数不收续行', (owner) => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'goto', to: 'L_4', frameDelay: 2, label: 'L_1' },
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_2' },
+      { op: 'end', label: 'L_3' },
+      { op: 'goto', to: 'L_4', frameDelay: 0, label: 'L_4' },
+      { op: 'end', label: 'L_5' },
+    ]
+    // 0x0003 op1=2 有两条控制边；L_4 的 op1=0 恒跳自身，L_5 不可达。
+    const result = sliceByScene(
+      commands,
+      [makeScene(owner === 'scene' ? 1 : 0, 0)],
+      [],
+      owner === 'global' ? [1] : [],
+    )
+    const expected: Command[] = [
+      { op: 'goto', to: owner === 'scene' ? 'L_4' : 'shared#L_4', frameDelay: 2, label: 'L_1' },
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_2' },
+      { op: 'end', label: 'L_3' },
+      { op: 'goto', to: owner === 'scene' ? 'L_4' : 'shared#L_4', frameDelay: 0, label: 'L_4' },
+    ]
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? expected : [])
+    expect(result.shared.segments[0]!.commands).toEqual(owner === 'global' ? expected : [])
   })
 
   it('goto 目标在同一场景内不改写', () => {

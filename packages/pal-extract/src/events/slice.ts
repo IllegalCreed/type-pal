@@ -101,20 +101,16 @@ export function sliceByScene(
         continue
       }
 
-      // goto:跳到 to,不 fall-through
+      // goto:收目标；仅有计数时也收计数结束的续行
       if (c.op === 'goto') {
         const t = parseLabel(c.to)
         if (t !== null) queue.push(t)
+        // 0x0003 的非零计数耗尽后推进 i+1（SDLPal trigger/auto 两入口同义）。
+        if ((c.frameDelay ?? 0) > 0) queue.push(i + 1)
         continue
       }
 
-      // 其他命令:扫描所有字符串字段寻找 L_N 模式,再 fall-through
-      for (const v of Object.values(c)) {
-        if (typeof v === 'string') {
-          const t = parseLabel(v)
-          if (t !== null) queue.push(t)
-        }
-      }
+      // 其它具名命令仅顺序推进；text/人读名称/label 声明都不制造跳转。
       pushRawJumpTargets(c, i, queue) // 条件跳转 opcode 的数字 operand 目标
       queue.push(i + 1)
     }
@@ -145,13 +141,9 @@ export function sliceByScene(
       if (c.op === 'goto') {
         const t = parseLabel(c.to)
         if (t !== null) queue.push(t)
+        // 0x0003 的非零计数耗尽后推进 i+1（SDLPal trigger/auto 两入口同义）。
+        if ((c.frameDelay ?? 0) > 0) queue.push(i + 1)
         continue
-      }
-      for (const v of Object.values(c)) {
-        if (typeof v === 'string') {
-          const t = parseLabel(v)
-          if (t !== null) queue.push(t)
-        }
       }
       pushRawJumpTargets(c, i, queue) // 条件跳转 opcode 的数字 operand 目标
       queue.push(i + 1)

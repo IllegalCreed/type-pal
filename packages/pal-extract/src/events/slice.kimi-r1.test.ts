@@ -172,34 +172,31 @@ describe('KIMI-R1 sliceByScene globalEntries BFS 残余分支', () => {
     ])
   })
 
-  test('字符串字段扫描：text 恰为 L_N 入队、普通文本与数字字段不入队', () => {
+  test.each([
+    ['scene', 'dialogue'],
+    ['scene', 'item'],
+    ['global', 'dialogue'],
+    ['global', 'item'],
+  ] as const)('%s 的人读 %s 文本 L_N 不制造控制流边', (owner, kind) => {
+    const readable: Command =
+      kind === 'dialogue'
+        ? { op: 'showDialog', messageIndex: 1, text: 'L_3', label: 'L_1' }
+        : { op: 'giveItem', itemId: 61, count: 1, _item: 'L_3', label: 'L_1' }
     const commands: Command[] = [
-      { op: 'end' }, // 0 不可达
-      { op: 'showDialog', messageIndex: 1, text: 'L_3' }, // 1 ← global entry：text 命中 L_3
-      { op: 'raw', opcode: 0x0050, operands: [1, 2, 3] }, // 2 fall-through：op 串非标签
-      { op: 'end' }, // 3 ← L_3 目标
+      { op: 'end', label: 'L_0' },
+      readable,
+      { op: 'end', label: 'L_2' }, // 真终止阻断普通续行，3不能顺序抵达。
+      { op: 'raw', opcode: 0x14, operands: [9, 0, 0], label: 'L_3' },
+      { op: 'end', label: 'L_4' },
     ]
-    const result = sliceByScene(commands, [makeScene(0, 0)], [], [1])
-    expect(result.shared.segments[0]!.commands).toEqual([
-      { op: 'showDialog', messageIndex: 1, text: 'L_3' },
-      { op: 'raw', opcode: 0x0050, operands: [1, 2, 3] },
-      { op: 'end' },
-    ])
-    // 普通文本（非 L_N 模式）不制造可达性
-    const plain = sliceByScene(
-      [
-        { op: 'end' },
-        { op: 'showDialog', messageIndex: 1, text: '借过' },
-        { op: 'end' },
-        { op: 'end' },
-      ] as Command[],
-      [makeScene(0, 0)],
+    const result = sliceByScene(
+      commands,
+      [makeScene(owner === 'scene' ? 1 : 0, 0)],
       [],
-      [1],
+      owner === 'global' ? [1] : [],
     )
-    expect(plain.shared.segments[0]!.commands).toEqual([
-      { op: 'showDialog', messageIndex: 1, text: '借过' },
-      { op: 'end' },
-    ])
+    const expected: Command[] = [readable, { op: 'end', label: 'L_2' }]
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? expected : [])
+    expect(result.shared.segments[0]!.commands).toEqual(owner === 'global' ? expected : [])
   })
 })
