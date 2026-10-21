@@ -22,6 +22,8 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 2026-10-22 CLI主编排与事件测试窗口（执行中）
 
+主编排纯重构交付：script-entries只接受六种窄parsed域，16字段顺序/正值/别名逐句守恒；无runtime import，两个直接合同。CLI删除无reader Map与私有union死值，其余编译正文在替回collector后相同；raw6767/694与严格recompile守恒。主函数分支初筛73→51仍为热点，不以数字宣布关闭；当前74定向/TC及scoped静态0，最终统一门在代码冻结后集中执行。
+
 事件测试切片交付：boundaries五身份不增删，Scene/EO raw形状合法、EO末段用有序label逐个辨识；旧5绿/新4绿1业务红证实判别力。runtime-resource只修raw与范围头注，三防御用例的生产域未核，维持review；不修改两BFS或语义。
 
 CLI测试切片交付：两剩余套件统一已接受宿主、删无caller EntryRun.out和重复mkdir，完整独立PNG像素oracle与精确stderr；原14+2身份不变。所有迁移archive及SSS/WORD/DATA构造字节与e856旧工厂逐项相同；最终五代表hook各13绿1业务红，PNG旧绿/新单红原件齐。仍候选，不据小片触发coverage或关闭CLI。
