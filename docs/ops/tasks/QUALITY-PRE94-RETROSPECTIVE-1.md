@@ -1221,3 +1221,11 @@ CODE73四文件、CODE74三文件A–H接受，47→49accept、36→34partial、
 ### 2026-10-22 事件切分下一窗口用户授权
 
 用户先要求通俗解释，再明确回复“同意修复”：普通文字不作跳转、带计数goto保留结束后的续行。当前冻结CLI/测试窗口不混入这两项算法变化；下一窗口由Codex单Owner先红例后修，限场景/shared切片收集，不改字节码/all.json/存档/游戏机制。授权及未核边界见[控制流真值卡](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md)。
+
+### 2026-10-22 CLI IO有限build allowed
+
+Codex单一Coding Owner，同一3y，以399709863为本地基点、origin/main=9b4df7145且0behind。白名单cli.ts、内部io/write.ts与resources/music.ts、既有cli-isolated.glm-q.test.ts及证据/中央导航。仅把现有同合同写盘函数与音乐导出阶段搬出main，根路径显式传递；解析/日志/排序/落盘顺序/异常策略保持。补既有MIDI/OGG字节oracle，不新增弱用例。以搬移块/alpha AST及其余emitted JS守恒、真实隔离CLI输出核验；原盘只读，实际输出仅自有测试树。非原子整批事务、fallback和无效音乐名策略不在本片改动授权。与上一slice本地增量合并为相关卡窗口，统一门仍在窗口末集中执行。
+
+### 2026-10-22 相关卡窗口冻结
+
+冻结代码314fa5eb1，范围CODE3已批准两修复、3g音乐/写盘职责及输出所有权卡三登记缺口；当前3340/355closed/129review/2856pending，旧CLI-isolated透传信用因空MID有效反证先撤review，六文件候选不提前关闭。七IO文件八维及原件见[同一窗口入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md)。原3/3g保持partial：新增P3 raw7的Lost/Fleed两return缺边已有primary/合法probe/raw证据，用户裁决前停线，不能因为准备统一门就给slice或原卡accept。代码冻结后顺序全check、official fast ratchet带origin/main保护、同报告严格scope/protected比较；不是两轮重采，不改规则/选择。当前重门均待，不拿前窗main9b远端Docs/Coverage success替新代码授绿。

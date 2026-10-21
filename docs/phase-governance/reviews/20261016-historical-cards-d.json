@@ -3139,7 +3139,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
-      "coreConclusion": "Current CLI/event window local verified; related-card unified window remains open;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+      "coreConclusion": "Current CLI/event window frozen slice+CLI+output related-card window; gates pending; P3 awaiting decision;ledger 355/129/2856;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "a7d4c58581f778d4850f5a8e01afa5027895388649b58600e589341f8361e85d",
+      "afterSha256": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
       "revision": {
         "currentSha": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
-        "implementationSha": "a7d4c58581f778d4850f5a8e01afa5027895388649b58600e589341f8361e85d",
+        "implementationSha": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,8 +4148,8 @@
       "evidence": {
         "kind": "extract-four-card-scoped-current-review",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
-        "afterSha256": "a7d4c58581f778d4850f5a8e01afa5027895388649b58600e589341f8361e85d",
-        "lineCount": 928
+        "afterSha256": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
+        "lineCount": 930
       },
       "history": [
         {
@@ -4713,6 +4713,14 @@
           "action": "CLI-event-window-defensive-ledger-scope",
           "previousAfterSha256": "c66d4e4016ef455337f4ab486bc1f0dee71d743ac86e04856d71e694271daf7e",
           "afterSha256": "a7d4c58581f778d4850f5a8e01afa5027895388649b58600e589341f8361e85d",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-cli-io-freeze",
+          "previousAfterSha256": "a7d4c58581f778d4850f5a8e01afa5027895388649b58600e589341f8361e85d",
+          "afterSha256": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
         }

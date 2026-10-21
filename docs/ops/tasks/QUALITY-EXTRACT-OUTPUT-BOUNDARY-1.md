@@ -77,3 +77,7 @@ build allowed：仅上述三实现及新cli-entrypoint-paths.test.ts，一个明
 用户三项均成立：旧视频入口能经data或extracted链接覆盖六mp4，旧CLI绝对路径带目录链接静默exit0，raw确无声明中的独立caller检查。先冻结三旧实现/新测试，再实跑2文件8例：5绿/3指定业务AssertionError，无收集/环境诊断；修复后7文件41绿（5新直接/36相邻）和pal-extract typecheck零诊断。三实现各全文、包脚本/正式IO出口与Node22 fs primary已核，新191行测试全文；新旧运行时名字配对，raw/nativeJSON/hash/源码快照见[本片](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)。
 
 视频guard在ffmpeg/输出IO前，直接复用现有lstat不清理；argv通过realpath识别main，import无副作用与旧相对路径caller均绿；注释如实限定raw不属输出守卫。未改生成物、转码参数、资源格式、游戏API或schema/save，未引入ignore/断言弱化。CLI rework、视频/helper review维持，新测试review，3319 tracked/251 closed/103 review/2965 pending，0新增closed。原data缺失提示/非ENOENT/默认参数独立反控、视频编码/所有外部失败路径、内部文件链接/并发换链不在此切片验收。最终五docs消费者/lint/ledger看gates；不重复全包/check/official coverage/protected，依用户要求留大任务收尾，不合main。之后回pre94 40/41等未核模块与3w剩余域，94–102/editor继续后置。
+
+## 2026-10-22 三登记缺口的纯测试build allowed
+
+Codex单Owner，白名单output-boundary.test.ts、cli-entrypoint-paths.test.ts及本卡/证据。只补已有待核三轴：data根缺失必须抛原生ENOENT而非误当输出可创建；data为文件导致output lstat的ENOTDIR须原样传播；隔离复制CLI从其它入口import后无参prepareOutputRoot必须检查模块推导的data/extracted链接而非cwd。只使用自有临时树/链接/marker，production helper/CLI/video正文均冻结，保留现有正常/拒绝合同与fixture生命周期。与CLI IO/slice已批准增量合为窗口，重门集中末跑，不修改缺data的提示策略或转码合同。

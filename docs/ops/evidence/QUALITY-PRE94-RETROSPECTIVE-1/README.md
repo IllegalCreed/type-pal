@@ -383,3 +383,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 73/74原七文件A–H正式接受；当前49accept/34partial/0pending。上述输入音频候选入口现为完整收口回执，包含首轮严格coverage比较失败与精确实测调整、后继干净门；只读快检默认核冻结门，不重跑coverage。唯一fixture退役不计文件关闭，59仍partial按批准核合同。
 
 - [已批准的事件切分修复本地增量](event-slice-approved/README.md)：6业务红→53相邻绿/452包绿；纯遍历提取与raw静态影响，统一门待聚合，0新关闭。
+
+- [CLI IO与输出边界冻结窗口](cli-io-closeout/README.md)：两内部模块纯搬移，字节oracle与三登记缺口；统一门待，raw7战败/逃跑两接回边新停线，0提前关闭。

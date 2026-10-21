@@ -35,8 +35,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,338。
-当前已闭合核验：356；已读但待审：126；尚未逐文件核验：2,856；合计未闭合：2,982。
+起始基点机器清单：2,962。当前 tracked 清单：3,340。
+当前已闭合核验：355；已读但待审：129；尚未逐文件核验：2,856；合计未闭合：2,985。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -555,7 +555,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/io/msg.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
 | `packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
 | `packages/pal-extract/src/resources/sprite.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
-| `packages/pal-extract/src/cli-isolated.glm-q.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
+| `packages/pal-extract/src/cli-isolated.glm-q.test.ts` | test | review | [CLI IO字节反控及补强](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 旧6绿放过空MIDI，新5绿1指定红；恢复38绿，统一门后重验，不承袭旧关闭 |
 | `packages/pal-extract/src/cli-font-lookup.glm-q.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
 | `packages/pal-extract/src/events/script-entries.ts` | product | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |
 | `packages/pal-extract/src/events/script-entries.test.ts` | test | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |
@@ -564,6 +564,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/events/slice.kimi-r1.test.ts` | test | review | [已批准slice本地八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json) | 6业务红后53/452绿，纯遍历去重；本窗统一门待聚合，不授新关闭或单片运行信用 |
 | `packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts` | fixture | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体八维缺口维持review；不以统一门全绿或新路径自动关闭 |
 | `packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts` | fixture | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体八维缺口维持review；不以统一门全绿或新路径自动关闭 |
+| `packages/pal-extract/src/io/write.ts` | product | review | [CLI IO当前有限八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 内部纯搬移候选；统一门前不关闭 |
+| `packages/pal-extract/src/resources/music.ts` | product | review | [CLI IO当前有限八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 内部纯搬移候选；统一门前不关闭 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

@@ -1,0 +1,659 @@
+{
+  "schemaVersion": 1,
+  "state": "frozen related-card window; whole gates pending",
+  "owner": "Codex single agent",
+  "base": "399709863d5eced20eba4698d169c23f9e61702f",
+  "collectedCodeCommit": "314fa5eb1138fb734442367888981a0e82f95827",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "33e00dd6737c5feaa537736b54e1a82795ccc45503586418f5ee97dce79b78b2",
+      "lines": 819,
+      "dimensions": {
+        "A": "全文872行+当前搬移差异；根输出拒绝/显式失败与manifest最后不变，16入口收集及all.json保持；整批写盘非事务、部分资源fallback仍不授重新设计或整文件关闭。",
+        "B": "更正all.json生产默认、font实际路径和tilemap路径头注；音乐历史说明移到实际阶段；其它资源历史注释不整体重签。",
+        "C": "音乐阶段收窄为两个根路径，写盘函数归独立IO模块；main仍承载其它资源编排，继续rework。",
+        "D": "仅共用同合同mkdir+serialize/write；没有合并不同资源的解码/skip/fallback政策。",
+        "E": "六套真实CLI38绿、旧MIDI空文件6绿/新5绿1指定业务红；AST证明原阶段与余下CLI正文等价。",
+        "F": "main使用writeMusicAssets阶段名，不塞上下文对象；仍有可改善的大函数结构，不用长度变短授accept。",
+        "G": "原两个本地writer删除、RIX import随阶段迁移；未留无reader数组或多余接口。",
+        "H": "阶段可在自有树运行，文件操作可真实观察；余下IO仍以真实进程/全管线合成验证，非所有真实raw全提取。"
+      },
+      "decision": "rework"
+    },
+    {
+      "path": "packages/pal-extract/src/io/write.ts",
+      "sha256": "664539a20d5a23f296dcaeb08e54d32cba0a4789fc5fc8feb56b7de0bffbda77",
+      "lines": 13,
+      "dimensions": {
+        "A": "旧两个writer正文逐句同；同步mkdir递归后写，原异常向CLI main catch传播；调用方负责拥有输出树。",
+        "B": "头注说明内部IO与ownership，不冒称原子提交、数据校验或路径confinement。",
+        "C": "仅文件写入，不负责资源命名/解析/清理；目录/JSON/字节写是同一局部IO职责。",
+        "D": "CLI各资源与音乐阶段确有相同mkdir/serialize/write合同，无模式参数和宽上下文。",
+        "E": "正文守恒、真实CLI38以及20边界相邻；不加只复述writeFileSync的mock次数测试。",
+        "F": "两个函数名/参数表达写入类型，代码只保留必要顺序。",
+        "G": "两个出口各有真实caller；无新默认、缓存、fallback、未来抽象。",
+        "H": "通过显式路径在拥有的临时树中观测真实文件；无隐藏根目录/时钟/共享状态。"
+      },
+      "decision": "candidate; whole gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/music.ts",
+      "sha256": "dd488c3e3d1485de41f15d8a9fc95866a2c294d34a9fb8d9e0436b649de65926",
+      "lines": 39,
+      "dimensions": {
+        "A": "只搬已有文件名/排序/字节透传与RIX头检查政策，两个根路径来自原CLI常量；错误仍抛出，无新格式/资产生成语义。",
+        "B": "头注限于RIX既有header check，不冒称完整音频格式验证；保留小写mus.mkf原因。",
+        "C": "音乐导出单一职责，局部midiNums/cdTracks独占；原始资源读与该阶段落盘集中，main只调用。",
+        "D": "音乐阶段与通用写盘复用有同一失败/同步生命周期合同，不合并各codec解码策略。",
+        "E": "MIDI/OGG字节独立常量oracle+原始RIX全字节；空MID针旧全绿新单红；原块alpha一致。",
+        "F": "rawRoot/outputRoot直接揭示来源；没有注入万能上下文或布尔模式。",
+        "G": "保留实际有用的排序、稀疏track检查和manifest；无死参数，返回值void符合真实caller。",
+        "H": "两个显式目录支持真实临时树测试；不需要全局RAW/OUT或monkeypatch fs；canonical音乐目录本机缺失，未声称真实完整音乐导出。"
+      },
+      "decision": "candidate; whole gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "42e74aab061c667d84ca37bd62f54480d84e1177c22b40edffeed0e709906c66",
+      "lines": 459,
+      "dimensions": {
+        "A": "全文457行+两断言；现有合法表/图像结构、音频仅opaque字节传输；测试自有树与明确停止阶段，不认证音频codec。",
+        "B": "原头注正确区分共享宿主与业务oracle，不把空archive回归当真实非空资源；本次无标题变化。",
+        "C": "业务输入/断言留套件；树/子进程/在途释放仍由既有cliHost负责。",
+        "D": "保留六个不同阶段/拒绝合同，不将表/图像样本强行合万能fixture。",
+        "E": "两个新全字节等式补旧仅exists的漏判；旧六身份/所有旧断言保留；当前原生38含其6绿，空MID新1指定红。",
+        "F": "MIDI7/OGG2独立常量直接表达传输合同，不从产物计算期望。",
+        "G": "0增删测试，无skip/only/新强转或弱化；旧已验证因直接oracle反证先撤review，统一门后重新裁定。",
+        "H": "真实CLI复制源码、close后读文件；没有mock文件系统或以calls数替代字节正确性。"
+      },
+      "decision": "candidate; whole gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.ts",
+      "sha256": "2b7f92f1d5713dd9d1753c14917dca80582add06f304712be857d1cc4e6a0bdd",
+      "lines": 25,
+      "dimensions": {
+        "A": "25行全文；仅核data与extracted两节点，data缺失ENOENT抛、output缺失允许、其它lstat错误抛；不会创建/清理；不认证子项/并发换链。",
+        "B": "raw明确为只读输入且不在该guard；节点检查边界与用户批准A一致。",
+        "C": "共享输出策略Owner单一；两个真实入口CLI/视频共用，不把编码/格式策略放进guard。",
+        "D": "lstat节点语义/错误传播/同步生命周期完全相同，无模式分叉。",
+        "E": "既有真实root/data symlink产品红绿复用；新ENOTDIR真实原生错误+4绿1AssertionError，非权限不稳定mock。",
+        "F": "短顺序guard显式两个节点和允许的ENOENT例外，无隐式全局。",
+        "G": "每个分支对应批准策略；不加force/ignore/更宽catch，不声称解决所有文件系统race。",
+        "H": "显式路径与自有临时树可测；真正lstat负例，不靠mock对象相等自证。"
+      },
+      "decision": "candidate; whole gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.test.ts",
+      "sha256": "367ed813ba41b1797c0c4928d42745aa64f36384fb7c66e53aab26f582f11ea7",
+      "lines": 86,
+      "dimensions": {
+        "A": "5例都在自有树：2新原生错误对实际canonical data/extracted路径，3旧普通/根父链接合同保留。",
+        "B": "标题明确缺data与缺output不同、ENOTDIR不等于允许创建；未承诺友好消息或对象reference identity。",
+        "C": "mkdtemp后立即登记Owner，mkdir失败也能afterEach回收；每次独立树无共享可变业务fixture。",
+        "D": "复用一个短makeTree，错误反例各自造真实路径形态，无模式万能helper。",
+        "E": "errno/syscall/path精确匹配且marker/目录无写入；宽吞errno变异仅该ENOTDIR例红，collection和环境失败不计。",
+        "F": "catch只捕获unknown供业务等式判定，未抛时undefined会使断言失败。",
+        "G": "新增2必要错误合同，无弱覆盖例；不添加权限EACCES不稳定测试。",
+        "H": "真实fs，无mock/计时；精确清理已登记临时根而非父目录。"
+      },
+      "decision": "candidate; whole gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+      "sha256": "77d75e081d309cde9a917308ac2407fa136690ce42e71b7bf015c9f4fdbf5519",
+      "lines": 215,
+      "dimensions": {
+        "A": "全文191行+新增默认参数例；复制src/scripts/pkg，自有raw/视频/链接目标和fake ffmpeg；不执行真实编码。",
+        "B": "首注明确fake只代编码；新标题说明默认路径来自import模块，非cwd；不声称正常输入来自真实AVI。",
+        "C": "树先登记再复制，spawnSync校验error/signal；所有输出/二进制/trace在同一自有根。",
+        "D": "复用现有makeTree/run，不再加一份spawn/copy/回收宿主。",
+        "E": "默认prepare从不同cwd/entry import，完整错误stdout+marker+无ffmpeg；错用cwd的output默认值仅该例红，5旧例绿。",
+        "F": "新runner只调用公共prepare seam、明确成功/拒绝两分支，故guard静默不执行不能伪绿。",
+        "G": "5旧身份保留，新增1默认路径合同；无新timeout、规则、排除或编码假oracle。",
+        "H": "真实进程/路径解析/lstat，fake不替代guard；完整stderr和退出状态可观察。"
+      },
+      "decision": "candidate; whole gates pending"
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95",
+      "readScope": "unchanged full prior host evidence and current interface reused"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rix.ts",
+      "sha256": "769745e4f7e176fa5ef24d7120d0d6aa8e4651718420ae77a135604edf09e91e",
+      "readScope": "full current14lines; header/track check only"
+    },
+    {
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "sha256": "0c149a276bca4fe592142ddfeef06c2268c1642e03dcf05883f5292cbbc22218",
+      "readScope": "full current132lines as second guard caller; no codec/full-script acceptance"
+    },
+    {
+      "path": "packages/pal-extract/package.json",
+      "sha256": "c267ca338e26c4a5e0a4b24bde218bf32f16adfcb1f122cb689b04d07f229f34",
+      "readScope": "full current private package and entry scripts"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45",
+      "readScope": "root extract/check/coverage actual entrypoints; unchanged except prior progress wiring"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87",
+      "readScope": "P3 current resumePostBattleScript1716-1753, loss/flee ownership only"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0",
+      "readScope": "unchanged full previous read, production default global array; no per-file execution claim"
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "cacf6a313be2ab3298fb74be07825c12d43c9b21505301a7c037102b28b1bee4",
+      "readScope": "P3 fields label and scalar target table omission of7"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "e9f628cd665d70f738f44cb0216a9dcf3f8f60a3c853da465b620f584414033b",
+      "readScope": "P3 emitCommand default to raw7 and label creation; byte roundtrip checked"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "readScope": "P3 3314-3333 current primary read, no original game execution"
+    }
+  ],
+  "runs": [
+    {
+      "id": "move-proof",
+      "exit": 0
+    },
+    {
+      "id": "cli-stage",
+      "exit": 0,
+      "passed": 38,
+      "failed": 0,
+      "failedNames": []
+    },
+    {
+      "id": "stage-types",
+      "exit": 0
+    },
+    {
+      "id": "music-empty-old-test",
+      "exit": 0,
+      "passed": 6,
+      "failed": 0,
+      "failedNames": []
+    },
+    {
+      "id": "music-empty-strong-test",
+      "exit": 1,
+      "passed": 5,
+      "failed": 1,
+      "failedNames": [
+        "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝"
+      ]
+    },
+    {
+      "id": "boundary-gaps",
+      "exit": 0,
+      "passed": 20,
+      "failed": 0,
+      "failedNames": []
+    },
+    {
+      "id": "boundary-errno-counter",
+      "exit": 1,
+      "passed": 4,
+      "failed": 1,
+      "failedNames": [
+        "assertOwnedOutputRoot propagates output ENOTDIR without changing the blocking data file"
+      ]
+    },
+    {
+      "id": "default-path-counter",
+      "exit": 1,
+      "passed": 0,
+      "failed": 6,
+      "failedNames": [
+        "video entrypoint refuses shared data before invoking ffmpeg or changing its target",
+        "video entrypoint refuses shared extracted before invoking ffmpeg or changing its target",
+        "owned video output accepts read-only raw links, writes six outputs and then skips them",
+        "absolute CLI entrypoint through a directory link executes main instead of silently exiting zero",
+        "importing CLI from a different real entrypoint stays side-effect free",
+        "default prepareOutputRoot checks the imported CLI tree, independently of process cwd"
+      ]
+    },
+    {
+      "id": "default-path-counter-restored",
+      "exit": 1,
+      "passed": 5,
+      "failed": 1,
+      "failedNames": [
+        "default prepareOutputRoot checks the imported CLI tree, independently of process cwd"
+      ]
+    },
+    {
+      "id": "boundary-counters",
+      "exit": 1
+    },
+    {
+      "id": "default-restored",
+      "exit": 0
+    },
+    {
+      "id": "battle-return-counter",
+      "exit": 1
+    },
+    {
+      "id": "move-proof-frozen",
+      "exit": 0
+    }
+  ],
+  "acceptedAfterGates": [
+    "packages/pal-extract/src/io/write.ts",
+    "packages/pal-extract/src/resources/music.ts",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+    "packages/pal-extract/src/output-boundary.ts",
+    "packages/pal-extract/src/output-boundary.test.ts",
+    "packages/pal-extract/src/cli-entrypoint-paths.test.ts"
+  ],
+  "newClosures": 0,
+  "gates": [],
+  "ledger": {
+    "total": 3340,
+    "closed": 355,
+    "review": 129,
+    "pending": 2856
+  },
+  "artifact": {
+    "member": "native.json.gz",
+    "sha256": "086f924e47f50834b215f1c113e954d998816a4eb45e9ef4c0ac03b06d2dcd37",
+    "members": [
+      {
+        "name": "battle-return-counter.execution.json",
+        "bytes": 1263,
+        "sha256": "65df388f73dec81685684977985dbccfef52dbbddc94d018397bb41718e9bbd7"
+      },
+      {
+        "name": "battle-return-counter.json",
+        "bytes": 215544,
+        "sha256": "cce9af032629f6d1d9a711ea03401d91a38678e1d78b12254910b9ea7b52d4fa"
+      },
+      {
+        "name": "battle-return-counter.stderr.raw",
+        "bytes": 1657,
+        "sha256": "dc36850ffaee23480e3a37deeefd6139bd515edb4cdeec31727c6efe2963b453"
+      },
+      {
+        "name": "battle-return-counter.stdout.raw",
+        "bytes": 39125,
+        "sha256": "8804fd468aba4515dd1e334b5aa7ac92f26edc0936099d6283bbad313315a566"
+      },
+      {
+        "name": "battle-return-probe.mts",
+        "bytes": 4756,
+        "sha256": "aac8e2f70b142837ec7e34cc899ed91a6b3ba1f39e8c3ce08cccacafe3e71acf"
+      },
+      {
+        "name": "boundary-counters.execution.json",
+        "bytes": 1805,
+        "sha256": "619e2c4161749a18532da1c9c11255f5c0f9542fde4d48d1f0695fe20fda7afd"
+      },
+      {
+        "name": "boundary-counters.mjs",
+        "bytes": 4273,
+        "sha256": "a2b04e8acab249513060adc791f84c712ac6351de21caef4a1cd9e8b1115a943"
+      },
+      {
+        "name": "boundary-counters.stderr.raw",
+        "bytes": 422,
+        "sha256": "b6c8f22d26b74e90e50c21abd985ae21c2a471053783d89dca2d38d9346f6c66"
+      },
+      {
+        "name": "boundary-counters.stdout.raw",
+        "bytes": 159,
+        "sha256": "6a430296ec480f630d613863f444ae720eb4a7064f54279a3980c8a3699df22e"
+      },
+      {
+        "name": "boundary-errno-counter.execution.json",
+        "bytes": 3348,
+        "sha256": "76dcbaf0840b52c594488221e3851771ae670f6d8de48043a8d0e82657772150"
+      },
+      {
+        "name": "boundary-errno-counter.native.json",
+        "bytes": 3984,
+        "sha256": "6f74f1f17df5944ec9abaae6f449a3bce6e23bff3c5503d5b1f543613df5709d"
+      },
+      {
+        "name": "boundary-errno-counter.patch",
+        "bytes": 160,
+        "sha256": "fd8b927c4662a7be9bcf58d9c6e169aa2db9b533c7a6e58f1c24d7e4ead31c9e"
+      },
+      {
+        "name": "boundary-errno-counter.stderr.raw",
+        "bytes": 871,
+        "sha256": "bfe6add99ac59d37028b2b646f83cbe7b663f162b74563c53bcfcb0c7e93e9b1"
+      },
+      {
+        "name": "boundary-errno-counter.stdout.raw",
+        "bytes": 896,
+        "sha256": "6613bc6e718f41bf68a065de58bbcb635c6176ed6d14c2f5ccecb906e6433d7b"
+      },
+      {
+        "name": "boundary-errno-counter.unified.patch",
+        "bytes": 359,
+        "sha256": "131ba69985e6cec173ad50f731496531ad831b411153ff33da5d4d28f0274700"
+      },
+      {
+        "name": "boundary-gaps.execution.json",
+        "bytes": 2096,
+        "sha256": "1e94807281176f9b364468b09bc2768b4559c344cfde1f39fe0daf69a7b080af"
+      },
+      {
+        "name": "boundary-gaps.native.json",
+        "bytes": 7041,
+        "sha256": "b63928df4aef37e8a96a32f0905dfc237dd8717e749795023011209603b19579"
+      },
+      {
+        "name": "boundary-gaps.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "boundary-gaps.stdout.raw",
+        "bytes": 1940,
+        "sha256": "64f69c0d9797720f28bd3e34172bb373b0a69bfeb2173d5a08b7675549b4fdbb"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 7479,
+        "sha256": "4739bb5c1c46b002a3f933723b6c04a0bcdb9dd25b72c8d535efc0c21ac68a1b"
+      },
+      {
+        "name": "cli-stage.execution.json",
+        "bytes": 2148,
+        "sha256": "697d548ae5be52edc630dec65c93c412c1445c4d4b9ab2e7c13ca65ca926abe0"
+      },
+      {
+        "name": "cli-stage.native.json",
+        "bytes": 12039,
+        "sha256": "c89c3bef2b676d20502d61685e83cdbf2458f83fd82cce52171609f446b0dc29"
+      },
+      {
+        "name": "cli-stage.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cli-stage.stdout.raw",
+        "bytes": 3846,
+        "sha256": "d3dfdbe6c25fd31b20531a9cd3d67c0d30a96d39e53f652a6608deab29e05705"
+      },
+      {
+        "name": "counters.json",
+        "bytes": 4053,
+        "sha256": "9451e670142bbb8e3849b8e0ab4b4610a23f7fe0f5f0cfd344b8fa43b8504969"
+      },
+      {
+        "name": "default-counter-restored.json",
+        "bytes": 3515,
+        "sha256": "3840af02d3e2c7db7a0041ff989e4e7ce9a9b12a65834273bbc2b13b3d543f23"
+      },
+      {
+        "name": "default-counter-restored.mjs",
+        "bytes": 4190,
+        "sha256": "27d1092434b7944dfce6ffafa64e71f0c38f948eb6272d7871ba278a21c78288"
+      },
+      {
+        "name": "default-path-counter-restored.execution.json",
+        "bytes": 3303,
+        "sha256": "e77b6f7d4e90d8abf3d85ac46eb23fcb5aa1a1fd99c4392bffbb71345045ae53"
+      },
+      {
+        "name": "default-path-counter-restored.native.json",
+        "bytes": 4163,
+        "sha256": "803e8b78737c97ef843249b41e5b5ea60dc3c154274628d8daed1656503b24c1"
+      },
+      {
+        "name": "default-path-counter-restored.patch",
+        "bytes": 168,
+        "sha256": "2ac35751056794e8aff33ff4cfaf6e1d58593d815b61cba3402627827daaea6c"
+      },
+      {
+        "name": "default-path-counter-restored.stderr.raw",
+        "bytes": 892,
+        "sha256": "2b777d822d362c40f3ce07a704bb3f1c435ab19ce12a2278380c84b8d7005d50"
+      },
+      {
+        "name": "default-path-counter-restored.stdout.raw",
+        "bytes": 1108,
+        "sha256": "8ad6f877b9474fc4e7bd5223c41563ad89fc1bd5cdf1c8db9ca8d3cee88c5c59"
+      },
+      {
+        "name": "default-path-counter-restored.unified.patch",
+        "bytes": 539,
+        "sha256": "274a4cd986ba67d1df808afb8bbf38a38fc66cc0d56e5ab7e3fef3d417e78a7b"
+      },
+      {
+        "name": "default-path-counter.execution.json",
+        "bytes": 12418,
+        "sha256": "ba047189d30ba5e68b9c4c255804e70c140c4bf7112a051946c161bf962e52fb"
+      },
+      {
+        "name": "default-path-counter.native.json",
+        "bytes": 11589,
+        "sha256": "426c2e7b71c95a608cf6c9e33ea73892ad3e0933e70926f01913f8f10e9b8ab2"
+      },
+      {
+        "name": "default-path-counter.patch",
+        "bytes": 168,
+        "sha256": "2ac35751056794e8aff33ff4cfaf6e1d58593d815b61cba3402627827daaea6c"
+      },
+      {
+        "name": "default-path-counter.stderr.raw",
+        "bytes": 4091,
+        "sha256": "1a8716b3a5809e96528452248fa318487ef911d8e7560624641d88406dabe66f"
+      },
+      {
+        "name": "default-path-counter.stdout.raw",
+        "bytes": 1070,
+        "sha256": "df69fa31646c9c45a385b693ea3a8de055cffd4705054d28cd5ab020d828823f"
+      },
+      {
+        "name": "default-path-counter.unified.patch",
+        "bytes": 539,
+        "sha256": "274a4cd986ba67d1df808afb8bbf38a38fc66cc0d56e5ab7e3fef3d417e78a7b"
+      },
+      {
+        "name": "default-restored.execution.json",
+        "bytes": 1365,
+        "sha256": "72417bec0da154188f523f74eb03496d4999a4f1dbcfb599a22e3bd6a235d033"
+      },
+      {
+        "name": "default-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "default-restored.stdout.raw",
+        "bytes": 163,
+        "sha256": "5cdf982779677f05f8abc78b69c9f615b2b58ffeb361dc1c52532aa32aaee363"
+      },
+      {
+        "name": "move-proof-frozen.execution.json",
+        "bytes": 1563,
+        "sha256": "defe875adf3246883dfe7f02ce1f86c2940046860e39e3e97c89bf0b7ab969d8"
+      },
+      {
+        "name": "move-proof-frozen.json",
+        "bytes": 892,
+        "sha256": "13e58f76689fc0659dcdc0e0e90bff407def22078b4b7a73b8aee978f3cd9628"
+      },
+      {
+        "name": "move-proof-frozen.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "move-proof-frozen.stdout.raw",
+        "bytes": 840,
+        "sha256": "b5f1f98d92feef19240783e23c36bedd84b70d2bb51a3967fcabfe1f105d9b87"
+      },
+      {
+        "name": "move-proof.execution.json",
+        "bytes": 1712,
+        "sha256": "8fdbe86a73632b98bfb50da89809e9debc368311b3988c80846bdd743b26d568"
+      },
+      {
+        "name": "move-proof.json",
+        "bytes": 637,
+        "sha256": "cd71fefba0d91fa25c8f3799dc33b7d191f739d74ef9136897c70d1957e22b99"
+      },
+      {
+        "name": "move-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "move-proof.stdout.raw",
+        "bytes": 604,
+        "sha256": "91b00cc7b4e1e81896ee313ecad55cab50dda1403660be65700b194fc06e2c11"
+      },
+      {
+        "name": "music-block.txt",
+        "bytes": 1910,
+        "sha256": "eeae3dabfb17278620c7902894921eb67115a8924237288b5eb67b96d81d61ad"
+      },
+      {
+        "name": "music-counters.execution.json",
+        "bytes": 1728,
+        "sha256": "d6c17e0cc0a2ee5410bcdaa6a56cb849fcdd5e2a7069a77ec1819c5b140ee04d"
+      },
+      {
+        "name": "music-counters.mjs",
+        "bytes": 4475,
+        "sha256": "4a38d39b4330c2870607f81c3b125fb569a18205b75255e12882a55c5936c761"
+      },
+      {
+        "name": "music-counters.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "music-counters.stdout.raw",
+        "bytes": 271,
+        "sha256": "223091c773eb93a5a3722314dbfe5b64675e12535212e47cf8e2dfb17e4a0bac"
+      },
+      {
+        "name": "music-empty-old-test.execution.json",
+        "bytes": 1414,
+        "sha256": "15c9284fe9edc720338723309214619dadd005e3e6003ae178c46fcceec40ac7"
+      },
+      {
+        "name": "music-empty-old-test.native.json",
+        "bytes": 2860,
+        "sha256": "72401656703cdb0456c0bb11dd1fc497efe7a577cc7f831bb4bd8ca7c317832c"
+      },
+      {
+        "name": "music-empty-old-test.patch",
+        "bytes": 265,
+        "sha256": "1dff39f58fb3b4a607e1b77920b5d78c03b821fc25615d1a2b3a973ece999d92"
+      },
+      {
+        "name": "music-empty-old-test.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "music-empty-old-test.stdout.raw",
+        "bytes": 1244,
+        "sha256": "48f7e5499101438dbbcbca2da7485df7866792b951b7cf88faf582791d829330"
+      },
+      {
+        "name": "music-empty-strong-test.execution.json",
+        "bytes": 2294,
+        "sha256": "42eb530a068b3737fb5227fec4f5df107d57709ff8336bde4f14c4eaee47692e"
+      },
+      {
+        "name": "music-empty-strong-test.native.json",
+        "bytes": 3354,
+        "sha256": "047fd097048f0489527886360ce76e48a44ac3bc52f4471f8d17002292eb5604"
+      },
+      {
+        "name": "music-empty-strong-test.patch",
+        "bytes": 265,
+        "sha256": "1dff39f58fb3b4a607e1b77920b5d78c03b821fc25615d1a2b3a973ece999d92"
+      },
+      {
+        "name": "music-empty-strong-test.stderr.raw",
+        "bytes": 1014,
+        "sha256": "52f10b28cb1059d5d65219af95bff8a859381c1d33757bf4b7f4aab394adb274"
+      },
+      {
+        "name": "music-empty-strong-test.stdout.raw",
+        "bytes": 1267,
+        "sha256": "1591be3c535b271bf2f14e2aa5edc7f1d37d2f79bfd19dd429c499aa1a0c6977"
+      },
+      {
+        "name": "prove-move-frozen.cjs",
+        "bytes": 3013,
+        "sha256": "2994fc23055f6445ab4f9d6358a31e85500690ef9de305afde8d7502b400cb82"
+      },
+      {
+        "name": "prove-move.cjs",
+        "bytes": 2849,
+        "sha256": "6fa9c9cea3df1229e106fa6d4db9a91b7e65f2b01b4ae09f0820ce8266a4c930"
+      },
+      {
+        "name": "run-battle-probe.mjs",
+        "bytes": 184,
+        "sha256": "1b694bff26df047a2d9c1f488de1015088f1b387ff01234d93666ed8d3d67859"
+      },
+      {
+        "name": "stage-types.execution.json",
+        "bytes": 1679,
+        "sha256": "b80d28968fb7d14669bc6c38450020bf53c02e6a4a403f620bb54fef17a9dbab"
+      },
+      {
+        "name": "stage-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "stage-types.stdout.raw",
+        "bytes": 139,
+        "sha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440"
+      },
+      {
+        "name": "write-block.txt",
+        "bytes": 300,
+        "sha256": "67f16db8788580bb1c38de15e97354cae04d5de517440f9f04e67e055e19d906"
+      }
+    ]
+  },
+  "processDisclosure": "Initial default-path-counter had six ENOENT copy errors because scripts/ was not copied by the counter harness; no business counter credit. Original native/streams retained. Recovery copied scripts and gives5green/1exact business AssertionError. boundary errno initial4green/1business AssertionError remains valid. No source/selection/timeout/console rule weakening.",
+  "stopLine": "P3 raw0x07 lost/fled return collection newly disproved; same existing high-risk control truth card, user question pending; no implementation changes for it. CODE3/slice/current main test remain review.610 reachable nonzero raw return edges,609 missing membership, only3unique targets; no609game-failure claim.",
+  "limitations": [
+    "No full real extraction: local data/raw/Musics is absent. Valid synthetic CLI observes byte transfer and output graph, not audio/video codec validity.",
+    "No new video codec/partial output/mtime policy, atomic directory transaction or abnormal MIDI naming policy.",
+    "Shared primary worktree and user mobile changes untouched; all dependencies resolve into governance worktree.",
+    "Source2new modules are internal to private package; no format,argv,save or public package export change.",
+    "Both cards3/3g remain partial until their actual remaining key gaps close; six bounded file candidates do not imply card acceptance."
+  ],
+  "predecessorCI": {
+    "commit": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
+    "coverageRun": "https://github.com/IllegalCreed/type-pal/actions/runs/39639678308",
+    "conclusion": "success",
+    "documentationRun": "https://github.com/IllegalCreed/type-pal/actions/runs/39639678390",
+    "claimScope": "Actual predecessor CI conclusion, not zero platform annotations or current-source gate credit."
+  }
+}

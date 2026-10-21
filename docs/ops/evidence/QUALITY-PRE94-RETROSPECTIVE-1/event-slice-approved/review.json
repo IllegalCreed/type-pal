@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "state": "local verified; related-card unified window remains open",
+  "state": "frozen slice+CLI+output related-card window; gates pending; P3 awaiting decision",
   "owner": "Codex single agent",
   "base": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
-  "sourceCommit": "976c0ce5cf56ad17269aedae63be2b81f04cbef7",
+  "sourceCommit": "314fa5eb1138fb734442367888981a0e82f95827",
   "behaviorCommit": "2ad4c36e953cb38063179a659e51171b9ed33f96",
   "refactorCommit": "e016c27a3d1dfdff819a1dbdc09dd30ac3726dd2",
   "files": [
@@ -62,8 +62,8 @@
   "contextPins": [
     {
       "path": "packages/pal-extract/src/cli.ts",
-      "sha256": "bac28a79a32548695a368fbd37e49efbe567cd5dfe1d9052e87102b5b9906fa0",
-      "readScope": "only current production caller line244 and collector domain; reuse full previous CLI window"
+      "sha256": "33e00dd6737c5feaa537736b54e1a82795ccc45503586418f5ee97dce79b78b2",
+      "readScope": "only current production caller line244 and collector domain; reuse full previous CLI window; current IO move delta full read, remaining body exact"
     },
     {
       "path": "packages/pal-extract/src/events/opcodes.ts",
@@ -107,9 +107,9 @@
     }
   ],
   "ledger": {
-    "total": 3338,
-    "closed": 356,
-    "review": 126,
+    "total": 3340,
+    "closed": 355,
+    "review": 129,
     "pending": 2856
   },
   "newClosures": 0,
@@ -543,7 +543,8 @@
     "Kimi/runtime-resource defensive input domain and duplicates remain review",
     "slice typed tuple/total sceneCount fallback simplification candidate only",
     "CLI IO/fallback/ownership remaining review; next rolling scope",
-    "94–102 not expanded"
+    "94–102 not expanded",
+    "P3 raw7 loss/flee branches newly disproved, unapproved and not implemented; CODE3 remainspartial."
   ],
   "staticResults": "five docs consumers0issues; progress issues=[];lint5751 files0errors/0warnings/0infos;ledger3338/356/126/2856;diff --check empty;0stdout diagnostic blocks in53/452 runs",
   "identityMigration": [
@@ -559,5 +560,17 @@
       "reason": "Old L_3 and raw operand3 were both reachable by normal fall-through, so neither could distinguish false control edges. Four replacements insert a real end before the distinct target and preserve human payload; ordinary non-label showDialog fall-through remains the first Kimi case. Raw numeric control behavior retains the existing opcode-table contracts. No prior effective negative oracle is claimed lost or silently inherited.",
       "authorization": "User retained test-quality rule2026-10-03: proved weak/no-business/duplicate cases must be strengthened or simplified; current explicit two-fix approval2026-10-22. Not covered by an unrelated old blanket retirement header."
     }
-  ]
+  ],
+  "sourceHistory": [
+    {
+      "previous": "976c0ce5cf56ad17269aedae63be2b81f04cbef7",
+      "current": "314fa5eb1138fb734442367888981a0e82f95827",
+      "reason": "Only CLI IO pure stage/writers + existing tests changed; original slice files unchanged. move-proof binds old/new CLI body."
+    }
+  ],
+  "ioWindow": {
+    "path": "../cli-io-closeout/review.json",
+    "sha256": "fba8f588270d32ffccb6ee7049289949f39bff09dc6951df9cc71cda777d061e",
+    "previousCliSha256": "bac28a79a32548695a368fbd37e49efbe567cd5dfe1d9052e87102b5b9906fa0"
+  }
 }
