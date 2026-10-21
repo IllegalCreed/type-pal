@@ -1472,7 +1472,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "c36d7462078ca5fac52350a5ecbacfb5daa7b5343df0b2a91e4ed45e1e10cc24",
+      "afterSha256": "962ac37b9b045335dfec11ae91e3c2808523ad3e6930c4803fd14688ae056150",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3672,6 +3672,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S24",
       "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24-evidence-intake",
+      "action": "Exact current pins for forwarded GLM pilot evidence acceptance and owner disposition only; no new content/template/execution credit.",
       "nonAuthorReviewer": false
     }
   ]

@@ -21,9 +21,9 @@
         "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md:122"
       ],
       "unresolved": [
-        "Native-format author pilot is not independent acceptance; needs-migration retained."
+        "GLM accepted S24 pilot evidence only; needs-migration remains unchanged pending separately admitted body-migration scope."
       ],
-      "nextStep": "Evidence acceptance of these three native candidates; preserve unresolved historical sources and all no-execution boundaries. No bulk migration or full done.",
+      "nextStep": "Owner defines a separate, source- and consumer-qualified historical JSON migration package; do not expand the three-path pilot or change needs-migration from this evidence acceptance.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-additional-attachments",
@@ -139,8 +139,8 @@
       "counterReworkBlocked": [
         {
           "id": "S24-NATIVE-PILOT",
-          "status": "awaiting-independent-acceptance",
-          "statement": "Author model/preservation checks passed; needs-migration stays pending and no new semantic or execution credit."
+          "status": "closed-for-pilot-evidence-only",
+          "statement": "GLM non-author evidence acceptance received for candidate 4d39c2f4c; see s24NonAuthorEvidenceAcceptance. No template migration, new semantic or execution credit."
         }
       ],
       "templateCompletionCorrection": {
@@ -156,7 +156,7 @@
         "owner": "Codex",
         "nonAuthorReviewer": false,
         "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
-        "scope": "Three fixed-source native pilots with actual typed consumers; old semantic status reused, template acceptance still pending."
+        "scope": "Codex author qualification of three fixed-source native pilots; GLM evidence acceptance recorded separately at s24NonAuthorEvidenceAcceptance. Existing semantic status and needs-migration unchanged."
       },
       "templateVariant": "historical-document-relocation-v1"
     },
@@ -176,9 +176,9 @@
         "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md:120"
       ],
       "unresolved": [
-        "Native-format author pilot is not independent acceptance; needs-migration retained."
+        "GLM accepted S24 pilot evidence only; needs-migration remains unchanged pending separately admitted body-migration scope."
       ],
-      "nextStep": "Evidence acceptance of these three native candidates; preserve unresolved historical sources and all no-execution boundaries. No bulk migration or full done.",
+      "nextStep": "Owner defines a separate, source- and consumer-qualified historical JSON migration package; do not expand the three-path pilot or change needs-migration from this evidence acceptance.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-preservation-report",
@@ -294,8 +294,8 @@
       "counterReworkBlocked": [
         {
           "id": "S24-NATIVE-PILOT",
-          "status": "awaiting-independent-acceptance",
-          "statement": "Author model/preservation checks passed; needs-migration stays pending and no new semantic or execution credit."
+          "status": "closed-for-pilot-evidence-only",
+          "statement": "GLM non-author evidence acceptance received for candidate 4d39c2f4c; see s24NonAuthorEvidenceAcceptance. No template migration, new semantic or execution credit."
         }
       ],
       "templateCompletionCorrection": {
@@ -311,7 +311,7 @@
         "owner": "Codex",
         "nonAuthorReviewer": false,
         "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
-        "scope": "Three fixed-source native pilots with actual typed consumers; old semantic status reused, template acceptance still pending."
+        "scope": "Codex author qualification of three fixed-source native pilots; GLM evidence acceptance recorded separately at s24NonAuthorEvidenceAcceptance. Existing semantic status and needs-migration unchanged."
       },
       "templateVariant": "historical-document-preservation-v1"
     },
@@ -331,10 +331,10 @@
         "docs/ops/archive/evidence/DOC-IA-2/README.md:15"
       ],
       "unresolved": [
-        "Native-format author pilot is not independent acceptance; needs-migration retained.",
+        "GLM accepted S24 pilot evidence only; needs-migration remains unchanged pending separately admitted body-migration scope.",
         "Rows1/58 remain unverified: no matching SHA among1244reachable blobs at four original/archive paths. No whole-repository/unreachable absence claim; no invented working-tree source."
       ],
-      "nextStep": "Evidence acceptance of these three native candidates; preserve unresolved historical sources and all no-execution boundaries. No bulk migration or full done.",
+      "nextStep": "Owner defines a separate, source- and consumer-qualified historical JSON migration package; do not expand the three-path pilot or change needs-migration from this evidence acceptance.",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-evidence-DOC-IA-2-relocation",
@@ -450,8 +450,8 @@
       "counterReworkBlocked": [
         {
           "id": "S24-NATIVE-PILOT",
-          "status": "awaiting-independent-acceptance",
-          "statement": "Author model/preservation checks passed; needs-migration stays pending and no new semantic or execution credit."
+          "status": "closed-for-pilot-evidence-only",
+          "statement": "GLM non-author evidence acceptance received for candidate 4d39c2f4c; see s24NonAuthorEvidenceAcceptance. No template migration, new semantic or execution credit."
         },
         {
           "id": "S24-SOURCE-1-58",
@@ -472,7 +472,7 @@
         "owner": "Codex",
         "nonAuthorReviewer": false,
         "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
-        "scope": "Three fixed-source native pilots with actual typed consumers; old semantic status reused, template acceptance still pending."
+        "scope": "Codex author qualification of three fixed-source native pilots; GLM evidence acceptance recorded separately at s24NonAuthorEvidenceAcceptance. Existing semantic status and needs-migration unchanged."
       },
       "templateVariant": "historical-document-relocation-v1"
     }
@@ -526,6 +526,86 @@
       "task": "DOCS-FULL-TEMPLATE-1/S24",
       "action": "Exactly3native pilot rows; record old source/fields and pending independent acceptance. No new ledger, status grant, product or execution credit.",
       "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24-evidence-intake",
+      "action": "Record GLM non-author pilot evidence acceptance separately from Codex authorship and withdrawn oldR37 credit; three migration states/native bodies unchanged.",
+      "nonAuthorReviewer": false
     }
-  ]
+  ],
+  "s24NonAuthorEvidenceAcceptance": {
+    "date": "2026-10-21",
+    "task": "DOCS-FULL-TEMPLATE-1/S24",
+    "reviewer": "GLM",
+    "nonAuthorReviewer": true,
+    "verdict": "accept",
+    "counterCount": 0,
+    "base": "ccb48be40d517878aeb73b1a9767de0bd92cc942",
+    "candidateCommit": "4d39c2f4cbab6b0fdee0b85b181162df3b39802e",
+    "documents": [
+      {
+        "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+        "verdict": "accept"
+      },
+      {
+        "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+        "verdict": "accept"
+      },
+      {
+        "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
+        "verdict": "accept"
+      }
+    ],
+    "scope": "Native pilot evidence review, not repeated full-text governance; single-commit diff, three native-object field/source identity checks and targeted gates.",
+    "provenance": "GLM acceptance handed back verbatim by the human user in this Codex conversation; this object records that handback, not a newly generated GLM raw execution receipt.",
+    "reportedExecutions": [
+      {
+        "argv": [
+          "node",
+          "--test",
+          "scripts/docs/phase-lore-catalog.test.mjs",
+          "scripts/docs/historical-document-receipt.test.mjs"
+        ],
+        "result": "12 pass / 0 fail, including joint-retag guard counter-calibration"
+      },
+      {
+        "argv": ["node", "scripts/docs/check-document-model.mjs"],
+        "result": "PASS 7 routes / 1268 contracts / 0 issues"
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "ccb48be40d517878aeb73b1a9767de0bd92cc942..4d39c2f4cbab6b0fdee0b85b181162df3b39802e"
+        ],
+        "result": "empty output"
+      }
+    ],
+    "reusedEvidence": {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+      "scope": "S24 append: author 202/202 docs-tool tests and lint 4515 files, E/W/I=0; GLM did not rerun these full gates."
+    },
+    "verifiedBoundaries": [
+      "Removing only _governance preserves all native keys/values against fixed 33cc Git objects; source SHA matches bytes and frozen1838 binding.",
+      "relocation entries1/58 stay unverified; no whole-repository absence assertion, old SHA refresh or 419/419 certification.",
+      "runtimeExecutionPerformed and historicClaimsReexecuted stay false; both variants have own1.0.0, defaultMarkdown and five historicalSourcePins unchanged."
+    ],
+    "ownerDisposition": {
+      "owner": "Codex",
+      "decision": "accept-pilot-evidence-only",
+      "actualReadDomain": "Confirmed HEAD, tracked state, candidate27-file stat, current parent/r37/S23 contract and the forwarded evidence boundaries; no repeated three-document or419-row full governance.",
+      "contractReuse": "Both1.0.0 variants are a reusable contract foundation for same-kind historical receipts. Added paths/sources/consumers require a separate task and explicit admission; fixed three-path implementation scope unchanged.",
+      "unchangedStates": "All3 needs-migration and prior contentReviewStatus/reviewDepth; native bodies, two unverified claims, strict2382 pending. Migration credit0; parent rework, no main merge/push/done.",
+      "notRun": [
+        "full docs-tool suite repeated for this prose/ledger intake",
+        "product tests",
+        "runtime",
+        "E2E",
+        "visual",
+        "coverage"
+      ]
+    }
+  }
 }

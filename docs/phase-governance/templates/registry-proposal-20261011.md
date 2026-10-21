@@ -327,3 +327,5 @@ I14在根`8aa698c4038bc6553a1a524ca83508cb16e06a32`已获独立接收并稳定�
 两项来源现已查遍四个原/归档路径在所有可达分支中的1244种blob（13,045,507B），声明SHA均未命中。仅能确定不是已核基点原件、缺少可认证before-image；“未提交时点捕获”仍是可能解释，不当作事实。禁止声称全仓/不可达对象中不存在。合同把relocation第1/58项固定为unverified，另外两件无这两项，不能删除未知或写成419/419已证。此限制阻止重授旧来源信用，不阻止对已固定33cc载体做无损pilot；全量硬验收与迁移接受仍独立，三篇先保持needs-migration。
 
 pilot要求与停止线：先各做一个固定源原生正控，移除唯一新增治理元数据后所有原生字段和值与固定Git原件深等；真实model/progress入口须拒绝改原字段、换source、挪payload、换标为默认合同、伪造本轮执行、把旧失败抹零。按已核历史原文解释419/2/9各自职责，source归属不明的两项显式unknown；来源缺口不能被schema绿清除。受影响迁移不得借旧artifactOnly跳过正文合同或增加完成数，未通过pilot不得批量迁移余下JSON。
+
+2026-10-21 S24证据验收更新：GLM以nonAuthorReviewer=true接受4d39c2f4c三篇pilot，零counter；Owner据此确认两种1.0.0变体可作为同类历史回执的复用基础，详见[父卡S24](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s24-glm非作者证据接受与owner接入2026-10-21)。固定三篇实施范围与来源限制仍有效，新增路径/来源/consumer须另卡准入；三篇needs-migration及全量待办不变，本次接受不授批量build、全文重审或旧执行信用。

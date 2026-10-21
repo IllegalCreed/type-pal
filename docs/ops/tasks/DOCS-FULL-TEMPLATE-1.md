@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: S21留存裁定已核；S22三份空账本显式退役实施中；全量硬验收未完成
+Reviewer: GLM已接受S24三篇原生pilot证据；迁移信用未变；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
@@ -2246,4 +2246,12 @@ S22已实施：三个空载体退出当前registry与r93活动条目，原12项�
 | historical-document-receipt.mjs | 固定三篇/两变体与13键治理边界；复用严格字节JSON parser；五项内容有类型要求；未知/重跑/换标不准绕过。只检查，不生成数据或授接受。 |
 | historical-document-receipt.test.mjs | 七项合同原子场景，临时共享只读Git对象与隔离文件；原生改值/改来源/空章节/坏字节/假执行/删未知/联合换标皆拒绝，含guard反控校准。未改产品测试或覆盖率。 |
 
-S24重跑：202/202文档工具通过，导航/model1268合同/testing/phase184均0issue，lint4515文件E/W/I=0，diff检查0；无SHA或其它完整性漂移。check:docs最终仍exit1，仅严格审阅2382项（1188 partial＋1194迁移待办）；1151/1838迁移、3显式退役、87增量不变。三篇是原生pilot候选，非新增接受；两项来源仍unverified，父卡rework、不合main、不标done。
+S24作者阶段重跑：202/202文档工具通过，导航/model1268合同/testing/phase184均0issue，lint4515文件E/W/I=0，diff检查0；无SHA或其它完整性漂移。check:docs最终仍exit1，仅严格审阅2382项（1188 partial＋1194迁移待办）；1151/1838迁移、3显式退役、87增量不变。当时三篇为待非作者验收的原生pilot候选；两项来源仍unverified，父卡rework、不合main、不标done。
+
+#### S24 GLM非作者证据接受与Owner接入（2026-10-21）
+
+- 按document-delivery-acceptance/1.0.0接收用户转交的GLM回执：nonAuthorReviewer=true，三篇additional-attachments.json、preservation-report.json、relocation.json分别accept，零counter。唯一机器记录复用[r37的s24NonAuthorEvidenceAcceptance](../../phase-governance/reviews/20261017-r37-ops-json-evidence.json)，不另造验收JSON或复制原生对象。旧R37接受撤信记录不改写。
+- 被验候选为4d39c2f4cbab6b0fdee0b85b181162df3b39802e，base为ccb48be40d517878aeb73b1a9767de0bd92cc942。GLM实际读域为单提交27文件diff、三件字段级复算、固定33cc/blob/1838绑定三方身份与定向门；属于pilot证据复核，不是重新全文治理。Codex本轮核HEAD/工作树、候选stat与回执边界，未把GLM实跑写成Codex重跑。
+- GLM报告实跑：两份定向测试12 pass/0 fail（含guard反控校准），document-model为7 routes/1268 contracts/0 issues，base..candidate diff检查空；复用压缩日志中202/202工具测试与lint4515文件E/W/I=0原件，未重跑整仓或产品测试。双false、固定未知entry 1/58、原生字段保全、默认Markdown回退和原5条historicalSourcePins均保持。
+- Owner裁定：两种1.0.0原生变体可复用作后续同类历史回执的合同基础；本次已实施路径仍严格限定三篇，新增路径/来源/实际consumer须另卡明确准入，不能借accept批量扩权。S23冻结口径、默认Markdown版本和其它模板不变。
+- 本次只关闭S24-NATIVE-PILOT证据接受项：三篇needs-migration、既有contentReviewStatus/reviewDepth与原生正文均不变，新增迁移信用0。relocation两项来源仍unverified；417/419不升格419/419，旧执行未复跑。check:docs严格2382待办保留，全卡仍rework，不合main、不推送、不标done。后续先由Codex按真实schema/consumer拟定独立JSON批次；本轮无下一位Agent提示词，不把该接入当作下一批build授权。

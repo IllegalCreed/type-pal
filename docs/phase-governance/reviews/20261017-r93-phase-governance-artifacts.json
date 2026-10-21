@@ -1108,7 +1108,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "7bf9738beda8b8f0c3b6f692c164a88ab814cf56beb911531fa7ab88a1c78fdb",
+      "afterSha256": "7d918bd627b177fca231e0e2eb37f3230bb2ac9473396963d132840f3e5a92b6",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9717,7 +9717,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e3d1b2e68818af890ab53e7e7f7937282c333f57b98a09a6b81d7cfdcc314e67",
-      "afterSha256": "ee9cd8193c934078f3c11202b99b5a088172816a99de7f43fb35d792119d3396",
+      "afterSha256": "90758c66021fb08de9288771cffb35f7d77b817519ca2ef5e8860d26c053e02a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13998,7 +13998,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "28936bf4e56d917472161a3718a1941230d49f6d64b7cfea3ddeff72b0d41c7d",
+      "afterSha256": "3f7d8da1fd4e9f63dd4721fbadfa74ad0a9f0716738e973449892fcc540f5f0c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16040,6 +16040,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S24",
       "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24-evidence-intake",
+      "action": "Exact current pins for forwarded GLM pilot evidence acceptance and owner disposition only; no new content/template/execution credit.",
       "nonAuthorReviewer": false
     }
   ]
