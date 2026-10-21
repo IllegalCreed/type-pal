@@ -2357,19 +2357,24 @@
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
       "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json:1"],
-      "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "readMethod": "S25 Codex author: parsed complete native JSON, all suite/assertion identities/status/failure fields, snapshot/counters/times; checked same-task gates/receipt, B4 counterproof slice and successor review. No product source/test execution or complete8-needle reacceptance.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "2026-10-08相邻8文件37断言全绿，较定向增加glm-leaf-wave五例和DataMode机制路由一例；18个suite是Vitest层级统计，不是18个文件。success不包含gates另记的旧8条act warning，且包含后被撤回的B5/B10候选，不能当作最终六合同或当前质量通过。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json:1",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/gates.json:1",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof.json:1",
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:21"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "S25 native contract author pilot awaits non-author evidence acceptance; partial-review-unknown and needs-migration remain.",
+        "Original outputs include withdrawnB5/B10 and pre-strengtheningB7; old8act warnings are not cleared. No original product test or full8-needle execution re-certified."
+      ],
+      "nextStep": "Accept/counter fixed-source native pilot evidence independently, then explicitly decide central document migration credit; new paths require separate admission.",
       "phase": "ops",
       "module": "evidence-artifact",
       "capability": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json machine artifact",
@@ -2383,34 +2388,26 @@
       "sourceSha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
       "afterSha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
       "publicCallers": [
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/report-governance-progress.mjs",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/contract-ledger.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/docs-check.raw"
+        "Fixed33cc reporter bytes for this path; 13 native top-level fields, original testResults/snapshot/times/absolute test identities remain read-only. No fabricated execution metadata."
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-vitest-native-preservation",
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Frozen source byte-equal; 8 distinct file results, 37 test details; counts 37passed/0failed/0pending/0todo match detail statuses. Suite counters remain original, not interpreted as file counts.",
+          "All recorded assertions passed; same-task gates documents8oldact warnings separately, so success alone is not a zero-diagnostic gate.",
+          "No byte/field changes, no new_governance/payload/sidecar; five governance roles reuse current review. Historical successor withdrawals and no-current-execution boundary stay explicit."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
+        "result": "Separate adjacent-green, directed-green andB4red phases; same test names do not make their inputs/execution identities interchangeable. No duplicate source/payload copies.",
         "against": [
-          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
-          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"
+          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
+          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json"
         ]
       },
       "revision": {
@@ -2422,47 +2419,23 @@
             "date": "2026-10-17",
             "action": "byte-stable historical machine artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "8daab219877b82c96700b1ec19b5a18ff6b4eab3",
+            "date": "2026-10-21",
+            "action": "S25 native byte-preserving author pilot; former review entry recoverable at this commit; no credit grant."
           }
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r85-testing-archive-20261017.json",
-        "sourceSha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
-        "candidateSha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
-        "afterSha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
-        "lineCount": 473,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 22186,
-          "sourceLines": 473,
-          "sourceFinalNewline": true,
-          "inverseSha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
-          "exactRoundTrip": true
+        "kind": "historical-native-vitest-pilot",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "byteStable": true,
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         },
-        "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "numTotalTestSuites",
-            "numPassedTestSuites",
-            "numFailedTestSuites",
-            "numPendingTestSuites",
-            "numTotalTests",
-            "numPassedTests",
-            "numFailedTests",
-            "numPendingTests",
-            "numTodoTests",
-            "snapshot",
-            "startTime",
-            "success",
-            "testResults"
-          ],
-          "entryCount": null,
-          "byteStable": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "method": "Original native bytes compared to frozen33cc Git snapshot; all governance fields live only in this existing review entry."
       },
       "history": [
         {
@@ -2490,21 +2463,20 @@
         "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
       ],
       "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "userVisibleBeforeAfter": "原始JSON字节不变；将旧artifactOnly登记改为显式原生工具合同及具体字段/相位/后继边界，未增加完成信用。",
+      "reviewedLines": "1-473; all native fields, 8 file results and 37 assertion identities; surrounding source/receipt slices as readMethod, not underlying test code.",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactFormat": "json",
+      "historyOverlay": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "candidateSha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
-          "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "2f0db565b4e67ca79c4d60e7a567b16374a10c7f",
           "sha256": "9a1cc3986a5361044cb7b8a5e15c91f7a4ba855bda9a55139ace575a1ac52592",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "scope": "immutable reporter carrier; historical run identity and later credit decisions are separate sources"
         }
       ],
       "phaseAnchors": {
@@ -2512,22 +2484,18 @@
         "module": "evidence-artifact",
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
-      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "dependencies": "Frozen1838source/Git, existingr85, native model/progress, same-task README/gates/receipt/counterproof and successor codex-review; raw/tool observations stay historical.",
       "versionScope": {
-        "sourceRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "date": "2026-10-08",
+        "validity": "historical; S25 document audit2026-10-21, not a rerun",
+        "runPhase": "adjacent-green"
       },
       "counterReworkBlocked": [
         {
-          "id": "R85-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "R85-DELETE-GUARD",
-          "status": "open-for-cleanup-audit",
-          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+          "id": "S25-NATIVE-PILOT",
+          "status": "awaiting-non-author-evidence-acceptance",
+          "statement": "Author native pilot only; no current product/execution credit or migration completion."
         }
       ],
       "claimCorrection": {
@@ -2537,6 +2505,15 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "templateVariant": "historical-vitest-native-v1",
+      "currentQualification": {
+        "date": "2026-10-21",
+        "task": "DOCS-FULL-TEMPLATE-1/S25",
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "previousRecord": "8daab219877b82c96700b1ec19b5a18ff6b4eab3:docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "scope": "Native output roles and complete artifact fields only; author pending pilot, not full underlying test-contract certification."
       }
     },
     {
@@ -3087,21 +3064,24 @@
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json",
       "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "S25 Codex author: parsed complete native JSON, all suite/assertion identities/status/failure fields, snapshot/counters/times; checked same-task gates/receipt, B4 counterproof slice and successor review. No product source/test execution or complete8-needle reacceptance.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "B4删除referencedItemIds的Set去重后，6文件31断言中恰30绿1红；唯一失败为B4缺失引用集合去重，ghost-b4被三次列出而应只列一次。numFailedTestSuites=2是层级计数，不是两个失败文件/断言；counterproof声明exit1及目标SHA吻合仅属历史相位，本轮未重跑或认证全8针。",
       "truthAnchors": [
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json:1"
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json:1",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/gates.json:1",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof.json:1",
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:21"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "S25 native contract author pilot awaits non-author evidence acceptance; partial-review-unknown and needs-migration remain.",
+        "Original outputs include withdrawnB5/B10 and pre-strengtheningB7; old8act warnings are not cleared. No original product test or full8-needle execution re-certified."
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Accept/counter fixed-source native pilot evidence independently, then explicitly decide central document migration credit; new paths require separate admission.",
       "phase": "ops",
       "module": "evidence-artifact",
       "capability": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json machine artifact",
@@ -3115,34 +3095,26 @@
       "sourceSha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
       "afterSha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
       "publicCallers": [
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/README.md",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/report-governance-progress.mjs",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B10-open-item-degradation.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B10-open-item-degradation.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B2-deleted-deeplink-empty-state.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B2-deleted-deeplink-empty-state.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B5-commit-rejection-propagation.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B5-commit-rejection-propagation.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B6-craft-unavailable-trim.json"
+        "Fixed33cc reporter bytes for this path; 13 native top-level fields, original testResults/snapshot/times/absolute test identities remain read-only. No fabricated execution metadata."
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-vitest-native-preservation",
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Frozen source byte-equal; 6 distinct file results, 31 test details; counts 30passed/1failed/0pending/0todo match detail statuses. Suite counters remain original, not interpreted as file counts.",
+          "OnlyB4 missing-reference dedup fails with originalAssertionError; native SHA matches same needle JSON pointer in counterproof. This is not a new effective-needle test.",
+          "No byte/field changes, no new_governance/payload/sidecar; five governance roles reuse current review. Historical successor withdrawals and no-current-execution boundary stay explicit."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
+        "result": "Separate adjacent-green, directed-green andB4red phases; same test names do not make their inputs/execution identities interchangeable. No duplicate source/payload copies.",
         "against": [
-          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json",
-          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/README.md"
+          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
+          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json"
         ]
       },
       "revision": {
@@ -3154,47 +3126,23 @@
             "date": "2026-10-17",
             "action": "byte-stable historical machine artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "8daab219877b82c96700b1ec19b5a18ff6b4eab3",
+            "date": "2026-10-21",
+            "action": "S25 native byte-preserving author pilot; former review entry recoverable at this commit; no credit grant."
           }
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r85-testing-archive-20261017.json",
-        "sourceSha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
-        "candidateSha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
-        "afterSha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
-        "lineCount": 397,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 19369,
-          "sourceLines": 397,
-          "sourceFinalNewline": true,
-          "inverseSha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
-          "exactRoundTrip": true
+        "kind": "historical-native-vitest-pilot",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "byteStable": true,
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         },
-        "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "numTotalTestSuites",
-            "numPassedTestSuites",
-            "numFailedTestSuites",
-            "numPendingTestSuites",
-            "numTotalTests",
-            "numPassedTests",
-            "numFailedTests",
-            "numPendingTests",
-            "numTodoTests",
-            "snapshot",
-            "startTime",
-            "success",
-            "testResults"
-          ],
-          "entryCount": null,
-          "byteStable": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "method": "Original native bytes compared to frozen33cc Git snapshot; all governance fields live only in this existing review entry."
       },
       "history": [
         {
@@ -3222,21 +3170,20 @@
         "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
       ],
       "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "userVisibleBeforeAfter": "原始JSON字节不变；将旧artifactOnly登记改为显式原生工具合同及具体字段/相位/后继边界，未增加完成信用。",
+      "reviewedLines": "1-397; all native fields, 6 file results and 31 assertion identities; surrounding source/receipt slices as readMethod, not underlying test code.",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactFormat": "json",
+      "historyOverlay": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "candidateSha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json",
-          "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "b4356ba543d8512e76cd40f7ac92c983e88ac851",
           "sha256": "84fbd2b9c73547cef100374dcf15cd3474a1083f0e71e8f644e0efe766183dfc",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "scope": "immutable reporter carrier; historical run identity and later credit decisions are separate sources"
         }
       ],
       "phaseAnchors": {
@@ -3244,22 +3191,18 @@
         "module": "evidence-artifact",
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
-      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "dependencies": "Frozen1838source/Git, existingr85, native model/progress, same-task README/gates/receipt/counterproof and successor codex-review; raw/tool observations stay historical.",
       "versionScope": {
-        "sourceRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "date": "2026-10-08",
+        "validity": "historical; S25 document audit2026-10-21, not a rerun",
+        "runPhase": "counterexample-red"
       },
       "counterReworkBlocked": [
         {
-          "id": "R85-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "R85-DELETE-GUARD",
-          "status": "open-for-cleanup-audit",
-          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+          "id": "S25-NATIVE-PILOT",
+          "status": "awaiting-non-author-evidence-acceptance",
+          "statement": "Author native pilot only; no current product/execution credit or migration completion."
         }
       ],
       "claimCorrection": {
@@ -3269,6 +3212,15 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "templateVariant": "historical-vitest-native-v1",
+      "currentQualification": {
+        "date": "2026-10-21",
+        "task": "DOCS-FULL-TEMPLATE-1/S25",
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "previousRecord": "8daab219877b82c96700b1ec19b5a18ff6b4eab3:docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "scope": "Native output roles and complete artifact fields only; author pending pilot, not full underlying test-contract certification."
       }
     },
     {
@@ -5517,19 +5469,24 @@
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
       "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json:1"],
-      "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "readMethod": "S25 Codex author: parsed complete native JSON, all suite/assertion identities/status/failure fields, snapshot/counters/times; checked same-task gates/receipt, B4 counterproof slice and successor review. No product source/test execution or complete8-needle reacceptance.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "2026-10-08定向6文件31断言全绿，覆盖core炼蛊canonical/隔离及Tab的B2/B4/B5/B6/B7/B8/B9/B10与旧UI合同；12个suite不等于6文件。原候选B5/B10后来撤回、B7补强，success不消除gates旧8条act warning，本件保留最初候选观察。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json:1",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/gates.json:1",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof.json:1",
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:21"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "S25 native contract author pilot awaits non-author evidence acceptance; partial-review-unknown and needs-migration remain.",
+        "Original outputs include withdrawnB5/B10 and pre-strengtheningB7; old8act warnings are not cleared. No original product test or full8-needle execution re-certified."
+      ],
+      "nextStep": "Accept/counter fixed-source native pilot evidence independently, then explicitly decide central document migration credit; new paths require separate admission.",
       "phase": "ops",
       "module": "evidence-artifact",
       "capability": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json machine artifact",
@@ -5543,34 +5500,26 @@
       "sourceSha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
       "afterSha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
       "publicCallers": [
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/report-governance-progress.mjs",
+        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/contract-ledger.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof.json",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.raw",
-        "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/docs-check.raw"
+        "Fixed33cc reporter bytes for this path; 13 native top-level fields, original testResults/snapshot/times/absolute test identities remain read-only. No fabricated execution metadata."
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-vitest-native-preservation",
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Frozen source byte-equal; 6 distinct file results, 31 test details; counts 31passed/0failed/0pending/0todo match detail statuses. Suite counters remain original, not interpreted as file counts.",
+          "All recorded assertions passed; same-task gates documents8oldact warnings separately, so success alone is not a zero-diagnostic gate.",
+          "No byte/field changes, no new_governance/payload/sidecar; five governance roles reuse current review. Historical successor withdrawals and no-current-execution boundary stay explicit."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
+        "result": "Separate adjacent-green, directed-green andB4red phases; same test names do not make their inputs/execution identities interchangeable. No duplicate source/payload copies.",
         "against": [
-          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
-          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md"
+          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
+          "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json"
         ]
       },
       "revision": {
@@ -5582,47 +5531,23 @@
             "date": "2026-10-17",
             "action": "byte-stable historical machine artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "8daab219877b82c96700b1ec19b5a18ff6b4eab3",
+            "date": "2026-10-21",
+            "action": "S25 native byte-preserving author pilot; former review entry recoverable at this commit; no credit grant."
           }
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r85-testing-archive-20261017.json",
-        "sourceSha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
-        "candidateSha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
-        "afterSha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
-        "lineCount": 395,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 18845,
-          "sourceLines": 395,
-          "sourceFinalNewline": true,
-          "inverseSha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
-          "exactRoundTrip": true
+        "kind": "historical-native-vitest-pilot",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "byteStable": true,
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         },
-        "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "numTotalTestSuites",
-            "numPassedTestSuites",
-            "numFailedTestSuites",
-            "numPendingTestSuites",
-            "numTotalTests",
-            "numPassedTests",
-            "numFailedTests",
-            "numPendingTests",
-            "numTodoTests",
-            "snapshot",
-            "startTime",
-            "success",
-            "testResults"
-          ],
-          "entryCount": null,
-          "byteStable": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "method": "Original native bytes compared to frozen33cc Git snapshot; all governance fields live only in this existing review entry."
       },
       "history": [
         {
@@ -5650,21 +5575,20 @@
         "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
       ],
       "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "userVisibleBeforeAfter": "原始JSON字节不变；将旧artifactOnly登记改为显式原生工具合同及具体字段/相位/后继边界，未增加完成信用。",
+      "reviewedLines": "1-395; all native fields, 6 file results and 31 assertion identities; surrounding source/receipt slices as readMethod, not underlying test code.",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactFormat": "json",
+      "historyOverlay": false,
       "documentStatus": "historical",
-      "sourceGitRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "candidateSha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
-          "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "8e426edf1947ff2509bbaf330fd0518fe9456e3b",
           "sha256": "81e08a91ddb3bbed44cc1c81346669f6b2f9c998c6a93e1b2fed2677a5c09542",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "scope": "immutable reporter carrier; historical run identity and later credit decisions are separate sources"
         }
       ],
       "phaseAnchors": {
@@ -5672,22 +5596,18 @@
         "module": "evidence-artifact",
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
-      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "dependencies": "Frozen1838source/Git, existingr85, native model/progress, same-task README/gates/receipt/counterproof and successor codex-review; raw/tool observations stay historical.",
       "versionScope": {
-        "sourceRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "date": "2026-10-08",
+        "validity": "historical; S25 document audit2026-10-21, not a rerun",
+        "runPhase": "directed-green"
       },
       "counterReworkBlocked": [
         {
-          "id": "R85-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "R85-DELETE-GUARD",
-          "status": "open-for-cleanup-audit",
-          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+          "id": "S25-NATIVE-PILOT",
+          "status": "awaiting-non-author-evidence-acceptance",
+          "statement": "Author native pilot only; no current product/execution credit or migration completion."
         }
       ],
       "claimCorrection": {
@@ -5697,6 +5617,15 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "templateVariant": "historical-vitest-native-v1",
+      "currentQualification": {
+        "date": "2026-10-21",
+        "task": "DOCS-FULL-TEMPLATE-1/S25",
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "previousRecord": "8daab219877b82c96700b1ec19b5a18ff6b4eab3:docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "scope": "Native output roles and complete artifact fields only; author pending pilot, not full underlying test-contract certification."
       }
     },
     {
@@ -18499,5 +18428,13 @@
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
     "recordPath": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
     "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
-  }
+  },
+  "maintenanceHistory": [
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25",
+      "action": "Exactly3 native Vitest author pilot rows, pending statuses retained; original native bytes unchanged. Prior rows recover from8daab2198.",
+      "nonAuthorReviewer": false
+    }
+  ]
 }

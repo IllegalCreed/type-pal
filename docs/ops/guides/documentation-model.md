@@ -74,6 +74,8 @@ JSON 保持机器字段和公开 consumer 读取路径；不能把原对象统�
 
 同一文档类型有多种格式时，按已选变体的format及自有templateVersion校验；未声明自有值的旧变体继承父合同。新增原生格式不要求无关Markdown滚动版本，也不能通过换标绕过固定来源和历史限制。原生pilot结构符合与内容接受分别入账，作者通过不自动增加已迁移数。
 
+不可改写的原生工具输出使用已冻结的json-native变体：原字节保全，来源/合法输入、oracle、具体结果和限制复用当前唯一review条目；不为每份再造envelope、sidecar或来源副本。按已准入路径由真实model/progress核固定Git源、相位与当前说明；这不同于旧artifactOnly跳过正文，也不自动恢复语义或完成信用。新增种类/路径先设计并pilot，不能仅以SHA登记替代内容判断。
+
 每个附件记录路径/SHA、产生者、Owner、caller、关联任务/报告、时间/版本范围、保留原因和退出条件。无法确认的归属标 pending，不根据文件名猜测。immutable raw 不因当前判定变化而改写，新判断另存并链接旧记录。
 
 治理记录自身不自嵌自己的内容 hash；通过 Git blob/提交和独立回执定位。正文的 after SHA 放在 review record 中，review/control JSON 的机器字段适用其自身 schema，不能造成无限递归的“给 review 再造 review”。

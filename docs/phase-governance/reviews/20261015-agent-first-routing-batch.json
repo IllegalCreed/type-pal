@@ -316,7 +316,7 @@
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "b5650b150fad2ae8b303d1c1ca95a50a4021f03b",
       "sourceState": "present",
-      "afterSha256": "e5d684837f20718adf6079a2f4d8af69bb49c714140fab0771b5d53e3b6f2812",
+      "afterSha256": "6eac33a9bac83043af574cc02de52c676c69f30f11e77beaa7bbd7d9c7a723d7",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -2990,7 +2990,7 @@
       "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
       "sourceGitObject": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c:docs/ops/guides/documentation-model.md",
       "sourceState": "absent-new-document-empty-byte-source",
-      "afterSha256": "6b1ef312967698e870f742dd7b7ff1c8f1287b0956ad46937fd72924a1e61409",
+      "afterSha256": "6693436c5999ce131b539da9b7f84bf3d4572828b209b890b5f523701cbc5068",
       "publicCallers": [
         "AGENTS.md operation routing",
         "docs/README.md",
@@ -3093,6 +3093,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S24",
       "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25",
+      "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
       "nonAuthorReviewer": false
     }
   ]

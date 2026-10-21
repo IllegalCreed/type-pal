@@ -329,3 +329,15 @@ I14在根`8aa698c4038bc6553a1a524ca83508cb16e06a32`已获独立接收并稳定�
 pilot要求与停止线：先各做一个固定源原生正控，移除唯一新增治理元数据后所有原生字段和值与固定Git原件深等；真实model/progress入口须拒绝改原字段、换source、挪payload、换标为默认合同、伪造本轮执行、把旧失败抹零。按已核历史原文解释419/2/9各自职责，source归属不明的两项显式unknown；来源缺口不能被schema绿清除。受影响迁移不得借旧artifactOnly跳过正文合同或增加完成数，未通过pilot不得批量迁移余下JSON。
 
 2026-10-21 S24证据验收更新：GLM以nonAuthorReviewer=true接受4d39c2f4c三篇pilot，零counter；Owner据此确认两种1.0.0变体可作为同类历史回执的复用基础，详见[父卡S24](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s24-glm非作者证据接受与owner接入2026-10-21)。固定三篇实施范围与来源限制仍有效，新增路径/来源/consumer须另卡准入；三篇needs-migration及全量待办不变，本次接受不授批量build、全文重审或旧执行信用。
+
+## 2026-10-21 S25：原生Vitest历史输出合同
+
+状态：Owner按用户续办授权冻结供三篇pilot；test-machine-evidence-v1增加自有1.0.0变体historical-vitest-native-v1，父1.5.0、原六变体和17类总数不变。不是schema2发布对象，不补造id/status/execution或catalog条目。原始工具输出字节不改；治理五项内容由现有唯一reviewRecord条目的身份/primarySource/legalInputs、businessOracle、coreConclusion、unresolved/stopLine承载，不新增每篇JSON/Markdown伴生件。
+
+准入仅TEST-EDITOR-ALCHEMY-BOUNDARIES-1的adjacent.json（37绿/8文件）、directed.json（31绿/6文件）、counterproof-runs/N-B4-missing-reference-dedup.json（31中30绿1红/6文件）。固定路径、变体与r85唯一条目由guard约束，来源直接复用33cc与1838绑定；原执行相位分别为adjacent-green/directed-green/counterexample-red。不可换标、换来源或刷新after hash绕过。新路径/形状须另卡逐篇来源与consumer准入，不由本设计自动接收302份。
+
+原生大纲为13个顶层字段：四个suite计数、五个test计数、snapshot/startTime/success/testResults。testResults保留原绝对文件名、时间、suite状态/message、每条fullName/ancestorTitles/title/status/duration/failureMessages/meta/tags，全部逐字节保全。suite统计含describe层级，不强行等于文件数；测试明细按状态与numTotal/Passed/Failed/Pending/Todo核实，红结果是保留的历史观察而不是治理失败。
+
+真实caller为历史卡/证据README及现有治理model/progress；JSON不单独证明真实exit/signal/警告或有效反控，必须回其gates/counterproof/raw。旧8条act warning与B5/B10后继撤回、B7补强须在三行限制中显式保留，本轮不复跑或重授当年测试质量。review中evidence.currentAudit双false、historical有效期与精确相位强制；旧来源/字节与有内容的治理字段共同满足结构检查，不能只放一条SHA登记。
+
+反例：任何字节变化（含格式化）、追加_governance、换payload、joint换标、改baseline/source、删除唯一review或五项语义、相位错配/伪本轮执行均拒绝。使用严格UTF8/重复key parser；model与progress都必须走真实Git源与同一guard。仅正反例通过不授content-reviewed/template-compliant，三篇先保持pending，非作者接受另记。原生不重写是证据格式要求，不放宽全量审阅或1838处置合同。

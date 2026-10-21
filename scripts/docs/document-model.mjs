@@ -13,6 +13,7 @@ import {
   historicalDocumentReceiptIssues,
   historicalReceiptKind,
 } from './historical-document-receipt.mjs'
+import { historicalVitestNativeIssues } from './historical-vitest-native.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 
 function documentStatus(text, contract) {
@@ -305,6 +306,9 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const text = read(doc.path)
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
+  const contract = doc.variant ? template?.variants?.[doc.variant] : template
+  const nativeIssues = historicalVitestNativeIssues(doc, template, contract, read, options)
+  if (nativeIssues !== undefined) return nativeIssues
   if (!template) return [`unknown template ${doc.templateId}`]
   const overlay = registry.types.find(
     (type) => type.templateId === registry.historyOverlayTemplateId,
@@ -315,7 +319,6 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   })
   if (doc.historyOverlay && !overlay?.requiredSections?.length)
     issues.push('history overlay contract missing')
-  const contract = doc.variant ? template.variants?.[doc.variant] : template
   issues.push(...(historicalDocumentReceiptIssues(text, doc, template, contract, options) ?? []))
   if (contract) {
     issues.push(...publicationIssues(text, contract, read))

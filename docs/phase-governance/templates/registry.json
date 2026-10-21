@@ -811,6 +811,12 @@
           "preservedSource": {
             "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
           }
+        },
+        "historical-vitest-native-v1": {
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "current-review",
+          "sourceBaseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
         }
       },
       "statusPolicy": {

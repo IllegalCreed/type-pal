@@ -1016,7 +1016,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "e0bcd23751b6bec52abece4ff1a64bfca1a8f734a535a7aeced9642f90cd805b",
+      "afterSha256": "139fab0d9e27adf1b55f0be3874e19c0eaca142a965540d3be33a01cb4be11b5",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "e6dbc7d14001cda15da35d73ee41ef08970be3db36a221f50379210332e6695c",
+      "afterSha256": "1f0ed75696cea18e2edb9d47d2b10ae8d61bf54194173bc15341cf30c1029cde",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "4c738bfe2573a21cff81099cd8c5d1ef5be71bd8b113b84380a545ec6445b217",
+      "afterSha256": "c517ab5a8fd3c1847384b97af6aa374f1fa49d8554039bd2d227f230429c482f",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6525,7 +6525,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "e1b738b9dcd83e4438c2c5e6c64e65f7b80a77a83b2478035d9f3fe63f01295d",
+      "afterSha256": "9da60aeaed42e87fbfb52226e75bb60f146054cfeaabf569e7809b1a0cf0f71c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6916,7 +6916,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "1fe055e90e9a85c2ba136509bff9ae7cb01647270b68bd85bcef2ce46ebeffb9",
+      "afterSha256": "6433b8f986cf51ff041582b48309d1a8d3724854f44860e0b4a17ed3323d8e80",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -7172,6 +7172,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S24-evidence-intake",
       "action": "Exact current pins for forwarded GLM pilot evidence acceptance and owner disposition only; no new content/template/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25",
+      "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
       "nonAuthorReviewer": false
     }
   ]

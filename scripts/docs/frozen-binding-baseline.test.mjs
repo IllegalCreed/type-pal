@@ -191,8 +191,15 @@ test('catalog default1.2 preserves actual complete18-entry old contract and both
   assert.equal(current.requiredGovernanceFields.length, 14)
   for (const key of ['requiredFields', 'requiredValues', 'entryReadingsField'])
     assert.deepEqual(current[key], old[key])
-  assert.deepEqual(
+  const currentMachine = structuredClone(
     f.registry.types.find((entry) => entry.templateId === 'test-machine-evidence-v1'),
+  )
+  // S25 explicitly admits this separately tested native format. All preexisting
+  // machine fields and variants remain locked to the original F1 contract.
+  assert(Object.hasOwn(currentMachine.variants, 'historical-vitest-native-v1'))
+  delete currentMachine.variants['historical-vitest-native-v1']
+  assert.deepEqual(
+    currentMachine,
     beforeRegistry.types.find((entry) => entry.templateId === 'test-machine-evidence-v1'),
   )
   assert.deepEqual(f.registry.historicalSourcePins, beforeRegistry.historicalSourcePins)

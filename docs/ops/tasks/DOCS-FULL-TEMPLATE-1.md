@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM已接受S24三篇原生pilot证据；迁移信用未变；全量硬验收未完成
+Reviewer: GLM已接受S24证据；S25原生Vitest三篇作者pilot待非作者验收；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
@@ -2255,3 +2255,25 @@ S24作者阶段重跑：202/202文档工具通过，导航/model1268合同/testi
 - GLM报告实跑：两份定向测试12 pass/0 fail（含guard反控校准），document-model为7 routes/1268 contracts/0 issues，base..candidate diff检查空；复用压缩日志中202/202工具测试与lint4515文件E/W/I=0原件，未重跑整仓或产品测试。双false、固定未知entry 1/58、原生字段保全、默认Markdown回退和原5条historicalSourcePins均保持。
 - Owner裁定：两种1.0.0原生变体可复用作后续同类历史回执的合同基础；本次已实施路径仍严格限定三篇，新增路径/来源/实际consumer须另卡明确准入，不能借accept批量扩权。S23冻结口径、默认Markdown版本和其它模板不变。
 - 本次只关闭S24-NATIVE-PILOT证据接受项：三篇needs-migration、既有contentReviewStatus/reviewDepth与原生正文均不变，新增迁移信用0。relocation两项来源仍unverified；417/419不升格419/419，旧执行未复跑。check:docs严格2382待办保留，全卡仍rework，不合main、不推送、不标done。后续先由Codex按真实schema/consumer拟定独立JSON批次；本轮无下一位Agent提示词，不把该接入当作下一批build授权。
+
+### S25 原生工具输出合同与去重工作量（2026-10-21）
+
+- 用户授权Codex继续处理，不再重复转派已盘点工作。受审基点8daab219877b82c96700b1ec19b5a18ff6b4eab3；单一Owner Codex，沿用隔离分支。build allowed仅本节设计的三篇原生Vitest pilot、必要model/进度显示/新反例、既有registry/routing/r85及精确依赖pin、模板提案/本卡/看板与既有压缩日志；不修改原测试、产品、coverage、526篇已接受正文或冻结执行原件。
+- 当前2382是诊断条数，不是文档数。逐path集合核得：1188篇审阅未完、1194篇模板迁移未完，交集1188，去重1194篇（1121 JSON＋58 Markdown＋15 HTML）。另6篇只缺迁移，为三篇DOC-IA-2 JSON与三篇已审HTML。1838是固定基线，不是当前文件总数；新增与退役仍分列。后续摘要同时报篇数/诊断数，不隐去原诊断。
+- S21分组只作结构盘点，F06休眠误判已由Owner纠正；133活跃与988冻结保留责任沿用，不批准4/5个新类型、给1121份统一envelope或批量恢复信用。S24两变体只覆盖旧文档搬迁/保全回执，不适用于Vitest原始结果。
+- 冻结独立S25 pilot设计见[模板提案](../../phase-governance/templates/registry-proposal-20261011.md#2026-10-21-s25原生vitest历史输出合同)。仅选TEST-EDITOR-ALCHEMY-BOUNDARIES-1的adjacent.json、directed.json、counterproof-runs/N-B4-missing-reference-dedup.json。它们与33cc固定原件逐字节相同；原生输出不追加_governance、不重排、不复制到payload/sidecar，当前说明复用r85原三行，来源复用1838绑定与真实Git，不新增source pin列表。
+- 实际读域：三件完整JSON字段/全部断言身份与失败信息、同卡README/gates/receipt、counterproof中B4相位与后继Codex撤回B5/B10并补强B7的结论。相邻8文件37绿、定向6文件31绿、B4定向31中30绿1红；Vitest的18/12个suite不是文件数，不能拿sum套文件数。gates另载旧8条act warning，success=true不等于历史零诊断或当前产品验收。本轮不重跑这些产品测试。
+- 作者pilot仍partial-review-unknown/needs-migration，0新增信用，待非作者证据接受及中央迁移裁定；不是为保持字节不变而免审或自动完成。批量新增路径须另卡准入，不能仅按文件名/JSON形状自动覆盖302份。
+- 首轮整套工具207/208：frozen-binding-baseline.test.mjs:194要求机器证据合同与F1历史快照整体相等，因新增变体报红。未改原父字段或原六变体；该断言将后续显式新合同也锁死，不能靠换文档类型避门。用户在本轮明确授权仅此旧docs断言适配：取副本、确认新增变体存在、仅移除已批准的这一键，再与原完整机器合同deepEqual；任一旧字段/旧变体或其它未准入键变化仍失败，historicalSourcePins继续整组deepEqual。新变体由六项定向正反例独立约束；旧失败输出保留，后续以真实重跑为准。除此不修改任何旧测试。
+
+| S25实现/测试 | 八维作者自核（nonAuthorReviewer=false） |
+|---|---|
+| historical-vitest-native.mjs | A固定33cc/1838与原字节、精确三相位、唯一review及双false；B注释说明原件与当前说明分离；C纯校验只读、Git与parser复用现有接口；D复用既有来源/记录而非新pin/sidecar；E红结果合法、错字节/字段/身份拒绝；F命名按原生输出职责；G只三路径、无批量形状推断；H内存reader与真实CLI皆可反证。 |
+| document-model.mjs | A固定路径先于普通模板分派防联合换标；B沿用结构不授接受边界；C新模块自管native语义、旧格式流程保持；D单一model/progress caller；E真实CLI验证；F早返回划清格式；G不新增独立命令或重复parser；H原依赖注入不扩权。 |
+| check-content-review.mjs | A仍逐条报全部诊断、不放宽门；B区分诊断和篇数；C只读当前唯一review投影；D复用同一集合；E当前1188/1194/1188/1194与独立path集合复算；F双轴命名；G无新JSON报表；H不读取时钟或写盘。 |
+| historical-vitest-native.test.mjs | A真实三份原件/固定来源与真实CLI；B明确红相位不是失败门；C临时共享只读Git、隔离写入；D复用registry fixture；E六项按字节/来源/语义字段/相位/版本/联合换标判别，包含guard反控校准；F测试名陈述拒绝条件；G不增加产品/coverage测试或镜像断言；H临时目录after清理，产品未执行。 |
+| frozen-binding-baseline.test.mjs | A只在克隆副本排除已准入且必存在的一个新键，原父字段/原六变体与旧source pin仍deepEqual；B说明F1保全与S25增量边界；C/D/H不改变fixture/consumer或原Git来源；E新变体仍由独立原生合同用例拒错，旧测试主体保持；F明确命名；G仅此获用户授权的docs断言，无新豁免列表。 |
+
+S25作者阶段结果：新六项＋获准旧F1四项定向10/10；完整208/208，导航1302 MD/10160链/364任务、model1271合同、testing与phase/lore184均0issue，lint4517文件E/W/I=0，diff检查0。check:docs仍exit1，仅严格2382＝1188审阅＋1194迁移待办，去重1194篇；1151/1838基线迁移、3显式退役、87增量、0完整性漂移。三篇原生字节/其它模板与source pin不变；治理身份仍partial/needs-migration，不新增接受或完成。Vitest4.1.7本地producer的getSuites递归及success仅依失败计数已定向读源码并留原件，未执行旧产品测试。首轮207/208失败与用户授权后的恢复输出均追加原压缩日志。
+
+下一位只需非作者证据验收，先核本节/设计S25、r85三行与candidate diff，按定向六项和真实model快检；复用208/208/lint与保全原件，不再读全部1121 JSON。不接受时仅退对应合同/记录；父卡rework、三篇pending、批量路径未准入与main未合边界不变。

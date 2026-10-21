@@ -159,6 +159,20 @@ for (const entry of registry.entries ?? []) {
   const status = reviewEntries.get(entry.path)?.contentReviewStatus ?? 'missing'
   counts[status] = (counts[status] ?? 0) + 1
 }
+if (strict) {
+  const reviewPending = new Set()
+  const migrationPending = new Set()
+  for (const item of registry.entries ?? []) {
+    const entry = reviewEntries.get(item.path)
+    if (entry?.contentReviewStatus !== 'content-reviewed') reviewPending.add(item.path)
+    if (entry?.templateCompliance === 'needs-migration') migrationPending.add(item.path)
+  }
+  const affected = new Set([...reviewPending, ...migrationPending])
+  const both = [...reviewPending].filter((path) => migrationPending.has(path)).length
+  console.log(
+    `strict workload: ${affected.size} distinct documents; ${reviewPending.size} review pending; ${migrationPending.size} migration pending; ${both} in both groups; ${issues.length} diagnostics (not document count)`,
+  )
+}
 console.log(
   `content review: ${issues.length ? 'FAIL' : 'PASS'} (${registry.summary.total} documents; ${JSON.stringify(counts)})`,
 )

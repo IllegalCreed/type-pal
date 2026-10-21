@@ -5977,15 +5977,14 @@
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "templateVersion": "1.0.0",
+      "templateVariant": "historical-vitest-native-v1"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/contract-ledger.json",
@@ -6029,15 +6028,14 @@
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "templateVersion": "1.0.0",
+      "templateVariant": "historical-vitest-native-v1"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B5-commit-rejection-propagation.json",
@@ -6198,15 +6196,14 @@
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "templateVersion": "1.0.0",
+      "templateVariant": "historical-vitest-native-v1"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/gates.json",

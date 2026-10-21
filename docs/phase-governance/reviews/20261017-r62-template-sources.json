@@ -1472,7 +1472,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "962ac37b9b045335dfec11ae91e3c2808523ad3e6930c4803fd14688ae056150",
+      "afterSha256": "7c183438abdfea7ae6bae8647e5955dbc7106e690dd8bc84cd78e89aef10f70b",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1632,7 +1632,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-      "afterSha256": "b07238a5d81e599b5926c009b461b605e81f41b214946ddbf4a25bb2bb8cf146",
+      "afterSha256": "108f9ba4b1ee7202a8827e08785ef5ae9fc6aed8d4725fb2c82cb89713d27ccd",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3678,6 +3678,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S24-evidence-intake",
       "action": "Exact current pins for forwarded GLM pilot evidence acceptance and owner disposition only; no new content/template/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25",
+      "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
       "nonAuthorReviewer": false
     }
   ]
