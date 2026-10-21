@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e327656b4c588669cc7a253d1e7a5de9f308c2591afa76809630acb1653d8cac",
+      "afterSha256": "b44846f48b2d5bd90a3ce9b27798195e38cdeaccaa1dd7ea61e155820efabe7c",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1305,7 +1305,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "f02539edabc52306e09713708a8d628e2ec6f6e833907a6742d461da65f9c52e",
+      "afterSha256": "447ff07562802e8feb8fd271fd27fe4bdccd57425c855d383ddceaebe4f8212d",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2434,6 +2434,99 @@
           "grantsNewSemanticAcceptance": false
         }
       ]
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "templateCompliance": "needs-migration",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "readMethod": "Codex authored S26 admission card after current protocol/candidate/source-profile review; not independent acceptance or269native semantic execution.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "S26固定269件原生Vitest内容稿、23件来源/7件格式例外由GLM一次交付，原生字节和中央仓库只读；Codex保留共性合同/难题/证据验收及接入，纠正将批量执行外推给Codex的分工。三篇pilot不重做，未知只block单篇。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
+        "docs/ops/document-quality.md:19",
+        "docs/phase-governance/templates/registry-proposal-20261011.md:333"
+      ],
+      "unresolved": [
+        "Initial author admission card awaits independent evidence acceptance; no content/template migration credit.",
+        "GLM269content drafts and30exception findings not delivered; current model still admits only3native pilots."
+      ],
+      "nextStep": "Human forwards S26 packet once; GLM executes within fixed source/draft scope, Codex accepts evidence and handles central contracts.",
+      "phase": "ops",
+      "module": "native-document-governance",
+      "capability": "S26 native historical evidence batch",
+      "owner": "Codex admission/acceptance; GLM content contributor",
+      "provenance": [
+        "User restored Codex common design + GLM per-document execution + Codex evidence acceptance",
+        "New initial author card; no earlier file/blob at carrier revision4469e2e84",
+        "No semantic/independent completion claimed"
+      ],
+      "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
+      "afterSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "revision": "4469e2e8434f736df2ce39cdc2863f0822fa7fa8",
+          "scope": "Parent S25 acceptance and source-only269/30 planning, not native completion"
+        }
+      ],
+      "publicCallers": [
+        "docs/ops/board.md",
+        "docs/ops/tasks/index.md",
+        "GLM S26 execution-manifest and handoff"
+      ],
+      "legalInputs": [
+        "Pinned269/23/7 path-SHA-carrier-source manifest2a221f1d…; exact admittedHEAD and unchanged native bytes. No product/test mutation or automatic status restoration."
+      ],
+      "businessOracle": {
+        "type": "bounded-native-content-handoff",
+        "assertions": [
+          "GLMwritesonly/tmp evidence, all repository/native302carriers remain byte-identical.",
+          "Every269content entry/30exception has concrete conclusion/source witness/actual read scope or explicitblocked state.",
+          "Codexonlyaccepts supported evidence and handles admitted shared contracts; old runtime or global quality not granted."
+        ]
+      },
+      "dedupe": {
+        "result": "One task for native JSON handoff; general protocol stays ops/document-quality; existing current records/Git retained, no per-batch ledger or native copies.",
+        "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
+      },
+      "revision": {
+        "currentSha": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
+        "implementationSha": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
+        "history": [
+          {
+            "date": "2026-10-21",
+            "action": "initial-author-card; sourceSha256 identifies these initial authored bytes, not a fictitious preexisting Git blob; prior path absent at4469e2e84."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "author-admission-not-independent-acceptance",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "manifestSha256": "2a221f1d96184df9213061f0d6acffb33c9287c6c91b635f643ba3cbe83c2fe9",
+        "nonAuthorReviewer": false
+      },
+      "history": [
+        {
+          "date": "2026-10-21",
+          "action": "create explicit S26 handoff; original1838cohort unchanged, newpendingcard counted separately"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
+      "reviewedLines": "1-89; initial authored scope only",
+      "documentStatus": "current",
+      "currentQualification": {
+        "task": "DOCS-NATIVE-JSON-1/S26",
+        "owner": "Codex",
+        "nonAuthorReviewer": false,
+        "scope": "Author admission only; independent acceptance pending"
+      }
     }
   ],
   "currentCorrection": {
@@ -2477,6 +2570,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
       "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-NATIVE-JSON-1/S26",
+      "action": "Add one explicit pending admission card; board/index and exact source pins only. No269/30semantic or native migration credit.",
       "nonAuthorReviewer": false
     }
   ]

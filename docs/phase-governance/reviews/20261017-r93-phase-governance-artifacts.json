@@ -1108,7 +1108,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "7bf70ea8b7618928e4d5eded11f7c5ca2587b85ea7bbbe10169f29b7ad83ee87",
+      "afterSha256": "fd20450985582bf5d50425c157e745b28a56c2987a4b2879e31c77affcbf4071",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16058,6 +16058,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
       "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-NATIVE-JSON-1/S26",
+      "action": "Exact S26 handoff/card/index/registry pins and transitive dependencies only; no content or execution acceptance.",
       "nonAuthorReviewer": false
     }
   ]

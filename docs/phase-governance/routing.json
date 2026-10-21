@@ -6277,6 +6277,11 @@
       "templateId": "test-machine-evidence-v1",
       "variant": "historical-vitest-native-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "c0a3865eed88875e0e94681d30cc35976f40bfd676229c1233c973587bf72db6",
+      "afterSha256": "036918b58604ce00f0c133948194eaea2fe746e1442f8f3a00a96bc1a2e0b0b4",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "76a7f9c11eddfa4f635df8bda2548c85863f039faca7a35080ef2945865822c8",
+      "afterSha256": "22afbf85d3900b70a6a05875dc89363f60241437b11769ed81351912c55b6ca7",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6525,7 +6525,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "9da60aeaed42e87fbfb52226e75bb60f146054cfeaabf569e7809b1a0cf0f71c",
+      "afterSha256": "9a4063a8fc2f10633a4ef3378d21031aba684bcc29f19e45fcd4a97aefb85849",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6916,7 +6916,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "6433b8f986cf51ff041582b48309d1a8d3724854f44860e0b4a17ed3323d8e80",
+      "afterSha256": "fec22a819845121d1fff5a26a6c52edac6aaaef377fbc0ea14b1343c60f18853",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -7184,6 +7184,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
       "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-NATIVE-JSON-1/S26",
+      "action": "Exact S26 handoff/card/index/registry pins and transitive dependencies only; no content or execution acceptance.",
       "nonAuthorReviewer": false
     }
   ]

@@ -2480,7 +2480,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "4fe4df73a95e5e5cf5ae89287bdd99980708058473a90fbc3d4ff80289feac74",
+      "afterSha256": "eca01f0f7dfb5a1ae6202ed8dbd08967508470bf08ef2257df0d71bb94ce7b79",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -8938,6 +8938,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25",
       "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-NATIVE-JSON-1/S26",
+      "action": "Exact S26 handoff/card/index/registry pins and transitive dependencies only; no content or execution acceptance.",
       "nonAuthorReviewer": false
     }
   ]
