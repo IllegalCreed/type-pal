@@ -22,6 +22,8 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 2026-10-22 CLI主编排与事件测试窗口（执行中）
 
+统一门已实跑：全check20392零诊断；官方fast --ratchet带TYPE_PAL_COVERAGE_BASE_REF=origin/main，19994测试/750生产源，完整raw双流及stdout普通记录分类均0诊断。原生runner已执行目标baseline保护；随后同一官方报告与新baseline canonical投影逐项相等，直接复验compareCoverage/auditScope为严格scope零变化/零回落，且新candidate对origin/main无回落/无删除，没有重采第二轮测试。非另启node run.mjs fast，不伪称两轮独立采样。baseline仅官方实测提升8项、源749→750/例19992→19994；无下降授权、规则、谓词或排除变更。
+
 主编排纯重构交付：script-entries只接受六种窄parsed域，16字段顺序/正值/别名逐句守恒；无runtime import，两个直接合同。CLI删除无reader Map与私有union死值，其余编译正文在替回collector后相同；raw6767/694与严格recompile守恒。主函数分支初筛73→51仍为热点，不以数字宣布关闭；当前74定向/TC及scoped静态0，最终统一门在代码冻结后集中执行。
 
 事件测试切片交付：boundaries五身份不增删，Scene/EO raw形状合法、EO末段用有序label逐个辨识；旧5绿/新4绿1业务红证实判别力。runtime-resource只修raw与范围头注，三防御用例的生产域未核，维持review；不修改两BFS或语义。

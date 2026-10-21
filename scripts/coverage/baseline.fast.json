@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T15:03:13.198Z",
+  "generatedAt": "2026-10-21T16:39:20.536Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 749,
-  "testCount": 19992,
+  "sourceFileCount": 750,
+  "testCount": 19994,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1153,7 +1153,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 40,
+      "sourceFileCount": 41,
       "sourceFiles": [
         "packages/pal-extract/scripts/extract-videos.ts",
         "packages/pal-extract/src/cli.ts",
@@ -1162,6 +1162,7 @@
         "packages/pal-extract/src/events/opcodes.ts",
         "packages/pal-extract/src/events/recompile.ts",
         "packages/pal-extract/src/events/roundtrip.ts",
+        "packages/pal-extract/src/events/script-entries.ts",
         "packages/pal-extract/src/events/slice.ts",
         "packages/pal-extract/src/font/bdf-to-json.ts",
         "packages/pal-extract/src/io/mkf.ts",
@@ -1196,10 +1197,10 @@
         "packages/pal-extract/src/resources/tables.ts",
         "packages/pal-extract/src/utils/gbk.ts"
       ],
-      "scopeDigest": "ae7bbb35c4f644075b309bf105bdad1c66f2ea7c127c87704d32ce510c1ef037",
+      "scopeDigest": "f9d831b9e11e87c9fbeb3806194bffbbb26cc4ae0129b3dcab40e43e2f95f54a",
       "fastTests": {
-        "testCount": 305,
-        "testFileCount": 64,
+        "testCount": 307,
+        "testFileCount": 65,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
@@ -1222,6 +1223,7 @@
           "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/events/recompile.test.ts",
           "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+          "packages/pal-extract/src/events/script-entries.test.ts",
           "packages/pal-extract/src/events/slice.boundaries.test.ts",
           "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
@@ -1371,6 +1373,11 @@
             "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
             "testCount": 2,
             "identityDigest": "1c80c35d8c8fd4d251eb1eaaed2bd81cecade6a954bf79efcfa538a8ad789851"
+          },
+          {
+            "file": "packages/pal-extract/src/events/script-entries.test.ts",
+            "testCount": 2,
+            "identityDigest": "9e80b318cb9ba57da027dcde3be4b775d8d1b39ced7b3745414e38131ddd59b0"
           },
           {
             "file": "packages/pal-extract/src/events/slice.boundaries.test.ts",
@@ -1588,25 +1595,25 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "9aad5aae7f0527859019f0bcdd96fcf60631c7f823638262f6ec8aa7bc1d8e01",
+        "identityDigest": "c68a2bf89310af53279009a6c8e40e8ec560655821a7ccab195b41c9c9e266f0",
         "duplicateIdentityCount": 1,
-        "executionDigest": "ff54a2c5e88627a093b64ba3f1aa7d693691b3fbf2a54647c29a609388ce84f8"
+        "executionDigest": "cf6ef4861351b6999131faf01bb789aff5c51ce3a3a1e66679dd84fb3fa1c097"
       },
       "metrics": {
         "statements": {
-          "covered": 1078,
+          "covered": 1120,
           "total": 1542
         },
         "branches": {
-          "covered": 473,
+          "covered": 503,
           "total": 597
         },
         "functions": {
-          "covered": 114,
-          "total": 142
+          "covered": 115,
+          "total": 143
         },
         "lines": {
-          "covered": 953,
+          "covered": 979,
           "total": 1364
         }
       }
@@ -10672,19 +10679,19 @@
   },
   "total": {
     "statements": {
-      "covered": 71466,
+      "covered": 71508,
       "total": 79308
     },
     "branches": {
-      "covered": 51900,
+      "covered": 51930,
       "total": 61935
     },
     "functions": {
-      "covered": 13572,
-      "total": 15124
+      "covered": 13573,
+      "total": 15125
     },
     "lines": {
-      "covered": 63828,
+      "covered": 63854,
       "total": 69391
     }
   }
