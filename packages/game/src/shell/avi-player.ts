@@ -15,6 +15,7 @@
  *    overlay让用户点击后重试；后续播放仍服从浏览器autoplay策略
  *  - 不知 gs / suspendRaf — caller(bootstrap)用 try/finally 控制 raf loop 暂停
  */
+import { listenForModalActions } from './input.js'
 
 /**
  * 视频(mp4)主音量系数(0..1,默认 1=满音量,保持历史行为)。工具面板「视频」滑块 + 主静音驱动:
@@ -34,7 +35,7 @@ export interface PlayAviOptions {
   /** mp4 资源 URL,通常 `/extracted/videos/{N}.mp4`。 */
   src: string
 
-  /** 容器元素,默认 `document.body`。 */
+  /** 容器元素,默认游戏stage(保留其上的虚拟键),无stage时用document.body。 */
   containerEl?: HTMLElement
 
   /**
@@ -53,7 +54,7 @@ export interface PlayAviOptions {
  * 媒体error会warn并收尾；play()拒绝会warn并等待点击重试或跳过，不会因此立即resolve。
  */
 export function playAvi(options: PlayAviOptions): Promise<void> {
-  const container = options.containerEl ?? document.body
+  const container = options.containerEl ?? document.getElementById('tp-game-stage') ?? document.body
   const skipKeys = new Set(options.skipKeys ?? ['Space', 'Enter', 'Escape'])
 
   return new Promise<void>((resolve) => {
@@ -63,6 +64,7 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
     video.volume = videoVolume // 套用工具面板「视频」音量 / 主静音(静音时已被压到 0)
     curVideoEl = video // 模块级跟踪 → 播放中拖滑块/切静音即时刷新
     video.controls = false
+    video.playsInline = true
     video.autoplay = false
     video.style.position = 'fixed'
     video.style.top = '0'
@@ -87,6 +89,7 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
       if (settled) return
       settled = true
       window.removeEventListener('keydown', onKey, true)
+      detachActions()
       video.removeEventListener('ended', onEnded)
       video.removeEventListener('error', onError)
       try {
@@ -122,6 +125,9 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
     video.addEventListener('ended', onEnded)
     video.addEventListener('error', onError)
     window.addEventListener('keydown', onKey, true)
+    const detachActions = listenForModalActions(skipKeys, () => {
+      setTimeout(cleanup, 500)
+    })
 
     container.appendChild(video)
 

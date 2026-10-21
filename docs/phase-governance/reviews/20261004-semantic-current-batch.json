@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current CLI/event window frozen slice+CLI+output related-card window; gates pending; P3 awaiting decision;ledger 355/129/2856;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+      "coreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,7 +468,7 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Continue remaining32partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Software merged and issue closed; physical hardware and deployment remain separate.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
@@ -503,9 +503,9 @@
         "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
-        "currentSha": "2a5ab4561c1dd8b71f984a4109a47746de295a6db70ffe659c7055ef5600c092",
+        "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
         "implementationSha": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
-        "contentVersion": 41,
+        "contentVersion": 46,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -1649,10 +1649,8 @@
         ]
       },
       "evidence": {
-        "kind": "extract-four-card-scoped-current-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
-        "afterSha256": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
-        "lineCount": 91
+        "kind": "mobile-software-integration-scoped-review",
+        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
       },
       "history": [
         {
@@ -2086,6 +2084,78 @@
         },
         {
           "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
+          "previousEvidence": {
+            "kind": "extract-four-card-scoped-current-review",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
+            "afterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
+            "lineCount": 91
+          },
+          "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+          "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "235a6ef967231de2c284e035f58e373c03a14979da46131ccf3c03ac3d003333",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after 9b4df7145 integration",
+          "action": "Accept mobile software gates; disclose hardware limit",
+          "scope": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "cf77bf2c403946baf49cc5d2b28e3f0a02210e9757d795c6e1452e3d03d531ba",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after 9b4df7145 integration",
+          "action": "Accept mobile software gates; disclose hardware limit",
+          "scope": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "3b6a79923a0912db091ec803a3556f9655f55521112ce8f57a3f956e885d5882",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
+          "previousReadMethod": "Read only the mobile task row, 14-new-path inventory summary or named dependency delta; preserve unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
           "action": "CLI-event-window-approved-local-repair",
           "previousAfterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
           "afterSha256": "328dab1846a850ae142b9339ea4ee0557fcd73dae4ae2c4990d5049a5d88d05c",
@@ -2096,6 +2166,14 @@
           "date": "2026-10-22",
           "action": "CLI-event-window-cli-io-freeze",
           "previousAfterSha256": "328dab1846a850ae142b9339ea4ee0557fcd73dae4ae2c4990d5049a5d88d05c",
+          "afterSha256": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-main-mobile-merge",
+          "previousAfterSha256": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
           "afterSha256": "288474bea88bf4c406d6562ca93eb8365799ec671e659c742f7a9937a390d550",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
@@ -2390,21 +2468,21 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
+      "readMethod": "Read only the mobile task row, 14-new-path inventory summary or named dependency delta; preserve unrelated entries and historical evidence.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+      "coreConclusion": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
       ],
-      "nextStep": "Continue remaining32partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Software merged and issue closed; physical hardware and deployment remain separate.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
+      "afterSha256": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2424,9 +2502,9 @@
         "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "d00282273461de0bf4449767197a431ed4d857e3113b67e0656fea8cb6b52144",
-        "implementationSha": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
-        "contentVersion": 29,
+        "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
+        "implementationSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
+        "contentVersion": 32,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -2770,170 +2848,8 @@
         ]
       },
       "evidence": {
-        "kind": "save-v1-module-closeout-scoped-current-source-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
-        "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 515,
-        "headings": [
-          {
-            "line": 1,
-            "text": "任务卡索引"
-          },
-          {
-            "line": 7,
-            "text": "活动任务"
-          },
-          {
-            "line": 18,
-            "text": "已完成（historical）"
-          },
-          {
-            "line": 349,
-            "text": "已取消（superseded / historical）"
-          }
-        ],
-        "unresolvedSignals": [
-          "181:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
-          "184:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
-          "349:## 已取消（superseded / historical）",
-          "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
-        ],
-        "afterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
-        "currentReading": {
-          "date": "2026-10-17",
-          "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-          "scope": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done",
-          "method": "full-text-read-plus-current-delta"
-        },
-        "readingHistory": [
-          {
-            "date": "2026-10-08",
-            "sha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
-            "lineCount": 373,
-            "headings": [
-              {
-                "line": 1,
-                "text": "任务卡索引"
-              },
-              {
-                "line": 7,
-                "text": "活动任务"
-              },
-              {
-                "line": 21,
-                "text": "已完成（historical）"
-              },
-              {
-                "line": 364,
-                "text": "已取消（superseded / historical）"
-              }
-            ],
-            "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
-          },
-          {
-            "date": "2026-10-11",
-            "sha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
-            "lineCount": 374,
-            "headings": [
-              {
-                "line": 1,
-                "text": "任务卡索引"
-              },
-              {
-                "line": 7,
-                "text": "活动任务"
-              },
-              {
-                "line": 18,
-                "text": "已完成（historical）"
-              },
-              {
-                "line": 365,
-                "text": "已取消（superseded / historical）"
-              }
-            ],
-            "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-11",
-            "sha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454",
-            "lineCount": 375,
-            "headings": [
-              {
-                "line": 1,
-                "text": "任务卡索引"
-              },
-              {
-                "line": 7,
-                "text": "活动任务"
-              },
-              {
-                "line": 19,
-                "text": "已完成（historical）"
-              },
-              {
-                "line": 366,
-                "text": "已取消（superseded / historical）"
-              }
-            ],
-            "scope": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation",
-            "coreConclusion": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
-            "unresolved": [
-              "正文信号 181:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
-              "正文信号 184:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
-              "正文信号 349:## 已取消（superseded / historical）",
-              "正文信号 358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
-            ]
-          },
-          {
-            "date": "2026-10-12",
-            "sha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
-            "lineCount": 378,
-            "headings": [
-              {
-                "line": 1,
-                "text": "任务卡索引"
-              },
-              {
-                "line": 7,
-                "text": "活动任务"
-              },
-              {
-                "line": 19,
-                "text": "已完成（historical）"
-              },
-              {
-                "line": 369,
-                "text": "已取消（superseded / historical）"
-              }
-            ],
-            "scope": "2026-10-12：由官方 --print-task-index 按358张任务卡重新生成。ED-ENTITY-STATE-PLAN-1 为review，TURN-BOUNDARIES 为rework并回到活动区；最新main的ControlForm、ItemEffect、MenuBox三卡保持已完成归档。生成链接与排序不等于重新验收全部历史任务。",
-            "method": "prior-full-text-review + current-delta-and-primary-evidence-read-20261012",
-            "coreConclusion": "2026-10-12：由官方 --print-task-index 按358张任务卡重新生成。ED-ENTITY-STATE-PLAN-1 为review，TURN-BOUNDARIES 为rework并回到活动区；最新main的ControlForm、ItemEffect、MenuBox三卡保持已完成归档。生成链接与排序不等于重新验收全部历史任务。",
-            "truthAnchors": [
-              "docs/ops/tasks/index.md:7",
-              "docs/ops/tasks/index.md:14",
-              "docs/ops/tasks/index.md:17",
-              "scripts/docs/check.mjs:67"
-            ]
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "3baad60ceee0b260cccdfd4a88517c2bb6461ca42cda61503eccf82f29501ac9",
-            "lineCount": 379,
-            "reviewedRanges": ["15-15"],
-            "scope": "官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
-            "method": "prior-content-review-plus-current-delta-and-primary-evidence",
-            "coreConclusion": "2026-10-14：官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
-            "truthAnchors": [
-              "docs/ops/tasks/index.md:15",
-              "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
-              "docs/ops/evidence/game-rng-scene-restore-1/README.md"
-            ]
-          }
-        ]
+        "kind": "mobile-software-integration-scoped-review",
+        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
       },
       "history": [
         {
@@ -3177,12 +3093,216 @@
           "afterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
+          "previousEvidence": {
+            "kind": "save-v1-module-closeout-scoped-current-source-review",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+            "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
+            "lineCount": 515,
+            "headings": [
+              {
+                "line": 1,
+                "text": "任务卡索引"
+              },
+              {
+                "line": 7,
+                "text": "活动任务"
+              },
+              {
+                "line": 18,
+                "text": "已完成（historical）"
+              },
+              {
+                "line": 349,
+                "text": "已取消（superseded / historical）"
+              }
+            ],
+            "unresolvedSignals": [
+              "181:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
+              "184:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
+              "349:## 已取消（superseded / historical）",
+              "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
+            ],
+            "afterSha256": "908be2501f80a327343a596e1dc5c1f070346459ce475a9fda1c6ec33f61462f",
+            "currentReading": {
+              "date": "2026-10-17",
+              "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
+              "scope": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done",
+              "method": "full-text-read-plus-current-delta"
+            },
+            "readingHistory": [
+              {
+                "date": "2026-10-08",
+                "sha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+                "lineCount": 373,
+                "headings": [
+                  {
+                    "line": 1,
+                    "text": "任务卡索引"
+                  },
+                  {
+                    "line": 7,
+                    "text": "活动任务"
+                  },
+                  {
+                    "line": 21,
+                    "text": "已完成（historical）"
+                  },
+                  {
+                    "line": 364,
+                    "text": "已取消（superseded / historical）"
+                  }
+                ],
+                "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
+              },
+              {
+                "date": "2026-10-11",
+                "sha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
+                "lineCount": 374,
+                "headings": [
+                  {
+                    "line": 1,
+                    "text": "任务卡索引"
+                  },
+                  {
+                    "line": 7,
+                    "text": "活动任务"
+                  },
+                  {
+                    "line": 18,
+                    "text": "已完成（historical）"
+                  },
+                  {
+                    "line": 365,
+                    "text": "已取消（superseded / historical）"
+                  }
+                ],
+                "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+                "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+              },
+              {
+                "date": "2026-10-11",
+                "sha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454",
+                "lineCount": 375,
+                "headings": [
+                  {
+                    "line": 1,
+                    "text": "任务卡索引"
+                  },
+                  {
+                    "line": 7,
+                    "text": "活动任务"
+                  },
+                  {
+                    "line": 19,
+                    "text": "已完成（historical）"
+                  },
+                  {
+                    "line": 366,
+                    "text": "已取消（superseded / historical）"
+                  }
+                ],
+                "scope": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
+                "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation",
+                "coreConclusion": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
+                "unresolved": [
+                  "正文信号 181:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
+                  "正文信号 184:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
+                  "正文信号 349:## 已取消（superseded / historical）",
+                  "正文信号 358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
+                ]
+              },
+              {
+                "date": "2026-10-12",
+                "sha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
+                "lineCount": 378,
+                "headings": [
+                  {
+                    "line": 1,
+                    "text": "任务卡索引"
+                  },
+                  {
+                    "line": 7,
+                    "text": "活动任务"
+                  },
+                  {
+                    "line": 19,
+                    "text": "已完成（historical）"
+                  },
+                  {
+                    "line": 369,
+                    "text": "已取消（superseded / historical）"
+                  }
+                ],
+                "scope": "2026-10-12：由官方 --print-task-index 按358张任务卡重新生成。ED-ENTITY-STATE-PLAN-1 为review，TURN-BOUNDARIES 为rework并回到活动区；最新main的ControlForm、ItemEffect、MenuBox三卡保持已完成归档。生成链接与排序不等于重新验收全部历史任务。",
+                "method": "prior-full-text-review + current-delta-and-primary-evidence-read-20261012",
+                "coreConclusion": "2026-10-12：由官方 --print-task-index 按358张任务卡重新生成。ED-ENTITY-STATE-PLAN-1 为review，TURN-BOUNDARIES 为rework并回到活动区；最新main的ControlForm、ItemEffect、MenuBox三卡保持已完成归档。生成链接与排序不等于重新验收全部历史任务。",
+                "truthAnchors": [
+                  "docs/ops/tasks/index.md:7",
+                  "docs/ops/tasks/index.md:14",
+                  "docs/ops/tasks/index.md:17",
+                  "scripts/docs/check.mjs:67"
+                ]
+              },
+              {
+                "date": "2026-10-14",
+                "sha256": "3baad60ceee0b260cccdfd4a88517c2bb6461ca42cda61503eccf82f29501ac9",
+                "lineCount": 379,
+                "reviewedRanges": ["15-15"],
+                "scope": "官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
+                "method": "prior-content-review-plus-current-delta-and-primary-evidence",
+                "coreConclusion": "2026-10-14：官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
+                "truthAnchors": [
+                  "docs/ops/tasks/index.md:15",
+                  "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
+                  "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+                ]
+              }
+            ]
+          },
+          "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+          "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after 9b4df7145 integration",
+          "action": "Accept mobile software gates; disclose hardware limit",
+          "scope": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "8c4da6ccfb945b798a4f92826d15c092562e0ab247e4a6d43a4cad378a5c80bd",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only CLI/event current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
+      "reviewedLines": "Only mobile task/status, 14-new-path inventory counts or named child review binding; no unrelated full-document reacceptance.",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",

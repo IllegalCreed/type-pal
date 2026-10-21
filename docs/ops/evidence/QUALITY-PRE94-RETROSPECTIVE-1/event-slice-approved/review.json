@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "state": "integration resync required; both official metric/protected rejections retained;0new closures",
+  "state": "main7663 mobile source integrated;0closures; merged gates pending",
   "owner": "Codex single agent",
   "base": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
   "sourceCommit": "6d15b6c91633e3937ee0817076d833643e9b9d32",
@@ -107,10 +107,10 @@
     }
   ],
   "ledger": {
-    "total": 3340,
+    "total": 3354,
     "closed": 355,
     "review": 129,
-    "pending": 2856
+    "pending": 2870
   },
   "newClosures": 0,
   "pre94": {

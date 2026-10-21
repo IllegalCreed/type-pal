@@ -1,0 +1,69 @@
+{
+  "scope": "isolated exact typed input/controller/test copies; hardware not tested",
+  "sourceHashes": {
+    "input.ts": "381fdffe0a072759c7f1b461c8cc7e551aece71efa904604176cad8f1280b579",
+    "gamepad-input.ts": "3cea4a59a2d553727aa26cfeb1eb2eb5dc8598d9d2137b7cfc7a8edd9567937e",
+    "gamepad-input.test.ts": "39b595aa49cd74ca85d4b3dcc7bf9307c919e11e0b251a4d0c5e20a7f800648e"
+  },
+  "runs": [
+    {
+      "name": "control",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/game",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/gamepad-probe-b8z_hj7d/gamepad-input.test.ts",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-MOBILE-LAYOUT-1/gamepad-control.json"
+      ],
+      "exit": 0,
+      "passed": 7,
+      "tests": 7,
+      "failed": [],
+      "mutantHash": "3cea4a59a2d553727aa26cfeb1eb2eb5dc8598d9d2137b7cfc7a8edd9567937e",
+      "report": "gamepad-control.json"
+    },
+    {
+      "name": "unsupported-mapping",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/game",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/gamepad-probe-b8z_hj7d/gamepad-input.test.ts",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-MOBILE-LAYOUT-1/gamepad-unsupported-mapping.json"
+      ],
+      "exit": 1,
+      "passed": 6,
+      "tests": 7,
+      "failed": ["ignores nonstandard layouts while accepting sparse standard gamepad slots"],
+      "mutantHash": "8c5d753f76a01f804b60253539a198dd1fdfd62b5f97ad707c7705a24cd802a0",
+      "report": "gamepad-unsupported-mapping.json"
+    },
+    {
+      "name": "restored",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/game",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/gamepad-probe-b8z_hj7d/gamepad-input.test.ts",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-MOBILE-LAYOUT-1/gamepad-restored.json"
+      ],
+      "exit": 0,
+      "passed": 7,
+      "tests": 7,
+      "failed": [],
+      "mutantHash": "3cea4a59a2d553727aa26cfeb1eb2eb5dc8598d9d2137b7cfc7a8edd9567937e",
+      "report": "gamepad-restored.json"
+    }
+  ],
+  "temporaryTreeRemoved": true,
+  "reportHandling": "Native Vitest JSON objects retained with formatting-only normalization, complete native stdout/stderr in matching .txt."
+}

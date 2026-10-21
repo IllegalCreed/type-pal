@@ -3139,7 +3139,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused",
-      "coreConclusion": "Current CLI/event window frozen slice+CLI+output related-card window; gates pending; P3 awaiting decision;ledger 355/129/2856;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
+      "coreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
+      "afterSha256": "b0a0fa287cd056203d096e48442363af99e765c760530399c9cb363d4689a409",
       "revision": {
-        "currentSha": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
-        "implementationSha": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
+        "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
+        "implementationSha": "b0a0fa287cd056203d096e48442363af99e765c760530399c9cb363d4689a409",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,10 +4146,8 @@
         ]
       },
       "evidence": {
-        "kind": "extract-four-card-scoped-current-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
-        "afterSha256": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
-        "lineCount": 930
+        "kind": "mobile-software-integration-scoped-review",
+        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
       },
       "history": [
         {
@@ -4702,6 +4700,22 @@
         },
         {
           "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
+          "previousEvidence": {
+            "kind": "extract-four-card-scoped-current-review",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
+            "afterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
+            "lineCount": 928
+          },
+          "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
+          "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
+        },
+        {
+          "date": "2026-10-22",
           "action": "CLI-event-window-approved-local-repair",
           "previousAfterSha256": "ddeca49f4f38e92e42c4021620d7077e192ff754f77ed9dce8245d57dfec6dff",
           "afterSha256": "c66d4e4016ef455337f4ab486bc1f0dee71d743ac86e04856d71e694271daf7e",
@@ -4723,6 +4737,14 @@
           "afterSha256": "efaa69b6e7054a1aed8a6dbff6ed6ba6cdcefcf3572ad20f3520c2fb79a67faf",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "CLI-event-window-main-mobile-merge",
+          "previousAfterSha256": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
+          "afterSha256": "b0a0fa287cd056203d096e48442363af99e765c760530399c9cb363d4689a409",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
         }
       ],
       "supersedes": [
@@ -4733,7 +4755,7 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue remaining32partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Complete official coverage and CI before merge and issue closure.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T16:39:20.536Z",
+  "generatedAt": "2026-10-21T18:17:31.616Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 750,
-  "testCount": 19994,
+  "sourceFileCount": 755,
+  "testCount": 20024,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4558,7 +4558,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 152,
+      "sourceFileCount": 157,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4684,15 +4684,20 @@
         "packages/game/src/shell/ending-player.ts",
         "packages/game/src/shell/fbp-player.ts",
         "packages/game/src/shell/fetch-retry.ts",
+        "packages/game/src/shell/game-shell.ts",
+        "packages/game/src/shell/gamepad-input.ts",
         "packages/game/src/shell/input.ts",
         "packages/game/src/shell/main-loop.ts",
         "packages/game/src/shell/music-source.ts",
         "packages/game/src/shell/precache-client.ts",
         "packages/game/src/shell/precache-ui.ts",
+        "packages/game/src/shell/presentation.ts",
         "packages/game/src/shell/rix-worklet.ts",
         "packages/game/src/shell/rix/kernel.ts",
         "packages/game/src/shell/rng-player.ts",
         "packages/game/src/shell/splash-fallback.ts",
+        "packages/game/src/shell/touch-controls.ts",
+        "packages/game/src/shell/touch-preference.ts",
         "packages/game/src/shell/trademark-fallback.ts",
         "packages/game/src/tools/display-scale.ts",
         "packages/game/src/tools/fps-overlay.ts",
@@ -4713,10 +4718,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "a200008d81a243274551d1ba4059033f458276e699d9c68dcf6f59fde964c229",
+      "scopeDigest": "bb5bf04ea04c3a7d0f3f925a2e88ec596d22638523341fa81334e74416a88ac5",
       "fastTests": {
-        "testCount": 3658,
-        "testFileCount": 320,
+        "testCount": 3688,
+        "testFileCount": 328,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4985,12 +4990,16 @@
           "packages/game/src/shell/fetch-retry.cancellation.test.ts",
           "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
           "packages/game/src/shell/fetch-retry.test.ts",
+          "packages/game/src/shell/game-shell.test.ts",
+          "packages/game/src/shell/gamepad-host.test.ts",
+          "packages/game/src/shell/gamepad-input.test.ts",
           "packages/game/src/shell/input-replay.grok-r1.test.ts",
           "packages/game/src/shell/input.boundaries.test.ts",
           "packages/game/src/shell/input.test.ts",
           "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
           "packages/game/src/shell/main-loop.test.ts",
           "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+          "packages/game/src/shell/modal-input.test.ts",
           "packages/game/src/shell/music-source.test.ts",
           "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
           "packages/game/src/shell/precache-client.test.ts",
@@ -5005,6 +5014,8 @@
           "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
           "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
           "packages/game/src/shell/splash-fallback.test.ts",
+          "packages/game/src/shell/touch-controls.test.ts",
+          "packages/game/src/shell/touch-preference.test.ts",
           "packages/game/src/shell/trademark-fallback.test.ts",
           "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
           "packages/game/src/status-poison-equip.glm-q.test.ts",
@@ -5014,6 +5025,7 @@
           "packages/game/src/tools/map-names.test.ts",
           "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/minimap.test.ts",
+          "packages/game/src/tools/mobile-presentation.test.ts",
           "packages/game/src/tools/quick-save.test.ts",
           "packages/game/src/tools/save-io.test.ts",
           "packages/game/src/tools/speedrun/checkpoints.test.ts",
@@ -5037,6 +5049,7 @@
           "packages/game/src/tools/toast.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/toast.test.ts",
           "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+          "packages/game/src/tools/tools-panel.mobile.test.ts",
           "packages/game/src/tools/tools-panel.test.ts"
         ],
         "fileEntries": [
@@ -6376,6 +6389,21 @@
             "identityDigest": "724e1d954fe89d452bb75505bea69d235fda7ae93c67809c5dd3b94c49b6e740"
           },
           {
+            "file": "packages/game/src/shell/game-shell.test.ts",
+            "testCount": 2,
+            "identityDigest": "8cf8cd0e1c8d3d8c6d1e8453bc61d60d6f1a14da3bea62a96655f72e3e772353"
+          },
+          {
+            "file": "packages/game/src/shell/gamepad-host.test.ts",
+            "testCount": 2,
+            "identityDigest": "eb2aab7b0d23dd24c2a3c60b141dd0a38a3d31a19d68f35239076cc43cc5c591"
+          },
+          {
+            "file": "packages/game/src/shell/gamepad-input.test.ts",
+            "testCount": 7,
+            "identityDigest": "e48a97fe0f468c08e345b5f3c68b3da34cf094e27755d8f49adfd2feaadb91da"
+          },
+          {
             "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
             "testCount": 11,
             "identityDigest": "3d46777294bbf3460d14fd686f559281de3726ff21bdd895af70d1c841f55f71"
@@ -6404,6 +6432,11 @@
             "file": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
             "testCount": 2,
             "identityDigest": "02491409d29d4c065b9c2882884b4768a8a70434759bd1f5b7743cdfa7e51327"
+          },
+          {
+            "file": "packages/game/src/shell/modal-input.test.ts",
+            "testCount": 3,
+            "identityDigest": "866e85e10d47ed5cea0f659465750a3a0092d53d4009fdd17bcded80761706ef"
           },
           {
             "file": "packages/game/src/shell/music-source.test.ts",
@@ -6476,6 +6509,16 @@
             "identityDigest": "e6c04c686f97ae13acd7a01054509b1f4a042801b09c293cc524f94e68c40fe1"
           },
           {
+            "file": "packages/game/src/shell/touch-controls.test.ts",
+            "testCount": 10,
+            "identityDigest": "c951f617c7b37fe48c8402641437dcd234593a20b79f0f86f7050239a3973909"
+          },
+          {
+            "file": "packages/game/src/shell/touch-preference.test.ts",
+            "testCount": 1,
+            "identityDigest": "2a6e6342ad20be3eabefbf0254fd9973b5e75fbc92e42ce2e3831190d50a9ad8"
+          },
+          {
             "file": "packages/game/src/shell/trademark-fallback.test.ts",
             "testCount": 2,
             "identityDigest": "e882d22e446ded1404bb7b1190768cb4a93f95216a53fb7537591f3ca0fdbae4"
@@ -6519,6 +6562,11 @@
             "file": "packages/game/src/tools/minimap.test.ts",
             "testCount": 14,
             "identityDigest": "a2e9428754b8ac41c3b2a4c6e436b177133be91b390b10a997c62f87812c6ce7"
+          },
+          {
+            "file": "packages/game/src/tools/mobile-presentation.test.ts",
+            "testCount": 2,
+            "identityDigest": "a733a3fac5205fa3fa6efa58fa500f8929ec9694d90b88fe5db419eb02515294"
           },
           {
             "file": "packages/game/src/tools/quick-save.test.ts",
@@ -6636,31 +6684,36 @@
             "identityDigest": "ffd8a64c0682e42e568c430db8d98ecb8867b8599943387ce168d0083abaad03"
           },
           {
+            "file": "packages/game/src/tools/tools-panel.mobile.test.ts",
+            "testCount": 3,
+            "identityDigest": "373a1370f9c1970dcd6d9dc5287d4a184ca6bc1b014f77d4f2a1ed709cdc4b22"
+          },
+          {
             "file": "packages/game/src/tools/tools-panel.test.ts",
             "testCount": 16,
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "24be8c8e6ad468e5fe11a8d312dbfb77aecbb64c399879a586ff7baeea06fd68",
+        "identityDigest": "74816353650b9cb9db3f44079ac84f1eb13ade344e12415ddd737dcb21879e6f",
         "duplicateIdentityCount": 0,
-        "executionDigest": "211b500b9b87fa44e991bbb383c7b347500bf5eb1e18445166a922b8e3953b9d"
+        "executionDigest": "2c6f2b3c704430b412450f5578af80b9a035435fbd65117d02edfbdfd0527ae1"
       },
       "metrics": {
         "statements": {
-          "covered": 14379,
-          "total": 16116
+          "covered": 14755,
+          "total": 16514
         },
         "branches": {
-          "covered": 9382,
-          "total": 11672
+          "covered": 9557,
+          "total": 11869
         },
         "functions": {
-          "covered": 1696,
-          "total": 1987
+          "covered": 1749,
+          "total": 2044
         },
         "lines": {
-          "covered": 12816,
-          "total": 14118
+          "covered": 13160,
+          "total": 14476
         }
       }
     },
@@ -10679,20 +10732,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71508,
-      "total": 79308
+      "covered": 71884,
+      "total": 79706
     },
     "branches": {
-      "covered": 51930,
-      "total": 61935
+      "covered": 52105,
+      "total": 62132
     },
     "functions": {
-      "covered": 13573,
-      "total": 15125
+      "covered": 13626,
+      "total": 15182
     },
     "lines": {
-      "covered": 63854,
-      "total": 69391
+      "covered": 64198,
+      "total": 69749
     }
   }
 }
