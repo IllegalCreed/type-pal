@@ -64,11 +64,15 @@ export function codeToAbstractKey(code: string): AbstractKey | null {
   return CODE_MAP[code] ?? null
 }
 
+function isDirectionKey(key: AbstractKey): boolean {
+  return key === 'Up' || key === 'Down' || key === 'Left' || key === 'Right'
+}
+
 export class KeyboardInputSource implements InputSource {
   private held = new Set<AbstractKey>()
   private pressed = new Set<AbstractKey>()
-  /** DM30:fade 抑制集 —— fade 期间按住的方向键,keyup 前不再进 snapshot.held。 */
-  private readonly suppressedHeld = new Set<AbstractKey>()
+  /** Scene-fade 清当前方向；物理按键及先后顺序保留到下一有效方向事件重算。 */
+  private directionSuppressed = false
   private readonly handleDown = (e: KeyboardEvent): void => {
     const k = codeToAbstractKey(e.code)
     if (!k) return
@@ -77,6 +81,7 @@ export class KeyboardInputSource implements InputSource {
     // 若不过滤,被 hold 的键持续 delete-then-add 推到末尾,后按的键反被挤前 →
     // "后按优先" 失效(user 报"依然是固定优先级")。
     if (e.repeat) return
+    if (isDirectionKey(k)) this.directionSuppressed = false
     if (!this.held.has(k)) this.pressed.add(k)
     // delete-then-add 把最新**初次按下**的键推到 Set 末尾,pickFacing 反向取末位即可。
     this.held.delete(k)
@@ -86,7 +91,7 @@ export class KeyboardInputSource implements InputSource {
     const k = codeToAbstractKey(e.code)
     if (!k) return
     this.held.delete(k)
-    this.suppressedHeld.delete(k) // DM30:物理松开解除 fade 抑制(重按恢复)
+    if (isDirectionKey(k)) this.directionSuppressed = false
   }
 
   constructor(private readonly target: Window) {
@@ -96,8 +101,8 @@ export class KeyboardInputSource implements InputSource {
 
   nextSnapshot(frameNum: number): InputSnapshot {
     const snap: InputSnapshot = {
-      // DM30:held 过滤 fade 抑制集(保插入序,pickFacing 反向取末位语义不变)。
-      held: new Set([...this.held].filter((k) => !this.suppressedHeld.has(k))),
+      // 只屏蔽当前方向，不丢物理键序；pickFacing 仍按末次按下优先。
+      held: new Set([...this.held].filter((k) => !this.directionSuppressed || !isDirectionKey(k))),
       pressed: new Set(this.pressed),
       frameNum,
     }
@@ -106,17 +111,13 @@ export class KeyboardInputSource implements InputSource {
   }
 
   /**
-   * DM30:palette fade 每步清键(palette.c:313-316)。方向键进抑制集(物理松开才解除,
-   * input.c:213 `if (!fRepeat)` 不重算 dir 的等价);pressed 清空(PAL_ClearKeyState)。
-   * 已知近似:C 的 dir 只在方向 keydown/keyup 事件时从 dwKeyOrder 重算(input.c:236/286;
-   * keydown 侧带 `!fRepeat` 守卫,自动重复不触发)——scene-fade 清 dir 后,非重复方向
-   * keydown 或方向 keyup 会复活其它仍按住的方向键;TS 按键各自 keyup 解除,
-   * 多键同持穿 scene-fade 的"复活"角点不还原(单键场景两者等价)。
+   * PAL_SceneFade 清 dir 和 pressed，但保留 dwKeyOrder（palette.c:313-316）。
+   * PAL_KeyDown 的非repeat方向事件、PAL_KeyUp 的方向事件才重算 dir（input.c:213-286）。
+   * 因此抑制属于当前方向，不属于各物理键；下一有效方向事件应一起恢复仍按住的方向。
+   * 非方向事件和自动重复不能解除抑制，单纯继续按住也不会自动恢复。
    */
   suppressHeldForFade(): void {
-    for (const k of this.held) {
-      if (k === 'Up' || k === 'Down' || k === 'Left' || k === 'Right') this.suppressedHeld.add(k)
-    }
+    this.directionSuppressed = true
     this.pressed.clear()
   }
 
