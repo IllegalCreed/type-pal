@@ -4175,7 +4175,7 @@
       ],
       "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
       "sourceSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
-      "afterSha256": "8aeaa99d55f4118ddd467e7573c15726f32973d78a29f243fff3321ccde11763",
+      "afterSha256": "1fa5fbd12c07cfdcacfdeec7137fb3296b7508ea7a55a99b62db2cc6f06e0e91",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
       "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full27 reread.",
       "beforeAfter": {
@@ -5942,5 +5942,14 @@
     ],
     "blockedDocuments": [],
     "scope": "S20 explicit partition migration; legacy current bindings moved to bounded successor shards. Not whole-batch historical acceptance."
-  }
+  },
+  "maintenanceHistory": [
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S22",
+      "sourceRevision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+      "changedTargets": ["docs/phase-governance/reviews/README.md"],
+      "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    }
+  ]
 }

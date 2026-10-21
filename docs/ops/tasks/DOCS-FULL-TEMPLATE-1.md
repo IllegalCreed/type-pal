@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: S20历史27篇接收；S21机器JSON合同盘点只读准入；全量硬验收未完成
+Reviewer: S21留存裁定已核；S22三份空账本显式退役实施中；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
@@ -2195,3 +2195,34 @@ S18实际中央[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/centra
 - 每个拟迁移合同族至少一份真实字段级样本，逐字段说明机器字段职责、合法输入、oracle、历史运行结果与当前documentAudit的边界、依赖/适用版本/停止线；数组仅声明实际核过的范围，不以遍历hash宣称读懂全部业务。优先覆盖testing机器证据、catalog/index、治理review/receipt、固定源/终端包装与archive等实际出现的类型；既有原字段和日期不修改，不把历史数字写成新执行事实。
 - 输出1124条分片inventory及完整group→path覆盖、分层读域、代码producer/consumer证据、每族现有17模板/版本/variant是否真的适配、缺口与最小新增合同提案、无损迁移/原生字段深等与真实consumer正反例计划、pilot与退出条件。匹配/未核/冲突分开；需要新增variant/模板必须设计提案由Owner冻结后才准canonical build。本轮不批量包envelope、不改JSON、不授1124份完成。
 - 按document-delivery-acceptance/1.0.0交真实Git/文件身份、可回放只读工具和实际输出/失败原件；分片<512KiB，不自嵌hash，不补造旧raw。Owner默认核集合/字段解析与claim证据、代表性合同风险，不重做所有字段语义审查。181/整仓check:docs/产品门不跑；无源改动不重复无关测试。无需逐篇确认，集中回交并附可转发Owner提示词。新产品取舍或不可逆操作仍停线交用户。
+
+### S22 三份空账本退役与固定清单处置（2026-10-21）
+
+- 用户明确授权先处理三份空账本的退役、历史引用和1838清单的显式处置，再推进JSON；由Codex直接执行，不逐批请示、不交GLM。单一Owner Codex，隔离分支codex/docs-audit-rework，基点19371962230ea46bc97fbd7723cf0192310be4bc；父卡保持rework，不合main、不标全量done。
+- build allowed：删除reviews下20261004-lore-guijie-batch2.json、20261004-phase1-root-batch2.json、20261004-structured-content-new-01.json三个仅剩身份与空entries的载体；原301/251/433B及最近非空原件均由固定Git提交/blob/SHA恢复，原12条文档的当前接替记录分别在r33/r30/r56，原信用不变。
+- 冻结生命周期合同empty-review-ledger-retirement/1.0.0，属于显式处置而非新增模板或artifactOnly豁免。唯一处置源放现有document-registry manifest的documentRetirements，包含授权入口、原登记快照、三个原件/非空前身与接替路径、保全引用区的独立SHA。原1838绑定基线不修改；migrated、retired与pending分别报告，退役不得算作正文迁移。
+- 前置核验：原件须来自regular Git blob，当前原件entries恰空且无纠错/迁移字段；最近非空前身的每条文档都须在当前registry与唯一reviewRecord中找到；待删路径不得仍有活动条目或migrated route，不得存在检出残留。缺原件、错误SHA、重复处置、缺接替或重新出现的文件一律失败。
+- 历史引用仅允许已登记且完整quote SHA吻合的保全原文区解析到固定Git原件；README新增可用的Git恢复与当前接替入口，原quote字节零变。当前正文引用、任意missing target和被改动的quote仍失败；旧JSON中的原时点路径不做全仓替换。
+- 白名单：以上三个删除、现有manifest/所属分片及对应review条目、README当前说明、父卡/看板/文档模型、必要docs检查器及一个新增定向回归文件。只补当前delta与必要pin，不复制全部库存/执行原件，不新增逐篇回执。产品源码、旧测试、coverage、旧作者包与既有526篇正文保持；README仅当前说明是明确例外，原quote仍保全。
+- 验证：真实Git恢复、12条接替与保全SHA；定向正反例覆盖伪造来源/缺接替/重现文件/现行断链/quote改动/未授权删除/分母和迁移信用；docs工具完整回归、check:docs、lint、diff检查按实际结果入账。全量存量partial/needs仍是未完成，不降低规则，不把局部通过冒充整仓硬门通过。
+- 后续JSON按S21留存裁定推进：133活跃输入/绑定、988冻结历史证据、3退役；分类不授语义或模板完成。先用现有已接受材料做原生格式合同pilot，不为每份JSON新造正文或重复证据。无下一位Agent提示词，由Codex续办。
+
+S22已实施：三个空载体退出当前registry与r93活动条目，原12项接替逐条可查，README quote保持原字节；只维护6个受影响review的12个after pin，旧状态不升格。原件通过Git恢复，不复制三份JSON到新位置。新检查器与现有四消费者的自验原件只保留[这一份命令日志](../evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz)，gzip无损保留首轮失败及完整输出，仓库不留明文副本；缺门或非零诊断不得收口。实现作者Codex，以下是作者自核，nonAuthorReviewer=false，不冒充新独立验收。
+
+首轮完整工具回归194/195通过：phase-lore-catalog.test.mjs:81仍断言current54/draft53/archived77，实际为current49/draft11/archived28/historical96。该旧测试及catalog各文件对基点零diff；本轮不改旧测试、不回退历史状态以制造通过。首轮lint的3项导入排序和1项字符串风格诊断已定点修复，后续以日志中的真实重跑为准；完整硬门未过，S22不标done，父卡继续rework。
+
+| 文件 | A 正确性 | B 注释 | C 边界 | D 复用 | E 测试 | F 可读性 | G 简洁性 | H 可复验 |
+|---|---|---|---|---|---|---|---|---|
+| document-retirements.mjs | Git字节/空载体/12项接替/残留拒绝 | 生命周期不授语义信用 | 纯检查与IO适配分开 | 四消费者共用 | 实际Git正反例 | source/predecessor分名 | 单一处置源 | 注入读与真实CLI |
+| document-registry.mjs | 保留2432条原生字段 | 复用既有存储边界说明 | 仅加处置形状门 | 原品牌writer | 完整存储回归 | 单行明确调用 | 无新存储层 | 现有临时包夹具 |
+| check.mjs | 历史区限定；现行断链仍拒绝 | 解释条件加载 | 无处置时无新增registry依赖 | 原Markdown解析器 | 偏移/quote/断链反例 | 显式historicalTarget | 无新增ignore | 纯audit与实际入口 |
+| check-content-review.mjs | 退役凭据失败进入硬诊断 | 简单接线无重复注释 | 不改原strict词表 | 共用处置检查 | 原严格门仍需全过 | 原输出保留 | 不过滤未知缺失 | 真正中央组合 |
+| report-governance-progress.mjs | 1838=migrated+retired+pending | 明确退役非迁移 | 不改冻结源 | 同一处置投影 | 1838/0迁移/1退役反控 | 分列计数 | 无平行状态表 | 真CLI仍拒绝假完成 |
+| document-retirements.test.mjs | 合法Git与原生schema夹具 | 明示不授旧结论 | 所有变异仅临时目录 | 同一合法基点 | 14项业务正反例 | 单因拒绝命名 | 不堆覆盖率用例 | 独立1838 oracle/退出码 |
+
+### S23 JSON原生合同首包设计前提（2026-10-21）
+
+- Codex续办，不交GLM；先核DOC-IA-2的additional-attachments/preservation-report/relocation三件既有内容接受与机器字段。它们当前仍needs-migration；r37的structured-content与泛化core不外推成已通过本轮原生合同，不增加完成数。
+- 已核三种字段职责：2张对话附件的from/to/kind/sha256；419项唯一from与唯一to的历史分类/迁移表（8种kind，kind不是单纯移动动作）；保全回执的419计划、261迁移/保留、134任务、89历史、9媒体、24消费者及9条退役记录。计数口径可能交叉，不擅自相加，也不把旧failures=[]当作今天实跑。
+- 冻结前还须核对应实际consumer/历史来源、9个恢复锚与2个附件去向、root与目录映射的例外；旧baseline/SHA与日期不刷新。只读或结构核验不授全文语义或模板信用。原JSON不搬进payload，不新建三份sidecar；若原生合同可用，优先复用现有registry绑定与已有review承载当前审查。
+- 本节是设计前提，非批量build或新增模板冻结。S22先以实际门结果收口当前实施范围，父卡与剩余JSON继续rework。

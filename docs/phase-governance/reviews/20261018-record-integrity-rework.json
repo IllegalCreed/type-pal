@@ -2480,7 +2480,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "4e21997b90618256b454f20aff20e7698b718b1c0855e6032a97e4ba72a687e4",
+      "afterSha256": "a6da159bbda8f2e1d9a447bef32ec29ff4810a167014d19ec3393e723c8e4f0a",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2971,7 +2971,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
-      "afterSha256": "6369a8c0893131b89677cefeb4ade30ad1b75596104263ce20ba5331003cf3f8",
+      "afterSha256": "298f1a1fef894c2c3e479ff6eba6c4c2aae920729812c8185f6a6464a886458a",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3197,7 +3197,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
-      "afterSha256": "83e5b35de4dd742e0536187a91d34219c3a912b01f93236807240394f2228a49",
+      "afterSha256": "6c457f6a5f282b0f730caea43a679b6243dc88826c075657a3183a511d7864b3",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -8873,7 +8873,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "4192996e7bb668bd4272946e26d659415b6bd6ab0e93f0fe0d046c110b7f8ee6",
-      "afterSha256": "7566388627232deb3b15fe43649ba7e3b3929f693de081e066c9aff17c8b9948",
+      "afterSha256": "9474b926a8b7aee9ca239814cb3e41b487d2243dbce4e014db016f55d4de935d",
       "sourceGitRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
       "reviewedLines": "Owner-generated ledger schema and explicit per-path27 routing migration; no independent native machine-document semantic/template acceptance.; registration only",
       "beforeAfter": {
@@ -8913,6 +8913,20 @@
       "sourceRecordSha256": "db4ca20bd0d806e768702ddba10e62a29ae8736887b19e2cb82d6946d4ffb419",
       "successor": "20261018-semantic-rework.json",
       "reason": "Only this exact independently accepted new body/template binding moved; other entries/order and original withdrawal/history retained."
+    }
+  ],
+  "maintenanceHistory": [
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S22",
+      "sourceRevision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+      "changedTargets": [
+        "docs/phase-governance/document-registry.ops.json",
+        "docs/phase-governance/document-registry.phase2.json",
+        "docs/phase-governance/document-registry.phase-governance.json",
+        "docs/phase-governance/reviews/20261021-s20-accepted-01.json"
+      ],
+      "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
     }
   ]
 }

@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { reviewCreditIssues } from './document-integrity.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
+import { readDocumentRetirements } from './document-retirements.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')
@@ -12,7 +13,7 @@ const { registry } = loadDocumentRegistry({ manifestPath: registryPath })
 const templates = JSON.parse(readFileSync(templateRegistryPath, 'utf8'))
 const templateMap = new Map(templates.types.map((entry) => [entry.docType, entry]))
 const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')
-const issues = []
+const issues = readDocumentRetirements(repoRoot, registry).issues
 const add = (message) => issues.push(message)
 
 for (const root of registry.structuralRoots ?? []) {

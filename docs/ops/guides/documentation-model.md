@@ -80,6 +80,8 @@ JSON 保持机器字段和公开 consumer 读取路径；不能把原对象统�
 
 用户批准的 1838 份是固定必审 cohort；新增/删除/路径变更单列增量，不静默改变分母。自动枚举、结构分类与旧 ledger 继承都是排期信息。只有读过正文并写出可反证的结论，才能转 content-reviewed。
 
+用户2026-10-21批准三份空账本的显式退役。处置源复用document-registry manifest的documentRetirements；empty-review-ledger-retirement/1.0.0只处理有固定Git原件、空entries、完整前身与接替映射的载体。1838原始绑定保持，进度分别列migrated、retired、pending，退役不授正文迁移或语义信用。历史保全区中的原链接须匹配登记quote SHA并能读取退役原件；新增现行引用仍要求检出目标。缺来源/接替、重复处置、quote变化或检出残留均拒绝，不能用排除、artifactOnly或缩分母代替处置。
+
 pilot 必须在真实模板章节中表达该文档的具体语义，并检查入链、出链、状态/历史、机器字段和实际 consumer。只把原文拼进 wrapper、比较 substring、JSON deep-equal，均不足以验收模板。每类至少一篇通过前，同类批量迁移不得开始。
 
 全量完成须清除未经批准的 governed-legacy，正文符合模板且逐篇 review 完整；无孤儿、断链、未解释冲突或 SHA 漂移。静态通过不能转换为 runtime/E2E/视觉/coverage 通过。

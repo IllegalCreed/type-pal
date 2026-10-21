@@ -16,6 +16,7 @@ import { createRequire } from 'node:module'
 import { basename, dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
+import { retirementShapeIssues } from './document-retirements.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 export const documentRegistryPhases = Object.freeze([
@@ -134,6 +135,7 @@ export function summarizeDocumentRegistry(entries) {
 }
 function validateLogical(registry) {
   demand(object(registry), 'registry object required')
+  demand(retirementShapeIssues(registry.documentRetirements).length === 0, 'invalid retirements')
   entriesValid(registry.entries)
   demand(
     isDeepStrictEqual(registry.summary, summarizeDocumentRegistry(registry.entries)),

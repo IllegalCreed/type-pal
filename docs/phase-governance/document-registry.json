@@ -32,20 +32,20 @@
     }
   ],
   "summary": {
-    "total": 2435,
+    "total": 2432,
     "byPhase": {
       "ops": 1329,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
       "phase3": 5,
-      "phase-governance": 159,
+      "phase-governance": 156,
       "testing": 759
     },
     "byType": {
       "task-card": 364,
       "guide-runbook": 18,
-      "archive-record": 1126,
+      "archive-record": 1123,
       "governance-index": 271,
       "audit-report": 67,
       "design-spec": 45,
@@ -62,11 +62,11 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1191,
+      "partial-review-unknown": 1188,
       "content-reviewed": 1244
     },
     "templateCompliance": {
-      "needs-migration": 1197,
+      "needs-migration": 1194,
       "template-compliant": 1238
     }
   },
@@ -85,7 +85,7 @@
       "phase": "ops",
       "path": "document-registry.ops.json",
       "total": 1329,
-      "sha256": "4e21997b90618256b454f20aff20e7698b718b1c0855e6032a97e4ba72a687e4"
+      "sha256": "a6da159bbda8f2e1d9a447bef32ec29ff4810a167014d19ec3393e723c8e4f0a"
     },
     {
       "key": "lore",
@@ -106,7 +106,7 @@
       "phase": "phase2",
       "path": "document-registry.phase2.json",
       "total": 109,
-      "sha256": "6369a8c0893131b89677cefeb4ade30ad1b75596104263ce20ba5331003cf3f8"
+      "sha256": "298f1a1fef894c2c3e479ff6eba6c4c2aae920729812c8185f6a6464a886458a"
     },
     {
       "key": "phase3",
@@ -119,8 +119,8 @@
       "key": "phase-governance",
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
-      "total": 159,
-      "sha256": "83e5b35de4dd742e0536187a91d34219c3a912b01f93236807240394f2228a49"
+      "total": 156,
+      "sha256": "6c457f6a5f282b0f730caea43a679b6243dc88826c075657a3183a511d7864b3"
     },
     {
       "key": "testing",
@@ -129,5 +129,132 @@
       "total": 759,
       "sha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94"
     }
-  ]
+  ],
+  "documentRetirements": {
+    "schemaVersion": 1,
+    "kind": "empty-review-ledger-retirement",
+    "owner": "Codex",
+    "retiredOn": "2026-10-21",
+    "authorization": {
+      "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "section": "S22 三份空账本退役与固定清单处置（2026-10-21）"
+    },
+    "previousRegistry": {
+      "path": "docs/phase-governance/document-registry.phase-governance.json",
+      "revision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+      "gitObject": "3d19b8f1a88a8f8bb3bce074e87a6ff44c87e303",
+      "sha256": "83e5b35de4dd742e0536187a91d34219c3a912b01f93236807240394f2228a49",
+      "bytes": 75140
+    },
+    "entries": [
+      {
+        "path": "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
+        "reason": "Only identity/header and empty entries remain; previous document bindings have explicit current successors. Retired by user-approved S22, not a migrated body.",
+        "source": {
+          "revision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+          "gitObject": "a4b79419e88176a804b060135cdbdb6126aca8d7",
+          "sha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
+          "bytes": 301
+        },
+        "predecessor": {
+          "revision": "0fceb7dbc1f4da3aee5f775c4a55a85ac71203f3",
+          "gitObject": "255bbfdb079ebb2fef01e79bdf6605f1559d6721",
+          "sha256": "3d30bec33328b836fb1263907dbbf03c4d7c0d3a7d9ff75b043c947365391e56",
+          "bytes": 9012
+        },
+        "replacements": [
+          {
+            "path": "docs/lore/ideas/guijie/beat-sheet.md",
+            "reviewRecord": "20261017-r33-phase2-lore.json"
+          },
+          {
+            "path": "docs/lore/ideas/guijie/brainstorm.md",
+            "reviewRecord": "20261017-r33-phase2-lore.json"
+          }
+        ]
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261004-phase1-root-batch2.json",
+        "reason": "Only identity/header and empty entries remain; previous document bindings have explicit current successors. Retired by user-approved S22, not a migrated body.",
+        "source": {
+          "revision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+          "gitObject": "c50acd0e3e97d4c6e32f4879ba06187a447053ca",
+          "sha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
+          "bytes": 251
+        },
+        "predecessor": {
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "gitObject": "29f984e701f821651b120d7a4b3f64e7531670f1",
+          "sha256": "ba519450eabfd01d6aae8fb0a63dd6ebbafd4ecdd3c387e3ddf5a05832754b92",
+          "bytes": 31616
+        },
+        "replacements": [
+          {
+            "path": "docs/phase1/README.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/01-feasibility.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/02-architecture.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/04-decisions.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/05-events-schema.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/06-testing.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/engineering-notes.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/game-mechanics.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          },
+          {
+            "path": "docs/phase1/sdlpal-runbook.md",
+            "reviewRecord": "20261017-r30-phase1-foundation.json"
+          }
+        ]
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-new-01.json",
+        "reason": "Only identity/header and empty entries remain; previous document bindings have explicit current successors. Retired by user-approved S22, not a migrated body.",
+        "source": {
+          "revision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+          "gitObject": "711ae34894fdeac32268572d10e68c5063c9be23",
+          "sha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
+          "bytes": 433
+        },
+        "predecessor": {
+          "revision": "c8854234deb63c16669413e29335929e6fff5232",
+          "gitObject": "85bb71cfa3bc62e47fad948b80e464e0a26ccce6",
+          "sha256": "118b43759cb5f4fa56c5e77543a883281f7b9a955f036c11618e3099c599f3b6",
+          "bytes": 5374
+        },
+        "replacements": [
+          {
+            "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+            "reviewRecord": "20261017-r56-ops-machine-evidence.json"
+          }
+        ]
+      }
+    ],
+    "historicalQuotes": [
+      {
+        "path": "docs/phase-governance/reviews/README.md",
+        "sha256": "1c3c3959c07b5c25b9e0d6ee95914669ceebb6c634205c126bfbc4e725a3d35a"
+      }
+    ]
+  }
 }

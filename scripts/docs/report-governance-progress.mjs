@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
+import { readDocumentRetirements } from './document-retirements.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
@@ -31,6 +32,8 @@ const candidates = gitInventory(root, ['docs']).filter((path) => /\.(md|json|htm
 const { registry } = loadDocumentRegistry({
   manifestPath: resolve(root, 'docs/phase-governance/document-registry.json'),
 })
+const retirements = readDocumentRetirements(root, registry)
+const retired = new Set(retirements.entries.map((entry) => entry.path))
 const structuralRoots = new Set(
   (registry.structuralRoots ?? []).map((entry) => entry.path).filter(Boolean),
 )
@@ -40,6 +43,7 @@ const records = new Map()
 const routing = json('docs/phase-governance/routing.json')
 const issues = [
   ...baseline.issues,
+  ...retirements.issues,
   ...checkDocumentModel(routing, templateRegistry, read, sourceOptions),
 ]
 const completed = []
@@ -105,7 +109,9 @@ for (const entry of registry.entries) {
 const done = new Set(completed.map((entry) => entry.path))
 const cohortDone = completed.filter((entry) => cohort.has(entry.path)).length
 const allCandidates = [...new Set(candidates)]
-const governedCandidates = allCandidates.filter((path) => !structuralRoots.has(path))
+const governedCandidates = allCandidates.filter(
+  (path) => !structuralRoots.has(path) && !retired.has(path),
+)
 const pending = governedCandidates.filter((path) => !done.has(path))
 const templateIds = [...templates.keys()]
 const exercised = new Set(completed.map((entry) => entry.templateId))
@@ -113,16 +119,18 @@ const report = {
   schemaVersion: 1,
   kind: 'derived-migration-progress',
   policy:
-    'Read-only projection of explicit reviewed migrations, SHA and body contracts. Progress is not full acceptance or runtime/E2E/visual/coverage proof. require-complete also demands every current candidate; final semantic audit remains mandatory.',
+    'Read-only projection of reviewed migrations and verified lifecycle retirements, counted separately against the unchanged cohort. Retirement grants no content/template migration credit. Progress is not full acceptance or runtime/E2E/visual/coverage proof; every current candidate and the final semantic audit remain required.',
   approvedCohort: frozenDocumentBaseline.denominator,
   cohortMigrated: cohortDone,
-  cohortPending: frozenDocumentBaseline.denominator - cohortDone,
+  cohortRetired: retired.size,
+  cohortPending: frozenDocumentBaseline.denominator - cohortDone - retired.size,
   currentCandidates: governedCandidates.length,
   currentPending: pending.length,
   incrementalMigrated: completed.length - cohortDone,
   exercisedTemplates: [...exercised].sort(),
   pendingTemplates: templateIds.filter((id) => !exercised.has(id)),
   completed,
+  retired: retirements.entries.map((entry) => ({ path: entry.path, source: entry.source })),
   issues,
 }
 const args = process.argv.slice(2)
@@ -133,12 +141,12 @@ if (args.some((arg) => !['--json', '--require-complete'].includes(arg)))
 if (args.includes('--json')) console.log(JSON.stringify(report, null, 2))
 else
   console.log(
-    `migration progress: ${cohortDone}/${frozenDocumentBaseline.denominator} baseline + ${completed.length - cohortDone} incremental; ${pending.length} current candidates pending; ${exercised.size}/${templateIds.length} templates exercised; ${issues.length} integrity issues; not full acceptance`,
+    `migration progress: ${cohortDone}/${frozenDocumentBaseline.denominator} baseline migrated, ${retired.size} explicitly retired + ${completed.length - cohortDone} incremental; ${pending.length} current candidates pending; ${exercised.size}/${templateIds.length} templates exercised; ${issues.length} integrity issues; not full acceptance`,
   )
 if (issues.length) process.exitCode = 1
 if (
   args.includes('--require-complete') &&
-  (cohortDone !== frozenDocumentBaseline.denominator ||
+  (cohortDone + retired.size !== frozenDocumentBaseline.denominator ||
     pending.length ||
     report.pendingTemplates.length)
 ) {

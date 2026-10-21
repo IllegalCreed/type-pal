@@ -929,159 +929,6 @@
       ]
     },
     {
-      "path": "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/phase-governance/reviews/20261004-lore-guijie-batch2.json:1"],
-      "unresolved": [
-        "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "phase-governance",
-      "module": "reviews",
-      "capability": "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json machine artifact",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-      "afterSha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-      "publicCallers": [
-        "docs/phase-governance/document-registry.json",
-        "docs/phase-governance/routing.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json"
-      ],
-      "businessOracle": {
-        "type": "phase-governance-artifact",
-        "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": ["docs/phase-governance/reviews/20261004-lore-guijie-batch2.json"]
-      },
-      "revision": {
-        "currentSha": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-        "implementationSha": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-        "history": [
-          {
-            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-            "date": "2026-10-17",
-            "action": "byte-stable phase-governance artifact review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-        "candidateSha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-        "afterSha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-        "lineCount": 8,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable phase-governance artifact",
-          "sourceBytes": 301,
-          "sourceLines": 8,
-          "sourceFinalNewline": true,
-          "inverseSha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-          "exactRoundTrip": true
-        },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R93 phase-governance artifact migration",
-          "reviewer": "r93_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy phase-governance presentation; original facts remain date-scoped"
-      ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactFormat": "json",
-      "documentStatus": "historical",
-      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-      "primarySource": [
-        {
-          "path": "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
-          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "74c0fe0c12dfbda4389b074a0d39666b98c78d91e3c5759462c474abcd3b52af",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "phase-governance",
-        "module": "reviews",
-        "currentBoundary": "catalog/registry/routing and current task card own truth"
-      },
-      "dependencies": "Phase/lore catalog, registry, routing, task card and fresh review.",
-      "versionScope": {
-        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R93-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
       "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
@@ -1235,159 +1082,6 @@
       }
     },
     {
-      "path": "docs/phase-governance/reviews/20261004-phase1-root-batch2.json",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/phase-governance/reviews/20261004-phase1-root-batch2.json:1"],
-      "unresolved": [
-        "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "phase-governance",
-      "module": "reviews",
-      "capability": "docs/phase-governance/reviews/20261004-phase1-root-batch2.json machine artifact",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-      "afterSha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-      "publicCallers": [
-        "docs/phase-governance/document-registry.json",
-        "docs/phase-governance/routing.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase-governance/reviews/20261004-phase1-root-batch2.json"
-      ],
-      "businessOracle": {
-        "type": "phase-governance-artifact",
-        "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": ["docs/phase-governance/reviews/20261004-phase1-root-batch2.json"]
-      },
-      "revision": {
-        "currentSha": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-        "implementationSha": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-        "history": [
-          {
-            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-            "date": "2026-10-17",
-            "action": "byte-stable phase-governance artifact review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-        "candidateSha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-        "afterSha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-        "lineCount": 8,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable phase-governance artifact",
-          "sourceBytes": 251,
-          "sourceLines": 8,
-          "sourceFinalNewline": true,
-          "inverseSha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-          "exactRoundTrip": true
-        },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R93 phase-governance artifact migration",
-          "reviewer": "r93_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy phase-governance presentation; original facts remain date-scoped"
-      ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactFormat": "json",
-      "documentStatus": "historical",
-      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-      "primarySource": [
-        {
-          "path": "docs/phase-governance/reviews/20261004-phase1-root-batch2.json",
-          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "881d3618bd11121726ed66d8e950719a1e161f2801f53d2b3251fa8a32ed1cf5",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "phase-governance",
-        "module": "reviews",
-        "currentBoundary": "catalog/registry/routing and current task card own truth"
-      },
-      "dependencies": "Phase/lore catalog, registry, routing, task card and fresh review.",
-      "versionScope": {
-        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R93-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
       "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
@@ -1414,7 +1108,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "bd08c6641b635ff1b197bc76864d832515bce821cf5239d2d6708c8252f8fafc",
+      "afterSha256": "812bb9c6aebb0df5d589de50f6ff1d6bfe4fbb92a47b026a2c3029633d356ff0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1729,159 +1423,6 @@
           "grantsNewSemanticAcceptance": false
         }
       ]
-    },
-    {
-      "path": "docs/phase-governance/reviews/20261004-structured-content-new-01.json",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/phase-governance/reviews/20261004-structured-content-new-01.json:1"],
-      "unresolved": [
-        "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "phase-governance",
-      "module": "reviews",
-      "capability": "docs/phase-governance/reviews/20261004-structured-content-new-01.json machine artifact",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-      "afterSha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-      "publicCallers": [
-        "docs/phase-governance/document-registry.json",
-        "docs/phase-governance/routing.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase-governance/reviews/20261004-structured-content-new-01.json"
-      ],
-      "businessOracle": {
-        "type": "phase-governance-artifact",
-        "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": ["docs/phase-governance/reviews/20261004-structured-content-new-01.json"]
-      },
-      "revision": {
-        "currentSha": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-        "implementationSha": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-        "history": [
-          {
-            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-            "date": "2026-10-17",
-            "action": "byte-stable phase-governance artifact review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-        "candidateSha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-        "afterSha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-        "lineCount": 8,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable phase-governance artifact",
-          "sourceBytes": 433,
-          "sourceLines": 8,
-          "sourceFinalNewline": true,
-          "inverseSha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-          "exactRoundTrip": true
-        },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R93 phase-governance artifact migration",
-          "reviewer": "r93_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy phase-governance presentation; original facts remain date-scoped"
-      ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactFormat": "json",
-      "documentStatus": "historical",
-      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-      "primarySource": [
-        {
-          "path": "docs/phase-governance/reviews/20261004-structured-content-new-01.json",
-          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "83a37f11ef4dda69441e1348b0b59b2db3081119810e9566326914b78848462b",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "phase-governance",
-        "module": "reviews",
-        "currentBoundary": "catalog/registry/routing and current task card own truth"
-      },
-      "dependencies": "Phase/lore catalog, registry, routing, task card and fresh review.",
-      "versionScope": {
-        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R93-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
     },
     {
       "path": "docs/phase-governance/reviews/20261004-structured-content-ops-01.json",
@@ -3140,7 +2681,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "bc942cce2353a9dada76aed85d342140ae603e084a9b33f4c7b73e6d6c281c39",
+      "afterSha256": "cc72adff5ed92e916382e7eb49de7327e5f7b91b72aaa7fd8c504d30bd0c0a83",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16474,5 +16015,20 @@
     "acceptedDocuments": [],
     "blockedDocuments": [],
     "scope": "S20 explicit partition migration; legacy current bindings moved to bounded successor shards. Not whole-batch historical acceptance."
-  }
+  },
+  "maintenanceHistory": [
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S22",
+      "sourceRevision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+      "changedTargets": [
+        "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+        "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
+        "docs/phase-governance/reviews/20261004-phase1-root-batch2.json",
+        "docs/phase-governance/reviews/20261004-structured-content-new-01.json"
+      ],
+      "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    }
+  ]
 }

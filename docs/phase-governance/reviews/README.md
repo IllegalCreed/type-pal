@@ -32,6 +32,16 @@ Template: governance-index-v1 / 1.0.0
 
 ## 证据与下一步
 
+三份仅剩空entries的旧载体按[S22退役裁定](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s22-三份空账本退役与固定清单处置2026-10-21)退出工作树；原12条文档的当前绑定仍分别由下列接替记录持有。完整处置与原件Git提交/blob/SHA只维护在[registry](../document-registry.json)的documentRetirements，不把退役算成正文迁移或恢复旧审查信用。
+
+| 退役的历史载体 | 当前接替记录 | 最近非空历史提交 |
+|---|---|---|
+| 20261004-lore-guijie-batch2.json | [r33：2篇guijie材料](20261017-r33-phase2-lore.json) | `0fceb7dbc1f4da3aee5f775c4a55a85ac71203f3` |
+| 20261004-phase1-root-batch2.json | [r30：9篇phase1根文档](20261017-r30-phase1-foundation.json) | `d62602284cbfe2d9306f4acb006d15d944d1f6e2` |
+| 20261004-structured-content-new-01.json | [r56：1份历史机器证据](20261017-r56-ops-machine-evidence.json) | `c8854234deb63c16669413e29335929e6fff5232` |
+
+恢复原件使用`git show <source.revision>:<退役路径>`；最近非空前身使用predecessor.revision。下方保全区的三条旧链接按登记的完整quote SHA与Git原件验证，保留原文字节；它们是历史引用，现行操作使用上表入口。
+
 - 证据：固定 source revision `bff13f74…`（R92 时点），source SHA `26211ddd…`；quote 可逆回原始字节。
 - 下一步：新记录继续按本目录命名落盘并保持 content-reviewed 语义；机器投影变更走 catalog/registry 各自治理，不在本页改。
 
