@@ -1,4 +1,10 @@
-import type { EquipmentEffectRoles, GameState, PlayerRolesRuntime } from '../game-state.js'
+import type { BattleState, BattleStatus } from '../battle/battle-state.js'
+import type {
+  DialogBoxState,
+  EquipmentEffectRoles,
+  GameState,
+  PlayerRolesRuntime,
+} from '../game-state.js'
 
 /** V1 uses native JSON.stringify: methods disappear, Maps become objects and byte arrays
  * become numeric-keyed objects. This describes stored data, not hydrated engine state.
@@ -41,7 +47,38 @@ type HistoricalRoot = HistoricalFields<
   | 'rgPlayerStatus'
 >
 
-export type SaveDataV1 = Omit<HistoricalRoot, 'PlayerRolesRuntime' | 'rgEquipmentEffect'> & {
+type SavedDialog = HistoricalFields<JsonData<DialogBoxState>, 'dialogLineCount'>
+
+// Early store-v2 battle snapshots used booleans for these counters. They remain
+// data values here; this neither converts them nor restores an old battle engine.
+type SavedStatus = Omit<BattleStatus, 'haste' | 'slow' | 'bravery' | 'protect' | 'dualAttack'> & {
+  haste: number | boolean
+  slow: number | boolean
+  bravery?: number | boolean
+  protect?: number | boolean
+  dualAttack?: number | boolean
+}
+type SavedFighter<T extends { status: BattleStatus }> = Omit<JsonData<T>, 'status'> & {
+  status: SavedStatus
+}
+type SavedBattle = Omit<
+  HistoricalFields<
+    JsonData<BattleState>,
+    'menuState' | 'selectedAction' | 'miscMenuCursor' | 'miscSubMenuCursor'
+  >,
+  'players' | 'enemies'
+> & {
+  players: SavedFighter<BattleState['players'][number]>[]
+  enemies: SavedFighter<BattleState['enemies'][number]>[]
+}
+
+export type SaveDataV1 = Omit<
+  HistoricalRoot,
+  'PlayerRolesRuntime' | 'rgEquipmentEffect' | 'dialogBox' | 'dialogBoxKept' | 'battleState'
+> & {
+  dialogBox?: SavedDialog
+  dialogBoxKept?: SavedDialog
+  battleState?: SavedBattle
   PlayerRolesRuntime: HistoricalFields<
     PlayerRolesRuntime,
     'rgwSpriteNum' | 'rgwAvatar' | 'rgwSpriteNumInBattle' | 'rgwAttackAll' | 'rgwWalkFrames'

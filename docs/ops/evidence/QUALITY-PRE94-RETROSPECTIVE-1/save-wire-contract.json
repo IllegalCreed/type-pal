@@ -91,8 +91,8 @@
   "status": "Historical contract evidence remains frozen;user approved type separation,implemented as an erased type-only phase;full validation still pending.",
   "artifact": {
     "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract-native.json.gz",
-    "bytes": 8829,
-    "sha256": "f149ff283c8a029a880f96ff873015434573a49cfbb463dea0fb98cf8f65a2b6",
+    "bytes": 25015,
+    "sha256": "6f79c1688fd64d446cade82a1d4ca396672271a43c7ae893eee60c66e750e396",
     "members": [
       {
         "name": "probe-save-wire-first.mjs",
@@ -188,6 +188,111 @@
         "name": "prove-save-types.cjs",
         "bytes": 1272,
         "sha256": "cbc9c731f18493f94ff3cc53f2d23c8d5e431d2bbd4490ab2fde46a88e6fbf17"
+      },
+      {
+        "name": "probe-v2-nested.mjs",
+        "bytes": 3810,
+        "sha256": "058df201265469f271c6369d471f7c6259dd823893d30546f7b1852357032cec"
+      },
+      {
+        "name": "v2-nested.stdout.raw",
+        "bytes": 2732,
+        "sha256": "6a8cff5379009de83bd35a692608b379d2497fff435956e83f50402a2912f127"
+      },
+      {
+        "name": "v2-nested.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "nested-resource-input.json",
+        "bytes": 10542,
+        "sha256": "36e6d351b00ff043441857fd99ef2d4a773a490c8914e44db8d478cc23ef91ae"
+      },
+      {
+        "name": "v2-nested-envelope.json",
+        "bytes": 7784,
+        "sha256": "6f5d6b97f179af1690dd0c22fd62d7660e141c30115d73041cb66e8ac644d7a4"
+      },
+      {
+        "name": "v2-nested-delta.json",
+        "bytes": 7443,
+        "sha256": "af5353462edd88728e3385e147757b9620631a7a27352a513120d536c5285504"
+      },
+      {
+        "name": "probe-v2-nested-r2.mjs",
+        "bytes": 4390,
+        "sha256": "74effd9310a79ac4d16737738bd29fa30012e35362857308bc885bc319f171f8"
+      },
+      {
+        "name": "v2-nested-r2.stdout.raw",
+        "bytes": 2769,
+        "sha256": "1477d83cc0e660764e7944761a8772a92e0fe7e63b89d8e3f7acfcefd76500e8"
+      },
+      {
+        "name": "v2-nested-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "r2-nested-resource-input.json",
+        "bytes": 10542,
+        "sha256": "36e6d351b00ff043441857fd99ef2d4a773a490c8914e44db8d478cc23ef91ae"
+      },
+      {
+        "name": "v2-dialog-envelope.json",
+        "bytes": 6594,
+        "sha256": "d0990e5655fee55714abec9bdda63662906582ef128f761cb44f902eae2676cd"
+      },
+      {
+        "name": "v2-battle-envelope.json",
+        "bytes": 7598,
+        "sha256": "0e6e72ce77fb35b3475497705bc2d6dca3fb42b24ed050672685da64d2913095"
+      },
+      {
+        "name": "v2-nested-parts.json",
+        "bytes": 8662,
+        "sha256": "9d0a01313690c5c4168dabf59a00cd221b140a6c14118248036c627839e14ff2"
+      },
+      {
+        "name": "nested-types-body.json",
+        "bytes": 342,
+        "sha256": "c733db501bbe83331bf45d391863418fd9bb92ce9f4855a222afb802445f15a0"
+      },
+      {
+        "name": "nested-types-tsc.execution.json",
+        "bytes": 3943,
+        "sha256": "94308f9df90391a2606f66ae1bb8794476eec889bef5875848107987e8fe04e7"
+      },
+      {
+        "name": "nested-types-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "nested-types-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "nested-red.execution.json",
+        "bytes": 4011,
+        "sha256": "9f2d0bf70a4f4f95dd97fc3ff54b331e689988dbf92c0e35f607d15bc5e7c7d5"
+      },
+      {
+        "name": "nested-red.stdout.raw",
+        "bytes": 2086,
+        "sha256": "5e8fa5c124df0de314735da69b82cc9cfc6f9602eb2bcf0c078ac3aa57678ad8"
+      },
+      {
+        "name": "nested-red.stderr.raw",
+        "bytes": 1647,
+        "sha256": "5b6f6045783475e9d974ddcacf99d7e3bfb99ed664a2cd526c9602789ee64895"
+      },
+      {
+        "name": "nested-red.native.json",
+        "bytes": 10657,
+        "sha256": "da7e2de45060aa0c87e1e0af64e3a4c0de2a6061879b7325b35fce005ffa0876"
       }
     ]
   },
@@ -349,5 +454,93 @@
       "allEqual": true
     },
     "limit": "Required-current fields added since store-v2 are optional in saved data only. No loader/default/DB/JSON execution change. Full shape guard is a separate draft;formal red9pass/10fail captured before connection."
+  },
+  "nestedStoreV2Contract": {
+    "observation": {
+      "ref": "6b58f9e8472b990080abed384fca95b044baa2f2",
+      "method": "Two independent complete frozen constructor/hydrator/dialog or battle→real frozen memory JSON-fallback Save→current V1 writer observations. Constructor/driver/encoding only,not played-game/old-browser/IDB replay.",
+      "pins": [
+        {
+          "path": "packages/game/src/core/game-state.ts",
+          "sha256": "df76f6659ddf85916f95976015b66002900f3845c094e913a1a8acbf51388d83"
+        },
+        {
+          "path": "packages/game/src/core/save/api.ts",
+          "sha256": "0c2cb64f3ab107e09995177980441c6ac1fb216a5ba87f2764a96177f80207ee"
+        },
+        {
+          "path": "packages/game/src/core/save/indexed-db.ts",
+          "sha256": "7883ba550130910ad60c7bc1df9a06c2075dbe84e0211040b9a4424d182dd465"
+        },
+        {
+          "path": "packages/game/src/present/dialog-box.ts",
+          "sha256": "78d93d9e775000d4ce467ed4595a9f75982e8469acfbdab276ca9bff4bb2c636"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "d2791aa7e639b196b22ac33ce9835fb832ff69c378f725f6543c7c0abc3c7a1a"
+        },
+        {
+          "path": "packages/game/src/present/menu/draw-box.ts",
+          "sha256": "bc7c14e27557b9d3132ab8467707e53b51027b73284ac7c5074d94bc08a30b2b"
+        },
+        {
+          "path": "packages/game/src/present/draw-number.ts",
+          "sha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-state.ts",
+          "sha256": "081dc1eee12ad2a03f231ea8721dff9ae0e5cf82ad4539686ab207e7bb762283"
+        },
+        {
+          "path": "packages/game/src/core/rng.ts",
+          "sha256": "989d955d7bb08f4ac86ea89120853b58848bd614c7a9a5456ee290173ddc5691"
+        }
+      ],
+      "resourcePins": [
+        {
+          "path": "data/extracted/data/player-roles.json",
+          "sha256": "0ef739309404aaffdedd9b7baf0cbb40bd7e4efb5f36161aece21357f077dade"
+        },
+        {
+          "path": "data/extracted/data/enemies.json",
+          "sha256": "f637a648588bd858de4e1673a46490f9f890b03edc662bd54d65d54e72c14264"
+        },
+        {
+          "path": "data/extracted/data/battle-fields.json",
+          "sha256": "ba3938b5d97336caec909258213b541a85317c7cb6d005e9596602c8f92e692c"
+        }
+      ],
+      "parser": {
+        "dialog": {
+          "accepted": false,
+          "error": "Error: 存档内容字段非法(dialogBox)"
+        },
+        "battle": {
+          "accepted": false,
+          "error": "Error: 存档内容字段非法(battleState)"
+        }
+      },
+      "missingDialogLineCount": true,
+      "missingBattleMenuState": true,
+      "oldStatus": {
+        "sleep": 0,
+        "paralyzed": 0,
+        "confused": 0,
+        "haste": false,
+        "slow": false
+      },
+      "partsSha256": "9d0a01313690c5c4168dabf59a00cd221b140a6c14118248036c627839e14ff2",
+      "dedupe": "Common hydrated runtime stored once;each part is an exact root delta from the existing frozen base fixture."
+    },
+    "typeBody": {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af",
+      "runtimeBody": "export {};",
+      "note": "Only approved passive stored-data declaration changed;current GameState/BattleStatus runtime declarations and all guard execution bodies unchanged in this type step."
+    },
+    "currentGuard": "Not corrected yet;two formal business AssertionErrors reject actual old dialog/battle snapshots. Current type step only models historical absence/Boolean data,leaving all runtime mechanism types/values unchanged.",
+    "removedPseudoActions": "summon/trance/equip-battle remain rejected;no former dead action/engine/upgrader/fallback execution restored.",
+    "runProvenance": "Observation scripts run directly as node --import tsx with stdout/stderr redirected;exit0 in original tool response,not a synthetic recorder metadata file. Frozen Save uses supported memory JSON path,not real historical IDB/browser replay."
   }
 }
