@@ -1,0 +1,2908 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "base": "c2b82e39ecb69c0be6138930e6c4261fc773fcb7",
+  "cards": ["73", "74"],
+  "status": "accepted",
+  "files": [
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "1798b523ecbb3594a8144697844531d955acb23e0b701f7474d66630f15a0704",
+      "dimensions": {
+        "A": "Real KeyboardEvent source,production main-loop scene-fade caller and reverse-ordered scene consumer checked. Three original C functions establish direction recomputation; next effective direction event releases current-direction suppression; repeat/non-direction do not. Replay/recording and key mapping AST unchanged.",
+        "B": "Replaced inaccurate per-physical-key suppression/equivalence comment with current direction ownership and exact C event boundaries; KeyM remains explicitly dev addition,not SDL truth.",
+        "C": "Keyboard source owns physical key order/pressed edges/direction suppression; main-loop only signals scene-fade,scene consumer chooses facing. One direction flag replaces incorrect per-key suppression set; no core state mutation in event handlers.",
+        "D": "Private isDirectionKey shares the same four-key predicate across down/up/snapshot without broad context or mode helper; Replay and Recording retain different ownership contracts.",
+        "E": "Original17cases preserved byte-for-byte after comment removal; three independently specified held/pressed/order cases failed before fix and pass after. Original boundary/replay cases retained,not inferred from package green.",
+        "F": "directionSuppressed names the actual state; event guards remain linear and recomputation explicit. Existing domain why-comment retained without hiding state transition.",
+        "G": "Incorrect per-key suppression set removed; no new public API or dead export. KeyM product extension retained by scope; no speculative input-model rewrite.",
+        "H": "Window dependency and snapshots permit native event control with finally detach. Actual browser modules+main-loop+scene consumer exercised; no mock of the direction decision."
+      },
+      "provenance": "GLM full A–H/per-case review at fixed version reused; Codex current delta/caller/event/ownership and relevant unchanged scope reviewed",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "sha256": "6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d",
+      "dimensions": {
+        "A": "Twenty direct cases exercise real source; physical KeyboardEvent domain/order and no synthetic pressed on keyup verified.",
+        "B": "Three titles state observable direction/edge boundaries; old17 titles/claims unchanged.",
+        "C": "Each source owned by its case,finally detach; new helpers emit only events and do not contain expected-state logic.",
+        "D": "Shared down/up helpers only reduce native event boilerplate; no universal fixture/context.",
+        "E": "All17original case ASTs equal; 3new failures are AssertionError at expected held arrays before fix. Combined third case is one suppression contract with non-trigger/trigger sequence,not unrelated APIs.",
+        "F": "Chronological arrange/fade/event/snapshot sequences expose user action; expected arrays literal.",
+        "G": "No old cases deleted; new axes complement single-key fade,alias isolation and replay ownership rather than cloning them.",
+        "H": "Actual handlers execute deterministically in jsdom; no timers/IO mock or hard-coded result fixture."
+      },
+      "provenance": "GLM full A–H/per-case review at fixed version reused; Codex current delta/caller/event/ownership and relevant unchanged scope reviewed",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f",
+      "dimensions": {
+        "A": "Unchanged file; snapshot alias isolation,unknown keyup,direction-only suppression and detach independently reviewed against current source.",
+        "B": "Existing boundary titles/comment scope remains valid after current direction fix.",
+        "C": "Separate sources/events per case with finally detach; no cross-case input ownership.",
+        "D": "Narrow helper for event delivery only; does not duplicate record-replay contracts.",
+        "E": "3existing boundary cases retained; direction-only oracle still distinguishes non-direction held from suppressed direction; current34direct pass.",
+        "F": "Small explicit event sequences and literal snapshots reveal boundary.",
+        "G": "No unused setup/export or redundant new case added; unchanged current file preserved.",
+        "H": "Uses real Window events and snapshots; no private-state access or source mock."
+      },
+      "provenance": "GLM full A–H/per-case review at fixed version reused; Codex current delta/caller/event/ownership and relevant unchanged scope reviewed",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+      "dimensions": {
+        "A": "Unchanged11cases cover key order,repeat,record/reference and Replay cursor/EOF ownership against real classes.",
+        "B": "G09 labels map to actual explicit contracts; no new coverage claim.",
+        "C": "Source lifetime and caller-owned arrays checked explicitly; independent source detach and listener cleanup.",
+        "D": "Replay retained versus physical keyboard mutation have different lifecycle; no forced common loop.",
+        "E": "G09-A01–11 original per-case oracle reused at exact source version; real34case input result includes all11.",
+        "F": "Named cases distinguish cursor progression,reference identity and event isolation.",
+        "G": "No extra replay fallback/compatibility or duplicate new scenario introduced.",
+        "H": "Plain deterministic snapshots/arrays and real native events; no IO/timing dependence."
+      },
+      "provenance": "GLM full A–H/per-case review at fixed version reused; Codex current delta/caller/event/ownership and relevant unchanged scope reviewed",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256": "7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52",
+      "dimensions": {
+        "A": "Bootstrap syncShellAudio supplies scene/battle/victory track,loop and pendingSounds each frame. Actual source-controller replacement stops/disposes old backend before new play. C dedup/intro/victory evidence is reused; no new gain, music-choice or failure policy. Newly confirmed: OGG is not a production backend; only its callable legacy export remains. Do not infer product coverage from these tests.",
+        "B": "Header now identifies actual SFX/intent manager and MIDI/RIX ports; gesture/sync and Vite middleware resource comments corrected. Domain lifecycle comments retained.",
+        "C": "Active manager functions/top-level AST unchanged after deleting four approved legacy nodes. SFX scale remains single-game shell setting; MIDI/RIX port owner remains actual source controller. Old dangling OGG owner removed.",
+        "D": "musicUrl now called by real MIDI loader with exact previous template; no new abstraction or import cycle. Different RIX/MIDI IO lifetimes stay separate.",
+        "E": "18direct manager/pure cases plus no-WebAudio MIDI case retained; previous DM29/L47 controls reuse unchanged active functions. Approved three OGG test retirements mapped to literal identities; no audible-SFX claim from queue drain.",
+        "F": "Named pure routing functions and small internal load/play steps reveal intent; per-instance last track/loop distinguish cached intent from actual backend ownership.",
+        "G": "Approved unused OGG constructor/setter/two globals and bootstrap empty write deleted; pure URL export gains actual caller. Sole-consumer fixture deleted,not counted accepted.",
+        "H": "MusicBackend records semantic track/loop calls; real manager/source selector used. Fake Audio is explicitly media IO only. SFX no-AudioContext queue test does not certify decode/start or sound quality."
+      },
+      "provenance": "GLM declared full implementation review reused; Codex current file/caller/design-gap and actual delta review; no duplicate full E/original re-derivation",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "sha256": "080bf74a0a111219093299908f93728d44c8735dbfbf3c3bb1f6ce86a56f1475",
+      "dimensions": {
+        "A": "URL,scene/battle/intro/victory routing,in-place drain,backend track/loop,per-unit sound IDs,dedup and OGG release; actual implementations execute,typed domain and native result evidence are bounded to these cases.",
+        "B": "Retired OGG title/header removed; remaining comments describe active manager/pure or explicit no-WebAudio boundary.",
+        "C": "Pure manager per case; obsolete global Audio fixture/hooks gone; no shared mutable media state.",
+        "D": "Approved OGG media-only cases/fixture removed; retained input axes have distinct real contracts,not implementation-copy oracle.",
+        "E": "18original active-case ASTs unchanged; 2unused OGG release cases retired by explicit user authority. Existing loop=true single-business counter retained at identical active function.",
+        "F": "Named cases and factories expose this contract; no implementation-copy oracle or assertion-free wrapper introduced.",
+        "G": "Only approved obsolete cases/setup/imports removed; exact identities and strict retirement snapshot registered.",
+        "H": "No production decision mocked; tests observe actual manager semantic calls/pure output and explicit unavailable-audio behavior."
+      },
+      "provenance": "GLM full per-case E plus Codex full changed-file read and local fixture/loop delta",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8",
+      "dimensions": {
+        "A": "OGG0.6*scale for new/current element; explicitly no-AudioContext backend no-op; actual implementations execute,typed domain and native result evidence are bounded to these cases.",
+        "B": "Retired OGG title/header removed; remaining comments describe active manager/pure or explicit no-WebAudio boundary.",
+        "C": "Sole remaining case uses scoped no-WebAudio stubs with cleanup; no retired fixture or global gain reset.",
+        "D": "Approved OGG media-only cases/fixture removed; retained input axes have distinct real contracts,not implementation-copy oracle.",
+        "E": "The remaining no-WebAudio case AST unchanged; unused OGG volume case explicitly retired. Current real MIDI module executes; not confused with audible synth validation.",
+        "F": "Named cases and factories expose this contract; no implementation-copy oracle or assertion-free wrapper introduced.",
+        "G": "Only approved obsolete cases/setup/imports removed; exact identities and strict retirement snapshot registered.",
+        "H": "No production decision mocked; tests observe actual manager semantic calls/pure output and explicit unavailable-audio behavior."
+      },
+      "provenance": "GLM full per-case E plus Codex full changed-file read and local fixture/loop delta",
+      "decision": "accept"
+    }
+  ],
+  "proof": {
+    "audioActiveTopLevelUnchanged": true,
+    "removedNodes": ["createOggMusicBackend", "setOggVolumeScale", "oggScale", "curOggEl"],
+    "commentsOnly": [
+      {
+        "path": "packages/game/src/shell/audio-volume.ts",
+        "beforeSha256": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+        "afterSha256": "2cf70c4cf469c3b337341f999018bfa5f82ab3b21c9a2d95a3794c1c3dc17778",
+        "emittedSha256": "c1f8c3e0c74e34ca02fbba902a91cbe01d9fea15662043db1974a3b71145afa4"
+      },
+      {
+        "path": "packages/game/src/shell/avi-player.ts",
+        "beforeSha256": "848064b0d0c20f39930754af0686af38f3a1cf032011289cf7f57fad3a553216",
+        "afterSha256": "495d3f4c95180244a3f4edbfadb23154604f4c33eeeb1ba12e7db31ed847c5e4",
+        "emittedSha256": "8ad74c5410713bb04040d98acc8a6d6fd355d4817ac1051ea1351bc55ccfc784"
+      }
+    ],
+    "unchangedTestCases": [
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "kept": [
+          "方向键映射",
+          "WASD = sdlpal 原义(input.c:84-90),不是方向",
+          "确认 / 菜单(sdlpal input.c:66-74 真值)",
+          "Numpad 方向键(sdlpal input.c:58-65)",
+          "翻页 / Home/End(sdlpal input.c:75-82)",
+          "战斗 / 大世界专用键(sdlpal input.c:83-90)",
+          "未知键 → null",
+          "keydown/keyup 维护 held;snapshot 后 pressed 清空",
+          "clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+          "Up 然后 Down → held Set 末位 = Down",
+          "Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
+          "e.repeat=true 不刷新 held order(sdlpal input.c:213)",
+          "repeat 也不污染 pressed(只在初次按下时 add pressed)",
+          "按帧顺序回放",
+          "超出序列 → 空快照",
+          "装饰任意 source,把每帧 snapshot 留档",
+          "suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清"
+        ],
+        "removed": [],
+        "added": [
+          "松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed",
+          "非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿",
+          "repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算"
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "kept": [
+          "sfxUrl → {base}/sounds/{id}.wav",
+          "musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:69 Musics/%.3d.mid)",
+          "pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+          "pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响",
+          "battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+          "drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+          "BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+          "setMusicEnabled(false) → stop;(true) → 重播当前 track",
+          "L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播",
+          "L47 setMusicBackend 注入补播也用记录的 loop=false",
+          "setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+          "敌死 → enemy.deathSound(fight.c:756)",
+          "敌攻 → enemy.attackSound",
+          "我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+          "无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+          "同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+          "lastSFX 只压制紧邻同号,异号放行",
+          "markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)"
+        ],
+        "removed": [
+          "切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+          "stop:释放当前元素 src"
+        ],
+        "added": []
+      },
+      {
+        "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "kept": ["无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现"],
+        "removed": [
+          "先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随"
+        ],
+        "added": []
+      }
+    ],
+    "inputAdditions": [
+      "松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed",
+      "非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿",
+      "repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算"
+    ],
+    "testRetirements": {
+      "base": "c2b82e39ecb69c0be6138930e6c4261fc773fcb7",
+      "authority": {
+        "date": "2026-10-21",
+        "task": "QUALITY-LEGACY-OGG-RETIREMENT-1",
+        "user": "删除未使用的旧路径（推荐）"
+      },
+      "priorGlmApproval": "    // 2026-10-15 Codex verified GAME-RIX-MUSIC-1 under the standing test-quality rule.\n    // Deleted global setBgmVolume API; its notThrow-only case has no observable oracle.\n    // Instance gain, queued initialization and source switching are tested via actual callers.\n    {\n      file: 'packages/game/src/shell/audio.glm-phase1-leaves.test.ts',\n      previous: 3,\n      current: 2,\n      previousIdentityDigest: '6c6ec1df3e8efe2335274ab5ea7033ba08a65d0984db90569993d2f6e6537be7',\n      currentIdentityDigest: '4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5',\n      fileSha256: '3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3',\n    },",
+      "entries": [
+        {
+          "file": "packages/game/src/shell/audio.test.ts",
+          "previous": 20,
+          "current": 18,
+          "previousIdentityDigest": "b59841fd098d9d90e1af14028a26f84b385210e133c873934e4b4267d9650b7c",
+          "currentIdentityDigest": "c8e6f8253b3f2f05dca3392a27a3f44e8b0f948687b66f3fabc40a2a6e1918bd",
+          "fileSha256": "080bf74a0a111219093299908f93728d44c8735dbfbf3c3bb1f6ce86a56f1475",
+          "removedIdentities": [
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) > stop:释放当前元素 src",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) > 切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)"
+          ],
+          "retainedIdentities": [
+            "packages/game/src/shell/audio.test.ts :: project root :: L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) > lastSFX 只压制紧邻同号,异号放行",
+            "packages/game/src/shell/audio.test.ts :: project root :: L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) > markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+            "packages/game/src/shell/audio.test.ts :: project root :: L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) > 同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 audio url 映射(纯) > battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 audio url 映射(纯) > musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:69 Musics/%.3d.mid)",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 audio url 映射(纯) > pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 audio url 映射(纯) > pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 audio url 映射(纯) > sfxUrl → {base}/sounds/{id}.wav",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 AudioManager.sync > BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 AudioManager.sync > drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 AudioManager.sync > L47 setMusicBackend 注入补播也用记录的 loop=false",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 AudioManager.sync > L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 AudioManager.sync > setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 AudioManager.sync > setMusicEnabled(false) → stop;(true) → 重播当前 track",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) > 我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) > 敌攻 → enemy.attackSound",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) > 敌死 → enemy.deathSound(fight.c:756)",
+            "packages/game/src/shell/audio.test.ts :: project root :: M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) > 无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)"
+          ]
+        },
+        {
+          "file": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "previous": 2,
+          "current": 1,
+          "previousIdentityDigest": "4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5",
+          "currentIdentityDigest": "bef7ce839ab718a0425a5f682b2682d9201a5c59202887e4d3cbeae1ca742fe3",
+          "fileSha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8",
+          "removedIdentities": [
+            "packages/game/src/shell/audio.glm-phase1-leaves.test.ts :: project root :: L24 setOggVolumeScale 即时刷新 > 先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随"
+          ],
+          "retainedIdentities": [
+            "packages/game/src/shell/audio.glm-phase1-leaves.test.ts :: project root :: L24 audio-midi 无 Web Audio 端口 > 无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现"
+          ]
+        }
+      ],
+      "predicatesChanged": false,
+      "scope": "Only three approved unused-OGG cases retire; current music/no-WebAudio coverage retained; no scope-removal switch"
+    },
+    "midi": {
+      "exactOriginalTemplateInlined": true,
+      "unchangedIdentities": 12,
+      "changedCase": "reloads A when returning to it while B is replacing the active sequence",
+      "newOracle": [
+        "/extracted/music/049.mid",
+        "/extracted/music/003.mid",
+        "/extracted/music/049.mid"
+      ]
+    },
+    "bootstrapOnlyApprovedImportAndCallRemoved": true,
+    "inputNonKeyboardNodesUnchanged": true,
+    "redFailures": [
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/input.test.ts",
+        "fullName": "scene-fade 后由方向事件恢复当前方向 松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed",
+        "title": "松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed"
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/input.test.ts",
+        "fullName": "scene-fade 后由方向事件恢复当前方向 非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿",
+        "title": "非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿"
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/input.test.ts",
+        "fullName": "scene-fade 后由方向事件恢复当前方向 repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算",
+        "title": "repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算"
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "1798b523ecbb3594a8144697844531d955acb23e0b701f7474d66630f15a0704"
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "sha256": "6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d"
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256": "7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52"
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "sha256": "080bf74a0a111219093299908f93728d44c8735dbfbf3c3bb1f6ce86a56f1475"
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/audio-element-fixture.ts",
+      "sha256": null
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.ts",
+      "sha256": "2cf70c4cf469c3b337341f999018bfa5f82ab3b21c9a2d95a3794c1c3dc17778"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256": "495d3f4c95180244a3f4edbfadb23154604f4c33eeeb1ba12e7db31ed847c5e4"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "67f008abc2d6013744ce84049556cf987c1c76aff605bc912377f166445c9c8a"
+    },
+    {
+      "path": "packages/game/src/shell/music-source.ts",
+      "sha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "01842b519dd9bc8bee3a221c962d2c9cdec043f7c912f848efd2ef3e1c559847"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.test.ts",
+      "sha256": "7f202281beb0e1c7222b41895aa646737620daa83664ae2568b810520fc6ee17"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "861d2e43437970d01a59a4507f8165e954057c343c35739b51ec226e812a1cdf"
+    },
+    {
+      "path": "reference/sdlpal/input.c",
+      "sha256": "bc13b5927a29565c8ac2883694a20c52d0b8c330b82c7165fc23ce8ff8e771a8"
+    },
+    {
+      "path": "reference/sdlpal/palette.c",
+      "sha256": "88a3160fac6bddd28355a28b788b76b848b9853d06eb75b8abe2116b9ee7795d"
+    },
+    {
+      "path": "packages/game/src/shell/audio-rix.ts",
+      "sha256": "f484bb9b5a6c8241785bb5535e05d4e9a50182046fdcafae49d2d29ad39bfd3a"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-audio.test.ts",
+      "sha256": "3f4e3962934dd6cd2c7f242a2fe2b79efe2b44cef9f623396469dc88a3e2565c"
+    },
+    {
+      "path": "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
+      "sha256": "1e26f70637f58f432fce48f0948c1d913a34700753b39db7479e2ec84dcfaf46"
+    },
+    {
+      "path": "packages/editor/src/ui/ImageTab.tsx",
+      "sha256": "63b2da78db627505c3a56d661f1c5d21985ec3f5f8238f82d39e4c1deafdcb00"
+    },
+    {
+      "path": "packages/editor/src/ui/MediaAssetLifecycle.tsx",
+      "sha256": "49b92ca9ca555821d3f5ebf8a8a9856cb747223954a8dac7a36474c6a7e8b9e2"
+    },
+    {
+      "path": "packages/editor/src/ui/ImageAssetPicker.tsx",
+      "sha256": "27fd90d4a325a52e7b404945b876cee6de3872415ff11b8bca9b576ebab28d82"
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/glm-ui-wave-kit.ts",
+      "sha256": "490aea62ef0d7be1d4dacb81c2b3326fff0256746dbbe9df0de104c436a80f9c"
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-reader.ts",
+      "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf"
+    },
+    {
+      "path": "packages/editor/src/core/image-import.ts",
+      "sha256": "28114b866998ad6e5e98e921d397c257dc2abdb413c62a0cf7db9743acec8274"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+    },
+    {
+      "path": "packages/shared/src/input.ts",
+      "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c264ebc0964f66eac34e2757da4ee6ec324c7b3c10a3e40173ed3df49e3bc589"
+    }
+  ],
+  "reuseAssets": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/per-file-index.md",
+      "sha256": "d11302b1bd138b2b0e23a59065f4fe6b725c07f6c91f6b318cda0cb4c2d8b655"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/read-boundaries.json",
+      "sha256": "393a24d8d4b531eb22419ec5b98415c63feb011657c6e61f1bb4db89bc60881f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
+      "sha256": "0eab2e58bc76764a7bf35740b2e16717f4da5dc6c15ffeef484ed2a7ad18da70"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-native.json.gz",
+      "sha256": "263386a257a7123339d1055b3d0b6bf721a5c6357aa15851f0e7c6af87664756"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/c3-evidence/manifest.json",
+      "sha256": "f502297ee5fac6819e3e5cf5ac9f951bdbd8216458ac20843221983835035e4b"
+    }
+  ],
+  "adjacentDelta": {
+    "files": [
+      "packages/game/src/shell/audio-midi.ts",
+      "packages/game/src/shell/audio-midi.test.ts",
+      "packages/game/src/shell/bootstrap.ts",
+      "packages/game/src/shell/audio-volume.ts",
+      "packages/game/src/shell/avi-player.ts",
+      "packages/shared/src/input.ts"
+    ],
+    "scope": "Only specific pure URL,approved empty write and comment deltas; no new closure credit for broad bootstrap or volume; MIDI/AVI previous accept reused with scoped supplement"
+  },
+  "browser": {
+    "diagnostics": [],
+    "firstRun": "invalid isolated x5/y5 blocked by legitimate world margin; input direction still restored; not product regression",
+    "final": "Legal event+palette-fade suppressed directions;after611ms controlled completion and keyupRight,heldLeft/pressedempty;real world tick reaches304,232,left/walkingtrue;source detached;no browser warning/error.",
+    "scope": "Current real input/main-loop/scene-system; legal event+palette-fade snapshot via buildPaletteFade,611ms elapsed then controlled completion markers; native browser KeyboardEvent injection. Not full fade IR/render/game E2E.",
+    "earlierPartialContext": "Earlier coordinate-correct observation lacked explicit mode/palette state; historical source/AX/image preserved as partial-context artifacts,not final dev-functional credit.",
+    "screenshot": {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-browser.png",
+      "sha256": "486bd9e2ef85cf230ffee8fe701588c492584b3df5049623218bd38983994de3"
+    }
+  },
+  "limits": [
+    "No phase2,save/schema/assets or key-map/Replay API change",
+    "No current audible SFX/MIDI/RIX full-playback claim; valid prior lifecycle/media IO evidence reused",
+    "Chronological3red/17green ->34green;not described as one-red mutation counter",
+    "CODE59 approved contract work preserved,not accepted or implemented in this module",
+    "Initial retirement-producer full raw missing; same-source error reproductions explicitly labelled",
+    "Two audio resource comments corrected after ratchet started; emitted-JS invariance proves same runtime candidate; final protected/check use final bytes",
+    "Editor ImageTab test is a bounded central diagnostic/fixture/oracle repair; no product UI behavior/schema/pipeline change or extra file acceptance."
+  ],
+  "runs": [
+    {
+      "id": "module-check-r2",
+      "role": "check",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 20366
+    },
+    {
+      "id": "module-final-coverage",
+      "role": "ratchet-protected",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 19968
+    },
+    {
+      "id": "final-docs",
+      "role": "docs",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0
+    },
+    {
+      "id": "final-lint",
+      "role": "lint",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0
+    },
+    {
+      "id": "final-ledger",
+      "role": "ledger",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0
+    },
+    {
+      "id": "final-diff",
+      "role": "diff",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0
+    }
+  ],
+  "progress": {
+    "before": {
+      "accept": 47,
+      "partial": 36,
+      "pending": 0
+    },
+    "afterCandidate": {
+      "accept": 49,
+      "partial": 34,
+      "pending": 0
+    },
+    "after": {
+      "accept": 49,
+      "partial": 34,
+      "pending": 0
+    }
+  },
+  "observationFailures": [
+    {
+      "id": "ledger-before-staging-approved-fixture-deletion",
+      "exit": 1,
+      "cause": "Inventory enumerated git index path whose approved working-tree deletion was not staged; ENOENT,not semantic code failure",
+      "originalRawPreserved": false,
+      "disclosure": "Initial tool output only; no complete raw attachment claimed. Staging actual approved deletion and removing its live row gives current3327/323/136/2868 PASS.",
+      "resolution": "No tool rule/ignore change"
+    }
+  ],
+  "complexity": {
+    "method": "AST decisions+1 per function,excluding nested function bodies; &&/||/?? count as decisions. Initial reading hints,not a quality pass criterion or reason to mechanically split.",
+    "threshold": 10,
+    "flagged": [
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "sfxForBattleEvent",
+        "line": 123,
+        "decisionsPlusOne": 11
+      }
+    ],
+    "functions": [
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "codeToAbstractKey",
+        "line": 63,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "isDirectionKey",
+        "line": 67,
+        "decisionsPlusOne": 4
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "anonymous",
+        "line": 76,
+        "decisionsPlusOne": 5
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "anonymous",
+        "line": 90,
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "anonymous",
+        "line": 97,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "nextSnapshot",
+        "line": 102,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "anonymous",
+        "line": 105,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "suppressHeldForFade",
+        "line": 119,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "clearPressed",
+        "line": 131,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "detach",
+        "line": 135,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "anonymous",
+        "line": 143,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "nextSnapshot",
+        "line": 145,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "anonymous",
+        "line": 157,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "nextSnapshot",
+        "line": 159,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "symbol": "getRecording",
+        "line": 165,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 9,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 10,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 18,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 25,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 38,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 45,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 56,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 67,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 72,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 73,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 95,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 109,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 110,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 124,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 138,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 155,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 172,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 173,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 183,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 191,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 192,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 203,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 204,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 225,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "down",
+        "line": 226,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "up",
+        "line": 230,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 234,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 251,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "symbol": "anonymous",
+        "line": 267,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "symbol": "fire",
+        "line": 10,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "symbol": "fireUp",
+        "line": 14,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "symbol": "anonymous",
+        "line": 19,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "symbol": "anonymous",
+        "line": 20,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "symbol": "anonymous",
+        "line": 40,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "symbol": "anonymous",
+        "line": 61,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "down",
+        "line": 14,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "up",
+        "line": 18,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "snap",
+        "line": 22,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 26,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 27,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 40,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 53,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 66,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 70,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 85,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 102,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 110,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 126,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 128,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 132,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 137,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "symbol": "anonymous",
+        "line": 147,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "sfxUrl",
+        "line": 52,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "createSfxDedup",
+        "line": 62,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "tryPlay",
+        "line": 68,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "markEnded",
+        "line": 73,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "musicUrl",
+        "line": 80,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "pickMusicTrack",
+        "line": 89,
+        "decisionsPlusOne": 4
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "battleVictoryTrack",
+        "line": 110,
+        "decisionsPlusOne": 5
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "sfxForBattleEvent",
+        "line": 123,
+        "decisionsPlusOne": 11
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "setSfxVolume",
+        "line": 145,
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "createAudioManager",
+        "line": 154,
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "ensureCtx",
+        "line": 168,
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "loadSfx",
+        "line": 174,
+        "decisionsPlusOne": 6
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "play",
+        "line": 194,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "anonymous",
+        "line": 207,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "playSfx",
+        "line": 211,
+        "decisionsPlusOne": 5
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "anonymous",
+        "line": 223,
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "sync",
+        "line": 230,
+        "decisionsPlusOne": 8
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "playSound",
+        "line": 245,
+        "decisionsPlusOne": 2
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "resume",
+        "line": 248,
+        "decisionsPlusOne": 3
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "setSfxEnabled",
+        "line": 254,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "setMusicEnabled",
+        "line": 257,
+        "decisionsPlusOne": 4
+      },
+      {
+        "path": "packages/game/src/shell/audio.ts",
+        "symbol": "setMusicBackend",
+        "line": 263,
+        "decisionsPlusOne": 5
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 15,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 16,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 20,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 25,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 35,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 41,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 50,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 51,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 58,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 62,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 63,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 71,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 74,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 74,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 84,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 88,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 89,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 97,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 102,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 103,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 108,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 113,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 114,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 120,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 128,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 131,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 136,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 141,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 150,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 151,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 159,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.test.ts",
+        "symbol": "anonymous",
+        "line": 167,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "symbol": "anonymous",
+        "line": 5,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "symbol": "anonymous",
+        "line": 6,
+        "decisionsPlusOne": 1
+      },
+      {
+        "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "symbol": "anonymous",
+        "line": 12,
+        "decisionsPlusOne": 1
+      }
+    ],
+    "disposition": "sfxForBattleEvent hint11 reviewed: a short pure three-event mapping plus optional target/data guards; returns explicit zero for absent sound. Splitting its three cohesive arms would pass the same wider context without changing ownership or failure policy; retained with current literal per-arm oracles,no mandatory structural defect."
+  },
+  "producerChanges": [
+    "Temporary capture forwards explicit existing ratchet CLI flags; actual command arrays recorded per immutable execution.",
+    "After concurrent gate timeouts, temporary capture adds an exclusive heavy-role lock for check/ratchet/protected; no repository test rule or timeout change.",
+    "Final clean gate selection excludes initial metric/scope refusal and concurrent-timeout runs; all failed raw retained, not overwritten.",
+    "Diagnostic scanner initially counted stdout only; stderr3473 still correctly rejected the r4 gate. Original scanner/first diagnostics preserved; corrected scanner reads both streams and records actual8act diagnostics. Future clean runs require both-stream zero.",
+    "Unpublished archive preflight initially omitted manually produced C stdout because it had no capture.execution sidecar; readonly verifier rejected it. Pack now excludes only currently active gate streams and preserves all completed/manual raw.",
+    "Counter verifier initially expected matcher API text in native failureMessages; actual Vitest native uses expected<dialog>to be null. Consumer now requires that exact native business signature plus the raw toBeNull source assertion; no test or acceptance criterion weakened."
+  ],
+  "centralDiagnostics": {
+    "path": "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
+    "sha256": "1e26f70637f58f432fce48f0948c1d913a34700753b39db7479e2ec84dcfaf46",
+    "decision": "Scoped unified-gate test repair; no new file closure or94-102 acceptance",
+    "trigger": {
+      "id": "module-ratchet-r4",
+      "exit": 0,
+      "actDiagnostics": 8,
+      "stderrBytes": 3473,
+      "accepted": false
+    },
+    "dimensions": {
+      "A": "Real ImageTab importFile awaits file.arrayBuffer and WebCrypto before session dispatch; deletion cancel only clears target,does not read/delete. Actual reader/session/handlers and relevant preview lifecycles read; no product source delivery change.",
+      "B": "Explains why an existing delete button does not prove async import completed; PNG sample explicitly valid2x2 instead of signature-only bytes.",
+      "C": "Async import owner now spans action plus actual external-store catalog commit inside act; real legal AssetBase comes from loader; environment flag/globals restored by vi stubs; root unmounted in act.",
+      "D": "Reuse real legal-project/asset-reader and file-event helper; no general wait helper or broad context introduced. PNG fixture shared only by two identical image-import contracts.",
+      "E": "Three existing identities retained; old exact24-byte assertion becomes exact71-byte valid PNG assertion. Two weak readiness predicates replaced by real import-commit oracle; cancel now requires dialog closed. Real cancel callback no-op gives one current valid-fixture business AssertionError; old bad-fixture pass is observation only,not current E credit. Final36 regression passes without diagnostics.",
+      "F": "Arrange/import/commit/delete/cancel visible in case; expected record/label/blob size and closed dialog literal; no arbitrary wait.",
+      "G": "Remove dead bytes parameter,empty act flush,three redundant Promise.resolve calls and never casts. No test count increase,skip/ignore or timeout change.",
+      "H": "Actual WebCrypto hash not stubbed; act awaits observable committed catalog. Only browser bitmap IO is stubbed with2x2 matching independently libpng-decoded fixture; no pixel-render claim."
+    },
+    "counter": {
+      "id": "image-cancel-noop-legal-new",
+      "previousObservation": "image-cancel-noop-legal-old",
+      "selected": 1,
+      "notSelectedByFilter": 2,
+      "expectedBusinessFailures": 1,
+      "production": "packages/editor/src/ui/MediaAssetLifecycle.tsx",
+      "find": "onClick={props.onClose}",
+      "replace": "onClick={() => {}}",
+      "currentTestMatchesCounterAfter": "Remove only three explicit await Promise.resolve lines from archived ImageTab-final.tsx; assertions/fixture/cancel body otherwise byte-identical."
+    },
+    "green": "editor-image-final-green",
+    "fixture": {
+      "member": "image-png-decode.json",
+      "bytes": 71,
+      "width": 2,
+      "height": 2,
+      "scope": "Actual canvas/libpng decodes bytes represented by committed base64;createImageBitmap remains UI media-IO port,not codec/pixel coverage"
+    }
+  },
+  "coverageMode": {
+    "id": "module-final-coverage",
+    "command": "TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:ratchet --allow-scope-removal",
+    "covers": [
+      "official ratchet",
+      "protected target baseline/scope/exact-test-retirement comparisons"
+    ],
+    "scope": "One actual official-runner collection,not two runs. Strict persisted scope/metrics compared to native result; rules unchanged. Current baseline initialized by diagnostic-bearing r4 remains candidate until this clean gate."
+  },
+  "diagnosticScannerErratum": {
+    "original": "scan-gates-first.cjs",
+    "originalReceipt": "module-ratchet-r4.diagnostics-first.json",
+    "corrected": "module-ratchet-r4.diagnostics.json",
+    "counts": {
+      "reactAct": 8,
+      "actEnvironment": 0,
+      "controlledInput": 0,
+      "unimplementedOpcode": 0,
+      "warnings": 0,
+      "navigation": 0,
+      "audioUnavailable": 0,
+      "staticDiagnosticPrefix": 0,
+      "tsErrors": 0,
+      "unhandled": 0,
+      "failedTap": 0,
+      "testStderrBlocks": 4,
+      "stderrBytes": 3473
+    },
+    "acceptanceUnchanged": "stderr nonzero had already rejected gate; no earlier acceptance inferred"
+  },
+  "readScope": {
+    "approach": "Reuse declared GLM fullA-H/per-case plus fixed-version native/counters. Codex read original scoped files and complete changes; unchanged retained nodes checked by AST proof instead of re-reading every historical file.",
+    "inScope": [
+      "packages/game/src/shell/input.ts",
+      "packages/game/src/shell/input.test.ts",
+      "packages/game/src/shell/input.boundaries.test.ts",
+      "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "packages/game/src/shell/audio.ts",
+      "packages/game/src/shell/audio.test.ts",
+      "packages/game/src/shell/audio.glm-phase1-leaves.test.ts"
+    ],
+    "primary": [
+      "reference/sdlpal/input.c PAL_GetCurrDirection/PAL_KeyDown/PAL_KeyUp exact block",
+      "reference/sdlpal/palette.c PAL_SceneFade clear-dir/keyPress boundary"
+    ],
+    "productionCallers": [
+      "shell/main-loop.ts full,including scene-fade branch",
+      "core/scene-system.ts pickFacing/tickSceneInput bounds and direction use",
+      "shell/bootstrap.ts imports,MIDI/RIX factory,volume and sync callers;not new full1934-line closure",
+      "shell/music-source.ts full",
+      "shell/audio-midi.ts and direct tests full,only scoped pure URL delta accepted",
+      "packages/shared/src/input.ts full; only stale public documentation corrected, all declarations unchanged"
+    ],
+    "central": [
+      "ImageTab.glm-ui-wave.test.tsx full",
+      "glm-ui-wave-kit.ts full",
+      "core/image-import.ts full",
+      "core/editor-asset-reader.ts full",
+      "MediaAssetLifecycle.tsx full;temporary callback mutation restored byte-for-byte",
+      "ImageTab.tsx props/effects/importFile/commitImport/deleteSelectedImage and dialog caller;not whole product file acceptance",
+      "ImageAssetPicker.tsx thumbnail IO effect scope;not whole product file acceptance"
+    ],
+    "notNewlyReadOrAccepted": [
+      "Unrelated bootstrap/UI layout",
+      "Other34pre94 partial cards",
+      "94-102",
+      "Full PNG/browser pixel or audio playback"
+    ]
+  },
+  "extraGateCommentOnlyDelta": [
+    {
+      "run": "module-final-coverage",
+      "path": "packages/shared/src/input.ts",
+      "beforeSha256": "5bb1e2629f69731d6b61e22914738d19c647ced7f35a9598fd232a91ec50cf14",
+      "afterSha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3",
+      "beforeMember": "shared-input-before-comment.ts",
+      "reason": "Late public-type comment correction to approved direction ownership; complete declarations and emitted JS unchanged."
+    },
+    {
+      "run": "module-check-r2",
+      "path": "packages/shared/src/input.ts",
+      "beforeSha256": "5bb1e2629f69731d6b61e22914738d19c647ced7f35a9598fd232a91ec50cf14",
+      "afterSha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3",
+      "beforeMember": "shared-input-before-comment.ts",
+      "reason": "Late public-type comment correction to approved direction ownership; complete declarations and emitted JS unchanged."
+    }
+  ],
+  "publicTypeCommentProof": {
+    "path": "packages/shared/src/input.ts",
+    "beforeMember": "shared-input-before-comment.ts",
+    "claim": "Complete TypeScript declarations,not only emitted empty JS,equal after removing comments; no extra closure credit."
+  },
+  "gateCommentOnlyDelta": [
+    {
+      "run": "module-ratchet",
+      "path": "packages/game/src/shell/audio.ts",
+      "beforeSha256": "f78ccecb4ae016f60a0f3b60a9dab64824dd923dfa1320a5f078b833d895d803",
+      "afterSha256": "7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52",
+      "beforeMember": "audio-before-resource-comment.ts",
+      "reason": "Two stale resource-mapping comments corrected while ratchet running; emitted JS equal,final check/protected use final comments"
+    },
+    {
+      "run": "module-final-coverage",
+      "path": "packages/shared/src/input.ts",
+      "beforeSha256": "5bb1e2629f69731d6b61e22914738d19c647ced7f35a9598fd232a91ec50cf14",
+      "afterSha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3",
+      "beforeMember": "shared-input-before-comment.ts",
+      "reason": "Late public-type comment correction to approved direction ownership; complete declarations and emitted JS unchanged."
+    },
+    {
+      "run": "module-check-r2",
+      "path": "packages/shared/src/input.ts",
+      "beforeSha256": "5bb1e2629f69731d6b61e22914738d19c647ced7f35a9598fd232a91ec50cf14",
+      "afterSha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3",
+      "beforeMember": "shared-input-before-comment.ts",
+      "reason": "Late public-type comment correction to approved direction ownership; complete declarations and emitted JS unchanged."
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-native.json.gz",
+    "sha256": "b74c612b3f9d3cab9fbfa22945080fb9c45e03c94e68ba328807f38594518793",
+    "bytes": 6573785,
+    "members": [
+      {
+        "name": "ImageTab-after.tsx",
+        "bytes": 7171,
+        "sha256": "7c2412e280cdb1a20dbff7b1b27648cf9fc57134496b03d535010a9047e21546"
+      },
+      {
+        "name": "ImageTab-before.tsx",
+        "bytes": 6882,
+        "sha256": "36b76d157cf1b0deac321d34613ae148509db7d4ade51239ca105377ee181ba2"
+      },
+      {
+        "name": "ImageTab-final.tsx",
+        "bytes": 7376,
+        "sha256": "4b4252ff99dcadb86ee24ac688b701609905b0724e918493656fdb9e0b39b24d"
+      },
+      {
+        "name": "adjacent-input-audio.diagnostics.json",
+        "bytes": 587,
+        "sha256": "2e41a16ed54560b510a1273cad89a2677b0ea2d1933827b9d1bec7e9e77dbfff"
+      },
+      {
+        "name": "adjacent-input-audio.execution.json",
+        "bytes": 4465,
+        "sha256": "42201fc97feb643640f0aa90e59d432e47373891b6d6d14d795fa560641d09a1"
+      },
+      {
+        "name": "adjacent-input-audio.native.json",
+        "bytes": 58858,
+        "sha256": "b8aeb26763ede826518812bf7ae66f6067c67daa107d075c9a743a258d43d0a7"
+      },
+      {
+        "name": "adjacent-input-audio.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "adjacent-input-audio.stdout.raw",
+        "bytes": 1011,
+        "sha256": "f6af5de9533c9e206549d9ab75c124e0d2c9cef1c49b25141337fe4ecab9ef0f"
+      },
+      {
+        "name": "audio-retirement-green.diagnostics.json",
+        "bytes": 587,
+        "sha256": "93152768ec5d719cfefbb96b5910bd4d94508a9f2123ee84095facf0fefcf15e"
+      },
+      {
+        "name": "audio-retirement-green.execution.json",
+        "bytes": 3652,
+        "sha256": "b0423e3ac7aebafc3f92e606881e5fa58804170d25ab1df366a01fefbd68fd73"
+      },
+      {
+        "name": "audio-retirement-green.native.json",
+        "bytes": 21520,
+        "sha256": "971e69bde02e8c3e72b1f25c462bf2e77e53befb5889e884c53fa270814486af"
+      },
+      {
+        "name": "audio-retirement-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "audio-retirement-green.stdout.raw",
+        "bytes": 842,
+        "sha256": "4e8f25a392dabb14e2a1003103a72a6efecd96b08809b32880cd810bae441289"
+      },
+      {
+        "name": "build-review.cjs",
+        "bytes": 14358,
+        "sha256": "dd6be9c9ed04374d0dadfd2f78453333d113f6f76e9acddf0cf734e30358913d"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 6672,
+        "sha256": "e162d798e61e173074c024779d07c2894e1df87d14d4cb4e61a4a0ef69f4d50a"
+      },
+      {
+        "name": "close.cjs",
+        "bytes": 10023,
+        "sha256": "a23a64ea12b4f0c4bb7a62ece109c16823fb517b6cac3a105bb8bbbf0d72af8e"
+      },
+      {
+        "name": "coverage-recount.json",
+        "bytes": 4033,
+        "sha256": "af5c1b9c0222ed1d615f46b5e1280498077e1444b9d40506ba651885a404a461"
+      },
+      {
+        "name": "current-coverage-tools.diagnostics.json",
+        "bytes": 576,
+        "sha256": "ac3b91df1604455769ff325246ace2a9070f9228ad0328eb285df32f192ceb1c"
+      },
+      {
+        "name": "current-coverage-tools.execution.json",
+        "bytes": 4848,
+        "sha256": "79e35e1a497899e80cfe51d5a1ed66123ae422df3fcad0eaf9ab4285ce8edb43"
+      },
+      {
+        "name": "current-coverage-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "current-coverage-tools.stdout.raw",
+        "bytes": 20585,
+        "sha256": "ce18bd10f5fc4087c1ba8a8f8e964ccbac6dc266d14d2dc434e352ec8591aec9"
+      },
+      {
+        "name": "editor-image-act-green.execution.json",
+        "bytes": 5791,
+        "sha256": "6a27480d8d025b342b22923f37de319084b734eef09590dd960c1bb8203aa693"
+      },
+      {
+        "name": "editor-image-act-green.native.json",
+        "bytes": 13896,
+        "sha256": "bb0d8f9ee8e5074449f1d1aa553a85f5c08d92d52b5c5c662d79cfdc179c38e9"
+      },
+      {
+        "name": "editor-image-act-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "editor-image-act-green.stdout.raw",
+        "bytes": 849,
+        "sha256": "8416d4a67cd56353833f2f19752059f66db2656f43a0bcc13571aa122a0d0ff4"
+      },
+      {
+        "name": "editor-image-final-green.diagnostics.json",
+        "bytes": 589,
+        "sha256": "c781006f0061d311a0562e0e042864fabe1345fca5a96438e42b908850d8b864"
+      },
+      {
+        "name": "editor-image-final-green.execution.json",
+        "bytes": 5799,
+        "sha256": "bb8d2805445ec2fa9294831c5510c1a87d7703dd862459c16d297773b3e63b29"
+      },
+      {
+        "name": "editor-image-final-green.native.json",
+        "bytes": 13917,
+        "sha256": "f79d6fcc68dd21e35e487ce32fb778cf6ca2ef798555163a77ca9d143b3c34e5"
+      },
+      {
+        "name": "editor-image-final-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "editor-image-final-green.stdout.raw",
+        "bytes": 851,
+        "sha256": "3a3f57e917c7e1ff97dd6a20278127853e35cfa2c26e576f868d7241822c702c"
+      },
+      {
+        "name": "final-diff.diagnostics.json",
+        "bytes": 564,
+        "sha256": "ca06fbf3cf9a53434c6287fe5f472b58c94442a8d70337c5d2eeffbc96d062df"
+      },
+      {
+        "name": "final-diff.execution.json",
+        "bytes": 5679,
+        "sha256": "c77a8d64044aa3913ce087b8d93e24c71eeebc0711b58e53e4729ec048912fc5"
+      },
+      {
+        "name": "final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.diagnostics.json",
+        "bytes": 564,
+        "sha256": "85adc9a313423e493c49586c3e4e8bd7ab0d6e12de9aee869bd1c2eee847a030"
+      },
+      {
+        "name": "final-docs.execution.json",
+        "bytes": 5982,
+        "sha256": "7b6e1f1684212545544131ef75e59d719a0f23e1645e51e6716ca26e16cb2401"
+      },
+      {
+        "name": "final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "d162a5e03792173df78d121b5e953000ebca60997d9a84817cb475413ca27674"
+      },
+      {
+        "name": "final-ledger.diagnostics.json",
+        "bytes": 566,
+        "sha256": "9032f2a6a29fef86f3e6f18ee9505ac89c25a63502e017abc84224c437d0a118"
+      },
+      {
+        "name": "final-ledger.execution.json",
+        "bytes": 5698,
+        "sha256": "2f97467275c0cec30b345bc79f187a7e94de5347a21424fbd4384a645c726c74"
+      },
+      {
+        "name": "final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "6aced89166deb9b260762cc8f67cc19ebac03ea3cae50f56f12e8ecaf14cca51"
+      },
+      {
+        "name": "final-lint.diagnostics.json",
+        "bytes": 564,
+        "sha256": "e0d92ee10ff9f4a3c716137144ae757f0b8df553756c32b970cf29e13fb7a839"
+      },
+      {
+        "name": "final-lint.execution.json",
+        "bytes": 5655,
+        "sha256": "e4d5242948682cc9dda9fd46a04f27c7a47e517c5b66e0fa9bd8a9381c0512df"
+      },
+      {
+        "name": "final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "1f73e590fa7c9527e808c90413e8b523a332c9f9e9a36d582b6b41cf3ae111d6"
+      },
+      {
+        "name": "finish-gates.mjs",
+        "bytes": 729,
+        "sha256": "a39782ecaaa2a4297d6349449f1f1e34d923d50d3c586a994a260a31dfbd614b"
+      },
+      {
+        "name": "image-cancel-control-legal.json",
+        "bytes": 637,
+        "sha256": "086c8edcc5650ea7f063688d6efd95bdb56566af6c5c4834b5d7ce035ba5814b"
+      },
+      {
+        "name": "image-cancel-control-legal.mjs",
+        "bytes": 1882,
+        "sha256": "43bdf8ca1f9e7f1291656b0a50805c992c8e64a42ed072f981dfd443a616967f"
+      },
+      {
+        "name": "image-cancel-control.json",
+        "bytes": 625,
+        "sha256": "6a5f397efb35f122bd75bb366940f605dd223285249e2cb6e95d7e18d9b70619"
+      },
+      {
+        "name": "image-cancel-control.mjs",
+        "bytes": 1858,
+        "sha256": "49b03ebc20eff31b5cf21aeb79fd35dafb204f81727acc2f1dd789f27428d72b"
+      },
+      {
+        "name": "image-cancel-noop-legal-new.execution.json",
+        "bytes": 5903,
+        "sha256": "52c6790c01ff123f86935132e5bf7188349a558b24387a354870cc16ed5cac2f"
+      },
+      {
+        "name": "image-cancel-noop-legal-new.native.json",
+        "bytes": 1910,
+        "sha256": "40efa012cbc5afdd11f3a2dc6efd99c1aa7de749466cb861ae6be05f33ce68cc"
+      },
+      {
+        "name": "image-cancel-noop-legal-new.stderr.raw",
+        "bytes": 3212,
+        "sha256": "b30ff1109a0bcff161d7b7986bd6406aad230d057aa1dc94127ee27278133d5f"
+      },
+      {
+        "name": "image-cancel-noop-legal-new.stdout.raw",
+        "bytes": 723,
+        "sha256": "ed229dd1701bcf4f6e0a703338de75ec4e6fdc1d5a830733a1b545e61f139921"
+      },
+      {
+        "name": "image-cancel-noop-legal-old.execution.json",
+        "bytes": 5677,
+        "sha256": "41308a01f01e7a5e070e85a157a5778fc33cd113531b45154ad5f7a978f4feb0"
+      },
+      {
+        "name": "image-cancel-noop-legal-old.native.json",
+        "bytes": 1514,
+        "sha256": "9f67ad2cea1098618b9ad2aab3def67e8a55d7e95958397a044f826e7cdff930"
+      },
+      {
+        "name": "image-cancel-noop-legal-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "image-cancel-noop-legal-old.stdout.raw",
+        "bytes": 509,
+        "sha256": "0b2c9233bd438adceb7aba7ea1853f6d40fba65730233875bfb6cddb5ee71bd5"
+      },
+      {
+        "name": "image-cancel-noop-legal.patch",
+        "bytes": 221,
+        "sha256": "6655b1aa190fa32d87f6c60919ad3d720b4d5a356ec3314ce7229b54e35d3791"
+      },
+      {
+        "name": "image-cancel-noop-new.execution.json",
+        "bytes": 5879,
+        "sha256": "5ddd4c96da64d7b031429148b4b459a1eba6ecf3034fe5a29cfe0e6ff1f7f7d6"
+      },
+      {
+        "name": "image-cancel-noop-new.native.json",
+        "bytes": 1911,
+        "sha256": "af104fa279dab445f6f243f6d2a13f54069324a3385f0c3cf598fb4b6c9f52e4"
+      },
+      {
+        "name": "image-cancel-noop-new.stderr.raw",
+        "bytes": 3212,
+        "sha256": "1556abd227c0052b7728b8c1aee896b7e6074f96b425d1386983cafddf84dd1d"
+      },
+      {
+        "name": "image-cancel-noop-new.stdout.raw",
+        "bytes": 717,
+        "sha256": "f418a68cbeb461843101595383d82b0778f6103e362195ae5f3f41508928c7cd"
+      },
+      {
+        "name": "image-cancel-noop-old.execution.json",
+        "bytes": 5653,
+        "sha256": "f086f829b886e97eb8a5f79fd12a12563d83f8506d26e19f4bff5d66c835eae8"
+      },
+      {
+        "name": "image-cancel-noop-old.native.json",
+        "bytes": 1514,
+        "sha256": "f34aed524ba7edc2afb137b6779cdbbf54753a5ed77ab88246fbed1f5b134720"
+      },
+      {
+        "name": "image-cancel-noop-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "image-cancel-noop-old.stdout.raw",
+        "bytes": 503,
+        "sha256": "7fdbc2919cf6903fa823cc758062c95a22ef0c3dd4528c00002178eb3b93ac5c"
+      },
+      {
+        "name": "image-cancel-noop.patch",
+        "bytes": 221,
+        "sha256": "6655b1aa190fa32d87f6c60919ad3d720b4d5a356ec3314ce7229b54e35d3791"
+      },
+      {
+        "name": "image-png-decode.json",
+        "bytes": 86,
+        "sha256": "7643f6732a51f1aee170dce164fe71bd152f602906ec9b6fac955a99500a9d9d"
+      },
+      {
+        "name": "image-png-proof.diagnostics.json",
+        "bytes": 569,
+        "sha256": "3bdea0e49a5dae59279a71859347362f61d98f75e48527898d765647fe279b74"
+      },
+      {
+        "name": "image-png-proof.execution.json",
+        "bytes": 5335,
+        "sha256": "fa8532f39409ebed822b400e66d4832435e829ce6b771c99fd2a98b1c3c427a8"
+      },
+      {
+        "name": "image-png-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "image-png-proof.stdout.raw",
+        "bytes": 195,
+        "sha256": "91cda529474c04faf10b8d99e1251a11bd01aecf6eca57e238d9c806c221f8cb"
+      },
+      {
+        "name": "input-browser-console.json",
+        "bytes": 3,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "name": "input-browser-final.ax.raw",
+        "bytes": 1191,
+        "sha256": "d2771a465ff214735455d24f312526ebbb52c049d4d479de2290a988482dc9a7"
+      },
+      {
+        "name": "input-browser-first-fixture.html",
+        "bytes": 2456,
+        "sha256": "eac385f8d6b42bc58b4c19a9c4966091e8a3f63ed6edce609d2fc2e3aa2083de"
+      },
+      {
+        "name": "input-browser-first.ax.raw",
+        "bytes": 1135,
+        "sha256": "702318efb2c8527ee5bd7b163d1f23797c223508bdc15c7559879d91563d565e"
+      },
+      {
+        "name": "input-browser-fixture.html",
+        "bytes": 3234,
+        "sha256": "bf37986ea19d536a4d064fd89ea2ac92938981c1a3c8bb3bd6c3e1f578e30b1a"
+      },
+      {
+        "name": "input-browser-partial-context-console.json",
+        "bytes": 3,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "name": "input-browser-partial-context-final.ax.raw",
+        "bytes": 1141,
+        "sha256": "6914a6a0f488b62b6db95a8cb071761251cfd7fe41a761b9b074c4c49399a7c8"
+      },
+      {
+        "name": "input-browser-partial-context-fixture.html",
+        "bytes": 2460,
+        "sha256": "3305b436aad8e9b6924bd243ba144f9dd9c747e67b0c93001b969ed6235fbd64"
+      },
+      {
+        "name": "input-browser-partial-context-image.json",
+        "bytes": 53797,
+        "sha256": "fb3a82948862d72119efbd2cf94d7ab4754428724f74f50e01d47be713df2771"
+      },
+      {
+        "name": "input-direction-cases.c",
+        "bytes": 3038,
+        "sha256": "c8cdab97242c68d1fa1498cdcf7821531ab57f8143a7d8b896a74e62e8321d14"
+      },
+      {
+        "name": "input-direction-cases.compile.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input-direction-cases.compile.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input-direction-cases.json",
+        "bytes": 885,
+        "sha256": "891e8b874ae92826ef490990eddcb920fa1d283cffbb683e1d04a3e652096996"
+      },
+      {
+        "name": "input-direction-cases.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input-direction-cases.stdout.raw",
+        "bytes": 77,
+        "sha256": "bd196f7b65f637d51e77c6e574ea41f6b9ae388f46d53bb21e061a4dcbdd8a45"
+      },
+      {
+        "name": "input-direction-compile.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input-direction-primary.c",
+        "bytes": 2533,
+        "sha256": "afc59dd0800a4f3fe7aa133ddbcdc8fb31754b4e9121ccafb576800c920fb9c5"
+      },
+      {
+        "name": "input-direction-primary.raw",
+        "bytes": 2,
+        "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+      },
+      {
+        "name": "input-green.diagnostics.json",
+        "bytes": 576,
+        "sha256": "5d4148224de7d1fa3d75ce3f8e89ba787a9ccb336fd459684ad377de0c10d0bc"
+      },
+      {
+        "name": "input-green.execution.json",
+        "bytes": 2051,
+        "sha256": "699d5bf2ca99f9c962efa097d696d6236df6b606a264d5091fb54b16b27af523"
+      },
+      {
+        "name": "input-green.native.json",
+        "bytes": 12036,
+        "sha256": "e9c9f7baa4ae0e108037c3d551b6417aa83a2128269caca8190a71211e3fcf6a"
+      },
+      {
+        "name": "input-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "input-green.stdout.raw",
+        "bytes": 570,
+        "sha256": "720956bde2c11210e8773b2ced0a0f000af0f27e955b44e2b5f994459f3d2423"
+      },
+      {
+        "name": "input-red.execution.json",
+        "bytes": 1776,
+        "sha256": "36965c2d5fc8d060e5fbc90d13a05316ec312f4e791b9a754186ee105dd0a017"
+      },
+      {
+        "name": "input-red.native.json",
+        "bytes": 11414,
+        "sha256": "03ebe67654c4c45726e9faa67659720c327fa968c7add43ef1c96f5ec33e446f"
+      },
+      {
+        "name": "input-red.stderr.raw",
+        "bytes": 2126,
+        "sha256": "e49429227f876ad820239c929984da560340871dadeb4a43a69b33f00e817863"
+      },
+      {
+        "name": "input-red.stdout.raw",
+        "bytes": 1799,
+        "sha256": "0c951ed10189e8336fdb71eb4ef8d613dbb6c4923b9aad320f0227fbdff1d0c8"
+      },
+      {
+        "name": "metadata-before-final.json",
+        "bytes": 1860939,
+        "sha256": "b5b6595e89f2f3516fd68277bf9300db4ae556be116e16069e0ecc88370f9cbb"
+      },
+      {
+        "name": "metadata-before-preflight.json",
+        "bytes": 1854904,
+        "sha256": "83f94f4f959009ccda9d4521a514cfd9d0f30541e470aea6b233e52e904c31a7"
+      },
+      {
+        "name": "metadata-before-retirement.json",
+        "bytes": 1858326,
+        "sha256": "9aabc5393a71305d3ce8e9046297c24e72c3294b8aed4f130e9b0055da9a6a9d"
+      },
+      {
+        "name": "metadata-before-scope-erratum.json",
+        "bytes": 1866214,
+        "sha256": "00062eec5d6d28217116b398e9df233320b9792bc0c7416e91b8c46b3461ad77"
+      },
+      {
+        "name": "metadata-final.json",
+        "bytes": 1272,
+        "sha256": "3d5a63b71de73820f565d38c30987efa2b3ae139e2304337d4fb19d780b183ee"
+      },
+      {
+        "name": "metadata-preflight.json",
+        "bytes": 1271,
+        "sha256": "3ecbe90c9cc33aab087e083704d90c02065f85a4c2c0f434fb48eba7ddea9e60"
+      },
+      {
+        "name": "metadata-retirement.json",
+        "bytes": 1271,
+        "sha256": "85f75bd0661df09e404fbc3a1371353130afec2c0b6588bcfa666ea35763791b"
+      },
+      {
+        "name": "metadata-scope-erratum.json",
+        "bytes": 1270,
+        "sha256": "1d59e0fadbedea70c7ebc513aa2b70308f5b9fb712dd525575a5b3b9b4bb9ccc"
+      },
+      {
+        "name": "midi-url-green.diagnostics.json",
+        "bytes": 579,
+        "sha256": "da36b38ab72323afbe9ef776be48b515498af4806c13646939be890d0d80ddab"
+      },
+      {
+        "name": "midi-url-green.execution.json",
+        "bytes": 3845,
+        "sha256": "a13549f82a0e02e1ff34fc92adc78e95bfb2fe0a714e2dbded71ce13126a8870"
+      },
+      {
+        "name": "midi-url-green.native.json",
+        "bytes": 16056,
+        "sha256": "b1d98a4a72e8bf6a68b0caf0852aec6fa98c26a2607f5cf6dde69ed1d7367586"
+      },
+      {
+        "name": "midi-url-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "midi-url-green.stdout.raw",
+        "bytes": 613,
+        "sha256": "0989fb248f8e2685190de2afb3a6dc4def818e77144872999c2a9241ab43f90b"
+      },
+      {
+        "name": "module-check-r2.diagnostics.json",
+        "bytes": 84215,
+        "sha256": "f42730c5339b8f446023fccfb249dbc9f4f499b06167808ed520221583ef245d"
+      },
+      {
+        "name": "module-check-r2.execution.json",
+        "bytes": 5217,
+        "sha256": "7e9e7f292a5c4b295888402d98eee31fa905e54bd9a4ab2af566af8de20a6a4f"
+      },
+      {
+        "name": "module-check-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-check-r2.stdout.raw",
+        "bytes": 371306,
+        "sha256": "57c97d7f6098468f44b90bcb29b25e41a26f7223f57afaf5631032c9cf14c7ab"
+      },
+      {
+        "name": "module-check.execution.json",
+        "bytes": 4799,
+        "sha256": "867a56d3157fa06682f285886d983630ef01478c460835a8a175700ddd2d6a7f"
+      },
+      {
+        "name": "module-check.stderr.raw",
+        "bytes": 1344,
+        "sha256": "2cdefefe392fe32fce6cd0042fc631d4885b39d7632e509831f45a53d4c7b09e"
+      },
+      {
+        "name": "module-check.stdout.raw",
+        "bytes": 237932,
+        "sha256": "d027e6bad3fa6efc253ddb4cda79807e808355f18ffaab99f571ad9af4713436"
+      },
+      {
+        "name": "module-final-coverage.coverage-summary.json",
+        "bytes": 8467129,
+        "sha256": "bf7af5f8a05836282fb9dfa3181969adc37fe2639972b679d812c3bf3a5f1409"
+      },
+      {
+        "name": "module-final-coverage.diagnostics.json",
+        "bytes": 81910,
+        "sha256": "8b9a58380adb5f695571895040062072c1196627be377f72e7713fcec9831293"
+      },
+      {
+        "name": "module-final-coverage.execution.json",
+        "bytes": 5384,
+        "sha256": "a18e1d4ddcfa71a103cbf7d45bb869f9555dbd7f99074ca26041795c77077b66"
+      },
+      {
+        "name": "module-final-coverage.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-final-coverage.stdout.raw",
+        "bytes": 202922,
+        "sha256": "b83fbd30b51e0f1a7be56fbc8e9f807c04e307bd3081274b3aef8a2e8550c90b"
+      },
+      {
+        "name": "module-ratchet-r2.coverage-summary.json",
+        "bytes": 8467129,
+        "sha256": "b1d81573fbfd2e062d1ee475a9f8beff4457a4b0d6a34e6c0b55113af3df6d32"
+      },
+      {
+        "name": "module-ratchet-r2.execution.json",
+        "bytes": 4874,
+        "sha256": "10d9e88e48ae4a521333b5bd46cba0aee823eecb8fa58bae75fa0cfe138478ed"
+      },
+      {
+        "name": "module-ratchet-r2.stderr.raw",
+        "bytes": 242,
+        "sha256": "8c3a2476993895254ac117479c6205869e32407ac96f44ff948c0edd666ea3bf"
+      },
+      {
+        "name": "module-ratchet-r2.stdout.raw",
+        "bytes": 203292,
+        "sha256": "b02ea1fbd3aa3c06cf324e484fa0a7f87e40d3be9a3018d86480f22dc94bea32"
+      },
+      {
+        "name": "module-ratchet-r3.execution.json",
+        "bytes": 4904,
+        "sha256": "3abc27cf45b886cff575c9b3d2656a4a16727278db8f0e59190dff448dc2f62e"
+      },
+      {
+        "name": "module-ratchet-r3.stderr.raw",
+        "bytes": 1284,
+        "sha256": "c40be79f33ca7bafcf412f5553a255a1abc557dd8e59f835b8d713787161729f"
+      },
+      {
+        "name": "module-ratchet-r3.stdout.raw",
+        "bytes": 128427,
+        "sha256": "7c98eaf59400a1a2f7396680419eb7128fa14cff7b220972a7675f885c7ee6ae"
+      },
+      {
+        "name": "module-ratchet-r4-diagnostic-correction.raw",
+        "bytes": 71096,
+        "sha256": "77b7dc84ae81d82e0d210268e00201e9d11874f1175f6711e211876b47052799"
+      },
+      {
+        "name": "module-ratchet-r4.coverage-summary.json",
+        "bytes": 8467129,
+        "sha256": "64383c59373c3a413dcf3bf64123486bb257cf8a7b24706e7009297c756c4ac9"
+      },
+      {
+        "name": "module-ratchet-r4.diagnostics-first.json",
+        "bytes": 81909,
+        "sha256": "729083130e2e52195d98a64aa302055d655907fda28871ee55a07a8465349ec1"
+      },
+      {
+        "name": "module-ratchet-r4.diagnostics.json",
+        "bytes": 81909,
+        "sha256": "b433bdd7dd8ce12b7f8591bee1e13041ec05a91ae9d7658b3cf382c33b7052be"
+      },
+      {
+        "name": "module-ratchet-r4.execution.json",
+        "bytes": 4904,
+        "sha256": "c5e8b9feb102012ccdecdbb448c03796bdf53e9b74dbebf09542710ec30ee1af"
+      },
+      {
+        "name": "module-ratchet-r4.stderr.raw",
+        "bytes": 3473,
+        "sha256": "3b212cbbc6e05f93e2a9d7bb91867be6b87d654da3737fa66d2d9fea73ea0b65"
+      },
+      {
+        "name": "module-ratchet-r4.stdout.raw",
+        "bytes": 203720,
+        "sha256": "949639d36ab39487cdf635b76679c53320f8b15ef72acc7982737aa9447b4c59"
+      },
+      {
+        "name": "module-ratchet.coverage-summary.json",
+        "bytes": 8467129,
+        "sha256": "cdb8ced3a65953cb59f50babdb573c3e7583e82b4f416520afe51f0d93e06fb2"
+      },
+      {
+        "name": "module-ratchet.execution.json",
+        "bytes": 3907,
+        "sha256": "9f2702fa0d91cce7e970f25f2b4d74068bca9daba7d8242c0be07077f36add50"
+      },
+      {
+        "name": "module-ratchet.stderr.raw",
+        "bytes": 289,
+        "sha256": "de9aea5a1683eaed94cc9ceeb63e6174657bf0a9ab3f80fcb7b3cbcc11712e94"
+      },
+      {
+        "name": "module-ratchet.stdout.raw",
+        "bytes": 205372,
+        "sha256": "db68c16ebda5ee2e5ff900de2b2e78380c1d71e7f60e2d89b4dff3210c7bb1b6"
+      },
+      {
+        "name": "module-typecheck.diagnostics.json",
+        "bytes": 570,
+        "sha256": "c1b348869124e624b64151d65919849494279583c730f42433dd75bf4c5e7157"
+      },
+      {
+        "name": "module-typecheck.execution.json",
+        "bytes": 3893,
+        "sha256": "2af50e948ca135a98ecb4fa17cf2248ad425b6fc6cbdf2399d683cd485818a19"
+      },
+      {
+        "name": "module-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "ogg-production-references.raw",
+        "bytes": 895,
+        "sha256": "18c8a92da2e986582441b73fc312db67d1fd6fe3e1c4ce4f27fe6e23f5ee2b65"
+      },
+      {
+        "name": "ogg-retirement-proposal.json",
+        "bytes": 130631,
+        "sha256": "532e194858ae209e92dbcd2bfbc7c4bc57527484d28e39aa869e49e59c8ebe83"
+      },
+      {
+        "name": "pack.cjs",
+        "bytes": 5425,
+        "sha256": "d4c0893743ac4943283ac106416760ec8f7b098ad68f327ebf3d3d1d05796f48"
+      },
+      {
+        "name": "precise-recount-proof.diagnostics.json",
+        "bytes": 575,
+        "sha256": "37f3cdfe804cabe37ef68ed62b415b67467c0146e91ffc74cc3febfebef38d4c"
+      },
+      {
+        "name": "precise-recount-proof.execution.json",
+        "bytes": 4943,
+        "sha256": "cb2ab386be97121cb38edb7efbcf312970670eec9bd9b073dfafb35585fd7241"
+      },
+      {
+        "name": "precise-recount-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "precise-recount-proof.stdout.raw",
+        "bytes": 225,
+        "sha256": "7fa3d8a406467ec33ee70da2de5238c01f9b78dbd622430adef5e600ee622967"
+      },
+      {
+        "name": "prepare-recount.cjs",
+        "bytes": 2727,
+        "sha256": "b0d87dc2d52497d7b05469fe05fb11aead9f138e117bea72e9bc32dae9e8bbe3"
+      },
+      {
+        "name": "product-diff.patch",
+        "bytes": 26452,
+        "sha256": "4dcb34da867434f71194d5a95cdebf47086b26729a0b00876ea14ae4ceb9dbd7"
+      },
+      {
+        "name": "record-central.cjs",
+        "bytes": 4187,
+        "sha256": "0b9a08ea3a9e2a6656852eca9129a254b7936fcdde410f45903dcb4177f9849b"
+      },
+      {
+        "name": "register-retirements.before.cjs",
+        "bytes": 4072,
+        "sha256": "957f4802c9cc683a68e08a3caa9378f95ed712da9f160b1a6792bdd6d020b680"
+      },
+      {
+        "name": "register-retirements.cjs",
+        "bytes": 4275,
+        "sha256": "ce77ac4aeebe578f48e8aa3e0fc4c8f90e82584d779701b96124823c6d1434ae"
+      },
+      {
+        "name": "register-retirements.digest-before.cjs",
+        "bytes": 4213,
+        "sha256": "0725d394763dc9f1f170cc1324291ea02527ca3ba3e51f73e9b62185f1225fba"
+      },
+      {
+        "name": "retirement-producer-digest-error.stderr.raw",
+        "bytes": 1190,
+        "sha256": "234eda751ed45f6e26d30a8a10915d8f6151fe81c560aa8fb1cdcb2518b18d9b"
+      },
+      {
+        "name": "retirement-producer-digest-error.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "retirement-producer-erratum.json",
+        "bytes": 1315,
+        "sha256": "c9d696c8fdf19081196647641620307f87459b0a719e01c042399a26a5adb752"
+      },
+      {
+        "name": "retirement-producer-error.stderr.raw",
+        "bytes": 3077,
+        "sha256": "ede7ae139760eebcea8c283eec317b5f757da57749c18d550ca65e2f8db1f349"
+      },
+      {
+        "name": "retirement-producer-error.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "retirement-registered-tools.diagnostics.json",
+        "bytes": 581,
+        "sha256": "513a7bd3dd721fdab5c1fda311bd4078e35d4d9d700c72a099b77c8ee3aa6eff"
+      },
+      {
+        "name": "retirement-registered-tools.execution.json",
+        "bytes": 3953,
+        "sha256": "c4327a1cfd1345130679b476ae38efa4da42420a0233070ac3e246b7c26cba99"
+      },
+      {
+        "name": "retirement-registered-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "retirement-registered-tools.stdout.raw",
+        "bytes": 13132,
+        "sha256": "f058e52340316c8561fcca62947f9ac5f50718dab40c4d3ae58caedd3ecaffe5"
+      },
+      {
+        "name": "retirement-tools-before-registration.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "retirement-tools-before-registration.stdout.raw",
+        "bytes": 12926,
+        "sha256": "05c6cde925ef2ba968b8cf2fb3f547ce3366ab4b43c184b551b187aa76f5c4e3"
+      },
+      {
+        "name": "retirements.json",
+        "bytes": 6209,
+        "sha256": "addae22c643667384d353e4116908c0a9f846fdc1a0a6b83d4cc87dc779e09b4"
+      },
+      {
+        "name": "reused-shell-audio-after.execution.json",
+        "bytes": 2739,
+        "sha256": "c5c245b9058c2384e55e1edeed6ded9e3fdb31328e1ccc35d4af9494b28b00d8"
+      },
+      {
+        "name": "reused-shell-audio-after.native.json",
+        "bytes": 9077,
+        "sha256": "aec5dcdbe44c1f67daa30e5fc8d1674881d06f4647691ac3f816b22a2c7982c8"
+      },
+      {
+        "name": "reused-shell-audio-after.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "reused-shell-audio-after.stdout.raw",
+        "bytes": 514,
+        "sha256": "347b6a1e82be7c5a31fa6bcd3c687db4ecd8476a974843f1e93e421d3eb77c7c"
+      },
+      {
+        "name": "scan-gates-first.cjs",
+        "bytes": 1865,
+        "sha256": "db02c29b5960679f2712de0ca0ee7a753ab668d3eef5dd019eef639bd28e4e31"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      {
+        "name": "scoped-biome.diagnostics.json",
+        "bytes": 566,
+        "sha256": "f782abd65efd29cb3ec84f5e5aaf11520c3f591c7d9015b568134dd69c19414a"
+      },
+      {
+        "name": "scoped-biome.execution.json",
+        "bytes": 4443,
+        "sha256": "3bfb45bf2550da5819b3a606d60064e77b30f8727981cb362fe016b9248db618"
+      },
+      {
+        "name": "scoped-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "scoped-biome.stdout.raw",
+        "bytes": 44,
+        "sha256": "82b1947243ae8c27f33cf4734417fc4f5ce32fec708612ed00663927ed461403"
+      },
+      {
+        "name": "shared-input-before-comment.ts",
+        "bytes": 2386,
+        "sha256": "5bb1e2629f69731d6b61e22914738d19c647ced7f35a9598fd232a91ec50cf14"
+      },
+      {
+        "name": "update-reviews.cjs",
+        "bytes": 5439,
+        "sha256": "4b26206b40a317b5841fd45485a5344ceb6d67076587658c05a0d349ddf4e54e"
+      },
+      {
+        "name": "verify-image-png.cjs",
+        "bytes": 792,
+        "sha256": "df9203e8a9e959cedb3d21b392bd37add5034bd1b734e86955bad49c55646b6d"
+      },
+      {
+        "name": "verify-recount.mjs",
+        "bytes": 1703,
+        "sha256": "194d1d0da2ed801a7be611c8abd821d99fc64467f28f57302c79d0e7b8afbf91"
+      },
+      {
+        "name": "window.json",
+        "bytes": 2883,
+        "sha256": "12b2f0c326aadf3504c0bdbbadb0ab83eaccf8257f5844e8f0d94bcfab3631ea"
+      },
+      {
+        "name": "audio-before-resource-comment.ts",
+        "bytes": 12245,
+        "sha256": "f78ccecb4ae016f60a0f3b60a9dab64824dd923dfa1320a5f078b833d895d803"
+      }
+    ]
+  },
+  "localRuns": [
+    {
+      "id": "input-green",
+      "role": "test",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 34
+    },
+    {
+      "id": "audio-retirement-green",
+      "role": "test",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 52
+    },
+    {
+      "id": "midi-url-green",
+      "role": "test",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 39
+    },
+    {
+      "id": "adjacent-input-audio",
+      "role": "test",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 157
+    },
+    {
+      "id": "module-typecheck",
+      "role": "typecheck",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0
+    },
+    {
+      "id": "scoped-biome",
+      "role": "scoped-biome",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0
+    },
+    {
+      "id": "retirement-registered-tools",
+      "role": "retirement-tools",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 0
+    },
+    {
+      "id": "editor-image-final-green",
+      "role": "editor-directed",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "vitestTotal": 36
+    }
+  ],
+  "coverageAdjustment": {
+    "approval": {
+      "id": "pre94-input-ogg-retirement-20261021",
+      "authority": "User2026-10-21 explicitly approves unused OGG retirement and SDLPal direction fix; standing2026-10-20 authorization permits exact measured baseline adjustment after reasonable cleanup,never weak tests/dead code restoration.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+      "baselineSha256": "b85f8a6a5e4dc684f220c704103a6d83f54b968a074a7a89111614ecfa2cbdae",
+      "sources": [
+        {
+          "path": "packages/game/src/core/scene-system.ts",
+          "sha256": "861d2e43437970d01a59a4507f8165e954057c343c35739b51ec226e812a1cdf"
+        },
+        {
+          "path": "packages/game/src/shell/audio-midi.test.ts",
+          "sha256": "7f202281beb0e1c7222b41895aa646737620daa83664ae2568b810520fc6ee17"
+        },
+        {
+          "path": "packages/game/src/shell/audio-midi.ts",
+          "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4"
+        },
+        {
+          "path": "packages/game/src/shell/audio-volume.ts",
+          "sha256": "2cf70c4cf469c3b337341f999018bfa5f82ab3b21c9a2d95a3794c1c3dc17778"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "080bf74a0a111219093299908f93728d44c8735dbfbf3c3bb1f6ce86a56f1475"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "495d3f4c95180244a3f4edbfadb23154604f4c33eeeb1ba12e7db31ed847c5e4"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "sha256": "67f008abc2d6013744ce84049556cf987c1c76aff605bc912377f166445c9c8a"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d"
+        },
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "1798b523ecbb3594a8144697844531d955acb23e0b701f7474d66630f15a0704"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "01842b519dd9bc8bee3a221c962d2c9cdec043f7c912f848efd2ef3e1c559847"
+        },
+        {
+          "path": "packages/game/src/shell/music-source.ts",
+          "sha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        }
+      ],
+      "packages": {
+        "game": {
+          "before": {
+            "statements": {
+              "covered": 14307,
+              "total": 16042
+            },
+            "branches": {
+              "covered": 9333,
+              "total": 11622
+            },
+            "functions": {
+              "covered": 1672,
+              "total": 1961
+            },
+            "lines": {
+              "covered": 12758,
+              "total": 14059
+            }
+          },
+          "after": {
+            "statements": {
+              "covered": 14286,
+              "total": 16019
+            },
+            "branches": {
+              "covered": 9331,
+              "total": 11618
+            },
+            "functions": {
+              "covered": 1668,
+              "total": 1956
+            },
+            "lines": {
+              "covered": 12738,
+              "total": 14038
+            }
+          }
+        }
+      }
+    },
+    "allOtherPackagesUnchanged": true,
+    "sourceScopeUnchanged": true,
+    "fastTests": "input+3,approvedOGG-3; no runtime source file excluded",
+    "metricsDelta": {
+      "statements": {
+        "covered": -21,
+        "total": -23
+      },
+      "branches": {
+        "covered": -2,
+        "total": -4
+      },
+      "functions": {
+        "covered": -4,
+        "total": -5
+      },
+      "lines": {
+        "covered": -20,
+        "total": -21
+      }
+    }
+  },
+  "failedAttempts": [
+    {
+      "id": "module-ratchet",
+      "scope": "Full collection completed; strict comparison rejected real metric reduction after approved cleanup;raw unchanged and not counted clean gate"
+    },
+    {
+      "id": "module-ratchet-r2",
+      "scope": "Full19968 tests green and exact metric authorization passed; missing explicit --allow-scope-removal caused strict scope refusal. Operator omission,not counted a clean gate."
+    },
+    {
+      "id": "module-ratchet-r3",
+      "scope": "Heavy gates ran concurrently; two unrelated5-second test timeouts each. No source/timeout/rule change; serialized reruns required. Capture entry now has exclusive heavy-role lock."
+    },
+    {
+      "id": "module-check",
+      "scope": "Heavy gates ran concurrently; two unrelated5-second test timeouts each. No source/timeout/rule change; serialized reruns required. Capture entry now has exclusive heavy-role lock."
+    },
+    {
+      "id": "module-ratchet-r4",
+      "scope": "exit0 and all19968 pass but8React act diagnostics in one ImageTab cancellation test; strict zero-diagnostic acceptance refused. Actual narrow test fix/counter and final clean gate separately recorded."
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
+      "sha256": "1e26f70637f58f432fce48f0948c1d913a34700753b39db7479e2ec84dcfaf46"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/audio-element-fixture.ts",
+      "sha256": null
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.test.ts",
+      "sha256": "7f202281beb0e1c7222b41895aa646737620daa83664ae2568b810520fc6ee17"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.ts",
+      "sha256": "2cf70c4cf469c3b337341f999018bfa5f82ab3b21c9a2d95a3794c1c3dc17778"
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8"
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "sha256": "080bf74a0a111219093299908f93728d44c8735dbfbf3c3bb1f6ce86a56f1475"
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256": "7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256": "495d3f4c95180244a3f4edbfadb23154604f4c33eeeb1ba12e7db31ed847c5e4"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "67f008abc2d6013744ce84049556cf987c1c76aff605bc912377f166445c9c8a"
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "sha256": "6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "1798b523ecbb3594a8144697844531d955acb23e0b701f7474d66630f15a0704"
+    },
+    {
+      "path": "packages/shared/src/input.ts",
+      "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "5912a7edc17e9b680c7f99b512ed49d60a40f0ad5eb76291547f1a2e673bc04a"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "b3feecc7983d9800d6382d4c74ecc22e3601713de1a87202368bf428893c431d"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "fb1e6fe14ba1bda0f6dd7e8779fb21473bff7b402aedc68fef08c18dd991daab"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "701132328072ef6842704045706c7164bac5a426b8fc8b5b81739d1e4f9ee60c"
+    }
+  ]
+}

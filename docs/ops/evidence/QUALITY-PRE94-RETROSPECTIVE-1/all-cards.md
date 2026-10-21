@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-21当前：47 accept / 36 partial / 0 pending。本轮3y/3z/40/41共12文件接受；[当前证据与集中门](analytics-closeout.json)。73/74及其它36partial未强关，94–102不扩展。
+2026-10-21当前：49 accept / 34 partial / 0 pending。CODE73/74原七文件接受；[当前证据与集中门](input-audio-closeout.json)。59和其余34partial未强关；94–102不扩展。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -66,8 +66,8 @@
 | [CODE-QUALITY-70](../../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | accept | [Current original scope](present-leaves-gates.json): 1 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-71](../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) | done | accept | [Current original scope](present-leaves-gates.json): 3 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-72](../../archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；3个当前文件；广域/听感/剧情不附带接受。 |
-| [CODE-QUALITY-73](../../archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-74](../../archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-73](../../archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md) | done | accept | [当前逐文件A–H/原件/集中门](input-audio-closeout.json)；4个原范围文件；批准缺口已处理。 |
+| [CODE-QUALITY-74](../../archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md) | done | accept | [当前逐文件A–H/原件/集中门](input-audio-closeout.json)；3个原范围文件；批准缺口已处理。 |
 | [CODE-QUALITY-75](../../archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；2个当前文件；广域/听感/剧情不附带接受。 |
 | [CODE-QUALITY-76](../../archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；3个当前文件；广域/听感/剧情不附带接受。 |
 | [CODE-QUALITY-77](../../archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；3个当前文件；广域/听感/剧情不附带接受。 |

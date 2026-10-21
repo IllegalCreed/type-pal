@@ -3122,8 +3122,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Prior fixed-Git review reused; actual owned analytics delta and version envelope independently checked",
-      "coreConclusion": "Four original analytics cards and two support files accepted with12explicitfiles;73/74 product/export decisions remain open; current47accept/36partial. Gates/raw/limits in current receipt; CODE59 approved draft registration only,not save build acceptance; no94-102 expansion.",
+      "readMethod": "Prior fixed-Git review reused; actual owned input/audio delta and version envelope independently checked",
+      "coreConclusion": "CODE73/74 approved direction fix and legacy retirement, scoped MIDI URL reuse; current49accept/34partial. Gates/raw/limits in current receipt; CODE59 approved draft registration only,not save build acceptance; no94-102 expansion.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3274,10 +3274,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "8f6d26854fe74dec4f30e1dc8189b953715baaf8854b3dd8eff98b2cbddc204e",
+      "afterSha256": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
       "revision": {
-        "currentSha": "8f6d26854fe74dec4f30e1dc8189b953715baaf8854b3dd8eff98b2cbddc204e",
-        "implementationSha": "8f6d26854fe74dec4f30e1dc8189b953715baaf8854b3dd8eff98b2cbddc204e",
+        "currentSha": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
+        "implementationSha": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4130,10 +4130,10 @@
         ]
       },
       "evidence": {
-        "kind": "analytics-four-card-closeout-scoped-current-source-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
-        "afterSha256": "8f6d26854fe74dec4f30e1dc8189b953715baaf8854b3dd8eff98b2cbddc204e",
-        "lineCount": 886
+        "kind": "input-audio-closeout-scoped-current-source-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+        "afterSha256": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
+        "lineCount": 887
       },
       "history": [
         {
@@ -4517,6 +4517,28 @@
           "limits": "Only named analytics status/index/live-ledger and approved CODE59 draft registration delta; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
           "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "input-audio-closeout",
+          "previousAfterSha256": "8f6d26854fe74dec4f30e1dc8189b953715baaf8854b3dd8eff98b2cbddc204e",
+          "afterSha256": "9a6ca68dcc3b38759697dc0fd77e197921f90ca70b69c69731eb966654783595",
+          "scope": "Only seven current input/audio live rows and approved fixture retirement/counts; historical ledger body retains fixed-Git full review.",
+          "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "input-audio-closeout",
+          "previousAfterSha256": "9a6ca68dcc3b38759697dc0fd77e197921f90ca70b69c69731eb966654783595",
+          "afterSha256": "4c16d99788e8d16b84dbd40309a26d7f8f3dc25bf32a0a4c347c3edb43cf9023",
+          "scope": "Only seven current input/audio live rows and approved fixture retirement/counts; historical ledger body retains fixed-Git full review.",
+          "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [
@@ -4527,13 +4549,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue remaining36partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Continue remaining34partial cards; no implicit whole-source/visual/browser acceptance.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only twelve current analytics live rows/counts; historical ledger body retains fixed-Git full review.",
+      "reviewedLines": "Only seven current input/audio live state rows/counts, three already-accepted adjacent MIDI/AVI evidence-pointer deltas and approved fixture retirement; historical ledger body retains fixed-Git full review.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

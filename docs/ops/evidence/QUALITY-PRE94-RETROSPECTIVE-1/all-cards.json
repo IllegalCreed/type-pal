@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 47,
+  "currentAccepted": 49,
   "cards": [
     {
       "id": "1",
@@ -2785,21 +2785,21 @@
       "sha256": "2874450d11db286d9bbfad7577df49dde61915cf27d3fc730e4c485748173d18",
       "lines": 31,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 10,
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Current native C and real TS direction restoration differ after scene fade; user decision pending GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1; implementation unchanged and card unaccepted.",
-      "currentReviewSha256": "c031b5b801b745a72c11d1b4527ffbe828a06ed0871c47fd586e1a2ecb22cfb1",
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+      "findings": "原四文件A–H接受。用户批准方向恢复；三个真实业务红先行后修，原17case与键表/Replay/Recording保全。三原C函数与实际浏览器main-loop→scene消费支持方向ownership；无全输入模型等价或完整剧情E2E外推。",
+      "currentReviewSha256": "6cc335e92018f4d47c30588bf1d25cc89d512e2a28eb1b41035de9e0c620d24e",
       "currentReviewer": "Codex",
       "currentReviewDate": "2026-10-21",
-      "currentReviewEvidence": "docs/ops/tasks/GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md"
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json"
     },
     {
       "id": "74",
@@ -2809,8 +2809,8 @@
       "sha256": "ccb49d3c6bf5a7b14e11b6a704e42e53bed43f814c26e6cbbbf6ee8a17609ed1",
       "lines": 62,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2853,13 +2853,13 @@
           "text": "当前状态：done，已归档；无实现改动。若继续音频治理，请接 CODE-QUALITY-75，先核验 audio-midi 异步曲目切换风险。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Important G/E debt: legacy OGG constructor has no production caller under MIDI/RIX factory; export retirement pending QUALITY-LEGACY-OGG-RETIREMENT-1. Audio/test fixture remain review; live manager loop evidence retained.",
-      "currentReviewSha256": "91bfb078f231f279379c250722141a5f960755d0f798f298f7c14abb2f5fe718",
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+      "findings": "原三文件A–H接受。用户明确批准无生产入口的旧OGG导出/空写/三个专测及唯一fixture退役；现用MIDI/RIX/manager函数体保全，旧loop反控按版本复用。musicUrl接真实MIDIcaller，纯重构另提交；不附带关闭bootstrap/音量大文件或新增听觉全流程信用。",
+      "currentReviewSha256": "72cc3580dc549abd07de52e3b5d4f086bf0591f6725b404b5de90e5d03f9301c",
       "currentReviewer": "Codex",
       "currentReviewDate": "2026-10-21",
-      "currentReviewEvidence": "docs/ops/tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md"
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json"
     },
     {
       "id": "75",
@@ -4193,14 +4193,14 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 36,
+    "partial": 34,
     "pending": 0,
-    "accept": 47
+    "accept": 49
   },
   "lastIncrementalReview": {
     "date": "2026-10-21",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
-    "cards": ["3y", "3z", "40", "41"],
-    "method": "Reuse fixed-version source/counter/browser evidence;close actual eight-dimensional gaps and precise test isolation/discrimination;complete clean module gates;73/74 decisions remain open"
+    "cards": ["73", "74"],
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+    "method": "Reuse valid GLM full A-H/per-case and original live-function counter evidence;approved direction fix and unused OGG retirement;precise URL reuse;all module gates clean, no94-102"
   }
 }

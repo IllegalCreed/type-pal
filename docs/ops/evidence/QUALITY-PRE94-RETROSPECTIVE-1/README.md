@@ -283,3 +283,9 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-21 [shell生命周期五卡收口](shell-lifecycle-local.json)：72/75/76/77/78共14文件接受，当前43accept/40partial；audio三文件/测试fixture因旧OGG无生产入口保持review。[默认只读快检](verify-shell-lifecycle.mjs)核当前版本、完整原件、102定向/相邻身份、loop单红与三个集中门，不重跑测试或覆盖率。[方向键裁决](../../tasks/GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md)与[旧OGG导出退役裁决](../../tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md)均未获答复，不强关73/74。Git发布按父卡交接与实际ancestry核对。
 
 2026-10-21 [analytics四卡收口](analytics-closeout.json)：CODE3y/3z/40/41及两相邻测试支持文件共12文件A–H接受，累计47accept/36partial/0pending。两个产品类型整理发射JS相同；两个UI业务反控与外部Owner探针支持实际测试整改，30定向、七包TC和check20366/official ratchet19968/protected19968零诊断。首轮protected因合盖睡眠中断，2失败/7worker或异步错误完整原件保留；同快照唤醒重跑才计清洁门。baseline只随单个诚实标题改名变身份，覆盖率/范围/例数均不变。[当前界面截图](analytics-ui.png)已看，旧图缺失明示；[只读快检](verify-analytics.mjs)核快照/原件，不重跑coverage。59另按已批准合同先核、再红例修复，当前不授其accept；73/74未决仍partial，94–102不扩展。
+
+2026-10-21 输入/音频批准后候选：[七文件八维与原件](input-audio-closeout.json)、[完整字节附件](input-audio-native.json.gz)、[只读快检](verify-input-audio.mjs)、[浏览器实际模块复验截图](input-audio-browser.png)。73三红→绿；74三OGG专测授权退役，现用音乐保持；集中门完成前两卡仍partial。
+
+## 2026-10-21 输入音频模块收口
+
+73/74原七文件A–H正式接受；当前49accept/34partial/0pending。上述输入音频候选入口现为完整收口回执，包含首轮严格coverage比较失败与精确实测调整、后继干净门；只读快检默认核冻结门，不重跑coverage。唯一fixture退役不计文件关闭，59仍partial按批准核合同。

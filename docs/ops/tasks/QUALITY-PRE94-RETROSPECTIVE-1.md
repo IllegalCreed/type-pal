@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 2026-10-21最新：47accept/36partial/0pending。本轮analytics四卡12文件接受；入口analytics-closeout.json。73/74未决项仍保持partial；Git发布另核实际交接。
+> 2026-10-21最新：49accept/34partial/0pending。CODE73/74七文件完成批准缺口与八维收口；入口input-audio-closeout.json。59继续按获准合同核验，94–102不扩展；Git发布另核。
 
 > 2026-10-21追加勘误：上一菜单窗口的完整check/ratchet/protected原件各有两条stdout的0x008E诊断，旧扫描漏计，原“零运行诊断”统一门信用撤回。原件与旧计数不改，九卡逐文件代码结论独立保留。当前窄修与集中补门见[present/speedrun门记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)；未过门前不合main或新增关闭。
 
@@ -1135,3 +1135,23 @@ CODE3y/3z/40/41四卡及两个明确测试支持文件共12文件接受，43→4
 旧浏览器图片附件已丢失，不延续其可复验像素信用；当前截图/AX重新实证。首次本地快检正确拒绝缺失的.ts mutant附件；补齐归档类型后MATCH，产品/测试未因证据修复改动。首轮protected发生合盖休眠、2测试失败/7worker或异步错误，原件保留；不改超时/规则/测试，唤醒后完整重跑protected才作为当前门。集中check/official ratchet/protected与最终静态原件见[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)。同一3y先提交推送，fetch确认0behind后再合main；其余36partial继续，不扩94–102。
 
 本窗口源提交依次为`dc6a5b38a96aaeac54f75906bd9ceaacddf3dceb`、`487fd83fa3c5f0d76d75c7e10eebbf1f358ea79a`、`ffdd9aafaf9b61c1c4b60f7a25285abc71b65ed1`（纯类型整理／测试质量／官方单标题身份基准分提交）。实际集中check20366例、七包TC、ratchet19968例和唤醒后protected19968例干净；最终lint5720files为0error/0warning/0info，五个文档consumer、ledger与diff检查通过。机器账本3328/323closed/137review/2868pending；只增加本轮12文件关闭。存档59批准合同先行，当前实现不动；73/74裁决仍未答，余36partial继续。收口提交与远端/main同步由实际Git ancestry复核，不以文档推定已发布。
+
+## 2026-10-21 输入与音频模块准入
+
+用户批准73按SDLPal恢复仍按住方向、74删除无生产调用的旧OGG导出/空写/三个专测。Codex在同一3y接手，实际基点c2b82e39ecb69c0be6138930e6c4261fc773fcb7，最新main同点；原shell逐文件/原生证据复用，仅补这两个真实缺口。两卡仍partial/47accept未变，不把授权当验收。59的96字段/真实读档合同核验进度保留，此模块后继续；不扩94–102。
+
+## 2026-10-21 输入音频本地候选
+
+73三业务红先行后修，34定向及157相邻通过；受控浏览器的实际input/main-loop/scene-system已恢复左方向并行走。74按明确授权退役三专测/唯一fixture及旧导出空写，活跃八文件52例、MIDI纯URL复用后四文件39例通过。七文件逐项A–H、删除映射与原件入口为[input-audio-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)，[只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-input-audio.mjs)的--local只授本地证据信用。统一门未完成前维持47accept/36partial，不提前宣布收口。
+
+## 2026-10-21 统一门诊断窄修准入
+
+原生ratchet-r4虽然19968例通过、exit0，但ImageTab.glm-ui-wave.test.tsx出现8条act诊断，不能记干净门。Codex核看板无该测试活跃Owner、同树无他人editor改动，准入仅该测试文件异步act ownership/合法fixture/取消oracle窄修；产品实现不改，不新增测试身份或pre94文件关闭信用。正式导入等WebCrypto完成的目录提交放在act内，取真实AssetBase替代never，原生act环境flag由stub精确恢复，24字节损坏PNG签名替换为可由libpng解出的2×2/71字节PNG。取消不再只检查零I/O与历史不变，同时确认弹窗关闭；真实生产onClose临时置空时，旧观测一绿、新合法输入一指定业务红，恢复后36相邻全绿且零诊断。三个用例无增删、无规则/超时/console静音。
+
+覆盖率入口现加排他锁，重型门串行。最终使用官方run.mjs的ratchet与TYPE_PAL_COVERAGE_BASE_REF=origin/main联合模式，共用一次真实采集；受保护基线/精确退役断言执行，写入后范围/指标与原生summary严格核验，不虚构为两次运行。全仓check仍完整串行；全部门完成前两卡继续partial。
+
+## 2026-10-21 输入音频模块收口
+
+CODE73四文件、CODE74三文件A–H接受，47→49accept、36→34partial、pending仍0。73三红先行，修正当前方向状态ownership；实际浏览器main-loop→scene消费恢复左方向并移动。74按明确授权删除旧OGG导出/空写/三专测/唯一fixture；18manager/pure与1无WebAudio合同保全，musicUrl接入真实MIDIcaller，纯重构另提交。不是重新全文复做GLM全部审查。
+
+首轮official19968例全绿，但旧OGG删除后game语句/行比例小降，严格比较exit1原件保留。按用户授权给精确旧baseline+14源码固定的有限计数调整，范围/其它六包计数不变，源码变动和额外下降反控拒绝；比较函数/规则不变，不恢复死代码或弱测试。修复8条act诊断后，官方一次真实采集联合执行ratchet及受保护main比较，严格写后范围/计数均核；不是虚构两次运行，当前联合门才计干净门；统一check和最终静态结果见[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)。第二轮缺退役显式参数、第三轮与check并行时各两测试超时均保留原件；执行入口加重型门排他锁后串行复跑，不改源码/超时/规则。后续收尾先核auditScope与退役参数，禁止重型门并行。两次临时登记脚本原始raw缺失和初次浏览器坐标非法均如实披露，不制造通过信用。机器账本3327/330closed/129review/2868pending，七文件之外未强关。Next：59合法V1内容合同/正式红例与不入槽验证；其它34partial滚动补实缺口。

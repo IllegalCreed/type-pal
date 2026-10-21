@@ -1026,9 +1026,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; actual owned analytics delta and version envelope independently checked",
+      "readMethod": "Prior fixed-Git review reused; actual owned input/audio delta and version envelope independently checked",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance derives from explicit analytics per-file A-H plus complete clean gates.",
+      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance requires explicit input/audio per-file A-H and complete clean gates; current receipt states actual stage.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "ca527eb414a5fdaf1273e9ae86c7696a30fea29ddd8f30127acfdd9c4e73a371",
+      "afterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1072,8 +1072,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "ca527eb414a5fdaf1273e9ae86c7696a30fea29ddd8f30127acfdd9c4e73a371",
-        "implementationSha": "ca527eb414a5fdaf1273e9ae86c7696a30fea29ddd8f30127acfdd9c4e73a371",
+        "currentSha": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
+        "implementationSha": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1736,8 +1736,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "ca527eb414a5fdaf1273e9ae86c7696a30fea29ddd8f30127acfdd9c4e73a371",
-        "lineCount": 3740,
+        "afterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
+        "lineCount": 3784,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -2001,6 +2001,28 @@
           "limits": "Only named analytics status/index/live-ledger and approved CODE59 draft registration delta; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
           "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "input-audio-closeout",
+          "previousAfterSha256": "ca527eb414a5fdaf1273e9ae86c7696a30fea29ddd8f30127acfdd9c4e73a371",
+          "afterSha256": "e0a36e7a10b3f8042f8c6ee0367b25dba72a696531e8c610999e99113f8a8609",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "input-audio-closeout",
+          "previousAfterSha256": "e0a36e7a10b3f8042f8c6ee0367b25dba72a696531e8c610999e99113f8a8609",
+          "afterSha256": "23f5cc09152c9ac634d7f0bc0490e8420217fb0045d36fd8831466ba4f7b60b8",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [
@@ -5902,9 +5924,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Prior fixed-Git review reused; actual owned analytics delta and version envelope independently checked",
+      "readMethod": "Prior fixed-Git review reused; actual owned input/audio delta and version envelope independently checked",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance derives from explicit analytics per-file A-H plus complete clean gates.",
+      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance requires explicit input/audio per-file A-H and complete clean gates; current receipt states actual stage.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -5925,7 +5947,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "a27241a627d381c03a7f6777bb11a94ac55e01c903f5244a9fb00231c8024ddf",
+      "afterSha256": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5948,8 +5970,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "a27241a627d381c03a7f6777bb11a94ac55e01c903f5244a9fb00231c8024ddf",
-        "implementationSha": "a27241a627d381c03a7f6777bb11a94ac55e01c903f5244a9fb00231c8024ddf",
+        "currentSha": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
+        "implementationSha": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6617,8 +6639,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "a27241a627d381c03a7f6777bb11a94ac55e01c903f5244a9fb00231c8024ddf",
-        "lineCount": 6146,
+        "afterSha256": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
+        "lineCount": 6168,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -6909,6 +6931,39 @@
           "limits": "Only named analytics status/index/live-ledger and approved CODE59 draft registration delta; no unrelated document/product/E2E acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json",
           "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "input-audio-closeout",
+          "previousAfterSha256": "a27241a627d381c03a7f6777bb11a94ac55e01c903f5244a9fb00231c8024ddf",
+          "afterSha256": "6c0a79aa679ddc4e537e55739a4e66c4c87b74842c313a5a465793ef15025b72",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "input-audio-closeout",
+          "previousAfterSha256": "6c0a79aa679ddc4e537e55739a4e66c4c87b74842c313a5a465793ef15025b72",
+          "afterSha256": "cc4a56c0bb8b82eee1d9c9917b8011f960664d5c8f8738318f1809e41c9bd8e9",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "input-audio-closeout",
+          "previousAfterSha256": "cc4a56c0bb8b82eee1d9c9917b8011f960664d5c8f8738318f1809e41c9bd8e9",
+          "afterSha256": "541a0243db7748706a8e91cf8d9e6c81bf5bcbef8fdaacbafe82690f93fd262d",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "limits": "Only named input/audio status/index/live-ledger delta; no unrelated document/product/E2E acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json",
+          "notRun": ["unrelated story E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [
