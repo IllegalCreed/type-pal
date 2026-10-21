@@ -1,21 +1,10 @@
 /**
- * 按场景可达性切分事件命令列表。
+ * 从 parsed 场景/EO 和全局脚本入口，保守收集潜在执行路径，再按来源分文件。
+ * 单场景独占命令留在该场景；多场景共享或全局入口可达命令归 shared。
+ * 跳转边只来自具名控制字段和 raw opcode 操作数，人读文本与名称不参与。
  *
- * BFS 从每个场景的入口指令出发,收集可达的指令下标。
- * - 只有一个场景能 reach 的指令 → 归入该场景文件
- * - ≥2 个场景能 reach 的指令 → 归入 shared
- * - 任何场景都 reach 不到的指令 → 丢弃
- *
- * **M5.6 修(2026-05-27 audit 第 3 真漏洞)**:
- *   `globalEntries` 参数 — items/spells/enemyObjects 的 scriptOn{Use,Equip,...} 入口
- *   单列。这些 script 入口**不属于任何 scene**(物品 / 法术 / 敌人 AI 跨 scene 复用),
- *   原 sliceByScene 漏收 → 整批 script bytecode 被切片丢弃 → 用户用物品没反应根因。
- *   修法:globalEntries BFS 单独 reachable 集合,**强制归 shared**(不属任何 scene 文件)。
- *   sdlpal 真值依据:`script.c:3140` `PAL_RunTriggerScript(wScriptEntry, ...)` —
- *   `gpGlobals->g.lprgScriptEntry[wScriptEntry]` 全局 SCRIPTENTRY 数组,wScriptEntry
- *   就是 items.scriptOnUse / spells.scriptOnUse / enemyObjects.scriptOnXxx 的值。
- *
- * M1 限制:跨文件标签改写仅对具名 goto 生效;raw 命令的数字操作数不改写。
+ * 返回值借用原命令；仅跨文件 goto 改写时复制命令对象。原始指令下标保持为标签，
+ * raw 数字操作数不改写。objects 仍是现有空占位；本函数不负责运行态脚本选择或 IO。
  */
 
 import type { Command, EventFile } from '@type-pal/shared'
@@ -23,7 +12,7 @@ import type { EventObject, Scene } from '../io/sss.js'
 import { JUMP_TARGET_OPERAND, RANDOM_JUMP_OPCODE } from './opcodes.js'
 
 /**
- * 条件跳转 opcode(raw,数字 operand)的目标 → 入队(BFS 字符串扫描扫不到数字 operand)。
+ * 条件跳转 opcode(raw,数字 operand)的目标 → 入队；这些数值字段由 opcode 表定义，不靠人读字符串猜测。
  * 0xA2 随机跳目标 = i+1..i+op0(相对)。见 opcodes.ts JUMP_TARGET_OPERAND 注释。
  */
 function pushRawJumpTargets(c: Command, i: number, queue: number[]): void {
@@ -71,84 +60,12 @@ export function sliceByScene(
     return entries
   })
 
-  // 2. BFS:为每个场景计算可达指令集合
-  const reachableByScene: Set<number>[] = scenes.map(() => new Set<number>())
-
-  for (let si = 0; si < scenes.length; si++) {
-    const queue = [...sceneEntries[si]!]
-    const visited = reachableByScene[si]!
-
-    while (queue.length > 0) {
-      const i = queue.shift()!
-      if (i < 0 || i >= commands.length || visited.has(i)) continue
-      visited.add(i)
-
-      const c = commands[i]!
-
-      // end 系列 fall-through(sdlpal 真值):
-      //  - 0x0000 (plain end):真终止,不收续行(PAL_RunTriggerScript script.c:3204 fEnded;
-      //    PAL_RunAutoScript script.c:3520 原地 park)
-      //  - 0x0001 (advance):下次执行推进至下一行 i+1(trigger script.c:3216 wNextScriptEntry=+1;
-      //    auto script.c:3530 wScriptEntry++)— 必须收 i+1,否则运行时 ip++ 落进邻接脚本
-      //  - 0x0002 (reset):跳 resetTo(operand[0])或 idleFrames 满后推进 i+1
-      //    (script.c:3223-3236 / 3537-3546)— 两者都收
-      if (c.op === 'end') {
-        if (c.advance) queue.push(i + 1)
-        if (c.reset) {
-          if (typeof c.resetTo === 'number') queue.push(c.resetTo)
-          queue.push(i + 1)
-        }
-        continue
-      }
-
-      // goto:收目标；仅有计数时也收计数结束的续行
-      if (c.op === 'goto') {
-        const t = parseLabel(c.to)
-        if (t !== null) queue.push(t)
-        // 0x0003 的非零计数耗尽后推进 i+1（SDLPal trigger/auto 两入口同义）。
-        if ((c.frameDelay ?? 0) > 0) queue.push(i + 1)
-        continue
-      }
-
-      // 其它具名命令仅顺序推进；text/人读名称/label 声明都不制造跳转。
-      pushRawJumpTargets(c, i, queue) // 条件跳转 opcode 的数字 operand 目标
-      queue.push(i + 1)
-    }
-  }
-
-  // 2.5. BFS:globalEntries(items/spells/enemyObjects scripts)— M5.6 audit 第 3 漏洞修
-  //
-  // 这些 script 入口不属任何 scene(物品法术跨 scene 复用),BFS 单独 reachable 集合,
-  // 后续强制归 shared。sdlpal `script.c:3196 lprgScriptEntry[wScriptEntry]` 真值即此。
-  const globalReachable = new Set<number>()
-  {
-    const queue = globalEntries.filter((e) => e > 0)
-    while (queue.length > 0) {
-      const i = queue.shift()!
-      if (i < 0 || i >= commands.length || globalReachable.has(i)) continue
-      globalReachable.add(i)
-
-      const c = commands[i]!
-      // end fall-through 同上(step 2 注释):0x0001 收 i+1;0x0002 收 resetTo + i+1
-      if (c.op === 'end') {
-        if (c.advance) queue.push(i + 1)
-        if (c.reset) {
-          if (typeof c.resetTo === 'number') queue.push(c.resetTo)
-          queue.push(i + 1)
-        }
-        continue
-      }
-      if (c.op === 'goto') {
-        const t = parseLabel(c.to)
-        if (t !== null) queue.push(t)
-        // 0x0003 的非零计数耗尽后推进 i+1（SDLPal trigger/auto 两入口同义）。
-        if ((c.frameDelay ?? 0) > 0) queue.push(i + 1)
-        continue
-      }
-      pushRawJumpTargets(c, i, queue) // 条件跳转 opcode 的数字 operand 目标
-      queue.push(i + 1)
-    }
-  }
+  // 场景与全局脚本使用同一控制流规则；来源归属在遍历之后决定。
+  const reachableByScene = sceneEntries.map((entries) => collectReachable(commands, entries))
+  const globalReachable = collectReachable(
+    commands,
+    globalEntries.filter((entry) => entry > 0),
+  )
 
   // 3. 统计每条指令被几个场景 reach
   //   globalReachable 命中的指令强制归 shared(等价 sceneCount ≥ 2)。
@@ -191,6 +108,49 @@ export function sliceByScene(
   const objects: EventFile = { segments: [] }
 
   return { scenes: sceneFiles, shared, objects }
+}
+
+/** 只借用 parsed 命令和入口，局部 queue/visited 不跨一次遍历共享。 */
+function collectReachable(commands: readonly Command[], entries: readonly number[]): Set<number> {
+  const queue = [...entries]
+  const visited = new Set<number>()
+  while (queue.length > 0) {
+    const i = queue.shift()!
+    if (i < 0 || i >= commands.length || visited.has(i)) continue
+    visited.add(i)
+
+    const c = commands[i]!
+
+    // end 系列 fall-through(sdlpal 真值):
+    //  - 0x0000 (plain end):真终止,不收续行(PAL_RunTriggerScript script.c:3204 fEnded;
+    //    PAL_RunAutoScript script.c:3520 原地 park)
+    //  - 0x0001 (advance):下次执行推进至下一行 i+1(trigger script.c:3216 wNextScriptEntry=+1;
+    //    auto script.c:3530 wScriptEntry++)— 必须收 i+1,否则运行时 ip++ 落进邻接脚本
+    //  - 0x0002 (reset):跳 resetTo(operand[0])或 idleFrames 满后推进 i+1
+    //    (script.c:3223-3236 / 3537-3546)— 两者都收
+    if (c.op === 'end') {
+      if (c.advance) queue.push(i + 1)
+      if (c.reset) {
+        if (typeof c.resetTo === 'number') queue.push(c.resetTo)
+        queue.push(i + 1)
+      }
+      continue
+    }
+
+    // goto:收目标；仅有计数时也收计数结束的续行
+    if (c.op === 'goto') {
+      const t = parseLabel(c.to)
+      if (t !== null) queue.push(t)
+      // 0x0003 的非零计数耗尽后推进 i+1（SDLPal trigger/auto 两入口同义）。
+      if ((c.frameDelay ?? 0) > 0) queue.push(i + 1)
+      continue
+    }
+
+    // 其它具名命令仅顺序推进；text/人读名称/label 声明都不制造跳转。
+    pushRawJumpTargets(c, i, queue) // 条件跳转 opcode 的数字 operand 目标
+    queue.push(i + 1)
+  }
+  return visited
 }
 
 /** 按 predicate 过滤指令并改写跨文件跳转 */
