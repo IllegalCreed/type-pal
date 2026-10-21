@@ -1,4 +1,4 @@
-# GAME-MOBILE-LAYOUT-1 - 第一阶段移动端可玩布局试验
+# GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持
 
 Status: review
 Phase: phase1
@@ -20,7 +20,7 @@ Branch: codex/game-mobile-layout
 
 - 范围内：游戏外壳、保持比例的画面、六个基础虚拟按键及显示开关、标准手柄输入、移动工具抽屉、半透明小地图、必要测试。
 - 范围外：二阶段编辑器、游戏机制/帧缓冲/地图数据/存档格式、部署发布。
-- 本轮先交可运行试验；不把浏览器尺寸模拟写成手机实机或手柄验收。
+- 从可运行试验推进至用户认可的软件交付；不把浏览器尺寸模拟写成手机实机或手柄验收。
 
 ## 前提真值门
 
@@ -86,8 +86,8 @@ Branch: codex/game-mobile-layout
 
 ### 进入 done 前：独立验收
 
-- 贡献者交付与自验：Codex实施/自验；game check 329文件/3679测试通过，lint全仓零诊断。
-- Codex集成复核：定向核实际差异、caller、原生红绿结果与浏览器；本轮直接实施，无第三方独立审查署名。
+- 贡献者交付与自验：Codex实施/自验；各轮检查及其候选边界保留在下文，不以早期日志冒充最终候选。
+- 独立复核：只读reviewer `/root/mobile_final_review` 核冻结候选与原生证据；唯一P2返工后于356ac4fad定向复验接收，见[独立记录](../evidence/GAME-MOBILE-LAYOUT-1/independent-review.txt)。Codex核差异与原件，收口官方门。
 - 用户体验/产品验收：2026-10-22用户认可设计，确认无实体手柄，授权提交/推送/关闭issue；不记为硬件验收。
 - done 准入：review，集成质量门与CI尚在执行，硬件未测明确披露。
 
@@ -182,7 +182,7 @@ Branch: codex/game-mobile-layout
 - 补审读域：input新增modal消费合同；avi播放容器/inline/监听清理；splash退出finally；ending等键清理；game-shell叠加层；新增测试全文。A核动作消费、下一页泄漏和生命周期，B核注释与不可跳机制边界，C/D复用现有抽象键与单一事件入口，E核合法fixture/真实caller与独立完成oracle，F/G局部新增且无伪键盘或轮询快照第二消费者，H以真实input端口加宿主边界模拟复验。
 - 集成首轮coverage在迁移器未改用例遇5000ms超时；保留[失败原件](../evidence/GAME-MOBILE-LAYOUT-1/coverage-concurrent-timeout.txt)，未提升超时或改测试选择；待全仓check结束后串行重跑。
 - 主分支实际同步9b4df7145（包含e8566c2c7）；保留其存档、共享解码、提取器及文档门修复。当前卡review，合并/CI/覆盖率结果待实际运行写回。
-- 集成检查：同步主分支前的全仓`pnpm check`通过（含631个editor文件/4943测试、96个migrate文件/739测试）；同步e8566c2c7后全仓`pnpm typecheck`与5774文件零诊断lint通过。两次检查的候选边界不同，不伪称同一提交全仓check。
+- 集成检查：同步主分支前的全仓`pnpm check`通过（含631个editor文件/4943测试、96个migrate文件/739测试）；同步9b4df7145后全仓`pnpm typecheck`与5774文件零诊断lint通过。两次检查的候选边界不同，不伪称同一提交全仓check。
 - [生产构建实点](../evidence/GAME-MOBILE-LAYOUT-1/production-touch-status.png)：6006本地dist、375×667，取消打开菜单，确认进入状态页并可返回；不是阿里云上线或离线验收。已关闭临时preview实例并恢复视口。
 - 外壳接线补测：`game-shell.test.ts`现为2例，新增真实触控source经外壳连接、隐藏时保留同键键盘owner、重新显示和工具阻塞后恢复；宿主仅模拟媒体查询/ResizeObserver/rAF/capture，测试临时页面监听由宿主清理。未改变产品TS实现。
 - 清理移动端已移除的计时器tab/FPS残留定位CSS；不改变已验收布局。
@@ -191,3 +191,13 @@ Branch: codex/game-mobile-layout
 - 键盘修复后完整game check为333文件/3715测试、typecheck通过；[日志](../evidence/GAME-MOBILE-LAYOUT-1/final-game-check.txt)。同一正式用例随后扩充了激活键别名，运行时身份数量不变，最终coverage/CI验证当前正文。
 - [最终生产构建实测](../evidence/GAME-MOBILE-LAYOUT-1/production-keyboard-activation.png)：375×667，虚拟取消打开菜单后，将焦点置确认按钮、实际按住空格500ms，只进入一次状态页；无重复确认。构建通过，临时preview已关闭、视口已恢复。
 - 文档门返工：新主分支增加progress完整性检查，发现两处artifact-only记录的历史envelope被本卡绑定替换；已恢复原envelope，把当前delta单列maintenanceReview，保留[修复前完整输出](../evidence/GAME-MOBILE-LAYOUT-1/docs-before-envelope-restored.txt)。progress恢复0 integrity issues；未修改任何检查规则。
+
+### 最终候选验收（GitHub CI前）
+
+- 最终产品源码356ac4fad，测试增补候选1c0b2acbd；后续提交仅登记基线和文档。完整SHA、源码指纹、各轮附件hash与未执行边界见[最终证据](../evidence/GAME-MOBILE-LAYOUT-1/release-evidence.json)。
+- 只读独立复核逐文件核八维、caller与原生报告；唯一P2为打开的工具面板未随布局切换更新，已订阅LAYOUT_CHANGE且仅在打开时重绘。[原生红绿](../evidence/GAME-MOBILE-LAYOUT-1/live-tools-evidence.json)恰一指定业务红→3绿；新增关闭态延迟渲染断言的同一用例再次3绿，经独立复核接收。其余限定读域未见阻断，未升级未改引擎全文信用。
+- 覆盖率保留[关闭态补测前失败](../evidence/GAME-MOBILE-LAYOUT-1/coverage-before-closed-panel-contract.txt)：20024测试全绿但新guard未执行，精确branches比例比中间候选微降。补入合法关闭事件及DOM保持空的业务断言，产品代码、门槛、排除、超时均未调整。
+- 最终官方`coverage:ratchet`退出0：755源码文件、20024 fast测试；statements71884/79706，branches52105/62132，functions13626/15182，lines64198/69749；game为328测试文件/3688测试。[完整日志](../evidence/GAME-MOBILE-LAYOUT-1/release-coverage.txt)与原生汇总见最终证据。源/测试范围及比例通过并更新基线；此项不代替CI的protected base核验。
+- 冻结候选全仓`pnpm typecheck`通过，[日志](../evidence/GAME-MOBILE-LAYOUT-1/release-typecheck.txt)；最终产品构建通过，[日志](../evidence/GAME-MOBILE-LAYOUT-1/release-build.txt)。新测试共8文件/30例，使用真实input/adapter/caller；历史完整game check的333文件/3715测试不冒充本轮新增布局用例后的全量结果。
+- 完整文档门含125工具测试和消费者通过，最终证据/卡面delta再核静态消费者；lint重新核最终文件集。原始日志与后续CI保留各自候选，不把新文档增量当成全仓文档迁移完成。
+- 产品已由用户认可，用户明确无实体手柄仍授权软件提交；实体手机/手柄、Safari安全区、完整剧情E2E、生产SW和阿里云部署均未测或未做。卡暂review，待实际PR质量门后收口。

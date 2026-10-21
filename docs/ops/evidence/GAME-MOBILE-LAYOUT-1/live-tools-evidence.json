@@ -1,0 +1,49 @@
+{
+  "scope": "Open tools panel follows desktop/mobile presentation transitions",
+  "producer": "Codex / native Vitest",
+  "owner": "Codex",
+  "task": "GAME-MOBILE-LAYOUT-1",
+  "sourceRevision": "356ac4fadd74c9902358354055ec96359411668e",
+  "beforeRevision": "dc8b456f9b1783638779b482a05aeb8d144d9992",
+  "cwd": "packages/game",
+  "command": "pnpm --filter @type-pal/game exec vitest run src/tools/tools-panel.mobile.test.ts --reporter=default --reporter=json --outputFile=<native-report>",
+  "source": {
+    "path": "packages/game/src/tools/tools-panel.ts",
+    "sha256": "2ecb4527339d1199714dad76730254c02ddc7054e962e4659645d4990647aded"
+  },
+  "test": {
+    "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+    "sha256": "e00b8efbe540de6739c089309946a5d8c63f6066515146ea33ab36a843e6c3db",
+    "identity": "mobile tools > updates an open system panel across desktop and mobile layouts",
+    "note": "Formatting only after red/green; same test body and execution identity."
+  },
+  "red": {
+    "exit": 1,
+    "signal": null,
+    "files": 1,
+    "failed": 1,
+    "passed": 2,
+    "assertion": "Specified AssertionError: mobile body still contains FPS/fullscreen/save/scale controls",
+    "raw": "live-tools-red.txt",
+    "native": "live-tools-red.json.gz"
+  },
+  "green": {
+    "exit": 0,
+    "signal": null,
+    "files": 1,
+    "passed": 3,
+    "raw": "live-tools-green.txt",
+    "native": "live-tools-green.json.gz"
+  },
+  "limits": "Real tools caller and host event, not phone hardware or broad E2E. Raw native reports losslessly compressed; keep as defect evidence.",
+  "finalTestFollowUp": {
+    "revision": "1c0b2acbda49efa4a2070db97355c9046f520953",
+    "sha256": "0b9693a5897041a25a67964af5565abcfb3a1e6d52e9c5f8ed9a734f4407f67d",
+    "purpose": "Same lifecycle adds the closed branch: legal layout event must defer body rendering until opened.",
+    "passed": 3,
+    "exit": 0,
+    "signal": null,
+    "raw": "live-tools-final.txt",
+    "native": "live-tools-final.json.gz"
+  }
+}

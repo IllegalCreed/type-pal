@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
+      "afterSha256": "cf77bf2c403946baf49cc5d2b28e3f0a02210e9757d795c6e1452e3d03d531ba",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -503,9 +503,9 @@
         "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
-        "currentSha": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
-        "implementationSha": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
-        "contentVersion": 42,
+        "currentSha": "cf77bf2c403946baf49cc5d2b28e3f0a02210e9757d795c6e1452e3d03d531ba",
+        "implementationSha": "cf77bf2c403946baf49cc5d2b28e3f0a02210e9757d795c6e1452e3d03d531ba",
+        "contentVersion": 44,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -2097,6 +2097,34 @@
           },
           "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
           "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "7c59e968d9d0537dc8f04b483147fc7855660b8400d52f1bc7cb80de52a61c80",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "235a6ef967231de2c284e035f58e373c03a14979da46131ccf3c03ac3d003333",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
         }
       ],
       "supersedes": [],
@@ -2402,7 +2430,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
+      "afterSha256": "8c4da6ccfb945b798a4f92826d15c092562e0ab247e4a6d43a4cad378a5c80bd",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2422,9 +2450,9 @@
         "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
-        "implementationSha": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
-        "contentVersion": 30,
+        "currentSha": "8c4da6ccfb945b798a4f92826d15c092562e0ab247e4a6d43a4cad378a5c80bd",
+        "implementationSha": "8c4da6ccfb945b798a4f92826d15c092562e0ab247e4a6d43a4cad378a5c80bd",
+        "contentVersion": 31,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -3189,6 +3217,20 @@
           },
           "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
           "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "codex/game-mobile-layout after e8566c2c7 integration",
+          "action": "Integrate mobile task with current main and preserve unrelated history",
+          "scope": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "evidence": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+          "previousAfterSha256": "bc38df71c110f5a56a4b4b66aff3cafd9f2dbd4e1920f3dff6a28883886fafe2",
+          "previousEvidence": {
+            "kind": "mobile-software-integration-scoped-review",
+            "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+          },
+          "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
+          "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
         }
       ],
       "supersedes": [],
