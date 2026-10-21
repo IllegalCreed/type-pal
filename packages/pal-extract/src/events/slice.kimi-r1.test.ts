@@ -1,23 +1,8 @@
 /**
- * TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 · sliceByScene 剩余分支合同（events/slice.ts）。
- *
- * 排重 basis（旧 fullName 不重复）：
- * - slice.test.ts：单/双场景归属、shared 改写、eventObject triggerScript 入口、randomJump。
- * - slice.boundaries.test.ts（R06）：globalEntries 独达/重合强制 shared、循环一次、
- *   最后 scene EO 开区间、raw 数字 operand 不改写。
- * 本文件只补以下未覆盖 edge（fast lcov 一手测量）：
- * - scene BFS 遇具名非 raw 命令时 pushRawJumpTargets 早退（slice.ts:30）。
- * - scene EO 区间越过 eventObjects 末尾时 `if (!eo) continue`（:67）；
- *   triggerScript=0 不入口（:68 false）、autoScript>0 入口（:69 true）。
- * - scene end reset 缺 resetTo 只收 i+1（:98 false）。
- * - globalEntries 越界 ip 与重复入口被跳过（:132）；global BFS 的 end advance/reset
- *   变体（:137-141）、goto 跟随与非 L_ 标签不跟随（:145-147）、字符串字段扫描
- *   L_N 命中/未命中（:150-153）。
- * 2026-10-16复审：字符串扫描末例只是现行行为观察，原fixture还可顺序到达目标，不能证明
- * text应当是控制流；已转QUALITY-EVENT-SLICE-CONTROL-TRUTH-1，不据此接受生产语义。
- * 不覆盖（ledger）：0xA2 `operands[0] ?? 0`（:35，RawCommand operands 为定长三元组，
- * typed/真实 disasm 输入不可缺）、shared predicate `sceneCount[i] ?? 0`（:193，
- * sceneCount 与 commands 同长，构造上不可达）。
+ * 场景/全局入口的边界与人读字段合同。控制流规则现共用遍历器，不再按实现行号计分支信用。
+ * main/boundaries 已核场景/shared归属、EO半开区间、raw跳转、随机目标和end续行；
+ * 本套件补具名命令顺序推进、auto入口、全局end/goto及metadata负例。
+ * EO越界、缺resetTo、越界/外部label是合成防御观察，生产输入域仍待核；不冒称原盘执行。
  */
 
 import type { Command } from '@type-pal/shared'
