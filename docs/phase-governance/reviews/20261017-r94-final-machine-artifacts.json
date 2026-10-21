@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Reuse fixed-Git review;only owned shared-codec board/ledger delta and descendant fingerprints read",
+      "readMethod": "Reuse fixed-Git review;only owned four-card board/ledger delta and descendant fingerprints read",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Shared CODE2/2b accept CODE2/2b within original codec contracts;remaining pre94partial not accepted;exact scope/evidence at shared-codecs/evidence.json. Ledger345/122/2867;no94-102 or unrelated acceptance.",
+      "coreConclusion": "Four-card extract window: accepted original3b contract;four-card gate window passed;not all83complete;exact scope/evidence at 3b/closeout/evidence.json. Ledger355/120/2861;no94-102 or unrelated acceptance.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "d5a61e744ebef55da1382e720f9da642989b64cfe57ba2e89f30e5ca2a15b6e5",
+      "afterSha256": "275d839792280cc712643b8b8d9db8c6e918112e375539744498a8cd67056e21",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "d5a61e744ebef55da1382e720f9da642989b64cfe57ba2e89f30e5ca2a15b6e5",
-        "implementationSha": "d5a61e744ebef55da1382e720f9da642989b64cfe57ba2e89f30e5ca2a15b6e5",
+        "currentSha": "275d839792280cc712643b8b8d9db8c6e918112e375539744498a8cd67056e21",
+        "implementationSha": "275d839792280cc712643b8b8d9db8c6e918112e375539744498a8cd67056e21",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "d5a61e744ebef55da1382e720f9da642989b64cfe57ba2e89f30e5ca2a15b6e5",
-        "lineCount": 16817,
+        "afterSha256": "275d839792280cc712643b8b8d9db8c6e918112e375539744498a8cd67056e21",
+        "lineCount": 16871,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -2361,6 +2361,42 @@
           "afterSha256": "d5a61e744ebef55da1382e720f9da642989b64cfe57ba2e89f30e5ca2a15b6e5",
           "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-multi-card-pending",
+          "previousAfterSha256": "d5a61e744ebef55da1382e720f9da642989b64cfe57ba2e89f30e5ca2a15b6e5",
+          "afterSha256": "57f726544da185488db565ca745a8af889feb39ec3e782608339764639ec3eac",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-png-ledger-erratum",
+          "previousAfterSha256": "57f726544da185488db565ca745a8af889feb39ec3e782608339764639ec3eac",
+          "afterSha256": "00b4cde1ac17938c3efff23faece54b8082ecf2fdde47984a783fd804dc1de7d",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-host-category",
+          "previousAfterSha256": "00b4cde1ac17938c3efff23faece54b8082ecf2fdde47984a783fd804dc1de7d",
+          "afterSha256": "794160f57ef1dd70929929419599dd79e76a82b341db2916e34c597d21f49dae",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "794160f57ef1dd70929929419599dd79e76a82b341db2916e34c597d21f49dae",
+          "afterSha256": "275d839792280cc712643b8b8d9db8c6e918112e375539744498a8cd67056e21",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
         }
       ],
       "supersedes": [
@@ -2368,7 +2404,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only current shared MKF/RNG/YJ2 review/closeout status or exact file-status rows;unrelated body/history not reaccepted.",
+      "reviewedLines": "Only 3b/3d/3f/3g status rows,two explicit PNG withdrawal-row restorations and exact owned fingerprints;unrelated body/history not reaccepted.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

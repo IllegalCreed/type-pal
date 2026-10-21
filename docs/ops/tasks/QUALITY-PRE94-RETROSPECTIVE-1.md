@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 2026-10-21最新：53accept/30partial/0pending。shared CODE2/2b完成有效八维与native复用、归约单红和RNG重复精简，11文件接受（6新增关闭）；统一门零诊断。余30partial继续，94–102不扩展。
+> 2026-10-21最新：56accept/27partial/0pending。CODE3b/3d/3f原合同收口，3g完成测试宿主切片，17文件逐项接受（12未闭合转关闭）。四卡check20390、ratchet/protected各19992零诊断；剩余27partial，94–102不扩展。
 
 > 历史59/60中间增量：[前置纯测试八维/合同/迁移](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)冻结于4e5e96487；[现金必要守卫正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json)为当前增量。两条真实业务红后29相邻与typecheck零诊断，原内存槽位/预览保留，零值可用；其余96字段/嵌套wire合同仍review。模块大门未跑，49/34与新关闭0不变；本地分提交，未推送/合并本增量。
 
@@ -15,6 +15,32 @@ Phase: engineering first; phase1/phase2按真实路径分别准入
 Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
+
+## 2026-10-21 提取器多卡窗口
+
+### 当前收口回执
+
+本窗口四卡代码冻结后集中执行，3b六文件、3d三测试、3f三文件、3g五测试宿主文件逐项接受；17文件中12从未闭合转已验证，5旧关闭仅刷新，两个PNG旧状态漂移先撤回不隐藏。live3336/355closed/120review/2861pending。3d整卡只收原输入合同，sprite.ts广域仍review；3g主CLI编排仍partial，未知没有变已验证。
+
+全check20390，官方ratchet/protected各19992，七包typecheck和lint error/warning/info0。最初统一门在新helper类别登记处被拒，修fixture后完整复跑；首官方ratchet因4条已覆盖临时声明删除失败，按用户已有授权精确重算后正式重跑成立。没有恢复死代码/堆弱测试/降规则。全部失败、单红与完整可见双流见[唯一原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json)。
+
+下一窗口优先3g既有CLI编排与CODE3剩余事件结构，先核Owner和原证据，只补八维缺口；多卡合并重门，未到稳定收尾不运行覆盖率。提交、推送、合main以Git实际refs为准，不凭回执先宣称。下面准入和待跑段落保留其时点。
+
+3g测试宿主切片build allowed：仅cli-error-exits.kimi-r1/cli-isolated.glm-q/cli-font-lookup.glm-q三测试与新增__tests__/cli-host.ts及专属测试；共享源树复制/tsx进程采集/临时树和在途子进程清理，节点立刻登记、spawn错误传播、完整stdout/stderr/signal可观察。三套输入工厂、原业务断言、CLI入口与产品输出策略不变；不用模式布尔值合并fixture。先复用已固定旧整包结果，新增宿主生命周期直接反例；13/16/CLI定向在本多卡内合并，昂贵门冻结后一次。其它CLI测试保持原Owner/边界，不顺带接管。
+
+3f追加build allowed：现有16例及原六单红/三转移按固定版本复用；仅收窄annotate三个私有叶函数的实参/类型为实际所用域，giveItem保留原words对象与??回退延迟读取，公共annotate/parseSymbols/类型/出口、名字来源/优先级/空名策略不变；GLM输入守恒标题收窄到实际断言。生产Word与JSON symbols均为已核plain值对象，未认证任意外部getter。3个unused公共常量保留为结构候选，不擅自删接口。定向与CLI宿主切片合并执行，统一门仍待多卡冻结。
+
+按用户本轮成本要求，合并3b/3d/3f/3g的必要返工与证据，不逐卡跑全仓/覆盖率。Owner Codex，同一3y，基点0f6423ef；当前3b全check已通过、ratchet结构分母失败原件保留、精确授权比较成立，protected尚未启动。窗口冻结前不关闭新文件或提前宣布合并。
+
+3d build allowed：复用当前PNG实现、真实R/A consumer与既有height反控；仅sprite.test.ts修warn spy的finally隔离、缺生成物时假绿early-return与夸大提取/去重声明，不改产品PNG/RLE/输出或公共接口。先采集缺输入旧绿，再补真实AssertionError及完整13例恢复。unused extractCharacterSprites的公共出口只登记结构候选，不擅删。后继3f/3g仍先核具体缺口及Owner，不推定整卡accept。
+
+## 2026-10-21 CODE3b 模块收口准入
+
+当前：六文件八维/必要返工与33定向、14恢复、独立raw复算成立；完整check20387零诊断。官方ratchet19989例通过后因删四条已覆盖临时复制语句而门exit1，已按既有用户授权登记精确结构重计（谓词/baseline不变），直接复验通过；不冒充官方门通过。protected未启动，按新增多卡节奏延至3d/3f/3g窗口。当前53accept/30partial、345closed保持，0新关闭；唯一证据3b/closeout。
+
+用户本轮追加：后续累计多张相关任务卡再统一大门，不再按小片/单卡触发。长期规范section5已固化；当前已启动窗口不重复测试，下一窗口先累积3d/3f/3g的审查和必要返工，再集中check/ratchet/protected。每卡保留必要定向/静态，未解边界不因批量执行改成accept。
+
+同一3y、最新origin/main基点0f6423ef1ccefb28aaf4dc046f8d22fa849f3625；Owner Codex，build allowed。复用3b及raw-tests的完整结构/精确文本/反控证据，补足六文件八维与当前caller。白名单：io/sss.ts仅去掉EO/scene逐条临时字节副本及整除后的冗余floor；msg.ts只补末offset合同注释；sss.boundaries.test.ts只改过时sanity注释并增加一个返回数组/借用字节码所有权合同；相邻glm-tb04-fixtures.ts只纠正空chunk/末offset两条注释，正文不变、不接受其它helper；必要任务、账本及证据。格式/字段值/API/拒绝策略/GBK修正政策不变，无新产品取舍。先留原13例基线，再跑新14例及相邻回归；重构与新增测试分提交，昂贵门只在本模块冻结后集中一次。旧raw反控原件保持，不运行会写回verification.json的历史检查器。
 
 ## 2026-10-20 全部pre94持续收口（当前）
 

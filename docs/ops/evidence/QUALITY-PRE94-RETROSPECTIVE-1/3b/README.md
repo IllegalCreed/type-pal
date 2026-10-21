@@ -1,5 +1,7 @@
 # CODE3b：SSS/M.MSG成果复审
 
+2026-10-21后继模块收口见[当前六文件回执](closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。
+
 归[全83卡任务](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3b历史卡](../../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md)保持历史done/签字，不冒充本轮accept。起点8843d459b；唯一codex/code-quality-3y，main=f98d0ddd8。本片只改两份boundary测试，生产解析器/资源/格式/公共API/规则/基线不动，0新增关闭。
 
 当前后续成果见[原盘测试补证](raw-tests/README.md)：raw9→2、五有效反控/两oracle转移，extract428零stderr；下方保留边界切片3a9f47043当时原件与结论。当前raw文件已按新卡面变更，旧after的SHA检查应对Git3a9候选，新验收器同时重建该冻结证据，不反写旧原件。

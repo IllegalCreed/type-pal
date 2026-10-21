@@ -43,3 +43,5 @@
 上述零诊断范围是Vitest外层原始输出。CLI子进程的stdout/stderr由既有测试捕获，错误/缺字库等输出属于所测合同，多处仅有局部contain断言；本片没有逐条保存并核清这些测试中的全部子进程诊断，仍为review。四次独立输出边界probe的完整stdout/stderr另行保存，不用外层绿色替代子进程输出审核。
 
 资产输出修复只等该裁决，其他83卡与94–102/editor范围可继续。当前83卡12partial/71pending/0整卡accept；下一片3h assets/shell，或用户批准后先修输出guard。完整check/official ratchet/protected fast等待稳定窗口，editor运行时诊断未清，不合main。
+
+2026-10-21 多卡窗口增量见[八维复核与保留项](closeout/README.md)；历史原件保持原版本边界。

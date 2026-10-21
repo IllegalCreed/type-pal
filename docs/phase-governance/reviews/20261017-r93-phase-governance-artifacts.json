@@ -1026,9 +1026,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Reuse fixed-Git review;only owned shared-codec board/ledger delta and descendant fingerprints read",
+      "readMethod": "Reuse fixed-Git review;only owned four-card board/ledger delta and descendant fingerprints read",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Shared CODE2/2b accept CODE2/2b within original codec contracts;remaining pre94partial not accepted;exact scope/evidence at shared-codecs/evidence.json. Ledger345/122/2867;no94-102 or unrelated acceptance.",
+      "coreConclusion": "Four-card extract window: accepted original3b contract;four-card gate window passed;not all83complete;exact scope/evidence at 3b/closeout/evidence.json. Ledger355/120/2861;no94-102 or unrelated acceptance.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+      "afterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1072,8 +1072,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
-        "implementationSha": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+        "currentSha": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+        "implementationSha": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1736,8 +1736,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
-        "lineCount": 3890,
+        "afterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+        "lineCount": 3907,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -2118,6 +2118,24 @@
           "afterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
           "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-multi-card-pending",
+          "previousAfterSha256": "6f66a4243234a0dc34ccf34aa8fc642a1030ff06600fc9f2fd3b2b333d9dddcf",
+          "afterSha256": "315b7be8ec2929c1b0564502a3646af539da603a9552fbe0ac122f7186fbb495",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "315b7be8ec2929c1b0564502a3646af539da603a9552fbe0ac122f7186fbb495",
+          "afterSha256": "fb29fef8afb6b422e48bff0c10c46898c0de15b3d9325eea231327c8ceec334b",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
         }
       ],
       "supersedes": [
@@ -2125,7 +2143,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only current shared MKF/RNG/YJ2 review/closeout status or exact file-status rows;unrelated body/history not reaccepted.",
+      "reviewedLines": "Only 3b/3d/3f/3g status rows,two explicit PNG withdrawal-row restorations and exact owned fingerprints;unrelated body/history not reaccepted.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -6019,9 +6037,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Reuse fixed-Git review;only owned shared-codec board/ledger delta and descendant fingerprints read",
+      "readMethod": "Reuse fixed-Git review;only owned four-card board/ledger delta and descendant fingerprints read",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Shared CODE2/2b accept CODE2/2b within original codec contracts;remaining pre94partial not accepted;exact scope/evidence at shared-codecs/evidence.json. Ledger345/122/2867;no94-102 or unrelated acceptance.",
+      "coreConclusion": "Four-card extract window: accepted original3b contract;four-card gate window passed;not all83complete;exact scope/evidence at 3b/closeout/evidence.json. Ledger355/120/2861;no94-102 or unrelated acceptance.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -6042,7 +6060,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+      "afterSha256": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6065,8 +6083,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
-        "implementationSha": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+        "currentSha": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
+        "implementationSha": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6734,8 +6752,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
-        "lineCount": 6268,
+        "afterSha256": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
+        "lineCount": 6304,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -7152,6 +7170,42 @@
           "afterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
           "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-multi-card-pending",
+          "previousAfterSha256": "443588ed258058dfe34d8eddea8b7b26bfdd3b91081cb490e8f9bd69f60e41e4",
+          "afterSha256": "ca56a8ba5fd58bc5297661df84f54f973ec9dfa82310b5bdae1bdb49085299a1",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-png-ledger-erratum",
+          "previousAfterSha256": "ca56a8ba5fd58bc5297661df84f54f973ec9dfa82310b5bdae1bdb49085299a1",
+          "afterSha256": "1b4da20b3a854a2e5fdad4e469a8422098a654fb832c07df4a392a6750a57d70",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-host-category",
+          "previousAfterSha256": "1b4da20b3a854a2e5fdad4e469a8422098a654fb832c07df4a392a6750a57d70",
+          "afterSha256": "678c40427e0f7ee977bc28f33c317bc9c951227edc054e2b0935cda9b35e0767",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "678c40427e0f7ee977bc28f33c317bc9c951227edc054e2b0935cda9b35e0767",
+          "afterSha256": "5dbfe4048e998759e5e79a9159211f9b7a84e0b5ee141465a14901b3d1bad1ce",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
         }
       ],
       "supersedes": [
@@ -7159,7 +7213,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only current shared MKF/RNG/YJ2 review/closeout status or exact file-status rows;unrelated body/history not reaccepted.",
+      "reviewedLines": "Only 3b/3d/3f/3g status rows,two explicit PNG withdrawal-row restorations and exact owned fingerprints;unrelated body/history not reaccepted.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

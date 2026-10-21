@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Reuse fixed-Git review;only owned shared-codec board/ledger delta and descendant fingerprints read",
-      "coreConclusion": "Shared CODE2/2b accept CODE2/2b within original codec contracts;remaining pre94partial not accepted;exact scope/evidence at shared-codecs/evidence.json. Ledger345/122/2867;no94-102 or unrelated acceptance.",
+      "readMethod": "Reuse fixed-Git review;only owned four-card board/ledger delta and descendant fingerprints read",
+      "coreConclusion": "Four-card extract window: accepted original3b contract;four-card gate window passed;not all83complete;exact scope/evidence at 3b/closeout/evidence.json. Ledger355/120/2861;no94-102 or unrelated acceptance.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
+      "afterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
       "revision": {
-        "currentSha": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
-        "implementationSha": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
+        "currentSha": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+        "implementationSha": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,10 +4146,10 @@
         ]
       },
       "evidence": {
-        "kind": "shared-codec-scoped-current-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json",
-        "afterSha256": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
-        "lineCount": 905
+        "kind": "extract-four-card-scoped-current-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json",
+        "afterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+        "lineCount": 919
       },
       "history": [
         {
@@ -4639,6 +4639,42 @@
           "afterSha256": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
           "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-multi-card-pending",
+          "previousAfterSha256": "0ea11be03accb71bc821aa1730cb8cd2e0dcbccdfb3735b17523e94f85be1ca2",
+          "afterSha256": "92a1f3d38072c45455578a0b4eff326b9613e5b12c57c5166cd4e24e5b768a04",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-png-ledger-erratum",
+          "previousAfterSha256": "92a1f3d38072c45455578a0b4eff326b9613e5b12c57c5166cd4e24e5b768a04",
+          "afterSha256": "c3b552673052ec4169222facf0e508fff12fd17e4cc79c9af45772e6d1b8db1e",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "sss-msg-host-category",
+          "previousAfterSha256": "c3b552673052ec4169222facf0e508fff12fd17e4cc79c9af45772e6d1b8db1e",
+          "afterSha256": "f12bb3c24c0b402af2786628f43bad351f5b849ee3dc0718db365a85ce856bac",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "working-tree",
+          "action": "extract-four-card-window-final",
+          "previousAfterSha256": "f12bb3c24c0b402af2786628f43bad351f5b849ee3dc0718db365a85ce856bac",
+          "afterSha256": "816e5f9a97d08ecd5412b66e5106f40511e33a4992beafaa89a2b6d384e5153c",
+          "scope": "Only named owned current bindings/status;originalsource/history and all unrelated entries retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json"
         }
       ],
       "supersedes": [
@@ -4655,7 +4691,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only current shared MKF/RNG/YJ2 review/closeout status or exact file-status rows;unrelated body/history not reaccepted.",
+      "reviewedLines": "Only 3b/3d/3f/3g status rows,two explicit PNG withdrawal-row restorations and exact owned fingerprints;unrelated body/history not reaccepted.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

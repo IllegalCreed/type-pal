@@ -1,5 +1,7 @@
 # CODE3d：PNG 输入合同与注释复审
 
+2026-10-21当前增量见[多卡窗口八维与必要返工](closeout/README.md)；本页保留原切片时点，旧主测未变宣称不覆盖后继整改。
+
 归属[94前全部83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3d历史卡](../../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md)保持历史done。当前基点65c375e06、唯一codex/code-quality-3y、main=f98d0ddd8；本轮整卡仅partial，0新增关闭。
 
 ## 真值、调用与职责
