@@ -54,8 +54,10 @@ Visual Verification Timing: N/A（提取器纯收集；无游戏/E2E或原版运
 
 ## P3 战败/玩家逃跑接回边：新停线，待用户裁决
 
-2026-10-22继续CLI/事件caller复核时确认新反证，不包含在前两项用户批准里。disasm::emitCommand没有startBattle专用分支，0x0007经emitRawFallback保号落raw；opcodes定义已有op1/op2两个label，disasm会为目标打标签，但slice仅使用单目标JUMP_TARGET_OPERAND，而表中没有7（旧注还误称7走named-label）。SDLPal script.c:3314–3333分别在Lost+op1非零、Fleed+op2非零跳转；当前event-system::savePostBattleResume、game-state::resumePostBattleScript也分别保存/恢复两个地址。缺的是提取器收集边，不是字节码/游戏战斗规则。
+2026-10-22继续CLI/事件caller复核时确认新反证，不包含在前两项用户批准里。disasm::emitCommand没有startBattle专用分支，0x0007经emitRawFallback保号落raw；opcodes定义已有op1/op2两个label，disasm会为目标打标签，但slice仅使用单目标JUMP_TARGET_OPERAND，而表中没有7。SDLPal script.c:3314–3333分别在Lost+op1非零、Fleed+op2非零跳转；当前event-system::savePostBattleResume、game-state::resumePostBattleScript也分别保存/恢复两个地址。缺的是提取器收集边，不是字节码/游戏战斗规则。
 
 只读真实公开函数探针：8条合法8-byte指令，raw7的op1=4/op2=6，普通续行在2真end截断；disasm/recompile逐字节一致。scene与global两个入口实际均只收L_1而缺L_4/L_6，报告先落盘，再由指定AssertionError否定“return commands must be collected”。未把它算作Vitest红例或现行游戏故障。只读raw43503条中434条raw7，334入当前切片，327带非零接回；其610条非零return边有609条的目的地址不在任何切片，目的仅3个不同地址6186/41073/41075，不能写成609个独立故障。完整all.json仍含它们且当前生产默认用全局数组。
 
-可review窄修：不改disasm产出/opcode7格式；slice对raw7分别收非零op1/op2，保留原胜利fall-through，并纠正表注。先增加正式scene/global失败反例，再最小修复，再核零地址/两目标/共享改写与相邻回归；对真实raw只读比较新增归属。原始bytes/all.json、存档/机制/战斗胜负及逃跑规则不改。用户批准前禁止实现P3或给CODE3/slice授accept；同卡前两获批修复、CLI纯重构可继续独立收尾。原件当前在本轮CLI IO临时证据，收口时接回稳定导航，不能只凭本段文字授通过。
+可review窄修：不改disasm产出/opcode7格式；slice对raw7分别收非零op1/op2，保留原胜利fall-through，补充双目标收集合同说明。先增加正式scene/global失败反例，再最小修复，再核零地址/两目标/共享改写与相邻回归；对真实raw只读比较新增归属。原始bytes/all.json、存档/机制/战斗胜负及逃跑规则不改。用户批准前禁止实现P3或给CODE3/slice授accept；同卡前两获批修复、CLI纯重构可继续独立收尾。原件当前在本轮CLI IO临时证据，收口时接回稳定导航，不能只凭本段文字授通过。
+
+本节归因勘误：此前“旧注还误称7走named-label”未定位到现行源码，撤回这条注释缺陷断言。当前opcodes的named含义与disasm专用emit并非一一对应，已有测试也明确raw fallback；P3由当前真实raw7输出、单目标收集表、SDL/caller及合法探针独立成立，不依赖该无锚注释归因。

@@ -24,3 +24,13 @@ disasm的startBattle仍落raw7，而切分单目标表未覆盖其两个return�
 本窗统一门未跑、0新关闭；六文件仅候选。新两source路径review登记，旧CLI-isolated“完整透传”信用因直接反控撤review，当前3340/355closed/129review/2856pending。前窗main9b的Documentation与Coverage实际success只属旧候选。当前代码冻结后集中check/official ratchet/protected/lint，过门再逐文件裁定、推3y与同步main。94–102不扩展。
 
 本窗复验由上一slice包的既有verify.mjs增量读取本review/附件；不再建立一套平行验收状态。快检只核当前版本/原件/指定结果，不执行测试或coverage；尚未统一门时只能LOCAL MATCH。
+
+## 集中门实际进展（2026-10-22）
+
+原“统一门未跑”是冻结时点。window-check实际完成：七包20,400项Vitest、typecheck与工程工具均过，lint5754文件error/warning/info为0；完整可见stdout/stderr中act、环境、未实现指令、静态与异步诊断均0。260个测试stdout块/18种不同内容另逐项分类为正常装配、存档成功、像素比对、房间就绪与读盘成本记录，不能只凭正则零命中得结论。
+
+首次window-ratchet-protected的20,002测试/752生产源全绿，但官方门exit1，539字节stderr全为八项覆盖率比率拒绝，保留原件，不写“通过”。实际取回前窗main9b的Coverage CI原始artifact（run39639678308，artifact12366915217；服务端zip摘要ada055d2…）；旧pal-extract逐文件总数与完整旧baseline相等。对比只有cli.ts、slice.ts与两个新增内部模块四文件指标变化，其余原文件及其它六包逐项不变。
+
+slice两段已覆盖BFS去重，statement/line仍全覆盖；搬出的IO仍纳入统计，真实CLI子进程执行未计入本进程V8覆盖率，不用排除掩盖。依据用户已授合理结构变化可精确校准的权限，6d15b6c91只在现有有限迁移表增加一项：完整旧baseline摘要+166当前路径SHA+四项精确before/after计数。原算法尾与旧条目不变，93工具测试、实际数据核对及两个额外下降反控都过；不改规则、选择、阈值或超时。官方入口无报告复用选项，故校准后必须真实重跑一次；首次失败仍独立保留。
+
+第二次window-ratchet-calibrated仍20,002绿、计数与首次完全相同，exit1；553字节stderr仅为目标分支保护拒绝。共享Git的origin/main在采样期间被其它会话fetch前移至移动端基线，而本治理树尚无这些代码。不得据旧候选覆盖新主线基线，也不加游戏包校准掩盖缺码；当前0关闭，先同步origin/main再跑整合后的门。后续官方保护用启动时最新origin/main的完整SHA，结束后仍fetch核0behind，避免将可移动ref误记成固定采样前提。

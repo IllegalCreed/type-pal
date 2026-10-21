@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "state": "frozen related-card window; whole gates pending",
+  "state": "integration resync required; both official metric/protected rejections retained;0new closures",
   "owner": "Codex single agent",
   "base": "399709863d5eced20eba4698d169c23f9e61702f",
-  "collectedCodeCommit": "314fa5eb1138fb734442367888981a0e82f95827",
+  "collectedCodeCommit": "6d15b6c91633e3937ee0817076d833643e9b9d32",
   "files": [
     {
       "path": "packages/pal-extract/src/cli.ts",
@@ -49,7 +49,7 @@
         "E": "MIDI/OGG字节独立常量oracle+原始RIX全字节；空MID针旧全绿新单红；原块alpha一致。",
         "F": "rawRoot/outputRoot直接揭示来源；没有注入万能上下文或布尔模式。",
         "G": "保留实际有用的排序、稀疏track检查和manifest；无死参数，返回值void符合真实caller。",
-        "H": "两个显式目录支持真实临时树测试；不需要全局RAW/OUT或monkeypatch fs；canonical音乐目录本机缺失，未声称真实完整音乐导出。"
+        "H": "两个显式目录支持真实临时树测试；不需要全局RAW/OUT或monkeypatch fs；当前治理树data/raw/Musics缺失，未声称真实完整音乐导出。"
       },
       "decision": "candidate; whole gates pending"
     },
@@ -276,8 +276,18 @@
   },
   "artifact": {
     "member": "native.json.gz",
-    "sha256": "086f924e47f50834b215f1c113e954d998816a4eb45e9ef4c0ac03b06d2dcd37",
+    "sha256": "6a301b98426b52866115bdc91eee15b7003c2d6a096cc1faf022b0d7366204cf",
     "members": [
+      {
+        "name": "baseline-before.json",
+        "bytes": 528923,
+        "sha256": "03f2ee71e6d1cd593b9db6311d79e615eecb30b3a8cc6c33c4e17b5fe1f273c5"
+      },
+      {
+        "name": "battle-return-counter-frozen.json",
+        "bytes": 216682,
+        "sha256": "ed2d5d3704cb28b7e289152822b0cfc4d1d817867986586ddff50eb2cd0ebe9b"
+      },
       {
         "name": "battle-return-counter.execution.json",
         "bytes": 1263,
@@ -297,6 +307,11 @@
         "name": "battle-return-counter.stdout.raw",
         "bytes": 39125,
         "sha256": "8804fd468aba4515dd1e334b5aa7ac92f26edc0936099d6283bbad313315a566"
+      },
+      {
+        "name": "battle-return-probe-frozen.mts",
+        "bytes": 5606,
+        "sha256": "e463bcdc83e2d19a1cb2f32bf3bc90f70eabb1dfc943ffdf1d566625421833c0"
       },
       {
         "name": "battle-return-probe.mts",
@@ -372,6 +387,16 @@
         "name": "boundary-gaps.stdout.raw",
         "bytes": 1940,
         "sha256": "64f69c0d9797720f28bd3e34172bb373b0a69bfeb2173d5a08b7675549b4fdbb"
+      },
+      {
+        "name": "candidate-pal-extract-coverage-summary.json",
+        "bytes": 15193,
+        "sha256": "e824b9cc4c3bfbff81b097474995a39535cd25a4ba7e6f820dc4c67c97f3097c"
+      },
+      {
+        "name": "candidate-pal-extract.lcov.info",
+        "bytes": 30429,
+        "sha256": "d22ebafd9a8cd13d92a82c776401d236c0619ecb35473f284b5f696bf4fac589"
       },
       {
         "name": "capture.mjs",
@@ -489,6 +514,36 @@
         "sha256": "5cdf982779677f05f8abc78b69c9f615b2b58ffeb361dc1c52532aa32aaee363"
       },
       {
+        "name": "freeze-docs.execution.json",
+        "bytes": 2310,
+        "sha256": "8dca73d8e9c0c9438c9d7ad03ed892d69349679397df62337775d7743d7a8737"
+      },
+      {
+        "name": "freeze-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "freeze-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "8fc99c2ac5b85a5cc26cb0801d7c21523b25f95489916e79cf8d37e7a795fd71"
+      },
+      {
+        "name": "freeze-lint.execution.json",
+        "bytes": 1973,
+        "sha256": "f10f6209f379c681ba62598da9523dd96c4b05192af1880627af1d4cda192bba"
+      },
+      {
+        "name": "freeze-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "freeze-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "6978e3fe1c67a7480ac9b966b52a1aac3c3da821284bc803be7854743e33ff55"
+      },
+      {
         "name": "move-proof-frozen.execution.json",
         "bytes": 1563,
         "sha256": "defe875adf3246883dfe7f02ce1f86c2940046860e39e3e97c89bf0b7ab969d8"
@@ -604,6 +659,21 @@
         "sha256": "1591be3c535b271bf2f14e2aa5edc7f1d37d2f79bfd19dd429c499aa1a0c6977"
       },
       {
+        "name": "predecessor-pal-extract-coverage-summary.json",
+        "bytes": 13514,
+        "sha256": "73f157d363f961f11760a4a2ca2ed27e23b27fbd8486b6cc50a12057f629cb7d"
+      },
+      {
+        "name": "predecessor-pal-extract.lcov.info",
+        "bytes": 30771,
+        "sha256": "d1e91edec75c35fb86394d4b5132cfd7f9ba9d29e8723708e0ec8443330259bb"
+      },
+      {
+        "name": "protected-snapshot.mjs",
+        "bytes": 4473,
+        "sha256": "fea7eadf8b60592fbca96fad181795bda0abcd70705073a63959872126e8149a"
+      },
+      {
         "name": "prove-move-frozen.cjs",
         "bytes": 3013,
         "sha256": "2994fc23055f6445ab4f9d6358a31e85500690ef9de305afde8d7502b400cb82"
@@ -614,9 +684,84 @@
         "sha256": "6fa9c9cea3df1229e106fa6d4db9a91b7e65f2b01b4ae09f0820ce8266a4c930"
       },
       {
+        "name": "recount-approval.json",
+        "bytes": 30756,
+        "sha256": "92c3c7760bbbbd8ce149ab87191d2a5a41cbac8b1a71f9f60c1f0d486af18ff3"
+      },
+      {
+        "name": "recount-biome.execution.json",
+        "bytes": 1479,
+        "sha256": "4e307a23615f5256711a13ad8ea0d5b48804773d66acf6d62703e6d4b2a14682"
+      },
+      {
+        "name": "recount-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recount-biome.stdout.raw",
+        "bytes": 42,
+        "sha256": "e5c30fc07d09bf4c6e4bebda58977489ec426c11c066f667073812b4cad1e1af"
+      },
+      {
+        "name": "recount-data-proof.execution.json",
+        "bytes": 1505,
+        "sha256": "9ba818c49cc05fbf4756f5729a4d4061efa4932be6b4973094ac36a13165e1b6"
+      },
+      {
+        "name": "recount-data-proof.json",
+        "bytes": 1024,
+        "sha256": "f06ab3ea99834d6f5de4df8754fc31c6d3afce823f43dc53cfa49e9b2e61f2c6"
+      },
+      {
+        "name": "recount-data-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recount-data-proof.stdout.raw",
+        "bytes": 870,
+        "sha256": "158e03f6cf0ac3c78b39fa261c73e5f1989ad27081360cac1a6a8a188008daf7"
+      },
+      {
+        "name": "recount-per-file.json",
+        "bytes": 3239,
+        "sha256": "a71534da11eea1684263a43afa69e306665434bb1d0d824b651adcbf87bc70b6"
+      },
+      {
+        "name": "recount-tools.execution.json",
+        "bytes": 1415,
+        "sha256": "1004c0e9cf1a7034179c9e246b0f6b4fb532e7c5bc49538e1ec2ac62fb14ebec"
+      },
+      {
+        "name": "recount-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recount-tools.stdout.raw",
+        "bytes": 20821,
+        "sha256": "02b0572a92bfb957a7559b96354324b0fdc081da75b651681f100fe8e23301c6"
+      },
+      {
+        "name": "register-recount.cjs",
+        "bytes": 3147,
+        "sha256": "57f56447b02f98ea91f9926e8d39c9f2341de1c85835ef823acc93efcd64b0ec"
+      },
+      {
+        "name": "run-battle-frozen.mjs",
+        "bytes": 191,
+        "sha256": "cfe7d1ebcdd989e8fe46ae992f88db9049fcc47b309d5f1cb7a237d94ce3aa54"
+      },
+      {
         "name": "run-battle-probe.mjs",
         "bytes": 184,
         "sha256": "1b694bff26df047a2d9c1f488de1015088f1b387ff01234d93666ed8d3d67859"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
       },
       {
         "name": "stage-types.execution.json",
@@ -634,6 +779,96 @@
         "sha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440"
       },
       {
+        "name": "verify-recount-data.mjs",
+        "bytes": 3081,
+        "sha256": "df20205b62b0231a28db862a8a1fcddee76f292d273ee6d37239b02e32fcef76"
+      },
+      {
+        "name": "window-check.diagnostics.json",
+        "bytes": 84212,
+        "sha256": "62d4f3fa63270943df82d99116fc1955b650d4add746aca1af823d76f3403de1"
+      },
+      {
+        "name": "window-check.execution.json",
+        "bytes": 1088,
+        "sha256": "e2d49df78ac4ef44e1f7a78d9165e98b5c55225090e8dad76d58612b7f7abd7e"
+      },
+      {
+        "name": "window-check.scan-output.raw",
+        "bytes": 73051,
+        "sha256": "facc2654fc3c6a6bee0fe9b1105999cd5791340738ae9733517e9a25e455422b"
+      },
+      {
+        "name": "window-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window-check.stdout.raw",
+        "bytes": 376567,
+        "sha256": "3250dc3a989946c3704e7c135c9486bfb5153fab4db6b75f99d352e1f5f01a37"
+      },
+      {
+        "name": "window-ratchet-calibrated.coverage-summary.json",
+        "bytes": 8478565,
+        "sha256": "f6aca26ef822c4639e3278851a73de3674cfb7f81a1c86edb38d2bfbdfb233e0"
+      },
+      {
+        "name": "window-ratchet-calibrated.diagnostics.json",
+        "bytes": 81916,
+        "sha256": "fedcee3236795a65528f121a751467690e03abaff54e282f7e36086eb66bae44"
+      },
+      {
+        "name": "window-ratchet-calibrated.execution.json",
+        "bytes": 1495,
+        "sha256": "aa06304b733115238f3bd80a7fde8b859c7f1c00b91d0edd6beda850587d82bc"
+      },
+      {
+        "name": "window-ratchet-calibrated.scan-output.raw",
+        "bytes": 71103,
+        "sha256": "86f3dcad00cfe2461e0f98d6a59c3280b66e8367ed7eb53a40dc768b81d5718f"
+      },
+      {
+        "name": "window-ratchet-calibrated.stderr.raw",
+        "bytes": 553,
+        "sha256": "a70fb81e30b1d22ca6120b92831365f82255fd5880ae0540be5cf7670be519f8"
+      },
+      {
+        "name": "window-ratchet-calibrated.stdout.raw",
+        "bytes": 204592,
+        "sha256": "b3d0133bc3b8c1199139eb8a7d2e52aeeaa48a1cbf686cf99d5d524fb85b764e"
+      },
+      {
+        "name": "window-ratchet-protected.coverage-summary.json",
+        "bytes": 8478565,
+        "sha256": "21d0aa31d424b55f9d85de6f9b71ac7c6386c5b7907caecf5ea0811eaee93270"
+      },
+      {
+        "name": "window-ratchet-protected.diagnostics.json",
+        "bytes": 81915,
+        "sha256": "1d3e29a78911f5fa19c9722c7448cd2ef2fa70f2c971b08e0280224b72e9e11a"
+      },
+      {
+        "name": "window-ratchet-protected.execution.json",
+        "bytes": 1246,
+        "sha256": "cd14bb14543a9b50513e998e7c68b0302d2f6234cffd99dbf88f0016a812642b"
+      },
+      {
+        "name": "window-ratchet-protected.scan-output.raw",
+        "bytes": 71102,
+        "sha256": "1a5580e13ebee1df7ac77d461f407194ecf972690a2fb7bff1d5457e2d248ab6"
+      },
+      {
+        "name": "window-ratchet-protected.stderr.raw",
+        "bytes": 539,
+        "sha256": "34067e885a9a425d223b04bd094d402b79d38bd6716c7b0beaa3050ec407e0b2"
+      },
+      {
+        "name": "window-ratchet-protected.stdout.raw",
+        "bytes": 203452,
+        "sha256": "c7085f1275837b783e96debb0d761785ee2f626e6dbb7e83faaf9f566698d1b5"
+      },
+      {
         "name": "write-block.txt",
         "bytes": 300,
         "sha256": "67f16db8788580bb1c38de15e97354cae04d5de517440f9f04e67e055e19d906"
@@ -643,7 +878,7 @@
   "processDisclosure": "Initial default-path-counter had six ENOENT copy errors because scripts/ was not copied by the counter harness; no business counter credit. Original native/streams retained. Recovery copied scripts and gives5green/1exact business AssertionError. boundary errno initial4green/1business AssertionError remains valid. No source/selection/timeout/console rule weakening.",
   "stopLine": "P3 raw0x07 lost/fled return collection newly disproved; same existing high-risk control truth card, user question pending; no implementation changes for it. CODE3/slice/current main test remain review.610 reachable nonzero raw return edges,609 missing membership, only3unique targets; no609game-failure claim.",
   "limitations": [
-    "No full real extraction: local data/raw/Musics is absent. Valid synthetic CLI observes byte transfer and output graph, not audio/video codec validity.",
+    "No full real extraction: governance-tree data/raw/Musics is absent. Valid synthetic CLI observes byte transfer and output graph, not audio/video codec validity.",
     "No new video codec/partial output/mtime policy, atomic directory transaction or abnormal MIDI naming policy.",
     "Shared primary worktree and user mobile changes untouched; all dependencies resolve into governance worktree.",
     "Source2new modules are internal to private package; no format,argv,save or public package export change.",
@@ -655,5 +890,50 @@
     "conclusion": "success",
     "documentationRun": "https://github.com/IllegalCreed/type-pal/actions/runs/39639678390",
     "claimScope": "Actual predecessor CI conclusion, not zero platform annotations or current-source gate credit."
+  },
+  "firstCollection": {
+    "codeCommit": "314fa5eb1138fb734442367888981a0e82f95827",
+    "gate": "window-ratchet-protected",
+    "exit": 1,
+    "tests": 20002,
+    "reason": "All tests passed, finite coverage recount rejected; raw retained unchanged."
+  },
+  "calibration": {
+    "id": "pre94-extract-control-and-io-recount-20261022",
+    "codeCommit": "6d15b6c91633e3937ee0817076d833643e9b9d32",
+    "evidence": ["recount-per-file.json", "recount-data-proof.json"],
+    "toolsPassed": 93,
+    "unchanged": "All preexisting approval entries, algorithm tail, rules, selection, six other packages and old remaining per-file metrics.",
+    "before": {
+      "statements": [1120, 1542],
+      "branches": [503, 597],
+      "functions": [115, 143],
+      "lines": [979, 1364]
+    },
+    "after": {
+      "statements": [1089, 1512],
+      "branches": [482, 576],
+      "functions": [116, 145],
+      "lines": [955, 1341]
+    },
+    "retry": "Official run.mjs has no summary-reuse flag; one official retry after exact data calibration. Failed first run remains exit1.",
+    "dimensions": {
+      "A": "新增有限数据按完整旧baseline摘要、166当前source字节和四项精确计数绑定；真实旧CI与当前逐文件重算，额外行回退仍拒绝。",
+      "B": "授权区分既有结构调整/文件重组与本次两项控制流批准；不把首次exit1称通过。",
+      "C": "仅增加既有approvedAdjustments一项数据；matcher/runner/metrics职责及算法尾保持原字节。",
+      "D": "使用现有有限迁移协议，不增容差、模式开关或平行基线工具。",
+      "E": "既有93工具测试复用；actual-data proof核六其它包不变/原baseline不变，并对本包和shared额外回退分别拒绝。",
+      "F": "id、before/after、sourcepins与authority/evidence字段明确这一有限计数迁移。",
+      "G": "旧授权项结构相等，未加未用出口或新的常驻兼容分支；新数据只匹配完整旧摘要。",
+      "H": "现有readSource seam可直接核166文件与漂移；纯数据更新不需改生产runner或测试选择。"
+    },
+    "reviewScope": "Only new713-line finite data entry and existing39-line algorithm/call sites; previous1017-line entries reused after exact structural comparison, whole file remains review."
+  },
+  "secondCollection": {
+    "id": "window-ratchet-calibrated",
+    "head": "6d15b6c91633e3937ee0817076d833643e9b9d32",
+    "exit": 1,
+    "tests": 20002,
+    "reason": "Same production counts as first sample. Protected origin/main moved in shared Git refs to mobile baseline during sampling; no repository runtime diagnostics, 553stderr bytes are protected-baseline rejection. Must integrate latest main before final gates."
   }
 }

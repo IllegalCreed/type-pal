@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "state": "frozen slice+CLI+output related-card window; gates pending; P3 awaiting decision",
+  "state": "integration resync required; both official metric/protected rejections retained;0new closures",
   "owner": "Codex single agent",
   "base": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
-  "sourceCommit": "314fa5eb1138fb734442367888981a0e82f95827",
+  "sourceCommit": "6d15b6c91633e3937ee0817076d833643e9b9d32",
   "behaviorCommit": "2ad4c36e953cb38063179a659e51171b9ed33f96",
   "refactorCommit": "e016c27a3d1dfdff819a1dbdc09dd30ac3726dd2",
   "files": [
@@ -566,11 +566,16 @@
       "previous": "976c0ce5cf56ad17269aedae63be2b81f04cbef7",
       "current": "314fa5eb1138fb734442367888981a0e82f95827",
       "reason": "Only CLI IO pure stage/writers + existing tests changed; original slice files unchanged. move-proof binds old/new CLI body."
+    },
+    {
+      "previous": "314fa5eb1138fb734442367888981a0e82f95827",
+      "current": "6d15b6c91633e3937ee0817076d833643e9b9d32",
+      "reason": "Only exact finite baseline approval data added after failed metrics gate; all package code/tests unchanged.93coverage-tool tests and actual-data/negative-regression proof pass. Official retry required by unchanged runner."
     }
   ],
   "ioWindow": {
     "path": "../cli-io-closeout/review.json",
-    "sha256": "fba8f588270d32ffccb6ee7049289949f39bff09dc6951df9cc71cda777d061e",
+    "sha256": "d58938accbd460fbfe4b223ae317676408ee711281a50e3bd9c43d9d8f131429",
     "previousCliSha256": "bac28a79a32548695a368fbd37e49efbe567cd5dfe1d9052e87102b5b9906fa0"
   }
 }

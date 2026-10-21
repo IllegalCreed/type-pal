@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { gunzipSync } from 'node:zlib'
 
@@ -44,6 +44,20 @@ function verifyIoWindow(parent) {
     assert.equal(run.exit, expected.exit, expected.id)
     assert.equal(run.signal, null)
     assert.equal(run.spawnError, null)
+    if (run.stdout && run.stderr) {
+      for (const stream of ['stdout', 'stderr']) {
+        assert.equal(hash(members[run[stream].member]), run[stream].sha256)
+        assert.equal(Buffer.byteLength(members[run[stream].member]), run[stream].bytes)
+      }
+    } else {
+      assert(
+        [...businessCounters, 'music-empty-old-test', 'default-path-counter'].includes(expected.id),
+      )
+      assert.equal(run.cleaned, true)
+      for (const stream of ['stdout', 'stderr'])
+        assert.equal(typeof members[`${expected.id}.${stream}.raw`], 'string')
+      assert.equal(Buffer.byteLength(members[`${expected.id}.stderr.raw`]), run.stderrBytes)
+    }
     if (expected.passed === undefined) continue
     const native = from(`${expected.id}.native.json`)
     assert.equal(native.numPassedTests, expected.passed)
@@ -72,6 +86,50 @@ function verifyIoWindow(parent) {
     if (file.path.endsWith('/cli.ts')) assert.equal(file.sha256, proof.afterSha256)
     if (proof.moduleSha256[file.path]) assert.equal(file.sha256, proof.moduleSha256[file.path])
   }
+  if (io.calibration) {
+    const metrics = (value) =>
+      Object.fromEntries(
+        ['statements', 'branches', 'functions', 'lines'].map((name) => [
+          name,
+          { covered: value[name].covered, total: value[name].total },
+        ]),
+      )
+    const files = (value) =>
+      Object.fromEntries(
+        Object.entries(value)
+          .filter(([name]) => name !== 'total')
+          .map(([name, item]) => [
+            name.slice(name.indexOf('packages/pal-extract/')),
+            metrics(item),
+          ]),
+      )
+    const before = from('predecessor-pal-extract-coverage-summary.json')
+    const after = from('candidate-pal-extract-coverage-summary.json')
+    const recount = from('recount-per-file.json')
+    assert.deepEqual(metrics(before.total), recount.before)
+    assert.deepEqual(metrics(after.total), recount.after)
+    const oldFiles = files(before)
+    const newFiles = files(after)
+    const changed = Object.keys(newFiles).filter(
+      (name) => JSON.stringify(oldFiles[name]) !== JSON.stringify(newFiles[name]),
+    )
+    assert.deepEqual(changed.sort(), recount.changedFiles.map((item) => item.path).sort())
+    assert(Object.keys(oldFiles).every((name) => name in newFiles))
+    const data = from('recount-data-proof.json')
+    assert(
+      data.algorithmTailUnchanged && data.oldEntriesUnchanged && data.originalBaselineUnchanged,
+    )
+    assert.equal(data.actualRegressionCount, 0)
+    assert.equal(data.unexpectedRegressionsRejected.length, 2)
+    assert.equal(
+      hash(
+        readFileSync(
+          new URL('scripts/coverage/approved-baseline-adjustments.mjs', `file://${root}`),
+        ),
+      ),
+      data.calibrationModuleSha256,
+    )
+  }
   if (io.gateState !== 'passed') return false
   assert.equal(io.gates.length, 3)
   for (const id of io.gates) {
@@ -80,6 +138,15 @@ function verifyIoWindow(parent) {
     assert.equal(diagnostics.exit, 0)
     assert(Object.values(diagnostics.diagnostics).every((value) => value === 0))
   }
+  const protectedSnapshot = from('protected-snapshot.json')
+  assert(protectedSnapshot.exactCanonicalProjection && !protectedSnapshot.testResampled)
+  assert.equal(protectedSnapshot.officialRun, 'window-ratchet-calibrated')
+  assert.deepEqual(protectedSnapshot.protectedCoverage.regressions, [])
+  assert.deepEqual(protectedSnapshot.protectedScope.removals, [])
+  assert.equal(
+    hash(readFileSync(new URL('scripts/coverage/baseline.fast.json', `file://${root}`))),
+    protectedSnapshot.candidateBaselineSha256,
+  )
   const ledger = readFileSync(
     new URL('docs/ops/audits/code-quality-file-ledger.md', `file://${root}`),
     'utf8',
@@ -174,6 +241,13 @@ function verify() {
   assert.equal(pure.newLoopCount, 1)
   assert.equal(pure.newSource, review.files[0].sha256)
   const raw = from('raw-impact.json')
+  for (const input of raw.inputs) {
+    const path = new URL(input.path, `file://${root}`)
+    if (!existsSync(path) || hash(readFileSync(path)) !== input.sha256)
+      stale(`raw input unavailable or changed: ${input.path}`)
+  }
+  if (existsSync(new URL('data/symbols.json', `file://${root}`)) !== raw.symbolsExists)
+    stale('optional symbols sidecar presence changed')
   assert(raw.exactRecompile && raw.beforeAfterRefactorExact && raw.labelInstrumentationOutputEqual)
   assert.equal(raw.newUnionSize - raw.oldUnionSize, 301)
   assert.equal(raw.removedIps.length, 0)
