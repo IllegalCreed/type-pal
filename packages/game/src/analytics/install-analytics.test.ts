@@ -1,4 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { ANALYTICS_CONSENT_STORAGE_KEY } from './analytics-consent.js'
+import { useGoogleAnalyticsTestHost } from './google-analytics.test-fixtures.js'
 import {
   installTypePalAnalytics,
   TYPE_PAL_GA_MEASUREMENT_ID,
@@ -6,18 +8,23 @@ import {
 } from './install-analytics.js'
 
 describe('Type Pal analytics installation boundary', () => {
+  const host = useGoogleAnalyticsTestHost()
   let installation: TypePalAnalyticsInstallation | undefined
+  let storedConsent: string | null
 
   beforeEach(() => {
-    document.head.innerHTML = ''
-    document.body.innerHTML = ''
-    localStorage.clear()
-    delete (window as unknown as { dataLayer?: unknown[][] }).dataLayer
+    storedConsent = localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY)
+    localStorage.removeItem(ANALYTICS_CONSENT_STORAGE_KEY)
   })
 
   afterEach(() => {
-    installation?.destroy()
-    installation = undefined
+    try {
+      installation?.destroy()
+    } finally {
+      installation = undefined
+      if (storedConsent === null) localStorage.removeItem(ANALYTICS_CONSENT_STORAGE_KEY)
+      else localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, storedConsent)
+    }
   })
 
   it('公开 Measurement ID 合法，开发环境只显示 UI 且无 Google 请求', () => {
@@ -26,23 +33,23 @@ describe('Type Pal analytics installation boundary', () => {
     installation = installTypePalAnalytics({
       enabled: false,
       window,
-      document,
+      document: host.document,
       navigator: { doNotTrack: null, globalPrivacyControl: false },
     })
 
-    expect(document.querySelector('[data-testid="analytics-consent-panel"]')).not.toBeNull()
-    expect(document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
+    expect(host.document.querySelector('[data-testid="analytics-consent-panel"]')).not.toBeNull()
+    expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
   })
 
   it('G2: DNT/GPC 未有存储选择时默认关闭，但 UI 仍可见', () => {
     installation = installTypePalAnalytics({
       enabled: true,
       window,
-      document,
+      document: host.document,
       navigator: { doNotTrack: '1', globalPrivacyControl: true },
     })
 
-    expect(document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
-    expect(document.body.textContent).toContain('隐私信号')
+    expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
+    expect(host.document.body.textContent).toContain('隐私信号')
   })
 })

@@ -1,15 +1,36 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { ANALYTICS_CONSENT_STORAGE_KEY, readAnalyticsConsent } from './analytics-consent.js'
-import { mountAnalyticsConsentUi } from './analytics-consent-ui.js'
+import { type AnalyticsConsentUi, mountAnalyticsConsentUi } from './analytics-consent-ui.js'
 
 describe('analytics consent UI', () => {
+  let ui: AnalyticsConsentUi | undefined
+  let enter: HTMLButtonElement
+  let previousFocus: Element | null
+  let storedConsent: string | null
   beforeEach(() => {
-    document.body.innerHTML = '<button id="boot-loading-enter-btn">进入游戏</button>'
-    localStorage.clear()
+    storedConsent = localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY)
+    localStorage.removeItem(ANALYTICS_CONSENT_STORAGE_KEY)
+    previousFocus = document.activeElement
+    enter = document.createElement('button')
+    enter.id = 'boot-loading-enter-btn'
+    enter.textContent = '进入游戏'
+    document.body.append(enter)
+  })
+  afterEach(() => {
+    try {
+      ui?.destroy()
+    } finally {
+      ui = undefined
+      enter.remove()
+      if (storedConsent === null) localStorage.removeItem(ANALYTICS_CONSENT_STORAGE_KEY)
+      else localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, storedConsent)
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus()
+    }
   })
 
-  it('P2: 底部居中且高于 loading，不 autofocus、不遮挡进入游戏按钮', () => {
-    mountAnalyticsConsentUi({ document, storage: localStorage, eventTarget: window })
+  it('P2: 底部定位与层级样式，挂载保留进入按钮和原焦点', () => {
+    enter.focus()
+    ui = mountAnalyticsConsentUi({ document, storage: localStorage, eventTarget: window })
 
     const panel = document.querySelector<HTMLElement>('[data-testid="analytics-consent-panel"]')
     expect(panel).not.toBeNull()
@@ -17,12 +38,12 @@ describe('analytics consent UI', () => {
     expect(panel?.style.bottom).toBe('16px')
     expect(panel?.style.left).toBe('50%')
     expect(panel?.style.zIndex).toBe('19')
-    expect(document.activeElement).toBe(document.body)
-    expect(document.getElementById('boot-loading-enter-btn')).not.toBeNull()
+    expect(document.activeElement).toBe(enter)
+    expect(enter.isConnected).toBe(true)
   })
 
   it('DNT 默认关闭时仍显示说明，访客可明确拒绝或允许', () => {
-    const ui = mountAnalyticsConsentUi({
+    ui = mountAnalyticsConsentUi({
       document,
       storage: localStorage,
       eventTarget: window,
@@ -30,12 +51,22 @@ describe('analytics consent UI', () => {
     })
 
     expect(document.body.textContent).toContain('隐私信号')
+    const panel = document.querySelector<HTMLElement>('[data-testid="analytics-consent-panel"]')
+    const preferences = document.querySelector<HTMLButtonElement>(
+      '[data-testid="analytics-preferences"]',
+    )
+    expect(panel?.hidden).toBe(false)
     document.querySelector<HTMLButtonElement>('[data-choice="denied"]')?.click()
     expect(readAnalyticsConsent(localStorage)).toBe('denied')
+    expect(panel?.hidden).toBe(true)
+    expect(preferences?.hidden).toBe(false)
 
     document.querySelector<HTMLButtonElement>('[data-testid="analytics-preferences"]')?.click()
+    expect(panel?.hidden).toBe(false)
+    expect(preferences?.hidden).toBe(true)
     document.querySelector<HTMLButtonElement>('[data-choice="granted"]')?.click()
     expect(readAnalyticsConsent(localStorage)).toBe('granted')
+    expect(panel?.hidden).toBe(true)
 
     ui.destroy()
     expect(document.querySelector('[data-analytics-consent-root]')).toBeNull()
@@ -48,10 +79,15 @@ describe('analytics consent UI', () => {
         throw new Error('blocked')
       },
     }
-    mountAnalyticsConsentUi({ document, storage: brokenStorage, eventTarget: window })
+    ui = mountAnalyticsConsentUi({ document, storage: brokenStorage, eventTarget: window })
     document.querySelector<HTMLButtonElement>('[data-choice="granted"]')?.click()
 
-    expect(document.querySelector('[data-testid="analytics-consent-panel"]')).not.toBeNull()
+    expect(
+      document.querySelector<HTMLElement>('[data-testid="analytics-consent-panel"]')?.hidden,
+    ).toBe(false)
+    expect(
+      document.querySelector<HTMLButtonElement>('[data-testid="analytics-preferences"]')?.hidden,
+    ).toBe(true)
     expect(localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY)).toBeNull()
   })
 })
