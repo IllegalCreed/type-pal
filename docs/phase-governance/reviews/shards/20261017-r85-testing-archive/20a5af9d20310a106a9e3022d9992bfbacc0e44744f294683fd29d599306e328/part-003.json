@@ -1,0 +1,383 @@
+{
+  "schemaVersion": 1,
+  "logicalPath": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+  "generation": "20a5af9d20310a106a9e3022d9992bfbacc0e44744f294683fd29d599306e328",
+  "key": "part-003",
+  "positions": [98, 99],
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json:1"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+      "afterSha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+      "publicCallers": [
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/README.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.green.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.green.raw",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.red.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.red.raw",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.green.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.green.raw",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.red.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.red.raw"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json",
+          "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+        "implementationSha": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+        "history": [
+          {
+            "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r85-testing-archive-20261017.json",
+        "sourceSha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+        "candidateSha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+        "afterSha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+        "lineCount": 121,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 5764,
+          "sourceLines": 121,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "numTotalTestSuites",
+            "numPassedTestSuites",
+            "numFailedTestSuites",
+            "numPendingTestSuites",
+            "numTotalTests",
+            "numPassedTests",
+            "numFailedTests",
+            "numPendingTests",
+            "numTodoTests",
+            "snapshot",
+            "startTime",
+            "success",
+            "testResults"
+          ],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R85 ops evidence historical artifact governance",
+          "reviewer": "r85_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+      "candidateSha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json",
+          "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+          "sha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R85-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R85-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json:1"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+      "afterSha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+      "publicCallers": [
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/README.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.green.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.green.raw",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.red.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.red.raw",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.green.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.green.raw",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.red.json",
+        "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.red.raw"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json",
+          "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+        "implementationSha": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+        "history": [
+          {
+            "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r85-testing-archive-20261017.json",
+        "sourceSha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+        "candidateSha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+        "afterSha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+        "lineCount": 119,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 5336,
+          "sourceLines": 119,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "numTotalTestSuites",
+            "numPassedTestSuites",
+            "numFailedTestSuites",
+            "numPendingTestSuites",
+            "numTotalTests",
+            "numPassedTests",
+            "numFailedTests",
+            "numPendingTests",
+            "numTodoTests",
+            "snapshot",
+            "startTime",
+            "success",
+            "testResults"
+          ],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R85 ops evidence historical artifact governance",
+          "reviewer": "r85_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+      "candidateSha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json",
+          "revision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+          "sha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "57a818f7bfb4a7f8196108cf75593b1d7c38fdee",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R85-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R85-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    }
+  ]
+}

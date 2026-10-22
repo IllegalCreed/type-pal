@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "b21be7f81e648be7d6961c7a832d15b23793a47f4ecac87ba2bfa3e01899d601",
+      "afterSha256": "fa9d37c67b2c2d0fe53142ef4f46a080d60a0deffbb9d5ccd53a44be2664f10e",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -2444,20 +2444,20 @@
       "historyOverlay": false,
       "templateCompliance": "needs-migration",
       "template": "docs/phase-governance/templates/task-card.md",
-      "readMethod": "Codex non-author evidence check of incomingGLM549: fixed19file/9commit/source8/native302/frozenpackages/7receipts, writer11 and bounded realGit FS/source/target/public-native probes. Then explicit user-authorized Codex followup implementation: all changed functions and callers/adjacent validation plus inheritedguard-only scope, actual whole231source-bound suite and specificguards7. Separate author and incoming-review scopes; no599semantic reread, no productexecution.",
+      "readMethod": "Receive human-forwarded GLM read-only non-author verdict for fixed35a; verify candidate, two exactSHA/raw23 and frozen packet, reuse supported231/lint bindings. Codex central activation: actual public group publication, whole8-object/599-entry/9pin/physical19/302native/idempotence checks;4 integration files self-reviewed. No599semantic reread or productexecution.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "用户授权Codex接手S28剩余返工。GLM549源8/599和302原生保全、writer11/0及已核子项保留；其extra shard/unknown stem/锁内覆盖、读A记B与弱hook测试仍counter。Codex作者修复完整私有prepare计划、全输入快照/原Git/物理归属、真实caller与有效反例；完整231绿，随后guard判别增强7/7。当前作者自验，非作者待复验，0中央599/269迁移/运行信用。",
+      "coreConclusion": "S26的269稿与30例外限定接收保持。GLM非作者接受Codex35a补丁（23/0及代码指纹复用231）；Owner已发布8薄manifest/19分片的599原逻辑存储，完整对象/JSON序列/历史守恒、9pin和幂等成立。中央4文件补线由Codex自验24/0并另列，未倒签35a接受。0新语义/迁移/runtime信用，269另卡、1195原待办/2384严格诊断不清零。",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
         "docs/phase-governance/templates/registry-proposal-20261011.md:333"
       ],
       "unresolved": [
-        "Codex-authored S28 followup awaits non-author evidence acceptance; its own tests/A-H do not grant independent completion.",
-        "No central599storage publication or269semantic migration; frozen1838 cohort/1195currentpending/2384strictdiagnostics remain.",
-        "Inherited legacy writer bodies have no new execution/truth authority; only guards adapted, never used to refresh actual source pins."
+        "Full governance1195pending/2384diagnostics and fixed1838cohort remain incomplete; no new semantic/template credit.",
+        "269native semantics requires a separate admitted task; accepted S26 drafts retain their actual program/context read domain.",
+        "Central4-file activation is Codex-authored/self-validated and separate from GLM acceptance of35a; publication observations need evidence review, not retrodated acceptance."
       ],
-      "nextStep": "Readonly non-author verification of Codex followup per external handoff, exactsource identities and counterproof; acceptance precedes controlled599storage publication. Native269 semantics remains a separate admission.",
+      "nextStep": "Readonly evidence review of central599 storage activation and exact4-file caller/test delta; prepare the269 successor admission separately, without rerunning prior semantic inventory or granting credit.",
       "phase": "ops",
       "module": "native-document-governance",
       "capability": "S26 native historical evidence batch",
@@ -2473,10 +2473,11 @@
         "Codex non-author S28b6e9325f55c957ca491bdcdca6e818488a1137e2 evidence review: source/native/finalscope and authorizedadapter accepted; storageimplementation/publication rework. Verdict 80947023f2d58edd53a15a2cf1f7c889856a745615f3691bf35d548d24658471",
         "Codex non-author S28fc7be36e19437f8a99e886b42efd8abf880cc2da correction review, accepted closed subclaims but remainingC01-C05/E01 blockcentralpublish; verdict c5b9b44b7645aff185c34bc4f2895d35485cf59dc74c729e5009036f8fce5d2b",
         "Codex non-author S28final54314318e9947c83a94c93c9f3633c819e166b5f partialclosure/rework; current23/231realpassed butpublication/loader/callerprobesstillfail; verdict bfe5074bcd9226087206c099be766577e4a8d3f5419f1d254a50098f0defd7fa",
-        "User2026-10-22 authorizesCodex takeover; GLM549partial evidence retained, Codex implementation self-validation is explicitlynon-independent."
+        "User2026-10-22 authorizesCodex takeover; GLM549partial evidence retained, Codex implementation self-validation is explicitlynon-independent.",
+        "2026-10-23 GLM non-author accepts fixedCodex35a scope; Owner controlled599storage publication is separate, native269/semantic credit unchanged."
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
+      "afterSha256": "f81a03f74fae24c666373b41568d9436773f0f96528ebe0455823907b53f744f",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2505,8 +2506,8 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
-        "implementationSha": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
+        "currentSha": "f81a03f74fae24c666373b41568d9436773f0f96528ebe0455823907b53f744f",
+        "implementationSha": "f81a03f74fae24c666373b41568d9436773f0f96528ebe0455823907b53f744f",
         "history": [
           {
             "date": "2026-10-21",
@@ -2559,6 +2560,12 @@
             "revision": "7a7d5ffdd768c2cd501c1fa3679944cbb05f0ac2",
             "afterSha256": "0723a2251038c47d79847319b12a59379ffadae5bdcd91887608c4408b4556cc",
             "scope": "Prior GLM543 partial verdict and frozen S28/S26/S27 claims preserved by Git; new Owner code has separate authorship."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "35a33f102a3fd45ee2ef2884e158b0abdda85bbd",
+            "afterSha256": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
+            "scope": "Prior self-validated code preserved at fixedGit; current accept/publication do not regrant historical semantic credit."
           }
         ]
       },
@@ -2612,11 +2619,16 @@
           "date": "2026-10-22",
           "action": "GLM549 rework transferred to Codex peruser; author fixes and231selftest only, independent acceptance/publication not claimed.",
           "priorRecordRevision": "7a7d5ffdd768c2cd501c1fa3679944cbb05f0ac2"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Receive GLM35aaccept and publish599 original logical records as8manifest19artifact; exactcurrenttask pins,0newmigration/runtimecredit",
+          "priorRecordRevision": "35a33f102a3fd45ee2ef2884e158b0abdda85bbd"
         }
       ],
       "supersedes": [],
       "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
-      "reviewedLines": "Owner task delta plus incomingGLM549 bounded evidence and separate Codex authored implementation; currentQualification remains nonAuthorReviewer=false.",
+      "reviewedLines": "Current S28 task delta, fixed GLM acceptance and Owner actual storage/readback/inventory/consumer checks; no repeated599semantic review.",
       "documentStatus": "current",
       "currentQualification": {
         "task": "DOCS-NATIVE-JSON-1/S26",
@@ -2765,7 +2777,7 @@
         "date": "2026-10-22",
         "author": "Codex",
         "nonAuthorReviewer": false,
-        "status": "author-self-validated-awaiting-non-author",
+        "status": "non-author-evidence-accepted",
         "authorization": "User explicitly requested Codex take over remaining S28 rework",
         "sourceGLMCandidate": "5499116808a74c639f32f80fc48cb8052d8ddfcb",
         "isolatedBaseline": "7a7d5ffdd768c2cd501c1fa3679944cbb05f0ac2",
@@ -2788,10 +2800,57 @@
           "finalWriterPassed": 8,
           "wholeCheckDocsPassed": false
         },
-        "centralStoragePublished": false,
+        "centralStoragePublished": true,
         "native269Published": 0,
         "newMigrationCredit": 0,
-        "productRuntimeCredit": 0
+        "productRuntimeCredit": 0,
+        "independentEvidenceAcceptance": {
+          "date": "2026-10-23",
+          "reviewer": "GLM",
+          "nonAuthorReviewer": true,
+          "candidateCommit": "35a33f102a3fd45ee2ef2884e158b0abdda85bbd",
+          "scope": "Codex delta after7a7d5ffdd only; not GLM549 self-acceptance",
+          "decision": "accept",
+          "counters": [],
+          "handbackSha256": "1dd271965c6c15c1df381b3b7b3817db42b033e4579d5f32cc4f71181af725dd",
+          "verdictSha256": "22183a42a6d73d2bd1b0516df9197e22bd7be977716760f5e7c0da1e9a673008",
+          "executed": {
+            "newSuitesPassed": 23,
+            "failed": 0,
+            "skipped": 0,
+            "sourceBindingRecomputed": true
+          },
+          "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"
+        }
+      },
+      "centralStoragePublication": {
+        "date": "2026-10-23",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "status": "published-pending-activation-evidence-review",
+        "sourceCodeCandidate": "35a33f102a3fd45ee2ef2884e158b0abdda85bbd",
+        "storageContract": "review-record-storage/1.0.0",
+        "logicalReviews": 8,
+        "logicalEntries": 599,
+        "physicalShards": 19,
+        "wholeObjectDeepEqual": true,
+        "wholeJsonStringifyEqual": true,
+        "entryHistoryPreserved": true,
+        "ninePinsExact": true,
+        "idempotentReplayByteEqual": true,
+        "physicalSetReconciled": true,
+        "storageArtifactCredit": 0,
+        "native302Unchanged": true,
+        "native269Published": 0,
+        "newSemanticCredit": 0,
+        "newMigrationCredit": 0,
+        "activationCodeSelfReviewSHA256": "5482f3317e8e2c04b3bfceb46892a9343a5896b4208295f681bc90c61330abdc",
+        "prepublicationTests": {
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0
+        },
+        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"
       }
     }
   ],
@@ -2891,6 +2950,11 @@
       "task": "DOCS-NATIVE-JSON-1/S28-owner-rework",
       "action": "Record incoming549counter and user-authorized Codex implementation/self-validation separately; exacttask pins only, no completion/publication.",
       "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S28-central-publication",
+      "action": "Record scoped GLM35aaccept and separate actual Owner599storage publication; all semantic/migration statuses retained"
     }
   ]
 }

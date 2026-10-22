@@ -123,9 +123,17 @@ for (const entry of registry.entries) {
 }
 const done = new Set(completed.map((entry) => entry.path))
 const cohortDone = completed.filter((entry) => cohort.has(entry.path)).length
+// Only the protected loader's exact, fully reconciled physical set is a storage
+// artifact. A directory prefix alone never removes a document from the census.
+reviewGroup ??= loadReviewRecords({ root, logicalPaths: [...requiredReviews] })
+const reviewStorageArtifacts = reviewGroup.loadedSource.artifactSet
+const artifactPaths = new Set(reviewStorageArtifacts.map((entry) => entry.path))
+for (const path of artifactPaths)
+  if (cohort.has(path) || registry.entries.some((entry) => entry.path === path))
+    issues.push(`${path}: storage artifact conflicts with a governed document identity`)
 const allCandidates = [...new Set(candidates)]
 const governedCandidates = allCandidates.filter(
-  (path) => !structuralRoots.has(path) && !retired.has(path),
+  (path) => !structuralRoots.has(path) && !retired.has(path) && !artifactPaths.has(path),
 )
 const pending = governedCandidates.filter((path) => !done.has(path))
 const templateIds = [...templates.keys()]
@@ -141,6 +149,7 @@ const report = {
   cohortPending: frozenDocumentBaseline.denominator - cohortDone - retired.size,
   currentCandidates: governedCandidates.length,
   currentPending: pending.length,
+  reviewStorageArtifacts,
   incrementalMigrated: completed.length - cohortDone,
   exercisedTemplates: [...exercised].sort(),
   pendingTemplates: templateIds.filter((id) => !exercised.has(id)),

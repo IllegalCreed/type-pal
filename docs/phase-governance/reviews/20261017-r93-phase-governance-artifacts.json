@@ -1108,7 +1108,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "d0141bdd7d59b9c7316aacd7df94ddc5ed8e64753416aa37eb4a91405a5117e3",
+      "afterSha256": "beeda0d15c64af850451d7a2017f7116b1a2b2e6970fded4e98d6720f5ee402d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16113,6 +16113,11 @@
       "task": "DOCS-NATIVE-JSON-1/S28-owner-rework",
       "action": "Exact administrative task/review dependency pins only; no source8/R92/native/storage publication.",
       "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S28-central-publication",
+      "action": "Exact task/current-review administrative after pins after controlled599 storage publication; no semantic credit"
     }
   ]
 }

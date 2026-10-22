@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { before, test } from 'node:test'
+import { after, before, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
@@ -22,9 +22,10 @@ const root = fileURLToPath(new URL('../..', import.meta.url)),
   sha = (b) => createHash('sha256').update(b).digest('hex')
 const r92 = 'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'
 const r94 = 'docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'
-const read = (p, at = root) => readFileSync(join(at, p))
+let sourceRoot
+const read = (p, at = sourceRoot) => readFileSync(join(at, p))
 const sourceSnapshot = (pin) => readGitDocumentSnapshot(root, pin)
-const group = (at = root) => ({
+const group = (at = sourceRoot) => ({
   records: FROZEN_REVIEW_STORAGE_SOURCES.map((r) => ({
     ...r,
     beforeSHA256: sha(read(r.path, at)),
@@ -37,9 +38,37 @@ const group = (at = root) => ({
 })
 let prepared
 before(() => {
+  // The source group is a fixed Git fixture, not the mutable live flat layout.
+  // Publishing the real repository must not invalidate these writer contracts.
+  sourceRoot = temp()
+  execFileSync('git', ['-C', sourceRoot, 'init', '-q'])
+  const common = execFileSync('git', [
+    '-C',
+    root,
+    'rev-parse',
+    '--path-format=absolute',
+    '--git-common-dir',
+  ])
+    .toString()
+    .trim()
+  mkdirSync(join(sourceRoot, '.git/objects/info'), { recursive: true })
+  writeFileSync(join(sourceRoot, '.git/objects/info/alternates'), `${join(common, 'objects')}\n`)
+  for (const path of [...FROZEN_REVIEW_STORAGE_SOURCES.map((r) => r.path), r92, r94]) {
+    const snapshot = sourceSnapshot({ revision: FROZEN_REVIEW_SOURCE_REVISION, path })
+    assert.ok(snapshot, `fixed source missing: ${path}`)
+    mkdirSync(dirname(join(sourceRoot, path)), { recursive: true })
+    writeFileSync(join(sourceRoot, path), snapshot.buffer)
+  }
+  writeFileSync(join(sourceRoot, 'biome.json'), readFileSync(join(root, 'biome.json')))
+  writeFileSync(join(sourceRoot, '.gitignore'), readFileSync(join(root, '.gitignore')))
   prepared = prepareReviewStorageGroup(group())
 })
-const temp = () => mkdtempSync(join(tmpdir(), 'rrs-owner-writer-'))
+after(() => {
+  if (sourceRoot) rmSync(sourceRoot, { recursive: true, force: true })
+})
+function temp() {
+  return mkdtempSync(join(tmpdir(), 'rrs-owner-writer-'))
+}
 const publish = (dir) => publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: read })
 const files = (dir) => {
   const result = {}
@@ -254,23 +283,25 @@ test('explicit Owner in-place mode works on a new isolated Git/object-sharing re
 })
 
 test('real native/model fixture reaches and obeys a rejecting protected reader', () => {
+  const actualRead = (p) => read(p, root)
   const document = {
     path: Object.keys(historicalVitestPilots)[0],
     templateId: 'test-machine-evidence-v1',
     variant: historicalVitestContract.variant,
   }
-  const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'))
+  const registry = JSON.parse(actualRead('docs/phase-governance/templates/registry.json'))
   const options = {
-    readBuffer: read,
+    readBuffer: actualRead,
     readSource: (pin) => readGitDocumentSource(root, pin),
     readSourceBuffer: sourceSnapshot,
+    reviewReader: (logicalPath) => loadReviewRecord({ root, logicalPath }).record,
   }
   assert.deepEqual(
-    checkMigratedDocument(document, registry, (p) => read(p).toString('utf8'), options),
+    checkMigratedDocument(document, registry, (p) => actualRead(p).toString('utf8'), options),
     [],
   )
   let calls = 0
-  const issues = checkMigratedDocument(document, registry, (p) => read(p).toString('utf8'), {
+  const issues = checkMigratedDocument(document, registry, (p) => actualRead(p).toString('utf8'), {
     ...options,
     reviewReader: () => {
       calls++

@@ -1016,7 +1016,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "5d7d4eedcdcfd96d7201cb0d15aeab8e241b12d94803c73ed0d882eef057fd25",
+      "afterSha256": "1bb4b37e87a22ce8df0ebfd91f4b545818532e00a72ccccda8343ede2a4100c5",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "4553e960b172feb7dcf93df48d33b778ca04de66a3267f0575a7ba9753107276",
+      "afterSha256": "7fd7f3bff6788114442276dafbb0afba53a2791ebd3a3ed7da48f259b3ef05c6",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "c89cc4485ed48d484d748271bf36da21b0ce1dfdf4e07a73dfb6a989abdbfcc8",
+      "afterSha256": "0f3267224e0adc2467032896be643c9996ebacf1e4f2cee2e319f3fa73db2ea6",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -7239,6 +7239,11 @@
       "task": "DOCS-NATIVE-JSON-1/S28-owner-rework",
       "action": "Exact administrative task/review dependency pins only; no source8/R92/native/storage publication.",
       "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S28-central-publication",
+      "action": "Exact task/current-review administrative after pins after controlled599 storage publication; no semantic credit"
     }
   ]
 }

@@ -1,0 +1,366 @@
+{
+  "schemaVersion": 1,
+  "logicalPath": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+  "generation": "ef83bde7d27b745b6da410047a49351bd77f7fe4cfdd6b9c031190bccddbcc72",
+  "key": "part-003",
+  "positions": [97, 98],
+  "entries": [
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": ["docs/ops/evidence/game-rix-music-1/tools-style-mobile.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+      "afterSha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+      "publicCallers": [
+        "docs/ops/evidence/game-rix-music-1/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json",
+        "docs/ops/evidence/game-rix-music-1/README.md",
+        "docs/ops/evidence/game-rix-music-1/all-tracks-recheck.json",
+        "docs/ops/evidence/game-rix-music-1/all-tracks.json",
+        "docs/ops/evidence/game-rix-music-1/branch-cleanup.json",
+        "docs/ops/evidence/game-rix-music-1/browser-cache-before.raw",
+        "docs/ops/evidence/game-rix-music-1/browser-final.raw",
+        "docs/ops/evidence/game-rix-music-1/browser-smoke.json",
+        "docs/ops/evidence/game-rix-music-1/browser-smoke.mjs"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json",
+          "docs/ops/evidence/game-rix-music-1/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+        "implementationSha": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+        "history": [
+          {
+            "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",
+        "sourceSha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+        "candidateSha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+        "afterSha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+        "lineCount": 319,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 6691,
+          "sourceLines": 319,
+          "sourceFinalNewline": true,
+          "inverseSha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "array",
+          "topLevelKeys": [],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R88 ops evidence historical artifact governance",
+          "reviewer": "r88_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+      "candidateSha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json",
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "sha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R88-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R88-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/verification-manifest.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": ["docs/ops/evidence/game-rix-music-1/verification-manifest.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/game-rix-music-1/verification-manifest.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+      "afterSha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+      "publicCallers": [
+        "docs/ops/evidence/game-rix-music-1/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/game-rix-music-1/verification-manifest.json",
+        "docs/ops/evidence/game-rix-music-1/README.md",
+        "docs/ops/evidence/game-rix-music-1/all-tracks-recheck.json",
+        "docs/ops/evidence/game-rix-music-1/all-tracks.json",
+        "docs/ops/evidence/game-rix-music-1/branch-cleanup.json",
+        "docs/ops/evidence/game-rix-music-1/browser-cache-before.raw",
+        "docs/ops/evidence/game-rix-music-1/browser-final.raw",
+        "docs/ops/evidence/game-rix-music-1/browser-smoke.json",
+        "docs/ops/evidence/game-rix-music-1/browser-smoke.mjs"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/ops/evidence/game-rix-music-1/verification-manifest.json",
+          "docs/ops/evidence/game-rix-music-1/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+        "implementationSha": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+        "history": [
+          {
+            "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",
+        "sourceSha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+        "candidateSha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+        "afterSha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+        "lineCount": 374,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 21798,
+          "sourceLines": 374,
+          "sourceFinalNewline": true,
+          "inverseSha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "date",
+            "referenceTree",
+            "candidate",
+            "counterCwd",
+            "mutantCwd",
+            "counterArtifacts",
+            "commands",
+            "cleanup",
+            "limitations",
+            "clockMutantSha256",
+            "nativeReferenceInputs",
+            "compressedRawInputs",
+            "uiRefinement",
+            "toolsStyleUnification"
+          ],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R88 ops evidence historical artifact governance",
+          "reviewer": "r88_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+      "candidateSha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/game-rix-music-1/verification-manifest.json",
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "sha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R88-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R88-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    }
+  ]
+}

@@ -7,6 +7,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
+import { frozenDocumentBaseline } from './frozen-document-source.mjs'
 import {
   assertReviewRecordSourceUnchanged,
   loadReviewRecord,
@@ -246,6 +248,72 @@ test('Git uses the declared commit for every shard, even when a missing committe
         }),
       /Git review missing/,
     )
+  } finally {
+    f.close()
+  }
+})
+
+test('progress lists only verified physical artifacts; ordinary JSON stays pending and an orphan blocks the census', () => {
+  const f = fixture()
+  try {
+    const common = git(root, 'rev-parse', '--path-format=absolute', '--git-common-dir')
+    f.write('.git/objects/info/alternates', Buffer.from(`${join(common, 'objects')}\n`))
+    fs.mkdirSync(join(f.dir, 'scripts/docs'), { recursive: true })
+    for (const name of fs.readdirSync(join(root, 'scripts/docs')))
+      if (name.endsWith('.mjs') && !name.includes('.test'))
+        fs.copyFileSync(join(root, 'scripts/docs', name), join(f.dir, 'scripts/docs', name))
+    f.write(frozenDocumentBaseline.path, fs.readFileSync(join(root, frozenDocumentBaseline.path)))
+    f.write('AGENTS.md', Buffer.from('# Fixture\n\n## Routes\n'))
+    f.write(
+      'docs/phase-governance/routing.json',
+      Buffer.from(
+        JSON.stringify({
+          entry: 'AGENTS.md',
+          entrySection: 'Routes',
+          routes: [],
+          forwardingEntries: [],
+          migratedDocuments: [],
+        }),
+      ),
+    )
+    f.write(
+      'docs/phase-governance/templates/registry.json',
+      fs.readFileSync(join(root, 'docs/phase-governance/templates/registry.json')),
+    )
+    saveDocumentRegistryFixture(f.dir, [])
+    const run = () =>
+      execFileSync(process.execPath, ['scripts/docs/report-governance-progress.mjs', '--json'], {
+        cwd: f.dir,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      })
+    const initial = JSON.parse(run())
+    const artifacts = loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath })
+      .loadedSource.artifactSet
+    assert.deepStrictEqual(initial.reviewStorageArtifacts, artifacts)
+    const raw = git(
+      f.dir,
+      'ls-files',
+      '--cached',
+      '--others',
+      '--exclude-standard',
+      '-z',
+      'docs',
+    ).split('\0')
+    const candidates = new Set(raw.filter((p) => /\.(md|json|html)$/.test(p)))
+    assert.equal(initial.currentCandidates, candidates.size - artifacts.length)
+    assert.equal(initial.currentPending, initial.currentCandidates)
+    assert.equal(initial.approvedCohort, 1838)
+    assert.equal(initial.cohortMigrated, 0)
+    assert.deepEqual(initial.issues, [])
+    f.write('docs/ordinary.json', Buffer.from('{}'))
+    const ordinary = JSON.parse(run())
+    assert.equal(ordinary.currentPending, initial.currentPending + 1)
+    assert.deepStrictEqual(ordinary.reviewStorageArtifacts, artifacts)
+    f.write(`${dirname(artifacts[0].path)}/part-999.json`, Buffer.from('{}'))
+    assert.throws(run, (error) => {
+      assert.match(error.stderr.toString(), /review-record-storage: orphan shard:/)
+      return true
+    })
   } finally {
     f.close()
   }

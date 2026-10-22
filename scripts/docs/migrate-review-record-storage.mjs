@@ -6,14 +6,22 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { isDeepStrictEqual } from 'node:util'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
-import { loadReviewRecord } from './review-record-storage.mjs'
+import {
+  assertReviewRecordSourceUnchanged,
+  loadReviewRecord,
+  loadReviewRecords,
+  reviewStorageMarker,
+  reviewStorageShardCap,
+} from './review-record-storage.mjs'
 import {
   FROZEN_REVIEW_SOURCE_REVISION,
   FROZEN_REVIEW_STORAGE_SOURCES,
   prepareReviewStorageGroup,
   publishReviewStorageGroup,
 } from './review-record-storage-writer.mjs'
+import { parseTerminalJson } from './terminal-json.mjs'
 
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -68,56 +76,109 @@ const records = FROZEN_REVIEW_STORAGE_SOURCES.map((frozen) => {
   }
 })
 
-const prepared = prepareReviewStorageGroup({
-  records,
-  r92Buffer: readBuffer(
-    'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json',
-  ),
-  r94Buffer: readBuffer('docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'),
-  readBuffer,
-  context: { repoRoot },
-})
-
-const shardCount = prepared.outputs.filter((x) => x.kind === 'shard').length
-if (!publishDir) {
+const stored = records.map((record) =>
+  Object.hasOwn(parseTerminalJson(readBuffer(record.path)), reviewStorageMarker),
+)
+if (stored.some(Boolean)) {
+  if (!stored.every(Boolean)) throw new Error('review storage group is partially published')
+  if (publishDir)
+    throw new Error('review storage is already published; refusing another publication')
+  const r92Path = 'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'
+  const r94Path = 'docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'
+  const group = loadReviewRecords({
+    root: repoRoot,
+    logicalPaths: [...records.map((r) => r.path), r92Path, r94Path],
+  })
+  for (const record of records) {
+    const original = parseTerminalJson(gitShow(FROZEN_REVIEW_SOURCE_REVISION, record.path))
+    const current = group.records.get(record.path)
+    if (
+      !isDeepStrictEqual(current, original) ||
+      JSON.stringify(current) !== JSON.stringify(original)
+    )
+      throw new Error(`stored logical record differs from the frozen S28 source: ${record.path}`)
+  }
+  const r92Bytes = readBuffer(r92Path),
+    r94Bytes = readBuffer(r94Path)
+  const r92 = parseTerminalJson(r92Bytes),
+    r94 = parseTerminalJson(r94Bytes)
+  for (const { path } of records) {
+    const pins = r92.entries.filter((entry) => entry.path === path)
+    if (pins.length !== 1 || pins[0].afterSha256 !== sha(readBuffer(path)))
+      throw new Error(`stored R92 pin drift: ${path}`)
+  }
+  if (r94.entries[6]?.path !== r92Path || r94.entries[6].afterSha256 !== sha(r92Bytes))
+    throw new Error('stored R94[6] pin drift')
+  if ([r92Bytes, r94Bytes].some((bytes) => bytes.length > reviewStorageShardCap))
+    throw new Error('stored publication pin owner exceeds 512 KiB')
+  assertReviewRecordSourceUnchanged(group.loadedSource)
   console.log(
     JSON.stringify({
       mode: 'dry-run',
-      manifests: 8,
-      shards: shardCount,
-      totalEntries: prepared.group.totalEntries,
-      r92Edges: prepared.group.r92Edges.length,
-      r94Edge: prepared.group.r94Edge,
-      maxShardBytes: Math.max(
-        ...prepared.outputs.filter((x) => x.kind === 'shard').map((x) => x.bytes.length),
-      ),
-      maxManifestBytes: Math.max(
-        ...prepared.outputs.filter((x) => x.kind === 'manifest').map((x) => x.bytes.length),
-      ),
+      state: 'already-published',
+      manifests: records.length,
+      shards: group.loadedSource.artifactSet.length,
+      totalEntries: records.reduce((n, r) => n + group.records.get(r.path).entries.length, 0),
+      r92Edges: records.length,
+      r94Edge: { index: 6, before: sha(r92Bytes) },
+      maxShardBytes: Math.max(...group.loadedSource.artifactSet.map((r) => r.bytes)),
+      maxManifestBytes: Math.max(...records.map((r) => readBuffer(r.path).length)),
     }),
   )
 } else {
-  const published = publishReviewStorageGroup(prepared, publishDir, {
-    sourceReadBuffer: readBuffer,
+  const prepared = prepareReviewStorageGroup({
+    records,
+    r92Buffer: readBuffer(
+      'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json',
+    ),
+    r94Buffer: readBuffer(
+      'docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json',
+    ),
+    readBuffer,
+    context: { repoRoot },
   })
-  const entries = []
-  for (const record of records) {
-    const loaded = loadReviewRecord({
-      root: publishDir,
-      logicalPath: record.path,
-      readSourceSnapshot: (pin) => readGitDocumentSnapshot(repoRoot, pin),
+
+  const shardCount = prepared.outputs.filter((x) => x.kind === 'shard').length
+  if (!publishDir) {
+    console.log(
+      JSON.stringify({
+        mode: 'dry-run',
+        manifests: 8,
+        shards: shardCount,
+        totalEntries: prepared.group.totalEntries,
+        r92Edges: prepared.group.r92Edges.length,
+        r94Edge: prepared.group.r94Edge,
+        maxShardBytes: Math.max(
+          ...prepared.outputs.filter((x) => x.kind === 'shard').map((x) => x.bytes.length),
+        ),
+        maxManifestBytes: Math.max(
+          ...prepared.outputs.filter((x) => x.kind === 'manifest').map((x) => x.bytes.length),
+        ),
+      }),
+    )
+  } else {
+    const published = publishReviewStorageGroup(prepared, publishDir, {
+      sourceReadBuffer: readBuffer,
     })
-    entries.push(loaded.record.entries.length)
+    const entries = []
+    for (const record of records) {
+      const loaded = loadReviewRecord({
+        root: publishDir,
+        logicalPath: record.path,
+        readSourceSnapshot: (pin) => readGitDocumentSnapshot(repoRoot, pin),
+      })
+      entries.push(loaded.record.entries.length)
+    }
+    console.log(
+      JSON.stringify({
+        mode: 'publish',
+        written: published.written,
+        shards: shardCount,
+        verified: entries.length,
+        entries,
+        totalEntries: published.totalEntries,
+        edgeCount: published.edgeCount,
+      }),
+    )
   }
-  console.log(
-    JSON.stringify({
-      mode: 'publish',
-      written: published.written,
-      shards: shardCount,
-      verified: entries.length,
-      entries,
-      totalEntries: published.totalEntries,
-      edgeCount: published.edgeCount,
-    }),
-  )
 }
