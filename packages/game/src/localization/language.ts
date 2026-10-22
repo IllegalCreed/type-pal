@@ -37,6 +37,11 @@ export function setLanguage(language: GameLanguage): void {
   publish(language)
 }
 
+/** Resource-load failure changes the effective language without losing the player's preference. */
+export function useFallbackLanguage(language: GameLanguage): void {
+  publish(language)
+}
+
 /** Notifies only on changes; callers render their initial state when mounting. */
 export function subscribeLanguage(listener: (language: GameLanguage) => void): () => void {
   listeners.add(listener)

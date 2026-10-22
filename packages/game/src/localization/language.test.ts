@@ -5,6 +5,7 @@ import {
   localize,
   setLanguage,
   subscribeLanguage,
+  useFallbackLanguage,
 } from './language.js'
 
 beforeEach(() => {
@@ -58,4 +59,14 @@ it('keeps a usable in-memory selection when browser storage throws', () => {
   })
   initializeLanguage()
   expect(getLanguage()).toBe('zh-CN')
+})
+
+it('falls back to available text without replacing the saved preference', () => {
+  setLanguage('en')
+  useFallbackLanguage('zh-CN')
+  expect(getLanguage()).toBe('zh-CN')
+  expect(document.documentElement.lang).toBe('zh-CN')
+  expect(localStorage.getItem('tp-language')).toBe('en')
+  initializeLanguage()
+  expect(getLanguage()).toBe('en')
 })
