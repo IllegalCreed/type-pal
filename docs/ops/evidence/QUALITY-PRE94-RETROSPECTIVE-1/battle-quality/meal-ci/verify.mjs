@@ -24,6 +24,19 @@ for (const [name, value] of Object.entries(native.members)) {
 }
 const member = (name) => Buffer.from(native.members[name].data, 'base64')
 const json = (name) => JSON.parse(member(name))
+const integration = JSON.parse(fs.readFileSync(path.join(here, 'integration.json')))
+const integrationPacked = fs.readFileSync(path.join(here, integration.native.path))
+assert.equal(hash(integrationPacked), integration.native.sha256)
+const integrationNative = JSON.parse(gunzipSync(integrationPacked))
+for (const [name, value] of Object.entries(integrationNative.members)) {
+  const bytes = Buffer.from(value.data, 'base64')
+  assert.equal(bytes.length, integration.native.members[name].bytes, name)
+  assert.equal(hash(bytes), integration.native.members[name].sha256, name)
+}
+assert.equal(
+  hash(fs.readFileSync(path.join(root, 'scripts/coverage/baseline.fast.json'))),
+  integration.protectedBaselineSha256,
+)
 const current = fs.readFileSync(path.join(root, review.source.path), 'utf8')
 assert.equal(hash(current), review.source.sha256)
 const printer = ts.createPrinter({ removeComments: true })

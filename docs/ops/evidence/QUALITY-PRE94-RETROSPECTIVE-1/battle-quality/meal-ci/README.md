@@ -35,3 +35,5 @@ lint5790为0/0/0，ledger及diff通过，文档五consumer/progress零issue。�
 2026-10-22用户明确裁决：[第一阶段七项隐藏成长保留TS持续增长](../../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)，65535+1为65536，明确偏离C WORD的0；数值实现、主升级999cap、save/导入与二阶段均不改。机制文档历史quote原字节保留，旧C对齐失败仍作分歧原件。该选择只解除本项停止线，3x保持partial。
 
 默认只读复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/verify.mjs`。核当前有限source/原件/输入/AST/严格报告，不运行测试、producer或网络、不写文件；MATCH仅证明这些绑定。下一仍已有3v临时草案，94–102不扩展。
+
+最新main同步：84ac10431仅增加移动端部署文档，已用普通merge接入同一3y，未force或新建分支。代码/测试/配置/项目输入及保护baseline原字节未变，不重复采集；同步后文档consumer/progress、5个catalog测试、lint5794的0/0/0及ledger再次通过，见[integration.json](integration.json)与[完整同步原件](integration-native.json.gz)。新main CI仍按实际run另核。
