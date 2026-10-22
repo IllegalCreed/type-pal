@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
+import { readReviewRecordObject } from './review-record-storage.mjs'
 
 const folder = 'docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/'
 export const historicalVitestPilots = Object.freeze({
@@ -70,7 +71,9 @@ export function historicalVitestNativeIssues(doc, template, contract, read, opti
     return ['native Vitest original bytes changed']
   let entries
   try {
-    entries = JSON.parse(read(historicalVitestContract.reviewRecord)).entries
+    entries = readReviewRecordObject(historicalVitestContract.reviewRecord, {
+      readBuffer: (path) => Buffer.from(read(path), 'utf8'),
+    }).entries
   } catch {
     return ['native Vitest current review unavailable']
   }

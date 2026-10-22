@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry.mjs'
 import { assertWritableReviewSelection } from './review-record-storage-guards.mjs'
+import { readReviewRecordObject } from './review-record-storage.mjs'
 
 const root = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(root, 'docs/phase-governance/document-registry.json')
@@ -14,8 +15,10 @@ assertWritableReviewSelection(
   { readBuffer: (p) => readFileSync(resolve(root, p)), resolve: (p) => resolve(root, p) },
 )
 for (const file of reviewNames) {
-  for (const entry of JSON.parse(readFileSync(resolve(reviewDir, file), 'utf8')).entries ?? [])
-    reviews.set(entry.path, { file, entry })
+  const document = readReviewRecordObject(`docs/phase-governance/reviews/${file}`, {
+    readBuffer: (p) => readFileSync(resolve(root, p)),
+  })
+  for (const entry of document.entries ?? []) reviews.set(entry.path, { file, entry })
 }
 for (const entry of registry.entries) {
   const review = reviews.get(entry.path)

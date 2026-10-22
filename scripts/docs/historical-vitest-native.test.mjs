@@ -12,6 +12,7 @@ import { frozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 import { historicalVitestContract, historicalVitestPilots } from './historical-vitest-native.mjs'
+import { loadReviewRecord } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const paths = Object.keys(historicalVitestPilots)
@@ -22,7 +23,7 @@ const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 function memory(path = paths[0]) {
   const documents = new Map()
   const registry = json(templatePath)
-  const review = json(historicalVitestContract.reviewRecord)
+  const review = loadReviewRecord({ root, logicalPath: historicalVitestContract.reviewRecord }).record
   const row = review.entries.find((entry) => entry.path === path)
   const readBuffer = (name) => {
     if (name === historicalVitestContract.reviewRecord) return Buffer.from(JSON.stringify(review))
@@ -172,7 +173,7 @@ test('real model/progress consume the companion review and reject coordinated te
     forwardingEntries: [],
     migratedDocuments: routes,
   }
-  const review = json(historicalVitestContract.reviewRecord)
+  const review = loadReviewRecord({ root, logicalPath: historicalVitestContract.reviewRecord }).record
   review.entries = review.entries.filter((row) => paths.includes(row.path))
   const entries = routes.map((doc) => ({
     path: doc.path,

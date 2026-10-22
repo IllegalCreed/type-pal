@@ -8,6 +8,7 @@ import { readDocumentRetirements } from './document-retirements.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
+import { readReviewRecordObject } from './review-record-storage.mjs'
 import { gitInventory } from './git-inventory.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -59,7 +60,7 @@ for (const entry of registry.entries) {
   if (!records.has(entry.reviewRecord))
     records.set(
       entry.reviewRecord,
-      json(`docs/phase-governance/reviews/${entry.reviewRecord}`).entries,
+      readReviewRecordObject(`docs/phase-governance/reviews/${entry.reviewRecord}`, { readBuffer }).entries,
     )
   const record = records.get(entry.reviewRecord).find((value) => value.path === entry.path)
   if (

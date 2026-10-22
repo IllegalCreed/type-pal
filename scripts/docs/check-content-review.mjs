@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { reviewCreditIssues } from './document-integrity.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
+import { readReviewRecordObject } from './review-record-storage.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
@@ -59,7 +60,9 @@ for (const entry of registry.entries ?? []) {
 const reviewEntries = new Map()
 const reviewDir = resolve(repoRoot, 'docs/phase-governance/reviews')
 for (const file of readdirSync(reviewDir).filter((name) => name.endsWith('.json'))) {
-  const document = JSON.parse(readFileSync(resolve(reviewDir, file), 'utf8'))
+  const document = readReviewRecordObject(`docs/phase-governance/reviews/${file}`, {
+    readBuffer: (p) => readFileSync(resolve(repoRoot, p)),
+  })
   for (const entry of document.entries ?? []) {
     if (reviewEntries.has(entry.path)) add(`${entry.path}: duplicate content review record`)
     reviewEntries.set(entry.path, { ...entry, record: file })

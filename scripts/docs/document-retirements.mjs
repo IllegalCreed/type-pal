@@ -3,6 +3,7 @@ import { lstatSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { readReviewRecordObject, loadReviewRecordFromGit } from './review-record-storage.mjs'
 import { markdownLinks } from './markdown.mjs'
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -164,13 +165,23 @@ export function inspectDocumentRetirements(
       )
       const old = previous.entries.filter((row) => row.path === entry.path)
       demand(old.length === 1, `previous registration not unique: ${entry.path}`)
-      const priorReview = readSourceBuffer({
-        revision: declaration.previousRegistry.revision,
-        path: `docs/phase-governance/reviews/${old[0].reviewRecord}`,
-      })
-      const oldPins = priorReview
-        ? JSON.parse(priorReview.buffer).entries?.filter((row) => row.path === entry.path)
-        : []
+      const priorPath = `docs/phase-governance/reviews/${old[0].reviewRecord}`
+      let oldPins
+      try {
+        oldPins = loadReviewRecordFromGit({
+          root,
+          revision: declaration.previousRegistry.revision,
+          logicalPath: priorPath,
+        }).record.entries.filter((row) => row.path === entry.path)
+      } catch (error) {
+        const priorReview = readSourceBuffer({
+          revision: declaration.previousRegistry.revision,
+          path: priorPath,
+        })
+        oldPins = priorReview
+          ? JSON.parse(priorReview.buffer).entries?.filter((row) => row.path === entry.path)
+          : []
+      }
       demand(
         oldPins?.length === 1 && oldPins[0].afterSha256 === entry.source.sha256,
         `previous review does not pin retirement source: ${entry.path}`,
@@ -192,10 +203,12 @@ export function inspectDocumentRetirements(
             active.get(row.path)?.reviewRecord === row.reviewRecord,
           `retirement replacement missing or rebound: ${row.path}`,
         )
-        const review = JSON.parse(
-          readBuffer(`docs/phase-governance/reviews/${row.reviewRecord}`)?.toString('utf8') ??
-            'null',
-        )
+        const rawReview = readBuffer(`docs/phase-governance/reviews/${row.reviewRecord}`)
+        const review = rawReview
+          ? readReviewRecordObject(`docs/phase-governance/reviews/${row.reviewRecord}`, {
+              readBuffer: (p) => readBuffer(p) ?? readFileSync(resolve(root, p)),
+            })
+          : null
         demand(
           review?.entries?.filter((candidate) => candidate.path === row.path).length === 1,
           `retirement replacement review not unique: ${row.path}`,
