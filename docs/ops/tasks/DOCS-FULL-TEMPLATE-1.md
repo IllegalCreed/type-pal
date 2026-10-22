@@ -2324,3 +2324,9 @@ Codex非作者accept C01-C03修正，候选c55ebedf未变：10源身份、9条SH
 候选b6e9325f55c957ca491bdcdca6e818488a1137e2的5提交/17文件scope、8源599及302原生最终保全、授权测试三处语义适配6/6、正常dry-run8manifest/19片与新18pass保留（另1skip）。新schema/IO风险定向反例证明发布器可接受目标外单文件并覆盖外改、prepare假源/重复组报599、loader漏SHA/快照/孤片、consumer绕保护及retirement未定义root；正式新测试依赖/tmp且完整工具套证据不足，作者逐文件八维未交。不是只补记录即可接受的实现。
 
 Codex非作者裁定6项C01-C05/E01返工，具体path/反例/解除条件归[子卡](DOCS-NATIVE-JSON-1.md#s28-实施证据裁定与定点返工2026-10-22)及原单份压缩日志。GLM在同分支b6后追加修复、原包冻结、新证据/tmp/s28-glm-review-storage-correction；不重做S26/S27或599语义，不改原源/产品/其它旧测试/coverage/共享规则。中央未cherry-pick、不发布，仍先599存储后269语义；当前1195待办/2384诊断、1151/1838不变，全卡rework、不合main、不推送、不标done。
+
+#### S28修正轮部分闭合（2026-10-22）
+
+fc7be36e候选实际7提交/18文件，599源与302原生、授权三处适配6/6、正常dry-run保留。Git/source/分片SHA/主要键序/原Buffer/历史provider等已修子项接受；但合法path临时树实证目标manifest/R92/R94仍被覆盖、未知兄弟代留下释放锁，生产loader/consumer/真独立oracle和完整runner/八维仍有精确剩余。根新定向卡在自己的Biome子进程后停止，仅观察12pass，不记当前20/20；旧GLM后台管线交作者处理，未动他人进程。
+
+[子卡剩余裁定](DOCS-NATIVE-JSON-1.md#s28-修正轮部分闭合中央发布仍停止2026-10-22)逐counter保留已支持成果，只退未闭子项。新终修包给19文件（仅新增check-document-model生产安全reader接线），旧包冻结，新证据/tmp/s28-glm-review-storage-final-fix；仍先599存储后269语义，中央代码未接入、存储未发布、计数/信用不变。本卡rework，不合main、不推送、不标done。
