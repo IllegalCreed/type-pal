@@ -17,4 +17,6 @@ export interface PalLanguagePack {
   /** Decimal WORD.DAT identity; extra SDLPal UI words may exceed the original word count. */
   words: Record<string, string>
   groups: LocalizedMessageGroup[]
+  /** SDLPal layout identities 1..80; bit 0 selects a small font, bit 1 disables shadow. */
+  layout: Record<string, { x: number; y: number; flags: number }>
 }
