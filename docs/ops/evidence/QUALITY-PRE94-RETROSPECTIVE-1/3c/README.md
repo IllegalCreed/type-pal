@@ -49,3 +49,11 @@
 下一片CODE3的pal-extract event/type模块，再推进3b/3d等真实交付；C10和94–102的editor诊断返工仍保留。全部83卡当前accept=0，不以3c有限证据宣布专项完成；无下一位Agent提示词，Codex单Agent继续。
 
 本片ledger已原命令重跑确认：3287 inventory /213closed /211review /2863pending。静态docs、phase/content review、lint-zero和diff-check通过，运行时相邻6act仍是未过门项。
+
+## 2026-10-22 原合同当前收口
+
+[本轮逐文件八维与绑定](closeout.json)、[原件/合并漂移证据](closeout-native.json.gz)、[只读快检](verify-closeout.mjs)。原单例及17项源码/依赖同版，三枚旧有效业务反控原件校验通过；最新完整check与official各明确执行该文件1例且零诊断，复用既有结果，不新跑测试/覆盖率。专测接受，684行Workbench继续review；原相邻6act与旧计数原样保留。
+
+原两撤回在89bf84e16合并丢失已补正，再按本轮八维单独接受专测，相对前窗closed净减1。3c按原专属回归合同接受，不授全组件或全runner确定性信用；最终文档静态与集成以父卡和实际refs为准。
+
+本窗最终静态、失败披露和集成进度见[集中回执](closeout-gates.json)。完整check/official fast只按同版原件复用，不因文案/账本整改新采集。快检核证据身份，不替代语义判断。

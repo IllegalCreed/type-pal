@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前：经验余数窄修恢复59接受，3x原合同新接受；固定83卡59accept/24partial/0pending，账本3355/374closed/112review/2869pending。物品目标窄修完成，item整文件与3w非队员Extra/时序仍review；全部源门已过，最终文档静态与提交/推送/主线以本窗回执和实际refs为准，94–102不扩展。
+> 当前：3c专属动画回归及92工程纠错按原合同接受，固定83卡61accept/22partial/0pending；账本漂移修正后3355/373closed/113review/2869pending。Workbench整文件维持review，3w非队员Extra/时序仍未知；解释器两头注纯文案已提交，当前文档静态/推送/主线/CI按本窗实际回执，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1361,3 +1361,13 @@ Codex单Owner，同一3y，最新31c9775ce/0behind/0ahead与机器账本复核�
 Codex单Owner、同一3y，fetch后基点371b00c7d与main同点。复用此前完整A维与3w/3r八维，当前核runScript完整函数、公共opts、raw fallback/setParty、装备重建注入及真实item/PhaseE caller；不冒充event-system整文件新验收。build allowed仅两段失实模块/函数头注：旧“不会改GameState队伍/场景”、raw总跳过、战斗handler待实现、showBattleMessage等已与现行实现矛盾。当前说明局部游标与共享gs的不同ownership、即时指令/对话排队和返回/越界/上限行为；parsedTS与发射JS逐字相同，没有机制、schema/save、公共接口、测试或产品行为变化。
 
 [逐项八维与正文守恒](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json)。3r/3s/3w仍partial，原非队员Extra风险卡仍draft。获批物品接线后，大蒜确能给所选role写Extra，不能继续用旧漏上下文no-op作不可达证明；须证明战斗换队后旧BattleState角色写入、无重建、收尾及消费的完整链，或给完整不变量。当前只读未证普通剧情缺陷，不改清理循环。昂贵门复用371前同执行正文的原件，不因注释窄修重采覆盖率；3c/92原合同与账本漂移一并集中收尾，94–102不扩展。
+
+### 2026-10-22 3c/92原合同据证收口与账本纠偏
+
+3c原卡仅专属动画回归；当前94行测试全文复读，生产/测试及17项相邻实现/类型/配置按原完整读取SHA一致。原三枚有效业务单红/native/raw逐字核验；最新完整check20434与单次official20040各实际执行同1身份且无诊断，原相邻6act保留为历史。该测试按A–H接受；Workbench684行整文件的其余picker/拖拽/生命周期未跟随关闭。3r/3w纯头注的parsedTS/JS守恒使同候选执行结果可复用，不新跑Vitest或覆盖率。
+
+605585752明确将上述源/测两旧关闭撤review；撤回一直保留至89bf84e16第一父8861b2994，合并后被旧行覆盖。已按实际Git树恢复两review，再单独接受已足证的专测，相对前窗净减1closed。9cf与605/c727是并行历史，9cf自身对父提交没有该状态变化，不将分支时间先后当因果。全表按这两个明确撤回快照核：其它已恢复关闭的条目均已换新证据行，本次直接确认仍保留旧原行的仅3c两项；不批量撤销有效新接受。原件/低成本只读入口见[3c当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json)。
+
+92范围是纠正命令/原件归属及30源码快照，原卡与历史门事实已复核；本次30条逐个Git闭合blob重新算SHA，当前8同/22变，旧20/10只属于旧时点。最新gate真实固定31保护、同报告strict/protected与完整环境/exit/双流已存在，复用不冒称另一次protected collector。按原工程合同接受92，不以其恢复任何30产品状态或授源码全文件信用。[92当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/closeout.json)与[联合只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/verify-closeout.mjs)。
+
+本窗只两卡partial→accept，其余81卡对象保持；固定61/22，机器373/113/2869以最终ledger复核。源提交dfde1fd7df8cda97bcfaa9772f624a92200dfe31仅两头注及对应有限记录；最终静态与治理分支推送/main同步另按实际回执，不提前称新mainCI成功。覆盖率按用户成本规则复用当前同发射正文的单次原件，所有测试/配置/基线未变。下一仍pre94的3w关键余项及其它22partial，不扩94–102。

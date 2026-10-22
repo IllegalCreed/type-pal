@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-22 [3c动画回归与账本纠偏](3c/closeout.json)、[92工程纠错](92/closeout.json)、[3w解释器ownership文案](3w-post-scripts/ownership-current.json)：两原合同据证接受，61accept/22partial；Workbench整文件旧关闭漂移已恢复review，账本373/113/2869。无测试/覆盖率新采集，全部执行正文相同；[只读快检](3c/verify-closeout.mjs)核绑定/原件/三枚业务反控和30源码新比对。最终文档静态/集成另看父卡与实际refs。
+
 2026-10-22 [战斗物品目标角色](game-item-role-context.json)：3w写入链反证及用户批准；[当前修复/八维](game-item-role-context-review.json)含role0/4、all与8D投影，289相邻/3724整包及集中源门通过；整文件/非队员Extra未知不附带关闭。
 
 2026-10-22 [经验输入与真实结算终止性](game-progression-input/README.md)：原31非进展观察与批准的WORD输入红绿，3x缺口补齐；集中源门通过，59恢复/3x接受；当前59accept/24partial，最终静态/集成见回执。

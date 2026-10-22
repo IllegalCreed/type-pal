@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 3c/92原合同收口候选：3c专属动画回归与92工程纠错据证接受，固定83卡61accept/22partial/0pending。605585752两项明确撤回在89bf84e16合并丢失，live两旧关闭先恢复review；专测本轮完整A–H后单独接受，684行Workbench仍review。相对前窗净减1closed，当前3355/373closed/113review/2869pending；没有因92对30产品批量恢复。3w/3r只修两段失实注释，parsedTS/JS不变，关键未知继续保留。复用完全同版的20434全check、最终game3724及单次official20040/758；当前文档静态与集成另按最终回执，不冒称新采集。[动画/账本入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json)、[工程入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/closeout.json)。
+
 2026-10-22 经验/成长/物品窗口：59恢复接受、3x原合同新接受，固定83卡59accept/24partial/0pending；v1恢复及progression/levelup两review关闭，三旧closed按变更刷新；item由隐式pending登记review，不关闭。账本3355/374closed/112review/2869pending，相对已合31净增2closed。实际全check20434后仅物品三个game文件变化，以完整game TC/3724刷新该包；单次official20040/758与同报告strict/protected零诊断，原件含失败/缺导入勘误。没有新baseline降低授权/规则/退役。最终文档静态按收尾回执，以下旧数字为各时点历史。[唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。
 
 2026-10-22 新经验输入反证：仅v1.ts已验证→review、CODE59accept→partial；极大有限余数可经真实导入/内存槽/开战进入不能推进的结算。0新关闭，固定83卡57accept/26partial，3355/371closed/114review/2870pending。产品未改，新增数值域待裁决；原3v/78及旧形状/finite证据不重写。[当前反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。
@@ -56,7 +58,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,355。
-当前已闭合核验：374；已读但待审：112；尚未逐文件核验：2,869；合计未闭合：2,981。
+当前已闭合核验：373；已读但待审：113；尚未逐文件核验：2,869；合计未闭合：2,982。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -156,8 +158,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/pal-extract/src/resources/sprite.ts` | product | review | [CODE3d原明文撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md)；[当前逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 原回执已撤关闭但live仍旧行；按结果漂移恢复review，当前同窗最终门前不升格 |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
-| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |
-| `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | 已验证 | CODE-QUALITY-3c；缺帧动画时序合同与 fallback mutant 反控 | Q3c done |
+| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | review | [3c明确撤回与当前复核](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | 605585752已撤回整文件关闭；89bf84e16合并恢复旧行形成漂移。仅动画切片核过，整组件仍review |
+| `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | 已验证 | [3c当前逐文件A–H与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json) | 原1身份/三有效反控及当前两完整门单例执行成立；精确同版复用，不附带整个Workbench或runner关闭 |
 | `packages/pal-extract/src/resources/parsers/_utils.ts` | product | 已验证 | 直接读取 layout 常量与 u16/s16 helper；所有 parser callers、typecheck | 纯布局 helper |
 | `packages/pal-extract/src/resources/parsers/ball.ts` | product | 已验证 | RLE header/坏帧 skip、BALL caller 与 parser tests；全包通过 | 保留空 chunk skip |
 | `packages/pal-extract/src/resources/parsers/battle-fields.ts` | product | 已验证 | 12B fixed record/signed effects guard、真实 DATA caller 与 tests | 非整除显式失败 |

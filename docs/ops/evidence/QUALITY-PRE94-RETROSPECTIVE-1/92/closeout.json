@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex(single Agent)",
+  "base": "371b00c7d2bb64b8e96a1b4a81b1a38b85dfa15b",
+  "status": "accepted specified code/engineering contract; current document statics and integration in separate gate receipt",
+  "card": "92",
+  "scope": "Correct command/evidence provenance and source snapshot classification. No product/test/source30 closure restored by this engineering acceptance.",
+  "sourceComparison": "current-source-comparison-20261022.json",
+  "sourceComparisonCounts": {
+    "same": 8,
+    "changed": 22,
+    "total": 30
+  },
+  "sourceBindings": [
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/protected-baseline.mjs",
+      "sha256": "a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2"
+    },
+    {
+      "path": "scripts/coverage/protected-baseline.test.mjs",
+      "sha256": "23cd620707e5f0b31c5cafdde9aa84fa504182f62c9cb34cd9c556fc0d1fd0e9"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+    },
+    {
+      "path": "scripts/coverage/metrics.test.mjs",
+      "sha256": "e5dd24df46957702ac44fbe82987dfe33eb8b25c12d3e0d3e9693a6a0b2a27bc"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+    },
+    {
+      "path": "scripts/coverage/inventory.test.mjs",
+      "sha256": "9a71b7339d90691fec2c1f0b70ab44b2808d17a7936e4e56ffd5a70ab53eaa36"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "scripts/coverage/environment.mjs",
+      "sha256": "a8d8d39731f17344c04550a8828b5b41dc16eb2b24fb4ada1db34ccbc10175d3"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "3e8069465c576462caee31500e412b048b0e092ef88b217447c3368b13fa56e7"
+    }
+  ],
+  "dimensions": {
+    "A": "Original92 card full read. check:fast invokes typecheck/test,not coverage. Actual protected CLI reads TYPE_PAL_COVERAGE_BASE_REF,verifies commit,reads baseline and fail-closed classifier; compare ratios and existing-source/test removal protections reviewed. Frozen current official command includes fixed31 reference;same-report strict/protected proof and exact environment/exit/raw preserved.",
+    "B": "Old30/30 andlater20/10 are time-specific. Current independently recomputed8same22changed; no stale counts promoted. Old missing structured env disclosure kept,not retroactively fabricated. Check-after-boundary raw actually exists at f52a10e40 despite old prose待补写.",
+    "C": "Record evidence/command/source30 comparison are separate from product review and acceptance. No runtime ownership changed; current runner reporter/approved-adjustment changes read as scoped dependency,not accepted as whole tool.",
+    "D": "Reuses exact archived current gate/native and existing historical raw. No second coverage/duplicate summaries of30 semantic reviews; per-file source states stay with their own claims.",
+    "E": "Old command failures/success bytes+exits verified by earlier full audit,current30closure Git blobs newly recomputed. Exact filename/full test and diagnostic native proof consumed. No test assertions/retirements/config changes and no mock-based new claim.",
+    "F": "Current status distinguishes historical executed command,current bound gate and file semantics; source comparison rows name closureCommit/currentSHA/byteIdentical explicitly.",
+    "G": "Engineering card does not add redundant checker/coverage sample or restore30rows wholesale. Existing legacy source snapshots kept as history,not a second authoritative state source.",
+    "H": "Repro via read-only Git blob comparison and immutable raw checks,without network/collector/writes. Design of evidence supports cheap verification; source30 semantics deliberately not inferred from hash."
+  },
+  "reusedGate": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/gates.json",
+    "sha256": "42aa4f9a17d2049c803e4ca6218f18e01ff3630720b758c08d44fa6c3fd2b105"
+  },
+  "reusedGateArchive": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/gates-native.json.gz",
+    "sha256": "bf14129cfa7ca2c2b37fc334b7bc762d56338cdf8fbb043c3ee9293db36001ff"
+  },
+  "history": "README.md and read-and-receipts.json remain immutable historical observations; no original raw changed",
+  "limits": [
+    "No new tool/source file acceptance. Current30 ledger states not modified by92.",
+    "Actual current local gate ran earlier on same code. No claim a new pnpm check,coverage:fast or another independent protected sample here.",
+    "UI/runtime/E2E/visual/saves/stage2 N/A for this engineering correction."
+  ],
+  "integrationEvidence": "../3c/closeout-gates.json"
+}
