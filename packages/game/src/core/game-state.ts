@@ -5,6 +5,7 @@
  */
 
 import type { Command, DialogBoxStyle, Palette, SceneEventObject } from '@type-pal/shared'
+import type { LocalizedDialogPlayback } from '../localization/messages.js'
 import type { BattleState } from './battle/battle-state.js'
 import type { DialogHistoryEntry } from './dialog-history.js'
 import type { PaletteFadeState } from './palette-fade.js'
@@ -232,6 +233,8 @@ export interface EventCursor {
   commands?: Command[]
   labelMap?: Record<string, number>
   ip: number
+  /** Display-only group progress; keeps the source IP fixed while translated rows are shown. */
+  localizedDialog?: LocalizedDialogPlayback
   /**
    * EventSystem 暂停等待原因。undefined = 非 waiting 状态。
    *  - 'dialog':      等对话(typing / page-key / end-key,由 dialog-box 状态机管)

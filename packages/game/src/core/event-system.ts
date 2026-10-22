@@ -27,9 +27,11 @@ import type {
   PlayerRoles,
 } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
+import { beginDialogPlayback } from '../localization/messages.js'
 import {
   appendDialogLine,
   confirmDialog,
+  getDialogTextPos,
   parseDialogText,
   resetDialogBody,
   setWaitingEndKey,
@@ -1475,6 +1477,27 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
   }
 }
 
+/** A translated row completes independently of its original source instruction. */
+function advanceDialogCursor(cursor: EventCursor): void {
+  const playback = cursor.localizedDialog
+  if (playback?.lines) {
+    playback.lineIndex++
+    if (playback.lineIndex < playback.lines.length) return
+    cursor.ip = playback.resumeIp
+    cursor.localizedDialog = undefined
+  } else {
+    cursor.ip++
+    if (playback && cursor.ip >= playback.resumeIp) cursor.localizedDialog = undefined
+  }
+}
+
+/** Leave room for the wait icon and, for lower dialogue, the right-hand portrait. */
+function translatedDialogWidth(style: DialogBoxStyle, hasPortrait: boolean): number {
+  if (style === 'narration' || style === 'item-box') return 288
+  const right = style === 'bottom' && hasPortrait ? 224 : 312
+  return right - getDialogTextPos(style, hasPortrait).x - 8
+}
+
 export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
   const cursor = gs.eventCursor
   if (!cursor) {
@@ -1704,7 +1727,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
       if (anyKey || ds.typingFrames >= NARRATION_AUTO_DISMISS_FRAMES) {
         clearDialogBoxes(gs)
         cursor.waiting = undefined
-        cursor.ip++ // 推进过 showDialog;fall through 主 while 跑后续 opcode
+        advanceDialogCursor(cursor) // 完成本显示行；翻译组未完时仍停在原指令
       } else {
         return // 继续显示,等 1.4s timer / 按键
       }
@@ -1799,8 +1822,8 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
           return
         }
         cursor.waiting = undefined
-        cursor.ip++
-        // 继续 fall-through 进入主 while 跑下条 opcode
+        advanceDialogCursor(cursor)
+        // 继续 fall-through 显示下一行或跑下条 opcode
       } else if (gs.dialogBox && cursor.waiting === 'dialog') {
         // 仍在 typing / waiting-page-key / waiting-end-key → 本 tick 不动 cursor
         return
@@ -1830,6 +1853,9 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
       return
     }
 
+    if (cursor.localizedDialog && cursor.ip >= cursor.localizedDialog.resumeIp) {
+      cursor.localizedDialog = undefined
+    }
     const cmd = cmds[cursor.ip]!
 
     // DM16:标记"本脚本已执行过至少一条指令"。tickAutoScripts 的 owner 跳过门控只针对
@@ -2028,6 +2054,32 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
       }
 
       case 'showDialog': {
+        cursor.localizedDialog ??= beginDialogPlayback(
+          cmds,
+          cursor.ip,
+          translatedDialogWidth(
+            gs.currentDialogStyle,
+            gs.currentDialogPortraitLayout ?? gs.currentDialogPortraitIcon !== undefined,
+          ),
+        )
+        const playback = cursor.localizedDialog
+        if (playback.lines && playback.lineIndex >= playback.lines.length) {
+          cursor.ip = playback.resumeIp
+          cursor.localizedDialog = undefined
+          break
+        }
+        const text = playback.lines ? playback.lines[playback.lineIndex]! : cmd.text
+        if (text === null) {
+          // SLF blank lines correspond to ClearDialog(TRUE) + RestoreScreen, not printed rows.
+          if (gs.dialogBox && gs.dialogBox.dialogLineCount > 0) {
+            setWaitingPageKey(gs.dialogBox, undefined, false, true, true)
+            cursor.waiting = 'dialog'
+            return
+          }
+          if (gs.dialogBox) resetDialogBody(gs.dialogBox)
+          advanceDialogCursor(cursor)
+          break
+        }
         // sdlpal text.c:1616 PAL_ShowDialogText —— 一行一调,行间不等键(由 page/end 状态机管)。
         // 若 dialogBox 不存在 → startDialogLine 启首行
         // 若存在但累计 4 行(shouldWaitPageKey)→ setWaitingPageKey,等下次 tick Confirm 后再 append
@@ -2038,7 +2090,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         //   返回后**无条件** nCurrentDialogLine++ → 纯控制行**占一空行**(死亡文案正文从下一行起,
         //   $00 后续行瞬显)。旧注释"sdlpal 不增行"与 C 源相悖(当年方向修反)。带图标的(/) 单行保留。
         {
-          const parsed = parseDialogText(cmd.text, 0, true)
+          const parsed = parseDialogText(text, 0, true)
           if (parsed.text.length === 0 && parsed.icon === 0) {
             gs.dialogIDelayFrames = parsed.endIDelay
             if (!gs.dialogBox) {
@@ -2053,7 +2105,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
             } else {
               appendDialogLine(gs.dialogBox, '', gs.nowMs)
             }
-            cursor.ip++
+            advanceDialogCursor(cursor)
             break
           }
         }
@@ -2061,7 +2113,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         //   `"`黄/`-`青/`'``@`红 toggle 逐字符上色,消费 `$~()\` + `~` 提前结束(sdlpal TEXT_DisplayText
         //   text.c:1458-1613)。旧 stripDialogControlCodes 只剥 `$~\d`、漏颜色 + `"()` 字面显示(2026-05-30 修)。
         if (!gs.dialogBox) {
-          gs.dialogBox = startDialogLine(cmd.text, {
+          gs.dialogBox = startDialogLine(text, {
             style: gs.currentDialogStyle,
             portraitIcon: gs.currentDialogPortraitIcon,
             portraitLayout: gs.currentDialogPortraitLayout,
@@ -2076,7 +2128,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
           cursor.waiting = 'dialog'
           return
         } else {
-          appendDialogLine(gs.dialogBox, cmd.text, gs.nowMs)
+          appendDialogLine(gs.dialogBox, text, gs.nowMs)
         }
         // 历史对话捕获(生产工具面板用,会话态):提交**可见文本**(parseDialogText 剥控制符)入环形缓冲。
         // 必须剥再存——否则 `( ) ~ $ \ "` 等脚本控制符原样泄露到历史面板(user 2026-06-24:麒麟洞·麒麟老人
@@ -2084,11 +2136,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         //   parseDialogText 已剥、历史这条曾直传 cmd.text)。空/纯控制符行 → parsed.text 空 → trim 跳过兜底;
         //   连续同 map 同 text 去重防多 tick re-commit。维度按 mapNum 而非 wNumScene(同 map 多场景共享地名更稳)。
         gs.dialogHistory ??= []
-        pushDialogHistory(
-          gs.dialogHistory,
-          getCurrentMapNum(),
-          parseDialogText(cmd.text, 0, true).text,
-        )
+        pushDialogHistory(gs.dialogHistory, getCurrentMapNum(), parseDialogText(text, 0, true).text)
         // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
         if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
         // Bug2 fix(2026-06-26):userSkip = fUserSkip 跨行瞬显中(confirmDialog 跳字置位、appendDialogLine 把
@@ -2097,7 +2145,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         //   (end)/翻页(上面 shouldWaitPageKey 已 return)/`~`(appendDialogLine 复位 userSkip)停。
         //   userSkip=false(正常逐字)走原路径:waiting='dialog' + return,下一 tick 推进打字。
         if (gs.dialogBox?.userSkip) {
-          cursor.ip++
+          advanceDialogCursor(cursor)
           break // break switch → 外层 while 续跑下一条 opcode(sdlpal 同帧 wScriptEntry++)
         }
         cursor.waiting = 'dialog'
@@ -2126,7 +2174,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         // 通知用解析后可见文本(剥控制符);showDialogBox 仅通知,实际渲染走 gs.dialogBox。
         bus.emit({
           op: 'showDialogBox',
-          text: gs.dialogBox?.currentLineText ?? gs.dialogBox?.titleText ?? cmd.text,
+          text: gs.dialogBox?.currentLineText ?? gs.dialogBox?.titleText ?? text,
           style: gs.currentDialogStyle,
         })
         // ip 停在 showDialog 上,waiting 释放(typing 完后自动 ip++)才推进
@@ -2972,17 +3020,23 @@ export function runScript(opts: RunScriptOptions): number {
       }
 
       case 'showDialog': {
-        if (runtimeMode === 'battle') {
-          // 战斗脚本对话(0xFFFF showDialog)—— runScript 是同步一次跑完,无法跨 tick 阻塞,故
-          // 收集进 battleCtx.state.battleDialogQueue;tickBattleDialog hold 逐 tick 把队列喂进
-          // **复用的大世界** gs.dialogBox(渲染 + 打字 + page/end-key)并暂停战斗(忠实 sdlpal
-          // text.c:1660-1772:CLASSIC battle dialog 走普通 dialog box,非 #ifndef 战斗飘字)。
-          const bs = battleCtx?.state
-          if (bs) {
-            const st = bs.battleDialogStyle
-            bs.battleDialogQueue ??= []
+        if (runtimeMode !== 'battle') {
+          throw new Error('runScript: showDialog in explore mode 应走 tickEventSystem')
+        }
+        const bs = battleCtx!.state
+        const st = bs.battleDialogStyle
+        const group = beginDialogPlayback(
+          commands,
+          ip,
+          translatedDialogWidth(st?.style ?? 'bottom', st?.portrait !== undefined),
+        )
+        bs.battleDialogQueue ??= []
+        for (const text of group.lines ?? [cmd.text]) {
+          if (text === null) {
+            bs.battleDialogQueue.push({ clearPage: true })
+          } else {
             bs.battleDialogQueue.push({
-              text: cmd.text,
+              text,
               style: st?.style ?? 'bottom',
               portrait: st?.portrait,
               fontColor: st?.fontColor,
@@ -2990,12 +3044,8 @@ export function runScript(opts: RunScriptOptions): number {
             })
             bs.battleDialogPendingClear = false
           }
-          ip++
-        } else {
-          // explore 模式下,runScript 不持有 GameState,无法走 waiting=dialog 路径
-          // 调用方应使用 tickEventSystem 跑探索 / 事件脚本,而不是 runScript
-          throw new Error('runScript: showDialog in explore mode 应走 tickEventSystem')
         }
+        ip = group.lines ? group.resumeIp : ip + 1
         break
       }
 

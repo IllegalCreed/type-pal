@@ -332,6 +332,7 @@ export const battle = object<Data>({
         portrait: arg,
         fontColor: arg,
         clearBefore: flag,
+        clearPage: flag,
         effect: optional(object({ opcode: number, operands: array(number) })),
       }),
     ),

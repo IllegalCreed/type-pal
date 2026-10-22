@@ -676,6 +676,8 @@ export interface BattleState {
  * 对照 sdlpal `PAL_ShowDialogText(PAL_GetMsg(op0))`(script.c:3463)+ 前置 PAL_StartDialog 风格。
  */
 export interface BattleDialogLine {
+  /** A translated blank-line token: confirm and clear the page, preserving its title/portrait. */
+  clearPage?: boolean
   /** 原始文本(含控制符,parseDialogText 解析逐字符上色 / 变速 / 尾暂停)。effect 条目无此字段。 */
   text?: string
   /** dialog 风格(setDialogStyle* 决定:top/bottom/center/narration)。effect 条目无关。 */
