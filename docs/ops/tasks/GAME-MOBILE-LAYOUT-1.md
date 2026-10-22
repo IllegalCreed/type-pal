@@ -18,8 +18,8 @@ Branch: codex/game-mobile-layout
 
 ## 范围
 
-- 范围内：游戏外壳、保持比例的画面、六个基础虚拟按键及显示开关、标准手柄输入、移动工具抽屉、半透明小地图、必要测试。
-- 范围外：二阶段编辑器、游戏机制/帧缓冲/地图数据/存档格式、部署发布。
+- 范围内：游戏外壳、保持比例的画面、六个基础虚拟按键及显示开关、标准手柄输入、移动工具抽屉、半透明小地图、必要测试；2026-10-22用户追加授权的阿里云应用包发布。
+- 范围外：二阶段编辑器、游戏机制/帧缓冲/地图数据/存档格式、重提取与资源数据重新发布。
 - 从可运行试验推进至用户认可的软件交付；不把浏览器尺寸模拟写成手机实机或手柄验收。
 
 ## 前提真值门
@@ -89,7 +89,7 @@ Branch: codex/game-mobile-layout
 - 贡献者交付与自验：Codex实施/自验；各轮检查及其候选边界保留在下文，不以早期日志冒充最终候选。
 - 独立复核：只读reviewer `/root/mobile_final_review` 核冻结候选与原生证据；唯一P2返工后于356ac4fad定向复验接收，见[独立记录](../evidence/GAME-MOBILE-LAYOUT-1/independent-review.txt)。Codex核差异与原件，收口官方门。
 - 用户体验/产品验收：2026-10-22用户认可设计，确认无实体手柄，授权提交/推送/关闭issue；不记为硬件验收。
-- done 准入：Codex接受软件交付；9322990af的GitHub文档、安全、类型/lint与protected coverage全部通过，PR #8已合并、issue #7已回复关闭；硬件未测、未部署明确披露。
+- done 准入：Codex接受软件交付；9322990af的GitHub文档、安全、类型/lint与protected coverage全部通过，PR #8已合并、issue #7已回复关闭。合并时未发布，后续追加授权的发布已完成，见文末；硬件未测边界保留。
 
 ## Draft: 设计与风险
 
@@ -148,7 +148,7 @@ Branch: codex/game-mobile-layout
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词。本卡软件交付已收口；实体设备兼容反馈和部署按后续独立授权推进。
+无下一位 Agent 提示词。本卡软件交付及追加授权的应用包发布已收口；实体设备兼容反馈仍需实际设备验证。
 
 ## 2026-10-22 用户认可布局后续
 
@@ -215,3 +215,14 @@ Branch: codex/game-mobile-layout
 - 已在[issue #7回复](https://github.com/IllegalCreed/type-pal/issues/7#issuecomment-6323968514)说明标准映射、手机虚拟键/开关与验证边界，并按用户授权关闭。已退役本卡分支；其它活动分支/worktree不在本卡清理范围。
 - 本次收口写回仅文档/证据/状态及相应绑定，packages、scripts、工作流、锁文件和官方基线相对通过CI的head无差异；按纯文档范围核消费者与lint，不为回执重复手工执行全仓产品测试。main自动触发的后续CI不冒充本次合并前回执。
 - 用户产品验收、独立范围复核、官方本地覆盖率与GitHub protected门均成立，Codex判done。未连接实体手柄/手机，未验Safari安全区、全剧情E2E或生产SW；本卡未部署阿里云，不能写“在线已可用”。
+
+## 2026-10-22 追加授权：阿里云应用包发布
+
+- 用户明确要求将本次移动端和手柄适配打包部署。前节“未部署”保留为合并时的历史边界，本节为其后发布事实；不改写此前CI、浏览器或硬件证据。
+- 发布固定于aba959e603be755f869c6e6c646afbbb58c479c0，运行代码/工作流/锁文件与PR #8通过CI的9322990af逐字节一致；不将随后主分支的战斗/提取治理变更混入该发布包。部署后再同步当前主分支，仅追加本回执。
+- 执行`COPYFILE_DISABLE=1 bash scripts/deploy.sh app --skip-check`退出0；复用已通过的精确源码CI，重新进行生产构建、打包和原子切换。[发布机器回执](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-release.json)记录原件、指纹及未执行边界。
+- 线上`https://pal.illegalscreed.cn/`已返回index-CtdllQTA.js与index-D2h5fcHa.css；本地构建、源站文件、公共CDN的11个应用文件SHA全部一致，远端文件集也恰为这11项。index/sw/manifest在源站和CDN均200且no-cache，RIX WASM均application/wasm。
+- extracted清单仍为7b0cf09680554792，SHA与发布前本地/线上一致，未重提取、未同步资源数据或刷新数据CDN。生产SW源码不变，本次仅核线上SW响应和既有预缓存可加载，不授完整离线信用。
+- 375×667线上页面实测：运行脚本为新hash，320×200画布按375×234.375显示；实际启动进入客栈对白、虚拟确认已执行，六键与工具可见。设置关闭虚拟键后刷新仍关闭，工具入口保留；已恢复原开启选择，临时视口/测试标签已清理。[线上画面](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png)、[设置](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-settings.png)、[浏览器记录](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json)；捕获warn/error均0。本轮为入口、进场和显示设置烟测，完整剧情未验。
+- 回滚保留dist.old，旧index SHA与发布前一致；另有`/var/www/type-pal/release-backups/mobile-gamepad-20261021T231748Z.tgz`，gzip可读且备份index与旧站一致。没有修改nginx、证书或凭据。
+- 浏览器模拟视口仍不等于实体手机，手柄只交付已核standard映射，尚无实体手柄实测；此前硬件限制继续有效。
