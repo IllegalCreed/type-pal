@@ -1,8 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry.mjs'
-import { assertWritableReviewSelection } from './review-record-storage-guards.mjs'
 import { readReviewRecordObject } from './review-record-storage.mjs'
+import { assertWritableReviewSelection } from './review-record-storage-guards.mjs'
 
 const root = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(root, 'docs/phase-governance/document-registry.json')

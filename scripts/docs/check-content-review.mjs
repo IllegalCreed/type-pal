@@ -3,8 +3,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { reviewCreditIssues } from './document-integrity.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
-import { readReviewRecordObject } from './review-record-storage.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
+import { readReviewRecordObject } from './review-record-storage.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')

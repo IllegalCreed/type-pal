@@ -99,7 +99,8 @@ function readManifestShape(buffer, logicalPath) {
       `shard path outside its own generation directory: ${descriptor.path}`,
     )
     demand(
-      !descriptor.path.includes('\\') && !descriptor.path.split('').some((ch) => ch.charCodeAt(0) < 32 || ch === ':'),
+      !descriptor.path.includes('\\') &&
+        !descriptor.path.split('').some((ch) => ch.charCodeAt(0) < 32 || ch === ':'),
       `illegal characters in shard path: ${descriptor.path}`,
     )
     const segments = descriptor.path.split('/')
