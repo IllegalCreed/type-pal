@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "a0d25a25281f583594596eee2a2bf104ea38629201b7cea787f9eb4b746a0d40",
+      "afterSha256": "620e50931507817b2a86e2a15f613ea08fea20e61081dcc870252951c7dae63a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "47aac195822d434ecfd6168dc0e2b61bd9fe8dff6c67ecd75194719d772f8a33",
+      "afterSha256": "7224cf8ce5a39056c167f3b6aa4cbc8fa1fbcd6dee499936651caa2dc6330a37",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -7208,6 +7208,12 @@
       "date": "2026-10-22",
       "task": "DOCS-NATIVE-JSON-1/S27",
       "action": "Exact S27verdict/card-status pins and transitive dependencies only; no storage/native current-record publication.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-22",
+      "task": "DOCS-NATIVE-JSON-1/S27-correction-S28-admission",
+      "action": "Exact S27correction/S28admission card pins and transitive dependencies only; no storage/native current-record publication.",
       "nonAuthorReviewer": false
     }
   ]

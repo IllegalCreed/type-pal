@@ -7,7 +7,7 @@ Capability: native historical evidence governance
 Coding Owner: GLM（逐篇语义、来源核实与自验）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
 Reviewer: Codex（非作者证据验收；作者自验不代签）
-Branch: codex/docs-s26-glm-native-json
+Branch: codex/docs-s28-glm-review-storage
 Last reviewed: 2026-10-22
 Template: task-card-v1 / 1.0.0
 
@@ -109,6 +109,44 @@ Codex build allowed仅GLM只读一次性映射：8份逻辑源共599条现行ent
 - 返工仅consumer-map/pin-map及相关plan/HANDBACK/回执，唯一新写入`/tmp/s27-glm-review-storage-preflight-correction/`。source-map599、原回执、S26接收全部保留并可按SHA引用，不重做原盘点。完整裁定`/tmp/type-pal-S27-owner-audit-4IktvCDJ/verdict.json`，SHA-256 `a404553ac6d26048b49512500559bff691c59a1ba6f8df703b3c02aff137309c`，原单份压缩日志保全。consumer遗漏/旧测试影响/pin拓扑是实施前提缺口，非通过文字小修就可开实施包。
 - 本轮源/8份逻辑记录/所有历史值、registry/routing/templates、1195待办/2384诊断均不变；无迁移/完成信用，不合main、不推送、不标done。
 
+### S27 C01-C03修正接受（2026-10-22）
+
+- Codex按document-delivery-acceptance/1.0.0非作者accept，GLM作者nonAuthorReviewer=false；候选仍c55ebedf3a347cef306c04de352652614f93dd39、仅node_modules未跟踪，S26旧分支/原S27包/修正包均未变。实际复验为修正checker、10个代码/测试源身份、9条owner/index/target/after字节边、41/28/31/24计数、三回执和runner仅输出目录一行差异；定向核源码与真实r85两处裸parse，不重复599篇语义治理。
+- C01直读门及全目录/argv writer映射、C02旧测试必需适配提案、C03 R92八边→R94一边与历史revision轴已闭合。Owner自行订正后果：check-content-review漏载599条后会报missing review，不是已证门静默通过；refresh/remap对无entries的manifest跳过循环并pretty写回原对象，没有删空分片的代码，风险是绕开分片/format/pin发布合同，仍须先写前拒绝。原GLM证据不覆盖，订正归Owner。
+- 完整裁定`/tmp/type-pal-S27-correction-owner-audit-ev8iimdm/verdict.json`，SHA-256 `7b9395db59309a56c6ae39c09353e93964bf9a53a90048a8db1d8dbb3bac303a`；冻结包与真实回放追加本卡既有单份压缩日志，不新造canonical账本。原599源/S26接收保留，本轮零实施、零语义/模板/迁移信用，1195待办/2384诊断不变。
+
+### S28 review存储实施冻结（2026-10-22）
+
+Codex冻结`review-record-storage / 1.0.0`，关闭S27方案§6四个设计未知：Git同revision物化、完整逻辑schema、先599存储后269语义、逐物理单元真实format与严格JSON校准。这里只批准隔离实现与临时迁移演练；8份中央review、R92/R94和registry仍由Codex在非作者验收后接入。本卡/父卡继续rework。Coding Owner为GLM，通用设计/证据验收/中央发布Owner为Codex，不要求GLM反过来审核Owner设计。
+
+#### 逻辑、manifest与分片合同
+
+1. 8个逻辑路径和各100/100/100/99/50/50/50/50原对象、顶层字段/键序/缺省/值、entries逐条字段/键序/全局顺序/历史均保持；原schemaVersion不升级、不伪造summary，不把原逻辑对象搬入payload。旧Git固定原件及尚未分片的当前review仍是明确支持的flat输入，非产品fallback。保全门同时比较完整逻辑JSON.stringify字节与deepStrictEqual，指纹不能替代语义审阅。
+2. 薄manifest保留原顶层非entries键及其相对顺序，移除entries，最后新增唯一保留键`_reviewStorage`；若原源已占该键拒绝。其字段恰为`schemaVersion:1`、`producer:"review-record-storage/1.0.0"`、`logicalPath`、`logicalKeys`（原Object.keys，包括entries原位置）、`source`、`logicalSha256`、`totalEntries`、`entryOrderSha256`、`orderedEntriesSha256`、`shards`。source恰`revision/path/gitObject/sha256`，固定原flat Git载体普通文件身份，八源复用S27清单，不从候选推断旧执行来源；以后存储写入不刷新该原源。logicalSha256=SHA256(UTF8(JSON.stringify(完整逻辑对象)))；两序算法复用已接受source-map，字段名称按本合同camelCase输出。逻辑物化按logicalKeys逐键恢复，仅entries由positions补回；额外/缺少/重复头键、混有entries或无效版本拒绝。
+3. 每descriptor恰`key/path/total/sha256`，key为`part-NNN`。path为相对reviews目录的`shards/<logicalStem>/<logicalSha256>/part-NNN.json`，不准绝对/反斜线/冒号/控制符/空段/点段/跨stem或跨generation。每片恰`schemaVersion:1/logicalPath/generation/key/positions/entries`，generation=logicalSha256；positions是全局安全整数，无重叠/空洞/越界且与entries等长；descriptor total与实际相等，Σtotal=totalEntries。同path条目、descriptor key/path重复、跨源借片、孤片均拒绝。
+4. 每manifest/分片及本组R92/R94实format后≤524288B；flat旧源只适用既有1MiB门。先严格UTF8/无BOM/重复键检查（复用parseTerminalJson）、未format输入<1MiB，再真实Biome格式化，stderr/诊断必须零，再严格parse并核逻辑值/键序/Unicode等价，最后取SHA。不得trim、删LF、归一化Unicode、替换字符或改maxSize/ignore；不可表示值停该源，不用压缩文案救急。原flat物理字节保留在固定Git源，不声称新分片与旧文件物理字节相等。
+
+#### reader与Git物化
+
+公开纯函数`materializeReviewRecord(logicalPath, {readBuffer})`返回完整逻辑对象；readBuffer接受repo-relative path并返回原Buffer，所有子片都通过同一provider读取。生产`loadReviewRecord({root,logicalPath})`返回`{record,loadedSource}`：普通文件/父目录边界、全局lock前后检查、全部输入字节快照与读后复核；loadedSource含可核物理路径/SHA，不能用任意伪造token绕过writer源检查。`loadReviewRecordFromGit({root,revision,logicalPath})`使用同一纯物化器和既有readGitDocumentSnapshot；manifest与每片必须在同一个40位真实commit、100644 blob，缺源返回明确失败，绝不回落当前工作树。Git来源pin先核原blob字节，再物化；不改变retirement原pin或三篇native固定身份。
+
+适配check-content-review/sync的扁平逻辑枚举、report-governance-progress的按名读、historical-vitest-native的当前review、document-retirements当前/固定revision读。真实消费者保留现有判据/错误范围；fixture读回调可物化其flat文件。不得把registry已物化当review已经透明。历史pin的revision.currentSha与after不同124条全部保留，不自动修复成相同。
+
+#### writer守卫→loader→原子组
+
+- 第一提交先给refresh-content-review-sha、remap-review-paths、enrich-content-review-file/batch加全选择集预检：在任何写入之前识别lock/manifest/无entries等不支持形状并明确拒绝，不能在for循环已写了前几件才停。不得执行这些旧writer去清当前SHA；本轮不授权把历史自动刷新逻辑升级成新的通用writer。sync必须先完整读校验后才调用原registry writer；lock或任一输入失败不得留下registry写入。guard必须有CLI真实进程+整树前后快照反例，不能仅grep源码。
+- 后实现纯loader及各consumer，最后实现独立prepare/publish组API与显式CLI。默认dry-run；publish必须显式预期源指纹/完整目标集合，来源改变立即拒绝，import无顶层写入。S28不在仓库实际发布；仅临时fixture/复制树演练。
+- 完整组恰8manifest+所属新片+R92八个afterSha256+R94[6]一个afterSha256，format先片→manifest→R92→R94；registry按名引用零改，所有历史revision/source/hash保持原义。组级`.storage.lock`位于reviews目录，由exclusive创建；拿锁后复核全部原输入，先在专有临时目录备妥所有输出并重载核599逻辑相等/9边/边界，再放不可变generation子片、8manifest、R92、R94，复核整组后才释放锁。任何中断保留lock/恢复材料并拒绝读；不能宣称多rename是文件系统原子事务。检测非本组并发改动后不覆盖/自动reset；已存在generation只能在完整字节相同且归属可证时复用，不删未知目录。没有“先入S26”备选顺序。
+- 物理分片归`review-storage-artifact`、Owner Codex、producer为本模块、caller为唯一逻辑review、保留到该generation被显式替代后按Git/入边核退役；source/path/SHA/bytes/entry positions来自已验证manifest/固定源。全docs物理清单单列这些精确对象和0信用，1838绑定保持；逻辑8件继续原候选口径。只可从成功验证的descriptor集合派生物理归属，且必须与实际子目录全集对账，未知/孤片/缺片为error，不以路径glob、artifactOnly、ignore或修改分母略过。S28先在临时演练交显式artifact处置清单，中央接入时再发布，不能把未登记当过门。
+
+#### S28准入与验证
+
+- build allowed：在本准入提交的新隔离分支`codex/docs-s28-glm-review-storage`实施；旧S26/S27分支与全部证据冻结。代码白名单见`/tmp/type-pal-S28-GLM-review-storage-implementation/execution-manifest.json`，仅新存储模块/新测试、上述5consumer和4writer的必要适配。全部现行docs/8源599条/原生302/registry/routing/templates/catalog/matrix/任务/看板/索引/共享配置/产品/coverage只读。新package证据写`/tmp/s28-glm-review-storage/`，不新增canonical sidecar、review或完整源副本；固定Git引用足够。
+- 旧测试historical-vitest-native.test.mjs只能按独立授权的最小补丁加一个import和两处真实r85读取；所有原断言/flat fixture/source pin保持。补丁在准入包，未明确授权前不应用、不扩成其它旧测试；其余实施不受此待授权阻塞。任何新发现的旧测试必改点先列具体证据，不擅改。
+- 最少覆盖真实公开caller的成功物化/599逻辑守恒、7个已列位置/SHA/计数/顺序/重复/缺片/半发布/路径边界（按原合同分组，不为凑数拆针）、严格UTF8/重复键/Unicode、同revision Git与缺Git不回落、writer首写前拒绝、并发输入/发布中断lock、组9边格式后pin、幂等与未知generation不覆盖；逐项有可证伪失败输入，禁止恒真镜像测试。新增测试归文档工具正式runner，不改产品测试或coverage。
+- 作者全文核代码八维并交按文件结论/真实caller与反例；Codex默认核证据/关键风险切片，不重复执行全审。工具实现改变须实际跑新定向测试及完整docs-tool套件、nav/model/testing/phase-lore/review非strict/progress/lint/diff；严格门与require-complete原待办保持失败并精确归因，不把已知失败称全绿。全部结果固定同一候选/输入，失败原件追加保留，不编辑旧回执；不跑产品/E2E/coverage。
+- 交付一个集中HANDBACK、真实候选/差异、快检、文件八维证据、新测试合同映射、599保全与8源/9边/物理归属演练、旧证据冻结/零越界、原始命令与输入指纹。不授599语义或269迁移信用；未过不合main、不推送、不标本卡/父卡done。
+
 ## 设计与风险
 
 GLM读原生文件及其实际上下文，将历史观察和当前适用性写成可核稿件；Codex接收后复用既有record位置处理准确delta，不再让贡献者修改共享账本。269件原生合同复用S25基础；新增路径/相位/当前review关联仍须由Owner实现并验证，30件例外不混进该合同。提供的机械工具只验身份、集合与原文锚，不认证阅读深度或业务正确性。
@@ -117,14 +155,14 @@ GLM读原生文件及其实际上下文，将历史观察和当前适用性写�
 
 - 当前Owner：GLM执行稿件与自验，Codex维护准入和中央接入。未交付前不宣称269已审/已迁移。
 - 稳定交接入口为授权包中的`INSTRUCTIONS.md`和本卡；进度保存在证据目录review-index/已落盘分片，不依赖聊天记忆。工具/清单hash及原件必须可核；指纹全由程序实取。
-- 下一步：用户一次转交S27定点映射补正提示词，GLM只补consumer/旧测试影响/pin的实际事实，Codex保留架构/合同责任；原599源和S26不返工。待C01-C03映射闭合后才冻结实际loader/Git物化/发布schema并开实施包，不提前发布269行或改变待办。
+- 下一步：一次转交S28实施提示词；GLM先守卫、后loader/consumer、最后临时原子组演练，集中交代码/八维/真实验证。Codex核证据后才中央发布599存储并另做269接入，旧测试适配仅按具体授权。
 
 ## 下一位Agent提示词
 
 ```text
-你是type-pal的GLM贡献者，仅补正DOCS-NATIVE-JSON-1/S27的consumer/test-impact/pin映射。
-先读 /tmp/type-pal-S27-owner-audit-4IktvCDJ/GLM-PROMPT.md、verdict.json和observations.json，按精确C01-C03修正。
-固定S27分支/HEAD c55ebedf3a347cef306c04de352652614f93dd39，原仓库/证据冻结；只写/tmp/s27-glm-review-storage-preflight-correction。
-599源映射和原回执已接受，可按原path+SHA复用，不重造、不重做S26；补真实读写入口/旧测试最小适配提案/9条afterSHA入边与历史revision差别。
-不改代码/旧测试/中央，不授实施或冻结权限；集中一次回交并附Codex验收提示词，不合main、不推送、不标done。
+你是type-pal的GLM贡献者，执行DOCS-NATIVE-JSON-1/S28 review存储实施。
+先读 /tmp/type-pal-S28-GLM-review-storage-implementation/INSTRUCTIONS.md、execution-manifest.json及本卡S28冻结节。
+从该包准入提交建立codex/docs-s28-glm-review-storage；旧S27/S26与原证据冻结，不reset/stash/覆盖。
+先写前守卫，后loader/consumer，再prepare/publish组API；只在临时树演练599原条目/9边，中央docs与269语义只读。
+旧测试补丁只在明确授权状态下应用；普通实现不等待其它批次批准。集中交一次证据，附Codex验收提示词，不合main、不推送、不标done。
 ```
