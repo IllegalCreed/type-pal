@@ -1,8 +1,8 @@
 /**
  * TEST-GLM-RUNTIME-RESOURCE-2 R01（shared/rle.ts）。
  * 去重账：rle.test 覆盖基础游程/palette0/sentinel/坏尾；rle.boundaries（RESOURCE-TOOLS-COVERAGE-1 R01）
- * 覆盖严格容器手列字节/零长指令/段越界/canonical-legacy 区分；game rle-decode.test 有 1 例
- * skipFilePrefix 正控。本文件只做未占用合同：skipFilePrefix 选项矩阵、帧后尾随字节截断边界、
+ * 覆盖严格容器手列字节/零长指令/段越界/canonical-legacy 区分。
+ * 本文件保留 skipFilePrefix 选项矩阵、帧后尾随字节截断边界、
  * 子数组 byteOffset 传播、严格容器末帧未消费 payload、legacy 两个合法邻接拒绝分支。
  */
 import { describe, expect, test } from 'vitest'
@@ -15,10 +15,12 @@ describe('R01 decodeRle skipFilePrefix 选项矩阵', () => {
   test('0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）', () => {
     const buf = new Uint8Array([0x02, 0x00, 0x00, 0x00, ...FRAME_1X2])
     const frame = decodeRle(buf, { skipFilePrefix: true })
-    expect(frame.width).toBe(1)
-    expect(frame.height).toBe(2)
-    expect([...frame.opaque]).toEqual([0, 1])
-    expect(frame.pixels[1]).toBe(0) // opaque palette-0 保真
+    expect(frame).toEqual({
+      width: 1,
+      height: 2,
+      pixels: new Uint8Array([0, 0]),
+      opaque: new Uint8Array([0, 1]),
+    })
   })
 
   test('同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧', () => {

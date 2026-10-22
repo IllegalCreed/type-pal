@@ -7,6 +7,17 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE3h: four shared-codec repetitions transfer to existing canonical full-plane
+    // oracles; internal game facade keeps only its live dialog entry.
+    // User current RLE dedup instruction + standing test-quality authority.
+    {
+      file: 'packages/game/src/assets/rle-decode.test.ts',
+      previous: 6,
+      current: 2,
+      previousIdentityDigest: 'b202ef061bcbad3589734304e5ec144778120cd6aae2d4ed2121be7eb8054503',
+      currentIdentityDigest: '4ae69c1cb9241cc4431fa204e693d41ffaa5295e4567767f42252ab5b3fd0b17',
+      fileSha256: '37f6896cfc773c970652f0aab175160a47f2df5f64c99f08cf0b99a0954e9284',
+    },
     // CODE3h blob/dialog exact snapshots: standing user test-quality/dedup authority.
     // Full assertion transfers/native identities: pre94 3h/blob-quality/review.json.
     {
