@@ -1021,16 +1021,16 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
+      "readMethod": "Read actual PR/CI, merged-tree equality, deployment/postflight/browser originals and exact navigation delta; preserve unrelated records without re-audit.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Old20512/full20086official are pre-sync evidence; current combination gates pending, PR/documentation/fast-coverage required. No directmain push/no94-102/no broad startup/format credit.",
+      "coreConclusion": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
       "unresolved": [
         "Historical machine artifact requires current consumer and fresh receipt before reuse."
       ],
-      "nextStep": "Use protected PR workflow for every subsequent integration and documentation closeout; record actual checks and deployment separately.",
+      "nextStep": "Codex independently accepts closeout candidate through protected PR/required CI, then performs verified retired branch/worktree cleanup; do not prefill cleanup.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "08dec36cf5ac272f9b1a5dcc7e75bbabc3e7d2103e13f72e02c2fad1aacb1d54",
+      "afterSha256": "874a7b02126ad244ba4917a76cfce43289ec0765824a0e7fc8db508e3e045bd3",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "08dec36cf5ac272f9b1a5dcc7e75bbabc3e7d2103e13f72e02c2fad1aacb1d54",
+        "implementationSha": "874a7b02126ad244ba4917a76cfce43289ec0765824a0e7fc8db508e3e045bd3",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,12 +1823,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-rle-boot-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
+        "kind": "codex-owned-pre94-blob-dialog-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "08dec36cf5ac272f9b1a5dcc7e75bbabc3e7d2103e13f72e02c2fad1aacb1d54",
-        "lineCount": 20069,
+        "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+        "lineCount": 19287,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1845,11 +1845,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "user-authorized-main-branch-protection-protocol",
-          "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
-          "afterSha256": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
-          "lineCount": 19913,
-          "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+          "kind": "english-actual-release-documentation-closeout",
+          "path": "docs/ops/evidence/GAME-ENGLISH-1/release.json",
+          "afterSha256": "874a7b02126ad244ba4917a76cfce43289ec0765824a0e7fc8db508e3e045bd3",
+          "lineCount": 19931,
+          "scope": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+          "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
           "workingTreeDelta": true
         }
       },
@@ -4668,6 +4669,22 @@
         },
         {
           "date": "2026-10-23",
+          "action": "english-actual-release-documentation-closeout",
+          "previousAfterSha256": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
+          "previousCoreConclusion": "Exact incoming binding for user-authorized main protection workflow paragraph; existing sync2 records, all history and original artifact envelopes retained. No new English gate/CI/merge/deployment result.",
+          "previousCurrentEvidence": {
+            "kind": "user-authorized-main-branch-protection-protocol",
+            "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
+            "afterSha256": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
+            "lineCount": 19913,
+            "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+            "workingTreeDelta": true
+          },
+          "scope": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release.json"
+        },
+        {
+          "date": "2026-10-23",
           "action": "Pre94-rle-boot-local-initial",
           "previousEvidence": {
             "kind": "codex-owned-pre94-blob-dialog-quality-local",
@@ -4767,7 +4784,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
+      "reviewedLines": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4805,7 +4822,8 @@
       "maintenanceReview": {
         "date": "2026-10-23",
         "reviewer": "english_release_docs (Codex delegated documentation owner)",
-        "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+        "scope": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+        "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
       }

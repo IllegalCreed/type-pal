@@ -1067,14 +1067,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
+      "readMethod": "Read actual PR/CI, merged-tree equality, deployment/postflight/browser originals and exact navigation delta; preserve unrelated records without re-audit.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Old20512/full20086official are pre-sync evidence; current combination gates pending, PR/documentation/fast-coverage required. No directmain push/no94-102/no broad startup/format credit.",
+      "coreConclusion": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
       ],
-      "nextStep": "Use protected PR workflow for every subsequent integration and documentation closeout; record actual checks and deployment separately.",
+      "nextStep": "Codex independently accepts closeout candidate through protected PR/required CI, then performs verified retired branch/worktree cleanup; do not prefill cleanup.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261004-semantic-current-batch.json machine artifact",
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "f459360b9318329dd0177b4a418da05a9d211f52ad3701924327a1ff8772f58e",
+      "afterSha256": "16cd9cacc9b3a84c77b0ae0a3f3270f747ed5a837329cf0d29fe7fbee875c31d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "f459360b9318329dd0177b4a418da05a9d211f52ad3701924327a1ff8772f58e",
+        "implementationSha": "16cd9cacc9b3a84c77b0ae0a3f3270f747ed5a837329cf0d29fe7fbee875c31d",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1791,12 +1791,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-rle-boot-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
+        "kind": "codex-owned-pre94-blob-dialog-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "f459360b9318329dd0177b4a418da05a9d211f52ad3701924327a1ff8772f58e",
-        "lineCount": 5401,
+        "afterSha256": "1565bf706528a48c3ac36e5e5f7eea18609da214272cb542101a8480cabad355",
+        "lineCount": 4841,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1811,11 +1811,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "user-authorized-main-branch-protection-protocol",
-          "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
-          "afterSha256": "afc3e5c52424cbe340bf0cdd2f5b8a5a4e1daaba5545ad41970ad8a712c96c07",
-          "lineCount": 5364,
-          "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+          "kind": "english-actual-release-documentation-closeout",
+          "path": "docs/ops/evidence/GAME-ENGLISH-1/release.json",
+          "afterSha256": "16cd9cacc9b3a84c77b0ae0a3f3270f747ed5a837329cf0d29fe7fbee875c31d",
+          "lineCount": 5396,
+          "scope": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+          "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
           "workingTreeDelta": true
         }
       },
@@ -3668,6 +3669,22 @@
         },
         {
           "date": "2026-10-23",
+          "action": "english-actual-release-documentation-closeout",
+          "previousAfterSha256": "afc3e5c52424cbe340bf0cdd2f5b8a5a4e1daaba5545ad41970ad8a712c96c07",
+          "previousCoreConclusion": "Exact incoming binding for user-authorized main protection workflow paragraph; existing sync2 records, all history and original artifact envelopes retained. No new English gate/CI/merge/deployment result.",
+          "previousCurrentEvidence": {
+            "kind": "user-authorized-main-branch-protection-protocol",
+            "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
+            "afterSha256": "afc3e5c52424cbe340bf0cdd2f5b8a5a4e1daaba5545ad41970ad8a712c96c07",
+            "lineCount": 5364,
+            "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+            "workingTreeDelta": true
+          },
+          "scope": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release.json"
+        },
+        {
+          "date": "2026-10-23",
           "action": "Pre94-rle-boot-local-initial",
           "previousEvidence": {
             "kind": "codex-owned-pre94-blob-dialog-quality-local",
@@ -3749,7 +3766,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
+      "reviewedLines": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3787,7 +3804,8 @@
       "maintenanceReview": {
         "date": "2026-10-23",
         "reviewer": "english_release_docs (Codex delegated documentation owner)",
-        "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+        "scope": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+        "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
       }
@@ -7753,9 +7771,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
+      "readMethod": "Review exact two-parent delta and finite current reconciliation; preserve histories/envelopes without unrelated full-file acceptance.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Old20512/full20086official are pre-sync evidence; current combination gates pending, PR/documentation/fast-coverage required. No directmain push/no94-102/no broad startup/format credit.",
+      "coreConclusion": "Exact incoming binding for second English/main sync; both parent histories and artifact envelopes retained. No current runtime/coverage/CI/deployment credit.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7776,7 +7794,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "7db45df128a64489d4335f5267ec73d092a39eaafbf08ef8c28c2e91a1062dbb",
+      "afterSha256": "973e18da474fae0364d68a9c1b59be32ff5e6b20bb9fe8f5476e5159137c78ad",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7800,7 +7818,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "7db45df128a64489d4335f5267ec73d092a39eaafbf08ef8c28c2e91a1062dbb",
+        "implementationSha": "973e18da474fae0364d68a9c1b59be32ff5e6b20bb9fe8f5476e5159137c78ad",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8464,12 +8482,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-rle-boot-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
+        "kind": "codex-owned-pre94-blob-dialog-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "7db45df128a64489d4335f5267ec73d092a39eaafbf08ef8c28c2e91a1062dbb",
-        "lineCount": 7016,
+        "afterSha256": "71843002676aa9d3eedcb1b369eb83036652e9877901aac45ce49f34403f29e9",
+        "lineCount": 6781,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -10276,7 +10294,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
+      "reviewedLines": "Exact incoming binding for second English/main sync; both parent histories and artifact envelopes retained. No current runtime/coverage/CI/deployment credit.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
