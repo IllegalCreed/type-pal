@@ -74,6 +74,11 @@ export interface SceneEventObject {
   autoLabel?: string
   /** [7] wTriggerMode —— 触发模式(sdlpal `play.c::PAL_PartyWalk` 真值)。 */
   triggerMode: number
+  /** Corrected resource metadata: consume this proximity trigger after its first activation. */
+  autoTriggerOnce?: boolean
+  /** Optional world-pixel trigger anchor; the sprite retains its original x/y. */
+  autoTriggerAnchorX?: number
+  autoTriggerAnchorY?: number
   /** [6] sState (signed i16) —— sdlpal global.h:77-79
    *      Hidden=0 / Normal=1 / Blocker=2 / Message=3 / Script=4 / Contact 4+;负数也算 hidden。 */
   sState?: number

@@ -1,0 +1,117 @@
+{
+  "kind": "tracked-code-inventory-reconciliation",
+  "date": "2026-10-22",
+  "owner": "Codex",
+  "failedRun": "https://github.com/IllegalCreed/type-pal/actions/runs/39757369222",
+  "failure": "quality-tools current ledger omitted17 newly tracked code/test paths; coverage/typecheck/lint step chain stopped before product execution",
+  "sourceCandidate": "6811f73a9862e66cfbcf2438bf276571b8fefb86",
+  "before": {
+    "total": 3356,
+    "verified": 377,
+    "review": 110,
+    "pending": 2869,
+    "unclosed": 2979
+  },
+  "after": {
+    "total": 3373,
+    "verified": 377,
+    "review": 110,
+    "pending": 2886,
+    "unclosed": 2996
+  },
+  "added": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/object-script-progress.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/game/src/core/object-script-progress.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/game/src/core/object-script-state.ts",
+      "category": "product",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/game/src/core/script-corrections.pal.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-script-corrections.pal.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-corrections.pal.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-corrections.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-corrections.ts",
+      "category": "product",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/pal-extract/src/events/win-script-corrections.json",
+      "category": "product",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/reforge/src/__tests__/pal-corrections-harness.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/reforge/src/pal-court-corrections.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/reforge/src/pal-palace-corrections.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/reforge/src/pal-story-corrections.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    },
+    {
+      "path": "packages/reforge/src/pal-trial-portals-corrections.test.ts",
+      "category": "test",
+      "status": "implicit-pending"
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-first-failure.native.stdout.txt.gz",
+    "sha256": "626a143d68aeacb4ab1c0c70994008400195d9287053c23467e36375157c983c"
+  },
+  "limits": [
+    "Existing per-path statuses unchanged; no new full-file code-quality closure.",
+    "No changes to test selection, retirement guard, timeouts, coverage baseline or product behavior."
+  ]
+}

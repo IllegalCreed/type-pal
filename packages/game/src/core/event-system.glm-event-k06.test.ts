@@ -18,8 +18,10 @@
  * - 缺口结论:runScript end 三态返回值、battle 具名 giveItem、startOverworldItemScript 失败门
  *   可达且无旧证 → 新增;battle 对话队列/0x69/0x35/0x19 回灌/条件跳转 fall-back 已证不重做。
  */
+
 import type { Command, Enemy, PlayerRole } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { makeItem, makeItemFlags } from './__tests__/stats/stats-test-fixtures.js'
 import { createBattleState } from './battle/battle-state.js'
 import { type CommandBus, createCommandBus } from './command-bus.js'
 import {
@@ -215,9 +217,29 @@ describe('K06 startOverworldItemScript 失败门:scriptOnUse=0 / label 不在全
       // 全局表无任何 label → L_1 解析不到
       setGlobalEvents([{ op: 'end' }])
       // 门 1:scriptOnUse=0(sdlpal 不可用物品的守卫;event-system.ts:3293)
-      expect(startOverworldItemScript(gsFail, 5, 0, 0, true)).toBe(false)
+      expect(
+        startOverworldItemScript(
+          gsFail,
+          makeItem({
+            id: 5,
+            scriptOnUse: 0,
+            flags: makeItemFlags({ usable: true, consuming: true }),
+          }),
+          0,
+        ),
+      ).toBe(false)
       // 门 2:label 缺失(P2#5 全局表查不到;event-system.ts:3298-3302)
-      expect(startOverworldItemScript(gsFail, 5, 1, 0, true)).toBe(false)
+      expect(
+        startOverworldItemScript(
+          gsFail,
+          makeItem({
+            id: 5,
+            scriptOnUse: 1,
+            flags: makeItemFlags({ usable: true, consuming: true }),
+          }),
+          0,
+        ),
+      ).toBe(false)
       // 失败门零副作用:不切 mode、不建 cursor、不记消耗
       expect(gsFail.mode).toBe('explore')
       expect(gsFail.eventCursor).toBeUndefined()
@@ -226,7 +248,17 @@ describe('K06 startOverworldItemScript 失败门:scriptOnUse=0 / label 不在全
       // 成功对照(旧测 :4151 已证,此处作同判据正控):L_1 存在 → 启动 + 消耗记账
       const gsOk = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       setGlobalEvents([{ op: 'end' }, { op: 'end', label: 'L_1' }]) // L_1 → 全局 ip 1
-      expect(startOverworldItemScript(gsOk, 5, 1, 0, true)).toBe(true)
+      expect(
+        startOverworldItemScript(
+          gsOk,
+          makeItem({
+            id: 5,
+            scriptOnUse: 1,
+            flags: makeItemFlags({ usable: true, consuming: true }),
+          }),
+          0,
+        ),
+      ).toBe(true)
       expect(gsOk.mode).toBe('event')
       expect(gsOk.eventCursor?.ip).toBe(1)
       expect(gsOk.pendingItemConsume).toBe(5) // consuming → 脚本结束后按 fScriptSuccess 扣

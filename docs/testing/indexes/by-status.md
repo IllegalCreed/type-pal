@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 18 个唯一 ID、4 个状态组：current 11；proposal 1；rework 1；verified 5。每个 ID 仅落入自己的原状态组。
+当前 19 个唯一 ID、5 个状态组：active 1；current 11；proposal 1；rework 1；verified 5。每个 ID 仅落入自己的原状态组。
 
 ## 当前状态
 
@@ -24,6 +24,13 @@ Template: governance-index-v1 / 1.0.0
 
 生命周期和 reviewBy 由 catalog 与测试治理维护；下游按状态选择阅读入口，不能用本页覆盖原报告的失败或停止线。
 本页由 [generate-testing-index.mjs](../../../scripts/docs/generate-testing-index.mjs) 生成，不能手工维护派生行；人工总入口是 [README](README.md)。
+
+### active
+
+| ID | 文档 | 状态 | Owner |
+|---|---|---|---|
+| game-script-corrections | [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md) | active | Codex |
+
 
 ### current
 

@@ -1,0 +1,45 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/battle/pal-cure-status-corrections.test.ts (3 tests | 3 failed) 11ms
+   × '冰心诀' cures the four promised ailments without removing protection, and pays its normal cost 7ms
+   × '灵血咒' cures the four promised ailments without removing protection, and pays its normal cost 1ms
+   × '灵心符' cures the four promised ailments without removing protection, and pays its normal cost 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/pal-cure-status-corrections.test.ts > '冰心诀' cures the four promised ailments without removing protection, and pays its normal cost
+ FAIL  src/battle/pal-cure-status-corrections.test.ts > '灵血咒' cures the four promised ailments without removing protection, and pays its normal cost
+ FAIL  src/battle/pal-cure-status-corrections.test.ts > '灵心符' cures the four promised ailments without removing protection, and pays its normal cost
+AssertionError: expected { confused: +0, paralyzed: +0, …(2) } to deeply equal { confused: +0, paralyzed: +0, …(2) }
+
+- Expected
++ Received
+
+  {
+    "confused": 0,
+    "paralyzed": 0,
+-   "silence": 0,
++   "silence": 3,
+    "sleep": 0,
+  }
+
+ ❯ src/battle/pal-cure-status-corrections.test.ts:50:69
+     48|   const patient = state.players[1]!
+     49|   expect({ confused: patient.status.confused, paralyzed: patient.statu…
+     50|     sleep: patient.status.sleep, silence: patient.status.silence }).to…
+       |                                                                     ^
+     51|     confused: 0, paralyzed: 0, sleep: 0, silence: 0,
+     52|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  15:50:02
+   Duration  735ms (transform 506ms, setup 0ms, import 645ms, tests 11ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/pal-cure-status-corrections.test.ts --reporter=default

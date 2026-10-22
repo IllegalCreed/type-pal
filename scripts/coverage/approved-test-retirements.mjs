@@ -18,6 +18,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '8462c7758c5590e831f140d410f5f3708fab13e0a22a0c1315a639b22fd4f776',
       fileSha256: '9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437',
     },
+    // GAME-SCRIPT-CORRECTIONS-1: the runtime treasure patch and its two tests retire.
+    // The same three rewards now have guarded extraction and real resource/caller tests.
+    // User authorized both-phase script correction and corresponding test changes.
+    {
+      file: 'packages/game/src/core/event-system.test.ts',
+      previous: 326,
+      current: 324,
+      previousIdentityDigest: '24e82b8729c2a4e0a52585be13715f384ba7f1d445b70d77004e6cd0169a1bde',
+      currentIdentityDigest: 'fa4c6ed40c3eba6b3d4963a1656a864520a7519ac3554bb35e8fcae576310822',
+      fileSha256: '8fbee836f3f25165daa6156cb807a515a746836040b9c6423869b4828fd75f96',
+    },
     // CODE2 2026-10-21: later small-plane duplicate transfers to retained complete
     // MARK-plane delta oracle; exact failure-set subtraction in shared-codecs/evidence.json.
     {

@@ -1136,7 +1136,10 @@
                     },
                     "kind": "dialog"
                   }
-                ]
+                ],
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

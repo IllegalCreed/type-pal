@@ -1,0 +1,59 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/pal-court-corrections.test.ts (5 tests | 2 failed) 15ms
+   × 扬州审讯否认 0 次：每次命令对应一次挨打，动作前结束对白 8ms
+   × 扬州审讯否认 2 次：每次命令对应一次挨打，动作前结束对白 2ms
+   ✓ 平反后先与 e1599 交谈：守门人仅让路一次，换人/读档继续不重复移动 2ms
+   ✓ 平反后先与 e1600 交谈：守门人仅让路一次，换人/读档继续不重复移动 1ms
+   ✓ 平反后先与 e1601 交谈：守门人仅让路一次，换人/读档继续不重复移动 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pal-court-corrections.test.ts > 扬州审讯否认 0 次：每次命令对应一次挨打，动作前结束对白
+AssertionError: expected [ 'dlg.4891' ] to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/pal-court-corrections.test.ts:14:60
+     12|   expect(await run.hook()).toBe(true)
+     13|   expect(texts(run).filter((text) => text === 'dlg.4889')).toHaveLengt…
+     14|   expect(texts(run).filter((text) => text === 'dlg.4891')).toHaveLengt…
+       |                                                            ^
+     15|   const blows = run.effects.flatMap((command, index) => command.kind =…
+     16|     && command.target.entity === 'e1539' && command.channel === 'auto'
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/pal-court-corrections.test.ts > 扬州审讯否认 2 次：每次命令对应一次挨打，动作前结束对白
+AssertionError: expected [ 'dlg.4891', 'dlg.4891', 'dlg.4891' ] to have a length of 2 but got 3
+
+- Expected
++ Received
+
+- 2
++ 3
+
+ ❯ src/pal-court-corrections.test.ts:14:60
+     12|   expect(await run.hook()).toBe(true)
+     13|   expect(texts(run).filter((text) => text === 'dlg.4889')).toHaveLengt…
+     14|   expect(texts(run).filter((text) => text === 'dlg.4891')).toHaveLengt…
+       |                                                            ^
+     15|   const blows = run.effects.flatMap((command, index) => command.kind =…
+     16|     && command.target.entity === 'e1539' && command.channel === 'auto'
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  15:52:09
+   Duration  3.79s (transform 2.72s, setup 0ms, import 3.64s, tests 15ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-court-corrections.test.ts --reporter=default

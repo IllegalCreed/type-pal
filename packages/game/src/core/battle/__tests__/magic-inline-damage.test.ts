@@ -27,7 +27,7 @@ import { createSeedableRng } from '../../rng.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
 import type { BattleState } from '../battle-state.js'
 
-const noopRunScript: RunScriptFn = () => {}
+const noopRunScript: RunScriptFn = (opts) => opts.ip
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -1324,6 +1324,7 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
         tType: opts.battleCtx?.target?.type,
         tIdx: opts.battleCtx?.target?.idx,
       })
+      return opts.ip
     }
     performMagic({
       state,
@@ -1348,6 +1349,7 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
     const calls: number[] = []
     const recordRun: RunScriptFn = (opts) => {
       calls.push(opts.ip)
+      return opts.ip
     }
     performMagic({
       state,
@@ -1400,6 +1402,7 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
     const failingRun: RunScriptFn = (opts) => {
       calls.push(opts.ip)
       if (opts.ip === 10) gs.fScriptSuccess = false // scriptOnUse 失败(等价 sdlpal g_fScriptSuccess=FALSE)
+      return opts.ip
     }
     performMagic({
       state,

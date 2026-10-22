@@ -2,7 +2,7 @@
 
 当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。
 
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-22
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -14,7 +14,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 - `status`: current
-- `lastReviewed`: 2026-10-17
+- `lastReviewed`: 2026-10-22
 
 ## 入口与责任
 - canonical 入口：本看板、`docs/ops/tasks/index.md` 和各任务卡。

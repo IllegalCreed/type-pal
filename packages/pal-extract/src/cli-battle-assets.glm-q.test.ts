@@ -54,7 +54,7 @@ async function runBattleAssetsCli(battleInputs: Record<string, Uint8Array>): Pro
   for (const [name, bytes] of Object.entries(rawFiles)) writeFileSync(join(rawDir, name), bytes)
   mkdirSync(join(tree, 'data', 'raw', 'Musics'), { recursive: true })
   writeFileSync(join(tree, 'data', 'raw', 'mus.mkf'), new Uint8Array([8, 0, 0, 0, 8, 0, 0, 0]))
-  const result = await cliHost.runCli(tree)
+  const result = await cliHost.runCli(tree, ['--faithful'])
   return { tree, result }
 }
 

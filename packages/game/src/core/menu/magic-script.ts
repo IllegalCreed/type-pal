@@ -28,6 +28,7 @@
 
 import type { Spell } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
+import { getMagicScriptEntry, setMagicScriptEntry } from '../object-script-state.js'
 import { curePlayerPoisonByLevel } from '../player-poison-state.js'
 import { getGlobalCommands, getGlobalLabelMap } from '../script-catalog.js'
 
@@ -127,13 +128,21 @@ export function runMagicScriptSync(
   scriptId: number,
   targetRoleIdOrAll: number,
 ): boolean {
-  if (scriptId === 0) return true // sdlpal 真值:scriptOnUse=0 视为 success (skip)
+  return runMagicScriptWithEntry(gs, scriptId, targetRoleIdOrAll).success
+}
+
+function runMagicScriptWithEntry(
+  gs: GameState,
+  scriptId: number,
+  targetRoleIdOrAll: number,
+): { success: boolean; nextEntry: number } {
+  if (scriptId === 0) return { success: true, nextEntry: 0 } // sdlpal 真值:scriptOnUse=0 视为 success (skip)
   // P2#5:法术脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
   const labelMap = getGlobalLabelMap()
   const ip0 = labelMap[`L_${scriptId}`]
   if (ip0 === undefined) {
     console.warn(`runMagicScriptSync: L_${scriptId} 不在全局 labelMap`)
-    return false
+    return { success: false, nextEntry: scriptId }
   }
   const cmds = getGlobalCommands()
   let ip = ip0
@@ -145,16 +154,23 @@ export function runMagicScriptSync(
   while (step++ < SCRIPT_TICK_LIMIT) {
     if (ip < 0 || ip >= cmds.length) {
       console.warn(`runMagicScriptSync: ip ${ip} 越界`)
-      return false
+      return { success: false, nextEntry: scriptId }
     }
     const cmd = cmds[ip]!
 
-    if (cmd.op === 'end') return scriptSuccess
+    if (cmd.op === 'end') {
+      const nextEntry = cmd.advance
+        ? ip + 1
+        : cmd.reset && cmd.resetTo !== undefined
+          ? (labelMap[`L_${cmd.resetTo}`] ?? scriptId)
+          : scriptId
+      return { success: scriptSuccess, nextEntry }
+    }
     if (cmd.op === 'goto') {
       const t = labelMap[cmd.to]
       if (t === undefined) {
         console.warn(`runMagicScriptSync: goto label ${cmd.to} 不在 labelMap`)
-        return false
+        return { success: false, nextEntry: scriptId }
       }
       ip = t
       continue
@@ -224,7 +240,7 @@ export function runMagicScriptSync(
     ip++
   }
   console.warn(`runMagicScriptSync: SCRIPT_TICK_LIMIT 超出 — 死循环?`)
-  return false
+  return { success: false, nextEntry: scriptId }
 }
 
 /**
@@ -246,11 +262,14 @@ export function castOverworldMagic(
   void casterRoleId
 
   // 1. scriptOnUse(可能 = 0,runMagicScriptSync 直接 return true skip)
-  const sidUse = spell.scriptOnUse ?? 0
-  const useOk = runMagicScriptSync(gs, sidUse, targetIdOrAll)
-  if (!useOk) return false
+  const sidUse = getMagicScriptEntry(gs, spell, 'scriptOnUse')
+  const use = runMagicScriptWithEntry(gs, sidUse, targetIdOrAll)
+  setMagicScriptEntry(gs, spell, 'scriptOnUse', use.nextEntry)
+  if (!use.success) return false
 
   // 2. scriptOnSuccess
-  const sidSuccess = spell.scriptOnSuccess ?? 0
-  return runMagicScriptSync(gs, sidSuccess, targetIdOrAll)
+  const sidSuccess = getMagicScriptEntry(gs, spell, 'scriptOnSuccess')
+  const success = runMagicScriptWithEntry(gs, sidSuccess, targetIdOrAll)
+  setMagicScriptEntry(gs, spell, 'scriptOnSuccess', success.nextEntry)
+  return success.success
 }

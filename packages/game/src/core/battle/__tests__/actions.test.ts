@@ -1243,7 +1243,7 @@ describe('performMagic', () => {
     const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42 })
     // baseDamage:0 —— 本测专注 MP/anim/runScript 派发,inline 伤害由 magic-inline-damage.test.ts 覆盖
     const magic = makeMagic({ id: 3, costMP: 8, baseDamage: 0 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
     const commands: Command[] = [{ op: 'end' }]
 
     performMagic({
@@ -1798,6 +1798,7 @@ describe('performMagic', () => {
     // scriptOnUse(ip42)模拟 0x41 mark-failed(没钱"钱不够"/没酒"酒不足"分支)→ fScriptSuccess=false
     const runScript: RunScriptFn = vi.fn((opts) => {
       if (opts.ip === 42) gs.fScriptSuccess = false
+      return opts.ip
     })
     performMagic({
       state,
@@ -1828,7 +1829,7 @@ describe('performMagic', () => {
     })
     const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 10 })
     const magic = makeMagic({ id: 1, costMP: 10 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -1858,7 +1859,7 @@ describe('performMagic', () => {
     })
     const spell = makeSpell({ id: 5, magicNumber: 2, scriptOnUse: 88 })
     const magic = makeMagic({ id: 2, costMP: 999, baseDamage: 0 }) // costMP 巨大验证不扣;baseDamage=0 避开 E2 伤害(本例只测 MP/emit/runScript)
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -1912,7 +1913,7 @@ describe('performMagic', () => {
       playerRoles,
       bus,
       commands: [{ op: 'end' }],
-      runScript: () => {},
+      runScript: (opts) => opts.ip,
     })
     expect(playerRoles.roles[0]!.hp).toBeLessThan(500) // 敌方魔法真扣血(autoDefend rng 浮动,断言掉血即可)
     const dmgCmd = bus.drain().find((c) => c.cmd.op === 'showDamageNum')
@@ -1943,7 +1944,7 @@ describe('performMagic', () => {
       playerRoles,
       bus,
       commands: [{ op: 'end' }],
-      runScript: () => {},
+      runScript: (opts) => opts.ip,
     })
     expect(playerRoles.roles[0]!.hp).toBeLessThan(500) // summon 类也结算(type != normal → 全体,这里单队员)
   })
@@ -1951,7 +1952,7 @@ describe('performMagic', () => {
   it('spell id 不存在 → warn + 不 emit + 不 runScript', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { state, playerRoles, bus } = makeState()
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -1977,7 +1978,7 @@ describe('performMagic', () => {
   it('magic id(spell.magicNumber)不在 magics 表 → warn + 不 emit + 不 runScript', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { state, playerRoles, bus } = makeState()
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -2007,7 +2008,7 @@ describe('performMagic', () => {
     })
     const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 50 })
     const magic = makeMagic({ id: 1, costMP: 5, type: 'attackAll' })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -2042,7 +2043,7 @@ describe('performMagic', () => {
     const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 0 }) // 关键
     // baseDamage:0 → 真·纯动画法术(offensive baseDamage>0 会走 inline 伤害,另有专测)
     const magic = makeMagic({ id: 1, costMP: 7, baseDamage: 0 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -2073,6 +2074,7 @@ describe('performMagic', () => {
     state.players[0]!.spriteNumOverride = 1
     const runScript: RunScriptFn = vi.fn((opts) => {
       if (opts.ip === 10) state.players[0]!.spriteNumOverride = 295
+      return opts.ip
     })
 
     performMagic({
@@ -2150,10 +2152,11 @@ describe('performMagic', () => {
     })
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
-    const runScript = vi.fn((opts) => {
+    const runScript = vi.fn<RunScriptFn>((opts) => {
       opts.battleCtx!.pendingScreenShake!.time = 14
       opts.battleCtx!.pendingScreenShake!.level = 4
-    }) as RunScriptFn
+      return opts.ip
+    })
 
     performMagic({
       state,
@@ -2248,8 +2251,9 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 7, count: 3 }])
     const item = makeItem({ id: 7, scriptOnUse: 42 })
-    const runScript: RunScriptFn = vi.fn(() => {
+    const runScript: RunScriptFn = vi.fn((opts) => {
       expect(gs.inventory[0]!.count).toBe(3) // sdlpal fight.c:4392-4399:先跑脚本,后扣 consuming
+      return opts.ip
     })
     const commands: Command[] = [{ op: 'end' }]
 
@@ -2291,7 +2295,7 @@ describe('performItem', () => {
       scriptOnUse: 42,
       flags: { ...makeItem().flags, consuming: false },
     })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2317,7 +2321,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 3, count: 0 }])
     const item = makeItem({ id: 3, scriptOnUse: 10 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2345,7 +2349,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 99, count: 5 }]) // 另一 item
     const item = makeItem({ id: 3, scriptOnUse: 10 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2372,7 +2376,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 1, count: 5 }])
     const item = makeItem({ id: 1, scriptOnUse: 0 }) // 关键
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2397,7 +2401,7 @@ describe('performItem', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 1, count: 5 }])
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2424,7 +2428,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 5, count: 2 }])
     const item = makeItem({ id: 5, scriptOnUse: 50 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2452,7 +2456,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 5, count: 2 }])
     const item = makeItem({ id: 5, scriptOnUse: 88 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,

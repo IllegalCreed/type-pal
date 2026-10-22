@@ -28,6 +28,7 @@ import {
 import { runPlayerPoisonEntrySync } from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 import { addItemToInventory, consumeItemFromInventory } from './inventory-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from './object-script-state.js'
 import { addPoisonForPlayer } from './player-poison-state.js'
 import { getGlobalCommands, getGlobalLabelMap } from './script-catalog.js'
 
@@ -47,6 +48,7 @@ export {
 } from './equipment-state.js'
 
 const MAX_PLAYER_ROLES = 6
+
 const SCRIPT_TICK_LIMIT = 256 // 防御 — scriptOnEquip 实测最长 ~5 op
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
@@ -113,15 +115,15 @@ function setPersistentPlayerStatus(
  * 注:0x2D set player status / 0x29 apply poison 已实现(见下方 case:仙女剑等授
  * DualAttack=32760;寿葫芦 Wear 授 level-99 正面"毒" 563/564)。
  */
-function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number): void {
-  if (scriptOnEquip === 0) return
+function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number): number {
+  if (scriptOnEquip === 0) return 0
   // P2#5:装备脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
   const commands = getGlobalCommands()
   const labelMap = getGlobalLabelMap()
   const startIp = labelMap[`L_${scriptOnEquip}`]
   if (startIp === undefined) {
     console.warn(`runEquipScriptSync: L_${scriptOnEquip} 不在全局 labelMap`)
-    return
+    return scriptOnEquip
   }
 
   let ip = startIp
@@ -132,16 +134,21 @@ function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number
     while (step++ < SCRIPT_TICK_LIMIT) {
       if (ip < 0 || ip >= commands.length) {
         console.warn(`runEquipScriptSync: ip ${ip} 越界`)
-        return
+        return scriptOnEquip
       }
       const cmd = commands[ip]!
 
-      if (cmd.op === 'end') return
+      if (cmd.op === 'end') {
+        if (cmd.advance) return ip + 1
+        if (cmd.reset && cmd.resetTo !== undefined)
+          return labelMap[`L_${cmd.resetTo}`] ?? scriptOnEquip
+        return scriptOnEquip
+      }
       if (cmd.op === 'goto') {
         const target = labelMap[cmd.to]
         if (target === undefined) {
           console.warn(`runEquipScriptSync: goto label ${cmd.to} 不在 labelMap`)
-          return
+          return scriptOnEquip
         }
         ip = target
         continue
@@ -232,6 +239,7 @@ function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number
       ip++
     }
     console.warn(`runEquipScriptSync: SCRIPT_TICK_LIMIT ${SCRIPT_TICK_LIMIT} 超出 — 死循环?`)
+    return scriptOnEquip
   } finally {
     gs.iCurEquipPart = -1
   }
@@ -260,9 +268,9 @@ export function updateAllEquipments(gs: GameState, items: Item[]): void {
       if (wItem === 0) continue
       const item = items.find((it) => it.id === wItem)
       if (!item) continue
-      const sid = item.scriptOnEquip ?? 0
+      const sid = getItemScriptEntry(gs, item, 'scriptOnEquip')
       if (sid === 0) continue
-      runEquipScriptSync(gs, sid, role)
+      setItemScriptEntry(gs, item, 'scriptOnEquip', runEquipScriptSync(gs, sid, role))
     }
   }
 }
@@ -282,6 +290,6 @@ export function updateAllEquipments(gs: GameState, items: Item[]): void {
  * 该槽已装着自己 → cur===newItem → 不 swap,只重算 effect。dispatcher 另按 DM23 在进
  * pick-role 时写 wLastUnequippedItem 入口值(uigame.c:1820,menu-driver 已做)。
  */
-export function runEquipScript(gs: GameState, scriptOnEquip: number, roleId: number): void {
-  runEquipScriptSync(gs, scriptOnEquip, roleId)
+export function runEquipScript(gs: GameState, scriptOnEquip: number, roleId: number): number {
+  return runEquipScriptSync(gs, scriptOnEquip, roleId)
 }

@@ -174,7 +174,7 @@ function fixture(t) {
   }
 }
 
-test('catalog default1.2 preserves actual complete18-entry old contract and both consumer responsibilities', async (t) => {
+test('catalog default1.2 preserves the original18 plus one correction publication contract and both consumer responsibilities', async (t) => {
   const f = fixture(t)
   const beforeRegistry = JSON.parse(
     execFileSync('git', ['show', `${beforeRevision}:${registryPath}`], {
@@ -204,7 +204,8 @@ test('catalog default1.2 preserves actual complete18-entry old contract and both
     await import(pathToFileURL(join(f.directory, 'scripts/docs/document-model-before.mjs')))
   ).checkMigratedDocument
   const catalog = json('docs/testing/catalog.json')
-  assert.equal(catalog.entries.length, 18)
+  assert.equal(catalog.entries.length, 19)
+  assert.equal(catalog.entries.filter((entry) => entry.id === 'game-script-corrections').length, 1)
   const cases = [
     ['canonical', () => {}, false, false],
     [

@@ -3741,24 +3741,6 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "cue": {
-                      "identity": {
-                        "kind": "unbound",
-                        "portrait": {
-                          "asset": "portrait.pal.062",
-                          "side": "right"
-                        },
-                        "speaker": "spk.太守"
-                      },
-                      "rows": [
-                        {
-                          "text": "dlg.4891"
-                        }
-                      ]
-                    },
-                    "kind": "dialog"
-                  },
-                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s081",
@@ -4391,6 +4373,9 @@
                               ]
                             },
                             "kind": "dialog"
+                          },
+                          {
+                            "kind": "clearDialog"
                           },
                           {
                             "kind": "selectEntityBehavior",

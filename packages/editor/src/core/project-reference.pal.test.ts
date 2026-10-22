@@ -99,7 +99,32 @@ describe('ED-3 PAL project reference index', () => {
     // explicit ownership and facing. The 002 zero-distance opener adds explicit facing/frame targets.
     // Current automatic-loop compression and withdrawn island hold change the census.
     // Recount through the production loader/projection; retain the independent blocker parity below.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_660)
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_668)
+    // GAME-SCRIPT-CORRECTIONS-1 adds seven cross-scene cleanup targets and Anu's
+    // explicit entry reveal. Pin those new dependencies as well as the total census.
+    expect(
+      diagnostics.entityAddressReferences
+        .filter(
+          (reference) =>
+            reference.sceneId === 's215' &&
+            reference.locator.kind === 'scene-entity' &&
+            reference.locator.sceneId === 's172' &&
+            reference.locator.entityId === 'e2862',
+        )
+        .map((reference) => reference.entityId)
+        .sort(),
+    ).toEqual(['e3657', 'e3658', 'e3659', 'e3660', 'e3661', 'e3662', 'e3663'])
+    expect(
+      diagnostics.entityAddressReferences.filter(
+        (reference) =>
+          reference.sceneId === 's182' &&
+          reference.entityId === 'e2984' &&
+          reference.locator.kind === 'scene' &&
+          reference.locator.sceneId === 's182' &&
+          reference.path.includes('.prepare['),
+      ),
+    ).toHaveLength(1)
+
     expect(
       diagnostics.entityAddressReferences.filter(
         (reference) =>
@@ -154,14 +179,14 @@ describe('ED-3 PAL project reference index', () => {
           reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
-    expect(actualEntityBlockers).toHaveLength(4_368)
+    expect(actualEntityBlockers).toHaveLength(4_376)
 
     expect(
       edges.filter(
         (edge) =>
           edge.relation.kind === 'command-target' && edge.relation.use === 'load-scene-entry',
       ),
-    ).toHaveLength(795)
+    ).toHaveLength(796)
     const shopEdges = edges.filter((edge) => edge.target.kind === 'shop')
     expect(shopEdges).toHaveLength(31)
     // SCRIPT-GOV-1 restores the doctor's post-gift shop branch. Pin its exact owner,
@@ -224,7 +249,9 @@ describe('ED-3 PAL project reference index', () => {
       ),
     ).toHaveLength(2)
     expect(edges.filter((edge) => edge.relation.kind === 'battle-field-use')).toHaveLength(141)
-    expect(edges.filter((edge) => edge.relation.kind === 'enemy-team-use')).toHaveLength(1_002)
+    // The s286/e4841 ordinary enemy becomes the missing palace exit; it now owns
+    // one load-scene entry and a page/behavior binding, no enemy team or sprite asset.
+    expect(edges.filter((edge) => edge.relation.kind === 'enemy-team-use')).toHaveLength(1_001)
     expect(edges.filter((edge) => edge.relation.kind === 'ambience-use')).toHaveLength(42)
     const battleDataEdges = edges.filter((edge) => edge.relation.kind === 'battle-data-use')
     expect(
@@ -443,7 +470,7 @@ describe('ED-3 PAL project reference index', () => {
     )
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
     const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
-    expect(worldSpriteEdges).toHaveLength(3_835)
+    expect(worldSpriteEdges).toHaveLength(3_834)
     expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-208' })).toMatchObject([
       {
         source: {
@@ -486,7 +513,7 @@ describe('ED-3 PAL project reference index', () => {
       })),
     )
     expect(battleSpriteEdges).toHaveLength(180)
-    expect(assetEdges).toHaveLength(5_969)
+    expect(assetEdges).toHaveLength(5_968)
     // The restored Xiulan/Ling'er follow-ups add one portrait each, and Anu's farewell
     // adds both speakers' portraits. Preserve exact canonical ownership and command paths.
     const restoredPortraitSteps = new Set([
@@ -715,7 +742,7 @@ describe('ED-3 PAL project reference index', () => {
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_235)
+    ).toBe(4_234)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
@@ -771,7 +798,7 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_451)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_452)
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -909,8 +936,8 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_215)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_121)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_222)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_134)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

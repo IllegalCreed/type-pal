@@ -19,6 +19,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-22 3h资产测试质量切片：两个测试从隐式pending登记review，0新关闭；四LRU合法typed输入/引用结果、十条恢复路径完整预期告警已补。loader/RLE适配仅注释正文守恒，UI帧编号反证获批后另提交修复。[本片A–H与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)。全仓/official/protected留相关模块收尾；固定83仍62accept/21partial，不据定向绿关闭3h。
 
+2026-10-22 双阶段脚本修复库存同步：新增17个tracked实现/测试路径，只补库存及隐式pending计数；377closed/110review保持，pending从2869增至2886，总数3373。CI首轮因旧汇总未含新文件而拒绝，未执行覆盖率；不修改规则或将新路径自动关闭。该功能的有限差异审查和回归独立见[脚本修复任务](../tasks/GAME-SCRIPT-CORRECTIONS-1.md)，库存证据见[本次同步回执](../evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json)。
+
 2026-10-22 3w模块收口：五文件按逐文件八维及正式反例闭合，[收口原件入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)。完整check20443/工具684、七包TC、official20045与同报告protected均零诊断；初轮12超时原件保留且未改规则/timeout。当前3356tracked/377closed/110review/2869pending，固定83卡62accept/21partial。仅3w原状态/结算/清理合同，不升格整体battle-system/event-system或视觉E2E。
 
 2026-10-22 3w战后HP/MP窄修：用户批准保留脚本效果；两正式业务红→238定向/相邻绿、game TC0，原导入真实190tick战斗退出394→500。旧结算测试已验证暂恢复review等待模块集中门，0新增关闭；3356tracked/372closed/115review/2869pending，61accept/22partial不变。[本片八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)。
@@ -65,8 +67,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,357。
-当前已闭合核验：377；已读但待审：115；尚未逐文件核验：2,865；合计未闭合：2,980。
+起始基点机器清单：2,962。当前 tracked 清单：3,374。
+当前已闭合核验：377；已读但待审：115；尚未逐文件核验：2,882；合计未闭合：2,997。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 

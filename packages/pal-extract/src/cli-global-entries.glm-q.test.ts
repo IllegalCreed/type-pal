@@ -54,7 +54,7 @@ async function runEntry(hooks: GlobalEntryHook[]): Promise<EntryRun> {
     writeFileSync(join(rawDir, name), bytes)
   }
   mkdirSync(join(rawDir, 'Musics'), { recursive: true })
-  const result = await cliHost.runCli(tree)
+  const result = await cliHost.runCli(tree, ['--faithful'])
   const out = (rel: string) => join(tree, 'data', 'extracted', rel)
   return {
     result,

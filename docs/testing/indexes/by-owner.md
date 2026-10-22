@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 1 个 Owner 组、18 个唯一 ID：Codex 18。不覆盖 catalog 之外未登记贡献者。
+当前 1 个 Owner 组、19 个唯一 ID：Codex 19。不覆盖 catalog 之外未登记贡献者。
 
 ## 当前状态
 
@@ -38,6 +38,7 @@ Template: governance-index-v1 / 1.0.0
 - e2e-route — [双阶段快速通关路线方案](../e2e/route-proposal.md)（proposal）
 - editor-command-form-families — [编辑器命令表单族所有权](../domains/editor/commands/command-form-families/report.md)（current）
 - editor-map-workspace-sessions — [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md)（current）
+- game-script-corrections — [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md)（active）
 - legacy-flat-audit — [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md)（current）
 - phase1-dependency-ownership — [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md)（current）
 - reforge-menu-session — [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md)（current）

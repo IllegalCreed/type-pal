@@ -1,5 +1,6 @@
 import type {
   AbstractKey,
+  Command,
   InputSnapshot,
   Item,
   Magic,
@@ -7,8 +8,9 @@ import type {
   Spell,
   Tilemap,
 } from '@type-pal/shared'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { type SceneAssets, SceneAssetsCache } from '../assets/loader.js'
+import { parseImportedSave, serializeSave } from '../tools/save-io.js'
 import { createCommandBus } from './command-bus.js'
 import {
   OP_CENTER_CAMERA_ON_PARTY,
@@ -29,6 +31,7 @@ import {
   setSpriteFrameCountProvider,
 } from './game-state.js'
 import { setMenuCatalogs } from './menu/menu-driver.js'
+import { Save } from './save/api.js'
 import { isWalkable, loadScene, tickSceneSystem } from './scene-system.js'
 
 function makeFlatMap(w: number, h: number): Tilemap {
@@ -2016,27 +2019,43 @@ describe('DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628
 
 // ── 扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)──────────────────────────
 // 原版 obj 1518(太守)是 Confirm-search(mode 3),公案 obstacle 墙太长玩家够不到 → 5500 文领不到。
-// tp 层经 npcFromEventObject 改成走近自动触发(mode >= 4)+ autoTriggerOnce:走近即触发一次,
+// 纠错资源经 npcFromEventObject 透传自动触发(mode 6)+ autoTriggerOnce:走近即触发一次,
 // 触发后消费(triggerMode → 0)不再复触发,避免每帧重跑后续段(匾额/欢迎再来)对白。
 describe('扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)', () => {
-  it('走到书案前触发判定中心(1600,1040)→ 无需 Confirm 自动触发领赏,且触发后不再复触发', () => {
+  afterEach(async () => {
+    await Save._clearAllForTest()
+  })
+  it('书案前自动领赏一次，保存恢复并重新载入场景后仍保持消费状态', async () => {
     const npc = npcFromEventObject({
       id: 1518,
       x: 1616,
       y: 968,
       spriteNum: 382,
       triggerLabel: 'L_15293',
-      triggerMode: 3,
+      triggerMode: 6,
+      autoTriggerOnce: true,
+      autoTriggerAnchorX: 1600,
+      autoTriggerAnchorY: 1040,
       sState: 1,
     })
     // party 站在书案前触发判定中心 (1600,1040)(autoTriggerAnchor);facing 任意(自动触发不看朝向)
     const gs = createInitialGameState({ x: 1600, y: 1040, facing: 'up' })
     gs.npcs = [npc]
+    gs.allEventObjects = Array.from({ length: npc.id + 1 }, (_, id) => ({
+      id,
+      x: 0,
+      y: 0,
+      spriteNum: 0,
+      sState: 0,
+    }))
+    gs.allEventObjects[npc.id] = npc
+    gs.sceneEventRanges = { 81: [1518, 1519] }
+    gs.wNumScene = 82
     const bus = createCommandBus()
     const map = makeFlatMap(200, 200)
-    const commands = [
+    const commands: Command[] = [
       { op: 'end' as const },
-      { op: 'showDialog' as const, messageIndex: 5286, text: '太守∶', label: 'L_15293' },
+      { op: 'raw' as const, opcode: 0x1e, operands: [5500, 0, 0], label: 'L_15293' },
       { op: 'end' as const },
     ]
     setGlobalEvents(commands)
@@ -2049,13 +2068,27 @@ describe('扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)', 
     expect(npc.triggerMode).toBe(0) // 一次性 guard:触发即消费
 
     // cutscene 跑完回到 explore,party 仍在原触发区内 → 不能再触发(否则刷后续段对白)
-    gs.mode = 'explore'
-    gs.eventCursor = undefined
-    tickSceneSystem(gs, snap(), bus, ctx)
-    expect(gs.mode).toBe('explore')
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(5500)
+    await Save.saveSlot(1, parseImportedSave(serializeSave(gs)))
+    const loaded = await Save.loadSlot(1)
+    expect(loaded).not.toBeNull()
+    const restored = createInitialGameState({ x: 1600, y: 1040, facing: 'up' })
+    Object.assign(restored, loaded)
+    const cache = new SceneAssetsCache(async (id) =>
+      makeSceneAssets(id, [{ ...npc, triggerMode: 6 }]),
+    )
+    await loadScene({ gs: restored, sceneId: 81, assets: cache })
+    expect(restored.npcs[0]?.triggerMode).toBe(0)
+    tickSceneSystem(restored, snap(), bus, ctx)
+    expect(restored.mode).toBe('explore')
+    expect(restored.dwCash).toBe(5500)
   })
 
-  it('触发判定中心在书案前(非太守 sprite):party 站在太守 sprite 像素 (1616,968) → 不自动触发', () => {
+  it.each([
+    [1616, 968],
+    [1504, 1008],
+  ])('太守图像或进场落点 (%i,%i) 不在书案前触发区，不会误触发', (x, y) => {
     // 触发判定中心 = 书案前 (1600,1040);mode6 阈值 80。
     const npc = npcFromEventObject({
       id: 1518,
@@ -2063,12 +2096,15 @@ describe('扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)', 
       y: 968,
       spriteNum: 382,
       triggerLabel: 'L_15293',
-      triggerMode: 3,
+      triggerMode: 6,
+      autoTriggerOnce: true,
+      autoTriggerAnchorX: 1600,
+      autoTriggerAnchorY: 1040,
       sState: 1,
     })
     // party 在太守 sprite (1616,968):到判定中心 (1600,1040) 加权 16 + 144 = 160 >= 80 → 不触发
     //(证明触发点是书案前站立点而非太守本身;出发点同理在区外)。
-    const gs = createInitialGameState({ x: 1616, y: 968, facing: 'down' })
+    const gs = createInitialGameState({ x, y, facing: 'down' })
     gs.npcs = [npc]
     const bus = createCommandBus()
     const map = makeFlatMap(200, 200)

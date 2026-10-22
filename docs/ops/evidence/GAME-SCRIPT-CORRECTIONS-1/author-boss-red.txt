@@ -1,0 +1,46 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/pal-story-corrections.test.ts (7 tests | 1 failed | 6 skipped) 9ms
+   ↓ 鬼阴坛告别只演一次，离场回访及正式保存恢复都不重演
+   ↓ 剑圣离场：实际雇用秀才=true 才能触发随队告别
+   ↓ 剑圣离场：实际雇用秀才=false 才能触发随队告别
+   ↓ 桃源林演出阿奴默认不站场，选择剧情入口后在揭场前显示，结束及回访仍隐藏
+   ↓ 提前交虫 35 只：不足不清场，交足后盖罗娇全队离开且读档不复现
+   ↓ 提前交虫 36 只：不足不清场，交足后盖罗娇全队离开且读档不复现
+   × 假巫王战后拜月登场可见且挡路，决战触发区保持可见不挡路 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 假巫王战后拜月登场可见且挡路，决战触发区保持可见不挡路
+AssertionError: expected { visible: true, …(5) } to match object { visible: true, collidable: true }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "collidable": true,
++   "collidable": false,
+    "visible": true,
+  }
+
+ ❯ src/pal-story-corrections.test.ts:86:27
+     84|   expect(run.gates(boss)).toMatchObject({ visible: false, collidable: …
+     85|   expect(await run.activate('e4742')).toBe(true)
+     86|   expect(run.gates(boss)).toMatchObject({ visible: true, collidable: t…
+       |                           ^
+     87|   expect(run.gates(trigger)).toMatchObject({ visible: true, collidable…
+     88|   const restored = await run.restore()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  15:54:16
+   Duration  2.66s (transform 1.86s, setup 0ms, import 2.57s, tests 9ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-story-corrections.test.ts -t 假巫王 --reporter=default

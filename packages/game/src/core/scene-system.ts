@@ -198,7 +198,7 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
     if ((npc.sState ?? 1) <= 0 || mode < TRIGGER_MODE_AUTO_MIN) continue
     const threshold = (mode - TRIGGER_MODE_AUTO_MIN) * 32 + 16
     // 扬州太守领赏:autoTriggerAnchorX/Y 把触发判定中心挪到书案前站立点(非太守 sprite)→ 出发点不在
-    // 附近不自动触发,速通不被强制领赏(见 game-state GOVERNOR_REWARD_* 注释)。仅影响距离判定,
+    // 附近不自动触发,速通不被强制领赏(由事件元数据声明)。仅影响距离判定,
     // sprite 位置 / 下方朝向计算仍用 npc.x/y。
     const anchorX = npc.autoTriggerAnchorX ?? npc.x
     const anchorY = npc.autoTriggerAnchorY ?? npc.y
@@ -237,7 +237,7 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
       triggered = true
       // 扬州太守领赏:autoTriggerOnce 对象触发成功即消费(triggerMode→0),否则玩家停在触发区内
       // 每帧重触发 → 刷后续段(匾额/欢迎再来)对白。引用入 allEventObjects → 持久 + 存档保留
-      //(见 game-state GOVERNOR_REWARD_* 注释)。
+      //(由事件元数据声明)。
       if (npc.autoTriggerOnce) npc.triggerMode = 0
     }
   }

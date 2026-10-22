@@ -1,0 +1,40 @@
+{
+  "kind": "user-scoped-acceptance-with-unexecuted-checks",
+  "date": "2026-10-22",
+  "task": "GAME-SCRIPT-CORRECTIONS-1",
+  "owner": "Codex",
+  "userInstruction": "如果太麻烦你就别测了，直接算通过也行",
+  "decision": "Accept the implemented two-phase corrections on existing automated regression and quality-gate evidence; stop additional costly story/browser/visual/editor-preview verification for this task.",
+  "taskStatus": "done",
+  "integrationEvidence": {
+    "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json",
+    "sha256": "0ddea87385bc28bbe6710268eda152f082b400cd1d760f69978ebd1bdddf6b90",
+    "unchanged": false,
+    "publicationOnlyChange": "Original native log bytes preserved in gzip; current attachment paths and compressed checksums relocated. Original receipt available at native-log-publication.json sourceRevision."
+  },
+  "executionBoundary": {
+    "completedThisTurn": "Discovery only: reviewed legal checkpoint availability and started isolated browser pages for current Game, Reforge and Editor; no story assertions or verified script-preview state.",
+    "browserDiscovery": {
+      "path": "build/e2e/script-corrections-browser/discover-chrome.stdout.txt",
+      "sha256": "fd50f2677a33bbbac2006b29cadb07b2ca32ad21781ba8706c0d065208e8fd9a",
+      "temporaryIgnoredArtifact": true,
+      "acceptanceCredit": false
+    },
+    "notExecutedAndWaivedForThisTask": [
+      "complete affected-story browser E2E",
+      "frame-by-frame visual comparison",
+      "editor script-preview initial-state verification and persistence"
+    ],
+    "notExecutedOutsideThisWaiver": [
+      "original EXE/SDLPal playback",
+      "official full coverage profile",
+      "deployment"
+    ],
+    "formalPreviewStatesCreated": 0
+  },
+  "limitations": [
+    "User acceptance does not turn unexecuted checks into measured passes.",
+    "Existing raw reports and their original pending/notRun statuses are preserved.",
+    "No changes to product code, test selection, thresholds or coverage evidence in this acceptance update."
+  ]
+}

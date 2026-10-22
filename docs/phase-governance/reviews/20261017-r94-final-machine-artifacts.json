@@ -1023,14 +1023,14 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed115review2865pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
       "unresolved": [
         "Historical machine artifact requires current consumer and fresh receipt before reuse."
       ],
-      "nextStep": "Software merged and issue closed; physical hardware and deployment remain separate.",
+      "nextStep": "This task is accepted with an explicit user waiver; no measured story/visual/preview pass is added.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "130f6d7fdad7a5affb7eb91aa3d293f61f031c000b6f686e1923202167e279a8",
+      "afterSha256": "9a1bb06d1b104f8035cfa53c871f09f30a75c879093413f9c35aa5a73d391d67",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "130f6d7fdad7a5affb7eb91aa3d293f61f031c000b6f686e1923202167e279a8",
+        "implementationSha": "9a1bb06d1b104f8035cfa53c871f09f30a75c879093413f9c35aa5a73d391d67",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1801,6 +1801,24 @@
             "date": "2026-10-17",
             "action": "byte-stable final machine artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "9fa27fef92f66bbfb094160f46a76d392728a532b3c58b84b2c49b70bf5599ae",
+            "scope": "Terminal incoming maintenance for four R93 control-artifact records updated by this script-correction publication. Child deltas, previous evidence/history and unchanged surrounding entries checked; no recursive new review layer or broad document/product acceptance.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
+          },
+          {
+            "date": "2026-10-22",
+            "action": "final-correction-task-writeback",
+            "previousAfterSha256": "856dad65d03a96bdbf1e3cedc4410002880f5a9e57f0df112e58017a61f1a3f8",
+            "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
           }
         ]
       },
@@ -1809,8 +1827,8 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "130f6d7fdad7a5affb7eb91aa3d293f61f031c000b6f686e1923202167e279a8",
-        "lineCount": 18690,
+        "afterSha256": "9a1bb06d1b104f8035cfa53c871f09f30a75c879093413f9c35aa5a73d391d67",
+        "lineCount": 19053,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1825,6 +1843,15 @@
           "topLevelType": "object",
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "byteStable": true
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-main-sync-publication",
+          "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+          "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+          "lineCount": 18885,
+          "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+          "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -3026,6 +3053,90 @@
         },
         {
           "date": "2026-10-22",
+          "action": "Review exact incoming correction-audit metadata binding",
+          "previousAfterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
+          "previousCoreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
+            "lineCount": 17532,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "scope": "Only the semantic-current-batch entry and its original-history-preserving metadata delta in r93; no unrelated entry or historical acceptance changed.",
+          "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "9fa27fef92f66bbfb094160f46a76d392728a532b3c58b84b2c49b70bf5599ae",
+          "previousCoreConclusion": "Correction-audit navigation metadata only; actual owned diffs read and original history retained. No new product, E2E, coverage or broad document reacceptance.",
+          "scope": "Terminal incoming maintenance for four R93 control-artifact records updated by this script-correction publication. Child deltas, previous evidence/history and unchanged surrounding entries checked; no recursive new review layer or broad document/product acceptance.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence retains historical artifact envelope; currentMaintenance records only the current scoped delta."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "final-correction-task-writeback",
+          "previousAfterSha256": "856dad65d03a96bdbf1e3cedc4410002880f5a9e57f0df112e58017a61f1a3f8",
+          "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "786369c038f4837af9e83dbca3cb3399133444a3c9790ad631e0240ef9b4d61a",
+          "previousCoreConclusion": "Terminal incoming maintenance for four R93 control-artifact records updated by this script-correction publication. Child deltas, previous evidence/history and unchanged surrounding entries checked; no recursive new review layer or broad document/product acceptance.",
+          "scope": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "9b642c1bb5ad2b548d3dc9a951d8c8f31f80b75ac87cd5bad782f4cede9b55c6",
+          "previousCoreConclusion": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+          "scope": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        {
+          "date": "2026-10-22",
           "action": "Battle-quality-window-local-candidate",
           "previousEvidence": {
             "kind": "codex-owned-battle-quality-window-delta",
@@ -3845,6 +3956,22 @@
         },
         {
           "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "96236d9cd08277cb00cfba83b765d60c8a736f17f6ca5fc1012c01c6ceb46e65",
+          "previousCoreConclusion": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+          "scope": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "d3eee898dea03f569dcbc81ae0da7041db24f2157acc2d2007120dd23e94002e",
+          "previousCoreConclusion": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
+          "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json"
+        },
+        {
+          "date": "2026-10-22",
           "action": "Pre94-3h-assets-local-freeze",
           "previousEvidence": {
             "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
@@ -3920,12 +4047,60 @@
           "afterSha256": "130f6d7fdad7a5affb7eb91aa3d293f61f031c000b6f686e1923202167e279a8",
           "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-main-sync",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "130f6d7fdad7a5affb7eb91aa3d293f61f031c000b6f686e1923202167e279a8",
+            "lineCount": 18690,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            },
+            "currentMaintenance": {
+              "kind": "script-corrections-main-sync-publication",
+              "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+              "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+              "lineCount": 18885,
+              "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            }
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed115review2865pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "130f6d7fdad7a5affb7eb91aa3d293f61f031c000b6f686e1923202167e279a8",
+          "afterSha256": "9a1bb06d1b104f8035cfa53c871f09f30a75c879093413f9c35aa5a73d391d67",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
         }
       ],
       "supersedes": [
         "governed-legacy machine artifact presentation; native facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
       "reviewedLines": "Only approved UI task, five review ledger rows, current counts, generated index and owned descendant pins",
       "templateVersion": "1.0.0",
@@ -3963,12 +4138,36 @@
       ],
       "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.",
       "maintenanceReview": {
-        "reviewer": "Codex",
         "date": "2026-10-22",
-        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
-        "afterSha256": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "scope": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
-        "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
+        "reviewer": "Codex",
+        "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true,
+        "finalWriteback": {
+          "date": "2026-10-22",
+          "action": "final-correction-task-writeback",
+          "previousAfterSha256": "856dad65d03a96bdbf1e3cedc4410002880f5a9e57f0df112e58017a61f1a3f8",
+          "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+        },
+        "userAcceptance": {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "9b642c1bb5ad2b548d3dc9a951d8c8f31f80b75ac87cd5bad782f4cede9b55c6",
+          "previousCoreConclusion": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+          "scope": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        "mainSync": {
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "preservedBothParentHistories": true
+        }
       }
     },
     {

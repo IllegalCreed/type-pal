@@ -383,7 +383,21 @@ test('real corpus inventory can be reproduced without an archived converter', as
     return
   }
   const source = indexSource(input, [])
-  assert.equal(source.commands.length, 43503)
+  // The current extraction is versioned; faithful source audits retain the original size.
+  // Both corpora have the same 639 physical script-installation edges.
+  const correction = JSON.parse(
+    await readFile(
+      new URL('../../data/extracted/script-corrections.json', import.meta.url),
+      'utf8',
+    ),
+  )
+  assert.equal(
+    correction.source.sha256,
+    'ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756',
+  )
+  assert.ok(correction.mode === 'faithful' || correction.mode === 'corrected')
+  assert.equal(correction.version, correction.mode === 'corrected' ? 'pal-win-1' : null)
+  assert.equal(source.commands.length, correction.mode === 'corrected' ? 43522 : 43503)
   assert.equal(source.edges.length, 639)
   assert.equal(source.edges.filter((edge) => edge.effect === 'no-op').length, 6)
   assert.equal(source.edges.filter((edge) => edge.effect === 'clear').length, 53)

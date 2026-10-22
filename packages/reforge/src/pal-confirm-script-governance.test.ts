@@ -138,7 +138,16 @@ test.each(
     const label = approvedStageLabels[key]?.[stage.id]
     if (label !== undefined) expect(stage.label).toBe(label)
   }
-  const current = resolveAuthorDialogueTree(author, actors)
+  // D01 repairs corrupt original text. Assert the precise author delta, then
+  // restore just its removed garbage row for this historical preservation oracle.
+  const historicalAuthor = structuredClone(author)
+  if (key === 's009/e188/default') {
+    const dialogue = historicalAuthor.stages.find((stage) => stage.id === 'legacy-003')?.body[0]
+    if (dialogue?.kind !== 'dialog') throw new Error('missing corrected farewell')
+    expect(dialogue.cue.rows.map((row) => row.text)).toEqual(['dlg.1501', 'dlg.1502', 'dlg.1503'])
+    dialogue.cue.rows.push({ text: 'dlg.1504' })
+  }
+  const current = resolveAuthorDialogueTree(historicalAuthor, actors)
   const hashes: string[] = []
   for (const condition of [false, true])
     for (let mask = 0; mask < 8; mask++) {

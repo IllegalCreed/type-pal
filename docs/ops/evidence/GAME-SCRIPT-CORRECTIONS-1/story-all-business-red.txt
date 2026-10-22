@@ -1,0 +1,163 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ❯ src/core/script-story-corrections.pal.test.ts (9 tests | 5 failed) 249ms
+     × orders one beating demand before each answer and repeats only after denial 35ms
+     ✓ opening the gate through guard 1599 moves it only once 27ms
+     ✓ opening the gate through guard 1600 moves it only once 25ms
+     ✓ opening the gate through guard 1601 moves it only once 27ms
+   × completes the altar farewell onEnter without replaying it on the next visit 27ms
+   ✓ keeps the scholar hiring state 0 until his dialogue decision 32ms
+   × keeps the scholar hiring state 2 until his dialogue decision 24ms
+   × hides the Peach Forest Anu instance until its entrance preparation reveals her 26ms
+   × handing over thirty-six worms clears Gai Luojiao and her retinue on the early route 26ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-story-corrections.pal.test.ts > PAL authored script corrections: court and gate > orders one beating demand before each answer and repeats only after denial
+AssertionError: expected [ '还不肯招？再打！', '不招？再打！', …(5) ] to deeply equal [ '还不肯招？再打！', '你招是不招！？', …(4) ]
+
+- Expected
++ Received
+
+@@ -1,7 +1,8 @@
+  [
+    "还不肯招？再打！",
++   "不招？再打！",
+    "你招是不招！？",
+    "不招？再打！",
+    "你招是不招！？",
+    "不招？再打！",
+    "你招是不招！？",
+
+ ❯ src/core/script-story-corrections.pal.test.ts:89:26
+     87|     const result = play(environment(), 14457, 1518, 2, true)
+     88|     expect(result.answers).toBe(3)
+     89|     expect(result.lines).toEqual([
+       |                          ^
+     90|       '还不肯招？再打！',
+     91|       '你招是不招！？',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/core/script-story-corrections.pal.test.ts > completes the altar farewell onEnter without replaying it on the next visit
+AssertionError: expected [ '乖女儿！　你没事吧？', '爹～您先医治李少侠', …(19) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "乖女儿！　你没事吧？",
++   "爹～您先医治李少侠",
++   "他被苗人打伤了",
++   "医仙，求您救救李大哥！",
++   "放心～有我在死不了的",
++   "谢谢你，韩大夫",
++   "哪儿的话，我们才要向",
++   "你们道谢呢．．．",
++   "对了．．赵姑娘呢？",
++   "她．．为了救我们",
++   "跟那些苗人走了",
++   "唉．．赵姑娘是个好女孩",
++   "许多事情她不愿连累别人",
++   "都自己承担了．．",
++   "李大侠．．你可要再",
++   "去找赵姑娘吗？",
++   "我不会让她离开我！",
++   "呵呵～那我就安心了．．",
++   "打起精神来吧！",
++   "我相信你和赵姑娘还有缘份的",
++   "韩医仙一行人走了",
++ ]
+
+ ❯ src/core/script-story-corrections.pal.test.ts:125:24
+    123|   expect(resume).toBeDefined()
+    124|   const second = play(env, resume!, 0, 0, false, 77)
+    125|   expect(second.lines).toEqual([])
+       |                        ^
+    126| })
+    127|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/core/script-story-corrections.pal.test.ts > keeps the scholar hiring state 2 until his dialogue decision
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/core/script-story-corrections.pal.test.ts:132:46
+    130|   env.gs.allEventObjects![1882]!.sState = hiredState
+    131|   const result = play(env, 16389, 1883)
+    132|   expect(result.lines.includes('二．．二位．．英雄')).toBe(hiredState === 0)
+       |                                              ^
+    133|   expect(env.gs.allEventObjects![1882]!.sState).toBe(0)
+    134| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/core/script-story-corrections.pal.test.ts > hides the Peach Forest Anu instance until its entrance preparation reveals her
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/core/script-story-corrections.pal.test.ts:139:22
+    137|   const env = environment(182)
+    138|   const anu = env.gs.allEventObjects![2984]!
+    139|   expect(anu.sState).toBe(0)
+       |                      ^
+    140|   env.gs.mode = 'event'
+    141|   env.gs.eventCursor = { ip: 27448, currentEventObjectId: 2984 }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/core/script-story-corrections.pal.test.ts > handing over thirty-six worms clears Gai Luojiao and her retinue on the early route
+AssertionError: expected [ 2, 1, 1, 1, 1, 1, 1 ] to deeply equal [ +0, +0, +0, +0, +0, +0, +0 ]
+
+- Expected
++ Received
+
+  [
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
+-   0,
++   2,
++   1,
++   1,
++   1,
++   1,
++   1,
++   1,
+  ]
+
+ ❯ src/core/script-story-corrections.pal.test.ts:155:90
+    153|   play(env, 28419, 2862)
+    154|   expect(env.gs.inventory.find((item) => item.itemId === 152)?.count ?…
+    155|   expect(Array.from({ length: 7 }, (_, i) => env.gs.allEventObjects![3…
+       |                                                                                          ^
+    156|   expect(env.gs.wNumScene).toBe(175)
+    157| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 4 passed (9)
+   Start at  16:06:35
+   Duration  619ms (transform 191ms, setup 52ms, import 237ms, tests 249ms, environment 0ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-story-corrections.pal.test.ts --reporter=default

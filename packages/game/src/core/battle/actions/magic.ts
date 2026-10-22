@@ -17,8 +17,8 @@
 
 import type { Command, Item, Magic, ObjectMagicView, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
+import { getMagicScriptEntry, setMagicScriptEntry } from '../../object-script-state.js'
 import {
   BATTLE_FRAME_TIME,
   buildEnemyMagicCastIntro,
@@ -34,6 +34,7 @@ import {
   SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
 import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
+import type { RunScriptFn } from '../battle-runtime-context.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import {
   applyEnemyMagicDamage,
@@ -43,8 +44,7 @@ import {
 } from '../magic-damage.js'
 import { explainMagicObjectResolution, resolveMagicObject } from '../magic-object.js'
 
-/** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。 */
-export type RunScriptFn = (opts: RunScriptOptions) => void
+export type { RunScriptFn } from '../battle-runtime-context.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -214,9 +214,10 @@ export function performMagic(input: PerformMagicInput): void {
   //   PostMagic 之前/开始(fight.c:4322-4323)。
   const pendingNums: PendingDamageNums = []
   const pendingScreenShake: { time: number; level: number } = { time: 0, level: 0 }
-  const runMagicScript = (scriptId: number): void => {
+  const runMagicScript = (slot: 'scriptOnUse' | 'scriptOnSuccess'): void => {
+    const scriptId = getMagicScriptEntry(input.gs, spell, slot)
     if (scriptId === 0) return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
-    input.runScript({
+    const nextEntry = input.runScript({
       commands: input.commands,
       ip: scriptId,
       bus: input.bus,
@@ -239,6 +240,7 @@ export function performMagic(input: PerformMagicInput): void {
         enemySpriteFrameHeights: input.enemySpriteFrameHeights,
       },
     })
+    setMagicScriptEntry(input.gs, spell, slot, nextEntry)
   }
   // sdlpal PAL_RunTriggerScript 入口设 g_fScriptSuccess=TRUE(script.c:3187)。runScript(battle)
   // 不重置,故此处显式置真,再按 scriptOnUse 结果 gate scriptOnSuccess(fight.c:4217)。
@@ -253,7 +255,7 @@ export function performMagic(input: PerformMagicInput): void {
     preRolledAutoDefend = rollAutoDefend(input.state, input.playerRoles, adTarget, adIdxs)
   }
   if (input.gs) input.gs.fScriptSuccess = true
-  runMagicScript(spell.scriptOnUse)
+  runMagicScript('scriptOnUse')
   const scriptUseSuccess = input.gs ? input.gs.fScriptSuccess : true
 
   // **scriptOnUse 失败 → 早退**(sdlpal fight.c:4196/4231 `if (g_fScriptSuccess)` gate):没钱(乾坤一掷 0x1E
@@ -291,7 +293,7 @@ export function performMagic(input: PerformMagicInput): void {
       ? input.state.players[input.casterIdx]?.spriteNumOverride
       : undefined
   if (input.gs) input.gs.fScriptSuccess = true
-  runMagicScript(spell.scriptOnSuccess)
+  runMagicScript('scriptOnSuccess')
   const scriptSuccess = input.gs ? input.gs.fScriptSuccess : true
   const tranceSpriteAfter =
     !input.casterIsEnemy && magic.type === 'trance'

@@ -1,0 +1,17 @@
+{
+  "kind": "final-plan-refactor-output-integrity",
+  "previousReceipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/generation-receipt.json",
+  "previousReceiptSha256": "008ab4e6ec96f0d50802cc9704369aa53ef14b6a20bb27c9c26ad6678fc73a7c",
+  "command": "pnpm extract",
+  "exitCode": 0,
+  "log": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-plan.txt",
+  "sourceModuleSha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c",
+  "ruleDataSha256": "c345c2a9b823446105369001d6a672d1368a55784c8dcaa6ec5fed87310c7e02",
+  "rawInputsMatchPreviousReceipt": true,
+  "allFinalFilesMatchManifest": true,
+  "manifestVersionUnchanged": "93bd7485051ef2b2",
+  "fileCount": 2907,
+  "limits": [
+    "Source-to-plan refactor preserves the earlier double-generation output identity; no full story or visual E2E claim."
+  ]
+}

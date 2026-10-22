@@ -1,12 +1,7 @@
-import type {
-  AbstractKey,
-  Command,
-  GiveItemCommand,
-  InputSnapshot,
-  Palette,
-} from '@type-pal/shared'
+import type { AbstractKey, Command, InputSnapshot, Palette } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { computeFollowerWorldPos } from '../present/follower-pos.js'
+import { makeItem, makeItemFlags } from './__tests__/stats/stats-test-fixtures.js'
 import type { BattleState } from './battle/battle-state.js'
 import { createCommandBus } from './command-bus.js'
 import {
@@ -70,7 +65,6 @@ import {
   OP_WAIT_FOR_KEY,
   OP_WAIT_FRAMES,
   OP_WAVE_SCREEN,
-  patchGiveItemZeroBugs,
   type RngPlayHandlerInput,
   resolveScriptLabel,
   runEnterScript,
@@ -135,35 +129,6 @@ describe('addItemToInventory:itemId=0 不入库(sdlpal global.c wObjectID==0 →
     gs.inventory = []
     addItemToInventory(gs, 161, 0) // 无影神针,count 0 → 1
     expect(gs.inventory).toEqual([{ itemId: 161, count: 1 }])
-  })
-})
-
-// 回归(user 2026-06-13:扬州宝物屋开箱「?0」):3 个箱脚本提示「获得X」但 giveItem itemId=0(原版数据
-//   bug;sdlpal/原版也给空)。真道具确存在,只是提示 MSG 写错字(九节鞭→九截鞭164 / 腐尸肉→尸腐肉116 /
-//   紫青玉蓉膏→紫菁玉蓉膏103)。tp 层按前句 showDialog 的 messageIndex 把 giveItem(0) 补回真 id。
-describe('patchGiveItemZeroBugs(原版扬州宝物屋 giveItem 归零 bug)', () => {
-  it('按前句提示 messageIndex 把 giveItem(0) 补回真道具 id', () => {
-    const cmds: Command[] = [
-      { op: 'showDialog', messageIndex: 12256, text: '获得九节鞭' },
-      { op: 'giveItem', itemId: 0, count: 0 },
-      { op: 'showDialog', messageIndex: 12347, text: '获得紫青玉蓉膏' },
-      { op: 'giveItem', itemId: 0, count: 0 },
-      { op: 'showDialog', messageIndex: 12408, text: '获得腐尸肉' },
-      { op: 'giveItem', itemId: 0, count: 0 },
-    ]
-    patchGiveItemZeroBugs(cmds)
-    expect((cmds[1] as GiveItemCommand).itemId).toBe(164) // 九截鞭(武器)
-    expect((cmds[3] as GiveItemCommand).itemId).toBe(103) // 紫菁玉蓉膏
-    expect((cmds[5] as GiveItemCommand).itemId).toBe(116) // 尸腐肉
-  })
-
-  it('其它 giveItem(0)(非这 3 个 msg)不动 → 交 addItemToInventory 跳过', () => {
-    const cmds: Command[] = [
-      { op: 'showDialog', messageIndex: 99999, text: '别的' },
-      { op: 'giveItem', itemId: 0, count: 0 },
-    ]
-    patchGiveItemZeroBugs(cmds)
-    expect((cmds[1] as GiveItemCommand).itemId).toBe(0)
   })
 })
 
@@ -4152,7 +4117,17 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
     gsOk.inventory = [{ itemId: 5, count: 3 }]
     setGlobalEvents([{ op: 'end' }, { op: 'end', label: 'L_1' }])
     try {
-      expect(startOverworldItemScript(gsOk, 5, 1, 0, true)).toBe(true)
+      expect(
+        startOverworldItemScript(
+          gsOk,
+          makeItem({
+            id: 5,
+            scriptOnUse: 1,
+            flags: makeItemFlags({ usable: true, consuming: true }),
+          }),
+          0,
+        ),
+      ).toBe(true)
       expect(gsOk.pendingItemConsume).toBe(5) // 延迟:还没扣
       expect(gsOk.inventory[0]?.count).toBe(3)
       tickEventSystem(gsOk, snap(), bus)
@@ -4171,7 +4146,15 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
       { op: 'end' },
     ])
     try {
-      startOverworldItemScript(gsFail, 5, 1, 0, true)
+      startOverworldItemScript(
+        gsFail,
+        makeItem({
+          id: 5,
+          scriptOnUse: 1,
+          flags: makeItemFlags({ usable: true, consuming: true }),
+        }),
+        0,
+      )
       tickEventSystem(gsFail, snap(), bus)
       expect(gsFail.inventory[0]?.count).toBe(3) // 脚本失败 → 不扣
       expect(gsFail.pendingItemConsume).toBeUndefined()
@@ -4188,7 +4171,15 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
       // applyToAll(targetRoleIdOrAll=0xFFFF):脚本结束应关菜单回 explore,让世界 trigger 触发
       const gsAll = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gsAll.menuStack = [{ kind: 'inventory', state: {} }]
-      startOverworldItemScript(gsAll, 272, 1, 0xffff, false) // 桂花酒类:applyToAll consuming=false
+      startOverworldItemScript(
+        gsAll,
+        makeItem({
+          id: 272,
+          scriptOnUse: 1,
+          flags: makeItemFlags({ usable: true, applyToAll: true, consuming: false }),
+        }),
+        0xffff,
+      ) // 桂花酒类:applyToAll consuming=false
       expect(gsAll.itemUseApplyToAll).toBe(true)
       tickEventSystem(gsAll, snap(), bus) // L_1 = end → 脚本结束
       expect(gsAll.mode).toBe('explore')
@@ -4198,7 +4189,15 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
       // 非 applyToAll(role 0):脚本结束 menuStack 非空 → 留 'menu'(ItemUseMenu 反复用)
       const gsOne = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gsOne.menuStack = [{ kind: 'inventory', state: {} }]
-      startOverworldItemScript(gsOne, 5, 1, 0, true)
+      startOverworldItemScript(
+        gsOne,
+        makeItem({
+          id: 5,
+          scriptOnUse: 1,
+          flags: makeItemFlags({ usable: true, consuming: true }),
+        }),
+        0,
+      )
       expect(gsOne.itemUseApplyToAll).toBe(false)
       tickEventSystem(gsOne, snap(), bus)
       expect(gsOne.mode).toBe('menu')

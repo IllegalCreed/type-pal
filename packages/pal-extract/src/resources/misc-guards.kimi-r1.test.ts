@@ -150,16 +150,16 @@ describe('KIMI-R1 pal-extract 散落守卫', () => {
 
   test('buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store', () => {
     const manifest = buildManifest([
-      { path: 'b/2.png', size: 2 },
-      { path: 'asset-manifest.json', size: 999 }, // SELF 排除
-      { path: 'a/.DS_Store', size: 5 }, // 排除
-      { path: 'a/1.png', size: 1 },
-      { path: 'b/2.png', size: 2 }, // 与首项同 path 同 size → sort 相等臂
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
+      { path: 'asset-manifest.json', size: 999, sha256: '0'.repeat(64) }, // SELF 排除
+      { path: 'a/.DS_Store', size: 5, sha256: '0'.repeat(64) }, // 排除
+      { path: 'a/1.png', size: 1, sha256: '0'.repeat(64) },
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) }, // 与首项同 path 同 size → sort 相等臂
     ])
     expect(manifest.files).toEqual([
-      { path: 'a/1.png', size: 1 },
-      { path: 'b/2.png', size: 2 },
-      { path: 'b/2.png', size: 2 },
+      { path: 'a/1.png', size: 1, sha256: '0'.repeat(64) },
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
     ])
     expect(manifest.fileCount).toBe(3)
     expect(manifest.totalBytes).toBe(5)
