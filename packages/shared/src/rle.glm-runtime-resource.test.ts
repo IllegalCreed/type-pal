@@ -108,7 +108,7 @@ describe('R01 子数组 byteOffset 传播', () => {
   })
 })
 
-describe('R01 严格容器末帧未消费 payload（rle.ts:162 帧边界唯一真值）', () => {
+describe('R01 严格容器末帧未消费 payload（offset table 限定帧边界）', () => {
   test('末帧指令流后残留对齐字节：解析成功且帧语义与精确长度版本相等', () => {
     const rawFrame = new Uint8Array([0x01, 0x00, 0x01, 0x00, 0x01, 0x3c]) // 1×1 裸帧（w,h + 流）
     const tableBytes = 2
