@@ -4,13 +4,18 @@
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { prepareReviewStorageGroup, publishReviewStorageGroup } from './review-record-storage-writer.mjs'
 import { loadReviewRecord } from './review-record-storage.mjs'
+import {
+  prepareReviewStorageGroup,
+  publishReviewStorageGroup,
+} from './review-record-storage-writer.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const manifest = JSON.parse(
-  readFileSync('/tmp/type-pal-S28-GLM-review-storage-implementation/execution-manifest.json', 'utf8'),
+  readFileSync(
+    '/tmp/type-pal-S28-GLM-review-storage-implementation/execution-manifest.json',
+    'utf8',
+  ),
 )
 const args = process.argv.slice(2)
 const publishIndex = args.indexOf('--publish')
@@ -26,13 +31,18 @@ const records = manifest.sourceReviewRecords.map((row) => ({
 }))
 // Fixed source Git identities come from the S27 carrier revision (contract: 八源复用S27清单; worktree==carrier==beforeSHA verified by S27 source checks).
 for (const record of records) {
-  const blob = execGitOutput(['rev-parse', `8cbf0dafba1a8a96914a322719dfeca1e5d58873:${record.path}`])
+  const blob = execGitOutput([
+    'rev-parse',
+    `8cbf0dafba1a8a96914a322719dfeca1e5d58873:${record.path}`,
+  ])
   record.sourceGitObject = blob
 }
 
 const prepared = prepareReviewStorageGroup({
   records,
-  r92Buffer: readBuffer('docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'),
+  r92Buffer: readBuffer(
+    'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json',
+  ),
   r94Buffer: readBuffer('docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'),
   readBuffer,
   context: { repoRoot },
@@ -48,8 +58,12 @@ if (!publishDir) {
       totalEntries: prepared.group.totalEntries,
       r92Edges: prepared.group.r92Edges.length,
       r94Edge: prepared.group.r94Edge,
-      maxShardBytes: Math.max(...prepared.outputs.filter((x) => x.kind === 'shard').map((x) => x.bytes.length)),
-      maxManifestBytes: Math.max(...prepared.outputs.filter((x) => x.kind === 'manifest').map((x) => x.bytes.length)),
+      maxShardBytes: Math.max(
+        ...prepared.outputs.filter((x) => x.kind === 'shard').map((x) => x.bytes.length),
+      ),
+      maxManifestBytes: Math.max(
+        ...prepared.outputs.filter((x) => x.kind === 'manifest').map((x) => x.bytes.length),
+      ),
     }),
   )
 } else {
@@ -63,10 +77,18 @@ if (!publishDir) {
     verified += 1
   }
   console.log(
-    JSON.stringify({ mode: 'publish', written: published.written, shards: shardCount, verified, entries }),
+    JSON.stringify({
+      mode: 'publish',
+      written: published.written,
+      shards: shardCount,
+      verified,
+      entries,
+    }),
   )
 }
 
 function execGitOutput(argv) {
-  return execFileSync('git', ['-C', repoRoot, ...argv]).toString().trim()
+  return execFileSync('git', ['-C', repoRoot, ...argv])
+    .toString()
+    .trim()
 }

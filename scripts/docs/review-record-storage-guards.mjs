@@ -20,7 +20,7 @@ export function reviewStorageGuardIssues(selection, context = {}) {
   for (const path of list) {
     if (
       typeof path !== 'string' ||
-      !path.startsWith(reviewDirRelative + '/') ||
+      !path.startsWith(`${reviewDirRelative}/`) ||
       path.split('/').includes('..') ||
       path.split('/').some((part) => part === '')
     ) {
@@ -39,7 +39,7 @@ export function reviewStorageGuardIssues(selection, context = {}) {
     if (error.code !== 'ENOENT') throw error
   }
   for (const path of list) {
-    if (typeof path !== 'string' || !path.startsWith(reviewDirRelative + '/')) continue
+    if (typeof path !== 'string' || !path.startsWith(`${reviewDirRelative}/`)) continue
     let bytes
     try {
       bytes = readBuffer(path)
@@ -69,7 +69,9 @@ export function reviewStorageGuardIssues(selection, context = {}) {
       continue
     }
     if (!Object.hasOwn(document, 'entries')) {
-      issues.push(`guard: unsupported review shape (no entries array); refusing before any write: ${path}`)
+      issues.push(
+        `guard: unsupported review shape (no entries array); refusing before any write: ${path}`,
+      )
       continue
     }
     if (!Array.isArray(document.entries))

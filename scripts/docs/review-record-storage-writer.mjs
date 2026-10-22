@@ -1,13 +1,14 @@
 // review-record-storage-writer.mjs — prepare/publish for review-record-storage/1.0.0.
 // Pure prepare over readBuffer providers; publish targets an explicit output tree only.
 // S28 never publishes into the repository: rehearsal trees only.
-import { createHash } from 'node:crypto'
-import { createRequire } from 'node:module'
+
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { join, resolve } from 'node:path'
+import { reviewDirRelative, reviewStorageMarker } from './review-record-storage.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
-import { materializeReviewRecord, reviewDirRelative, reviewStorageMarker } from './review-record-storage.mjs'
 
 const require = createRequire(import.meta.url)
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -22,8 +23,18 @@ const biomeFormat = (value, path, context) => {
     ? context.format(input, path)
     : execFileSync(
         process.execPath,
-        [context.biomePath ?? require.resolve('@biomejs/biome/bin/biome'), 'format', '--stdin-file-path', path],
-        { cwd: context.repoRoot ?? process.cwd(), input, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 },
+        [
+          context.biomePath ?? require.resolve('@biomejs/biome/bin/biome'),
+          'format',
+          '--stdin-file-path',
+          path,
+        ],
+        {
+          cwd: context.repoRoot ?? process.cwd(),
+          input,
+          encoding: 'utf8',
+          maxBuffer: 16 * 1024 * 1024,
+        },
       )
   return Buffer.from(run, 'utf8')
 }
@@ -33,7 +44,13 @@ const biomeFormat = (value, path, context) => {
  * plus the fixed source identities (revision per record) and R92/R94 buffers.
  * Returns the complete output set (manifests, shards, R92/R94 replacements) without writing.
  */
-export function prepareReviewStorageGroup({ records, r92Buffer, r94Buffer, readBuffer, context = {} }) {
+export function prepareReviewStorageGroup({
+  records,
+  r92Buffer,
+  r94Buffer,
+  readBuffer,
+  context = {},
+}) {
   demand(Array.isArray(records) && records.length === 8, 'exactly 8 source records required')
   const outputs = []
   const r92 = parseTerminalJson(r92Buffer)
@@ -43,7 +60,10 @@ export function prepareReviewStorageGroup({ records, r92Buffer, r94Buffer, readB
 
   for (const source of records) {
     const logicalPath = source.path
-    demand(typeof logicalPath === 'string' && logicalPath.startsWith(reviewDirRelative + '/'), `bad path: ${logicalPath}`)
+    demand(
+      typeof logicalPath === 'string' && logicalPath.startsWith(`${reviewDirRelative}/`),
+      `bad path: ${logicalPath}`,
+    )
     const flatBuffer = readBuffer(logicalPath)
     demand(flatBuffer !== undefined, `source missing: ${logicalPath}`)
     const flat = parseTerminalJson(flatBuffer)
@@ -58,7 +78,10 @@ export function prepareReviewStorageGroup({ records, r92Buffer, r94Buffer, readB
     demand(entriesPosition !== -1, `entries key missing: ${logicalPath}`)
     const logicalSha256 = digest(Buffer.from(JSON.stringify(flat)))
 
-    const stem = logicalPath.split('/').pop().replace(/\.json$/, '')
+    const stem = logicalPath
+      .split('/')
+      .pop()
+      .replace(/\.json$/, '')
     const shardDir = `shards/${stem}/${logicalSha256}`
     // Pack entries into shards bounded by formatted size; measure with real entry sizes.
     const shardSpecs = []
@@ -95,9 +118,16 @@ export function prepareReviewStorageGroup({ records, r92Buffer, r94Buffer, readB
       }
       const shardPath = `${shardDir}/${key}.json`
       const formatted = biomeFormat(shardValue, shardPath.split('/').pop(), context)
-      demand(formatted.length <= 524_288, `shard exceeds 512 KiB after formatting: ${shardPath} (${formatted.length})`)
+      demand(
+        formatted.length <= 524_288,
+        `shard exceeds 512 KiB after formatting: ${shardPath} (${formatted.length})`,
+      )
       outputs.push({ kind: 'shard', path: `${reviewDirRelative}/${shardPath}`, bytes: formatted })
-      shardsAll.push({ logicalPath, path: `${reviewDirRelative}/${shardPath}`, sha256: digest(formatted) })
+      shardsAll.push({
+        logicalPath,
+        path: `${reviewDirRelative}/${shardPath}`,
+        sha256: digest(formatted),
+      })
       storageShards.push({ key, path: shardPath, total: entries.length, sha256: digest(formatted) })
       entries.forEach((entry, i) => {
         materializedEntries[positions[i]] = entry
@@ -124,10 +154,10 @@ export function prepareReviewStorageGroup({ records, r92Buffer, r94Buffer, readB
       logicalSha256,
       totalEntries: flat.entries.length,
       entryOrderSha256: digest(
-        Buffer.from('[' + flat.entries.map((e) => JSON.stringify(e.path)).join(',') + ']'),
+        Buffer.from(`[${flat.entries.map((e) => JSON.stringify(e.path)).join(',')}]`),
       ),
       orderedEntriesSha256: digest(
-        Buffer.from('[' + flat.entries.map((e) => JSON.stringify(e)).join(',') + ']'),
+        Buffer.from(`[${flat.entries.map((e) => JSON.stringify(e)).join(',')}]`),
       ),
       shards: storageShards,
     }
@@ -155,8 +185,16 @@ export function prepareReviewStorageGroup({ records, r92Buffer, r94Buffer, readB
   r94Edge.afterSha256 = digest(formattedR92)
   const formattedR94 = biomeFormat(r94, '20261017-r94-final-machine-artifacts.json', context)
   demand(formattedR94.length <= 524_288, 'R94 exceeds 512 KiB after group formatting')
-  outputs.push({ kind: 'review', path: `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`, bytes: formattedR92 })
-  outputs.push({ kind: 'review', path: `${reviewDirRelative}/20261017-r94-final-machine-artifacts.json`, bytes: formattedR94 })
+  outputs.push({
+    kind: 'review',
+    path: `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`,
+    bytes: formattedR92,
+  })
+  outputs.push({
+    kind: 'review',
+    path: `${reviewDirRelative}/20261017-r94-final-machine-artifacts.json`,
+    bytes: formattedR94,
+  })
 
   return {
     outputs,
@@ -188,23 +226,21 @@ function r92EdgeIndex(stem) {
 
 /** Publish a prepared group into an explicit output tree (rehearsal only in S28). */
 export function publishReviewStorageGroup(prepared, targetRoot) {
-  demand(Array.isArray(prepared.outputs) && prepared.outputs.length > 0, 'prepared outputs required')
+  demand(
+    Array.isArray(prepared.outputs) && prepared.outputs.length > 0,
+    'prepared outputs required',
+  )
   const base = resolve(targetRoot)
   const written = []
   const lockPath = join(base, reviewDirRelative, '.storage.lock')
   mkdirSync(join(base, reviewDirRelative), { recursive: true })
   writeFileSync(lockPath, `${new Date().toISOString()}\n`, { flag: 'wx' })
-  try {
-    for (const output of prepared.outputs) {
-      const target = join(base, output.path)
-      mkdirSync(join(target, '..'), { recursive: true })
-      writeFileSync(target, output.bytes)
-      demand(digest(readFileSync(target)) === digest(output.bytes), `write drift: ${output.path}`)
-      written.push(output.path)
-    }
-  } catch (error) {
-    // interrupted publication keeps the lock and recovery material; readers must refuse
-    throw error
+  for (const output of prepared.outputs) {
+    const target = join(base, output.path)
+    mkdirSync(join(target, '..'), { recursive: true })
+    writeFileSync(target, output.bytes)
+    demand(digest(readFileSync(target)) === digest(output.bytes), `write drift: ${output.path}`)
+    written.push(output.path)
   }
   for (const output of prepared.outputs) {
     demand(

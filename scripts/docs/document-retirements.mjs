@@ -3,8 +3,8 @@ import { lstatSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
-import { readReviewRecordObject, loadReviewRecordFromGit } from './review-record-storage.mjs'
 import { markdownLinks } from './markdown.mjs'
+import { loadReviewRecordFromGit, readReviewRecordObject } from './review-record-storage.mjs'
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const object = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -173,7 +173,7 @@ export function inspectDocumentRetirements(
           revision: declaration.previousRegistry.revision,
           logicalPath: priorPath,
         }).record.entries.filter((row) => row.path === entry.path)
-      } catch (error) {
+      } catch {
         const priorReview = readSourceBuffer({
           revision: declaration.previousRegistry.revision,
           path: priorPath,

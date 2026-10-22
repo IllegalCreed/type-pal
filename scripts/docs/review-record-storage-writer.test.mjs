@@ -1,23 +1,33 @@
 // review-record-storage-writer.test.mjs — prepare/publish group contract tests:
 // same-revision Git loading, idempotent re-prepare, foreign concurrent input rejection,
 // descriptor/boundary shape enforcement, and lock semantics — all in temp trees.
-import { test } from 'node:test'
+
 import assert from 'node:assert/strict'
-import { execFileSync, spawnSync } from 'node:child_process'
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { prepareReviewStorageGroup, publishReviewStorageGroup } from './review-record-storage-writer.mjs'
 import { loadReviewRecord, loadReviewRecordFromGit } from './review-record-storage.mjs'
+import {
+  prepareReviewStorageGroup,
+  publishReviewStorageGroup,
+} from './review-record-storage-writer.mjs'
 
 const repoRoot = resolve(fileURLToPath(new URL('../..', import.meta.url)))
 const sha = (b) => createHash('sha256').update(b).digest('hex')
 const manifest = JSON.parse(
-  readFileSync('/tmp/type-pal-S28-GLM-review-storage-implementation/execution-manifest.json', 'utf8'),
+  readFileSync(
+    '/tmp/type-pal-S28-GLM-review-storage-implementation/execution-manifest.json',
+    'utf8',
+  ),
 )
-const git = (...a) => execFileSync('git', ['-C', repoRoot, ...a]).toString().trim()
+const git = (...a) =>
+  execFileSync('git', ['-C', repoRoot, ...a])
+    .toString()
+    .trim()
 const readBuffer = (p) => readFileSync(join(repoRoot, p))
 const records = () =>
   manifest.sourceReviewRecords.map((row) => ({
@@ -29,7 +39,9 @@ const records = () =>
   }))
 const group = () => ({
   records: records(),
-  r92Buffer: readBuffer('docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'),
+  r92Buffer: readBuffer(
+    'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json',
+  ),
   r94Buffer: readBuffer('docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'),
   readBuffer,
   context: { repoRoot },
@@ -68,7 +80,17 @@ test('publish writes into an explicit temp tree, releases the lock, and the grou
   // turn the tree into a real Git repo with one commit and load from that revision
   execFileSync('git', ['-C', dir, 'init', '-q'])
   execFileSync('git', ['-C', dir, 'add', '-A'])
-  execFileSync('git', ['-C', dir, '-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-qm', 'rehearsal'])
+  execFileSync('git', [
+    '-C',
+    dir,
+    '-c',
+    'user.email=t@t',
+    '-c',
+    'user.name=t',
+    'commit',
+    '-qm',
+    'rehearsal',
+  ])
   const head = execFileSync('git', ['-C', dir, 'rev-parse', 'HEAD']).toString().trim()
   const fromGit = loadReviewRecordFromGit({
     root: dir,
@@ -92,11 +114,19 @@ test('publish writes into an explicit temp tree, releases the lock, and the grou
 test('shard size and path boundary: every physical unit is ≤512KiB and lives under its own generation', () => {
   const prepared = prepareReviewStorageGroup(group())
   for (const output of prepared.outputs) {
-    assert.ok(output.bytes.length <= 524_288, `${output.path} exceeds 512KiB (${output.bytes.length})`)
+    assert.ok(
+      output.bytes.length <= 524_288,
+      `${output.path} exceeds 512KiB (${output.bytes.length})`,
+    )
     if (output.kind === 'shard') {
       const stem = output.path.split('/')[4]
       const generation = output.path.split('/')[5]
-      assert.match(output.path, new RegExp(`^docs/phase-governance/reviews/shards/${stem}/${generation}/part-\\d{3}\\.json$`))
+      assert.match(
+        output.path,
+        new RegExp(
+          `^docs/phase-governance/reviews/shards/${stem}/${generation}/part-\\d{3}\\.json$`,
+        ),
+      )
       assert.match(generation, /^[a-f\d]{64}$/)
     }
   }
