@@ -2,6 +2,7 @@ import { afterEach, expect, it } from 'vitest'
 import { getWord, setEnglishWordTable, setWordTable } from '../core/word-lookup.js'
 import { renderText } from '../present/font.js'
 import { createFramebuffer } from '../present/framebuffer.js'
+import { drawScriptDescription } from '../present/menu/draw-description.js'
 import { SMALL_FONT } from '../present/small-font.js'
 import { setLanguage } from './language.js'
 import { layoutFont, layoutPosition, setEnglishLayout } from './layout.js'
@@ -42,4 +43,14 @@ it('uses the English small label layout while leaving Chinese layout and glyphs 
   setLanguage('zh-CN')
   expect(layoutPosition(17, fallback)).toBe(fallback)
   expect(layoutFont(17)).toBeUndefined()
+})
+
+it('renders the full-width separators in a real English attribute description as blank space', () => {
+  setLanguage('en')
+  const fb = createFramebuffer()
+  drawScriptDescription(fb, ['Atk+28　Agi+12　Def+3'], 71, 151, 240, 0x3c)
+  const separator = Array.from({ length: 8 }, (_, y) =>
+    Array.from({ length: 15 }, (_, x) => fb.indices[(151 + y) * 320 + 120 + x]),
+  ).flat()
+  expect(separator).toEqual(Array<number>(120).fill(0))
 })

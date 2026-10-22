@@ -1,4 +1,5 @@
 import { getWord } from '../../core/word-lookup.js'
+import { drawScriptDescription } from './draw-description.js'
 /**
  * 物品列表与使用目标层；采用本项目中文 WIN95 菜单布局。
  *
@@ -356,9 +357,7 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
     const curItem = items.find((it) => it.id === curSlot.itemId)
     const sid = curItem?.scriptDesc ?? 0
     const lines = getScriptDescLines(sid)
-    for (let li = 0; li < lines.length; li++) {
-      renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
-    }
+    drawScriptDescription(fb, lines, 71, 151, 240, DESCTEXT_COLOR, glyphs)
   }
 
   // 目标层需要 live runtime 与角色名；draw-menu 负责注入，绘制不推进菜单状态。

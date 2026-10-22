@@ -1,4 +1,5 @@
 import { getWord } from '../../core/word-lookup.js'
+import { drawScriptDescription } from './draw-description.js'
 /**
  * World magic menu: caster/spell/target phases from SDLPal PAL_InGameMagicMenu.
  * The caller supplies catalogs and world runtime state; this module only paints.
@@ -205,9 +206,7 @@ function drawMagicDescription(
   const sel = state.spellMenu.items[state.spellMenu.cursor]
   const spell = sel ? spells.find((s) => s.id === sel.id) : undefined
   const lines = getScriptDescLines(spell?.scriptDesc ?? 0)
-  for (let i = 0; i < lines.length; i++) {
-    renderText(fb, lines[i]!, MAGIC_DESC_X, MAGIC_DESC_Y + i * 16, MAGIC_DESC_COLOR, glyphs, true)
-  }
+  drawScriptDescription(fb, lines, MAGIC_DESC_X, MAGIC_DESC_Y, 216, MAGIC_DESC_COLOR, glyphs)
 }
 
 // ── magic grid(magicmenu.c:228-275)─────────────────────────────────────

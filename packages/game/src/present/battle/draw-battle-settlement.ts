@@ -73,6 +73,8 @@ function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
 export interface DrawBattleSettlementInput {
   fb: Framebuffer
   screen: BattleSettlementScreen
+  /** Live rgwName identities, independent of the cached settlement text. */
+  roleNames?: readonly number[]
   uiSpriteFrames?: IndexedImage[]
   glyphs?: GlyphTable
 }
@@ -81,18 +83,31 @@ export interface DrawBattleSettlementInput {
 export function drawBattleSettlement(input: DrawBattleSettlementInput): void {
   const { fb, screen, uiSpriteFrames, glyphs } = input
   if (!uiSpriteFrames) return
+  const roleName = (data: { roleId: number; name: string }): string =>
+    getWord(input.roleNames?.[data.roleId] ?? -1, data.name)
   switch (screen.kind) {
     case 'exp-cash':
       drawExpCashScreen(fb, screen.expGained, screen.cashGained, uiSpriteFrames, glyphs)
       break
     case 'level-up':
-      drawLevelUpScreen(fb, screen.data, uiSpriteFrames, glyphs)
+      drawLevelUpScreen(fb, { ...screen.data, name: roleName(screen.data) }, uiSpriteFrames, glyphs)
       break
     case 'hidden-exp-up':
-      drawHiddenExpUpScreen(fb, screen.data, uiSpriteFrames, glyphs)
+      drawHiddenExpUpScreen(
+        fb,
+        { ...screen.data, name: roleName(screen.data) },
+        uiSpriteFrames,
+        glyphs,
+      )
       break
     case 'learn-magic':
-      drawLearnMagicScreen(fb, screen.data.name, screen.data.magicName, uiSpriteFrames, glyphs)
+      drawLearnMagicScreen(
+        fb,
+        roleName(screen.data),
+        getWord(screen.data.magicId ?? -1, screen.data.magicName),
+        uiSpriteFrames,
+        glyphs,
+      )
       break
   }
 }

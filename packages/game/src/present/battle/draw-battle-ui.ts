@@ -1,4 +1,5 @@
 import { getWord } from '../../core/word-lookup.js'
+import { drawScriptDescription } from '../menu/draw-description.js'
 /**
  * 战斗 UI 渲染 —— 1:1 忠实 port sdlpal PAL_CLASSIC `PAL_BattleUIUpdate`(uibattle.c:785-1767)。
  *
@@ -562,17 +563,7 @@ function drawMagicSelectGrid(
   // 仙术说明(magicmenu.c:191-205 WIN95 path):wScript = rgObject[wMagic].item.wScriptDesc,
   // 0xFFFF 描述行画在 MagicDescMsgPos(102,3)+line*16,DESCTEXT_COLOR。
   const description = getScriptDescLines(selectedSpell?.scriptDesc ?? 0)
-  for (let line = 0; line < description.length; line++) {
-    renderText(
-      fb,
-      description[line]!,
-      MAGIC_DESC_X,
-      MAGIC_DESC_Y + line * 16,
-      MAGIC_DESC_COLOR,
-      glyphs,
-      true,
-    )
-  }
+  drawScriptDescription(fb, description, MAGIC_DESC_X, MAGIC_DESC_Y, 216, MAGIC_DESC_COLOR, glyphs)
 
   drawSelectGridItems(fb, menu, glyphs, uiSpriteFrames, {
     cols: MAGIC_COLS,
@@ -642,9 +633,7 @@ function drawItemSelectGrid(
   if (icon) blitSpriteOpaque(fb, icon, ITEMBOX_X + 8, ITEMBOX_Y + 7)
 
   const description = getScriptDescLines(item.scriptDesc)
-  for (let line = 0; line < description.length; line++) {
-    renderText(fb, description[line]!, 71, 151 + line * 16, ITEM_DESC_COLOR, glyphs, true)
-  }
+  drawScriptDescription(fb, description, 71, 151, 240, ITEM_DESC_COLOR, glyphs)
 }
 
 interface GridLayout {

@@ -44,6 +44,8 @@ export interface LearnMagicScreenData {
   name: string
   /** 法术名渲染串(spell._name)。 */
   magicName: string
+  /** Display identity retained so an already-created screen can follow the language preference. */
+  magicId?: number
 }
 
 /** E04 隐藏属性涨点屏数据(sdlpal CHECK_HIDDEN_EXP box,battle.c:1264-1273)。 */
@@ -141,7 +143,7 @@ export function buildBattleWonSettlement(
         magicId,
         res.spells.find((s) => s.id === magicId)?._name ?? `magic#${magicId}`,
       )
-      screens.push({ kind: 'learn-magic', data: { roleId: r.roleId, name, magicName } })
+      screens.push({ kind: 'learn-magic', data: { roleId: r.roleId, name, magicName, magicId } })
     }
   }
 

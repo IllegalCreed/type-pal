@@ -1,3 +1,4 @@
+import { getLanguage } from '../../localization/language.js'
 /**
  * 大世界菜单的呈现装配：按栈顺序画底层菜单和顶层弹框，只写 framebuffer。
  * state 与异步存档元数据归 core/menu-driver 所有；本层每帧读取当前快照。
@@ -292,7 +293,10 @@ function drawSystemMenu(
   }
   // 音乐/音效:选中进 switch 阶段 → 叠 2 项 关/开 选框(sdlpal PAL_SwitchMenu,uigame.c:368-388;关=index0,开=index1)。
   else if (state.phase === 'switch') {
-    drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs, { left: '关', right: '开' })
+    drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs, {
+      left: getWord(17, '关'),
+      right: getWord(18, '开'),
+    })
   }
 }
 
@@ -393,7 +397,7 @@ function drawSaveSlotMenu(
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(
       fb,
-      getWord(42 + item.id, item.label),
+      getLanguage() === 'en' && item.id >= 1 && item.id <= 5 ? getWord(42 + item.id, item.label) : item.label,
       SAVE_SLOT_BOX_X + SAVE_SLOT_LABEL_OFFSET.x,
       boxY + SAVE_SLOT_LABEL_OFFSET.y,
       color,

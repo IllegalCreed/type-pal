@@ -145,6 +145,8 @@ for (let cp = 32; cp < ROWS.length; cp++) {
   }
   glyphs.set(cp, { width: 8, height: 8, bitmap })
 }
+// The original English descriptions use ideographic spaces between attribute values.
+glyphs.set(0x3000, { width: 16, height: 8, bitmap: new Uint8Array(16) })
 
 export const SMALL_FONT: GlyphTable = {
   has: (cp) => glyphs.has(cp),

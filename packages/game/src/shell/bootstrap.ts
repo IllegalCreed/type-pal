@@ -7,6 +7,7 @@ import type {
   SceneEventObject,
   Tilemap,
 } from '@type-pal/shared'
+import { loadEnglishLanguage } from '../assets/language-pack.js'
 import {
   fetchPalette,
   type SceneAssets,
@@ -71,7 +72,7 @@ import { createBuyMenu } from '../core/menu/shop-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
 import { Save } from '../core/save/api.js'
 import { isWalkable, setCurrentMapNum, setSceneContext } from '../core/scene-system.js'
-import { setWordTable } from '../core/word-lookup.js'
+import { setEnglishWordTable, setWordTable } from '../core/word-lookup.js'
 import {
   type BattleFixturesData,
   type SceneJumpsData,
@@ -81,6 +82,9 @@ import {
 import battleFixturesRaw from '../dev/fixtures/battle-fixtures.json' with { type: 'json' }
 import sceneJumpsRaw from '../dev/fixtures/scene-jumps.json' with { type: 'json' }
 import sceneNamesRaw from '../dev/fixtures/scene-names.json' with { type: 'json' }
+import { localize, useFallbackLanguage } from '../localization/language.js'
+import { setEnglishLayout } from '../localization/layout.js'
+import { setEnglishMessages } from '../localization/messages.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
 import { toSpriteImages } from '../present/draw-sprite.js'
@@ -248,7 +252,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // M4 P4.T3: loadGlyphs 与 loadAll 并行加载(glyphs.json 7.8MB,不阻塞 tiles/sprites)。
   // glyphs 加载失败则 warn + 继续(所有文字退化为 tofu 占位,不影响游戏可运行性)。
   // M5 Sync.2: dialog 资产(portrait RGM 92 + DATA chunk 12 icon sprite group)并行加载。
-  const { assets, glyphs, dialogAssets } = await resourcesReady
+  const [{ assets, glyphs, dialogAssets }, englishPack] = await Promise.all([
+    resourcesReady,
+    loadEnglishLanguage().catch(() => undefined),
+  ])
+  setEnglishWordTable(englishPack?.words ?? {})
+  setEnglishMessages(englishPack?.groups ?? [])
+  setEnglishLayout(englishPack?.layout ?? {})
+  if (!englishPack) useFallbackLanguage('zh-CN')
 
   const {
     tilemap,
@@ -1097,10 +1108,17 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   })
   const displayScale = createDisplayScaleController(canvas, deps?.gameShell)
   setupToolsPanel({
+    languageAvailable: englishPack !== undefined,
     onOpenChange: (open) => deps?.gameShell?.setToolsOpen(open),
     openPrivacySettings: deps?.openPrivacySettings,
     getGs: () => gs,
-    getResources: () => ({ playerRoles, objectPoisons, items, levelUpExp: assets.levelUpExp }),
+    getResources: () => ({
+      playerRoles,
+      objectPoisons,
+      items,
+      enemyObjects,
+      levelUpExp: assets.levelUpExp,
+    }),
     displayScale,
     audioVolume,
     musicSource,
@@ -1865,7 +1883,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // 慢网下进度计数会停在最后一格等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
   // 否则 1.mp4 在 loading 覆盖层底下开播。(大小不写死:音色库可换,2026-06-12 已从 32MB
   // GeneralUser GS 换 6MB TimGM6mb,见 public/soundfont-LICENSE.txt)
-  if (initialMusicSource === 'midi') setBootLoadingNote('音色库')
+  if (initialMusicSource === 'midi') setBootLoadingNote(localize('音色库', 'Soundfont'))
   await soundfontSettled
   setBootLoadingNote('')
 
