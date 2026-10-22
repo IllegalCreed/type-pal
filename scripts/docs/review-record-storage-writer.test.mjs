@@ -70,7 +70,7 @@ test('prepare refuses when any source identity drifts (foreign concurrent change
 test('publish writes into an explicit temp tree, releases the lock, and the group materializes from a committed copy at one revision', () => {
   const dir = mkdtempSync(join(tmpdir(), 'rrs-writer-'))
   const prepared = prepareReviewStorageGroup(group())
-  const published = publishReviewStorageGroup(prepared, dir)
+  const published = publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
   assert.equal(published.written, 29)
   assert.equal(published.lockReleased, true)
   for (const row of manifest.sourceReviewRecords) {
@@ -106,7 +106,7 @@ test('publish writes into an explicit temp tree, releases the lock, and the grou
         revision: head,
         logicalPath: 'docs/phase-governance/reviews/nonexistent.json',
       }),
-    /manifest missing|shard missing|not a review/,
+    /Git review missing/,
   )
   rmSync(dir, { recursive: true, force: true })
 })
@@ -135,9 +135,9 @@ test('shard size and path boundary: every physical unit is ≤512KiB and lives u
 test('re-publishing the same prepared group over its own output tree is byte-idempotent', () => {
   const dir = mkdtempSync(join(tmpdir(), 'rrs-idem-'))
   const prepared = prepareReviewStorageGroup(group())
-  publishReviewStorageGroup(prepared, dir)
+  publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
   const before = snapshot(dir)
-  publishReviewStorageGroup(prepared, dir)
+  publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
   assert.deepEqual(snapshot(dir), before)
   rmSync(dir, { recursive: true, force: true })
 })
