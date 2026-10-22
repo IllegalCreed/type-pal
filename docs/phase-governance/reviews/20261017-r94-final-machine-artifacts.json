@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
+      "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "69ec41e358ee8602c8b2c13f910b17e6ea52c2ecf27eb3e913df90753c5f437a",
+      "afterSha256": "013cf92f10ad1a64fd645d8c223fb49641c4b9ffb3e08cce2835f9d68dc74420",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "69ec41e358ee8602c8b2c13f910b17e6ea52c2ecf27eb3e913df90753c5f437a",
+        "implementationSha": "013cf92f10ad1a64fd645d8c223fb49641c4b9ffb3e08cce2835f9d68dc74420",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1805,12 +1805,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json",
+        "kind": "codex-owned-pre94-3h-assets-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "69ec41e358ee8602c8b2c13f910b17e6ea52c2ecf27eb3e913df90753c5f437a",
-        "lineCount": 18600,
+        "afterSha256": "013cf92f10ad1a64fd645d8c223fb49641c4b9ffb3e08cce2835f9d68dc74420",
+        "lineCount": 18660,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -3842,6 +3842,45 @@
           "afterSha256": "69ec41e358ee8602c8b2c13f910b17e6ea52c2ecf27eb3e913df90753c5f437a",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-freeze",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "69ec41e358ee8602c8b2c13f910b17e6ea52c2ecf27eb3e913df90753c5f437a",
+            "lineCount": 18600,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+          "previousAfterSha256": "69ec41e358ee8602c8b2c13f910b17e6ea52c2ecf27eb3e913df90753c5f437a",
+          "afterSha256": "013cf92f10ad1a64fd645d8c223fb49641c4b9ffb3e08cce2835f9d68dc74420",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
         }
       ],
       "supersedes": [
@@ -3849,7 +3888,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Only approved UI task, three review ledger rows, current counts, generated index and owned descendant pins",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

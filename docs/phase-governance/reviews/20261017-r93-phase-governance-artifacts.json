@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
+      "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "98e4003df53e3ad0016875d893c56204622dadb8d318f126f90b1b2c3d42a19c",
+      "afterSha256": "437490d1c9dd1ae10384b5285c8fb7ec1732aec06c9f34d8c2d15b229f754405",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "98e4003df53e3ad0016875d893c56204622dadb8d318f126f90b1b2c3d42a19c",
+        "implementationSha": "437490d1c9dd1ae10384b5285c8fb7ec1732aec06c9f34d8c2d15b229f754405",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1773,12 +1773,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json",
+        "kind": "codex-owned-pre94-3h-assets-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "98e4003df53e3ad0016875d893c56204622dadb8d318f126f90b1b2c3d42a19c",
-        "lineCount": 4490,
+        "afterSha256": "437490d1c9dd1ae10384b5285c8fb7ec1732aec06c9f34d8c2d15b229f754405",
+        "lineCount": 4516,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -2988,6 +2988,36 @@
           "afterSha256": "98e4003df53e3ad0016875d893c56204622dadb8d318f126f90b1b2c3d42a19c",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-freeze",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json",
+            "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+            "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+            "afterSha256": "98e4003df53e3ad0016875d893c56204622dadb8d318f126f90b1b2c3d42a19c",
+            "lineCount": 4490,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 110121,
+              "sourceLines": 1987,
+              "sourceFinalNewline": true,
+              "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+          "previousAfterSha256": "98e4003df53e3ad0016875d893c56204622dadb8d318f126f90b1b2c3d42a19c",
+          "afterSha256": "437490d1c9dd1ae10384b5285c8fb7ec1732aec06c9f34d8c2d15b229f754405",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
         }
       ],
       "supersedes": [
@@ -2995,7 +3025,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Only approved UI task, three review ledger rows, current counts, generated index and owned descendant pins",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -6897,9 +6927,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
+      "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -6920,7 +6950,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
+      "afterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6944,7 +6974,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
+        "implementationSha": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -7608,12 +7638,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json",
+        "kind": "codex-owned-pre94-3h-assets-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
-        "lineCount": 6660,
+        "afterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
+        "lineCount": 6673,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -8844,6 +8874,36 @@
           "afterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-freeze",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json",
+            "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "afterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
+            "lineCount": 6660,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 302305,
+              "sourceLines": 5074,
+              "sourceFinalNewline": true,
+              "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+          "previousAfterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
+          "afterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
         }
       ],
       "supersedes": [
@@ -8851,7 +8911,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Only approved UI task, three review ledger rows, current counts, generated index and owned descendant pins",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

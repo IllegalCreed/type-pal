@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
-      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+      "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
+      "afterSha256": "2a7f380b37bcf58742a9b092e204cbbf92a9ab6078236f55150cb32e4ed12005",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
+        "implementationSha": "2a7f380b37bcf58742a9b092e204cbbf92a9ab6078236f55150cb32e4ed12005",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,8 +4146,8 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        "kind": "codex-owned-pre94-3h-assets-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
       },
       "history": [
         {
@@ -5031,6 +5031,19 @@
           "afterSha256": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-freeze",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+          "previousAfterSha256": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
+          "afterSha256": "2a7f380b37bcf58742a9b092e204cbbf92a9ab6078236f55150cb32e4ed12005",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
         }
       ],
       "supersedes": [
@@ -5047,7 +5060,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Only approved UI task, three review ledger rows, current counts, generated index and owned descendant pins",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
