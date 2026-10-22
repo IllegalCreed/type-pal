@@ -109,11 +109,13 @@ function validateManifestShape(buffer, logicalPath) {
   const source = storage.source
   demand(
     isObject(source) &&
+      Object.keys(source).length === 4 &&
+      Object.keys(source).every((k) => ['revision', 'path', 'gitObject', 'sha256'].includes(k)) &&
       /^[a-f\d]{40}$/.test(source.revision ?? '') &&
       source.path === logicalPath &&
       /^[a-f\d]{40}$/.test(source.gitObject ?? '') &&
       /^[a-f\d]{64}$/.test(source.sha256 ?? ''),
-    'source pin must be the fixed flat Git carrier identity',
+    'source pin must have exactly 4 keys (revision/path/gitObject/sha256) with valid values',
   )
   demand(
     Number.isSafeInteger(storage.totalEntries) && storage.totalEntries >= 0,
@@ -393,28 +395,35 @@ export function loadReviewRecord({ root, logicalPath }) {
     }
   }
   const { record, storage } = materializeReviewRecord(logicalPath, { readBuffer })
-  const files = [logicalPath, ...storage.shards.map((d) => `${reviewDirRelative}/${d.path}`)].map(
-    (path) => {
-      const bytes = readBuffer(path)
-      demand(bytes !== undefined, `shard went missing during read: ${path}`)
-      demand(
-        JSON.stringify(snapshotPath(absolute(path))) !== 'null',
-        `shard is not an ordinary file: ${path}`,
-      )
-      return { path, sha256: digest(bytes) }
-    },
-  )
+  // C03: loadedSource from the same materialization read — no second sampling pass
+  const files = [{ path: logicalPath, sha256: digest(raw) }]
+  for (const d of storage.shards) {
+    const shardPath = `${reviewDirRelative}/${d.path}`
+    const bytes = readBuffer(shardPath)
+    demand(bytes !== undefined, `shard went missing during read: ${shardPath}`)
+    files.push({ path: shardPath, sha256: digest(bytes) })
+  }
   checkLock(lockPath)
   demand(
     JSON.stringify(snapshotPath(absolute(logicalPath))) === JSON.stringify(inputSnapshot),
     `manifest changed during read: ${logicalPath}`,
   )
+  // C03: reconcile physical shard directories against descriptor set
+  const { artifacts, issues: reconcileIssues } = reconcileShardDirectories(logicalPath, storage, {
+    resolve: (p) => join(base, p),
+  })
+  if (reconcileIssues.length > 0) {
+    throw new Error(
+      `review-record-storage: shard reconciliation failed for ${logicalPath}: ${reconcileIssues.join('; ')}`,
+    )
+  }
   return {
     record,
     storage,
     loadedSource: Object.freeze({
       manifestPath: absolute(logicalPath),
       files: Object.freeze(files),
+      artifactSet: Object.freeze(artifacts),
     }),
   }
 }
@@ -435,12 +444,13 @@ export function readReviewRecordObject(logicalPath, context = {}) {
   demand(typeof readBuffer === 'function', 'readBuffer provider required')
   const buffer = readBuffer(logicalPath)
   demand(buffer !== undefined && buffer !== null, `review missing: ${logicalPath}`)
-  if (buffer.includes(Buffer.from(reviewStorageMarker))) {
+  const parsed = parseTerminalJson(buffer)
+  demand(isObject(parsed), `review not an object: ${logicalPath}`)
+  if (Object.hasOwn(parsed, reviewStorageMarker)) {
     return materializeReviewRecord(logicalPath, { readBuffer }).record
   }
-  const flat = parseTerminalJson(buffer)
-  demand(isObject(flat) && Array.isArray(flat.entries), `unsupported review shape: ${logicalPath}`)
-  return flat
+  demand(Array.isArray(parsed.entries), `unsupported review shape: ${logicalPath}`)
+  return parsed
 }
 
 // ---------- Git loader (C03: same-revision, Git-flat first-class) ----------

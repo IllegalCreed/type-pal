@@ -2,7 +2,6 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry.mjs'
 import { readReviewRecordObject } from './review-record-storage.mjs'
-import { assertWritableReviewSelection } from './review-record-storage-guards.mjs'
 
 const root = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(root, 'docs/phase-governance/document-registry.json')
@@ -10,19 +9,24 @@ const { registry, loadedSource } = loadDocumentRegistry({ manifestPath: registry
 const reviews = new Map()
 const reviewDir = resolve(root, 'docs/phase-governance/reviews')
 const reviewNames = readdirSync(reviewDir).filter((name) => name.endsWith('.json'))
-// C04: legacy flat files pass the write guard; thin manifests are read-only for this sync
-// (the storage writer owns manifest mutations). Both shapes are materialized below.
+// C04: sync always checks the review storage lock first (manifest or not), then
+// fully validates every review by materialization (flat or manifest) before any registry write.
 const reviewSelection = reviewNames.map((name) => `docs/phase-governance/reviews/${name}`)
-const manifestPaths = reviewSelection.filter((p) => {
-  const bytes = readFileSync(resolve(root, p))
-  return bytes.includes(Buffer.from('_reviewStorage'))
+const { reviewStorageGuardIssues } = await import('./review-record-storage-guards.mjs')
+const lockIssues = reviewStorageGuardIssues(reviewSelection, {
+  readBuffer: (p) => readFileSync(resolve(root, p)),
+  resolve: (p) => resolve(root, p),
 })
-// sync fully validates by materializing every review (flat or manifest) below; the write guard
-// applies only to flat files that would be mutated by registry sync
-if (manifestPaths.length === 0) {
-  assertWritableReviewSelection(reviewSelection, {
+const blockingLockIssues = lockIssues.filter((issue) => issue.includes('lock present'))
+if (blockingLockIssues.length > 0) {
+  throw new Error(
+    `sync: refusing to write registry — review storage lock present:\n${blockingLockIssues.join('\n')}`,
+  )
+}
+// Full materialization validates every review (flat or manifest) before the first registry write
+for (const name of reviewNames) {
+  readReviewRecordObject(`docs/phase-governance/reviews/${name}`, {
     readBuffer: (p) => readFileSync(resolve(root, p)),
-    resolve: (p) => resolve(root, p),
   })
 }
 for (const file of reviewNames) {

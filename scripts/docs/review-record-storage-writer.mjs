@@ -19,6 +19,7 @@ import {
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
+import { isDeepStrictEqual } from 'node:util'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import {
   hasLossyJsonValue,
@@ -102,6 +103,15 @@ function validateFormattedOutput(formatted, expectedValue, label, path) {
   } catch (error) {
     throw new Error(`formatted output is not strict JSON (${error.message}): ${path}`)
   }
+  // C02: actual deepStrictEqual (not just stringify comparison)
+  demand(
+    isDeepStrictEqual(reparsed, expectedValue),
+    `formatted output deepStrictEqual mismatch (${label}): ${path}`,
+  )
+  demand(
+    !hasLossyJsonValue(reparsed),
+    `formatted output contains lossy values after format (${label}): ${path}`,
+  )
   const originalJson = JSON.stringify(expectedValue)
   const reparsedJson = JSON.stringify(reparsed)
   demand(originalJson === reparsedJson, `formatted output loses logical value (${label}): ${path}`)
@@ -280,11 +290,16 @@ export function prepareReviewStorageGroup({
     validateFormattedOutput(formattedManifest, manifestValue, 'manifest', logicalPath)
     outputs.push({ kind: 'manifest', path: logicalPath, bytes: formattedManifest })
 
-    // R92 edge
+    // R92 edge — C02: validate the BEFORE pin matches actual source bytes before overwriting
     const stemShort = stem
     const edgeIndex = r92EdgeIndex(stemShort)
     const edge = r92.entries[edgeIndex]
     demand(edge.path === logicalPath, `R92 edge target mismatch at ${edgeIndex}: ${edge.path}`)
+    const expectedBefore = digest(flatBuffer)
+    demand(
+      edge.afterSha256 === expectedBefore,
+      `R92 edge ${edgeIndex} before-pin ${edge.afterSha256} != actual source SHA ${expectedBefore}`,
+    )
     r92Edges.push({ index: edgeIndex, target: logicalPath, before: edge.afterSha256 })
     edge.afterSha256 = digest(formattedManifest)
   }
@@ -297,6 +312,11 @@ export function prepareReviewStorageGroup({
     'R94[6] edge target mismatch',
   )
   const r94EdgeBefore = r94Edge.afterSha256
+  // C02: validate R94[6] before-pin matches actual R92 buffer SHA before overwriting
+  demand(
+    r94EdgeBefore === digest(r92Buffer),
+    `R94[6] before-pin ${r94EdgeBefore} != actual R92 buffer SHA ${digest(r92Buffer)}`,
+  )
   r94Edge.afterSha256 = digest(formattedR92)
   const formattedR94 = biomeFormat(r94, '20261017-r94-final-machine-artifacts.json', context)
   validateFormattedOutput(formattedR94, r94, 'R94', 'R94')
@@ -311,6 +331,12 @@ export function prepareReviewStorageGroup({
     bytes: formattedR94,
   })
 
+  // C01: snapshot must include R92/R94 source buffers for publish-time recheck
+  const R92_LOGICAL = `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`
+  const R94_LOGICAL = `${reviewDirRelative}/20261017-r94-final-machine-artifacts.json`
+  expectedSourceSnapshot[R92_LOGICAL] = digest(r92Buffer)
+  expectedSourceSnapshot[R94_LOGICAL] = digest(r94Buffer)
+
   return {
     outputs,
     group: {
@@ -321,6 +347,7 @@ export function prepareReviewStorageGroup({
       totalEntries: FROZEN_REVIEW_STORAGE_TOTAL,
     },
     expectedSourceSnapshot,
+    provenance: gitVerifiedSources ? 'git-verified' : 'pure-fixture',
   }
 }
 
@@ -350,6 +377,11 @@ export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
   const base = resolve(targetRoot)
   const sourceReader = options.sourceReadBuffer
   demand(typeof sourceReader === 'function', 'source readBuffer required for input recheck (C01)')
+  // C02: pure-fixture prepared results cannot claim Git-verified provenance
+  demand(
+    prepared.provenance !== undefined,
+    'prepared result must declare provenance (git-verified or pure-fixture)',
+  )
 
   // C01: validate all output paths are safe and within the owned target root
   const targetFiles = new Set()
@@ -378,10 +410,36 @@ export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
     demand(digest(current) === expectedSha, `source changed during prepare→publish: ${path}`)
   }
 
+  // C01: validate all parent directories are ordinary directories (not symlinks)
+  const targetReviewDir = join(base, reviewDirRelative)
+  mkdirSync(targetReviewDir, { recursive: true })
+  const targetShardsDir = join(targetReviewDir, 'shards')
+  if (statIfExists(targetShardsDir)) {
+    demand(
+      statSync(targetShardsDir).isDirectory() && !statSync(targetShardsDir).isSymbolicLink(),
+      'target shards/ exists but is not an ordinary directory',
+    )
+    for (const stem of new Set(
+      prepared.outputs.filter((o) => o.kind === 'shard').map((o) => o.path.split('/')[4]),
+    )) {
+      const stemDir = join(targetShardsDir, stem)
+      if (statIfExists(stemDir))
+        demand(statSync(stemDir).isDirectory(), `target stem dir not ordinary: ${stem}`)
+    }
+  }
+  // C01: verify target manifest/R92/R94 absent or byte-identical to expected outputs
+  for (const output of prepared.outputs) {
+    if (output.kind === 'shard') continue
+    const targetPath = join(base, output.path)
+    if (statIfExists(targetPath)) {
+      const existing = readFileSync(targetPath)
+      demand(existing.equals(output.bytes), `target already has different bytes: ${output.path}`)
+    }
+  }
+
   // C01: stage in owned temp directory
   const stagingDir = mkdtempSync(join(tmpdir(), 'rrs-publish-'))
-  const lockPath = join(base, reviewDirRelative, '.storage.lock')
-  mkdirSync(join(base, reviewDirRelative), { recursive: true })
+  const lockPath = join(targetReviewDir, '.storage.lock')
 
   // C01: exclusive lock then full recheck
   try {
@@ -458,9 +516,10 @@ export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
       )
     }
   } catch (error) {
-    // leave lock in place on failure — readers must refuse half-published state
-    rmSync(stagingDir, { recursive: true, force: true })
-    throw error
+    // C01: leave lock AND staging in place on failure — recovery materials preserved
+    throw new Error(
+      `review-record-storage-writer: publish failed (lock+staging preserved at ${stagingDir}): ${error.message}`,
+    )
   }
 
   // C01: post-publish full group verification

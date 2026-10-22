@@ -204,12 +204,8 @@ export function inspectDocumentRetirements(
             active.get(row.path)?.reviewRecord === row.reviewRecord,
           `retirement replacement missing or rebound: ${row.path}`,
         )
-        const rawReview = readBuffer(`docs/phase-governance/reviews/${row.reviewRecord}`)
-        const review = rawReview
-          ? readReviewRecordObject(`docs/phase-governance/reviews/${row.reviewRecord}`, {
-              readBuffer: (p) => readBuffer(p) ?? readFileSync(resolve(root, p)),
-            })
-          : null
+        const reviewPath = `docs/phase-governance/reviews/${row.reviewRecord}`
+        const review = readReviewRecordObject(reviewPath, { readBuffer })
         demand(
           review?.entries?.filter((candidate) => candidate.path === row.path).length === 1,
           `retirement replacement review not unique: ${row.path}`,
