@@ -49,7 +49,7 @@ import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
 import { drawNumber } from '../draw-number.js'
-import { type GlyphTable, renderText } from '../font.js'
+import { type GlyphTable, palWordWidth, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
 import { drawInventoryMenu } from './draw-inventory.js'
@@ -241,11 +241,13 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     fb,
     x: EQUIP_ROLE_LIST_BOX.x,
     y: EQUIP_ROLE_LIST_BOX.y,
-    // sdlpal uigame.c:1920 真值:nColumns = PAL_WordMaxWidth(36, 4) - 1。
-    // 角色名 36-39(李逍遥/赵灵儿/林月如/阿奴)最宽 3 全角字 → (3*16+8)>>4 = 3 → 3-1 = 2。
-    // 之前写死 4 → 框过宽,右边框盖住装备槽文字(user 2026-05-28 发现)。
+    // SDLPal uigame.c:1920 sizes WORD 36..39 with PAL_WordMaxWidth - 1.
+    // English uses half-width glyphs: the current seven-letter maximum needs 3 columns.
     rows: state.partyMembers.length - 1,
-    cols: getLanguage() === 'en' ? 4 : 2,
+    cols:
+      getLanguage() === 'en'
+        ? Math.max(1, ...[36, 37, 38, 39].map((id) => palWordWidth(getWord(id)) - 1))
+        : 2,
     style: 0,
     uiSpriteFrames,
   })
