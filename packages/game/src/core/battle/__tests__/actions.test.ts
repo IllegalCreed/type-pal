@@ -1095,7 +1095,7 @@ describe('performFlee', () => {
     const { state, gs } = makeState({
       role: { fleeRate: 0 },
       // SHORT(累加结果) < 0 → def=0;rng(0,0)=0;str=0 >= 0 → 命中(修复版字段=敌吉运)
-      enemies: [{ level: 1, fleeRate: -32700 }],
+      enemies: [{ level: 1, fleeRate: 32836 }], // 合法WORD值，SHORT视图为-32700
       forceRoll: 0,
     })
     performFlee(state, gs, 0)
@@ -1124,7 +1124,7 @@ describe('performFlee', () => {
     const { state, gs } = makeState({
       role: { fleeRate: 0 }, // runtime base = 0
       equipFleeRate: 50, // 装备槽 0 授 +50
-      enemies: [{ level: 1, dexterity: 0 }], // def = 0 + (1+6)*4 = 28
+      enemies: [{ level: 1, fleeRate: 0, dexterity: 0 }], // def = 0 + (1+6)*4 = 28
       forceRoll: 28, // roll=28;base-only str=0 < 28 失败,equip-aware str=50 >= 28 成功
     })
     performFlee(state, gs, 0)
@@ -1143,10 +1143,7 @@ describe('performFlee', () => {
     })
     state.enemies[1]!.defeated = true
     let capturedHi = -1
-    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = (
-      _lo,
-      hi,
-    ) => {
+    state.rng.rangeInclusive = (_lo, hi) => {
       capturedHi = hi
       return 0
     }
@@ -1155,7 +1152,7 @@ describe('performFlee', () => {
     expect(state.fleeAnim).toBeDefined() // str 28 >= roll 0
   })
 
-  // ── DM5:boss 战逃跑恒消费 RNG 并走失败演出(fight.c:4143 掷骰为 && 左操作数;4155-4170 失败分支)──
+  // ── DM5:boss 战仍请求范围掷骰并走失败演出(fight.c:4143 掷骰为 && 左操作数;4155-4170 失败分支)──
   it('DM5:isBoss 仍消费一次掷骰,走失败动画 + FleeExp.wCount+=2', () => {
     const { state, bus, gs } = makeState({
       role: { fleeRate: 9999 }, // str 必胜 roll,但 isBoss → 必失败
@@ -1164,13 +1161,13 @@ describe('performFlee', () => {
     })
     state.players[0]!.posOriginal = { x: 100, y: 100 }
     let rolls = 0
-    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = () => {
+    state.rng.rangeInclusive = () => {
       rolls++
       return 0
     }
     const before = gs.Exp.rgFleeExp[0]?.wCount ?? 0
     performFlee(state, gs, 0, bus)
-    expect(rolls).toBe(1) // RandomLong(0,def) 恒消费(原 bug:顶部提前 return 不掷)
+    expect(rolls).toBe(1) // 非空区间确实发起一次范围请求(原顶部提前return会跳过)
     expect(state.fleeAnim).toBeUndefined() // 不成功
     expect(state.battleAnim).toBeDefined() // 失败演出(3 步右下挪 + 帧1)
     expect(gs.Exp.rgFleeExp[0]?.wCount ?? 0).toBe(before + 2)

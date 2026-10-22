@@ -109,7 +109,10 @@ export interface HBattle {
   drain: () => BusEntry[]
 }
 
-/** 用公开工厂 createInitialGameState + createBattleState 搭一场可结算/可派发的战斗。 */
+/**
+ * 公开工厂构造BattleState及直接角色输入；不hydrate运行态，也不安装完整startBattle资源。
+ * 需要这些前提的结算/宿主测试须走真实初始化，不能把本helper当完整开战。
+ */
 export function makeHBattle(opts: MakeHBattleOpts = {}): HBattle {
   const roles = opts.roles ?? [makeHRole(0)]
   const party = opts.party ?? roles.map((r) => r.id)
