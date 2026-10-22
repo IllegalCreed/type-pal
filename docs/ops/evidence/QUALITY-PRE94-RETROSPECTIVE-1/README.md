@@ -1,5 +1,9 @@
 # 94前全部治理成果复审
 
+2026-10-22 [3w全角色临时加成窄修](3w-post-scripts/extra-cleanup-fix.json)：另获明确批准后正式单红→236实际定向/相邻绿与game TC0，永久装备效果保留。新测试只记review，3356/373closed/114review/2869pending；61accept/22partial，当前全仓/覆盖率留模块收尾，不沿用旧产品门。
+
+2026-10-22 [3w清理输入域反证](3w-post-scripts/extra-reachability.json)：真实V1导入/内存槽→开战脚本换队→大蒜→逃跑后，离队角色临时毒抗仍残留；只读快检与完整原件齐。仅已接受改动存档域，不声称普通剧情复现；当时清理策略待裁决，当前另批窄修与新计数见上一条；不声称普通剧情复现。
+
 2026-10-22 [3c动画回归与账本纠偏](3c/closeout.json)、[92工程纠错](92/closeout.json)、[3w解释器ownership文案](3w-post-scripts/ownership-current.json)：两原合同据证接受，61accept/22partial；Workbench整文件旧关闭漂移已恢复review，账本373/113/2869。无测试/覆盖率新采集，全部执行正文相同；[只读快检](3c/verify-closeout.mjs)核绑定/原件/三枚业务反控和30源码新比对。最终文档静态/集成另看父卡与实际refs。
 
 2026-10-22 [战斗物品目标角色](game-item-role-context.json)：3w写入链反证及用户批准；[当前修复/八维](game-item-role-context-review.json)含role0/4、all与8D投影，289相邻/3724整包及集中源门通过；整文件/非队员Extra未知不附带关闭。

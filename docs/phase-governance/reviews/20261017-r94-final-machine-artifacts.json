@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only owned3c/92 acceptance and Workbench withdrawal correction on current board/ledger plus named descendant pins; unrelated body reused",
+      "readMethod": "Read owned3w approved two-file fix/evidence and exact board/ledger/index delta;preserve unrelated entries",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
+      "coreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "75cd2789ccd3e8e73393cddabaf86459122288bcc31aa269e23ae234911d0882",
+      "afterSha256": "071a9bfefc06330000c164a2ff319ac05bfe7f9109da9ef6d92b7d9a566a95c0",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "75cd2789ccd3e8e73393cddabaf86459122288bcc31aa269e23ae234911d0882",
+        "implementationSha": "071a9bfefc06330000c164a2ff319ac05bfe7f9109da9ef6d92b7d9a566a95c0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1805,12 +1805,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3c-92-closeout-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json",
+        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "75cd2789ccd3e8e73393cddabaf86459122288bcc31aa269e23ae234911d0882",
-        "lineCount": 18090,
+        "afterSha256": "071a9bfefc06330000c164a2ff319ac05bfe7f9109da9ef6d92b7d9a566a95c0",
+        "lineCount": 18240,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -3452,6 +3452,123 @@
           "afterSha256": "75cd2789ccd3e8e73393cddabaf86459122288bcc31aa269e23ae234911d0882",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-initial",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3c-92-closeout-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "75cd2789ccd3e8e73393cddabaf86459122288bcc31aa269e23ae234911d0882",
+            "lineCount": 18090,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
+          "previousAfterSha256": "75cd2789ccd3e8e73393cddabaf86459122288bcc31aa269e23ae234911d0882",
+          "afterSha256": "cbde645e5836696794df254ac19a3b0397a4e02f4b85346a03bd84f33b29788d",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-approved-fix",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-accepted-input-counter",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "cbde645e5836696794df254ac19a3b0397a4e02f4b85346a03bd84f33b29788d",
+            "lineCount": 18150,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Accepted modifiedV1 import -> original setParty -> old fighter target garlic -> actual flee -> getter/export residual30 proven by two isolated core runs,not canonical story/UI/nativeSDL. New all-role temporary Extra cleanup policy pending;product unchanged.61accept22partial and373closed113review2869pending unchanged. Current document statics separate;no new coverage collection.",
+          "previousAfterSha256": "cbde645e5836696794df254ac19a3b0397a4e02f4b85346a03bd84f33b29788d",
+          "afterSha256": "723a011b26f23997d59f606cc44bb3381bd17e090a52340664493e6befa6d2b0",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-tally-fix",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "723a011b26f23997d59f606cc44bb3381bd17e090a52340664493e6befa6d2b0",
+            "lineCount": 18210,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
+          "previousAfterSha256": "723a011b26f23997d59f606cc44bb3381bd17e090a52340664493e6befa6d2b0",
+          "afterSha256": "071a9bfefc06330000c164a2ff319ac05bfe7f9109da9ef6d92b7d9a566a95c0",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
         }
       ],
       "supersedes": [
@@ -3459,7 +3576,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only3c/92 card acceptance,3w comment-only scope and two Workbench ledger records; no whole component/tool reacceptance",
+      "reviewedLines": "Only3w reviewed build/counter closure,finalizer/new-test review rows,current counts and generated task index plus descendant pins",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

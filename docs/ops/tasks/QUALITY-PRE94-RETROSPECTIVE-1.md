@@ -1371,3 +1371,17 @@ Codex单Owner、同一3y，fetch后基点371b00c7d与main同点。复用此前�
 92范围是纠正命令/原件归属及30源码快照，原卡与历史门事实已复核；本次30条逐个Git闭合blob重新算SHA，当前8同/22变，旧20/10只属于旧时点。最新gate真实固定31保护、同报告strict/protected与完整环境/exit/双流已存在，复用不冒称另一次protected collector。按原工程合同接受92，不以其恢复任何30产品状态或授源码全文件信用。[92当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/closeout.json)与[联合只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/verify-closeout.mjs)。
 
 本窗只两卡partial→accept，其余81卡对象保持；固定61/22，机器373/113/2869以最终ledger复核。源提交dfde1fd7df8cda97bcfaa9772f624a92200dfe31仅两头注及对应有限记录；最终静态与治理分支推送/main同步另按实际回执，不提前称新mainCI成功。覆盖率按用户成本规则复用当前同发射正文的单次原件，所有测试/配置/基线未变。下一仍pre94的3w关键余项及其它22partial，不扩94–102。
+
+## 2026-10-22 3w真实输入域增量（未授新行为准入）
+
+[当前可复验反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json)定位到一份改过OBJECT脚本入口、但能通过现行V1导入的存档：原盘0x75先重建装备，旧BattleState仍保留role4，随后实际物品写Extra30，真实逃跑/cleanup后getter和再次导出仍读30。未手塞效果或强设终态，两轮stdout完整/stderr0；原盘普通剧情域仍未知。任务卡GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1保持draft，仅提出全角色临时Extra清理的有限选择，未借物品目标角色授权改清理策略。更大的GS/BattleState队伍分叉属于3s未决ownership，不由局部清理自动关闭。
+
+原盘316入口静态闭包2151指令未见即时0x75；0x24/25写未来NPC指针并非同步调用。该工具仍为私有取证原型，不据此证明任意输入不可达或关闭文件。当前61accept/22partial、373closed/113review/2869pending不变。复用未变产品的check/官方覆盖率/protected；本增量仅证据、任务与账本事实修正，不新采集覆盖率。远端9032b775d的Coverage39726067211已由API确认completed/success，不把传输EOF当运行失败，诊断计数不能由API摘要推断。
+
+Owner Codex单Agent；无下一位Agent提示词。用户待裁决期间继续3w现有PhaseE叶脚本与呈现可观察性补核，不扩94–102。后续正式修复须先业务失败反例及相邻回归，本观察不冒充正式Vitest红。
+
+## 2026-10-22 3w已批全角色Extra窄修
+
+用户明确批准后，原清理owner将party解毒与全角色Extra拆成各自循环；未改变毒规则、装备部位0..5、>999装备状态、接口或格式。[当前逐文件八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json)含唯一正式业务红→236实际局部绿和game TC0。新case使用role5上界、真实仙女剑8武术/32760双攻保护，没有手塞效果、终态或核心mock。不存在过滤路径不计执行，实际native4文件28、2文件39、3文件169可核。
+
+新测试登记review，3356tracked/373closed/114review/2869pending；固定83仍61accept/22partial，0新增关闭。全仓check/官方coverage/protected在产品修复后尚未新跑，集中3w多卡收尾，当前只提交推送3y、未合main。普通剧情可达性、GS/BattleState广域队伍快照、PhaseE中间对话可观察性不附带关闭；继续沿既有3w范围，不扩94–102。

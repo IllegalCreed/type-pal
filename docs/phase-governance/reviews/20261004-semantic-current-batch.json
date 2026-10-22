@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only owned3c/92 acceptance and Workbench withdrawal correction on current board/ledger plus named descendant pins; unrelated body reused",
+      "readMethod": "Read owned3w approved two-file fix/evidence and exact board/ledger/index delta;preserve unrelated entries",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
+      "coreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "fb0680890c16654645b2697ee7bfb2abb839fe49e03bcae673d8965708a2f690",
+      "afterSha256": "9a72e70a9435f36136df1e64be306cdefc8590bc83ad880d1b04365d190d1132",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "fb0680890c16654645b2697ee7bfb2abb839fe49e03bcae673d8965708a2f690",
+        "implementationSha": "9a72e70a9435f36136df1e64be306cdefc8590bc83ad880d1b04365d190d1132",
         "contentVersion": 46,
         "minimumSaveVersion": 12,
         "history": [
@@ -1649,8 +1649,8 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3c-92-closeout-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
       },
       "history": [
         {
@@ -2346,12 +2346,38 @@
           "afterSha256": "fb0680890c16654645b2697ee7bfb2abb839fe49e03bcae673d8965708a2f690",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-initial",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3c-92-closeout-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+          },
+          "previousCoreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
+          "previousAfterSha256": "fb0680890c16654645b2697ee7bfb2abb839fe49e03bcae673d8965708a2f690",
+          "afterSha256": "a53f8fe95caadab9935ac30e5ab3d0e7159651ed860f21872c8f12560c8a7ad7",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-approved-fix",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-accepted-input-counter",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json"
+          },
+          "previousCoreConclusion": "Accepted modifiedV1 import -> original setParty -> old fighter target garlic -> actual flee -> getter/export residual30 proven by two isolated core runs,not canonical story/UI/nativeSDL. New all-role temporary Extra cleanup policy pending;product unchanged.61accept22partial and373closed113review2869pending unchanged. Current document statics separate;no new coverage collection.",
+          "previousAfterSha256": "a53f8fe95caadab9935ac30e5ab3d0e7159651ed860f21872c8f12560c8a7ad7",
+          "afterSha256": "9a72e70a9435f36136df1e64be306cdefc8590bc83ad880d1b04365d190d1132",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only3c/92 card acceptance,3w comment-only scope and two Workbench ledger records; no whole component/tool reacceptance",
+      "reviewedLines": "Only3w reviewed build/counter closure,finalizer/new-test review rows,current counts and generated task index plus descendant pins",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2637,9 +2663,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only owned current experience/progression/item parent task board,index,ledger delta and descendant binding; reuse unrelated body",
+      "readMethod": "Read owned3w approved two-file fix/evidence and exact board/ledger/index delta;preserve unrelated entries",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;59accept24partial;20434 wholecheck plus3724 affected-game refresh;one20040 official and strict/protected0diagnostics. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
+      "coreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2651,7 +2677,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "a3e3ea2efa2308da6f95eb769dc2aa5a3fea872a43428a33bcb191b7b529e90c",
+      "afterSha256": "ac71ac67c235995f3fcba12a3311e88dad35cb98b0fe36cc05631e4382d1055a",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2672,7 +2698,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "a3e3ea2efa2308da6f95eb769dc2aa5a3fea872a43428a33bcb191b7b529e90c",
+        "implementationSha": "ac71ac67c235995f3fcba12a3311e88dad35cb98b0fe36cc05631e4382d1055a",
         "contentVersion": 32,
         "minimumSaveVersion": 12,
         "history": [
@@ -3017,8 +3043,8 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-game-progression-input-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
       },
       "history": [
         {
@@ -3557,12 +3583,25 @@
           "afterSha256": "a3e3ea2efa2308da6f95eb769dc2aa5a3fea872a43428a33bcb191b7b529e90c",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-approved-fix",
+          "previousEvidence": {
+            "kind": "codex-owned-game-progression-input-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+          },
+          "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;59accept24partial;20434 wholecheck plus3724 affected-game refresh;one20040 official and strict/protected0diagnostics. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "a3e3ea2efa2308da6f95eb769dc2aa5a3fea872a43428a33bcb191b7b529e90c",
+          "afterSha256": "ac71ac67c235995f3fcba12a3311e88dad35cb98b0fe36cc05631e4382d1055a",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only current experience/progression/item parent board,index,ledger rows and named child bindings; no whole-file reacceptance",
+      "reviewedLines": "Only3w reviewed build/counter closure,finalizer/new-test review rows,current counts and generated task index plus descendant pins",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",

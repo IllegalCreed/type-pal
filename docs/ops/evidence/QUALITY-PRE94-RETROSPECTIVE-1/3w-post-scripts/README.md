@@ -6,6 +6,16 @@ Date: 2026-10-18
 Base: `599d35717d8a5213802f76535eb14ba187f709e5`
 Branch: `codex/code-quality-3y`
 
+## 2026-10-22 当前修复
+
+用户另批清全角色Extra；[两文件八维/正式红绿](extra-cleanup-fix.json)及[完整原件](extra-cleanup-fix-native.json.gz)记录旧一业务红、236局部绿及game TC0。末role5效果经真实出口清零，仙女剑8武术/32760双攻保留。当前3356/373closed/114review/2869pending，0新关闭；全仓与覆盖率在此产品变化后尚未新跑，留3w多卡收尾。下段原反证和静态门绑定修复前，不作当前产品门。
+
+## 2026-10-22 当前边界增量
+
+[本增量文档/零诊断门原件](extra-reachability-gates.json)；产品与测试未改，全仓与覆盖率据原绑定复用，本次未重采集。
+
+[真实导入与逃跑出口反证](extra-reachability.json)、[完整原件](extra-reachability-native.json.gz)、[只读复验](verify-extra-reachability.mjs)：已接受的改动V1输入可让GS队伍与旧BattleState分叉；实际大蒜写入发生在换队重建之后，逃跑清理后离队role4的30毒抗仍可被getter/导出读取。原盘普通剧情可达性仍未知，不能把此反证外推为正常剧情复现；静态闭包不授完整不可达证明。本观察后用户另批清理域窄修，见上段；原物品目标传递修复维持，3w仍partial、0新增closed。下文为10-18原时点结论，不作为当前缺口已消失的证据。
+
 ## 实际读域与真值
 
 [父卡](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)准入。两测试原347/123行与当前379/153行、新共享夹具96行、settlement249行全文；caller/primary仅[read-boundaries](read-boundaries.json)明确区间，不冒充battle-system/event-system整文件验收。[最终输入](source-inputs-final.json)与原字节gzip成对。
