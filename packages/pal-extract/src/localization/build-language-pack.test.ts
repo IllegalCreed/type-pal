@@ -129,3 +129,17 @@ test('unused revision rules and untranslated text fail rather than silently fall
     'Untranslated English message',
   )
 })
+
+test.each([
+  ['wrong-span', 'English message range 20:22 mismatch'],
+  ['unused', 'Unused English message alias'],
+] as const)('a %s alias fails without mutating source text, scripts or revision rules', (kind, reason) => {
+  const input = fixture()
+  if (kind === 'wrong-span') input.revisions.aliases['20:20'] = { start: 20, end: 22 }
+  else input.revisions.aliases['90:90'] = { start: 90, end: 90 }
+  const before = structuredClone(input)
+  expect(() => buildLanguagePack(input.slf, input.commands, source, input.revisions)).toThrow(
+    reason,
+  )
+  expect(input).toEqual(before)
+})
