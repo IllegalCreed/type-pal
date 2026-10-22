@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-21T22:28:35.590Z",
+  "generatedAt": "2026-10-22T02:54:42.402Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 758,
-  "testCount": 20032,
+  "testCount": 20034,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4723,7 +4723,7 @@
       ],
       "scopeDigest": "d5c6813f8de5fd20d05340659feb82110ba67bd5636ebfcab0b8e212979037cf",
       "fastTests": {
-        "testCount": 3688,
+        "testCount": 3690,
         "testFileCount": 328,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5089,7 +5089,7 @@
           {
             "file": "packages/game/src/analytics/install-analytics.test.ts",
             "testCount": 2,
-            "identityDigest": "253a77b26a1ad203bf41007e1c84c16f698e61ab674965bce52124d0a854122b"
+            "identityDigest": "1927cba430886a21e5163ef7c2959765ae4ac6d48f1bb091e5a2a2c954b1ef46"
           },
           {
             "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
@@ -5254,7 +5254,7 @@
           {
             "file": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
             "testCount": 7,
-            "identityDigest": "6f9cb4807556329438754426833c929d5423967e82d623baa3e61e9d418233bf"
+            "identityDigest": "33ced03a646af0eeb67565f83a79329e2c6d6b4da502a63e791ff67b63258876"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
@@ -6303,8 +6303,8 @@
           },
           {
             "file": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
-            "testCount": 3,
-            "identityDigest": "1e1cfe4640ec8767d4f9eacb2af4e12573ee0bd3712ac31b8bb94960c6f4b077"
+            "testCount": 5,
+            "identityDigest": "36ad190e350febd2b461994d543d47dffeb12dda217f6f730cd0afea1e4deb48"
           },
           {
             "file": "packages/game/src/shell/avi-player.test.ts",
@@ -6697,26 +6697,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "1e4e555064d93aca8ed1ba549a22f4276b7093617a52899f214b526c42dcbf14",
+        "identityDigest": "f16c2e1fd79cb6cb53693ebd003872c494d8ca48368accf233f26678b0cea340",
         "duplicateIdentityCount": 0,
-        "executionDigest": "53b606da42a1307583e4946ae32727baedefba77f274b38df75e3c3120c5ebff"
+        "executionDigest": "198065c27462022897a557d5173db9929a7b2d23a198fe591efa04622162f7a7"
       },
       "metrics": {
         "statements": {
-          "covered": 14755,
-          "total": 16514
+          "covered": 14758,
+          "total": 16517
         },
         "branches": {
-          "covered": 9557,
+          "covered": 9555,
           "total": 11869
         },
         "functions": {
-          "covered": 1749,
+          "covered": 1750,
           "total": 2044
         },
         "lines": {
-          "covered": 13160,
-          "total": 14476
+          "covered": 13162,
+          "total": 14478
         }
       }
     },
@@ -10735,20 +10735,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71853,
-      "total": 79676
+      "covered": 71856,
+      "total": 79679
     },
     "branches": {
-      "covered": 52084,
+      "covered": 52082,
       "total": 62111
     },
     "functions": {
-      "covered": 13627,
+      "covered": 13628,
       "total": 15184
     },
     "lines": {
-      "covered": 64174,
-      "total": 69726
+      "covered": 64176,
+      "total": 69728
     }
   }
 }

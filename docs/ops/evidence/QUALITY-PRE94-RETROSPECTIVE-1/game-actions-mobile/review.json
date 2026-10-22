@@ -4,7 +4,7 @@
   "owner": "Codex single agent",
   "branch": "codex/code-quality-3y",
   "base": "868323003e52f347a34396d973fd86d74f1adaa3",
-  "status": "build; source frozen, grouped gates pending",
+  "status": "accepted; grouped source-window gates passed",
   "sourceAt": "7eea19e054980e1148c0cee6ec04fae45721b0bf",
   "scope": "Original3v six targets + seven previously accepted mobile-modified implementations and two existing relevant test files. No94-102/14new-mobile-path acceptance.",
   "files": [
@@ -24,7 +24,7 @@
         "G": "Unused cross-action type edge removed. No export/algorithm deleted; no speculative fallback retirement. Hotspot decomposition is an optional structure candidate, not a hidden correctness debt.",
         "H": "Injectable RNG, bus and projected roles support deterministic real function tests. IO/script callback remains a narrow optional port; no actual audio/pixel/E2E credit inferred."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     },
     {
       "path": "packages/game/src/core/battle/actions/attack-mate.ts",
@@ -42,7 +42,7 @@
         "G": "No dead parameter/export found in this contract. No generic action wrapper added. Existing first case was strengthened rather than adding an eighth duplicate.",
         "H": "Actual typed battle factory replaces fabricated three-field state in direct tests. A one-site target-discard mutant passes old7, fails new exactly one HP AssertionError, then restores7."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     },
     {
       "path": "packages/game/src/core/battle/actions/defend.ts",
@@ -60,7 +60,7 @@
         "G": "No unused parameters, exports or duplicate intermediate layer found.",
         "H": "Direct typed state permits deterministic observation without global setup or media IO."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     },
     {
       "path": "packages/game/src/core/battle/actions/flee.ts",
@@ -78,7 +78,7 @@
         "G": "Unused parameter and two test casts removed. Proof checks one original identifier occurrence, ten mechanical calls and exact emitted body after named elisions.",
         "H": "RNG port and bus allow legal extreme WORD and boss/animation probes without mocking the flee decision. No hardware or E2E inference."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     },
     {
       "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
@@ -96,7 +96,7 @@
         "G": "Delete copied Role/Player builders and unsafe BattleState cast. Original random retry case still exercises self/dead/valid path; no duplicate extra test.",
         "H": "Only RNG results are controlled in legal requested domain; actual action and timeline execute. Exact final-token proof binds private tested file to canonical formatted source."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     },
     {
       "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
@@ -114,7 +114,7 @@
         "G": "No test addition, deletion, dead setup or redundant new axis found.",
         "H": "Actual timeline output observable through state; deterministic RNG and explicit missing input avoid mock-only success."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     },
     {
       "path": "packages/game/src/shell/input.ts",
@@ -132,7 +132,7 @@
         "G": "New used methods have concrete touch/gamepad/modal callers; no dead compatibility path removed.14 new code paths remain pending in global ledger.",
         "H": "Window injection/native events and controller snapshots remain deterministic; no physical-controller or phone-policy claim."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "Real KeyboardEvent source,production main-loop scene-fade caller and reverse-ordered scene consumer checked. Three original C functions establish direction recomputation; next effective direction event releases current-direction suppression; repeat/non-direction do not. Replay/recording and key mapping AST unchanged.",
         "B": "Replaced inaccurate per-physical-key suppression/equivalence comment with current direction ownership and exact C event boundaries; KeyM remains explicitly dev addition,not SDL truth.",
@@ -161,7 +161,7 @@
         "G": "No retry counter,new timeout,automatic retry,old fallback resurrection or branch for nonexistent modes. Two final added contracts, no old retirement.",
         "H": "Real DOM and owned media-IO Promise controls; final61 and existing async lifecycle exercise actual production code. No physical autoplay reachability/codec/device acceptance."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "Reuse actual sequential main/bootstrap ending callers and asynchronous-lifecycle host review. Current API defaults Space/Enter/Escape,optional explicit key list; this is the documented web skip-key subset, not a claim of the complete SDL physical keyboard map.",
         "B": "Correct500ms skip delay,rejection waits for retry,per-play autoplay policy and best-effort warmup claims. Resource/error/permission wording no longer promises immediate resolution or permanent browser unlock.",
@@ -190,7 +190,7 @@
         "G": "No new weak test, deletion or repeated retry case added here.",
         "H": "jsdom media IO mocked at platform boundary; native events and actual player are exercised, not codec or audiovisual timing."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "Video/src,three defaults/custom keys,non-skip key,error and idempotence,volume clamp/current/release; actual implementations execute,typed domain and native result evidence are bounded to these cases.",
         "B": "Titles/comments read in original file-level E index; specific warning/prototype/fixture/comment deltas independently reviewed; historical labels do not transfer current credit.",
@@ -219,7 +219,7 @@
         "G": "Draft late-retry rejection case removed before final because M1/M2 cover settled late results; original3identities retained, no historical test retirement.",
         "H": "Exact warning args/count asserted, deterministic deferred settle and real click/end events. Parent probe exit0 means expected red observed, never a green quality gate."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "Controlled rejection->overlay->native click retry->overlay removal/ended; warmup success pause and actual handled rejection; actual implementations execute,typed domain and native result evidence are bounded to these cases.",
         "B": "Titles/comments read in original file-level E index; specific warning/prototype/fixture/comment deltas independently reviewed; historical labels do not transfer current credit.",
@@ -248,7 +248,7 @@
         "G": "No new keys/migration or unused configuration. Preserve existing write interface rather than speculative mode parameter.",
         "H": "Native localStorage/layout dataset controlled/restored by tests. Canonical61 includes mobile presentation; no actual phone layout claim."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "loadSettings按各键1/0；loadBests复制defaults、只覆盖已知finite非负/null；caller提供合法数值。Storage异常沿既有调用策略传播。",
         "B": "defaults副本与跨存档localStorage注释符合实际index/tools-panel，不把测试绿当异常全覆盖。",
@@ -277,7 +277,7 @@
         "G": "One used method, concrete main/tools callback. No dead export or second panel implementation introduced.",
         "H": "Actual injected Document/storage events support native DOM states; this round not a new real-browser whole-game occlusion/network check."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "Actual installer provides same-window storage/events and parsed body. Successful writes hide panel; failed writes keep it; preferences reopen; destroy removes owned root. Current real-browser deny/reopen/grant/reopen/cleanup observed; no network or full-game claim.",
         "B": "No misleading mechanism/coverage comments. Button copy remains product text; no UI layout/policy change.",
@@ -306,7 +306,7 @@
         "G": "New public method has real main/tools caller. No compatibility overload or unused parameter.",
         "H": "Native UI/storage installer exercised with SDK development gate;7files30analyticsstderr0. No live Google request or privacy-layout claim."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "Actual main prefix installs once and catches optional capability failure. Real window/storage/consent/UI wiring; GA failure removes only installer UI and rethrows same error. Returned destroy stops GA then removes owned UI.",
         "B": "Existing single rollback comment accurately separates creator responsibilities; no stale line-number/coverage promises.",
@@ -335,7 +335,7 @@
         "G": "Two cases unchanged in count; no duplicate UI-only case or toHaveBeenCalled substitute for state correctness.",
         "H": "Native clicks/storage and actual returned method exercise wiring. Exact unexpected warnings not swallowed; no real network."
       },
-      "decision": "candidate; no acceptance before grouped gates",
+      "decision": "accept",
       "reusedDimensions": {
         "A": "Public installer uses actual consent/UI/GA composition. Development-disabled branch proves UI exists without tag; DNT/GPC branch proves default denial while explanation remains visible.",
         "B": "Two titles name actual public ID/dev/privacy contracts; no real-network or full-page visual conclusion from inert Document.",
@@ -364,7 +364,7 @@
         "G": "No dead parameter: layout supplied by production bootstrap. No generic mode Boolean or compatibility fallback reintroduced.",
         "H": "Injected canvas/layout capability and native storage permit deterministic assertions; full-screen delegation does not claim browser grant."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     },
     {
       "path": "packages/game/src/tools/fps-overlay.ts",
@@ -382,7 +382,7 @@
         "G": "No new listener/timer or unused export. No speculative rewrite of singleton diagnostics ownership.",
         "H": "Injected frame timestamps and native layout/storage are deterministic; no hardware/framerate benchmark inferred."
       },
-      "decision": "candidate; no acceptance before grouped gates"
+      "decision": "accept"
     }
   ],
   "contextOnly": [
@@ -520,7 +520,7 @@
     "typecheck": "mobile/avi-types.execution.json",
     "newTests": 2,
     "existingTestRetirements": 0,
-    "gates": "pending; no second full check or coverage claimed yet"
+    "gates": "Full pnpm check20432; final official fast ratchet with fixed main protection; prior metric-rejected sample preserved; strict final candidate checked against same actual report. Full raw in gates.json/native."
   },
   "processDisclosures": [
     "Formal initial6-case draft had one late-result case duplicated by existing M1/M2; omit it in final5-case suite, no historical retirement. Frozen initial red/green originals preserved. Final5 against actual frozen old source still exactly2specifiedred.",
@@ -539,8 +539,18 @@
       "pending": 2870
     },
     "candidateCards": ["3v", "78"],
-    "newClosures": 0,
-    "decision": "Do not promote until grouped gates and per-file review complete."
+    "newClosures": 2,
+    "decision": "Original3v and78 accepted;14existing closed refreshed,2review restored;large context files and new mobile paths not accepted.",
+    "acceptedAfter": 58,
+    "partialAfter": 25,
+    "pendingAfter": 0,
+    "ledgerAfter": {
+      "tracked": 3355,
+      "closed": 372,
+      "review": 113,
+      "pending": 2870
+    },
+    "acceptedFileScopes": 16
   },
   "held": [
     "3w/3x and23other partial (25outside these two candidate decisions) remain unresolved; no broad stop lifted by AVI approval.",

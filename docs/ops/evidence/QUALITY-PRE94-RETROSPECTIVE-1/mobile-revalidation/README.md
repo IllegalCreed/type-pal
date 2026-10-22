@@ -1,6 +1,6 @@
 # 移动端对pre94已接受文件的增量复核
 
-Status: build / AVI approved repair under validation
+Status: historical counter / approved repair accepted in game-actions-mobile
 Owner: Codex（单Agent）
 Template: evidence-receipt-v1 / 1.0.0
 
@@ -23,3 +23,5 @@ AVI连续拒绝路径发现既有真缺口：[avi-repeat.json](avi-repeat.json)�
 ## 限制与复核
 
 当前只是有限增量，未关闭整批、未跑新全仓/coverage/protected，不扩94–102或硬件验收。AVI观察仅合法媒体IO结果模拟，不证明实体手机自然发生该权限序列。后继证据只补实际缺口，原注册附件/历史失败不改写。
+
+2026-10-22当前增量已在game-actions-mobile收口，CODE78恢复接受；此处保留修复前反例与当时撤回决定，不改写旧raw或把旧红记为绿。

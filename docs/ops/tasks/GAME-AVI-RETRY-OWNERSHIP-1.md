@@ -1,6 +1,6 @@
 # GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口
 
-Status: build
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: shell / AVI error recovery
@@ -63,3 +63,7 @@ build allowed：Codex唯一Owner，同一3y，仅上述重试监听ownership与�
 ## 下一位Agent提示词
 
 无下一位Agent提示词，Codex单Agent维护。先核用户裁决、当前源SHA及原生失败身份，不扩大产品范围。
+
+## 2026-10-22 Codex收口
+
+用户授权内两正式红例先行，窄修与61相邻/全check20432/official fast及同报告strict/protected零诊断成立，CODE78与AVI实现恢复接受。旧once失效/旧节点监听反例永久保留；当前只读源与原件快检见[统一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)。done不表示实体手机权限/编解码/完整剧情或用户真机体验已验收。提交推送合并状态按实际Git记录。

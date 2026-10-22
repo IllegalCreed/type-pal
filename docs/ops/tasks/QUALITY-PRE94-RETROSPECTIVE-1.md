@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前窗口：移动端增量/3v结构测试；868主线Docs和Coverage已实际成功。AVI连续拒绝重试反例使CODE78撤回partial，固定83卡56accept/27partial/0pending，账本3355/370closed/115review/2870pending。用户已批准AVI窄修，正式旧源两红/修后61相邻零stderr，当前仍等集中全门；其它卡继续，94–102不扩展。
+> 当前收口：3v/78按原合同接受，固定83卡58accept/25partial/0pending；账本3355/372closed/113review/2870pending。16文件八维与必要结构/测试/AVI重试返工、全check20432及最终官方ratchet/同报告protected零诊断。父卡仍build，25partial继续，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1321,3 +1321,11 @@ Codex唯一Owner，复用旧四源全文/primary与本轮已完成的逐段核�
 首官方窗口20034/758实际全例通过、运行诊断0，但game branch9557→9555使指标门exit1，不能写通过。实取868成功CI的game逐文件V8/LCOV与旧baseline完全吻合：仅AttackMate未改实现的protect ??0未定义回退及缺锚立即数字两分支因合法typed构造不再触达，旧7例三字段强转原来偶然覆盖；HP/保护/防御/clamp/随机目标等业务断言保留且预选目标增强。其它game变化只有AVI授权修复及公开隐私入口覆盖提升，另六包全部指标相同。
 
 沿用户既有合理重构/测试质量整改baseline授权，Codex唯一Owner，build allowed仅approved-baseline-adjustments新增固定旧baseline与13实际源SHA的有限数据项（以机器实际去重路径数为准），只将game branch covered降2；其它旧计数下限、函数体/规则/选择/超时不动。先证旧新LCOV及源码相同、原表/程序AST不变，并实测有效授权/错误源拒绝，再集中正式复跑一次门，不恢复伪fixture或新增弱例。全check产品结果保留，新增纯授权数据只补工具定向；94–102不扩展。
+
+### 2026-10-22 基础动作／移动端影响窗口收口
+
+同一3y，16文件逐项八维及当前SHA/真实caller/独立oracle成立；3v原四action+两专测、78原三AVI文件原合同接受。attack/AVI两项review恢复，14既有closed仅刷新，净增2而非16；固定83卡58accept/25partial/0pending，3355/372/113/2870由机器核。无测试退役；七新控制源14路径与大文件只保留原范围，不因门绿附带关闭。
+
+首轮official采集因合法typed夹具减少两个偶然分支而指标拒绝，原exit1/raw保留；有限授权数据的93工具测试及active/bad-source/bad-baseline直接反控通过，旧表/其余程序AST不变，最终正式复跑通过。未为了比例恢复伪fixture或增加弱例。完整check实际七包20432，全量stdout260块与原普通业务/性能记录一致，所有stderr/act/环境/TS/未处理/静态诊断0；lint5798为0/0/0。最终官方fast ratchet使用固定origin/main基点868保护，严格最终baseline canonical投影及同报告compareCoverage/auditScope另验；最终protected检查复用最后一次官方报告，不额外再采第三轮coverage，也不伪称重复全check。最新门、源绑定与完整未裁剪原件在game-actions-mobile唯一入口。只补末轮文档/进度/账本/lint，不因收口文案重跑重门。
+
+下一可续仍pre94原3w/3x与其它25partial，复用已核primary/反控，只补真实余项；WORD持续增长裁决沿用。CLI/事件P3及RLE格式/资源域未知不擅关闭。提交推送/主线同步/远端CI以实际refs/run为准，本段不是提前声称新mainCI成功。

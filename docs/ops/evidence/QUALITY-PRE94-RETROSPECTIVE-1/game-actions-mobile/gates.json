@@ -1,0 +1,1211 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "status": "accepted",
+  "pendingRuns": [],
+  "owner": "Codex single agent",
+  "sourceCheckHead": "3eb2b50f62267c0c440620042918741322ea0280",
+  "finalFastHead": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+  "gateRuns": [
+    {
+      "id": "game-window-check",
+      "role": "check",
+      "command": "pnpm",
+      "args": ["check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:14:05.924Z",
+      "end": "2026-10-22T02:29:15.628Z",
+      "head": "3eb2b50f62267c0c440620042918741322ea0280",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "",
+      "codeChanges": [],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "game-window-check.stdout.raw",
+        "bytes": 372290,
+        "sha256": "4d6e39f216c19b21716b8b9b55f9cc104c7dbec7780f8eafb2a6e2c867e95b52"
+      },
+      "stderr": {
+        "member": "game-window-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "game-window-fast-final",
+      "role": "ratchet-protected",
+      "command": "pnpm",
+      "args": ["coverage:ratchet"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {
+        "TYPE_PAL_COVERAGE_PARALLEL_EDITOR": "1",
+        "TYPE_PAL_COVERAGE_BASE_REF": "868323003e52f347a34396d973fd86d74f1adaa3"
+      },
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:44:52.566Z",
+      "end": "2026-10-22T02:54:42.838Z",
+      "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "",
+      "codeChanges": [],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "game-window-fast-final.stdout.raw",
+        "bytes": 204989,
+        "sha256": "862fdd6032fc2edad5685c0677ae1493daf6ba0c170db9e50407a2e76fcf0ff8"
+      },
+      "stderr": {
+        "member": "game-window-fast-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "adjustment-guards",
+      "role": "probe",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mobile-accept-SUCFI1/prove-adjustment.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:44:04.356Z",
+      "end": "2026-10-22T02:44:04.694Z",
+      "head": "3eb2b50f62267c0c440620042918741322ea0280",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M scripts/coverage/approved-baseline-adjustments.mjs\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/recount.json",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "3e8069465c576462caee31500e412b048b0e092ef88b217447c3368b13fa56e7"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "adjustment-guards.stdout.raw",
+        "bytes": 717,
+        "sha256": "401a3227d47ba8d1cfcba043752cf3d078e3f15e3cff61f26139cae0b288e014"
+      },
+      "stderr": {
+        "member": "adjustment-guards.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "adjustment-tools",
+      "role": "coverage-tools",
+      "command": "pnpm",
+      "args": ["test:coverage-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:44:04.751Z",
+      "end": "2026-10-22T02:44:07.883Z",
+      "head": "3eb2b50f62267c0c440620042918741322ea0280",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M scripts/coverage/approved-baseline-adjustments.mjs\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/recount.json",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "3e8069465c576462caee31500e412b048b0e092ef88b217447c3368b13fa56e7"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "adjustment-tools.stdout.raw",
+        "bytes": 20809,
+        "sha256": "b6a1451014b17ad7090076a36029b39dc95533575b3492c0a2c5443eecc1cb6b"
+      },
+      "stderr": {
+        "member": "adjustment-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-docs-r2",
+      "role": "docs-consumers",
+      "command": "node",
+      "args": [
+        "-e",
+        "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:59:51.019Z",
+      "end": "2026-10-22T02:59:54.803Z",
+      "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/verify.mjs\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md\n M docs/ops/tasks/GAME-AVI-RETRY-OWNERSHIP-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates.json",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-docs-r2.stdout.raw",
+        "bytes": 311,
+        "sha256": "fddf6ed90efd40bf74b35df02ef53a7df00cec5467a49f283d06d6b12a37c508"
+      },
+      "stderr": {
+        "member": "final-docs-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-progress-r2",
+      "role": "probe",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mobile-accept-SUCFI1/check-progress.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:59:51.019Z",
+      "end": "2026-10-22T02:59:55.360Z",
+      "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/verify.mjs\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md\n M docs/ops/tasks/GAME-AVI-RETRY-OWNERSHIP-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates.json",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-progress-r2.stdout.raw",
+        "bytes": 780037,
+        "sha256": "931f06ecbbbe96fafa89cac5dc520ba81d772c0261399d9708b7b2997e5fb49c"
+      },
+      "stderr": {
+        "member": "final-progress-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-lint-r2",
+      "role": "lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:59:51.019Z",
+      "end": "2026-10-22T02:59:54.170Z",
+      "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/verify.mjs\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md\n M docs/ops/tasks/GAME-AVI-RETRY-OWNERSHIP-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates.json",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-lint-r2.stdout.raw",
+        "bytes": 193,
+        "sha256": "4907b2f876e6cf85d0b2eb63550a2b8ab899f939939655566076f4e1a4833ed6"
+      },
+      "stderr": {
+        "member": "final-lint-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-ledger",
+      "role": "ledger",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:57:56.437Z",
+      "end": "2026-10-22T02:57:58.582Z",
+      "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/verify.mjs\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md\n M docs/ops/tasks/GAME-AVI-RETRY-OWNERSHIP-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates.json",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "5c7f7cd9f4ac02599e8f3914306afaa52bd9118ed2e86828ad1eef560bfff88c"
+      },
+      "stderr": {
+        "member": "final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-diff-r2",
+      "role": "diff",
+      "command": "git",
+      "args": ["diff", "--check", "HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T02:59:51.019Z",
+      "end": "2026-10-22T02:59:51.203Z",
+      "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/verify.mjs\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md\n M docs/ops/tasks/GAME-AVI-RETRY-OWNERSHIP-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates.json",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-diff-r2.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "member": "final-diff-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "check": {
+    "vitestTests": 20432,
+    "packageCounts": [1498, 114, 3718, 455, 8965, 4943, 739],
+    "diagnostics": {
+      "reactAct": 0,
+      "actEnvironment": 0,
+      "controlledInput": 0,
+      "unimplementedOpcode": 0,
+      "warnings": 0,
+      "navigation": 0,
+      "audioUnavailable": 0,
+      "staticDiagnosticPrefix": 0,
+      "tsErrors": 0,
+      "unhandled": 0,
+      "failedTap": 0,
+      "testStderrBlocks": 0,
+      "stderrBytes": 0
+    },
+    "ordinaryStdoutBlocks": 260,
+    "classification": "normal-stdout-classification.json"
+  },
+  "coverage": {
+    "officialCommand": "pnpm coverage:ratchet, fixed TYPE_PAL_COVERAGE_BASE_REF=868323003e52f347a34396d973fd86d74f1adaa3",
+    "collections": 2,
+    "first": {
+      "id": "game-window-fast",
+      "exit": 1,
+      "testCount": 20034,
+      "sourceCount": 758,
+      "reason": "Two formerly incidental AttackMate branches lost through legal typed fixture; all runtime tests pass; raw metric failure and original baseline retained."
+    },
+    "accepted": {
+      "id": "game-window-fast-final",
+      "exit": 0,
+      "testCount": 20034,
+      "sourceCount": 758,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      }
+    },
+    "finiteAdjustment": "recount.json",
+    "sourceDataProof": "adjustment-proof.json",
+    "protected": {
+      "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+      "targetMain": "868323003e52f347a34396d973fd86d74f1adaa3",
+      "officialCommand": "pnpm coverage:ratchet with protected origin/main commit; final accepted official fast sample; earlier metric-rejected sample retained",
+      "testCount": 20034,
+      "sourceFileCount": 758,
+      "runnerSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "projectionExpressionSha256": "a3e81d5a1053fc8b2f933fb104f14d883b8d6ef9d92517bb9142f3a573153b9d",
+      "baselineBeforeSha256": "f2eca6b2c8559e30d541b62589698a6eea04309606463ec96b9033165ed29670",
+      "baselineAfterSha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042",
+      "protectedBaselineSha256": "f2eca6b2c8559e30d541b62589698a6eea04309606463ec96b9033165ed29670",
+      "strictAgainstFinalBaseline": {
+        "regressions": [],
+        "improvements": []
+      },
+      "strictScope": {
+        "changes": [],
+        "removals": []
+      },
+      "againstProtectedMain": {
+        "regressions": [],
+        "improvements": [
+          "game.statements",
+          "game.functions",
+          "game.lines",
+          "total.statements",
+          "total.functions",
+          "total.lines"
+        ]
+      },
+      "rawAgainstMain": {
+        "regressions": [
+          "game.branches: 80.50% (9555/11869) < 80.52% (9557/11869)",
+          "total.branches: 83.85% (52082/62111) < 83.86% (52084/62111)"
+        ],
+        "improvements": [
+          "game.statements",
+          "game.functions",
+          "game.lines",
+          "total.statements",
+          "total.functions",
+          "total.lines"
+        ]
+      },
+      "activeApproval": ["pre94-basic-typed-fixture-recount-20261022"],
+      "protectedScope": {
+        "changes": [
+          "game: fast test files +0/-0，内容变化 3（3688 -> 3690 tests）",
+          "game: fast test execution config/digest 已变化"
+        ],
+        "removals": []
+      },
+      "metrics": {
+        "statements": {
+          "covered": 71856,
+          "total": 79679
+        },
+        "branches": {
+          "covered": 52082,
+          "total": 62111
+        },
+        "functions": {
+          "covered": 13628,
+          "total": 15184
+        },
+        "lines": {
+          "covered": 64176,
+          "total": 69728
+        }
+      },
+      "limits": "Final candidate verification does not collect a third coverage sample or claim another independent protected-fast test run. Official actual report is exactly canonical final baseline; direct same-report compareCoverage/auditScope confirms strict and protected candidate checks. No baseline/rule edits by this verifier."
+    },
+    "limitations": "Final strict/protected checks use the final same actual official report; no third coverage collection or second full pnpm check claimed."
+  },
+  "sourceBindings": [
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "3e8069465c576462caee31500e412b048b0e092ef88b217447c3368b13fa56e7"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+    }
+  ],
+  "progress": {
+    "acceptedCards": 58,
+    "partialCards": 25,
+    "pendingCards": 0,
+    "ledger": {
+      "tracked": 3355,
+      "closed": 372,
+      "review": 113,
+      "pending": 2870
+    },
+    "newClosures": 2,
+    "refreshedClosed": 14
+  },
+  "fullCheckReuse": {
+    "laterProductOrRuleBodyChange": false,
+    "onlyNewSourceData": "One finite approved baseline array entry; old entries and other program statements exactly equal",
+    "followup": "93coverage tools + active/bad-source/bad-baseline concrete guard probe; final official full fast采集;final docs/lint/ledger/diff. No policy/threshold/test selection/timeouts weakened."
+  },
+  "failuresDisclosed": [
+    "First final-docs rejected a terminal task still on active board; only own completed AVI row removed and full r1 raw retained.",
+    "First official metrics exit1 retained. No unhandled/act/environment/runtime-test failure in that sampling.",
+    "Artefact listing first shell request EOF,then attempted parse of empty file; command stderr was tool-only rather than file-captured. Emptyr1 file and successful retry/download receipts retained; not a quality red.",
+    "First LCOV reader expected repo-prefixed SF path and raised record missing before any output; corrected actual src-relative reader gives exact per-line/branch attribution. Not a product red."
+  ],
+  "gitAtEvidence": {
+    "branch": "codex/code-quality-3y",
+    "head": "e13b60a1f5b9c238b1b0cc531b202bf675716a8b",
+    "integration": "Final push/main merge and current remote CI are recorded from actual refs after evidence commit; this receipt does not claim future CI."
+  },
+  "native": {
+    "path": "gates-native.json.gz",
+    "sha256": "4f1d5154ceac18060f2287e7487573f5f300aa089c63c268ef4dce21f12f3057",
+    "members": {
+      "add-adjustment.mjs": {
+        "bytes": 5229,
+        "sha256": "30137b3f21654ea98856668781e127a4fdc25ddb46af5d070089852f2b5856b1"
+      },
+      "adjustment-guards.execution.json": {
+        "bytes": 1557,
+        "sha256": "6c77d5a805298007d30f75c1acdf683aaf227431ed61bcb5897bb661a43c7333"
+      },
+      "adjustment-guards.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "adjustment-guards.stdout.raw": {
+        "bytes": 717,
+        "sha256": "401a3227d47ba8d1cfcba043752cf3d078e3f15e3cff61f26139cae0b288e014"
+      },
+      "adjustment-proof.json": {
+        "bytes": 824,
+        "sha256": "4ffc0a68fb5be46c3c77262e2e88640225719de652cb557c9917b4811f95713e"
+      },
+      "adjustment-tools.execution.json": {
+        "bytes": 1477,
+        "sha256": "31dce2732f593208ae970f5cbb723b39111b0762a6db1f6da1130ec5eea7f32c"
+      },
+      "adjustment-tools.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "adjustment-tools.stdout.raw": {
+        "bytes": 20809,
+        "sha256": "b6a1451014b17ad7090076a36029b39dc95533575b3492c0a2c5443eecc1cb6b"
+      },
+      "adjustments-before.mjs": {
+        "bytes": 64653,
+        "sha256": "7a59687ecb1e10df6c36108ae2d8efe53021eeeb5c818cc310ce1e5a86f4c78d"
+      },
+      "analytics-adjacent.execution.json": {
+        "bytes": 2571,
+        "sha256": "1ecd6a51e70ffb29fe5cd7b57aa4b06ff103eb3a3fd92727539a988c45d4a20a"
+      },
+      "analytics-adjacent.native.json": {
+        "bytes": 11845,
+        "sha256": "67db79f217f16b7e9b39e63b11cb0a569b714b515289dce81f430a7ff8348210"
+      },
+      "analytics-adjacent.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "analytics-adjacent.stdout.raw": {
+        "bytes": 861,
+        "sha256": "4600b5b2cf69398f9248d6b67990869ee8c4857701c1f952b35efcaca71e5e16"
+      },
+      "attack-mate-coverage-attribution.json": {
+        "bytes": 2806,
+        "sha256": "6b25f22085f96c0cc4dac300805d1834336af4c1ac17d9be810fe849d97b57d7"
+      },
+      "avi-adjacent-final.execution.json": {
+        "bytes": 3601,
+        "sha256": "15c2ef76830dc342eba2c72c6698f7ead0c15bcdd69534d8107be8faf25be5a4"
+      },
+      "avi-adjacent-final.native.json": {
+        "bytes": 23729,
+        "sha256": "38bbe49668ef60e88e0f7d0df333581a68370ccfad1073961bf697d277a649af"
+      },
+      "avi-adjacent-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "avi-adjacent-final.stdout.raw": {
+        "bytes": 1033,
+        "sha256": "5de966c85c1a9ac5271f6bf564f2eaf9d3ae3fdc937bc6c23dd62def877fa741"
+      },
+      "avi-before.ts": {
+        "bytes": 7876,
+        "sha256": "3216ea10612c0bda2eda0a44b642f6676070cc6781be94b1b2e1933a7d316f69"
+      },
+      "avi-final-old-source-red.execution.json": {
+        "bytes": 2081,
+        "sha256": "d11ec9cb44425996c1838cd0c511dd6ac5dd0a37bb00e62361eb6ed5fed5026c"
+      },
+      "avi-final-old-source-red.native.json": {
+        "bytes": 3956,
+        "sha256": "ffd3b71fb6b844a14e2db8d96703eb27df975cdb594c5cdf8f1a74eb9325d038"
+      },
+      "avi-final-old-source-red.stderr.raw": {
+        "bytes": 1884,
+        "sha256": "9c97b0343ca0942b3f8948ced49e5530614c6e208ad205e5811458a242ef60a1"
+      },
+      "avi-final-old-source-red.stdout.raw": {
+        "bytes": 1053,
+        "sha256": "2ac8b508fd52579ff511c80aa435835b90b99f2adc63f8628d6f679272d2d048"
+      },
+      "avi-final-red-proof.execution.json": {
+        "bytes": 3090,
+        "sha256": "3cd709d1477a68cd2c2f3f57b74414ff4cf6bba46fb41ce1dbdec3ed18058ccd"
+      },
+      "avi-final-red-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "avi-final-red-proof.stdout.raw": {
+        "bytes": 395,
+        "sha256": "c163aaf7e28e8e0b4eab54e90c97c9b9258ed385b7aa620f04e839ff31434a24"
+      },
+      "avi-formal-green.execution.json": {
+        "bytes": 3497,
+        "sha256": "d04a1056d4de0cd390611bae6dd245fd0604c28b7e1aae198e5ff1465a5b4988"
+      },
+      "avi-formal-green.native.json": {
+        "bytes": 15345,
+        "sha256": "eddc9116267dcc185886a3f91c3c36a5984ca8432a2bdd3cff17033f8f19b35d"
+      },
+      "avi-formal-green.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "avi-formal-green.stdout.raw": {
+        "bytes": 796,
+        "sha256": "e6c48fe595b7730fc0492fefd1234ec91c317bff127cd0b81ba1bd791b896b6d"
+      },
+      "avi-formal-red-r2.execution.json": {
+        "bytes": 3118,
+        "sha256": "e7dd396495aeeaa15d94c30382ba8b264c5e7b63030f48fec0eb63d2c7a68b5d"
+      },
+      "avi-formal-red-r2.native.json": {
+        "bytes": 4175,
+        "sha256": "acea238b6d198e6cb23773887d8870d1df8a01b8666c18697eb230653a7b350a"
+      },
+      "avi-formal-red-r2.stderr.raw": {
+        "bytes": 1884,
+        "sha256": "b558b7d8fefd8ac5aaf744751c676b1a6cbe37ee89c44f36eb0b1a2329667d98"
+      },
+      "avi-formal-red-r2.stdout.raw": {
+        "bytes": 1071,
+        "sha256": "e1a5e81df8fa56a7ba5d4ccd44abb2d34cde80947159d0fa6631afe90d915d5c"
+      },
+      "avi-formal-red.execution.json": {
+        "bytes": 3106,
+        "sha256": "ae82960e6ad459f0db1ea0982152c12fdfd8e8dfd30dcfe769e12ddce846f167"
+      },
+      "avi-formal-red.native.json": {
+        "bytes": 3969,
+        "sha256": "d1a371b796376a62b0e597b7f0e187284bfa5ab4d1646849994fb777a724fd2e"
+      },
+      "avi-formal-red.stderr.raw": {
+        "bytes": 1405,
+        "sha256": "412df76c057bfa989c1525519ab4c722b83e86ce380cb24067a2ddb2f110ac21"
+      },
+      "avi-formal-red.stdout.raw": {
+        "bytes": 1066,
+        "sha256": "605710ed5d6065feb8a984ef792a5f5caceae44c71dad7d0191b9c9c366032d1"
+      },
+      "avi-formal-tests-red-r2.ts": {
+        "bytes": 11209,
+        "sha256": "4ca3bbcb38793e4bf9647f188744a8a0344d635a6e9c86b997e60df60464e782"
+      },
+      "avi-formal-tests-red.ts": {
+        "bytes": 11159,
+        "sha256": "e28e2c554619dd54b09241380f2b8fa5b0c7af1eaedf6031eb8c1bba9e7e6597"
+      },
+      "avi-repeat-observation.execution.json": {
+        "bytes": 1116,
+        "sha256": "375a66379d7efe2f25c14447dfdfcac4cc4986fb05ee2f4e26917b42b82b392d"
+      },
+      "avi-repeat-observation.native.json": {
+        "bytes": 1773,
+        "sha256": "21fcf630310399dfde1b213f168b1e527ae739d66b3136b1b982374b6a1d1b8d"
+      },
+      "avi-repeat-observation.stderr.raw": {
+        "bytes": 1133,
+        "sha256": "0ebfc182cb839df051b295cab6efa7b1c30659e32d4f76cb2b499359301fb698"
+      },
+      "avi-repeat-observation.stdout.raw": {
+        "bytes": 724,
+        "sha256": "8947bd989ce34a6e540b453eede6af1fcfd02ac5e16e4fdd64dc04b6172db048"
+      },
+      "avi-repeat-observation.test.ts": {
+        "bytes": 2584,
+        "sha256": "2b31e5f53d9c4ac20288027d5c8ec743298f981197d9165610b08bf6614f5941"
+      },
+      "avi-repeat-probe.execution.json": {
+        "bytes": 2368,
+        "sha256": "e59b25072bb7a26d54b1e16f7f5fd3f0345f373ec373b91ee75c8200ae61416f"
+      },
+      "avi-repeat-probe.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "avi-repeat-probe.stdout.raw": {
+        "bytes": 1023,
+        "sha256": "94d1398a49e066ad88bfb0255bbde14479314bc2015ccb9a5d022a6af2ef3dcf"
+      },
+      "avi-types.execution.json": {
+        "bytes": 3001,
+        "sha256": "3a9134857eec419217fef6d0616e69f97ed936aad48812483afe9a6fd8074a26"
+      },
+      "avi-types.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "avi-types.stdout.raw": {
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "baseline.after.json": {
+        "bytes": 531597,
+        "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+      },
+      "baseline.before.json": {
+        "bytes": 531597,
+        "sha256": "f2eca6b2c8559e30d541b62589698a6eea04309606463ec96b9033165ed29670"
+      },
+      "build-progress.json": {
+        "bytes": 780037,
+        "sha256": "0ffbcf8d04d41676d37c507f11977eab3e15795ae8870bad5e3c8c96b8fb744f"
+      },
+      "capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "check-progress.mjs": {
+        "bytes": 935,
+        "sha256": "ddc41c1b259d736bf0ac6308648bf1d8546b18f1d8858fced1a62a39fd3ed9d9"
+      },
+      "check-scan.stdout.raw": {
+        "bytes": 73056,
+        "sha256": "f4f842c9a2416b983952c3f56a7d0c22177308a40c57fcb27d07772fb6ddd05a"
+      },
+      "ci868-artifacts-r2.receipt.json": {
+        "bytes": 243,
+        "sha256": "513f4b74683140970730112c1c0dd05926e99ea3b5b1deae96e5d986e4dcaf7a"
+      },
+      "ci868-artifacts-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868-artifacts-r2.stdout.raw": {
+        "bytes": 758,
+        "sha256": "a1353dd7ff93dd318fa85c49dcb908a67670c90f7d08ccf2578fc5a00cb4ba35"
+      },
+      "ci868-artifacts.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868-coverage-artifact.receipt.json": {
+        "bytes": 263,
+        "sha256": "2f704d24693e9adee8f8a5ada8e82b703d294765ae4589389520dfced8c76d79"
+      },
+      "ci868-coverage-artifact.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868-game__coverage-summary.json": {
+        "bytes": 51385,
+        "sha256": "f316f4dd4e19d393c4c3a67a3f0dba94f50a6ed2c22dc1ae986818bd106875a2"
+      },
+      "ci868-game__lcov.info": {
+        "bytes": 450285,
+        "sha256": "c41399a222d0d90ced4b471adac1337062a6be4f8b6e121f5af0300c9db3eba4"
+      },
+      "ci868-summary.json": {
+        "bytes": 8495024,
+        "sha256": "d38f635633021edcbf53c97128fb45e3e15a040e76886147614870232a99bdd9"
+      },
+      "close-progress.mjs": {
+        "bytes": 10397,
+        "sha256": "0a3226e2b9047ec9ab47640c1eaa5367ae1a31c0d4663ad9216d6de885fc2116"
+      },
+      "comment-invariance.json": {
+        "bytes": 303,
+        "sha256": "d82d7447a43acdfcaf8a74ba299b4a8f8f5caf3cf14eac34e5ef863dba3c5106"
+      },
+      "comment-proof.mjs": {
+        "bytes": 1337,
+        "sha256": "1e4db4d3df7fdaf1d84a540c2e07311ab6537fdd979f5c46765f75cb5450d98e"
+      },
+      "coverage-file-diff.json": {
+        "bytes": 3157,
+        "sha256": "1f7b79a6d3e754570134da14d4ff9621db81292668bf63df27fab76c4bc48436"
+      },
+      "display-scale-after.ts": {
+        "bytes": 2019,
+        "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+      },
+      "display-scale-before.ts": {
+        "bytes": 1994,
+        "sha256": "bed4654ab3f327f099290c1040ced546d15f722735ed76cafb2c678805d927ef"
+      },
+      "display-scale-comment-after.ts": {
+        "bytes": 2019,
+        "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+      },
+      "display-scale-comment-before.ts": {
+        "bytes": 1994,
+        "sha256": "bed4654ab3f327f099290c1040ced546d15f722735ed76cafb2c678805d927ef"
+      },
+      "docs-before-navigation.execution.json": {
+        "bytes": 3199,
+        "sha256": "e61eb9bce63449e56b0094211f0450c65e7f2b8284a6f8b38063b947145cd2e0"
+      },
+      "docs-before-navigation.stderr.raw": {
+        "bytes": 1070,
+        "sha256": "f33580aa43cc74d80f945ddbfe8e46a8a4271edcf83a7d39b4ac1f9b36830a4c"
+      },
+      "docs-before-navigation.stdout.raw": {
+        "bytes": 93,
+        "sha256": "7ceb92b439827e894b78467456d4021c11991ae432c8d9d42d73e44b786026e3"
+      },
+      "download-coverage.mjs": {
+        "bytes": 892,
+        "sha256": "95318c6929b111c95b81e384e5de54d605e0e485cab5783119bf987f3c2ea1bb"
+      },
+      "fast-stdout-classification.json": {
+        "bytes": 1152,
+        "sha256": "0bebf8e2553c1861f55488bf97d88e4410d40a7b1b91d6ce99dc665af8b8eedb"
+      },
+      "fetch-artifacts.mjs": {
+        "bytes": 884,
+        "sha256": "f4d484e8fa40539c1eeba7f9e9a58c9c1f52fbd4e36800164d5029330381e5f7"
+      },
+      "final-diff-r2.execution.json": {
+        "bytes": 2444,
+        "sha256": "925ae17e63aaf1406510c2570a93b572a6a89fad32ebeef0225d7b5f03727932"
+      },
+      "final-diff-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-diff-r2.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-diff.execution.json": {
+        "bytes": 2435,
+        "sha256": "9c22457e741757e6232bc08782c0919692a6dd5a7dd5aa42550ddee8c355bfb2"
+      },
+      "final-diff.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-diff.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-docs-r2.execution.json": {
+        "bytes": 2757,
+        "sha256": "978633f105ae731b12b50ea2d9a2ee9715a83ed11a7625eaf86b3b582c2cdae5"
+      },
+      "final-docs-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-docs-r2.stdout.raw": {
+        "bytes": 311,
+        "sha256": "fddf6ed90efd40bf74b35df02ef53a7df00cec5467a49f283d06d6b12a37c508"
+      },
+      "final-docs.execution.json": {
+        "bytes": 2749,
+        "sha256": "f3bcfb3e3783cc36340dcd5ea4999a25f97b21d9ae021d5df91b59ac3104b85c"
+      },
+      "final-docs.stderr.raw": {
+        "bytes": 860,
+        "sha256": "f260bc4ec96a4b9e59ada65086c239b194a1cae37dcfe52ae2097c319f9d798b"
+      },
+      "final-docs.stdout.raw": {
+        "bytes": 93,
+        "sha256": "ace184db585c5e3ac75f8a4274ee84336babc361533957012a9ab4d8f541e097"
+      },
+      "final-fast-scan.stdout.raw": {
+        "bytes": 71098,
+        "sha256": "39e2cb012dce6ecb82d9a30264d95aa2296f22ecb02f68ba0eeb3aa9d266dcf8"
+      },
+      "final-ledger.execution.json": {
+        "bytes": 2454,
+        "sha256": "a2112920b8c1d8b066b844c2b4beb18914da17145e38e470f3c0a4480461e3b6"
+      },
+      "final-ledger.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-ledger.stdout.raw": {
+        "bytes": 113,
+        "sha256": "5c7f7cd9f4ac02599e8f3914306afaa52bd9118ed2e86828ad1eef560bfff88c"
+      },
+      "final-lint-r2.execution.json": {
+        "bytes": 2420,
+        "sha256": "e0a1505488e74a3aa6f7df2aa67ae140030942709911f5c6c6293938fd9bb6cf"
+      },
+      "final-lint-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-lint-r2.stdout.raw": {
+        "bytes": 193,
+        "sha256": "4907b2f876e6cf85d0b2eb63550a2b8ab899f939939655566076f4e1a4833ed6"
+      },
+      "final-lint.execution.json": {
+        "bytes": 2411,
+        "sha256": "dece33c493ca7c01d1b7ed680606b8659286c8f831d08c0becf5e30d8f0b7432"
+      },
+      "final-lint.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-lint.stdout.raw": {
+        "bytes": 193,
+        "sha256": "4907b2f876e6cf85d0b2eb63550a2b8ab899f939939655566076f4e1a4833ed6"
+      },
+      "final-progress-native-r2.execution.json": {
+        "bytes": 349,
+        "sha256": "16428968327bf6e33a6264981add311664f43cb7015188ba3fc15a3596123280"
+      },
+      "final-progress-native-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-progress-native-r2.stdout.raw": {
+        "bytes": 780037,
+        "sha256": "931f06ecbbbe96fafa89cac5dc520ba81d772c0261399d9708b7b2997e5fb49c"
+      },
+      "final-progress-native.execution.json": {
+        "bytes": 349,
+        "sha256": "29734328b48a6bb058a63ffd47385f52957349c139c2d050b26d67aabf44ee2a"
+      },
+      "final-progress-native.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-progress-native.stdout.raw": {
+        "bytes": 780037,
+        "sha256": "2b4924393a3d69da0b6f9d6d89d9f9e1c7422d2c34e9b2251f85b6206e6e57d0"
+      },
+      "final-progress-r2.execution.json": {
+        "bytes": 2537,
+        "sha256": "7882170e565a5463836679e5d007811e52ef73125a3c819eb9106ea0789684f4"
+      },
+      "final-progress-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-progress-r2.stdout.raw": {
+        "bytes": 780037,
+        "sha256": "931f06ecbbbe96fafa89cac5dc520ba81d772c0261399d9708b7b2997e5fb49c"
+      },
+      "final-progress.execution.json": {
+        "bytes": 2528,
+        "sha256": "952d664c4e75da0f311290b0f664900a85b42b4a47c398c10b82416296acf333"
+      },
+      "final-progress.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-progress.stdout.raw": {
+        "bytes": 780037,
+        "sha256": "2b4924393a3d69da0b6f9d6d89d9f9e1c7422d2c34e9b2251f85b6206e6e57d0"
+      },
+      "first-fast-scan.stdout.raw": {
+        "bytes": 71094,
+        "sha256": "0f7cda38b48f6be9d47d04b7e27348ba4712880458ccc89d24a125d73219d1fd"
+      },
+      "first-game-coverage-summary.json": {
+        "bytes": 55338,
+        "sha256": "b3fba6388e59692a35a42d69b080caf7c5a7cb6f4180e2d34c83fbaa8768a4be"
+      },
+      "first-game-lcov.info": {
+        "bytes": 450315,
+        "sha256": "d9e18fd398e8cd0a96b8f134bf06bb00dce09e0592cce8f47a1efbe8b313f2db"
+      },
+      "fps-overlay-comment-after.ts": {
+        "bytes": 3846,
+        "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020"
+      },
+      "fps-overlay-comment-before.ts": {
+        "bytes": 3843,
+        "sha256": "40b509a8ff3c189de5ea70379c9d29bf42fe113a39972985c0d4540e01b77268"
+      },
+      "game-window-check.diagnostics.json": {
+        "bytes": 84217,
+        "sha256": "4f3f1eb94985b796883d87ac21a9a85825fda3006444250fe4ff25be4e588f0f"
+      },
+      "game-window-check.execution.json": {
+        "bytes": 1103,
+        "sha256": "07dc33b3d3281ca75870abc45d07012ced0b54230bbabd56669b72b4de396864"
+      },
+      "game-window-check.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "game-window-check.stdout.raw": {
+        "bytes": 372290,
+        "sha256": "4d6e39f216c19b21716b8b9b55f9cc104c7dbec7780f8eafb2a6e2c867e95b52"
+      },
+      "game-window-fast-final.coverage-summary.json": {
+        "bytes": 8495942,
+        "sha256": "7afc511b964e078ccdd6481d013b2e16ee633df7163700dcda1c2fe1bab9a4c0"
+      },
+      "game-window-fast-final.diagnostics.json": {
+        "bytes": 81911,
+        "sha256": "6e46418bd13ec68f90c6a37d4c80b19c4e2730ae932a4a922a8bc9c768b5b6a3"
+      },
+      "game-window-fast-final.execution.json": {
+        "bytes": 1267,
+        "sha256": "f5987cb88831e587a6792b8111d19eb51a0698d030cc3254d65718643fe53168"
+      },
+      "game-window-fast-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "game-window-fast-final.stdout.raw": {
+        "bytes": 204989,
+        "sha256": "862fdd6032fc2edad5685c0677ae1493daf6ba0c170db9e50407a2e76fcf0ff8"
+      },
+      "game-window-fast.coverage-summary.json": {
+        "bytes": 8495942,
+        "sha256": "0dc78223d03c40e5007d8aab1c56425beb50fcc74f6b9a7516b3c0172e69909e"
+      },
+      "game-window-fast.diagnostics.json": {
+        "bytes": 81907,
+        "sha256": "b4960cdf1830c58c82e62c0df3e078e0e6d8b4306574dbcdf5301d8ddc0fd819"
+      },
+      "game-window-fast.execution.json": {
+        "bytes": 1251,
+        "sha256": "7be614a186b6423a6c527faf608105807ba33d2e7099942210f97990b02a8a91"
+      },
+      "game-window-fast.stderr.raw": {
+        "bytes": 166,
+        "sha256": "7c63e06ee6572ac355eb8fc3a0593f9e019631e71f8cf519d17646c9594391ab"
+      },
+      "game-window-fast.stdout.raw": {
+        "bytes": 203340,
+        "sha256": "2d6d73d085d55555f7a09101a2692ad66cbf61b94006a8ab6a38c25c8b896a75"
+      },
+      "install-analytics-before.test.ts": {
+        "bytes": 1973,
+        "sha256": "becb3927cd3c7ece6e229c237d7d5721639a899b385e41c5b508a81527bcca87"
+      },
+      "metadata.cjs": {
+        "bytes": 3732,
+        "sha256": "3ca73708825d05989659c402692cc6026a96db6bb2e7ae5853c63b131e2bc883"
+      },
+      "mobile-artifacts-validation.json": {
+        "bytes": 21971,
+        "sha256": "b2d976a3b640eda744a9df366c191ac0fd6268cb08588f821cc96fda47927f90"
+      },
+      "normal-stdout-classification.json": {
+        "bytes": 1782,
+        "sha256": "1ab871f86a712a9d9ceebd96ac04881a04b3598540aca4c5278d3f9454133392"
+      },
+      "privacy-forwarding-proof.execution.json": {
+        "bytes": 2399,
+        "sha256": "06fc07ac679c62483f143c5dabf0c85032807fa11a7a81ec73991afbfab44a4b"
+      },
+      "privacy-forwarding-proof.json": {
+        "bytes": 4141,
+        "sha256": "2a575dacc4de7313a6a3dcb568cc99d0d5a2129d149b5d447426a285a313b71f"
+      },
+      "privacy-forwarding-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "privacy-forwarding-proof.stdout.raw": {
+        "bytes": 181,
+        "sha256": "343abca05b1716b59eaaa97003f8792cb6bc274a3cd923b241294370749f60d3"
+      },
+      "privacy-forwarding.mutant.patch": {
+        "bytes": 195,
+        "sha256": "ae63d708167cc90034687bfdf30e23d7fe41b847aeebd6f1081599539ef14640"
+      },
+      "privacy-new-noop.execution.json": {
+        "bytes": 1023,
+        "sha256": "25422831cb7a9477a13720105db23c2df108c3a9de18556a98d5d0e1d850d373"
+      },
+      "privacy-new-noop.native.json": {
+        "bytes": 3073,
+        "sha256": "1ffb78b73c582831392caf0a13df73450d7c695af5ba3585cd67b7c497776493"
+      },
+      "privacy-new-noop.stderr.raw": {
+        "bytes": 800,
+        "sha256": "1df41e94119cc762ce1d532496aa4b5547dcc68b565bafba6a499beabb28ea56"
+      },
+      "privacy-new-noop.stdout.raw": {
+        "bytes": 709,
+        "sha256": "c626307cdc0cc35dd272b4c8fcf00643af9db7a7d517f9664c580b26f9e17e6f"
+      },
+      "privacy-old-noop.execution.json": {
+        "bytes": 878,
+        "sha256": "74a2ec0815417f3d0379b39cfbb8f658b0d939aa5722754eeb4b6d836bf618ff"
+      },
+      "privacy-old-noop.native.json": {
+        "bytes": 1475,
+        "sha256": "9372a71de1d97d253813c3533798b5223de9fcd22782f35b314e8402f54739f0"
+      },
+      "privacy-old-noop.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "privacy-old-noop.stdout.raw": {
+        "bytes": 503,
+        "sha256": "c457081e1ed75d9620cc7cf1dfdb608297f1fd2d7414d40e644c5ef98ce51e59"
+      },
+      "privacy-restored-new.execution.json": {
+        "bytes": 886,
+        "sha256": "f29ec03b13409e28ff135e156d7db9e2745bf91e390d52a9e0958a1660473df7"
+      },
+      "privacy-restored-new.native.json": {
+        "bytes": 1508,
+        "sha256": "d1a99324c5e89d27d2c442d9b99ea0a71e76bbf730fea0a5fbc5caa5cacceb02"
+      },
+      "privacy-restored-new.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "privacy-restored-new.stdout.raw": {
+        "bytes": 507,
+        "sha256": "c18eb3b97758d48d3a6f7d8dd44d7288a20913db49493ca692016ffd958bf14e"
+      },
+      "probe-avi-repeat.mjs": {
+        "bytes": 5396,
+        "sha256": "1f59153d0e27f059007805d4e09c7895a229c744075405b938f1b1a1ed75b05a"
+      },
+      "protected-proof.json": {
+        "bytes": 2436,
+        "sha256": "c1633efbb1c7cad9f216ef6be5bc3b0be9d3b3e8ada576d5d147039b89cbcae1"
+      },
+      "prove-adjustment.mjs": {
+        "bytes": 3540,
+        "sha256": "df7257ea5d51080506160b9338171e0e0c9c8a3e8d1370ad4008de590eda27dd"
+      },
+      "prove-avi-final-red.mjs": {
+        "bytes": 2992,
+        "sha256": "9f99660432e506996a62b2bfe20cf4d97f1430018a5d35d82643bb7c41e5ede8"
+      },
+      "prove-privacy-forwarding.mjs": {
+        "bytes": 4613,
+        "sha256": "0380ecf0682da47e6b40791c5d3400a2f68482d2ecbb77f4f56e1abec15d5a2a"
+      },
+      "prove-protected.mjs": {
+        "bytes": 3733,
+        "sha256": "9809e9240067666d86e652f1de4082044b7bec5ee51f8859eba947e9e19bd99f"
+      },
+      "readonly-verifier.json": {
+        "bytes": 900,
+        "sha256": "8a91aec8008dce4f01f77b2455d43d8012ec9bf858f899246380aa3293dadec8"
+      },
+      "scan-gates.cjs": {
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      "scope.json": {
+        "bytes": 465,
+        "sha256": "9700b26183e0869531015c5c9d44ea0b1f7b5adc5ef802f5404e483d8a6efb57"
+      },
+      "screen-structure.mjs": {
+        "bytes": 2073,
+        "sha256": "0475d17d815a501d3fefb62613e4409c73f79974c272d4fbc75bcd59ef87d20d"
+      },
+      "structure-screen.json": {
+        "bytes": 16364,
+        "sha256": "8c4c530f1b8be39478f375c9bd83a80042055e74bce3f9cdc30ae06039659ccd"
+      },
+      "two-comment-invariance.json": {
+        "bytes": 710,
+        "sha256": "142c5bf6d9be109866d42986105a18e6fb08024e69e6485b887e25b5bba800c4"
+      }
+    }
+  }
+}

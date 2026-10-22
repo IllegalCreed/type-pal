@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 56,
+  "currentAccepted": 58,
   "cards": [
     {
       "id": "1",
@@ -1272,8 +1272,8 @@
       "sha256": "d33511e3f402de11b32b3467f313a9e26a4fc2cf128195bc5be84aa291243432",
       "lines": 120,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 20,
@@ -1333,7 +1333,9 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "findings": "Original4actions+2dedicated tests A-H accepted; direct owner/type dependency/unused Flee context removed with body/caller invariance. Typed7case factory and party-slot business counter strengthened;154 exact applicability and20432/full official gates0diagnostics. Large host/actions/H helper not whole-file acceptance.",
+      "reviewDate": "2026-10-22"
     },
     {
       "id": "3w",
@@ -3078,8 +3080,8 @@
       "sha256": "bf0a73e28616201d112ccd6fbce7d5cc852bc51dae8c60974be7f68055651ec1",
       "lines": 62,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -3115,12 +3117,14 @@
         }
       ],
       "scopeConfirmed": true,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
-      "findings": "移动端增量复核复现既有连续play拒绝缺口：once点击被第一次重试消费，第二次拒绝后提示仍在但不能再点击。真实DOM/media-IO对照1绿/指定UI断言1红；不声称实机自然触发。实现撤review，原两个未改测试只保留单次拒绝/skip等既有合同；GAME-AVI-RETRY-OWNERSHIP-1等待用户裁决，未改产品。",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "findings": "User-approved repeated retry repaired after formal two named red cases; stable once listener re-arms on failure,removes on success/end,prevents pending duplicates. Actual61adjacent and20432/full official gates zero diagnostics; original3files+mobile delta accepted. No device/codec/full-story claim.",
       "currentReviewer": "Codex",
       "currentReviewDate": "2026-10-22",
       "currentReviewSha256": "ada82016163f8115aa6ee2f6b758c283577af3cabf13a9f65a6e7345f5bdecd9",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json"
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "reviewDate": "2026-10-22"
     },
     {
       "id": "79",
@@ -4234,26 +4238,25 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 27,
-    "accept": 56,
+    "partial": 25,
+    "accept": 58,
     "pending": 0
   },
   "lastIncrementalReview": {
     "date": "2026-10-22",
-    "scope": "CODE78 one implementation acceptance reopened by current native retry counter;other card values unchanged",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json",
-    "acceptedFileScopes": 0,
-    "newlyAcceptedCards": 0,
-    "reopenedCards": 1,
+    "scope": "Original3v+78 and seven mobile-modified prior accepted implementations;context/new paths not accepted",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+    "acceptedFileScopes": 16,
+    "newlyAcceptedCards": 2,
     "currentReviewCounts": {
-      "partial": 27,
-      "accept": 56,
+      "partial": 25,
+      "accept": 58,
       "pending": 0
     },
     "ledger": {
       "total": 3355,
-      "closed": 370,
-      "review": 115,
+      "closed": 372,
+      "review": 113,
       "pending": 2870
     }
   },
@@ -4273,6 +4276,25 @@
         "total": 3355,
         "closed": 371,
         "review": 114,
+        "pending": 2870
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "CODE78 one implementation acceptance reopened by current native retry counter;other card values unchanged",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json",
+      "acceptedFileScopes": 0,
+      "newlyAcceptedCards": 0,
+      "reopenedCards": 1,
+      "currentReviewCounts": {
+        "partial": 27,
+        "accept": 56,
+        "pending": 0
+      },
+      "ledger": {
+        "total": 3355,
+        "closed": 370,
+        "review": 115,
         "pending": 2870
       }
     }

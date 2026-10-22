@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "99560c36db8653eb33c4128be55532403960cde2dc658d0109852c61adf45ef0",
+      "afterSha256": "7b9eb00514f79205f948edd799640844266cdbca0fe09ca3aa7225b075be8c6f",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "99560c36db8653eb33c4128be55532403960cde2dc658d0109852c61adf45ef0",
+        "implementationSha": "7b9eb00514f79205f948edd799640844266cdbca0fe09ca3aa7225b075be8c6f",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4847,6 +4847,19 @@
           "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
           "previousAfterSha256": "3aa53f4ded92c9b751f6e8e5a958995e0664aed79e754b40794c37f622cf2bff",
           "afterSha256": "99560c36db8653eb33c4128be55532403960cde2dc658d0109852c61adf45ef0",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "99560c36db8653eb33c4128be55532403960cde2dc658d0109852c61adf45ef0",
+          "afterSha256": "7b9eb00514f79205f948edd799640844266cdbca0fe09ca3aa7225b075be8c6f",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
         }

@@ -1,8 +1,12 @@
 # pre94 基础战斗动作与移动端影响复核
 
-Status: build / source frozen, grouped gates pending
+Status: accepted / original3v and78 contracts
 Owner: Codex（单Agent）
 Template: evidence-receipt-v1 / 1.0.0
+
+## 当前收口
+
+3v/78两卡原合同接受，固定83卡58accept/25partial/0pending。16文件明确范围中attack/AVI两review恢复，14旧关闭刷新，净增2；账本3355/372/113/2870。全check20432与最终官方fast ratchet/同报告strict/protected零诊断，完整结果和原件见[gates.json](gates.json)、[gates-native.json.gz](gates-native.json.gz)。源未再改，后续文档静态单列；当前快检同时核源码和实际门。
 
 ## 证据身份
 
@@ -20,7 +24,7 @@ Template: evidence-receipt-v1 / 1.0.0
 - Analytics：原2例不增删，拒绝后经真实公开方法重开，存储仍denied。noop转发旧2绿、新恰1条hidden状态红、恢复2绿；相邻7文件30例零stderr。
 - AVI：用户批准重复重试。正式未修源先红，最终5例suite对冻结旧源3绿2指定红；可见提示未摘除为主业务反例，旧节点继续调用媒体端口为清理反例。稳定once回调每次失败后重接、成功/结束解除，pending不并发。修后8文件61例零stderr；旧异步M1/M2/M4/M5/M8复用，不新增重复迟到用例。未改500ms/跳过键/音量/媒体资源或Save。
 
-## 结果
+## 构建时点结果（3eb，保留）
 
 当前是候选证据，不升CODE3v/78，不新增closed。game typecheck与scoped Biome零诊断；3v六文件154私有实跑通过，最终canonical适用性和格式token逐项相同，不伪称又跑一轮154。集中全仓check/official ratchet/protected尚待本窗口一次收尾。
 

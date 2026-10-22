@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "6676f0c6f560df2901a8839b1aebc11e6873711e28e38d3153c3f7927160c692",
+      "afterSha256": "3d3b64b64c8b7d08953aa4b9a6af30ad3e29f123836ab56e55d01403cfc40e33",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "6676f0c6f560df2901a8839b1aebc11e6873711e28e38d3153c3f7927160c692",
+        "implementationSha": "3d3b64b64c8b7d08953aa4b9a6af30ad3e29f123836ab56e55d01403cfc40e33",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1777,8 +1777,8 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "6676f0c6f560df2901a8839b1aebc11e6873711e28e38d3153c3f7927160c692",
-        "lineCount": 4217,
+        "afterSha256": "3d3b64b64c8b7d08953aa4b9a6af30ad3e29f123836ab56e55d01403cfc40e33",
+        "lineCount": 4256,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -2596,6 +2596,66 @@
           "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
           "previousAfterSha256": "680f3fcb4e0bcb423bf2c09530dce6b84c28cdf72df7938cc1d05a00d2efb328",
           "afterSha256": "6676f0c6f560df2901a8839b1aebc11e6873711e28e38d3153c3f7927160c692",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+            "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+            "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+            "afterSha256": "6676f0c6f560df2901a8839b1aebc11e6873711e28e38d3153c3f7927160c692",
+            "lineCount": 4217,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 110121,
+              "sourceLines": 1987,
+              "sourceFinalNewline": true,
+              "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "6676f0c6f560df2901a8839b1aebc11e6873711e28e38d3153c3f7927160c692",
+          "afterSha256": "ee0776cd126d3118286096c93c40fd7fe87176d802ab94e2ab09fe1588497f4b",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-board-retirement",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+            "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+            "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+            "afterSha256": "ee0776cd126d3118286096c93c40fd7fe87176d802ab94e2ab09fe1588497f4b",
+            "lineCount": 4243,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 110121,
+              "sourceLines": 1987,
+              "sourceFinalNewline": true,
+              "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "ee0776cd126d3118286096c93c40fd7fe87176d802ab94e2ab09fe1588497f4b",
+          "afterSha256": "3d3b64b64c8b7d08953aa4b9a6af30ad3e29f123836ab56e55d01403cfc40e33",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
         }
@@ -6530,7 +6590,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "8995ed5711ea56ca74bb3fd4f426c6dace92a4b03d4aab4b6c084e2ab53824eb",
+      "afterSha256": "182c68514023e242746a383cf38b7db46354b97f6eaf044e498b559c166845ec",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6554,7 +6614,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "8995ed5711ea56ca74bb3fd4f426c6dace92a4b03d4aab4b6c084e2ab53824eb",
+        "implementationSha": "182c68514023e242746a383cf38b7db46354b97f6eaf044e498b559c166845ec",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -7222,8 +7282,8 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "8995ed5711ea56ca74bb3fd4f426c6dace92a4b03d4aab4b6c084e2ab53824eb",
-        "lineCount": 6478,
+        "afterSha256": "182c68514023e242746a383cf38b7db46354b97f6eaf044e498b559c166845ec",
+        "lineCount": 6491,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -8032,6 +8092,36 @@
           "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
           "previousAfterSha256": "b1296c94b523450b0759fcb455865d3d8281b4506b2ba89314fae63349c51fca",
           "afterSha256": "8995ed5711ea56ca74bb3fd4f426c6dace92a4b03d4aab4b6c084e2ab53824eb",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+            "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "afterSha256": "8995ed5711ea56ca74bb3fd4f426c6dace92a4b03d4aab4b6c084e2ab53824eb",
+            "lineCount": 6478,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 302305,
+              "sourceLines": 5074,
+              "sourceFinalNewline": true,
+              "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "8995ed5711ea56ca74bb3fd4f426c6dace92a4b03d4aab4b6c084e2ab53824eb",
+          "afterSha256": "182c68514023e242746a383cf38b7db46354b97f6eaf044e498b559c166845ec",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
         }

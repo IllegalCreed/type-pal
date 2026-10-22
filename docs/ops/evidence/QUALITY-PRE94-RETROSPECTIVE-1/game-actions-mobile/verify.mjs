@@ -5,6 +5,9 @@ import { createRequire } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gunzipSync } from 'node:zlib'
+import { adjustApprovedBaseline } from '../../../../../scripts/coverage/approved-baseline-adjustments.mjs'
+import { auditScope } from '../../../../../scripts/coverage/inventory.mjs'
+import { compareCoverage } from '../../../../../scripts/coverage/metrics.mjs'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '../../../../..')
@@ -122,6 +125,58 @@ for (const name of ['docs', 'coverage']) {
   assert.equal(annotations.filter((item) => item.annotation_level === 'warning').length, 1)
   assert.equal(annotations.filter((item) => item.annotation_level === 'notice').length, 1)
 }
+let finalGates = 'pending'
+if (review.status.startsWith('accepted')) {
+  const gates = JSON.parse(fs.readFileSync(path.join(here, 'gates.json')))
+  assert.equal(gates.status, 'accepted')
+  assert.deepEqual(gates.pendingRuns, [])
+  const bytes = fs.readFileSync(path.join(here, gates.native.path))
+  assert.equal(hash(bytes), gates.native.sha256)
+  const originals = JSON.parse(gunzipSync(bytes))
+  assert.deepEqual(Object.keys(originals.members).sort(), Object.keys(gates.native.members).sort())
+  const raw = (name) => Buffer.from(originals.members[name].data, 'base64')
+  const parsed = (name) => JSON.parse(raw(name))
+  for (const [name, pin] of Object.entries(gates.native.members)) {
+    assert.equal(originals.members[name].encoding, 'base64', name)
+    assert.equal(raw(name).length, pin.bytes, name)
+    assert.equal(hash(raw(name)), pin.sha256, name)
+  }
+  for (const pin of gates.sourceBindings) {
+    assert.equal(hash(fs.readFileSync(path.join(root, pin.path))), pin.sha256, pin.path)
+  }
+  for (const run of gates.gateRuns) {
+    assert.equal(run.exit, 0, run.id)
+    assert.equal(run.stderr.bytes, 0, run.id)
+    assert.equal(hash(raw(run.stdout.member)), run.stdout.sha256, run.id)
+    assert.equal(hash(raw(run.stderr.member)), run.stderr.sha256, run.id)
+  }
+  assert.equal(parsed('game-window-fast.execution.json').exit, 1)
+  assert.equal(parsed('game-window-fast-final.execution.json').exit, 0)
+  for (const id of ['game-window-check', 'game-window-fast-final']) {
+    assert(
+      Object.values(parsed(`${id}.diagnostics.json`).diagnostics).every((count) => count === 0),
+    )
+  }
+  const baseline = JSON.parse(
+    fs.readFileSync(path.join(root, 'scripts/coverage/baseline.fast.json')),
+  )
+  const result = parsed('game-window-fast-final.coverage-summary.json')
+  assert.equal(result.testCount, 20034)
+  assert.equal(result.sourceFileCount, 758)
+  assert.deepEqual(compareCoverage(result, baseline).regressions, [])
+  assert.deepEqual(auditScope(result, baseline).changes, [])
+  assert.deepEqual(gates.coverage.protected.againstProtectedMain.regressions, [])
+  assert.deepEqual(gates.coverage.protected.activeApproval, [
+    'pre94-basic-typed-fixture-recount-20261022',
+  ])
+  const adjusted = await adjustApprovedBaseline(parsed('baseline.before.json'), (file) =>
+    fs.promises.readFile(path.join(root, file)),
+  )
+  assert.deepEqual(adjusted.applied, ['pre94-basic-typed-fixture-recount-20261022'])
+  assert.deepEqual(compareCoverage(baseline, adjusted.baseline).regressions, [])
+  assert.deepEqual(parsed('final-progress-native-r2.stdout.raw').issues, [])
+  finalGates = { check: 20432, fast: 20034, sources: 758, diagnostics: 0, collections: 2 }
+}
 console.log(
   JSON.stringify({
     currentBindingsMatch: review.sourceBindings.length,
@@ -130,6 +185,7 @@ console.log(
     formalAviCounter: '3 passed / 2 named AssertionErrors; current adjacent61 green',
     historicalMainCi: '868 Docs and Coverage succeeded; platform warning+notice retained',
     groupedGates: review.validation.gates,
+    finalGates,
     limits: 'Read-only evidence verification; no tests, network or acceptance promotion performed.',
   }),
 )

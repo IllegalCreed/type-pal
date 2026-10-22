@@ -1,5 +1,7 @@
 # CODE3v battle actions 当前复审切片
 
+> 2026-10-22当前：原四action+两专测八维/结构与测试返工、全门收口，3v原合同已接受；[当前逐文件与完整原件](../game-actions-mobile/README.md)。下方为原只读/注释counter时点，保留其partial与旧门未跑记录，不覆盖当前决定；大actions/host仍未整文件接受。
+
 > 2026-10-18 当前注释counter：本轮全文补审发现attack的投影、状态或生命周期说明与实际caller不符；原整文件关闭信用转review。原有限数值结果不据此否定，也不扩成“全部注释/测试合法/全生命周期等价”。仅事实错注已修、执行代码不变；详见[投影/宿主返工](../core-comment-audit/runtime-projection-comments/README.md)。
 
 基点：`f412c7dce`；分支：`codex/code-quality-3y`。本片重新复审历史 3v 的基础战斗 action，不把历史 done、旧测试数量或旧全仓门当作当前整卡验收。3v 当前复审提升为 `partial`，未标 accept/done。
