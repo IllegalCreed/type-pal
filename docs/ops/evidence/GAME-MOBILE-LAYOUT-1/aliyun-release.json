@@ -1,0 +1,340 @@
+{
+  "task": "GAME-MOBILE-LAYOUT-1",
+  "owner": "Codex",
+  "producer": "Deployment script, SSH native hash/HTTP probes and CUA production browser",
+  "date": "2026-10-22",
+  "timezone": "Asia/Tokyo",
+  "recordedAtUtc": "2026-10-22T00:53:03.666Z",
+  "authorization": "User explicitly requests packaging and deployment of the mobile/gamepad adaptation to Aliyun.",
+  "site": "https://pal.illegalscreed.cn/",
+  "deployedCommit": "aba959e603be755f869c6e6c646afbbb58c479c0",
+  "testedHead": "9322990af3fe0599234ffd3c8130e9865946010d",
+  "ci": "https://github.com/IllegalCreed/type-pal/actions/runs/39652572817",
+  "sourceEquivalentToCi": true,
+  "sourceComparisonPaths": [
+    "packages",
+    "scripts",
+    ".github",
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml"
+  ],
+  "recordWritebackMain": "38502c0467d9739cd2bc418b31d8000c28cd6797",
+  "laterMainChanges": "Not included in this fixed app release; main synchronized only after production verification to record this receipt.",
+  "deployment": {
+    "command": "COPYFILE_DISABLE=1 bash scripts/deploy.sh app --skip-check",
+    "exit": 0,
+    "skipCheckReason": "Exact runtime/config/lock bytes equal the accepted PR8 CI head; no product change, fresh Vite production build executed by the script.",
+    "target": "app",
+    "raw": "aliyun-deploy.txt.gz",
+    "packageFileCount": 11,
+    "exactFileSet": true,
+    "nginxChanged": false,
+    "dataRepublished": false,
+    "assetManifest": {
+      "manifestSha256": "8d41cd12cd5ca53e20509cda97db690fb26d3a5ecacfcf4f2331ee76b6fad48d",
+      "version": "7b0cf09680554792",
+      "link": "../extracted"
+    },
+    "applicationFileHashes": [
+      {
+        "path": "assets/audio-T8kdK6_l.js",
+        "expected": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+        "origin": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+        "cdn": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+        "bytes": 268030,
+        "match": true
+      },
+      {
+        "path": "assets/index-CtdllQTA.js",
+        "expected": "86c5f6b8d3551d1adc8cf9de4d1db5a5b5df07fa4721546f904265ecb4774180",
+        "origin": "86c5f6b8d3551d1adc8cf9de4d1db5a5b5df07fa4721546f904265ecb4774180",
+        "cdn": "86c5f6b8d3551d1adc8cf9de4d1db5a5b5df07fa4721546f904265ecb4774180",
+        "bytes": 413174,
+        "match": true
+      },
+      {
+        "path": "assets/index-D2h5fcHa.css",
+        "expected": "9835c3c155e41fabd35c38f6a96d3de85a73db3e4439de05f934d3854d1930df",
+        "origin": "9835c3c155e41fabd35c38f6a96d3de85a73db3e4439de05f934d3854d1930df",
+        "cdn": "9835c3c155e41fabd35c38f6a96d3de85a73db3e4439de05f934d3854d1930df",
+        "bytes": 5526,
+        "match": true
+      },
+      {
+        "path": "assets/rix-DvAflSRQ.wasm",
+        "expected": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+        "origin": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+        "cdn": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+        "bytes": 24294,
+        "match": true
+      },
+      {
+        "path": "assets/rix-worklet-8yZToAqI.js",
+        "expected": "baaf4612c888e02de40e99864e5408135cb3ba5d7f38035168fbc8e89297b921",
+        "origin": "baaf4612c888e02de40e99864e5408135cb3ba5d7f38035168fbc8e89297b921",
+        "cdn": "baaf4612c888e02de40e99864e5408135cb3ba5d7f38035168fbc8e89297b921",
+        "bytes": 1405,
+        "match": true
+      },
+      {
+        "path": "favicon.ico",
+        "expected": "70ca6da1770145d971423998b3706d4bdddfe6b4f5a1f697a8fa1b7c92e02d29",
+        "origin": "70ca6da1770145d971423998b3706d4bdddfe6b4f5a1f697a8fa1b7c92e02d29",
+        "cdn": "70ca6da1770145d971423998b3706d4bdddfe6b4f5a1f697a8fa1b7c92e02d29",
+        "bytes": 2686,
+        "match": true
+      },
+      {
+        "path": "index.html",
+        "expected": "6bc57ebc14ffef0fc4fa0deb70555cfa591047fc4d5463590a43fac4ecd440c1",
+        "origin": "6bc57ebc14ffef0fc4fa0deb70555cfa591047fc4d5463590a43fac4ecd440c1",
+        "cdn": "6bc57ebc14ffef0fc4fa0deb70555cfa591047fc4d5463590a43fac4ecd440c1",
+        "bytes": 6161,
+        "match": true
+      },
+      {
+        "path": "soundfont-LICENSE.txt",
+        "expected": "e7d0c1143cef0862d5f42c9a54fe4fb2a36c9e02cd578addb9650899ebe92f56",
+        "origin": "e7d0c1143cef0862d5f42c9a54fe4fb2a36c9e02cd578addb9650899ebe92f56",
+        "cdn": "e7d0c1143cef0862d5f42c9a54fe4fb2a36c9e02cd578addb9650899ebe92f56",
+        "bytes": 1432,
+        "match": true
+      },
+      {
+        "path": "soundfont.sf3",
+        "expected": "c5378b62028c920cb11e4803327983fee2f2cdff5dc89c708e39da417e51c854",
+        "origin": "c5378b62028c920cb11e4803327983fee2f2cdff5dc89c708e39da417e51c854",
+        "cdn": "c5378b62028c920cb11e4803327983fee2f2cdff5dc89c708e39da417e51c854",
+        "bytes": 5969788,
+        "match": true
+      },
+      {
+        "path": "spessasynth_processor.min.js",
+        "expected": "2b01a0e28af38aefb21fc32bcd8a288c68fba36b391e5d495b865322f9ae0a25",
+        "origin": "2b01a0e28af38aefb21fc32bcd8a288c68fba36b391e5d495b865322f9ae0a25",
+        "cdn": "2b01a0e28af38aefb21fc32bcd8a288c68fba36b391e5d495b865322f9ae0a25",
+        "bytes": 394736,
+        "match": true
+      },
+      {
+        "path": "sw.js",
+        "expected": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c",
+        "origin": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c",
+        "cdn": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c",
+        "bytes": 7534,
+        "match": true
+      }
+    ]
+  },
+  "http": {
+    "raw": "aliyun-verification.json.gz",
+    "originAndPublicCdnHashesMatch": true,
+    "indexSwManifestNoCache": true,
+    "rixWasmMime": "application/wasm",
+    "checks": [
+      {
+        "path": "",
+        "endpoint": "origin",
+        "status": "HTTP/2 200",
+        "cacheControl": "cache-control: no-cache",
+        "contentType": "content-type: text/html"
+      },
+      {
+        "path": "",
+        "endpoint": "cdn",
+        "status": "HTTP/1.1 200 OK",
+        "cacheControl": "Cache-Control: no-cache",
+        "contentType": "Content-Type: text/html"
+      },
+      {
+        "path": "sw.js",
+        "endpoint": "origin",
+        "status": "HTTP/2 200",
+        "cacheControl": "cache-control: no-cache",
+        "contentType": "content-type: application/javascript"
+      },
+      {
+        "path": "sw.js",
+        "endpoint": "cdn",
+        "status": "HTTP/1.1 200 OK",
+        "cacheControl": "Cache-Control: no-cache",
+        "contentType": "Content-Type: application/javascript"
+      },
+      {
+        "path": "extracted/asset-manifest.json",
+        "endpoint": "origin",
+        "status": "HTTP/2 200",
+        "cacheControl": "cache-control: no-cache",
+        "contentType": "content-type: application/json"
+      },
+      {
+        "path": "extracted/asset-manifest.json",
+        "endpoint": "cdn",
+        "status": "HTTP/1.1 200 OK",
+        "cacheControl": "Cache-Control: no-cache",
+        "contentType": "Content-Type: application/json"
+      },
+      {
+        "path": "assets/rix-DvAflSRQ.wasm",
+        "endpoint": "origin",
+        "status": "HTTP/2 200",
+        "cacheControl": "cache-control: max-age=31536000",
+        "contentType": "content-type: application/wasm"
+      },
+      {
+        "path": "assets/rix-DvAflSRQ.wasm",
+        "endpoint": "cdn",
+        "status": "HTTP/1.1 200 OK",
+        "cacheControl": "Cache-Control: max-age=31536000",
+        "contentType": "Content-Type: application/wasm"
+      }
+    ],
+    "transportNote": "Local CLI curl/Node TLS probes reset before handshake; actual Chromium public URL and certificate-valid origin/server-side public CDN probes succeeded. No TLS validation bypass."
+  },
+  "browser": {
+    "report": "aliyun-browser.json",
+    "warnings": 0,
+    "errors": 0,
+    "viewport": [375, 667],
+    "script": ["https://pal.illegalscreed.cn/assets/index-CtdllQTA.js"],
+    "canvas": {
+      "height": 200,
+      "renderedHeight": 234.375,
+      "renderedWidth": 375,
+      "width": 320
+    },
+    "steps": [
+      "production launch and opening confirmation exercised; game reached room dialogue",
+      "mobile tools: system tab shows touch visibility, gamepad explanation and three audio controls",
+      "hide touch controls: only tool launcher remains",
+      "reload: ready entry and tool launcher present; touch visibility checkbox remains 0",
+      "restore original enabled choice: all six controls return"
+    ],
+    "settingsRestored": true,
+    "temporaryTabClosed": true,
+    "viewportReset": true,
+    "proof": "aliyun-mobile-portrait.png",
+    "settingsProof": "aliyun-mobile-settings.png"
+  },
+  "rollback": {
+    "directory": "/var/www/type-pal/dist.old",
+    "actualFiles": [
+      "assets/audio-T8kdK6_l.js",
+      "assets/index-CtdllQTA.js",
+      "assets/index-D2h5fcHa.css",
+      "assets/rix-DvAflSRQ.wasm",
+      "assets/rix-worklet-8yZToAqI.js",
+      "favicon.ico",
+      "index.html",
+      "soundfont-LICENSE.txt",
+      "soundfont.sf3",
+      "spessasynth_processor.min.js",
+      "sw.js"
+    ],
+    "fileCount": 11,
+    "exactFileSet": true,
+    "backupSha256": "fd114a3ada0fe3126a9c2948c50fe629ebdc829ff81d8d5b94d9d727d1eca194",
+    "backupIndexSha256": "65b2ac7af5c7e62a8568ad76bf8fc9e3eac1afc03e86bfcefb4a17dd8ca98f3c",
+    "oldIndexSha256": "65b2ac7af5c7e62a8568ad76bf8fc9e3eac1afc03e86bfcefb4a17dd8ca98f3c",
+    "backupReadable": true,
+    "backupPath": "/var/www/type-pal/release-backups/mobile-gamepad-20261021T231748Z.tgz"
+  },
+  "verificationSetup": "Remote Python3.6 requires stdout/stderr PIPE rather than capture_output; initial probe setup error fixed and final complete probe exited0. No product or assertion change.",
+  "limits": [
+    "No physical gamepad or phone",
+    "No Safari safe-area or full-story E2E validation",
+    "SW endpoint and unchanged data-cache reuse checked; full offline validation not performed"
+  ],
+  "artifacts": [
+    {
+      "path": "aliyun-app-files.json",
+      "sha256": "f07944104e4a714d6b1decdfe36c730e47c3b68324da884aad0b4f2340c10f93",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-backup.txt.gz",
+      "sha256": "8d74685f6023fc28300676616d83ea133078dd0795cb35cbd3b61a0cff879f82",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-before-files.txt.gz",
+      "sha256": "33d52d91fbbc61d6ca6f314edb7388d8c1823f0b1a159d854421eec4fbeb709e",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-browser-logs.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-browser.json",
+      "sha256": "8f9d77b09a93775f4d1355895da61ed05ba241056bb62234656cff0ebd1bbbe0",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-closeout-docs.txt.gz",
+      "sha256": "e225ddad48b76b0aaca92bc187ce9706dcc2b37c0be7c95236e4824d28f19914",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-closeout-lint.txt.gz",
+      "sha256": "5d451c820a477c942d47289a5c2cd15103373ea0e9504378052461dd5fab9271",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-deploy.txt.gz",
+      "sha256": "f622e6a149fd5fae703fba9a3fbe030c01e2cb08b7746cd7ac6cd95824df8090",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-mobile-portrait.png",
+      "sha256": "cee82206331bb1ddd65fc42b2395b3ac52aae7545b0321a9a2bc7499c4d32734",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-mobile-settings.png",
+      "sha256": "219bc22b2be4e0ff016c3e7593b12a3d3978a41c8f890b875840fb470263410b",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-postflight.json.gz",
+      "sha256": "884ea8c96428b4e71fab20fcca52a4582f90e19f376677bbd76dbddc005dd5fb",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-preflight.txt.gz",
+      "sha256": "18d97a927be82fcddd9e00e63283bac67c5f7c2af32f530ad18334bbe4f4686e",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-touch-hidden-reloaded.txt",
+      "sha256": "e3438faf9a3805b15b042d19fd0d298e7e3a54cd8043ba9613aa95ba3ef238fa",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    },
+    {
+      "path": "aliyun-verification.json.gz",
+      "sha256": "887ca77c244432a8e9e403f21cd9413f808f6205da34f497a5fc7598ad56f0d5",
+      "retention": "Keep as exact release evidence; raw gzip bytes are lossless."
+    }
+  ],
+  "closeout": {
+    "scope": "Only this task card and release evidence on synchronized main; no further runtime or deployment mutation.",
+    "docs": {
+      "command": "pnpm check:docs",
+      "exit": 0,
+      "tools": 125,
+      "issues": 0,
+      "raw": "aliyun-closeout-docs.txt.gz"
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exit": 0,
+      "files": 5792,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "raw": "aliyun-closeout-lint.txt.gz"
+    }
+  }
+}
