@@ -1021,16 +1021,16 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact parent deltas and current incoming hash/lineCount; retain all parent history and original artifact envelope.",
+      "readMethod": "Read exact workflow paragraph delta and actual GitHub REST protection read-back; maintain source-specific incoming SHA only, no unrelated re-audit.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
+      "coreConclusion": "Exact incoming binding for user-authorized main protection workflow paragraph; existing sync2 records, all history and original artifact envelopes retained. No new English gate/CI/merge/deployment result.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
       "unresolved": [
         "Historical machine artifact requires current consumer and fresh receipt before reuse."
       ],
-      "nextStep": "Codex independently accepts merged candidate and records actual gates/CI/merge/Alibaba verification.",
+      "nextStep": "Use protected PR workflow for every subsequent integration and documentation closeout; record actual checks and deployment separately.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "f6347df5ddd779b7876601c2f763b98934d0451ee82e64cd5bdfea6ab6b453a0",
+      "afterSha256": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "f6347df5ddd779b7876601c2f763b98934d0451ee82e64cd5bdfea6ab6b453a0",
+        "implementationSha": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,12 +1823,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3h-assets-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+        "kind": "codex-owned-pre94-blob-dialog-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "c2785c4ff0a83abb62480a5ea83391b60242c9fccf8b988d58d278fb3b6a63b3",
-        "lineCount": 19131,
+        "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+        "lineCount": 19287,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1845,13 +1845,11 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "english-release-main-sync-documentation",
-          "path": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json",
-          "afterSha256": "f6347df5ddd779b7876601c2f763b98934d0451ee82e64cd5bdfea6ab6b453a0",
-          "lineCount": 19459,
-          "scope": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
-          "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
-          "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+          "kind": "user-authorized-main-branch-protection-protocol",
+          "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
+          "afterSha256": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
+          "lineCount": 19913,
+          "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
           "workingTreeDelta": true
         }
       },
@@ -4349,6 +4347,324 @@
           },
           "scope": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
           "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-blob-dialog-local-pre-gates",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "c2785c4ff0a83abb62480a5ea83391b60242c9fccf8b988d58d278fb3b6a63b3",
+            "lineCount": 19131,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            },
+            "currentMaintenance": {
+              "kind": "script-corrections-main-sync-publication",
+              "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+              "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+              "lineCount": 18885,
+              "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            }
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+          "previousAfterSha256": "c2785c4ff0a83abb62480a5ea83391b60242c9fccf8b988d58d278fb3b6a63b3",
+          "afterSha256": "501ecdb0a377cdf1e300f622e445213f1924cdc9520faa001e116e2f445a6fa2",
+          "scope": "Only owned pre94 current document rows and descendant pins; seven formerly implicit pending tests recorded review. Current module integration gates pending; no broad product or visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-blob-dialog-local-source-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-blob-dialog-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "501ecdb0a377cdf1e300f622e445213f1924cdc9520faa001e116e2f445a6fa2",
+            "lineCount": 19209,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            },
+            "currentMaintenance": {
+              "kind": "script-corrections-main-sync-publication",
+              "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+              "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+              "lineCount": 18885,
+              "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            }
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial. Blob/helper/dialog three bounded slices: eleven concrete A-H files, product comment-only body invariance, three dead test exports private, six weaker test subsets transferred and full exact retirement data47/net97 to51/net103. Scoped tests and gameTC passed; old-red/new-green descriptor isolation and old-green/new-red wrong-warning diagnostic controls retained with restoration. Current382closed117review2875pending; fullcheck/official/protected pending concentrated module freeze, no file accepted by scoped green. No rule/lib/timeout weakening;94-102 excluded.",
+          "previousAfterSha256": "501ecdb0a377cdf1e300f622e445213f1924cdc9520faa001e116e2f445a6fa2",
+          "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+          "scope": "Only owned board/ledger and descendant pins; seven new closes, RLE old source close withdrawn, net+6. Nine finite contracts accepted; CODE3h/3i and two RLE files remain partial/review; no broad or visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "english-release-second-main-sync",
+          "parents": {
+            "english": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+            "main": "d297e64d0a928abb813ce280122d51c2c852bea5"
+          },
+          "previousEnglish": {
+            "afterSha256": "f6347df5ddd779b7876601c2f763b98934d0451ee82e64cd5bdfea6ab6b453a0",
+            "coreConclusion": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
+            "evidence": {
+              "kind": "codex-owned-pre94-3h-assets-quality-local",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+              "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+              "afterSha256": "c2785c4ff0a83abb62480a5ea83391b60242c9fccf8b988d58d278fb3b6a63b3",
+              "lineCount": 19131,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 616027,
+                "sourceLines": 13734,
+                "sourceFinalNewline": true,
+                "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": [
+                  "schemaVersion",
+                  "id",
+                  "reviewer",
+                  "reviewDate",
+                  "policy",
+                  "entries"
+                ],
+                "byteStable": true
+              },
+              "currentMaintenance": {
+                "kind": "english-release-main-sync-documentation",
+                "path": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json",
+                "afterSha256": "f6347df5ddd779b7876601c2f763b98934d0451ee82e64cd5bdfea6ab6b453a0",
+                "lineCount": 19459,
+                "scope": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
+                "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+                "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+                "workingTreeDelta": true
+              }
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "english_release_docs (Codex delegated documentation owner)",
+              "scope": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
+              "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+              "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+              "workingTreeDelta": true,
+              "notAFullSourceReaudit": true
+            },
+            "readMethod": "Read exact parent deltas and current incoming hash/lineCount; retain all parent history and original artifact envelope.",
+            "reviewedLines": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
+            "nextStep": "Codex independently accepts merged candidate and records actual gates/CI/merge/Alibaba verification."
+          },
+          "previousMain": {
+            "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+            "coreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
+            "evidence": {
+              "kind": "codex-owned-pre94-blob-dialog-quality-local",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+              "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+              "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+              "lineCount": 19287,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 616027,
+                "sourceLines": 13734,
+                "sourceFinalNewline": true,
+                "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": [
+                  "schemaVersion",
+                  "id",
+                  "reviewer",
+                  "reviewDate",
+                  "policy",
+                  "entries"
+                ],
+                "byteStable": true
+              },
+              "currentMaintenance": {
+                "kind": "script-corrections-main-sync-publication",
+                "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+                "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+                "lineCount": 18885,
+                "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+                "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+                "workingTreeDelta": true
+              }
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "Codex",
+              "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+              "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+              "workingTreeDelta": true,
+              "notAFullSourceReaudit": true,
+              "finalWriteback": {
+                "date": "2026-10-22",
+                "action": "final-correction-task-writeback",
+                "previousAfterSha256": "856dad65d03a96bdbf1e3cedc4410002880f5a9e57f0df112e58017a61f1a3f8",
+                "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+              },
+              "userAcceptance": {
+                "date": "2026-10-22",
+                "action": "user-acceptance-with-explicit-story-preview-waiver",
+                "previousAfterSha256": "9b642c1bb5ad2b548d3dc9a951d8c8f31f80b75ac87cd5bad782f4cede9b55c6",
+                "previousCoreConclusion": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+                "scope": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
+                "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+                "notRun": [
+                  "complete story E2E",
+                  "frame-by-frame visual comparison",
+                  "editor preview initial-state verification"
+                ]
+              },
+              "mainSync": {
+                "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+                "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+                "preservedBothParentHistories": true
+              }
+            },
+            "readMethod": "Read current11 per-file A-H, native controls and only owned board/index/ledger delta; preserve unrelated entries",
+            "reviewedLines": "Only current pre94 board/ledger, nine finite acceptance rows and two retained RLE reviews, actual machine counts and owned descendant pins",
+            "nextStep": "This task is accepted with an explicit user waiver; no measured story/visual/preview pass is added."
+          },
+          "scope": "Exact incoming binding for second English/main sync; both parent histories and artifact envelopes retained. No current runtime/coverage/CI/deployment credit.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "user-authorized-main-branch-protection-protocol",
+          "previousAfterSha256": "7f44c40ab4766ed6183c862f5b5237e533903f34d8b2580d6f16cf141d99bd5f",
+          "previousCurrent": {
+            "coreConclusion": "Exact incoming binding for second English/main sync; both parent histories and artifact envelopes retained. No current runtime/coverage/CI/deployment credit.",
+            "evidence": {
+              "kind": "codex-owned-pre94-blob-dialog-quality-local",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+              "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+              "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+              "lineCount": 19287,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 616027,
+                "sourceLines": 13734,
+                "sourceFinalNewline": true,
+                "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": [
+                  "schemaVersion",
+                  "id",
+                  "reviewer",
+                  "reviewDate",
+                  "policy",
+                  "entries"
+                ],
+                "byteStable": true
+              },
+              "currentMaintenance": {
+                "kind": "english-release-second-main-sync",
+                "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
+                "afterSha256": "7f44c40ab4766ed6183c862f5b5237e533903f34d8b2580d6f16cf141d99bd5f",
+                "lineCount": 19848,
+                "scope": "Exact incoming binding for second English/main sync; both parent histories and artifact envelopes retained. No current runtime/coverage/CI/deployment credit.",
+                "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+                "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+                "workingTreeDelta": true
+              }
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "english_release_docs (Codex delegated documentation owner)",
+              "scope": "Exact incoming binding for second English/main sync; both parent histories and artifact envelopes retained. No current runtime/coverage/CI/deployment credit.",
+              "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+              "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+              "workingTreeDelta": true,
+              "notAFullSourceReaudit": true
+            },
+            "readMethod": "Review exact two-parent delta and finite current reconciliation; preserve histories/envelopes without unrelated full-file acceptance.",
+            "reviewedLines": "Exact incoming binding for second English/main sync; both parent histories and artifact envelopes retained. No current runtime/coverage/CI/deployment credit.",
+            "nextStep": "Codex verifies merged actual gates and remote release facts before final closeout."
+          },
+          "scope": "Exact incoming binding for user-authorized main protection workflow paragraph; existing sync2 records, all history and original artifact envelopes retained. No new English gate/CI/merge/deployment result.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "main-protection-date-and-branch-scope-precision",
+          "previousAfterSha256": "2251de04759d0945b467cbb6bf6224da04c30c5b2df8567691948af95ccef51f",
+          "previousCoreConclusion": "Exact incoming binding for user-authorized main protection workflow paragraph; existing sync2 records, all history and original artifact envelopes retained. No new English gate/CI/merge/deployment result.",
+          "previousCurrentEvidence": {
+            "kind": "user-authorized-main-branch-protection-protocol",
+            "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
+            "afterSha256": "2251de04759d0945b467cbb6bf6224da04c30c5b2df8567691948af95ccef51f",
+            "lineCount": 19897,
+            "scope": "Exact incoming binding for user-authorized main protection workflow paragraph; existing sync2 records, all history and original artifact envelopes retained. No new English gate/CI/merge/deployment result.",
+            "workingTreeDelta": true
+          },
+          "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json"
         }
       ],
       "supersedes": [
@@ -4356,7 +4672,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
+      "reviewedLines": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4392,11 +4708,9 @@
       ],
       "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.",
       "maintenanceReview": {
-        "date": "2026-10-22",
+        "date": "2026-10-23",
         "reviewer": "english_release_docs (Codex delegated documentation owner)",
-        "scope": "Exact incoming binding for combined English/main documentation delta; original artifact envelopes and both parent histories retained. No new product/coverage/E2E/deployment result.",
-        "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
-        "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+        "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
       }

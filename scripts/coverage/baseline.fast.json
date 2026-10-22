@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-22T14:25:24.175Z",
+  "generatedAt": "2026-10-22T15:18:22.368Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 774,
-  "testCount": 20181,
+  "testCount": 20176,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4793,7 +4793,7 @@
       ],
       "scopeDigest": "155e267b6b9aca7ea6ef4342a662f6e4aa07f516c6691711d850f35ab81f1acf",
       "fastTests": {
-        "testCount": 3765,
+        "testCount": 3760,
         "testFileCount": 340,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5175,13 +5175,13 @@
           },
           {
             "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
-            "testCount": 2,
-            "identityDigest": "55ea28df2daa97d3705047bae4dc387f5526d1891231c1f8ca39984152a961ac"
+            "testCount": 1,
+            "identityDigest": "608c146cbe209e2e7b492d8e4fb89ea1dc756a13eb6b83c4820f26d730b1b933"
           },
           {
             "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
-            "testCount": 14,
-            "identityDigest": "e7d4c3d2569a08c09b8d0d2b0b8240ac22f018ea02bd64cd682552aac3b9831a"
+            "testCount": 13,
+            "identityDigest": "0c8a791fb0ad1635ef9ff0823384c99b3718971fb0d80ea709882055b7335b66"
           },
           {
             "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
@@ -5236,7 +5236,7 @@
           {
             "file": "packages/game/src/assets/rle-decode.test.ts",
             "testCount": 6,
-            "identityDigest": "8063dfc7cee361adc79ad0347da407e167cb39f0d817b1c9d3199c8fc0773193"
+            "identityDigest": "b202ef061bcbad3589734304e5ec144778120cd6aae2d4ed2121be7eb8054503"
           },
           {
             "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
@@ -5255,13 +5255,13 @@
           },
           {
             "file": "packages/game/src/assets/tileset-blob.test.ts",
-            "testCount": 15,
-            "identityDigest": "7b4dc1698d94e06f095034788959cbc4ff537728a57eb074e2720c5300ca716a"
+            "testCount": 13,
+            "identityDigest": "244d7e5a4cf432f66ec318c9b50674abad671fceb88c3c21c58838a3a9cd6a8e"
           },
           {
             "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
-            "testCount": 9,
-            "identityDigest": "d146d281cd8951bfbc2ca34be73029e821f9862816448b0fe2985424ee5a722b"
+            "testCount": 8,
+            "identityDigest": "d3d931a7a5d324bfea991d409a09a9c3d4cc46cfaca7c8dcf7529f3a573abad0"
           },
           {
             "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
@@ -6839,9 +6839,9 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "a25a7852fbf07dd52bfb0103b3cc5b9440dcb13489a469c9564e811ffc01d4c4",
+        "identityDigest": "439c2e0a9df3a5f79564420e15b6b5ae5710310cb7b3b6e11c275b39a4f04617",
         "duplicateIdentityCount": 0,
-        "executionDigest": "70b0f727c6bfbbb2185e3da6d51f4b3cb83af507588b37188985d5bfbc98b586"
+        "executionDigest": "67f1ea84b23db20f4f8279cd9f0586d71de27ea1ffa3bf5291fe5fd93283e185"
       },
       "metrics": {
         "statements": {

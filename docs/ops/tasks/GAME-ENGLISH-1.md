@@ -143,6 +143,10 @@ Branch: codex/game-english
 
 - 2026-10-22 Codex发布接手：用户明确认可英文并授权推送、CI后合并、部署及分支清理；发现main已推进至`acb96a123`，先保留双方代码/证据与历史，重新核合并候选门。当前不预填远端结果；发布前同步见[回执](../evidence/GAME-ENGLISH-1/release-preflight.json)。
 
+- 2026-10-22 Codex第二次同步：发布等待期间main继续推进至`d297e64d0`；本次保留blob/宿主/对话与RLE裁定、测试去重及原件，先合并再按当前候选重跑实际门。用户验收与发布授权保持，状态review；先前`b4dc2688e`的集成门仅证明其冻结版本，不代替本次候选结果。见[第二次同步回执](../evidence/GAME-ENGLISH-1/main-sync-2.json)。
+
 ## 下一位 Agent 提示词
 
 无用户转交；用户已验收并授权本次发布。接手先读本卡、AGENTS现行协议、集成回执和发布前同步回执；当前保持review，完成同步main后的统一门、推送/CI/合并、阿里云部署与真实上线验证，再按实际证据收口并清理退休分支/worktree。此前冻结候选的门保留原基点，不冒充当前合并候选门或全剧情E2E通过。
+
+- 2026-10-23 Codex后继：同步main `d297e64d0`，独立核注释守恒及净减五例的真实合同退役；最终官方ratchet20,176项/774源通过，七包TC、完整125文档工具及全部消费者/lint零诊断。保留缺scope确认、旧CLI超时及Git夹具停滞原件，见[第二次同步门](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json)。用户授权的[main保护](../evidence/GAME-ENGLISH-1/branch-protection.json)已配置/回读；后续含文档收尾全部经PR与必需CI。English继续review等待当前PR和真实部署回执。

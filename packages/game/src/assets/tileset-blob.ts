@@ -8,9 +8,9 @@
  * parseSpriteChunk 解出 RleFrame[] → IndexedImage[](或 tileset 的 Map<tileIndex>)。
  *
  * 相比旧链路(fetch per-tile PNG → createImageBitmap → canvas getImageData):
- *   - 请求数 188-452 → 1
- *   - createImageBitmap 调用 188-452 → 0(不经 canvas)
- *   - 字节级忠实:blob 就是原版 GOP chunk,runtime 用与 extractor 同一份 parseSpriteChunk 解
+ *   - 每个资源单元请求一个 blob，不再逐帧请求 PNG
+ *   - 不经 createImageBitmap / canvas
+ *   - blob 保留提取器输出的 GOP chunk 字节；runtime 与 extractor 使用同一份 parseSpriteChunk
  *
  * 键一致性铁律:Map 的 key = parseSpriteChunk 返回数组的下标 i,
  * 与旧 `framesToOut` 的 `index` 字段(同一过滤后序列)一致。地图 cells 引用此下标。
@@ -21,7 +21,8 @@ import type { IndexedImage } from './png.js'
 
 /**
  * 把 RleFrame 转成 IndexedImage(纯字段重命名:pixels → indices,形状一致)。
- * Uint8Array 直接复用(不拷贝),因为 RleFrame 不会再被修改。
+ * 借用 pixels / opaque 两份 Uint8Array(不拷贝)，不取得独占所有权。
+ * 当前呈现 caller 只读这些数组；修改任一视图会被共享该数组的对象观察到。
  */
 export function rleFrameToIndexedImage(frame: RleFrame): IndexedImage {
   return {
@@ -81,7 +82,7 @@ export function framesToCharacterSprite(frames: IndexedImage[]): CharacterSprite
   }
 }
 
-/** fetch 角色 sprite blob → 解压 → 帧 + 锚点。loader / bootstrap 三处 npc 加载共用。 */
+/** loadAll 使用的角色 blob 装配；bootstrap 按帧派生锚点时直接加载帧数组。 */
 export async function loadCharacterSpriteBlob(url: string): Promise<CharacterSprite> {
   return framesToCharacterSprite(await loadSpriteFramesBlob(url))
 }
@@ -89,18 +90,15 @@ export async function loadCharacterSpriteBlob(url: string): Promise<CharacterSpr
 /**
  * 用浏览器原生 DecompressionStream 解压 gzip blob。
  *
- * 兼容性:Chrome 80+/Safari 16.4+/Firefox 113+,SW 上下文可用,已全覆盖。
- * 兜底:若环境无 DecompressionStream,抛错(可后续塞 fflate,当前不需要)。
+ * gzip 输入依赖原生 DecompressionStream；没有该 API 时直接拒绝，不提供解压兜底。
+ * 无 gzip 魔数的原始字节直接返回，不依赖该 API；这不是 gzip 内容完整性检查。
  *
  * 实现备注:用 `blob.arrayBuffer()` 取完整字节再包 `new Response(buf).body` 走 stream,
  * 而非 `blob.stream()`——后者在某些环境(如 jsdom)缺失,前者更通用。
  *
- * **Content-Encoding 双解压防御**:blob 后缀用 `.rle`(非 `.rle.gz`)正是为了避免
- * 静态服务器把它当 gzip-encoded 文件、自动加 `Content-Encoding: gzip` 让浏览器先解一次。
- * 但生产 nginx / 阿里云 CDN 仍可能因 mime 嗅探对它再压一层并设 Content-Encoding ——
- * 那种情况浏览器 fetch 已经把我们的 gzip 层也解掉了,拿到的是裸 chunk 字节。
- * 这里据 gzip 魔数(1f 8b)判断:没魔数 = 上游已解,直接返回(解压后的 sprite/MKF chunk
- * 首字节是小端 count/offset,绝不会是 1f 8b,故无误判)。
+ * fetch 可能已按 Content-Encoding 解压响应，因此按当前收到的前两个字节识别 gzip。
+ * 这依赖调用方的资源格式前提：原始 chunk 不以 gzip 魔数开头；函数不验证资源种类。
+ * raw / gzip 传输判断与 shared codec 的帧解析、容错合同分开，不在这里重写资源规则。
  */
 export async function decompressGzip(blob: Blob): Promise<Uint8Array> {
   const buf = await blob.arrayBuffer()

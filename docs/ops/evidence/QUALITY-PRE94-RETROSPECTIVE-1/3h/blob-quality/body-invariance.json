@@ -1,0 +1,72 @@
+{
+  "base": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+  "typescript": "6.0.3",
+  "method": "Products: parsed TS without comments and ES2022 emitted JS equal. Helper: emitted JS token kind/text sequence equal (whitespace preserved by TS printer excluded) after removing ONLY three specified export modifiers on both sides; tuple annotation erased by TS. Source/fixture/test body changes are not masked.",
+  "products": [
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "868c492fc155e8a6becd1ff29ee1be002dd78573964d26c84700ac959f0a9f27",
+      "gitBlobSha1": "4f815fa4bffb0caae297f7b2e7e6812d1649b4a6",
+      "lines": 148,
+      "baseBlob": "ce704b5713ae9b0b04a7390a8e5445cc146b65a4",
+      "parsedTs": "b97a9814a91b70dfe98cb934e3b09fe27e146bcbde67e8749221e23bcab8468f",
+      "emittedJs": "30435f99da768d7ee9f3e479187ed17577f887f102534ccfc755c634e82a731b",
+      "equal": true
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed",
+      "gitBlobSha1": "41484430887a1942f0f13f805c351314b27c365e",
+      "lines": 119,
+      "baseBlob": "ddbff98b1bdac3e06f02e34497ff7c482380b952",
+      "parsedTs": "eb2c47bef3f0a1aa0577ca1744e6dd75e6d74ebaaa23db3028492962115bb685",
+      "emittedJs": "750a3b6b46dd0f6fe793265c01af7e38a02c4ccfec55e1dbacac47cb0c1eaddd",
+      "equal": true
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "28d312c4792b1cc6c7f2d4f156a764aab80e98f3228a47c567cc40a9a8d1603f",
+      "gitBlobSha1": "eafa9d50cf9497f234b5ec716fbca2baca327a4d",
+      "lines": 19,
+      "baseBlob": "eafa9d50cf9497f234b5ec716fbca2baca327a4d",
+      "parsedTs": "96c4a6c463484830e9f327f775cbd9b86098f17cb45e782ec2be66c5ee8a4cb7",
+      "emittedJs": "9a1da8d6b1ad1714733c65e6d8d7785e3428275a1ce155c047200918f3062c63",
+      "equal": true
+    }
+  ],
+  "helper": {
+    "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+    "sha256": "66175247e57e482b79e43a05fcbe9861cadd5bd6cb549bd14b78f3f0cb6fabca",
+    "gitBlobSha1": "79a26462461bfe4b13029d688225bc5ec3667a42",
+    "lines": 479,
+    "oldExports": [
+      "callsEnding",
+      "indexedPng",
+      "installLoadAll",
+      "legalEventObject",
+      "legalMagic",
+      "legalPalette",
+      "legalRole",
+      "legalSceneAssets",
+      "legalTilemap",
+      "loadAllScript",
+      "pngAtlas",
+      "twoFrameChunk",
+      "wideCharacterChunk"
+    ],
+    "currentExports": [
+      "callsEnding",
+      "indexedPng",
+      "installLoadAll",
+      "legalPalette",
+      "legalRole",
+      "legalSceneAssets",
+      "legalTilemap",
+      "loadAllScript",
+      "pngAtlas",
+      "twoFrameChunk"
+    ],
+    "retiredExports": ["legalEventObject", "legalMagic", "wideCharacterChunk"],
+    "normalizedJsSha256": "d0054571dd2b20aa1f87fb20f8bbb0f1c8beed902d86f01783b94e25aa69c819"
+  }
+}

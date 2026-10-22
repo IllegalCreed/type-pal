@@ -1,5 +1,5 @@
 /**
- * TEST-GROK-RENDER-HOST-LARGE-1 专属合法宿主。
+ * 渲染、资源装配与壳层测试共用的 fixture 工具。
  * 仅供测试使用；产品代码不得引用本目录。不是完整可玩游戏宿主。
  * 调色板固定 256 色；RLE / PNG 都是真实字节，不 mock 解码核心。
  */
@@ -22,10 +22,7 @@ import { vi } from 'vitest'
 import type { SceneAssets } from '../../assets/loader.js'
 
 export function legalPalette(paint?: (colors: Array<[number, number, number]>) => void): Palette {
-  const colors = Array.from(
-    { length: 256 },
-    (_, index) => [index, 20, 40] as [number, number, number],
-  )
+  const colors: Palette['colors'] = Array.from({ length: 256 }, (_, index) => [index, 20, 40])
   paint?.(colors)
   return {
     colors,
@@ -42,7 +39,7 @@ export function legalTilemap(tileset = 'tileset/1.rle'): Tilemap {
   }
 }
 
-export function legalEventObject(id: number, spriteNum: number): SceneEventObject {
+function legalEventObject(id: number, spriteNum: number): SceneEventObject {
   return { id, x: 16, y: 32, spriteNum, triggerMode: 1, sState: 1, direction: 0 }
 }
 
@@ -77,7 +74,7 @@ export function legalRole(id: number, spriteNum: number): PlayerRole {
   }
 }
 
-export function legalMagic(id: number, effect: number): Magic {
+function legalMagic(id: number, effect: number): Magic {
   return {
     id,
     effect,
@@ -131,7 +128,7 @@ export function twoFrameChunk(first = 0xaa, second = 0xbb): Uint8Array {
 }
 
 /** 单帧 5×3，首像素固定，供 loadAll 锚点合同使用。 */
-export function wideCharacterChunk(pixel = 0x3c): Uint8Array {
+function wideCharacterChunk(pixel = 0x3c): Uint8Array {
   const pixels = 5 * 3
   const buf = new Uint8Array(2 + 4 + 1 + pixels)
   const view = new DataView(buf.buffer)

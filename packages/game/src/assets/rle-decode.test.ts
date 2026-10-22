@@ -12,7 +12,7 @@ describe('decodeRle', () => {
     expect(Array.from(f.opaque)).toEqual([1, 1, 1, 1])
   })
 
-  it('Sync.2 fix3:单帧 RLE 带 0x00000002 前缀(RGM 头像)— skip 前 4 字节后再读', () => {
+  it('单帧 RLE 显式跳过 0x00000002 文件前缀后读取宽高和像素', () => {
     // sdlpal palcommon.c:722-728 真值:[0x02 0x00 0x00 0x00] 是 file header prefix
     // skip 后真 header [0x02 0x00 0x02 0x00] width=2 height=2 + 上面同 RLE
     const buf = new Uint8Array([
@@ -35,9 +35,10 @@ describe('decodeRle', () => {
     expect(f.width).toBe(2)
     expect(f.height).toBe(2)
     expect(Array.from(f.pixels)).toEqual([0xaa, 0xaa, 0xaa, 0xaa])
+    expect(Array.from(f.opaque)).toEqual([1, 1, 1, 1])
   })
 
-  it('skip-pixels 指令(b >= 0x80)', () => {
+  it('0x82 跳过两个透明像素，随后两个 literal 像素保持不透明', () => {
     // width=2 height=2,跳 2 px(0x82)+ 2 字节像素(0x02 0x11 0x22)
     const buf = new Uint8Array([0x02, 0x00, 0x02, 0x00, 0x82, 0x02, 0x11, 0x22])
     const f = decodeRle(buf)
@@ -47,8 +48,8 @@ describe('decodeRle', () => {
 })
 
 describe('parseSpriteChunk', () => {
-  it('解 sprite group 多帧(DATA chunk 12 dialog icons 同样结构)', () => {
-    // frameCount=1; offsets[0]=2 (word offset → byte offset 4) → frame 0 起点 byte 4
+  it('单槽 sprite group 的首 word 同时给出槽数与首帧偏移', () => {
+    // 首 word=1；槽数=1、offsets[0]=1（word 单位），frame 0 从 byte 2 起
     // frame 0:width=1 height=1, RLE 单字节 literal 0xFF
     const buf = new Uint8Array([
       0x01,
@@ -71,7 +72,7 @@ describe('base64ToBytes', () => {
   it('空 string → 空 Uint8Array', () => {
     expect(base64ToBytes('').length).toBe(0)
   })
-  it('解码 round-trip(简单 ASCII)', () => {
+  it('有 padding 的两字节与无 padding 的三字节零值输入', () => {
     // 'AAA=' = [0x00 0x00](2 字节);'AAAA' = [0x00 0x00 0x00](3 字节)
     expect(Array.from(base64ToBytes('AAA='))).toEqual([0, 0])
     expect(Array.from(base64ToBytes('AAAA'))).toEqual([0, 0, 0])

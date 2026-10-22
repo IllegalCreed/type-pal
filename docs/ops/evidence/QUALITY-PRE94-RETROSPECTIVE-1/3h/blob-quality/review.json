@@ -1,0 +1,2969 @@
+{
+  "schemaVersion": 1,
+  "base": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+  "owner": "Codex single Agent",
+  "state": "Nine finite files accepted by concrete A-H + source/test controls and current unified source gates; two RLE facade files remain review. Final document statics/publish recorded separately.",
+  "files": [
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "868c492fc155e8a6becd1ff29ee1be002dd78573964d26c84700ac959f0a9f27",
+      "gitBlobSha1": "4f815fa4bffb0caae297f7b2e7e6812d1649b4a6",
+      "lines": 148,
+      "dimensions": {
+        "A": "Fully read; loadAll and bootstrap fetch/frame paths, drawSprite/rng-player consumers and extractor blob writer checked. Preserve HTTP/error/gzip/raw/filtered-key contracts; shared RLE truth remains frozen and external input is not validated here.",
+        "B": "Corrected unsupported request/browser coverage and raw-prefix impossibility claims; byte-vs-format facts separated; both typed arrays borrowed, not exclusive. Actual loadAll vs bootstrap anchor callers distinguished.",
+        "C": "One fetch/decompression/frame-adaptation responsibility; no scene/game state or presentation writes. New decoded arrays belong to loader; adapter borrows planes; each stream reader has current function lifetime.",
+        "D": "Retain separate indexed Map vs character anchor results because callers differ. Common byte fetch/decompress is reused without mode booleans or a larger context.",
+        "E": "Independent fixed frame values replace parser self-comparison, retained HTTP URL/status and raw/gzip callers. Six GOP samples prove transport invariance only, not SDL frame interpretation.",
+        "F": "Direct adapter and anchor formula readable; reduced speculative prose. No rename or split with demonstrated benefit beyond these ownership comments.",
+        "G": "Each public function has real consumers. No dead production exports or parameters established; do not invent fallback or validation policies.",
+        "H": "Pure adapters directly tested; IO uses explicit fetch port and native stream. No test-only production API added."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.test.ts",
+      "sha256": "60ac6e213354989a5e34a06612fc7917e48e349a6bc9e372c536fe10b362f1b7",
+      "gitBlobSha1": "e38495240ba15bd274875e9f6ccdabd6b5e29114",
+      "lines": 219,
+      "dimensions": {
+        "A": "Fully read 15 old cases/13 retained; typed RleFrame literal and explicit raw bytes valid for current TS contract. Each fetch spy restored in finally.",
+        "B": "Titles now identify borrowing of BOTH planes and filtered valid-frame keys; does not claim preservation of malformed source slot numbers or independent SDL truth.",
+        "C": "Tests split conversion, raw/frame decoding, anchors, IO and gzip. No shared mutable game context; own expected arrays remain independent.",
+        "D": "Keep simple frame bytes distinct from IO fixture factories; reuse existing legal contracts, no universal test host.",
+        "E": "Expected fixed [AA,BB]/opaque/dimensions and aliased planes replace same-parser oracle. Two /404/ subsets retire to exact C04/C05 including status and URL; runtime work is not replaced by mock counts.",
+        "F": "Typed literal exposes conversion input; fixed bad middle slot and explicit output pairs reveal the filtering contract.",
+        "G": "15→13; opaque assertion formerly B06 merged into existing conversion case; removed only two redundant HTTP summaries, all independent anchor/raw/gzip/zero-plane contracts retained.",
+        "H": "No core mock/type cast; stream/fetch endpoints controlled locally and restored, async operations awaited."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "sha256": "b855fe0b4072e7bc2f4c077aff77d8ed8bf2afc62a6d47d0f6ef8f4d77cd75e9",
+      "gitBlobSha1": "3d36b1b1d95e0dcc201d07cff535b759d5850b6c",
+      "lines": 93,
+      "dimensions": {
+        "A": "Fully read; missing API and split-stream globals now restored through descriptor-aware vi globals. Real invalid gzip/native TypeError remains separate.",
+        "B": "Header now points to BOTH borrowed planes; split fake explicitly owns only output chunks, not gzip correctness.",
+        "C": "Fake TransformStream consumes input and emits two chunks only on flush. Hooks own global state; no product stream/reader ownership change.",
+        "D": "Opaque duplicate moves to main conversion; reuses real TransformStream contract without forced constructors or reusable mock framework.",
+        "E": "9→8; exact missing-API/corrupt-input/raw magic/anchor cases kept. Same end-of-suite descriptor probe: old9green+1AssertionError, new9green. This is a test isolation counter, not a product red.",
+        "F": "One typed stream with explicit transform/flush explains the seam instead of two unrelated streams.",
+        "G": "Removes opaque-only subset plus unused parser/helper imports; no assertions lost, all former opaque assertions present in main conversion.",
+        "H": "satisfies native constructor type checked; no as coercion. Only controlled chunk-assembly seam mocked; real gzip tests remain."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "sha256": "819feeba628a7010d3ec015e43a32e3e05ac56a4801b55c63458cd9c57e75efc",
+      "gitBlobSha1": "f235543a0c813622ffd87fe961b184590268cc8b",
+      "lines": 106,
+      "dimensions": {
+        "A": "Fully read all8; raw sprite/tileset/character, HTTP status, bad body covered through public loaders; afterEach restores global mocks.",
+        "B": "Existing header is historical comparison to former weak main 404 cases; current transfer explicitly recorded here, not a new truth claim.",
+        "C": "Per-test HTTP body/status inputs; no game state. Error classification tests observe actual thrown values.",
+        "D": "Uses existing twoFrameChunk; raw transport contracts distinct from main gzip transport, no blanket duplicate deletion.",
+        "E": "C04/C05 retain full URL/status rejection oracle and receive weak main /404/ cases. C06 remains real character-wrapper failure; C07/08 distinguish decode TypeError from HTTP error.",
+        "F": "Sequential named public calls and exact literals are directly readable.",
+        "G": "Eight distinct caller/input contracts retained; no dead helper or wrapper introduced.",
+        "H": "Fetch port sufficient; real shared parser/decompression execute; no private state inspection or core mock."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "66175247e57e482b79e43a05fcbe9861cadd5bd6cb549bd14b78f3f0cb6fabca",
+      "gitBlobSha1": "79a26462461bfe4b13029d688225bc5ec3667a42",
+      "lines": 479,
+      "dimensions": {
+        "A": "All482 old lines read, current full function bodies checked; 17 actual importers enumerated. Typed role callers only0/1, not a complete playable fixture for arbitrary roles/worlds.",
+        "B": "Exclusive-host heading corrected to shared test fixture; no complete playable-world claim. Palette/canvas/RLE scope remains explicit.",
+        "C": "Test-only module depends on product types/shared data, never product→test. Per-install calls/routes/stubs owned by each test, fresh responses/bodies per request. No hidden global game mutation.",
+        "D": "Do not merge boot-mid legal fixture just because palette/PNG bytes look alike; barrier/reference-only vs route/data host lifetimes differ. Existing shared PNG/RLE functions used by actual consumers.",
+        "E": "17 real importers147green at helper change point; later dialog changes separately tested. Constructor legality checked vs real Enemy/ObjectPlayerView; no fixture tests padded just to assert values against themselves.",
+        "F": "Named route dispatch is one IO fixture adapter. Approximate complexity route57/loadAllScript18 prompts full read; replacing with cached Response would change body lifetime and mutable script semantics.",
+        "G": "Three dead external exports made private; all functions retained for internal callers. Exact emitted JS token invariant after only those export modifiers normalized; tuple cast replaced by return annotation.",
+        "H": "Actual fetch/Response/canvas/RLE paths remain observable. Per-request copy and explicit context/blob failures retained; no test-only product seam added."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "28d312c4792b1cc6c7f2d4f156a764aab80e98f3228a47c567cc40a9a8d1603f",
+      "gitBlobSha1": "eafa9d50cf9497f234b5ec716fbca2baca327a4d",
+      "lines": 19,
+      "dimensions": {
+        "A": "Full18-line adapter read; shared re-export plus browser atob, real dialog caller. No codec/schema/resource policy changed.",
+        "B": "Previous prefix-endian correction reused; no additional source edit; new unit titles restrict claims to actual input axes.",
+        "C": "Stateless browser base64 port plus direct exports; no game state or new dependency direction.",
+        "D": "Shared codec remains reused; no duplicate implementation. Legacy facade export cleanup is a separate finite scope after classifying current interface ownership, rather than assuming every declared alias is needed.",
+        "E": "Identity tests prove actual re-export wiring; fixed zero/high-bit/padding/invalid base64 use real inputs. Not claimed independent RLE algorithm proof.",
+        "F": "Direct conversion remains clear; no unnecessary wrapper renamed for preference.",
+        "G": "Actual packages/scripts import census: base64ToBytes/parseSpriteChunk used by dialog-assets; decodeRle only used in two tests, RleFrame has zero imports through this facade (real consumers import shared directly). Do not count these as production callers. Public/internal export ownership and obsolete future-path prose not resolved in frozen window; whole source remains review.",
+        "H": "Pure byte conversion directly callable; native failure observable without altering product error handling."
+      },
+      "state": "review; withdraw historical close: B/G facade ownership and current production caller debt"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "sha256": "be70caa041e41622c66cfa45aed18495320a38902c1053dd06a0cf9bab51220a",
+      "gitBlobSha1": "4f36740cd1ec2bca12a916b2dd285b11ecab12a1",
+      "lines": 80,
+      "dimensions": {
+        "A": "Full6 cases read; fixed bytes use current TS single-slot grammar; prefix opt-in and literal/skip planes checked. Shared G1 unresolved.",
+        "B": "Correct byte2 first-frame comment (word1); remove false round-trip/ASCII and stale fix label; skip title narrowed to actual0x82 input.",
+        "C": "Direct parser/adapter calls, no IO/global stubs or game state.",
+        "D": "Distinct prefix/plain/skip/slot/base64 input axes retained; no new decoder or helper.",
+        "E": "All6 current cases pass with independent literals and corrected titles/prefix opaque assertion. Four codec cases import an otherwise production-unused facade export; shared suite overlap and real caller justification still need matching. No file acceptance merely because6green.",
+        "F": "Titles name exact input and result; offsets expressed in both word and byte units.",
+        "G": "Six cases unchanged in count. Dedup against shared codec cases remains unresolved; do not retain extra facade tests merely to justify a dead product export.",
+        "H": "Pure functions with literal bytes deterministic; caller-level icon path separately tested."
+      },
+      "state": "review; current B/title fixes accepted as claims, whole-file E/G dedup not closed"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed",
+      "gitBlobSha1": "41484430887a1942f0f13f805c351314b27c365e",
+      "lines": 119,
+      "dimensions": {
+        "A": "Full file read plus bootstrap/PresentContext/dialog-box consumers. Portraits keyed by chunkIndex, icons by filtered TS index; each route failure logs+returns empty map independently. Trusts generated manifests; no format/domain validator invented.",
+        "B": "DialogSprite lacks SpriteImage anchors; comment corrected. Remove unsupported playable-game guarantee; only missing-blit and independent-map behavior claimed.",
+        "C": "Private IO helpers own local maps and pending Promise.all; startup caller owns returned maps. No writes into battle/scene state or renderer; no inverse dependency.",
+        "D": "PNG portraits and base64 sprite icons have different formats/keys/errors; do not merge for syntactic similarity. Shared indexed shape remains structural, no API change.",
+        "E": "Real PNG/RLE/base64 and controlled HTTP through public function. Exact diagnostics and surviving opposite map asserted; concurrent startup barrier separately tested.",
+        "F": "Two named loaders show parallel independent responsibilities. Existing full module not split merely because two resource kinds differ.",
+        "G": "Outer defensive catch is redundant with ordinary rejecting loaders, but behavior if diagnostic infrastructure itself throws is outside established startup contract. Register structural candidate, retain without silently deleting error policy.",
+        "H": "Fetch and native PNG/codec ports suffice. No new injection/context API; global IO tests isolate and restore stubs."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "sha256": "60bf26531054a6f3e213703a18edcb7929f9c4e9806dfb76b64b10eb245cd744",
+      "gitBlobSha1": "99d71b886a63949ebfa386cf2d433d118a324cbc",
+      "lines": 36,
+      "dimensions": {
+        "A": "Both old cases fully read; old second called icons unmocked while claiming normal. New legal explicit503/404 inputs isolate both-failure result.",
+        "B": "Remove false no-existing-tests heading and incorrect icons-normal title; new title states both failures.",
+        "C": "Test owns only fetch/warn mocks, afterEach restores both. Removed unused canvas encoder and per-case PNG setup.",
+        "D": "First mixed success/PNG-failure subset transfers to D07/G4 and exact icons warning to D02; reuse real retained tests instead of a third PNG encoder.",
+        "E": "2→1; surviving case strengthened to exact two errors/messages/count and both empty maps. No result assertion replaced by mock count alone.",
+        "F": "One visible handler per explicit failed endpoint; no conditional catchall masquerading as valid fixture.",
+        "G": "Deleted tautological out instanceof Response branch and dead beforeEach/PNG helper with retired first case; no product code moved.",
+        "H": "Fully awaited public load; errors deliberateHTTP responses, not accidental unmocked requests; cleanup on failed assertions."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "c4acee0bdd146721ffffa1355c149c8b22e438033a0334bec60903cc220fd500",
+      "gitBlobSha1": "29b5275eeec2d4b9019f32902fc3095d32cc7341",
+      "lines": 339,
+      "dimensions": {
+        "A": "All14 old/13 retained read. Single-PNG-all-failed empty portrait map is a different cardinality boundary from G4 partial success, so D14 retained. All HTTP/base64/metadata fixtures scoped explicitly.",
+        "B": "Remove stale no-success-icon claim. Headers now name real pixel/mask/metadata boundaries.",
+        "C": "beforeEach owns warn capture; afterEach validates FULL calls/count then restores globals/mocks in finally. Two independent port completion order unconstrained.",
+        "D": "Only D12 subset retires to D02 full PNG planes+exact icon warning. D14 proposed deletion reversed; its zero-success PNG boundary remains independent from G4.",
+        "E": "14→13; existing output assertions retained. Complete hook diagnostic object already includes D05 exception name, so duplicate direct name assertion removed. OldD02green/newD02AssertionError wrong-context control; final rerun recorded separately.",
+        "F": "Expected diagnostic tuple declared next to each failing input; success/pure tests expect zero diagnostics automatically.",
+        "G": "One weaker case removed; D14 kept rather than forcing a dedup claim. High-bit/padding and runtime wiring are distinct contracts; no coverage padding.",
+        "H": "Real PNG/codec work observed; only fetch/warn IO capture. No core mock/cast/ignore; global restoration runs even if diagnostic assertion fails."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "9a661900eaa6cee0c939bae9dcf8df6ab4c702c3088db3d97ed269297278db72",
+      "gitBlobSha1": "a1f2559a095f7617fe344eeb67c4898bdab8241a",
+      "lines": 178,
+      "dimensions": {
+        "A": "All4 read; partial PNG failure/parallel startup/duplicate slot/count metadata remain distinct inputs. Pending requests now drained even on assertions; future cleanup requests get503 and pending load awaited.",
+        "B": "False uniqueness/no-duplicate heading replaced with exact scope; abnormal duplicate/count fixtures explicitly not normal exporter output.",
+        "C": "Per-case maps and fresh Response copies; deferred fetch resolves remove themselves. Test cleanup owns transport lifetime, not product cancellation policy.",
+        "D": "Reuse existing boot-mid PNG/RLE helpers with input/byte contracts read; no universal host/context or assertion helper introduced.",
+        "E": "All4 identities and result assertions retained; weak Error/substring calls replaced by exact complete errors/count. vi.waitFor waits for actual PNG request, replaces fixed20-microtask guess.",
+        "F": "try/finally surrounds every barrier assertion and clearly names draining phase.",
+        "G": "No new/removed cases, leftover resolved-map entries and timing loop removed; no timeout relaxed.",
+        "H": "Explicit manifests held independently; result pixels observed after release; failure paths cannot leave pending async work to next test."
+      },
+      "state": "accept: finite contract in dimensions; source gates complete, no inherited broad format/playable-world credit"
+    }
+  ],
+  "reads": {
+    "full": [
+      "packages/game/src/assets/tileset-blob.ts",
+      "packages/game/src/assets/tileset-blob.test.ts",
+      "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "packages/game/src/assets/rle-decode.ts",
+      "packages/game/src/assets/rle-decode.test.ts",
+      "packages/game/src/assets/dialog-assets.ts",
+      "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "packages/game/src/assets/tileset-blob-snapshot.test.ts"
+    ],
+    "partial": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "ranges": [[535, 575], [1330, 1365]],
+        "claim": "loadAll/frames/anchor consumers only"
+      },
+      {
+        "path": "packages/pal-extract/src/cli.ts",
+        "ranges": [[594, 645]],
+        "claim": "GOP raw blob writer only"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.ts",
+        "ranges": [[75, 145]],
+        "claim": "sprite plane readonly consumer"
+      },
+      {
+        "path": "packages/game/src/present/dialog-box.ts",
+        "ranges": [[660, 705], [730, 755]],
+        "claim": "portrait/icon missing blit behavior"
+      },
+      {
+        "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+        "ranges": [[118, 175]],
+        "claim": "only three byte/PNG helper functions, not whole host"
+      }
+    ],
+    "reused": [
+      "3h/assets-quality/README.md",
+      "3h/bootstrap/README.md",
+      "3h/fetch-retry/README.md",
+      "present-leaves-gates.json",
+      "glm-foundation/codex-final29.json"
+    ]
+  },
+  "pins": [
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "gitBlobSha1": "5d7f8e4c2505c9a3e63cf6073f1022b3867e28e2",
+      "lines": 325
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "gitBlobSha1": "e69aab7ce3afd15c57d86338c3e880a4eed6ddce",
+      "lines": 49
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "gitBlobSha1": "3a4bb0cb43987fd85f2711bb6eb128af19618d9f",
+      "lines": 501
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8",
+      "gitBlobSha1": "abb6af8ad74321890730a07de64503977cece1ce",
+      "lines": 1938
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04",
+      "gitBlobSha1": "536ec0c765331ca3392d690f827d7ceabd971960",
+      "lines": 268
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef",
+      "gitBlobSha1": "162eaedf581ff379dd05a82c44ad8624d3d0e4f3",
+      "lines": 48
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "d326e5b04d37a4c92a31166307e551dab6c5d61dfbf790ad61b9494e8d993eec",
+      "gitBlobSha1": "b779766c74e008f4c606c4e8f4501b7d853146cd",
+      "lines": 960
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "sha256": "28dc3195ead8750a41de04ff0b142f89ac62a11cf773f3c21239d96a023dfd89",
+      "gitBlobSha1": "8dc4f7743a51a9c943f6d9d4aef66c8bf63c51f8",
+      "lines": 163
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+      "sha256": "3590721822f5a46d2bff8bab28957a330060074ddc72d84c016149023abe2755",
+      "gitBlobSha1": "7349fc726914db4a8be09b8a668812025a56cdcc",
+      "lines": 124
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "gitBlobSha1": "cc85530bc05315d71dd41a6f38aa97c73d5e2165",
+      "lines": 11
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "gitBlobSha1": "13bcbac1f54907b6bf6e2da98f15e437b450af51",
+      "lines": 20
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "3dd47beddd01f2fc24f3389ed59ba5e60184d9952dac0db523dd6d90367c8309",
+      "gitBlobSha1": "368837a3259adf4c03ae6392c26a5a7446f16be4",
+      "lines": 12
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7",
+      "gitBlobSha1": "28761c26b2a93b7a4f44023b560426b06fbd6d9a",
+      "lines": 865
+    }
+  ],
+  "primary": [
+    {
+      "url": "https://streams.spec.whatwg.org/#transformer-api",
+      "accessed": "2026-10-22",
+      "claim": "TransformStream flush follows input transformations; empty transform consumes input, explicit flush emits controlled chunks."
+    },
+    {
+      "url": "https://compression.spec.whatwg.org/",
+      "accessed": "2026-10-22",
+      "claim": "DecompressionStream input BufferSource/output Uint8Array and stream/error behavior; not a browser compatibility census."
+    }
+  ],
+  "retirement": {
+    "authority": "User standing test-quality/dedup instructions 2026-10-03/18/20 and latest pre94 quality scope. Not inherited old five-file permission.",
+    "before": {
+      "entries": 47,
+      "net": 97
+    },
+    "after": {
+      "entries": 51,
+      "net": 102
+    },
+    "entries": [
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "previous": 15,
+        "current": 13,
+        "previousIdentityDigest": "7b4dc1698d94e06f095034788959cbc4ff537728a57eb074e2720c5300ca716a",
+        "currentIdentityDigest": "244d7e5a4cf432f66ec318c9b50674abad671fceb88c3c21c58838a3a9cd6a8e",
+        "fileSha256": "60ac6e213354989a5e34a06612fc7917e48e349a6bc9e372c536fe10b362f1b7"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "previous": 9,
+        "current": 8,
+        "previousIdentityDigest": "d146d281cd8951bfbc2ca34be73029e821f9862816448b0fe2985424ee5a722b",
+        "currentIdentityDigest": "d3d931a7a5d324bfea991d409a09a9c3d4cc46cfaca7c8dcf7529f3a573abad0",
+        "fileSha256": "b855fe0b4072e7bc2f4c077aff77d8ed8bf2afc62a6d47d0f6ef8f4d77cd75e9"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "previous": 14,
+        "current": 13,
+        "previousIdentityDigest": "e7d4c3d2569a08c09b8d0d2b0b8240ac22f018ea02bd64cd682552aac3b9831a",
+        "currentIdentityDigest": "0c8a791fb0ad1635ef9ff0823384c99b3718971fb0d80ea709882055b7335b66",
+        "fileSha256": "c4acee0bdd146721ffffa1355c149c8b22e438033a0334bec60903cc220fd500"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "previous": 2,
+        "current": 1,
+        "previousIdentityDigest": "55ea28df2daa97d3705047bae4dc387f5526d1891231c1f8ca39984152a961ac",
+        "currentIdentityDigest": "608c146cbe209e2e7b492d8e4fb89ea1dc756a13eb6b83c4820f26d730b1b933",
+        "fileSha256": "60bf26531054a6f3e213703a18edcb7929f9c4e9806dfb76b64b10eb245cd744"
+      }
+    ],
+    "transfers": [
+      {
+        "from": "tileset-blob loadSpriteFramesBlob:404",
+        "to": "G02-C04 full sprite URL+503 (same !ok branch)"
+      },
+      {
+        "from": "tileset-blob fetch失败",
+        "to": "G02-C05 full tileset URL+503 (same !ok branch)"
+      },
+      {
+        "from": "G02-B06 opaque alias",
+        "to": "main typed conversion: width/height/BOTH full planes and SAME arrays"
+      },
+      {
+        "from": "G02-D12 icons404/portraitpixels",
+        "to": "D02 full PNG dimensions/planes, icons map empty + exact warning"
+      },
+      {
+        "from": "L23 mixed first case",
+        "to": "D07 (PNG failure/success + icons404) and G4 first, diagnostics to exact D02/D07"
+      }
+    ],
+    "allOldDataRowsAndPredicate": "verified separately before integration; no broad scope allowance added",
+    "retainedBoundary": "G02-D14 unique single-PNG-all-failed empty portrait map + icons survivor retained with exact warning. First deletion proposal reversed before coverage; final14→13."
+  },
+  "findings": [
+    {
+      "id": "BQ-1",
+      "kind": "proven test isolation defect",
+      "resolution": "global descriptor restore old-red/new-green, fixed vi globals"
+    },
+    {
+      "id": "BQ-2",
+      "kind": "proven test discrimination gap",
+      "resolution": "wrong icons warning passes oldD02/fails newD02; full capture asserted"
+    },
+    {
+      "id": "BQ-3",
+      "kind": "proven dead test exports",
+      "resolution": "three made private; no external import/dynamic usage and emitted JS invariant otherwise"
+    },
+    {
+      "id": "BQ-4",
+      "kind": "structural candidate",
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "symbol": "loadDialogAssets outer catch",
+      "resolution": "retain: separate decision needed before removing defensive error policy; no proven product defect with ordinary globals"
+    },
+    {
+      "id": "BQ-5",
+      "kind": "unknown",
+      "path": "packages/shared/src/rle.ts",
+      "resolution": "G1 format/resource allocation limits remain in dedicated RLE truth cards, not closed"
+    },
+    {
+      "id": "BQ-6",
+      "kind": "remaining review",
+      "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+      "resolution": "six samples ran; same codec is not independent algorithm truth. Redundant second decode and historical CDN/sample comments left for next bounded test slice; not accepted in this window"
+    },
+    {
+      "id": "BQ-7",
+      "kind": "nonblocking structural candidate",
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "symbol": "indexedPng",
+      "resolution": "A small PNG IO fixture function could be shared with grok-boot-mid-1/legal.ts after comparing its exact input/failure contract. Do not merge both whole hosts or mix canvas IO into the pure binary PNG encoder. No observed incorrect result or unbounded lifetime; optional factoring does not block the current finite fixture contract."
+    },
+    {
+      "id": "BQ-8",
+      "kind": "confirmed caller census; unresolved interface ownership/test dedup",
+      "paths": [
+        "packages/game/src/assets/rle-decode.ts",
+        "packages/game/src/assets/rle-decode.test.ts"
+      ],
+      "facts": "decodeRle export: only rle-decode.test.ts and dialog-icons test; RleFrame re-export: no imports. dialog-assets real caller uses only base64ToBytes/parseSpriteChunk. Game package private, no package exports declared; does not itself authorize removing a frozen product module surface.",
+      "resolution": "Keep both files review, withdraw one old source close. Next finite slice classifies internal/public export contract and matches shared test oracles; no product export/test changes during coverage collection."
+    }
+  ],
+  "processFailures": [
+    "First dialog test candidate22passed1failed: expected globalDOMException identity did not match jsdom atob exception. Preserved raw; final checks actual stable name/message with host scope.",
+    "First dialog typecheck TS2550/TS7006: new toSorted incompatible with ES2022 lib. Replaced with copy+sort; no target/lib relaxation.",
+    "Private pack-review producer first exit1 because emitted JS printer formatting was compared byte-for-byte for helper. Changed to token-kind/text comparison after only the specified export modifiers; source now uses contextual Palette.colors annotation. Captured producer failure is not a product/test counter.",
+    "Initial D14 deletion proposal reversed on assertion-transfer audit; final13 cases keep the zero-success PNG boundary. Added exact warning, removed D05 duplicate name assertion already present in full hook object. Original12-case green remains historical only."
+  ],
+  "artifacts": [
+    {
+      "file": "after.execution.json.gz",
+      "bytes": 849,
+      "sha256": "6e0d000ecb3c9c24cfca1d73c11f6d50015bf10849df9ad13021a0a7d25ccdaf",
+      "gzipSha256": "61d499f5e71ed5240d9de540aa04dd237d8b4265beab135cf473c4b40d1463a0"
+    },
+    {
+      "file": "after.native.json.gz",
+      "bytes": 13335,
+      "sha256": "d46472199c42cb02bda071d4f1d174eab8c6cfb5992765fc0284d7b32fd0a907",
+      "gzipSha256": "924bff31bd130c7e16946aa4d7dc12b5847d73fb851f60deee6f4acad39ffec3"
+    },
+    {
+      "file": "after.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "after.stdout.raw.gz",
+      "bytes": 2088,
+      "sha256": "69acfe7ddadc993a61f979dc99e389c18fdd62266cfea764c782af0ad5d0b271",
+      "gzipSha256": "5c6e945a445d13c4a6f37ac1094b8c73c07eceaddc10abf4c3598da1ae358c37"
+    },
+    {
+      "file": "before.execution.json.gz",
+      "bytes": 851,
+      "sha256": "b3e902e9641b597e6b016eb652415010df3c25f24952935019c56e857fcc35e2",
+      "gzipSha256": "e79824bb146e1a016fb7cec5953a3ec900c4259c3ffd2b46e2228e847dae50fd"
+    },
+    {
+      "file": "before.native.json.gz",
+      "bytes": 14223,
+      "sha256": "82cb235e5a9e344730b0c5731e1cecd2486469b41a3fb97548256c1c56decd15",
+      "gzipSha256": "48900b99fa3f5da910e77c8d21e31eedf8629b62a3bcc3f85a949041968530ae"
+    },
+    {
+      "file": "before.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "before.stdout.raw.gz",
+      "bytes": 2094,
+      "sha256": "2c3bec9b5e4fee2eb2523fc8dd8e19cef97d13723c4d9684d7940134b8ce9006",
+      "gzipSha256": "110fc6bcd32bdb675bd2ef7e32c04048d6e5c1f134929ac4cb579a055aea7e75"
+    },
+    {
+      "file": "current-typecheck.execution.json.gz",
+      "bytes": 450,
+      "sha256": "b34245c2bd1e16dcc9663ae49d2535bac5d0a09a162ce4fbbd0a58012e9a1d0c",
+      "gzipSha256": "e7aa89e9cd0c5e20d04aaa329ffe7d9c0d9f7f5b6e62c9c9d5ec77500283929c"
+    },
+    {
+      "file": "current-typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "current-typecheck.stdout.raw.gz",
+      "bytes": 125,
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "gzipSha256": "cfa917f0c8b26c1776c0712d5d9901bedd66eac5267f430cd75f2d59be095d3c"
+    },
+    {
+      "file": "dialog-after.execution.json.gz",
+      "bytes": 880,
+      "sha256": "22219f3a77d02b3d822b8f8e735ec0e71ade4ff676783a2f11fbbbc90de14f9b",
+      "gzipSha256": "4d9286e0db70be365b1ec9b2a162173e21063ef108b08ece13d4ad3628e64866"
+    },
+    {
+      "file": "dialog-after.native.json.gz",
+      "bytes": 10376,
+      "sha256": "d3dbd1b965411061ffe452733dea33dd4434f15b6c64e88849d07e3c1fffd814",
+      "gzipSha256": "87e0851fc210b1cf270f55960fd430a2af013c414662ea2a62281eed42d7b7ab"
+    },
+    {
+      "file": "dialog-after.stderr.raw.gz",
+      "bytes": 904,
+      "sha256": "da938af7f6275b7f6ab48724cf97c61c9656af4efa52bc360b59015a228483be",
+      "gzipSha256": "b02936773b369044123c67c08033906173b667b1490f58fd1fe684a11b2260c9"
+    },
+    {
+      "file": "dialog-after.stdout.raw.gz",
+      "bytes": 2098,
+      "sha256": "dbf55abe674e732f646f0bc736f2f683b584c10e3062fc1b6059e3201f519e79",
+      "gzipSha256": "9968411f2f5003739434b695ebb80f1ad00562edee703dea0dadcddf79d4de61"
+    },
+    {
+      "file": "dialog-before.execution.json.gz",
+      "bytes": 879,
+      "sha256": "b59920d653d415e5c0d0048764a9b46f19e92d6df732bb6d314044ff5e27653b",
+      "gzipSha256": "3dfdcda4fdaca197a91a0fc02665a969724874405e0615dc75d8cd3c775ded43"
+    },
+    {
+      "file": "dialog-before.native.json.gz",
+      "bytes": 9656,
+      "sha256": "459bf3ac3de500f94c2e6e2f2a450770b66324f66c577f1e9c05c1ce21a1664c",
+      "gzipSha256": "28cb637d85dfb4ac0c09833c9f197c814b9488f3585d0a79ab5a910986274dff"
+    },
+    {
+      "file": "dialog-before.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "dialog-before.stdout.raw.gz",
+      "bytes": 640,
+      "sha256": "39ad00d4e7bba001eb5aac7fc90e9837dce793a4a113be436a0dbafa2615edc4",
+      "gzipSha256": "9be314d3c779750571b7c325ba05a67ec72714ade6a78cdefd16c89cca30cf60"
+    },
+    {
+      "file": "dialog-final.execution.json.gz",
+      "bytes": 877,
+      "sha256": "1d891ef2b91b18a899fb073809f09e8eb5a5617b45ef6190ec702a67c286cf7a",
+      "gzipSha256": "b67d9bc6e86c70545c51a90e62cbfa8215a34ff39c74d41b8c136ef5c1368e5e"
+    },
+    {
+      "file": "dialog-final.native.json.gz",
+      "bytes": 8696,
+      "sha256": "2d2e7e44b118e0db0b1ffadaf2ac651713c1d4cc1341c69b55e924271386e5ff",
+      "gzipSha256": "60c82786a8575a3c935834aa3c2fcb222efccc66bba933f1ab846440023df17c"
+    },
+    {
+      "file": "dialog-final.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "dialog-final.stdout.raw.gz",
+      "bytes": 636,
+      "sha256": "b3202b4732a0fc75651b7c2c4103599794be937d8208826bbdf0dc4468905839",
+      "gzipSha256": "e0cc8286dea9fee1e03e92f05ea360732b81a46cc415d1a942bd090a233f418d"
+    },
+    {
+      "file": "dialog-typecheck.execution.json.gz",
+      "bytes": 450,
+      "sha256": "5529a3b04cf7c0049322c28d01a167b0d60eff0bff3bca82b283cdbd62907fe3",
+      "gzipSha256": "53646df0128ea78f1fce80fed674fdf8d507bc81755c925904170388da0bff1d"
+    },
+    {
+      "file": "dialog-typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "dialog-typecheck.stdout.raw.gz",
+      "bytes": 1643,
+      "sha256": "b93b446d957dcf1a2dfd676f480667c75dbe8f83ab609c9f3af882dc85e90262",
+      "gzipSha256": "57a7c98d16c018fe506dadd673fb75de89d1c2b477e0a1e5b7397d0b46408c41"
+    },
+    {
+      "file": "global-after-restoration.json.gz",
+      "bytes": 216,
+      "sha256": "722f322e3c835fa01434bbcf93b5765f5cb4faa3301e1f3c9c86390722453fde",
+      "gzipSha256": "8939b6acf1be3180658be9fff6e83d1eabf2c2a56d9a445e6d45438547d09823"
+    },
+    {
+      "file": "global-after.execution.json.gz",
+      "bytes": 728,
+      "sha256": "b55df60826170709d34c6f0ee62bb4b3cc018a52df72370f83010eeeb6fd9bd8",
+      "gzipSha256": "e75a4c36fbc3f004c73845dc2b2ac73b02faaa38d083922451a50f3b3d06b0b7"
+    },
+    {
+      "file": "global-after.native.json.gz",
+      "bytes": 3629,
+      "sha256": "ba979c1257e74e02e15dab422024759965d40f931eff256e17ce0f2a854f053c",
+      "gzipSha256": "f1c46440784985a937240eb0e17d410186d4a2875c5d35227e299e0502f32568"
+    },
+    {
+      "file": "global-after.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "global-after.stdout.raw.gz",
+      "bytes": 444,
+      "sha256": "777f54962715ad6506f57f753fe2092d0099e6804513f6425a933a9026fcabea",
+      "gzipSha256": "c146424676dd14a678fcea3b5b3dc16e5ffc42cdd0c133ecb511356309ff6277"
+    },
+    {
+      "file": "global-before.execution.json.gz",
+      "bytes": 733,
+      "sha256": "32dcbcfa14ce0a997185275d59abdea469046981e65bfb43a919b09e20936cc5",
+      "gzipSha256": "af1ef67c58b4a3d279b2324120c43709cb7a255bdc98b87097fbd227f6619bc0"
+    },
+    {
+      "file": "global-before.native.json.gz",
+      "bytes": 5471,
+      "sha256": "2fb517334402f21090398b6971bbf8a2d24ed3c1e7954d0f74dd61b82c658c3c",
+      "gzipSha256": "89aa9a1d169a8aa01194e43f94ca87425855cbb39672d3dce37b0df2944ed0ec"
+    },
+    {
+      "file": "global-before.stderr.raw.gz",
+      "bytes": 902,
+      "sha256": "3d91b057e8d43df59a516a25e187a1833d6da8e6dc102602754f690f711fd4be",
+      "gzipSha256": "102aade8b20261bd0f7e49a9885f3813c7bd49efca687363c6af9a1e9c93c19d"
+    },
+    {
+      "file": "global-before.stdout.raw.gz",
+      "bytes": 1637,
+      "sha256": "ee3dffd5a70488faaa6db42480c3ed339192abdcc713b2aca014f723664a7750",
+      "gzipSha256": "fcaa46ece4503e716ad810d0105a3cc087321639e15c778bfec09f733694135e"
+    },
+    {
+      "file": "global-probe-restoration.json.gz",
+      "bytes": 216,
+      "sha256": "61b2068a93c850b8da74c0ac7161f178f108e785983f38df64799820ccebb19d",
+      "gzipSha256": "8f97249586922aaae4c75902b281be61c973efa0129e8f997ba1ac5c33bad3ad"
+    },
+    {
+      "file": "helper-callers.execution.json.gz",
+      "bytes": 1542,
+      "sha256": "8eec502d25c694d1309e4363641e2188830b2c5c890015ea131c35d75a60e3e2",
+      "gzipSha256": "74f40de56a71524ac8a7aa2d886e86ef19aea0bef986ffde69567900073ea40f"
+    },
+    {
+      "file": "helper-callers.native.json.gz",
+      "bytes": 53169,
+      "sha256": "d03f43c01233c49606ee3cec2edb51ef8276b8631459973e7542399e353d8105",
+      "gzipSha256": "8a9b278916d00db840d474208976d7c57025c3acfedaed4e375a70f02f4f490f"
+    },
+    {
+      "file": "helper-callers.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "helper-callers.stdout.raw.gz",
+      "bytes": 2152,
+      "sha256": "52995b97dbd4ff7a78f183e6c3e2e8e1e7f0410d5f44ea183cb5c4c349fc9970",
+      "gzipSha256": "b0367be9ee69b7b5dff2b961d82a2fb25f88905f2b11ad718493b07bea66d593"
+    },
+    {
+      "file": "helper-final-format.execution.json.gz",
+      "bytes": 513,
+      "sha256": "5ff3346436e1c5f7c633f7c29957837f669c36bdbe40339c5dc6441cfcf80dfd",
+      "gzipSha256": "abdb2bdf6eb59fbbb4abc826a86d90c6033c06fbbf510330d1fef23b2799750e"
+    },
+    {
+      "file": "helper-final-format.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "helper-final-format.stdout.raw.gz",
+      "bytes": 38,
+      "sha256": "3797eaa2ef07e89f73b541905e5ec778467d118b4efe37fa2f469d09eccb4acf",
+      "gzipSha256": "e48e6a1b72c1bec4e307baaa34bcbfc505320f30cc18e06efc2fbee276bc2ed6"
+    },
+    {
+      "file": "helper-imports.json.gz",
+      "bytes": 1423,
+      "sha256": "a23e66d4453a39d37861b7eec79288b860c33085fb26ff7d4d2c53a45535fc1e",
+      "gzipSha256": "041dfce3d05c1465bfac830023da8874e6d5be4524e9239adbf15b2b841ef84e"
+    },
+    {
+      "file": "helper-typecheck.execution.json.gz",
+      "bytes": 449,
+      "sha256": "1e9d93d1fc057df67d4c94dfea45957b7f7f4369d8c5b234ccb32814a4e98097",
+      "gzipSha256": "0297833189632f6556fd312b920731f907b00cfdbc287c87da85bbd8822bf94f"
+    },
+    {
+      "file": "helper-typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "helper-typecheck.stdout.raw.gz",
+      "bytes": 125,
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "gzipSha256": "cfa917f0c8b26c1776c0712d5d9901bedd66eac5267f430cd75f2d59be095d3c"
+    },
+    {
+      "file": "pack-review.execution.json.gz",
+      "bytes": 491,
+      "sha256": "c6fd2b95901a89b7028fd6a56aab07d8e2455f31b79f4ffc20aecf953d7e43ec",
+      "gzipSha256": "ad7e52f922781b1b85561855e802d3bf568bbdd04412c847086efe4f1dcccdf9"
+    },
+    {
+      "file": "pack-review.stderr.raw.gz",
+      "bytes": 1402,
+      "sha256": "5327bd72e444ac317a463cd573587eda616449f2315a0c4812e6e674d5f8bbb6",
+      "gzipSha256": "a7cc7ccbee6c9a59c715f0e131449f8a7c08eb04e048c94dc0f812b69d100600"
+    },
+    {
+      "file": "pack-review.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "scoped-format-final.execution.json.gz",
+      "bytes": 582,
+      "sha256": "db315a892c38c82c5a83bf21061e59d8e1b79f009526975a77570b5c2859ce10",
+      "gzipSha256": "c44b26f36ffa6d4e9d9d0abb41154e75bec4bb8c1874261a1737aa85a9aa9ab0"
+    },
+    {
+      "file": "scoped-format-final.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "scoped-format-final.stdout.raw.gz",
+      "bytes": 40,
+      "sha256": "e51747fd8e73a9ee67031969096d6c990c5db332054c2856263d5cc9e20ce424",
+      "gzipSha256": "357d7a3941bd3e80cb48b7b84bdded44be1791edda4e1e1cff7b58231e70a49f"
+    },
+    {
+      "file": "scoped-format.execution.json.gz",
+      "bytes": 970,
+      "sha256": "c650daf02fe103a97018476c036d096c5e9f0e224fc19af60a5abe1c486ae8cf",
+      "gzipSha256": "47bccb16b06655ea11ece003d512f1e26af3d2a4cf4f729d600a0425298f89d8"
+    },
+    {
+      "file": "scoped-format.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "scoped-format.stdout.raw.gz",
+      "bytes": 40,
+      "sha256": "7d3020393fd9e7061b55b2a957e641607551b983975d1a9bdf46ca69a8739516",
+      "gzipSha256": "8a03b1f48b3e029a42d4291b6795b79cbced77a941a7f9531c6c4463f46042af"
+    },
+    {
+      "file": "typecheck.execution.json.gz",
+      "bytes": 442,
+      "sha256": "88a430cc0ab880e251bbb7d9ac024b8bfe65751c4957549a6b3ec700ce16c6da",
+      "gzipSha256": "1ee7b9be908a6e6e8cf75601c0b83c091a88dc64f772786b358d34fbe0b387e8"
+    },
+    {
+      "file": "typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "typecheck.stdout.raw.gz",
+      "bytes": 125,
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "gzipSha256": "cfa917f0c8b26c1776c0712d5d9901bedd66eac5267f430cd75f2d59be095d3c"
+    },
+    {
+      "file": "warning-control.json.gz",
+      "bytes": 1235,
+      "sha256": "e66dde0b9eab92e383dc93622f8a5e8a22c34dc889ffab8d6384f9d8fff7003a",
+      "gzipSha256": "0321917ccd3cba54722752421a1cee1d1eb1c456fcf77b2bc236901fc96ea9de"
+    },
+    {
+      "file": "warning-new.execution.json.gz",
+      "bytes": 762,
+      "sha256": "1a7850415a3e8daabfead9cddf9c8e93a28c1fefd7c797129a661a1f7c4facc4",
+      "gzipSha256": "ff092f2c221bb4d28d3a49045def395b8c0f4ae130d7a2f437ad091b718bb5b7"
+    },
+    {
+      "file": "warning-new.native.json.gz",
+      "bytes": 5951,
+      "sha256": "acfa556d2cf5eee9698738883e91779cc731a1e0a69dc517837d49846a562f77",
+      "gzipSha256": "efb08b0ac36ff1bb3e24ff1cf0309484c83f0a5b40c624e763583d781ec71a6d"
+    },
+    {
+      "file": "warning-new.stderr.raw.gz",
+      "bytes": 907,
+      "sha256": "aeafd4c3138c36e62245b8fab48912edf32f75cbc51b5f87846c1a53e2fab4e4",
+      "gzipSha256": "4a761db8b52075febfc8910ad53b32ced85d95c51e184cfe5ef4bf8cadc66d85"
+    },
+    {
+      "file": "warning-new.stdout.raw.gz",
+      "bytes": 1765,
+      "sha256": "f2dc19ca7c8e116211f4a49c983307be781266589338b039dffc7e32353de479",
+      "gzipSha256": "cce333a85ff3434b222d5301cc204eae1c25c0d11ab5be5763ae374f2d932e14"
+    },
+    {
+      "file": "warning-old.execution.json.gz",
+      "bytes": 759,
+      "sha256": "aa552682bb017b6921c15eb5cff6128d9999b4491954dabe98777bef803afe38",
+      "gzipSha256": "b833336705623dc40cc0f7b77176dd4b9afb88b44f20a4434f44d400a9dc965b"
+    },
+    {
+      "file": "warning-old.native.json.gz",
+      "bytes": 4853,
+      "sha256": "d2d805fc81b95fc4f82f66f7f87d9fc9ff4837221241f6399368fff7f9f33013",
+      "gzipSha256": "f3e6ae65e459da306cdf7b4b145405dfff2f481ae782374016354be7b9c9c1a1"
+    },
+    {
+      "file": "warning-old.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "warning-old.stdout.raw.gz",
+      "bytes": 481,
+      "sha256": "eba310d71bb7e80e6dcfe827ab6bd7e92eb441731ebb8631e6f8c2ce3da02d4d",
+      "gzipSha256": "190c64f56513678e0b98284fa060ce0408f6fa2e1c47cabf9b67a7c64a537480"
+    },
+    {
+      "file": "assets-adjacent.execution.json.gz",
+      "bytes": 706,
+      "sha256": "65221181483f62a7d7116627ad72aecb180912a791471ea446a537145ce6d79f",
+      "gzipSha256": "581271bb3697c35de8d6f3d6edb5df452a0e56c04fa4eb1c8f13b310643d7ca3"
+    },
+    {
+      "file": "assets-adjacent.native.json.gz",
+      "bytes": 57635,
+      "sha256": "6977185f8c5ba657c80b20fcf5225e8878ee1dfeb011855327665235aee55d3e",
+      "gzipSha256": "f8f708f12b6178a614d3e0e3cc6c73ae6d1763499135c3f1849e49d7ed18e50d"
+    },
+    {
+      "file": "assets-adjacent.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "assets-adjacent.stdout.raw.gz",
+      "bytes": 4709,
+      "sha256": "66a286c4a310b42eab3d4f675f9e674ed48a2801deaf0bb769622c29d690fc65",
+      "gzipSha256": "c578f5b0de939740ca1c6903030c94b24402c875b6e65b59a234962949c5c205"
+    },
+    {
+      "file": "capture.mjs.gz",
+      "bytes": 1147,
+      "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5",
+      "gzipSha256": "92a9d0947f748de33a9dddde302082eca6ad69143270d7e786f5f1e400a9fa9f"
+    },
+    {
+      "file": "complexity.mjs.gz",
+      "bytes": 2394,
+      "sha256": "601900cdf5b274123442809aec2415840ea2056c0fab68d489d8b4071d0382f9",
+      "gzipSha256": "215b582c83d193b92fe5b9d31056d267ce9a86dee1d0fe2c3bcb871f6972edd9"
+    },
+    {
+      "file": "dialog-final-r2.execution.json.gz",
+      "bytes": 883,
+      "sha256": "ade2daeb901fd84709c4df528114f2bfea670212af925c315c7c70feba53366d",
+      "gzipSha256": "5cb39deaabc039dc69b8465eb171692f5ef6e648748ab8232e582de3ae9c9b89"
+    },
+    {
+      "file": "dialog-final-r2.native.json.gz",
+      "bytes": 8999,
+      "sha256": "bf008324b7116531cfb8de2204a01277b7f13d46b3efe63542d52cf8af1163ba",
+      "gzipSha256": "9a62b323d1db2cd28af0a08de119699de699fa011c7e74195398a8a0433c7dc3"
+    },
+    {
+      "file": "dialog-final-r2.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "dialog-final-r2.stdout.raw.gz",
+      "bytes": 639,
+      "sha256": "0a0a641c756ef1ed46cb5c338b5b9e9aa2227423880f3e3df3046ed2576e5dc0",
+      "gzipSha256": "dc183f895fa636ab2e3dae5509073784f91f46523d3e370e2bb72089e873e7bb"
+    },
+    {
+      "file": "duplicate-hints.json.gz",
+      "bytes": 608,
+      "sha256": "5bb8f97fce3e619cdc840b7ad9c906b50bd6f5484f48145240f5cc7e29f9fabe",
+      "gzipSha256": "ee5a0f7031b6abe1e0fcf3dc00bd0fdb51f5ecb46208c942b5e590f2616dc549"
+    },
+    {
+      "file": "duplicate-hints.mjs.gz",
+      "bytes": 1925,
+      "sha256": "f2e68efcb7539654df9d8a434a916e7504f87e9761ca1e8455c8ee98a4b7d194",
+      "gzipSha256": "e315f0a6dc7698ebb64fbfc84d2e72bd1f215728802d4a01209a7fe8dc06faab"
+    },
+    {
+      "file": "freeze-fetch-default.execution.json.gz",
+      "bytes": 441,
+      "sha256": "975494c0c2f9efe6172d4fb6c75dc558e034902a7db59ca231b2d1f32e3ce080",
+      "gzipSha256": "6f7ec4696ee35ea0bfbb33b67a2f89cf5ee832d213e2ebaa044ebe59ace92a5d"
+    },
+    {
+      "file": "freeze-fetch-default.stderr.raw.gz",
+      "bytes": 146,
+      "sha256": "9b390ee8bc0401f2fb804c7ced8921e707a32a2f03fa7a1fcacc1174a2442408",
+      "gzipSha256": "4ad56108eb2e4dfb7d5811ed28cd48a08b6dc0de1d5c29538d4c2a382493ee19"
+    },
+    {
+      "file": "freeze-fetch-default.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "freeze-fetch.execution.json.gz",
+      "bytes": 501,
+      "sha256": "513f94a1896b67c95f77408c794a4c66b5b607c8ee4d6c60c6eab8d5fe9b41a1",
+      "gzipSha256": "e5c28bff4cf4e920c31a3aa596e6fb9bf4aeaf2b6d784e19dde8e5c2960fe662"
+    },
+    {
+      "file": "freeze-fetch.stderr.raw.gz",
+      "bytes": 146,
+      "sha256": "9b390ee8bc0401f2fb804c7ced8921e707a32a2f03fa7a1fcacc1174a2442408",
+      "gzipSha256": "4ad56108eb2e4dfb7d5811ed28cd48a08b6dc0de1d5c29538d4c2a382493ee19"
+    },
+    {
+      "file": "freeze-fetch.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "freeze-proof.json.gz",
+      "bytes": 3933,
+      "sha256": "3a680f16d1da4002319517b0e91596c41202e04671085a9740040f2856557016",
+      "gzipSha256": "e10215eb42456602ed7687bd4e43ec7e92a4b1af3830d387ec80b466f5e1bd63"
+    },
+    {
+      "file": "freeze-proof.mjs.gz",
+      "bytes": 2507,
+      "sha256": "104617b1272061043dee46990b9bed3a47160f45ba04ffddc30c9e3912402d50",
+      "gzipSha256": "e4e3a503a951ec1f456d5f16e54eb8912130838c84bc909700fe912db6af528f"
+    },
+    {
+      "file": "frozen-source.patch.gz",
+      "bytes": 41854,
+      "sha256": "e572236bbc33b0888046262942f1337b25f7d1600b129498fc832dfed422f6f8",
+      "gzipSha256": "ebc43cdf3191e98a566b771f6597c7c8723a46f4a62f4286cfea06ab4ea4b115"
+    },
+    {
+      "file": "frozen-typecheck.execution.json.gz",
+      "bytes": 449,
+      "sha256": "cd2e84009b312d177b2799d0e7aae0c3888fe93cf06d4ee1bf1b98678bb5e0f9",
+      "gzipSha256": "25560c610878b297f22b0e07b0538a45a7076fd052e620f0c52b7e385b455a64"
+    },
+    {
+      "file": "frozen-typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "frozen-typecheck.stdout.raw.gz",
+      "bytes": 125,
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "gzipSha256": "cfa917f0c8b26c1776c0712d5d9901bedd66eac5267f430cd75f2d59be095d3c"
+    },
+    {
+      "file": "main-coverage-default.execution.json.gz",
+      "bytes": 495,
+      "sha256": "0b2897c9b3380d0eab4895149b8648232c1497d734a101a41f458a439129e68e",
+      "gzipSha256": "20cdae2dee900506e598093d8bb150dc59258f58e24b757a7585d5c7b2f95f88"
+    },
+    {
+      "file": "main-coverage-default.stderr.raw.gz",
+      "bytes": 133,
+      "sha256": "6e0d7a60ca9dcf4a93a261806935792d2c23b45ecb019891278bf02ef50f75d9",
+      "gzipSha256": "1b27b7cca522788352d22c345f1d564287d1fb225c514f92af1e4b42c6e73e1f"
+    },
+    {
+      "file": "main-coverage-default.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "main-coverage-status.execution.json.gz",
+      "bytes": 673,
+      "sha256": "11fa63bd827de670fc0972118df600569bf7974920c7386302fa2814943d5273",
+      "gzipSha256": "4c4094a5886ff6b4e792c9f341645b1711ecc4c96ab166f2b9e0912f8f09151a"
+    },
+    {
+      "file": "main-coverage-status.stderr.raw.gz",
+      "bytes": 133,
+      "sha256": "6e0d7a60ca9dcf4a93a261806935792d2c23b45ecb019891278bf02ef50f75d9",
+      "gzipSha256": "1b27b7cca522788352d22c345f1d564287d1fb225c514f92af1e4b42c6e73e1f"
+    },
+    {
+      "file": "main-coverage-status.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "pre-gates-docs.execution.json.gz",
+      "bytes": 412,
+      "sha256": "6ed3b087870600c7218e428adb92c4e04c01d02a2653cded5695b8668df75979",
+      "gzipSha256": "753bf4c3fb287cdb62ae5deb9f787ba9ef265575572d8aabbeb076852665e3b3"
+    },
+    {
+      "file": "pre-gates-docs.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "pre-gates-docs.stdout.raw.gz",
+      "bytes": 30764,
+      "sha256": "ab97bff08b9d237c7896ee29b5fd381f269e58eac7eab7cdb540ddc9b81b53d4",
+      "gzipSha256": "3c88511960c479ba2540f06f304ee2a923ace41fc91cd4f101520577a30ee879"
+    },
+    {
+      "file": "probe-global-after.mjs.gz",
+      "bytes": 1244,
+      "sha256": "06ccce977218d75a0c7952dda6276c5a614eecc353e8cd93b12a185f93446798",
+      "gzipSha256": "efec4ffbdb3caef1a01d3c9e46050322d387dfb7624bf4b96d663fb7c0b72985"
+    },
+    {
+      "file": "probe-global.mjs.gz",
+      "bytes": 1246,
+      "sha256": "593460eb1d27c701feb12b41d5478f38fb66e3ecf6f3161952ee2f389ae246ab",
+      "gzipSha256": "5f0de653743988acb4ae5a3eba207d9416948f60b44c31c5d24d4a2fdf3d742b"
+    },
+    {
+      "file": "retirement-tools.execution.json.gz",
+      "bytes": 423,
+      "sha256": "82f9fcc469b8249909d53f57693ee00e1fdbb65efe54f8f210731a24b83aa787",
+      "gzipSha256": "f422f97590371d19ddeb232bb413eb3aabe5279079431f936a0c4a9c3b8d9ef3"
+    },
+    {
+      "file": "retirement-tools.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "retirement-tools.stdout.raw.gz",
+      "bytes": 22202,
+      "sha256": "c537c7f2adf8e6837b4f746620c186dcd339bf71496f22e34d850cef771da0ca",
+      "gzipSha256": "e2e9db88f5e8307cb6a715a7dab92f6242d509cd7933e15a156aa769f3b4ef19"
+    },
+    {
+      "file": "scoped-receipt-format.execution.json.gz",
+      "bytes": 635,
+      "sha256": "f77ab92b6cf6370e7f49de2a5686b175b05c920dbd4a8239de3e1000c00e9d09",
+      "gzipSha256": "507ce2710e666a7accf7915b199ee4a138f8483bc2b6a47e00af1884bd83da9f"
+    },
+    {
+      "file": "scoped-receipt-format.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "scoped-receipt-format.stdout.raw.gz",
+      "bytes": 40,
+      "sha256": "260aca5c5367d9df44baf7f8ce6859a3630c87557894b34f1b3ad961199affe1",
+      "gzipSha256": "c7539afec35d8f6ad69a388096f0be48dff48f3a9a3179566ada7eb1647378ab"
+    },
+    {
+      "file": "warning-control.mjs.gz",
+      "bytes": 1879,
+      "sha256": "fa53345ab39a5b9a50521058241eb0a5cffe1b0f570d8e0704eaf131d09153a8",
+      "gzipSha256": "cc572f5622b9a59cb362aa2345382c57d852bcdca5ec9382edd1d7e0a910b3e8"
+    },
+    {
+      "file": "dialog-final-r3.execution.json.gz",
+      "bytes": 883,
+      "sha256": "896894ae88c6915aa3d35dc3da953ab323724f1a79847a74a3882f57db70d057",
+      "gzipSha256": "8aae4a4dc63945406aaf19fbc1ce552969ae9a0efae818cdb93dbaa0da503d08"
+    },
+    {
+      "file": "dialog-final-r3.native.json.gz",
+      "bytes": 9009,
+      "sha256": "a38db26b7b91938e22d2b391d94e979db891c6f58b9657b678fd017c37e7eeed",
+      "gzipSha256": "5a74f9076527fd3068473aa30f85f78bb210937e6aa2181a9184efe2acf89533"
+    },
+    {
+      "file": "dialog-final-r3.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "dialog-final-r3.stdout.raw.gz",
+      "bytes": 639,
+      "sha256": "e3fcda0b934d52aa7faec4c44a4e70048a44a72189814ce58bf0c1a8484f348c",
+      "gzipSha256": "e2185aafe3499054f060ea49bac200652092111c0595479db5efd8613b61d5f2"
+    },
+    {
+      "file": "module-check.execution.json.gz",
+      "bytes": 445,
+      "sha256": "fe27012f93cd0fa3974bec39fc26fc68ae4d5d188a85c6d6d88b76d3bf98ce7e",
+      "gzipSha256": "d346927dd771aae31b9a802ea6b65e1ee1b0ed71c0720e3dbbed00fc41d226fe"
+    },
+    {
+      "file": "module-check.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "module-check.stdout.raw.gz",
+      "bytes": 374621,
+      "sha256": "ab9c68828aef4fdabdfc8df0826b6b625145269c9c7b2bc6b3cda13990731046",
+      "gzipSha256": "038ca6f052e25bf2c66453b09591b9dbe72859ee63e2a1ae65ccdc899664d432"
+    },
+    {
+      "file": "module-protected.mjs.gz",
+      "bytes": 4418,
+      "sha256": "b801d0c58a3ef5567aeb19e51d9529f929da250ef70d7075daea3dcb9f98b9ff",
+      "gzipSha256": "57663a7b131073d3a614eb88419e466504340f0229073f405461eb057bfdca6f"
+    },
+    {
+      "file": "proxy-fetch.execution.json.gz",
+      "bytes": 517,
+      "sha256": "e4486c1ef6f0c6bf3184dd61078b9d6fd05803ed4d4a641c3d494e47aaf1fc31",
+      "gzipSha256": "d3ce2875eed9479f64abade09a44270086701d3499d519382be96400f9e9ee0e"
+    },
+    {
+      "file": "proxy-fetch.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "proxy-fetch.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "proxy-main-coverage.execution.json.gz",
+      "bytes": 586,
+      "sha256": "08b43b9d45264f35b4ef3086ef78f1ebd996f7461c8d5aa2a8164d1ab76c386e",
+      "gzipSha256": "8b77a808d777652b1f217a9cfd28259c43963658519f43c0f94ed4c45a325da3"
+    },
+    {
+      "file": "proxy-main-coverage.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "proxy-main-coverage.stdout.raw.gz",
+      "bytes": 2785,
+      "sha256": "951e7bf9b10f8cf91a28fcb4b0a071ea866d34f094440f524f02b31ca61a73db",
+      "gzipSha256": "34d0173787d69b038f8e0db3f4e5404796bbb2f916096f384cdc7bd4dcc6f564"
+    },
+    {
+      "file": "published-main-audit.json.gz",
+      "bytes": 7274,
+      "sha256": "200fbbc6a4f467b61326b292b453b2265a360b6b18f9f3828ccaa24783dc564a",
+      "gzipSha256": "de585efdf14be48fed3004a79226f8c30b34a465d042285d2271259f17f14434"
+    },
+    {
+      "file": "published-main-log.execution.json.gz",
+      "bytes": 544,
+      "sha256": "d54ac2c8925d743a72cb5d7b78f6b0cdb993571f8a0311a264ee71b4586cd729",
+      "gzipSha256": "4c0d33231f8481dc95454eefa2c8be6ade41e5a02fa8df6c9d6fd4edbfcbb467"
+    },
+    {
+      "file": "published-main-log.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "published-main-log.stdout.raw.gz",
+      "bytes": 683920,
+      "sha256": "8ad87869e0999f71d9747754656fda41bfb7641b3fe0bf0fe50729dc0ebeefcf",
+      "gzipSha256": "bd52712be1b74401c569a975f3914510eb678cc4af67109c5708b7d756bd6ed2"
+    },
+    {
+      "file": "warning-control-r2.json.gz",
+      "bytes": 1004,
+      "sha256": "d35bd80c761edbd31d82fcd446ead4625a1b733bc69210cc223d771a31a5c74b",
+      "gzipSha256": "52948a691d0f50c299f348408eb9fd179ae22ecf3ccf7cda8812da4d2b5df63e"
+    },
+    {
+      "file": "warning-control-r2.mjs.gz",
+      "bytes": 1771,
+      "sha256": "4038a5474d86ac3a7840ee514b0c58983c4d1ed5ac29596aaae94fb7a91fad60",
+      "gzipSha256": "b9b52e183fbc892bfda1e52582276db0fc92cbbed5593c913d3e67fae6011b2b"
+    },
+    {
+      "file": "warning-new-r2.execution.json.gz",
+      "bytes": 768,
+      "sha256": "7249daddda0cb6d50992e9d6ee2dd3be476eab4697ca2fdfa88a62d42a41d0f4",
+      "gzipSha256": "536738064f187f4cd528c2bb960c9c228c8a6fc847073e588359383b6b4ff76b"
+    },
+    {
+      "file": "warning-new-r2.native.json.gz",
+      "bytes": 6235,
+      "sha256": "68ef2c1a347b7abed0c2b5b1edb6d70d3d180ab1fbca2c91a13807ba26569458",
+      "gzipSha256": "b24c8bb8348d85f69d5fd704385d2e84e37fc1d9c0e859cc461def03fc9bf5ac"
+    },
+    {
+      "file": "warning-new-r2.stderr.raw.gz",
+      "bytes": 909,
+      "sha256": "01fe37a29ef82276146d2c2bb966709ce792474ad090aa94477ca003f43f62be",
+      "gzipSha256": "72bceecd58358818999c0666515c2086ca32104eb2328bdea739429ab025ac6b"
+    },
+    {
+      "file": "warning-new-r2.stdout.raw.gz",
+      "bytes": 1839,
+      "sha256": "06c568b8692e16cc0f3fd4a50d9d2d704a5573b671dd5eaef3bfef94e1c89d51",
+      "gzipSha256": "0942908eb9a82f89bc74e977d8d4f26bb0f760649cc884f1fbbc87ca29d0bbf8"
+    },
+    {
+      "file": "compare-stdout.mjs.gz",
+      "bytes": 1555,
+      "sha256": "76b4c0a0174677ee7522763887a1d2b018614fe1bb7d1cbe57029cfac03acab7",
+      "gzipSha256": "47c4d390374f09e10fc2d576fba65559c3e52145def8d006fc7fd2411b802059"
+    },
+    {
+      "file": "freeze-proof-r2.json.gz",
+      "bytes": 3933,
+      "sha256": "5c16af80543500232f254995148c50eb3c96492fc456a51e63181e684483097c",
+      "gzipSha256": "00f1360da21ad7183d67ee7f6136b59f640e1809eda5c6df6623d0e860cbbf3c"
+    },
+    {
+      "file": "freeze-proof-r2.mjs.gz",
+      "bytes": 2513,
+      "sha256": "aacf44bb4330ceb0709b96d32b61f5cb83e99a94f7cc7aeba81171449bb13cd1",
+      "gzipSha256": "fe54a934ac10cf4a72d395372026b565d114b8f9a7bc6ff38b0d553770657d03"
+    },
+    {
+      "file": "frozen-source-r2.patch.gz",
+      "bytes": 40782,
+      "sha256": "d8a69917a1ea2d5e7778a0d7203d52ffd685e69791f52476f4cfdd73459c20d2",
+      "gzipSha256": "d6c0e29782e0548e44d056de73765f667af90a67b92961a1830b38b3b9e3dfe2"
+    },
+    {
+      "file": "post-freeze-tools.execution.json.gz",
+      "bytes": 424,
+      "sha256": "5df4838086b9fe185806068283db0ae84e40c732149b11e23856015e833d1886",
+      "gzipSha256": "0d9ba7fcb8ce8ce289c1d2ce072e52f4a22d0387915f68b39c649a3ed87f2225"
+    },
+    {
+      "file": "post-freeze-tools.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "post-freeze-tools.stdout.raw.gz",
+      "bytes": 22203,
+      "sha256": "3c398e850af13a17e19b25db671e0e060e357c90f57b7bca2f8fba8753aeacde",
+      "gzipSha256": "58680823b0470f11228b03c7fda9dd6749e7f77c8b948acdf3489b369c68bb64"
+    },
+    {
+      "file": "post-freeze-typecheck.execution.json.gz",
+      "bytes": 454,
+      "sha256": "3726d8246db0d786131e5c377fdb2527e53fe0c9f71996db33bcf67dfd783951",
+      "gzipSha256": "b1fad1e8937b0dc627bce192c518d9fb483bf0af8a2ceb43c041793140c7481b"
+    },
+    {
+      "file": "post-freeze-typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "post-freeze-typecheck.stdout.raw.gz",
+      "bytes": 125,
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "gzipSha256": "cfa917f0c8b26c1776c0712d5d9901bedd66eac5267f430cd75f2d59be095d3c"
+    },
+    {
+      "file": "pre-coverage-fetch.execution.json.gz",
+      "bytes": 524,
+      "sha256": "74b9ce2a91a623078838f9f0b3507a5331db9ba6f56c4353a20f73418ba8be4a",
+      "gzipSha256": "9ad192b1a931cd951aa9b632e5a991f31acd17506877c70e5e60eb82deb24e74"
+    },
+    {
+      "file": "pre-coverage-fetch.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "pre-coverage-fetch.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "stdout-comparison.json.gz",
+      "bytes": 1027,
+      "sha256": "1f69450cafeea7e68116cb5a7f3c6b1a759956525f0599b5e23e4bd4f05c0480",
+      "gzipSha256": "695c1d6732b5f56e120ffb72276e14fe808861f0c2733b60485369f68f325134"
+    },
+    {
+      "file": "compare-coverage-stdout.mjs.gz",
+      "bytes": 1570,
+      "sha256": "61ca982dae04a9e4d97be45494c526d57e552a64576450a2214dd9b7c76b7f04",
+      "gzipSha256": "5d90931f3194ff31e13bc3a1c8492703dbf967cd33e7ac673a7406a73ba73843"
+    },
+    {
+      "file": "coverage-stdout-comparison.json.gz",
+      "bytes": 491,
+      "sha256": "f00d3a687e0bf369b3d2f5e3f962f03d0898b407ca9e0b6af0c1f32d5c403131",
+      "gzipSha256": "41275333408e12fea3ba836cd21bbd1b9994db8d3a46168405f2d11eb90ec2e5"
+    },
+    {
+      "file": "module-baseline.after.json.gz",
+      "bytes": 534751,
+      "sha256": "e481df86e3225a3b8ad53d5b53eb448ca917895bb710152d89a78e85dbdaac58",
+      "gzipSha256": "f2ae0a62aad90e9cb8911fe1baad0cfeeb86923c709298464d6b818c2d3cb173"
+    },
+    {
+      "file": "module-protected-report.json.gz",
+      "bytes": 1855,
+      "sha256": "79c5dde3f0526c47dce7a2553d0963a61842dd6e5be6f6e2e143c61744d15f07",
+      "gzipSha256": "fb03f016606369dc923764a13892548d351d4ebfe562aee3404361306a5fc3b9"
+    },
+    {
+      "file": "module-protected.execution.json.gz",
+      "bytes": 500,
+      "sha256": "9ea63ae266b7f7b69139419408bbe0fb88e7b2e997c32695c49e9f644d56a621",
+      "gzipSha256": "a98a504fc951be1d1b18a0e8d305f70b585c6705ecaa87c1c8d98289c8427385"
+    },
+    {
+      "file": "module-protected.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "module-protected.stdout.raw.gz",
+      "bytes": 576,
+      "sha256": "949b1c92dd0fdf83e45252d888f6c695bce86d9b86b2e94adb6ff75a6d8819d4",
+      "gzipSha256": "5287cac99d8fbab7b065b75dbc6580daf051eccc17c2e65725dc8fc212c2ca03"
+    },
+    {
+      "file": "module-ratchet.execution.json.gz",
+      "bytes": 562,
+      "sha256": "dea3d1ba83e182890beb2023a2fb0ae602975881e08dfc3b8fb3c150432eabc7",
+      "gzipSha256": "e53ad56f706ccb7c50206496021825584ae1be1886e95cbd952307707ba6c025"
+    },
+    {
+      "file": "module-ratchet.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "module-ratchet.stdout.raw.gz",
+      "bytes": 202674,
+      "sha256": "accef2b917edf761dc1d7b5959c948865f47369ae13c3e60f118fdf78afd9d88",
+      "gzipSha256": "c459a44423abb09d2c532650afef35d41bd593e0e2bbaa3ee97c1d5334b76584"
+    },
+    {
+      "file": "module-summary.json.gz",
+      "bytes": 8522047,
+      "sha256": "8bfc582981e375ea5140ef3c4d80b5cd29a2b33a64a7178385a87c016e2cd1ed",
+      "gzipSha256": "5d5c92ecd628c1ca7dba37114f210b48bd85e1793422d00f7135823455a76151"
+    },
+    {
+      "file": "readonly-contract.json.gz",
+      "bytes": 76447,
+      "sha256": "1d6aa595a3179558319af8b8c140f4c727fa0a7a76331718dcd0928767f0230b",
+      "gzipSha256": "e00183fca0e00de56f75d31e34a490c4df8f466a82aaeeecf301b99ac316cc11"
+    },
+    {
+      "file": "readonly-contract.mjs.gz",
+      "bytes": 1469,
+      "sha256": "3e9e6d120e7c05e45b298f87612ac9f172df943a7ebce4b661d5c4df38cf0d0b",
+      "gzipSha256": "78bf855a351986069e4ce4298c52f01662d4b6730c2e99dc00711fffc5983e49"
+    },
+    {
+      "file": "readonly-verify.execution.json.gz",
+      "bytes": 475,
+      "sha256": "64bf4468fc6f3251accfd3b79f8b41e0024ec9bdae0839e3def4cd5fd42af4f0",
+      "gzipSha256": "f75d46e905df9e42a7abaa20f24663481f763cf6d4e3f9d3a21524952dfb65e8"
+    },
+    {
+      "file": "readonly-verify.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "readonly-verify.stdout.raw.gz",
+      "bytes": 204,
+      "sha256": "cd31cac065e711daa4cf8ee5ec498035e0c8d750e03dbb61f5554b4729f434a1",
+      "gzipSha256": "fc00c5977542ff6ac3219bcd91580a203b745bd3a8155398c1b5de9291d1502f"
+    },
+    {
+      "file": "final-diff.execution.json.gz",
+      "bytes": 428,
+      "sha256": "43602ad7a21df8145fdbd1a3b1381dfc74e651f413b7864a33c221cab6b1d61e",
+      "gzipSha256": "7dda527673c8ea2b296413f8ef012f3c80741d1ec470057455e83c4161eb187c"
+    },
+    {
+      "file": "final-diff.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "final-diff.stdout.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "final-docs.execution.json.gz",
+      "bytes": 408,
+      "sha256": "9041d7d7dd5f4178ccd90b48f8b64efea53a59c838994b0532a91859faeb6801",
+      "gzipSha256": "eee49ae46f3ca699bcebfe09342a84eeae1d5e5ea04acee997d4193e5e0863e6"
+    },
+    {
+      "file": "final-docs.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "final-docs.stdout.raw.gz",
+      "bytes": 30780,
+      "sha256": "eeaef83db13e29e12b3d7b0c373da626f8b19d55f00df8f7313dd523a748168c",
+      "gzipSha256": "4a85aeb640e574fc8992488cf23e33e0171011470434e88a875b5051eeb138c5"
+    },
+    {
+      "file": "final-ledger.execution.json.gz",
+      "bytes": 437,
+      "sha256": "cc9b8e68598a607306eda3e6241abf8aa0eaaa456ecaf6436ecd11269830638b",
+      "gzipSha256": "75b19b70c81b1cf73659e7effd6bc596aa8e8214ea5a209bb2abd0361542b057"
+    },
+    {
+      "file": "final-ledger.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "final-ledger.stdout.raw.gz",
+      "bytes": 113,
+      "sha256": "a65e092bfb0147711017ab0f712859240c88ec5a176959b81217b801c419e1ac",
+      "gzipSha256": "a3157afae4bc60eef1834bd7b91187130c2413ee29c48714a862389c4d06b977"
+    },
+    {
+      "file": "final-lint.execution.json.gz",
+      "bytes": 400,
+      "sha256": "14d75482113ad7d52a15df338ce74dffde924f084871f4cd4c25f1e154cf51b1",
+      "gzipSha256": "f4e480eb703d6af43c6640e8983811030ed8f1b43bf54290287ec4c9f37aa9e6"
+    },
+    {
+      "file": "final-lint.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "final-lint.stdout.raw.gz",
+      "bytes": 193,
+      "sha256": "11881a3949eb01d5effadb9b7f6df62248262f020ae3e43acc9fae3798525f43",
+      "gzipSha256": "cdf9ac7fedbb82a91df4c2bad4682a600504765cbfaeceaff4835d5b0857268f"
+    },
+    {
+      "file": "readonly-contract-final.mjs.gz",
+      "bytes": 1481,
+      "sha256": "c3224b53da410a757f7a6dd2986ae2ad5a71ef88ede26748ff8f92b5d8a98b45",
+      "gzipSha256": "0a945f4e41233bc64530665c0aabddd6e69a708aea11380f51a4b8e4ed4bd541"
+    },
+    {
+      "file": "readonly-contract-final.json.gz",
+      "bytes": 88851,
+      "sha256": "3a693d0a59fa928b2cc2d0bf76fbc68cda2c4ca52c5a215ad76f1f8818687b4e",
+      "gzipSha256": "a668b819f96b03df8d472e96f4bef2ad7d6164d55c254bba3598a4a72c85180b"
+    },
+    {
+      "file": "readonly-verify-final.execution.json.gz",
+      "bytes": 481,
+      "sha256": "c3b4aaec6c9e7abef4d6ffb9d0811cb504ebf847447d0d85afa32ce0d0af3057",
+      "gzipSha256": "e8c76ee46fab2597d5019adefdcf608d43ac434f3b5499daaa34956d45f86e4b"
+    },
+    {
+      "file": "readonly-verify-final.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "readonly-verify-final.stdout.raw.gz",
+      "bytes": 204,
+      "sha256": "cd31cac065e711daa4cf8ee5ec498035e0c8d750e03dbb61f5554b4729f434a1",
+      "gzipSha256": "fc00c5977542ff6ac3219bcd91580a203b745bd3a8155398c1b5de9291d1502f"
+    }
+  ],
+  "limits": [
+    "No product function body, public interface, save/schema or generated asset changed.",
+    "No new implementation/source behavior counter; warning fault is deliberate temporary single-site diagnostic mutation, restored exactly.",
+    "Historical asset source/caller pins are not silently refreshed; body proof and this current packet delimit reuse.",
+    "Neither full3h nor3i norpre94 accepted by these scoped results. 94–102 excluded."
+  ],
+  "complexity": {
+    "tool": "TypeScript 6.0.3",
+    "method": "Approximate cyclomatic: decisions + &&/||/??; nested functions scored separately. Hint only,not acceptance target.",
+    "results": [
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "rleFrameToIndexedImage",
+        "line": 27,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "decodeTilesetBlob",
+        "line": 42,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "decodeSpriteFrames",
+        "line": 55,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "loadSpriteFramesBlob",
+        "line": 60,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "framesToCharacterSprite",
+        "line": 76,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "loadCharacterSpriteBlob",
+        "line": 86,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "decompressGzip",
+        "line": 103,
+        "complexity": 8,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.ts",
+        "name": "loadTilesetBlob",
+        "line": 140,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "makeSimpleChunk",
+        "line": 16,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 35,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 36,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 53,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 54,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 64,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 97,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 116,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 117,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 125,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 139,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 140,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 147,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 154,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 160,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 175,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 176,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 184,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 192,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 201,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "name": "<anonymous>",
+        "line": 202,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 14,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 15,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 18,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 23,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 28,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 35,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 37,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 38,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 45,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 47,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "transform",
+        "line": 50,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "flush",
+        "line": 51,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 64,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 83,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 90,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 10,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 11,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 16,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 19,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 27,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 30,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 38,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 41,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 49,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 52,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 59,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 62,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 69,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 72,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 79,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 82,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 85,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 86,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 93,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 96,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 99,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 100,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.ts",
+        "name": "loadPortraits",
+        "line": 43,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.ts",
+        "name": "<anonymous>",
+        "line": 49,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.ts",
+        "name": "loadDialogIcons",
+        "line": 74,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.ts",
+        "name": "<anonymous>",
+        "line": 81,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.ts",
+        "name": "loadDialogAssets",
+        "line": 102,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.ts",
+        "name": "<anonymous>",
+        "line": 105,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.ts",
+        "name": "<anonymous>",
+        "line": 109,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "name": "<anonymous>",
+        "line": 5,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "name": "<anonymous>",
+        "line": 10,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "name": "<anonymous>",
+        "line": 11,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "name": "<anonymous>",
+        "line": 12,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "name": "<anonymous>",
+        "line": 13,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "name": "<anonymous>",
+        "line": 24,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "bytesToBase64",
+        "line": 15,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "iconJson",
+        "line": 24,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "pngResponse",
+        "line": 28,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 33,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 35,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 37,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 39,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 43,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 46,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 53,
+        "complexity": 4,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 62,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 77,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 87,
+        "complexity": 4,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 109,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 120,
+        "complexity": 4,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 135,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 139,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 143,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 154,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 159,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 169,
+        "complexity": 4,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 193,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 204,
+        "complexity": 5,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 227,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 238,
+        "complexity": 5,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 260,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 269,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 281,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 291,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 308,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 312,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "name": "<anonymous>",
+        "line": 316,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "portraitUrl",
+        "line": 11,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "pngResponse",
+        "line": 15,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "iconResponse",
+        "line": 21,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 26,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 31,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 32,
+        "complexity": 4,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 34,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 35,
+        "complexity": 5,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 66,
+        "complexity": 6,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 68,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 72,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 76,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 77,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 93,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 111,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 114,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 115,
+        "complexity": 5,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 147,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 150,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 151,
+        "complexity": 4,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "name": "<anonymous>",
+        "line": 168,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.ts",
+        "name": "base64ToBytes",
+        "line": 16,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.ts",
+        "name": "<anonymous>",
+        "line": 18,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 4,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 5,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 15,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 41,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 50,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 51,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 71,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 72,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "name": "<anonymous>",
+        "line": 75,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "legalPalette",
+        "line": 24,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 25,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "legalTilemap",
+        "line": 33,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "legalEventObject",
+        "line": 42,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "legalRole",
+        "line": 46,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "legalMagic",
+        "line": 77,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "legalSceneAssets",
+        "line": 99,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "twoFrameChunk",
+        "line": 114,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "wideCharacterChunk",
+        "line": 131,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "indexedPng",
+        "line": 143,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 156,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 157,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "pngAtlas",
+        "line": 166,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "loadAllScript",
+        "line": 218,
+        "complexity": 18,
+        "mark": "read-priority"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "callsEnding",
+        "line": 298,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 299,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "http",
+        "line": 302,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "json",
+        "line": 306,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "bytes",
+        "line": 310,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "eventsOf",
+        "line": 314,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "installLoadAll",
+        "line": 321,
+        "complexity": 3,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 334,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "pngOf",
+        "line": 343,
+        "complexity": 2,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "route",
+        "line": 349,
+        "complexity": 57,
+        "mark": "read-priority"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 441,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 456,
+        "complexity": 1,
+        "mark": "normal"
+      },
+      {
+        "file": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "name": "<anonymous>",
+        "line": 469,
+        "complexity": 1,
+        "mark": "normal"
+      }
+    ],
+    "review": "Only route57/loadAllScript18 exceed10; full read and per-request Response/body ownership justify retaining the fixture router. Hint only, not a target."
+  },
+  "duplicateHints": {
+    "tool": "TypeScript 6.0.3",
+    "method": "Exact60 non-trivia token kind/text windows sampled every20 tokens across11 reviewed files. No literal/identifier normalization. Reading hints only, not semantic clone proof or acceptance metric.",
+    "duplicates": [],
+    "review": "Repeated HTTP endpoint/Response/manifest and decoder fixtures reflect distinct input/key/error contracts, not automatic helper candidates. Native assertion-transfer map determines actual duplicate tests. Different input lifetime hosts stay separate; reusable PNG helper factoring can be considered independently of merging hosts."
+  },
+  "inputs": [
+    {
+      "path": "data/raw/GOP.MKF",
+      "realpath": "/Users/zhangxu/illegal/type-pal/data/raw/GOP.MKF",
+      "bytes": 16437766,
+      "sha256": "5745d016a8d9c280b90a8b92d2871210a2dd0a0c04a79d4c8e65f4d0396aa04b"
+    },
+    {
+      "path": "data/extracted/data/tileset/1.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/1.rle",
+      "bytes": 39864,
+      "sha256": "beacbdf0abca55bf4c63c7e3e3a132aa8601c5b26a1b763fef6b3dfe6d6e3751"
+    },
+    {
+      "path": "data/extracted/data/tileset/6.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/6.rle",
+      "bytes": 18388,
+      "sha256": "f1de11df560cbde4467bccae5924aef83a59f7f91796dd55921f5df13cecf6cf"
+    },
+    {
+      "path": "data/extracted/data/tileset/12.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/12.rle",
+      "bytes": 25756,
+      "sha256": "9d738a0cbbcf83491634365a73c297be141b272cd1651beb3fb271aa87e1974b"
+    },
+    {
+      "path": "data/extracted/data/tileset/50.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/50.rle",
+      "bytes": 31792,
+      "sha256": "80d4e545bd28f916e3d9d270f78caa362151e7916dcab61783101a7cc3cb80ad"
+    },
+    {
+      "path": "data/extracted/data/tileset/100.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/100.rle",
+      "bytes": 29458,
+      "sha256": "99023072eacaf5fa7b7ee3de8a9ef3edb735abf099ef2ee3603dc80f29cf8b0a"
+    },
+    {
+      "path": "data/extracted/data/tileset/200.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/200.rle",
+      "bytes": 54914,
+      "sha256": "0ba92706a8d401925990efc9bd490602437f1ac9588a223e3206c966b51a7f32"
+    },
+    {
+      "path": "data/extracted/data/ui-sprite/spriteui.json",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/ui-sprite/spriteui.json",
+      "bytes": 4968,
+      "sha256": "888ab4d623ee83c5cc7d9d66a4529c0953d4225be56738a84fe7b4da578f1033"
+    }
+  ],
+  "integration": {
+    "state": "complete",
+    "wholeCheck": {
+      "command": "VITEST_MAX_WORKERS=1 pnpm check",
+      "packagePassed": [1498, 114, 3753, 477, 8991, 4943, 739],
+      "packageTotal": 20515,
+      "tools": [125, 99, 47, 397, 22],
+      "toolTotal": 690,
+      "lint": {
+        "files": 5880,
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "stderr": 0,
+      "act": 0
+    },
+    "postFreeze": {
+      "files": [
+        "dialog-icons.grok-r1.test.ts",
+        "dialog-assets.glm-phase1-leaves.test.ts",
+        "dialog-resources.grok-mid-1.test.ts",
+        "approved-test-retirements.mjs",
+        "approved-test-retirements.test.mjs"
+      ],
+      "reason": "Restore unique D14 boundary and strengthen complete diagnostic tuples to strict equality; refresh exact current file SHAs and net retirement102. No product body or rule change.",
+      "directed": "dialog-final-r3 4 files24passed,0pending/stderr",
+      "typecheck": "post-freeze-typecheck exit0",
+      "tools": "post-freeze-tools99passed",
+      "counter": "warning-new-r2 exact D02 AssertionError with current three-test-file version, source/test restored"
+    },
+    "stdout": {
+      "blocks": 260,
+      "fullPayloadComparison": "All header/repeated message sets equal to prior accepted full raw except explicit performance elapsedMs497→544; byte/read/path counts identical. No blanket numeric normalization."
+    },
+    "coverage": "one official run in progress; not accepted before CLI/same-report protected results",
+    "official": {
+      "command": "VITEST_MAX_WORKERS=1 TYPE_PAL_COVERAGE_BASE_REF=acb96a123bcb062c7204fdbc51903188c9fa0c5f pnpm coverage:ratchet --allow-scope-removal",
+      "testCount": 20090,
+      "sourceFileCount": 760,
+      "exit": 0,
+      "collections": 1,
+      "stderr": 0,
+      "act": 0,
+      "nodeWarnings": 0,
+      "normalStdoutBlocks": 253,
+      "normalPayloadComparison": "Exact253 header/grouped-message sets equal to preceding accepted official raw, no payload difference."
+    },
+    "protected": {
+      "base": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+      "sameSample": true,
+      "regressions": [],
+      "removals": [
+        {
+          "kind": "test-count",
+          "value": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+          "previous": 2,
+          "current": 1
+        },
+        {
+          "kind": "test-count",
+          "value": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+          "previous": 14,
+          "current": 13
+        },
+        {
+          "kind": "test-count",
+          "value": "packages/game/src/assets/tileset-blob.test.ts",
+          "previous": 15,
+          "current": 13
+        },
+        {
+          "kind": "test-count",
+          "value": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+          "previous": 9,
+          "current": 8
+        }
+      ],
+      "proof": "module-protected-report.json.gz"
+    },
+    "finalStatics": {
+      "docs": "final-docs exit0,0issues",
+      "lint": "final-lint5880 files,0errors/0warnings/0infos",
+      "ledger": "final-ledger3374/388closed111review2875pending",
+      "diff": "final-diff exit0",
+      "remaining": "No claim that CODE3h/CODE3i/pre94 completed; no new mainCI success preclaimed"
+    }
+  },
+  "acceptancePlan": {
+    "accept": [
+      "packages/game/src/assets/tileset-blob.ts",
+      "packages/game/src/assets/tileset-blob.test.ts",
+      "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "packages/game/src/assets/dialog-assets.ts",
+      "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts"
+    ],
+    "keepReview": [
+      "packages/game/src/assets/rle-decode.ts",
+      "packages/game/src/assets/rle-decode.test.ts"
+    ],
+    "newClosures": 7,
+    "withdrawnOldClosures": 1,
+    "netClosed": 6,
+    "parents": "CODE3h/CODE3i remain partial; fixed83 still62accept21partial"
+  },
+  "candidate": {
+    "kind": "File-pinned working tree; execution HEAD was base, modified source/test files were not committed at execution. Freeze proof-r2 and per-file hashes bind the actual candidate, not git show base.",
+    "base": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+    "sourceFreeze": "freeze-proof-r2.json.gz",
+    "officialSample": "module-summary.json.gz"
+  },
+  "acceptance": {
+    "accepted": [
+      "packages/game/src/assets/tileset-blob.ts",
+      "packages/game/src/assets/tileset-blob.test.ts",
+      "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "packages/game/src/assets/dialog-assets.ts",
+      "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts"
+    ],
+    "retainedReview": [
+      "packages/game/src/assets/rle-decode.ts",
+      "packages/game/src/assets/rle-decode.test.ts"
+    ],
+    "newClosed": 7,
+    "reopenedOldClose": 1,
+    "netClosed": 6,
+    "ledger": {
+      "tracked": 3374,
+      "closed": 388,
+      "review": 111,
+      "pending": 2875
+    },
+    "fixedCards": {
+      "accept": 62,
+      "partial": 21,
+      "pending": 0
+    },
+    "risk": "No product function body/interface/schema/save/asset generation change. Legacy facade export ownership and shared codec test overlap not closed by passing gates. Snapshot and broader3h/3i unchanged."
+  },
+  "publishedPreviousCi": {
+    "id": 39779473486,
+    "head": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+    "conclusion": "success",
+    "projectStderr": 0,
+    "act": 0,
+    "platformWarnings": 7,
+    "proof": "published-main-audit.json.gz",
+    "claim": "Project gate success and actual zero act/stderr; seven Action/runtime platform messages separately retained. Not all-platform-zero."
+  }
+}

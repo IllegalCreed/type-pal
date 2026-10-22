@@ -1,5 +1,5 @@
 /**
- * G02-D。旧对话测试没有成功解码图标。旧 base64 只覆盖 0x00。
+ * G02-D。核对图标像素/遮罩、资源编号和解码元数据边界。
  * 本组解真实 icon chunk，并核对头像尺寸来自 PNG 而不是 manifest。
  */
 
@@ -7,7 +7,7 @@ import {
   decodeRle as sharedDecodeRle,
   parseSpriteChunk as sharedParseSpriteChunk,
 } from '@type-pal/shared'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { indexedPng, twoFrameChunk } from '../__tests__/grok-render-r1/legal-host.js'
 import { loadDialogAssets } from './dialog-assets.js'
 import { base64ToBytes, decodeRle, parseSpriteChunk } from './rle-decode.js'
@@ -31,13 +31,32 @@ async function pngResponse(rgba: readonly number[]): Promise<Response> {
 }
 
 describe('G02-D 对话图标与 base64', () => {
+  let expectedWarnings: Array<[string, unknown]>
+  beforeEach(() => {
+    expectedWarnings = []
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+  })
   afterEach(() => {
-    vi.unstubAllGlobals()
-    vi.restoreAllMocks()
+    try {
+      // 两路资源可交错完成，只约束完整诊断及次数，不约束无关完成顺序。
+      expect(
+        Array.from(vi.mocked(console.warn).mock.calls).sort((a, b) =>
+          String(a[0]).localeCompare(String(b[0])),
+        ),
+      ).toStrictEqual(Array.from(expectedWarnings).sort((a, b) => a[0].localeCompare(b[0])))
+    } finally {
+      vi.unstubAllGlobals()
+      vi.restoreAllMocks()
+    }
   })
 
   it('G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      [
+        '[dialog-assets] portraits failed, skip:',
+        new Error('dialog-assets: portraits.json fetch failed (500)'),
+      ],
+    ]
     vi.stubGlobal(
       'fetch',
       vi.fn(async (input: RequestInfo | URL) => {
@@ -56,7 +75,12 @@ describe('G02-D 对话图标与 base64', () => {
   })
 
   it('G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
     const png = await pngResponse([0, 1, 2, 0, 3, 4, 5, 255])
     vi.stubGlobal(
       'fetch',
@@ -83,7 +107,12 @@ describe('G02-D 对话图标与 base64', () => {
   })
 
   it('G02-D03 chunk 0 的头像 URL 补成 portraits/00.png', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
     const png = await pngResponse([8, 0, 0, 255, 9, 0, 0, 255])
     const calls: string[] = []
     vi.stubGlobal(
@@ -108,7 +137,6 @@ describe('G02-D 对话图标与 base64', () => {
   })
 
   it('G02-D04 头像清单为空数组时不请求 PNG，图标照常解码', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
     const calls: string[] = []
     vi.stubGlobal(
       'fetch',
@@ -129,7 +157,12 @@ describe('G02-D 对话图标与 base64', () => {
   })
 
   it('G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        expect.objectContaining({ name: 'InvalidCharacterError', message: 'Invalid character' }),
+      ],
+    ]
     const png = await pngResponse([6, 0, 0, 255, 7, 0, 0, 255])
     vi.stubGlobal(
       'fetch',
@@ -154,7 +187,12 @@ describe('G02-D 对话图标与 base64', () => {
   })
 
   it('G02-D06 两张头像分别以 chunk 8 和 12 为键', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
     const first = await pngResponse([8, 0, 0, 255, 1, 0, 0, 255])
     const second = await pngResponse([12, 0, 0, 255, 2, 0, 0, 255])
     vi.stubGlobal(
@@ -183,7 +221,13 @@ describe('G02-D 对话图标与 base64', () => {
   })
 
   it('G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      ['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')],
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
     const png = await pngResponse([8, 0, 0, 255, 1, 0, 0, 255])
     vi.stubGlobal(
       'fetch',
@@ -207,11 +251,15 @@ describe('G02-D 对话图标与 base64', () => {
     const assets = await loadDialogAssets()
     expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])
     expect(assets.portraitFrames.has(4)).toBe(false)
-    expect(warn.mock.calls.some((args) => String(args[0]).includes('portrait 4'))).toBe(true)
   })
 
   it('G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      [
+        '[dialog-assets] portraits failed, skip:',
+        new Error('dialog-assets: portraits.json fetch failed (404)'),
+      ],
+    ]
     vi.stubGlobal(
       'fetch',
       vi.fn(async (input: RequestInfo | URL) => {
@@ -226,32 +274,13 @@ describe('G02-D 对话图标与 base64', () => {
     expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])
   })
 
-  it('G02-D12 图标清单 404 的 warn 写 icons failed，头像像素仍在', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const png = await pngResponse([6, 0, 0, 255, 7, 0, 0, 255])
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async (input: RequestInfo | URL) => {
-        const url = String(input)
-        if (url.endsWith('/data/portraits.json')) {
-          return Response.json({
-            count: 1,
-            portraits: [{ chunkIndex: 3, width: 2, height: 1 }],
-          })
-        }
-        if (url.endsWith('/images/portraits/03.png')) return png
-        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })
-        throw new Error(`unmocked ${url}`)
-      }),
-    )
-    const assets = await loadDialogAssets()
-    expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([6, 7])
-    expect(assets.iconFrames.size).toBe(0)
-    expect(warn.mock.calls.some((args) => String(args[0]).includes('icons failed'))).toBe(true)
-  })
-
   it('G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [
+      [
+        '[dialog-assets] portraits failed, skip:',
+        new Error('dialog-assets: portraits.json fetch failed (404)'),
+      ],
+    ]
     const mask = Uint8Array.of(0x01, 0x00, 0x02, 0x00, 0x01, 0x00, 0x81, 0x01, 0x22)
     vi.stubGlobal(
       'fetch',
@@ -273,7 +302,7 @@ describe('G02-D 对话图标与 base64', () => {
   })
 
   it('G02-D14 单张头像 404 不会清掉已经解码的图标', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expectedWarnings = [['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')]]
     vi.stubGlobal(
       'fetch',
       vi.fn(async (input: RequestInfo | URL) => {

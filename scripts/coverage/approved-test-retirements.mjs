@@ -7,6 +7,40 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE3h blob/dialog exact snapshots: standing user test-quality/dedup authority.
+    // Full assertion transfers/native identities: pre94 3h/blob-quality/review.json.
+    {
+      file: 'packages/game/src/assets/tileset-blob.test.ts',
+      previous: 15,
+      current: 13,
+      previousIdentityDigest: '7b4dc1698d94e06f095034788959cbc4ff537728a57eb074e2720c5300ca716a',
+      currentIdentityDigest: '244d7e5a4cf432f66ec318c9b50674abad671fceb88c3c21c58838a3a9cd6a8e',
+      fileSha256: '60ac6e213354989a5e34a06612fc7917e48e349a6bc9e372c536fe10b362f1b7',
+    },
+    {
+      file: 'packages/game/src/assets/tileset-gzip.grok-r1.test.ts',
+      previous: 9,
+      current: 8,
+      previousIdentityDigest: 'd146d281cd8951bfbc2ca34be73029e821f9862816448b0fe2985424ee5a722b',
+      currentIdentityDigest: 'd3d931a7a5d324bfea991d409a09a9c3d4cc46cfaca7c8dcf7529f3a573abad0',
+      fileSha256: 'b855fe0b4072e7bc2f4c077aff77d8ed8bf2afc62a6d47d0f6ef8f4d77cd75e9',
+    },
+    {
+      file: 'packages/game/src/assets/dialog-icons.grok-r1.test.ts',
+      previous: 14,
+      current: 13,
+      previousIdentityDigest: 'e7d4c3d2569a08c09b8d0d2b0b8240ac22f018ea02bd64cd682552aac3b9831a',
+      currentIdentityDigest: '0c8a791fb0ad1635ef9ff0823384c99b3718971fb0d80ea709882055b7335b66',
+      fileSha256: 'c4acee0bdd146721ffffa1355c149c8b22e438033a0334bec60903cc220fd500',
+    },
+    {
+      file: 'packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts',
+      previous: 2,
+      current: 1,
+      previousIdentityDigest: '55ea28df2daa97d3705047bae4dc387f5526d1891231c1f8ca39984152a961ac',
+      currentIdentityDigest: '608c146cbe209e2e7b492d8e4fb89ea1dc756a13eb6b83c4820f26d730b1b933',
+      fileSha256: '60bf26531054a6f3e213703a18edcb7929f9c4e9806dfb76b64b10eb245cd744',
+    },
     // CODE3h: weak HTTP, generic hit and field subsets transfer to G01-B07/D01
     // and retained LRU results. User standing test-quality/dedup authority.
     // Exact contracts/native proofs: pre94 3h/assets-quality/quality.json.
