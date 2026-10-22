@@ -5,6 +5,83 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-ui-frame-index-assembly-recount-20261022',
+    authority:
+      'User standing authority allows exact coverage recount for justified cleanup, without restoring dead code or weak tests. Approved UI original-index fix removes success-only packing, 1 function/2 statements/2 branches/1 line; all removed counters were covered. Existing three uncovered diagnostic lines are unchanged. Only game counters rebased by the measured single-source delta; all other baseline floors, scope, predicates and configuration unchanged.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/recount.json',
+    baselineSha256: 'a2beab0a46435a9bd17c877f2e858a787295a1b621689a1d3502d967f07eda3f',
+    sources: [
+      {
+        path: 'packages/game/src/assets/load-all-recover.grok-r1.test.ts',
+        sha256: 'bafbf8a7c6ca9b3197ea764cf112df7a94ca77f010527a264fc93fcd2059e059',
+      },
+      {
+        path: 'packages/game/src/assets/load-all-ui-frame-identity.test.ts',
+        sha256: '590c3f5a389f6267d547e8ab22644eabd435f2eeb47b3727d45b41a4203a9c87',
+      },
+      {
+        path: 'packages/game/src/assets/loader.test.ts',
+        sha256: '9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437',
+      },
+      {
+        path: 'packages/game/src/assets/loader.ts',
+        sha256: '9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f',
+      },
+      {
+        path: 'packages/game/src/assets/rle-decode.ts',
+        sha256: '28d312c4792b1cc6c7f2d4f156a764aab80e98f3228a47c567cc40a9a8d1603f',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: 'b5b3bbb04edb4bfd9b52fcd929b0f75fa6994ab2a26f1facd88b34392396607a',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.test.mjs',
+        sha256: 'ffd6288b09072d7317308829575ba77d94b43b1d5f503f437fa356346f59b425',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 14785,
+            total: 16542,
+          },
+          branches: {
+            covered: 9576,
+            total: 11892,
+          },
+          functions: {
+            covered: 1756,
+            total: 2050,
+          },
+          lines: {
+            covered: 13184,
+            total: 14498,
+          },
+        },
+        after: {
+          statements: {
+            covered: 14783,
+            total: 16540,
+          },
+          branches: {
+            covered: 9574,
+            total: 11890,
+          },
+          functions: {
+            covered: 1755,
+            total: 2049,
+          },
+          lines: {
+            covered: 13183,
+            total: 14497,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-basic-typed-fixture-recount-20261022',
     authority:
       '用户2026-10-20/21允许合理重构与测试质量整改的覆盖率下降精确调整baseline，禁止恢复死代码/堆弱测试。原7例用合法typed BattleState代替三字段强转；protect未定义回退与缺动画锚的即时数字分支不再被旧伪fixture偶然覆盖。仅game已覆盖branch9557→9555，其它旧指标下限保持；无规则/谓词/范围/超时变化。',

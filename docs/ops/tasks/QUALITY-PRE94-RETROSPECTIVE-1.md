@@ -1420,6 +1420,8 @@ Codex单Owner，同一3y，基点c4278084be4b04ebbb77fb0633b5a94c1c0eafe2与最�
 
 ## 2026-10-22 CODE3h UI original-index fix
 
+收尾有限准入：沿用户合理重构/测试整改可调整baseline的既有授权，approved-baseline-adjustments仅新增一条固定c427整基线与七实际变更路径SHA的数据；只按loader单源已测移除语句2/分支2/函数1/行1重算game，不降低其它旧下限。原三未覆盖诊断逐句相同，旧11项/程序AST不变及错源拒绝已核。[重算原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/recount.json)。覆盖率只在当前模块收尾：单源54例预检为避免全仓采集后再因结构计数拒绝；正式官方全仓仍待本窗一次集中采集，不增加弱例/恢复旧列表。
+
 User approval recorded on GAME-UI-ASSET-FRAME-IDENTITY-1. Codex sole Owner: official old source 1 pass / 2 business AssertionErrors, then real loadAll/PNG/drawNumber/drawBox contracts pass; 4 directed files28 and complete assets-adjacent27 files216 (zero skipped/stderr), game typecheck0. C10 incorrect packing assertion replaced; original item-key/pixels move to independent C11. All first nine recovery contracts remain. Cache7->4: the third generic-hit subset is covered by G01-D01 plus retained unbounded exact requests, with exact retirement identity map.
 
 Current evidence: [UI finite eight-dimension receipt](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json). Six formerly missing GOP input cases now actually ran with eight read-only resource fingerprints. No extraction or shared-format change. Current3357/377closed/113review/2867pending, fixed83 remains62accept/21partial. Whole check/official/protected are pending one concentrated module freeze, not inherited from c427. Product fix is separate from pushed quality commit da00c610a; no94-102 expansion.
