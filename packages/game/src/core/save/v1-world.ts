@@ -1,4 +1,5 @@
 import type { Command, DialogBoxStyle, Palette } from '@type-pal/shared'
+import type { LocalizedDialogPlayback } from '../../localization/messages.js'
 import type { EventCursor, NpcState } from '../game-state.js'
 import type { PaletteFadeState } from '../palette-fade.js'
 import type { SaveDataV1 } from './data.js'
@@ -122,10 +123,19 @@ const callStack = array(
     savedEventObjectId: argument,
   }),
 )
+const displayIndex: Guard<number> = (value): value is number =>
+  number(value) && Number.isInteger(value) && value >= 0
+const localizedDialog = object<LocalizedDialogPlayback>({
+  resumeIp: displayIndex,
+  lineIndex: displayIndex,
+  lines: optional(array(nullable(string))),
+})
+
 export const eventCursor = object<EventCursor>({
   commands: optional(commands),
   labelMap: optional(record(number)),
   ip: number,
+  localizedDialog: optional(localizedDialog),
   waiting: optional(
     oneOf(
       'dialog',

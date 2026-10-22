@@ -365,6 +365,7 @@ export class BattlePresent {
       drawBattleSettlement({
         fb,
         screen: settlement.screens[settlement.index]!,
+        roleNames: gs.PlayerRolesRuntime.rgwName,
         uiSpriteFrames: assets.uiSpriteFrames,
         glyphs: assets.glyphs,
       })

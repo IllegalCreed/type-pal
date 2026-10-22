@@ -1,3 +1,4 @@
+import { localize, subscribeLanguage } from '../localization/language.js'
 import {
   type ConsentStorage,
   readAnalyticsConsent,
@@ -52,9 +53,8 @@ export function mountAnalyticsConsentUi(options: AnalyticsConsentUiOptions): Ana
   panel.style.font = '12px/1.5 monospace'
 
   const copy = options.document.createElement('div')
-  copy.textContent = options.privacySignal
-    ? '检测到浏览器隐私信号，访问统计已默认关闭。你仍可明确允许仅发送一次页面浏览。'
-    : '是否允许仅统计本页浏览？不会发送按键、进度、战斗、存档或其他游戏事件。'
+  const copyText = options.document.createTextNode('')
+  copy.append(copyText)
 
   const policy = options.document.createElement('a')
   policy.href = 'https://illegalscreed.cn/zh/privacy'
@@ -97,6 +97,32 @@ export function mountAnalyticsConsentUi(options: AnalyticsConsentUiOptions): Ana
   root.append(panel, preferences)
   options.document.body.append(root)
 
+  const renderLabels = (): void => {
+    panel.setAttribute('aria-label', localize('可选访问统计', 'Optional page-view analytics'))
+    copyText.data = options.privacySignal
+      ? localize(
+          '检测到浏览器隐私信号，访问统计已默认关闭。你仍可明确允许仅发送一次页面浏览。',
+          'Your browser privacy signal is enabled, so analytics is off by default. You can explicitly allow a single page view.',
+        )
+      : localize(
+          '是否允许仅统计本页浏览？不会发送按键、进度、战斗、存档或其他游戏事件。',
+          'Allow a single page-view count? No keys, progress, battles, saves or other game events are sent.',
+        )
+    policy.textContent = localize('隐私政策', 'Privacy policy')
+    denied.textContent = localize('拒绝', 'Decline')
+    granted.textContent = localize('允许', 'Allow')
+    preferences.textContent = localize('隐私设置', 'Privacy settings')
+    preferences.setAttribute(
+      'aria-label',
+      localize('重新打开访问统计设置', 'Reopen analytics preferences'),
+    )
+  }
+  renderLabels()
+  const unsubscribeLanguage = subscribeLanguage(() => {
+    if (root.isConnected) renderLabels()
+    else unsubscribeLanguage()
+  })
+
   const showPanel = (): void => {
     panel.hidden = false
     preferences.hidden = true
@@ -120,6 +146,7 @@ export function mountAnalyticsConsentUi(options: AnalyticsConsentUiOptions): Ana
   return {
     openPreferences: showPanel,
     destroy(): void {
+      unsubscribeLanguage()
       root.remove()
     },
   }

@@ -17,7 +17,15 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-23 同步英文main365e582e2：保留本窗七新关闭、上游英文28条pending及两边完整历史，当前3402/395closed/107review/2900pending，固定83卡63accept/20partial。下条3374数字与20512/20086门是同步前d297候选；新组合门待复验，不据旧门合main，现行保护要求PR与远端documentation/fast-coverage。
+
 2026-10-23 RLE／snapshot／启动取消窗口：七个文件新关闭，四个旧关闭只刷新、一份shared专测仍review。原3h六生产文件逐项八维/真实caller与直接测试已闭环，63accept/20partial/0pending；不是shared格式或bootstrap主流程接受。当前3374/395closed/107review/2872pending。[逐文件、迁移与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md)。全check20512+691工具、单次official20086/760与同报告protected通过，项目/静态诊断0；前窗GitHub Coverage success，7条平台弃用提示单列。仅一条精确6→2退役，未降规则/阈值；shared rle.test整文件与格式真值继续review。
+
+2026-10-22 英文发布第二次同步main：保留main`d297e64d0`的blob/宿主/对话逐项裁定、RLE适配源撤review和全部原件，叠加英文28条隐式pending；当前3,402tracked/388closed/111review/2,903pending，unclosed3,014。不新增整文件关闭，用户验收与发布授权继续有效；同步后的统一门、CI及部署按实际后继结果写回。[本次同步](../evidence/GAME-ENGLISH-1/main-sync-2.json)。
+
+2026-10-22 英文发布同步main：合并英文候选`0adec15c5`与main`acb96a123`，保留main五个资产文件已验证状态和英文28条新增隐式pending；当前3,402tracked/382closed/110review/2,910pending，unclosed3,020。以下两分支时点记录原样保留；本次仅核库存与合并差异，不新增整文件关闭。用户已认可英文并授权CI、合并和阿里云发布，合并候选统一门及远端发布仍按实际后继回执记录。见[发布前同步回执](../evidence/GAME-ENGLISH-1/release-preflight.json)。
+
+2026-10-22 第一阶段英文库存同步：相对3,373净增28条tracked实现/测试/修订数据路径，只补隐式pending；当前3,401条，377closed/110review保持，pending2,914、unclosed3,024。实际新增路径与原状态不变证据见[本卡库存核验](../evidence/GAME-ENGLISH-1/docs-maintenance.json)，功能/有限差异验收不自动关闭本专项旧广域文件。
 
 2026-10-22 blob/公共宿主/对话本窗：九文件按具体A–H接受，其中七个review新关闭、两旧关闭刷新；RLE适配源因零生产出口的归属/专测去重未决撤旧关闭，专测仍review，净增加6closed。当前3374/388closed/111review/2875pending，固定83仍62accept/21partial，不接受整个3h/3i。[逐项裁定及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)。完整check实际20515+690工具，末尾三测试/精确数据以24定向+TC/99工具刷新；不冒称最后集合重新跑全check。单次official20090/760与同报告protected均0回退/0诊断，无阈值降低或第二采集；最终文档/静态与推送以回执/Git为准。
 
@@ -77,8 +85,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,374。
-当前已闭合核验：395；已读但待审：107；尚未逐文件核验：2,872；合计未闭合：2,979。
+起始基点机器清单：2,962。当前 tracked 清单：3,402。
+当前已闭合核验：395；已读但待审：107；尚未逐文件核验：2,900；合计未闭合：3,007。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 

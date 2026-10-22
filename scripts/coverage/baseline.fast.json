@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-22T15:43:04.954Z",
+  "generatedAt": "2026-10-22T15:18:22.368Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 760,
-  "testCount": 20086,
+  "sourceFileCount": 774,
+  "testCount": 20176,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -22,11 +22,12 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 11,
+      "sourceFileCount": 12,
       "sourceFiles": [
         "packages/shared/src/events.ts",
         "packages/shared/src/index.ts",
         "packages/shared/src/input.ts",
+        "packages/shared/src/localization.ts",
         "packages/shared/src/mkf.ts",
         "packages/shared/src/pal-authored-map-names.ts",
         "packages/shared/src/resources.ts",
@@ -36,7 +37,7 @@
         "packages/shared/src/tables.ts",
         "packages/shared/src/yj2.ts"
       ],
-      "scopeDigest": "f3ef4476e6c1be8555817d7c6434f3ba3b2f88ec0d22776a5f3c6f8521d1a6de",
+      "scopeDigest": "fd36e89bd5cc53221265e6bc250634e70b030ff5fc882e8c20d79070a157aaeb",
       "fastTests": {
         "testCount": 114,
         "testFileCount": 13,
@@ -1153,7 +1154,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 44,
+      "sourceFileCount": 47,
       "sourceFiles": [
         "packages/pal-extract/scripts/extract-videos.ts",
         "packages/pal-extract/src/cli.ts",
@@ -1169,10 +1170,13 @@
         "packages/pal-extract/src/io/mkf.ts",
         "packages/pal-extract/src/io/msg.ts",
         "packages/pal-extract/src/io/rle.ts",
+        "packages/pal-extract/src/io/slf.ts",
         "packages/pal-extract/src/io/sss.ts",
         "packages/pal-extract/src/io/word.ts",
         "packages/pal-extract/src/io/write.ts",
         "packages/pal-extract/src/io/yj2.ts",
+        "packages/pal-extract/src/localization/build-language-pack.ts",
+        "packages/pal-extract/src/localization/english-revisions.ts",
         "packages/pal-extract/src/output-boundary.ts",
         "packages/pal-extract/src/resources/asset-manifest.ts",
         "packages/pal-extract/src/resources/battle-sprite.ts",
@@ -1200,10 +1204,10 @@
         "packages/pal-extract/src/resources/tables.ts",
         "packages/pal-extract/src/utils/gbk.ts"
       ],
-      "scopeDigest": "0045b17e9c654645ef09606c459d21e8d581148e5a546d8e2b7b0f55ac3a6ea8",
+      "scopeDigest": "5183063eb1d4b3399fceda93647848754429c60bf6e695fe2cc6216f52d0d5f1",
       "fastTests": {
-        "testCount": 331,
-        "testFileCount": 66,
+        "testCount": 361,
+        "testFileCount": 69,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
@@ -1215,6 +1219,7 @@
           "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
           "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
           "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+          "packages/pal-extract/src/cli-localization.test.ts",
           "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/events/annotate.test.ts",
           "packages/pal-extract/src/events/disasm.boundaries.test.ts",
@@ -1238,8 +1243,10 @@
           "packages/pal-extract/src/io/mkf.test.ts",
           "packages/pal-extract/src/io/msg.boundaries.test.ts",
           "packages/pal-extract/src/io/rle.test.ts",
+          "packages/pal-extract/src/io/slf.test.ts",
           "packages/pal-extract/src/io/sss.boundaries.test.ts",
           "packages/pal-extract/src/io/word.boundaries.test.ts",
+          "packages/pal-extract/src/localization/build-language-pack.test.ts",
           "packages/pal-extract/src/output-boundary.test.ts",
           "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/battle-sprite.test.ts",
@@ -1322,6 +1329,11 @@
             "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
             "testCount": 6,
             "identityDigest": "b2f20531b853cae646883ccd22477dfcee1770fbead1b2ca6d9a89580c95a5ea"
+          },
+          {
+            "file": "packages/pal-extract/src/cli-localization.test.ts",
+            "testCount": 5,
+            "identityDigest": "c2c74abda99191c8e1a450d9864b83ce02f7162dd015ca49ba7ade555890e19d"
           },
           {
             "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
@@ -1439,6 +1451,11 @@
             "identityDigest": "89cb40d8b1829accec2a93a68df4cf412aed9e214614fa7a74476eb423140fad"
           },
           {
+            "file": "packages/pal-extract/src/io/slf.test.ts",
+            "testCount": 18,
+            "identityDigest": "a045dd9f721af29b2be0796e950a871ae469fe4e89672e1422c092cb09153adf"
+          },
+          {
             "file": "packages/pal-extract/src/io/sss.boundaries.test.ts",
             "testCount": 8,
             "identityDigest": "175e4123b9ef8435e2c6757ce548ffba893e584c2fb26e448029d307d641eb90"
@@ -1447,6 +1464,11 @@
             "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
             "testCount": 3,
             "identityDigest": "163ead05fd56302597298443620467355ee3dd7195bc711322814766ea27523c"
+          },
+          {
+            "file": "packages/pal-extract/src/localization/build-language-pack.test.ts",
+            "testCount": 7,
+            "identityDigest": "42244b970c74e832b662ff6b9fe75f1907098a03e9bfb2a0bcacc280c2b8979c"
           },
           {
             "file": "packages/pal-extract/src/output-boundary.test.ts",
@@ -1604,26 +1626,26 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "7f5c725d36f7b168b4308e44004da28ffde6701ace4404111f3ba7501719eb64",
+        "identityDigest": "444865e5ea1e519490958719a485b942c5c50e7fb8b192dbfdea0aaa61f634d1",
         "duplicateIdentityCount": 1,
-        "executionDigest": "932701abebe6a1bb9547eeed4713feb711c91ab91c62e223152c67ceae5add57"
+        "executionDigest": "29cd06fcdf6554d300dbeda8861aa044c023542eb81dec728313917f19df3971"
       },
       "metrics": {
         "statements": {
-          "covered": 1143,
-          "total": 1581
+          "covered": 1361,
+          "total": 1741
         },
         "branches": {
-          "covered": 515,
-          "total": 613
+          "covered": 643,
+          "total": 758
         },
         "functions": {
-          "covered": 123,
-          "total": 152
+          "covered": 133,
+          "total": 161
         },
         "lines": {
-          "covered": 1004,
-          "total": 1405
+          "covered": 1199,
+          "total": 1540
         }
       }
     },
@@ -4597,7 +4619,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 159,
+      "sourceFileCount": 169,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4605,6 +4627,7 @@
         "packages/game/src/analytics/google-analytics.ts",
         "packages/game/src/analytics/install-analytics.ts",
         "packages/game/src/assets/dialog-assets.ts",
+        "packages/game/src/assets/language-pack.ts",
         "packages/game/src/assets/loader.ts",
         "packages/game/src/assets/png.ts",
         "packages/game/src/assets/rle-decode.ts",
@@ -4683,6 +4706,12 @@
         "packages/game/src/core/word-lookup.ts",
         "packages/game/src/dev/dev-panel.ts",
         "packages/game/src/dev/state-dump.ts",
+        "packages/game/src/localization/language.ts",
+        "packages/game/src/localization/layout.ts",
+        "packages/game/src/localization/map-names-en.ts",
+        "packages/game/src/localization/messages.ts",
+        "packages/game/src/localization/static-shell.ts",
+        "packages/game/src/localization/ui-text.ts",
         "packages/game/src/main.ts",
         "packages/game/src/present/battle/draw-battle-bg.ts",
         "packages/game/src/present/battle/draw-battle-effect.ts",
@@ -4703,6 +4732,7 @@
         "packages/game/src/present/framebuffer.ts",
         "packages/game/src/present/menu/draw-box.ts",
         "packages/game/src/present/menu/draw-confirm.ts",
+        "packages/game/src/present/menu/draw-description.ts",
         "packages/game/src/present/menu/draw-equip.ts",
         "packages/game/src/present/menu/draw-inventory.ts",
         "packages/game/src/present/menu/draw-magic.ts",
@@ -4710,10 +4740,12 @@
         "packages/game/src/present/menu/draw-opening-menu.ts",
         "packages/game/src/present/menu/draw-player-status.ts",
         "packages/game/src/present/menu/draw-shop.ts",
+        "packages/game/src/present/menu/localized-background.ts",
         "packages/game/src/present/player-info-box.ts",
         "packages/game/src/present/present.ts",
         "packages/game/src/present/screen-shake.ts",
         "packages/game/src/present/screen-wave.ts",
+        "packages/game/src/present/small-font.ts",
         "packages/game/src/shell/audio-midi.ts",
         "packages/game/src/shell/audio-rix.ts",
         "packages/game/src/shell/audio-volume.ts",
@@ -4759,10 +4791,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "63742a6781b5cbaf53a632ec0ce3fee84172b44deffe2cf21634290e22fd2b4d",
+      "scopeDigest": "155e267b6b9aca7ea6ef4342a662f6e4aa07f516c6691711d850f35ab81f1acf",
       "fastTests": {
-        "testCount": 3700,
-        "testFileCount": 332,
+        "testCount": 3760,
+        "testFileCount": 340,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4774,6 +4806,7 @@
           "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
           "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
           "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+          "packages/game/src/assets/language-pack.test.ts",
           "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
           "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
           "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
@@ -4929,6 +4962,11 @@
           "packages/game/src/dev/dev-panel.pure.test.ts",
           "packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts",
           "packages/game/src/e2e.test.ts",
+          "packages/game/src/localization/language.test.ts",
+          "packages/game/src/localization/messages.test.ts",
+          "packages/game/src/localization/presentation.test.ts",
+          "packages/game/src/localization/settlement-language.test.ts",
+          "packages/game/src/localization/shell-surfaces.test.ts",
           "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
           "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
           "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
@@ -4998,6 +5036,7 @@
           "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
           "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
           "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "packages/game/src/present/menu/localized-background.test.ts",
           "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
           "packages/game/src/present/menu/magic-player-info.integration.test.ts",
           "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
@@ -5093,6 +5132,7 @@
           "packages/game/src/tools/speedrun/timer.test.ts",
           "packages/game/src/tools/toast.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/toast.test.ts",
+          "packages/game/src/tools/tools-panel.english.test.ts",
           "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/tools-panel.mobile.test.ts",
           "packages/game/src/tools/tools-panel.test.ts"
@@ -5141,12 +5181,17 @@
           {
             "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
             "testCount": 13,
-            "identityDigest": "4902992180eba01f7028a4d90586063d573f487028655b4b37d5ef02b7de2eda"
+            "identityDigest": "0c8a791fb0ad1635ef9ff0823384c99b3718971fb0d80ea709882055b7335b66"
           },
           {
             "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
             "testCount": 4,
             "identityDigest": "c79655d8fe730650d2f26a91560467d96e3c0f1c83927198b048843b8a2cf703"
+          },
+          {
+            "file": "packages/game/src/assets/language-pack.test.ts",
+            "testCount": 24,
+            "identityDigest": "7b91002f92ce321b56797626b7f640810010241a2e0f2fab318bce1ca0630436"
           },
           {
             "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
@@ -5190,8 +5235,8 @@
           },
           {
             "file": "packages/game/src/assets/rle-decode.test.ts",
-            "testCount": 2,
-            "identityDigest": "4ae69c1cb9241cc4431fa204e693d41ffaa5295e4567767f42252ab5b3fd0b17"
+            "testCount": 6,
+            "identityDigest": "b202ef061bcbad3589734304e5ec144778120cd6aae2d4ed2121be7eb8054503"
           },
           {
             "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
@@ -5924,6 +5969,31 @@
             "identityDigest": "ae317903e65cb2bafadbd0ab1d0dacc89bf306d95e50dfd329004b8ba73ef3ca"
           },
           {
+            "file": "packages/game/src/localization/language.test.ts",
+            "testCount": 4,
+            "identityDigest": "65d4dc01398eda91338882d4fb73a4ab65735cb8cb39d0a92ae6e2720be1534f"
+          },
+          {
+            "file": "packages/game/src/localization/messages.test.ts",
+            "testCount": 13,
+            "identityDigest": "6581703331d419e702965d11645e5f3ac17ecd71e2327eda1055e2978cda2e8d"
+          },
+          {
+            "file": "packages/game/src/localization/presentation.test.ts",
+            "testCount": 4,
+            "identityDigest": "9aa5fd517f4f4abfdd48d19fd6f365992b2f034e3827c004495dcb77e0a6b941"
+          },
+          {
+            "file": "packages/game/src/localization/settlement-language.test.ts",
+            "testCount": 1,
+            "identityDigest": "44361a5571f1826c09bdc9719954290c6e18bebb50ff3ab1ee0d5c8b4c664c23"
+          },
+          {
+            "file": "packages/game/src/localization/shell-surfaces.test.ts",
+            "testCount": 3,
+            "identityDigest": "3b74f76d8e228a322d78a403c4702ab9d08fbfbfa4bd071028bd70e418900d95"
+          },
+          {
             "file": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
             "testCount": 2,
             "identityDigest": "9099ee76ec62015527be044adff32710ffbde85489c881754f6629388fac2ffc"
@@ -6267,6 +6337,11 @@
             "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
             "testCount": 12,
             "identityDigest": "970a7909dbc7ce7109405f550fdfbc63224b3a1994d09a368af532eafb00b6a6"
+          },
+          {
+            "file": "packages/game/src/present/menu/localized-background.test.ts",
+            "testCount": 2,
+            "identityDigest": "84894068cb92f9fc1b6f0fa902a0d34a123299c76d68792baa7252338868836e"
           },
           {
             "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
@@ -6744,6 +6819,11 @@
             "identityDigest": "9a778ec0706af1edeabd40013ffb991ccf961127965095876115130f65dda3b1"
           },
           {
+            "file": "packages/game/src/tools/tools-panel.english.test.ts",
+            "testCount": 5,
+            "identityDigest": "b965adfaa15c8fa435e2bc179f40667d56ad525f85a254f539aea05fbd700440"
+          },
+          {
             "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
             "testCount": 3,
             "identityDigest": "ffd8a64c0682e42e568c430db8d98ecb8867b8599943387ce168d0083abaad03"
@@ -6759,26 +6839,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "840a7c5ad4c9f1bb01d53d96a46cf61db84901740bbb4b708e2ec9f204d0f103",
+        "identityDigest": "439c2e0a9df3a5f79564420e15b6b5ae5710310cb7b3b6e11c275b39a4f04617",
         "duplicateIdentityCount": 0,
-        "executionDigest": "fa9d2635533b4697f2c789ae17376f727a1ca84152d96d7440263fce07fd887f"
+        "executionDigest": "67f1ea84b23db20f4f8279cd9f0586d71de27ea1ffa3bf5291fe5fd93283e185"
       },
       "metrics": {
         "statements": {
-          "covered": 14811,
-          "total": 16567
+          "covered": 15290,
+          "total": 17078
         },
         "branches": {
-          "covered": 9599,
-          "total": 11918
+          "covered": 9904,
+          "total": 12277
         },
         "functions": {
-          "covered": 1761,
-          "total": 2055
+          "covered": 1835,
+          "total": 2136
         },
         "lines": {
-          "covered": 13210,
-          "total": 14525
+          "covered": 13627,
+          "total": 14963
         }
       }
     },
@@ -10797,20 +10877,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71978,
-      "total": 79798
+      "covered": 72675,
+      "total": 80469
     },
     "branches": {
-      "covered": 52172,
-      "total": 62197
+      "covered": 52605,
+      "total": 62701
     },
     "functions": {
-      "covered": 13646,
-      "total": 15202
+      "covered": 13730,
+      "total": 15292
     },
     "lines": {
-      "covered": 64288,
-      "total": 69839
+      "covered": 64900,
+      "total": 70412
     }
   }
 }

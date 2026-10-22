@@ -38,10 +38,13 @@ import { sliceByScene } from './events/slice.js'
 import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
 import { chunkCount, openMkf, readChunk } from './io/mkf.js'
 import { parseMessages } from './io/msg.js'
+import { parseSlf } from './io/slf.js'
 import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
 import { writeBinary, writeJson } from './io/write.js'
 import { decompressYj2 } from './io/yj2.js'
+import { buildLanguagePack } from './localization/build-language-pack.js'
+import { englishRevisions } from './localization/english-revisions.js'
 import { assertOwnedOutputRoot } from './output-boundary.js'
 import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
 import { parseEnemyPos } from './resources/enemy-pos.js'
@@ -167,7 +170,7 @@ function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
 async function main(): Promise<void> {
   if (process.argv.includes('--help')) {
     console.log(
-      'Usage: pal-extract [--faithful]\nDefault: apply reviewed corrections to the supported Win archive.\n--faithful: decode without corrections for source audits.',
+      'Usage: pal-extract [--faithful] [--english-slf PATH]\nDefault: apply reviewed corrections to the supported Win archive.\n--faithful: decode without corrections for source audits (Chinese only).\n--english-slf: optional Win v3.3 language input; defaults to data/en/win_files/m_eng.slf when available.',
     )
     return
   }
@@ -238,6 +241,31 @@ async function main(): Promise<void> {
     version: null,
     rules: [],
   }
+  const englishOption = process.argv.indexOf('--english-slf')
+  const explicitEnglishPath = englishOption < 0 ? undefined : process.argv[englishOption + 1]
+  if (englishOption >= 0 && (!explicitEnglishPath || explicitEnglishPath.startsWith('--')))
+    throw new Error('--english-slf requires a file path')
+  if (faithful && explicitEnglishPath) throw new Error('--faithful cannot use --english-slf')
+  const englishPath = explicitEnglishPath
+    ? resolve(explicitEnglishPath)
+    : resolve(REPO_ROOT, 'data/en/win_files/m_eng.slf')
+  if (explicitEnglishPath && !existsSync(englishPath))
+    throw new Error(`English SLF does not exist: ${englishPath}`)
+  const englishBytes = !faithful && existsSync(englishPath) ? readFileSync(englishPath) : undefined
+  // Translation preflight precedes output cleanup. Scripts and words stay common to both languages.
+  const englishPack = englishBytes
+    ? buildLanguagePack(
+        parseSlf(new TextDecoder('utf-8', { fatal: true }).decode(englishBytes)),
+        disasm(sss.bytecode, messages),
+        {
+          slfSha256: createHash('sha256').update(englishBytes).digest('hex'),
+          // This is the corrected instruction stream, not the raw SSS.MKF archive hash.
+          scriptSha256: createHash('sha256').update(sss.bytecode).digest('hex'),
+          messageSha256: createHash('sha256').update(messageBytes).digest('hex'),
+        },
+        englishRevisions,
+      )
+    : undefined
   // No existing output is removed until source identity, faithful round-trip and old values pass.
   mkdirSync(OUT, { recursive: true })
   const PRESERVE = new Set(['videos']) // 非 cli 步骤产物,勿删(见 extract:videos)
@@ -830,6 +858,10 @@ async function main(): Promise<void> {
   // ── lookup ──────────────────────────────────────────────────────
   writeJson(resolve(OUT, 'lookup', 'words.json'), words)
   writeJson(resolve(OUT, 'lookup', 'strings.json'), messages)
+  writeJson(resolve(OUT, 'lookup', 'languages.json'), {
+    languages: englishPack ? ['zh-CN', 'en'] : ['zh-CN'],
+  })
+  if (englishPack) writeJson(resolve(OUT, 'lookup', 'en.json'), englishPack)
 
   // M4 P4.T2: BDF → JSON glyph 表
   const BDF_PATH = resolve(RAW, 'unifont-cn.bdf')

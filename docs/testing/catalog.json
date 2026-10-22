@@ -1960,10 +1960,10 @@
         },
         {
           "path": "packages/pal-extract/src/cli.ts",
-          "lines": "230",
+          "lines": "233",
           "anchor": "const corrected = faithful",
           "role": "caller",
-          "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7"
+          "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
         },
         {
           "path": "packages/game/src/core/object-script-state.ts",
@@ -2041,6 +2041,28 @@
             "date": "2026-10-22",
             "action": "two-phase-corrections-implementation-and-regression",
             "scope": "Working candidate, before final integration commit. Original red logs, corrected green tests and generation receipts retained. Full browser/story E2E not executed."
+          },
+          {
+            "date": "2026-10-22",
+            "action": "english-display-cli-source-reference-maintenance",
+            "sourceCandidate": "05e1cfcff",
+            "scope": "CLI adds SLF display-pack imports/preflight/output; the common faithful/correctScripts call is unchanged and moved from line230 to233. Rebind this current caller only; preserve all historical script-correction execution results, status, source rules and raw/evidence hashes.",
+            "previousSourceRef": {
+              "path": "packages/pal-extract/src/cli.ts",
+              "lines": "230",
+              "anchor": "const corrected = faithful",
+              "role": "caller",
+              "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7"
+            },
+            "currentSourceRef": {
+              "path": "packages/pal-extract/src/cli.ts",
+              "lines": "233",
+              "anchor": "const corrected = faithful",
+              "role": "caller",
+              "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+            },
+            "maintenanceEvidence": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+            "newRuntimeClaim": false
           }
         ]
       }

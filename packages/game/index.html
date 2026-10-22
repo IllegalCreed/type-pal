@@ -102,23 +102,26 @@
         line-height: 1.5;
         font-family: Palatino, "Palatino Linotype", "Songti SC", serif;
       }
+      html[lang="en"] .boot-loading-title { font-size: 28px; letter-spacing: 1px; }
+      html[lang="en"] .boot-loading-sub,
+      html[lang="en"] #boot-loading-enter-btn { letter-spacing: 1px; }
     </style>
   </head>
   <body>
     <canvas id="screen" width="320" height="200"></canvas>
     <div id="boot-loading">
       <div class="boot-loading-box">
-        <div class="boot-loading-title">仙剑奇侠传</div>
-        <div class="boot-loading-sub">type-pal · 浏览器复刻</div>
+        <div id="boot-loading-title" class="boot-loading-title">仙剑奇侠传</div>
+        <div id="boot-loading-sub" class="boot-loading-sub">type-pal · 浏览器复刻</div>
         <div id="boot-loading-bar">
           <div id="boot-loading-fill"></div>
           <div id="boot-loading-mark"></div>
         </div>
-        <div id="boot-loading-status">正在加载…</div>
+        <div id="boot-loading-status" data-initial="true">正在加载…</div>
         <div id="boot-loading-enter" hidden>
           <button id="boot-loading-enter-btn" type="button">▶ 进入游戏</button>
         </div>
-        <div class="boot-loading-hint">越过虚线即可进入;竞速玩家可等满 100%(进游戏后零网络卡顿)</div>
+        <div id="boot-loading-hint" class="boot-loading-hint">越过虚线即可进入;竞速玩家可等满 100%(进游戏后零网络卡顿)</div>
         <div class="boot-loading-meta">
           <a href="https://github.com/IllegalCreed/type-pal" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>

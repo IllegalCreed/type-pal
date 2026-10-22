@@ -14,6 +14,7 @@
  * 用于 drawInventoryMenu 描述区(底部 71, 151+i*16,DESCTEXT_COLOR 0x3C)。
  */
 
+import { resolveMessageGroup } from '../../localization/messages.js'
 import { getGlobalCommands, getGlobalLabelMap } from '../event-system.js'
 
 /** SAFETY:scriptDesc 实测最长 3-4 行,32 是宽松上限防死循环。 */
@@ -31,7 +32,11 @@ export function getScriptDescLines(scriptDesc: number): string[] {
     const cmd = cmds[i]!
     if (cmd.op === 'end') break
     if (cmd.op === 'showDialog') {
-      lines.push(cmd.text)
+      const group = resolveMessageGroup(cmds, i)
+      if (group?.lines) {
+        lines.push(...group.lines.filter((line) => line !== null))
+        i = group.resumeIp - 1
+      } else lines.push(cmd.text)
     }
     // raw 0xA7 noop / 其它 op 跳过
   }

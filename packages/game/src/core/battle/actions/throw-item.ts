@@ -1,3 +1,4 @@
+import { getWord } from '../../word-lookup.js'
 /**
  * 投掷物 perform —— E2(战斗投掷物,kBattleActionThrowItem)。
  *
@@ -98,7 +99,12 @@ export function performThrowItem(input: PerformThrowItemInput): void {
   const hasAnim = !input.casterIsEnemy && !!caster?.posOriginal
   const magicSound = caster ? (input.playerRoles.roles[caster.roleId]?.magicSound ?? 0) : 0
   const windup = hasAnim
-    ? buildThrowWindupTimeline(input.casterIdx, caster!.posOriginal!, magicSound, item._name)
+    ? buildThrowWindupTimeline(
+        input.casterIdx,
+        caster!.posOriginal!,
+        magicSound,
+        getWord(item.id, item._name),
+      )
     : []
   const pendingAnimFrames: BattleAnimFrame[] = []
   const pendingDamageNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []

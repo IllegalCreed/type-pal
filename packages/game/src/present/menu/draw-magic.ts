@@ -1,3 +1,5 @@
+import { getWord } from '../../core/word-lookup.js'
+import { drawScriptDescription } from './draw-description.js'
 /**
  * World magic menu: caster/spell/target phases from SDLPal PAL_InGameMagicMenu.
  * The caller supplies catalogs and world runtime state; this module only paints.
@@ -55,8 +57,8 @@ const MAGIC_DESC_COLOR = 0x3c
 const MAGIC_GRID_BOX = { x: 10, y: 42 }
 const MAGIC_GRID_ITEM_START = { x: 35, y: 54 }
 const MAGIC_CURSOR_X_OFFSET = 25 // dwWordLength=10 * 5/2
-const MAGIC_ITEMS_PER_LINE = 3
 const MAGIC_LINES_PER_PAGE = 5
+const MAGIC_ITEMS_PER_LINE = 3
 const MAGIC_ITEM_TEXT_WIDTH = 87 // 8*10+7
 
 // player target picker cursor(uigame.c:793-796:PAL_XY(75 + 78 * wPlayer, 158))
@@ -126,8 +128,11 @@ function drawPickCaster(input: DrawInGameMagicMenuInput): void {
   // caster picker box(uigame.c:717:PAL_CreateBox at (35, 62),
   //   rows = wMaxPartyMemberIndex,cols = PAL_MenuTextMaxWidth(角色名) - 1)
   const rows = Math.max(1, state.partyMembers.length - 1)
-  const casterNames = state.casterMenu.items.map(
-    (it) => playerRoles.roles[it.id]?._name ?? `role#${it.id}`,
+  const casterNames = state.casterMenu.items.map((it) =>
+    getWord(
+      playerRoles.roles[it.id]?.name ?? -1,
+      playerRoles.roles[it.id]?._name ?? `role#${it.id}`,
+    ),
   )
   drawBox({
     fb,
@@ -151,7 +156,7 @@ function drawPickCaster(input: DrawInGameMagicMenuInput): void {
     }
     const roleId = it.id
     const role = playerRoles.roles[roleId]
-    const name = role?._name ?? `role#${roleId}`
+    const name = getWord(role?.name ?? -1, role?._name ?? `role#${roleId}`)
     renderText(
       fb,
       name,
@@ -201,9 +206,7 @@ function drawMagicDescription(
   const sel = state.spellMenu.items[state.spellMenu.cursor]
   const spell = sel ? spells.find((s) => s.id === sel.id) : undefined
   const lines = getScriptDescLines(spell?.scriptDesc ?? 0)
-  for (let i = 0; i < lines.length; i++) {
-    renderText(fb, lines[i]!, MAGIC_DESC_X, MAGIC_DESC_Y + i * 16, MAGIC_DESC_COLOR, glyphs, true)
-  }
+  drawScriptDescription(fb, lines, MAGIC_DESC_X, MAGIC_DESC_Y, 216, MAGIC_DESC_COLOR, glyphs)
 }
 
 // ── magic grid(magicmenu.c:228-275)─────────────────────────────────────
@@ -245,7 +248,7 @@ function drawMagicGrid(input: DrawInGameMagicMenuInput): void {
       }
 
       const spell = spells.find((s) => s.id === it.id)
-      const name = spell?._name ?? it.label
+      const name = getWord(it.id, spell?._name ?? it.label)
       const x = MAGIC_GRID_ITEM_START.x + k * MAGIC_ITEM_TEXT_WIDTH
       const y = MAGIC_GRID_ITEM_START.y + j * 18
       renderText(fb, name, x, y, color, glyphs, true)

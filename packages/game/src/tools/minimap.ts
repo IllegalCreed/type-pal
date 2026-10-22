@@ -11,6 +11,7 @@ import {
 } from '../core/event-system.js'
 import type { GameState, NpcState } from '../core/game-state.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
+import { localize } from '../localization/language.js'
 import { LAYOUT_CHANGE, presentationKey } from '../shell/presentation.js'
 
 // ── 世界像素 → 底图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────────
@@ -386,8 +387,10 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       b.addEventListener('click', onClick)
       zoomBox.appendChild(b)
     }
-    mkBtn('＋', '放大 (=)', () => setZoom(widgetZoom + 1))
-    mkBtn('－', '缩小 (-),最小=全图', () => setZoom(widgetZoom - 1))
+    mkBtn('＋', localize('放大 (=)', 'Zoom in (=)'), () => setZoom(widgetZoom + 1))
+    mkBtn('－', localize('缩小 (-),最小=全图', 'Zoom out (-), minimum: full map'), () =>
+      setZoom(widgetZoom - 1),
+    )
     widget.append(widgetCanvas, zoomBox) // zoomBox 绝对定位浮于 canvas 右上角(在小地图内)
     document.body.appendChild(widget)
   }
@@ -398,6 +401,10 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       return
     }
     ensureWidget()
+    const zoomButtons = widget!.querySelectorAll('button')
+    if (zoomButtons[0]) zoomButtons[0].title = localize('放大 (=)', 'Zoom in (=)')
+    if (zoomButtons[1])
+      zoomButtons[1].title = localize('缩小 (-),最小=全图', 'Zoom out (-), minimum: full map')
     // 场景态(含剧情对话);battle/menu 隐藏。再加「有有效地图」门:boot 期 mode 默认 explore 但
     // currentMapNum=0(未进场景),不守这道会在标题/加载屏就显出空 widget(user 2026-06-22 报)。
     widget!.style.display = inScene ? 'block' : 'none' // block:zoomBox 绝对定位浮于右上角,widget 只裹 canvas

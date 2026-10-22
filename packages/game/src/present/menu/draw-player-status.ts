@@ -1,3 +1,6 @@
+import { getLanguage } from '../../localization/language.js'
+import { layoutFont, layoutPosition, layoutShadow } from '../../localization/layout.js'
+import { englishStatusBackground } from './localized-background.js'
 /**
  * M5.6 T10d:PlayerStatus 全屏 UI — sdlpal `uigame.c:1051-1286` PAL_PlayerStatus 1:1 port。
  *
@@ -51,37 +54,37 @@ const STATUS_COLOR_EQUIPMENT = 0xbe // ui.h:97 — equipment 名字
 const SPRITENUM_SLASH = 39 // ui.h:109
 
 // ── sdlpal palcfg.c:333-376 默认 ScreenLayout 真值(PlayerStatus 段) ──────────
-const ROLE_NAME = { x: 110, y: 8 }
-const ROLE_IMAGE = { x: 110, y: 30 }
-const ROLE_EXP_LABEL = { x: 6, y: 6 }
-const ROLE_LEVEL_LABEL = { x: 6, y: 32 }
-const ROLE_HP_LABEL = { x: 6, y: 54 }
-const ROLE_MP_LABEL = { x: 6, y: 76 }
-const ROLE_STATUS_LABELS = [
+const DEFAULT_ROLE_NAME = { x: 110, y: 8 }
+const DEFAULT_ROLE_IMAGE = { x: 110, y: 30 }
+const DEFAULT_ROLE_EXP_LABEL = { x: 6, y: 6 }
+const DEFAULT_ROLE_LEVEL_LABEL = { x: 6, y: 32 }
+const DEFAULT_ROLE_HP_LABEL = { x: 6, y: 54 }
+const DEFAULT_ROLE_MP_LABEL = { x: 6, y: 76 }
+const DEFAULT_ROLE_STATUS_LABELS = [
   { x: 6, y: 98 },
   { x: 6, y: 118 },
   { x: 6, y: 138 },
   { x: 6, y: 158 },
   { x: 6, y: 178 },
 ] as const
-const ROLE_CURR_EXP = { x: 58, y: 6 }
-const ROLE_NEXT_EXP = { x: 58, y: 15 }
-const ROLE_EXP_SLASH = { x: 0, y: 0 } // 默认 (0,0) → uigame.c:1203 `!= 0` 判断为 false,跳过
-const ROLE_LEVEL = { x: 54, y: 35 }
-const ROLE_CUR_HP = { x: 42, y: 56 }
-const ROLE_MAX_HP = { x: 63, y: 61 }
-const ROLE_HP_SLASH = { x: 65, y: 58 }
-const ROLE_CUR_MP = { x: 42, y: 78 }
-const ROLE_MAX_MP = { x: 63, y: 83 }
-const ROLE_MP_SLASH = { x: 65, y: 80 }
-const ROLE_STATUS_VALUES = [
+const DEFAULT_ROLE_CURR_EXP = { x: 58, y: 6 }
+const DEFAULT_ROLE_NEXT_EXP = { x: 58, y: 15 }
+const DEFAULT_ROLE_EXP_SLASH = { x: 0, y: 0 } // 默认 (0,0) → uigame.c:1203 `!= 0` 判断为 false,跳过
+const DEFAULT_ROLE_LEVEL = { x: 54, y: 35 }
+const DEFAULT_ROLE_CUR_HP = { x: 42, y: 56 }
+const DEFAULT_ROLE_MAX_HP = { x: 63, y: 61 }
+const DEFAULT_ROLE_HP_SLASH = { x: 65, y: 58 }
+const DEFAULT_ROLE_CUR_MP = { x: 42, y: 78 }
+const DEFAULT_ROLE_MAX_MP = { x: 63, y: 83 }
+const DEFAULT_ROLE_MP_SLASH = { x: 65, y: 80 }
+const DEFAULT_ROLE_STATUS_VALUES = [
   { x: 42, y: 102 },
   { x: 42, y: 122 },
   { x: 42, y: 142 },
   { x: 42, y: 162 },
   { x: 42, y: 182 },
 ] as const
-const ROLE_EQUIP_IMAGE_BOXES = [
+const DEFAULT_ROLE_EQUIP_IMAGE_BOXES = [
   { x: 189, y: -1 },
   { x: 247, y: 39 },
   { x: 251, y: 101 },
@@ -89,7 +92,7 @@ const ROLE_EQUIP_IMAGE_BOXES = [
   { x: 141, y: 141 },
   { x: 81, y: 125 },
 ] as const
-const ROLE_EQUIP_NAMES = [
+const DEFAULT_ROLE_EQUIP_NAMES = [
   { x: 195, y: 38 },
   { x: 253, y: 78 },
   { x: 257, y: 140 },
@@ -175,9 +178,35 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   const role = playerRoles.roles[roleId]
   if (!role) return
 
+  const ROLE_NAME = layoutPosition(27, DEFAULT_ROLE_NAME)
+  const ROLE_IMAGE = layoutPosition(28, DEFAULT_ROLE_IMAGE)
+  const ROLE_EXP_LABEL = layoutPosition(29, DEFAULT_ROLE_EXP_LABEL)
+  const ROLE_LEVEL_LABEL = layoutPosition(30, DEFAULT_ROLE_LEVEL_LABEL)
+  const ROLE_HP_LABEL = layoutPosition(31, DEFAULT_ROLE_HP_LABEL)
+  const ROLE_MP_LABEL = layoutPosition(32, DEFAULT_ROLE_MP_LABEL)
+  const ROLE_CURR_EXP = layoutPosition(38, DEFAULT_ROLE_CURR_EXP)
+  const ROLE_NEXT_EXP = layoutPosition(39, DEFAULT_ROLE_NEXT_EXP)
+  const ROLE_EXP_SLASH = layoutPosition(40, DEFAULT_ROLE_EXP_SLASH)
+  const ROLE_LEVEL = layoutPosition(41, DEFAULT_ROLE_LEVEL)
+  const ROLE_CUR_HP = layoutPosition(42, DEFAULT_ROLE_CUR_HP)
+  const ROLE_MAX_HP = layoutPosition(43, DEFAULT_ROLE_MAX_HP)
+  const ROLE_HP_SLASH = layoutPosition(44, DEFAULT_ROLE_HP_SLASH)
+  const ROLE_CUR_MP = layoutPosition(45, DEFAULT_ROLE_CUR_MP)
+  const ROLE_MAX_MP = layoutPosition(46, DEFAULT_ROLE_MAX_MP)
+  const ROLE_MP_SLASH = layoutPosition(47, DEFAULT_ROLE_MP_SLASH)
+  const ROLE_STATUS_LABELS = DEFAULT_ROLE_STATUS_LABELS.map((p, i) => layoutPosition(33 + i, p))
+  const ROLE_STATUS_VALUES = DEFAULT_ROLE_STATUS_VALUES.map((p, i) => layoutPosition(48 + i, p))
+  const ROLE_EQUIP_IMAGE_BOXES = DEFAULT_ROLE_EQUIP_IMAGE_BOXES.map((p, i) =>
+    layoutPosition(53 + i, p),
+  )
+  const ROLE_EQUIP_NAMES = DEFAULT_ROLE_EQUIP_NAMES.map((p, i) => layoutPosition(59 + i, p))
+
   // 1. FBP chunk 0 全屏背景(sdlpal uigame.c:1089 + 1127)
   if (statusBg) {
-    drawBattleBg(fb, statusBg)
+    drawBattleBg(
+      fb,
+      getLanguage() === 'en' ? englishStatusBackground(statusBg, ROLE_EQUIP_IMAGE_BOXES) : statusBg,
+    )
   }
 
   // 2. RGM portrait(sdlpal uigame.c:1132-1135)
@@ -208,7 +237,7 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
     // equipment 名字 — sdlpal STATUS_COLOR_EQUIPMENT=0xBE,fShadow=TRUE
     renderText(
       fb,
-      item._name ?? `?${w}`,
+      getWord(w, item._name ?? `?${w}`),
       namePos.x,
       namePos.y,
       STATUS_COLOR_EQUIPMENT,
@@ -220,10 +249,42 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   // 4. 4 EXP/Lv/HP/MP labels(sdlpal uigame.c:1182-1188)
   //    labels0[]={EXP, LEVEL, HP, MP},pos = &RoleExpLabel + i(RoleExpLabel/LevelLabel/HPLabel/MPLabel)
   //    color = MENUITEM_COLOR 0x4F,fShadow=TRUE
-  renderText(fb, LABEL_EXP, ROLE_EXP_LABEL.x, ROLE_EXP_LABEL.y, MENUITEM_COLOR, glyphs, true)
-  renderText(fb, LABEL_LEVEL, ROLE_LEVEL_LABEL.x, ROLE_LEVEL_LABEL.y, MENUITEM_COLOR, glyphs, true)
-  renderText(fb, LABEL_HP, ROLE_HP_LABEL.x, ROLE_HP_LABEL.y, MENUITEM_COLOR, glyphs, true)
-  renderText(fb, LABEL_MP, ROLE_MP_LABEL.x, ROLE_MP_LABEL.y, MENUITEM_COLOR, glyphs, true)
+  renderText(
+    fb,
+    getWord(2, LABEL_EXP),
+    ROLE_EXP_LABEL.x,
+    ROLE_EXP_LABEL.y,
+    MENUITEM_COLOR,
+    layoutFont(29, glyphs),
+    layoutShadow(29),
+  )
+  renderText(
+    fb,
+    getWord(48, LABEL_LEVEL),
+    ROLE_LEVEL_LABEL.x,
+    ROLE_LEVEL_LABEL.y,
+    MENUITEM_COLOR,
+    layoutFont(30, glyphs),
+    layoutShadow(30),
+  )
+  renderText(
+    fb,
+    getWord(49, LABEL_HP),
+    ROLE_HP_LABEL.x,
+    ROLE_HP_LABEL.y,
+    MENUITEM_COLOR,
+    layoutFont(31, glyphs),
+    layoutShadow(31),
+  )
+  renderText(
+    fb,
+    getWord(50, LABEL_MP),
+    ROLE_MP_LABEL.x,
+    ROLE_MP_LABEL.y,
+    MENUITEM_COLOR,
+    layoutFont(32, glyphs),
+    layoutShadow(32),
+  )
 
   // 5. 5 stat labels(sdlpal uigame.c:1189-1195)
   //    labels[]={ATTACK, MAGIC, RESISTANCE, DEXTERITY, FLEERATE},pos = RoleStatusLabels[i]
@@ -236,14 +297,22 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   ] as const
   for (let i = 0; i < 5; i++) {
     const pos = ROLE_STATUS_LABELS[i]!
-    renderText(fb, STAT_LABELS[i]!, pos.x, pos.y, MENUITEM_COLOR, glyphs, true)
+    renderText(
+      fb,
+      getWord(51 + i, STAT_LABELS[i]!),
+      pos.x,
+      pos.y,
+      MENUITEM_COLOR,
+      layoutFont(33 + i, glyphs),
+      layoutShadow(33 + i),
+    )
   }
 
   // 6. roleName(sdlpal uigame.c:1197-1198)
   //    color = MENUITEM_COLOR_CONFIRMED 0x2C,fShadow=TRUE
   renderText(
     fb,
-    role._name ?? `role#${roleId}`,
+    getWord(role.name, role._name ?? `role#${roleId}`),
     ROLE_NAME.x,
     ROLE_NAME.y,
     MENUITEM_COLOR_CONFIRMED,
@@ -369,8 +438,17 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
     if (wPoisonID === 0) continue
     const pd = objectPoisons?.get(wPoisonID)
     if (!pd || pd.level > 3) continue // 无数据 / 高级毒(level>3)不显
-    const y = 58 + Math.min(j, 7) * 18 // j=0→58 … j=7→184;j=8/9 → 184(同 sdlpal 末两项重叠)
-    renderText(fb, getWord(wPoisonID, ''), 185, y, pd.color + 10, glyphs, true) // fShadow=TRUE
+    const pos = layoutPosition(65 + j, { x: 185, y: 58 + Math.min(j, 7) * 18 })
+    const y = pos.y // // j=0→58 … j=7→184;j=8/9 → 184(同 sdlpal 末两项重叠)
+    renderText(
+      fb,
+      getWord(wPoisonID, ''),
+      pos.x,
+      y,
+      pd.color + 10,
+      layoutFont(65 + j, glyphs),
+      layoutShadow(65 + j),
+    ) // fShadow=TRUE
     j++
   }
 }

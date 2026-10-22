@@ -10,7 +10,15 @@
  * 容错模式),保证菜单不致空白;表一旦载入即以 flat[id] 为准。
  */
 
+import { getLanguage } from '../localization/language.js'
+
 let _wordTable: readonly string[] = []
+let englishWords: Readonly<Record<string, string>> = {}
+
+/** A display overlay; the source table and numeric object identities stay unchanged. */
+export function setEnglishWordTable(words: Readonly<Record<string, string>>): void {
+  englishWords = words
+}
 
 /** 注入 WORD.DAT 词表(words.json 的 flat[]);bootstrap loadAll 后调一次。 */
 export function setWordTable(flat: readonly string[]): void {
@@ -22,6 +30,10 @@ export function setWordTable(flat: readonly string[]): void {
  * 否则返回 fallback（缺省空串）。
  */
 export function getWord(id: number, fallback = ''): string {
+  if (getLanguage() === 'en') {
+    const translated = englishWords[id]
+    if (translated !== undefined && translated !== '') return translated
+  }
   const w = _wordTable[id]
   return w !== undefined && w !== '' ? w : fallback
 }

@@ -11,6 +11,7 @@
  */
 import type { IndexedImage } from '../../assets/png.js'
 import { MENUITEM_COLOR, selectedMenuItemColor } from '../../core/menu/menu-colors.js'
+import { getWord } from '../../core/word-lookup.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawSingleLineBox } from './draw-box.js'
@@ -26,7 +27,7 @@ export function drawConfirmBox(
   rightSelected: boolean,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
-  labels: { left: string; right: string } = { left: '否', right: '是' },
+  labels: { left: string; right: string } = { left: getWord(19, '否'), right: getWord(20, '是') },
 ): void {
   // box: PAL_CreateSingleLineBox(PAL_XY(130 + 75*(i%2), 100 + 50*(i/2)), w+1, TRUE)
   drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })

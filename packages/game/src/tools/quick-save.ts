@@ -3,6 +3,7 @@
 //   (bootstrap loadGameFromSlot:Save.loadSlot → Object.assign(gs) → 重载场景)。
 //   F5 preventDefault 拦浏览器刷新。
 import type { GameState } from '../core/game-state.js'
+import { localize } from '../localization/language.js'
 import { showToast } from './toast.js'
 
 const QUICK_SLOT = 1
@@ -38,24 +39,39 @@ export function setupQuickSave(deps: QuickSaveDeps): () => void {
 async function doQuickSave(deps: QuickSaveDeps): Promise<void> {
   const gs = deps.getGs()
   if (!canQuickSave(gs)) {
-    showToast('当前无法存档(非大世界状态)', { type: 'error' })
+    showToast(localize('当前无法存档(非大世界状态)', 'Cannot save outside exploration'), {
+      type: 'error',
+    })
     return
   }
   try {
     await deps.saveSlot(QUICK_SLOT, gs)
-    showToast(`已存到存档位 ${QUICK_SLOT}`, { type: 'success' })
+    showToast(localize(`已存到存档位 ${QUICK_SLOT}`, `Saved to slot ${QUICK_SLOT}`), {
+      type: 'success',
+    })
   } catch (err) {
-    showToast(`存档失败:${err instanceof Error ? err.message : String(err)}`, { type: 'error' })
+    showToast(
+      `${localize('存档失败:', 'Save failed: ')}${err instanceof Error ? err.message : String(err)}`,
+      { type: 'error' },
+    )
   }
 }
 
 async function doQuickLoad(deps: QuickSaveDeps): Promise<void> {
   try {
     const ok = await deps.loadSlotIntoGame(QUICK_SLOT)
-    showToast(ok ? `已从存档位 ${QUICK_SLOT} 读取` : `存档位 ${QUICK_SLOT} 为空`, {
-      type: ok ? 'success' : 'error',
-    })
+    showToast(
+      ok
+        ? localize(`已从存档位 ${QUICK_SLOT} 读取`, `Loaded slot ${QUICK_SLOT}`)
+        : localize(`存档位 ${QUICK_SLOT} 为空`, `Slot ${QUICK_SLOT} is empty`),
+      {
+        type: ok ? 'success' : 'error',
+      },
+    )
   } catch (err) {
-    showToast(`读档失败:${err instanceof Error ? err.message : String(err)}`, { type: 'error' })
+    showToast(
+      `${localize('读档失败:', 'Load failed: ')}${err instanceof Error ? err.message : String(err)}`,
+      { type: 'error' },
+    )
   }
 }

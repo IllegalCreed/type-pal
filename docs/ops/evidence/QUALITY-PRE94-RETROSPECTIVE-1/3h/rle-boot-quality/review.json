@@ -242,15 +242,15 @@
     },
     {
       "path": "packages/game/src/main.ts",
-      "sha256": "d86607b8497b1f98383d62b3f9047e62610e3cdf9d217dce0fe218e1ad96278a",
-      "gitBlobSha1": "391c57c5fd3a49ddf1968f9eccfb91c1cf88fdb0",
-      "lines": 95
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "gitBlobSha1": "29215315461add2c4a42a24d1acb858d97e34da3",
+      "lines": 99
     },
     {
       "path": "packages/game/src/shell/bootstrap.ts",
-      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8",
-      "gitBlobSha1": "abb6af8ad74321890730a07de64503977cece1ce",
-      "lines": 1938
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "gitBlobSha1": "156c314ef23f86f313855161fe38fccb3223b84a",
+      "lines": 1956
     },
     {
       "path": "packages/game/src/shell/audio-midi.ts",
@@ -293,6 +293,36 @@
       "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
       "gitBlobSha1": "3d7bcf39d9b34eee978a439d35c445c74542bf5a",
       "lines": 265
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "gitBlobSha1": "2f83ec3240eac4aaae242e40a078ae5f84cac7cb",
+      "lines": 53
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.ts",
+      "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5",
+      "gitBlobSha1": "6173a97bdea4e5c6900669e224148fab70be06a0",
+      "lines": 28
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.ts",
+      "sha256": "90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4",
+      "gitBlobSha1": "f19e650d9a90f4e0c844480e6d85447f989730cf",
+      "lines": 83
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35",
+      "gitBlobSha1": "88a8dc662756fec9b627311d987426583818c01d",
+      "lines": 35
+    },
+    {
+      "path": "packages/shared/src/localization.ts",
+      "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1",
+      "gitBlobSha1": "53a087c61c3c00ccd0f97e6641b4adf456b3dc71",
+      "lines": 22
     }
   ],
   "inputs": [
@@ -2548,7 +2578,8 @@
     },
     "coverageCollectionCount": 1,
     "protectedMode": "Strict/protected compare of the single official report; no second coverage collection",
-    "target": "d297e64d0a928abb813ce280122d51c2c852bea5"
+    "target": "d297e64d0a928abb813ce280122d51c2c852bea5",
+    "currentMainValidation": "pending365e582e; prior source gates remain at d297 and are not current-combination acceptance"
   },
   "reusedFetchSource": {
     "path": "packages/game/src/shell/fetch-retry.ts",
@@ -3909,10 +3940,10 @@
     "note": "Expected stale pins for changed facade/icon test do not revoke unrelated S7 contracts. Shared codec truth remains frozen."
   },
   "progress": {
-    "tracked": 3374,
+    "tracked": 3402,
     "closed": 395,
     "review": 107,
-    "pending": 2872,
+    "pending": 2900,
     "pre94": {
       "total": 83,
       "accept": 63,
@@ -4081,11 +4112,97 @@
   },
   "mainSync": {
     "target": "365e582e288ea1c0052595f2aa31ab59ab72da01",
-    "status": "pending sync and integration revalidation; no main merge claimed",
+    "status": "product merge clean; seven documentation/baseline conflicts resolved; combined gates pending",
     "codeCommits": [
       "a9fdf0051a3a7b2839f0713cd41f2eb1e3300ad8",
       "b57166fcd3e1b3dd9f19e0bb2e3bbf6466cca695"
     ],
-    "reason": "Main advanced30English commits after baseD297 gates; code sources do not overlap, but main/bootstrap callers, shared index, inventory and baseline changed. New main requires PR + documentation/fast-coverage checks; never direct push main."
+    "reason": "Main advanced30English commits after baseD297 gates; code sources do not overlap, but main/bootstrap callers, shared index, inventory and baseline changed. New main requires PR + documentation/fast-coverage checks; never direct push main.",
+    "preservation": {
+      "target": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+      "records": [
+        {
+          "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+          "upstreamEntryCount": 8,
+          "allUpstreamFieldsAndHistoryPreserved": true,
+          "changed": [
+            {
+              "path": "docs/ops/board.md",
+              "ourHistoricalItemsAppended": 1
+            }
+          ]
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+          "upstreamEntryCount": 15,
+          "allUpstreamFieldsAndHistoryPreserved": true,
+          "changed": [
+            {
+              "path": "docs/ops/audits/code-quality-file-ledger.md",
+              "ourHistoricalItemsAppended": 1
+            }
+          ]
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "upstreamEntryCount": 103,
+          "allUpstreamFieldsAndHistoryPreserved": true,
+          "changed": [
+            {
+              "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+              "ourHistoricalItemsAppended": 1
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+              "ourHistoricalItemsAppended": 1
+            }
+          ]
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "upstreamEntryCount": 37,
+          "allUpstreamFieldsAndHistoryPreserved": true,
+          "changed": [
+            {
+              "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+              "ourHistoricalItemsAppended": 1
+            }
+          ]
+        }
+      ],
+      "baseline": {
+        "path": "scripts/coverage/baseline.fast.json",
+        "selected": "Exact measured incoming-main bytes, own old d297 ratchet remains in commit/receipt. Fresh combined official run will regenerate inventory; no manual metric edit.",
+        "sha256": "2130fb857eaf8df2c1f8bb663fd8f10b7ce211cb8a1ef651fec02e319de66a25"
+      },
+      "ledger": {
+        "total": 3402,
+        "closed": 395,
+        "review": 107,
+        "pending": 2900,
+        "upstream28PendingPreserved": true
+      }
+    },
+    "formatting": {
+      "beforeBytes": 1055717,
+      "afterBytes": 1036285,
+      "allParsedValuesEqual": true,
+      "allLimitsAndIncludesUnchanged": true
+    },
+    "callerDelta": "main initializes language and static DOM before retry installation; both are synchronous, no network IO. bootstrap starts the same resource ports then awaits resourcesReady beside optional English load, preserving font/resources separation and rejection ownership; loadEnglishLanguage errors fall back to Chinese. No source kernel or own11frozen files changed.",
+    "updatedDependencies": [
+      {
+        "path": "packages/game/src/main.ts",
+        "previousSha256": "d86607b8497b1f98383d62b3f9047e62610e3cdf9d217dce0fe218e1ad96278a",
+        "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "previousSha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8",
+        "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c"
+      }
+    ],
+    "sharedIndexRuntimeProof": "Index adds one export-star dependency, so emitted text is not byte-equal. Removing only that new re-export leaves prior emitted text exact; target localization.ts emits only export{} (interfaces, no values/IO). Existing codec runtime and public values unchanged; new module dependency explicitly pinned.",
+    "productionInputAndOutputSafety": "New extractor tests use accepted cli-host isolated trees, copy raw only, disposeAll; no extract command against shared data output. No English asset writes or new language feature review/closure."
   }
 }
