@@ -7,6 +7,8 @@ import { buildLabelMap, runScript, setGlobalEvents, tickEventSystem } from '../c
 import { createInitialGameState, type GameState } from '../core/game-state.js'
 import { getScriptDescLines } from '../core/menu/script-desc.js'
 import { eventCursor } from '../core/save/v1-world.js'
+import { setEnglishWordTable } from '../core/word-lookup.js'
+import { makeItem } from '../present/__tests__/grok-present/world.js'
 import { parseDialogText } from '../present/dialog-box.js'
 import { parseImportedSave, serializeSave } from '../tools/save-io.js'
 import { setLanguage } from './language.js'
@@ -59,6 +61,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   setEnglishMessages([])
+  setEnglishWordTable({})
   setGlobalEvents([])
   setLanguage('zh-CN')
   localStorage.removeItem('tp-language')
@@ -310,6 +313,40 @@ describe('translated message groups', () => {
     tickBattleDialog(state, gs, input())
     expect(gs.dialogBox?.currentLineText).toBe('Take it.')
     expect(gs.dialogBox?.style).toBe('narration')
+  })
+
+  it.each([
+    { itemId: 110, name: "God's Tea", chineseName: '神仙茶' },
+    { itemId: 135, name: 'Knock-Out', chineseName: '迷魂香' },
+  ])('battle stealing displays the literal WORD name $name in red without losing punctuation', ({
+    itemId,
+    name,
+    chineseName,
+  }) => {
+    setEnglishWordTable({ [itemId]: name })
+    const commands: Command[] = [{ op: 'raw', opcode: 0x6a, operands: [0, 0, 0] }, { op: 'end' }]
+    const { gs, state, bus } = createBattleLifecycleFixture({ commands })
+    const enemy = state.enemies[0]!
+    enemy.e.stealItem = itemId
+    enemy.e.stealItemCount = 1
+    runScript({
+      commands,
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: {
+        gs,
+        state,
+        caster: { type: 'enemy', idx: 0 },
+        target: { type: 'enemy', idx: 0 },
+        items: [makeItem(itemId, chineseName)],
+      },
+    })
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox?.currentLineText).toBe(`Got ${name}`)
+    expect(gs.dialogBox?.currentLineColors?.slice(4)).toEqual(Array<number>(name.length).fill(0x17))
+    expect(gs.inventory).toEqual([{ itemId, count: 1 }])
+    expect(enemy.e.stealItemCount).toBe(0)
   })
 
   it('wraps words without exposing escapes, control suffixes or losing persistent color/speed', () => {

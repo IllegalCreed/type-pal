@@ -996,7 +996,8 @@ export function dispatchBattleOpcode(
             )
             state.battleDialogQueue ??= []
             state.battleDialogQueue.push({
-              text: `${localize('获得', 'Got ')}@${name}@`,
+              // WORD names are literals; preserve punctuation inside this dialog control string.
+              text: `${localize('获得', 'Got ')}@${name.replace(/[\\'@"()$~-]/g, '\\$&')}@`,
               style: 'narration',
               clearBefore: true,
             })
