@@ -1,3 +1,7 @@
+import { getWord } from '../../core/word-lookup.js'
+import { getLanguage } from '../../localization/language.js'
+import { layoutFont, layoutPosition, layoutShadow } from '../../localization/layout.js'
+import { englishEquipBackground } from './localized-background.js'
 /**
  * Classic equipment menu: inventory list, then the selected item and party-role picker.
  *
@@ -53,12 +57,12 @@ import { drawInventoryMenu } from './draw-inventory.js'
 const MENUITEM_COLOR_CONFIRMED = 0x2c
 
 // ── sdlpal palcfg.c:307-331 默认 ScreenLayout 真值 ──────────────────────────
-const EQUIP_IMAGE_BOX = { x: 8, y: 8 }
-const EQUIP_ROLE_LIST_BOX = { x: 2, y: 95 }
-const EQUIP_ITEM_NAME = { x: 5, y: 70 }
-const EQUIP_ITEM_AMOUNT = { x: 51, y: 57 }
+const DEFAULT_EQUIP_IMAGE_BOX = { x: 8, y: 8 }
+const DEFAULT_EQUIP_ROLE_LIST_BOX = { x: 2, y: 95 }
+const DEFAULT_EQUIP_ITEM_NAME = { x: 5, y: 70 }
+const DEFAULT_EQUIP_ITEM_AMOUNT = { x: 51, y: 57 }
 // 装备名渲染位置(6 槽)。槽位 label(头戴/肩.../武术 等)在 classic 烤进 FBP 背景图,ts 不画。
-const EQUIP_NAMES = [
+const DEFAULT_EQUIP_NAMES = [
   { x: 130, y: 11 },
   { x: 130, y: 33 },
   { x: 130, y: 55 },
@@ -67,7 +71,7 @@ const EQUIP_NAMES = [
   { x: 130, y: 121 },
 ] as const
 // 5 stat 数字渲染位置(stat label 同样在 FBP 背景图,ts 只画数字值)。
-const EQUIP_STATUS_VALUES = [
+const DEFAULT_EQUIP_STATUS_VALUES = [
   { x: 260, y: 14 },
   { x: 260, y: 36 },
   { x: 260, y: 58 },
@@ -117,8 +121,42 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
   const item = items.find((x) => x.id === wItem)
   if (!item) return
 
+  const EQUIP_IMAGE_BOX = layoutPosition(1, DEFAULT_EQUIP_IMAGE_BOX)
+  const EQUIP_ROLE_LIST_BOX = layoutPosition(2, DEFAULT_EQUIP_ROLE_LIST_BOX)
+  const EQUIP_ITEM_NAME = layoutPosition(3, DEFAULT_EQUIP_ITEM_NAME)
+  const EQUIP_ITEM_AMOUNT = layoutPosition(4, DEFAULT_EQUIP_ITEM_AMOUNT)
+  const EQUIP_NAMES = DEFAULT_EQUIP_NAMES.map((p, i) => layoutPosition(11 + i, p))
+  const EQUIP_STATUS_VALUES = DEFAULT_EQUIP_STATUS_VALUES.map((p, i) => layoutPosition(22 + i, p))
+
   // 1. FBP chunk 1 全屏背景(sdlpal uigame.c:1822-1864)
-  if (equipBg) drawBattleBg(fb, equipBg)
+  if (equipBg) drawBattleBg(fb, getLanguage() === 'en' ? englishEquipBackground(equipBg) : equipBg)
+
+  if (getLanguage() === 'en') {
+    for (let i = 0; i < 6; i++) {
+      const p = layoutPosition(5 + i, { x: 180, y: 11 + i * 30 })
+      renderText(
+        fb,
+        getWord(600 + i),
+        p.x,
+        p.y,
+        MENUITEM_COLOR,
+        layoutFont(5 + i, glyphs),
+        layoutShadow(5 + i),
+      )
+    }
+    for (let i = 0; i < 5; i++) {
+      const p = layoutPosition(17 + i, { x: 110, y: 19 + i * 22 })
+      renderText(
+        fb,
+        getWord(51 + i),
+        p.x,
+        p.y,
+        MENUITEM_COLOR,
+        layoutFont(17 + i, glyphs),
+        layoutShadow(17 + i),
+      )
+    }
+  }
 
   // 2. item icon at EquipImageBox+(8,8)(sdlpal uigame.c:1869-1873)
   if (itemIcons) {
@@ -139,7 +177,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
       const namePos = EQUIP_NAMES[slot]!
       renderText(
         fb,
-        eqItem?._name ?? `?${eqItemId}`,
+        getWord(eqItemId, eqItem?._name ?? `?${eqItemId}`),
         namePos.x,
         namePos.y,
         MENUITEM_COLOR,
@@ -207,7 +245,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     // 角色名 36-39(李逍遥/赵灵儿/林月如/阿奴)最宽 3 全角字 → (3*16+8)>>4 = 3 → 3-1 = 2。
     // 之前写死 4 → 框过宽,右边框盖住装备槽文字(user 2026-05-28 发现)。
     rows: state.partyMembers.length - 1,
-    cols: 2,
+    cols: getLanguage() === 'en' ? 4 : 2,
     style: 0,
     uiSpriteFrames,
   })
@@ -227,7 +265,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     // sdlpal uigame.c:1952-1953 真值:PAL_XY_OFFSET(EquipRoleListBox, 13, 13+18*i),fShadow=TRUE
     renderText(
       fb,
-      role._name ?? `role#${roleId}`,
+      getWord(role.name, role._name ?? `role#${roleId}`),
       EQUIP_ROLE_LIST_BOX.x + 13,
       EQUIP_ROLE_LIST_BOX.y + 13 + 18 * i,
       color,
@@ -240,7 +278,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
   if (wItem !== 0) {
     renderText(
       fb,
-      item._name ?? `?${wItem}`,
+      getWord(wItem, item._name ?? `?${wItem}`),
       EQUIP_ITEM_NAME.x,
       EQUIP_ITEM_NAME.y,
       MENUITEM_COLOR_CONFIRMED,

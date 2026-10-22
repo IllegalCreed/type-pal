@@ -1,3 +1,5 @@
+import { getLanguage, localize } from '../../localization/language.js'
+import { getWord } from '../word-lookup.js'
 /**
  * M5.B-w2.a:battle-context opcode handler。
  *
@@ -975,7 +977,7 @@ export function dispatchBattleOpcode(
             if (c > 0) {
               state.battleDialogQueue ??= []
               state.battleDialogQueue.push({
-                text: `@获得 @${c} @文钱@`,
+                text: getLanguage() === 'en' ? `@Got @${c} @G@` : `@获得 @${c} @文钱@`,
                 style: 'narration',
                 clearBefore: true,
               })
@@ -988,10 +990,13 @@ export function dispatchBattleOpcode(
             if (entry) entry.count = Math.min(99, entry.count + 1)
             else ctx.gs.inventory.push({ itemId, count: 1 })
             // 偷取成功提示居中框"获得 物品名"(同偷钱;sdlpal "%ls@%ls@" → 获得 默认色 + 物品名红)。
-            const name = ctx.items?.find((it) => it.id === itemId)?._name ?? '道具'
+            const name = getWord(
+              itemId,
+              ctx.items?.find((it) => it.id === itemId)?._name ?? localize('道具', 'item'),
+            )
             state.battleDialogQueue ??= []
             state.battleDialogQueue.push({
-              text: `获得@${name}@`,
+              text: `${localize('获得', 'Got ')}@${name}@`,
               style: 'narration',
               clearBefore: true,
             })

@@ -1,3 +1,4 @@
+import { getWord } from '../word-lookup.js'
 /**
  * 战斗模式 phase 状态机 —— M3 T22(整合 T11-T21 所有 building blocks)。
  *
@@ -2869,7 +2870,10 @@ function performBattleAction(
               casterPos: caster.posOriginal,
               targetIdx,
               playerCount: state.players.length,
-              itemName: res.items.find((it) => it.id === action.actionId)?._name, // L15:演出显示物品名
+              itemName: getWord(
+                action.actionId ?? -1,
+                res.items.find((it) => it.id === action.actionId)?._name,
+              ), // L15:演出显示物品名
             }),
             bus,
             undefined,

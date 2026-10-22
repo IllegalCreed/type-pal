@@ -237,7 +237,7 @@ function drawInGameMenu(
   glyphs?: GlyphTable,
 ): void {
   const items = state.selection.items
-  const labels = items.map((it) => it.label)
+  const labels = items.map((it) => getWord(it.id, it.label))
   // sdlpal uigame.c:990 真值:cols = PAL_MenuTextMaxWidth - 1
   const cols = menuTextMaxCols(labels, glyphs)
   drawBox({
@@ -253,7 +253,7 @@ function drawInGameMenu(
     const y = IN_GAME_MENU_ITEM_START.y + i * LINE_HEIGHT
     const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     // sdlpal ui.c:458 PAL_ReadMenu 真值 PAL_DrawText(...fShadow=TRUE)— triple shadow
-    renderText(fb, item.label, IN_GAME_MENU_ITEM_START.x, y, color, glyphs, true)
+    renderText(fb, getWord(item.id, item.label), IN_GAME_MENU_ITEM_START.x, y, color, glyphs, true)
   })
 }
 
@@ -266,7 +266,7 @@ function drawSystemMenu(
   glyphs?: GlyphTable,
 ): void {
   const items = state.selection.items
-  const labels = items.map((it) => it.label)
+  const labels = items.map((it) => getWord(it.id, it.label))
   // sdlpal uigame.c:559:cols = PAL_MenuTextMaxWidth - 1
   const cols = menuTextMaxCols(labels, glyphs)
   // sdlpal uigame.c:559:rows = nSystemMenuItem - 1(5 items → rows 4)
@@ -284,7 +284,7 @@ function drawSystemMenu(
     const y = SYSTEM_MENU_ITEM_START.y + i * LINE_HEIGHT
     const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
-    renderText(fb, item.label, SYSTEM_MENU_ITEM_START.x, y, color, glyphs, true)
+    renderText(fb, getWord(item.id, item.label), SYSTEM_MENU_ITEM_START.x, y, color, glyphs, true)
   })
   // C2-quit:选 QUIT 进 confirm 阶段 → 在系统菜单之上叠 2 项 是/否 确认框(sdlpal PAL_QuitGame→PAL_ConfirmMenu)。
   if (state.phase === 'confirm') {
@@ -315,7 +315,7 @@ function drawInventoryActionMenu(
   glyphs?: GlyphTable,
 ): void {
   const items = state.selection.items
-  const labels = items.map((it) => it.label)
+  const labels = items.map((it) => getWord(it.id, it.label))
   // sdlpal uigame.c:905:cols = PAL_MenuTextMaxWidth - 1
   const cols = menuTextMaxCols(labels, glyphs)
   drawBox({
@@ -330,7 +330,15 @@ function drawInventoryActionMenu(
   items.forEach((item, i) => {
     const y = INVENTORY_ACTION_ITEM_START.y + i * LINE_HEIGHT
     const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
-    renderText(fb, item.label, INVENTORY_ACTION_ITEM_START.x, y, color, glyphs, true)
+    renderText(
+      fb,
+      getWord(item.id, item.label),
+      INVENTORY_ACTION_ITEM_START.x,
+      y,
+      color,
+      glyphs,
+      true,
+    )
   })
 }
 
@@ -385,7 +393,7 @@ function drawSaveSlotMenu(
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(
       fb,
-      item.label,
+      getWord(42 + item.id, item.label),
       SAVE_SLOT_BOX_X + SAVE_SLOT_LABEL_OFFSET.x,
       boxY + SAVE_SLOT_LABEL_OFFSET.y,
       color,

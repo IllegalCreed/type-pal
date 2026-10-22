@@ -1,3 +1,4 @@
+import { getWord } from '../../core/word-lookup.js'
 /**
  * 战斗 UI 渲染 —— 1:1 忠实 port sdlpal PAL_CLASSIC `PAL_BattleUIUpdate`(uibattle.c:785-1767)。
  *
@@ -84,13 +85,13 @@ const MISC_ITEM_X = 16
 const MISC_ITEM_Y0 = 32
 const MISC_ITEM_DY = 18
 /** WORD.DAT 真值(verify lookup/words.json):56围攻 / 57道具 / 58防御 / 59逃跑 / 60状态。 */
-const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
+const DEFAULT_MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 
 // 物品二级(uibattle.c:471-545):box(30,50) rows1,使用(44,62)/投掷(44,80)
 const MISC_ITEM_SUB_BOX = { x: 30, y: 50, rows: 1 }
 const MISC_ITEM_SUB = [
-  { label: '使用', x: 44, y: 62 }, // WORD.DAT 23
-  { label: '投掷', x: 44, y: 80 }, // WORD.DAT 24
+  { id: 23, label: '使用', x: 44, y: 62 }, // WORD.DAT 23
+  { id: 24, label: '投掷', x: 44, y: 80 }, // WORD.DAT 24
 ] as const
 
 // 法术网格(magicmenu.c:75-80,CN dwWordLength=10):box(10,42) 4×16 style1;item (35,54)+k*87+j*18
@@ -328,7 +329,7 @@ function drawPartyStatus(
     if (!role) return
     const x = PARTY_STATUS_BASE_X + i * PARTY_STATUS_STRIDE_X
     const y = PARTY_STATUS_BASE_Y
-    renderText(fb, role._name ?? `P${i + 1}`, x, y, UI_TEXT_COLOR, glyphs)
+    renderText(fb, getWord(role.name, role._name ?? `P${i + 1}`), x, y, UI_TEXT_COLOR, glyphs)
     renderText(fb, `HP:${role.hp}/${role.maxHP}`, x, y + 8, UI_TEXT_COLOR, glyphs)
     renderText(fb, `MP:${role.mp}/${role.maxMP}`, x, y + 16, UI_TEXT_COLOR, glyphs)
   })
@@ -458,6 +459,7 @@ function drawMiscMenu(
   uiSpriteFrames: IndexedImage[] | undefined,
   confirmed = false, // L9:进物品二级子层时父菜单当前项用已确认绿 0x2C(uibattle.c:402-405),非闪烁选中色
 ): void {
+  const MISC_LABELS = DEFAULT_MISC_LABELS.map((label, i) => getWord(56 + i, label))
   if (hasBoxFrames(uiSpriteFrames, 0)) {
     drawBox({
       fb,
@@ -498,7 +500,7 @@ function drawMiscItemSubMenu(
       y: MISC_ITEM_SUB_BOX.y,
       rows: MISC_ITEM_SUB_BOX.rows,
       cols: menuTextMaxCols(
-        MISC_ITEM_SUB.map((m) => m.label),
+        MISC_ITEM_SUB.map((m) => getWord(m.id, m.label)),
         glyphs,
       ),
       style: 0,
@@ -507,7 +509,7 @@ function drawMiscItemSubMenu(
   }
   MISC_ITEM_SUB.forEach((it, i) => {
     const color = i === state.miscSubMenuCursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, it.label, it.x, it.y, color, glyphs, true)
+    renderText(fb, getWord(it.id, it.label), it.x, it.y, color, glyphs, true)
   })
 }
 
@@ -683,7 +685,7 @@ function drawSelectGridItems(
       else color = it.disabled ? MENUITEM_COLOR_INACTIVE : MENUITEM_COLOR
       const x = lay.itemX0 + k * lay.itemW
       const y = lay.itemY0 + j * lay.lineDy
-      renderText(fb, it.label, x, y, color, glyphs, true)
+      renderText(fb, getWord(it.id, it.label), x, y, color, glyphs, true)
       // 数量(物品网格:if amount>1 cyan right;itemmenu.c:211-215)
       if (lay.amountXOff !== undefined && uiSpriteFrames) {
         const amount = parseRightNumber(it.rightText)

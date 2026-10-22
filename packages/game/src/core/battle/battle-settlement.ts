@@ -6,6 +6,7 @@ import {
   projectRuntimeToBattleRoles,
   writeBackBattleRolesToRuntime,
 } from '../game-state.js'
+import { getWord } from '../word-lookup.js'
 import { BATTLE_FRAME_TIME } from './anim-timeline.js'
 import { finalizeBattleCleanup } from './battle-finalization.js'
 import { battleWonLevelUp } from './battle-progression.js'
@@ -124,7 +125,10 @@ export function buildBattleWonSettlement(
     rng: state.rng,
   })
   for (const r of results) {
-    const name = res.playerRoles.roles[r.roleId]?._name ?? `role#${r.roleId}`
+    const name = getWord(
+      res.playerRoles.roles[r.roleId]?.name ?? -1,
+      res.playerRoles.roles[r.roleId]?._name ?? `role#${r.roleId}`,
+    )
     if (r.snapshot) screens.push({ kind: 'level-up', data: { ...r.snapshot, name } })
     // E04:隐藏属性涨点 box(sdlpal CHECK_HIDDEN_EXP battle.c:1264-1273)— 主升级 box 之后、学法术之前,逐属性一屏。
     for (const g of r.hiddenExpGrowth ?? [])
@@ -133,7 +137,10 @@ export function buildBattleWonSettlement(
         data: { roleId: r.roleId, name, statLabelWord: g.statLabelWord, delta: g.delta },
       })
     for (const magicId of r.learnedMagics) {
-      const magicName = res.spells.find((s) => s.id === magicId)?._name ?? `仙术#${magicId}`
+      const magicName = getWord(
+        magicId,
+        res.spells.find((s) => s.id === magicId)?._name ?? `magic#${magicId}`,
+      )
       screens.push({ kind: 'learn-magic', data: { roleId: r.roleId, name, magicName } })
     }
   }

@@ -1,3 +1,4 @@
+import { getWord } from '../../core/word-lookup.js'
 /**
  * 商店买入绘制与卖出叠层。布局参考 SDLPal PAL_BuyMenu_OnItemChange / PAL_BuyMenu
  * 和 PAL_SellMenu_OnItemChange;菜单状态转换、交易和完整叠层由各 caller 管理。
@@ -98,7 +99,7 @@ export function drawShopMenu(input: DrawShopInput): void {
   list.items.forEach((it, i) => {
     const y = ITEM_NAME.yBase + i * ITEM_NAME.lineH
     const color = i === list.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
-    renderText(fb, it.label, ITEM_NAME.x, y, color, glyphs, true)
+    renderText(fb, getWord(it.id, it.label), ITEM_NAME.x, y, color, glyphs, true)
     const price = Number(it.rightText ?? '0')
     drawNumber(
       fb,
@@ -129,7 +130,7 @@ export function drawShopMenu(input: DrawShopInput): void {
 
   // "现有" 框 + 数(BUYMENU_LABEL_CURRENT=35 WORD.DAT="现有")
   drawSingleLineBox({ fb, x: OWNED_BOX.x, y: OWNED_BOX.y, len: OWNED_BOX.len, uiSpriteFrames })
-  renderText(fb, '现有', OWNED_BOX.x + 10, OWNED_BOX.y + 10, 0, glyphs, false)
+  renderText(fb, getWord(35, '现有'), OWNED_BOX.x + 10, OWNED_BOX.y + 10, 0, glyphs, false)
   const owned = selItem ? ownedCount(gs, selItem.id) : 0
   drawNumber(
     fb,
@@ -143,7 +144,7 @@ export function drawShopMenu(input: DrawShopInput): void {
 
   // "金钱" 框 + dwCash(CASH_LABEL=21 WORD.DAT="金钱")
   drawSingleLineBox({ fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames })
-  renderText(fb, '金钱', CASH_BOX.x + 10, CASH_BOX.y + 10, 0, glyphs, false)
+  renderText(fb, getWord(21, '金钱'), CASH_BOX.x + 10, CASH_BOX.y + 10, 0, glyphs, false)
   drawNumber(
     fb,
     gs.dwCash,
@@ -188,7 +189,7 @@ export function drawSellOverlay(input: DrawSellOverlayInput): void {
     len: SELL_CASH_BOX.len,
     uiSpriteFrames,
   })
-  renderText(fb, '金钱', SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, 0, glyphs, false)
+  renderText(fb, getWord(21, '金钱'), SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, 0, glyphs, false)
   drawNumber(
     fb,
     gs.dwCash,
@@ -209,7 +210,15 @@ export function drawSellOverlay(input: DrawSellOverlayInput): void {
   })
   const item = cursorItemId !== undefined ? items.find((it) => it.id === cursorItemId) : undefined
   if (item?.flags.sellable) {
-    renderText(fb, '售价', SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, 0, glyphs, false)
+    renderText(
+      fb,
+      getWord(25, '售价'),
+      SELL_PRICE_BOX.x + 10,
+      SELL_PRICE_BOX.y + 10,
+      0,
+      glyphs,
+      false,
+    )
     drawNumber(
       fb,
       Math.floor(item.price / 2),

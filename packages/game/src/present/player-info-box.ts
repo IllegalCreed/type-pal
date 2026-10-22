@@ -2,6 +2,7 @@
 import type { IndexedImage } from '../assets/png.js'
 import type { GameState } from '../core/game-state.js'
 import { partySlotForRole } from '../core/player-poison-state.js'
+import { getWord } from '../core/word-lookup.js'
 import { drawNumber } from './draw-number.js'
 import { type GlyphTable, renderText } from './font.js'
 import type { Framebuffer } from './framebuffer.js'
@@ -25,14 +26,15 @@ export interface PlayerInfoBoxView {
 const STATUS_LABELS: ReadonlyArray<{
   key: keyof PlayerInfoBoxView['status']
   char: string
+  wordId: number
   dx: number
   dy: number
   color: number
 }> = [
-  { key: 'confused', char: '乱', dx: 35, dy: 19, color: 0x5f },
-  { key: 'paralyzed', char: '定', dx: 44, dy: 12, color: 0xbf },
-  { key: 'sleep', char: '眠', dx: 54, dy: 1, color: 0x0e },
-  { key: 'silence', char: '封', dx: 55, dy: 20, color: 0x3c },
+  { key: 'confused', char: '乱', wordId: 29, dx: 35, dy: 19, color: 0x5f },
+  { key: 'paralyzed', char: '定', wordId: 27, dx: 44, dy: 12, color: 0xbf },
+  { key: 'sleep', char: '眠', wordId: 28, dx: 54, dy: 1, color: 0x0e },
+  { key: 'silence', char: '封', wordId: 26, dx: 55, dy: 20, color: 0x3c },
 ]
 
 function blitOpaque(fb: Framebuffer, frame: IndexedImage, x: number, y: number): void {
@@ -112,7 +114,15 @@ export function drawPlayerInfoBox(
   if (view.hp > 0) {
     for (const label of STATUS_LABELS) {
       if ((view.status[label.key] ?? 0) > 0)
-        renderText(fb, label.char, x + label.dx, y + label.dy, label.color, glyphs, true)
+        renderText(
+          fb,
+          getWord(label.wordId, label.char),
+          x + label.dx,
+          y + label.dy,
+          label.color,
+          glyphs,
+          true,
+        )
     }
   }
 }

@@ -159,9 +159,9 @@ function drawExpCashScreen(
   // ww1=0(中文 GETEXP 5 字 → w1=8)
   drawSingleLineBox({ fb, x: 83, y: 60, len: 8, uiSpriteFrames: ui })
   drawSingleLineBox({ fb, x: 65, y: 105, len: 10, uiSpriteFrames: ui })
-  renderText(fb, W_GETEXP, 95, 70, 0, glyphs, false)
-  renderText(fb, W_BEATENEMY, 77, 115, 0, glyphs, false)
-  renderText(fb, W_DOLLAR, 197, 115, 0, glyphs, false)
+  renderText(fb, getWord(30, W_GETEXP), 95, 70, 0, glyphs, false)
+  renderText(fb, getWord(9, W_BEATENEMY), 77, 115, 0, glyphs, false)
+  renderText(fb, getWord(10, W_DOLLAR), 197, 115, 0, glyphs, false)
   drawNumber(fb, expGained, 5, { x: 182, y: 74 }, 'yellow', 'right', ui)
   drawNumber(fb, cashGained, 5, { x: 162, y: 119 }, 'yellow', 'mid', ui)
 }
@@ -178,7 +178,15 @@ function drawLevelUpScreen(
   drawBox({ fb, x: 82, y: 32, rows: 7, cols: 8, style: 1, uiSpriteFrames: ui })
 
   // 标题 "{name}修行提升"(battle.c:1132-1133,色 0 无阴影)
-  renderText(fb, `${d.name}${LEVELUP_LABELS[0]}${W_LEVELUP}`, 110, 10, 0, glyphs, false)
+  renderText(
+    fb,
+    `${d.name}${getWord(48, LEVELUP_LABELS[0])}${getWord(32, W_LEVELUP)}`,
+    110,
+    10,
+    0,
+    glyphs,
+    false,
+  )
 
   // 8 箭头(old→cur 指示)+ 8 标签(色 0xBB,有阴影)
   const arrow = ui[SPRITENUM_ARROW]
@@ -186,7 +194,7 @@ function drawLevelUpScreen(
     if (arrow) blitSpriteOpaque(fb, arrow, 180, 48 + 18 * j)
     renderText(
       fb,
-      LEVELUP_LABELS[j]!,
+      getWord(48 + j, LEVELUP_LABELS[j]!),
       100,
       44 + 18 * j,
       BATTLEWIN_LEVELUP_LABEL_COLOR,
@@ -236,11 +244,11 @@ function drawLearnMagicScreen(
   glyphs?: GlyphTable,
 ): void {
   const w1 = Math.max(wordWidthCols(name), 3)
-  const w2 = Math.max(wordWidthCols(W_ADDMAGIC), 2)
+  const w2 = Math.max(wordWidthCols(getWord(33, W_ADDMAGIC)), 2)
   const w3 = Math.max(wordWidthCols(magicName), 5)
   const ww = (w1 + w2 + w3 - 10) << 3
   drawSingleLineBox({ fb, x: 65 - ww, y: 105, len: w1 + w2 + w3, uiSpriteFrames: ui })
   renderText(fb, name, 75 - ww, 115, 0, glyphs, false)
-  renderText(fb, W_ADDMAGIC, 75 + 16 * w1 - ww, 115, 0, glyphs, false)
+  renderText(fb, getWord(33, W_ADDMAGIC), 75 + 16 * w1 - ww, 115, 0, glyphs, false)
   renderText(fb, magicName, 75 + 16 * (w1 + w2) - ww, 115, ADDMAGIC_NAME_COLOR, glyphs, false)
 }
