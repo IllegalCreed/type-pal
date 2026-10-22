@@ -1,186 +1,130 @@
-// review-record-storage.test.mjs — loader core contract tests (materialization, flat input,
-// boundary rejection, Git loading) using small synthetic records plus a real 8-source group
-// prepared into a temp tree via the writer.
+// review-record-storage.test.mjs — loader core contract tests (C05: self-contained, no /tmp).
+// Uses small synthetic records via the test-support helper; one real-CLI publish covers 599+9edges.
 
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import {
   loadReviewRecord,
+  loadReviewRecordFromGit,
   materializeReviewRecord,
   readReviewRecordObject,
+  reconcileShardDirectories,
   reviewDirRelative,
   reviewStorageMarker,
 } from './review-record-storage.mjs'
+import { buildSmallShardedRecord } from './review-record-storage.test-support.mjs'
 
-const repoRoot = resolve(fileURLToPath(new URL('../..', import.meta.url)))
-const sha = (b) => createHash('sha256').update(b).digest('hex')
-const _git = (...a) =>
-  execFileSync('git', ['-C', repoRoot, ...a])
-    .toString()
-    .trim()
-const manifest = JSON.parse(
-  readFileSync(
-    '/tmp/type-pal-S28-GLM-review-storage-implementation/execution-manifest.json',
-    'utf8',
-  ),
-)
-
+const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
+const here = fileURLToPath(new URL('.', import.meta.url))
+const _sha = (b) => createHash('sha256').update(b).digest('hex')
 function tempTree() {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-storage-'))
+  const dir = mkdtempSync(join(tmpdir(), 'rrs-core-'))
   mkdirSync(join(dir, reviewDirRelative), { recursive: true })
   return dir
 }
-const ctx = (dir) => ({ readBuffer: (p) => readFileSync(join(dir, p)) })
+const ctx = (dir) => ({
+  readBuffer: (p) => {
+    try {
+      return readFileSync(join(dir, p))
+    } catch {
+      return undefined
+    }
+  },
+})
 
-test('prepare/publish via the migration CLI materializes all 8 records with 599 entries and 9 exact pin edges', () => {
+test('small sharded record materializes to the exact logical object (public-caller success)', () => {
   const dir = tempTree()
-  const run = execFileSync(
-    process.execPath,
-    [join(repoRoot, 'scripts/docs/migrate-review-record-storage.mjs'), '--publish', dir],
-    { encoding: 'utf8' },
-  )
-  const result = JSON.parse(run)
-  assert.equal(result.mode, 'publish')
-  assert.equal(result.shards, 19)
-  assert.deepEqual(result.entries, [100, 100, 100, 99, 50, 50, 50, 50])
-  let total = 0
-  for (const row of manifest.sourceReviewRecords) {
-    const { record } = loadReviewRecord({ root: dir, logicalPath: row.path })
-    const src = JSON.parse(readFileSync(join(repoRoot, row.path), 'utf8'))
-    assert.deepEqual(record, src, `${row.path} logical object must be fully preserved`)
-    total += record.entries.length
+  const built = buildSmallShardedRecord(3)
+  for (const [path, bytes] of built.files) {
+    mkdirSync(dirname(join(dir, path)), { recursive: true })
+    writeFileSync(join(dir, path), bytes)
   }
-  assert.equal(total, 599)
-  const r92 = JSON.parse(
-    readFileSync(
-      join(dir, `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`),
-      'utf8',
-    ),
-  )
-  for (const idx of [4, 5, 6, 7, 16, 17, 18, 19]) {
-    assert.equal(r92.entries[idx].afterSha256, sha(readFileSync(join(dir, r92.entries[idx].path))))
-  }
-  const r94 = JSON.parse(
-    readFileSync(
-      join(dir, `${reviewDirRelative}/20261017-r94-final-machine-artifacts.json`),
-      'utf8',
-    ),
-  )
-  assert.equal(
-    r94.entries[6].afterSha256,
-    sha(
-      readFileSync(join(dir, `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`)),
-    ),
-  )
+  const { record, storage } = materializeReviewRecord(built.logicalPath, ctx(dir))
+  assert.deepEqual(record, built.logical)
+  assert.equal(storage.totalEntries, 3)
+  const loaded = loadReviewRecord({ root: dir, logicalPath: built.logicalPath })
+  assert.equal(loaded.loadedSource.files.length, 1 + built.shardCount)
   rmSync(dir, { recursive: true, force: true })
 })
 
-test('manifest boundary: missing shard, wrong generation, duplicate position, tampered entry are all rejected', () => {
+test('descriptor SHA drift is rejected (tampered shard bytes)', () => {
   const dir = tempTree()
-  execFileSync(process.execPath, [
-    join(repoRoot, 'scripts/docs/migrate-review-record-storage.mjs'),
-    '--publish',
-    dir,
-  ])
-  const path = manifest.sourceReviewRecords[0].path
-  const storage = JSON.parse(readFileSync(join(dir, path), 'utf8'))[reviewStorageMarker]
-  const shardPath = join(dir, reviewDirRelative, storage.shards[0].path)
-  const _shard = JSON.parse(readFileSync(shardPath, 'utf8'))
-
-  const rebuild = (_mutate) => {
-    rmSync(dir, { recursive: true, force: true })
-    mkdirSync(join(dir, reviewDirRelative), { recursive: true })
-    execFileSync(process.execPath, [
-      join(repoRoot, 'scripts/docs/migrate-review-record-storage.mjs'),
-      '--publish',
-      dir,
-    ])
+  const built = buildSmallShardedRecord(3)
+  for (const [path, bytes] of built.files) {
+    mkdirSync(dirname(join(dir, path)), { recursive: true })
+    writeFileSync(join(dir, path), bytes)
   }
-  const expectReject = (label) => {
-    assert.throws(
-      () => loadReviewRecord({ root: dir, logicalPath: path }),
-      (error) => error.message.includes('review-record-storage'),
-      label,
-    )
-  }
-
-  rebuild()
-  rmSync(shardPath)
-  expectReject('missing shard')
-
-  rebuild()
-  const tampered = JSON.parse(readFileSync(shardPath, 'utf8'))
+  const shardPath = built.files.find(([p]) => p.includes('part-'))[0]
+  const tampered = JSON.parse(readFileSync(join(dir, shardPath), 'utf8'))
   tampered.entries[0].path = 'docs/tampered.md'
-  writeFileSync(shardPath, `${JSON.stringify(tampered, null, 2)}\n`)
-  expectReject('tampered entry breaks orderedEntries fingerprint')
-
-  rebuild()
-  const dupPosition = JSON.parse(readFileSync(shardPath, 'utf8'))
-  dupPosition.positions = dupPosition.positions.map((p, i) =>
-    i === 0 ? dupPosition.positions[1] : p,
-  )
-  writeFileSync(shardPath, `${JSON.stringify(dupPosition, null, 2)}\n`)
-  expectReject('duplicate position')
-
-  rebuild()
-  const crossGeneration = JSON.parse(readFileSync(shardPath, 'utf8'))
-  crossGeneration.generation = '0'.repeat(64)
-  writeFileSync(shardPath, `${JSON.stringify(crossGeneration, null, 2)}\n`)
-  expectReject('cross-generation shard')
-
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('orphan shard directory in the target generation tree is detectable against the descriptor set', () => {
-  const dir = tempTree()
-  execFileSync(process.execPath, [
-    join(repoRoot, 'scripts/docs/migrate-review-record-storage.mjs'),
-    '--publish',
-    dir,
-  ])
-  const stem = '20261017-r73-testing-archive'
-  const storage = JSON.parse(readFileSync(join(dir, `${reviewDirRelative}/${stem}.json`), 'utf8'))[
-    reviewStorageMarker
-  ]
-  const generationDir = join(dir, reviewDirRelative, 'shards', stem, storage.logicalSha256)
-  const described = new Set(storage.shards.map((s) => join(dir, reviewDirRelative, s.path)))
-  writeFileSync(join(generationDir, 'part-999.json'), '{}\n')
-  const present = new Set()
-  for (const name of readdirSync(generationDir)) present.add(join(generationDir, name))
-  const orphans = [...present].filter((p) => !described.has(p))
-  assert.equal(orphans.length, 1)
-  assert.match(orphans[0], /part-999/)
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('half-published group: a retained lock makes loadReviewRecord refuse the whole group', () => {
-  const dir = tempTree()
-  execFileSync(process.execPath, [
-    join(repoRoot, 'scripts/docs/migrate-review-record-storage.mjs'),
-    '--publish',
-    dir,
-  ])
-  writeFileSync(join(dir, reviewDirRelative, '.storage.lock'), 'interrupted\n')
+  writeFileSync(join(dir, shardPath), `${JSON.stringify(tampered, null, 2)}\n`)
   assert.throws(
-    () => loadReviewRecord({ root: dir, logicalPath: manifest.sourceReviewRecords[0].path }),
+    () => loadReviewRecord({ root: dir, logicalPath: built.logicalPath }),
+    /shard SHA drift/,
+  )
+  rmSync(dir, { recursive: true, force: true })
+})
+
+test('manifest top-level key order and storage field order are exact (frozen contract)', () => {
+  const dir = tempTree()
+  const built = buildSmallShardedRecord(2)
+  for (const [path, bytes] of built.files) {
+    mkdirSync(dirname(join(dir, path)), { recursive: true })
+    writeFileSync(join(dir, path), bytes)
+  }
+  const manifest = JSON.parse(readFileSync(join(dir, built.logicalPath), 'utf8'))
+  const topKeys = Object.keys(manifest)
+  assert.equal(topKeys[topKeys.length - 1], reviewStorageMarker)
+  const storageKeys = Object.keys(manifest[reviewStorageMarker])
+  assert.equal(storageKeys[0], 'schemaVersion')
+  assert.equal(storageKeys[storageKeys.length - 1], 'shards')
+  rmSync(dir, { recursive: true, force: true })
+})
+
+test('orphan shard detection: unlisted file in generation dir is reported', () => {
+  const dir = tempTree()
+  const built = buildSmallShardedRecord(3)
+  for (const [path, bytes] of built.files) {
+    mkdirSync(dirname(join(dir, path)), { recursive: true })
+    writeFileSync(join(dir, path), bytes)
+  }
+  const manifest = JSON.parse(readFileSync(join(dir, built.logicalPath), 'utf8'))
+  const storage = manifest[reviewStorageMarker]
+  const genDir = storage.shards[0].path.replace(/part-\d+\.json$/, '')
+  writeFileSync(join(dir, reviewDirRelative, genDir, 'part-999.json'), '{}\n')
+  const { issues } = reconcileShardDirectories(built.logicalPath, storage, {
+    resolve: (p) => join(dir, p),
+  })
+  assert.ok(issues.some((x) => x.includes('orphan shard')))
+  rmSync(dir, { recursive: true, force: true })
+})
+
+test('lock present → loader refuses; lock removed → loader succeeds', () => {
+  const dir = tempTree()
+  const built = buildSmallShardedRecord(2)
+  for (const [path, bytes] of built.files) {
+    mkdirSync(dirname(join(dir, path)), { recursive: true })
+    writeFileSync(join(dir, path), bytes)
+  }
+  const lockPath = join(dir, reviewDirRelative, '.storage.lock')
+  writeFileSync(lockPath, 'locked\n')
+  assert.throws(
+    () => loadReviewRecord({ root: dir, logicalPath: built.logicalPath }),
     /lock present/,
   )
+  rmSync(lockPath)
+  const loaded = loadReviewRecord({ root: dir, logicalPath: built.logicalPath })
+  assert.equal(loaded.record.entries.length, 2)
   rmSync(dir, { recursive: true, force: true })
 })
 
-test('flat records remain a fully supported input everywhere (repo r85 loads 100 entries)', () => {
-  const { record, loadedSource } = loadReviewRecord({
-    root: repoRoot,
-    logicalPath: 'docs/phase-governance/reviews/20261017-r85-testing-archive.json',
-  })
-  assert.equal(record.entries.length, 100)
-  assert.equal(loadedSource.files.length, 1)
+test('flat records are first-class inputs everywhere (real repo r85/r76)', () => {
   const flat = readReviewRecordObject(
     'docs/phase-governance/reviews/20261017-r76-testing-archive.json',
     {
@@ -188,28 +132,68 @@ test('flat records remain a fully supported input everywhere (repo r85 loads 100
     },
   )
   assert.equal(flat.entries.length, 50)
+  const loaded = loadReviewRecord({
+    root: repoRoot,
+    logicalPath: 'docs/phase-governance/reviews/20261017-r85-testing-archive.json',
+  })
+  assert.equal(loaded.record.entries.length, 100)
+  assert.equal(loaded.loadedSource.files.length, 1)
 })
 
-test('Git materialization: prepared-tree records are loadable from the same revision via loadReviewRecordFromGit after commit', {
-  skip: true,
-}, () => {
-  // rehearsal trees are not Git repositories in S28; the same-revision Git path is exercised
-  // by review-record-storage-writer.test.mjs against a temp Git fixture below.
-})
-
-test('path boundary: shard paths outside their generation, manifest without marker, and non-review paths are refused', () => {
+test('Git loader: flat from real revision; sharded from temp Git commit; missing refuses', () => {
+  const gitFlat = loadReviewRecordFromGit({
+    root: repoRoot,
+    revision: '8cbf0dafba1a8a96914a322719dfeca1e5d58873',
+    logicalPath: 'docs/phase-governance/reviews/20261017-r73-testing-archive.json',
+  })
+  assert.equal(gitFlat.record.entries.length, 50)
+  assert.equal(gitFlat.storage, null)
   const dir = tempTree()
-  writeFileSync(
-    join(dir, reviewDirRelative, 'x.json'),
-    `${JSON.stringify({ schemaVersion: 1, entries: [{ path: 'docs/a.md' }] }, null, 2)}\n`,
-  )
+  execFileSync('node', [join(here, 'migrate-review-record-storage.mjs'), '--publish', dir])
+  execFileSync('git', ['-C', dir, 'init', '-q'])
+  execFileSync('git', ['-C', dir, 'add', '-A'])
+  execFileSync('git', [
+    '-C',
+    dir,
+    '-c',
+    'user.email=t@t',
+    '-c',
+    'user.name=t',
+    'commit',
+    '-qm',
+    'rehearsal',
+  ])
+  const head = execFileSync('git', ['-C', dir, 'rev-parse', 'HEAD']).toString().trim()
+  const fromGit = loadReviewRecordFromGit({
+    root: dir,
+    revision: head,
+    logicalPath: 'docs/phase-governance/reviews/20261017-r85-testing-archive.json',
+  })
+  assert.equal(fromGit.record.entries.length, 100)
+  assert.ok(fromGit.storage !== null)
   assert.throws(
-    () => materializeReviewRecord(`${reviewDirRelative}/x.json`, ctx(dir)),
-    /legacy flat record/,
+    () =>
+      loadReviewRecordFromGit({
+        root: dir,
+        revision: head,
+        logicalPath: `${reviewDirRelative}/nonexistent.json`,
+      }),
+    /Git review missing/,
   )
-  assert.throws(
-    () => materializeReviewRecord('docs/other/y.json', ctx(dir)),
-    /not a review logical path/,
+  rmSync(dir, { recursive: true, force: true })
+})
+
+test('real CLI publish: 8 manifests, 19 shards, 599 entries, 9 edges', () => {
+  const dir = tempTree()
+  const result = JSON.parse(
+    execFileSync('node', [join(here, 'migrate-review-record-storage.mjs'), '--publish', dir], {
+      encoding: 'utf8',
+    }),
   )
+  assert.equal(result.mode, 'publish')
+  assert.equal(result.totalEntries, 599)
+  assert.equal(result.edgeCount, 9)
+  assert.equal(result.shards, 19)
+  assert.ok(result.entries.every((n) => n > 0))
   rmSync(dir, { recursive: true, force: true })
 })

@@ -72,7 +72,7 @@ export function historicalVitestNativeIssues(doc, template, contract, read, opti
   let entries
   try {
     entries = readReviewRecordObject(historicalVitestContract.reviewRecord, {
-      readBuffer: (path) => Buffer.from(read(path), 'utf8'),
+      readBuffer: options.readBuffer,
     }).entries
   } catch {
     return ['native Vitest current review unavailable']

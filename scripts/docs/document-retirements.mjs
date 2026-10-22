@@ -4,7 +4,7 @@ import { resolve } from 'node:path'
 import { inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { markdownLinks } from './markdown.mjs'
-import { loadReviewRecordFromGit, readReviewRecordObject } from './review-record-storage.mjs'
+import { readReviewRecordObject } from './review-record-storage.mjs'
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const object = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -166,22 +166,23 @@ export function inspectDocumentRetirements(
       const old = previous.entries.filter((row) => row.path === entry.path)
       demand(old.length === 1, `previous registration not unique: ${entry.path}`)
       const priorPath = `docs/phase-governance/reviews/${old[0].reviewRecord}`
-      let oldPins
-      try {
-        oldPins = loadReviewRecordFromGit({
-          root,
-          revision: declaration.previousRegistry.revision,
-          logicalPath: priorPath,
-        }).record.entries.filter((row) => row.path === entry.path)
-      } catch {
-        const priorReview = readSourceBuffer({
-          revision: declaration.previousRegistry.revision,
-          path: priorPath,
-        })
-        oldPins = priorReview
-          ? JSON.parse(priorReview.buffer).entries?.filter((row) => row.path === entry.path)
-          : []
-      }
+      const priorSnap = readSourceBuffer({
+        revision: declaration.previousRegistry.revision,
+        path: priorPath,
+      })
+      // Use the storage-aware reader on the prior review buffer (handles flat or sharded)
+      const priorRecord = readReviewRecordObject(priorPath, {
+        readBuffer: (p) => {
+          if (p === priorPath) return priorSnap?.buffer
+          // Shards at the same revision need individual lookups
+          const shardSnap = readSourceBuffer({
+            revision: declaration.previousRegistry.revision,
+            path: p,
+          })
+          return shardSnap?.buffer
+        },
+      })
+      const oldPins = priorRecord.entries.filter((row) => row.path === entry.path)
       demand(
         oldPins?.length === 1 && oldPins[0].afterSha256 === entry.source.sha256,
         `previous review does not pin retirement source: ${entry.path}`,

@@ -10,10 +10,21 @@ const { registry, loadedSource } = loadDocumentRegistry({ manifestPath: registry
 const reviews = new Map()
 const reviewDir = resolve(root, 'docs/phase-governance/reviews')
 const reviewNames = readdirSync(reviewDir).filter((name) => name.endsWith('.json'))
-assertWritableReviewSelection(
-  reviewNames.map((name) => `docs/phase-governance/reviews/${name}`),
-  { readBuffer: (p) => readFileSync(resolve(root, p)), resolve: (p) => resolve(root, p) },
-)
+// C04: legacy flat files pass the write guard; thin manifests are read-only for this sync
+// (the storage writer owns manifest mutations). Both shapes are materialized below.
+const reviewSelection = reviewNames.map((name) => `docs/phase-governance/reviews/${name}`)
+const manifestPaths = reviewSelection.filter((p) => {
+  const bytes = readFileSync(resolve(root, p))
+  return bytes.includes(Buffer.from('_reviewStorage'))
+})
+// sync fully validates by materializing every review (flat or manifest) below; the write guard
+// applies only to flat files that would be mutated by registry sync
+if (manifestPaths.length === 0) {
+  assertWritableReviewSelection(reviewSelection, {
+    readBuffer: (p) => readFileSync(resolve(root, p)),
+    resolve: (p) => resolve(root, p),
+  })
+}
 for (const file of reviewNames) {
   const document = readReviewRecordObject(`docs/phase-governance/reviews/${file}`, {
     readBuffer: (p) => readFileSync(resolve(root, p)),

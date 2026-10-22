@@ -1,42 +1,67 @@
 // migrate-review-record-storage.mjs — S28 rehearsal CLI for the 8-record storage group.
-// Default is dry-run (prepare only, prints the plan). --publish <dir> writes the prepared
-// group into an explicit temporary target tree. Never touches the repository.
+// C05: no /tmp packet dependency; uses bounded versioned frozen-source constants
+// and real Git for deterministic identity derivation. Default dry-run; --publish <dir>.
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { loadReviewRecord } from './review-record-storage.mjs'
 import {
+  FROZEN_REVIEW_SOURCE_REVISION,
+  FROZEN_REVIEW_STORAGE_SOURCES,
   prepareReviewStorageGroup,
   publishReviewStorageGroup,
 } from './review-record-storage-writer.mjs'
 
-const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
-const manifest = JSON.parse(
-  readFileSync(
-    '/tmp/type-pal-S28-GLM-review-storage-implementation/execution-manifest.json',
-    'utf8',
-  ),
-)
+const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
+const sha = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const args = process.argv.slice(2)
 const publishIndex = args.indexOf('--publish')
 const publishDir = publishIndex !== -1 ? resolve(args[publishIndex + 1]) : null
 
-const readBuffer = (path) => readFileSync(resolve(repoRoot, path))
-const records = manifest.sourceReviewRecords.map((row) => ({
-  path: row.path,
-  beforeSHA256: row.beforeSHA256,
-  entryCount: row.entryCount,
-  sourceRevision: '8cbf0dafba1a8a96914a322719dfeca1e5d58873',
-  sourceGitObject: undefined,
-}))
-// Fixed source Git identities come from the S27 carrier revision (contract: 八源复用S27清单; worktree==carrier==beforeSHA verified by S27 source checks).
-for (const record of records) {
-  const blob = execGitOutput([
-    'rev-parse',
-    `8cbf0dafba1a8a96914a322719dfeca1e5d58873:${record.path}`,
-  ])
-  record.sourceGitObject = blob
+const readBuffer = (path) => {
+  try {
+    return readFileSync(resolve(repoRoot, path))
+  } catch {
+    return undefined
+  }
 }
+
+const gitShow = (revision, path) => {
+  try {
+    return execFileSync('git', ['-C', repoRoot, 'cat-file', 'blob', `${revision}:${path}`], {
+      maxBuffer: 16 * 1024 * 1024,
+    })
+  } catch {
+    return undefined
+  }
+}
+const gitOid = (revision, path) => {
+  try {
+    return execFileSync('git', ['-C', repoRoot, 'rev-parse', `${revision}:${path}`])
+      .toString()
+      .trim()
+  } catch {
+    return undefined
+  }
+}
+
+const records = FROZEN_REVIEW_STORAGE_SOURCES.map((frozen) => {
+  const bytes = gitShow(FROZEN_REVIEW_SOURCE_REVISION, frozen.path)
+  if (bytes === undefined) {
+    throw new Error(
+      `frozen source not found in Git at ${FROZEN_REVIEW_SOURCE_REVISION}: ${frozen.path}`,
+    )
+  }
+  return {
+    path: frozen.path,
+    beforeSHA256: sha(bytes),
+    entryCount: frozen.entryCount,
+    sourceRevision: FROZEN_REVIEW_SOURCE_REVISION,
+    sourceGitObject: gitOid(FROZEN_REVIEW_SOURCE_REVISION, frozen.path),
+  }
+})
 
 const prepared = prepareReviewStorageGroup({
   records,
@@ -67,28 +92,23 @@ if (!publishDir) {
     }),
   )
 } else {
-  const published = publishReviewStorageGroup(prepared, publishDir)
-  // post-publish verification: every logical record materializes to the identical 599-entry objects
-  let verified = 0
+  const published = publishReviewStorageGroup(prepared, publishDir, {
+    sourceReadBuffer: readBuffer,
+  })
   const entries = []
   for (const record of records) {
     const loaded = loadReviewRecord({ root: publishDir, logicalPath: record.path })
     entries.push(loaded.record.entries.length)
-    verified += 1
   }
   console.log(
     JSON.stringify({
       mode: 'publish',
       written: published.written,
       shards: shardCount,
-      verified,
+      verified: entries.length,
       entries,
+      totalEntries: published.totalEntries,
+      edgeCount: published.edgeCount,
     }),
   )
-}
-
-function execGitOutput(argv) {
-  return execFileSync('git', ['-C', repoRoot, ...argv])
-    .toString()
-    .trim()
 }
