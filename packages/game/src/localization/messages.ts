@@ -25,7 +25,7 @@ export function setEnglishMessages(groups: readonly LocalizedMessageGroup[]): vo
 
 /** Missing spans are inspectable without emitting a warning for each rendered frame. */
 export function getMissingEnglishMessageGroups(): { start: number; end: number }[] {
-  return [...missingGroups.values()]
+  return [...missingGroups.values()].map(({ start, end }) => ({ start, end }))
 }
 
 /** SDLPal MESSAGE_GetSpan: consecutive message identities, with RestoreScreen between them. */

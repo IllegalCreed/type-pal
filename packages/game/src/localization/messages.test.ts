@@ -115,6 +115,11 @@ describe('translated message groups', () => {
     const gs = explore(commands)
     tickEventSystem(gs, input(), createCommandBus())
     expect(gs.dialogBox?.currentLineText).toBe('First.')
+    for (let frame = 0; frame < 50 && gs.dialogBox?.currentLineText !== 'Third.'; frame++) {
+      gs.nowMs += 100
+      tickEventSystem(gs, input(false, frame), createCommandBus())
+    }
+    expect(gs.eventCursor?.localizedDialog?.lineIndex).toBe(2)
     setLanguage('zh-CN')
     const loaded = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     Object.assign(loaded, parseImportedSave(serializeSave(gs)))
@@ -198,6 +203,53 @@ describe('translated message groups', () => {
     expect(gs.dwCash).toBe(7)
     setGlobalEvents(commands)
     expect(getScriptDescLines(1)).toEqual(englishLines.filter((s) => s !== null))
+  })
+
+  it('explicit clear preserves the title and portrait in exploration and battle', () => {
+    setEnglishMessages([
+      { start: 100, end: 102, lines: ['Hero:', 'Before.', null, 'After.', null] },
+    ])
+    const commands: Command[] = [
+      { op: 'setDialogStyleBottom', arg0: 8 },
+      ...sourceLines,
+      { op: 'end' },
+    ]
+    const gs = explore(commands)
+    const bus = createCommandBus()
+    for (let frame = 0; frame < 100 && gs.dialogBox?.phase !== 'waiting-page-key'; frame++) {
+      gs.nowMs += 100
+      tickEventSystem(gs, input(false, frame), bus)
+    }
+    expect(gs.dialogBox?.titleText).toBe('Hero:')
+    expect(gs.dialogBox?.portraitIcon).toBe(8)
+    tickEventSystem(gs, input(true), bus)
+    expect(gs.dialogBox?.currentLineText).toBe('After.')
+    expect(gs.dialogBox?.titleText).toBe('Hero:')
+    expect(gs.dialogBox?.portraitIcon).toBe(8)
+    finish(gs)
+    expect(gs.dialogHistory?.map((line) => line.text)).toEqual(['Hero:', 'Before.', 'After.'])
+
+    const battle = createBattleLifecycleFixture({ commands })
+    runScript({
+      commands,
+      ip: 0,
+      bus: battle.bus,
+      runtimeMode: 'battle',
+      battleCtx: {
+        gs: battle.gs,
+        state: battle.state,
+        caster: { type: 'enemy', idx: 0 },
+      },
+    })
+    for (let frame = 0; frame < 100 && battle.gs.dialogBox?.phase !== 'waiting-page-key'; frame++) {
+      tickBattleDialog(battle.state, battle.gs, input(false, frame))
+    }
+    expect(battle.gs.dialogBox?.titleText).toBe('Hero:')
+    tickBattleDialog(battle.state, battle.gs, input(true))
+    tickBattleDialog(battle.state, battle.gs, input())
+    expect(battle.gs.dialogBox?.currentLineText).toBe('After.')
+    expect(battle.gs.dialogBox?.titleText).toBe('Hero:')
+    expect(battle.gs.dialogBox?.portraitIcon).toBe(8)
   })
 
   it('wraps words without exposing escapes, control suffixes or losing persistent color/speed', () => {
