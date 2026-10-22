@@ -285,6 +285,7 @@ Branch: codex/script-corrections（集成）；三个隔离 worktree 交付候�
 - 主线新增测试后重新实测官方fast基线，提交及CI的后续证据见[主线同步回执](../evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json)；此前20,081例/84ac104基线只保留原范围，不冒充同步后结果。
 - 同步后fast全部20,094例、760个生产文件通过。官方命令在最后一步因未带退休确认参数退出1；保留原始输出，使用本次原生summary、未改的官方基线投影/比较模型及既有326→324的精确身份/文件哈希退休校验完成终态续验，不重复未改测试、不倒写原命令为0。远端CI仍须完整执行受保护基线检查；终态续验工具和所有输入/输出SHA在同步回执中公开。
 - 带尾空白的原生终端输出采用gzip无损保存，解压字节和原SHA保持一致；映射及原始收据Git位置见[原生日志出版记录](../evidence/GAME-SCRIPT-CORRECTIONS-1/native-log-publication.json)。未清洗原始失败、弱化检查或修改原始资源。
+- PR #10首轮文档CI通过；Coverage在前置quality-tools发现旧质量账本未计17个新增tracked路径，未进入产品类型/覆盖率运行。只同步库存3373与pending2886，closed377/review110保持；47个quality-tools复验通过，[原始失败及库存回执](../evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json)保留，后续CI按PR实际运行记录。
 
 ## 交接日志
 

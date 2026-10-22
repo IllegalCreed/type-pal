@@ -1023,7 +1023,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
+      "coreConclusion": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "d3eee898dea03f569dcbc81ae0da7041db24f2157acc2d2007120dd23e94002e",
+      "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "d3eee898dea03f569dcbc81ae0da7041db24f2157acc2d2007120dd23e94002e",
+        "implementationSha": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1846,10 +1846,10 @@
         },
         "currentMaintenance": {
           "kind": "script-corrections-main-sync-publication",
-          "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
-          "afterSha256": "d3eee898dea03f569dcbc81ae0da7041db24f2157acc2d2007120dd23e94002e",
-          "lineCount": 18863,
-          "scope": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
+          "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+          "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+          "lineCount": 18885,
+          "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
           "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
           "workingTreeDelta": true
         }
@@ -3961,6 +3961,14 @@
           "previousCoreConclusion": "Terminal incoming binding for the exact R93 user-acceptance navigation delta; original artifact/history retained. No claim that waived story/visual/preview checks were executed.",
           "scope": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
           "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "d3eee898dea03f569dcbc81ae0da7041db24f2157acc2d2007120dd23e94002e",
+          "previousCoreConclusion": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
+          "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json"
         }
       ],
       "supersedes": [
@@ -3968,7 +3976,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
+      "reviewedLines": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4006,7 +4014,7 @@
       "maintenanceReview": {
         "date": "2026-10-22",
         "reviewer": "Codex",
-        "scope": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
+        "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
         "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true,
@@ -4030,7 +4038,7 @@
           ]
         },
         "mainSync": {
-          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
           "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
           "preservedBothParentHistories": true
         }

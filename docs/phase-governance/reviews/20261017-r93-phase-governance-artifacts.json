@@ -7117,9 +7117,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
+      "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+      "coreConclusion": "Exact incoming binding for the single ledger inventory reconciliation entry and appended history; all other card reviews and original artifact provenance retained.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7140,7 +7140,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
+      "afterSha256": "5c8fbb1f179189af01533895863f1d8aacd0437c22203caf343d0decc0698d4b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7164,7 +7164,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
+        "implementationSha": "5c8fbb1f179189af01533895863f1d8aacd0437c22203caf343d0decc0698d4b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -7846,6 +7846,15 @@
         "nativeShape": {
           "format": "json",
           "byteStable": true
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-main-sync-publication",
+          "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+          "afterSha256": "5c8fbb1f179189af01533895863f1d8aacd0437c22203caf343d0decc0698d4b",
+          "lineCount": 6683,
+          "scope": "Exact incoming binding for the single ledger inventory reconciliation entry and appended history; all other card reviews and original artifact provenance retained.",
+          "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -9064,6 +9073,14 @@
           "afterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
+          "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+          "scope": "Exact incoming binding for the single ledger inventory reconciliation entry and appended history; all other card reviews and original artifact provenance retained.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json"
         }
       ],
       "supersedes": [
@@ -9071,7 +9088,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Exact incoming binding for the single ledger inventory reconciliation entry and appended history; all other card reviews and original artifact provenance retained.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -9111,8 +9128,13 @@
         "date": "2026-10-22",
         "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
         "afterSha256": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "scope": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
-        "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
+        "scope": "Exact incoming binding for the single ledger inventory reconciliation entry and appended history; all other card reviews and original artifact provenance retained.",
+        "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim.",
+        "mainSync": {
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "preservedBothParentHistories": true
+        }
       }
     },
     {
