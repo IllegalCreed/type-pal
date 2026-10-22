@@ -10,7 +10,7 @@ import {
   validateSprites,
   validateTilesets,
 } from '@type-pal/content'
-import { encodeSpriteChunk } from '@type-pal/shared'
+import { encodeSpriteChunk, type RleFrame } from '@type-pal/shared'
 import { afterEach, expect, test, vi } from 'vitest'
 import assetsJson from '../../../projects/pal/assets/index.json' with { type: 'json' }
 import innMapJson from '../../../projects/pal/content/maps/map-010.json' with { type: 'json' }
@@ -47,6 +47,23 @@ const { readFile } = await vi.importActual<{
 }>('node:fs/promises')
 type Case = 'wine' | 'wrong-position' | 'kitchen' | 'serve' | 'opening' | 'inn'
 
+// One fixture invocation owns each cache. Equal frame counts share only the completed
+// deterministic IO encoding; every asset still receives its own mutable byte buffer.
+function makeRleFixtureEncoder(frame: () => RleFrame) {
+  const encoded = new Map<number, { bytes: Uint8Array<ArrayBuffer>; sha256: string }>()
+  return async (count: number) => {
+    let input = encoded.get(count)
+    if (!input) {
+      const bytes = Uint8Array.from(
+        await compressGzip(encodeSpriteChunk(Array.from({ length: count }, frame))),
+      )
+      input = { bytes, sha256: await sha256Bytes(bytes) }
+      encoded.set(count, input)
+    }
+    return { bytes: input.bytes.slice(), sha256: input.sha256 }
+  }
+}
+
 async function project(caseId: Case, wineCount = 1) {
   // These external image bytes are not a pixel oracle. Preserve stable IDs/kinds
   // while supplying complete PNG input and matching metadata without ignored PAL assets.
@@ -60,27 +77,24 @@ async function project(caseId: Case, wineCount = 1) {
       sprite.asset,
       Math.max(spriteDemands.get(sprite.asset) ?? 0, spriteDefinitionFrameDemand(sprite)),
     )
+  const spriteInput = makeRleFixtureEncoder(() => ({
+    width: 1,
+    height: 1,
+    pixels: new Uint8Array([2]),
+    opaque: new Uint8Array([1]),
+  }))
   for (const [asset, demand] of spriteDemands) {
     const record = catalog.assets[asset]
     if (!record || record.kind !== 'sprite') throw new Error('sprite IO record missing')
-    const bytes = await compressGzip(
-      encodeSpriteChunk(
-        Array.from({ length: demand }, () => ({
-          width: 1,
-          height: 1,
-          pixels: new Uint8Array([2]),
-          opaque: new Uint8Array([1]),
-        })),
-      ),
-    )
+    const { bytes, sha256 } = await spriteInput(demand)
     record.path = `assets/authored/runtime-shell/sprites/${binaryInputs.size}.rle`
     record.bytes = bytes.byteLength
-    record.sha256 = await sha256Bytes(bytes)
+    record.sha256 = sha256
     record.origin = {
       kind: 'authored',
       ref: 'canonical sprite IO fixture matching declared frame demand',
     }
-    binaryInputs.set(record.path, Uint8Array.from(bytes))
+    binaryInputs.set(record.path, bytes)
   }
   const tileDemands = new Map<string, number>()
   for (const map of [validateProjectMap(innMapJson), validateProjectMap(roomsMapJson)])
@@ -92,29 +106,26 @@ async function project(caseId: Case, wineCount = 1) {
           if (!id) throw new Error('map tileset IO reference missing')
           tileDemands.set(id, Math.max(tileDemands.get(id) ?? 0, tile + 1))
         }
+  const tileInput = makeRleFixtureEncoder(() => ({
+    width: 32,
+    height: 16,
+    pixels: new Uint8Array(512),
+    opaque: new Uint8Array(512),
+  }))
   for (const tileset of validateTilesets(tilesetsJson)) {
     const demand = tileDemands.get(tileset.id)
     if (!demand) continue
     const record = catalog.assets[tileset.asset]
     if (!record || record.kind !== 'tileset') throw new Error('tileset IO record missing')
-    const bytes = await compressGzip(
-      encodeSpriteChunk(
-        Array.from({ length: demand }, () => ({
-          width: 32,
-          height: 16,
-          pixels: new Uint8Array(512),
-          opaque: new Uint8Array(512),
-        })),
-      ),
-    )
+    const { bytes, sha256 } = await tileInput(demand)
     record.path = `assets/authored/runtime-shell/tiles/${binaryInputs.size}.rle`
     record.bytes = bytes.byteLength
-    record.sha256 = await sha256Bytes(bytes)
+    record.sha256 = sha256
     record.origin = {
       kind: 'authored',
       ref: 'canonical tile IO fixture covering real map frame IDs',
     }
-    binaryInputs.set(record.path, Uint8Array.from(bytes))
+    binaryInputs.set(record.path, bytes)
   }
   const colorTable = {
     colors: Array.from({ length: 256 }, (_, value) => [value, value, value]),
