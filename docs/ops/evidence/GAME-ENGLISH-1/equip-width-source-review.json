@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "equip-role-list-width-primary-source-review",
+  "owner": "english_patch_audit",
+  "status": "confirmed-root-ready-to-fix",
+  "createdAt": "2026-10-22T13:08:44.865550+00:00",
+  "revision": "67dfea992ceb6b05d2c38d5803cc5a0c2daac5a2",
+  "scope": "Read-only follow-up to actual user UI feedback. Prior successful source/functional evidence remains historical; this report identifies a missed visible defect in the newer English role-list box width. No product implementation changed by reviewer.",
+  "primarySources": [
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "lines": "1920,1952-1953",
+      "fact": "Dynamic PAL_CreateBox at EquipRoleListBox, rows=partyCount-1, cols=PAL_WordMaxWidth(36,4)-1; role labels offset13,13+18i."
+    },
+    {
+      "path": "reference/sdlpal/palcfg.c",
+      "lines": "308-311",
+      "fact": "Default item image frame8,8; role-list origin2,95; selected item name5,70; amount51,57."
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "lines": "131-245,797-832",
+      "fact": "Width is sprite0.width + nColumns*sprite1.width + sprite2.width, height20+(partyCount-1)*18+20 from actual DATA9; shadow6. Word max width quantizes(pixelWidth+8)>>4."
+    },
+    {
+      "path": "data/en/win_files/m_eng.slf",
+      "lines": "43-48,231-248",
+      "fact": "Win English role-list position remains2,95; no custom role-list width setting. Decoded words36..39: Xiaoyao/Ling'er/Yueru/Ah Nu; max56px -> cols3."
+    },
+    {
+      "path": "data/raw/FBP.MKF",
+      "chunk": 1,
+      "fact": "Original equipment background does not bake the lower-left role-list frame. The top-left item frame is the72x72 rectangle used by uigame.c1844-1855. Existing001.png was directly viewed to distinguish original bitmap from the later dynamic box."
+    }
+  ],
+  "newDefect": {
+    "file": "packages/game/src/present/menu/draw-equip.ts",
+    "sourceSha256": "3602c707c2edfebc4af4bd71ec143490727b493d6158d7b617af80f91bac4c7c",
+    "code": "cols: getLanguage() === 'en' ? 4 : 2",
+    "cause": "English branch hardcodes4 instead of the source-derived3, adding one16px middle slice and drawing after the stat labels; it can cover part of LUK. englishEquipBackground does not paint this dynamic role-list box and is not the width cause."
+  },
+  "measurement": {
+    "frames": [
+      {
+        "id": 0,
+        "width": 22,
+        "height": 20,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 21,
+          "bottom": 19
+        }
+      },
+      {
+        "id": 1,
+        "width": 16,
+        "height": 20,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 15,
+          "bottom": 19
+        }
+      },
+      {
+        "id": 2,
+        "width": 33,
+        "height": 20,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 32,
+          "bottom": 19
+        }
+      },
+      {
+        "id": 3,
+        "width": 22,
+        "height": 18,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 21,
+          "bottom": 17
+        }
+      },
+      {
+        "id": 4,
+        "width": 16,
+        "height": 18,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 15,
+          "bottom": 17
+        }
+      },
+      {
+        "id": 5,
+        "width": 23,
+        "height": 18,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 22,
+          "bottom": 17
+        }
+      },
+      {
+        "id": 6,
+        "width": 22,
+        "height": 20,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 21,
+          "bottom": 19
+        }
+      },
+      {
+        "id": 7,
+        "width": 16,
+        "height": 20,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 15,
+          "bottom": 19
+        }
+      },
+      {
+        "id": 8,
+        "width": 31,
+        "height": 20,
+        "alpha": {
+          "left": 0,
+          "top": 0,
+          "right": 30,
+          "bottom": 19
+        }
+      }
+    ],
+    "chinese": [
+      {
+        "id": 36,
+        "text": "李逍遥",
+        "pixels": 48
+      },
+      {
+        "id": 37,
+        "text": "赵灵儿",
+        "pixels": 48
+      },
+      {
+        "id": 38,
+        "text": "林月如",
+        "pixels": 48
+      },
+      {
+        "id": 39,
+        "text": "阿奴",
+        "pixels": 32
+      }
+    ],
+    "english": [
+      {
+        "id": 36,
+        "text": "Xiaoyao",
+        "pixels": 56
+      },
+      {
+        "id": 37,
+        "text": "Ling'er",
+        "pixels": 56
+      },
+      {
+        "id": 38,
+        "text": "Yueru",
+        "pixels": 40
+      },
+      {
+        "id": 39,
+        "text": "Ah Nu",
+        "pixels": 40
+      }
+    ],
+    "luk": "LUK",
+    "boxes": [
+      {
+        "cols": 2,
+        "partyCount": 1,
+        "topRowBitmapWidth": 87,
+        "rawHeight": 40,
+        "foregroundBounds": {
+          "left": 2,
+          "top": 95,
+          "right": 88,
+          "bottom": 134
+        },
+        "foregroundWidth": 87,
+        "foregroundHeight": 40,
+        "withShadowBounds": {
+          "left": 2,
+          "top": 95,
+          "right": 94,
+          "bottom": 140
+        },
+        "opaqueInLukArea": 0,
+        "shadowInLukArea": 0
+      },
+      {
+        "cols": 3,
+        "partyCount": 1,
+        "topRowBitmapWidth": 103,
+        "rawHeight": 40,
+        "foregroundBounds": {
+          "left": 2,
+          "top": 95,
+          "right": 104,
+          "bottom": 134
+        },
+        "foregroundWidth": 103,
+        "foregroundHeight": 40,
+        "withShadowBounds": {
+          "left": 2,
+          "top": 95,
+          "right": 110,
+          "bottom": 140
+        },
+        "opaqueInLukArea": 0,
+        "shadowInLukArea": 0
+      },
+      {
+        "cols": 4,
+        "partyCount": 1,
+        "topRowBitmapWidth": 119,
+        "rawHeight": 40,
+        "foregroundBounds": {
+          "left": 2,
+          "top": 95,
+          "right": 120,
+          "bottom": 134
+        },
+        "foregroundWidth": 119,
+        "foregroundHeight": 40,
+        "withShadowBounds": {
+          "left": 2,
+          "top": 95,
+          "right": 126,
+          "bottom": 140
+        },
+        "opaqueInLukArea": 6,
+        "shadowInLukArea": 62
+      }
+    ]
+  },
+  "minimalRepair": {
+    "english": "Use max localized WORD36..39 width quantization minus1, yielding3 with supplied supported patch; do not hardcode4. A name-based helper can express this using the existing palWordWidth/menuTextMaxCols contract.",
+    "chinese": "Keep current2 columns and original placement.",
+    "unchangedGeometry": "Role-list origin2,95; one-player rows0; name origin15,108+18i; role selection and numeric stats unaffected.",
+    "visualBoundary": "At English3, raw foreground maxx104 and shadow envelope maxx110; actual mask intersection with LUK rectangle110..141 by107..114 is0, whereas English4 intersects at6 foreground and62 shadow positions."
+  },
+  "artifacts": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/equip-width-review/probe.ts",
+      "sha256": "46de74abe8d1a4c16c10f01d49ee45e2db9edd8ccbb3a2ca20fab1b758b54347",
+      "bytes": 2228
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/equip-width-review/probe.json",
+      "sha256": "0555aad1386bfe5bbf0623e9becaf21e10c0a58fefea776a8c2fd1ef944324d0",
+      "bytes": 3596
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/equip-width-review/probe.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "limits": [
+    "Static/source and offscreen bitmap/mask verification; no new browser screenshot or original executable run.",
+    "Dimensions describe actual style0 DATA9 sprites, not an assumption of equal-size tiles.",
+    "No exhaustive UI approval or old task/evidence rewrite."
+  ]
+}
