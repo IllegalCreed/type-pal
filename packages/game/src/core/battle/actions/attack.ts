@@ -20,7 +20,8 @@
 
 import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import { getPlayerPoisonResistance } from '../../equip-effect.js'
+import { getPlayerPoisonResistance } from '../../equipment-state.js'
+import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
 import type { SeedableRng } from '../../rng.js'
 import {
@@ -33,7 +34,6 @@ import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
 import type { ActionQueueItem } from '../turn-queue.js'
-import type { RunScriptFn } from './magic.js'
 
 /**
  * 敌人普攻附带等价物品中毒所需上下文(sdlpal fight.c:5139-5146 wAttackEquivItem)。
@@ -43,7 +43,7 @@ export interface EquivPoisonCtx {
   gs: GameState
   items: Item[]
   commands: Command[]
-  runScript: RunScriptFn
+  runScript: (opts: RunScriptOptions) => void
 }
 
 /**

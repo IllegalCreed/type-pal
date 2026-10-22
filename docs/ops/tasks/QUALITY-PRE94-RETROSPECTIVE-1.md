@@ -1291,3 +1291,15 @@ Codex唯一Owner。build allowed限pal-meal-shell.test.ts的输入准备及必�
 相同帧数的561sprite资源只有13种编码需求；缓存归每次project内部，sprite/tile工厂隔离、失败不缓存、每asset独立字节。六case完整输入相同、原九业务主体/身份/timeout AST一致；9定向、Reforge TC与ownership/失败探针零诊断。单次profile约150→58ms只是本地成本观察，不冒称已证明CI超时唯一原因。fresh官方Reforge8965/158通过，其余六包按冻结输入复用，组合20032/758的严格metrics/scope/protected均无变化、baseline不写；不重复全仓check/coverage。静态/实际提交及远端CI另据原件，0新增关闭，[完整本地依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md)。
 
 WORD风险卡按已批准偏离策略done，数值实现不改、不自动接受CODE3x。首轮文档consumer发现mechanics的phase1 catalog旧指纹；补该唯一条目后完整check:docs又正确拒绝未同步的shard manifest SHA（124绿/1红）。仅更新manifest该SHA并核全部相关review绑定，受影响catalog套件与全部五consumer/progress复验零诊断，原两次失败均保留；未把完整命令改写成首次通过。
+
+### 2026-10-22 移动端影响既有accept的增量绑定 build allowed
+
+主线868323003已含移动端PR #8。实核净diff与机器连续表，直接改变7个此前closed生产文件：shell input/AVI，display-scale/FPS/speedrun store，analytics consent UI/installer；当前7 SHA均匹配移动端独立已审候选。Codex唯一Owner，复用旧A–H及移动端独立原件，补逐文件变更、caller、测试合同适用性与精确source绑定，缺证据则保留review。14新增tracked路径仍pending，main/bootstrap/minimap/tools原review不扩关。
+
+准入仅上述有限证据与display-scale三处已过时的“index.html写死960×600”注释；修为桌面默认及layout实际ownership，并证明执行AST完全相同。生产行为/数值、公共接口、测试/fixture/超时/规则不改，不重跑全仓或覆盖率；先与3v/3x相关余项汇合到模块冻结窗口。868实际Docs已成功，Coverage39703338497仍在运行，不能从本地零诊断推定远端门通过。本段不新增closed/accept。
+
+### 2026-10-22 CODE3v结构及测试质量 build allowed
+
+Codex唯一Owner，复用旧四源全文/primary与本轮已完成的逐段核读、私有154相邻/TC和preferred-slot指定单红。准入仅：attack去同层magic类型耦合并直接依赖equipment-state；flee移除实际未读的第四个PlayerRoles参数、同一owner getter、纠正端口请求/PRNG推进注释；唯一生产caller与10测试调用机械迁移。game为private应用包、无SDK出口，逐符号census未发现其它caller；本项属于内部签名，不扩张公共合同。
+
+纯重构与测试质量分提交。后者限AttackMate既有7例的typed真实factory/非同序party独立HP oracle、actions相关段两个合法fixture及无用强转、H共享fixture一条错误完整生命周期注释。保留全部既有断言合同/用例数量；修改一标题据映射登记，不新增退役。battle-system/actions大文件只授实际调用段，不以154绿关闭全文；本轮不改算法、既定敌吉运取舍、schema/save/UI或94–102。先证明每个机械变化及源依赖未漂移，最后与相关卡一起冻结跑重门，未过门前3v保持partial。
