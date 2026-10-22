@@ -3139,7 +3139,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
-      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Old20512/full20086official are pre-sync evidence; current combination gates pending, PR/documentation/fast-coverage required. No directmain push/no94-102/no broad startup/format credit.",
+      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Current combined check20601+691tools/official20172 over774sources/strict protected all pass, project diagnostics0; old20512/20086 kept as pre-sync history. Latest94d03b584 is docs-only. PR/documentation/fast-coverage still required. No directmain push/no94-102/no broad startup/format credit.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "73cb67a5183a54b6785ce329b06a2fdea6cd8395530562ed77ef63efc8844381",
+      "afterSha256": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "73cb67a5183a54b6785ce329b06a2fdea6cd8395530562ed77ef63efc8844381",
+        "implementationSha": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4150,7 +4150,7 @@
       "evidence": {
         "kind": "codex-owned-pre94-rle-boot-quality-local",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
-        "afterSha256": "73cb67a5183a54b6785ce329b06a2fdea6cd8395530562ed77ef63efc8844381",
+        "afterSha256": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
         "lineCount": 998,
         "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
         "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
@@ -5377,6 +5377,19 @@
           "previousAfterSha256": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
           "afterSha256": "73cb67a5183a54b6785ce329b06a2fdea6cd8395530562ed77ef63efc8844381",
           "scope": "Only owned board/ledger and descendant pins. Seven new explicit closures and CODE3h original six-source acceptance; shared format and3i remain. Historical projection fixes confer no new acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-combined-gates",
+          "previousSnapshot": {
+            "commit": "4192b69fd",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "entry": "docs/ops/audits/code-quality-file-ledger.md"
+          },
+          "previousAfterSha256": "73cb67a5183a54b6785ce329b06a2fdea6cd8395530562ed77ef63efc8844381",
+          "afterSha256": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
+          "scope": "Finite owned pins after combined20601+691/20172 gates and docs-only main sync. Full prior row is frozen in previousSnapshot Git; old histories preserved, shared format/3i remain.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
         }
       ],

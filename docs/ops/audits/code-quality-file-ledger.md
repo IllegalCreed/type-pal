@@ -17,7 +17,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-2026-10-23 同步英文main365e582e2：保留本窗七新关闭、上游英文28条pending及两边完整历史，当前3402/395closed/107review/2900pending，固定83卡63accept/20partial。下条3374数字与20512/20086门是同步前d297候选；新组合门待复验，不据旧门合main，现行保护要求PR与远端documentation/fast-coverage。
+2026-10-23 同步英文main365e582e2：保留本窗七新关闭、上游英文28条pending及两边完整历史，当前3402/395closed/107review/2900pending，固定83卡63accept/20partial。下条3374数字与20512/20086门是同步前d297候选；新组合check20601+691工具、official20172/774与同报告protected已0回退/0项目诊断。后继main94d仅文档，不重采；末轮文档静态、PR的documentation/fast-coverage和合并按实际回执核，不以旧main CI代替。
 
 2026-10-23 RLE／snapshot／启动取消窗口：七个文件新关闭，四个旧关闭只刷新、一份shared专测仍review。原3h六生产文件逐项八维/真实caller与直接测试已闭环，63accept/20partial/0pending；不是shared格式或bootstrap主流程接受。当前3374/395closed/107review/2872pending。[逐文件、迁移与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md)。全check20512+691工具、单次official20086/760与同报告protected通过，项目/静态诊断0；前窗GitHub Coverage success，7条平台弃用提示单列。仅一条精确6→2退役，未降规则/阈值；shared rle.test整文件与格式真值继续review。
 

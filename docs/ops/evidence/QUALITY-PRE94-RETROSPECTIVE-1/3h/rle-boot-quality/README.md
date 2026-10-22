@@ -1,6 +1,6 @@
 # CODE3h RLE 出口、运输 snapshot 与启动取消测试质量
 
-同步注意：上述窗口门对应 d297e64d0。后继 main365e582e2 合入英文30提交；当前先保存候选，同步及新组合门未完成，不声称已合main。现行分支保护要求PR及两项远端检查，禁止直接推main。
+当前：同一3y已同步英文产品main365e582e2及后继纯文档main94d03b584。组合全check20,601例+691工具、七包typecheck、official20,172例/774源与同报告strict/protected均通过，项目stderr/act/环境诊断0、指标0回退；末轮文档静态与远端PR检查按实际回执登记。全任务仍63accept/20partial，账本3402/395closed/107review/2900pending，不宣称pre94完成。
 
 同一 codex/code-quality-3y，基点 d297e64d0；Codex 单 Agent。逐文件八维、版本、合同迁移和当前门禁在 [review.json](review.json)，完整未裁剪 stdout/stderr、原生结果及探针保存在 [receipts.json.gz](receipts.json.gz) 的具名字节附件中。执行 HEAD 是未提交候选的基点，实际测试字节另钉指纹；不把 HEAD 当作候选源码。最终关闭与统计以父卡和 live 账本为准，历史原件不改写。
 
@@ -16,6 +16,6 @@
 
 低成本复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/verify.mjs`。默认只读，核附件、当前实现／caller／输入、原生结果与精确退役；MATCH 不自动证明语义质量，STALE 指向具体失效文件。不执行 SUT、联网或覆盖率；原件可按附件名解出复跑。
 
-基点 [GitHub Coverage run39797201562](https://github.com/IllegalCreed/type-pal/actions/runs/39797201562) 已 success；完整日志项目 act/stderr 为 0，7 条 Action/Node 平台弃用提示单列，不称全平台零。三片冻结后才运行统一 check／单次 official／同报告 protected，实际次数和结果见 review.integration；无下一位 Agent 提示词，Codex 继续 pre94 剩余范围。
+基点 [GitHub Coverage run39797201562](https://github.com/IllegalCreed/type-pal/actions/runs/39797201562) 已 success；完整日志项目 act/stderr 为 0，7 条 Action/Node 平台弃用提示单列，不称全平台零。每个稳定主线窗口冻结后集中 check／单次 official／同报告 protected；main推进30笔代码后重新采集一次，合计两次本地official，纯文档后继不重采。当前与先前窗口分别见 review.integration 与 priorIntegrationWindow；无下一位 Agent 提示词，Codex 继续 pre94 剩余范围。
 
 上游：[3h](../README.md)、[父卡](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。

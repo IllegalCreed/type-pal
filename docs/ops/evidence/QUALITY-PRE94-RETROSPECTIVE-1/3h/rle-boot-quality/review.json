@@ -74,18 +74,18 @@
     },
     {
       "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
-      "sha256": "2b3753e52bd78f915271d40a2cccd86fd028b491ae53a3b68d3f7c8eafb96d1a",
-      "gitBlobSha1": "cdfc3d96f9ce4fa05bfb7363326de419fff08d6f",
+      "sha256": "e4a4f0c5baf4d288eccd2c02635cfe4b12925b1a9d8906e91011dea5c3b28a0e",
+      "gitBlobSha1": "4c90382e0f8bafc576d21bda4d83a4e8fef80a65",
       "lines": 152,
       "state": "accept-refresh",
       "dimensions": {
         "A": "Current nine cases read; prefix option matrix, subarray, trailing data and legacy rejections remain fixed TS contracts, not all SDL semantics.",
-        "B": "Removed obsolete reference to game prefix test; matrix positive now states the complete frame instead of only one pixel.",
+        "B": "Removed obsolete reference to game prefix test; matrix positive now states the complete frame instead of only one pixel. Removed obsolete line162 from one describe name in favor of the actual offset-table invariant; explicit identity mapping, no body change.",
         "C": "Pure decoder/container tests own arrays; oddView owns its parent and passes a bounded byteOffset view.",
         "D": "Metamorphic padding/subarray comparisons check distinct inputs and bounded view handling, unlike snapshot decoding identical bytes twice; independent basic pixel oracles stay in rle.test.",
         "E": "Prefix positive now checks both complete planes and dimensions, retains transparent plus opaque palette0; existing no-option/wrong-prefix/short-buffer negatives unchanged.",
         "F": "Literal expected frame exposes the prefix result and opaque0 distinction.",
-        "G": "Nine cases unchanged, no duplicate positive added; current shared public API and production body unchanged.",
+        "G": "Nine cases retained; one describe rename removes a fragile source line anchor. All input/oracle/function bodies unchanged; no duplicate positive added or public production API change.",
         "H": "Inputs are ordinary Uint8Array views, no injected codec or private state. No format-security claim."
       }
     },
@@ -2314,11 +2314,13 @@
       },
       {
         "path": "packages/game/src/main.ts",
-        "sameAsBase": true
+        "sameAsBase": false,
+        "bridge": "Upstream English integration delta; caller lifecycle read and pinned under mainSync. Not our product change."
       },
       {
         "path": "packages/game/src/shell/bootstrap.ts",
-        "sameAsBase": true
+        "sameAsBase": false,
+        "bridge": "Upstream English integration delta; caller lifecycle read and pinned under mainSync. Not our product change."
       },
       {
         "path": "packages/game/src/shell/audio-midi.ts",
@@ -2368,9 +2370,15 @@
   ],
   "integration": {
     "state": "passed",
+    "target": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+    "executionIds": {
+      "check": "sync-check",
+      "coverage": "sync-ratchet",
+      "protected": "sync-protected"
+    },
     "frozen": {
-      "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
-      "time": "2026-10-22T15:01:00.190Z",
+      "head": "92d2021e05c5ddeb4a05a776b09a250b7aace83e",
+      "time": "2026-10-22T16:31:59.279Z",
       "files": [
         {
           "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
@@ -2402,7 +2410,7 @@
         },
         {
           "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
-          "sha256": "2b3753e52bd78f915271d40a2cccd86fd028b491ae53a3b68d3f7c8eafb96d1a"
+          "sha256": "e4a4f0c5baf4d288eccd2c02635cfe4b12925b1a9d8906e91011dea5c3b28a0e"
         },
         {
           "path": "packages/shared/src/rle.test.ts",
@@ -2417,32 +2425,32 @@
           "sha256": "e0c75ac9781d9e82d0e0605698fd7c6ddb0987b2fca1768fd64ea1da0ef96664"
         }
       ],
-      "scope": "RLE facade/shared test dedup; six-sample transport snapshot; boot/cancellation test ownership. No94-102. Full gates once after three-slice freeze."
+      "scope": "Current unchanged implementation/test bodies after English integration and name-only RLE source-anchor correction. Full check shared stage predates name-only correction; current51 directed and official refresh exact identity."
     },
     "check": {
-      "id": "module-check",
+      "id": "sync-check",
       "execution": {
-        "id": "module-check",
+        "id": "sync-check",
         "command": "env",
-        "args": ["VITEST_MAX_WORKERS=1", "pnpm", "check"],
+        "args": ["VITEST_MAX_WORKERS=2", "pnpm", "check"],
         "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
-        "start": "2026-10-22T15:01:00.242Z",
-        "end": "2026-10-22T15:24:23.759Z",
+        "start": "2026-10-22T16:15:18.770Z",
+        "end": "2026-10-22T16:26:46.151Z",
         "exit": 0,
         "signal": null,
         "spawnError": null,
-        "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "head": "5b3297db604ddb16275bb7a506ac647690e8d80b",
         "observerTimeout": false,
-        "stdoutBytes": 375223,
+        "stdoutBytes": 374295,
         "stderrBytes": 0
       },
-      "packageCounts": [1498, 114, 3750, 477, 8991, 4943, 739],
-      "packageTestCount": 20512,
+      "packageCounts": [1498, 114, 3806, 510, 8991, 4943, 739],
+      "packageTestCount": 20601,
       "toolCounts": [125, 100, 47, 397, 22],
       "toolTestCount": 691,
       "stdoutBlocks": {
         "before": 260,
-        "after": 254,
+        "after": 255,
         "oldFile": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/module-check.stdout.raw.gz",
         "changed": [
           {
@@ -2475,7 +2483,13 @@
               "PAL author baseline read cost {\n  elapsedMs: 544,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
             ],
             "after": [
-              "PAL author baseline read cost {\n  elapsedMs: 1068,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+              "PAL author baseline read cost {\n  elapsedMs: 506,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+            ]
+          },
+          {
+            "header": "src/cli-localization.test.ts > the real CLI entry documents optional English sources and faithful extraction",
+            "after": [
+              "Usage: pal-extract [--faithful] [--english-slf PATH]\nDefault: apply reviewed corrections to the supported Win archive.\n--faithful: decode without corrections for source audits (Chinese only).\n--english-slf: optional Win v3.3 language input; defaults to data/en/win_files/m_eng.slf when available."
             ]
           }
         ]
@@ -2484,13 +2498,13 @@
       "limits": "Exact grouped stdout comparison against prior frozen run, no number normalization. Changed payloads reviewed explicitly; assertion failure probes are outside this source gate."
     },
     "coverage": {
-      "target": "d297e64d0a928abb813ce280122d51c2c852bea5",
-      "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
-      "testCount": 20086,
-      "sourceFileCount": 760,
-      "summarySha256": "d87c151bd12db24ac800ac8d7110206446b7e8a78ddaec2b9324c49d46f87977",
-      "baselineBeforeSha256": "e481df86e3225a3b8ad53d5b53eb448ca917895bb710152d89a78e85dbdaac58",
-      "baselineAfterSha256": "d6aa49c51d56519f65d59e2d761346f2187453adc5e5d6489a37eb6483dd3efd",
+      "target": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+      "head": "92d2021e05c5ddeb4a05a776b09a250b7aace83e",
+      "testCount": 20172,
+      "sourceFileCount": 774,
+      "summarySha256": "2938f0ed9ff18fe2606dd58ad4d36d16f32634d131c2d2b8e802a5101dddc89c",
+      "baselineBeforeSha256": "2130fb857eaf8df2c1f8bb663fd8f10b7ce211cb8a1ef651fec02e319de66a25",
+      "baselineAfterSha256": "f3bb157594d7264d4fc854366c18c829575d26fef368b59d3f121da60f4d561e",
       "projectionSha256": "a3e81d5a1053fc8b2f933fb104f14d883b8d6ef9d92517bb9142f3a573153b9d",
       "runnerSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
       "strict": {
@@ -2507,8 +2521,10 @@
       },
       "protectedScope": {
         "changes": [
-          "game: fast test files +0/-0，内容变化 2（3704 -> 3700 tests）",
-          "game: fast test execution config/digest 已变化"
+          "game: fast test files +0/-0，内容变化 2（3760 -> 3756 tests）",
+          "game: fast test execution config/digest 已变化",
+          "shared: fast test files +0/-0，内容变化 1（114 -> 114 tests）",
+          "shared: fast test execution config/digest 已变化"
         ],
         "removals": [
           {
@@ -2523,63 +2539,72 @@
       "limits": "Strict protected fast check of the single official report;no second coverage collection and no rule/baseline mutation by verifier"
     },
     "coverageAudit": {
-      "id": "module-ratchet",
+      "id": "sync-ratchet",
       "execution": {
-        "id": "module-ratchet",
+        "id": "sync-ratchet",
         "command": "env",
         "args": [
-          "VITEST_MAX_WORKERS=1",
+          "VITEST_MAX_WORKERS=2",
           "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1",
-          "TYPE_PAL_COVERAGE_BASE_REF=d297e64d0a928abb813ce280122d51c2c852bea5",
+          "TYPE_PAL_COVERAGE_BASE_REF=365e582e288ea1c0052595f2aa31ab59ab72da01",
           "pnpm",
           "coverage:ratchet",
           "--allow-scope-removal"
         ],
         "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
-        "start": "2026-10-22T15:25:33.757Z",
-        "end": "2026-10-22T15:43:05.398Z",
+        "start": "2026-10-22T16:31:59.279Z",
+        "end": "2026-10-22T16:41:20.329Z",
         "exit": 0,
         "signal": null,
         "spawnError": null,
-        "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "head": "92d2021e05c5ddeb4a05a776b09a250b7aace83e",
         "observerTimeout": false,
-        "stdoutBytes": 203496,
+        "stdoutBytes": 205266,
         "stderrBytes": 0
       },
-      "packageCounts": [114, 1498, 331, 671, 8991, 3700, 4781],
-      "packageTestCount": 20086,
+      "packageCounts": [114, 1498, 361, 671, 8991, 3756, 4781],
+      "packageTestCount": 20172,
       "toolCounts": [100],
       "toolTestCount": 100,
       "stdoutBlocks": {
         "before": 253,
-        "after": 253,
+        "after": 254,
         "oldFile": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/module-ratchet.stdout.raw.gz",
-        "changed": []
+        "changed": [
+          {
+            "header": "src/cli-localization.test.ts > the real CLI entry documents optional English sources and faithful extraction",
+            "after": [
+              "Usage: pal-extract [--faithful] [--english-slf PATH]\nDefault: apply reviewed corrections to the supported Win archive.\n--faithful: decode without corrections for source audits (Chinese only).\n--english-slf: optional Win v3.3 language input; defaults to data/en/win_files/m_eng.slf when available."
+            ]
+          }
+        ]
       },
       "diagnostics": [],
       "limits": "Exact grouped stdout comparison against prior frozen run, no number normalization. Changed payloads reviewed explicitly; assertion failure probes are outside this source gate."
     },
     "successfulExecutionIds": [
-      "module-check",
-      "module-ratchet",
-      "module-protected",
-      "types",
-      "coverage-tools",
-      "adjacent-game",
-      "after-shared"
+      "sync-check",
+      "sync-ratchet",
+      "sync-protected",
+      "sync-shared",
+      "sync-final-docs",
+      "sync-final-lint",
+      "sync-final-ledger",
+      "sync-final-diff"
     ],
-    "stdoutReview": "Fullcheck260->254 removes six obsolete S5 console telemetry blocks. Sole other difference elapsedMs544->1068;1077reads,152305027totalBytes,538paths,76154226bytes unchanged. Official253 grouped payloads exactly unchanged. Both full streams0stderr/act/environment/Node. No broad numeric normalization.",
-    "finalStatic": {
-      "docs": "final-docs exit0/stderr0",
-      "lint": "final-lint5882/0errors/0warnings/0infos",
-      "ledger": "3374/395closed107review2872pending",
-      "diff": "final-diff0",
-      "limits": "All at pre-English-sync candidate. First combined scoped formatter output was not split/saved; same regex lint diagnostic recaptured in verifier-lint-before, then replaced with node:util stripVTControlCharacters. No rule change."
-    },
     "coverageCollectionCount": 1,
-    "protectedMode": "Strict/protected compare of the single official report; no second coverage collection",
-    "target": "d297e64d0a928abb813ce280122d51c2c852bea5",
-    "currentMainValidation": "pending365e582e; prior source gates remain at d297 and are not current-combination acceptance"
+    "totalLocalCollectionsAcrossTwoMainWindows": 2,
+    "protectedMode": "Strict/protected comparisons of same official report; no second coverage collection in either frozen window.",
+    "stdoutReview": "Fullcheck260->255: six S5 telemetry blocks removed, sole old payload change elapsed544->506 (read/byte/path counts exact unchanged), one newly upstream CLI help block. Official253->254 adds only same CLI help, ordinary normal production output. Both full streams exit0/stderr0/act0/environment0/Node0; no filtering or broad numeric normalization.",
+    "finalStatic": {
+      "state": "passed",
+      "docs": "sync-final-docs125/125 and all consumers PASS0issues/stderr0",
+      "lint": "sync-final-lint5935files/0errors/0warnings/0infos",
+      "ledger": "3402/395closed107review2900pending",
+      "diff": "sync-final-diff exit0",
+      "limits": "After product and docs-only main integration. Final packet adds raw receipts and records these facts only, formatted separately. No further product/test/config changes."
+    },
+    "currentMainValidation": "Product gates on main365e plus candidate. Later main94d03b584 is docs-only, no products/tests/config/baseline change; finite documentation merge verified and final static refreshed. Remote PR checks still required."
   },
   "reusedFetchSource": {
     "path": "packages/game/src/shell/fetch-retry.ts",
@@ -3975,8 +4000,8 @@
   },
   "receipts": {
     "path": "receipts.json.gz",
-    "sha256": "7295919f1ff12e228ef592e3b8df65f40b7cc6423b22de3c03bf14e930c304c6",
-    "entryCount": 129,
+    "sha256": "7c2bd93c8065ae1308ef727aa28b0d29ba63ba02600120139412cf7b12e561cc",
+    "entryCount": 169,
     "encoding": "gzip JSON: attachmentName -> bytes/sha256/base64; decode base64 reproduces complete original bytes",
     "names": [
       "adjacent-game.execution.json",
@@ -4010,6 +4035,7 @@
       "coverage-tools.execution.json",
       "coverage-tools.stderr.raw",
       "coverage-tools.stdout.raw",
+      "english-merge-preservation.json",
       "final-diff.execution.json",
       "final-diff.stderr.raw",
       "final-diff.stdout.raw",
@@ -4101,7 +4127,46 @@
       "probes-v2.mjs",
       "probes.json",
       "probes.mjs",
+      "r93-space-proof.json",
+      "release-doc-sync-preservation.json",
       "retirement.json",
+      "sync-baseline.after.json",
+      "sync-check.audit.json",
+      "sync-check.execution.json",
+      "sync-check.stderr.raw",
+      "sync-check.stdout.raw",
+      "sync-existing-pr.execution.json",
+      "sync-existing-pr.stderr.raw",
+      "sync-existing-pr.stdout.raw",
+      "sync-final-diff.execution.json",
+      "sync-final-diff.stderr.raw",
+      "sync-final-diff.stdout.raw",
+      "sync-final-docs.execution.json",
+      "sync-final-docs.stderr.raw",
+      "sync-final-docs.stdout.raw",
+      "sync-final-ledger.execution.json",
+      "sync-final-ledger.stderr.raw",
+      "sync-final-ledger.stdout.raw",
+      "sync-final-lint.execution.json",
+      "sync-final-lint.stderr.raw",
+      "sync-final-lint.stdout.raw",
+      "sync-prefetch.execution.json",
+      "sync-prefetch.stderr.raw",
+      "sync-prefetch.stdout.raw",
+      "sync-protected-report.json",
+      "sync-protected.execution.json",
+      "sync-protected.mjs",
+      "sync-protected.stderr.raw",
+      "sync-protected.stdout.raw",
+      "sync-ratchet.audit.json",
+      "sync-ratchet.execution.json",
+      "sync-ratchet.stderr.raw",
+      "sync-ratchet.stdout.raw",
+      "sync-shared.execution.json",
+      "sync-shared.native.json",
+      "sync-shared.stderr.raw",
+      "sync-shared.stdout.raw",
+      "sync-summary.json",
       "types.execution.json",
       "types.stderr.raw",
       "types.stdout.raw",
@@ -4112,7 +4177,7 @@
   },
   "mainSync": {
     "target": "365e582e288ea1c0052595f2aa31ab59ab72da01",
-    "status": "product merge clean; seven documentation/baseline conflicts resolved; combined gates pending",
+    "status": "English product integration passed combined fullcheck/official/protected; later release docs-only delta synchronized, final statics and PR checks tracked separately.",
     "codeCommits": [
       "a9fdf0051a3a7b2839f0713cd41f2eb1e3300ad8",
       "b57166fcd3e1b3dd9f19e0bb2e3bbf6466cca695"
@@ -4181,7 +4246,8 @@
         "review": 107,
         "pending": 2900,
         "upstream28PendingPreserved": true
-      }
+      },
+      "scope": "Preservation assertion applies at conflict resolution before legitimate owned current-SHA refresh. All incoming entries and historical prefixes retained; current board/ledger fields then updated with original state in Git365 and appended history. No global byte-stability claim."
     },
     "formatting": {
       "beforeBytes": 1055717,
@@ -4203,6 +4269,313 @@
       }
     ],
     "sharedIndexRuntimeProof": "Index adds one export-star dependency, so emitted text is not byte-equal. Removing only that new re-export leaves prior emitted text exact; target localization.ts emits only export{} (interfaces, no values/IO). Existing codec runtime and public values unchanged; new module dependency explicitly pinned.",
-    "productionInputAndOutputSafety": "New extractor tests use accepted cli-host isolated trees, copy raw only, disposeAll; no extract command against shared data output. No English asset writes or new language feature review/closure."
+    "productionInputAndOutputSafety": "New extractor tests use accepted cli-host isolated trees, copy raw only, disposeAll; no extract command against shared data output. No English asset writes or new language feature review/closure.",
+    "postMergeTitleCorrection": {
+      "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "previousSha256": "2b3753e52bd78f915271d40a2cccd86fd028b491ae53a3b68d3f7c8eafb96d1a",
+      "sha256": "e4a4f0c5baf4d288eccd2c02635cfe4b12925b1a9d8906e91011dea5c3b28a0e",
+      "old": "R01 严格容器末帧未消费 payload（rle.ts:162 帧边界唯一真值）",
+      "next": "R01 严格容器末帧未消费 payload（offset table 限定帧边界）",
+      "bodyAndInputsUnchanged": true,
+      "currentDirected": "sync-shared51/51",
+      "bridge": "Combined fullcheck shared stage ran before name-only correction. Current sync-shared51/51 and current official refresh exact identity, body/assertions/fixtures unchanged. No repeated fullcheck for label."
+    },
+    "previousFreeze": {
+      "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+      "time": "2026-10-22T15:01:00.190Z",
+      "files": [
+        {
+          "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+          "sha256": "f6c00cd4c2b182c1326e5935a7fa0969b76ccd885a03b5d2320667d48ed1a3b8"
+        },
+        {
+          "path": "packages/game/src/assets/rle-decode.test.ts",
+          "sha256": "37f6896cfc773c970652f0aab175160a47f2df5f64c99f08cf0b99a0954e9284"
+        },
+        {
+          "path": "packages/game/src/assets/rle-decode.ts",
+          "sha256": "f0f543bc5137a385438ec02ecb3aa62ce073bdae43ffdf00e7f8b27d11c639fb"
+        },
+        {
+          "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "sha256": "013d4f9cc9a6d5cced331b875aeb13ec8b47600fb7e6fa149859b368200700ec"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+          "sha256": "06dcb4cc62af1829205e6742d545918d3b5ac5abd8346cc520c5ddb43268b750"
+        },
+        {
+          "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+          "sha256": "fb250ebe6d6d2206be60aa7c5faee40a590e42f48e547b38be30360daa8db6aa"
+        },
+        {
+          "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+          "sha256": "f77605ba8fac4893f06280b648e537e006d36c3e72368aa3e3fac6ac967699d9"
+        },
+        {
+          "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+          "sha256": "2b3753e52bd78f915271d40a2cccd86fd028b491ae53a3b68d3f7c8eafb96d1a"
+        },
+        {
+          "path": "packages/shared/src/rle.test.ts",
+          "sha256": "3c7d16c7b864365dbceab122c66687ce7bcbad6401580aa366df384bedb48e60"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "af092e640480c84b80b0d32e18c08e224dcc5a916f21d8676821fb083e6f62b1"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "e0c75ac9781d9e82d0e0605698fd7c6ddb0987b2fca1768fd64ea1da0ef96664"
+        }
+      ],
+      "scope": "RLE facade/shared test dedup; six-sample transport snapshot; boot/cancellation test ownership. No94-102. Full gates once after three-slice freeze."
+    },
+    "releaseDocsSync": {
+      "target": "94d03b58450d3147cf3b353d35bf10fe59a6148d",
+      "records": [
+        {
+          "file": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+          "allIncomingFieldsAndHistoryPreserved": true,
+          "appendedGovernanceHistory": 2
+        },
+        {
+          "file": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "allIncomingFieldsAndHistoryPreserved": true,
+          "appendedGovernanceHistory": 4
+        },
+        {
+          "file": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "allIncomingFieldsAndHistoryPreserved": true,
+          "appendedGovernanceHistory": 2
+        }
+      ],
+      "scope": "At merge resolution, upstream current fields preserved; legitimate finite owned SHA refresh follows separately.",
+      "merge": "4192b69fdcb0f7b336693eccb5703df912f44900",
+      "onlyDocumentation": true,
+      "productTestConfigAndBaselineDelta": [],
+      "validation": "No repeat local fullcheck or coverage for docs-only main update. Final full docs/lint/ledger/diff plus required remote PR checks."
+    }
+  },
+  "priorIntegrationWindow": {
+    "state": "passed",
+    "frozen": {
+      "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+      "time": "2026-10-22T15:01:00.190Z",
+      "files": [
+        {
+          "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+          "sha256": "f6c00cd4c2b182c1326e5935a7fa0969b76ccd885a03b5d2320667d48ed1a3b8"
+        },
+        {
+          "path": "packages/game/src/assets/rle-decode.test.ts",
+          "sha256": "37f6896cfc773c970652f0aab175160a47f2df5f64c99f08cf0b99a0954e9284"
+        },
+        {
+          "path": "packages/game/src/assets/rle-decode.ts",
+          "sha256": "f0f543bc5137a385438ec02ecb3aa62ce073bdae43ffdf00e7f8b27d11c639fb"
+        },
+        {
+          "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "sha256": "013d4f9cc9a6d5cced331b875aeb13ec8b47600fb7e6fa149859b368200700ec"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+          "sha256": "06dcb4cc62af1829205e6742d545918d3b5ac5abd8346cc520c5ddb43268b750"
+        },
+        {
+          "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+          "sha256": "fb250ebe6d6d2206be60aa7c5faee40a590e42f48e547b38be30360daa8db6aa"
+        },
+        {
+          "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+          "sha256": "f77605ba8fac4893f06280b648e537e006d36c3e72368aa3e3fac6ac967699d9"
+        },
+        {
+          "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+          "sha256": "e4a4f0c5baf4d288eccd2c02635cfe4b12925b1a9d8906e91011dea5c3b28a0e"
+        },
+        {
+          "path": "packages/shared/src/rle.test.ts",
+          "sha256": "3c7d16c7b864365dbceab122c66687ce7bcbad6401580aa366df384bedb48e60"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "af092e640480c84b80b0d32e18c08e224dcc5a916f21d8676821fb083e6f62b1"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "e0c75ac9781d9e82d0e0605698fd7c6ddb0987b2fca1768fd64ea1da0ef96664"
+        }
+      ],
+      "scope": "RLE facade/shared test dedup; six-sample transport snapshot; boot/cancellation test ownership. No94-102. Full gates once after three-slice freeze."
+    },
+    "check": {
+      "id": "module-check",
+      "execution": {
+        "id": "module-check",
+        "command": "env",
+        "args": ["VITEST_MAX_WORKERS=1", "pnpm", "check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T15:01:00.242Z",
+        "end": "2026-10-22T15:24:23.759Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "observerTimeout": false,
+        "stdoutBytes": 375223,
+        "stderrBytes": 0
+      },
+      "packageCounts": [1498, 114, 3750, 477, 8991, 4943, 739],
+      "packageTestCount": 20512,
+      "toolCounts": [125, 100, 47, 397, 22],
+      "toolTestCount": 691,
+      "stdoutBlocks": {
+        "before": 260,
+        "after": 254,
+        "oldFile": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/module-check.stdout.raw.gz",
+        "changed": [
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=1: 452 tiles, 216960 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=6: 209 tiles, 100320 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=12: 323 tiles, 155040 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=50: 348 tiles, 167040 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=100: 322 tiles, 154560 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=200: 495 tiles, 237600 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/core/author-disk-baseline.pal.test.ts > PAL actual read evidence covers current serialized author paths without decoding maps or reading binary resources",
+            "before": [
+              "PAL author baseline read cost {\n  elapsedMs: 544,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+            ],
+            "after": [
+              "PAL author baseline read cost {\n  elapsedMs: 1068,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+            ]
+          }
+        ]
+      },
+      "diagnostics": [],
+      "limits": "Exact grouped stdout comparison against prior frozen run, no number normalization. Changed payloads reviewed explicitly; assertion failure probes are outside this source gate."
+    },
+    "coverage": {
+      "target": "d297e64d0a928abb813ce280122d51c2c852bea5",
+      "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+      "testCount": 20086,
+      "sourceFileCount": 760,
+      "summarySha256": "d87c151bd12db24ac800ac8d7110206446b7e8a78ddaec2b9324c49d46f87977",
+      "baselineBeforeSha256": "e481df86e3225a3b8ad53d5b53eb448ca917895bb710152d89a78e85dbdaac58",
+      "baselineAfterSha256": "d6aa49c51d56519f65d59e2d761346f2187453adc5e5d6489a37eb6483dd3efd",
+      "projectionSha256": "a3e81d5a1053fc8b2f933fb104f14d883b8d6ef9d92517bb9142f3a573153b9d",
+      "runnerSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "strict": {
+        "regressions": [],
+        "improvements": []
+      },
+      "scope": {
+        "changes": [],
+        "removals": []
+      },
+      "protectedMetrics": {
+        "regressions": [],
+        "improvements": []
+      },
+      "protectedScope": {
+        "changes": [
+          "game: fast test files +0/-0，内容变化 2（3704 -> 3700 tests）",
+          "game: fast test execution config/digest 已变化"
+        ],
+        "removals": [
+          {
+            "kind": "test-count",
+            "value": "packages/game/src/assets/rle-decode.test.ts",
+            "previous": 6,
+            "current": 2
+          }
+        ]
+      },
+      "approvalsApplied": [],
+      "limits": "Strict protected fast check of the single official report;no second coverage collection and no rule/baseline mutation by verifier"
+    },
+    "coverageAudit": {
+      "id": "module-ratchet",
+      "execution": {
+        "id": "module-ratchet",
+        "command": "env",
+        "args": [
+          "VITEST_MAX_WORKERS=1",
+          "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1",
+          "TYPE_PAL_COVERAGE_BASE_REF=d297e64d0a928abb813ce280122d51c2c852bea5",
+          "pnpm",
+          "coverage:ratchet",
+          "--allow-scope-removal"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T15:25:33.757Z",
+        "end": "2026-10-22T15:43:05.398Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "observerTimeout": false,
+        "stdoutBytes": 203496,
+        "stderrBytes": 0
+      },
+      "packageCounts": [114, 1498, 331, 671, 8991, 3700, 4781],
+      "packageTestCount": 20086,
+      "toolCounts": [100],
+      "toolTestCount": 100,
+      "stdoutBlocks": {
+        "before": 253,
+        "after": 253,
+        "oldFile": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/module-ratchet.stdout.raw.gz",
+        "changed": []
+      },
+      "diagnostics": [],
+      "limits": "Exact grouped stdout comparison against prior frozen run, no number normalization. Changed payloads reviewed explicitly; assertion failure probes are outside this source gate."
+    },
+    "successfulExecutionIds": [
+      "module-check",
+      "module-ratchet",
+      "module-protected",
+      "types",
+      "coverage-tools",
+      "adjacent-game",
+      "after-shared"
+    ],
+    "stdoutReview": "Fullcheck260->254 removes six obsolete S5 console telemetry blocks. Sole other difference elapsedMs544->1068;1077reads,152305027totalBytes,538paths,76154226bytes unchanged. Official253 grouped payloads exactly unchanged. Both full streams0stderr/act/environment/Node. No broad numeric normalization.",
+    "finalStatic": {
+      "docs": "final-docs exit0/stderr0",
+      "lint": "final-lint5882/0errors/0warnings/0infos",
+      "ledger": "3374/395closed107review2872pending",
+      "diff": "final-diff0",
+      "limits": "All at pre-English-sync candidate. First combined scoped formatter output was not split/saved; same regex lint diagnostic recaptured in verifier-lint-before, then replaced with node:util stripVTControlCharacters. No rule change."
+    },
+    "coverageCollectionCount": 1,
+    "protectedMode": "Strict/protected compare of the single official report; no second coverage collection",
+    "target": "d297e64d0a928abb813ce280122d51c2c852bea5",
+    "currentMainValidation": "pending365e582e; prior source gates remain at d297 and are not current-combination acceptance"
+  },
+  "publish": {
+    "branch": "codex/code-quality-3y",
+    "state": "local source gates passed; final docs then push and protected PR",
+    "requires": ["documentation", "fast-coverage"],
+    "noDirectMainPush": true
   }
 }

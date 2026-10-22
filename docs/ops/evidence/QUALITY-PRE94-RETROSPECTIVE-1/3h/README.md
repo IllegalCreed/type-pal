@@ -1,6 +1,6 @@
 # CODE3h PNG 测试质量复审切片
 
-2026-10-23 [RLE出口／运输snapshot／启动取消收口](rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20partial。其余历史段按各自时点保留，shared格式/3i余项不随本窗接受。
+2026-10-23 [RLE出口／运输snapshot／启动取消收口](rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20partial；同步英文main后的check20601+691工具、official20172/774与同报告protected通过，PR状态另核。其余历史段按各自时点保留，shared格式/3i余项不随本窗接受。
 
 当前相邻增量：[blob、公共宿主与对话资源质量](blob-quality/README.md)，独立八维、原生身份/退休映射、隔离及诊断反控；统一门状态以该入口为准，未据定向绿接受整卡。
 

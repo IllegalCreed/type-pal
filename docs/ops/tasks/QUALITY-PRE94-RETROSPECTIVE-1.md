@@ -1,8 +1,8 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 同步中：main365e582e2新增英文30提交。当前收口数字与门对应d297候选，待同一3y合并最新main后核差异和组合门；分支保护要求PR与documentation/fast-coverage，不直接推main。
+> 已同步：同一3y合入英文产品main365e582e2与后继纯文档main94d03b584。组合check20601+691工具、official20172/774源及同报告protected通过；七包TC与项目诊断0。最终静态、推送及PR两项必需检查以实际回执为准，禁止直接推main。
 
-> 当前：固定83卡63accept/20partial/0pending。3h原六生产源及本窗RLE／snapshot／启动取消七文件闭合；3374/395closed/107review/2872pending。集中check／单次official／同报告protected与静态门完成，发布状态看Git；shared格式与3i等余项不附带接受，94–102不扩展。
+> 当前：固定83卡63accept/20partial/0pending。3h原六生产源及本窗RLE／snapshot／启动取消七文件闭合；3402/395closed/107review/2900pending（英文28待核保留）。集中check／单次official／同报告protected与静态门完成，发布状态看Git；shared格式与3i等余项不附带接受，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -23,6 +23,8 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 
 ## 2026-10-22/23 RLE／snapshot／启动取消窗口（模块收口）
+
+当前同步补门：产品main365e的check20601+691工具、official20172/774源与同报告protected均0回退/0项目诊断；新main94d仅发布文档，合并保留双方历史，不再次本地全采集。此前d297的20512/20086保留原时点，两窗口各一次official，不混写为总共一次。默认只读verify核当前指纹、原生结果和完整原件；3h接受不外推shared格式/3i，仍20partial。远端PR检查与实际合并另看Git/GitHub。
 
 [逐文件A–H、合同迁移、清理/FM反控与完整日志](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md)。七个新关闭、四旧关闭刷新，shared主测仍review；原3h六文件逐项接受，固定83现在63accept/20partial。全check20512+691工具、official20086/760及同报告严格protected0回退/0诊断；无第二覆盖率采集。历史排队后CI39797201562已success，原始7平台提示保留。下一有限范围3i预缓存/启动进度专测，CODE1格式真值继续停线；不扩94–102，无下一位Agent提示词。
 
