@@ -1,6 +1,6 @@
 # GAME-ENGLISH-1 - 第一阶段英文语言包与界面
 
-Status: build
+Status: review
 Phase: phase1
 Capability: 第一阶段多语言展示
 Coding Owner: Codex（集成与画布界面）；english_patch_audit（提取）；english_runtime_audit（对话）；english_shell_audit（DOM壳层）
@@ -32,7 +32,7 @@ Branch: codex/game-english
 | 维度 | 当前真值 | 直接证据 |
 |---|---|---|
 | 原版 / primary source | 本地补丁含独立WORDS、MESSAGE、LAYOUT；其SSS还含玩法变化，不作为语言输入 | `data/en/readme.txt`；`data/en/win_files/m_eng.slf:159`；[前置核查卡](GAME-SCRIPT-CORRECTIONS-1.md) |
-| 第一阶段 | showDialog保留messageIndex，探索、同步战斗和说明分别消费；当前字体按字形宽绘制 | `packages/shared/src/events.ts:36`；`packages/game/src/core/event-system.ts:2030`；`packages/game/src/core/menu/script-desc.ts:17`；`packages/game/src/present/font.ts:121` |
+| 第一阶段 | showDialog保留messageIndex，探索、同步战斗和说明分别消费；当前字体按字形宽绘制 | `packages/shared/src/events.ts:36`；`packages/game/src/core/event-system.ts:2056`；`packages/game/src/core/menu/script-desc.ts:23`；`packages/game/src/present/font.ts:116` |
 | SDLPal参考 | 按实际连续消息范围匹配翻译组，翻译行数不决定原脚本IP | `reference/sdlpal/script.c:3088`、`:3444`；`reference/sdlpal/text.c:1010` |
 | 当前二阶段 | N/A（本卡不改Reforge canonical或编辑器） | 本卡范围 |
 | 本任务目标 | 中文默认；独立文本包；修复后的共同脚本、数值及存档语义保持 | 用户本轮授权；[前置卡](GAME-SCRIPT-CORRECTIONS-1.md) |
@@ -80,10 +80,10 @@ Branch: codex/game-english
 
 ### 进入 done 前：独立验收
 
-- 贡献者交付与自验：pending。
-- Codex独立复核：pending。
-- 用户体验/产品验收：pending。
-- done准入结论：blocked（尚在实施）。
+- 贡献者交付与自验：三个隔离包及集成实现已完成；提取、对话、DOM各自逐文件审查与原生结果见[文本审查](../evidence/GAME-ENGLISH-1/text-review.json)、[对话审查](../evidence/GAME-ENGLISH-1/dialog-review.json)、[DOM审查](../evidence/GAME-ENGLISH-1/shell-review.json)。作者自验不代替独立验收。
+- Codex独立复核：已集成并定向核共同脚本、精确分组、字形、对象名称身份及实际浏览器切换；资源、包级门和两枚画布有效反控分列如下。官方coverage及最终统一收口尚待，有限核验不关闭旧广域源码。
+- 用户体验/产品验收：pending（需用户实际查看英文布局与切换体验）。
+- done准入结论：blocked；保持review，不把旧脚本修复卡的剧情免测外推到本卡。
 
 ## Draft: 设计与风险
 
@@ -93,18 +93,30 @@ Branch: codex/game-english
 
 ## Build: 实现与自测
 
-- 当前：只读核查完成首轮；尚未交付实现。
-- 未运行：实现测试、浏览器、统一门、覆盖率。
+- 冻结候选：`05e1cfcff`（文档包基点）；shared语言合同、提取、对话、DOM及画布/加载集成已进入`codex/game-english`。后继受影响源码变更须刷新相应证据。
+- 提取：独立SLF文本包加显式修订；不加载英文SSS。生成物核闭合为43,522条共同指令、4,768组精确匹配、578词条、364个clear控制边界、0汉字残留及0缺字形；两次完整提取manifest均为`00fa07bbb38ef7a6`。原件见[资源核验](../evidence/GAME-ENGLISH-1/docs-maintenance.json)。这些是静态资源与真实resolver核验，不能等同全剧情实跑。
+- 运行时：展示游标与原脚本IP分离；探索、战斗与说明共用精确消息组；当前组固定语言，切换不重建GameState、不改变玩法指令/存档进度。英文字形、名称、描述换行、状态/装备与战后结算按展示身份处理。
+- DOM：系统页增加双语语言选择与补丁署名；准备成功才开放English，存储失败仍可内存选择，资源失败临时回中文但保留偏好。工具、触键、加载/预缓存与隐私文字按语言更新；移动端已拍板显隐与定位保持。
+- 贡献者定向：DOM 129项及对象身份单业务红→恢复5绿；对话9项与77相邻、原指令continuation单项反例（其余8项未选，不计反控信用）；提取/文本原件见各审查入口，均不算官方覆盖率或整文件治理关闭。
+- Codex包级验证：shared 13文件/114项；pal-extract初轮83文件中两项默认5秒超时，原件保留；同一83文件/496项以`maxWorkers=2`全部通过，未改timeout、exclude、规则或测试选择。game 347文件/3,789项全部通过，无stderr/警告；全仓七包typecheck零诊断；game生产build无warnings。命令及原件见[本轮静态/包级证据](../evidence/GAME-ENGLISH-1/docs-maintenance.json)。
+- Codex画布反控：小字体空格错误、战后名称使用旧注释文本各一枚精准业务AssertionError，分别恢复3项/1项全绿；两次夹具API校准失败单列，不算有效反控。
+- 最终集成回执由Codex追加：`docs/ops/evidence/GAME-ENGLISH-1/integration-review.json`（本次文档快照尚未生成，不预填其结论）。
+- 未完成：官方coverage/ratchet及最终统一门；第一阶段自然英文开场由对话Owner独立实跑，报告尚未交付前不登记通过；全剧情逐段英文E2E、用户体验验收、部署/发布均未据本卡宣称完成。
+- 代码库存：Git实际3,401条，较原3,373净增28条，全部保留pending；377closed/110review不变，pending2,914、unclosed3,024。本卡功能验收不自动关闭旧代码质量记录。
 
 ## 视觉验证记录
 
 - Owner：Codex；Timing：mixed。
-- 待登记：开场/客栈台词、状态/装备长名、背包说明、战斗菜单、桌面/移动端系统设置、切回中文及刷新记忆。
-- 全剧情逐段E2E：本卡不预填通过。
+- Codex实际浏览器核验：桌面系统页中英文切换、中文回切、刷新后记住English、状态页，以及移动端System布局。`browser-smoke.json`记录切换前后玩法状态比较`beforeMatchesAfter=true`、`errors=[]`、持久化语言与偏好均为`en`；保留原件见[文档核验索引](../evidence/GAME-ENGLISH-1/docs-maintenance.json)。文档Owner未代跑该浏览器检查。
+- 截图：根工作区`build/english-integration/english-menu.png`、`english-settings.png`、`english-status.png`、`english-mobile-settings.png`；`chinese-menu.png`另留中文回切见证。截图保留在临时产物目录，hash与实际来源在上述证据索引，不将其当作全剧情比较。
+- 未完成：自然英文开场正式报告待对话Owner交付；背包、装备、战斗及其它剧情的完整视觉范围不能由上述System/状态页抽样外推。全剧情逐段英文E2E和用户体验保持pending。
 
 ## Review: 审查与返工
 
-- Reviewer：Codex；Accept / rework：pending。
+- Reviewer：Codex；当前为review。已有贡献者分文件A–H、真实caller、合法输入和独立oracle；Codex按实际差异/原件作有限独立复核，未因包级绿数或文档门关闭广域文件。
+- 已核修订：SLF三处范围差异与message0剧情恢复；控制/转义与clear；同一enemy type的对象词条身份；小字体空格与战后实际角色名；英文桌面CSS不覆盖移动尺寸。
+- 必须返工（用户2026-10-22追加）：英文装备选角框过宽。Codex核当前写死4格，按名字半角宽计算目前应为3格；实现、真实caller像素回归及浏览器复验由Codex后继处理，本快照不将它记为closed。
+- 尚待：上述装备UI返工、官方coverage/最终统一收口、自然开场正式报告、用户UI体验。用户明确确认前不转done。
 
 ## 用户验收
 
@@ -113,8 +125,11 @@ Branch: codex/game-english
 
 ## 交接日志
 
-- 2026-10-22 Codex：用户授权继续第一阶段英文；建立本卡，3个只读分工核SLF、对话及DOM，记录共同脚本边界；下一步隔离实现与独立验收。
+- 2026-10-22 Codex：用户授权继续第一阶段英文；建立本卡，3个只读分工核SLF、对话及DOM，记录共同脚本边界。
+- 2026-10-22 分派：提取Owner在`/Users/zhangxu/.codex/worktrees/english-text/type-pal`；对话Owner在`/Users/zhangxu/.codex/worktrees/english-dialog/type-pal`；DOM Owner在`/Users/zhangxu/.codex/worktrees/english-shell/type-pal`。各白名单按本卡“进入build前”保持；Codex集成shared/bootstrap/画布。各包交付SHA与原件以对应review JSON为准，不把作者提交当独立验收。
+- 2026-10-22 Codex：包实现已集成，真实资源两次提取幂等、包级测试/七包TC/生产build及浏览器抽样记录如上；保留初轮extract超时与夹具校准失败。自然开场正式报告、官方coverage及用户体验仍待，状态推进到review。
+- 2026-10-22 english_shell_audit：文档维护独占`codex/english-docs`、路径`/Users/zhangxu/.codex/worktrees/english-shell/type-pal`，基点`05e1cfcff`；仅任务卡/看板/生成索引、库存汇总与受影响review SHA链。复用任务配对证据，不新造重复testing domain/report；未改产品/测试/配置/coverage门。静态文档结果另写本卡证据，最终统一门由Codex追加。
 
 ## 下一位 Agent 提示词
 
-无用户转交；当前由Codex持续集成。接手先读本卡、AGENTS现行协议和前置卡；只按Owner白名单写入，不把尚未实跑项写成通过。
+无用户转交；当前由Codex继续官方coverage、独立报告及用户体验收口。接手先读本卡、AGENTS现行协议、三份review与docs-maintenance证据；保留review，未收到实际结果不得预填统一门、自然开场、全剧情E2E或用户体验通过。

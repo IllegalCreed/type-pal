@@ -1023,7 +1023,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+      "coreConclusion": "Terminal incoming binding for the English task/navigation/inventory controls and one existing testing-catalog caller reference only; original R93 artifact preservation envelope and unrelated terminal records retained. No product/coverage/task done promotion.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+      "afterSha256": "6c843f31a2d7a547577dc33e83d5740f041c25716348d29faa1f884bbb509683",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+        "implementationSha": "6c843f31a2d7a547577dc33e83d5740f041c25716348d29faa1f884bbb509683",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1845,12 +1845,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "script-corrections-main-sync-publication",
-          "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
-          "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
-          "lineCount": 18885,
-          "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
-          "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "kind": "english-feature-terminal-review-binding",
+          "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+          "afterSha256": "6c843f31a2d7a547577dc33e83d5740f041c25716348d29faa1f884bbb509683",
+          "lineCount": 18936,
+          "scope": "Terminal incoming binding for the English task/navigation/inventory controls and one existing testing-catalog caller reference only; original R93 artifact preservation envelope and unrelated terminal records retained. No product/coverage/task done promotion.",
+          "candidateBaseRevision": "05e1cfcff",
           "workingTreeDelta": true
         }
       },
@@ -3969,6 +3969,23 @@
           "previousCoreConclusion": "Terminal incoming R93 binding for the exact script-correction/main navigation merge; both parent histories retained with a finite new receipt. No unrelated full-document/product reacceptance or fabricated waived execution.",
           "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
           "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "english-feature-terminal-review-binding",
+          "previousAfterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+          "previousCoreConclusion": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+          "previousCurrentMaintenance": {
+            "kind": "script-corrections-main-sync-publication",
+            "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+            "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+            "lineCount": 18885,
+            "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "scope": "Terminal incoming binding for the English task/navigation/inventory controls and one existing testing-catalog caller reference only; original R93 artifact preservation envelope and unrelated terminal records retained. No product/coverage/task done promotion.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
         }
       ],
       "supersedes": [
@@ -3976,7 +3993,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+      "reviewedLines": "Only current incoming R93 hash/lineCount and its exact English task/inventory maintenance delta; original native artifact envelope retained.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
