@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact current WORD decision prefix or owned CI row/index/ledger delta and descendant binding; reuse original unrelated body",
+      "readMethod": "Read only owned current AVI/parent task board,index,ledger delta and descendant binding; reuse unrelated body",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+      "coreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
+      "afterSha256": "bd3a455e861e6499fc8075969cd25cddb26a6e232918cd8a808f111310619c5b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
+        "implementationSha": "bd3a455e861e6499fc8075969cd25cddb26a6e232918cd8a808f111310619c5b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1805,12 +1805,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-meal-ci-and-word-policy-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
+        "kind": "codex-owned-game-actions-mobile-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
-        "lineCount": 17730,
+        "afterSha256": "bd3a455e861e6499fc8075969cd25cddb26a6e232918cd8a808f111310619c5b",
+        "lineCount": 17790,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -3179,6 +3179,45 @@
           "afterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-build",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
+            "lineCount": 17730,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
+          "afterSha256": "bd3a455e861e6499fc8075969cd25cddb26a6e232918cd8a808f111310619c5b",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
         }
       ],
       "supersedes": [
@@ -3186,7 +3225,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only WORD current decision outside historical quote, current CI board/index/zero-closure ledger, or named child binding; no whole-file reacceptance",
+      "reviewedLines": "Only current AVI/parent board,index,ledger rows and named child bindings; no whole-file reacceptance",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

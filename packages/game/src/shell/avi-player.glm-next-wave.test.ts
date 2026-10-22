@@ -1,9 +1,11 @@
-/** GLM Wave I / I06 — avi-player.ts autoplay 拒绝降级与预热未证公开合同(生产冻结 ced193f4)。
+/** GLM Wave I / I06 — avi-player.ts autoplay 拒绝降级与预热合同。
  *
  * 旧证去重:avi-player.test.ts 已证 <video> 创建 / 三跳过键 / 非跳过键 / error 事件 resolve /
  * cleanup 幂等 / 视频音量四合同。本文件补零覆盖的"不可用降级"边界:
  *  - play() 被 autoplay policy 拒绝 → 追加「点击屏幕开始」overlay;点击 overlay 重试成功 →
  *    overlay 摘除、视频保留;之后 ended 正常 cleanup。
+ *  - 连续拒绝后仍可重试；未决重试不并发；结束时解除旧提示的监听。
+ * 迟到结果与跨视频隔离沿用 avi-player.async-lifecycle.test.ts，不重复添加同轴用例。
  *  - warmUpVideoAutoplay(main.ts:52 真实 caller,创建游离 <video>):成功 → 对同一元素
  *    play 后 pause(解锁后丢弃);失败 → 静默不抛、不 pause。
  * 异步确定性:play 端口替身返回**测试受控的 deferred Promise**,由测试显式 settle;
@@ -23,6 +25,32 @@ interface DeferredPlay {
   settled: boolean
 }
 
+function deferredPlay(): DeferredPlay {
+  let resolve!: () => void
+  let reject!: (reason: unknown) => void
+  const promise = new Promise<void>((res, rej) => {
+    resolve = res
+    reject = rej
+  })
+  const deferred = {
+    promise,
+    resolve: () => {
+      deferred.settled = true
+      resolve()
+    },
+    reject: (reason: unknown) => {
+      deferred.settled = true
+      reject(reason)
+    },
+    settled: false,
+  }
+  return deferred
+}
+
+function clickOverlay(): HTMLDivElement | undefined {
+  return [...document.querySelectorAll('div')].find((div) => div.textContent === OVERLAY_TEXT)
+}
+
 /** 测试受控的play端口替身(deferred / resolved)，记录被play的元素。 */
 function stubPlay(mode: 'deferred' | 'resolved'): {
   played: HTMLVideoElement[]
@@ -31,24 +59,7 @@ function stubPlay(mode: 'deferred' | 'resolved'): {
   const played: HTMLVideoElement[] = []
   let deferred: DeferredPlay | undefined
   if (mode === 'deferred') {
-    let resolve!: () => void
-    let reject!: (reason: unknown) => void
-    const promise = new Promise<void>((res, rej) => {
-      resolve = res
-      reject = rej
-    })
-    deferred = {
-      promise,
-      resolve: () => {
-        deferred!.settled = true
-        resolve()
-      },
-      reject: (reason) => {
-        deferred!.settled = true
-        reject(reason)
-      },
-      settled: false,
-    }
+    deferred = deferredPlay()
     vi.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(function (
       this: HTMLVideoElement,
     ) {
@@ -73,7 +84,10 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  document.body.querySelectorAll('video').forEach((v) => v.remove())
+  document.body.querySelectorAll('video').forEach((v) => {
+    v.dispatchEvent(new Event('ended'))
+    v.remove()
+  })
   document.querySelectorAll('div').forEach((d) => {
     if (d.textContent === OVERLAY_TEXT) d.remove()
   })
@@ -122,6 +136,79 @@ describe('playAvi autoplay 拒绝 → click-to-start 降级边界', () => {
       ])
     } finally {
       if (!d.settled) d.reject(new Error('teardown: unfinished deferred play'))
+    }
+  })
+
+  it('连续拒绝后提示可再次重试，未决时重复点击不并发，成功后摘除提示', async () => {
+    const autoplay = deferredPlay()
+    const firstRetry = deferredPlay()
+    const secondRetry = deferredPlay()
+    const attempts = [autoplay, firstRetry, secondRetry]
+    const play = vi
+      .spyOn(HTMLMediaElement.prototype, 'play')
+      .mockReturnValueOnce(autoplay.promise)
+      .mockReturnValueOnce(firstRetry.promise)
+      .mockReturnValueOnce(secondRetry.promise)
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const p = playAvi({ src: '/extracted/videos/1.mp4' })
+    const video = document.querySelector('video')
+    try {
+      autoplay.reject(new Error('autoplay denied'))
+      await vi.waitFor(() => expect(clickOverlay()).toBeDefined())
+      const overlay = clickOverlay()
+      if (!overlay) throw new Error('missing click-to-start overlay')
+      overlay.click()
+      overlay.click()
+      expect(play).toHaveBeenCalledTimes(2)
+      firstRetry.reject(new Error('retry denied'))
+      await vi.waitFor(() => expect(warning).toHaveBeenCalledTimes(2))
+      expect(clickOverlay()).toBe(overlay)
+      overlay.click()
+      overlay.click()
+      const callsWhilePending = play.mock.calls.length
+      secondRetry.resolve()
+      await vi.waitFor(() => expect(clickOverlay()).toBeUndefined())
+      expect(callsWhilePending).toBe(3)
+      expect(document.querySelector('video')).toBe(video)
+      expect(video?.isConnected).toBe(true)
+      overlay.click()
+      expect(play).toHaveBeenCalledTimes(3)
+      expect(warning.mock.calls).toEqual([
+        ['[avi-player] play() rejected (autoplay policy?): Error: autoplay denied'],
+        ['[avi-player] play() rejected (autoplay policy?): Error: retry denied'],
+      ])
+    } finally {
+      for (const attempt of attempts) if (!attempt.settled) attempt.resolve()
+      video?.dispatchEvent(new Event('ended'))
+      await p
+    }
+    expect(document.querySelector('video')).toBeNull()
+  })
+
+  it('结束后旧提示的引用不能再启动已移除的视频', async () => {
+    const { deferred } = stubPlay('deferred')
+    const play = vi.mocked(HTMLMediaElement.prototype.play)
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const p = playAvi({ src: '/extracted/videos/1.mp4' })
+    const video = document.querySelector('video')
+    try {
+      deferred?.reject(new Error('autoplay denied'))
+      await vi.waitFor(() => expect(clickOverlay()).toBeDefined())
+      const overlay = clickOverlay()
+      if (!overlay) throw new Error('missing click-to-start overlay')
+      video?.dispatchEvent(new Event('ended'))
+      await p
+      expect(clickOverlay()).toBeUndefined()
+      expect(video?.isConnected).toBe(false)
+      overlay.click()
+      expect(play).toHaveBeenCalledTimes(1)
+      expect(warning.mock.calls).toEqual([
+        ['[avi-player] play() rejected (autoplay policy?): Error: autoplay denied'],
+      ])
+    } finally {
+      if (!deferred?.settled) deferred?.resolve()
+      video?.dispatchEvent(new Event('ended'))
+      await p
     }
   })
 })

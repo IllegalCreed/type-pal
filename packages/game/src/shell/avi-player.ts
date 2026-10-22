@@ -78,7 +78,10 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
     let clickOverlay: HTMLDivElement | null = null
     let settled = false
 
+    const onClickOverlay = (): void => tryPlay()
+
     const removeClickOverlay = (): void => {
+      clickOverlay?.removeEventListener('click', onClickOverlay)
       if (clickOverlay?.parentElement) {
         clickOverlay.parentElement.removeChild(clickOverlay)
       }
@@ -143,35 +146,31 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
         })
         .catch((err: unknown) => {
           console.warn(`[avi-player] play() rejected (autoplay policy?): ${String(err)}`)
-          if (settled || clickOverlay) return
-          clickOverlay = document.createElement('div')
-          clickOverlay.textContent = '点击屏幕开始 / Click to start'
-          clickOverlay.style.cssText = [
-            'position:fixed',
-            'top:0',
-            'left:0',
-            'width:100vw',
-            'height:100vh',
-            'background:rgba(0,0,0,0.85)',
-            'color:#fff',
-            'display:flex',
-            'align-items:center',
-            'justify-content:center',
-            'font-family:sans-serif',
-            'font-size:24px',
-            'cursor:pointer',
-            'z-index:10002',
-            'user-select:none',
-          ].join(';')
-          clickOverlay.addEventListener(
-            'click',
-            () => {
-              // 在本次用户手势中重试；失败仍由当前播放的策略处理。
-              tryPlay()
-            },
-            { once: true },
-          )
-          container.appendChild(clickOverlay)
+          if (settled) return
+          if (!clickOverlay) {
+            clickOverlay = document.createElement('div')
+            clickOverlay.textContent = '点击屏幕开始 / Click to start'
+            clickOverlay.style.cssText = [
+              'position:fixed',
+              'top:0',
+              'left:0',
+              'width:100vw',
+              'height:100vh',
+              'background:rgba(0,0,0,0.85)',
+              'color:#fff',
+              'display:flex',
+              'align-items:center',
+              'justify-content:center',
+              'font-family:sans-serif',
+              'font-size:24px',
+              'cursor:pointer',
+              'z-index:10002',
+              'user-select:none',
+            ].join(';')
+            container.appendChild(clickOverlay)
+          }
+          // once消费本次手势，未决时不并发；失败后重新接入，成功/结束时由同一owner移除。
+          clickOverlay.addEventListener('click', onClickOverlay, { once: true })
         })
     }
 

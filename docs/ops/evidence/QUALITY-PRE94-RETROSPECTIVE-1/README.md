@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-22 [基础动作与移动端影响增量](game-actions-mobile/README.md)：16文件八维、真实反控、精确source绑定及只读复验；集中门前不升accept。[AVI修复前连续拒绝原件](mobile-revalidation/README.md)单独保留，不改写成修后绿。
+
 2026-10-22 [3w／3x结算成长质量窗口](battle-quality/README.md)：纯状态依赖／数据owner、七池测试及WORD／Extra边界分别核证；局部门不授整卡关闭，相关卡稳定后集中重门。
 
 2026-10-22 [CLI主编排与事件测试窗口](cli-slice-closeout/README.md)：入口纯规则拆离IO、两CLI宿主统一、PNG/EO精确oracle；slice真值冻结与17站点静态影响域另列，统一门收尾前不关闭文件。

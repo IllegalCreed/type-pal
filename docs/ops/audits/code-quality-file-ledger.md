@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 移动端影响当前复核：7个既有closed实现需要增量绑定，14新增路径仍pending。AVI连续拒绝发现实证UI重试失效，单个实现撤review；CODE78 accept→partial，当前固定83卡56accept/27partial/0pending，账本3355/370closed/115review/2870pending。原单次拒绝/skip证据保留，不把通过的868完整CI覆盖到新增失败合同。其它六项及3v窗口继续，[当前反例与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md)。
+
 2026-10-22 后继CI／WORD记录：385主线Docs成功、Coverage在pal-meal-shell normal landing默认5s超时。当前仅核该测试夹具内部重复压缩，九业务主体/timeout与产品不改；该Reforge文件保持隐式pending，0新增关闭。用户已选择隐藏成长保留TS持续增长，明确记录第一阶段偏离，不据此自动接受3x。完整实际门与原件随[战斗窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)后继记录，计数371/114/2870保持。
 
 2026-10-22主线CI窄返工：cb67a6a0e原窗口已FF main，实际Coverage在M05异步就绪断言失败；补真实等待/文案/独立oracle后，又核清K06五条RAF act诊断。最终official20032/758及固定main保护零诊断，全部覆盖率计数不变。两editor测试仍隐式pending，未授整文件接受，0新增关闭；371/114/2870保持。[完整失败、返工及最终原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md#cb67a6a0e远端ci与两测试窄返工)。本笔远端同步/CI另按实际refs/run核对。
@@ -48,7 +50,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,355。
-当前已闭合核验：371；已读但待审：114；尚未逐文件核验：2,870；合计未闭合：2,984。
+当前已闭合核验：370；已读但待审：115；尚未逐文件核验：2,870；合计未闭合：2,985。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -483,7 +485,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/main-loop.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |
 | `packages/game/src/shell/audio.ts` | product | 已验证 | [input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) | CODE74原合同；用户批准缺口已处理，旧有效caller/oracle/反控按版本复用；不授广域上下文或听觉全流程信用 |
 | `packages/game/src/shell/rng-player.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |
-| `packages/game/src/shell/avi-player.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收；本轮[仅注释/纯URL接线增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)复核，原范围accept保留 |
+| `packages/game/src/shell/avi-player.ts` | product | review | [移动端增量/连续拒绝反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json)；GAME-AVI-RETRY-OWNERSHIP-1 | 真实DOM/媒体IO对照1绿、再次点击一指定UI断言红；once监听在第二次拒绝后未恢复。产品未改、策略待用户；旧单次拒绝/skip原件只按原范围保留 |
 | `packages/game/src/shell/input.test.ts` | test | 已验证 | [input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) | CODE73原合同；用户批准缺口已处理，旧有效caller/oracle/反控按版本复用；不授广域上下文或听觉全流程信用 |
 | `packages/game/src/shell/input.boundaries.test.ts` | test | 已验证 | [input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) | CODE73原合同；用户批准缺口已处理，旧有效caller/oracle/反控按版本复用；不授广域上下文或听觉全流程信用 |
 | `packages/game/src/shell/input-replay.grok-r1.test.ts` | test | 已验证 | [input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) | CODE73原合同；用户批准缺口已处理，旧有效caller/oracle/反控按版本复用；不授广域上下文或听觉全流程信用 |

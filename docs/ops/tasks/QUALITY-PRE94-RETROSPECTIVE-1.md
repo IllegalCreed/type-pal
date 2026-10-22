@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前窗口：固定83卡57accept/26partial/0pending，账本3355/371closed/114review/2870pending。385已推3y并FF main：Docs成功，Coverage在Reforge normal landing默认5s超时，当前仅做其输入准备窄返工，不能宣布远端门通过。用户已裁决第一阶段隐藏成长保留TS持续增长，记录偏离、不改算术。完整原件与限制见[战斗窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；94–102不扩展。
+> 当前窗口：移动端增量/3v结构测试；868主线Docs和Coverage已实际成功。AVI连续拒绝重试反例使CODE78撤回partial，固定83卡56accept/27partial/0pending，账本3355/370closed/115review/2870pending。用户已批准AVI窄修，正式旧源两红/修后61相邻零stderr，当前仍等集中全门；其它卡继续，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1303,3 +1303,15 @@ WORD风险卡按已批准偏离策略done，数值实现不改、不自动接受
 Codex唯一Owner，复用旧四源全文/primary与本轮已完成的逐段核读、私有154相邻/TC和preferred-slot指定单红。准入仅：attack去同层magic类型耦合并直接依赖equipment-state；flee移除实际未读的第四个PlayerRoles参数、同一owner getter、纠正端口请求/PRNG推进注释；唯一生产caller与10测试调用机械迁移。game为private应用包、无SDK出口，逐符号census未发现其它caller；本项属于内部签名，不扩张公共合同。
 
 纯重构与测试质量分提交。后者限AttackMate既有7例的typed真实factory/非同序party独立HP oracle、actions相关段两个合法fixture及无用强转、H共享fixture一条错误完整生命周期注释。保留全部既有断言合同/用例数量；修改一标题据映射登记，不新增退役。battle-system/actions大文件只授实际调用段，不以154绿关闭全文；本轮不改算法、既定敌吉运取舍、schema/save/UI或94–102。先证明每个机械变化及源依赖未漂移，最后与相关卡一起冻结跑重门，未过门前3v保持partial。
+
+移动端analytics增量另补E维：原installer两例只看面板存在/SDK缺省，未观察新增公开openPreferences的真实UI结果。准入install-analytics.test.ts全文既有第一例补“拒绝→公开入口重开→原选择不变”的真实DOM业务断言，保留既有assertions/2case；更正SDK DOM与真实网络边界的标题并登记身份映射。用唯一noop forwarding私有变异核旧两绿/新指定业务红，恢复后跑相邻analytics；不改产品或声称实网/整页遮挡/硬件验收。
+
+2026-10-22 新停止线：[GAME-AVI-RETRY-OWNERSHIP-1](GAME-AVI-RETRY-OWNERSHIP-1.md)。合法媒体IO结果下，自动播放和第一次重试连续拒绝后，once监听不再恢复，仍显示的提示不能继续点击。原生对照1绿/反例一条业务UI AssertionError，非超时；未做实体手机权限序列，也未改播放器。实现及78当前接受撤回，原其它合同不改写；其它pre94继续，不因用户待裁决而停整仓。
+
+### 2026-10-22 AVI授权与当前游戏模块冻结
+
+用户批准每次失败可重复点击重试、成功或结束清理。GAME-AVI-RETRY-OWNERSHIP-1 build allowed，唯一Owner Codex；正式原测试先补两合同红，再只修同一overlay的once监听重接与显式解除。未决时不并发，不改500ms/跳过源/媒体资源/Save；迟到结果复用现有lifecycle测试，不重复新增同轴用例。实际8文件61相邻零stderr，原6例草案中一迟到重复例未进最终5例，正式最终suite对冻结旧源仍恰两红。授权本身不恢复CODE78接受信用。
+
+同窗B维另准入fps-overlay两句“帧率可证明CPU原因”的过强推论纠正；display-scale/FPS都只改注释，证明生成JS相同。当前3v纯重构2077d7ecf与测试补强7eea19e05分提交推3y；analytics原两例增强及AVI窄修与逐文件证据待本模块集中全门后验收。来源868完整Docs/Coverage实际成功（平台Node20迁移warning与Ubuntu notice另列，不冒称平台annotation零）；不把其绿覆盖到新AVI行为。当前56accept/27partial与370/115/2870保持，覆盖率仅在这个冻结窗口集中运行。
+
+本游戏窗口唯一八维/原件/只读快检入口：[game-actions-mobile](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)。当前16逐文件候选与3实际上下文范围均已区分，正式验收仍待集中门结果。

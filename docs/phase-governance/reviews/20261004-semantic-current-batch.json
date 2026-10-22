@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact current WORD decision prefix or owned CI row/index/ledger delta and descendant binding; reuse original unrelated body",
+      "readMethod": "Read only owned current AVI/parent task board,index,ledger delta and descendant binding; reuse unrelated body",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+      "coreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "769c464b62180146291c7cc02d52cea4f427f5fa48d07e7e5116eb1bf42d67c7",
+      "afterSha256": "91207332ede46293ac1aaa82f3492facec26fe49e4b99b2244a6e752645aaed7",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "769c464b62180146291c7cc02d52cea4f427f5fa48d07e7e5116eb1bf42d67c7",
+        "implementationSha": "91207332ede46293ac1aaa82f3492facec26fe49e4b99b2244a6e752645aaed7",
         "contentVersion": 46,
         "minimumSaveVersion": 12,
         "history": [
@@ -1649,8 +1649,8 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-meal-ci-and-word-policy-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        "kind": "codex-owned-game-actions-mobile-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
       },
       "history": [
         {
@@ -2255,12 +2255,25 @@
           "afterSha256": "769c464b62180146291c7cc02d52cea4f427f5fa48d07e7e5116eb1bf42d67c7",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-build",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "769c464b62180146291c7cc02d52cea4f427f5fa48d07e7e5116eb1bf42d67c7",
+          "afterSha256": "91207332ede46293ac1aaa82f3492facec26fe49e4b99b2244a6e752645aaed7",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only WORD current decision outside historical quote, current CI board/index/zero-closure ledger, or named child binding; no whole-file reacceptance",
+      "reviewedLines": "Only current AVI/parent board,index,ledger rows and named child bindings; no whole-file reacceptance",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2546,9 +2559,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact current WORD decision prefix or owned CI row/index/ledger delta and descendant binding; reuse original unrelated body",
+      "readMethod": "Read only owned current AVI/parent task board,index,ledger delta and descendant binding; reuse unrelated body",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+      "coreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2560,7 +2573,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "7ccd3afc3a1cd557890dc0b6d9c8a0074475f59d71b1d2202e14ade910c4230f",
+      "afterSha256": "193c08ebb25a437b925434815cbfa318f2eff5a3e32da09653bae3e0344bdc8d",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2581,7 +2594,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "7ccd3afc3a1cd557890dc0b6d9c8a0074475f59d71b1d2202e14ade910c4230f",
+        "implementationSha": "193c08ebb25a437b925434815cbfa318f2eff5a3e32da09653bae3e0344bdc8d",
         "contentVersion": 32,
         "minimumSaveVersion": 12,
         "history": [
@@ -2926,8 +2939,8 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-meal-ci-and-word-policy-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        "kind": "codex-owned-game-actions-mobile-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
       },
       "history": [
         {
@@ -3414,12 +3427,25 @@
           "afterSha256": "7ccd3afc3a1cd557890dc0b6d9c8a0074475f59d71b1d2202e14ade910c4230f",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-build",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "7ccd3afc3a1cd557890dc0b6d9c8a0074475f59d71b1d2202e14ade910c4230f",
+          "afterSha256": "193c08ebb25a437b925434815cbfa318f2eff5a3e32da09653bae3e0344bdc8d",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only WORD current decision outside historical quote, current CI board/index/zero-closure ledger, or named child binding; no whole-file reacceptance",
+      "reviewedLines": "Only current AVI/parent board,index,ledger rows and named child bindings; no whole-file reacceptance",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
