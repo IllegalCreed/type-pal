@@ -1,9 +1,8 @@
-import { PAL_AUTHORED_MAP_NAMES } from '@type-pal/shared/pal-authored-map-names'
 import { afterEach, beforeEach, expect, it } from 'vitest'
 import { readAnalyticsConsent } from '../analytics/analytics-consent.js'
 import { mountAnalyticsConsentUi } from '../analytics/analytics-consent-ui.js'
 import { createUnifiedProgressUi } from '../shell/precache-ui.js'
-import { getMapName } from '../tools/map-names.js'
+import { getMapName, hasMapName } from '../tools/map-names.js'
 import { setLanguage } from './language.js'
 import { ENGLISH_MAP_NAMES } from './map-names-en.js'
 import { localizeStaticShell } from './static-shell.js'
@@ -80,8 +79,9 @@ it('changes consent copy without choosing consent, reopening the panel or breaki
 
 it('covers authored map identities in English and preserves Chinese names when switching back', () => {
   setLanguage('en')
-  for (const mapId of Object.keys(PAL_AUTHORED_MAP_NAMES)) {
-    expect(ENGLISH_MAP_NAMES[Number(mapId)]).toMatch(/^[\x20-\x7e]+$/)
+  // Original scene map identities are WORDs. Read authored membership through the phase1 boundary.
+  for (let mapId = 0; mapId <= 0xffff; mapId++) {
+    if (hasMapName(mapId)) expect(ENGLISH_MAP_NAMES[mapId]).toMatch(/^[\x20-\x7e]+$/)
   }
   expect(getMapName(23)).toBe('Suzhou')
   expect(getMapName(119)).toBe('Fairy Island Peach Forest')
