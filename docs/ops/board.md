@@ -65,11 +65,9 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 同一3y，主线CI两测试窄返工本地通过 | 原10文件窗口已FF main；M05等待与K06 RAF act已核清，最终official20032/758零诊断；57accept/26partial及371/114/2870不变，两editor仍pending，本笔发布后CI待实际核对 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 同一3y，3w已批窄修及余项 | 61accept/22partial；库存3356/372closed/115review/2869pending，战后HP/MP两红后修、238局部绿/TC0；统一门与覆盖率留模块收尾，未合main，不扩94–102 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
-| GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 | [非队员Extra可达性](tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | Codex / 只读核完整生产写入链 | C全role/TS party不同，但开战换队全量重建；未证剧情缺陷，不改行为 |
-| GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 | [隐藏成长16位边界](tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) | draft | Codex / 原生C与结算边界已证，待取舍 | 65535+1：SDL为0、TS为65536；正常原盘触发未知，未改数值，3x保持partial |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |
 | QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制counter](tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | Codex / 新增复活装备状态窄修已测 | 原三项保留；0x22两红后修、284game相邻0stderr；统一门/视觉仍待，不关闭整文件 |
 | QUALITY-BOOT-FAILURE-PROGRESS-1 | [启动失败进度所有权](tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) | review | Codex / 窄功能完成，等待统一集成门 | 四旧单红新绿、相邻58绿/原红重放1绿、PROD失败稳定及正常按钮进场已实跑看图；全仓/coverage/protected未跑，不合main |

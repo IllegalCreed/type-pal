@@ -1,0 +1,442 @@
+{
+  "authority": "用户2026-10-20/21允许合理重构与测试质量整改的覆盖率下降精确调整baseline，禁止恢复死代码/堆弱测试。原7例用合法typed BattleState代替三字段强转；protect未定义回退与缺动画锚的即时数字分支不再被旧伪fixture偶然覆盖。仅game已覆盖branch9557→9555，其它旧指标下限保持；无规则/谓词/范围/超时变化。",
+  "id": "pre94-basic-typed-fixture-recount-20261022",
+  "oldBaselineCompactSha256": "33dd8c7315460e96caca0632fe24080f656935e6f0a11f8944f8b9af21d5c97d",
+  "oldArtifactZip": {
+    "path": "ci868-coverage-artifact.zip",
+    "sha256": "8339d2a4630c25cddd859145a1a76bbccc39b693670823582f20d52882ee98f5",
+    "retention": "CompleteZIP in task temp; relevant game summary/LCOV and full command receipts retained losslessly in gate archive."
+  },
+  "oldGameSourceSha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591",
+  "currentGameSourceSha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591",
+  "before": {
+    "statements": {
+      "covered": 14755,
+      "total": 16514
+    },
+    "branches": {
+      "covered": 9557,
+      "total": 11869
+    },
+    "functions": {
+      "covered": 1749,
+      "total": 2044
+    },
+    "lines": {
+      "covered": 13160,
+      "total": 14476
+    }
+  },
+  "approvedFloor": {
+    "statements": {
+      "covered": 14755,
+      "total": 16514
+    },
+    "branches": {
+      "covered": 9555,
+      "total": 11869
+    },
+    "functions": {
+      "covered": 1749,
+      "total": 2044
+    },
+    "lines": {
+      "covered": 13160,
+      "total": 14476
+    }
+  },
+  "firstActual": {
+    "statements": {
+      "covered": 14758,
+      "total": 16517
+    },
+    "branches": {
+      "covered": 9555,
+      "total": 11869
+    },
+    "functions": {
+      "covered": 1750,
+      "total": 2044
+    },
+    "lines": {
+      "covered": 13162,
+      "total": 14478
+    }
+  },
+  "sources": [
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "3780e1911f96d60f8ef75cd3cce40909cb116713b31b905a0fd4b321c93bd300"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "0bd0e53f63267b9212b34c7df6162413686eb4ecabee0c5f0b44fd880e5cb31a"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+      "sha256": "9c5df1343e7d51d4ddb0b87ce75cc78c93a208182fa6bca8c953fdef5d0f1c8d"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack-mate.ts",
+      "sha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "30e61e9fcbf5578391effce111c98e9b73c2d4abeef2934e3441b84d27ae1374"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/flee.ts",
+      "sha256": "9baeac60c72bfec5c04dfa6e7e534ff1f53c351965025cdbb1a4b544eb6bf463"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "584fab309cc044973207f0ea4d44e3a48bff11c3b1d7ae0d0287a6c2d8774c86"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "sha256": "8b154915ffdcb01f7d0d31b761f85a621c4db4c11e4762686b9fb5b4866a08bf"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256": "dcb53dc1f6b4ce8f35208362be06f7edd806b3cd32f195b06bc8170f4e4e2834"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020"
+    }
+  ],
+  "attribution": {
+    "sourceIdentical": true,
+    "path": "packages/game/src/core/battle/actions/attack-mate.ts",
+    "changes": {
+      "lines": [
+        {
+          "position": "101",
+          "before": 2,
+          "after": 9
+        },
+        {
+          "position": "107",
+          "before": 2,
+          "after": 9
+        },
+        {
+          "position": "109",
+          "before": 7,
+          "after": 0
+        },
+        {
+          "position": "45",
+          "before": 19,
+          "after": 18
+        },
+        {
+          "position": "49",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "position": "52",
+          "before": 8,
+          "after": 7
+        },
+        {
+          "position": "53",
+          "before": 8,
+          "after": 7
+        },
+        {
+          "position": "54",
+          "before": 17,
+          "after": 15
+        },
+        {
+          "position": "55",
+          "before": 7,
+          "after": 6
+        },
+        {
+          "position": "56",
+          "before": 7,
+          "after": 6
+        },
+        {
+          "position": "59",
+          "before": 8,
+          "after": 7
+        },
+        {
+          "position": "61",
+          "before": 7,
+          "after": 6
+        },
+        {
+          "position": "62",
+          "before": 9,
+          "after": 8
+        }
+      ],
+      "branches": [
+        {
+          "position": "100,13,0",
+          "before": "2",
+          "after": "9"
+        },
+        {
+          "position": "100,13,1",
+          "before": "7",
+          "after": "0"
+        },
+        {
+          "position": "100,14,1",
+          "before": "2",
+          "after": "9"
+        },
+        {
+          "position": "107,15,0",
+          "before": "2",
+          "after": "9"
+        },
+        {
+          "position": "45,0,0",
+          "before": "19",
+          "after": "18"
+        },
+        {
+          "position": "48,1,0",
+          "before": "2",
+          "after": "3"
+        },
+        {
+          "position": "48,1,1",
+          "before": "8",
+          "after": "7"
+        },
+        {
+          "position": "48,2,1",
+          "before": "2",
+          "after": "3"
+        },
+        {
+          "position": "48,2,2",
+          "before": "2",
+          "after": "3"
+        },
+        {
+          "position": "54,3,0",
+          "before": "7",
+          "after": "6"
+        },
+        {
+          "position": "54,3,1",
+          "before": "10",
+          "after": "9"
+        },
+        {
+          "position": "54,4,0",
+          "before": "17",
+          "after": "15"
+        },
+        {
+          "position": "54,4,1",
+          "before": "9",
+          "after": "8"
+        },
+        {
+          "position": "59,5,1",
+          "before": "7",
+          "after": "6"
+        },
+        {
+          "position": "63,6,0",
+          "before": "8",
+          "after": "7"
+        },
+        {
+          "position": "63,6,1",
+          "before": "8",
+          "after": "7"
+        },
+        {
+          "position": "78,9,1",
+          "before": "6",
+          "after": "0"
+        }
+      ]
+    }
+  },
+  "fileDiff": {
+    "source": "CI868 actual game V8 report against current first official sample",
+    "diffs": [
+      {
+        "path": "total",
+        "before": {
+          "statements": {
+            "covered": 14755,
+            "total": 16514
+          },
+          "branches": {
+            "covered": 9557,
+            "total": 11869
+          },
+          "functions": {
+            "covered": 1749,
+            "total": 2044
+          },
+          "lines": {
+            "covered": 13160,
+            "total": 14476
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 14758,
+            "total": 16517
+          },
+          "branches": {
+            "covered": 9555,
+            "total": 11869
+          },
+          "functions": {
+            "covered": 1750,
+            "total": 2044
+          },
+          "lines": {
+            "covered": 13162,
+            "total": 14478
+          }
+        }
+      },
+      {
+        "path": "packages/game/src/analytics/install-analytics.ts",
+        "before": {
+          "statements": {
+            "covered": 12,
+            "total": 14
+          },
+          "branches": {
+            "covered": 0,
+            "total": 0
+          },
+          "functions": {
+            "covered": 4,
+            "total": 6
+          },
+          "lines": {
+            "covered": 12,
+            "total": 14
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 13,
+            "total": 14
+          },
+          "branches": {
+            "covered": 0,
+            "total": 0
+          },
+          "functions": {
+            "covered": 5,
+            "total": 6
+          },
+          "lines": {
+            "covered": 13,
+            "total": 14
+          }
+        }
+      },
+      {
+        "path": "packages/game/src/core/battle/actions/attack-mate.ts",
+        "before": {
+          "statements": {
+            "covered": 40,
+            "total": 41
+          },
+          "branches": {
+            "covered": 30,
+            "total": 33
+          },
+          "functions": {
+            "covered": 3,
+            "total": 3
+          },
+          "lines": {
+            "covered": 32,
+            "total": 32
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 39,
+            "total": 41
+          },
+          "branches": {
+            "covered": 28,
+            "total": 33
+          },
+          "functions": {
+            "covered": 3,
+            "total": 3
+          },
+          "lines": {
+            "covered": 31,
+            "total": 32
+          }
+        }
+      },
+      {
+        "path": "packages/game/src/shell/avi-player.ts",
+        "before": {
+          "statements": {
+            "covered": 85,
+            "total": 86
+          },
+          "branches": {
+            "covered": 27,
+            "total": 30
+          },
+          "functions": {
+            "covered": 16,
+            "total": 16
+          },
+          "lines": {
+            "covered": 79,
+            "total": 79
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 88,
+            "total": 89
+          },
+          "branches": {
+            "covered": 27,
+            "total": 30
+          },
+          "functions": {
+            "covered": 16,
+            "total": 16
+          },
+          "lines": {
+            "covered": 81,
+            "total": 81
+          }
+        }
+      }
+    ]
+  },
+  "limits": "Two old incidental fixture branches; no coverage-filling test,product fallback restoration or broad percentage tolerance. Initial official exit1 preserved; acceptance requires subsequent official pass."
+}

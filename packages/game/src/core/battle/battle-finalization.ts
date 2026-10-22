@@ -42,10 +42,14 @@ export function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): vo
     }
   }
 
-  // 当前只遍历在队角色；C遍历全部role。非队员Extra的生产可达性仍待核，不宣称完全等价。
-  const kBodyPartExtra = 6
+  // 毒按当前队伍位置存储；清理域与按角色存储的Extra不同。
   for (const roleId of gs.partyMembers) {
     curePlayerPoisonByLevel(gs, roleId, 3)
+  }
+
+  // battle.c:1825-1830清全部角色的Extra，包含战中已离队的角色；不卸下装备部位0..5。
+  const kBodyPartExtra = 6
+  for (let roleId = 0; roleId < gs.PlayerRolesRuntime.rgwHP.length; roleId++) {
     removeEquipmentEffect(gs, roleId, kBodyPartExtra)
   }
 

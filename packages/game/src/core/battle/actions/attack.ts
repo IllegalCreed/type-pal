@@ -20,7 +20,7 @@
 
 import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import { getPlayerPoisonResistance } from '../../equip-effect.js'
+import { getPlayerPoisonResistance } from '../../equipment-state.js'
 import type { GameState } from '../../game-state.js'
 import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
 import type { SeedableRng } from '../../rng.js'

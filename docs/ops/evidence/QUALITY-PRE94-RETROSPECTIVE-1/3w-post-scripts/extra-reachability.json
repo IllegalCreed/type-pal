@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex(single Agent)",
+  "base": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+  "status": "counter established for accepted modified V1 input; product cleanup policy unapproved; 3w remains partial",
+  "sourceTrees": [
+    {
+      "path": "packages/game/src",
+      "gitTree": "88679eae51554eb96f84d16eb0ebcfa6c9ae032c"
+    },
+    {
+      "path": "packages/shared/src",
+      "gitTree": "b620ed2831d01ead59bec75cc9a9ff72f9bdad9b"
+    },
+    {
+      "path": "packages/pal-extract/src",
+      "gitTree": "b6451fc6aafc6aa527dabb209d310d1fa0f8e8ca"
+    }
+  ],
+  "pins": [
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45",
+      "bytes": 4072
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "bytes": 81892
+    },
+    {
+      "path": "tsconfig.base.json",
+      "sha256": "9c29504dad2a45fb1c4e260b590372a8221ef27303f7fff1654554c90b57931c",
+      "bytes": 355
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "bytes": 618
+    },
+    {
+      "path": "packages/shared/package.json",
+      "sha256": "7c052ab5a040325cc70dac55b40f12117570fc8b54e1eea608bfe23ac52d9002",
+      "bytes": 464
+    },
+    {
+      "path": "packages/pal-extract/package.json",
+      "sha256": "c267ca338e26c4a5e0a4b24bde218bf32f16adfcb1f122cb689b04d07f229f34",
+      "bytes": 569
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "bytes": 49450
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "bytes": 98247
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "bytes": 54495
+    },
+    {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+      "bytes": 574838
+    },
+    {
+      "path": "data/raw/DATA.MKF",
+      "sha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b",
+      "bytes": 63978
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability-native.json.gz",
+    "sha256": "53e1fe983d61039593e168d68e2a71abaf2ee3d905c88234c6a35405e4c7e0fd",
+    "members": [
+      {
+        "name": "graph-v1.mts",
+        "bytes": 5226,
+        "sha256": "dcf88a114bbd1c82cf79660c0502bc9e4efe9fa81bd423461dc2ec3c7ac3b640"
+      },
+      {
+        "name": "graph.json",
+        "bytes": 108270,
+        "sha256": "e93e813f512a8831821b8a4b2d921881e65c9afa31facb4a56fbf2b4d91213e2"
+      },
+      {
+        "name": "graph.mts",
+        "bytes": 5528,
+        "sha256": "995d398bdca2b65ef7a5f3b54cb9987b0493ae0ea9c6684eb767b3bd7f96b84a"
+      },
+      {
+        "name": "graph-immediate.json",
+        "bytes": 89956,
+        "sha256": "4b8b4a11b1ad73d525bbe4159ad05f9d3e9f8c5699102dce62b3668569c9927e"
+      },
+      {
+        "name": "graph-immediate.execution.json",
+        "bytes": 639,
+        "sha256": "670933c7a16b50465726f41278ff90d6599b505dfd82f3ff41ce8b48727490c2"
+      },
+      {
+        "name": "graph-immediate.stdout.raw",
+        "bytes": 885,
+        "sha256": "d373f16374f3a04a91341433b2843d326342bb0ab35edfe007c1d1f0474c6db9"
+      },
+      {
+        "name": "graph-immediate.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "imported-party-probe-v1.mts",
+        "bytes": 6538,
+        "sha256": "4da4087e9408ed0031c5ab33945315ba97fef96d0ca3e0db87cbf28b8bca2615"
+      },
+      {
+        "name": "imported-party-probe.mts",
+        "bytes": 6934,
+        "sha256": "de132d8287653af73f8fa636df9bcd039912c8f7471253a8c2c5285d810998f7"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 1147,
+        "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5"
+      },
+      {
+        "name": "imported-party-v1.execution.json",
+        "bytes": 537,
+        "sha256": "c67ffd01c55724a5a8b6cc0fcca61f0811fd41485bfaedf1905904c8614e5054"
+      },
+      {
+        "name": "imported-party-v1.stdout.raw",
+        "bytes": 979,
+        "sha256": "8d4ba96fa93cecc4a790109983ec93fd9eeb42472c2e17e22beed1051d6a6829"
+      },
+      {
+        "name": "imported-party-v1.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "imported-party-v2.execution.json",
+        "bytes": 537,
+        "sha256": "8779d24bbed501b235e1a8d9b5b36d52a3b55d2747e9c63f229706064449bf8b"
+      },
+      {
+        "name": "imported-party-v2.stdout.raw",
+        "bytes": 979,
+        "sha256": "8d4ba96fa93cecc4a790109983ec93fd9eeb42472c2e17e22beed1051d6a6829"
+      },
+      {
+        "name": "imported-party-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "observed": {
+    "kind": "actual core/save boundary observation;not official Vitest/native SDL/browser/story proof",
+    "input": {
+      "party": [0, 4],
+      "overlay": {
+        "object": 398,
+        "turnStart": 20557
+      },
+      "rngSeed": 7,
+      "inventory": [
+        {
+          "itemId": 84,
+          "count": 1
+        }
+      ]
+    },
+    "before": {
+      "party": [0, 4],
+      "fighters": [0, 4],
+      "extra": 0
+    },
+    "afterScript": {
+      "party": [0],
+      "fighters": [0, 4],
+      "extra": 0,
+      "phase": "selectAction"
+    },
+    "afterItem": {
+      "party": [0],
+      "fighters": [0, 4],
+      "extra": 30,
+      "effective": 30,
+      "inventory": [
+        {
+          "itemId": 84,
+          "count": 0
+        }
+      ]
+    },
+    "afterExit": {
+      "mode": "explore",
+      "party": [0],
+      "extra": 30,
+      "effective": 30,
+      "exitTicks": 18,
+      "phase": "fleed"
+    },
+    "exportedExtra": 30
+  },
+  "runs": [
+    {
+      "id": "graph-immediate",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-battle-reachability-WUjAuR/graph.mts",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-battle-reachability-WUjAuR/graph-immediate.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:29:43.621Z",
+      "end": "2026-10-22T05:29:44.939Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 885,
+      "stderrBytes": 0
+    },
+    {
+      "id": "imported-party-v1",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-battle-reachability-WUjAuR/imported-party-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:33:49.949Z",
+      "end": "2026-10-22T05:33:51.758Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 979,
+      "stderrBytes": 0
+    },
+    {
+      "id": "imported-party-v2",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-battle-reachability-WUjAuR/imported-party-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:34:58.721Z",
+      "end": "2026-10-22T05:34:59.699Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 979,
+      "stderrBytes": 0
+    }
+  ],
+  "primary": {
+    "raw": "SSS.MKF original script20557 = 0x75[1,0,0],20558=end advance;39536=0x17[17,22,30],39537=end. No raw script or extracted file modified.",
+    "sdlpal": "battle.c:1822-1830 clears statuses and Extra for all six roles;global.c CurePoisonByLevel first maps role to party, so poison compaction/key policy is separate.",
+    "reader": "equipment-state.ts:getPlayerPoisonResistance sums all seven effect parts,including Extra for role4. serializeSave retains that Extra row.",
+    "input": "Actual V1 serializer/parser and Save memory save/load. Explicitly changed OBJECT398 enemy turnStart to existing original20557. This is accepted external-input coverage,not an original story/save reachability claim.",
+    "caller": "Actual startBattle with parsed original team0/exact OBJECT398;two tickBattle calls execute enemy script;actual performItem targets old BattleState role4;performFlee seed7 + eighteen tickBattle calls finalize and release resources.",
+    "environment": "All actors/items/enemies/teams/field parsed from original SSS/DATA;global events built by actual disasm with all identity labels and empty messages;poison table/equipment refresh injected. No renderer/scene loader/browser/IDB/native SDL. No relevant reached dialogue."
+  },
+  "canonicalGraph": {
+    "status": "preliminary static probe only; no full unreachability credit",
+    "rootRefs": 316,
+    "uniqueRoots": 289,
+    "nodes": 2151,
+    "setPartyInImmediateClosure": [],
+    "equipmentRoots": 106,
+    "equipmentNodes": 449,
+    "correction": "V1 overapprox traversed0x24/25 future NPC pointer stores as immediate calls. Current prototype separates these15stores. Actual mode.ts battle branch does not tick NPC autoscripts;teleport0x38 is battleState-gated.",
+    "limits": "Dynamic handlers,scene transitions,future pointer lifecycles and arbitrary imported roots are not certified by this graph. Prototype not promoted to supported quality tool;archive retains source and both results,no official test claim."
+  },
+  "classification": {
+    "proven": "After accepted modified V1 input changes live party to[0],old BattleState remains[0,4];real garlic writes Extra role4=30 after rebuild;real flee releases battle but retains30,and current getter/export consume it.",
+    "notProven": "Normal canonical story can execute this chain;complete SDL runtime parity;full battle/UI;arbitrary script dialogue equality.",
+    "proposal": "If approved,clear temporary Extra for all six roles on finalization;keep existing party poison mapping and all six wearable equipment parts and >999 equipment statuses. First add formal business red,then finite fix and adjacent regression.",
+    "separateRisk": "Live-party vs BattleState roster divergence affects more than cleanup. Do not claim an all-role Extra loop resolves broader3s ownership/caller behavior."
+  },
+  "readBoundaries": {
+    "fullCurrent": [
+      "packages/game/src/core/battle/battle-finalization.ts",
+      "packages/game/src/core/battle/battle-runtime-context.ts",
+      "packages/game/src/core/battle/actions/item.ts",
+      "packages/game/src/core/battle/actions/flee.ts",
+      "packages/game/src/core/equip-effect.ts",
+      "packages/game/src/core/mode.ts",
+      "packages/game/src/core/script-catalog.ts",
+      "packages/game/src/core/save/api.ts",
+      "packages/game/src/core/save/data.ts",
+      "packages/game/src/core/save/v1.ts",
+      "packages/game/src/tools/save-io.ts"
+    ],
+    "targeted": [
+      "event-system.ts:3782-3810/3880-3935/4225-4250/4420-4445",
+      "battle-system.ts:235-410/415-530/540-552/2081-2105",
+      "bootstrap.ts:1150-1205/1630-1680",
+      "SDL battle.c:1816-1836;script.c teleport/setParty;global.c CurePoisonByLevel",
+      "game-mechanics.md:1500-1585;engineering-notes relevant equipment/party entries"
+    ],
+    "credit": "Full reads listed only where current source was actually fully read. Existing wider eight-dimensional findings reused under fixed source identity;not whole interpreter/bootstrap acceptance."
+  },
+  "dimensions": {
+    "A": "Actual accepted-import lifecycle counter disproves generic cleanup equality. Canonical gameplay reachability remainsunknown. Product fix stopped pending new policy;old approved item-context fix retained.",
+    "B": "Existing finalization comment already limits party-vs-all-role equality. Risk task stale statement no valid caller counter updated,without rewriting old raw. Historical mechanics claim1:1 requires current limitation.",
+    "C": "GameState live party and BattleState roster have distinct mutation owners;0x75 only updates former and rebuilds equipment before later old-roster action. Separate broad ownership risk recorded.",
+    "D": "Poison cure and Extra removal have different role-domain semantics;do not merge into universal cleanup helper or reuse party-only invariant forboth.",
+    "E": "Private core probe uses actual import/start/item/flee/cleanup and original data;no seeded Extra/manual phase/mock cleanup. Not an official Vitest red;existing accepted tests unchanged.",
+    "F": "Direct event/party/fighter snapshots make sequence observable;no product naming/control-flow rewrite proposed as cosmetic treatment.",
+    "G": "No dead branch/export/code restored or deleted. Preliminary graph stays evidence prototype;no generic production abstraction introduced.",
+    "H": "Actual public core seams support deterministic seed7 and isolated in-memory slot;global command/poison/refresh state cleared in finally. No test-only product API added."
+  },
+  "ledger": {
+    "tracked": 3355,
+    "closed": 373,
+    "review": 113,
+    "pending": 2869,
+    "newClosed": 0
+  },
+  "cards": {
+    "accept": 61,
+    "partial": 22,
+    "pending": 0
+  },
+  "validation": "No product/test/schema/save format change. No new whole-check/coverage/protected collection. Latest exact product9032b775d remote Coverage39726067211 completed success;platform diagnostics not counted from API metadata.",
+  "replay": "Historical counter is bound to9032b775d before the approved fix. Producer replay requires that frozen source mirror with original read-only input data;do not run its old residual30 assertions against repaired current source. Default verifier checks frozen counter identity/raw plus separately pinned current fix/native red-green,without replay.",
+  "invalidation": "Source tree/lock/runtime dependency drift requires delta review of affected claims;hash matching proves identity,not correctness. No stale evidence means automatic acceptance.",
+  "staticGateReceipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability-gates.json",
+  "currentResolution": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
+}

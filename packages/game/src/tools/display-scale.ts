@@ -1,9 +1,9 @@
-// canvas 显示缩放(纯 CSS,不碰 320×200 framebuffer)。百分比 10%-1000%,100%=960×600(index.html 现状)。
+// 显示缩放只改 CSS,不碰 320×200 framebuffer。百分比 10%-1000%,桌面100%=960×600。
 //   localStorage 持久。UI 滑块走对数刻度(正中=100%),见 tools-panel renderSystemTab。
 const KEY = 'tp-display-scale'
 const BASE_W = 320
 const BASE_H = 200
-const HUNDRED_SCALE = 3 // 100% = 3× framebuffer = 960×600(index.html 写死的现状)
+const HUNDRED_SCALE = 3 // 独立canvas默认3倍；提供layout时由外壳应用百分比并适配窗口。
 export const MIN_PERCENT = 10
 export const MAX_PERCENT = 1000
 
@@ -24,7 +24,7 @@ export function createDisplayScaleController(
 ): DisplayScaleController {
   const ls = typeof localStorage !== 'undefined' ? localStorage : undefined
   const stored = Number(ls?.getItem(KEY))
-  let percent = clampPct(Number.isFinite(stored) && stored > 0 ? stored : 100) // 默认 100%(=960×600 现状)
+  let percent = clampPct(Number.isFinite(stored) && stored > 0 ? stored : 100) // 默认100%；尺寸由layout或canvas分支应用。
 
   const apply = (): void => {
     if (layout) {

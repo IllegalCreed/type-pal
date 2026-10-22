@@ -1,0 +1,54 @@
+name: "Feedback / 反馈"
+description: "Gameplay, translation, the UI, or an idea. A short note is enough. / 手感、翻译、界面或想法。写短一点也很好。"
+title: "Feedback: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        How does the game feel? Did a translation sound wrong? Do you have an idea?
+        A short note is enough. You can write in English or Chinese.
+        手感、翻译，或一个想法，都可以。写短一点也很好。中英文都可以。
+
+        If you mean the editor or the new engine, please say so in your note.
+        如果是编辑器或新引擎，请在正文里说一下。
+  - type: dropdown
+    id: kind
+    attributes:
+      label: "What kind of note is this? / 这是哪一类"
+      description: "Optional. Pick the closest one."
+      options:
+        - "Gameplay / 玩法手感"
+        - "Translation / 翻译"
+        - "UI / 界面"
+        - "Idea / 想法"
+        - "Other / 其他"
+    validations:
+      required: false
+  - type: textarea
+    id: message
+    attributes:
+      label: "Your note / 想说的话"
+      description: "This is the main box. Write as much or as little as you like."
+      placeholder: "The English name of this item feels wrong."
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: "Where did you see this? / 在哪里看到的（可选）"
+      description: "Helpful for a translation or a UI note. You can skip it."
+      options:
+        - "Web demo (pal.illegalscreed.cn) / 在线试玩"
+        - "Local build / 自己在本地跑"
+        - "Not sure / 不确定"
+    validations:
+      required: false
+  - type: upload
+    id: screenshots
+    attributes:
+      label: "Screenshot / 截图（可选）"
+      description: "Useful for a bad translation or a UI problem."
+    validations:
+      required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp"

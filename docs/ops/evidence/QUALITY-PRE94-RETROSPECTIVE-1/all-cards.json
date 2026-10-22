@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 57,
+  "currentAccepted": 62,
   "cards": [
     {
       "id": "1",
@@ -292,8 +292,8 @@
       "sha256": "025ac707772c82bb1b942559afa8f81101ba6b22cf2232d60d1995e673ed95bb",
       "lines": 66,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -332,9 +332,13 @@
           "text": "- Codex 范围/前提核验: verified（逐文件与 branch identity 已定位动画缺帧 fallback；生产保持不变）。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md",
-      "findings": "current fallback/finish counters effective; live timer cleanup old green/new single AssertionError; same 1 identity; product unchanged; adjacent 36 pass with 6 act diagnostics; unified gates pending; no closure"
+      "findings": "Original dedicated animation regression accepted:one same-byte identity,three frozen effective business controls,17same caller/dependency sources;current check/official each prove1pass0diagnostics. Workbench whole-file withdrawal restoredreview;no runner-wide or94–102credit.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-22",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json",
+      "currentReviewSha256": "d1ff3c6cc9b41a985cf71ffadeea3f0f116201d1ab38a5996baa9adaa68f298d"
     },
     {
       "id": "3d",
@@ -1272,8 +1276,8 @@
       "sha256": "d33511e3f402de11b32b3467f313a9e26a4fc2cf128195bc5be84aa291243432",
       "lines": 120,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 20,
@@ -1333,7 +1337,9 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "findings": "Original4actions+2dedicated tests A-H accepted; direct owner/type dependency/unused Flee context removed with body/caller invariance. Typed7case factory and party-slot business counter strengthened;154 exact applicability and20432/full official gates0diagnostics. Large host/actions/H helper not whole-file acceptance.",
+      "reviewDate": "2026-10-22"
     },
     {
       "id": "3w",
@@ -1343,8 +1349,8 @@
       "sha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
       "lines": 71,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -1371,8 +1377,8 @@
           "text": "无下一位 Agent 提示词，Q3w 已由 Codex 独立验收并归档；继续从账本 pending 范围开下一张不重叠卡。"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json"
     },
     {
       "id": "3x",
@@ -1382,8 +1388,8 @@
       "sha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
       "lines": 213,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -1443,7 +1449,12 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3x-battle-progression/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-22",
+      "currentReviewSha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json",
+      "findings": "Original progression scope accepted: current5-file A-H,old primary/native/mutation evidence reused; actual DATA WORD exp/magic -> real won lv7/rem35/magic349; user KEEP stat growth and approved imported residual invariant explicit. Private zero-spell redundant check andH02 redundant self-compare removed without losing contracts;11/5 identities retained. Fullcheck20434/currentgame3724/official20040+strict/protected0diagnostics. No3w/battle-system whole-file acceptance."
     },
     {
       "id": "3y",
@@ -2419,11 +2430,12 @@
       ],
       "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Original CODE59/60 contract accepted:full per-file A-H,approved structure/history/role-bound fixes with formal reds,52adjacent;20386check and19988official ratchet/protected0diagnostics. Five native FileReader/IDB cases and precise MSIO transfer/canonical quick-save9counter. No broadSave/IDB/panel or94-102 acceptance.",
+      "findings": "Restored after newly approved WORD integer residual guard: formal28green/1business-red ->66adjacent green. Original shape/finite/historical wire/native browser evidence reused within scope. Wholecheck20434 then only item3game files changed,current game TC/3724 refresh; official20040/758+strict/protected0diagnostics. No DB migration,old corrupted-slot repair,awards or grown-stat cap.",
       "currentReviewer": "Codex",
-      "currentReviewDate": "2026-10-21",
+      "currentReviewDate": "2026-10-22",
       "currentReviewSha256": "50c580ed9388986023fadb0cfb24fb68817834fbc5ecb04fcec2524d3ffb052b",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json"
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md"
     },
     {
       "id": "60",
@@ -3115,12 +3127,14 @@
         }
       ],
       "scopeConfirmed": true,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
-      "findings": "原三文件接受；更正500ms跳过、play拒绝等待重试和warmup不保证永久autoplay等错注。只删测试helper从未调用的rejected模式/分支，三处实际调用、全部用例/断言保持，完整AST证明且4文件26绿。项目现行默认三跳过键合同明确，不冒称完整SDL物理键表。",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "findings": "User-approved repeated retry repaired after formal two named red cases; stable once listener re-arms on failure,removes on success/end,prevents pending duplicates. Actual61adjacent and20432/full official gates zero diagnostics; original3files+mobile delta accepted. No device/codec/full-story claim.",
       "currentReviewer": "Codex",
-      "currentReviewDate": "2026-10-21",
+      "currentReviewDate": "2026-10-22",
       "currentReviewSha256": "ada82016163f8115aa6ee2f6b758c283577af3cabf13a9f65a6e7345f5bdecd9",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json"
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "reviewDate": "2026-10-22"
     },
     {
       "id": "79",
@@ -4059,8 +4073,8 @@
       "sha256": "c7a2171ebfae4a9d9bc63527638e6104cfde3f94a3c8d9ce40bf7bf0c515be48",
       "lines": 67,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -4115,9 +4129,13 @@
           "text": "- 30/30 当前源码与各自关闭提交字节一致；恢复 CODE83–89/CODE91 的30条账本记录为 `已验证`。CODE90 两文件、latest event-system 与其它 pending/review 不在本卡范围。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md",
-      "findings": "historical raw hashes/exits and same-commit full check supported; current source snapshot 20 identical/10 changed; all 30 ledger records stay review; new unified gates pending"
+      "findings": "Original engineering correction accepted:exact historical/current command provenance,protected31proof and30freshGitcomparisons(8same/22changed). No product row restored or30file semantic acceptance by this card;existing source decisions remainindependent.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-22",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/closeout.json",
+      "currentReviewSha256": "446fec5a3a90761088b4d8dcc77eeea3ea5a3aeaaf35ec3cf3ee8a873aec4fcd"
     },
     {
       "id": "93",
@@ -4234,26 +4252,133 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 26,
-    "accept": 57,
+    "partial": 21,
+    "accept": 62,
     "pending": 0
   },
   "lastIncrementalReview": {
     "date": "2026-10-22",
-    "scope": "CODE3u original contracts,3w/3x finite test/structure and3b comment delta",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
-    "acceptedFileScopes": 10,
-    "newlyAcceptedCards": 1,
+    "scope": "CODE3w original settlement/finalization contract after approved Extra/HPMP/defaultrole/order repairs",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json",
+    "newlyAcceptedCards": ["3w"],
+    "acceptedFiles": [
+      "packages/game/src/core/battle/battle-finalization.ts",
+      "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+      "packages/game/src/core/battle/battle-settlement.ts",
+      "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts"
+    ],
     "currentReviewCounts": {
-      "partial": 26,
-      "accept": 57,
+      "partial": 21,
+      "accept": 62,
       "pending": 0
     },
     "ledger": {
-      "total": 3355,
-      "closed": 371,
-      "review": 114,
-      "pending": 2870
+      "tracked": 3356,
+      "closed": 377,
+      "review": 110,
+      "pending": 2869
+    },
+    "headerCountErratum": "Before update actual83 card rows were61accept22partial;old currentReviewCounts still59/24. Only3w newly accepted,not3cards."
+  },
+  "incrementalReviewHistory": [
+    {
+      "date": "2026-10-22",
+      "scope": "CODE3u original contracts,3w/3x finite test/structure and3b comment delta",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+      "acceptedFileScopes": 10,
+      "newlyAcceptedCards": 1,
+      "currentReviewCounts": {
+        "partial": 26,
+        "accept": 57,
+        "pending": 0
+      },
+      "ledger": {
+        "total": 3355,
+        "closed": 371,
+        "review": 114,
+        "pending": 2870
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "CODE78 one implementation acceptance reopened by current native retry counter;other card values unchanged",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json",
+      "acceptedFileScopes": 0,
+      "newlyAcceptedCards": 0,
+      "reopenedCards": 1,
+      "currentReviewCounts": {
+        "partial": 27,
+        "accept": 56,
+        "pending": 0
+      },
+      "ledger": {
+        "total": 3355,
+        "closed": 370,
+        "review": 115,
+        "pending": 2870
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "Original3v+78 and seven mobile-modified prior accepted implementations;context/new paths not accepted",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "acceptedFileScopes": 16,
+      "newlyAcceptedCards": 2,
+      "currentReviewCounts": {
+        "partial": 25,
+        "accept": 58,
+        "pending": 0
+      },
+      "ledger": {
+        "total": 3355,
+        "closed": 372,
+        "review": 113,
+        "pending": 2870
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "New experience import-to-settlement liveness counter;only59/v1 acceptance reopened,other82card values unchanged",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/observation.json",
+      "newlyAcceptedCards": 0,
+      "reopenedCards": 1,
+      "currentReviewCounts": {
+        "partial": 26,
+        "accept": 57,
+        "pending": 0
+      },
+      "ledger": {
+        "total": 3355,
+        "closed": 371,
+        "review": 114,
+        "pending": 2870
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "CODE3w original settlement/finalization contract after approved Extra/HPMP/defaultrole/order repairs",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json",
+      "newlyAcceptedCards": ["3w"],
+      "acceptedFiles": [
+        "packages/game/src/core/battle/battle-finalization.ts",
+        "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+        "packages/game/src/core/battle/battle-settlement.ts",
+        "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts"
+      ],
+      "currentReviewCounts": {
+        "partial": 21,
+        "accept": 62,
+        "pending": 0
+      },
+      "ledger": {
+        "tracked": 3356,
+        "closed": 377,
+        "review": 110,
+        "pending": 2869
+      },
+      "headerCountErratum": "Before update actual83 card rows were61accept22partial;old currentReviewCounts still59/24. Only3w newly accepted,not3cards."
     }
-  }
+  ]
 }

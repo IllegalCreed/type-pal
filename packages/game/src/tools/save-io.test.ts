@@ -255,3 +255,45 @@ describe('fixed player-role index domain', () => {
     expect(decoded.battleState?.players[0]?.roleId).toBe(5)
   })
 })
+
+describe('saved experience remainder domain', () => {
+  it('rejects corrupt experience in every pool before replacing the real slot or its preview', async () => {
+    vi.stubGlobal('indexedDB', undefined)
+    await Save.saveSlot(5, saveState(4, 55))
+    const originalMeta = await Save.listSlots()
+    const damaged: Array<{ pool: keyof GameState['Exp']; role: number; value: number }> = [
+      { pool: 'rgPrimaryExp', role: 0, value: Number.MAX_VALUE },
+      { pool: 'rgHealthExp', role: 1, value: -1 },
+      { pool: 'rgMagicExp', role: 2, value: 0.5 },
+      { pool: 'rgAttackExp', role: 3, value: 65536 },
+      { pool: 'rgMagicPowerExp', role: 4, value: Number.MAX_VALUE },
+      { pool: 'rgDefenseExp', role: 5, value: -1 },
+      { pool: 'rgDexterityExp', role: 0, value: 0.5 },
+      { pool: 'rgFleeExp', role: 5, value: 65536 },
+    ]
+    for (const { pool, role, value } of damaged) {
+      const gs = saveState(9, 900)
+      gs.Exp[pool][role]!.wExp = value
+      await expect
+        .soft(async () => {
+          await Save.saveSlot(5, parseImportedSave(serializeSave(gs)))
+        }, `${pool}[${role}].wExp=${value}`)
+        .rejects.toThrow(/Exp/)
+    }
+    expect(await Save.loadSlot(5)).toMatchObject({ wNumScene: 4, dwCash: 55 })
+    expect(await Save.listSlots()).toEqual(originalMeta)
+  })
+
+  it('preserves both WORD endpoints in all six roles and leaves grown attributes unchanged', () => {
+    const gs = saveState(9)
+    for (const row of Object.values(gs.Exp)) {
+      for (const [role, entry] of row.entries()) entry.wExp = role % 2 === 0 ? 0 : 65535
+    }
+    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 65536
+    const decoded = parseImportedSave(serializeSave(gs))
+    for (const row of Object.values(decoded.Exp)) {
+      expect(row.map((entry) => entry.wExp)).toEqual([0, 65535, 0, 65535, 0, 65535])
+    }
+    expect(decoded.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(65536)
+  })
+})

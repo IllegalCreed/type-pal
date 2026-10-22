@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact task acceptance and generated navigation delta; existing product evidence and unrelated review records retained.",
+      "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+      "coreConclusion": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "c0106dbbc063db577810bba26153b1ec978bd873509217e2b7cabcf7a9732621",
+      "afterSha256": "100280f64a1a31255cf96cc469d17204c01eb0dd5698be0ea1d207862f830fb5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "c0106dbbc063db577810bba26153b1ec978bd873509217e2b7cabcf7a9732621",
+        "implementationSha": "100280f64a1a31255cf96cc469d17204c01eb0dd5698be0ea1d207862f830fb5",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1667,12 +1667,12 @@
         ]
       },
       "evidence": {
-        "kind": "script-corrections-scoped-document-maintenance",
-        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
-        "afterSha256": "c0106dbbc063db577810bba26153b1ec978bd873509217e2b7cabcf7a9732621",
-        "lineCount": 92,
-        "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
-        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "kind": "script-corrections-main-sync-publication",
+        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+        "afterSha256": "100280f64a1a31255cf96cc469d17204c01eb0dd5698be0ea1d207862f830fb5",
+        "lineCount": 90,
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+        "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
         "workingTreeDelta": true
       },
       "history": [
@@ -2313,12 +2313,228 @@
             "frame-by-frame visual comparison",
             "editor preview initial-state verification"
           ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-local-candidate",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+          },
+          "previousCoreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousAfterSha256": "d500d29c195b7ec9d6a5c610239fc6159031304825280f7e0fb867ba68776a99",
+          "afterSha256": "ce83752641c356df23a3a9b0ca2c802424d75d48f309ef3061885b7b895aa509",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-accepted-policy-index",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "ce83752641c356df23a3a9b0ca2c802424d75d48f309ef3061885b7b895aa509",
+          "afterSha256": "769c464b62180146291c7cc02d52cea4f427f5fa48d07e7e5116eb1bf42d67c7",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-build",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "769c464b62180146291c7cc02d52cea4f427f5fa48d07e7e5116eb1bf42d67c7",
+          "afterSha256": "91207332ede46293ac1aaa82f3492facec26fe49e4b99b2244a6e752645aaed7",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "91207332ede46293ac1aaa82f3492facec26fe49e4b99b2244a6e752645aaed7",
+          "afterSha256": "9a2222b6279988fc936aefb35e6d62577fbe9db46263199f9ee22aebe7ba6b52",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-board-retirement",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "9a2222b6279988fc936aefb35e6d62577fbe9db46263199f9ee22aebe7ba6b52",
+          "afterSha256": "392c6d5c67ee05a641785015e8c2b795294b48fccd0fd0ff1b842fee70bcc6fd",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-progression-input-window-local-ready",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "392c6d5c67ee05a641785015e8c2b795294b48fccd0fd0ff1b842fee70bcc6fd",
+          "afterSha256": "02b2fde734bea023ff1fd0dd8d96accd4c564432e892cc75743a1626294572bc",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-progression-input-window-final-source",
+          "previousEvidence": {
+            "kind": "codex-owned-game-progression-input-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+          },
+          "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;57accept26partial while grouped gates pending. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "02b2fde734bea023ff1fd0dd8d96accd4c564432e892cc75743a1626294572bc",
+          "afterSha256": "04afc8f8765b82f1f8f967f849fd33d1a0f78312479f348619d9775fa7db5892",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3c-92-closeout-final",
+          "previousEvidence": {
+            "kind": "codex-owned-game-progression-input-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+          },
+          "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;59accept24partial;20434 wholecheck plus3724 affected-game refresh;one20040 official and strict/protected0diagnostics. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "04afc8f8765b82f1f8f967f849fd33d1a0f78312479f348619d9775fa7db5892",
+          "afterSha256": "03f8b93f10bba32cb004e9fe24fc20982e4e99c2652afed29c54bbc7e66c23e9",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3c-92-closeout-frozen",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3c-92-closeout-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+          },
+          "previousCoreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
+          "previousAfterSha256": "03f8b93f10bba32cb004e9fe24fc20982e4e99c2652afed29c54bbc7e66c23e9",
+          "afterSha256": "fb0680890c16654645b2697ee7bfb2abb839fe49e03bcae673d8965708a2f690",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-initial",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3c-92-closeout-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json"
+          },
+          "previousCoreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
+          "previousAfterSha256": "fb0680890c16654645b2697ee7bfb2abb839fe49e03bcae673d8965708a2f690",
+          "afterSha256": "a53f8fe95caadab9935ac30e5ab3d0e7159651ed860f21872c8f12560c8a7ad7",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-approved-fix",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-accepted-input-counter",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json"
+          },
+          "previousCoreConclusion": "Accepted modifiedV1 import -> original setParty -> old fighter target garlic -> actual flee -> getter/export residual30 proven by two isolated core runs,not canonical story/UI/nativeSDL. New all-role temporary Extra cleanup policy pending;product unchanged.61accept22partial and373closed113review2869pending unchanged. Current document statics separate;no new coverage collection.",
+          "previousAfterSha256": "a53f8fe95caadab9935ac30e5ab3d0e7159651ed860f21872c8f12560c8a7ad7",
+          "afterSha256": "9a72e70a9435f36136df1e64be306cdefc8590bc83ad880d1b04365d190d1132",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-approved-hpmp-local",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
+          },
+          "previousCoreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
+          "previousAfterSha256": "9a72e70a9435f36136df1e64be306cdefc8590bc83ad880d1b04365d190d1132",
+          "afterSha256": "ee22531b417e916e154164e719ac54cd594b88a1937727a58c773f1e04c2bda1",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-followup",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+          },
+          "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+          "previousAfterSha256": "ee22531b417e916e154164e719ac54cd594b88a1937727a58c773f1e04c2bda1",
+          "afterSha256": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-order-local",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
+          "afterSha256": "3691c7b39df427e8678713f9e20e6655c0cff907b7fa915fa218df1363545730",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "3691c7b39df427e8678713f9e20e6655c0cff907b7fa915fa218df1363545730",
+          "afterSha256": "c80ea96e7b42b42e57552edcb0f0e64305663a87e00763fa874771fb89601662",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-module-final",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "c80ea96e7b42b42e57552edcb0f0e64305663a87e00763fa874771fb89601662",
+          "afterSha256": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "c0106dbbc063db577810bba26153b1ec978bd873509217e2b7cabcf7a9732621",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only added GAME-SCRIPT-CORRECTIONS-1 row and board review-date delta.",
+      "reviewedLines": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2343,7 +2559,7 @@
       "maintenanceReview": {
         "date": "2026-10-22",
         "reviewer": "Codex",
-        "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
         "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true,
@@ -2365,6 +2581,11 @@
             "frame-by-frame visual comparison",
             "editor preview initial-state verification"
           ]
+        },
+        "mainSync": {
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "preservedBothParentHistories": true
         }
       }
     },
@@ -2631,9 +2852,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact task acceptance and generated navigation delta; existing product evidence and unrelated review records retained.",
+      "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+      "coreConclusion": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2645,7 +2866,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "c0afda99260a1aafbdb477d89e9534a3757611ab19f7657bd9a52bdf21f40f83",
+      "afterSha256": "8d0a2077a57e1b340f9309173f920ac4903ef47da67720c0e6fba30e478f398f",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2666,7 +2887,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "c0afda99260a1aafbdb477d89e9534a3757611ab19f7657bd9a52bdf21f40f83",
+        "implementationSha": "8d0a2077a57e1b340f9309173f920ac4903ef47da67720c0e6fba30e478f398f",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3023,12 +3244,12 @@
         ]
       },
       "evidence": {
-        "kind": "script-corrections-scoped-document-maintenance",
-        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
-        "afterSha256": "c0afda99260a1aafbdb477d89e9534a3757611ab19f7657bd9a52bdf21f40f83",
-        "lineCount": 518,
-        "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
-        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "kind": "script-corrections-main-sync-publication",
+        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+        "afterSha256": "8d0a2077a57e1b340f9309173f920ac4903ef47da67720c0e6fba30e478f398f",
+        "lineCount": 523,
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+        "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
         "workingTreeDelta": true
       },
       "history": [
@@ -3532,12 +3753,163 @@
             "frame-by-frame visual comparison",
             "editor preview initial-state verification"
           ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-local-candidate",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+          },
+          "previousCoreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousAfterSha256": "008171eb27b083c0e9159a9001e1f8cc6ad3dfd23eed3e49fdc544275b29cb44",
+          "afterSha256": "e19d0606d22228674dede18b3fba31d2a2f75a75aa00bc29c29f43cdca1282eb",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-accepted-policy-index",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "e19d0606d22228674dede18b3fba31d2a2f75a75aa00bc29c29f43cdca1282eb",
+          "afterSha256": "7ccd3afc3a1cd557890dc0b6d9c8a0074475f59d71b1d2202e14ade910c4230f",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-build",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "7ccd3afc3a1cd557890dc0b6d9c8a0074475f59d71b1d2202e14ade910c4230f",
+          "afterSha256": "193c08ebb25a437b925434815cbfa318f2eff5a3e32da09653bae3e0344bdc8d",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-actions-mobile-window-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "193c08ebb25a437b925434815cbfa318f2eff5a3e32da09653bae3e0344bdc8d",
+          "afterSha256": "f8498bdc034dd3d2c5e50c9a2ba938cf00fbca72fcf3b9d8c30e6da100250251",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-progression-input-window-local-ready",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "f8498bdc034dd3d2c5e50c9a2ba938cf00fbca72fcf3b9d8c30e6da100250251",
+          "afterSha256": "02365771e94b3652ef1da0f4be9e75f29c7d9e6604627f0754347600ee0f6257",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-progression-input-window-final-source",
+          "previousEvidence": {
+            "kind": "codex-owned-game-progression-input-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+          },
+          "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;57accept26partial while grouped gates pending. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "02365771e94b3652ef1da0f4be9e75f29c7d9e6604627f0754347600ee0f6257",
+          "afterSha256": "a3e3ea2efa2308da6f95eb769dc2aa5a3fea872a43428a33bcb191b7b529e90c",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-approved-fix",
+          "previousEvidence": {
+            "kind": "codex-owned-game-progression-input-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+          },
+          "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;59accept24partial;20434 wholecheck plus3724 affected-game refresh;one20040 official and strict/protected0diagnostics. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "a3e3ea2efa2308da6f95eb769dc2aa5a3fea872a43428a33bcb191b7b529e90c",
+          "afterSha256": "ac71ac67c235995f3fcba12a3311e88dad35cb98b0fe36cc05631e4382d1055a",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-approved-hpmp-local",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json"
+          },
+          "previousCoreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
+          "previousAfterSha256": "ac71ac67c235995f3fcba12a3311e88dad35cb98b0fe36cc05631e4382d1055a",
+          "afterSha256": "9a5de866cfc986f85aa8a19220cd90605f18bf284d561ed94c57dd60b231d547",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-followup",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+          },
+          "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+          "previousAfterSha256": "9a5de866cfc986f85aa8a19220cd90605f18bf284d561ed94c57dd60b231d547",
+          "afterSha256": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-order-local",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
+          "afterSha256": "05fe1d326209eef1ace2515386f97a6053106f4f56b1a8969ebfddb42409f7ac",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "05fe1d326209eef1ace2515386f97a6053106f4f56b1a8969ebfddb42409f7ac",
+          "afterSha256": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "c0afda99260a1aafbdb477d89e9534a3757611ab19f7657bd9a52bdf21f40f83",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only added GAME-SCRIPT-CORRECTIONS-1 row and board review-date delta.",
+      "reviewedLines": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -3560,7 +3932,7 @@
       "maintenanceReview": {
         "date": "2026-10-22",
         "reviewer": "Codex",
-        "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
         "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true,
@@ -3576,6 +3948,11 @@
             "frame-by-frame visual comparison",
             "editor preview initial-state verification"
           ]
+        },
+        "mainSync": {
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "preservedBothParentHistories": true
         }
       }
     },

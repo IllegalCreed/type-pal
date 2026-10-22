@@ -76,7 +76,7 @@ Branch: codex/script-corrections（集成）；三个隔离 worktree 交付候�
 | 原盘 / primary source | 当前原盘脚本 43503 条，英文包 43538 条；两份 SSS 的场景表、对象表相同，事件对象仅 2 个发生变化 | [完整清单](../evidence/GAME-SCRIPT-CORRECTIONS-1/binary-inventory.json)（输入 SHA、8 字节指令、全部 diff region） |
 | 历史修正 | 2005 作者帖和 2010 发布说明记录了多项同类缺陷；不等于证明英文作者直接采用同一版本 | 下文 S01–S06；本地原盘差异独立保留 |
 | 第一阶段 | 宝箱、玉佛珠门禁、太守赏金已有修复；酒神成功脚本的返回入口在法术 caller 被丢弃 | script-catalog.ts:17；event-system.ts:4323；game-state.ts:1949；battle/actions/magic.ts:217；[生产函数探测](../evidence/GAME-SCRIPT-CORRECTIONS-1/runtime-probes.json) |
-| 当前二阶段 | 酒神已有独立的终生 9 次计数及存档路径；不能据此认定第一阶段已修 | reforge/src/battle/battle-core.ts:1222；[既有回归](../evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt) |
+| 当前二阶段 | 酒神已有独立的终生 9 次计数及存档路径；不能据此认定第一阶段已修 | reforge/src/battle/battle-core.ts:1222；[既有回归](../evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt.gz) |
 | 本任务目标 | 忠实解码与纠错分层；同一玩法纠错同时供中英文使用；不靠手改导出 JSON | 用户已接受的自动纠错方向；pal-extract/src/cli.ts:185–241 |
 
 ### 反证与替代解释
@@ -277,6 +277,14 @@ Branch: codex/script-corrections（集成）；三个隔离 worktree 交付候�
 - 用户已授权两阶段核对修复、相关测试及待核调查；不是英文版整包接入或发布授权。
 - 当前交付代码和可复验回归，现场/视觉结论待按受影响剧情验证；不会将一阶段绿代签二阶段，或将headless结果当作用户画面验收。
 - 用户随后决定本次不追加耗时现场核验，按既有自动测试与质量门验收；原始集成回执不改写，免测不增加剧情、视觉或预览实测信用。
+
+## 提交与主线同步（2026-10-22）
+
+- 用户授权提交、推送、CI通过后合并并清理退休分支；本次仅为双阶段缺陷修复，未接入英文文本、UI、字体或语言切换，`data/en/` 保持本地未跟踪。
+- 首批实现提交 `b110b6824`，随后同步主线 `40cc96ffd`。战斗物品同时保留主线的目标角色映射和本卡的返回入口保存；敌方等价物品使用共享的数值返回合同，保留主线新的抗性模块归属。相关128例回归通过；自动合并带回旧void签名造成的类型失败已定向修正并通过类型检查。
+- 主线新增测试后重新实测官方fast基线，提交及CI的后续证据见[主线同步回执](../evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json)；此前20,081例/84ac104基线只保留原范围，不冒充同步后结果。
+- 同步后fast全部20,094例、760个生产文件通过。官方命令在最后一步因未带退休确认参数退出1；保留原始输出，使用本次原生summary、未改的官方基线投影/比较模型及既有326→324的精确身份/文件哈希退休校验完成终态续验，不重复未改测试、不倒写原命令为0。远端CI仍须完整执行受保护基线检查；终态续验工具和所有输入/输出SHA在同步回执中公开。
+- 带尾空白的原生终端输出采用gzip无损保存，解压字节和原SHA保持一致；映射及原始收据Git位置见[原生日志出版记录](../evidence/GAME-SCRIPT-CORRECTIONS-1/native-log-publication.json)。未清洗原始失败、弱化检查或修改原始资源。
 
 ## 交接日志
 

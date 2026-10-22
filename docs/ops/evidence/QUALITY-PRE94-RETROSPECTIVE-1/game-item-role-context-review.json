@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex single agent",
+  "base": "e0b1e0439029f4cee51479f370c8272c779a7cdf",
+  "candidate": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+  "status": "accepted selected-role and8D projection contract; whole item/event remainreview; final document statics before integration",
+  "approval": {
+    "text": "批准修复目标角色传递（推荐）",
+    "source": "Direct user reply",
+    "necessaryBoundary": "Correct target plus8D existing projection refresh required by same item effect contract; no new product policy or algorithm."
+  },
+  "sources": [
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "f5605552cda050669999ea7b1f2d65eeb83b7c0c33ad5d11b2428334f695825a",
+      "gitBlob": "f82efb0df6babaab7294f5606d2d45732c41f8ba"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "486e1f091af12dd32d606b1d6a1ae43bf65b5348211187b3c6d0a61e5cba6e5a",
+      "gitBlob": "6cad6d918955de2afcdbfc684676e21c9a9dc76c"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+      "sha256": "2f2c8fa75c958784cccb34b478f8150b28bbc2b8c2ea09b2b7f708ed69aa1974",
+      "gitBlob": "9ce8b6ee73e9741b1b9cef15da3c85bf917d28a1"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+      "gitBlob": "3f4a4aa90f9996254b6053e651ad2497f3f66f17"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "gitBlob": "c8535f9fd0f6f22bbf0b77564fda9f102dc9b5d4"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874",
+      "gitBlob": "c5480b798d497cecde7253a29b4873de460debe5"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "gitBlob": "ca1a532b38eea82e50894eef9c46caed7f60c6f7"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "gitBlob": "0aae4f80f27dd72fd92aeba16bfd5c78f25fb5a5"
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+      "gitBlob": "2f05400abd758b4d97cce8166e279289df5c4471"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "gitBlob": "50f0ac7cca8dbe2e37cf5e206e65cda840c9a9f8"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "gitBlob": "84229b6a699b10d8aa23121b48fc503497451a5d"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "gitBlob": "ab1330aba5a25f510f94436a39a6736e507a4d95"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "scope": "full source read; remains review,not whole-file accepted",
+      "A": "实际actor/target由state.players解析；单体role0合法，all传0xFFFF，enemy target不被伪装成player role。输入/库存失败沿原合同，脚本异常仍向上抛。C返回script pointer未写回的广域影响未核，整文件保持review。",
+      "B": "删M3未来补handler/历史API说明，头注只写当前解释器效果owner、目标role与脚本后consuming合同。",
+      "C": "模块只核库存、传目标/运行态与消费；解释器拥有数值/投影，未把刷新算法放进item。GS/commands/bus/roles均是实际runner所需转递依赖，event-system只type import。",
+      "D": "UseItem与ThrowItem的目标、消费策略不同，不抽万能helper；只加三行显式role映射，不为一个caller造抽象。原RunScriptFn公开alias返回unknown与精确生产runner返回number的收窄另属接口候选，不借本修复改签名。",
+      "E": "两个不同目标role4/0且caster不同；实际Extra/getter及消费是oracle。all用真实圣灵符恢复和参数哨兵，金蚕王核等级/属性投影/liveHPMP。源差异与旧四例完整映射可复验。",
+      "F": "目标映射为顺序if，避免嵌套三元；步骤遵循库存→脚本→消费。命名eventObjectId与实际解释器字段一致，注释区分队伍槽和role。",
+      "G": "移除无当前作用的历史头注；不添export/参数/模式布尔值。脚本返回指针/公开runner返回类型影响未知，不能因本窄修关闭文件。",
+      "H": "runner本来就是生产注入边界，新例转发真实同步解释器；无新增测试专用出口、IO、随机或时间。"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "scope": "only owned import + runScript battle raw refresh predicate; whole file remains review",
+      "A": "0x8D先由player owner改runtime；新谓词用原resync刷新level/max/effective派生字段，保留battle liveHPMP。C global.c2347-2409无当前HPMP回满，未改等级算法/RNG/999上限。",
+      "B": "刷新说明加入真实8D等级变化，其余历史注释原字节不动。",
+      "C": "刷新留在解释器既有base变更桥，与19/1A同一owner；item不跨层写属性，所有其它函数源码严格守恒。",
+      "D": "直接复用既有属性刷新，不新建复制mapper，不把主升级/隐藏增长/物品升级合成万能接口。",
+      "E": "context-only阶段GoldKing runtime2而投影1的指定AssertionError，补原谓词后目标level2/max值同步且HP100/MP10保持；289相邻及3724整包校验。",
+      "F": "在现有opcode并列条件添加命名常量，无新分支层或魔数。",
+      "G": "只新增实际使用的局部import和一个谓词项；原public reexport未改，未复活fallback或兼容路径。",
+      "H": "原显式battleCtx/GS/resources仍为观察边界；新增范围可经真实runScript直接验证，不开放私有游标。"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+      "scope": "full test file + retained earlier four-case evidence; only specified contracts refreshed",
+      "A": "原四例直接helper所需projected roles/party/poison表合法，沿原five-cards证据；新例用真实default/hydrate/project/startBattle工厂，直测phase-agnostic helper，不冒称执行完整phase/UI战斗。",
+      "B": "头部更新实际两个任务与原盘域；脚本仅填可达段，不声称完整原盘解释。",
+      "C": "旧毒表注入afterEach清理，新GS/resource为每例局部；all wrapper仅观察字段再原样转发真实解释器，没有核心mock。",
+      "D": "三原盘物品共享纯metadata/指令表；旧两毒物及两个旧fixture函数/四旧case原AST保持，未用一个模式布尔值合并生命周期。",
+      "E": "八身份唯一：四旧不变，四新增为两身份映射、一个all运输+真实恢复、一个等级/投影一致性。old4green/new4red→context-only7green/1业务red→最终8green。未skip/only/弱化旧断言；GoldKing用独立level2与510..517域，再核投影与权威base一致。",
+      "F": "标题指出对象、role0/4、300HP和currentHPMP；字面期望说明为何失败。",
+      "G": "无重复退役；四新增覆盖不同caller/owner接口，不复制实现算法；没有为覆盖率堆helper私有状态测试。",
+      "H": "无fake timers/随机mock/用户DB或DOM；GoldKing不要求随机精确值，仅核独立合法范围与owner同步，结果不依赖调度。"
+    }
+  ],
+  "quantitative": {
+    "tool": "TypeScript6 AST, base1 plusif/conditional/loops/catch/nondefaultcase/logical&&||??,excluding nested functions",
+    "function": "performItem",
+    "complexity": 13,
+    "decision": ">10 marks inventory/target/consumption error-policy hotspot; bounded linear orchestration retained,not split merely to lower a metric"
+  },
+  "primary": "Independent rawSSS object62/84/150 words and two-instruction scripts; SDL fight4378-4400/script752-767,2591-2597/global2347-2409; see item-context-proof native. No nativeSDL execution claimed.",
+  "outcomes": {
+    "red": [
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+        "fullName": "物品通用脚本的目标角色上下文 大蒜给选中的role4加毒抗，不写施用者或队伍槽号",
+        "messages": [
+          "AssertionError: expected +0 to be 30 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts:182:58\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+        ]
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+        "fullName": "物品通用脚本的目标角色上下文 大蒜给选中的role+0加毒抗，不写施用者或队伍槽号",
+        "messages": [
+          "AssertionError: expected +0 to be 30 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts:182:58\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+        ]
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+        "fullName": "物品通用脚本的目标角色上下文 全体圣灵符传0xFFFF，真实解释器给两名队员恢复300HP并消费一次",
+        "messages": [
+          "AssertionError: expected undefined to be 65535 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts:209:24\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+        "fullName": "物品通用脚本的目标角色上下文 金蚕王提升选中队员的等级并刷新战斗属性，保持战斗当前HP/MP",
+        "messages": [
+          "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts:230:33\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      }
+    ],
+    "contextOnly": [
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+        "fullName": "物品通用脚本的目标角色上下文 金蚕王提升选中队员的等级并刷新战斗属性，保持战斗当前HP/MP",
+        "messages": [
+          "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/actions/item-poison-boundary.test.ts:234:44\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      }
+    ],
+    "green": {
+      "files": 5,
+      "passed": 289,
+      "stderrBytes": 0,
+      "originalFileCases": 8
+    },
+    "gameCheck": {
+      "id": "final-game-check-r2",
+      "passed": 3724,
+      "files": 333,
+      "tcDiagnostics": 0,
+      "stderrBytes": 0
+    },
+    "failuresDisclosed": [
+      "First item-context-green adjacent run had4 ReferenceErrors because I forgot the local8D constant import;285 passed. This is implementation error,not a new product business red.",
+      "First final-game-check exited2 atTS2552 before tests,with diagnostics onstdout and0stderr. Import repaired; full current gamecheck rerun passed.",
+      "all sentinel initial failure is a real parameter-transport assertion with independent HP/consumption checks,not an additional newly found product bug."
+    ],
+    "dedupe": "Original4 cases/helper bodies/flags andold item+command literals structurally identical. New test emitted body identical between initial red/intermediate and current,header-only update."
+  },
+  "runIds": [
+    "item-context-red",
+    "item-context-only",
+    "item-context-green",
+    "item-context-green-r2",
+    "item-context-biome",
+    "item-context-proof",
+    "final-game-check",
+    "final-game-check-r2"
+  ],
+  "sourceGateReuse": "Whole pnpm check actual20434/7packages bound to before-item source; after only3game files changed,current game TC/3724 whole suite refreshes affected package. Other6 packages by identical31/e0b source reused; no second fullcheck claimed. Final official collector currently running once.",
+  "limits": "Only code/caller/Core proof. No new browser/completefight/visual or raw extraction/asset write. Item public script-return/exception wider semantics and3w nonpartyExtra/PhaseE sequencing remain review. No94–102 expansion.",
+  "native": {
+    "path": "game-item-role-context-review-native.json.gz",
+    "sha256": "773ea6f2b85adc712a50e326d32205839d29d5e642edc130214f9c8ebb023665",
+    "members": {
+      "final-game-check-r2.diagnostics.json": {
+        "bytes": 11757,
+        "sha256": "c07b687b18261f272af73dd4099b1a4f26e8fb014b0cb20cb13ee2911011eb41"
+      },
+      "final-game-check-r2.execution.json": {
+        "bytes": 2789,
+        "sha256": "0c6f83e235434cf96c2e4bdc1738f79a2aa7d6876a317572d4312263e4e79b97"
+      },
+      "final-game-check-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-game-check-r2.stdout.raw": {
+        "bytes": 34439,
+        "sha256": "2649d69a677864d7d61c2e4935fcac751c04f06301be461a85b1d5d3fe5b8949"
+      },
+      "final-game-check.execution.json": {
+        "bytes": 2778,
+        "sha256": "cabc7a1da7dd98eb9fc2d9cb9a029e8a4f051928597a092179845cd24367feb9"
+      },
+      "final-game-check.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-game-check.stdout.raw": {
+        "bytes": 633,
+        "sha256": "443e8066f88d953899c85222c24d017417ca65d9681c83d628a611d7e4edd033"
+      },
+      "item-context-biome.execution.json": {
+        "bytes": 2945,
+        "sha256": "f0f2830285b1c87bf6b0fec1edc893f8c536b01bb4e76bedf99b17f188b34bf9"
+      },
+      "item-context-biome.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "item-context-biome.stdout.raw": {
+        "bytes": 43,
+        "sha256": "5e1955a47d7242aeb9191c26606f43ce55685b26c354221f27a9074730a755ba"
+      },
+      "item-context-green-r2.execution.json": {
+        "bytes": 3336,
+        "sha256": "ecf312df89ee1e5478e60201034af2842051c79d5350ae5d76214eab45ed5099"
+      },
+      "item-context-green-r2.native.json": {
+        "bytes": 105789,
+        "sha256": "8bc2db9a0d239059c609ee82840c167ce5b497d558d3b48988da295b6375639c"
+      },
+      "item-context-green-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "item-context-green-r2.stdout.raw": {
+        "bytes": 779,
+        "sha256": "b4feaa18d544b7274a388776bec9812cb4df101d7210abcf4b20d9b372f82b87"
+      },
+      "item-context-green.execution.json": {
+        "bytes": 3329,
+        "sha256": "f6e0ce0b10458b10e6302f05d3d1f931b881c4708d43404e35f7ee208f57c79c"
+      },
+      "item-context-green.native.json": {
+        "bytes": 111914,
+        "sha256": "6586c5db94fac14fe56d8657bcd52bce9c7652f8bca1a87b239619712f3ca351"
+      },
+      "item-context-green.stderr.raw": {
+        "bytes": 2904,
+        "sha256": "d1a8d3ca989b8cd6ae071321b2556aafb71146da4ba4bd2a34d2507312e45f2f"
+      },
+      "item-context-green.stdout.raw": {
+        "bytes": 17696,
+        "sha256": "6384c6bde3bc8de6749ad55546e07ca6fce4fbf7fc5912ac935e5ff78c2eb079"
+      },
+      "item-context-only.execution.json": {
+        "bytes": 2891,
+        "sha256": "57d14fad522e73fa97eae160ad3ee2506b343b2639062c14fc1811c3240799e0"
+      },
+      "item-context-only.native.json": {
+        "bytes": 5331,
+        "sha256": "a736251a1c07a730097e17ce992c86c6820f46c5f106328c60a8fbd940591007"
+      },
+      "item-context-only.stderr.raw": {
+        "bytes": 895,
+        "sha256": "f9df26b627c1301218cc11c3724cee0042d73017c59dcf1cc7a1fa20da900e76"
+      },
+      "item-context-only.stdout.raw": {
+        "bytes": 1260,
+        "sha256": "cc6a81340d266d67c97fe0b2f281fdeec49b87a865733d2054a8b7867090e2fe"
+      },
+      "item-context-proof.execution.json": {
+        "bytes": 2196,
+        "sha256": "fbb025218e257440a88bc0c296e0c2f0bce476cae4c5c74d4a9eb302d1f917f9"
+      },
+      "item-context-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "item-context-proof.stdout.raw": {
+        "bytes": 2326,
+        "sha256": "b5a8923ad5e26265c2fb0a2bb1222922f549ca6ea97ce9363503e497dc4bb93f"
+      },
+      "item-context-red.execution.json": {
+        "bytes": 2679,
+        "sha256": "c5c1a27313d069b3a151b610dc93ca809773892b56684f1b6d5c90e7df076564"
+      },
+      "item-context-red.native.json": {
+        "bytes": 9925,
+        "sha256": "e0a8d78a46061bafc06c0f7126f588a7f360452af38a790cf2a1287252a217f2"
+      },
+      "item-context-red.stderr.raw": {
+        "bytes": 3112,
+        "sha256": "c6c5ee07ce07e96f9f1c4623aad4626acbc38c25a851023af569955e62f61830"
+      },
+      "item-context-red.stdout.raw": {
+        "bytes": 1256,
+        "sha256": "a501acadaa5d9f627527ef648cd7ea5b276a823ac944dff49aa2d6d924728f01"
+      },
+      "capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "capture-module.mjs": {
+        "bytes": 7578,
+        "sha256": "f419f7b922c9ec5bf8890bee154ec90dedcd17894104fa0083876272306d661c"
+      },
+      "prove-item-context.mjs": {
+        "bytes": 4891,
+        "sha256": "e9ee70427441aca975979ea1ba9c8f686a1e6e8b07a2b7f6ae8d734124332504"
+      },
+      "record-role-review.mjs": {
+        "bytes": 11209,
+        "sha256": "38a56de332464847d26561f76b83df4d1cb9bbe69c12549665b8bf9d11ea21d1"
+      },
+      "item.context-only.ts": {
+        "bytes": 4493,
+        "sha256": "f5605552cda050669999ea7b1f2d65eeb83b7c0c33ad5d11b2428334f695825a"
+      },
+      "item-context-tested.ts": {
+        "bytes": 8421,
+        "sha256": "11ca24d81407786019c4193e8207abd1811857bddee20dd0286e2e9c192223b1"
+      },
+      "event-system.missing-import-tested.ts": {
+        "bytes": 262260,
+        "sha256": "2690205710416fe7374eded0def2abbb08833f225afec510a6654fb3a744504f"
+      }
+    }
+  },
+  "gates": "game-progression-input/gates.json"
+}

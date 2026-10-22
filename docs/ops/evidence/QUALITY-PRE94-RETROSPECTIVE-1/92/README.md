@@ -22,3 +22,9 @@ classifier的bootstrap/compare/fail-closed三合同；scope变化/删除/测试�
 本片无实现变更，TypeScript门N/A；全仓check、官方ratchet、protected fast仍待稳定窗口，editor诊断未清，禁止合main。没有新增ignore/exclude/强转或静音，没有改生成物或机制。当前机器3287/222closed/201review/2864pending，0新关闭；下一个有限片回到CODE1 shared RLE模块，按真实caller/primary/测试逐文件复核，94–102/editor原返工保留。
 
 [当前检查点静态门](gates.md)：docs、lint-zero（4379文件0/0/0）、ledger与diff-check已通过；报告新增后补链并再核docs。不是新全仓质量门。
+
+## 2026-10-22 工程纠错原合同收口
+
+[当前八维/命令与门归属](closeout.json)、[30源码当前Git比对](current-source-comparison-20261022.json)、[只读快检](../3c/verify-closeout.mjs)。本次实际8同/22变，旧20/10保留历史；不修改30路径状态。固定31保护的当前官方单次采集及同报告strict/protected、全check和最终game增量真实原件在当前gate包，工程记录复用，不声称新跑或推补旧环境。
+
+CODE92按其记录/门纠错范围接受，源码的八维/关闭仍归各卡；未将30个字节比对当语义验收。当前模块的文档静态/推送与main另按实际回执，94–102未扩展。

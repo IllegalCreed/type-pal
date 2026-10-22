@@ -8,8 +8,9 @@
   "taskStatus": "done",
   "integrationEvidence": {
     "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json",
-    "sha256": "9c9d5ab123ce6b11aeefbeb1602c9a279df8e948bb1d517544e18fb6ff07b356",
-    "unchanged": true
+    "sha256": "0ddea87385bc28bbe6710268eda152f082b400cd1d760f69978ebd1bdddf6b90",
+    "unchanged": false,
+    "publicationOnlyChange": "Original native log bytes preserved in gzip; current attachment paths and compressed checksums relocated. Original receipt available at native-log-publication.json sourceRevision."
   },
   "executionBoundary": {
     "completedThisTurn": "Discovery only: reviewed legal checkpoint availability and started isolated browser pages for current Game, Reforge and Editor; no story assertions or verified script-preview state.",

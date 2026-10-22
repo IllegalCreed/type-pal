@@ -85,6 +85,7 @@ export interface HiddenExpGrowthResult {
  *   wExp = (WORD)dwExp
  * 写 rt(PlayerRolesRuntime raw base,与主升级同源)—— **不**写 projected role(否则装备加成被当 base 错涨,D27)。
  * **不做 STAT_LIMIT 钳**(sdlpal CHECK_HIDDEN_EXP 与主升级不同,无 cap)。返回各池涨点(供结算屏 hidden-exp-up box)。
+ * 属性超过WORD上限继续累加是用户批准的TS偏离;经验余数仍按WORD回写,两者不能混同。
  */
 export function applyHiddenExpGrowth(input: {
   exp: AllExperience
@@ -292,7 +293,7 @@ function addMagicToRoleRuntime(
   roleId: number,
   spellObjId: number,
 ): boolean {
-  if (roleId < 0 || spellObjId === 0) return false
+  if (roleId < 0) return false
   const rgwMagic = rt.rgwMagic
   for (const slot of rgwMagic) {
     if (slot?.[roleId] === spellObjId) return false // 已学

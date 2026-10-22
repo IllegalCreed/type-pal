@@ -25,10 +25,10 @@
   "diagnostic": "Temporary soft assertions enumerated all stale census values, still exiting1. They are absent from the final file. First new dependency selector used scene instead of scene-entity for e2862; that calibration failure is preserved, not claimed as original business red.",
   "result": "Focused normal-assertion case passed;630 other editor files passed in the full execution. No editor production source changes.",
   "logs": [
-    "workspace-check-tail.txt",
+    "workspace-check-tail.txt.gz",
     "editor-reference-count-diagnostic.txt",
     "editor-reference-owner-calibration.txt",
-    "editor-reference-current.txt"
+    "editor-reference-current.txt.gz"
   ],
   "coverageScope": "This existing PAL-only file is outside the unchanged fast selection; production files, fast identities, config and thresholds remain unchanged after protected-fast execution."
 }

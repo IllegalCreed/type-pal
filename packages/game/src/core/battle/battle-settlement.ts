@@ -1,7 +1,11 @@
 import type { InputSnapshot } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { runScript } from '../event-system.js'
-import { type GameState, writeBackBattleRolesToRuntime } from '../game-state.js'
+import {
+  type GameState,
+  projectRuntimeToBattleRoles,
+  writeBackBattleRolesToRuntime,
+} from '../game-state.js'
 import { BATTLE_FRAME_TIME } from './anim-timeline.js'
 import { finalizeBattleCleanup } from './battle-finalization.js'
 import { battleWonLevelUp } from './battle-progression.js'
@@ -72,6 +76,10 @@ export interface BattleSettlementState {
   postBattleScriptsDone?: boolean
 }
 
+// 只属于当前结算执行的续跑位置。settlement也被V1序列化,游标不能加到其数据合同中。
+// 本模块独占读写,以本场结算对象隔离;结束时删除,中断后随结算对象回收,不持有GS/资源。
+const nextPostBattleEnemy = new WeakMap<BattleSettlementState, number>()
+
 /** 当前屏的自动翻页超时(sdlpal `PAL_WaitForAnyKey` timeout):boss exp 屏 5.5s,其余 3s。 */
 export function settlementScreenTimeoutMs(screen: BattleSettlementScreen): number {
   if (screen.kind === 'exp-cash') return screen.isBoss ? 5500 : 3000
@@ -136,36 +144,74 @@ export function buildBattleWonSettlement(
 /**
  * B2 c6:Phase E post-battle scriptOnBattleEnd(battle.c:1334-1337)在半血恢复**之前**、
  * 仅胜利时,对每只敌跑一次(返回值**不回写**,与 turnStart/ready 的 show-once 不同)。
+ * 本敌的队列和active提示结束后才进下一槽;单条脚本内部仍由现有runner同步执行。
  */
-function runBattleWonPostScripts(
+function advanceBattleWonPostScripts(
   gs: GameState,
   state: BattleState,
   res: BattleResources,
   bus: CommandBus,
+  settlement: BattleSettlementState,
 ): void {
+  // 战斗HP/MP已在build时回写,升级随后可能改上限/当前值。Phase E起以runtime为唯一Owner:
+  // raw属性指令直接写runtime,战斗治疗指令写role;两者必须逐指令互见,不能在脚本末用旧快照回填。
+  // 保留playerRoles容器供战后对话呈现读取;资源随cleanup释放,普通战中仍使用原可写投影。
+  const nextEnemy = nextPostBattleEnemy.get(settlement)
+  if (nextEnemy === undefined) {
+    const runtime = gs.PlayerRolesRuntime
+    const projected = projectRuntimeToBattleRoles(runtime, res.playerRoles, gs.rgEquipmentEffect)
+    res.playerRoles.roles = projected.roles.map((role) => ({
+      ...role,
+      get hp() {
+        return runtime.rgwHP[role.id] ?? 0
+      },
+      set hp(value: number) {
+        runtime.rgwHP[role.id] = value
+      },
+      get mp() {
+        return runtime.rgwMP[role.id] ?? 0
+      },
+      set mp(value: number) {
+        runtime.rgwMP[role.id] = value
+      },
+    }))
+  }
   // battle.c:1334-1337逐槽执行,不按health/defeated过滤;返回值不回写。
   // 常规全灭和0x89直接置won都走此入口,不能假定所有胜利都由全灭触发。
-  for (let ei = 0; ei < state.enemies.length; ei++) {
+  for (let ei = nextEnemy ?? 0; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
-    if (!en || (en.scriptOnBattleEnd ?? 0) <= 0) continue
-    getBattleRunScript(
-      gs,
-      runScript,
-    )({
-      commands: res.commands,
-      ip: en.scriptOnBattleEnd,
-      bus,
-      runtimeMode: 'battle',
-      battleCtx: {
-        state,
-        caster: { type: 'enemy', idx: ei },
-        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
-        enemyPos: res.enemyPos,
-        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
+    if (en && (en.scriptOnBattleEnd ?? 0) > 0) {
+      getBattleRunScript(
         gs,
-      },
-    })
+        runScript,
+      )({
+        commands: res.commands,
+        ip: en.scriptOnBattleEnd,
+        bus,
+        runtimeMode: 'battle',
+        // PAL_RunTriggerScript(..., i):通用属性指令的默认role上下文是敌槽号,不是我方party[i]。
+        eventObjectId: ei,
+        battleCtx: {
+          state,
+          playerRoles: res.playerRoles,
+          caster: { type: 'enemy', idx: ei },
+          summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+          enemyPos: res.enemyPos,
+          enemySpriteFrameHeights: res.enemySpriteFrameHeights,
+          gs,
+        },
+      })
+    }
+    // 只在脚本正常返回后推进;等当前提示放完时不能重跑本敌或重建HP/MP绑定。
+    nextPostBattleEnemy.set(settlement, ei + 1)
+    if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox) {
+      settlement.postBattleScriptsDone = ei + 1 >= state.enemies.length
+      if (settlement.postBattleScriptsDone) nextPostBattleEnemy.delete(settlement)
+      return
+    }
   }
+  settlement.postBattleScriptsDone = true
+  nextPostBattleEnemy.delete(settlement)
 }
 
 /**
@@ -204,10 +250,9 @@ export function tickBattleSettlement(
   state.phaseStallTicks = 0
 
   if (s.index >= s.screens.length) {
+    if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox) return true
     if (!s.postBattleScriptsDone) {
-      runBattleWonPostScripts(gs, state, res, bus) // Phase E:scriptOnBattleEnd 可排入 battleDialogQueue。
-      s.postBattleScriptsDone = true
-      if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox) return true
+      advanceBattleWonPostScripts(gs, state, res, bus, s)
     }
     if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox) return true
     finishBattleWon(gs) // scriptOnBattleEnd 的对话放完 → 半血恢复 + 收尾回 explore

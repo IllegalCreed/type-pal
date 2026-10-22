@@ -14,15 +14,14 @@
  * ENEMY 结构里紧挨着的吉运字段 wFleeRate("chance for successful fleeing",global.h:283-284)
  * 全引擎零读取(死字段)——本该是"我方吉运 vs 敌方吉运"。后果:高身法敌人异常难逃,
  * 数据里设计的敌人吉运形同虚设。修复:def 改用 be.e.fleeRate,让死字段活过来;
- * 身法回归其正职(出手顺序)。**要还原原版行为:此处换回 be.e.dexterity 即可。**
+ * 身法回归其正职(出手顺序)。该字段取舍已由上述用户裁决固定。
  *
  * 失败:不切 phase,后续 turn 继续推进(T22 battle-system 行为)。
  * 成功 + !isBoss:触发 fleeAnim,动画结束才 phase='fleed'。
  */
 
-import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import { getPlayerFleeRate } from '../../equip-effect.js'
+import { getPlayerFleeRate } from '../../equipment-state.js'
 import type { GameState } from '../../game-state.js'
 import { buildFleeFailTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
@@ -37,7 +36,6 @@ export function performFlee(
   state: BattleState,
   gs: GameState,
   playerIdx: number,
-  _playerRoles: PlayerRoles,
   bus?: CommandBus,
 ): void {
   const roleId = state.players[playerIdx]!.roleId
@@ -49,15 +47,15 @@ export function performFlee(
   for (const be of state.enemies) {
     // DM4:fight.c:4129 `if (wObjectID == 0) continue` —— 死敌清槽/0 占位空槽不计入 def。
     if (be.defeated) continue
-    // 修复版:敌吉运(原版 bug 误用 be.e.dexterity 身法,详见文件头注释;还原原版改回 dexterity)
+    // 修复版:敌吉运(原版 bug 误用 be.e.dexterity 身法,详见文件头与用户裁决)
     def += asShort(be.e.fleeRate)
     def += (be.e.level + 6) * 4
   }
   if (asShort(def) < 0) def = 0
 
   // RandomLong(0, def) sdlpal 语义 = 闭区间 0..def(def+1 个值)。
-  // DM5:fight.c:4143 `if (str >= RandomLong(0,def) && !fIsBoss)` —— 掷骰为 && 左操作数**恒消费**;
-  //   boss 战必走失败分支(挪步演出 + FleeExp+2),不再顶部提前 return(原零反馈且 RNG 流少一位)。
+  // DM5:fight.c:4143 `if (str >= RandomLong(0,def) && !fIsBoss)` —— 范围请求在 && 左侧，先于boss gate;
+  //   boss 也走失败动画/FleeExp+2，不提前return。def=0时仍请求端口，但等值区间不推进PRNG。
   const roll = state.rng.rangeInclusive(0, def)
   if (str >= roll && !state.isBoss) {
     // 成功 → 触发逃跑动画(PAL_BattlePlayerEscape,battle.c:1438-1527):16 帧右下滑 + 移出屏,

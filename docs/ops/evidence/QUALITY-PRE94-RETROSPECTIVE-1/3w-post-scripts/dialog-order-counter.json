@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex(single Agent)",
+  "base": "faaf85622f85942221e967f69d5f164b2324c1ac",
+  "status": "recorded core sequencing counter;user choice pending;no product build",
+  "task": "GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1",
+  "pins": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "35605c0eb935d29ec0ae7852f59fd40e9ff577178ae66f266cc1f9c8e013a494"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "19bbf2f967f44105db0a9b029ecacaf3735ca2f5782fe3b867b3462849db674e"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+      "sha256": "eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456"
+    },
+    {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    {
+      "path": "data/raw/DATA.MKF",
+      "sha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+    },
+    {
+      "path": "data/extracted/events/all.json",
+      "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d"
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter-native.json.gz",
+    "sha256": "878e1b8bff06578759aee33c3a2560cf7ed42ee7848be315b3bcc4bece1cb112",
+    "members": [
+      {
+        "name": "post-order-actual.execution.json",
+        "bytes": 531,
+        "sha256": "dbdffb8ad4f542bd8fff3e11d4b90f633e8a2ab7aa2975a6b2d7fdc6861d80c9"
+      },
+      {
+        "name": "post-order-actual.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-order-actual.stderr.raw",
+        "bytes": 459,
+        "sha256": "d77468ca2941a412d71a81c38a61eb7f7a69aa8f83b7667791312b06aaa20911"
+      },
+      {
+        "name": "post-order-fixture-inspect.execution.json",
+        "bytes": 542,
+        "sha256": "e4921f3f084c982b661be39e945eb4d39ea6d2fb9ede5adb65641b03fb9a8c2f"
+      },
+      {
+        "name": "post-order-fixture-inspect.stdout.raw",
+        "bytes": 885,
+        "sha256": "c49a10e4af2c3d6e9587b5ab3cc945e7966a410e347b6ab6334e60f6aa001097"
+      },
+      {
+        "name": "post-order-fixture-inspect.stderr.raw",
+        "bytes": 461,
+        "sha256": "70c847c5790caa8cae8e0946db0187e7fd90494f266c86b46fc6cddfb2b9e738"
+      },
+      {
+        "name": "post-order-valid-core.execution.json",
+        "bytes": 536,
+        "sha256": "1ec3c01c312cbcc02fc3b7bbbc10640cf925e0d64febcbe02c5fbc208615e7bf"
+      },
+      {
+        "name": "post-order-valid-core.stdout.raw",
+        "bytes": 2260,
+        "sha256": "417c3d06def027ea80c9ba38332a558cfdb298cebf2e44890363568633e2b18d"
+      },
+      {
+        "name": "post-order-valid-core.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-order-probe.mts",
+        "bytes": 8026,
+        "sha256": "d86e20170540147fed2f596241b21fcd986ccaba12473a34e9798ce0aaec5005"
+      },
+      {
+        "name": "post-order-fixture-inspect.mts",
+        "bytes": 8254,
+        "sha256": "c1f1fd9d594bb54788d2a5cf69efb459f836334eef0084bbde6737f1d3732561"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 1147,
+        "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "post-order-actual",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/post-order-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:24:45.536Z",
+      "end": "2026-10-22T06:24:47.209Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 459
+    },
+    {
+      "id": "post-order-fixture-inspect",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/post-order-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:25:20.358Z",
+      "end": "2026-10-22T06:25:21.240Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 885,
+      "stderrBytes": 461
+    },
+    {
+      "id": "post-order-valid-core",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/post-order-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:26:19.268Z",
+      "end": "2026-10-22T06:26:20.078Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 2260,
+      "stderrBytes": 0
+    }
+  ],
+  "observed": {
+    "kind": "actual current accepted V1 stats-only fixture -> original team46/OBJECT402/raw41008 twice -> actual automatic combat;core dialog data only,no browser/nativeSDL rendering",
+    "input": {
+      "party": [0],
+      "hp": 9999,
+      "maxHP": 9999,
+      "attack": 10000,
+      "dexterity": 10000,
+      "defense": 10000,
+      "autoBattle": true,
+      "originalEnemyTeam": 46,
+      "objectOverlayCount": 0
+    },
+    "calls": [
+      {
+        "stage": "before",
+        "enemy": 0,
+        "items": [],
+        "queued": 0
+      },
+      {
+        "stage": "after",
+        "enemy": 0,
+        "items": [
+          {
+            "itemId": 104,
+            "count": 1
+          }
+        ],
+        "queued": 1
+      },
+      {
+        "stage": "before",
+        "enemy": 2,
+        "items": [
+          {
+            "itemId": 104,
+            "count": 1
+          }
+        ],
+        "queued": 1
+      },
+      {
+        "stage": "after",
+        "enemy": 2,
+        "items": [
+          {
+            "itemId": 104,
+            "count": 2
+          }
+        ],
+        "queued": 2
+      }
+    ],
+    "firstDialog": {
+      "ticks": 192,
+      "text": "捡到一颗鼠儿果",
+      "style": "narration",
+      "inventory": [
+        {
+          "itemId": 104,
+          "count": 2
+        }
+      ],
+      "queue": [
+        {
+          "text": "捡到一颗鼠儿果",
+          "style": "narration",
+          "fontColor": 79
+        }
+      ],
+      "postScriptsDone": true,
+      "phase": "won",
+      "resourcesPresent": true
+    },
+    "dialogs": [
+      {
+        "ticks": 192,
+        "text": "捡到一颗鼠儿果",
+        "style": "narration",
+        "inventory": [
+          {
+            "itemId": 104,
+            "count": 2
+          }
+        ],
+        "queue": [
+          {
+            "text": "捡到一颗鼠儿果",
+            "style": "narration",
+            "fontColor": 79
+          }
+        ],
+        "postScriptsDone": true,
+        "phase": "won",
+        "resourcesPresent": true
+      },
+      {
+        "ticks": 194,
+        "text": "捡到一颗鼠儿果",
+        "inventory": [
+          {
+            "itemId": 104,
+            "count": 2
+          }
+        ],
+        "queued": 0
+      }
+    ],
+    "defeated": [true, true, true],
+    "final": {
+      "inventory": [
+        {
+          "itemId": 104,
+          "count": 2
+        }
+      ],
+      "mode": "explore",
+      "resourcesReleased": true
+    }
+  },
+  "primary": "Raw DATA team46=[402,0,402,FFFF,FFFF];SSS OBJECT402 battleEnd41008;raw41008..41011=giveItem104 count0/narration/message13115/end. SDL battle.c1334-1337 synchronous per-enemy PAL_RunTriggerScript;script.c3441-3467 calls PAL_ShowDialogText;text.c1659-1711 center window renders/waits1.4s/deletes before return. Thus next enemy call follows current window return. This is source control-flow evidence,not full native SDL runtime.",
+  "classification": {
+    "proven": "Both current post calls0/2 execute before first active narration;count2 while one remaining queued. Final inventory2/resources released.",
+    "inference": "DEV B panel allowsbattle;system item quantity is assigned fromgs.inventory onopen,so can expose count2. No actual DOM/browser reproduction claimed.",
+    "unknown": "Normal story route/ordinary player opportunity to inspect the bag during these messages and full visual/nativeSDL parity not proven.",
+    "decision": "Whether to wait for each enemy message before running next enemy,or retain current scheduling;not approved by the prior HP/MP/Extra policies."
+  },
+  "readBoundaries": {
+    "reusedFull": [
+      "battle-settlement.ts atfaaf252 lines;prior full A-H and current delta",
+      "battle-settlement.glm-next-wave.test.ts atfaaf421 lines;15cases/current2reds"
+    ],
+    "targeted": [
+      "battle-system.ts:tickBattle390-550/tickBattleDialog2225-2390/startBattle85-345",
+      "event-system.ts:runScript2880-3150",
+      "dev-panel.ts:setupDevPanel438-463/itemquantity1632-1690",
+      "SDL battle1330-1375/script3140+message3441-3467/text1616-1711"
+    ],
+    "notClaimed": "No whole new dev-panel/battle-system/event-system acceptance."
+  },
+  "processDisclosure": [
+    "First low-stat automatic-combat fixture lost and its diagnostic replay also lost;native full originals retained,neither is a product red.",
+    "After reading actual enemy ready script and boundary,accepted fixture increasedHP/maxHP9999,attack/dex/defense10000 before export. No in-battle HP writes,forcedwon or object/script edits.",
+    "First draft source was not independently frozen;inspection draft and final producer are archived,first failed execution receipt/raw is not claimed to include exact draft source hash."
+  ],
+  "quality": {
+    "A": "Concrete source/data/core state comparison;final quantities match but timing differs.",
+    "B": "Avoid calling queued TS execution generally equal to C blocking;two misplaced host JSDocs remain separately recorded.",
+    "C": "Separate script data mutation/runScript ownership from queued display/hold host;Phase E caller can gate per enemy without universal interpreteryield.",
+    "D": "Candidate should reuse existing dialog hold/runner,not duplicate an interpreter.",
+    "E": "Actual parser/Save/startBattle/tickByMode/real runner with local memory andfinally resets. No new official test accepted.",
+    "F": "Before/after each actual slot plus firstactive dialog separate evidence facts from inference.",
+    "G": "No new product/helper/test/config or generated resource change.",
+    "H": "Public runner transparently observes;globals/memoryslot cleared,real RNG seed7 and accepted explicit fixture,not a whole fight mock."
+  },
+  "gates": "No new fullcheck/coverage/protected or browser. Existingfaaf238/TC/zero statics apply to unchanged product,not certification of this counter.",
+  "counts": {
+    "tracked": 3356,
+    "closed": 372,
+    "review": 115,
+    "pending": 2869,
+    "cardAccept": 61,
+    "cardPartial": 22
+  }
+}

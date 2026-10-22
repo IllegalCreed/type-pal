@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "base": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+  "owner": "Codex(single Agent;not third-party authorship)",
+  "card": "CODE-QUALITY-3w",
+  "decision": "accept original state/settlement/cleanup contract;visual E2E remains explicitly deferred by original card",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "dafb38b53c861aab3b551d6e2c40a7cfe91703f996142239403f011b16a471c1",
+      "dimensionsEvidence": "extra-cleanup-fix.json"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+      "sha256": "77deb8f163f37881356976399c2f5ceb32edbf9051dd73be3f06fbe21836bdc5",
+      "dimensionsEvidence": "extra-cleanup-fix.json"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "c04c634aad9ec06280aa05094efbb0ce10cdb03ec82aab2578ea8bb0ddd7fb2b",
+      "dimensionsEvidence": "dialog-order-fix.json"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "399bb0f54ca1ecec84cd3c2c80e635ea1daad2be7edeaa56f18f79334e39104c",
+      "dimensionsEvidence": "dialog-order-fix.json"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "37c477b6ee26cfa3850547c59a8c300cf367ab8f690221c22c776869adadf720",
+      "dimensionsEvidence": "dialog-order-fix.json"
+    }
+  ],
+  "acceptedCardScope": "Original2 implementation files plus settlement direct test;finalization.test reused,not closed again. Two ancillary test files independently A-H accepted. Whole battle-system/event-system/actions are not promoted.",
+  "proof": "dialog-order-fix.json",
+  "gates": {
+    "wholeCheck": {
+      "id": "module-check-bounded",
+      "command": "env VITEST_MAX_WORKERS=2 pnpm check",
+      "packageTests": 20443,
+      "toolTests": 684,
+      "diagnostics": {
+        "stderrBytes": 0,
+        "vitestStderrBlocks": 0,
+        "actDiagnosticMessages": 0,
+        "nodeWarnings": 0,
+        "typeErrors": 0
+      }
+    },
+    "official": {
+      "id": "module-ratchet",
+      "tests": 20045,
+      "sources": 758,
+      "diagnostics": {
+        "stderrBytes": 0,
+        "vitestStderrBlocks": 0,
+        "actDiagnosticMessages": 0,
+        "nodeWarnings": 0,
+        "typeErrors": 0
+      }
+    },
+    "protected": {
+      "id": "module-protected",
+      "target": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "sameReport": true,
+      "secondCollection": false
+    },
+    "finalStatics": {
+      "docs": "module-docs-final:complete check:docs exit0/stderr0",
+      "lint": "module-lint-final-r2 current lint-zero full report must0/0/0",
+      "ledger": "module-ledger-final-r2 actual3356/377/110/2869;first final count failure preserved",
+      "diff": "module-diff-final plus finalgit diff--check"
+    }
+  },
+  "scopeAndRisks": [
+    "First unbounded-worker pnpmcheck failed12pal-extract5s timeouts. Full455bounded-green and full seven-package rerun unchanged timeout/rules;failed original and131late stdout bytes are explicit in native proof.",
+    "V1 fields/validator unchanged;runtime cursor private. Export shape acceptance is not resumed-battle restoration credit.",
+    "No browser/pixel/full SDL runtime claim. Original3wVisual e2e-deferred scope kept;renderer shape/assets unchanged.",
+    "Wider GS/BattleState party mutation and single-script generic yields remain3r/3s;RLE format and other21partial not attached to this acceptance."
+  ],
+  "ledgerAfter": {
+    "tracked": 3356,
+    "closed": 377,
+    "review": 110,
+    "pending": 2869
+  },
+  "cardsAfter": {
+    "accept": 62,
+    "partial": 21,
+    "pending": 0
+  },
+  "next": "Finish3h remaining loader/tileset-blob/png/rle-decode A-H and caller/lifecycle gaps with existing PNG/bootstrap/fetch evidence;no94-102.",
+  "coverageBaselineDelta": {
+    "sourceCount": "758 unchanged;no source removal",
+    "testCount": "20040->20045;newExtra1+settlement4;system3 onlyone corrected title",
+    "packagesChanged": ["game"],
+    "gameMetricDeltas": {
+      "statements": {
+        "covered": 21,
+        "total": 19
+      },
+      "branches": {
+        "covered": 15,
+        "total": 16
+      },
+      "functions": {
+        "covered": 5,
+        "total": 5
+      },
+      "lines": {
+        "covered": 19,
+        "total": 17
+      }
+    },
+    "regressions": 0,
+    "rulesRelaxed": false,
+    "manualBaselineEdit": false
+  }
+}

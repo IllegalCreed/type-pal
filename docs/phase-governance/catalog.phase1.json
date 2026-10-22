@@ -549,7 +549,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+      "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -694,7 +694,7 @@
       },
       "revision": {
         "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+        "implementationSha": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -755,12 +755,20 @@
           "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
           "scope": "Only added explicit risk-item/per-party-slot erratum based on raw79/caller facts;prior historical body/sourceRefs/runtime/versions retained. Not a new whole-mechanics acceptance."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "User-approved phase1 hidden growth boundary deviation only",
+          "previousAfterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+          "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
+          "scope": "Read only added current policy; historical quote/source/status/other contracts unchanged. No new runtime, E2E or visual acceptance."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-22"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m0-project-skeleton",

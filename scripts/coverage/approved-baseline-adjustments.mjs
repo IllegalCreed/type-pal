@@ -5,6 +5,107 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-basic-typed-fixture-recount-20261022',
+    authority:
+      '用户2026-10-20/21允许合理重构与测试质量整改的覆盖率下降精确调整baseline，禁止恢复死代码/堆弱测试。原7例用合法typed BattleState代替三字段强转；protect未定义回退与缺动画锚的即时数字分支不再被旧伪fixture偶然覆盖。仅game已覆盖branch9557→9555，其它旧指标下限保持；无规则/谓词/范围/超时变化。',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/recount.json',
+    baselineSha256: '33dd8c7315460e96caca0632fe24080f656935e6f0a11f8944f8b9af21d5c97d',
+    sources: [
+      {
+        path: 'packages/game/src/__tests__/glm-next-wave/H/harness.ts',
+        sha256: '0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0',
+      },
+      {
+        path: 'packages/game/src/analytics/install-analytics.test.ts',
+        sha256: '3780e1911f96d60f8ef75cd3cce40909cb116713b31b905a0fd4b321c93bd300',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/actions.test.ts',
+        sha256: '0bd0e53f63267b9212b34c7df6162413686eb4ecabee0c5f0b44fd880e5cb31a',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/attack-mate.test.ts',
+        sha256: '9c5df1343e7d51d4ddb0b87ce75cc78c93a208182fa6bca8c953fdef5d0f1c8d',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/attack-mate.ts',
+        sha256: '217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/attack.ts',
+        sha256: '30e61e9fcbf5578391effce111c98e9b73c2d4abeef2934e3441b84d27ae1374',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/flee.ts',
+        sha256: '9baeac60c72bfec5c04dfa6e7e534ff1f53c351965025cdbb1a4b544eb6bf463',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-state.ts',
+        sha256: '584fab309cc044973207f0ea4d44e3a48bff11c3b1d7ae0d0287a6c2d8774c86',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-system.ts',
+        sha256: '784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.glm-next-wave.test.ts',
+        sha256: '8b154915ffdcb01f7d0d31b761f85a621c4db4c11e4762686b9fb5b4866a08bf',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.ts',
+        sha256: 'dcb53dc1f6b4ce8f35208362be06f7edd806b3cd32f195b06bc8170f4e4e2834',
+      },
+      {
+        path: 'packages/game/src/tools/display-scale.ts',
+        sha256: '1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6',
+      },
+      {
+        path: 'packages/game/src/tools/fps-overlay.ts',
+        sha256: 'a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 14755,
+            total: 16514,
+          },
+          branches: {
+            covered: 9557,
+            total: 11869,
+          },
+          functions: {
+            covered: 1749,
+            total: 2044,
+          },
+          lines: {
+            covered: 13160,
+            total: 14476,
+          },
+        },
+        after: {
+          statements: {
+            covered: 14755,
+            total: 16514,
+          },
+          branches: {
+            covered: 9555,
+            total: 11869,
+          },
+          functions: {
+            covered: 1749,
+            total: 2044,
+          },
+          lines: {
+            covered: 13160,
+            total: 14476,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-extract-control-and-io-recount-20261022',
     authority:
       'User2026-10-20/21 authorizes exact baseline adjustment for reasonable refactor,never dead-code restoration or weak tests;2026-10-22 approves the two slice control fixes. Standing authorization permits file reorganization. This finite recount covers deduplicated BFS and unchanged moved IO/music bodies only; no rule/selection/threshold relaxation.',

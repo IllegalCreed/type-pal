@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-22T08:27:32.130Z",
+  "generatedAt": "2026-10-22T09:38:23.979Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 760,
-  "testCount": 20081,
+  "testCount": 20094,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4761,8 +4761,8 @@
       ],
       "scopeDigest": "63742a6781b5cbaf53a632ec0ce3fee84172b44deffe2cf21634290e22fd2b4d",
       "fastTests": {
-        "testCount": 3695,
-        "testFileCount": 330,
+        "testCount": 3708,
+        "testFileCount": 331,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4830,6 +4830,7 @@
           "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
           "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
           "packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
+          "packages/game/src/core/battle/battle-finalization-extra.test.ts",
           "packages/game/src/core/battle/battle-finalization.test.ts",
           "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
           "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
@@ -5129,7 +5130,7 @@
           {
             "file": "packages/game/src/analytics/install-analytics.test.ts",
             "testCount": 2,
-            "identityDigest": "253a77b26a1ad203bf41007e1c84c16f698e61ab674965bce52124d0a854122b"
+            "identityDigest": "1927cba430886a21e5163ef7c2959765ae4ac6d48f1bb091e5a2a2c954b1ef46"
           },
           {
             "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
@@ -5294,7 +5295,7 @@
           {
             "file": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
             "testCount": 7,
-            "identityDigest": "6f9cb4807556329438754426833c929d5423967e82d623baa3e61e9d418233bf"
+            "identityDigest": "33ced03a646af0eeb67565f83a79329e2c6d6b4da502a63e791ff67b63258876"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
@@ -5413,8 +5414,8 @@
           },
           {
             "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
-            "testCount": 4,
-            "identityDigest": "c464d7c0cd3d303e07cacfdd4c9ee9792c19ded4bdf3954aae6f94d2807561b7"
+            "testCount": 8,
+            "identityDigest": "a816fb5ecee027b0f1d732c53efb122b7b2242b7093a2360ac69a18570de6a82"
           },
           {
             "file": "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
@@ -5425,6 +5426,11 @@
             "file": "packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
             "testCount": 5,
             "identityDigest": "bf7005aa65fd88df7f7a07e05569f4857832b403552107b7bdfa93d610311352"
+          },
+          {
+            "file": "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+            "testCount": 1,
+            "identityDigest": "e5fd840be83279c302000e73f189a3e6a346552c176619fee3a2a8c666fcdbf0"
           },
           {
             "file": "packages/game/src/core/battle/battle-finalization.test.ts",
@@ -5453,8 +5459,8 @@
           },
           {
             "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
-            "testCount": 13,
-            "identityDigest": "3e17136fe876d3325d816e521ac9f2b573c0c81510edbe337d22f1315cba10d9"
+            "testCount": 17,
+            "identityDigest": "752da84c43ebda9992a117ef26dfb7908a45ab81734220bc8a28e5988b23b3b9"
           },
           {
             "file": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
@@ -5474,7 +5480,7 @@
           {
             "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
             "testCount": 3,
-            "identityDigest": "286f6d298dc180c7570585ba5ff1f82a25dc290d040322d6154d516c76870f55"
+            "identityDigest": "27759eff342d89f754c9d209a6fac6c097e2c76bb1fd1a8dc47f30d078e1b06f"
           },
           {
             "file": "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
@@ -6353,8 +6359,8 @@
           },
           {
             "file": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
-            "testCount": 3,
-            "identityDigest": "1e1cfe4640ec8767d4f9eacb2af4e12573ee0bd3712ac31b8bb94960c6f4b077"
+            "testCount": 5,
+            "identityDigest": "36ad190e350febd2b461994d543d47dffeb12dda217f6f730cd0afea1e4deb48"
           },
           {
             "file": "packages/game/src/shell/avi-player.test.ts",
@@ -6628,8 +6634,8 @@
           },
           {
             "file": "packages/game/src/tools/save-io.test.ts",
-            "testCount": 27,
-            "identityDigest": "48195e69873a32d4d0216e2ff135ac03d97102156c85f1f024320abad974c0b5"
+            "testCount": 29,
+            "identityDigest": "be1997d0fc96d45c919be9c450e1ec023c8a7dd1f19359c3b9ceffa2aafee51b"
           },
           {
             "file": "packages/game/src/tools/speedrun/checkpoints.test.ts",
@@ -6747,26 +6753,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "6f5ed7c25d9e1c910904f742741580d12df97c84be2124b6ad09e7db65159fbd",
+        "identityDigest": "c48155f4645b62055708d3c0b4163413c728886fcc6fdc9f6c096bd7155f9f8a",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b39cf9345ac69a8365ed675122699140b9879923e58cb904f4820b460e130a84"
+        "executionDigest": "3b5248e88a000371f930465f06ac750f5a666f0d1adf9e20cad3f7c1ab25f493"
       },
       "metrics": {
         "statements": {
-          "covered": 14783,
-          "total": 16541
+          "covered": 14813,
+          "total": 16569
         },
         "branches": {
-          "covered": 9582,
-          "total": 11897
+          "covered": 9601,
+          "total": 11920
         },
         "functions": {
-          "covered": 1755,
-          "total": 2050
+          "covered": 1762,
+          "total": 2056
         },
         "lines": {
-          "covered": 13187,
-          "total": 14504
+          "covered": 13211,
+          "total": 14526
         }
       }
     },
@@ -10785,20 +10791,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71950,
-      "total": 79772
+      "covered": 71980,
+      "total": 79800
     },
     "branches": {
-      "covered": 52155,
-      "total": 62176
+      "covered": 52174,
+      "total": 62199
     },
     "functions": {
-      "covered": 13640,
-      "total": 15197
+      "covered": 13647,
+      "total": 15203
     },
     "lines": {
-      "covered": 64265,
-      "total": 69818
+      "covered": 64289,
+      "total": 69840
     }
   }
 }

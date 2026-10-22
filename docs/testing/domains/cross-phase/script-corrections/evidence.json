@@ -107,8 +107,8 @@
       "id": "first-phase-caller-regression",
       "result": "runtime-backed",
       "evidence": [
-        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt",
-        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt.gz",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt.gz",
         "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.txt",
         "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.native.stdout.txt"
       ]
@@ -117,14 +117,14 @@
       "id": "second-phase-author-regression",
       "result": "runtime-backed",
       "evidence": [
-        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt"
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt.gz"
       ]
     },
     {
       "id": "official-fast-coverage-ratchet",
       "result": "runtime-backed",
       "evidence": [
-        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt.gz",
         "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-ratchet-summary.json.gz"
       ]
     },
@@ -132,19 +132,19 @@
       "id": "protected-fast-no-regression",
       "result": "runtime-backed",
       "evidence": [
-        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt.gz",
         "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-summary.json.gz"
       ]
     }
   ],
   "artifacts": [
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt",
-      "sha256": "3a57503a5ec9c93e2b53e7c55a2807aefb909e4caad8bd02b37173bc4e79a0e0"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt.gz",
+      "sha256": "a9816d362e1ced525b2ff8bed03ec2de4e00b35a684ed74f9d4bbe0f8873685f"
     },
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt",
-      "sha256": "fe4afe69edd31389b0902892f60e9c66a6b9c9cd1f58bbcacd9ef90a68c6bc30"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt.gz",
+      "sha256": "82a68027cca28d474e8dce663c2c769ad3f98dbf15464274d06ea013e61c8ed8"
     },
     {
       "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/generation-receipt.json",
@@ -159,12 +159,12 @@
       "sha256": "e62e1d988a2bb5d7688217a986c9f1bed33111fd08a09468237182002c4d9e99"
     },
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt",
-      "sha256": "4a49f494b4b599ebc00d13e9285716d902a97f7bb1a6fb5cf8c6694c45437dab"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt.gz",
+      "sha256": "6a165903c4172b70deb8f96551b5e28afba7ca1adef07932d69d759a5bda257a"
     },
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-current.txt",
-      "sha256": "7e1d67dc1305eeb2441ada2cdf2937af08a910c404ee076bc01ae704dea32840"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-current.txt.gz",
+      "sha256": "19325cb56c23308ced45fc7eb4458bcef29d3bedc699025bed894cecd0f30449"
     },
     {
       "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.txt",
@@ -183,8 +183,8 @@
       "sha256": "9a41a85f916a113ffcb37401ed0ac09ebac9e6db448d701f127602fbd68cfcaf"
     },
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt",
-      "sha256": "dd9fe10cbf1277fa08de913fe605f422ce36e0465587c1f74942ebdb7e5ea94c"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt.gz",
+      "sha256": "5743b9b0b00d1624db312c0912c861585ed3ee98b794e7672ece69369bb89f50"
     },
     {
       "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-ratchet-summary.json.gz",
@@ -223,20 +223,20 @@
       "sha256": "1f5976bb9417dfa115b9aa9bee48ca623e45bb3168746a02af914b87f7b240df"
     },
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt",
-      "sha256": "e5e92ab3e4706644ae08f8e4710e57620432b1d5b5999f35695890d50c2b2a49"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt.gz",
+      "sha256": "2b21fe3916ffb3ea8878671f778625b6218bbf3a1094d99497d1d011ea991258"
     },
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-current.txt",
-      "sha256": "3a2f499b310a0021438e8be9ca80b325a0e4644915b8b2f2f4de5494b3908734"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-current.txt.gz",
+      "sha256": "8bec27bf7b0701b7e6d07628a510f96abe4838925ae125a00c8d4513bf2a08f1"
     },
     {
       "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-delta.json",
-      "sha256": "cb7ec76beb4b06a8084425af9895d886797d48128e94fdde03e67ae3a76989b1"
+      "sha256": "e5695e2d6d45ce4463b913161532f6c2be33d25dcab65cb5272923f8f6e25746"
     },
     {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/migrate-full-check.txt",
-      "sha256": "d48b639905522ea83277b77667fa2bbb82afc220543cb6245c7a9df34ff9305d"
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/migrate-full-check.txt.gz",
+      "sha256": "7ee8eddddca4aace90146a6f857f762e8714ed125dd4bf6ddd546f420ae51473"
     }
   ],
   "notRun": ["complete story browser E2E", "visual", "deployment"],

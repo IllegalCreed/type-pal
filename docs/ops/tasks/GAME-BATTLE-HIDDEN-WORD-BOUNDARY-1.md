@@ -1,10 +1,10 @@
 # GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界
 
-Status: draft
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: battle / numeric boundary
-Coding Owner: Codex（只读核证；无数值行为build allowed）
+Coding Owner: Codex（记录已批准偏离；数值实现保持）
 Generation Owner: N/A
 Visual Verification Owner: N/A
 Contributor: Codex
@@ -35,11 +35,11 @@ Branch: codex/code-quality-3y
 
 ## Draft: 设计与风险
 
-这是已证边界分歧，尚未取得产品策略裁决，不直接改数值实现。可选择严格复制第一阶段SDLPal的16位回绕，或保留TS的持续增长并明确登记偏离；不能擅自改成封顶65535，也不能误用主升级999cap压隐藏成长。若选择回绕，须先核并测试成长提示使用的新旧差值，不能只改存储字段而保留错误提示。
+这是已证边界分歧。2026-10-22用户已裁决“保留TS持续增长，明确记录偏离”：第一阶段七项隐藏成长继续以当前TS数值累加，超过65535不按WORD回绕，不封顶65535，也不套用主升级999cap。现有成长差值与数值实现保持；不把本项取舍推及其它WORD字段或二阶段。
 
 ## 验收条件
 
-用户裁决后，另记窄build allowed、正式失败用例→实现→相邻回归。存档格式／导入guard不由此更改。当前所有行为修改冻结，3x仍partial；同模块纯结构与普通域测试可独立推进，不因本卡未知阻塞其它pre94卡。无下一位Agent提示词，Codex单Agent维护。
+本次准入仅记录已批准偏离，核对当前实现与既有原件并运行相应文档静态门；没有行为修改，不制造“修复后对齐C”的绿例。存档格式／导入guard不更改，原C对齐断言失败保留为分歧证据。3x仍partial，须按原卡八维及其余验收条件独立裁定。无下一位Agent提示词，Codex单Agent维护。
 
 ## 上下文锚点
 
@@ -47,7 +47,7 @@ Branch: codex/code-quality-3y
 
 ## 当前模式推进记录
 
-Codex已核边界分歧，普通原盘剧情可达性未知；策略裁决pending，只读允许，数值build不允许，done不允许。单Agent，同一3y。
+Codex已核边界分歧，普通原盘剧情可达性未知；用户取舍已明确，当前数值代码无须修改。当前文档/证据记录已由Codex核对并收口；这不自动关闭3x。单Agent，同一3y。
 
 ## Build: 实现与自测
 
@@ -55,16 +55,17 @@ Codex已核边界分歧，普通原盘剧情可达性未知；策略裁决pendin
 
 ## Review: 审查与返工
 
-这是已证边界分歧，不把guard通过冒称完整导入／剧情重放；默认只读快检核原件／身份。用户决定策略后再核实施方案及有效红绿，现仍draft。
+这是已批准保留的第一阶段边界偏离，不把guard通过冒称完整导入／剧情重放。当前`applyHiddenExpGrowth`的直接累加与所选策略相符；复用已冻结C/TS边界原件，不重写为一致性证明。机制文档在历史quote外追加当前决策，历史quote字节不变。当前校正后的文档五consumer/progress无issue，lint-zero为0/0/0；完整check:docs首轮缺phase1 shard SHA失败保留，修正后只重跑受影响catalog测试和全部consumer，不冒称重跑完整命令。完整原件见[本次记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md)。
 
 ## 用户验收
 
-已询问“严格回绕／保留持续增长并记录偏离”，回复尚未到达；不以等待时间当批准。
+2026-10-22用户对原问题明确回复：“保留TS持续增长，明确记录偏离”。适用范围仅第一阶段`applyHiddenExpGrowth`七项基础属性的16位边界，不改存档、主升级cap或二阶段字段合同。
 
 ## 交接日志
 
 - 2026-10-22 Codex：原生C更新得到0／1、TS正式结算边界得到65536，保留原件；暂停该数值选择，父卡继续独立纯结构和普通域测试。
+- 2026-10-22 Codex：收到上述明确裁决，解除本卡数值策略停止线；保留当前算术，追加机制偏离说明。原始C一致性失败是历史事实，未改写；本卡按已选偏离策略done；本次不新增文件关闭或3x验收信用。
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词，Codex单Agent维护；先读用户裁决，不从本卡draft或其它已批准修复扩大数值授权。
+无下一位Agent提示词，Codex单Agent维护；后继读本卡用户裁决，不扩大到其它数值字段、save或二阶段。

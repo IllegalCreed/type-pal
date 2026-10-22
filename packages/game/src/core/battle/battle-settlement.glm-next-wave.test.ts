@@ -212,6 +212,133 @@ describe('逐屏输入与时间边界', () => {
 })
 
 describe('Phase E→对话→恢复与释放', () => {
+  it('逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放', () => {
+    const f = createBattleLifecycleFixture({
+      enemyIds: [100, 0, 101],
+      expGained: 0,
+      cashGained: 0,
+      scriptOnBattleEnd: 1,
+      commands: [
+        { op: 'end' },
+        { op: 'giveItem', itemId: 104, count: 0 },
+        { op: 'setDialogStyleNarration' },
+        { op: 'showDialog', messageIndex: 13115, text: '捡到一颗鼠儿果' },
+        { op: 'end' },
+      ],
+    })
+    // 隔离双敌全灭边界,奖励与资源一致;脚本取原盘41008–41011的leaf,仅搬到ip1。
+    // 中间0槽是startBattle保留的空占位,不能额外给物品或改变后敌的原槽顺序。
+    f.state.phase = 'won'
+    for (const enemy of f.state.enemies) {
+      enemy.e.health = 0
+      enemy.defeated = true
+    }
+    enterSettlement(f)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 1 }])
+    expect(f.state.battleDialogQueue).toHaveLength(1)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect(f.gs.dialogBox).toMatchObject({
+      style: 'narration',
+      currentLineText: '捡到一颗鼠儿果',
+    })
+    expect(f.state.battleDialogQueue).toHaveLength(0)
+    expect(tickBattleSettlement(f.state, f.gs, NO_KEY, f.resources, f.bus)).toBe(true)
+    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 1 }])
+    tickBattle(f.gs, CONFIRM, f.bus)
+    expect(f.gs.dialogBox).toBeUndefined()
+    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 1 }])
+    expect(f.gs.mode).toBe('battle') // 关框按键由对话消费,本tick不执行下一敌。
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 2 }])
+    expect(f.state.battleDialogQueue).toHaveLength(1)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    for (let i = 0; i < 34; i++) tickBattle(f.gs, NO_KEY, f.bus)
+    expect(f.gs.dialogBox?.currentLineText).toBe('捡到一颗鼠儿果')
+    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([300, 10])
+    expect(getBattleResources(f.gs)).toBe(f.resources)
+    tickBattle(f.gs, NO_KEY, f.bus) // 第35个40ms tick达1.4秒,无残键,可恢复和退出。
+    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 2 }])
+    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([400, 25])
+    expect(f.gs.dialogBox).toBeUndefined()
+    expect(f.gs.mode).toBe('explore')
+    expect(f.gs.battleState).toBeUndefined()
+    expect(getBattleResources(f.gs)).toBeUndefined()
+    expect(f.gs.fAutoBattle).toBe(false)
+  })
+
+  it('战后脚本的HP/MP治疗保留到半恢复和退出', () => {
+    const f = wonFixture({
+      scriptOnBattleEnd: 1,
+      expGained: 0,
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] },
+        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },
+        { op: 'end' },
+      ],
+    })
+    // global.c:PAL_IncreaseHPMP与battle.c:PAL_BattleWon共用PlayerRoles。
+    // 300HP补至500;10MP补至20后恢复缺口一半,得到30。fixture仅隔离合法战后边界。
+    enterSettlement(f)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([500, 30])
+    expect(f.gs.mode).toBe('explore')
+    expect(getBattleResources(f.gs)).toBeUndefined()
+  })
+
+  it('通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填', () => {
+    const f = wonFixture({
+      scriptOnBattleEnd: 1,
+      expGained: 0,
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x1a, operands: [9, 100, 1] },
+        { op: 'raw', opcode: 0x1b, operands: [1, 50, 0] },
+        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },
+        { op: 'raw', opcode: 0x1a, operands: [10, 6, 1] },
+        { op: 'end' },
+      ],
+    })
+    // script.c:0x1A的row9/10是HP/MP,op2=1明确选role0。
+    // 同一状态应先100HP→150HP、10MP→20MP→6MP;半恢复后325HP/23MP。
+    enterSettlement(f)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([325, 23])
+    expect(f.gs.mode).toBe('explore')
+    expect(getBattleResources(f.gs)).toBeUndefined()
+  })
+
+  it('第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人', () => {
+    const f = createBattleLifecycleFixture({
+      partyMembers: [1, 0],
+      enemyIds: [100, 101],
+      expGained: 0,
+      cashGained: 0,
+      scriptOnBattleEnd: 1,
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x1a, operands: [9, 100, 0] },
+        { op: 'raw', opcode: 0x1a, operands: [10, 6, 0] },
+        { op: 'end' },
+      ],
+    })
+    // 明确的双敌全灭边界;只第二槽有战后脚本。C传敌槽1作为eventObjectID,
+    // 0x1A的op2=0因此写role1,不是party[1]的role0。半恢复后各role常数见断言。
+    f.state.phase = 'won'
+    for (const enemy of f.state.enemies) {
+      enemy.e.health = 0
+      enemy.defeated = true
+    }
+    f.state.enemies[0]!.scriptOnBattleEnd = 0
+    enterSettlement(f)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect(f.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([400, 300])
+    expect(f.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([25, 23])
+    expect(f.gs.mode).toBe('explore')
+    expect(getBattleResources(f.gs)).toBeUndefined()
+  })
+
   it('真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放', () => {
     const f = wonFixture({
       scriptOnBattleEnd: 1,

@@ -924,7 +924,7 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Captures first-stage mechanics and formula truth with sdlpal line anchors, including hidden experience, damage, resistance, critical, cover, recovery and elemental systems; it records implementation deviations explicitly.",
+      "coreConclusion": "Captures first-stage mechanics and formula truth with sdlpal line anchors, including hidden experience, damage, resistance, critical, cover, recovery and elemental systems; it records implementation deviations explicitly. Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
       "truthAnchors": [
         "docs/phase1/game-mechanics.md:1",
         "docs/phase1/game-mechanics.md:1 Game Mechanics · 原版底层机制真值",
@@ -960,7 +960,7 @@
         }
       ],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+      "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
       "businessOracle": {
@@ -978,7 +978,7 @@
       },
       "revision": {
         "currentSha": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
-        "implementationSha": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+        "implementationSha": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
         "history": [
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
@@ -1010,12 +1010,12 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "kind": "codex-owned-meal-ci-and-word-policy-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
         "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
         "candidateSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
-        "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
-        "lineCount": 1681,
+        "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+        "lineCount": 1687,
         "originalPreservation": {
           "method": "line-by-line blockquote quote",
           "sourceBytes": 134500,
@@ -1049,17 +1049,46 @@
           "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
           "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-local-candidate",
+          "previousEvidence": {
+            "kind": "document-template-migration",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+            "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+            "candidateSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+            "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+            "lineCount": 1681,
+            "originalPreservation": {
+              "method": "line-by-line blockquote quote",
+              "sourceBytes": 134500,
+              "sourceLines": 1581,
+              "sourceFinalNewline": true,
+              "inverseSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+              "exactRoundTrip": true,
+              "trailingWhitespaceEncoding": {
+                "space": "␠",
+                "tab": "⇥"
+              }
+            }
+          },
+          "previousCoreConclusion": "Captures first-stage mechanics and formula truth with sdlpal line anchors, including hidden experience, damage, resistance, critical, cover, recovery and elemental systems; it records implementation deviations explicitly.",
+          "previousAfterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+          "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
       "stopLine": "do not promote historical claims to current truth without a current source or user decision",
       "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-1675",
+      "reviewedLines": "Only WORD current decision outside historical quote, current CI board/index/zero-closure ledger, or named child binding; no whole-file reacceptance",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
+      "readMethod": "Read exact current WORD decision prefix or owned CI row/index/ledger delta and descendant binding; reuse original unrelated body",
       "reviewDepth": "deep-semantic",
       "templateVersion": "1.0.0",
       "historyOverlay": true,

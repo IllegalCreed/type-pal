@@ -148,7 +148,6 @@ describe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:128
     // 隐藏涨点成立:dwExp = trunc(50×2/3)×2+34 = 100 → 恰 1 隐藏级 → maxHP 100+1、结果条目产出
     expect(results.length).toBe(1)
     expect(results[0]).toMatchObject({ fromLevel: 1, toLevel: 1 })
-    expect(results[0]!.fromLevel).toBe(results[0]!.toLevel) // 无主升级
     expect(results[0]!.snapshot).toBeUndefined() // 无主升级 → 无升级 box
     expect(results[0]!.hiddenExpGrowth).toEqual([
       { stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 1 },

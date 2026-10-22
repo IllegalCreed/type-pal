@@ -13,23 +13,15 @@
  *  注:fixture attackStrength=96 / defense=64 = 真实 role 攻防(新公式直接用,2026-06-02 P0 一致修去 level 项)。
  */
 
-import type { PlayerRole, PlayerRoles } from '@type-pal/shared'
+import type { PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { type CommandBus, createCommandBus } from '../../command-bus.js'
+import { makeHBattle, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
 import { createSeedableRng, type SeedableRng } from '../../rng.js'
 import { performAttackMate } from '../actions/attack-mate.js'
-import type { BattlePlayer, BattleState } from '../battle-state.js'
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
-  return {
-    id: 0,
+  return makeHRole(opts.id ?? 0, {
     _name: 'R',
-    avatar: 0,
-    spriteNumInBattle: 0,
-    spriteNum: 0,
-    name: 0,
-    attackAll: 0,
-    level: 10,
     maxHP: 200,
     maxMP: 30,
     hp: 200,
@@ -37,56 +29,34 @@ function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
     attackStrength: 96,
     magicStrength: 0,
     defense: 64,
-    dexterity: 30,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    walkFrames: 0,
-    attackSound: 0,
-    weaponSound: 0,
-    criticalSound: 0,
-    magicSound: 0,
-    deathSound: 0,
     ...opts,
-  }
+  })
 }
 
-function makePlayer(roleId: number, defending = false): BattlePlayer {
-  return {
-    roleId,
-    prevHp: 0,
-    prevMp: 0,
-    defending,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-  }
-}
-
-/** 3 队员 state + roles;rng 可注入固定 rangeInclusive 序列。 */
-function makeState(
-  roles: PlayerRole[],
-  rngSeq?: number[],
-): { state: BattleState; playerRoles: PlayerRoles; bus: CommandBus } {
+/** 公开factory提供真实位置/状态；这里只测投影角色输入，不借此声称运行态已hydrate。 */
+function makeState(roles: PlayerRole[], rngSeq?: number[], party = roles.map((role) => role.id)) {
   let i = 0
   const rng: SeedableRng = rngSeq
     ? { ...createSeedableRng(1), rangeInclusive: () => rngSeq[i++ % rngSeq.length]! }
     : createSeedableRng(1)
-  const state = {
-    players: roles.map((_, idx) => makePlayer(idx)),
-    enemies: [],
-    rng,
-  } as unknown as BattleState
-  return { state, playerRoles: { roles }, bus: createCommandBus() }
+  const battle = makeHBattle({ roles, party, rng })
+  battle.state.phase = 'performAction'
+  battle.state.turn = 1
+  return battle
 }
 
 describe('B1 AttackMate(混乱攻随机友军,fight.c:3760-3853)', () => {
-  it('混乱队员攻击随机活友军 — str96/def64/res2 → 45 伤害,目标 HP 200→155;攻击者不掉血', () => {
+  it('宿主预选队伍位置优先：队伍[2,0,1]中角色2命中角色0，伤害45且其他人不掉血', () => {
     const roles = [makeRole({ id: 0 }), makeRole({ id: 1 }), makeRole({ id: 2 })]
-    // rng 注入选中 idx 1
-    const { state, playerRoles, bus } = makeState(roles, [1])
-    performAttackMate(state, 0, bus, playerRoles)
-    expect(playerRoles.roles[1]!.hp).toBe(155) // 200 - 45
-    expect(playerRoles.roles[0]!.hp).toBe(200) // 攻击者自己不掉
-    expect(playerRoles.roles[2]!.hp).toBe(200)
+    // 宿主已选slot1(role0)；若丢弃该选择，合法备用RNG会选slot2(role1)。
+    const { state, playerRoles, bus } = makeState(roles, [2], [2, 0, 1])
+    performAttackMate(state, 0, bus, playerRoles, 1)
+    expect(playerRoles.roles[0]!.hp).toBe(155) // str96/def64/res2 -> 45
+    expect(playerRoles.roles[1]!.hp).toBe(200)
+    expect(playerRoles.roles[2]!.hp).toBe(200) // 攻击者role2
+    expect(state.battleAnim?.pendingDamageNums).toEqual([
+      { target: { kind: 'player', idx: 1 }, value: 45, color: 'blue' },
+    ])
   })
 
   // M6 武器声(sdlpal fight.c:3810 AUDIO_PlaySound(rgwWeaponSound[role]),混乱打友军强制物理只播武器声)。
@@ -94,10 +64,7 @@ describe('B1 AttackMate(混乱攻随机友军,fight.c:3760-3853)', () => {
     const roles = [makeRole({ id: 0, weaponSound: 2 }), makeRole({ id: 1 })]
     const { state, playerRoles, bus } = makeState(roles, [1])
     performAttackMate(state, 0, bus, playerRoles)
-    const sounds = bus
-      .drain()
-      .filter((c) => c.cmd.op === 'playSound')
-      .map((c) => (c.cmd as { soundId: number }).soundId)
+    const sounds = bus.drain().flatMap(({ cmd }) => (cmd.op === 'playSound' ? [cmd.soundId] : []))
     expect(sounds).toEqual([2])
     // weaponSound=0 → 不 emit
     const roles0 = [makeRole({ id: 0, weaponSound: 0 }), makeRole({ id: 1 })]

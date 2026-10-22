@@ -56,8 +56,6 @@ Template: governance-index-v1 / 1.0.0
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入](GAME-MENU-HELPER-API-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -497,10 +495,17 @@ Template: governance-index-v1 / 1.0.0
 | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口](GAME-AVI-RETRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-ITEM-ROLE-CONTEXT-1 — 战斗使用物品的脚本角色上下文](GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序](GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属](GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算](GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界](GAME-MAGIC-PLAYERINFO-STATUS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持](GAME-MOBILE-LAYOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧](GAME-PRE94-MENU-PIXEL-PARITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性](GAME-SAVE-EXPERIENCE-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对](GAME-SCRIPT-CORRECTIONS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |

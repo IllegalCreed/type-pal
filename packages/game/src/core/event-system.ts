@@ -1,27 +1,15 @@
 /**
- * EventSystem —— event 模式协程式步进器(02 架构 + D15 + 05)。
- * M2 范围:
- *  - loop-until-waitable:单 tick 内连跑非阻塞命令,撞 waitable / end / 越界才返回
- *  - showDialog:设 gs.dialogBox + 进入 waiting='dialog',emit showDialogBox
- *  - waiting=dialog 期间,按下 Confirm 释放、清 dialogBox、ip++ 继续步进
- *  - setDialogStyle*:累积到 gs.currentDialogStyle(供下一条 showDialog 用)
- *  - end:清 eventCursor / dialogBox,mode 切回 explore
- *  - goto:查 labelMap 跳转(目标不存在抛错)
- *  - raw:console.debug 跳过,ip++(M2 兜底:还没具名化的 opcode 不阻塞游戏)
- *  - giveItem / startBattle:M3+ 实现,M2 暂当 skip
- *  - sequence / if / choice:结构化 op,M2 不实现(抛错明示)
+ * EventSystem：探索事件的逐 tick 协程，以及战斗调用的同步子脚本解释器。
  *
- * SINGLE_TICK_LIMIT 兜底死循环(例如 goto 自指 / 死循环 raw 链)。
+ * tickEventSystem 持有 gs.eventCursor，遇到对话、等待或资源加载时交还宿主；
+ * autoScript 使用各 NPC 的游标。两者把控制流操作交给传入的 ScriptCursor。
  *
- * M3 T17 扩展:
- *  - 加 runtimeMode = 'explore' | 'battle' 区分,以及 battleCtx 注入
- *    (caster / target / BattleState 引用)。**M2 explore/event 行为零变**
- *    (默认 runtimeMode = 'explore' 走原 tickEventSystem 路径)。
- *  - 新 runScript(opts) 函数 —— **同步**跑一段命令(scriptOnUse 用),
- *    不用 GameState.eventCursor,不写 GameState.mode / scene / party
- *    (只能改 battleCtx.state 或 emit 命令)。
- *  - 战斗 opcode 具名延 T20/T21:本 task 只搭基础设施,具体 handler
- *    等真撞到 raw + console.debug 看到 opcode 号再补。
+ * runScript 使用局部 ip / callStack，不接管 gs.eventCursor。战斗指令先分派到
+ * battle handler，未消费的 raw 在提供 battleCtx.gs 时交给公共 applyRawOpcode；
+ * 因而也能改库存、角色、队伍或调用注入的 handler，不是隔离的纯战斗状态运算。
+ * 对话先排入战斗队列，由宿主逐 tick 显示；不承诺任意脚本的阻塞时序等价。
+ *
+ * SINGLE_TICK_LIMIT 限制单次推进，防止自跳转或循环指令链占住宿主。
  */
 
 import type {
@@ -58,6 +46,7 @@ import { removeEquipmentEffect, resyncBattleRoleStatsFromRuntime } from './equip
 import {
   applyPlayerOpcode,
   OP_INCREASE_PLAYER_ATTR,
+  OP_INCREASE_PLAYER_LEVEL,
   OP_SET_PLAYER_STAT,
 } from './event-opcode-player.js'
 import type { DialogBoxState, EventCursor, GameState, NpcState } from './game-state.js'
@@ -2899,17 +2888,14 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
 }
 
 /**
- * 同步跑一段命令(M3 T17,T20/T21 magic.scriptOnUse / item.scriptOnUse 用)。
+ * 同步执行战斗调用的子脚本，返回后续入口；入口是否回写由具体 caller 决定。
  *
- * 与 tickEventSystem 区别:
- *  - 不依赖 GameState.eventCursor,自带局部 ip 推进
- *  - 不写 GameState.mode / dialogBox / party / scene(不变量见 plan T17)
- *  - 同步跑完(撞 end / 越界 / 超限 退出),不在 waitable 上等下一帧
- *  - showDialog 在 battle mode 改 emit showBattleMessage,**不阻塞**(ip++ 继续)
- *  - raw 沿用 D26 兜底 skip,console.debug 加 [event-system battle] 前缀
- *    方便 T20/T21 implementer grep 撞到的真实 opcode 号
+ * 局部游标独立于 gs.eventCursor，但 battleCtx.gs 引用的运行态不是副本。
+ * raw fallback 可改队伍、装备等共享状态，不能把未写 eventCursor 当成无副作用。
+ * showDialog 只入队；显示、按键等待与恢复推进归战斗宿主所有。
  *
- * 战斗 opcode 具名 handler 延 T20/T21(等真跑 spell.scriptOnUse 撞到 raw 时再补)。
+ * 本入口不跨 tick 等待：支持的即时指令同步推进，未支持的命令按分支跳过或抛错。
+ * 终止指令返回入口；越界告警后返回原入口；超过单次指令上限则抛错。
  */
 export function runScript(opts: RunScriptOptions): number {
   const { commands, bus, runtimeMode, battleCtx } = opts
@@ -3097,11 +3083,13 @@ export function runScript(opts: RunScriptOptions): number {
               currentEventObjectId: curEventObjId,
             }
             applyRawOpcode(battleCtx.gs, cmd.opcode, cmd.operands, curEventObjId, cursor)
-            // 战斗中 0x19/0x1A 改了 PlayerRolesRuntime base → 回灌战斗工作副本 snapshot,使加成当场
+            // 战斗中 0x19/0x1A 改base、0x8D升级后，回灌战斗属性snapshot，使效果当场
             //   生效(镇狱明王力量觉醒:此前加成战内无效 + 后续 0x1D 治疗封顶旧 maxHP + 菜单/战斗对不上)。
             //   resync 全队(读 runtime+装备 authoritative,未变 role 是 no-op;省去 op2==0 角色解析)。
             if (
-              (cmd.opcode === OP_INCREASE_PLAYER_ATTR || cmd.opcode === OP_SET_PLAYER_STAT) &&
+              (cmd.opcode === OP_INCREASE_PLAYER_ATTR ||
+                cmd.opcode === OP_SET_PLAYER_STAT ||
+                cmd.opcode === OP_INCREASE_PLAYER_LEVEL) &&
               battleCtx.playerRoles
             ) {
               for (const p of battleCtx.state.players) {

@@ -39,7 +39,7 @@ Owner: Codex（单Agent）
 ## 保留的停止线
 
 - [非队员Extra](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)：原盘43503指令中，Extra 0x17仅大蒜84入口，14处0x30均无显式role override；这只是缩小范围，完整动态写入→无重建→清理→消费链仍未知。C逐脚本阻塞与TS先排队的中间时序亦未授全等价。
-- [WORD边界](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)：原生C字段复合赋值与正式TS结算边界已证65535+1分歧；未运行完整SDLPal／浏览器导入，也未证明普通原盘剧情自然触发。数值策略待用户裁决，未改算术／save。
+- [WORD边界](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)：原生C字段复合赋值与正式TS结算边界已证65535+1分歧；未运行完整SDLPal／浏览器导入，也未证明普通原盘剧情自然触发。2026-10-22用户裁决保留TS持续增长；当前偏离写入WORD卡与机制文档，未改算术／save。原件与历史pending字段保留，不据本项裁决自动接受3x。
 
 三个相关产品源保持review，不因测试／统一门全绿升格。第一、二阶段不混用；schema/save/资源、公共字段和UI形态未改变。
 
@@ -60,3 +60,9 @@ M05等待真实asset/SHA解码证明后再断言应用可用，默认等待1000/
 本次确有两轮新增采集：第一轮带诊断拒绝，第二轮才是干净门；同报告严格比较不算第三轮。完整check仍绑定150650c59的20430原件；其后只有5个H02、2个M05、8个K06测试变化，20415未变结果复用，受影响测试/当前TC及最终official另核，未伪造第二次全check。两editor文件仍为隐式pending，0新增关闭；57accept/26partial和371closed/114review/2870pending保持。源码、公共接口、规则、超时、选择、资源与存档未改，不扩94–102。
 
 `review.json.ciRepair`为逐项入口，快检另核两测试/真实caller指纹、M05失败身份、K06诊断校准与当前官方结果。首次私有副本Vite路径权限collection失败不算有效反例，原件保留。当前修正只授本地接受；本笔发布后的远端CI必须按实际Git SHA/run核对，不能从本文推定成功。
+
+## 385主线CI后继与WORD裁决
+
+385已FF main，Docs成功，Coverage实际在Reforge normal landing默认5s超时；本笔远端门未通过。后继只优化每case内部相同RLE输入的重复压缩，原九身份/业务断言/timeout和真实产品链不变；新包包含完整旧/新输入、所有原件、八维与只读快检，见[meal窄返工](meal-ci/README.md)。本地仅fresh Reforge8965/158官方collector，六包据证复用；组合20032/758严格保护和计数不变，不伪造第二次全仓采集。该Reforge文件仍pending、0新增关闭。新提交发布后实际CI另核。
+
+WORD选择已由用户明确回答：保留TS持续增长、记录第一阶段偏离；原数值实现/save不改，3x仍partial。旧review/native中pending字段保留为历史时间点，不覆盖当前WORD卡与机制文档中的裁决。

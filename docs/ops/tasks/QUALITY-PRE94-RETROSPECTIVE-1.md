@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前窗口：6个明确IO文件逐项接受；最新main整合后全check20430、单次official ratchet/protected20032零诊断。账本3354/361closed/123review/2870pending，固定83卡仍56accept/27partial。[原件与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md)。P3待用户裁决，原3/3g不升格；提交/推送/合并以实际Git refs为准。
+> 当前：3c专属动画回归及92工程纠错按原合同接受，固定83卡61accept/22partial/0pending；账本漂移修正后3355/373closed/113review/2869pending。Workbench整文件维持review，3w非队员Extra/时序仍未知；解释器两头注纯文案已提交，当前文档静态/推送/主线/CI按本窗实际回执，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1275,3 +1275,137 @@ Codex唯一Owner，白名单仅BattleSpriteLibrary.glm-m.test.tsx及本卡/必�
 M05真实reader迟到旧1绿1指定断言红→新2绿→恢复2绿；K06两帧RAF校准旧5act→新0/恢复0，8业务主体AST不变，五文件29相邻及editor TC零诊断。首轮新增official20032虽exit0但5act/2328stderr明确拒绝；第二轮ci-two-tests-final-ratchet实际20032/758、所有诊断/stderr0，固定cb67a6a0e保护与同报告严格范围/计数复核通过；全部包和总计指标不变。baseline仅一条标题身份/摘要及首次官方生成时间，没有比例下调/删除/新调整授权。完整check仍在150650c59，后继15测试变化另核、20415未变结果复用，未冒称新全check。
 
 逐项A–H、两轮失败/恢复、完整GitHub原件与只读快检仍归battle-quality，0新增closed、两editor文件仍implicit pending，原57accept/26partial与371/114/2870保持。第一次隔离probe的Vite路径collection错误不授红例信用。本地静态及实际发布后CI分开记；继续同一3y先commit/push，fresh fetch确认0behind后FF main并核真实CI，主工作树不改。下一仍pre94 3v基础动作已证参数/夹具余项，94–102不扩展。
+
+### 2026-10-22 385主线CI的meal夹具窄返工 build allowed
+
+38502c046已推3y并FF main、0behind/0ahead。main Docs39689206973成功；Coverage39689207073实际在pal-meal-shell第639行normal landing的默认5000ms超时，Reforge8965例中仅1失败，完整原件另存。不能写成本笔远端质量门通过，也不作行为反例。3v的6文件草案/154相邻/typed preferred-slot单红仅在自有临时副本，canonical未动、无新分支/接受；当前优先修CI。
+
+Codex唯一Owner。build allowed限pal-meal-shell.test.ts的输入准备及必要证据：原574个精灵定义按asset需求反复编码相同1×1帧；只允许在每次project夹具内部按同一帧工厂/帧数复用已完成的gzip/hash，保留每asset独立字节副本及每case独立catalog/source。先profile并比对完整manifest/catalog/scenes与二进制输入，核真实caller、错误传播和返回buffer隔离。九用例身份、全部业务主体/断言、计时/timeout、原地图/场景及真正渲染/脚本链保持；不改产品/配置/规则，不作E2E路线新验收，不扩94–102。定向与必要相邻后，只刷新受影响Reforge官方collector，其余六包须有源码/输入未变的明确复用证明，严格保护比较仍执行；不伪造新全仓采集。
+
+### 2026-10-22 隐藏成长WORD边界用户裁决
+
+用户明确选择“保留TS持续增长，明确记录偏离”。[WORD卡](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)与机制文档已记录：第一阶段七项隐藏成长65535+1继续为65536，不回绕、不新增cap、不改save/导入或二阶段。当前算术本就符合所选策略，无数值产品修复；冻结C/TS分歧原件保留，不将C对齐失败重写成通过。仅解除该项取舍停止线，CODE3x及26张partial仍须各自核清余项；本次0新增closed。
+
+### 2026-10-22 meal夹具本地有限验收
+
+相同帧数的561sprite资源只有13种编码需求；缓存归每次project内部，sprite/tile工厂隔离、失败不缓存、每asset独立字节。六case完整输入相同、原九业务主体/身份/timeout AST一致；9定向、Reforge TC与ownership/失败探针零诊断。单次profile约150→58ms只是本地成本观察，不冒称已证明CI超时唯一原因。fresh官方Reforge8965/158通过，其余六包按冻结输入复用，组合20032/758的严格metrics/scope/protected均无变化、baseline不写；不重复全仓check/coverage。静态/实际提交及远端CI另据原件，0新增关闭，[完整本地依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md)。
+
+WORD风险卡按已批准偏离策略done，数值实现不改、不自动接受CODE3x。首轮文档consumer发现mechanics的phase1 catalog旧指纹；补该唯一条目后完整check:docs又正确拒绝未同步的shard manifest SHA（124绿/1红）。仅更新manifest该SHA并核全部相关review绑定，受影响catalog套件与全部五consumer/progress复验零诊断，原两次失败均保留；未把完整命令改写成首次通过。
+
+### 2026-10-22 移动端影响既有accept的增量绑定 build allowed
+
+主线868323003已含移动端PR #8。实核净diff与机器连续表，直接改变7个此前closed生产文件：shell input/AVI，display-scale/FPS/speedrun store，analytics consent UI/installer；当前7 SHA均匹配移动端独立已审候选。Codex唯一Owner，复用旧A–H及移动端独立原件，补逐文件变更、caller、测试合同适用性与精确source绑定，缺证据则保留review。14新增tracked路径仍pending，main/bootstrap/minimap/tools原review不扩关。
+
+准入仅上述有限证据与display-scale三处已过时的“index.html写死960×600”注释；修为桌面默认及layout实际ownership，并证明执行AST完全相同。生产行为/数值、公共接口、测试/fixture/超时/规则不改，不重跑全仓或覆盖率；先与3v/3x相关余项汇合到模块冻结窗口。868实际Docs已成功，Coverage39703338497仍在运行，不能从本地零诊断推定远端门通过。本段不新增closed/accept。
+
+### 2026-10-22 CODE3v结构及测试质量 build allowed
+
+Codex唯一Owner，复用旧四源全文/primary与本轮已完成的逐段核读、私有154相邻/TC和preferred-slot指定单红。准入仅：attack去同层magic类型耦合并直接依赖equipment-state；flee移除实际未读的第四个PlayerRoles参数、同一owner getter、纠正端口请求/PRNG推进注释；唯一生产caller与10测试调用机械迁移。game为private应用包、无SDK出口，逐符号census未发现其它caller；本项属于内部签名，不扩张公共合同。
+
+纯重构与测试质量分提交。后者限AttackMate既有7例的typed真实factory/非同序party独立HP oracle、actions相关段两个合法fixture及无用强转、H共享fixture一条错误完整生命周期注释。保留全部既有断言合同/用例数量；修改一标题据映射登记，不新增退役。battle-system/actions大文件只授实际调用段，不以154绿关闭全文；本轮不改算法、既定敌吉运取舍、schema/save/UI或94–102。先证明每个机械变化及源依赖未漂移，最后与相关卡一起冻结跑重门，未过门前3v保持partial。
+
+移动端analytics增量另补E维：原installer两例只看面板存在/SDK缺省，未观察新增公开openPreferences的真实UI结果。准入install-analytics.test.ts全文既有第一例补“拒绝→公开入口重开→原选择不变”的真实DOM业务断言，保留既有assertions/2case；更正SDK DOM与真实网络边界的标题并登记身份映射。用唯一noop forwarding私有变异核旧两绿/新指定业务红，恢复后跑相邻analytics；不改产品或声称实网/整页遮挡/硬件验收。
+
+2026-10-22 新停止线：[GAME-AVI-RETRY-OWNERSHIP-1](GAME-AVI-RETRY-OWNERSHIP-1.md)。合法媒体IO结果下，自动播放和第一次重试连续拒绝后，once监听不再恢复，仍显示的提示不能继续点击。原生对照1绿/反例一条业务UI AssertionError，非超时；未做实体手机权限序列，也未改播放器。实现及78当前接受撤回，原其它合同不改写；其它pre94继续，不因用户待裁决而停整仓。
+
+### 2026-10-22 AVI授权与当前游戏模块冻结
+
+用户批准每次失败可重复点击重试、成功或结束清理。GAME-AVI-RETRY-OWNERSHIP-1 build allowed，唯一Owner Codex；正式原测试先补两合同红，再只修同一overlay的once监听重接与显式解除。未决时不并发，不改500ms/跳过源/媒体资源/Save；迟到结果复用现有lifecycle测试，不重复新增同轴用例。实际8文件61相邻零stderr，原6例草案中一迟到重复例未进最终5例，正式最终suite对冻结旧源仍恰两红。授权本身不恢复CODE78接受信用。
+
+同窗B维另准入fps-overlay两句“帧率可证明CPU原因”的过强推论纠正；display-scale/FPS都只改注释，证明生成JS相同。当前3v纯重构2077d7ecf与测试补强7eea19e05分提交推3y；analytics原两例增强及AVI窄修与逐文件证据待本模块集中全门后验收。来源868完整Docs/Coverage实际成功（平台Node20迁移warning与Ubuntu notice另列，不冒称平台annotation零）；不把其绿覆盖到新AVI行为。当前56accept/27partial与370/115/2870保持，覆盖率仅在这个冻结窗口集中运行。
+
+本游戏窗口唯一八维/原件/只读快检入口：[game-actions-mobile](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)。当前16逐文件候选与3实际上下文范围均已区分，正式验收仍待集中门结果。
+
+### 2026-10-22 typed fixture覆盖率精确调整准入
+
+首官方窗口20034/758实际全例通过、运行诊断0，但game branch9557→9555使指标门exit1，不能写通过。实取868成功CI的game逐文件V8/LCOV与旧baseline完全吻合：仅AttackMate未改实现的protect ??0未定义回退及缺锚立即数字两分支因合法typed构造不再触达，旧7例三字段强转原来偶然覆盖；HP/保护/防御/clamp/随机目标等业务断言保留且预选目标增强。其它game变化只有AVI授权修复及公开隐私入口覆盖提升，另六包全部指标相同。
+
+沿用户既有合理重构/测试质量整改baseline授权，Codex唯一Owner，build allowed仅approved-baseline-adjustments新增固定旧baseline与13实际源SHA的有限数据项（以机器实际去重路径数为准），只将game branch covered降2；其它旧计数下限、函数体/规则/选择/超时不动。先证旧新LCOV及源码相同、原表/程序AST不变，并实测有效授权/错误源拒绝，再集中正式复跑一次门，不恢复伪fixture或新增弱例。全check产品结果保留，新增纯授权数据只补工具定向；94–102不扩展。
+
+### 2026-10-22 基础动作／移动端影响窗口收口
+
+同一3y，16文件逐项八维及当前SHA/真实caller/独立oracle成立；3v原四action+两专测、78原三AVI文件原合同接受。attack/AVI两项review恢复，14既有closed仅刷新，净增2而非16；固定83卡58accept/25partial/0pending，3355/372/113/2870由机器核。无测试退役；七新控制源14路径与大文件只保留原范围，不因门绿附带关闭。
+
+首轮official采集因合法typed夹具减少两个偶然分支而指标拒绝，原exit1/raw保留；有限授权数据的93工具测试及active/bad-source/bad-baseline直接反控通过，旧表/其余程序AST不变，最终正式复跑通过。未为了比例恢复伪fixture或增加弱例。完整check实际七包20432，全量stdout260块与原普通业务/性能记录一致，所有stderr/act/环境/TS/未处理/静态诊断0；lint5798为0/0/0。最终官方fast ratchet使用固定origin/main基点868保护，严格最终baseline canonical投影及同报告compareCoverage/auditScope另验；最终protected检查复用最后一次官方报告，不额外再采第三轮coverage，也不伪称重复全check。最新门、源绑定与完整未裁剪原件在game-actions-mobile唯一入口。只补末轮文档/进度/账本/lint，不因收口文案重跑重门。
+
+下一可续仍pre94原3w/3x与其它25partial，复用已核primary/反控，只补真实余项；WORD持续增长裁决沿用。CLI/事件P3及RLE格式/资源域未知不擅关闭。提交推送/主线同步/远端CI以实际refs/run为准，本段不是提前声称新mainCI成功。
+
+### 2026-10-22 3w/3x下一窗口只读核证
+
+Codex单Owner，同一3y，最新31c9775ce/0behind/0ahead与机器账本复核。3w两产品、progression与V1入口/root guard/shape/Save/type声明和直接测试完整核读，bootstrap实际读档范围及opcode写入只按实际段；旧八维/primary/反控据版本复用，不重复整套GLM成果。原非队员Extra raw43503 census仍只是局部约束，不当动态闭合。
+
+3x新增真实输入链反证：主/隐藏经验余数MAX_VALUE经过serialize/parse、私有内存Save/Load和真实startBattle后，在won builder不能递减；Word65535两对照<1ms归1535，极大数两例在ready后1s无done，父进程请求清理进程组。outer0/tsx0不当绿色质量门，不伪称Vitest业务红。源/完整原件/只读复验见[新经验边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)，风险卡GAME-SAVE-EXPERIENCE-DOMAIN-1draft，尚无产品build。
+
+当前V1原合同只验声明形状/有限值；SDLPalWord仅数值域候选，不自动批准JSON新上限。用户原“先核合法合同、再红例修复”授权保留，但本次数值域取舍尚需明确。仅59接受/v1关闭暂撤，57accept/26partial与371/114/2870；3x原partial保持，其它已核卡不重开。当前不改实现或跑全check/coverage，等待策略时继续3w不重叠核证。
+
+### 2026-10-22 经验输入与成长质量窗口（候选冻结，集中门待跑）
+
+用户明确批准经验余数0..65535整数，异常在写槽前拒绝。Codex单Owner仅v1与save-io直接测试build；真实内存Save原槽位/metadata与八池六角色、上下界/小数/极大数，新增两例。旧29例中28绿1指定业务红，8个拒绝断言及原槽内容构成直接失败；四行私有标量守卫后实际6文件66绿/零stderr、TC零诊断。最初相邻命令5过滤参数只匹配3文件43例，修正实际路径后6/66，未超卖。
+
+3x复用旧全文/原生C/七池与RNG反控，补核当前合法输入：直接读取原DATA.MKF的WORD阈值/法术表，与实际parser比对，再正式hydrate/project/startBattle→won builder得到1000经验升7级、余35、学349不学311。只证明该core边界，不声称完整战斗、SDLPal执行、浏览器或演出。私有学法术helper唯一caller已过滤magic0，删重复零值条件；H02删一条被前一1/1字面断言蕴含的自比，五身份不变。补注属性WORD持续增长是明确TS偏离、经验WORD回写独立。两专测16绿，纯重构与输入修复分提交。
+
+五文件A–H、当前caller/source指纹、完整红绿/恢复前后源码与proof统一在[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。59/v1与3x在新集中门前不接受，57/26及371/114/2870不变。前文draft/待裁决是修复前时点，由本节与风险卡当前review取代；旧观察原件与历史计数不覆盖。产品格式/DB版本、其它数值域、奖励/随机、第二阶段均未改变。全check/official ratchet/protected留本冻结窗口一次集中安排，运行诊断0才可恢复59及裁定3x。
+
+### 2026-10-22 经验/成长/物品窗口最终源验收
+
+59经新增输入反证一度撤回，已按用户WORD整数政策先红后绿修复后恢复；3x补足八维缺口、原盘表真实结算与冗余结构/断言清理后按原合同接受。三文件由review闭合：v1.ts、battle-progression.ts、battle-levelup.test.ts；相对31窗口起点仅净增后两项，不能把恢复59算全新进度。另三既有closed测试按实际变更刷新。item.ts完整阅读/八维后明确登记review，返回script pointer及更广生命周期未知未关闭；event-system只接受命名常量与8D刷新有限接线，3r/3s/3w不跟随包绿关闭。
+
+正式全check一次20434，七包及lint5804零诊断；之后仅item/event-system/直接测试三game文件变化，完整game TC/3724刷新受影响包，其余六包代码按同版本原件复用。不声称在后继提交再次跑完整check。正式official fast一次20040/758并固定31主线保护，baseline canonical投影及同报告strict/scope/protected均零回落/无源移除；正常8项提升/2测试范围变化，无新降低授权、规则、ignore、测试退役或弱例。三轮普通stdout260/33/253块与已读类别逐消息一致（仅耗时归一），实际所有运行诊断/TS/act/环境/未处理与stderr0。
+
+物品四新增正式红→context-only三绿/一投影红→最终四新加四旧全绿；289相邻与整包3724不累加成唯一例数。首次8D接线漏局部import导致4 ReferenceError，随后game TC报TS2552；此为Codex实现失误，已修并保留两失败原件，不冒称原产品反例。原四测试/fixture/data及其它event-system源码严格守恒，未更改升级算法/随机/当前HPMP。
+
+[当前八维/原件/快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。59/3x以外81卡值不改。最终候选59accept/24partial；source ledger3355/374/112/2869以机器再次核数。覆盖率只本窗一轮，final statics后才提交推送同一3y并0behind合main。剩余3w动态Extra链、事件P3、RLE格式/资源域等仍未知；不扩94–102。
+
+### 2026-10-22 3w相邻解释器ownership窄修准入与核证
+
+Codex单Owner、同一3y，fetch后基点371b00c7d与main同点。复用此前完整A维与3w/3r八维，当前核runScript完整函数、公共opts、raw fallback/setParty、装备重建注入及真实item/PhaseE caller；不冒充event-system整文件新验收。build allowed仅两段失实模块/函数头注：旧“不会改GameState队伍/场景”、raw总跳过、战斗handler待实现、showBattleMessage等已与现行实现矛盾。当前说明局部游标与共享gs的不同ownership、即时指令/对话排队和返回/越界/上限行为；parsedTS与发射JS逐字相同，没有机制、schema/save、公共接口、测试或产品行为变化。
+
+[逐项八维与正文守恒](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json)。3r/3s/3w仍partial，原非队员Extra风险卡仍draft。获批物品接线后，大蒜确能给所选role写Extra，不能继续用旧漏上下文no-op作不可达证明；须证明战斗换队后旧BattleState角色写入、无重建、收尾及消费的完整链，或给完整不变量。当前只读未证普通剧情缺陷，不改清理循环。昂贵门复用371前同执行正文的原件，不因注释窄修重采覆盖率；3c/92原合同与账本漂移一并集中收尾，94–102不扩展。
+
+### 2026-10-22 3c/92原合同据证收口与账本纠偏
+
+3c原卡仅专属动画回归；当前94行测试全文复读，生产/测试及17项相邻实现/类型/配置按原完整读取SHA一致。原三枚有效业务单红/native/raw逐字核验；最新完整check20434与单次official20040各实际执行同1身份且无诊断，原相邻6act保留为历史。该测试按A–H接受；Workbench684行整文件的其余picker/拖拽/生命周期未跟随关闭。3r/3w纯头注的parsedTS/JS守恒使同候选执行结果可复用，不新跑Vitest或覆盖率。
+
+605585752明确将上述源/测两旧关闭撤review；撤回一直保留至89bf84e16第一父8861b2994，合并后被旧行覆盖。已按实际Git树恢复两review，再单独接受已足证的专测，相对前窗净减1closed。9cf与605/c727是并行历史，9cf自身对父提交没有该状态变化，不将分支时间先后当因果。全表按这两个明确撤回快照核：其它已恢复关闭的条目均已换新证据行，本次直接确认仍保留旧原行的仅3c两项；不批量撤销有效新接受。原件/低成本只读入口见[3c当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json)。
+
+92范围是纠正命令/原件归属及30源码快照，原卡与历史门事实已复核；本次30条逐个Git闭合blob重新算SHA，当前8同/22变，旧20/10只属于旧时点。最新gate真实固定31保护、同报告strict/protected与完整环境/exit/双流已存在，复用不冒称另一次protected collector。按原工程合同接受92，不以其恢复任何30产品状态或授源码全文件信用。[92当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/closeout.json)与[联合只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/verify-closeout.mjs)。
+
+本窗只两卡partial→accept，其余81卡对象保持；固定61/22，机器373/113/2869以最终ledger复核。源提交dfde1fd7df8cda97bcfaa9772f624a92200dfe31仅两头注及对应有限记录；最终静态与治理分支推送/main同步另按实际回执，不提前称新mainCI成功。覆盖率按用户成本规则复用当前同发射正文的单次原件，所有测试/配置/基线未变。下一仍pre94的3w关键余项及其它22partial，不扩94–102。
+
+## 2026-10-22 3w真实输入域增量（未授新行为准入）
+
+[当前可复验反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json)定位到一份改过OBJECT脚本入口、但能通过现行V1导入的存档：原盘0x75先重建装备，旧BattleState仍保留role4，随后实际物品写Extra30，真实逃跑/cleanup后getter和再次导出仍读30。未手塞效果或强设终态，两轮stdout完整/stderr0；原盘普通剧情域仍未知。任务卡GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1保持draft，仅提出全角色临时Extra清理的有限选择，未借物品目标角色授权改清理策略。更大的GS/BattleState队伍分叉属于3s未决ownership，不由局部清理自动关闭。
+
+原盘316入口静态闭包2151指令未见即时0x75；0x24/25写未来NPC指针并非同步调用。该工具仍为私有取证原型，不据此证明任意输入不可达或关闭文件。当前61accept/22partial、373closed/113review/2869pending不变。复用未变产品的check/官方覆盖率/protected；本增量仅证据、任务与账本事实修正，不新采集覆盖率。远端9032b775d的Coverage39726067211已由API确认completed/success，不把传输EOF当运行失败，诊断计数不能由API摘要推断。
+
+Owner Codex单Agent；无下一位Agent提示词。用户待裁决期间继续3w现有PhaseE叶脚本与呈现可观察性补核，不扩94–102。后续正式修复须先业务失败反例及相邻回归，本观察不冒充正式Vitest红。
+
+## 2026-10-22 3w已批全角色Extra窄修
+
+用户明确批准后，原清理owner将party解毒与全角色Extra拆成各自循环；未改变毒规则、装备部位0..5、>999装备状态、接口或格式。[当前逐文件八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json)含唯一正式业务红→236实际局部绿和game TC0。新case使用role5上界、真实仙女剑8武术/32760双攻保护，没有手塞效果、终态或核心mock。不存在过滤路径不计执行，实际native4文件28、2文件39、3文件169可核。
+
+新测试登记review，3356tracked/373closed/114review/2869pending；固定83仍61accept/22partial，0新增关闭。全仓check/官方coverage/protected在产品修复后尚未新跑，集中3w多卡收尾，当前只提交推送3y、未合main。普通剧情可达性、GS/BattleState广域队伍快照、PhaseE中间对话可观察性不附带关闭；继续沿既有3w范围，不扩94–102。
+
+## 2026-10-22 3w已批战后HP/MP窄修
+
+用户另批保留战后脚本体力／真气效果。Codex单Owner、同一3y，仅settlement及其专测两文件build；正式旧13绿/新两业务AssertionError后修复漏角色参数与状态Owner。Phase E重取升级后的runtime投影，HP/MP访问绑定runtime，通用raw和治疗逐指令互见；无末尾盲回填，也不变普通战中的原可写投影。
+
+[逐文件八维/原件/只读复验入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)记录9文件238绿、game TC0，以及原可接受改动V1→真实190tick战斗的394→500闭环。两正式反例的常数由C原函数和半恢复片段核定，范围不冒充完整SDL/browser或普通原盘可达性。旧13结算身份/断言不变，新增两个不同输入轴；测试当前review，机器3356/372closed/115review/2869pending，0新关闭，固定61accept/22partial不变。两个已批窄修的全仓check/官方coverage/protected仍集中3w相关卡收尾；本片不合main，不扩94–102。
+
+### 2026-10-22 逐敌提示顺序的有限反证
+
+[当前取证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json)将此前“C阻塞/TS队列”未知缩为具体事实：原盘team46、OBJECT402与SSS41008不改，合法高属性V1经真实自动战斗，192tick第一条鼠儿果提示active时已入两颗，第二条排队。最终两颗/两提示均存在，不能报成丢物品；B面板可读数量只有源码依据，不冒称浏览器/正常玩家观察。GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1仅draft，等用户决定逐敌等待或明确保留现状；前两低属性夹具战败原件保留，不算产品红。固定83/账本不升格，未跑覆盖率；已有HP/MP批准与其它独立pre94工作继续。
+
+后续：用户已批“按SDLPal逐只处理”，另卡转两文件窄build；本时点只完成HP/MP默认角色参数，原生15/1合法输入单红→26直接/61相邻及当前TC0，旧奖励不齐草稿不计正式信用。既有runner字段携SDL敌槽i，未改公共调用签名或单条脚本yield。原叶与当前运行对话仍同前状态，时序修复先另存正式反例再改。固定61/22与3356/372/115/2869不升格，全仓/official/protected继续模块集中收尾。
+
+## 2026-10-22 3w已批逐敌等待与统一门窗口
+
+用户批准逐敌处理后，正式旧源16绿/1库存业务红，三文件有限修复使4文件27绿、game TC0；相邻DL23旧同步断言按新授权时序迁移，未弱化双活敌/掉落/恢复/释放合同。[当前八维及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json)保留首版TC/save类型冲突与导出探针的错误空屏假设原件，均不冒充产品红。最终私有WeakMap只存数字、key为本场结算，结束删除/中断GC，不改V1/public字段。实际原盘team46全战首框1颗、最终2；首框JSON通过现有V1。浏览器/像素未跑，原3w卡仅状态/清理合同，视觉仍按原集中E2E边界。
+
+本窗将Extra清理、HPMP所有权、默认角色与逐敌时序一起集中跑全仓/official/保护比较。门完成前维持61accept/22partial、372closed/115review，不把局部绿当文件关闭；94–102不扩展。
+
+## 2026-10-22 CODE3w原合同接受
+
+[模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)逐文件接受五项review：finalization源/Extra专测、settlement源/专测、system三例专测；旧finalization.test不重复关闭。3w只按原两个实现与结算/cleanup合同接受，完整battle-system、event-system、单脚本通用yield与视觉E2E不借此接受。当前固定83为62accept/21partial/0pending；源账本3356/377closed/110review/2869pending。原all-cards header59/24已按实际逐对象61/22勘误，仅3w新增接受，其余82卡逐对象相同。
+
+当前完整check20443+684工具、七包TC及lint零诊断；官方与同报告protected零诊断、未做第二次采集。初轮12个5秒超时保留，全455原超时两worker绿后，原命令加Vitest原生worker环境参数全量重跑；无规则/timeout/断言/排除变化。最终文档/账本静态回执另补，不重启覆盖率。下一3h资产源八维余项，暂不扩94–102。
