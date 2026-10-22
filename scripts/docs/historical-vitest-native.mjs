@@ -71,9 +71,14 @@ export function historicalVitestNativeIssues(doc, template, contract, read, opti
     return ['native Vitest original bytes changed']
   let entries
   try {
-    entries = readReviewRecordObject(historicalVitestContract.reviewRecord, {
-      readBuffer: options.readBuffer,
-    }).entries
+    // C04: use the protected review reader when the production CLI supplies one;
+    // pure fixtures keep the raw provider without any real-root fallback
+    const review = options.reviewReader
+      ? options.reviewReader(historicalVitestContract.reviewRecord)
+      : readReviewRecordObject(historicalVitestContract.reviewRecord, {
+          readBuffer: options.readBuffer,
+        })
+    entries = review.entries
   } catch {
     return ['native Vitest current review unavailable']
   }

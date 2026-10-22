@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { lstatSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry.mjs'
 import { readReviewRecordObject } from './review-record-storage.mjs'
@@ -9,30 +9,36 @@ const { registry, loadedSource } = loadDocumentRegistry({ manifestPath: registry
 const reviews = new Map()
 const reviewDir = resolve(root, 'docs/phase-governance/reviews')
 const reviewNames = readdirSync(reviewDir).filter((name) => name.endsWith('.json'))
-// C04: sync always checks the review storage lock first (manifest or not), then
-// fully validates every review by materialization (flat or manifest) before any registry write.
-const reviewSelection = reviewNames.map((name) => `docs/phase-governance/reviews/${name}`)
-const { reviewStorageGuardIssues } = await import('./review-record-storage-guards.mjs')
-const lockIssues = reviewStorageGuardIssues(reviewSelection, {
-  readBuffer: (p) => readFileSync(resolve(root, p)),
-  resolve: (p) => resolve(root, p),
-})
-const blockingLockIssues = lockIssues.filter((issue) => issue.includes('lock present'))
-if (blockingLockIssues.length > 0) {
-  throw new Error(
-    `sync: refusing to write registry — review storage lock present:\n${blockingLockIssues.join('\n')}`,
-  )
+
+// C04: single complete safe read of all reviews (lock check + materialization),
+// then recheck the lock before the first registry write — no prefix write possible.
+const lockPath = resolve(root, 'docs/phase-governance/reviews/.storage.lock')
+const checkLock = () => {
+  try {
+    lstatSync(lockPath)
+    return true
+  } catch {
+    return false
+  }
 }
-// Full materialization validates every review (flat or manifest) before the first registry write
+if (checkLock()) throw new Error('sync: review storage lock present; refusing registry write')
+
+// Single materialization validates every review (flat or manifest) once
+const materialized = new Map()
 for (const name of reviewNames) {
-  readReviewRecordObject(`docs/phase-governance/reviews/${name}`, {
+  const logical = `docs/phase-governance/reviews/${name}`
+  const record = readReviewRecordObject(logical, {
     readBuffer: (p) => readFileSync(resolve(root, p)),
   })
+  materialized.set(name, record)
 }
+
+// Recheck lock before the first registry write (C04: no prefix write on concurrent lock)
+if (checkLock())
+  throw new Error('sync: review storage lock appeared during read; refusing registry write')
+
 for (const file of reviewNames) {
-  const document = readReviewRecordObject(`docs/phase-governance/reviews/${file}`, {
-    readBuffer: (p) => readFileSync(resolve(root, p)),
-  })
+  const document = materialized.get(file)
   for (const entry of document.entries ?? []) reviews.set(entry.path, { file, entry })
 }
 for (const entry of registry.entries) {
@@ -60,13 +66,8 @@ registry.summary.templateCompliance = Object.fromEntries(
 )
 writeDocumentRegistry({ registry, loadedSource })
 console.log(
-  JSON.stringify(
-    {
-      total: registry.entries.length,
-      reviewStatus: registry.summary.reviewStatus,
-      templateCompliance: registry.summary.templateCompliance,
-    },
-    null,
-    2,
-  ),
+  JSON.stringify({
+    reviewsRead: materialized.size,
+    registryEntries: registry.entries.length,
+  }),
 )

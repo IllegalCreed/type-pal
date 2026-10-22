@@ -372,10 +372,13 @@ export function loadReviewRecord({ root, logicalPath }) {
   const inputSnapshot = snapshotPath(absolute(logicalPath))
   demand(inputSnapshot, `logical record is not an ordinary file: ${logicalPath}`)
   const raw = readBuffer(logicalPath)
-  // Legacy flat records and not-yet-sharded current reviews are explicitly supported flat inputs.
-  if (!raw.includes(Buffer.from(reviewStorageMarker))) {
+  demand(raw !== undefined && raw !== null, `review missing: ${logicalPath}`)
+  // C03: dispatch by parsed own key, not raw byte search; flat/Git-flat are first-class
+  const parsed = parseTerminalJson(raw)
+  demand(isObject(parsed), `review is not an object: ${logicalPath}`)
+  if (!Object.hasOwn(parsed, reviewStorageMarker)) {
     demand(raw.length <= reviewStorageFlatCap, `flat review exceeds 1 MiB cap: ${logicalPath}`)
-    const flat = parseTerminalJson(raw)
+    const flat = parsed
     demand(
       isObject(flat) && Array.isArray(flat.entries),
       `unsupported flat review shape: ${logicalPath}`,
@@ -394,6 +397,7 @@ export function loadReviewRecord({ root, logicalPath }) {
       }),
     }
   }
+  // C03: materialize from the same readBuffer but also check every leaf is an ordinary file
   const { record, storage } = materializeReviewRecord(logicalPath, { readBuffer })
   // C03: loadedSource from the same materialization read — no second sampling pass
   const files = [{ path: logicalPath, sha256: digest(raw) }]
@@ -401,6 +405,9 @@ export function loadReviewRecord({ root, logicalPath }) {
     const shardPath = `${reviewDirRelative}/${d.path}`
     const bytes = readBuffer(shardPath)
     demand(bytes !== undefined, `shard went missing during read: ${shardPath}`)
+    // C03: every shard leaf must be an ordinary file (not symlink/dir)
+    const leafStat = lstatSync(absolute(shardPath))
+    demand(leafStat.isFile(), `shard is not an ordinary file: ${shardPath}`)
     files.push({ path: shardPath, sha256: digest(bytes) })
   }
   checkLock(lockPath)
@@ -462,14 +469,15 @@ export function loadReviewRecordFromGit({ root, revision, logicalPath }) {
   }
   const raw = readBuffer(logicalPath)
   demand(raw !== undefined, `Git review missing at ${revision}: ${logicalPath}`)
-  if (!raw.includes(Buffer.from(reviewStorageMarker))) {
+  const parsed = parseTerminalJson(raw)
+  demand(isObject(parsed), `Git review is not an object: ${logicalPath}`)
+  if (!Object.hasOwn(parsed, reviewStorageMarker)) {
     // Git-flat: legacy flat records at a fixed revision are first-class
-    const flat = parseTerminalJson(raw)
     demand(
-      isObject(flat) && Array.isArray(flat.entries),
+      isObject(parsed) && Array.isArray(parsed.entries),
       `unsupported Git-flat shape: ${logicalPath}`,
     )
-    return { record: flat, storage: null }
+    return { record: parsed, storage: null }
   }
   const { record, storage } = materializeReviewRecord(logicalPath, { readBuffer })
   return { record, storage }

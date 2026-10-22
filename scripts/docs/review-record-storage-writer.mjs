@@ -7,6 +7,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import {
+  lstatSync,
   mkdirSync,
   mkdtempSync,
   readdirSync,
@@ -373,6 +374,16 @@ function r92EdgeIndex(stem) {
 // final atomic rename into target. No foreign overwrite or unknown generation reuse.
 export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
   demand(prepared?.outputs && prepared.outputs.length > 0, 'prepared outputs required')
+  // C01: enforce complete frozen output set — 8 manifests + owned shards + R92 + R94 + 10 source keys
+  demand(prepared.outputs.filter((o) => o.kind === 'manifest').length === 8, 'expected 8 manifests')
+  demand(
+    prepared.outputs.filter((o) => o.kind === 'review').length === 2,
+    'expected R92+R94 (2 reviews)',
+  )
+  demand(
+    Object.keys(prepared.expectedSourceSnapshot).length === 10,
+    'expected 10 source keys (8+R92+R94)',
+  )
   demand(prepared.expectedSourceSnapshot, 'expected source snapshot required (C01)')
   const base = resolve(targetRoot)
   const sourceReader = options.sourceReadBuffer
@@ -410,30 +421,59 @@ export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
     demand(digest(current) === expectedSha, `source changed during prepare→publish: ${path}`)
   }
 
-  // C01: validate all parent directories are ordinary directories (not symlinks)
+  // C01: lstat-based parent checks (stat follows symlinks, lstat does not)
   const targetReviewDir = join(base, reviewDirRelative)
   mkdirSync(targetReviewDir, { recursive: true })
   const targetShardsDir = join(targetReviewDir, 'shards')
-  if (statIfExists(targetShardsDir)) {
-    demand(
-      statSync(targetShardsDir).isDirectory() && !statSync(targetShardsDir).isSymbolicLink(),
-      'target shards/ exists but is not an ordinary directory',
-    )
-    for (const stem of new Set(
-      prepared.outputs.filter((o) => o.kind === 'shard').map((o) => o.path.split('/')[4]),
-    )) {
-      const stemDir = join(targetShardsDir, stem)
-      if (statIfExists(stemDir))
-        demand(statSync(stemDir).isDirectory(), `target stem dir not ordinary: ${stem}`)
+  const lstatIf = (p) => {
+    try {
+      return lstatSync(p)
+    } catch {
+      return null
     }
   }
-  // C01: verify target manifest/R92/R94 absent or byte-identical to expected outputs
+  const groupStems = new Set(
+    prepared.outputs.filter((o) => o.kind === 'shard').map((o) => o.path.split('/')[4]),
+  )
+  const shardsLstat = lstatIf(targetShardsDir)
+  if (shardsLstat) {
+    demand(
+      shardsLstat.isDirectory() && !shardsLstat.isSymbolicLink(),
+      'target shards/ not an ordinary directory',
+    )
+    for (const stemName of readdirSync(targetShardsDir)) {
+      const stemStat = lstatIf(join(targetShardsDir, stemName))
+      demand(
+        stemStat?.isDirectory() && !stemStat?.isSymbolicLink(),
+        `shard root has non-directory stem: ${stemName}`,
+      )
+      if (groupStems.has(stemName)) {
+        for (const genName of readdirSync(join(targetShardsDir, stemName))) {
+          const genStat = lstatIf(join(targetShardsDir, stemName, genName))
+          demand(
+            genStat?.isDirectory(),
+            `stem ${stemName} has non-directory generation: ${genName}`,
+          )
+        }
+      }
+    }
+  }
+  // C01: target outputs allow absence / original source bytes / exact previously published output
   for (const output of prepared.outputs) {
     if (output.kind === 'shard') continue
     const targetPath = join(base, output.path)
-    if (statIfExists(targetPath)) {
+    const targetStat = lstatIf(targetPath)
+    if (targetStat) {
+      demand(
+        targetStat.isFile() && !targetStat.isSymbolicLink(),
+        `target not ordinary file: ${output.path}`,
+      )
       const existing = readFileSync(targetPath)
-      demand(existing.equals(output.bytes), `target already has different bytes: ${output.path}`)
+      const isOurOutput = existing.equals(output.bytes)
+      const isOriginalSource =
+        prepared.expectedSourceSnapshot[output.path] !== undefined &&
+        digest(existing) === prepared.expectedSourceSnapshot[output.path]
+      demand(isOurOutput || isOriginalSource, `target has foreign bytes: ${output.path}`)
     }
   }
 
@@ -476,29 +516,34 @@ export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
     )
     demand(reloadCheck.edgeCount === 9, `reload found ${reloadCheck.edgeCount} edges != 9`)
 
-    // C01: check no unknown generation directories / foreign content in target shards root
-    for (const output of prepared.outputs) {
-      if (output.kind !== 'shard') continue
-      const stem = output.path.split('/')[4]
-      const generation = output.path.split('/')[5]
-      const shardsRoot = join(base, reviewDirRelative, 'shards', stem)
-      const genDir = join(shardsRoot, generation)
-      if (statIfExists(genDir)) {
-        // immutable generation reuse: only if every file is byte-identical to what we'd write
-        for (const name of readdirSync(genDir)) {
-          const existing = readFileSync(join(genDir, name))
-          const staged = readFileSync(
-            join(stagingDir, reviewDirRelative, 'shards', stem, generation, name),
-          )
-          demand(
-            existing.equals(staged),
-            `immutable generation has foreign bytes: ${stem}/${generation}/${name}`,
-          )
+    // C01: inventory entire group-stem shard roots under lock — reject unknown sibling generations
+    // whether or not the active generation exists; immutable reuse requires byte-identical
+    for (const stem of groupStems) {
+      const ourGenerations = new Set(
+        prepared.outputs
+          .filter((o) => o.kind === 'shard' && o.path.split('/')[4] === stem)
+          .map((o) => o.path.split('/')[5]),
+      )
+      const stemRoot = join(base, reviewDirRelative, 'shards', stem)
+      const stemStat2 = lstatIf(stemRoot)
+      if (!stemStat2) continue
+      demand(stemStat2.isDirectory(), `stem root not ordinary: ${stem}`)
+      for (const genName of readdirSync(stemRoot)) {
+        if (!ourGenerations.has(genName)) {
+          demand(false, `unknown sibling generation in group stem ${stem}: ${genName}`)
         }
-      } else if (statIfExists(shardsRoot)) {
-        for (const name of readdirSync(shardsRoot)) {
-          if (name !== generation) {
-            demand(false, `unknown generation directory: ${stem}/${name} (expected ${generation})`)
+      }
+      for (const gen of ourGenerations) {
+        const genDir = join(stemRoot, gen)
+        if (lstatIf(genDir)) {
+          for (const name of readdirSync(genDir)) {
+            const existing = readFileSync(join(genDir, name))
+            const stagedPath = join(stagingDir, reviewDirRelative, 'shards', stem, gen, name)
+            const staged = readFileSync(stagedPath)
+            demand(
+              existing.equals(staged),
+              `immutable generation foreign bytes: ${stem}/${gen}/${name}`,
+            )
           }
         }
       }
@@ -575,7 +620,7 @@ function verifyStagedGroup(treeRoot, prepared) {
   return { totalEntries, edgeCount }
 }
 
-function statIfExists(path) {
+function _statIfExists(path) {
   try {
     return statSync(path)
   } catch {
