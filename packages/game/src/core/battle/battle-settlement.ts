@@ -180,6 +180,8 @@ function runBattleWonPostScripts(
       ip: en.scriptOnBattleEnd,
       bus,
       runtimeMode: 'battle',
+      // PAL_RunTriggerScript(..., i):通用属性指令的默认role上下文是敌槽号,不是我方party[i]。
+      eventObjectId: ei,
       battleCtx: {
         state,
         playerRoles: res.playerRoles,

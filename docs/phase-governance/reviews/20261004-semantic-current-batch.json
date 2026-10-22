@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read exact two-file approved PhaseE HP/MP repair, source-bound native evidence and board/index/ledger delta;preserve unrelated entries",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "ee22531b417e916e154164e719ac54cd594b88a1937727a58c773f1e04c2bda1",
+      "afterSha256": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "ee22531b417e916e154164e719ac54cd594b88a1937727a58c773f1e04c2bda1",
+        "implementationSha": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
         "contentVersion": 46,
         "minimumSaveVersion": 12,
         "history": [
@@ -1650,7 +1650,7 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
       },
       "history": [
         {
@@ -2385,6 +2385,19 @@
           "afterSha256": "ee22531b417e916e154164e719ac54cd594b88a1937727a58c773f1e04c2bda1",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-followup",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+          },
+          "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+          "previousAfterSha256": "ee22531b417e916e154164e719ac54cd594b88a1937727a58c773f1e04c2bda1",
+          "afterSha256": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
         }
       ],
       "supersedes": [],
@@ -2678,7 +2691,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read exact two-file approved PhaseE HP/MP repair, source-bound native evidence and board/index/ledger delta;preserve unrelated entries",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2690,7 +2703,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "9a5de866cfc986f85aa8a19220cd90605f18bf284d561ed94c57dd60b231d547",
+      "afterSha256": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2711,7 +2724,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "9a5de866cfc986f85aa8a19220cd90605f18bf284d561ed94c57dd60b231d547",
+        "implementationSha": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
         "contentVersion": 32,
         "minimumSaveVersion": 12,
         "history": [
@@ -3057,7 +3070,7 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
       },
       "history": [
         {
@@ -3622,6 +3635,19 @@
           "afterSha256": "9a5de866cfc986f85aa8a19220cd90605f18bf284d561ed94c57dd60b231d547",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-followup",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+          },
+          "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+          "previousAfterSha256": "9a5de866cfc986f85aa8a19220cd90605f18bf284d561ed94c57dd60b231d547",
+          "afterSha256": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
         }
       ],
       "supersedes": [],

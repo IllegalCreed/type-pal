@@ -254,6 +254,36 @@ describe('Phase E→对话→恢复与释放', () => {
     expect(getBattleResources(f.gs)).toBeUndefined()
   })
 
+  it('第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人', () => {
+    const f = createBattleLifecycleFixture({
+      partyMembers: [1, 0],
+      enemyIds: [100, 101],
+      expGained: 0,
+      cashGained: 0,
+      scriptOnBattleEnd: 1,
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x1a, operands: [9, 100, 0] },
+        { op: 'raw', opcode: 0x1a, operands: [10, 6, 0] },
+        { op: 'end' },
+      ],
+    })
+    // 明确的双敌全灭边界;只第二槽有战后脚本。C传敌槽1作为eventObjectID,
+    // 0x1A的op2=0因此写role1,不是party[1]的role0。半恢复后各role常数见断言。
+    f.state.phase = 'won'
+    for (const enemy of f.state.enemies) {
+      enemy.e.health = 0
+      enemy.defeated = true
+    }
+    f.state.enemies[0]!.scriptOnBattleEnd = 0
+    enterSettlement(f)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect(f.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([400, 300])
+    expect(f.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([25, 23])
+    expect(f.gs.mode).toBe('explore')
+    expect(getBattleResources(f.gs)).toBeUndefined()
+  })
+
   it('真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放', () => {
     const f = wonFixture({
       scriptOnBattleEnd: 1,

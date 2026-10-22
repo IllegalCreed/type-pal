@@ -1023,7 +1023,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read exact two-file approved PhaseE HP/MP repair, source-bound native evidence and board/index/ledger delta;preserve unrelated entries",
       "reviewDepth": "structured-content",
-      "coreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "371c4de90ed95d4fb2cefb95c79bdd10d4e286575044a557433b55421313785f",
+      "afterSha256": "3aafbef5c1f256d816ddcb6ee601a7bf43a994681198b5c638e47f8509aa238c",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "371c4de90ed95d4fb2cefb95c79bdd10d4e286575044a557433b55421313785f",
+        "implementationSha": "3aafbef5c1f256d816ddcb6ee601a7bf43a994681198b5c638e47f8509aa238c",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1806,11 +1806,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "371c4de90ed95d4fb2cefb95c79bdd10d4e286575044a557433b55421313785f",
-        "lineCount": 18300,
+        "afterSha256": "3aafbef5c1f256d816ddcb6ee601a7bf43a994681198b5c638e47f8509aa238c",
+        "lineCount": 18390,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -3608,6 +3608,84 @@
           "afterSha256": "371c4de90ed95d4fb2cefb95c79bdd10d4e286575044a557433b55421313785f",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-followup",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "371c4de90ed95d4fb2cefb95c79bdd10d4e286575044a557433b55421313785f",
+            "lineCount": 18300,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+          "previousAfterSha256": "371c4de90ed95d4fb2cefb95c79bdd10d4e286575044a557433b55421313785f",
+          "afterSha256": "2dc302ba8106da206c92373134ef7c3d7e1c4be308d507986d69b6428c7ade11",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-ledger",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "2dc302ba8106da206c92373134ef7c3d7e1c4be308d507986d69b6428c7ade11",
+            "lineCount": 18360,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "2dc302ba8106da206c92373134ef7c3d7e1c4be308d507986d69b6428c7ade11",
+          "afterSha256": "3aafbef5c1f256d816ddcb6ee601a7bf43a994681198b5c638e47f8509aa238c",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
         }
       ],
       "supersedes": [

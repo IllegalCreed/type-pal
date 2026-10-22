@@ -16,6 +16,11 @@ const receipt = JSON.parse(readFileSync(resolve(folder, 'extra-reachability.json
 const fix = receipt.currentResolution ? JSON.parse(read(receipt.currentResolution)) : undefined
 const playerFixPath = resolve(folder, 'post-player-state-fix.json')
 const playerFix = JSON.parse(readFileSync(playerFixPath, 'utf8'))
+const roleFix = JSON.parse(readFileSync(resolve(folder, 'role-context-fix.json'), 'utf8'))
+const atRoleBase = (path) =>
+  path.startsWith('data/')
+    ? read(path)
+    : execFileSync('git', ['show', `${roleFix.base}:${path}`], { cwd: root })
 
 for (const source of receipt.sourceTrees) {
   const revision = fix ? receipt.base : 'HEAD'
@@ -154,7 +159,7 @@ for (const pin of playerCounter.pins) {
   assert.equal(hash(historical), pin.sha256, `STALE counter ${pin.path}`)
 }
 for (const pin of playerFix.pins) {
-  assert.equal(hash(read(pin.path)), pin.sha256, `STALE player fix ${pin.path}`)
+  assert.equal(hash(atRoleBase(pin.path)), pin.sha256, `STALE player fix ${pin.path}`)
 }
 assert.deepEqual(
   git('diff', '--name-only', playerFix.base, '--', 'packages', 'scripts')
@@ -199,11 +204,11 @@ for (const test of playerFix.tests) {
   for (const failure of failures) assert.match(failure.failureMessages[0], /^AssertionError:/)
 }
 assert.equal(
-  hash(read(playerFix.changedSourcePaths[0])),
+  hash(atRoleBase(playerFix.changedSourcePaths[0])),
   hash(playerMembers['settlement-after.ts']),
 )
 assert.equal(
-  hash(read(playerFix.changedSourcePaths[1])),
+  hash(atRoleBase(playerFix.changedSourcePaths[1])),
   hash(playerMembers['settlement-test.red.ts']),
 )
 const before = JSON.parse(counterMembers['post-heal-actual.stdout.raw'])
@@ -234,6 +239,82 @@ assert.match(
 assert.match(playerMembers['local-docs.stdout.raw'], /docs: PASS \(0 issues\)/)
 assert.match(playerMembers['local-docs.stdout.raw'], /0 integrity issues; not full acceptance/)
 assert.match(playerMembers['local-ledger.stdout.raw'], /372 closed \/ 115 review \/ 2869 pending/)
+// The next approved caller repair has its own frozen before/after and valid-input red.
+const roleMembers = readArchive(roleFix.artifact)
+assert.deepEqual(
+  git('diff', '--name-only', roleFix.base, '--', 'packages', 'scripts')
+    .split('\n')
+    .filter(Boolean)
+    .sort(),
+  [...roleFix.changedSourcePaths].sort(),
+)
+for (const pin of roleFix.pins) {
+  assert.equal(hash(read(pin.path)), pin.sha256, `STALE role fix ${pin.path}`)
+}
+assert.equal(
+  hash(atRoleBase(roleFix.changedSourcePaths[0])),
+  hash(roleMembers['role-settlement.before.ts']),
+)
+assert.equal(
+  hash(read(roleFix.changedSourcePaths[0])),
+  hash(roleMembers['role-settlement.after.ts']),
+)
+assert.equal(
+  hash(read(roleFix.changedSourcePaths[1])),
+  hash(roleMembers['role-settlement-test.red-valid.ts']),
+)
+for (const run of roleFix.runs) {
+  assert.deepEqual(JSON.parse(roleMembers[`${run.id}.execution.json`]), run)
+  assert.equal(run.head, roleFix.base)
+  assert.equal(run.exit, run.id.startsWith('role-context-red') ? 1 : 0)
+  assert.equal(run.signal, null)
+  assert.equal(run.spawnError, null)
+  assert.equal(run.observerTimeout, false)
+  assert.equal(Buffer.byteLength(roleMembers[`${run.id}.stdout.raw`]), run.stdoutBytes)
+  assert.equal(Buffer.byteLength(roleMembers[`${run.id}.stderr.raw`]), run.stderrBytes)
+  if (!run.id.startsWith('role-context-red')) assert.equal(run.stderrBytes, 0)
+}
+for (const test of roleFix.tests) {
+  const native = JSON.parse(roleMembers[`${test.id}.vitest.json`])
+  assert.equal(native.numPassedTests, test.passed)
+  assert.equal(native.numFailedTests, test.failed)
+  assert.equal(native.numPendingTests, 0)
+  assert.equal(native.numTodoTests, 0)
+  const identities = native.testResults.flatMap((file) =>
+    file.assertionResults.map((item) => ({
+      file: `packages/${file.name.split('/packages/')[1]}`,
+      fullName: item.fullName,
+      status: item.status,
+    })),
+  )
+  assert.equal(hash(JSON.stringify(identities)), test.identitySetSha256)
+  const failures = native.testResults.flatMap((file) =>
+    file.assertionResults.filter((item) => item.status === 'failed'),
+  )
+  assert.deepEqual(
+    failures.map((item) => item.fullName),
+    test.failedFullNames,
+  )
+  for (const failure of failures) assert.match(failure.failureMessages[0], /^AssertionError:/)
+}
+assert.match(roleMembers['role-context-red-valid.stdout.raw'], /"sourceRestored":true/)
+assert.equal(roleMembers['role-context-typecheck-final.stdout.raw'], '')
+const legacy = JSON.parse(playerMembers['post-context-green.vitest.json'])
+const current = JSON.parse(roleMembers['role-context-green-final.vitest.json'])
+const keys = (native) =>
+  native.testResults
+    .flatMap((file) =>
+      file.assertionResults.map((item) => `${file.name.split('/packages/')[1]}#${item.fullName}`),
+    )
+    .sort()
+assert.deepEqual(
+  keys(current).filter((key) => !key.endsWith(roleFix.newTestFullName)),
+  keys(legacy),
+)
+assert.deepEqual(
+  JSON.parse(roleMembers['post-order-after-role.stdout.raw']).firstDialog.inventory,
+  [{ itemId: 104, count: 2 }],
+)
 console.log(
-  'MATCH: both frozen counters and approved Extra/HP-MP fixes; whole gates deferred; no file acceptance',
+  'MATCH: frozen counters and approved Extra/HP-MP/default-role repairs; whole gates deferred; no file acceptance',
 )

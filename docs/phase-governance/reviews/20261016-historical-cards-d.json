@@ -3139,7 +3139,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read exact two-file approved PhaseE HP/MP repair, source-bound native evidence and board/index/ledger delta;preserve unrelated entries",
-      "coreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "34396b36738c51cd4281825ff95634b4ad675deb441f81761b6f046c28189f9d",
+      "afterSha256": "6c26311963f559a9103ada73f2bddb46492ac25e9e1afb846c60242d3585ce39",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "34396b36738c51cd4281825ff95634b4ad675deb441f81761b6f046c28189f9d",
+        "implementationSha": "6c26311963f559a9103ada73f2bddb46492ac25e9e1afb846c60242d3585ce39",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4147,7 +4147,7 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
       },
       "history": [
         {
@@ -4953,6 +4953,32 @@
           "afterSha256": "34396b36738c51cd4281825ff95634b4ad675deb441f81761b6f046c28189f9d",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-followup",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json"
+          },
+          "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
+          "previousAfterSha256": "34396b36738c51cd4281825ff95634b4ad675deb441f81761b6f046c28189f9d",
+          "afterSha256": "a864119bcca22630984fdfe25146c4fc65e8fd34f8f43c0fb5ff2e681c2fc391",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-default-role-ledger",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "a864119bcca22630984fdfe25146c4fc65e8fd34f8f43c0fb5ff2e681c2fc391",
+          "afterSha256": "6c26311963f559a9103ada73f2bddb46492ac25e9e1afb846c60242d3585ce39",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
         }
       ],
       "supersedes": [

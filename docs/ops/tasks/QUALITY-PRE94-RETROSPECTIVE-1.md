@@ -1391,3 +1391,9 @@ Owner Codex单Agent；无下一位Agent提示词。用户待裁决期间继续3w
 用户另批保留战后脚本体力／真气效果。Codex单Owner、同一3y，仅settlement及其专测两文件build；正式旧13绿/新两业务AssertionError后修复漏角色参数与状态Owner。Phase E重取升级后的runtime投影，HP/MP访问绑定runtime，通用raw和治疗逐指令互见；无末尾盲回填，也不变普通战中的原可写投影。
 
 [逐文件八维/原件/只读复验入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)记录9文件238绿、game TC0，以及原可接受改动V1→真实190tick战斗的394→500闭环。两正式反例的常数由C原函数和半恢复片段核定，范围不冒充完整SDL/browser或普通原盘可达性。旧13结算身份/断言不变，新增两个不同输入轴；测试当前review，机器3356/372closed/115review/2869pending，0新关闭，固定61accept/22partial不变。两个已批窄修的全仓check/官方coverage/protected仍集中3w相关卡收尾；本片不合main，不扩94–102。
+
+### 2026-10-22 逐敌提示顺序的有限反证
+
+[当前取证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json)将此前“C阻塞/TS队列”未知缩为具体事实：原盘team46、OBJECT402与SSS41008不改，合法高属性V1经真实自动战斗，192tick第一条鼠儿果提示active时已入两颗，第二条排队。最终两颗/两提示均存在，不能报成丢物品；B面板可读数量只有源码依据，不冒称浏览器/正常玩家观察。GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1仅draft，等用户决定逐敌等待或明确保留现状；前两低属性夹具战败原件保留，不算产品红。固定83/账本不升格，未跑覆盖率；已有HP/MP批准与其它独立pre94工作继续。
+
+后续：用户已批“按SDLPal逐只处理”，另卡转两文件窄build；本时点只完成HP/MP默认角色参数，原生15/1合法输入单红→26直接/61相邻及当前TC0，旧奖励不齐草稿不计正式信用。既有runner字段携SDL敌槽i，未改公共调用签名或单条脚本yield。原叶与当前运行对话仍同前状态，时序修复先另存正式反例再改。固定61/22与3356/372/115/2869不升格，全仓/official/protected继续模块集中收尾。

@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 3w默认角色上下文：同两文件已批范围内，合法双敌/队伍[1,0]正式单红后传SDL敌槽eventObjectId，26直接/61玩家属性相邻绿及game TC0；[原件与八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json)。逐敌提示另获用户批准、尚未实施。计数仍3356/372closed/115review/2869pending，0新增关闭；统一门与覆盖率集中模块收尾。
+
 2026-10-22 3w战后HP/MP窄修：用户批准保留脚本效果；两正式业务红→238定向/相邻绿、game TC0，原导入真实190tick战斗退出394→500。旧结算测试已验证暂恢复review等待模块集中门，0新增关闭；3356tracked/372closed/115review/2869pending，61accept/22partial不变。[本片八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)。
 
 2026-10-22 3w临时加成窄修：用户另批全角色Extra清理，正式旧一业务红→当前28定向+39/169相邻及game TC0。新测试只登记review，0新增关闭；3356tracked/373closed/114review/2869pending。61accept/22partial不变；修复后全check/official/protected留3w多卡模块收尾，未借旧产品门宣称当前统一门通过。
@@ -427,9 +429,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts` | test | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |
 | `packages/game/src/core/battle/battle-finalization-extra.test.ts` | test | review | [当前正式红绿/逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) | 新单例真实导入/开战/换队/大蒜/逃跑与末role边界；不改原六合同，等待模块集中门 |
 | `packages/game/src/core/battle/battle-finalization.ts` | product | review | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；[当前真实输入域反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json)；[已批当前红绿/八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) | 正式单红后清全角色Extra，236局部绿/TC0；模块大门与广域ownership仍待，保留review |
-| `packages/game/src/core/battle/battle-settlement.ts` | product | review | [当前逐文件八维/正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)；既有屏序/掉落/hold证据按具体同版范围复用 | HP/MP唯一Owner与接线两红后238绿/TC0；统一门与PhaseE中间时序仍待，不按包绿关闭 |
+| `packages/game/src/core/battle/battle-settlement.ts` | product | review | [当前默认角色上下文八维/正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json)；原HP/MP与Extra修复按固定版本链复用 | 默认角色合法单红后26直接/61相邻绿、TC0；逐敌提示另获用户批准尚未实施，统一门待，不按包绿关闭 |
 | `packages/game/src/core/battle/battle-settlement-data.ts` | product | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
-| `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | review | [当前逐文件八维/正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)；既有13身份/断言保持 | 新增HP/MP丢失及raw交错两个不同反例；统一门留模块收尾，不按包绿恢复关闭 |
+| `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | review | [当前默认角色上下文八维/正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json)；原15身份/断言保持 | 新增第二敌槽与[1,0]默认role反例；资源0奖励与明确won快照匹配、有效单红后绿，统一门待 |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |
 | `packages/game/src/core/scene-system-search.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 旧normal/far/first-hit声明不实；现12例及六旧绿新单红，保持review不以通过数恢复整文件 |

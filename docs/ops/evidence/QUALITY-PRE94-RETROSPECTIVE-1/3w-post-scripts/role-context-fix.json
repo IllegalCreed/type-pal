@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex(single Agent)",
+  "base": "faaf85622f85942221e967f69d5f164b2324c1ac",
+  "status": "approved HP/MP caller-context follow-up;local green;no file acceptance",
+  "task": "GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1",
+  "authorization": "Same approved preservation of post-battle HP/MP effects and same two-file build. Existing RunScriptOptions.eventObjectId must carry SDL enemy slot i to generic raw HP/MP instructions. No new target convention, public API or dialog scheduling policy is introduced. Separate per-enemy dialog wait was subsequently approved;not implemented in this role-only snapshot.",
+  "predecessor": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json",
+  "changedSourcePaths": [
+    "packages/game/src/core/battle/battle-settlement.ts",
+    "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"
+  ],
+  "pins": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "5c9ad6b8541fc763fc070dd43297a556273fd0614962f67fe3d5435a540956eb",
+      "lines": 254
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "428e90a6eec29e8fc09785b4a3c84161a4deaed15120dc4386c6434e4ed25b82",
+      "lines": 451
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "19bbf2f967f44105db0a9b029ecacaf3735ca2f5782fe3b867b3462849db674e",
+      "lines": 5096
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "lines": 427
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+      "lines": 393
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "lines": 96
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix-native.json.gz",
+    "sha256": "ce3054dc204ef38e506bbf737c404e4f6f462b6708cfe1261c869a4f2c9e2577",
+    "members": [
+      {
+        "name": "role-context-red.execution.json",
+        "bytes": 704,
+        "sha256": "71bc82569a82463d5cf55040636a32dd26a8657e9a645ddef3a509263538b8cb"
+      },
+      {
+        "name": "role-context-red.stdout.raw",
+        "bytes": 1849,
+        "sha256": "acc412f88a6d2672757de81c0a4f7594d449750cde2d53a8c6f910810c407d10"
+      },
+      {
+        "name": "role-context-red.stderr.raw",
+        "bytes": 1141,
+        "sha256": "fa8602a638f82982c1ae2ef7e47634f98d1bcede87190446efbc0040344355dc"
+      },
+      {
+        "name": "role-context-red.vitest.json",
+        "bytes": 7973,
+        "sha256": "e4997bf9735a091dc92f9d1e5bb4e04742b03200342c0603775c2dfc1ebc5ab1"
+      },
+      {
+        "name": "role-context-green.execution.json",
+        "bytes": 871,
+        "sha256": "a407b38557a4c10c9e6ca45ba92e5a6bf4317796547773a49500b1e031c33b0b"
+      },
+      {
+        "name": "role-context-green.stdout.raw",
+        "bytes": 686,
+        "sha256": "093e6c84260b34015ff04f4fb98c5b474a924c75315b8b09a44e18a1e721c58f"
+      },
+      {
+        "name": "role-context-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-context-green.vitest.json",
+        "bytes": 10971,
+        "sha256": "e0571b1e64040f8b19b726760caf4fb97c778972edaa9b7f9407f767aff4ca7c"
+      },
+      {
+        "name": "role-context-typecheck.execution.json",
+        "bytes": 451,
+        "sha256": "83aef01b4e824bbda172124054ddaec1ef1683ca7b2333174ae5ff071cfe35da"
+      },
+      {
+        "name": "role-context-typecheck.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-context-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-context-red-valid.execution.json",
+        "bytes": 806,
+        "sha256": "c639b089ddae786d758f1ce5a2914410560bc5ea1d81edb4e9a732f59783fd87"
+      },
+      {
+        "name": "role-context-red-valid.stdout.raw",
+        "bytes": 2265,
+        "sha256": "394d5095aee8a8dddbf3afde93707156a496fdb84d81a11285ec3476519f0b35"
+      },
+      {
+        "name": "role-context-red-valid.stderr.raw",
+        "bytes": 1141,
+        "sha256": "e2a93443bfa1dd9cee28a0eb6e6b8cbeea01bdffb28da93b1e99c17861e66ee1"
+      },
+      {
+        "name": "role-context-red-valid.vitest.json",
+        "bytes": 7970,
+        "sha256": "07eafc8cb6d360e577b9401c0ed371e8ea01aae9b3fd6e202a8307bec18418be"
+      },
+      {
+        "name": "role-context-green-final.execution.json",
+        "bytes": 883,
+        "sha256": "d19ab654c4524552d8f4474809200cbd8e0ce07f2fae7b6bbe07f4bd57873661"
+      },
+      {
+        "name": "role-context-green-final.stdout.raw",
+        "bytes": 692,
+        "sha256": "e836f56fd039c6b4ad85e868ef47b82e8e156cee1ca345b42f92a45f3ab26d52"
+      },
+      {
+        "name": "role-context-green-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-context-green-final.vitest.json",
+        "bytes": 10972,
+        "sha256": "543a32e49f83043fb59c68f4e741f922437a7a71c2093c70d65303e422dc904b"
+      },
+      {
+        "name": "role-context-typecheck-final.execution.json",
+        "bytes": 457,
+        "sha256": "8e5c1bf52f9dc469a70c0f5c008e7de90361e3f06d951fa3c50606c13154355e"
+      },
+      {
+        "name": "role-context-typecheck-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-context-typecheck-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-context-player-adjacent.execution.json",
+        "bytes": 877,
+        "sha256": "d0db8d7f6ee3dd1595bd6114c1fa9657ee146e9be67b111bce86e8f3862e7c40"
+      },
+      {
+        "name": "role-context-player-adjacent.stdout.raw",
+        "bytes": 683,
+        "sha256": "0c5fc51becb527f6563a5b3093ed350a3949e60ac329f96b497f1116c5882d6a"
+      },
+      {
+        "name": "role-context-player-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-context-player-adjacent.vitest.json",
+        "bytes": 24145,
+        "sha256": "dee2ee337c157012babbd3b05545397f7f9c7e53d7fcfb3e2a533a6cb2a1bf14"
+      },
+      {
+        "name": "post-order-after-role.execution.json",
+        "bytes": 536,
+        "sha256": "35e3377a91e8777d033bc4e82e0ef4facdeef234596f739ea6d18ed43560f926"
+      },
+      {
+        "name": "post-order-after-role.stdout.raw",
+        "bytes": 2260,
+        "sha256": "417c3d06def027ea80c9ba38332a558cfdb298cebf2e44890363568633e2b18d"
+      },
+      {
+        "name": "post-order-after-role.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-docs-final.execution.json",
+        "bytes": 413,
+        "sha256": "c240cfe124d5396a315eeba9114e6fe7a4e5d764669db1809916cf6cd1aaa00f"
+      },
+      {
+        "name": "role-docs-final.stdout.raw",
+        "bytes": 30729,
+        "sha256": "005db454dd03f00e42998d6d0e97ff33351d7104fb359ffb5b2f8be41922ff58"
+      },
+      {
+        "name": "role-docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-lint-final.execution.json",
+        "bytes": 405,
+        "sha256": "1976fe6dc0eee7400957348e401e425248a11bc9b666b5f0f4b38b831886e420"
+      },
+      {
+        "name": "role-lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "e17586d4c51a30257b98e977bc52addfbb23e2faa3bd264c278412239b5d6e5c"
+      },
+      {
+        "name": "role-lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-ledger-final.execution.json",
+        "bytes": 442,
+        "sha256": "b82d1e21d3fb4c6ab2ee63b13f02eeda12c9a025ac8b1b2fc518ab6179489f05"
+      },
+      {
+        "name": "role-ledger-final.stdout.raw",
+        "bytes": 113,
+        "sha256": "2aa218287cd3e7bdbb7c29005070b3e3314dfb500d334b3362266b3638971741"
+      },
+      {
+        "name": "role-ledger-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-diff-final.execution.json",
+        "bytes": 417,
+        "sha256": "04a5326106019db27ece68fafc854d869c53f492a4b5ea13b1bce9b0fb509fd9"
+      },
+      {
+        "name": "role-diff-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-diff-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-settlement.before.ts",
+        "bytes": 10360,
+        "sha256": "35605c0eb935d29ec0ae7852f59fd40e9ff577178ae66f266cc1f9c8e013a494"
+      },
+      {
+        "name": "role-settlement.after.ts",
+        "bytes": 10500,
+        "sha256": "5c9ad6b8541fc763fc070dd43297a556273fd0614962f67fe3d5435a540956eb"
+      },
+      {
+        "name": "role-settlement-test.red.ts",
+        "bytes": 17150,
+        "sha256": "3bc1aaeb9756f2a5a5eb070c9a332702c42c0ef434250bfdb83165285d15a977"
+      },
+      {
+        "name": "role-settlement-test.red-valid.ts",
+        "bytes": 17191,
+        "sha256": "428e90a6eec29e8fc09785b4a3c84161a4deaed15120dc4386c6434e4ed25b82"
+      },
+      {
+        "name": "replay-role-red.mjs",
+        "bytes": 1631,
+        "sha256": "81c889dff702af464c78869f15f370df279006df71fce9c891cdc5f68e2d3138"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 1147,
+        "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5"
+      },
+      {
+        "name": "record-role-fix.py",
+        "bytes": 9846,
+        "sha256": "5e87ec420d4706347c2859f4fb6b6c22de4ec156607e5b07657cc1909dd09d19"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "role-context-red",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/role-context-red.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:31:28.098Z",
+      "end": "2026-10-22T06:31:29.460Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 1849,
+      "stderrBytes": 1141
+    },
+    {
+      "id": "role-context-green",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/role-context-green.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:32:09.662Z",
+      "end": "2026-10-22T06:32:11.108Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 686,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-context-typecheck",
+      "command": "../../node_modules/.bin/tsc",
+      "args": ["--noEmit"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:32:09.661Z",
+      "end": "2026-10-22T06:32:13.352Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-context-red-valid",
+      "command": "node",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/replay-role-red.mjs",
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/role-context-red-valid.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:35:32.979Z",
+      "end": "2026-10-22T06:35:34.071Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 2265,
+      "stderrBytes": 1141
+    },
+    {
+      "id": "role-context-green-final",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/role-context-green-final.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:35:44.444Z",
+      "end": "2026-10-22T06:35:45.574Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 692,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-context-typecheck-final",
+      "command": "../../node_modules/.bin/tsc",
+      "args": ["--noEmit"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:36:52.430Z",
+      "end": "2026-10-22T06:36:55.894Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-context-player-adjacent",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/event-opcode-player.test.ts",
+        "src/core/event-opcode-player.glm-next-wave.test.ts",
+        "src/core/event-opcode-player.cov85.test.ts",
+        "src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/role-context-player-adjacent.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:33:18.125Z",
+      "end": "2026-10-22T06:33:19.291Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 683,
+      "stderrBytes": 0
+    },
+    {
+      "id": "post-order-after-role",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/post-order-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:33:19.315Z",
+      "end": "2026-10-22T06:33:20.839Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 2260,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-docs-final",
+      "command": "pnpm",
+      "args": ["check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:45:29.924Z",
+      "end": "2026-10-22T06:46:23.422Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 30729,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:45:29.928Z",
+      "end": "2026-10-22T06:45:34.270Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:45:29.927Z",
+      "end": "2026-10-22T06:45:32.665Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 113,
+      "stderrBytes": 0
+    },
+    {
+      "id": "role-diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:45:29.931Z",
+      "end": "2026-10-22T06:45:30.109Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "faaf85622f85942221e967f69d5f164b2324c1ac",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "tests": [
+    {
+      "id": "role-context-red-valid",
+      "passed": 15,
+      "failed": 1,
+      "identitySetSha256": "741b8344433066a40769a06d17f434538f2e1767f5795dcff86522906bca2c9c",
+      "failedFullNames": [
+        "Phase E→对话→恢复与释放 第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人"
+      ]
+    },
+    {
+      "id": "role-context-green-final",
+      "passed": 26,
+      "failed": 0,
+      "identitySetSha256": "0c374b654ac03ed5581bdafeec859e42ea979af9ac77f9ac76e793c4106e6dd6",
+      "failedFullNames": []
+    },
+    {
+      "id": "role-context-player-adjacent",
+      "passed": 61,
+      "failed": 0,
+      "identitySetSha256": "eda778414010a541a9fb005f5421cabccaaf58e43093440ba441a7b87b108385",
+      "failedFullNames": []
+    }
+  ],
+  "newTestFullName": "Phase E→对话→恢复与释放 第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人",
+  "primary": "SDL battle.c:1334-1337 calls PAL_RunTriggerScript(...,i),notparty[i]. script.c:834-865 opcode0x1A op2=0 selects wEventObjectID asrole,explicitop2 selectsop2-1. Postscript at second enemy slot i=1 setsrole1 HP100/MP6;party[1,0] recovery gives role-index vectors HP[400,300]/MP[25,23].",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "reading": "Whole prior252-line settlement and exact new2-line caller delta; event-opcode-player.ts full current family plus unchanged runScript raw/fallback targeted. Prior projection/hold/cleanup A-H retained atfaaf only;not whole event-system/battle-system acceptance.",
+      "dimensions": {
+        "A": "Passes existing eventObjectId=ei into real runScript. This fixes generic implicit-role raw writes and their warnings. Legal second-slot/reordered-party counter fails only business HP vector on old source;after fix both HP/MP and real cleanup correct. No post-script end pointer writeback.",
+        "B": "One short why-comment distinguishes C enemy slot/defaultrole from party position;stable function anchor and no stale numeric source line.",
+        "C": "Caller owns context construction;interpreter/equipment family continues to own field writes. No new global/cross-layer write or phase branch added.",
+        "D": "Reuses existing RunScriptOptions field and raw handler;no duplicate resolver, mode boolean, helper or fallback.",
+        "E": "Current formal valid-input red15/1 ->26 direct and61 player-family adjacent green;prior15 exact identities retained. Source before/after and restoration native evidence archived.",
+        "F": "Explicit named argument with actual index;no alternate encoded ID or new control flow.",
+        "G": "Only necessary caller argument and explanatory comment;no dead parameter/export/test hook or compatibility path.",
+        "H": "Existing runner remains transparent;no new IO/timer/global dependency or mocking seam. Deterministic host fixture exercises actual runScript/applyPlayerOpcode/cleanup."
+      },
+      "disposition": "review;finite approved defect repaired;whole gates and separate dialog choice pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "reading": "Prior421-line file and full30-line new case plus explicit resource reward correction;old15 case bodies unchanged.",
+      "dimensions": {
+        "A": "Actual default/hydrate/project/startBattle creates two legal enemy records with0exp/0cash,matching the explicit all-defeated postwin boundary. Party[1,0] and only second enemy script distinguish enemy slot from party slot and from omitted/default0 role.",
+        "B": "Comment discloses isolated terminal boundary,0x1A op2=0 role selection and Cargument;doesnotclaimfullfight or normal original-story reachability.",
+        "C": "Same existing lifecycle fixture and enterSettlement;local state/bus and actual host/fallback. No new fixture factory or broad configurator.",
+        "D": "One new counter covers a missing default-role input axis;earlier retained-heal and raw-write-order tests use all-target/explicitrole,so are not equivalent.",
+        "E": "Current valid fixture red has15 oldpass/1 new AssertionError plus exact2 real no-role-context warnings. Final same test bytes green26 and61adjacent,stderr0. Assertions check bothrole vectors and true resource/mode cleanup;no mock call counts oracle.",
+        "F": "Name and concrete role-index vectors expose the nonidentityparty case.",
+        "G": "One case,zero removed/weakened assertion;no duplicated Save/complete-fight setup or coverage padding.",
+        "H": "Local fixture/no new global hooks/spies or shared time. Deterministic actual commands,nofakeinterpreter."
+      },
+      "disposition": "review;new direct contract locally verified,not whole-module accept"
+    }
+  ],
+  "reuse": [
+    "Predecessor25direct identities all retained,plusone default-role case;87current direct/adjacent native identities use explicit default reporter.",
+    "Previous238 atfaaf are preserved at that revision;unchanged game-state/progression/equipment/action evidence is not re-run mechanically.",
+    "Actual originalteam46 counter after role fix stillfirstDialog.inventory2:scope choice remains pending,no hidden scheduling change."
+  ],
+  "processDisclosure": [
+    "Initial new test kept defaultenemy rewards while manuallyseeding0reward won boundary. Treat firstred/firstgreen as draft only,not formal current fixture proof;original native raw and449-line draft are preserved.",
+    "Corrected resources to explicit0exp/0cash before finalvalid red. Replayed exact frozenfaaf source in own isolated governance tree using guarded before/after andfinally restoration;current test bytes unchanged through finalgreen. No checkout/reset/main mutation.",
+    "Finalvalid red15/1 has2 no-role-context warnings;expected failed native diagnostics retained. Finalgreen26/player61/currentTC have0stderr."
+  ],
+  "gates": {
+    "direct": "4files26passed;newtestsamebytesasvalidred",
+    "adjacent": "4files61passed;all native/default original output retained",
+    "typecheck": "Currentgame tsc exit0,stdout/stderr0",
+    "wholeCheck": "deferred to stable multi-card module window",
+    "coverage": "not run;no rule/baseline/retirement change",
+    "protectedFast": "not run"
+  },
+  "countsAtRepair": {
+    "tracked": 3356,
+    "closed": 372,
+    "review": 115,
+    "pending": 2869,
+    "cardAccept": 61,
+    "cardPartial": 22,
+    "newClosed": 0
+  },
+  "remaining": [
+    "User subsequently approved per-enemy message wait in GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1;its implementation is separate from this role-only snapshot.",
+    "Generic battle dispatcher single-target eventrole semantics and arbitrary-script yield are not certified by this caller-only repair;belong3r/3t.",
+    "No browser orpixel claim;fullcheck/official/protected stillpending after source fixes."
+  ]
+}

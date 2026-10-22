@@ -6,6 +6,12 @@ Date: 2026-10-18
 Base: `599d35717d8a5213802f76535eb14ba187f709e5`
 Branch: `codex/code-quality-3y`
 
+## 2026-10-22 中间对话时序取证
+
+[逐敌顺序反证与完整原件清单](dialog-order-counter.json)使用原盘team46两只凤梨小妖、无OBJECT改写、原脚本41008；合法高属性V1→实际自动战斗192tick到首提示时，两颗鼠儿果已入包，另条提示仍排队。最终两颗与两提示均保留；SDL的逐敌同步调用及中心窗口等待给出相反中间顺序。当前只是core状态与源码观察，没有浏览器画面或普通玩家开背包复现；[时序卡](../../../tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md)仅draft，待用户决定是否逐敌等待，不借HP/MP批准直接实现。
+
+后续用户已明确批准逐敌等待，时序卡转有限build，尚未在此快照实现。另[默认角色上下文正式补证](role-context-fix.json)记录合法夹具15/1红→26直接/61相邻绿及当前TC0；既有eventObjectId传敌槽号，队伍[1,0]不改变role选择。原两次HP/MP反证与原件按固定faaf版本保留，由同一只读快检核对后继两文件增量；不是静默刷新旧指纹。统一门仍留模块收尾，0新增关闭。
+
 ## 2026-10-22 战后HP/MP状态归属窄修
 
 用户批准后，两正式业务红→9文件238绿/TC0；[逐文件八维/原件清单](post-player-state-fix.json)、[修前真实输入反证](post-player-context.json)与[统一只读快检](verify-extra-reachability.mjs)可复验。原可接受改动V1经过实际190tick自动战斗，退出HP由394修为500；只传角色表仍394的对照保留。HP/MP只在Phase E移交runtime，普通战中、掉落/对话顺序、存档与装备不改。
