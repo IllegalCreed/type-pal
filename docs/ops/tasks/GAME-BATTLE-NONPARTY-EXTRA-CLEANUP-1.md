@@ -65,3 +65,9 @@ Branch: codex/code-quality-3y
 ## 下一位Agent提示词
 
 无下一位Agent提示词，Codex单Agent维护。先证生产可达性，不把手搭状态、循环字面差异或本卡draft当修复授权。
+
+## 2026-10-22 当前写入域增量
+
+371b00c7d已包含用户批准的战斗物品目标角色传递及8D投影刷新。原盘大蒜84的0x17现在通过真实performItem→runScript给选中role写30毒抗；这修复了旧漏上下文，不等于证明非队员Extra残留。startBattle和0x75仍全量重建；若要证后续残留，须串起真实换队、旧BattleState角色写入、无再次重建及实际消费，不能把状态手塞到Extra里当剧情反例。
+
+当前runScript原头注“不会写party”等不变量失实：battleCtx.gs经raw fallback可执行0x75。两段头注仅作事实纠正，parsedTS/JS一致，见[当前八维与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json)。本卡继续draft/只读，无产品build allowed；任意脚本/C阻塞与TS排队的广域等价仍未证明，不由本次文案整改关闭。

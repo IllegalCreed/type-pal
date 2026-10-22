@@ -1355,3 +1355,9 @@ Codex单Owner，同一3y，最新31c9775ce/0behind/0ahead与机器账本复核�
 物品四新增正式红→context-only三绿/一投影红→最终四新加四旧全绿；289相邻与整包3724不累加成唯一例数。首次8D接线漏局部import导致4 ReferenceError，随后game TC报TS2552；此为Codex实现失误，已修并保留两失败原件，不冒称原产品反例。原四测试/fixture/data及其它event-system源码严格守恒，未更改升级算法/随机/当前HPMP。
 
 [当前八维/原件/快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。59/3x以外81卡值不改。最终候选59accept/24partial；source ledger3355/374/112/2869以机器再次核数。覆盖率只本窗一轮，final statics后才提交推送同一3y并0behind合main。剩余3w动态Extra链、事件P3、RLE格式/资源域等仍未知；不扩94–102。
+
+### 2026-10-22 3w相邻解释器ownership窄修准入与核证
+
+Codex单Owner、同一3y，fetch后基点371b00c7d与main同点。复用此前完整A维与3w/3r八维，当前核runScript完整函数、公共opts、raw fallback/setParty、装备重建注入及真实item/PhaseE caller；不冒充event-system整文件新验收。build allowed仅两段失实模块/函数头注：旧“不会改GameState队伍/场景”、raw总跳过、战斗handler待实现、showBattleMessage等已与现行实现矛盾。当前说明局部游标与共享gs的不同ownership、即时指令/对话排队和返回/越界/上限行为；parsedTS与发射JS逐字相同，没有机制、schema/save、公共接口、测试或产品行为变化。
+
+[逐项八维与正文守恒](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json)。3r/3s/3w仍partial，原非队员Extra风险卡仍draft。获批物品接线后，大蒜确能给所选role写Extra，不能继续用旧漏上下文no-op作不可达证明；须证明战斗换队后旧BattleState角色写入、无重建、收尾及消费的完整链，或给完整不变量。当前只读未证普通剧情缺陷，不改清理循环。昂贵门复用371前同执行正文的原件，不因注释窄修重采覆盖率；3c/92原合同与账本漂移一并集中收尾，94–102不扩展。
