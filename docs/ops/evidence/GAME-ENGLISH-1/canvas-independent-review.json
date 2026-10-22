@@ -3,7 +3,7 @@
   "task": "GAME-ENGLISH-1",
   "kind": "focused-independent-canvas-and-loader-review",
   "reviewer": "english_patch_audit",
-  "status": "two-specific-counters-await-root-fix-recheck",
+  "status": "accepted-focused-scope-counters-closed",
   "createdAt": "2026-10-22T12:41:01.920885+00:00",
   "reviewScope": "Read-only independent check of root canvas/layout/loading additions and current draw-description diff; no product files, card, ledger or quality configuration changed. Focused risk review, not a full-file governance closure.",
   "initialIdentity": {
@@ -105,23 +105,44 @@
     {
       "id": "CANVAS-01",
       "severity": "P1",
-      "status": "confirmed-root-accepted-fix-pending",
+      "status": "closed-after-root-fix-and-independent-evidence-review",
       "file": "packages/game/src/present/menu/draw-description.ts",
       "symbol": "drawScriptDescription",
       "counter": "The actual translated item description group12746 includes Atk+28 U+3000 Agi+12 U+3000 Def+3. SMALL_FONT initially covers U+0020..U+007F only; renderColoredText substitutes 16x16 TOFU for U+3000 while description row step is10. Isolated rendering lights y151..166 rather than within an8-pixel row.",
       "actualCaller": "getScriptDescLines for every item/spell scriptDesc after setGlobalEvents(actual all.json)+setEnglishMessages(actual en.json); 46 catalog entries have missing small-font U+3000, and no other missing character is present in these actual description callers.",
       "evidence": ["description-scan.ts", "description-scan.json", "probe.ts", "probe.json"],
-      "rootResolutionPlan": "Add a16-pixel-wide,8-pixel-high blank U+3000 glyph and actual attribute-line pixel regression; preserve full-width spacing and control-code semantics, no NFKC."
+      "rootResolutionPlan": "Add a16-pixel-wide,8-pixel-high blank U+3000 glyph and actual attribute-line pixel regression; preserve full-width spacing and control-code semantics, no NFKC.",
+      "initialStatus": "confirmed-root-accepted-fix-pending",
+      "resolution": {
+        "source": "SMALL_FONT includes U+3000 as a16-wide8-high blank glyph; no normalization, translation or control-code rewrite.",
+        "actualCallerRecheck": "All item/spell getScriptDescLines output now has zero SMALL_FONT missing codepoints; actual group12746 attribute line lights y151..158(8rows), down from y151..166(16rows).",
+        "evidence": [
+          "description-scan-final.json",
+          "probe-final.json",
+          "counter-evidence-verification.json"
+        ],
+        "test": "renders the full-width separators in a real English attribute description as blank space"
+      }
     },
     {
       "id": "CANVAS-02",
       "severity": "P2",
-      "status": "source-confirmed-root-accepted-fix-pending",
+      "status": "closed-after-root-fix-and-independent-evidence-review",
       "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
       "symbols": ["buildBattleWonSettlement", "drawBattleSettlement"],
       "counter": "Settlement construction caches getWord role/magic names into screen.data.name/magicName. Switching effective language after screen creation leaves those strings in the old language while render-time level/stat/Up labels use the new one. Existing roleId provides a stable numeric lookup; learned-magic data previously lacked the corresponding numeric ID.",
       "evidence": ["snapshot-initial.json"],
-      "rootResolutionPlan": "Resolve role display name from supplied playerRoles using screen.data.roleId at draw time; retain optional magicId in learned-magic display data and validate its optional save projection. Add a real caller red/green switch-after-creation test. No claim of a browser observation is made here."
+      "rootResolutionPlan": "Resolve role display name from supplied playerRoles using screen.data.roleId at draw time; retain optional magicId in learned-magic display data and validate its optional save projection. Add a real caller red/green switch-after-creation test. No claim of a browser observation is made here.",
+      "initialStatus": "source-confirmed-root-accepted-fix-pending",
+      "resolution": {
+        "source": "BattlePresent supplies gs.PlayerRolesRuntime.rgwName; drawBattleSettlement resolves true role word identity at draw time for all three relevant screens. Construction retains learned magicId; V1 guard accepts the optional display identity. Cached strings remain fallbacks for old data. Numeric values are not rewritten.",
+        "test": "translates an already-created settlement by role and magic identities without changing its rewards",
+        "savedData": "Current test executes serializeSave -> parseImportedSave on real settlement and independently expects learned magicId349; exact current restored native result passes. Optional field preserves old no-id screen shape under the existing optional guard contract.",
+        "evidence": [
+          "counter-evidence-verification.json",
+          "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.json"
+        ]
+      }
     }
   ],
   "supportedConclusions": [
@@ -221,9 +242,43 @@
     "dedupe": "No new canonical tests added by reviewer; finite existing checks plus narrowly scoped source-backed probes, not a repeated package/full coverage run."
   },
   "followupRecheck": {
-    "status": "awaiting-root-fix-diff",
-    "onlyClaims": ["CANVAS-01", "CANVAS-02"],
-    "expected": "Read focused fix and caller/save projection changes, inspect native red/green tests and independently rerun only the affected pixel/settlement evidence if needed."
+    "status": "complete-focused-acceptance",
+    "head": "05e1cfcff19ff8c469f391b5dc9dbd20fa16f2fa",
+    "sourceReview": "Read focused source diff for both fixes, production BattlePresent caller and optional save guard. Read current settlement test including legal won-input preparation and save import/export roundtrip. No full-source or full-package repeat.",
+    "independentRun": "4 passing presentation+settlement tests before author added the extra serialize/parse assertion; exact current test SHA and all4 restored author results were separately verified.",
+    "authorCounterEvidenceVerified": [
+      {
+        "id": "small-space",
+        "currentSourceMatches": true,
+        "currentTestMatches": true,
+        "reconstructedMutantMatches": true,
+        "failedFullName": "renders the full-width separators in a real English attribute description as blank space",
+        "failure": "AssertionError: expected [ 60, 60, 60, 60, 60, 60, 60, …(113) ] to deeply equal [ +0, +0, +0, +0, +0, +0, +0, …(113) ]",
+        "restoredPassed": 3,
+        "sourceSha256": "126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9",
+        "testSha256": "ce1efb3ae2ec91680bc7e2335d5fa04481be64e6656cef8d5d166b229e6ff8bb"
+      },
+      {
+        "id": "settlement-name",
+        "currentSourceMatches": true,
+        "currentTestMatches": true,
+        "reconstructedMutantMatches": true,
+        "failedFullName": "translates an already-created settlement by role and magic identities without changing its rewards",
+        "failure": "AssertionError: expected [ '巫后', '练成', 'RuneCast', …(9) ] to include 'Queen'",
+        "restoredPassed": 1,
+        "sourceSha256": "e7bf2f68bcdf0615a433b1ee31be1268f3eac68cee5c1c872903b46847cc6cb9",
+        "testSha256": "a4dd3eba70b418fe11ea837ac20c8c57bb874e77a02fc95e0a450ea64f50729b"
+      }
+    ],
+    "calibrationBoundary": "Author-reported settlement-red.json missing-res and settlement-red-legal.json wrong learn-table axis are calibration failures only, not business counter credit. Exact controlled current mutations each cause the required unique AssertionError. Reviewer initially typed151..157 in a progress message; native probe records actual151..158(8rows), and the report follows that unchanged native data.",
+    "pixelAndGlyphRecheck": {
+      "descriptionEntriesWithMissingSmallGlyphs": 0,
+      "attributeExampleRows": [151, 152, 153, 154, 155, 156, 157, 158],
+      "backgroundDifferenceCounts": {
+        "status": 0,
+        "equip": 0
+      }
+    }
   },
   "nativeArtifacts": [
     {
@@ -305,11 +360,176 @@
       "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/status-overlap-probe.ts",
       "bytes": 3042,
       "sha256": "cc9f1f5c30ab5805f5702ab24a585c13391e21a396cdd04f3488c2679c5b996e"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe-final.json",
+      "bytes": 3009,
+      "sha256": "11ad6063e53419ee5b49cf88e9c1df7ac8af5930781efe955edadb8a754cd9fe"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/fix-tests.json",
+      "bytes": 2137,
+      "sha256": "22b15a5c092b00e977b5957ca45efb719026ec1b6617bd8214d320f4d295977f"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/counter-evidence-verification.json",
+      "bytes": 1167,
+      "sha256": "8f83790fa55198f4b84a6d5ce5d153b9538e887f390015d4e7bfe322e481cf44"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan-final.json",
+      "bytes": 60,
+      "sha256": "9f198a4e5bcf38a3fb4db8953c878097c5a08e621001111aaecc9ea2049455ed"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe-final.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan-final.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/fix-tests.txt",
+      "bytes": 120,
+      "sha256": "77a0e335147d74ab7abf370378572f08eeab25c6304d76bd022dc6d59175cdae"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/snapshot-final.json",
+      "bytes": 1474,
+      "sha256": "14f98342cac2e13cef46b6643a257d0833ddd2f55aae408b3c24e927731f6e0d"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/root-counters.mjs",
+      "bytes": 2960,
+      "sha256": "03fa06b29b976238c71656d939d83077a51970e1015aadff9b76b7e48e4bd4cc"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/root-counters.json",
+      "bytes": 3057,
+      "sha256": "879122fc26091f954e4e9eb6341d4f5839c73ba259ad34a7a2f9c49787e98a7f"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.json",
+      "bytes": 2942,
+      "sha256": "d8ef6e95ef948e7ab70687a06f6cf7873bab7052b02eb620eca9803204bccc29"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.stdout.txt",
+      "bytes": 396,
+      "sha256": "18fefb1a7da916330a0099c719040714f4d102547673b8ee056691b79bb657e1"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.json",
+      "bytes": 1596,
+      "sha256": "1cf9457ba36488b1ad61105c09b322048e2a4d0e6400319ba25f73943f228d90"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.stdout.txt",
+      "bytes": 107,
+      "sha256": "1e3529f31ae31da725afbb1d379f9a131753facada0e558dda8811507931115e"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.json",
+      "bytes": 2442,
+      "sha256": "b71cdc785caac100d2689e1dde574ab95a133e9590ba724787d2b88d7f11e1ff"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.stdout.txt",
+      "bytes": 411,
+      "sha256": "de0af7b788e1c33df4d0949e6fb6483d55d89764203e97bf79a0543316d2a417"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.json",
+      "bytes": 1022,
+      "sha256": "80e15372f585c72f380fd7f461918443faad0ddc05213ee377ff3474ce6bb8eb"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.stdout.txt",
+      "bytes": 111,
+      "sha256": "7c54f5f10b238b172890520f416585a69f08b01ced543c16d4d8e4dbb583cf1a"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/lint-final.txt",
+      "bytes": 164,
+      "sha256": "004f9ac7f8bd3cd71f820a7027312fe36e5ae0522dba13869790b3bc05ab2eaf"
     }
   ],
   "limitations": [
     "No full product/full-file quality closure, official coverage count, browser screenshot, gameplay E2E or deployment acceptance.",
     "No changes made to reviewed product files, script source, extracted assets or root task card.",
     "The broad probe group>=12500 glyph scan is only an initial candidate scan and contains late-story lines; only description-scan.ts actual catalog callers support the46-entry/U+3000-only conclusion."
-  ]
+  ],
+  "lastReviewedAt": "2026-10-22T12:51:57.007860+00:00",
+  "finalIdentity": {
+    "head": "05e1cfcff19ff8c469f391b5dc9dbd20fa16f2fa",
+    "productCommit": "a3f7e9aafa6cca26d962369a6c3dd80b43370c6c",
+    "worktreeProductDiff": [],
+    "files": [
+      {
+        "path": "packages/game/src/present/small-font.ts",
+        "sha256": "126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-description.ts",
+        "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485"
+      },
+      {
+        "path": "packages/game/src/localization/presentation.test.ts",
+        "sha256": "ce1efb3ae2ec91680bc7e2335d5fa04481be64e6656cef8d5d166b229e6ff8bb"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "sha256": "e7bf2f68bcdf0615a433b1ee31be1268f3eac68cee5c1c872903b46847cc6cb9"
+      },
+      {
+        "path": "packages/game/src/present/battle/present-battle.ts",
+        "sha256": "868feace88f4996992631e4d09b53fa249d290dbe0b25b34466e4f5a6eb908f0"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement.ts",
+        "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298"
+      },
+      {
+        "path": "packages/game/src/core/save/v1-battle.ts",
+        "sha256": "7f1eb8f53cc847187d3b40e4ceadde61ada01737d82897221cca4a79047b5c77"
+      },
+      {
+        "path": "packages/game/src/localization/settlement-language.test.ts",
+        "sha256": "a4dd3eba70b418fe11ea837ac20c8c57bb874e77a02fc95e0a450ea64f50729b"
+      }
+    ]
+  },
+  "nonBlockingObservation": {
+    "kind": "known-source-layout-sample",
+    "source": "status-overlap-probe.json",
+    "description": "With legal AhNu role4 equipment202 PearlCrown and229 Neon Cloth, the later item icon overwrites one name-colored pixel at178,46. This follows the same SLF positions and SDL per-slot icon/text order; not established as a readability defect or grounds for scope expansion. Byte-equivalent layout is not a claim of exhaustive visual perfection."
+  },
+  "staticEvidenceConsumed": {
+    "source": "/Users/zhangxu/illegal/type-pal/build/english-integration/lint-final.txt",
+    "observed": "lint PASS5902 files,0errors/0warnings/0infos complete report",
+    "boundary": "Author full static output inspected, not independently rerun; acceptance remains limited to reviewed claims."
+  }
 }
