@@ -111,7 +111,9 @@ if (stale.length) {
   for (const file of report.files)
     assert.deepEqual(Object.keys(file.dimensions), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'])
   if (report.integration.state === 'passed') {
-    const text = stripVTControlCharacters(artifact('module-check.stdout.raw').toString())
+    const checkId = report.integration.executionIds?.check ?? 'module-check'
+    const protectedId = report.integration.executionIds?.protected ?? 'module-protected'
+    const text = stripVTControlCharacters(artifact(`${checkId}.stdout.raw`).toString())
     const count = (pattern) => Array.from(text.matchAll(pattern), (match) => Number(match[1]))
     assert.deepEqual(count(/^\s*Tests\s+(\d+) passed/gm), report.integration.check.packageCounts)
     assert.deepEqual(count(/^# tests (\d+)$/gm), report.integration.check.toolCounts)
@@ -122,7 +124,7 @@ if (stale.length) {
       assert.equal(result.spawnError, null)
       assert.equal(artifact(`${id}.stderr.raw`).length, 0)
     }
-    const protectedResult = json('module-protected-report.json')
+    const protectedResult = json(`${protectedId}-report.json`)
     assert.deepEqual(protectedResult.strict.regressions, [])
     assert.deepEqual(protectedResult.scope.changes, [])
     assert.deepEqual(protectedResult.protectedMetrics.regressions, [])
