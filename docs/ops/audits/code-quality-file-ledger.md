@@ -17,6 +17,10 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 经验/成长/物品窗口：59恢复接受、3x原合同新接受，固定83卡59accept/24partial/0pending；v1恢复及progression/levelup两review关闭，三旧closed按变更刷新；item由隐式pending登记review，不关闭。账本3355/374closed/112review/2869pending，相对已合31净增2closed。实际全check20434后仅物品三个game文件变化，以完整game TC/3724刷新该包；单次official20040/758与同报告strict/protected零诊断，原件含失败/缺导入勘误。没有新baseline降低授权/规则/退役。最终文档静态按收尾回执，以下旧数字为各时点历史。[唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。
+
+2026-10-22 新经验输入反证：仅v1.ts已验证→review、CODE59accept→partial；极大有限余数可经真实导入/内存槽/开战进入不能推进的结算。0新关闭，固定83卡57accept/26partial，3355/371closed/114review/2870pending。产品未改，新增数值域待裁决；原3v/78及旧形状/finite证据不重写。[当前反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。
+
 2026-10-22 基础动作/移动端影响收口：16明确文件逐项八维、真实反控与当前绑定成立，3v/78按原合同接受；attack/AVI两review恢复，14既有closed刷新不重复计数。固定83卡58accept/25partial/0pending，3355/372closed/113review/2870pending。全check20432、最终官方fast ratchet及同报告strict/protected均零诊断；无测试退役/规则放宽。[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)。以下保留各旧时点计数，不覆盖本节。
 
 2026-10-22 移动端影响当前复核：7个既有closed实现需要增量绑定，14新增路径仍pending。AVI连续拒绝发现实证UI重试失效，单个实现撤review；CODE78 accept→partial，当前固定83卡56accept/27partial/0pending，账本3355/370closed/115review/2870pending。原单次拒绝/skip证据保留，不把通过的868完整CI覆盖到新增失败合同。其它六项及3v窗口继续，[当前反例与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md)。
@@ -52,7 +56,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,355。
-当前已闭合核验：372；已读但待审：113；尚未逐文件核验：2,870；合计未闭合：2,983。
+当前已闭合核验：374；已读但待审：112；尚未逐文件核验：2,869；合计未闭合：2,981。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -102,7 +106,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/io/yj2.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/game/src/tools/__fixtures__/save-v1-store-v2-nested.json` | fixture | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
 | `packages/game/src/tools/__fixtures__/save-v1-store-v2.json` | fixture | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
-| `packages/game/src/core/save/v1.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/core/battle/actions/item.ts` | product | review | [物品上下文八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json) | 已批目标传递修复与注释整改；C返回script pointer/异常等广域生命周期影响未核，整文件保持review，未因门绿关闭 |
+| `packages/game/src/core/save/v1.ts` | product | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 原合同逐文件接受；已批准WORD输入与TS属性偏离区分，真实红绿/旧反控/原盘表及集中门零诊断；不扩大相邻系统/存档整体信用 |
 | `packages/game/src/core/save/v1-battle.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
 | `packages/game/src/core/save/v1-world.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
 | `packages/game/src/core/save/v1-shape.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
@@ -205,9 +210,9 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/quality/code-quality-inventory.mjs` | tool | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `scripts/quality/code-quality-ledger.mjs` | tool | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
-| `packages/game/src/core/battle/battle-progression.ts` | product | review | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；307行全文及既有primary复用，直接state owner/type依赖的按文件JS守恒 | 普通域/七池测试已补；新WORD65535边界真实分歧待用户裁决，不关实现 |
-| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |
-| `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；全文/公开projectRuntimeToBattleRoles/typed makeHRole；11合同数保持 | 移除as any as核心夹具、收窄未开战的标题；未复算原盘真值表/其它数值极端域，旧整文件信用撤回 |
+| `packages/game/src/core/battle/battle-progression.ts` | product | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 原合同逐文件接受；已批准WORD输入与TS属性偏离区分，真实红绿/旧反控/原盘表及集中门零诊断；不扩大相邻系统/存档整体信用 |
+| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 既有关闭按当前变更刷新；保留原合同与身份，无退役/弱化，具体限制与原件见回执 |
+| `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 原合同逐文件接受；已批准WORD输入与TS属性偏离区分，真实红绿/旧反控/原盘表及集中门零诊断；不扩大相邻系统/存档整体信用 |
 | `scripts/docs/check.mjs` | tool | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；全文/真实CLI，>1MiB合法路径先红后绿 | 完整NUL枚举有限16MiB；独立4MiB namespace不改，原检查策略保留，0新关闭 |
 | `scripts/docs/check-testing.mjs` | tool | 已验证 | testing catalog/index/legacy flat verifier；testing docs runs | 独立测试文档门 |
 | `scripts/docs/config.mjs` | tool | 已验证 | current docs versions/sections/exceptions source | 不改历史格式 |
@@ -540,7 +545,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/draw-tilemap.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |
 | `packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |
 | `packages/game/src/tools/save-io.ts` | product | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
-| `packages/game/src/tools/save-io.test.ts` | test | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
+| `packages/game/src/tools/save-io.test.ts` | test | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 既有关闭按当前变更刷新；保留原合同与身份，无退役/弱化，具体限制与原件见回执 |
 | `packages/game/src/analytics/analytics-consent-ui.ts` | product | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |
 | `packages/game/src/analytics/analytics-consent-ui.test.ts` | test | 已验证 | [analytics逐文件A–H及集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) | 当前同窗生产caller/独立oracle；旧反控据版本复用，类型及测试隔离/判别力已整改；不附带实网/跨realm/广域main信用 |
 | `packages/game/src/core/inspect/battle-inspect.ts` | product | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
@@ -549,7 +554,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-player-status.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
-| `packages/game/src/core/battle/actions/item-poison-boundary.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
+| `packages/game/src/core/battle/actions/item-poison-boundary.test.ts` | test | 已验证 | [物品上下文八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json) | 四旧case及其fixture/data守恒；四新身份核role0/4、all真实恢复与8D投影；289相邻/3724整包及集中门0诊断，不授完整战斗/视觉 |
 | `packages/game/src/dev/dev-panel.glm-next-wave.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/dev/dev-panel.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/dev/dev-panel-party-lifecycle.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-22T02:54:42.402Z",
+  "generatedAt": "2026-10-22T04:12:05.124Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 758,
-  "testCount": 20034,
+  "testCount": 20040,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4723,7 +4723,7 @@
       ],
       "scopeDigest": "d5c6813f8de5fd20d05340659feb82110ba67bd5636ebfcab0b8e212979037cf",
       "fastTests": {
-        "testCount": 3690,
+        "testCount": 3696,
         "testFileCount": 328,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5368,8 +5368,8 @@
           },
           {
             "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
-            "testCount": 4,
-            "identityDigest": "c464d7c0cd3d303e07cacfdd4c9ee9792c19ded4bdf3954aae6f94d2807561b7"
+            "testCount": 8,
+            "identityDigest": "a816fb5ecee027b0f1d732c53efb122b7b2242b7093a2360ac69a18570de6a82"
           },
           {
             "file": "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
@@ -6578,8 +6578,8 @@
           },
           {
             "file": "packages/game/src/tools/save-io.test.ts",
-            "testCount": 27,
-            "identityDigest": "48195e69873a32d4d0216e2ff135ac03d97102156c85f1f024320abad974c0b5"
+            "testCount": 29,
+            "identityDigest": "be1997d0fc96d45c919be9c450e1ec023c8a7dd1f19359c3b9ceffa2aafee51b"
           },
           {
             "file": "packages/game/src/tools/speedrun/checkpoints.test.ts",
@@ -6697,26 +6697,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "f16c2e1fd79cb6cb53693ebd003872c494d8ca48368accf233f26678b0cea340",
+        "identityDigest": "cbf4b3b01825fd4a888dacd8ae187b7b4753ef0f93d0ffaeade04f75b00333a2",
         "duplicateIdentityCount": 0,
-        "executionDigest": "198065c27462022897a557d5173db9929a7b2d23a198fe591efa04622162f7a7"
+        "executionDigest": "75dcff9ab36949882a73fda672b45b5a3805c42e481be044085dbe99d60ffcfd"
       },
       "metrics": {
         "statements": {
-          "covered": 14758,
-          "total": 16517
+          "covered": 14764,
+          "total": 16523
         },
         "branches": {
-          "covered": 9555,
-          "total": 11869
+          "covered": 9561,
+          "total": 11876
         },
         "functions": {
-          "covered": 1750,
-          "total": 2044
+          "covered": 1751,
+          "total": 2045
         },
         "lines": {
-          "covered": 13162,
-          "total": 14478
+          "covered": 13165,
+          "total": 14481
         }
       }
     },
@@ -10735,20 +10735,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71856,
-      "total": 79679
+      "covered": 71862,
+      "total": 79685
     },
     "branches": {
-      "covered": 52082,
-      "total": 62111
+      "covered": 52088,
+      "total": 62118
     },
     "functions": {
-      "covered": 13628,
-      "total": 15184
+      "covered": 13629,
+      "total": 15185
     },
     "lines": {
-      "covered": 64176,
-      "total": 69728
+      "covered": 64179,
+      "total": 69731
     }
   }
 }

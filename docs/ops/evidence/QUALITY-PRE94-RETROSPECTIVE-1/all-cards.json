@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 58,
+  "currentAccepted": 59,
   "cards": [
     {
       "id": "1",
@@ -1384,8 +1384,8 @@
       "sha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
       "lines": 213,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -1445,7 +1445,12 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3x-battle-progression/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-22",
+      "currentReviewSha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json",
+      "findings": "Original progression scope accepted: current5-file A-H,old primary/native/mutation evidence reused; actual DATA WORD exp/magic -> real won lv7/rem35/magic349; user KEEP stat growth and approved imported residual invariant explicit. Private zero-spell redundant check andH02 redundant self-compare removed without losing contracts;11/5 identities retained. Fullcheck20434/currentgame3724/official20040+strict/protected0diagnostics. No3w/battle-system whole-file acceptance."
     },
     {
       "id": "3y",
@@ -2421,11 +2426,12 @@
       ],
       "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Original CODE59/60 contract accepted:full per-file A-H,approved structure/history/role-bound fixes with formal reds,52adjacent;20386check and19988official ratchet/protected0diagnostics. Five native FileReader/IDB cases and precise MSIO transfer/canonical quick-save9counter. No broadSave/IDB/panel or94-102 acceptance.",
+      "findings": "Restored after newly approved WORD integer residual guard: formal28green/1business-red ->66adjacent green. Original shape/finite/historical wire/native browser evidence reused within scope. Wholecheck20434 then only item3game files changed,current game TC/3724 refresh; official20040/758+strict/protected0diagnostics. No DB migration,old corrupted-slot repair,awards or grown-stat cap.",
       "currentReviewer": "Codex",
-      "currentReviewDate": "2026-10-21",
+      "currentReviewDate": "2026-10-22",
       "currentReviewSha256": "50c580ed9388986023fadb0cfb24fb68817834fbc5ecb04fcec2524d3ffb052b",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json"
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md"
     },
     {
       "id": "60",
@@ -4238,27 +4244,28 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 25,
-    "accept": 58,
+    "partial": 24,
+    "accept": 59,
     "pending": 0
   },
   "lastIncrementalReview": {
     "date": "2026-10-22",
-    "scope": "Original3v+78 and seven mobile-modified prior accepted implementations;context/new paths not accepted",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
-    "acceptedFileScopes": 16,
-    "newlyAcceptedCards": 2,
+    "scope": "Approved experience input fix restores59;3x original scope accepted; item role fix limited contract,whole item/event remainreview",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/gates.json",
+    "restoredCards": ["59"],
+    "newlyAcceptedCards": ["3x"],
     "currentReviewCounts": {
-      "partial": 25,
-      "accept": 58,
+      "partial": 24,
+      "accept": 59,
       "pending": 0
     },
     "ledger": {
       "total": 3355,
-      "closed": 372,
-      "review": 113,
-      "pending": 2870
-    }
+      "closed": 374,
+      "review": 112,
+      "pending": 2869
+    },
+    "finalDocumentStatics": "Final receipts in game-progression-input/gates.json; exact publication refs recorded after commit"
   },
   "incrementalReviewHistory": [
     {
@@ -4295,6 +4302,42 @@
         "total": 3355,
         "closed": 370,
         "review": 115,
+        "pending": 2870
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "Original3v+78 and seven mobile-modified prior accepted implementations;context/new paths not accepted",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "acceptedFileScopes": 16,
+      "newlyAcceptedCards": 2,
+      "currentReviewCounts": {
+        "partial": 25,
+        "accept": 58,
+        "pending": 0
+      },
+      "ledger": {
+        "total": 3355,
+        "closed": 372,
+        "review": 113,
+        "pending": 2870
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "New experience import-to-settlement liveness counter;only59/v1 acceptance reopened,other82card values unchanged",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/observation.json",
+      "newlyAcceptedCards": 0,
+      "reopenedCards": 1,
+      "currentReviewCounts": {
+        "partial": 26,
+        "accept": 57,
+        "pending": 0
+      },
+      "ledger": {
+        "total": 3355,
+        "closed": 371,
+        "review": 114,
         "pending": 2870
       }
     }

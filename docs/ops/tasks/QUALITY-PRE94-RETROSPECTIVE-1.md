@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前收口：3v/78按原合同接受，固定83卡58accept/25partial/0pending；账本3355/372closed/113review/2870pending。16文件八维与必要结构/测试/AVI重试返工、全check20432及最终官方ratchet/同报告protected零诊断。父卡仍build，25partial继续，94–102不扩展。
+> 当前：经验余数窄修恢复59接受，3x原合同新接受；固定83卡59accept/24partial/0pending，账本3355/374closed/112review/2869pending。物品目标窄修完成，item整文件与3w非队员Extra/时序仍review；全部源门已过，最终文档静态与提交/推送/主线以本窗回执和实际refs为准，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1329,3 +1329,29 @@ Codex唯一Owner，复用旧四源全文/primary与本轮已完成的逐段核�
 首轮official采集因合法typed夹具减少两个偶然分支而指标拒绝，原exit1/raw保留；有限授权数据的93工具测试及active/bad-source/bad-baseline直接反控通过，旧表/其余程序AST不变，最终正式复跑通过。未为了比例恢复伪fixture或增加弱例。完整check实际七包20432，全量stdout260块与原普通业务/性能记录一致，所有stderr/act/环境/TS/未处理/静态诊断0；lint5798为0/0/0。最终官方fast ratchet使用固定origin/main基点868保护，严格最终baseline canonical投影及同报告compareCoverage/auditScope另验；最终protected检查复用最后一次官方报告，不额外再采第三轮coverage，也不伪称重复全check。最新门、源绑定与完整未裁剪原件在game-actions-mobile唯一入口。只补末轮文档/进度/账本/lint，不因收口文案重跑重门。
 
 下一可续仍pre94原3w/3x与其它25partial，复用已核primary/反控，只补真实余项；WORD持续增长裁决沿用。CLI/事件P3及RLE格式/资源域未知不擅关闭。提交推送/主线同步/远端CI以实际refs/run为准，本段不是提前声称新mainCI成功。
+
+### 2026-10-22 3w/3x下一窗口只读核证
+
+Codex单Owner，同一3y，最新31c9775ce/0behind/0ahead与机器账本复核。3w两产品、progression与V1入口/root guard/shape/Save/type声明和直接测试完整核读，bootstrap实际读档范围及opcode写入只按实际段；旧八维/primary/反控据版本复用，不重复整套GLM成果。原非队员Extra raw43503 census仍只是局部约束，不当动态闭合。
+
+3x新增真实输入链反证：主/隐藏经验余数MAX_VALUE经过serialize/parse、私有内存Save/Load和真实startBattle后，在won builder不能递减；Word65535两对照<1ms归1535，极大数两例在ready后1s无done，父进程请求清理进程组。outer0/tsx0不当绿色质量门，不伪称Vitest业务红。源/完整原件/只读复验见[新经验边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)，风险卡GAME-SAVE-EXPERIENCE-DOMAIN-1draft，尚无产品build。
+
+当前V1原合同只验声明形状/有限值；SDLPalWord仅数值域候选，不自动批准JSON新上限。用户原“先核合法合同、再红例修复”授权保留，但本次数值域取舍尚需明确。仅59接受/v1关闭暂撤，57accept/26partial与371/114/2870；3x原partial保持，其它已核卡不重开。当前不改实现或跑全check/coverage，等待策略时继续3w不重叠核证。
+
+### 2026-10-22 经验输入与成长质量窗口（候选冻结，集中门待跑）
+
+用户明确批准经验余数0..65535整数，异常在写槽前拒绝。Codex单Owner仅v1与save-io直接测试build；真实内存Save原槽位/metadata与八池六角色、上下界/小数/极大数，新增两例。旧29例中28绿1指定业务红，8个拒绝断言及原槽内容构成直接失败；四行私有标量守卫后实际6文件66绿/零stderr、TC零诊断。最初相邻命令5过滤参数只匹配3文件43例，修正实际路径后6/66，未超卖。
+
+3x复用旧全文/原生C/七池与RNG反控，补核当前合法输入：直接读取原DATA.MKF的WORD阈值/法术表，与实际parser比对，再正式hydrate/project/startBattle→won builder得到1000经验升7级、余35、学349不学311。只证明该core边界，不声称完整战斗、SDLPal执行、浏览器或演出。私有学法术helper唯一caller已过滤magic0，删重复零值条件；H02删一条被前一1/1字面断言蕴含的自比，五身份不变。补注属性WORD持续增长是明确TS偏离、经验WORD回写独立。两专测16绿，纯重构与输入修复分提交。
+
+五文件A–H、当前caller/source指纹、完整红绿/恢复前后源码与proof统一在[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。59/v1与3x在新集中门前不接受，57/26及371/114/2870不变。前文draft/待裁决是修复前时点，由本节与风险卡当前review取代；旧观察原件与历史计数不覆盖。产品格式/DB版本、其它数值域、奖励/随机、第二阶段均未改变。全check/official ratchet/protected留本冻结窗口一次集中安排，运行诊断0才可恢复59及裁定3x。
+
+### 2026-10-22 经验/成长/物品窗口最终源验收
+
+59经新增输入反证一度撤回，已按用户WORD整数政策先红后绿修复后恢复；3x补足八维缺口、原盘表真实结算与冗余结构/断言清理后按原合同接受。三文件由review闭合：v1.ts、battle-progression.ts、battle-levelup.test.ts；相对31窗口起点仅净增后两项，不能把恢复59算全新进度。另三既有closed测试按实际变更刷新。item.ts完整阅读/八维后明确登记review，返回script pointer及更广生命周期未知未关闭；event-system只接受命名常量与8D刷新有限接线，3r/3s/3w不跟随包绿关闭。
+
+正式全check一次20434，七包及lint5804零诊断；之后仅item/event-system/直接测试三game文件变化，完整game TC/3724刷新受影响包，其余六包代码按同版本原件复用。不声称在后继提交再次跑完整check。正式official fast一次20040/758并固定31主线保护，baseline canonical投影及同报告strict/scope/protected均零回落/无源移除；正常8项提升/2测试范围变化，无新降低授权、规则、ignore、测试退役或弱例。三轮普通stdout260/33/253块与已读类别逐消息一致（仅耗时归一），实际所有运行诊断/TS/act/环境/未处理与stderr0。
+
+物品四新增正式红→context-only三绿/一投影红→最终四新加四旧全绿；289相邻与整包3724不累加成唯一例数。首次8D接线漏局部import导致4 ReferenceError，随后game TC报TS2552；此为Codex实现失误，已修并保留两失败原件，不冒称原产品反例。原四测试/fixture/data及其它event-system源码严格守恒，未更改升级算法/随机/当前HPMP。
+
+[当前八维/原件/快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)。59/3x以外81卡值不改。最终候选59accept/24partial；source ledger3355/374/112/2869以机器再次核数。覆盖率只本窗一轮，final statics后才提交推送同一3y并0behind合main。剩余3w动态Extra链、事件P3、RLE格式/资源域等仍未知；不扩94–102。

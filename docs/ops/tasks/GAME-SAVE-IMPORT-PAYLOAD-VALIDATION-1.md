@@ -1,5 +1,7 @@
 # GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性
 
+> 2026-10-22经验跨边界反证一度暂撤CODE59/v1信用；[获准WORD余数修复](GAME-SAVE-EXPERIENCE-DOMAIN-1.md)先红后绿并过集中源门后已恢复。旧形状/finite/历史编码证据保留有限范围，原done不替代新回执，也不认证存量坏槽迁移或完整runtime恢复。
+
 Status: done
 Phase: phase1
 Capability: save import input boundary

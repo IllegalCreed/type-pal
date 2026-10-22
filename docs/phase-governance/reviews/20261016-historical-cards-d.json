@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read only owned current AVI/parent task board,index,ledger delta and descendant binding; reuse unrelated body",
-      "coreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+      "readMethod": "Read only owned current experience/progression/item parent task board,index,ledger delta and descendant binding; reuse unrelated body",
+      "coreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;59accept24partial;20434 wholecheck plus3724 affected-game refresh;one20040 official and strict/protected0diagnostics. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "7b9eb00514f79205f948edd799640844266cdbca0fe09ca3aa7225b075be8c6f",
+      "afterSha256": "f7189d689b91b78db7b8a1573d822e8bb05b2e451fb07c8160dcb15c0267ce96",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "7b9eb00514f79205f948edd799640844266cdbca0fe09ca3aa7225b075be8c6f",
+        "implementationSha": "f7189d689b91b78db7b8a1573d822e8bb05b2e451fb07c8160dcb15c0267ce96",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,8 +4146,8 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-game-actions-mobile-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        "kind": "codex-owned-game-progression-input-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
       },
       "history": [
         {
@@ -4862,6 +4862,32 @@
           "afterSha256": "7b9eb00514f79205f948edd799640844266cdbca0fe09ca3aa7225b075be8c6f",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-progression-input-window-local-ready",
+          "previousEvidence": {
+            "kind": "codex-owned-game-actions-mobile-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json"
+          },
+          "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "7b9eb00514f79205f948edd799640844266cdbca0fe09ca3aa7225b075be8c6f",
+          "afterSha256": "e604cac2e53c050ccb4763235c6ce3146008075ee05563743295ca0fac150839",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Game-progression-input-window-final-source",
+          "previousEvidence": {
+            "kind": "codex-owned-game-progression-input-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
+          },
+          "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;57accept26partial while grouped gates pending. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
+          "previousAfterSha256": "e604cac2e53c050ccb4763235c6ce3146008075ee05563743295ca0fac150839",
+          "afterSha256": "f7189d689b91b78db7b8a1573d822e8bb05b2e451fb07c8160dcb15c0267ce96",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json"
         }
       ],
       "supersedes": [
@@ -4878,7 +4904,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only current AVI/parent board,index,ledger rows and named child bindings; no whole-file reacceptance",
+      "reviewedLines": "Only current experience/progression/item parent board,index,ledger rows and named child bindings; no whole-file reacceptance",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

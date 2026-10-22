@@ -1,0 +1,337 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex single agent",
+  "base": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+  "status": "draft;actual liveness gap established, numeric input policy undecided",
+  "sources": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "40d5caa83a46734d689defc26178679cac6af82b5127d8739264a7aeb626b0a4"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "52456f6aae023ecc85847b6f723427d13253bf447015cee3dbd1a3939df2dffb"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8"
+    }
+  ],
+  "runs": [
+    {
+      "id": "exp-primary-word",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/tsx",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-child.mts",
+        "primary",
+        "word"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:20:42.753Z",
+      "end": "2026-10-22T03:20:44.263Z",
+      "exit": 0,
+      "signal": null,
+      "ready": {
+        "stage": "ready",
+        "domain": "primary",
+        "size": "word",
+        "pool": "rgPrimaryExp",
+        "amount": 65535,
+        "parserAccepted": true,
+        "memorySlotRoundtrip": true,
+        "actualStartBattle": true,
+        "table99": 32000,
+        "nonprogress": false,
+        "rawDataSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+      },
+      "done": {
+        "stage": "done",
+        "domain": "primary",
+        "size": "word",
+        "remainder": 1535,
+        "elapsedMs": 0.2171250000001237
+      },
+      "timedOutAfterReady": false,
+      "observation": "Deadline starts only after actual parse/slot/startBattle and imports complete; liveness observation,not a passing quality gate."
+    },
+    {
+      "id": "exp-primary-large",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/tsx",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-child.mts",
+        "primary",
+        "large"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:20:44.263Z",
+      "end": "2026-10-22T03:20:45.981Z",
+      "exit": 143,
+      "signal": null,
+      "ready": {
+        "stage": "ready",
+        "domain": "primary",
+        "size": "large",
+        "pool": "rgPrimaryExp",
+        "amount": 1.7976931348623157e308,
+        "parserAccepted": true,
+        "memorySlotRoundtrip": true,
+        "actualStartBattle": true,
+        "table99": 32000,
+        "nonprogress": true,
+        "rawDataSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+      },
+      "done": null,
+      "timedOutAfterReady": true,
+      "observation": "Deadline starts only after actual parse/slot/startBattle and imports complete; liveness observation,not a passing quality gate."
+    },
+    {
+      "id": "exp-hidden-word",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/tsx",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-child.mts",
+        "hidden",
+        "word"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:20:45.981Z",
+      "end": "2026-10-22T03:20:46.628Z",
+      "exit": 0,
+      "signal": null,
+      "ready": {
+        "stage": "ready",
+        "domain": "hidden",
+        "size": "word",
+        "pool": "rgAttackExp",
+        "amount": 65535,
+        "parserAccepted": true,
+        "memorySlotRoundtrip": true,
+        "actualStartBattle": true,
+        "table99": 32000,
+        "nonprogress": false,
+        "rawDataSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+      },
+      "done": {
+        "stage": "done",
+        "domain": "hidden",
+        "size": "word",
+        "remainder": 1535,
+        "elapsedMs": 0.20249999999998636
+      },
+      "timedOutAfterReady": false,
+      "observation": "Deadline starts only after actual parse/slot/startBattle and imports complete; liveness observation,not a passing quality gate."
+    },
+    {
+      "id": "exp-hidden-large",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/tsx",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-child.mts",
+        "hidden",
+        "large"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:20:46.628Z",
+      "end": "2026-10-22T03:20:48.358Z",
+      "exit": 143,
+      "signal": null,
+      "ready": {
+        "stage": "ready",
+        "domain": "hidden",
+        "size": "large",
+        "pool": "rgAttackExp",
+        "amount": 1.7976931348623157e308,
+        "parserAccepted": true,
+        "memorySlotRoundtrip": true,
+        "actualStartBattle": true,
+        "table99": 32000,
+        "nonprogress": true,
+        "rawDataSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+      },
+      "done": null,
+      "timedOutAfterReady": true,
+      "observation": "Deadline starts only after actual parse/slot/startBattle and imports complete; liveness observation,not a passing quality gate."
+    }
+  ],
+  "reading": {
+    "full": [
+      "packages/game/src/core/battle/battle-progression.ts",
+      "packages/game/src/core/battle/battle-finalization.ts",
+      "packages/game/src/core/battle/battle-settlement.ts",
+      "packages/game/src/core/save/v1.ts",
+      "packages/game/src/core/save/v1-shape.ts",
+      "packages/game/src/core/save/api.ts",
+      "packages/game/src/core/save/data.ts",
+      "packages/game/src/tools/save-io.ts",
+      "packages/game/src/tools/save-io.test.ts",
+      "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "packages/game/src/core/equip-effect.ts",
+      "packages/game/src/core/equipment-state.ts"
+    ],
+    "context": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "range": "1629-1715; actual Load/assign/runtime normalization/scene restore; no Exp normalization"
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.ts",
+        "range": "playerLevelUp writes primary exp0; Extra/equip writers; not whole file acceptance"
+      },
+      {
+        "path": "reference/sdlpal/global.h",
+        "range": "475-493 EXPERIENCE Word fields; reference only,not JSON input-policy approval"
+      }
+    ]
+  },
+  "observed": "Both main/hidden MAX_VALUE exp residuals accepted by current JSON parser and real process-private memory Save/Load. Actual startBattle preserves residual,clears hidden counts; public won builder does not complete within1s after ready. WORD65535 controls return remainder1535 in<1ms. MAX_VALUE-32000 equals MAX_VALUE: loop guard and subtraction cannot progress at level99.",
+  "scopeLimits": "Only Node memory Save port and actual core; no browser file chooser/IndexedDB,full bootstrap assets or unchanged normal-story reachability. Hidden case supplies the real one-attack Health2/Attack1 won boundary,does not simulate a whole fight. Child timeout is a liveness observation,not a named Vitest business red; no implementation or acceptance change.",
+  "semantics": "This is a child liveness observation with explicit process-group termination requested. tsx wrapper may exit0 despite no completed core result; never counts as a green quality gate or a native Vitest assertion red. Product/guards/Save schema untouched.",
+  "proposedChoice": "Import policy can reject invalid experience residuals before any Save write,or explicitly support larger residuals and design termination/RNG policy. Existing guard only promises finite numbers; C Word alone does not authorize new JSON numeric bounds. Prior stat-growth KEEP decision remains unchanged.",
+  "progress": {
+    "acceptedCards": 57,
+    "partialCards": 26,
+    "pendingCards": 0,
+    "ledger": {
+      "tracked": 3355,
+      "closed": 371,
+      "review": 114,
+      "pending": 2870
+    },
+    "reopenedCard": "59",
+    "reopenedFile": "packages/game/src/core/save/v1.ts",
+    "newClosures": 0
+  },
+  "native": {
+    "path": "native.json.gz",
+    "sha256": "4ec80a53cbe6fff3cd74db809c2ab0d67e2ec31e2f59e9257928abe9e34fdefa",
+    "members": {
+      "capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "exp-child.mts": {
+        "bytes": 3911,
+        "sha256": "a742553f7eccb4b0ae7dfe5976f40592df84016448c9d58e856a17b9562bc804"
+      },
+      "exp-hidden-large.execution.json": {
+        "bytes": 1042,
+        "sha256": "02031373d826c08b83f33444e54b4d148f9a85addb3346261fd2087f4c0f338e"
+      },
+      "exp-hidden-large.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-hidden-large.stdout.raw": {
+        "bytes": 297,
+        "sha256": "89c7fe1b4c5934570dce04152212d063a5b9f513d3287a9dbcfe808c769bf239"
+      },
+      "exp-hidden-word.execution.json": {
+        "bytes": 1147,
+        "sha256": "332fcc1f5d6b05ab1217bc4d1ea67b100a62a1cf627163152a928fdef54db1ad"
+      },
+      "exp-hidden-word.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-hidden-word.stdout.raw": {
+        "bytes": 377,
+        "sha256": "048b49468a47c740f25da175510d9c16b340124ef3cb1834be751c7c807eae09"
+      },
+      "exp-primary-large.execution.json": {
+        "bytes": 1046,
+        "sha256": "c1a222803314331c8e89be8c8ed2d02ad7eeea12eb249b1e0972d6ee52c0d5b5"
+      },
+      "exp-primary-large.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-primary-large.stdout.raw": {
+        "bytes": 299,
+        "sha256": "fce1b5964bd6b1fab2aa7acefe052312314af798b93816f9f18e6ddce76073c6"
+      },
+      "exp-primary-word.execution.json": {
+        "bytes": 1151,
+        "sha256": "fcd0cebbfa67b92e0c6f048cf440e87e94aa55dc5d8b66e38082a962111d6c3b"
+      },
+      "exp-primary-word.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-primary-word.stdout.raw": {
+        "bytes": 379,
+        "sha256": "39e075715e58ac6cd216c8950899575e7cdef5c2f6f34e0e3afd6416c0d9f406"
+      },
+      "experience-domain-observation.json": {
+        "bytes": 6638,
+        "sha256": "174a34ae71ab30ec12de33acbaefa8af4e1b11ca5a1d172698793a9527c9e8d3"
+      },
+      "experience-observation.execution.json": {
+        "bytes": 1226,
+        "sha256": "d1595e5673095d9f6e135b2b9e150dd64f76ae314720c972bd0f2471faebce4f"
+      },
+      "experience-observation.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "experience-observation.stdout.raw": {
+        "bytes": 545,
+        "sha256": "f646263b6ab56edabb20cf5ad9e5c4ca9e4631e2c50c031433b51e2f80551824"
+      },
+      "observe-exp-domain.mjs": {
+        "bytes": 3400,
+        "sha256": "bfbde89e62e6ffede9870f73850330b2d38c4a4fd37c82fb531e665066f97b68"
+      },
+      "current/packages/game/src/core/battle/battle-progression.ts": {
+        "bytes": 13109,
+        "sha256": "40d5caa83a46734d689defc26178679cac6af82b5127d8739264a7aeb626b0a4"
+      },
+      "current/packages/game/src/core/battle/battle-settlement.ts": {
+        "bytes": 9439,
+        "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9"
+      },
+      "current/packages/game/src/core/battle/battle-system.ts": {
+        "bytes": 148844,
+        "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+      },
+      "current/packages/game/src/core/save/v1.ts": {
+        "bytes": 7470,
+        "sha256": "52456f6aae023ecc85847b6f723427d13253bf447015cee3dbd1a3939df2dffb"
+      },
+      "current/packages/game/src/core/save/v1-shape.ts": {
+        "bytes": 3049,
+        "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+      },
+      "current/packages/game/src/core/save/api.ts": {
+        "bytes": 3288,
+        "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+      },
+      "current/packages/game/src/tools/save-io.ts": {
+        "bytes": 1435,
+        "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+      },
+      "current/packages/game/src/shell/bootstrap.ts": {
+        "bytes": 95457,
+        "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8"
+      }
+    }
+  }
+}

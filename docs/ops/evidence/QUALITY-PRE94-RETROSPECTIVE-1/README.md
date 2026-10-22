@@ -1,5 +1,9 @@
 # 94前全部治理成果复审
 
+2026-10-22 [战斗物品目标角色](game-item-role-context.json)：3w写入链反证及用户批准；[当前修复/八维](game-item-role-context-review.json)含role0/4、all与8D投影，289相邻/3724整包及集中源门通过；整文件/非队员Extra未知不附带关闭。
+
+2026-10-22 [经验输入与真实结算终止性](game-progression-input/README.md)：原31非进展观察与批准的WORD输入红绿，3x缺口补齐；集中源门通过，59恢复/3x接受；当前59accept/24partial，最终静态/集成见回执。
+
 2026-10-22 [基础动作与移动端影响增量](game-actions-mobile/README.md)：16文件八维、真实反控、精确source绑定及只读复验；集中门前不升accept。[AVI修复前连续拒绝原件](mobile-revalidation/README.md)单独保留，不改写成修后绿。
 
 2026-10-22 [3w／3x结算成长质量窗口](battle-quality/README.md)：纯状态依赖／数据owner、七池测试及WORD／Extra边界分别核证；局部门不授整卡关闭，相关卡稳定后集中重门。
