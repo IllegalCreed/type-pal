@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 61,
+  "currentAccepted": 62,
   "cards": [
     {
       "id": "1",
@@ -1349,8 +1349,8 @@
       "sha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
       "lines": 71,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -1377,8 +1377,8 @@
           "text": "无下一位 Agent 提示词，Q3w 已由 Codex 独立验收并归档；继续从账本 pending 范围开下一张不重叠卡。"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json"
     },
     {
       "id": "3x",
@@ -4252,28 +4252,34 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 24,
-    "accept": 59,
+    "partial": 21,
+    "accept": 62,
     "pending": 0
   },
   "lastIncrementalReview": {
     "date": "2026-10-22",
-    "scope": "Approved experience input fix restores59;3x original scope accepted; item role fix limited contract,whole item/event remainreview",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/gates.json",
-    "restoredCards": ["59"],
-    "newlyAcceptedCards": ["3x"],
+    "scope": "CODE3w original settlement/finalization contract after approved Extra/HPMP/defaultrole/order repairs",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json",
+    "newlyAcceptedCards": ["3w"],
+    "acceptedFiles": [
+      "packages/game/src/core/battle/battle-finalization.ts",
+      "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+      "packages/game/src/core/battle/battle-settlement.ts",
+      "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts"
+    ],
     "currentReviewCounts": {
-      "partial": 24,
-      "accept": 59,
+      "partial": 21,
+      "accept": 62,
       "pending": 0
     },
     "ledger": {
-      "total": 3355,
-      "closed": 374,
-      "review": 112,
+      "tracked": 3356,
+      "closed": 377,
+      "review": 110,
       "pending": 2869
     },
-    "finalDocumentStatics": "Final receipts in game-progression-input/gates.json; exact publication refs recorded after commit"
+    "headerCountErratum": "Before update actual83 card rows were61accept22partial;old currentReviewCounts still59/24. Only3w newly accepted,not3cards."
   },
   "incrementalReviewHistory": [
     {
@@ -4348,6 +4354,31 @@
         "review": 114,
         "pending": 2870
       }
+    },
+    {
+      "date": "2026-10-22",
+      "scope": "CODE3w original settlement/finalization contract after approved Extra/HPMP/defaultrole/order repairs",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json",
+      "newlyAcceptedCards": ["3w"],
+      "acceptedFiles": [
+        "packages/game/src/core/battle/battle-finalization.ts",
+        "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+        "packages/game/src/core/battle/battle-settlement.ts",
+        "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts"
+      ],
+      "currentReviewCounts": {
+        "partial": 21,
+        "accept": 62,
+        "pending": 0
+      },
+      "ledger": {
+        "tracked": 3356,
+        "closed": 377,
+        "review": 110,
+        "pending": 2869
+      },
+      "headerCountErratum": "Before update actual83 card rows were61accept22partial;old currentReviewCounts still59/24. Only3w newly accepted,not3cards."
     }
   ]
 }

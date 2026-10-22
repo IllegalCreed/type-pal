@@ -38,10 +38,10 @@ describe('scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8
     const queue = state.battleDialogQueue ?? []
     expect(queue.length).toBe(1)
     expect(queue[0]).toMatchObject({ text: '嘲讽', clearBefore: true })
-    expect(state.battleDialogPendingClear).toBe(false) // 循环末复位(battle-system.ts:2220)
+    expect(state.battleDialogPendingClear).toBe(false) // runEnemyTurnStartScripts循环末复位
   })
 
-  it('敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)', () => {
+  it('敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)', () => {
     const { gs, bus } = boot({
       commands: [
         { op: 'end' }, // ip 0
@@ -124,7 +124,14 @@ describe('DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != P
     expect(state.settlement?.screens).toEqual([])
     expect(gs.dwCash).toBe(0)
     expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(0)
-    tickBattle(gs, NO_KEY, bus) // PhaseE:活敌仍按槽运行各自脚本
+    tickBattle(gs, NO_KEY, bus) // PhaseE:活敌也按原槽运行,先等第一敌的提示。
+    expect(calls).toEqual([{ entry: 5, enemyIdx: 0 }])
+    expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([[104, 1]])
+    tickBattle(gs, NO_KEY, bus)
+    expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '捡到一颗鼠儿果' })
+    tickBattle(gs, CONFIRM, bus)
+    expect(calls).toEqual([{ entry: 5, enemyIdx: 0 }]) // 关框按键仍由本次对话消费。
+    tickBattle(gs, NO_KEY, bus)
     expect(calls).toEqual([
       { entry: 5, enemyIdx: 0 },
       { entry: 9, enemyIdx: 1 },
@@ -133,12 +140,10 @@ describe('DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != P
       [104, 1],
       [97, 1],
     ])
-    for (const text of ['捡到一颗鼠儿果', '得到孟婆汤']) {
-      tickBattle(gs, NO_KEY, bus)
-      expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: text })
-      expect(gs.mode).toBe('battle')
-      tickBattle(gs, CONFIRM, bus)
-    }
+    tickBattle(gs, NO_KEY, bus)
+    expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '得到孟婆汤' })
+    expect(gs.mode).toBe('battle')
+    tickBattle(gs, CONFIRM, bus)
     tickBattle(gs, NO_KEY, bus)
     expect(calls).toHaveLength(2) // 展示期间不重跑PhaseE
     expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([

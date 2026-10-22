@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact two-file approved PhaseE HP/MP repair, source-bound native evidence and board/index/ledger delta;preserve unrelated entries",
+      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
+      "afterSha256": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
+        "implementationSha": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
         "contentVersion": 46,
         "minimumSaveVersion": 12,
         "history": [
@@ -1650,7 +1650,7 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
       },
       "history": [
         {
@@ -2398,6 +2398,45 @@
           "afterSha256": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-order-local",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "6037c80554c197b5754a0366f1cde210e815e286428924f92b96f74501576bca",
+          "afterSha256": "3691c7b39df427e8678713f9e20e6655c0cff907b7fa915fa218df1363545730",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "3691c7b39df427e8678713f9e20e6655c0cff907b7fa915fa218df1363545730",
+          "afterSha256": "c80ea96e7b42b42e57552edcb0f0e64305663a87e00763fa874771fb89601662",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-module-final",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "c80ea96e7b42b42e57552edcb0f0e64305663a87e00763fa874771fb89601662",
+          "afterSha256": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
         }
       ],
       "supersedes": [],
@@ -2691,7 +2730,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read exact two-file approved PhaseE HP/MP repair, source-bound native evidence and board/index/ledger delta;preserve unrelated entries",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2703,7 +2742,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
+      "afterSha256": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2724,7 +2763,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
+        "implementationSha": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
         "contentVersion": 32,
         "minimumSaveVersion": 12,
         "history": [
@@ -3070,7 +3109,7 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
       },
       "history": [
         {
@@ -3648,6 +3687,32 @@
           "afterSha256": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-order-local",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/role-context-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "e1761cd3a5b8c9a3b4a68a40e3aaec66c8e2df1300b57e85ee781b46a84c3cd1",
+          "afterSha256": "05fe1d326209eef1ace2515386f97a6053106f4f56b1a8969ebfddb42409f7ac",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3w-input-counter-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "05fe1d326209eef1ace2515386f97a6053106f4f56b1a8969ebfddb42409f7ac",
+          "afterSha256": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
+          "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
         }
       ],
       "supersedes": [],

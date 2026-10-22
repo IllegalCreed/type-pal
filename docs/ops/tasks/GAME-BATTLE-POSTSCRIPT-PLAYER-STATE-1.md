@@ -1,6 +1,6 @@
 # GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属
 
-Status: review
+Status: done
 Phase: phase1
 Capability: battle / post-battle player state ownership
 Owner: Codex
@@ -79,3 +79,5 @@ Template: task-card-v1 / 1.0.0
 ## 下一位Agent提示词
 
 无下一位Agent，Codex单Owner。复用本原件实施两文件已批窄修，保留正式先红后绿；不重做无关全文或逐片跑覆盖率，不扩94–102。
+
+- 2026-10-22 Codex模块验收：已批有限行为与五文件A–H均据证收口。完整check20443/七包TC/工具684，官方20045项/保护同报告均零诊断；首轮12超时及重跑原件未删。见[模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)。仅core原合同，不冒充视觉或整个解释器验收。

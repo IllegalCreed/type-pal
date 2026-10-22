@@ -1397,3 +1397,15 @@ Owner Codex单Agent；无下一位Agent提示词。用户待裁决期间继续3w
 [当前取证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json)将此前“C阻塞/TS队列”未知缩为具体事实：原盘team46、OBJECT402与SSS41008不改，合法高属性V1经真实自动战斗，192tick第一条鼠儿果提示active时已入两颗，第二条排队。最终两颗/两提示均存在，不能报成丢物品；B面板可读数量只有源码依据，不冒称浏览器/正常玩家观察。GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1仅draft，等用户决定逐敌等待或明确保留现状；前两低属性夹具战败原件保留，不算产品红。固定83/账本不升格，未跑覆盖率；已有HP/MP批准与其它独立pre94工作继续。
 
 后续：用户已批“按SDLPal逐只处理”，另卡转两文件窄build；本时点只完成HP/MP默认角色参数，原生15/1合法输入单红→26直接/61相邻及当前TC0，旧奖励不齐草稿不计正式信用。既有runner字段携SDL敌槽i，未改公共调用签名或单条脚本yield。原叶与当前运行对话仍同前状态，时序修复先另存正式反例再改。固定61/22与3356/372/115/2869不升格，全仓/official/protected继续模块集中收尾。
+
+## 2026-10-22 3w已批逐敌等待与统一门窗口
+
+用户批准逐敌处理后，正式旧源16绿/1库存业务红，三文件有限修复使4文件27绿、game TC0；相邻DL23旧同步断言按新授权时序迁移，未弱化双活敌/掉落/恢复/释放合同。[当前八维及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json)保留首版TC/save类型冲突与导出探针的错误空屏假设原件，均不冒充产品红。最终私有WeakMap只存数字、key为本场结算，结束删除/中断GC，不改V1/public字段。实际原盘team46全战首框1颗、最终2；首框JSON通过现有V1。浏览器/像素未跑，原3w卡仅状态/清理合同，视觉仍按原集中E2E边界。
+
+本窗将Extra清理、HPMP所有权、默认角色与逐敌时序一起集中跑全仓/official/保护比较。门完成前维持61accept/22partial、372closed/115review，不把局部绿当文件关闭；94–102不扩展。
+
+## 2026-10-22 CODE3w原合同接受
+
+[模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)逐文件接受五项review：finalization源/Extra专测、settlement源/专测、system三例专测；旧finalization.test不重复关闭。3w只按原两个实现与结算/cleanup合同接受，完整battle-system、event-system、单脚本通用yield与视觉E2E不借此接受。当前固定83为62accept/21partial/0pending；源账本3356/377closed/110review/2869pending。原all-cards header59/24已按实际逐对象61/22勘误，仅3w新增接受，其余82卡逐对象相同。
+
+当前完整check20443+684工具、七包TC及lint零诊断；官方与同报告protected零诊断、未做第二次采集。初轮12个5秒超时保留，全455原超时两worker绿后，原命令加Vitest原生worker环境参数全量重跑；无规则/timeout/断言/排除变化。最终文档/账本静态回执另补，不重启覆盖率。下一3h资产源八维余项，暂不扩94–102。

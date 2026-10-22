@@ -6,6 +6,20 @@ Date: 2026-10-18
 Base: `599d35717d8a5213802f76535eb14ba187f709e5`
 Branch: `codex/code-quality-3y`
 
+## 2026-10-22 模块接受
+
+[当前收口清单](module-closeout.json)：CODE3w按原“状态/结算/清理”合同接受，五个review文件闭合；不扩大为整个battle-system/event-system或视觉E2E。统一门完整check20,443业务例与684工具例、七包TC、官方覆盖率与同报告保护比较均零诊断；全部原件见[当前证明](dialog-order-fix.json)。首轮12超时、bounded455绿与完整重跑分别记录，没有把退出码或存量诊断称通过。官方覆盖率只采集一轮，保护核验不重复采集。
+
+固定83卡62accept/21partial/0pending；源账本3356tracked/377closed/110review/2869pending，以最终机器回执再次确认。all-cards旧header59/24与实际61/22不一致已明确勘误，本次只新增3w一张。下一3h四个资产源的八维余项，复用既有PNG/bootstrap/fetch证据；94–102不扩展。下段372/115及“门待”均为明确旧快照。
+
+## 2026-10-22 已批逐敌等待修复与模块收尾
+
+[当前三文件八维/版本与原件](dialog-order-fix.json)在8599角色参数修复后单独先红后修：16绿/1业务红→当前4文件27绿、game TC0，stderr均0。私有弱映射按本场结算续跑，不把游标写入V1；旧同步DL23只迁移时序断言、保留真实双leaf/活敌/掉落/退出合同。实际原盘team46自动战斗192tick首框背包1颗，前框关后才处理第二敌，最终2颗并清理；首框JSON仍通过现有V1 shape。不是浏览器/像素或完整SDL运行。
+
+统一[只读快检](verify-extra-reachability.mjs)冻结旧角色修复于8599，并单独核后继三文件、正式单红/27绿身份、首1终2和原生附件；不把新字段静默加入历史凭据。Extra/HPMP/角色/逐敌四项相关修复集中全仓与单次官方覆盖率窗口；当前372closed/115review、固定61accept/22partial，门完成前不升格。
+
+以下旧段均按日期/基点读取，draft或未实施描述不是当前状态。
+
 ## 2026-10-22 中间对话时序取证
 
 [逐敌顺序反证与完整原件清单](dialog-order-counter.json)使用原盘team46两只凤梨小妖、无OBJECT改写、原脚本41008；合法高属性V1→实际自动战斗192tick到首提示时，两颗鼠儿果已入包，另条提示仍排队。最终两颗与两提示均保留；SDL的逐敌同步调用及中心窗口等待给出相反中间顺序。当前只是core状态与源码观察，没有浏览器画面或普通玩家开背包复现；[时序卡](../../../tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md)仅draft，待用户决定是否逐敌等待，不借HP/MP批准直接实现。

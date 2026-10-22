@@ -1,6 +1,6 @@
 # GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性
 
-Status: review
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: battle / equipment effect lifecycle
@@ -89,3 +89,5 @@ Branch: codex/code-quality-3y
 ## 本片交付与剩余
 
 当前236实际定向/相邻测试及game typecheck通过。两个不存在的初始CLI过滤路径不授执行信用，native分别证明实际4文件28与2文件39；真实opcodes路径核存在后另跑3文件169。default+JSON完整原件含旧单红，未隐藏失败；测试从正式红到绿字节一致。全仓check/官方coverage/protected在本次产品变化后均未新跑，不合main；先提交推送同一3y保存进度。61accept/22partial不变，不把新测试登记review当专项完成。
+
+- 2026-10-22 Codex模块验收：已批有限行为与五文件A–H均据证收口。完整check20443/七包TC/工具684，官方20045项/保护同报告均零诊断；首轮12超时及重跑原件未删。见[模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)。仅core原合同，不冒充视觉或整个解释器验收。

@@ -17,6 +17,11 @@ const fix = receipt.currentResolution ? JSON.parse(read(receipt.currentResolutio
 const playerFixPath = resolve(folder, 'post-player-state-fix.json')
 const playerFix = JSON.parse(readFileSync(playerFixPath, 'utf8'))
 const roleFix = JSON.parse(readFileSync(resolve(folder, 'role-context-fix.json'), 'utf8'))
+const orderFix = JSON.parse(readFileSync(resolve(folder, 'dialog-order-fix.json'), 'utf8'))
+const atOrderBase = (path) =>
+  path.startsWith('data/')
+    ? read(path)
+    : execFileSync('git', ['show', `${orderFix.base}:${path}`], { cwd: root })
 const atRoleBase = (path) =>
   path.startsWith('data/')
     ? read(path)
@@ -106,7 +111,16 @@ if (fix) {
       .sort(),
     [...fix.changedSourcePaths].sort(),
   )
-  assert.deepEqual(actualPaths, [...fix.changedSourcePaths, ...playerFix.changedSourcePaths].sort())
+  assert.deepEqual(
+    actualPaths,
+    [
+      ...new Set([
+        ...fix.changedSourcePaths,
+        ...playerFix.changedSourcePaths,
+        ...orderFix.changedSourcePaths,
+      ]),
+    ].sort(),
+  )
   for (const pin of fix.pins) assert.equal(hash(read(pin.path)), pin.sha256, `STALE ${pin.path}`)
   const current = readArchive(fix.artifact)
   assert.equal(hash(read(fix.changedSourcePaths[0])), hash(current['finalization-after.ts']))
@@ -162,7 +176,7 @@ for (const pin of playerFix.pins) {
   assert.equal(hash(atRoleBase(pin.path)), pin.sha256, `STALE player fix ${pin.path}`)
 }
 assert.deepEqual(
-  git('diff', '--name-only', playerFix.base, '--', 'packages', 'scripts')
+  git('diff', '--name-only', playerFix.base, roleFix.base, '--', 'packages', 'scripts')
     .split('\n')
     .filter(Boolean)
     .sort(),
@@ -242,25 +256,25 @@ assert.match(playerMembers['local-ledger.stdout.raw'], /372 closed \/ 115 review
 // The next approved caller repair has its own frozen before/after and valid-input red.
 const roleMembers = readArchive(roleFix.artifact)
 assert.deepEqual(
-  git('diff', '--name-only', roleFix.base, '--', 'packages', 'scripts')
+  git('diff', '--name-only', roleFix.base, orderFix.base, '--', 'packages', 'scripts')
     .split('\n')
     .filter(Boolean)
     .sort(),
   [...roleFix.changedSourcePaths].sort(),
 )
 for (const pin of roleFix.pins) {
-  assert.equal(hash(read(pin.path)), pin.sha256, `STALE role fix ${pin.path}`)
+  assert.equal(hash(atOrderBase(pin.path)), pin.sha256, `STALE role fix ${pin.path}`)
 }
 assert.equal(
   hash(atRoleBase(roleFix.changedSourcePaths[0])),
   hash(roleMembers['role-settlement.before.ts']),
 )
 assert.equal(
-  hash(read(roleFix.changedSourcePaths[0])),
+  hash(atOrderBase(roleFix.changedSourcePaths[0])),
   hash(roleMembers['role-settlement.after.ts']),
 )
 assert.equal(
-  hash(read(roleFix.changedSourcePaths[1])),
+  hash(atOrderBase(roleFix.changedSourcePaths[1])),
   hash(roleMembers['role-settlement-test.red-valid.ts']),
 )
 for (const run of roleFix.runs) {
@@ -315,6 +329,143 @@ assert.deepEqual(
   JSON.parse(roleMembers['post-order-after-role.stdout.raw']).firstDialog.inventory,
   [{ itemId: 104, count: 2 }],
 )
+// The per-enemy successor adds exactly one missing runtime scheduling contract.
+const orderMembers = readArchive(orderFix.artifact)
+assert.deepEqual(
+  git('diff', '--name-only', orderFix.base, '--', 'packages', 'scripts')
+    .split('\n')
+    .filter(Boolean)
+    .sort(),
+  [...orderFix.changedSourcePaths, ...(orderFix.generatedPaths ?? [])].sort(),
+)
+for (const pin of orderFix.pins)
+  assert.equal(hash(read(pin.path)), pin.sha256, `STALE order ${pin.path}`)
+assert.equal(
+  hash(atOrderBase(orderFix.changedSourcePaths[0])),
+  hash(orderMembers['order-settlement.before.ts']),
+)
+for (const [path, member] of orderFix.changedSourcePaths.map((path, i) => [
+  path,
+  ['order-settlement.after.ts', 'order-settlement-test.after.ts', 'order-system-test.after.ts'][i],
+])) {
+  assert.equal(hash(read(path)), hash(orderMembers[member]))
+}
+assert.equal(
+  orderMembers['order-settlement-test.red.ts'],
+  orderMembers['order-settlement-test.after.ts'],
+)
+const expectedFailures = {
+  'order-red': 1,
+  'order-green': 1,
+  'order-typecheck': 2,
+  'post-order-fixed-private-core': 1,
+  'module-check': 1,
+  'module-ledger-final': 1,
+}
+for (const run of orderFix.runs) {
+  assert.deepEqual(JSON.parse(orderMembers[`${run.id}.execution.json`]), run)
+  assert.equal(run.head, orderFix.base)
+  assert.equal(run.exit, expectedFailures[run.id] ?? 0)
+  assert.equal(run.signal, null)
+  assert.equal(run.spawnError, null)
+  assert.equal(run.observerTimeout, false)
+  for (const stream of ['stdout', 'stderr']) {
+    const final = orderFix.streamFinalObservations?.find((item) => item.id === run.id)
+    if (final) {
+      assert.equal(run.id, 'module-check')
+      assert.equal(run.exit, 1)
+      assert.equal(final.stdoutBytesAtRootClose, run.stdoutBytes)
+    }
+    assert.equal(
+      Buffer.byteLength(orderMembers[`${run.id}.${stream}.raw`]),
+      stream === 'stdout' && final ? final.stdoutBytesFinal : run[`${stream}Bytes`],
+    )
+  }
+  if (!(run.id in expectedFailures)) assert.equal(run.stderrBytes, 0)
+}
+for (const test of orderFix.tests) {
+  const native = JSON.parse(orderMembers[`${test.id}.vitest.json`])
+  assert.equal(native.numPassedTests, test.passed)
+  assert.equal(native.numFailedTests, test.failed)
+  assert.equal(native.numPendingTests, 0)
+  const records = native.testResults.flatMap((file) =>
+    file.assertionResults.map((item) => ({
+      file: `packages/${file.name.split('/packages/')[1]}`,
+      fullName: item.fullName,
+      status: item.status,
+    })),
+  )
+  assert.equal(hash(JSON.stringify(records)), test.identitySetSha256)
+  const failures = native.testResults.flatMap((file) =>
+    file.assertionResults.filter((item) => item.status === 'failed'),
+  )
+  assert.deepEqual(
+    failures.map((item) => item.fullName),
+    test.failedFullNames,
+  )
+  for (const failure of failures) assert.match(failure.failureMessages[0], /^AssertionError:/)
+}
+const orderRed = JSON.parse(orderMembers['order-red.vitest.json'])
+assert.equal(orderRed.numPassedTests, 16)
+assert.equal(orderRed.numFailedTests, 1)
+assert.match(
+  orderRed.testResults[0].assertionResults.find((item) => item.status === 'failed')
+    .failureMessages[0],
+  /count.*2|count.*1/s,
+)
+const orderGreen = JSON.parse(orderMembers['order-green-private.vitest.json'])
+assert.equal(orderGreen.numPassedTests, 27)
+assert.deepEqual(
+  keys(orderGreen).filter((key) => !key.endsWith(orderFix.tests[0].failedFullNames[0])),
+  keys(current),
+)
+assert.equal(orderMembers['order-typecheck-private.stdout.raw'], '')
+const ordered = JSON.parse(orderMembers['post-order-fixed-private-final.stdout.raw'])
+assert.equal(ordered.firstDialog.ticks, 192)
+assert.deepEqual(ordered.firstDialog.inventory, [{ itemId: 104, count: 1 }])
+assert.deepEqual(ordered.firstDialog.queue, [])
+assert.equal(ordered.firstDialog.postScriptsDone, false)
+assert.equal(ordered.calls[2].queued, 0)
+assert.deepEqual(ordered.calls[2].items, [{ itemId: 104, count: 1 }])
+assert.deepEqual(ordered.final, {
+  inventory: [{ itemId: 104, count: 2 }],
+  mode: 'explore',
+  resourcesReleased: true,
+})
+assert.deepEqual(
+  Object.keys(ordered.firstDialogSaveSettlement).sort(),
+  ['screens', 'index', 'shownMs', 'postBattleScriptsDone'].sort(),
+)
 console.log(
-  'MATCH: frozen counters and approved Extra/HP-MP/default-role repairs; whole gates deferred; no file acceptance',
+  'MATCH: frozen Extra/HP-MP/role/order proofs; current source and native results match; see module receipt for gates/acceptance',
+)
+
+const moduleCloseout = JSON.parse(readFileSync(resolve(folder, 'module-closeout.json'), 'utf8'))
+const moduleDiagnostics = JSON.parse(orderMembers['module-diagnostics.json'])
+for (const diagnostic of moduleDiagnostics)
+  assert.ok(Object.values(diagnostic.diagnostics).every((value) => value === 0))
+assert.deepEqual(
+  moduleDiagnostics.map((row) => row.id),
+  ['module-check-bounded', 'module-ratchet'],
+)
+assert.equal(
+  moduleDiagnostics[0].vitestSummaryTests.reduce((a, b) => a + b, 0),
+  20443,
+)
+const protectedReport = JSON.parse(orderMembers['module-protected-report.json'])
+assert.equal(protectedReport.testCount, 20045)
+assert.deepEqual(protectedReport.strict.regressions, [])
+assert.deepEqual(protectedReport.scope.changes, [])
+assert.deepEqual(protectedReport.protectedMetrics.regressions, [])
+assert.deepEqual(protectedReport.protectedScope.removals, [])
+assert.equal(hash(read('scripts/coverage/baseline.fast.json')), protectedReport.baselineAfterSha256)
+for (const file of moduleCloseout.files) assert.equal(hash(read(file.path)), file.sha256)
+const cardInventory = JSON.parse(
+  read('docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json'),
+)
+assert.equal(cardInventory.cards.filter((card) => card.currentReview === 'accept').length, 62)
+assert.equal(cardInventory.cards.filter((card) => card.currentReview === 'partial').length, 21)
+assert.equal(cardInventory.cards.find((card) => card.id === '3w').currentReview, 'accept')
+console.log(
+  'MATCH: finite3w acceptance,5file pins,20443 check/20045 official and same-report protected;62accept21partial;visual/widerengine excluded',
 )

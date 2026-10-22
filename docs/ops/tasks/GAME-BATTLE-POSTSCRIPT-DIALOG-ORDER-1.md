@@ -1,9 +1,9 @@
 # GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序
 
-Status: build
+Status: done
 Phase: phase1
 Capability: battle / post-battle script-dialog ordering
-Coding Owner: Codex（用户2026-10-22批准，两文件窄build allowed）
+Coding Owner: Codex（用户2026-10-22批准，三文件窄build allowed）
 Generation Owner: N/A
 Reviewer: Codex（自身核证，不冒充第三方）
 Visual Verification Owner: Codex
@@ -18,7 +18,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-实现白名单为battle-settlement.ts及battle-settlement.glm-next-wave.test.ts，仅战后逐敌推进、内部游标与直接测试；runner/hold和SDL只读。不改变战中各类脚本、单条脚本内部yield、原盘资源、存档格式或最终掉落规则。用户已批准逐敌等待，不扩成通用解释器改造。
+实现白名单为battle-settlement.ts、battle-settlement.glm-next-wave.test.ts及相邻battle-system.glm-next-wave.test.ts。后者仅迁移0x89特殊胜利的旧同步时序断言，Codex为唯一Owner；仅战后逐敌推进、内部游标与直接测试；runner/hold和SDL只读。不改变战中各类脚本、单条脚本内部yield、原盘资源、存档格式或最终掉落规则。用户已批准逐敌等待，不扩成通用解释器改造。
 
 ## 前提真值门
 
@@ -52,15 +52,15 @@ Template: task-card-v1 / 1.0.0
 
 ## 当前模式推进记录
 
-Codex单Owner，同一3y。用户2026-10-22批准“按 SDLPal 逐只处理（推荐）”，以上两文件窄build allowed；先正式反例再修。固定三签不恢复。
+Codex单Owner，同一3y。用户2026-10-22批准“按 SDLPal 逐只处理（推荐）”，以上三文件窄build allowed；先正式反例再修。固定三签不恢复。
 
 ## Draft: 设计与风险
 
-战后阶段逐敌执行：本敌脚本入队和active提示均结束后，才进入下一敌；无提示的脚本仍可连续推进。内部settlement游标仅由本模块写入，生命周期随当前战斗；不进入V1存档，不解决单条任意脚本的通用yield。最后脚本只执行一次，提示未结束不能半恢复或释放。
+战后阶段逐敌执行：本敌脚本入队和active提示均结束后，才进入下一敌；无提示的脚本仍可连续推进。私有运行态游标仅由本模块写入，生命周期随当前战斗；不进入V1存档，不解决单条任意脚本的通用yield。最后脚本只执行一次，提示未结束不能半恢复或释放。
 
 ## Build: 实现与自测
 
-产品与测试未改。仅隔离TS取证：两次夹具战败失败原件、一轮高属性合法输入的实际战斗exit0/stderr0。未新增正式Vitest反例，未跑覆盖率/全仓/浏览器，不冒充这些门通过。
+[当前八维/正式红绿及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json)：正式旧源16绿/1业务红；同测试字节在当前源4文件27绿，game TC0。以本场settlement为key的私有WeakMap保存下一敌槽，当前敌的队列/active提示结束后继续；正常完成显式删除，中断随对象回收。没有GS/资源强引用、存档字段或新公共出口。实际原盘team46全战192tick首框库存1、下一敌只在前框结束后运行、最终2并释放；首框导出仍通过现有V1校验。全仓/官方/protected进入集中窗口，浏览器/像素未跑。
 
 ## Review: 审查与返工
 
@@ -73,8 +73,14 @@ Codex单Owner，同一3y。用户2026-10-22批准“按 SDLPal 逐只处理（�
 ## 交接日志
 
 - 2026-10-22 Codex：最新main903/治理faaf，同一3y只读取证；原盘team46两只凤梨小妖、脚本41008不改。合法高属性V1→真实自动战斗→192tick首框时背包2颗，完整原件登记；低属性战败草稿不算产品反例。记录有限时序选择，未实现。
-- 2026-10-22 Codex：用户明确批准后核定两文件build；先收存HP/MP默认角色参数的独立修复，再写逐敌掉落/active box/按键消费/空槽与尾提示恢复反例，避免把两种行为修复混为无版本证据。
+- 2026-10-22 Codex：用户明确批准后核定三文件build；先收存HP/MP默认角色参数的独立修复，再写逐敌掉落/active box/按键消费/空槽与尾提示恢复反例，避免把两种行为修复混为无版本证据。
 
 ## 下一位Agent提示词
 
 无下一位，Codex单Owner。时序已批准，按原反证先正式红例再实施有限推进；覆盖率集中多卡模块收尾，不扩94–102。
+
+- 2026-10-22 Codex：正式时序反例16绿/1业务红；修复后新增例已绿，但相邻DL23仍断言两敌同步入队而失败。把该既有3例文件纳入同Owner测试白名单，保留两条真实提示、掉落与退出断言，改成逐敌观察；不是新增产品范围或降低断言。首轮命令含不存在的finalization.glm-next-wave过滤项，实际只收集3文件21例，未给该未收集文件任何信用；下一轮使用已确认路径battle-finalization.test.ts。
+
+- 2026-10-22 Codex：新增正式业务红后修复；旧同步DL23断言真实失败并迁移，未删合同。首版把游标放进public settlement被TC的V1 shape全字段合同拦下，已撤该字段、未改save代码，采用模块私有弱映射。首个导出取证对原奖励屏作了错误空屏假设，原件保留，修正为原team46的exp300/index1后通过；不算产品缺陷。全仓门集中收尾，卡先review。
+
+- 2026-10-22 Codex模块验收：已批有限行为与五文件A–H均据证收口。完整check20443/七包TC/工具684，官方20045项/保护同报告均零诊断；首轮12超时及重跑原件未删。见[模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)。仅core原合同，不冒充视觉或整个解释器验收。

@@ -68,9 +68,6 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 同一3y，3w已批窄修及余项 | 61accept/22partial；库存3356/372closed/115review/2869pending，战后HP/MP两红后修、238局部绿/TC0；统一门与覆盖率留模块收尾，未合main，不扩94–102 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
-| GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 | [非队员Extra可达性](tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | review | Codex / 已批窄修236局部绿，等3w模块门 | 正式单红后清全角色Extra；装备8武术/32760双攻保留，普通剧情/广域快照仍未知 |
-| GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 | [战后HP/MP状态归属](tasks/GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1.md) | review | Codex / 同两文件已批上下文余项修复 | 默认role15/1正式红→26直接/61相邻绿、game TC0；原190tick战斗394→500，统一门留模块收尾 |
-| GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 | [战后逐敌提示顺序](tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md) | build | Codex / 用户已批两文件，先正式红例 | 原盘team46无对象改写，192tick首提示已入两颗；获批逐敌等待，终态不丢物品，不冒称画面已验 |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |
 | QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制counter](tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | Codex / 新增复活装备状态窄修已测 | 原三项保留；0x22两红后修、284game相邻0stderr；统一门/视觉仍待，不关闭整文件 |
 | QUALITY-BOOT-FAILURE-PROGRESS-1 | [启动失败进度所有权](tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) | review | Codex / 窄功能完成，等待统一集成门 | 四旧单红新绿、相邻58绿/原红重放1绿、PROD失败稳定及正常按钮进场已实跑看图；全仓/coverage/protected未跑，不合main |
