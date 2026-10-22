@@ -1,13 +1,15 @@
 /**
- * CODE79：风险道具经真实 performItem/runScript 的中毒门。
- * 物品字段/字节码/毒等级来自 WIN95 SSS.MKF，五卡证据 raw79.json 给原盘 SHA 与解码对照。
+ * CODE79中毒门及GAME-BATTLE-ITEM-ROLE-CONTEXT-1的目标角色合同。
+ * 物品/脚本来自WIN95 SSS.MKF；原四例见raw79.json，新目标/全体/升级见物品上下文证据。
  * 保留原始全局脚本下标；只填本合同可达片段，其余 end 不代表完整原盘脚本执行。
  */
 import type { Command, Item } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
 import { makeBattle, makeRole } from '../../../__tests__/coverage85-glm-game/harness.js'
+import { getPlayerPoisonResistance } from '../../equipment-state.js'
 import { runScript } from '../../event-system.js'
 import { setObjectPoisons } from '../../player-poison-state.js'
+import { createBattleLifecycleFixture } from '../battle-lifecycle.test-fixtures.js'
 import { performItem } from './item.js'
 
 const flags: Item['flags'] = {
@@ -20,6 +22,36 @@ const flags: Item['flags'] = {
   equipableBy: [false, false, false, false, false, false],
 }
 const items: Item[] = [
+  {
+    id: 62,
+    bitmap: 221,
+    price: 2000,
+    scriptOnUse: 39554,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 40524,
+    flags: { ...flags, applyToAll: true },
+  },
+  {
+    id: 84,
+    bitmap: 28,
+    price: 12,
+    scriptOnUse: 39536,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 40485,
+    flags: { ...flags, throwable: true },
+  },
+  {
+    id: 150,
+    bitmap: 121,
+    price: 9000,
+    scriptOnUse: 39561,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 40537,
+    flags,
+  },
   {
     id: 136,
     bitmap: 174,
@@ -42,6 +74,9 @@ const items: Item[] = [
   },
 ]
 const commands: Command[] = Array.from({ length: 39768 }, () => ({ op: 'end' }))
+commands[39536] = { op: 'raw', opcode: 0x17, operands: [17, 22, 30] }
+commands[39554] = { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] }
+commands[39561] = { op: 'raw', opcode: 0x8d, operands: [1, 0, 0] }
 commands[39502] = { op: 'raw', opcode: 0x61, operands: [39505, 0, 0] }
 commands[39503] = { op: 'raw', opcode: 0x1b, operands: [0, 999, 0] }
 commands[39505] = { op: 'raw', opcode: 0x5f, operands: [0, 0, 0] }
@@ -123,5 +158,85 @@ describe('风险道具的战斗中毒门（CODE79）', () => {
       '0_1': { wPoisonID: 552, wPoisonScript: 40866 },
     })
     expect(fx.gs.inventory).toEqual([{ itemId: 278, count: 1 }])
+  })
+})
+
+describe('物品通用脚本的目标角色上下文', () => {
+  it.each([
+    { partyMembers: [0, 4], targetRole: 4 },
+    { partyMembers: [4, 0], targetRole: 0 },
+  ])('大蒜给选中的role$targetRole加毒抗，不写施用者或队伍槽号', ({ partyMembers, targetRole }) => {
+    const fx = createBattleLifecycleFixture({ partyMembers })
+    fx.gs.inventory = [{ itemId: 84, count: 1 }]
+    performItem({
+      ...fx,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 84,
+      targetIsEnemy: false,
+      targetIdx: 1,
+      items,
+      commands,
+      runScript,
+    })
+    expect(getPlayerPoisonResistance(fx.gs, targetRole)).toBe(30)
+    expect(fx.gs.rgEquipmentEffect[6]!.rgwPoisonResistance).toEqual(
+      targetRole === 4 ? [0, 0, 0, 0, 30, 0] : [30, 0, 0, 0, 0, 0],
+    )
+    expect(fx.gs.inventory).toEqual([{ itemId: 84, count: 0 }])
+  })
+
+  it('全体圣灵符传0xFFFF，真实解释器给两名队员恢复300HP并消费一次', () => {
+    const fx = createBattleLifecycleFixture({ partyMembers: [4, 0], role: { hp: 100, maxHP: 500 } })
+    fx.gs.inventory = [{ itemId: 62, count: 1 }]
+    let scriptRole: number | undefined
+    performItem({
+      ...fx,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 62,
+      targetIsEnemy: false,
+      targetIdx: 'all',
+      items,
+      commands,
+      runScript: (options) => {
+        scriptRole = options.eventObjectId
+        return runScript(options)
+      },
+    })
+    expect(fx.playerRoles.roles.map((role) => role.hp)).toEqual([400, 100, 100, 100, 400, 100])
+    expect(fx.gs.inventory).toEqual([{ itemId: 62, count: 0 }])
+    expect(scriptRole).toBe(0xffff)
+  })
+
+  it('金蚕王提升选中队员的等级并刷新战斗属性，保持战斗当前HP/MP', () => {
+    const fx = createBattleLifecycleFixture({
+      partyMembers: [4, 0],
+      role: { level: 1, hp: 100, maxHP: 500, mp: 10, maxMP: 100 },
+    })
+    fx.gs.inventory = [{ itemId: 150, count: 1 }]
+    performItem({
+      ...fx,
+      casterIsEnemy: false,
+      casterIdx: 1,
+      itemId: 150,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items,
+      commands,
+      runScript,
+    })
+    const runtime = fx.gs.PlayerRolesRuntime
+    expect(runtime.rgwLevel[4]).toBe(2)
+    expect(runtime.rgwLevel[0]).toBe(1)
+    expect(runtime.rgwMaxHP[4]).toBeGreaterThanOrEqual(510)
+    expect(runtime.rgwMaxHP[4]).toBeLessThanOrEqual(517)
+    expect(fx.playerRoles.roles[4]!.level).toBe(2)
+    expect(fx.playerRoles.roles[4]!.maxHP).toBe(runtime.rgwMaxHP[4])
+    expect(fx.playerRoles.roles[4]!.maxMP).toBe(runtime.rgwMaxMP[4])
+    expect(fx.playerRoles.roles[4]!.hp).toBe(100)
+    expect(fx.playerRoles.roles[4]!.mp).toBe(10)
+    expect(fx.playerRoles.roles[0]!.level).toBe(1)
+    expect(fx.gs.inventory).toEqual([{ itemId: 150, count: 0 }])
   })
 })

@@ -58,6 +58,7 @@ import { removeEquipmentEffect, resyncBattleRoleStatsFromRuntime } from './equip
 import {
   applyPlayerOpcode,
   OP_INCREASE_PLAYER_ATTR,
+  OP_INCREASE_PLAYER_LEVEL,
   OP_SET_PLAYER_STAT,
 } from './event-opcode-player.js'
 import type { DialogBoxState, EventCursor, GameState, NpcState } from './game-state.js'
@@ -3084,11 +3085,13 @@ export function runScript(opts: RunScriptOptions): number {
               currentEventObjectId: curEventObjId,
             }
             applyRawOpcode(battleCtx.gs, cmd.opcode, cmd.operands, curEventObjId, cursor)
-            // 战斗中 0x19/0x1A 改了 PlayerRolesRuntime base → 回灌战斗工作副本 snapshot,使加成当场
+            // 战斗中 0x19/0x1A 改base、0x8D升级后，回灌战斗属性snapshot，使效果当场
             //   生效(镇狱明王力量觉醒:此前加成战内无效 + 后续 0x1D 治疗封顶旧 maxHP + 菜单/战斗对不上)。
             //   resync 全队(读 runtime+装备 authoritative,未变 role 是 no-op;省去 op2==0 角色解析)。
             if (
-              (cmd.opcode === OP_INCREASE_PLAYER_ATTR || cmd.opcode === OP_SET_PLAYER_STAT) &&
+              (cmd.opcode === OP_INCREASE_PLAYER_ATTR ||
+                cmd.opcode === OP_SET_PLAYER_STAT ||
+                cmd.opcode === OP_INCREASE_PLAYER_LEVEL) &&
               battleCtx.playerRoles
             ) {
               for (const p of battleCtx.state.players) {
