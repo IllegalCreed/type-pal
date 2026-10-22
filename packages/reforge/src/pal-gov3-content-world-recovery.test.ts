@@ -1,3 +1,4 @@
+import type { RuntimeCommand } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import { gov3Body, gov3Runtime, gov3SubBody } from './pal-gov3-content-harness.js'
 import receipts from './pal-gov3-content-world-recovery-receipt.json' with { type: 'json' }
@@ -10,10 +11,46 @@ interface RecoveryRow {
 }
 const rows: RecoveryRow[] = []
 for (const file of receipts.receipts) for (const row of file.rows) rows.push(row)
+function locateRecoveryParent(body: RuntimeCommand[], row: RecoveryRow) {
+  try {
+    return gov3SubBody(body, row.beforePath)
+  } catch {
+    // Author fixes can move the enclosing branch. Preserve the historical receipt;
+    // recover only a unique out/in pair with its independently recorded next action.
+    const candidates: { body: RuntimeCommand[]; index: number }[] = []
+    function visit(commands: RuntimeCommand[]) {
+      for (const [index, command] of commands.entries()) {
+        if (command.kind === 'fade' && command.dir === 'out') {
+          const incoming = commands.findIndex(
+            (next, nextIndex) => nextIndex > index && next.kind === 'fade' && next.dir === 'in',
+          )
+          if (
+            incoming >= 0 &&
+            JSON.stringify(commands[incoming + 1]) === JSON.stringify(row.anchor)
+          )
+            candidates.push({ body: commands, index })
+        }
+        if (command.kind === 'branch') {
+          visit(command.then)
+          visit(command.else ?? [])
+        }
+        if (command.kind === 'confirm') {
+          visit(command.onYes)
+          visit(command.onNo)
+        }
+        if (command.kind === 'loop' || command.kind === 'repeat') visit(command.body)
+      }
+    }
+    visit(body)
+    expect(candidates, `unique relocated recovery parent ${row.key}`).toHaveLength(1)
+    return candidates[0]!
+  }
+}
+
 function segment(row: (typeof rows)[number]) {
   const [scene, entity, behavior, stage] = row.key.split('/')
   if (!scene || !entity || !behavior || !stage) throw new Error('invalid receipt key')
-  const point = gov3SubBody(gov3Body(scene, entity, behavior, stage), row.beforePath)
+  const point = locateRecoveryParent(gov3Body(scene, entity, behavior, stage), row)
   // Choreography can insert commands before an old receipt's offset. A stale
   // locator must resolve to one out/in pair with the independently recorded anchor.
   const parent = point.body
@@ -117,9 +154,14 @@ test('药材失败与跟随对象仍在场分支不执行成功fade/recovery，�
     { signal: followerPresent.controller.signal },
   )
   followerPresent.effects.length = 0
-  // Full canonical activation hides e1882 earlier; isolate this real conditional
-  // subtree to verify a false condition cannot execute the restored success arm.
-  const condition = gov3Body('s102', 'e1883', 'default', 'initial')[41]
+  // This test isolates fade recovery; the complete hired/unhired route is covered
+  // by pal-story-corrections.test.ts. Locate the source condition semantically.
+  const condition = gov3Body('s102', 'e1883', 'default', 'initial').find(
+    (command) =>
+      command.kind === 'branch' &&
+      command.cond.kind === 'entityState' &&
+      command.cond.target.entity === 'e1882',
+  )
   if (!condition || condition.kind !== 'branch') throw new Error('conditional root shifted')
   await followerPresent.runtime.runCommands([condition], {
     signal: followerPresent.controller.signal,

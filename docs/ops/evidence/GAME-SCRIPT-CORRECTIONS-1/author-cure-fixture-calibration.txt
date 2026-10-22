@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/battle/pal-cure-status-corrections.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/pal-cure-status-corrections.test.ts [ src/battle/pal-cure-status-corrections.test.ts ]
+Error: items[199].use.effects[0].kind: 未知物品效果 itemPrivateScript
+ ❯ validateItemUseEffect ../content/src/validate.ts:866:11
+    864|   if (typeof effect.kind !== 'string') throw new Error(`${ctx}.kind: 期…
+    865|   if (!(effect.kind in ITEM_USE_EFFECT_KINDS))
+    866|     throw new Error(`${ctx}.kind: 未知物品效果 ${effect.kind}`)
+       |           ^
+    867|   const kind = effect.kind as ItemUseEffect['kind']
+    868|   switch (kind) {
+ ❯ ../content/src/validate.ts:1233:9
+ ❯ ../content/src/validate.ts:1232:15
+ ❯ validateItems ../content/src/validate.ts:1197:7
+ ❯ src/battle/pal-cure-status-corrections.test.ts:8:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:49:49
+   Duration  403ms (transform 254ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/pal-cure-status-corrections.test.ts --reporter=default

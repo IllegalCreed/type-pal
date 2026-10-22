@@ -37,10 +37,10 @@ describe('D1 shared-state ownership after dependency split', () => {
     expect(menuEntry.closeTopMenu).toBe(menuStack.closeTopMenu)
   })
 
-  it('catalog keeps the actual patched command array and publishes replacements through both entrypoints', () => {
+  it('catalog keeps the supplied corrected command array and publishes replacements through both entrypoints', () => {
     const commands: Command[] = [
       { op: 'showDialog', messageIndex: 12256, text: '获得九节鞭', label: 'L_1' },
-      { op: 'giveItem', itemId: 0, count: 1 },
+      { op: 'giveItem', itemId: 164, count: 1 },
       { op: 'end' },
     ]
     eventEntry.setGlobalEvents(commands)

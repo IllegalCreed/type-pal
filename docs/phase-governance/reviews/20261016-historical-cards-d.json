@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
-      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+      "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
+      "coreConclusion": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
+      "afterSha256": "df2328e4f1eaf09f2eaffc0a1e6054ef13a63cc27600e3405d52c41206003e42",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
+        "implementationSha": "df2328e4f1eaf09f2eaffc0a1e6054ef13a63cc27600e3405d52c41206003e42",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,8 +4146,13 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        "kind": "script-corrections-main-sync-publication",
+        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+        "afterSha256": "df2328e4f1eaf09f2eaffc0a1e6054ef13a63cc27600e3405d52c41206003e42",
+        "lineCount": 963,
+        "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+        "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+        "workingTreeDelta": true
       },
       "history": [
         {
@@ -5031,6 +5036,14 @@
           "afterSha256": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "2d132ac69d3d7bd5bb02ac1e04506ca56e289139687e8e1d191dbe5a56cdb6b8",
+          "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+          "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json"
         }
       ],
       "supersedes": [
@@ -5047,7 +5060,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -5770,7 +5783,17 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\nLate dev pure574line E gap repaired:full typed fixtures/public runtime getter;33currentdev0stderr;wholecoverage receipts predate this test-only repair and remain failed,not final-green.\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review."
+      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\nLate dev pure574line E gap repaired:full typed fixtures/public runtime getter;33currentdev0stderr;wholecoverage receipts predate this test-only repair and remain failed,not final-green.\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+        "mainSync": {
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "preservedBothParentHistories": true
+        }
+      }
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

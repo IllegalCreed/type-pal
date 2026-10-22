@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read approved Extra/HPMP/role/order source-bound proofs and finite3w closeout plus owned board/index/ledger delta;preserve unrelated entries",
+      "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+      "coreConclusion": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Software merged and issue closed; physical hardware and deployment remain separate.",
+      "nextStep": "This task is accepted with an explicit user waiver; no measured story/visual/preview pass is added.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
+      "afterSha256": "100280f64a1a31255cf96cc469d17204c01eb0dd5698be0ea1d207862f830fb5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,8 +504,8 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
-        "contentVersion": 46,
+        "implementationSha": "100280f64a1a31255cf96cc469d17204c01eb0dd5698be0ea1d207862f830fb5",
+        "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -1645,12 +1645,35 @@
             "previousAfterSha256": "6b9d75f16f7b61ac820787cb44fcf79ad2426fcb3e19580181576ba72dd40212",
             "afterSha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "41791e3a90659be371dfdcd5773d6be9ad1f118c788a7d94563708f80989f54a",
+            "scope": "Only GAME-SCRIPT-CORRECTIONS-1 current row/date: authorized implementation is now review; complete story/visual/editor preview remain unverified. Other active task states are unchanged.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
+          },
+          {
+            "date": "2026-10-22",
+            "action": "final-correction-task-writeback",
+            "previousAfterSha256": "5567830814f27fc48145633b19b9873e1c66271763149f95892ec54a8517ea49",
+            "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
           }
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        "kind": "script-corrections-main-sync-publication",
+        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+        "afterSha256": "100280f64a1a31255cf96cc469d17204c01eb0dd5698be0ea1d207862f830fb5",
+        "lineCount": 90,
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+        "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+        "workingTreeDelta": true
       },
       "history": [
         {
@@ -2232,6 +2255,67 @@
         },
         {
           "date": "2026-10-22",
+          "action": "Register source-data correction audit and proposal",
+          "previousAfterSha256": "d500d29c195b7ec9d6a5c610239fc6159031304825280f7e0fb867ba68776a99",
+          "previousCoreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+          },
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 draft entry and owned review date (board); generated task index adds the same card. No historical acceptance, product build, E2E or coverage promotion.",
+          "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "41791e3a90659be371dfdcd5773d6be9ad1f118c788a7d94563708f80989f54a",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 draft entry and owned review date (board); generated task index adds the same card. No historical acceptance, product build, E2E or coverage promotion.",
+          "previousEvidence": {
+            "kind": "script-corrections-audit-navigation-delta",
+            "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+          },
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 current row/date: authorized implementation is now review; complete story/visual/editor preview remain unverified. Other active task states are unchanged.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "final-correction-task-writeback",
+          "previousAfterSha256": "5567830814f27fc48145633b19b9873e1c66271763149f95892ec54a8517ea49",
+          "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "5972a5d4b721337c7f22b5f120c92ad9e5f71ff05e10c3a90a5768daa3306a3f",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 current row/date: authorized implementation is now review; complete story/visual/editor preview remain unverified. Other active task states are unchanged.",
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "dc78e52eb70b1b2146082ba2e142d528efce018cae3e32658118c330d3c80b05",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        {
+          "date": "2026-10-22",
           "action": "Battle-quality-window-local-candidate",
           "previousEvidence": {
             "kind": "codex-owned-battle-quality-window-delta",
@@ -2437,12 +2521,20 @@
           "afterSha256": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "c0106dbbc063db577810bba26153b1ec978bd873509217e2b7cabcf7a9732621",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2463,7 +2555,39 @@
       },
       "documentStatus": "current",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true,
+        "finalWriteback": {
+          "date": "2026-10-22",
+          "action": "final-correction-task-writeback",
+          "previousAfterSha256": "5567830814f27fc48145633b19b9873e1c66271763149f95892ec54a8517ea49",
+          "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+        },
+        "userAcceptance": {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "dc78e52eb70b1b2146082ba2e142d528efce018cae3e32658118c330d3c80b05",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        "mainSync": {
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "preservedBothParentHistories": true
+        }
+      }
     },
     {
       "path": "docs/ops/README.md",
@@ -2728,21 +2852,21 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact two-file approved PhaseE HP/MP repair, source-bound native evidence and board/index/ledger delta;preserve unrelated entries",
+      "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+      "coreConclusion": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
       ],
-      "nextStep": "Software merged and issue closed; physical hardware and deployment remain separate.",
+      "nextStep": "This task is accepted with an explicit user waiver; no measured story/visual/preview pass is added.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
+      "afterSha256": "8d0a2077a57e1b340f9309173f920ac4903ef47da67720c0e6fba30e478f398f",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2763,8 +2887,8 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
-        "contentVersion": 32,
+        "implementationSha": "8d0a2077a57e1b340f9309173f920ac4903ef47da67720c0e6fba30e478f398f",
+        "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -3104,12 +3228,29 @@
             "previousAfterSha256": "8cff3b3a651969563db1fb783d693e9f75ac82caab087887c285d9471b3723ae",
             "afterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "ab8cee977d2945e9ac5c6f1fac9f862ec2e7c2353a7a6b89c3ca875b491bbbcc",
+            "scope": "Generated projection adds the same cross-phase GAME-SCRIPT-CORRECTIONS-1 review card; task top remains sole status authority. No historical task status changes.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        "kind": "script-corrections-main-sync-publication",
+        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+        "afterSha256": "8d0a2077a57e1b340f9309173f920ac4903ef47da67720c0e6fba30e478f398f",
+        "lineCount": 523,
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+        "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+        "workingTreeDelta": true
       },
       "history": [
         {
@@ -3573,6 +3714,48 @@
         },
         {
           "date": "2026-10-22",
+          "action": "Register source-data correction audit and proposal",
+          "previousAfterSha256": "008171eb27b083c0e9159a9001e1f8cc6ad3dfd23eed3e49fdc544275b29cb44",
+          "previousCoreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+          },
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 draft entry and owned review date (board); generated task index adds the same card. No historical acceptance, product build, E2E or coverage promotion.",
+          "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "ab8cee977d2945e9ac5c6f1fac9f862ec2e7c2353a7a6b89c3ca875b491bbbcc",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 draft entry and owned review date (board); generated task index adds the same card. No historical acceptance, product build, E2E or coverage promotion.",
+          "previousEvidence": {
+            "kind": "script-corrections-audit-navigation-delta",
+            "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+          },
+          "scope": "Generated projection adds the same cross-phase GAME-SCRIPT-CORRECTIONS-1 review card; task top remains sole status authority. No historical task status changes.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "a3743b2584dff9f3b546ba46929933d3a7dec4011a9c3e79b2f52ee4739fe5b4",
+          "previousCoreConclusion": "Generated projection adds the same cross-phase GAME-SCRIPT-CORRECTIONS-1 review card; task top remains sole status authority. No historical task status changes.",
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        {
+          "date": "2026-10-22",
           "action": "Battle-quality-window-local-candidate",
           "previousEvidence": {
             "kind": "codex-owned-battle-quality-window-delta",
@@ -3713,12 +3896,20 @@
           "afterSha256": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
           "scope": "Only3w counter factual delta and descendant pins;no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "script-corrections-main-sync-publication",
+          "previousAfterSha256": "c0afda99260a1aafbdb477d89e9534a3757611ab19f7657bd9a52bdf21f40f83",
+          "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only new approved HP/MP task, current local evidence/counts, two ledger review rows, generated index and owned descendant pins",
+      "reviewedLines": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -3737,7 +3928,33 @@
       },
       "documentStatus": "current",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true,
+        "userAcceptance": {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "a3743b2584dff9f3b546ba46929933d3a7dec4011a9c3e79b2f52ee4739fe5b4",
+          "previousCoreConclusion": "Generated projection adds the same cross-phase GAME-SCRIPT-CORRECTIONS-1 review card; task top remains sole status authority. No historical task status changes.",
+          "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        "mainSync": {
+          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+          "preservedBothParentHistories": true
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/README.md",

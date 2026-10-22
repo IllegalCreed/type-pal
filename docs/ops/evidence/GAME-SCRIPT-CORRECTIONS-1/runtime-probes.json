@@ -1,0 +1,1030 @@
+{
+  "kind": "directed-production-function-probes",
+  "scenarios": {
+    "chests": [
+      {
+        "ip": 36936,
+        "extractedItemId": 0,
+        "loadedItemId": 164
+      },
+      {
+        "ip": 37482,
+        "extractedItemId": 0,
+        "loadedItemId": 103
+      },
+      {
+        "ip": 37848,
+        "extractedItemId": 0,
+        "loadedItemId": 116
+      }
+    ],
+    "purchaseCancel": {
+      "before": {
+        "cash": 80,
+        "received": 0
+      },
+      "candidate": {
+        "cash": 100,
+        "received": 0
+      }
+    },
+    "cureSilence": {
+      "before": {
+        "confused": 0,
+        "paralyzed": 0,
+        "sleep": 0,
+        "silence": 3,
+        "puppet": 0,
+        "bravery": 0,
+        "protect": 0,
+        "haste": 0,
+        "dualAttack": 0,
+        "slow": 0
+      },
+      "candidate": {
+        "confused": 0,
+        "paralyzed": 0,
+        "sleep": 0,
+        "silence": 0,
+        "puppet": 0,
+        "bravery": 0,
+        "protect": 0,
+        "haste": 0,
+        "dualAttack": 0,
+        "slow": 0
+      }
+    },
+    "poisonJumpZero": [
+      {
+        "itemId": 138,
+        "poisonId": 0,
+        "same": true,
+        "result": {
+          "hp": 10000,
+          "poisons": [
+            {
+              "poisonId": 555,
+              "scriptEntry": 40890
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 138,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 138,
+        "poisonId": 558,
+        "same": true,
+        "result": {
+          "hp": 0,
+          "poisons": [
+            {
+              "poisonId": 558,
+              "scriptEntry": 40911
+            },
+            {
+              "poisonId": 555,
+              "scriptEntry": 40890
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 138,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 138,
+        "poisonId": 551,
+        "same": true,
+        "result": {
+          "hp": 10000,
+          "poisons": [
+            {
+              "poisonId": 551,
+              "scriptEntry": 40864
+            },
+            {
+              "poisonId": 555,
+              "scriptEntry": 40890
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 138,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 125,
+        "poisonId": 0,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 559,
+              "scriptEntry": 40913
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 125,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 125,
+        "poisonId": 560,
+        "same": true,
+        "result": {
+          "hp": 0,
+          "poisons": [
+            {
+              "poisonId": 560,
+              "scriptEntry": 40915
+            },
+            {
+              "poisonId": 559,
+              "scriptEntry": 40913
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 125,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 125,
+        "poisonId": 551,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 551,
+              "scriptEntry": 40864
+            },
+            {
+              "poisonId": 559,
+              "scriptEntry": 40913
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 125,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 124,
+        "poisonId": 0,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 558,
+              "scriptEntry": 40911
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 124,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 124,
+        "poisonId": 555,
+        "same": true,
+        "result": {
+          "hp": 0,
+          "poisons": [
+            {
+              "poisonId": 555,
+              "scriptEntry": 40889
+            },
+            {
+              "poisonId": 558,
+              "scriptEntry": 40911
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 124,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 124,
+        "poisonId": 551,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 551,
+              "scriptEntry": 40864
+            },
+            {
+              "poisonId": 558,
+              "scriptEntry": 40911
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 124,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 122,
+        "poisonId": 0,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 556,
+              "scriptEntry": 40907
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 122,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 122,
+        "poisonId": 557,
+        "same": true,
+        "result": {
+          "hp": 0,
+          "poisons": [
+            {
+              "poisonId": 557,
+              "scriptEntry": 40909
+            },
+            {
+              "poisonId": 556,
+              "scriptEntry": 40907
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 122,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 122,
+        "poisonId": 551,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 551,
+              "scriptEntry": 40864
+            },
+            {
+              "poisonId": 556,
+              "scriptEntry": 40907
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 122,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 139,
+        "poisonId": 0,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 560,
+              "scriptEntry": 40915
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 139,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 139,
+        "poisonId": 559,
+        "same": true,
+        "result": {
+          "hp": 0,
+          "poisons": [
+            {
+              "poisonId": 559,
+              "scriptEntry": 40913
+            },
+            {
+              "poisonId": 560,
+              "scriptEntry": 40915
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 139,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 139,
+        "poisonId": 551,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 551,
+              "scriptEntry": 40864
+            },
+            {
+              "poisonId": 560,
+              "scriptEntry": 40915
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 139,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 123,
+        "poisonId": 0,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 557,
+              "scriptEntry": 40909
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 123,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 123,
+        "poisonId": 556,
+        "same": true,
+        "result": {
+          "hp": 0,
+          "poisons": [
+            {
+              "poisonId": 556,
+              "scriptEntry": 40907
+            },
+            {
+              "poisonId": 557,
+              "scriptEntry": 40909
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 123,
+              "count": 0
+            }
+          ]
+        }
+      },
+      {
+        "itemId": 123,
+        "poisonId": 551,
+        "same": true,
+        "result": {
+          "hp": 9900,
+          "poisons": [
+            {
+              "poisonId": 551,
+              "scriptEntry": 40864
+            },
+            {
+              "poisonId": 557,
+              "scriptEntry": 40909
+            }
+          ],
+          "inventory": [
+            {
+              "itemId": 123,
+              "count": 0
+            }
+          ]
+        }
+      }
+    ],
+    "repeatedPoisonThrows": [
+      {
+        "itemId": 138,
+        "same": true,
+        "outcomes": [
+          {
+            "attempt": 1,
+            "poisons": [
+              {
+                "poisonId": 555,
+                "scriptEntry": 40890
+              }
+            ],
+            "remaining": 1,
+            "entry": 39469,
+            "visits": [
+              {
+                "entry": 40889,
+                "next": 40890
+              },
+              {
+                "entry": 39469,
+                "next": 39469
+              }
+            ]
+          },
+          {
+            "attempt": 2,
+            "poisons": [
+              {
+                "poisonId": 555,
+                "scriptEntry": 40890
+              }
+            ],
+            "remaining": 0,
+            "entry": 39469,
+            "visits": [
+              {
+                "entry": 40889,
+                "next": 40890
+              },
+              {
+                "entry": 39469,
+                "next": 39469
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "itemId": 125,
+        "same": true,
+        "outcomes": [
+          {
+            "attempt": 1,
+            "poisons": [
+              {
+                "poisonId": 559,
+                "scriptEntry": 40913
+              }
+            ],
+            "remaining": 1,
+            "entry": 39474,
+            "visits": [
+              {
+                "entry": 40913,
+                "next": 40913
+              },
+              {
+                "entry": 39474,
+                "next": 39474
+              }
+            ]
+          },
+          {
+            "attempt": 2,
+            "poisons": [
+              {
+                "poisonId": 559,
+                "scriptEntry": 40913
+              }
+            ],
+            "remaining": 0,
+            "entry": 39474,
+            "visits": [
+              {
+                "entry": 40913,
+                "next": 40913
+              },
+              {
+                "entry": 39474,
+                "next": 39474
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "itemId": 124,
+        "same": true,
+        "outcomes": [
+          {
+            "attempt": 1,
+            "poisons": [
+              {
+                "poisonId": 558,
+                "scriptEntry": 40911
+              }
+            ],
+            "remaining": 1,
+            "entry": 39479,
+            "visits": [
+              {
+                "entry": 40911,
+                "next": 40911
+              },
+              {
+                "entry": 39479,
+                "next": 39479
+              }
+            ]
+          },
+          {
+            "attempt": 2,
+            "poisons": [
+              {
+                "poisonId": 558,
+                "scriptEntry": 40911
+              }
+            ],
+            "remaining": 0,
+            "entry": 39479,
+            "visits": [
+              {
+                "entry": 40911,
+                "next": 40911
+              },
+              {
+                "entry": 39479,
+                "next": 39479
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "itemId": 122,
+        "same": true,
+        "outcomes": [
+          {
+            "attempt": 1,
+            "poisons": [
+              {
+                "poisonId": 556,
+                "scriptEntry": 40907
+              }
+            ],
+            "remaining": 1,
+            "entry": 39484,
+            "visits": [
+              {
+                "entry": 40907,
+                "next": 40907
+              },
+              {
+                "entry": 39484,
+                "next": 39484
+              }
+            ]
+          },
+          {
+            "attempt": 2,
+            "poisons": [
+              {
+                "poisonId": 556,
+                "scriptEntry": 40907
+              }
+            ],
+            "remaining": 0,
+            "entry": 39484,
+            "visits": [
+              {
+                "entry": 40907,
+                "next": 40907
+              },
+              {
+                "entry": 39484,
+                "next": 39484
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "itemId": 139,
+        "same": true,
+        "outcomes": [
+          {
+            "attempt": 1,
+            "poisons": [
+              {
+                "poisonId": 560,
+                "scriptEntry": 40915
+              }
+            ],
+            "remaining": 1,
+            "entry": 39489,
+            "visits": [
+              {
+                "entry": 40915,
+                "next": 40915
+              },
+              {
+                "entry": 39489,
+                "next": 39489
+              }
+            ]
+          },
+          {
+            "attempt": 2,
+            "poisons": [
+              {
+                "poisonId": 560,
+                "scriptEntry": 40915
+              }
+            ],
+            "remaining": 0,
+            "entry": 39489,
+            "visits": [
+              {
+                "entry": 40915,
+                "next": 40915
+              },
+              {
+                "entry": 39489,
+                "next": 39489
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "itemId": 123,
+        "same": true,
+        "outcomes": [
+          {
+            "attempt": 1,
+            "poisons": [
+              {
+                "poisonId": 557,
+                "scriptEntry": 40909
+              }
+            ],
+            "remaining": 1,
+            "entry": 39494,
+            "visits": [
+              {
+                "entry": 40909,
+                "next": 40909
+              },
+              {
+                "entry": 39494,
+                "next": 39494
+              }
+            ]
+          },
+          {
+            "attempt": 2,
+            "poisons": [
+              {
+                "poisonId": 557,
+                "scriptEntry": 40909
+              }
+            ],
+            "remaining": 0,
+            "entry": 39494,
+            "visits": [
+              {
+                "entry": 40909,
+                "next": 40909
+              },
+              {
+                "entry": 39494,
+                "next": 39494
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "weaponSlot": {
+      "before": {
+        "weaponFleeRate": 0,
+        "accessoryFleeRate": 98,
+        "remainingAccessoryFleeRate": 98
+      },
+      "candidate": {
+        "weaponFleeRate": 98,
+        "accessoryFleeRate": 0,
+        "remainingAccessoryFleeRate": 0
+      }
+    },
+    "enemyTurnJumpZero": [
+      {
+        "ip": 43041,
+        "enemyCaster": false,
+        "same": true,
+        "result": {
+          "next": 43041,
+          "inventory": [
+            {
+              "itemId": 148,
+              "count": 1
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "ip": 43041,
+        "enemyCaster": true,
+        "same": true,
+        "result": {
+          "next": 43041,
+          "inventory": [
+            {
+              "itemId": 148,
+              "count": 2
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "ip": 43049,
+        "enemyCaster": false,
+        "same": true,
+        "result": {
+          "next": 43049,
+          "inventory": [
+            {
+              "itemId": 148,
+              "count": 1
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "ip": 43049,
+        "enemyCaster": true,
+        "same": true,
+        "result": {
+          "next": 43049,
+          "inventory": [
+            {
+              "itemId": 148,
+              "count": 2
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "ip": 43055,
+        "enemyCaster": false,
+        "same": true,
+        "result": {
+          "next": 43055,
+          "inventory": [
+            {
+              "itemId": 148,
+              "count": 1
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "ip": 43055,
+        "enemyCaster": true,
+        "same": true,
+        "result": {
+          "next": 43055,
+          "inventory": [
+            {
+              "itemId": 148,
+              "count": 2
+            }
+          ],
+          "success": true
+        }
+      }
+    ],
+    "wineLimit": [
+      {
+        "cast": 1,
+        "wine": 19,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 2,
+        "wine": 18,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 3,
+        "wine": 17,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 4,
+        "wine": 16,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 5,
+        "wine": 15,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 6,
+        "wine": 14,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 7,
+        "wine": 13,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 8,
+        "wine": 12,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 9,
+        "wine": 11,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      },
+      {
+        "cast": 10,
+        "wine": 10,
+        "successEntry": 43126,
+        "learned": true,
+        "visits": [
+          {
+            "entry": 43075,
+            "next": 43075
+          },
+          {
+            "entry": 43126,
+            "next": 43127
+          }
+        ]
+      }
+    ]
+  },
+  "originalCommandsUnchanged": true,
+  "producer": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/probe-runtime.mjs",
+  "limits": [
+    "Directed function calls and controlled in-memory candidate commands only.",
+    "No browser, SDLPal executable, original executable, full story, save roundtrip or official coverage acceptance."
+  ]
+}

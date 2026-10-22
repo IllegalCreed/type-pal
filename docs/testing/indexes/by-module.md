@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 17 个 domain/module 组、18 个唯一 ID：e2e/cross-stage-audit 1；e2e/cross-stage-contract 1；e2e/doctor-and-boat 1；e2e/inn-guests-and-reward 1；e2e/meal-and-gift 1；e2e/route-planning 1；e2e/shrimp-errand-and-news 1；e2e/stairs-and-kitchen-handoff 1；e2e/story-opening 1；editor/commands 1；editor/map 1；ops/testing-governance 1；phase1-runtime/dependencies 1；runtime/battle 2；runtime/menu 1；runtime/scene 1；runtime/world 1。同组多篇仍是不同稳定 ID。
+当前 18 个 domain/module 组、19 个唯一 ID：cross-phase/script-corrections 1；e2e/cross-stage-audit 1；e2e/cross-stage-contract 1；e2e/doctor-and-boat 1；e2e/inn-guests-and-reward 1；e2e/meal-and-gift 1；e2e/route-planning 1；e2e/shrimp-errand-and-news 1；e2e/stairs-and-kitchen-handoff 1；e2e/story-opening 1；editor/commands 1；editor/map 1；ops/testing-governance 1；phase1-runtime/dependencies 1；runtime/battle 2；runtime/menu 1；runtime/scene 1；runtime/world 1。同组多篇仍是不同稳定 ID。
 
 ## 当前状态
 
@@ -24,6 +24,13 @@ Template: governance-index-v1 / 1.0.0
 
 下游按组合键查报告，维护者在 catalog 解释模块边界；例如 battle 的多条记录按 ID 保留，不用标题去重或创造产品取舍。
 本页由 [generate-testing-index.mjs](../../../scripts/docs/generate-testing-index.mjs) 生成，不能手工维护派生行；人工总入口是 [README](README.md)。
+
+### cross-phase/script-corrections
+
+| ID | 文档 | 状态 | Owner |
+|---|---|---|---|
+| game-script-corrections | [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md) | active | Codex |
+
 
 ### e2e/cross-stage-audit
 

@@ -224,6 +224,7 @@ const fields: Fields<SaveDataV1> = {
       labelMap: optional(record(number)),
       currentEventObjectId: arg,
       triggerOwnerId: arg,
+      itemScript: optional(object({ objectId: number, entry: number })),
       onEnterSceneId: arg,
       onEnterStartIp: arg,
       onEnterResumeIp: arg,

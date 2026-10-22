@@ -21,8 +21,8 @@
 import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import { getPlayerPoisonResistance } from '../../equipment-state.js'
-import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
 import type { SeedableRng } from '../../rng.js'
 import {
   BATTLE_FRAME_TIME,
@@ -31,6 +31,7 @@ import {
   buildPlayerAttackTimeline,
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
+import type { RunScriptFn } from '../battle-runtime-context.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
 import type { ActionQueueItem } from '../turn-queue.js'
@@ -43,7 +44,7 @@ export interface EquivPoisonCtx {
   gs: GameState
   items: Item[]
   commands: Command[]
-  runScript: (opts: RunScriptOptions) => void
+  runScript: RunScriptFn
 }
 
 /**
@@ -414,9 +415,12 @@ export function performAttack(
       rate >= state.rng.rangeInclusive(1, 10) &&
       getPlayerPoisonResistance(equivPoison.gs, roleId) < state.rng.rangeInclusive(1, 100)
     ) {
-      const scriptOnUse = equivPoison.items.find((it) => it.id === equivId)?.scriptOnUse ?? 0
-      if (scriptOnUse > 0) {
-        equivPoison.runScript({
+      const poisonItem = equivPoison.items.find((it) => it.id === equivId)
+      const scriptOnUse = poisonItem
+        ? getItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse')
+        : 0
+      if (poisonItem && scriptOnUse > 0) {
+        const nextEntry = equivPoison.runScript({
           commands: equivPoison.commands,
           ip: scriptOnUse,
           bus,
@@ -424,6 +428,7 @@ export function performAttack(
           eventObjectId: roleId, // wEventObjectID = 被打队员 → 脚本 0x29 单体毒之
           battleCtx: { state, target: { type: 'player', idx: targetIdx }, gs: equivPoison.gs },
         })
+        setItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse', nextEntry)
       }
     }
   }

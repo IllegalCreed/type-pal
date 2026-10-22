@@ -1,0 +1,27 @@
+{
+  "kind": "original-message-byte-audit",
+  "task": "GAME-SCRIPT-CORRECTIONS-1",
+  "messageSourceSha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846",
+  "rows": [
+    {
+      "message": 1502,
+      "range": [25562, 25586],
+      "hex": "d4dad0c4c9cfa3acb4f3b8c5cac7ced2c0cfd1dbbbe8bba8",
+      "gb18030": "在心上，大概是我老眼昏花"
+    },
+    {
+      "message": 1503,
+      "range": [25586, 25593],
+      "hex": "bfb4b4edc1a13f",
+      "gb18030": "看错痢?"
+    },
+    {
+      "message": 1504,
+      "range": [25593, 25594],
+      "hex": "3f",
+      "gb18030": "?"
+    }
+  ],
+  "decision": "D01 is corrupt original Chinese text, superseding the prior language-only classification. Repair 1503 to 看错了 and end at 3923 instead of showing the standalone question mark.",
+  "inferenceBoundary": "The repair restores the clear sentence meaning, not a claim to reconstruct unknown author punctuation. D16 contains valid Chinese attribute descriptions and remains unchanged."
+}

@@ -56,6 +56,10 @@ export function disasm(
     const o1 = view.getUint16(i * 8 + 4, true)
     const o2 = view.getUint16(i * 8 + 6, true)
 
+    // These instructions return/save the following numeric entry. Label it for
+    // the overworld item/equipment/magic callers when they resume after loading.
+    if (op === 0x0001 || op === 0x0008) labelTargets.add(i + 1)
+
     const def = opcodeTable[op]
 
     if (!def?.named) {
@@ -80,7 +84,7 @@ export function disasm(
       }
     }
 
-    commands.push(emitCommand(def, operands, messages))
+    commands.push(emitCommand(op, def, operands, messages))
   }
 
   // 第 2 遍:对跳转目标 + entry ips 都打 label
@@ -106,7 +110,12 @@ type DefLike = {
   endReset?: boolean
 }
 
-function emitCommand(def: DefLike, operands: number[], messages: string[]): Command {
+function emitCommand(
+  opcode: number,
+  def: DefLike,
+  operands: number[],
+  messages: string[],
+): Command {
   switch (def.name) {
     case 'end':
       return emitEnd(def, operands)
@@ -129,8 +138,8 @@ function emitCommand(def: DefLike, operands: number[], messages: string[]): Comm
     case 'setDialogStyleNarration':
       return emitSetDialogStyle('setDialogStyleNarration', operands)
     default:
-      // 其余具名 opcode —— M1 落 raw 保证字节可逆
-      return emitRawFallback(def, operands)
+      // Preserve the scanned opcode directly; a shared verb must not change its identity.
+      return { op: 'raw', opcode, operands: [operands[0]!, operands[1]!, operands[2]!] }
   }
 }
 
@@ -215,26 +224,4 @@ function emitSetPalette(operands: number[]): SetPaletteCommand {
     op: 'setPalette',
     paletteIndex: operands[0]!,
   }
-}
-
-/** 具名但 M1 未完整处理的 opcode —— 找回原始 opcode 数值后落 raw */
-function emitRawFallback(def: DefLike, operands: number[]): Command {
-  const opcode = findOpcodeByName(def.name)
-  return {
-    op: 'raw',
-    opcode,
-    operands: [operands[0] ?? 0, operands[1] ?? 0, operands[2] ?? 0],
-  }
-}
-
-/** 反向查 opcodeTable —— 取 verb 对应的最小 opcode 编号 */
-function findOpcodeByName(name: string): number {
-  let found: number | undefined
-  for (const [opStr, d] of Object.entries(opcodeTable)) {
-    if (d.named && d.name === name) {
-      const n = Number(opStr)
-      if (found === undefined || n < found) found = n
-    }
-  }
-  return found ?? 0
 }

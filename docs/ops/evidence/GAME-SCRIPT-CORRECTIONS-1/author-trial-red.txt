@@ -1,0 +1,60 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/pal-trial-portals-corrections.test.ts (3 tests | 3 failed) 8ms
+   × 's226'/'e3969' activates the corrected trial-cave destination 5ms
+   × 's225'/'e3949' activates the corrected trial-cave destination 2ms
+   × 's226'/'e3989' activates the corrected trial-cave destination 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pal-trial-portals-corrections.test.ts > 's226'/'e3969' activates the corrected trial-cave destination
+ FAIL  src/pal-trial-portals-corrections.test.ts > 's226'/'e3989' activates the corrected trial-cave destination
+AssertionError: expected 's225' to be 's226' // Object.is equality
+
+Expected: "s226"
+Received: "s225"
+
+ ❯ src/pal-trial-portals-corrections.test.ts:15:25
+     13|   expect(requests).toHaveLength(1)
+     14|   const request = requests[0]!
+     15|   expect(request.scene).toBe('s226')
+       |                         ^
+     16|   if (!request.entryId) throw new Error('portal must name its arrival …
+     17|   expect(gov3Scene(request.scene).entries?.[request.entryId]?.pos).toE…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/pal-trial-portals-corrections.test.ts > 's225'/'e3949' activates the corrected trial-cave destination
+AssertionError: expected { col: 124, row: 18, height: +0 } to deeply equal { col: 119, row: 57, height: +0 }
+
+- Expected
++ Received
+
+  {
+-   "col": 119,
++   "col": 124,
+    "height": 0,
+-   "row": 57,
++   "row": 18,
+  }
+
+ ❯ src/pal-trial-portals-corrections.test.ts:17:68
+     15|   expect(request.scene).toBe('s226')
+     16|   if (!request.entryId) throw new Error('portal must name its arrival …
+     17|   expect(gov3Scene(request.scene).entries?.[request.entryId]?.pos).toE…
+       |                                                                    ^
+     18|   expect(request.transition).toMatchObject({ kind: 'source', outMs: 60…
+     19| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  15:52:46
+   Duration  3.38s (transform 2.38s, setup 0ms, import 3.29s, tests 8ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-trial-portals-corrections.test.ts --reporter=default

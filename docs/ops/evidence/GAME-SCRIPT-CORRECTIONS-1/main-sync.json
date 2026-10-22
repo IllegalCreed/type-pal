@@ -1,0 +1,210 @@
+{
+  "kind": "accepted-correction-candidate-main-sync",
+  "date": "2026-10-22",
+  "owner": "Codex",
+  "originalCandidate": "b110b6824",
+  "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+  "status": "local-main-sync-checks-passed-awaiting-remote-ci",
+  "scope": "Preserve latest main target-role mapping/post-battle fixes alongside saved item/spell script progress; preserve both documentation histories and recompute only affected current source bindings.",
+  "codeReview": {
+    "item": "Single numeric RunScriptFn, main target slot->role/0xffff mapping, saved script entry fetch/return writeback and main consuming behavior all retained.",
+    "attack": "Keep main resistance module and remove reintroduced void callback signature; actual returned entry is stored.",
+    "otherAutoMerges": "Checked main delta remains intact in action fixtures, event-system post-battle control and current save guards."
+  },
+  "sources": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "b6d14f9041d6a297841fbb2cf556d27d0e72ffcc5981c4e8ffd47a91cfb5f685"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "52a7e16669cecf84179ed85d317adc979615c8af3d93833f6e6444bae3c2bbf0"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "ec0b569dccb59fb292c76e75aba0aa1e2f84ed4dd876b7903fc4317a1c0f12ef"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "dc7b08b20bba875b10b71cb50b03713c54c4de8b9d1b7e89a796f3657ab0fa72"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "a4919d656ed2318943f537cb90a7e1f5f53fd10c7fe7cdcdd687c6aa38cbf602"
+    }
+  ],
+  "checks": {
+    "mergedCallerRegression": {
+      "status": "passed",
+      "files": 8,
+      "tests": 128
+    },
+    "gameTypecheck": "passed after fixing auto-merged callback type; original type failure preserved",
+    "coverage": {
+      "status": "all20094 fast cases passed; terminal scope acknowledgment resumed against exact main baseline and existing exact326->324 retirement approval; original ratchet exit1 retained",
+      "testCount": 20094,
+      "sourceFileCount": 760,
+      "total": {
+        "statements": {
+          "covered": 71980,
+          "total": 79800
+        },
+        "branches": {
+          "covered": 52174,
+          "total": 62199
+        },
+        "functions": {
+          "covered": 13647,
+          "total": 15203
+        },
+        "lines": {
+          "covered": 64289,
+          "total": 69840
+        }
+      },
+      "packageCounts": {
+        "shared": {
+          "tests": 114,
+          "files": 11
+        },
+        "content": {
+          "tests": 1498,
+          "files": 56
+        },
+        "pal-extract": {
+          "tests": 331,
+          "files": 44
+        },
+        "migrate": {
+          "tests": 671,
+          "files": 38
+        },
+        "reforge": {
+          "tests": 8991,
+          "files": 158
+        },
+        "game": {
+          "tests": 3708,
+          "files": 159
+        },
+        "editor": {
+          "tests": 4781,
+          "files": 294
+        }
+      }
+    },
+    "docs": "passed pnpm check:docs:125 tools, all consumers and0 integrity issues",
+    "lint": "passed0 errors/0 warnings/0 infos; final publication is formatted and checked separately before commit",
+    "diff": "passed git diff --cached --check origin/main"
+  },
+  "artifacts": [
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-caller.native.stdout.txt.gz",
+      "sha256": "994a93f12dca522a971c8199d898581f3ea50c3a97b1b83efa89534ee0c1d47d",
+      "nativeBytesSha256": "9096b4cb073fd86d912713eb4cf6e94d43bd2d311cee9bd6239fce94b5558180"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-type-merge-failure.native.stdout.txt.gz",
+      "sha256": "9f1ed4cb784759ff9dbf5329bbb59b6f7ca410360b0dd650918b87a6124fc41c",
+      "nativeBytesSha256": "3f58e90981eee3c7780705ff1e0ff384b6d5eb22784d6204d8cc61c514ce5df0"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-typecheck.native.stdout.txt.gz",
+      "sha256": "06d8833185b81d8e687530879e793260babce0c607510e6f55133bf05b7dd02c",
+      "nativeBytesSha256": "a855d4a3602a15c992f3d1f1ea4b27a5fc9b2410919519082f62e780aed03ee2"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-coverage-ratchet.native.stdout.txt.gz",
+      "sha256": "9bdba2d66b21bad33f131f32fc3f16ba653d7a065dcf67b5b1e3ab745bc6dc2e",
+      "nativeBytesSha256": "ebfafcb79cd6a4935ef1e9ea4e070dd03959e5bb4d6c4903833b78933bb014d5"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-coverage-summary.json.gz",
+      "sha256": "8daa9cb72f8fd08c9a58a2d74ddbcc29b368b1a480fceacc2354e4b5e3c8ab0d",
+      "nativeBytesSha256": "61624ed3ff57cdb17237db9c7eede710cc13d15c441bb54cdb72a5e8db2892b3"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-docs.native.stdout.txt.gz",
+      "sha256": "ec8e62b9359d14f0647dff586b399fecb2690cee035ac61165b4ae69a02d1c9c",
+      "nativeBytesSha256": "da73019dc704516dba7cc6339b472f2285a2001bccef83463fbda8159e4a7522"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-lint.native.stdout.txt.gz",
+      "sha256": "30d71c0a6033665c0ad831d487ba16c481499e78135a99e25caf60c3f24958da",
+      "nativeBytesSha256": "797fed8be6628d5f093b86ef582b95fd6f51168e0bd16cab9c7dc362c9c49d32"
+    }
+  ],
+  "metadataConflictReceipt": {
+    "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync-metadata-conflicts.json",
+    "sha256": "1b32bbed0f213f718183dc3bd81e57bea943d7822843c7334633a96d77e484b7"
+  },
+  "notExecuted": [
+    "Complete story E2E, frame-by-frame visual and editor-preview acceptance waived for this task by user; no new execution credit.",
+    "Deployment"
+  ],
+  "baselineFinalization": {
+    "kind": "resumed-ratchet-terminal-scope-acknowledgment",
+    "status": "passed",
+    "originalCommandExit": 1,
+    "reason": "Original command omitted --allow-scope-removal for the already approved 326->324 retirement; no product/test/threshold change or repeated run.",
+    "runnerSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+    "inputBaselineSha256": "c53781956afc4cdcebde6a324fbb0909ae4e4e9c88fb4063956948910f82d6a4",
+    "resultSha256": "61624ed3ff57cdb17237db9c7eede710cc13d15c441bb54cdb72a5e8db2892b3",
+    "outputBaselineSha256": "76abaa6be862168c3702710f093122a3da9729144ae84eea6c4de75b27ce6430",
+    "approvedRemoval": {
+      "kind": "test-count",
+      "value": "packages/game/src/core/event-system.test.ts",
+      "previous": 326,
+      "current": 324
+    },
+    "comparison": {
+      "regressions": [],
+      "improvements": [
+        "game.statements",
+        "game.branches",
+        "game.functions",
+        "game.lines",
+        "pal-extract.statements",
+        "pal-extract.branches",
+        "pal-extract.functions",
+        "pal-extract.lines",
+        "reforge.statements",
+        "reforge.branches",
+        "reforge.lines",
+        "total.statements",
+        "total.branches",
+        "total.functions",
+        "total.lines"
+      ]
+    },
+    "scope": {
+      "changes": [
+        "game: source +1/-0（158 -> 159）",
+        "game: coverage include/exclude/source digest 已变化",
+        "game: fast test files +2/-0，内容变化 4（3701 -> 3708 tests）",
+        "game: fast test execution config/digest 已变化",
+        "pal-extract: source +1/-0（43 -> 44）",
+        "pal-extract: coverage include/exclude/source digest 已变化",
+        "pal-extract: fast test files +1/-0，内容变化 3（315 -> 331 tests）",
+        "pal-extract: fast test execution config/digest 已变化",
+        "reforge: fast test files +5/-0，内容变化 1（8965 -> 8991 tests）",
+        "reforge: fast test execution config/digest 已变化"
+      ],
+      "removals": [
+        {
+          "kind": "test-count",
+          "value": "packages/game/src/core/event-system.test.ts",
+          "previous": 326,
+          "current": 324
+        }
+      ]
+    },
+    "tests": 20094,
+    "sources": 760,
+    "producer": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/resume-main-sync-baseline.mjs"
+  },
+  "sourceBaseline": {
+    "path": "scripts/coverage/baseline.fast.json",
+    "sha256": "76abaa6be862168c3702710f093122a3da9729144ae84eea6c4de75b27ce6430"
+  }
+}

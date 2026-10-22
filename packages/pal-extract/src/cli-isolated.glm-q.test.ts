@@ -1,6 +1,7 @@
 // 隔离实跑CLI的事件、表、图像/音频和完整合成管线；另核FBP/SSS坏输入。
 // cliHost只管理只读源码副本、临时树与子进程；业务输入工厂和完整输出断言留在本文件。
 // 合成资源仅验证相应结构/透传/接线，不写真实raw/extracted，也不认证真实游戏资产质量。
+import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { encodeSpriteChunk } from '@type-pal/shared'
@@ -242,7 +243,7 @@ test('Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   // 事件管线全绿后，数据表阶段因缺 DATA.MKF 拒绝（合成输入只覆盖事件段）。
   expect(result.exitCode).toBe(1)
   expect(result.stdout).toContain('[pal-extract] events round-trip OK')
@@ -281,7 +282,7 @@ test('Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 +
     'WORD.DAT': buildWordDat(),
     'DATA.MKF': buildDataMkf(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   // 数据表段完成后，图像段缺 RNG.MKF → exit 1 ENOENT（合成输入只覆盖 DATA 表段）。
   expect(result.exitCode).toBe(1)
   expect(result.stdout).toContain('[pal-extract] events round-trip OK')
@@ -323,7 +324,7 @@ test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合
   mkdirSync(musics, { recursive: true })
   writeFileSync(join(musics, '7.MID'), new TextEncoder().encode('MIDI7'))
   writeFileSync(join(musics, 'TRACK02.ogg'), new TextEncoder().encode('OGG2'))
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   // 图像/音频段全部完成后，splash 段缺 FBP.MKF → exit 1 ENOENT。
   expect(result.exitCode).toBe(1)
   expect(result.stdout).toContain('RNG.MKF blobs written (1 chunks, 0 frames total)')
@@ -382,7 +383,7 @@ test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + 
   })
   const musics = join(tree, 'data', 'raw', 'Musics')
   mkdirSync(musics, { recursive: true })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(0)
   // 全管线完成 → exit 0 + done 日志
   expect(result.stdout).toContain('tilesets written: 2 / 2 unique mapNums')
@@ -424,7 +425,14 @@ test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + 
     )
     .filter((path) => path !== 'asset-manifest.json')
     .sort()
-    .map((path) => ({ path, size: readFileSync(join(outputDirectory, path)).byteLength }))
+    .map((path) => {
+      const bytes = readFileSync(join(outputDirectory, path))
+      return {
+        path,
+        size: bytes.byteLength,
+        sha256: createHash('sha256').update(bytes).digest('hex'),
+      }
+    })
   expect(manifest.files).toEqual(actualFiles)
   expect(manifest.fileCount).toBe(actualFiles.length)
   expect(manifest.totalBytes).toBe(actualFiles.reduce((sum, entry) => sum + entry.size, 0))
@@ -440,7 +448,7 @@ test('Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → 
     'FBP.MKF': mkf([new Uint8Array(0), new Uint8Array(0), new Uint8Array(0)]), // 3 chunk：splash 读 chunk3 越界
   })
   mkdirSync(join(tree, 'data', 'raw', 'Musics'), { recursive: true }) // Musics 段在 FBP 之前
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('MKF: chunk 3 out of range') // readChunk 精确拒绝
 })
@@ -451,7 +459,7 @@ test('Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stdout).not.toContain('[pal-extract] events round-trip OK')
   expect(result.stderr).toContain('SSS chunk0: byte length 10 is not a multiple of 32')

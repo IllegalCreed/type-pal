@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
+      "coreConclusion": "One new active cross-phase script-corrections report with paired production-caller evidence; narrowly update retired D1 owner/test sourceRefs and preserve prior refs in revision history. Original other17 entries retain status/date/claim scope; original18 cohort becomes19 publication entries, not a frozen-governance denominator change.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -101,7 +101,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "1c1f9ae3e02fc65614aa362eb0bc5ad4915e0f19929180f97ee6fa521f484869",
+      "afterSha256": "d9f2b7fa77f83e69a2fbd872d0aaaacd417e84ce30f586ed3a7c0db7942dca43",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -129,7 +129,7 @@
       },
       "revision": {
         "currentSha": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
-        "implementationSha": "1c1f9ae3e02fc65614aa362eb0bc5ad4915e0f19929180f97ee6fa521f484869",
+        "implementationSha": "d9f2b7fa77f83e69a2fbd872d0aaaacd417e84ce30f586ed3a7c0db7942dca43",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -178,41 +178,29 @@
             "afterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
             "newMigrationCredit": 0,
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "1c1f9ae3e02fc65614aa362eb0bc5ad4915e0f19929180f97ee6fa521f484869",
+            "scope": "One new active cross-phase script-corrections report with paired production-caller evidence; narrowly update retired D1 owner/test sourceRefs and preserve prior refs in revision history. Original other17 entries retain status/date/claim scope; original18 cohort becomes19 publication entries, not a frozen-governance denominator change.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
-        "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
-        "sourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
-        "afterSha256": "1c1f9ae3e02fc65614aa362eb0bc5ad4915e0f19929180f97ee6fa521f484869",
-        "lineCount": 2074,
-        "sourceScope": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
-        "completePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
-          "gitObject": "483a6b7162309fb91c8de0a521b8d2b8a2f08405",
-          "fileSha256": "7fed55bcd3d5978f6fec7d5ac8d34ddd51da528134c10ee4f2d0ea09a01e66d0",
-          "selector": {
-            "entries.path": "docs/testing/catalog.json",
-            "uniqueMatches": 1
-          },
-          "completePriorObjectRetrievedAndCompared": true
-        },
-        "independentReception": "Exact e136 maintenance/source and final164 root14 accepted in recorded independent scopes; current subsequent metadata only separately reviewed.",
-        "immediateCompletePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
-          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
-          "gitObject": "5948051e425f75f475cb60b225cc3c5033fd38bf",
-          "fileSha256": "29de8cf710483d84ed85c33f37ad69e8e42c5b99289ef9fa2cb8b9f2ac70ff4a",
-          "completePriorObjectRetrievedAndCompared": true,
-          "selector": {
-            "entries.path": "docs/testing/catalog.json",
-            "uniqueMatches": 1
-          }
-        }
+        "kind": "script-corrections-scoped-document-maintenance",
+        "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+        "afterSha256": "d9f2b7fa77f83e69a2fbd872d0aaaacd417e84ce30f586ed3a7c0db7942dca43",
+        "lineCount": 2226,
+        "scope": "One new active cross-phase script-corrections report with paired production-caller evidence; narrowly update retired D1 owner/test sourceRefs and preserve prior refs in revision history. Original other17 entries retain status/date/claim scope; original18 cohort becomes19 publication entries, not a frozen-governance denominator change.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true
       },
       "history": [
         {
@@ -378,10 +366,56 @@
           "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
           "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "1c1f9ae3e02fc65614aa362eb0bc5ad4915e0f19929180f97ee6fa521f484869",
+          "previousCoreConclusion": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
+          "previousEvidence": {
+            "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
+            "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+            "sourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
+            "afterSha256": "1c1f9ae3e02fc65614aa362eb0bc5ad4915e0f19929180f97ee6fa521f484869",
+            "lineCount": 2074,
+            "sourceScope": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
+            "completePrior": {
+              "kind": "complete-prior-current-in-reachable-fixed-git",
+              "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+              "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+              "gitObject": "483a6b7162309fb91c8de0a521b8d2b8a2f08405",
+              "fileSha256": "7fed55bcd3d5978f6fec7d5ac8d34ddd51da528134c10ee4f2d0ea09a01e66d0",
+              "selector": {
+                "entries.path": "docs/testing/catalog.json",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            },
+            "independentReception": "Exact e136 maintenance/source and final164 root14 accepted in recorded independent scopes; current subsequent metadata only separately reviewed.",
+            "immediateCompletePrior": {
+              "kind": "complete-prior-current-in-reachable-fixed-git",
+              "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+              "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+              "gitObject": "5948051e425f75f475cb60b225cc3c5033fd38bf",
+              "fileSha256": "29de8cf710483d84ed85c33f37ad69e8e42c5b99289ef9fa2cb8b9f2ac70ff4a",
+              "completePriorObjectRetrievedAndCompared": true,
+              "selector": {
+                "entries.path": "docs/testing/catalog.json",
+                "uniqueMatches": 1
+              }
+            }
+          },
+          "scope": "One new active cross-phase script-corrections report with paired production-caller evidence; narrowly update retired D1 owner/test sourceRefs and preserve prior refs in revision history. Original other17 entries retain status/date/claim scope; original18 cohort becomes19 publication entries, not a frozen-governance denominator change.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": {
         "before": "Exact ec2 accepted predecessor preserved full in fixedGit prior locator.",
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
@@ -567,7 +601,15 @@
       ],
       "reviewedSourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "reviewedSourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "reviewNotes": "\n2026-10-20: Only e2e-route substantive publication review/deadline and exact equipment comment source binding. Proposal/lastVerified/old execution versions and other stages retained. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Only e2e-route substantive publication review/deadline and exact equipment comment source binding. Proposal/lastVerified/old execution versions and other stages retained. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "One new active cross-phase script-corrections report with paired production-caller evidence; narrowly update retired D1 owner/test sourceRefs and preserve prior refs in revision history. Original other17 entries retain status/date/claim scope; original18 cohort becomes19 publication entries, not a frozen-governance denominator change.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/_templates/README.md",
@@ -3149,9 +3191,9 @@
       "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+      "coreConclusion": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -3200,7 +3242,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "8d0a33ec1eb160ad91745e2c4faeb70f221deb077f76d47261359169054ff5f8",
+      "afterSha256": "d5c6d11d11a5b5e19974b7e695c18cf6067f857165452bb971b107d0ea4e5d7b",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",
@@ -3231,7 +3273,7 @@
       },
       "revision": {
         "currentSha": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
-        "implementationSha": "8d0a33ec1eb160ad91745e2c4faeb70f221deb077f76d47261359169054ff5f8",
+        "implementationSha": "d5c6d11d11a5b5e19974b7e695c18cf6067f857165452bb971b107d0ea4e5d7b",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "contentVersion": 22,
@@ -3275,15 +3317,29 @@
             "date": "2026-10-15",
             "action": "full report semantic template migration",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "8d0a33ec1eb160ad91745e2c4faeb70f221deb077f76d47261359169054ff5f8",
+            "scope": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
-        "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
-        "afterSha256": "8d0a33ec1eb160ad91745e2c4faeb70f221deb077f76d47261359169054ff5f8",
-        "lineCount": 95
+        "kind": "script-corrections-scoped-document-maintenance",
+        "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+        "afterSha256": "d5c6d11d11a5b5e19974b7e695c18cf6067f857165452bb971b107d0ea4e5d7b",
+        "lineCount": 99,
+        "scope": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true
       },
       "history": [
         {
@@ -3339,10 +3395,30 @@
           "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
           "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "8d0a33ec1eb160ad91745e2c4faeb70f221deb077f76d47261359169054ff5f8",
+          "previousCoreConclusion": "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+          "previousEvidence": {
+            "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+            "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+            "afterSha256": "8d0a33ec1eb160ad91745e2c4faeb70f221deb077f76d47261359169054ff5f8",
+            "lineCount": 95
+          },
+          "scope": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "No current runtime/UI/E2E/visual/coverage or save compatibility acceptance follows from static migration or historical publication.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution.",
       "reviewedLines": "1-91",
       "templateConformity": {
@@ -3359,7 +3435,15 @@
           "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
         ]
       },
-      "reviewNotes": "\n2026-10-20: Only equipment comment source SHA updated after exact removeComments equality; no D1 rerun or architecture promotion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Only equipment comment source SHA updated after exact removeComments equality; no D1 rerun or architecture promotion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     }
   ]
 }

@@ -1,0 +1,44 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/editor
+
+ ❯ src/core/project-reference.pal.test.ts (1 test | 1 failed) 1357ms
+     × keeps blocker parity, named-entry/shop/map facts and compact worker payload 1356ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [] to deeply equal [ 'e3657', 'e3658', 'e3659', …(4) ]
+
+- Expected
++ Received
+
+- [
+-   "e3657",
+-   "e3658",
+-   "e3659",
+-   "e3660",
+-   "e3661",
+-   "e3662",
+-   "e3663",
+- ]
++ []
+
+ ❯ src/core/project-reference.pal.test.ts:115:7
+    113|         .map((reference) => reference.entityId)
+    114|         .sort(),
+    115|     ).toEqual(['e3657', 'e3658', 'e3659', 'e3660', 'e3661', 'e3662', '…
+       |       ^
+    116|     expect(
+    117|       diagnostics.entityAddressReferences.filter(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  17:57:26
+   Duration  8.07s (transform 5.14s, setup 0ms, import 6.63s, tests 1.36s, environment 0ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/editor:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/project-reference.pal.test.ts --reporter=default --maxWorkers 1

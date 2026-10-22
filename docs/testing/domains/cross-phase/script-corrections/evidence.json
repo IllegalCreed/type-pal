@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 2,
+  "id": "game-script-corrections",
+  "status": "active",
+  "candidateSha": null,
+  "versions": {
+    "content": 22,
+    "minimumSave": 12
+  },
+  "sourceRefs": [
+    {
+      "path": "packages/pal-extract/src/events/script-corrections.ts",
+      "lines": "148",
+      "anchor": "export function correctScripts",
+      "role": "correction-source",
+      "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c"
+    },
+    {
+      "path": "packages/pal-extract/src/events/win-script-corrections.json",
+      "lines": "2",
+      "anchor": "\"version\": \"pal-win-1\"",
+      "role": "reviewed-rule-data",
+      "sha256": "c345c2a9b823446105369001d6a672d1368a55784c8dcaa6ec5fed87310c7e02"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "lines": "230",
+      "anchor": "const corrected = faithful",
+      "role": "caller",
+      "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7"
+    },
+    {
+      "path": "packages/game/src/core/object-script-state.ts",
+      "lines": "63",
+      "anchor": "export function setMagicScriptEntry",
+      "role": "saved-entry-owner",
+      "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+    },
+    {
+      "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+      "lines": "33",
+      "anchor": "function play",
+      "role": "oracle",
+      "sha256": "912ae80ee2c9d7f162999488b21b7ea48d350231590e5d660ff147dd2abda192"
+    },
+    {
+      "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+      "lines": "59",
+      "anchor": "function portal",
+      "role": "oracle",
+      "sha256": "a95ff231f2a7c434c31d1c989f025e52f2dc1152967ce8f9704c371b6890110b"
+    },
+    {
+      "path": "packages/reforge/src/pal-story-corrections.test.ts",
+      "lines": "11",
+      "anchor": "test('鬼阴坛告别",
+      "role": "oracle",
+      "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9"
+    },
+    {
+      "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+      "lines": "54",
+      "anchor": "test.each",
+      "role": "oracle",
+      "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5"
+    }
+  ],
+  "publicCallers": [
+    "pnpm extract",
+    "pnpm --filter @type-pal/game exec vitest run src/core/script-corrections.pal.test.ts src/core/script-story-corrections.pal.test.ts src/core/script-topology-corrections.pal.test.ts --reporter=default",
+    "pnpm --filter @type-pal/reforge exec vitest run src/pal-story-corrections.test.ts src/pal-court-corrections.test.ts src/pal-trial-portals-corrections.test.ts src/pal-palace-corrections.test.ts src/battle/pal-cure-status-corrections.test.ts --reporter=default"
+  ],
+  "legalInputs": [
+    "Supported Win SSS.MKF SHA and original M.MSG; default corrected generation after faithful round-trip",
+    "Current typed GameState, real extracted scripts, isolated legal script boundaries",
+    "Canonical PAL author content22 and SAVE12; stable actor/entity identities"
+  ],
+  "businessOracle": {
+    "type": "paired-script-gameplay-and-source-integrity",
+    "assertions": [
+      "Declining a purchase preserves cash; successful purchase pays exactly twenty; insufficient cash gives nothing",
+      "Cures remove silence while retaining buffs; replacing/removing the blade keeps correct slot bonuses",
+      "Story completion, conditional actor presence, early handover cleanup and portal return routes hold independently in each phase",
+      "Wine God progress belongs to saved OBJECT state, removes Li Xiaoyao magic on use nine, rejects a tenth through normal action validation, resets on new game",
+      "Bad source/prevalue rejects; raw bytes unchanged; generation is repeatable and final byte changes update asset manifest"
+    ]
+  },
+  "dedupe": {
+    "result": "reviewed",
+    "against": [
+      "packages/game/src/core/event-system.test.ts",
+      "packages/game/src/core/scene-system.test.ts",
+      "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+      "packages/reforge/src/pal-unified-steps-content.test.ts"
+    ],
+    "notes": "Retired two runtime treasure patch tests with their removed helper; extraction rules and real caller tests replace that contract. Existing generic mechanisms retained. Headless runner/effect seams and map connectivity do not grant complete route or visual E2E credit."
+  },
+  "history": [
+    {
+      "date": "2026-10-22",
+      "action": "two-phase-corrections-implementation-and-regression",
+      "scope": "Working candidate, before final integration commit. Original red logs, corrected green tests and generation receipts retained. Full browser/story E2E not executed."
+    }
+  ],
+  "claims": [
+    {
+      "id": "first-phase-caller-regression",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt.gz",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt.gz",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.txt",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.native.stdout.txt"
+      ]
+    },
+    {
+      "id": "second-phase-author-regression",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt.gz"
+      ]
+    },
+    {
+      "id": "official-fast-coverage-ratchet",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt.gz",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-ratchet-summary.json.gz"
+      ]
+    },
+    {
+      "id": "protected-fast-no-regression",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt.gz",
+        "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-summary.json.gz"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt.gz",
+      "sha256": "a9816d362e1ced525b2ff8bed03ec2de4e00b35a684ed74f9d4bbe0f8873685f"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt.gz",
+      "sha256": "82a68027cca28d474e8dce663c2c769ad3f98dbf15464274d06ea013e61c8ed8"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/generation-receipt.json",
+      "sha256": "008ab4e6ec96f0d50802cc9704369aa53ef14b6a20bb27c9c26ad6678fc73a7c"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/root-regression-red.txt",
+      "sha256": "8e79d04abab931b68d49d9c547edbe7235a669dc210d31c42f95e28200329dea"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/generation-final.json",
+      "sha256": "e62e1d988a2bb5d7688217a986c9f1bed33111fd08a09468237182002c4d9e99"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt.gz",
+      "sha256": "6a165903c4172b70deb8f96551b5e28afba7ca1adef07932d69d759a5bda257a"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-current.txt.gz",
+      "sha256": "19325cb56c23308ced45fc7eb4458bcef29d3bedc699025bed894cecd0f30449"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.txt",
+      "sha256": "b1d58d03298aee00004113792969a3e89bb57a4663003a152c7dd333e9207026"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.native.stdout.txt",
+      "sha256": "a60202a2b725154dd6e5e7e42a56908e890e88148ff1e8f1847552a05419e33b"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-pal-green.txt",
+      "sha256": "04f9a3f25596bf4d339e0378359681f4d6217b365177e3f516c67264d067ff19"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-pal-green.native.stdout.txt",
+      "sha256": "9a41a85f916a113ffcb37401ed0ac09ebac9e6db448d701f127602fbd68cfcaf"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt.gz",
+      "sha256": "5743b9b0b00d1624db312c0912c861585ed3ee98b794e7672ece69369bb89f50"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-ratchet-summary.json.gz",
+      "sha256": "710757d79d61855f9a9cd5c31e3086f8143fdbfbd8058495b95de44d74deaaa3"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-summary.json.gz",
+      "sha256": "94db00572ab44604863fef761b4b7a8f17c64a6ff9d16c388a7d9e5b5ee43506"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/inventory-content.fast.json.gz",
+      "sha256": "d15c8e081dac0a9b8482332c494ea2f608f428049f956687c352c79890ed9910"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/inventory-editor.fast.json.gz",
+      "sha256": "b2fbbdd6817e19544f1fed48ab757aad432668e398cacdfdd7990107379c83e9"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/inventory-game.fast.json.gz",
+      "sha256": "e3b36200bc01a918129b7bd17663580d582e73ebbab873f8cf803b6ac09838ea"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/inventory-migrate.fast.json.gz",
+      "sha256": "4ed4810a6ecfd025f6fc8a001a83b91182d3a41d2cfe55967d9647b438a21e04"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/inventory-pal-extract.fast.json.gz",
+      "sha256": "849f8d3526e61095e0e27b4ecbf26720e0d55e126d0207631d2de5e847b9c507"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/inventory-reforge.fast.json.gz",
+      "sha256": "28a4f01489f728d5c09f578ea3e05acaaf6e9b53210e6109df8cb515205f27d5"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/inventory-shared.fast.json.gz",
+      "sha256": "1f5976bb9417dfa115b9aa9bee48ca623e45bb3168746a02af914b87f7b240df"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt.gz",
+      "sha256": "2b21fe3916ffb3ea8878671f778625b6218bbf3a1094d99497d1d011ea991258"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-current.txt.gz",
+      "sha256": "8bec27bf7b0701b7e6d07628a510f96abe4838925ae125a00c8d4513bf2a08f1"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-delta.json",
+      "sha256": "e5695e2d6d45ce4463b913161532f6c2be33d25dcab65cb5272923f8f6e25746"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/migrate-full-check.txt.gz",
+      "sha256": "7ee8eddddca4aace90146a6f857f762e8714ed125dd4bf6ddd546f420ae51473"
+    }
+  ],
+  "notRun": ["complete story browser E2E", "visual", "deployment"],
+  "kind": "runtime-execution",
+  "runtimeExecution": {
+    "performed": true,
+    "scope": "targeted headless production caller regressions and resource generation",
+    "completeE2E": false,
+    "visual": false
+  }
+}

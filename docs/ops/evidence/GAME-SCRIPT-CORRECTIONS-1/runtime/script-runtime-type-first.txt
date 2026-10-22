@@ -1,0 +1,29 @@
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+> tsc --noEmit
+
+src/core/battle/__tests__/actions.test.ts(1802,11): error TS2322: Type 'Mock<(opts: any) => void>' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/actions.test.ts(1918,7): error TS2322: Type '() => void' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/actions.test.ts(1949,7): error TS2322: Type '() => void' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/actions.test.ts(2077,11): error TS2322: Type 'Mock<(opts: any) => void>' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/actions.test.ts(2156,23): error TS2352: Conversion of type 'Mock<(opts: any) => void>' to type 'RunScriptFn' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type 'void' is not comparable to type 'number'.
+src/core/battle/__tests__/actions.test.ts(2254,11): error TS2322: Type 'Mock<() => void>' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/magic-inline-damage.test.ts(30,7): error TS2322: Type '() => void' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/magic-inline-damage.test.ts(1321,11): error TS2322: Type '(opts: RunScriptOptions) => void' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/magic-inline-damage.test.ts(1349,11): error TS2322: Type '(opts: RunScriptOptions) => void' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/magic-inline-damage.test.ts(1400,11): error TS2322: Type '(opts: RunScriptOptions) => void' is not assignable to type 'RunScriptFn'.
+  Type 'void' is not assignable to type 'number'.
+src/core/battle/__tests__/object-script-progress.test.ts(79,40): error TS2353: Object literal may only specify known properties, and '1' does not exist in type 'Map<number, BattleAction>'.
+src/core/battle/__tests__/object-script-progress.test.ts(80,62): error TS2353: Object literal may only specify known properties, and 'dexterity' does not exist in type 'ActionQueueItem'.
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/game@1.0.0 typecheck: `tsc --noEmit`
+Exit status 2

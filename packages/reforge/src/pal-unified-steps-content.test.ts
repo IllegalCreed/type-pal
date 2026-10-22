@@ -289,7 +289,7 @@ test('all current scene scripts use steps; automatic phases are inside one step'
         expect(hook.flow.kind).toBe('stages')
       }
   }
-  expect(flows).toBe(4656)
+  expect(flows).toBe(4657)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])
@@ -297,7 +297,7 @@ test('all current scene scripts use steps; automatic phases are inside one step'
   expect(text).not.toContain('maxIterations')
 })
 
-test('the batch preserves non-script definitions outside the approved landed-grain page', async () => {
+test('non-script definitions preserve the source except for explicitly asserted author corrections', async () => {
   const sourceHashes = new Map(Object.entries(ledger.nonScriptSceneHashes))
   for (const scene of scenes) {
     const withoutScripts = {
@@ -324,8 +324,74 @@ test('the batch preserves non-script definitions outside the approved landed-gra
         return original
       })
     }
+    // GAME-SCRIPT-CORRECTIONS-1: narrow approved author fields, not a scene-wide exemption.
+    if (scene.id === 's182') {
+      withoutScripts.entities = withoutScripts.entities.map((entity) => {
+        if (entity.id !== 'e2984') return entity
+        expect(entity.hidden).toBe(true)
+        const { hidden: _hidden, ...original } = entity
+        return original
+      })
+    }
+    if (scene.id === 's226') {
+      const entries = withoutScripts.entries
+      if (!entries) throw new Error('missing trial arrivals')
+      expect(entries['trial-center-east']).toEqual({
+        label: '中央独立区东侧落点',
+        pos: { col: 128, row: 59, height: 0 },
+      })
+      expect(entries['trial-center-west']).toEqual({
+        label: '中央独立区西侧落点',
+        pos: { col: 119, row: 57, height: 0 },
+      })
+      const { 'trial-center-east': _east, 'trial-center-west': _west, ...original } = entries
+      withoutScripts.entries = original
+    }
+    if (['s249', 's260', 's285', 's286'].includes(scene.id)) {
+      const room = scene.id === 's260' || scene.id === 's286'
+      const entryId = room ? 'palace-isolated-room' : 'palace-upper-return'
+      const entries = withoutScripts.entries
+      if (!entries) throw new Error('missing palace arrivals')
+      expect(entries[entryId]).toEqual({
+        label: room ? '独立宝箱房入口' : '独立宝箱房返回上层',
+        pos: { col: room ? 80 : 82, row: room ? 22 : -5, height: 0 },
+      })
+      const { [entryId]: _arrival, ...original } = entries
+      withoutScripts.entries = original
+    }
+    if (scene.id === 's286') {
+      withoutScripts.entities = withoutScripts.entities.map((entity) => {
+        if (entity.id !== 'e4841') return entity
+        expect(entity).toEqual({
+          id: 'e4841',
+          pos: { col: 80, row: 25, height: 0 },
+          zone: true,
+          pages: [
+            {
+              id: 'default',
+              label: '独立房间出口',
+              trigger: 'default',
+              triggerActivation: { on: 'touch', range: 1 },
+            },
+          ],
+          initialPage: 'default',
+        })
+        return {
+          id: 'e4841',
+          pos: { col: 63, row: -5, height: 0 },
+          sprite: 'sprite-548',
+          collide: true,
+          hostile: {
+            chase: { range: 8, speed: 4 },
+            onVictory: { kind: 'hide', ticks: 800 },
+            onPlayerFlee: { kind: 'suspend', ticks: 15 },
+            enemyTeamId: 'team-267',
+          },
+        }
+      })
+    }
     if (!governedSceneIds.has(scene.id))
-      expect(await hash(withoutScripts)).toBe(sourceHashes.get(scene.id))
+      expect(await hash(withoutScripts), scene.id).toBe(sourceHashes.get(scene.id))
   }
 })
 

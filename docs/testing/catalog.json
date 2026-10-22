@@ -1775,10 +1775,10 @@
       "sourceRefs": [
         {
           "path": "packages/game/src/core/script-catalog.ts",
-          "lines": "33-40",
-          "anchor": "export function patchGiveItemZeroBugs",
+          "lines": "17",
+          "anchor": "export function setGlobalEvents",
           "role": "owner",
-          "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+          "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
         },
         {
           "path": "packages/game/src/core/inventory-state.ts",
@@ -1817,10 +1817,10 @@
         },
         {
           "path": "packages/game/src/core/dependency-ownership.test.ts",
-          "lines": "26-45",
+          "lines": "26",
           "anchor": "describe('D1 shared-state ownership",
           "role": "oracle",
-          "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9"
+          "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a"
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
@@ -1898,17 +1898,159 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "action": "script-correction-ownership-delta",
+            "scope": "Treasure repair moved from runtime catalog into versioned extraction. setGlobalEvents now publishes the supplied corrected array without mutating operands. Finite catalog ownership test updated; historical D1 SCC/token/browser results are not rerun or promoted.",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/script-catalog.ts",
+                "lines": "33-40",
+                "anchor": "export function patchGiveItemZeroBugs",
+                "role": "owner",
+                "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+              },
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26-45",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9"
+              }
+            ],
+            "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
           }
         ]
       },
       "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "game-script-corrections",
+      "kind": "report",
+      "title": "两阶段脚本纠错与持久入口回归",
+      "status": "active",
+      "phase": ["phase1", "phase2"],
+      "engines": ["pal-extract", "game", "reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex", "script_extract_impl", "script_runtime_impl", "script_author_impl"],
+      "domain": "cross-phase",
+      "module": "script-corrections",
+      "canonical": "domains/cross-phase/script-corrections/report.md",
+      "index": "domains/cross-phase/script-corrections/README.md",
+      "evidence": "domains/cross-phase/script-corrections/evidence.json",
+      "tags": ["script-corrections", "source-integrity", "save", "regression"],
+      "lastVerified": "2026-10-22",
+      "reviewBy": "2026-11-22",
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "packages/pal-extract/src/events/script-corrections.ts",
+          "lines": "148",
+          "anchor": "export function correctScripts",
+          "role": "correction-source",
+          "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c"
+        },
+        {
+          "path": "packages/pal-extract/src/events/win-script-corrections.json",
+          "lines": "2",
+          "anchor": "\"version\": \"pal-win-1\"",
+          "role": "reviewed-rule-data",
+          "sha256": "c345c2a9b823446105369001d6a672d1368a55784c8dcaa6ec5fed87310c7e02"
+        },
+        {
+          "path": "packages/pal-extract/src/cli.ts",
+          "lines": "230",
+          "anchor": "const corrected = faithful",
+          "role": "caller",
+          "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7"
+        },
+        {
+          "path": "packages/game/src/core/object-script-state.ts",
+          "lines": "63",
+          "anchor": "export function setMagicScriptEntry",
+          "role": "saved-entry-owner",
+          "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+        },
+        {
+          "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+          "lines": "33",
+          "anchor": "function play",
+          "role": "oracle",
+          "sha256": "912ae80ee2c9d7f162999488b21b7ea48d350231590e5d660ff147dd2abda192"
+        },
+        {
+          "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+          "lines": "59",
+          "anchor": "function portal",
+          "role": "oracle",
+          "sha256": "a95ff231f2a7c434c31d1c989f025e52f2dc1152967ce8f9704c371b6890110b"
+        },
+        {
+          "path": "packages/reforge/src/pal-story-corrections.test.ts",
+          "lines": "11",
+          "anchor": "test('鬼阴坛告别",
+          "role": "oracle",
+          "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9"
+        },
+        {
+          "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+          "lines": "54",
+          "anchor": "test.each",
+          "role": "oracle",
+          "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5"
+        }
+      ],
+      "publicCallers": [
+        "pnpm extract",
+        "pnpm --filter @type-pal/game exec vitest run src/core/script-corrections.pal.test.ts src/core/script-story-corrections.pal.test.ts src/core/script-topology-corrections.pal.test.ts --reporter=default",
+        "pnpm --filter @type-pal/reforge exec vitest run src/pal-story-corrections.test.ts src/pal-court-corrections.test.ts src/pal-trial-portals-corrections.test.ts src/pal-palace-corrections.test.ts src/battle/pal-cure-status-corrections.test.ts --reporter=default"
+      ],
+      "legalInputs": [
+        "Supported Win SSS.MKF SHA and original M.MSG; default corrected generation after faithful round-trip",
+        "Current typed GameState, real extracted scripts, isolated legal script boundaries",
+        "Canonical PAL author content22 and SAVE12; stable actor/entity identities"
+      ],
+      "businessOracle": {
+        "type": "paired-script-gameplay-and-source-integrity",
+        "assertions": [
+          "Declining a purchase preserves cash; successful purchase pays exactly twenty; insufficient cash gives nothing",
+          "Cures remove silence while retaining buffs; replacing/removing the blade keeps correct slot bonuses",
+          "Story completion, conditional actor presence, early handover cleanup and portal return routes hold independently in each phase",
+          "Wine God progress belongs to saved OBJECT state, removes Li Xiaoyao magic on use nine, rejects a tenth through normal action validation, resets on new game",
+          "Bad source/prevalue rejects; raw bytes unchanged; generation is repeatable and final byte changes update asset manifest"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "packages/game/src/core/event-system.test.ts",
+          "packages/game/src/core/scene-system.test.ts",
+          "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+          "packages/reforge/src/pal-unified-steps-content.test.ts"
+        ],
+        "notes": "Retired two runtime treasure patch tests with their removed helper; extraction rules and real caller tests replace that contract. Existing generic mechanisms retained. Headless runner/effect seams and map connectivity do not grant complete route or visual E2E credit."
+      },
+      "revision": {
+        "currentSha": null,
+        "shaStatus": "missing-in-report",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "history": [
+          {
+            "date": "2026-10-22",
+            "action": "two-phase-corrections-implementation-and-regression",
+            "scope": "Working candidate, before final integration commit. Original red logs, corrected green tests and generation receipts retained. Full browser/story E2E not executed."
+          }
+        ]
+      }
     }
   ],
   "_governance": {
     "templateId": "test-catalog-v1",
     "templateVersion": "1.2.0",
     "status": "current",
-    "lastReviewed": "2026-10-15",
+    "lastReviewed": "2026-10-22",
     "owner": "Codex",
     "provenance": [
       "full JSON read: all 18 entries and every field",
@@ -1927,7 +2069,7 @@
       "packages/editor/src/ui/MapMode.tsx:403-420",
       "packages/game/src/core/dependency-ownership.test.ts:1-45"
     ],
-    "scope": "18 published testing records only. Not a census of all docs/testing files, all 1838 baseline documents, migration completion, or current runtime readiness.",
+    "scope": "Original eighteen published records plus one 2026-10-22 script-corrections report. This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
     "publicationRules": [
       "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
       "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
@@ -2008,6 +2150,10 @@
       {
         "id": "phase1-dependency-ownership",
         "conclusion": "完整D1报告和GameState/game owner源码表明phase1/game；原phase2/reforge纠正留历史。SCC/161函数/8旧测试和最小浏览器不成为当前游戏E2E或SAVE12合同。"
+      },
+      {
+        "id": "game-script-corrections",
+        "conclusion": "新增两阶段脚本/资源/入口持久化回归记录；支持本地原盘生成和canonical作者内容，精确区分业务红绿、存档与headless边界，未授完整E2E/视觉/发布信用。"
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",
@@ -2065,6 +2211,12 @@
         "originalFailure": "validateCatalog(today=2026-10-16) rejected e2e-006 reviewBy10-15; original failure retained, not waived",
         "rationale": "Actual full paired publication/evidence/status review rather than formatting; next publication review in7days, no new execution claim",
         "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "date": "2026-10-22",
+        "action": "add-script-correction-regression-publication",
+        "scope": "One new paired report plus D1 catalog-owner source delta; preserve all other entries and execution dates.",
+        "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
       }
     ],
     "supersedes": [],

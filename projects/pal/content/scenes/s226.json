@@ -250,9 +250,9 @@
                   "id": "initial",
                   "body": [
                     {
-                      "entryId": "pal-entry-773bf2cb",
+                      "entryId": "trial-center-east",
                       "kind": "loadScene",
-                      "scene": "s225",
+                      "scene": "s226",
                       "transition": {
                         "kind": "source",
                         "outMs": 600,
@@ -1290,9 +1290,9 @@
                   "id": "initial",
                   "body": [
                     {
-                      "entryId": "pal-entry-dd917d57",
+                      "entryId": "pal-entry-acf5e0b4",
                       "kind": "loadScene",
-                      "scene": "s225",
+                      "scene": "s226",
                       "transition": {
                         "kind": "source",
                         "outMs": 600,
@@ -3168,6 +3168,22 @@
       "pos": {
         "col": 62,
         "row": -24,
+        "height": 0
+      }
+    },
+    "trial-center-east": {
+      "label": "中央独立区东侧落点",
+      "pos": {
+        "col": 128,
+        "row": 59,
+        "height": 0
+      }
+    },
+    "trial-center-west": {
+      "label": "中央独立区西侧落点",
+      "pos": {
+        "col": 119,
+        "row": 57,
         "height": 0
       }
     }

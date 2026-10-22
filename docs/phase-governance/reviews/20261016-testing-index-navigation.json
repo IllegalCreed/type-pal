@@ -513,8 +513,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "按e2e/editor/ops/phase1-runtime/runtime查已登记报告，不从路径重分类。 18个稳定ID，5组，分别9/2/1/1/5行；不增加来源/运行次数。 current仅指投影可用；每行原status及Owner由catalog保留，current11/proposal1/rework1/verified5是catalog出版轴。",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "coreConclusion": "Generated catalog projection: add cross-phase1 to make6 domains and19 unique IDs; all prior rows/statuses unchanged.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -717,10 +717,10 @@
       "reviewedSourceSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+      "afterSha256": "7ab13356f50a489ad0f05bb9dd8f6545bbfdf9fbf6689d2763fbe5c22b18fe66",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+        "implementationSha": "7ab13356f50a489ad0f05bb9dd8f6545bbfdf9fbf6689d2763fbe5c22b18fe66",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -737,6 +737,18 @@
             "base": "9318cead1100c01031f1c917c88c1119962076af",
             "afterSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+            "scope": "Generated catalog projection: add cross-phase1 to make6 domains and19 unique IDs; all prior rows/statuses unchanged.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -1096,6 +1108,15 @@
           "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "7ab13356f50a489ad0f05bb9dd8f6545bbfdf9fbf6689d2763fbe5c22b18fe66",
+          "lineCount": 86,
+          "scope": "Generated catalog projection: add cross-phase1 to make6 domains and19 unique IDs; all prior rows/statuses unchanged.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -1146,11 +1167,25 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+          "previousCoreConclusion": "按e2e/editor/ops/phase1-runtime/runtime查已登记报告，不从路径重分类。 18个稳定ID，5组，分别9/2/1/1/5行；不增加来源/运行次数。 current仅指投影可用；每行原status及Owner由catalog保留，current11/proposal1/rework1/verified5是catalog出版轴。",
+          "scope": "Generated catalog projection: add cross-phase1 to make6 domains and19 unique IDs; all prior rows/statuses unchanged.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence fields retain original migration review; currentMaintenance is the scoped 2026-10-22 delta."
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
       "userVisibleBeforeAfter": {
         "before": "Original 46 lines -> 79 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
@@ -1194,7 +1229,15 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Generated catalog projection: add cross-phase1 to make6 domains and19 unique IDs; all prior rows/statuses unchanged.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/indexes/by-engine.md",
@@ -1206,8 +1249,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "按content/editor/game/reforge查相关文档及证据边界，不宣称全部引擎实际执行。 18个唯一ID，4组共31个成员关系：content1/editor4/game11/reforge15。 current为导航状态；多引擎成员重复不等于新测试，不把source audit升runtime执行。",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "coreConclusion": "Generated catalog projection: add pal-extract1 and game/reforge membership for the same new ID;5 engines,34 memberships,19 IDs. Memberships do not count executions.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -1412,10 +1455,10 @@
       "reviewedSourceSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+      "afterSha256": "ef8bd331d462db11d8fcf60ff8814877b90059a25d8e61de73ae71194b7cd86f",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+        "implementationSha": "ef8bd331d462db11d8fcf60ff8814877b90059a25d8e61de73ae71194b7cd86f",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -1432,6 +1475,18 @@
             "base": "9318cead1100c01031f1c917c88c1119962076af",
             "afterSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+            "scope": "Generated catalog projection: add pal-extract1 and game/reforge membership for the same new ID;5 engines,34 memberships,19 IDs. Memberships do not count executions.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -1849,6 +1904,15 @@
           "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "ef8bd331d462db11d8fcf60ff8814877b90059a25d8e61de73ae71194b7cd86f",
+          "lineCount": 95,
+          "scope": "Generated catalog projection: add pal-extract1 and game/reforge membership for the same new ID;5 engines,34 memberships,19 IDs. Memberships do not count executions.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -1903,11 +1967,25 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+          "previousCoreConclusion": "按content/editor/game/reforge查相关文档及证据边界，不宣称全部引擎实际执行。 18个唯一ID，4组共31个成员关系：content1/editor4/game11/reforge15。 current为导航状态；多引擎成员重复不等于新测试，不把source audit升runtime执行。",
+          "scope": "Generated catalog projection: add pal-extract1 and game/reforge membership for the same new ID;5 engines,34 memberships,19 IDs. Memberships do not count executions.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence fields retain original migration review; currentMaintenance is the scoped 2026-10-22 delta."
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
       "userVisibleBeforeAfter": {
         "before": "Original 54 lines -> 86 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3; Earlier58d2456c correction moved editor-command-form-families/editor-map-workspace-sessions reforge→editor and phase1-dependency-ownership reforge→game; 18IDs/31 memberships unchanged. This predates L; actual Git stat/diff/capture SHA directly read. Baseline/capture remain historical, no L product/runtime change or fake after drift.",
@@ -1951,7 +2029,15 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Generated catalog projection: add pal-extract1 and game/reforge membership for the same new ID;5 engines,34 memberships,19 IDs. Memberships do not count executions.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/indexes/by-module.md",
@@ -1963,8 +2049,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "按模块/功能进入对应canonical，区分同名模块在不同工程域的权威范围。 18个ID、17组；runtime/battle两篇，其他16组各一篇；组合键来自字段而非目录猜测。 current仅表示此组合投影可用，battle两篇不是重复执行或自动合并真源。",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "coreConclusion": "Generated catalog projection: add cross-phase/script-corrections1,18 groups and19 IDs; original stable identities and module scopes retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -2167,10 +2253,10 @@
       "reviewedSourceSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+      "afterSha256": "1742df3466766e365ca366b5a0f98d12325f984a5a628eb64e09c7470cf4d17c",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+        "implementationSha": "1742df3466766e365ca366b5a0f98d12325f984a5a628eb64e09c7470cf4d17c",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -2187,6 +2273,18 @@
             "base": "9318cead1100c01031f1c917c88c1119962076af",
             "afterSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+            "scope": "Generated catalog projection: add cross-phase/script-corrections1,18 groups and19 IDs; original stable identities and module scopes retained.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -2870,6 +2968,15 @@
           "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "1742df3466766e365ca366b5a0f98d12325f984a5a628eb64e09c7470cf4d17c",
+          "lineCount": 158,
+          "scope": "Generated catalog projection: add cross-phase/script-corrections1,18 groups and19 IDs; original stable identities and module scopes retained.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -2920,11 +3027,25 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+          "previousCoreConclusion": "按模块/功能进入对应canonical，区分同名模块在不同工程域的权威范围。 18个ID、17组；runtime/battle两篇，其他16组各一篇；组合键来自字段而非目录猜测。 current仅表示此组合投影可用，battle两篇不是重复执行或自动合并真源。",
+          "scope": "Generated catalog projection: add cross-phase/script-corrections1,18 groups and19 IDs; original stable identities and module scopes retained.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence fields retain original migration review; currentMaintenance is the scoped 2026-10-22 delta."
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
       "userVisibleBeforeAfter": {
         "before": "Original 106 lines -> 151 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
@@ -2968,7 +3089,15 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Generated catalog projection: add cross-phase/script-corrections1,18 groups and19 IDs; original stable identities and module scopes retained.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/indexes/by-owner.md",
@@ -2980,8 +3109,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "查每份登记文档的出版Owner；不把列表当独立审查签名或索引作者凭据。 1个Codex组/18个唯一ID；未覆盖catalog之外贡献者，也不替换历史原作者。 导航current；原所有行Owner=Codex是catalog事实，源索引本身无Owner元数据。",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "coreConclusion": "Generated catalog projection: add one Codex publication owner row,19 IDs. This is not an independent review signature or product acceptance.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -3184,10 +3313,10 @@
       "reviewedSourceSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+      "afterSha256": "05db59bc22b74da32581aabed6cedfd2c8c2301ba42633055ab1fe737368601c",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+        "implementationSha": "05db59bc22b74da32581aabed6cedfd2c8c2301ba42633055ab1fe737368601c",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -3204,6 +3333,18 @@
             "base": "9318cead1100c01031f1c917c88c1119962076af",
             "afterSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+            "scope": "Generated catalog projection: add one Codex publication owner row,19 IDs. This is not an independent review signature or product acceptance.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -3438,6 +3579,15 @@
           "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "05db59bc22b74da32581aabed6cedfd2c8c2301ba42633055ab1fe737368601c",
+          "lineCount": 54,
+          "scope": "Generated catalog projection: add one Codex publication owner row,19 IDs. This is not an independent review signature or product acceptance.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -3488,11 +3638,25 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+          "previousCoreConclusion": "查每份登记文档的出版Owner；不把列表当独立审查签名或索引作者凭据。 1个Codex组/18个唯一ID；未覆盖catalog之外贡献者，也不替换历史原作者。 导航current；原所有行Owner=Codex是catalog事实，源索引本身无Owner元数据。",
+          "scope": "Generated catalog projection: add one Codex publication owner row,19 IDs. This is not an independent review signature or product acceptance.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence fields retain original migration review; currentMaintenance is the scoped 2026-10-22 delta."
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
       "userVisibleBeforeAfter": {
         "before": "Original 24 lines -> 53 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
@@ -3536,7 +3700,15 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Generated catalog projection: add one Codex publication owner row,19 IDs. This is not an independent review signature or product acceptance.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/indexes/by-phase.md",
@@ -3548,8 +3720,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "按ops/phase1/phase2适用阶段导航，不以同页出现调换第一/二阶段机制真值。 18唯一ID、29成员关系：ops1/phase1 11/phase2 17；跨阶段重复保留。 current指导航；原phase数组不因模板化被扩大或减少，不把phase1验证继承给phase2。",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "coreConclusion": "Generated catalog projection: same new report belongs to both phases;31 memberships/19 IDs, ops1/phase1 12/phase2 18. One phase never grants the other execution credit.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -3754,10 +3926,10 @@
       "reviewedSourceSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+      "afterSha256": "d564af398fa6b76665ffaf50bf02cb406ae2daedd9d8c1f80bf9cbdd54d47957",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+        "implementationSha": "d564af398fa6b76665ffaf50bf02cb406ae2daedd9d8c1f80bf9cbdd54d47957",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -3774,6 +3946,18 @@
             "base": "9318cead1100c01031f1c917c88c1119962076af",
             "afterSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+            "scope": "Generated catalog projection: same new report belongs to both phases;31 memberships/19 IDs, ops1/phase1 12/phase2 18. One phase never grants the other execution credit.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -4151,6 +4335,15 @@
           "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "d564af398fa6b76665ffaf50bf02cb406ae2daedd9d8c1f80bf9cbdd54d47957",
+          "lineCount": 80,
+          "scope": "Generated catalog projection: same new report belongs to both phases;31 memberships/19 IDs, ops1/phase1 12/phase2 18. One phase never grants the other execution credit.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -4205,11 +4398,25 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+          "previousCoreConclusion": "按ops/phase1/phase2适用阶段导航，不以同页出现调换第一/二阶段机制真值。 18唯一ID、29成员关系：ops1/phase1 11/phase2 17；跨阶段重复保留。 current指导航；原phase数组不因模板化被扩大或减少，不把phase1验证继承给phase2。",
+          "scope": "Generated catalog projection: same new report belongs to both phases;31 memberships/19 IDs, ops1/phase1 12/phase2 18. One phase never grants the other execution credit.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence fields retain original migration review; currentMaintenance is the scoped 2026-10-22 delta."
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
       "userVisibleBeforeAfter": {
         "before": "Original 47 lines -> 78 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3; Earlier58d2456c correction moved phase1-dependency-ownership phase2→phase1; 18IDs/29 memberships unchanged. This predates L; actual Git stat/diff/capture SHA directly read. Baseline/capture remain historical, no L product/runtime change or fake after drift.",
@@ -4253,7 +4460,15 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Generated catalog projection: same new report belongs to both phases;31 memberships/19 IDs, ops1/phase1 12/phase2 18. One phase never grants the other execution credit.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/indexes/by-stage.md",
@@ -4751,8 +4966,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "按已登记原status找文档，明确这是行状态轴，与本页导航有效性和本轮深审进度分开。 4组/18ID：current11、proposal1、rework1、verified5。 页级current不统一改行状态；source publication current不认证runtime执行，历史verified不续期到今天。",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "coreConclusion": "Generated catalog projection: add active1, total19 IDs/5 lifecycle groups; prior current11/proposal1/rework1/verified5 retained. No historical E2E promotion.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -4955,10 +5170,10 @@
       "reviewedSourceSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+      "afterSha256": "c2354fc190aaaacd148c8c4124724df6eb992f9f181aebf6c46ffe0c2013d6bd",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+        "implementationSha": "c2354fc190aaaacd148c8c4124724df6eb992f9f181aebf6c46ffe0c2013d6bd",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -4975,6 +5190,18 @@
             "base": "9318cead1100c01031f1c917c88c1119962076af",
             "afterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+            "scope": "Generated catalog projection: add active1, total19 IDs/5 lifecycle groups; prior current11/proposal1/rework1/verified5 retained. No historical E2E promotion.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -5301,6 +5528,15 @@
           "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "c2354fc190aaaacd148c8c4124724df6eb992f9f181aebf6c46ffe0c2013d6bd",
+          "lineCount": 80,
+          "scope": "Generated catalog projection: add active1, total19 IDs/5 lifecycle groups; prior current11/proposal1/rework1/verified5 retained. No historical E2E promotion.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -5351,11 +5587,25 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+          "previousCoreConclusion": "按已登记原status找文档，明确这是行状态轴，与本页导航有效性和本轮深审进度分开。 4组/18ID：current11、proposal1、rework1、verified5。 页级current不统一改行状态；source publication current不认证runtime执行，历史verified不续期到今天。",
+          "scope": "Generated catalog projection: add active1, total19 IDs/5 lifecycle groups; prior current11/proposal1/rework1/verified5 retained. No historical E2E promotion.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence fields retain original migration review; currentMaintenance is the scoped 2026-10-22 delta."
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
       "userVisibleBeforeAfter": {
         "before": "Original 41 lines -> 73 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
@@ -5399,7 +5649,15 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Generated catalog projection: add active1, total19 IDs/5 lifecycle groups; prior current11/proposal1/rework1/verified5 retained. No historical E2E promotion.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/indexes/by-tag.md",
@@ -5411,8 +5669,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "用主题标签发现同一文档的不同检索面，不把标签当独立测试清单。 30个原标签组、66成员关系、18唯一ID；每条仍回同一canonical。 导航current；document-audit、visual等标签不构成已审/已看图/已实跑证明。",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "coreConclusion": "Generated catalog projection: four new tags for the same report;34 tag groups/70 memberships/19 IDs. Tags do not certify tests, source integrity, save behavior or E2E by themselves.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -5615,10 +5873,10 @@
       "reviewedSourceSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+      "afterSha256": "7b78e87a8f94aa6f80cce5087259031ae5a13136bda5e3b8af75e616d0fb89c1",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+        "implementationSha": "7b78e87a8f94aa6f80cce5087259031ae5a13136bda5e3b8af75e616d0fb89c1",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -5635,6 +5893,18 @@
             "base": "9318cead1100c01031f1c917c88c1119962076af",
             "afterSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+            "scope": "Generated catalog projection: four new tags for the same report;34 tag groups/70 memberships/19 IDs. Tags do not certify tests, source integrity, save behavior or E2E by themselves.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -6585,6 +6855,15 @@
           "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "7b78e87a8f94aa6f80cce5087259031ae5a13136bda5e3b8af75e616d0fb89c1",
+          "lineCount": 204,
+          "scope": "Generated catalog projection: four new tags for the same report;34 tag groups/70 memberships/19 IDs. Tags do not certify tests, source integrity, save behavior or E2E by themselves.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -6635,11 +6914,25 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+          "previousCoreConclusion": "用主题标签发现同一文档的不同检索面，不把标签当独立测试清单。 30个原标签组、66成员关系、18唯一ID；每条仍回同一canonical。 导航current；document-audit、visual等标签不构成已审/已看图/已实跑证明。",
+          "scope": "Generated catalog projection: four new tags for the same report;34 tag groups/70 memberships/19 IDs. Tags do not certify tests, source integrity, save behavior or E2E by themselves.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence fields retain original migration review; currentMaintenance is the scoped 2026-10-22 delta."
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
       "userVisibleBeforeAfter": {
         "before": "Original 159 lines -> 188 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
@@ -6683,7 +6976,15 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Generated catalog projection: four new tags for the same report;34 tag groups/70 memberships/19 IDs. Tags do not certify tests, source integrity, save behavior or E2E by themselves.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/indexes/legacy-by-domain.md",

@@ -7,12 +7,12 @@
 
 import type { Command, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
+import type { RunScriptFn } from '../battle-runtime-context.js'
 import type { BattleState } from '../battle-state.js'
 
-/** battle-system提供本场runner；保留真实解释器或显式注入的同一调用合同。 */
-export type RunScriptFn = (opts: RunScriptOptions) => unknown
+export type { RunScriptFn } from '../battle-runtime-context.js'
 
 export interface PerformItemInput {
   state: BattleState
@@ -70,7 +70,8 @@ export function performItem(input: PerformItemInput): void {
 
   // —— 跑 scriptOnUse(经 runScript,battleCtx 注入 caster / target) ——
   // PAL_RunTriggerScript(0, ...) 是 no-op;战斗 UseItem 仍会继续走 consuming 扣除。
-  if (item.scriptOnUse !== 0) {
+  const scriptEntry = getItemScriptEntry(input.gs, item, 'scriptOnUse')
+  if (scriptEntry !== 0) {
     const targetCtx =
       input.targetIdx === 'all'
         ? undefined // 全体目标:由 handler 自行循环 state.enemies / players
@@ -83,9 +84,9 @@ export function performItem(input: PerformItemInput): void {
     if (input.targetIdx === 'all') eventObjectId = 0xffff
     else if (!input.targetIsEnemy) eventObjectId = input.state.players[input.targetIdx]?.roleId
 
-    input.runScript({
+    const nextEntry = input.runScript({
       commands: input.commands,
-      ip: item.scriptOnUse,
+      ip: scriptEntry,
       bus: input.bus,
       runtimeMode: 'battle',
       eventObjectId,
@@ -102,6 +103,7 @@ export function performItem(input: PerformItemInput): void {
         gs: input.gs,
       },
     })
+    setItemScriptEntry(input.gs, item, 'scriptOnUse', nextEntry)
   }
 
   if (inventoryEntry && item.flags.consuming) inventoryEntry.count--
