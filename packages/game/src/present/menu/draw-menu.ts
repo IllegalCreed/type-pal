@@ -397,7 +397,9 @@ function drawSaveSlotMenu(
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(
       fb,
-      getLanguage() === 'en' && item.id >= 1 && item.id <= 5 ? getWord(42 + item.id, item.label) : item.label,
+      getLanguage() === 'en' && item.id >= 1 && item.id <= 5
+        ? getWord(42 + item.id, item.label)
+        : item.label,
       SAVE_SLOT_BOX_X + SAVE_SLOT_LABEL_OFFSET.x,
       boxY + SAVE_SLOT_LABEL_OFFSET.y,
       color,
