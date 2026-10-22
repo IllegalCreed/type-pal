@@ -66,7 +66,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
 | QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 同一3y，3w接受后推进3h | 62accept/21partial；c427已合main且Coverage成功，3h资产测试质量补强中；重门留相关模块收尾，不扩94–102 |
-| GAME-UI-ASSET-FRAME-IDENTITY-1 | [UI缺帧编号漂移](tasks/GAME-UI-ASSET-FRAME-IDENTITY-1.md) | build | Codex / 用户已批保留编号，先正式红例 | 真实loadAll→drawNumber：帧19缺失后数字1用帧21；先红后窄修，产品修复分提交 |
+| GAME-UI-ASSET-FRAME-IDENTITY-1 | [UI缺帧编号漂移](tasks/GAME-UI-ASSET-FRAME-IDENTITY-1.md) | review | Codex / 已先红后修，等模块集中门 | 正式1绿2业务红后，资产相邻216绿/TC0；保留缺边框报错/缺数字跳过，未宣称浏览器验收 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |

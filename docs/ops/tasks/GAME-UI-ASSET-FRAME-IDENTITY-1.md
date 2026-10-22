@@ -1,20 +1,20 @@
 # GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移
 
-Status: build
+Status: review
 Phase: phase1
 Capability: assets / UI frame identity
 Coding Owner: Codex（用户2026-10-22批准，三文件窄build allowed）
 Generation Owner: N/A
 Reviewer: Codex（自身核证，不冒充第三方）
 Visual Verification Owner: Codex
-Visual Verification Timing: 真实 loadAll→drawNumber 像素反证；浏览器未跑
+Visual Verification Timing: 真实 loadAll→drawNumber/drawBox 像素与错误合同；浏览器未跑
 Contributor: Codex
 Branch: codex/code-quality-3y
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-单个 UI PNG 返回 404 后，loadAll 跳过失败帧并压紧数组。真实呈现按原 SPRITEUI 编号取帧，因此会把后面的图片画成当前数字或边框。确定是否保留原编号及缺帧位置；当前仅登记，不改变加载、呈现或资源格式。
+单个 UI PNG 返回404后，旧loadAll压紧数组而呈现按原SPRITEUI编号取帧，导致后面的图片画成当前数字或边框。现按用户批准保留原编号和缺帧位置；呈现缺帧处理、资源格式与其它资源策略保持。
 
 ## 范围
 
@@ -46,7 +46,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 当前模式推进记录
 
-2026-10-22 Codex 单Owner，同一3y，c4278084b基点。仅临时反证源与原件，临时测试已移除；没有修改 loader 装配逻辑。3h与loader继续partial/review，其它独立测试质量整改继续。
+2026-10-22 Codex单Owner，同一3y，测试质量提交da00c610a已推送；本卡先正式旧1绿/2业务AssertionError，再只修UI装配。三正式像素/错误合同、C10/C11迁移和资产相邻216绿，game TC0；[当前逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json)。六真实GOP快照均实际passed、输入只读SHA已核，解除旧六skip观察缺口，不由此认证shared全部格式。全仓/official/protected集中本模块窗口，完成前3h仍partial。
 
 ## 用户验收
 
@@ -58,4 +58,4 @@ Template: task-card-v1 / 1.0.0
 
 ## 下一位 Agent 提示词
 
-默认Codex单Agent继续。先核用户裁决；不得将本draft当build授权，不重跑已有全部审查或覆盖率。
+默认Codex单Agent继续。用户已批保留原编号，无需再次请求；先完成本冻结模块集中门，未过门不合main。不重做已有效八维/反控，不扩94–102。

@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前：3c专属动画回归及92工程纠错按原合同接受，固定83卡61accept/22partial/0pending；账本漂移修正后3355/373closed/113review/2869pending。Workbench整文件维持review，3w非队员Extra/时序仍未知；解释器两头注纯文案已提交，当前文档静态/推送/主线/CI按本窗实际回执，94–102不扩展。
+> 当前：固定83卡62accept/21partial/0pending；3w原合同已接受并合main c427，其Coverage39742213502成功。当前3h资产测试质量已分提交推3y，获批UI缺帧编号修复已先红后绿，模块集中门待跑；不把定向绿当3h整卡接受，94–102不扩展。以下旧时点结论按各自版本保留。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1417,3 +1417,9 @@ Codex单Owner，同一3y，基点c4278084be4b04ebbb77fb0633b5a94c1c0eafe2与最�
 本片build allowed：loader.test.ts与load-all-recover.grok-r1.test.ts测试质量、loader.ts缓存caller路径与rle-decode.ts前缀记法的仅注释更正。旧404弱摘要转G01-B07、字段透传弱子集转G01-D01；五个独立cache合同保留，换合法typed输入并观察返回对象和淘汰，而非只数mock。恢复路径核完整warning消息、错误参数和次数，意外告警须失败。精确退役仅数据新增，predicate/规则/旧授权不动；实际身份从原生结果取得。
 
 复用3h已有PNG/启动屏障/fetch-retry八维与反控，只补失效或欠缺范围。UI单帧失败压紧数组与真实按编号呈现的关系待核，不将当前恢复用例升为可渲染结论；新产品/资产策略须另卡裁决。先定向、相邻模块与必要TC，累积相关切片后集中全仓/official/protected，本片不重采覆盖率。整3h保持partial、源与测试不据包绿关闭。
+
+## 2026-10-22 CODE3h UI original-index fix
+
+User approval recorded on GAME-UI-ASSET-FRAME-IDENTITY-1. Codex sole Owner: official old source 1 pass / 2 business AssertionErrors, then real loadAll/PNG/drawNumber/drawBox contracts pass; 4 directed files28 and complete assets-adjacent27 files216 (zero skipped/stderr), game typecheck0. C10 incorrect packing assertion replaced; original item-key/pixels move to independent C11. All first nine recovery contracts remain. Cache7->4: the third generic-hit subset is covered by G01-D01 plus retained unbounded exact requests, with exact retirement identity map.
+
+Current evidence: [UI finite eight-dimension receipt](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json). Six formerly missing GOP input cases now actually ran with eight read-only resource fingerprints. No extraction or shared-format change. Current3357/377closed/113review/2867pending, fixed83 remains62accept/21partial. Whole check/official/protected are pending one concentrated module freeze, not inherited from c427. Product fix is separate from pushed quality commit da00c610a; no94-102 expansion.

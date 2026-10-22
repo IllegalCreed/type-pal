@@ -316,19 +316,19 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const uiSpriteFrames: IndexedImage[] = []
   try {
     const meta = await fetchJson<UiSpriteManifest>(`${BASE}/data/ui-sprite/spriteui.json`)
-    const frames = await Promise.all(
-      meta.frames.map((f) =>
-        fetchPng(`${BASE}/images/ui/frame-${f.index.toString().padStart(2, '0')}.png`).catch(
-          (err: unknown) => {
-            console.warn(`assets: ui-sprite frame ${f.index} load failed:`, err)
-            return undefined
-          },
-        ),
-      ),
+    await Promise.all(
+      meta.frames.map(async (frame) => {
+        try {
+          const image = await fetchPng(
+            `${BASE}/images/ui/frame-${frame.index.toString().padStart(2, '0')}.png`,
+          )
+          // 呈现按SPRITEUI原编号取帧；缺图不能使后续数字、边框补到错误位置。
+          uiSpriteFrames[frame.index] = image
+        } catch (err) {
+          console.warn(`assets: ui-sprite frame ${frame.index} load failed:`, err)
+        }
+      }),
     )
-    for (const f of frames) {
-      if (f) uiSpriteFrames.push(f)
-    }
   } catch (err) {
     console.warn('assets: ui-sprite/spriteui.json 缺失,menu box 渲染将抛 frame missing:', err)
   }

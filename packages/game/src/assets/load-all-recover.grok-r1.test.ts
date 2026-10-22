@@ -144,26 +144,30 @@ describe('G01-C loadAll 失败恢复', () => {
     )
   })
 
-  it('G01-C10 UI 帧 1 与物品 12 失败时，其余成员按原顺序和原键保留', async () => {
+  it('G01-C10 UI 帧 1 失败时，缺失位置留空，其余帧保留原编号', async () => {
     const script = loadAllScript({
-      fail: { uiFrames: [1], itemIcons: [12] },
+      fail: { uiFrames: [1] },
     })
     const { calls } = installLoadAll(script, pngs)
     const assets = await loadAll(7)
     expect(callsEnding(calls, '/images/ui/frame-01.png')).toHaveLength(1)
-    expect(assets.uiSpriteFrames).toHaveLength(2)
+    expect(assets.uiSpriteFrames).toHaveLength(3)
     expect(Array.from(assets.uiSpriteFrames[0]?.indices ?? [])).toEqual([0, 1])
-    expect(Array.from(assets.uiSpriteFrames[1]?.indices ?? [])).toEqual([2, 3])
-    expect(assets.itemIcons.has(12)).toBe(false)
-    expect(Array.from(assets.itemIcons.get(3)?.indices ?? [])).toEqual([3, 4])
-    expect(console.warn).toHaveBeenCalledTimes(2)
-    expect(console.warn).toHaveBeenNthCalledWith(
-      1,
+    expect(assets.uiSpriteFrames[1]).toBeUndefined()
+    expect(Array.from(assets.uiSpriteFrames[2]?.indices ?? [])).toEqual([2, 3])
+    expect(console.warn).toHaveBeenCalledExactlyOnceWith(
       'assets: ui-sprite frame 1 load failed:',
       new Error('assets: fetch /extracted/images/ui/frame-01.png failed (404)'),
     )
-    expect(console.warn).toHaveBeenNthCalledWith(
-      2,
+  })
+
+  it('G01-C11 物品 12 失败时省略该键，物品 3 的像素保留', async () => {
+    const { calls } = installLoadAll(loadAllScript({ fail: { itemIcons: [12] } }), pngs)
+    const assets = await loadAll(7)
+    expect(callsEnding(calls, '/images/items/012.png')).toHaveLength(1)
+    expect(assets.itemIcons.has(12)).toBe(false)
+    expect(Array.from(assets.itemIcons.get(3)?.indices ?? [])).toEqual([3, 4])
+    expect(console.warn).toHaveBeenCalledExactlyOnceWith(
       'assets: item icon 12 load failed, skip:',
       new Error('assets: fetch /extracted/images/items/012.png failed (404)'),
     )
