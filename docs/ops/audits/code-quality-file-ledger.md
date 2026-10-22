@@ -17,6 +17,12 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 blob/公共宿主/对话本窗：九文件按具体A–H接受，其中七个review新关闭、两旧关闭刷新；RLE适配源因零生产出口的归属/专测去重未决撤旧关闭，专测仍review，净增加6closed。当前3374/388closed/111review/2875pending，固定83仍62accept/21partial，不接受整个3h/3i。[逐项裁定及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)。完整check实际20515+690工具，末尾三测试/精确数据以24定向+TC/99工具刷新；不冒称最后集合重新跑全check。单次official20090/760与同报告protected均0回退/0诊断，无阈值降低或第二采集；最终文档/静态与推送以回执/Git为准。
+
+2026-10-22 当前RLE适配层导出复核：decodeRle仅两测试使用、RleFrame无适配层消费者，不能写成活跃生产公共出口。源旧关闭撤review，专测已review继续；接口归属与shared测试排重另行核定，不在覆盖率采集期间修改。当前381closed/118review/2875pending，0预先新关闭；其它九文件按本窗证据/统一门裁定。[事实与范围](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json)。
+
+2026-10-22 blob/宿主/对话三个相关片：11文件逐项A–H、全局隔离与完整告警反控、6重复例断言去向已记录；七原隐式pending测试登记review，0新关闭。当前382closed/117review/2875pending，固定83仍62accept/21partial。生产仅注释、宿主仅类型/死导出私有化，原正文守恒；全check/official/protected留本冻结窗口集中，未提前通过或接受3h整卡。[blob/宿主/对话逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)。
+
 2026-10-22 3h本模块有限收口：五个源/测试review→已验证，逐文件八维、正式红绿、排重/typed输入和完整原件见[收口记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)。同步main6a29后完整check20521+686工具、七包TC、official20095/760源与同报告protected均完成，硬静态/测试诊断0；此前缺flag/缺资源/中断原件不改写通过。3374tracked/382closed/110review/2882pending；固定83仍62accept/21partial，3h/helper/格式未决不随包绿关闭。
 
 2026-10-22 3h资产测试质量切片：两个测试从隐式pending登记review，0新关闭；四LRU合法typed输入/引用结果、十条恢复路径完整预期告警已补。loader/RLE适配仅注释正文守恒，UI帧编号反证获批后另提交修复。[本片A–H与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)。全仓/official/protected留相关模块收尾；固定83仍62accept/21partial，不据定向绿关闭3h。
@@ -70,7 +76,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,374。
-当前已闭合核验：382；已读但待审：110；尚未逐文件核验：2,882；合计未闭合：2,992。
+当前已闭合核验：388；已读但待审：111；尚未逐文件核验：2,875；合计未闭合：2,986。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -253,16 +259,16 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/assets/load-all-recover.grok-r1.test.ts` | test | 已验证 | [3h有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) | 十一恢复合同完整告警/错误参数/次数；C10纠正压紧oracle，C11保留独立物品失败合同；当前UI缺帧不移位 |
 | `packages/game/src/assets/load-all-ui-frame-identity.test.ts` | test | 已验证 | [3h有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) | 三真实PNG/消费像素与缺边框错误合同，正式旧1绿2业务红→绿；typed夹具补核，非浏览器视觉认证 |
 | `packages/game/src/assets/load-all-assemble.grok-r1.test.ts` | test | 已验证 | [3h有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) | 十装配合同八维；真实Enemy/角色36必需字段、强三字段oracle，A06复用精简/A09标题映射，所有断言去向保留 |
-| `packages/game/src/__tests__/grok-render-r1/legal-host.ts` | test | review | [3h宿主有限返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/fixture-refresh.json) | 仅两表类型/默认值补齐，18其它函数守恒；完整helper跨caller与可玩输入不授信用，继续review |
-| `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
+| `packages/game/src/__tests__/grok-render-r1/legal-host.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
+| `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |
-| `packages/game/src/assets/rle-decode.ts` | product | 已验证 | CODE-QUALITY-3h；shared codec re-export、dialog-assets base64 caller、identity tests | 无重复 codec；base64 非法输入继续 fail-loud |
+| `packages/game/src/assets/rle-decode.ts` | product | review | [当前caller/八维核对](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json) | decodeRle仅测试调用、RleFrame无适配层消费者；保留接口冻结，旧关闭撤回，公共归属与测试去重待下一窄片 |
 | `packages/game/src/shell/fetch-retry.ts` | product | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/shell/bootstrap.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: bootstrap-context-design；不升closed |
 | `packages/game/src/shell/bootstrap-resources.ts` | product | 已验证 | CODE-QUALITY-3h；bootstrap.ts 真实 soundfont/resourcesReady caller、并发屏障和 rejection/degradation tests | soundfont 原始 rejection 与 settle barrier 分离；glyph 仅显式 tofu 降级；未发现直接缺陷 |
 | `packages/game/src/shell/fetch-retry.boundaries.test.ts` | test | review | [CODE71/C1取消生命周期反例](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；不同attempt Error/Response身份、Request/init signal与timer/listener oracle | 旧关闭撤回；当前修复待最新main同步后复跑，过期网关“拒绝”注释已校正 |
 | `packages/game/src/shell/fetch-retry.cancellation.test.ts` | test | review | [C1取消生命周期反控](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；真实Request/AbortController、typed transport、原生构造错误与listener/timer oracle | 新增7例覆盖已取消Request、退避取消、显式signal/null覆盖；最新main同步后待复跑 |
-| `packages/game/src/assets/dialog-assets.ts` | product | 已验证 | CODE-QUALITY-3i；portrait/icon manifest callers、PNG/RLE adapters、dialog-assets/host tests 与 game typecheck | 资产缺失按现行空 map 降级；不伪造 manifest 帧，不改资源格式 |
+| `packages/game/src/assets/dialog-assets.ts` | product | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
 | `packages/game/src/shell/precache-client.ts` | product | 已验证 | CODE-QUALITY-3i；main/bootstrap SW caller、ready/start/pause/resume/unavailable tests | onPlayable 前不启动 precache，ready race 仅缓冲 start；现行 SW 协议保留 |
 | `packages/game/src/shell/precache-ui.ts` | product | review | [CODE72批准窄修](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文及真实main/boot caller，necessary/full旧单红新绿、PROD故障实证 | 失败进度终态已修；原NaN窄修保留；整文件按钮/无DOM/widget全生命周期当前验收仍待，不自动恢复旧关闭 |
 | `packages/game/src/main.ts` | product | review | [CODE72真实入口修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文、实际PROD404/迟到200与正常按钮/进场 | catch释放计数已实证；其它analytics/noSW/正常intro入口合同仍待，未把短路径升格全main关闭 |
@@ -608,6 +614,13 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts` | fixture | review | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体八维缺口维持review；不以统一门全绿或新路径自动关闭 |
 | `packages/pal-extract/src/io/write.ts` | product | 已验证 | [CLI IO逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 原writer正文不变；显式路径/同步错误传播与真实CLI证据，非目录事务或路径confinement |
 | `packages/pal-extract/src/resources/music.ts` | product | 已验证 | [CLI IO逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 旧音乐块alpha守恒；opaque MIDI/OGG全字节及RIX原始字节，未认证音视频codec |
+| `packages/game/src/assets/tileset-blob.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
+| `packages/game/src/assets/tileset-gzip.grok-r1.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
+| `packages/game/src/assets/tileset-load.grok-r1.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
+| `packages/game/src/assets/rle-decode.test.ts` | test | review | [blob/宿主/对话逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | A–H/独立oracle与清理、精确身份及排重已记录；集中统一门前不关闭 |
+| `packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
+| `packages/game/src/assets/dialog-icons.grok-r1.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
+| `packages/game/src/assets/dialog-resources.grok-mid-1.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

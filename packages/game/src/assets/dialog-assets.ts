@@ -15,7 +15,7 @@
 import { decodePngToIndices } from './png.js'
 import { base64ToBytes, parseSpriteChunk } from './rle-decode.js'
 
-/** SpriteImage 与 draw-sprite.ts 的 SpriteImage 同结构,共享渲染。 */
+/** 索引像素与遮罩视图；呈现 caller 另行提供位置，不包含 SpriteImage 的锚点。 */
 export interface DialogSprite {
   width: number
   height: number
@@ -96,7 +96,8 @@ export interface DialogAssets {
 
 /**
  * 一次性加载所有 DialogBox 资产 — bootstrap.ts 在启动时调用。
- * 失败时返回空 map(降级为占位,游戏可玩性不受影响)。
+ * 两路独立加载；某一路失败时记录告警并返回该路空 map，保留另一路结果。
+ * 呈现 caller 遇到缺失头像/图标时跳过相应 blit，不据此保证整个游戏可玩。
  */
 export async function loadDialogAssets(): Promise<DialogAssets> {
   try {

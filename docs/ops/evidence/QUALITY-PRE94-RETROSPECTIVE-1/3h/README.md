@@ -1,5 +1,7 @@
 # CODE3h PNG 测试质量复审切片
 
+当前相邻增量：[blob、公共宿主与对话资源质量](blob-quality/README.md)，独立八维、原生身份/退休映射、隔离及诊断反控；统一门状态以该入口为准，未据定向绿接受整卡。
+
 当前增量：[资产装配与测试质量](assets-quality/README.md)，补typed cache/告警oracle和发布CI原件；UI缺帧编号反证另卡获批，3h仍partial。下文计数与限制均保留各自历史时点。
 
 基点46fb9d5fe，main=f98d0ddd8，唯一codex/code-quality-3y。原[3h卡](../../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)的done保留历史身份；本片不替整卡补accept。四份测试10→9，0新增文件关闭；只改测试、注释和两项精确退役数据，生产/规则/官方基线/资源保持。全83卡范围以及94–102/editor返工继续。

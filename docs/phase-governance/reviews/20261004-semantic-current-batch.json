@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
+      "readMethod": "Read current11 per-file A-H, native controls and only owned board/index/ledger delta; preserve unrelated entries",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+      "afterSha256": "c324ced7b462d6e6aebe0047e2a31cee6bd92504a8e8020b0d5a84611d9fafb4",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+        "implementationSha": "c324ced7b462d6e6aebe0047e2a31cee6bd92504a8e8020b0d5a84611d9fafb4",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1667,9 +1667,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3h-assets-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
-        "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+        "kind": "codex-owned-pre94-blob-dialog-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+        "afterSha256": "c324ced7b462d6e6aebe0047e2a31cee6bd92504a8e8020b0d5a84611d9fafb4",
         "lineCount": 90,
         "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
         "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
@@ -2578,12 +2578,48 @@
           "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
           "scope": "Only3h owned document delta and descendant pins; Only five already-reviewed asset files accepted after full gates; CODE3h remains partial, no new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-blob-dialog-local-pre-gates",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+            "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+            "lineCount": 90,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+          "previousAfterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+          "afterSha256": "d20c686a8c3d88371649ff107a95623ce3eec5f1c90384b350bdaec3bed03988",
+          "scope": "Only owned pre94 current document rows and descendant pins; seven formerly implicit pending tests recorded review. Current module integration gates pending; no broad product or visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-blob-dialog-local-source-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-blob-dialog-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+            "afterSha256": "d20c686a8c3d88371649ff107a95623ce3eec5f1c90384b350bdaec3bed03988",
+            "lineCount": 90,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial. Blob/helper/dialog three bounded slices: eleven concrete A-H files, product comment-only body invariance, three dead test exports private, six weaker test subsets transferred and full exact retirement data47/net97 to51/net103. Scoped tests and gameTC passed; old-red/new-green descriptor isolation and old-green/new-red wrong-warning diagnostic controls retained with restoration. Current382closed117review2875pending; fullcheck/official/protected pending concentrated module freeze, no file accepted by scoped green. No rule/lib/timeout weakening;94-102 excluded.",
+          "previousAfterSha256": "d20c686a8c3d88371649ff107a95623ce3eec5f1c90384b350bdaec3bed03988",
+          "afterSha256": "c324ced7b462d6e6aebe0047e2a31cee6bd92504a8e8020b0d5a84611d9fafb4",
+          "scope": "Only owned board/ledger and descendant pins; seven new closes, RLE old source close withdrawn, net+6. Nine finite contracts accepted; CODE3h/3i and two RLE files remain partial/review; no broad or visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only approved UI task, five review ledger rows, current counts, generated index and owned descendant pins",
+      "reviewedLines": "Only current pre94 board/ledger, nine finite acceptance rows and two retained RLE reviews, actual machine counts and owned descendant pins",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",

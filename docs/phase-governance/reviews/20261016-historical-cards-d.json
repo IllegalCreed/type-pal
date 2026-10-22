@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+      "readMethod": "Read current11 per-file A-H, native controls and only owned board/index/ledger delta; preserve unrelated entries",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+      "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+        "implementationSha": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,10 +4146,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-3h-assets-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
-        "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
-        "lineCount": 972,
+        "kind": "codex-owned-pre94-blob-dialog-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+        "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+        "lineCount": 985,
         "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
         "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
         "workingTreeDelta": true
@@ -5106,6 +5106,42 @@
           "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
           "scope": "Only3h owned document delta and descendant pins; Only five already-reviewed asset files accepted after full gates; CODE3h remains partial, no new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-blob-dialog-local-pre-gates",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+            "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+            "lineCount": 972,
+            "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+          "previousAfterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+          "afterSha256": "4d56f8219a08a55309046576f65fb3fe9b2c364b929c7c35c96634c382629a5b",
+          "scope": "Only owned pre94 current document rows and descendant pins; seven formerly implicit pending tests recorded review. Current module integration gates pending; no broad product or visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-blob-dialog-local-source-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-blob-dialog-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+            "afterSha256": "4d56f8219a08a55309046576f65fb3fe9b2c364b929c7c35c96634c382629a5b",
+            "lineCount": 981,
+            "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial. Blob/helper/dialog three bounded slices: eleven concrete A-H files, product comment-only body invariance, three dead test exports private, six weaker test subsets transferred and full exact retirement data47/net97 to51/net103. Scoped tests and gameTC passed; old-red/new-green descriptor isolation and old-green/new-red wrong-warning diagnostic controls retained with restoration. Current382closed117review2875pending; fullcheck/official/protected pending concentrated module freeze, no file accepted by scoped green. No rule/lib/timeout weakening;94-102 excluded.",
+          "previousAfterSha256": "4d56f8219a08a55309046576f65fb3fe9b2c364b929c7c35c96634c382629a5b",
+          "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+          "scope": "Only owned board/ledger and descendant pins; seven new closes, RLE old source close withdrawn, net+6. Nine finite contracts accepted; CODE3h/3i and two RLE files remain partial/review; no broad or visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
         }
       ],
       "supersedes": [
@@ -5122,7 +5158,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only approved UI task, five review ledger rows, current counts, generated index and owned descendant pins",
+      "reviewedLines": "Only current pre94 board/ledger, nine finite acceptance rows and two retained RLE reviews, actual machine counts and owned descendant pins",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

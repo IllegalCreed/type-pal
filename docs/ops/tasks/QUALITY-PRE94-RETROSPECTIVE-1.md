@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前：固定83卡62accept/21partial/0pending；3w原合同已接受并合main c427，其Coverage39742213502成功。当前3h资产测试质量已分提交推3y，获批UI缺帧编号修复已先红后绿，模块集中门待跑；不把定向绿当3h整卡接受，94–102不扩展。以下旧时点结论按各自版本保留。
+> 当前：固定83卡62accept/21partial/0pending。本窗blob/宿主/对话九文件有限接受；七新关闭、一旧RLE关闭撤review，源账本388closed/111review/2875pending。完整check/单次official/同报告protected源门已完成，末轮静态/发布以回执与Git为准；3h/3i整卡未接受，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1435,3 +1435,31 @@ Current evidence: [UI finite eight-dimension receipt](../evidence/QUALITY-PRE94-
 首次模块check20444+685、official20046/758属同步前，原ratchet少显式减例flag退出1保留，原尾段/写入/保护检查复用同报告后0；新main6a29带实际脚本实现/资源类型/baseline，已同线合入、保留双方记录与两精确退役47/net97。旧本地资源缺新manifest导致首集成check拒绝，停止受影响未完成采集后，只对治理树自有输出用当前提取器重生。补齐缺失Musics只读复制；faithful也成功，但新main真实调用测试要求默认修正版，最终按默认生成；原八项资产SHA未变。提取原盘空MAP0一条告警如实单列，不冒称输入准备零诊断。
 
 最新冻结候选9f9b6cd57的完整check20521+686工具、七包TC，official20095/760源原CLI显式减例确认exit0，同报告strict/protected0；全部原件/退出码/诊断完整保留，不改规则/超时/测试选择。全仓硬静态error/warning/info与测试stderr/act/环境/Node诊断0。最终文档/账本静态另记，不再重采覆盖率。后续仅3h blob/RLE适配与测试质量余项，不扩94–102；当前提交/推送/main同步以Git实际结果为准。
+
+## 2026-10-22 CODE3h blob适配与测试质量有限准入
+
+Codex唯一Coding Owner、同一3y、基点acb96a123，四文件build allowed：tileset-blob.ts仅注释，tileset-blob.test.ts、tileset-gzip.grok-r1.test.ts、tileset-load.grok-r1.test.ts的合法输入/oracle/排重/隔离。复用既有A维及六GOP完整原件；补借用所有权、魔数识别前提与真实caller，不把浏览器版本列表当全覆盖。两个弱404转已存在C04/C05精确URL/503合同；opaque借用转主纯转换例；自解码比较改为独立固定字节、过滤坏槽后编号的已存TS合同。测试清理保留异常断言后恢复；流替身实现真实TransformStream收尾并经类型检查，不强转。必要精确退役数据由Codex在收尾按实际身份追加，旧表/判据/规则保持；不为保数留重复用例。
+
+不改变产品实现、错误文案、解码算法、资源/生成物、公共接口或存档。RLE格式真值专卡仍只读取证，不把本片测试整改当算法build。先定向/相邻与game TC，继续积累相关片后集中全仓/official/protected，不为这一小片单开昂贵窗口，不据绿数关闭文件；94–102不扩展。无下一位Agent提示词，Codex单Agent继续。
+
+### CODE3h 测试宿主八维补齐准入
+
+同窗第二有限片：legal-host.ts唯一Owner Codex，全文482行已读，复用两默认表纠错及相同函数体证据；核测试caller清单与fetch生命周期，不重做其已通过的产品审查。仅允许注释收窄、tuple类型标注与已证无外部caller的三个测试导出退役；函数仍由本文件内部使用，不删实现、不改数据值或路由。资源表/failure脚本保持按请求实时取值、每次新Response和body拷贝，避免为减复杂度引入缓存响应或通用上下文。route/默认构造复杂度只作初筛，保留须说明单一职责/状态owner与真实调用证据。两个测试宿主的数据域不强行合并；不将有限fixture等同完整可运行世界。统一门继续与其它相关片集中，尚不升文件或整卡accept。
+
+### CODE3h 对话资源与适配测试有限准入
+
+同窗两相邻片，Codex唯一Owner：第一片rle-decode.test.ts与dialog-assets.ts仅更正标题/注释及已有像素断言，shared RLE算法/错误策略冻结；第二片三个dialog-assets直接测试文件补精确告警合同、排重和失败后释放。已全文核读，旧“无既有测试”“icons正常”与实际caller/输入不符，不能沿用。实际HTTP失败按完整消息/错误/次数核；非法base64核当前jsdom宿主的InvalidCharacterError及实际消息，不冒充浏览器DOMException身份或跨浏览器固定文本。并行清单的测试只验证启动屏障与独立结果，不为微任务数量或耗时建立产品合同。仅退休已列明替代业务断言的重复例，不改产品行为、资源/生成物、schema/save或公共接口；精确身份与数据白名单在本窗收尾登记。全仓/coverage仍与blob/helper集中一次模块窗口，不因本片开重门。
+
+### CODE3h 冻结窗口断言迁移复核
+
+统一check执行期间，Codex撤回D14的退休提案：单张PNG全失败后的空头像表与G4部分成功域不同，保留原身份/业务断言并补完整HTTP404诊断。D05重复name断言由原完整afterEach对象断言承接，0新增用例；最终四退休快照净少5而非6。全check原候选与最终集合差异只这一测试文件/精确数据，影响范围以追加该文件与TC/工具定向刷新；official仍仅在最终冻结集合采一次。不把旧12例回执当最终13例，原件/版本分别保留。
+
+## 2026-10-22 blob/公共宿主/对话有限验收
+
+[当前九文件裁定/两review、A–H、原件与只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)。Codex单Agent，同一3y，基点acb；两生产文件仅注释、宿主只类型和三个死测试导出私有化。旧源/测试身份及5退休断言去向明确；D14零成功PNG边界在迁移复核时保留，未为减例强删。第一候选误用toSorted/宿主DOMException身份的两个失败原件保留；未改lib/规则/超时。全局描述符旧红新绿、错告警上下文旧绿新红及当前严格参数版本恢复均核。
+
+完整check实际七包20515+690工具、七TC、lint5880零诊断；末尾三个对话测试/精确数据以四文件24、gameTC/99工具更新，其余代码/配置不变，不重跑全check。单次official20090/760与同报告strict/protected通过，四精确test-count退休/净少5，覆盖指标0回退；旧47项/退休判据不变，baseline仅官方正常刷新，不另降阈值。两套普通stdout260/253逐组与旧接受原件比，仅full的性能elapsedMs497→544，其它消息/计数相同，所有项目stderr/act/环境/Node诊断0。前窗acb远端Coverage已success，七Action/Node平台提示单列，不能说全平台零。
+
+九文件源接受含七review新闭合，两既有closed刷新；rle-decode.ts因decodeRle只有测试caller、RleFrame无人导入，旧关闭撤review，rle-decode.test.ts的共享合同排重/真实出口理由未闭合继续review。净增6closed，3374/388/111/2875，固定83不升格。下一范围是这两文件的接口归属/去重、snapshot和启动/取消余项；只复核失效或未补轴，不重做原有效证据。未改当前产品出口或RLE算法/生成物，没有新用户产品裁决；真正接口调整仍先按范围/风险准入。最终静态、提交推送与main同步另按实际回执，不提前声称新mainCI成功。
+
+末轮静态原件：final-docs完整125工具测试与全部文档检查exit0/0issues，final-lint5880文件0/0/0，final-ledger3374/388/111/2875，final-diff0。只将这些完整原件追加同一回执，不再重跑全仓或coverage；提交/推送/main以实际Git结果为准。

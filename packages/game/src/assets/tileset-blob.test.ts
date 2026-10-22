@@ -1,5 +1,5 @@
 import { gzipSync } from 'node:zlib'
-import { parseSpriteChunk } from '@type-pal/shared'
+import type { RleFrame } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import type { IndexedImage } from './png.js'
 import {
@@ -33,16 +33,20 @@ function makeSimpleChunk(): Uint8Array {
 }
 
 describe('rleFrameToIndexedImage', () => {
-  it('RleFrame → IndexedImage 字段重命名(pixels→indices),数组复用不拷贝', () => {
-    const chunk = makeSimpleChunk()
-    const frames = parseSpriteChunk(chunk)
-    const img = rleFrameToIndexedImage(frames[0]!)
-    expect(img.width).toBe(1)
-    expect(img.height).toBe(1)
-    expect(Array.from(img.indices)).toEqual([0xaa])
-    expect(Array.from(img.opaque)).toEqual([1])
-    // 复用同一 Uint8Array(不拷贝):rleFrameToIndexedImage 直接赋 frame.pixels
-    expect(img.indices).toBe(frames[0]!.pixels)
+  it('RleFrame → IndexedImage 字段重命名，借用 pixels 与 opaque 两份数组', () => {
+    const frame: RleFrame = {
+      width: 1,
+      height: 1,
+      pixels: Uint8Array.of(0xaa),
+      opaque: Uint8Array.of(1),
+    }
+    const image = rleFrameToIndexedImage(frame)
+    expect(image.width).toBe(1)
+    expect(image.height).toBe(1)
+    expect(Array.from(image.indices)).toEqual([0xaa])
+    expect(Array.from(image.opaque)).toEqual([1])
+    expect(image.indices).toBe(frame.pixels)
+    expect(image.opaque).toBe(frame.opaque)
   })
 })
 
@@ -57,22 +61,37 @@ describe('decodeTilesetBlob', () => {
     expect(Array.from(map.get(1)!.indices)).toEqual([0xbb])
   })
 
-  it('键一致性:Map key == parseSpriteChunk 返回数组下标 == 旧 framesToOut index', () => {
-    // 这是核心不变式:新链路的 key 必须与旧链路(per-tile PNG 的 tile-{index})对齐。
-    // parseSpriteChunk 是同一份函数(extractor 和 runtime 都从 shared 取),
-    // 所以下标天然一致。此测试钉死这个语义。
-    const chunk = makeSimpleChunk()
-    const frames = parseSpriteChunk(chunk)
-    const map = decodeTilesetBlob(chunk)
-    expect(map.size).toBe(frames.length)
-    for (let i = 0; i < frames.length; i++) {
-      expect(map.has(i)).toBe(true)
-      // 内容一致(不比引用 —— decodeTilesetBlob 内部调 parseSpriteChunk 是独立一次)
-      expect(Array.from(map.get(i)!.indices)).toEqual(Array.from(frames[i]!.pixels))
-      expect(Array.from(map.get(i)!.opaque)).toEqual(Array.from(frames[i]!.opaque))
-      expect(map.get(i)!.width).toBe(frames[i]!.width)
-      expect(map.get(i)!.height).toBe(frames[i]!.height)
-    }
+  it('坏槽跳过后，Map 按有效帧顺序编号而不保留原始槽号', () => {
+    // 三槽分别指向 byte6/12/16；中槽宽0，按当前 TS 宽容解析合同跳过。
+    // 这钉的是过滤后编号，不能将它套用到按原编号消费的 UI manifest。
+    const chunk = Uint8Array.of(
+      3,
+      0,
+      6,
+      0,
+      8,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0xaa,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0xbb,
+    )
+    expect([...decodeTilesetBlob(chunk)]).toEqual([
+      [0, { width: 1, height: 1, indices: Uint8Array.of(0xaa), opaque: Uint8Array.of(1) }],
+      [1, { width: 1, height: 1, indices: Uint8Array.of(0xbb), opaque: Uint8Array.of(1) }],
+    ])
   })
 
   it('透明像素 + opaque palette-0 都正确表达', () => {
@@ -114,14 +133,6 @@ describe('decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用)', 
     } finally {
       fetchSpy.mockRestore()
     }
-  })
-
-  it('loadSpriteFramesBlob:404 抛错', async () => {
-    const fetchSpy = vi
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValue(new Response('', { status: 404 }))
-    await expect(loadSpriteFramesBlob('/fake/missing.rle')).rejects.toThrow(/404/)
-    fetchSpy.mockRestore()
   })
 })
 
@@ -204,13 +215,5 @@ describe('loadTilesetBlob', () => {
     } finally {
       fetchSpy.mockRestore()
     }
-  })
-
-  it('fetch 失败抛错', async () => {
-    const fetchSpy = vi
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValue(new Response('', { status: 404 }))
-    await expect(loadTilesetBlob('/fake/missing')).rejects.toThrow(/404/)
-    fetchSpy.mockRestore()
   })
 })
