@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "a6b8417dbab112ef86a33e87149897b496c72d3b060975eca6d50b13c53ede25",
+      "afterSha256": "7cb10230afe74c82109d170c076a486e83d45b4087c9118f12d2a0f6a851b630",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -2444,20 +2444,21 @@
       "historyOverlay": false,
       "templateCompliance": "needs-migration",
       "template": "docs/phase-governance/templates/task-card.md",
-      "readMethod": "Owner-authored card/design delta after non-author correction evidence replay and targeted consumer/test source checks. S28 schema/admission is Owner design, not independent acceptance of implemented code or599semantic rereads.",
+      "readMethod": "Owner-authored task/verdict delta after Codex non-author S28 implementation evidence review; candidate/allcommit scope/source hashes/authorized adapter and directed18+skip/old6/dryrun/diff replay, targeted3phase code/rawreceipt reads and readonly specialist/tmp/provider/Git counterexamples. Not599semantic reread, not fulltools pass or implemented storage accept.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S27-C01/C02/C03修正证据接受：候选/原包冻结、10源身份、9条after字节边、41/28/31/24历史revision差异及3回执均核过。Owner订正漏载后会报missing及rawpretty不等于删片后果；冻结review-record-storage/1.0.0，S28只准隔离代码/新测试和599逻辑保全临时组演练，先守卫后loader后发布。中央8源、269语义、历史值和待办不变，0迁移信用。",
+      "coreConclusion": "S28b6候选scope17/5提交、源8/599与原生302最终保全、授权三处测试适配6/6及正常8manifest/19shard保留；新18pass另1skip不能接受存储。临时反例证发布目标外覆盖/不完整组、prepare假源/重复组报599、loader漏SHA/快照/孤片及consumer/retirement接线缺陷；正式runner/dirty回执身份/作者八维有缺口，C01-C05/E01返工，中央未接入/0迁移信用。",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
         "docs/phase-governance/templates/registry-proposal-20261011.md:333"
       ],
       "unresolved": [
-        "S28 tooling implementation and temporary599storage/9edge rehearsal require independent evidence acceptance before central publication.",
-        "Specific old-test adapter remains separately governed by explicit authorization; no assertion/source-pin changes or other old-test permission inferred.",
-        "Card/native269 remain partial/needs; storage599 and semantic269 publication are separate, no new credit."
+        "S28-C01 completegroup/snapshot/path-safe atomicpublication and C02fixedGit/format-logical preservation not met.",
+        "S28-C03loader integrity/snapshot/physicalartifact and C04actualconsumer/retirement/sync wiring countered.",
+        "S28-C05portable meaningfultests/officialrunner and E01truthfulreceiptinputidentity/authorA-H evidence require correction; oldraw/dirtyidentity frozen.",
+        "Central599storage and native269semantic integration still blocked; no current credit or main/done."
       ],
-      "nextStep": "GLM S28 implements guarded review storage and active consumers/new tests from Owner admission; exact8source599 current records stay read-only until Codex accepts implementation and centrally publishes the complete group.",
+      "nextStep": "GLM appends C01-C05/E01 fixes fromb6 on same isolatedbranch, new/tmp/s28-glm-review-storage-correction only; oldpackage frozen. Codex then evidence-reviews correctedimplementation before central599storage publication and separate269semantic intake.",
       "phase": "ops",
       "module": "native-document-governance",
       "capability": "S26 native historical evidence batch",
@@ -2469,10 +2470,11 @@
         "S26 delivery ccc094e860e7e118bacb95b61c425f9fc2d037de independently audited by Codex; mechanical evidence retained, semantic claim fields countered. Verdict 26f7c6a21e212cd3040eed9befb475ea95ec004a59c4889d270f296d47a605ef",
         "Codex accepts corrected GLM evidence atccc094e860e7e118bacb95b61c425f9fc2d037de with explicit Owner mechanical supplements; default1MiB blocked central write. Verdict 91d3ceb661d21a1832b32c4aef4a1ee8f7fb740f91f7bf93c2c41f25815ff429",
         "S27candidatec55ebedf3a347cef306c04de352652614f93dd39 independently audited; source-map accepted, consumer/test/pin affected claims countered. Verdict a404553ac6d26048b49512500559bff691c59a1ba6f8df703b3c02aff137309c",
-        "Codex non-author S27 C01-C03 correction acceptance, candidatec55ebedf3a347cef306c04de352652614f93dd39; source10/edges9/counts/receipts3 verified. Verdict 7b9395db59309a56c6ae39c09353e93964bf9a53a90048a8db1d8dbb3bac303a"
+        "Codex non-author S27 C01-C03 correction acceptance, candidatec55ebedf3a347cef306c04de352652614f93dd39; source10/edges9/counts/receipts3 verified. Verdict 7b9395db59309a56c6ae39c09353e93964bf9a53a90048a8db1d8dbb3bac303a",
+        "Codex non-author S28b6e9325f55c957ca491bdcdca6e818488a1137e2 evidence review: source/native/finalscope and authorizedadapter accepted; storageimplementation/publication rework. Verdict 80947023f2d58edd53a15a2cf1f7c889856a745615f3691bf35d548d24658471"
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "8e33e419bb0a4ddca9ae934e08a14a24aa278ac0215afbdbfc37224f2342f585",
+      "afterSha256": "2d0a2c973c18ba30efec781a32d972f1a236dc76e8f9266cbaacb8e56ecc719a",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2501,8 +2503,8 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "8e33e419bb0a4ddca9ae934e08a14a24aa278ac0215afbdbfc37224f2342f585",
-        "implementationSha": "8e33e419bb0a4ddca9ae934e08a14a24aa278ac0215afbdbfc37224f2342f585",
+        "currentSha": "2d0a2c973c18ba30efec781a32d972f1a236dc76e8f9266cbaacb8e56ecc719a",
+        "implementationSha": "2d0a2c973c18ba30efec781a32d972f1a236dc76e8f9266cbaacb8e56ecc719a",
         "history": [
           {
             "date": "2026-10-21",
@@ -2531,6 +2533,12 @@
             "revision": "cd0fa2988f51a4f221869f8ec6b7881b3042ca4c",
             "afterSha256": "f80fec900eab64f5bd381619b22bab93bcacefa9a89f21695371d308b840e9ad",
             "scope": "Prior S27 original mapping verdict and S26 acceptance preserved in fixed Git; correction closes onlyC01-C03, no semantic credit restored."
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "624d7509a439e32b15feaedcf5784d20665faddb",
+            "afterSha256": "8e33e419bb0a4ddca9ae934e08a14a24aa278ac0215afbdbfc37224f2342f585",
+            "scope": "Prior S27 acceptance/S28frozen1.0.0admission preserved in fixedGit; no rejection of S26/S27source/evidence成果."
           }
         ]
       },
@@ -2564,11 +2572,16 @@
           "date": "2026-10-22",
           "action": "Accept correctedS27mapping, boundedOwner consequence corrections; freezeS28storage contract/admit isolated implementation,0central publication/credit.",
           "priorRecordRevision": "cd0fa2988f51a4f221869f8ec6b7881b3042ca4c"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "S28implementation evidence rework C01-C05/E01; preserve finalsource/authorizedadapter/normaldryrun, rejectcentralpublication/credit; exacttask pins only.",
+          "priorRecordRevision": "624d7509a439e32b15feaedcf5784d20665faddb"
         }
       ],
       "supersedes": [],
       "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
-      "reviewedLines": "Owner current card/design delta; separate s27CorrectionAcceptance is Codex non-author evidence review of GLM mapping only. CurrentQualification remains author-owned/unaccepted.",
+      "reviewedLines": "Owner card/currentverdict delta; separate s28ImplementationAcceptance is non-author GLM implementation evidence review (rework). Owner-authored card currentQualification remains false; no semantic/storage credit restored.",
       "documentStatus": "current",
       "currentQualification": {
         "task": "DOCS-NATIVE-JSON-1/S26",
@@ -2639,6 +2652,31 @@
         ],
         "newMigrationCredit": 0,
         "nonAuthorReviewer": false
+      },
+      "s28ImplementationAcceptance": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "author": "GLM",
+        "candidateCommit": "b6e9325f55c957ca491bdcdca6e818488a1137e2",
+        "baseCommit": "624d7509a439e32b15feaedcf5784d20665faddb",
+        "decision": "rework-implementation-and-evidence; no-central-publication",
+        "verdictSHA256": "80947023f2d58edd53a15a2cf1f7c889856a745615f3691bf35d548d24658471",
+        "evidencePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "counters": ["S28-C01", "S28-C02", "S28-C03", "S28-C04", "S28-C05", "S28-E01"],
+        "sourceEntriesRetained": 599,
+        "nativeFilesRetained": 302,
+        "authorizedOldTestAdapterAccepted": true,
+        "rootReplay": {
+          "newPassed": 18,
+          "newSkipped": 1,
+          "oldAdapterPassed": 6,
+          "dryRunManifests": 8,
+          "dryRunShards": 19
+        },
+        "fullToolsAccepted": false,
+        "implementedStorageAccepted": false,
+        "newMigrationCredit": 0
       }
     }
   ],
@@ -2713,6 +2751,12 @@
       "date": "2026-10-22",
       "task": "DOCS-NATIVE-JSON-1/S27-correction-S28-admission",
       "action": "Record S27 correction accept and Owner S28 schema/isolated tooling admission in existing child row; preserve S26/oldS27/current credit and exact administrative pins. No central storage/native publication.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-22",
+      "task": "DOCS-NATIVE-JSON-1/S28-implementation-rework",
+      "action": "Record S28 implementation/evidence counters and bounded retained scope/source/test facts in existing child row; preserve S26/S27/frozen design and all current credit. Exact administrative pins only, no implementation or central storage publication.",
       "nonAuthorReviewer": false
     }
   ]

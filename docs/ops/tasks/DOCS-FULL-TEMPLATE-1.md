@@ -2318,3 +2318,9 @@ Codex非作者核c55ebedf3a347cef306c04de352652614f93dd39及S26分支保留/仓�
 Codex非作者accept C01-C03修正，候选c55ebedf未变：10源身份、9条SHA边、41/28/31/24历史revision差异、三回执与原包冻结均核过。Owner订正“静默过门/整体丢失”后果，不重造原GLM证据。S26与599源成果保留；新增语义/迁移/完成信用0。
 
 [子卡S28](DOCS-NATIVE-JSON-1.md#s28-review存储实施冻结2026-10-22)冻结review-record-storage/1.0.0：保全逻辑头/键值/顺序/历史，Git同revision物化，先writer全选择集守卫、后loader/consumer、最后8manifest/分片/R92/R94组级锁发布。GLM一次实施代码/新测试并在临时树演练599存储，不写中央、不接269、不修改产品/coverage；真实r85旧测试一import两读适配另按具体授权。物理分片须逐件归属并与实际集合对账，1838分母和现有待办不缩。原卡/原单份压缩日志复用，无新canonical账本；当前1195待办/2384诊断与1151/1838仍不变，本卡保持rework、不合main、不推送、不标done。
+
+#### S28实施证据rework（2026-10-22）
+
+候选b6e9325f55c957ca491bdcdca6e818488a1137e2的5提交/17文件scope、8源599及302原生最终保全、授权测试三处语义适配6/6、正常dry-run8manifest/19片与新18pass保留（另1skip）。新schema/IO风险定向反例证明发布器可接受目标外单文件并覆盖外改、prepare假源/重复组报599、loader漏SHA/快照/孤片、consumer绕保护及retirement未定义root；正式新测试依赖/tmp且完整工具套证据不足，作者逐文件八维未交。不是只补记录即可接受的实现。
+
+Codex非作者裁定6项C01-C05/E01返工，具体path/反例/解除条件归[子卡](DOCS-NATIVE-JSON-1.md#s28-实施证据裁定与定点返工2026-10-22)及原单份压缩日志。GLM在同分支b6后追加修复、原包冻结、新证据/tmp/s28-glm-review-storage-correction；不重做S26/S27或599语义，不改原源/产品/其它旧测试/coverage/共享规则。中央未cherry-pick、不发布，仍先599存储后269语义；当前1195待办/2384诊断、1151/1838不变，全卡rework、不合main、不推送、不标done。
