@@ -5,6 +5,7 @@
 import { createHash } from 'node:crypto'
 import { lstatSync, readdirSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
+import { isDeepStrictEqual } from 'node:util'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
@@ -13,6 +14,27 @@ export const reviewStorageMarker = '_reviewStorage'
 export const reviewDirRelative = 'docs/phase-governance/reviews'
 export const reviewStorageShardCap = 524_288
 export const reviewStorageFlatCap = 1_048_576
+
+// C05: frozen 8-source identities as bounded versioned constants (no /tmp packet dependency)
+export const FROZEN_REVIEW_STORAGE_SOURCES = Object.freeze(
+  [
+    ['20261017-r73-testing-archive.json', 50],
+    ['20261017-r74-testing-archive.json', 50],
+    ['20261017-r75-testing-archive.json', 50],
+    ['20261017-r76-testing-archive.json', 50],
+    ['20261017-r85-testing-archive.json', 100],
+    ['20261017-r86-ops-evidence-artifacts.json', 100],
+    ['20261017-r87-ops-evidence-artifacts.json', 100],
+    ['20261017-r88-ops-evidence-artifacts.json', 99],
+  ].map(([name, count]) =>
+    Object.freeze({
+      path: `${reviewDirRelative}/${name}`,
+      entryCount: count,
+    }),
+  ),
+)
+export const FROZEN_REVIEW_STORAGE_TOTAL = 599
+export const FROZEN_REVIEW_SOURCE_REVISION = '8cbf0dafba1a8a96914a322719dfeca1e5d58873'
 
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const demand = (condition, message) => {
@@ -57,6 +79,7 @@ const MANIFEST_STORAGE_KEYS = [
 const SHARD_DESCRIPTOR_KEYS = ['key', 'path', 'total', 'sha256']
 
 function validateManifestShape(buffer, logicalPath) {
+  demand(buffer.length <= reviewStorageShardCap, `manifest exceeds 512 KiB: ${logicalPath}`)
   let manifest
   try {
     manifest = parseTerminalJson(buffer)
@@ -146,9 +169,7 @@ function validateManifestShape(buffer, logicalPath) {
     demand(typeof descriptor.path === 'string', 'shard path must be a string')
     const expectedPrefix = `shards/${stem}/${storage.logicalSha256}/`
     demand(
-      descriptor.path.startsWith(expectedPrefix) &&
-        descriptor.path.endsWith('.json') &&
-        descriptor.path.slice(expectedPrefix.length, -5).length > 0,
+      descriptor.path === `${expectedPrefix}${descriptor.key}.json`,
       `shard path outside its own generation: ${descriptor.path}`,
     )
     demand(
@@ -293,192 +314,324 @@ export function materializeReviewRecord(logicalPath, context = {}) {
   return { record, storage, manifest, entryPaths }
 }
 
-// C03: descriptor-to-physical reconciliation with orphan detection
-export function reconcileShardDirectories(logicalPath, storage, context = {}) {
-  const listDir = context.readdir ?? ((p) => readdirSync(p))
-  const lstat = context.lstat ?? ((p) => lstatSync(p))
-  const resolveFn = context.resolve ?? ((p) => resolve(p))
-  const stem = logicalPath
-    .split('/')
-    .pop()
-    .replace(/\.json$/, '')
-  const shardsRoot = resolveFn(`${reviewDirRelative}/shards/${stem}`)
-  const described = new Set(storage.shards.map((s) => s.path.split('/').pop()))
-  const artifacts = []
-  const issues = []
-  if (listDirSafe(shardsRoot, lstat)) {
-    for (const generation of listDir(shardsRoot)) {
-      const genDir = join(shardsRoot, generation)
-      if (!lstat(genDir).isDirectory()) {
-        issues.push(`non-directory in shard root: ${generation}`)
-        continue
-      }
-      if (generation === storage.logicalSha256) {
-        for (const name of listDir(genDir)) {
-          if (!described.has(name)) issues.push(`orphan shard: ${stem}/${generation}/${name}`)
-          else
-            artifacts.push({
-              path: `shards/${stem}/${generation}/${name}`,
-              owner: logicalPath,
-              generation,
-            })
-        }
-        for (const name of described) {
-          if (!listDir(genDir).includes(name))
-            issues.push(`missing shard: ${stem}/${generation}/${name}`)
-        }
-      } else {
-        issues.push(
-          `unknown generation directory: ${stem}/${generation} (expected ${storage.logicalSha256})`,
-        )
-      }
-    }
-  }
-  return { artifacts, issues }
-}
-function listDirSafe(path, lstat) {
+// A loadedSource is only a handle to this read's saved bytes, never a caller-supplied
+// assertion that files were validated. Writers must recheck the handle before writing.
+const sourceChecks = new WeakMap()
+const identity = (stat) => ({
+  dev: stat.dev,
+  ino: stat.ino,
+  mode: stat.mode,
+  size: stat.size,
+  mtime: stat.mtimeMs,
+  ctime: stat.ctimeMs,
+})
+function checkLock(root) {
   try {
-    return lstat(path).isDirectory()
-  } catch {
-    return false
-  }
-}
-
-// ---------- production worktree loader (C03: snapshot+lock before/after) ----------
-function checkLock(lockPath) {
-  try {
-    lstatSync(lockPath)
+    lstatSync(join(root, reviewDirRelative, '.storage.lock'))
     throw new Error(
-      'review-record-storage: publication lock present; refusing to read a half-published group',
+      'review-record-storage: publication lock present; refusing half-published group',
     )
   } catch (error) {
     if (error.code !== 'ENOENT') throw error
   }
 }
-
-export function loadReviewRecord({ root, logicalPath }) {
-  const base = resolve(root)
-  const absolute = (rel) => join(base, rel)
-  const readBuffer = (rel) => {
-    try {
-      return readFileSync(absolute(rel))
-    } catch (error) {
-      if (error.code === 'ENOENT') return undefined
-      throw error
+function relativeReviewPath(path) {
+  demand(
+    typeof path === 'string' &&
+      path.startsWith(`${reviewDirRelative}/`) &&
+      !path.includes('\\') &&
+      !path.includes(':') &&
+      !path.split('/').some((p) => !p || p === '.' || p === '..'),
+    `unsafe review path: ${path}`,
+  )
+}
+function worktreeSnapshot(root) {
+  const files = new Map(),
+    directories = new Map(),
+    listings = new Map()
+  const parents = (path) => {
+    relativeReviewPath(path)
+    const parts = path.split('/')
+    for (let i = 0; i < parts.length; i++) {
+      const dir = join(root, ...parts.slice(0, i))
+      const stat = lstatSync(dir)
+      demand(
+        stat.isDirectory() && !stat.isSymbolicLink(),
+        `parent not an ordinary directory: ${dir}`,
+      )
+      const state = { dev: stat.dev, ino: stat.ino, mode: stat.mode }
+      if (directories.has(dir))
+        demand(isDeepStrictEqual(directories.get(dir), state), `parent changed: ${dir}`)
+      else directories.set(dir, state)
     }
   }
-  const lockPath = absolute(`${reviewDirRelative}/.storage.lock`)
-  checkLock(lockPath)
-  const inputSnapshot = snapshotPath(absolute(logicalPath))
-  demand(inputSnapshot, `logical record is not an ordinary file: ${logicalPath}`)
-  const raw = readBuffer(logicalPath)
-  demand(raw !== undefined && raw !== null, `review missing: ${logicalPath}`)
-  // C03: dispatch by parsed own key, not raw byte search; flat/Git-flat are first-class
-  const parsed = parseTerminalJson(raw)
+  const readBuffer = (path) => {
+    if (files.has(path)) return files.get(path).buffer
+    parents(path)
+    const absolute = join(root, path),
+      before = lstatSync(absolute)
+    demand(before.isFile(), `not an ordinary file: ${path}`)
+    demand(before.size <= reviewStorageFlatCap, `review input exceeds 1 MiB: ${path}`)
+    const buffer = readFileSync(absolute),
+      after = lstatSync(absolute)
+    demand(
+      isDeepStrictEqual(identity(before), identity(after)),
+      `file changed during read: ${path}`,
+    )
+    files.set(path, { buffer, identity: identity(after) })
+    return buffer
+  }
+  const list = (path) => {
+    relativeReviewPath(`${path}/placeholder`)
+    parents(`${path}/placeholder`)
+    const names = readdirSync(join(root, path)).sort()
+    if (listings.has(path))
+      demand(isDeepStrictEqual(listings.get(path), names), `directory inventory changed: ${path}`)
+    listings.set(path, names)
+    return names
+  }
+  const assertUnchanged = () => {
+    checkLock(root)
+    for (const [path, state] of directories) {
+      const stat = lstatSync(path)
+      demand(
+        stat.isDirectory() &&
+          !stat.isSymbolicLink() &&
+          isDeepStrictEqual(state, { dev: stat.dev, ino: stat.ino, mode: stat.mode }),
+        `parent changed: ${path}`,
+      )
+    }
+    for (const [path, saved] of files) {
+      parents(path)
+      const stat = lstatSync(join(root, path))
+      demand(
+        stat.isFile() &&
+          isDeepStrictEqual(saved.identity, identity(stat)) &&
+          saved.buffer.equals(readFileSync(join(root, path))),
+        `input bytes or identity changed during read: ${path}`,
+      )
+    }
+    for (const [path, names] of listings)
+      demand(
+        isDeepStrictEqual(names, readdirSync(join(root, path)).sort()),
+        `directory inventory changed: ${path}`,
+      )
+    checkLock(root)
+  }
+  return { files, readBuffer, list, assertUnchanged }
+}
+function verifyOriginalSource(storage, readSourceSnapshot) {
+  const pin = storage.source
+  if (FROZEN_REVIEW_STORAGE_SOURCES.some((source) => source.path === pin.path))
+    demand(
+      pin.revision === FROZEN_REVIEW_SOURCE_REVISION,
+      `original Git source revision changed: ${pin.path}`,
+    )
+  const original = readSourceSnapshot(pin)
+  demand(
+    original?.mode === '100644' &&
+      original.revision === pin.revision &&
+      original.path === pin.path &&
+      original.gitObject === pin.gitObject &&
+      Buffer.isBuffer(original.buffer) &&
+      digest(original.buffer) === pin.sha256 &&
+      createHash('sha1')
+        .update(Buffer.from(`blob ${original.buffer.length}\0`))
+        .update(original.buffer)
+        .digest('hex') === pin.gitObject,
+    `original Git source pin mismatch: ${pin.path}`,
+  )
+  const flat = parseTerminalJson(original.buffer)
+  demand(
+    isObject(flat) && Array.isArray(flat.entries) && !Object.hasOwn(flat, reviewStorageMarker),
+    `original Git source must be a flat review: ${pin.path}`,
+  )
+}
+
+/** Read the complete logical group once; snapshots include inventory and all raw bytes. */
+export function loadReviewRecords({
+  root,
+  readSourceSnapshot = (pin) => readGitDocumentSnapshot(root, pin),
+  logicalPaths,
+}) {
+  const base = resolve(root)
+  checkLock(base)
+  const snapshot = worktreeSnapshot(base)
+  const selected =
+    logicalPaths ??
+    snapshot
+      .list(reviewDirRelative)
+      .filter((name) => name.endsWith('.json'))
+      .map((name) => `${reviewDirRelative}/${name}`)
+  const names = new Set(selected)
+  const shardsRoot = `${reviewDirRelative}/shards`
+  // Physical stems are navigation only: each must resolve to a validated manifest,
+  // never an artifact classification inferred from the directory name.
+  try {
+    const stat = lstatSync(join(base, shardsRoot))
+    demand(stat.isDirectory() && !stat.isSymbolicLink(), 'shards root not an ordinary directory')
+    for (const stem of snapshot.list(shardsRoot)) {
+      const owner = `${reviewDirRelative}/${stem}.json`
+      try {
+        demand(lstatSync(join(base, owner)).isFile(), `unknown or nonordinary shard owner: ${stem}`)
+      } catch (error) {
+        if (error.code === 'ENOENT')
+          throw new Error(`review-record-storage: unknown shard stem: ${stem}`)
+        throw error
+      }
+      names.add(owner)
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error
+  }
+  const records = new Map(),
+    storages = new Map(),
+    artifacts = [],
+    expectedShards = new Map()
+  for (const logicalPath of names) {
+    const raw = snapshot.readBuffer(logicalPath),
+      parsed = parseTerminalJson(raw)
+    demand(isObject(parsed), `review is not an object: ${logicalPath}`)
+    if (!Object.hasOwn(parsed, reviewStorageMarker)) {
+      demand(
+        raw.length <= reviewStorageFlatCap && Array.isArray(parsed.entries),
+        `unsupported flat review: ${logicalPath}`,
+      )
+      records.set(logicalPath, parsed)
+      storages.set(logicalPath, null)
+      continue
+    }
+    const { record, storage } = materializeReviewRecord(logicalPath, snapshot)
+    verifyOriginalSource(storage, readSourceSnapshot)
+    records.set(logicalPath, record)
+    storages.set(logicalPath, storage)
+    for (const descriptor of storage.shards) {
+      const path = `${reviewDirRelative}/${descriptor.path}`
+      demand(!expectedShards.has(path), `shard has multiple owners: ${path}`)
+      const bytes = snapshot.readBuffer(path),
+        shard = parseTerminalJson(bytes)
+      expectedShards.set(path, descriptor)
+      artifacts.push(
+        Object.freeze({
+          path,
+          kind: 'review-storage-artifact',
+          owner: 'Codex',
+          producer: reviewStorageContractId,
+          caller: logicalPath,
+          source: Object.freeze({ ...storage.source }),
+          generation: storage.logicalSha256,
+          sha256: digest(bytes),
+          bytes: bytes.length,
+          positions: Object.freeze([...shard.positions]),
+          credit: 0,
+        }),
+      )
+    }
+  }
+  const physical = new Set()
+  try {
+    const stat = lstatSync(join(base, shardsRoot))
+    demand(stat.isDirectory() && !stat.isSymbolicLink(), 'shards root not an ordinary directory')
+    for (const stem of snapshot.list(shardsRoot)) {
+      const stemPath = `${shardsRoot}/${stem}`
+      demand(
+        [...expectedShards.keys()].some((path) => path.startsWith(`${stemPath}/`)),
+        `unknown shard stem: ${stem}`,
+      )
+      for (const generation of snapshot.list(stemPath)) {
+        const generationPath = `${stemPath}/${generation}`
+        demand(
+          [...expectedShards.keys()].some((path) => path.startsWith(`${generationPath}/`)),
+          `unknown shard generation: ${generationPath}`,
+        )
+        for (const name of snapshot.list(generationPath)) {
+          const path = `${generationPath}/${name}`
+          demand(expectedShards.has(path), `orphan shard: ${path}`)
+          snapshot.readBuffer(path)
+          physical.add(path)
+        }
+      }
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT' || expectedShards.size) throw error
+  }
+  demand(physical.size === expectedShards.size, 'missing physical shards')
+  snapshot.assertUnchanged()
+  const loadedSource = Object.freeze({
+    files: Object.freeze(
+      [...snapshot.files].map(([path, saved]) =>
+        Object.freeze({ path, sha256: digest(saved.buffer) }),
+      ),
+    ),
+    artifactSet: Object.freeze(artifacts),
+  })
+  sourceChecks.set(loadedSource, snapshot.assertUnchanged)
+  return { records, storages, loadedSource }
+}
+
+export function assertReviewRecordSourceUnchanged(loadedSource) {
+  const check = sourceChecks.get(loadedSource)
+  demand(check, 'loadedSource is not an actual protected read snapshot')
+  check()
+}
+
+export function loadReviewRecord({ root, logicalPath, readSourceSnapshot }) {
+  const group = loadReviewRecords({ root, readSourceSnapshot, logicalPaths: [logicalPath] })
+  demand(group.records.has(logicalPath), `logical review missing: ${logicalPath}`)
+  const storage = group.storages.get(logicalPath)
+  const paths = new Set([
+    logicalPath,
+    ...(storage?.shards ?? []).map((d) => `${reviewDirRelative}/${d.path}`),
+  ])
+  const loadedSource = Object.freeze({
+    manifestPath: join(resolve(root), logicalPath),
+    files: Object.freeze(group.loadedSource.files.filter((file) => paths.has(file.path))),
+    artifactSet: group.loadedSource.artifactSet,
+  })
+  sourceChecks.set(loadedSource, () => assertReviewRecordSourceUnchanged(group.loadedSource))
+  return { record: group.records.get(logicalPath), storage, loadedSource }
+}
+
+/** Pure flat-or-manifest helper, deliberately without a worktree/Git fallback. */
+export function readReviewRecordObject(logicalPath, { readBuffer } = {}) {
+  demand(typeof readBuffer === 'function', 'readBuffer provider required')
+  const bytes = readBuffer(logicalPath)
+  demand(bytes !== undefined && bytes !== null, `review missing: ${logicalPath}`)
+  const parsed = parseTerminalJson(bytes)
   demand(isObject(parsed), `review is not an object: ${logicalPath}`)
   if (!Object.hasOwn(parsed, reviewStorageMarker)) {
-    demand(raw.length <= reviewStorageFlatCap, `flat review exceeds 1 MiB cap: ${logicalPath}`)
-    const flat = parsed
     demand(
-      isObject(flat) && Array.isArray(flat.entries),
-      `unsupported flat review shape: ${logicalPath}`,
+      bytes.length <= reviewStorageFlatCap && Array.isArray(parsed.entries),
+      `unsupported flat review: ${logicalPath}`,
     )
-    checkLock(lockPath)
-    demand(
-      JSON.stringify(snapshotPath(absolute(logicalPath))) === JSON.stringify(inputSnapshot),
-      `flat review changed during read: ${logicalPath}`,
-    )
-    return {
-      record: flat,
-      storage: null,
-      loadedSource: Object.freeze({
-        manifestPath: absolute(logicalPath),
-        files: Object.freeze([{ path: logicalPath, sha256: digest(raw) }]),
-      }),
-    }
+    return parsed
   }
-  // C03: materialize from the same readBuffer but also check every leaf is an ordinary file
-  const { record, storage } = materializeReviewRecord(logicalPath, { readBuffer })
-  // C03: loadedSource from the same materialization read — no second sampling pass
-  const files = [{ path: logicalPath, sha256: digest(raw) }]
-  for (const d of storage.shards) {
-    const shardPath = `${reviewDirRelative}/${d.path}`
-    const bytes = readBuffer(shardPath)
-    demand(bytes !== undefined, `shard went missing during read: ${shardPath}`)
-    // C03: every shard leaf must be an ordinary file (not symlink/dir)
-    const leafStat = lstatSync(absolute(shardPath))
-    demand(leafStat.isFile(), `shard is not an ordinary file: ${shardPath}`)
-    files.push({ path: shardPath, sha256: digest(bytes) })
-  }
-  checkLock(lockPath)
-  demand(
-    JSON.stringify(snapshotPath(absolute(logicalPath))) === JSON.stringify(inputSnapshot),
-    `manifest changed during read: ${logicalPath}`,
-  )
-  // C03: reconcile physical shard directories against descriptor set
-  const { artifacts, issues: reconcileIssues } = reconcileShardDirectories(logicalPath, storage, {
-    resolve: (p) => join(base, p),
-  })
-  if (reconcileIssues.length > 0) {
-    throw new Error(
-      `review-record-storage: shard reconciliation failed for ${logicalPath}: ${reconcileIssues.join('; ')}`,
-    )
-  }
-  return {
-    record,
-    storage,
-    loadedSource: Object.freeze({
-      manifestPath: absolute(logicalPath),
-      files: Object.freeze(files),
-      artifactSet: Object.freeze(artifacts),
-    }),
-  }
+  return materializeReviewRecord(logicalPath, { readBuffer }).record
 }
 
-function snapshotPath(path) {
-  try {
-    const stat = lstatSync(path)
-    if (!stat.isFile()) return null
-    return { isFile: true, size: stat.size, mtime: stat.mtimeMs }
-  } catch {
-    return null
-  }
-}
-
-/** Flat-or-manifest tolerant helper: returns the complete logical record object. */
-export function readReviewRecordObject(logicalPath, context = {}) {
-  const readBuffer = context.readBuffer
-  demand(typeof readBuffer === 'function', 'readBuffer provider required')
-  const buffer = readBuffer(logicalPath)
-  demand(buffer !== undefined && buffer !== null, `review missing: ${logicalPath}`)
-  const parsed = parseTerminalJson(buffer)
-  demand(isObject(parsed), `review not an object: ${logicalPath}`)
-  if (Object.hasOwn(parsed, reviewStorageMarker)) {
-    return materializeReviewRecord(logicalPath, { readBuffer }).record
-  }
-  demand(Array.isArray(parsed.entries), `unsupported review shape: ${logicalPath}`)
-  return parsed
-}
-
-// ---------- Git loader (C03: same-revision, Git-flat first-class) ----------
-export function loadReviewRecordFromGit({ root, revision, logicalPath }) {
+export function loadReviewRecordFromGit({
+  root,
+  revision,
+  logicalPath,
+  readSourceSnapshot = (pin) => readGitDocumentSnapshot(root, pin),
+}) {
   demand(/^[a-f\d]{40}$/.test(revision ?? ''), 'revision must be a full 40-hex commit')
   const readBuffer = (path) => {
     const snap = readGitDocumentSnapshot(root, { revision, path })
-    return snap?.buffer
+    demand(snap?.mode === '100644', `Git review missing at ${revision}: ${path}`)
+    return snap.buffer
   }
   const raw = readBuffer(logicalPath)
-  demand(raw !== undefined, `Git review missing at ${revision}: ${logicalPath}`)
   const parsed = parseTerminalJson(raw)
   demand(isObject(parsed), `Git review is not an object: ${logicalPath}`)
   if (!Object.hasOwn(parsed, reviewStorageMarker)) {
-    // Git-flat: legacy flat records at a fixed revision are first-class
     demand(
-      isObject(parsed) && Array.isArray(parsed.entries),
+      raw.length <= reviewStorageFlatCap && Array.isArray(parsed.entries),
       `unsupported Git-flat shape: ${logicalPath}`,
     )
     return { record: parsed, storage: null }
   }
-  const { record, storage } = materializeReviewRecord(logicalPath, { readBuffer })
-  return { record, storage }
+  const result = materializeReviewRecord(logicalPath, { readBuffer })
+  verifyOriginalSource(result.storage, readSourceSnapshot)
+  return { record: result.record, storage: result.storage }
 }

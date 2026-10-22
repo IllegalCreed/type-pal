@@ -3,6 +3,7 @@
 // before performing any write; lock presence, thin-manifest shape and unsupported shapes are
 // rejected up front so a write loop can never persist a prefix before failing.
 import { lstatSync } from 'node:fs'
+import { parseTerminalJson } from './terminal-json.mjs'
 
 export const reviewStorageLockFile = '.storage.lock'
 export const reviewStorageMarker = '_reviewStorage'
@@ -53,7 +54,7 @@ export function reviewStorageGuardIssues(selection, context = {}) {
     }
     let document
     try {
-      document = JSON.parse(bytes.toString('utf8'))
+      document = parseTerminalJson(bytes)
     } catch (error) {
       issues.push(`guard: selected review is not valid JSON (${error.message}): ${path}`)
       continue

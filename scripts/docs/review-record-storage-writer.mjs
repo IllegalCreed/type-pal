@@ -4,17 +4,19 @@
 // C02: prepare verifies fixed Git identity (100644/blob/SHA bytes) via real Git reader;
 // validates unique frozen 8-source/counts/orders/total599/9-edges; after real biome
 // format enforces strict JSON + deepStrictEqual + Unicode preservation.
-import { execFileSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import {
+  closeSync,
+  constants,
   lstatSync,
   mkdirSync,
   mkdtempSync,
+  openSync,
   readdirSync,
   readFileSync,
   renameSync,
   rmSync,
-  statSync,
   writeFileSync,
 } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -23,6 +25,9 @@ import { dirname, join, resolve } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import {
+  FROZEN_REVIEW_SOURCE_REVISION,
+  FROZEN_REVIEW_STORAGE_SOURCES,
+  FROZEN_REVIEW_STORAGE_TOTAL,
   hasLossyJsonValue,
   materializeReviewRecord,
   reviewDirRelative,
@@ -38,26 +43,10 @@ const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const demand = (condition, message) => {
   if (!condition) throw new Error(`review-record-storage-writer: ${message}`)
 }
+const preparedPlans = new WeakMap()
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
 
-// C05: frozen 8-source identities as bounded versioned constants (no /tmp packet dependency)
-export const FROZEN_REVIEW_STORAGE_SOURCES = Object.freeze(
-  [
-    ['20261017-r73-testing-archive.json', 50],
-    ['20261017-r74-testing-archive.json', 50],
-    ['20261017-r75-testing-archive.json', 50],
-    ['20261017-r76-testing-archive.json', 50],
-    ['20261017-r85-testing-archive.json', 100],
-    ['20261017-r86-ops-evidence-artifacts.json', 100],
-    ['20261017-r87-ops-evidence-artifacts.json', 100],
-    ['20261017-r88-ops-evidence-artifacts.json', 99],
-  ].map(([name, count]) => ({
-    path: `${reviewDirRelative}/${name}`,
-    entryCount: count,
-  })),
-)
-export const FROZEN_REVIEW_STORAGE_TOTAL = 599
-export const FROZEN_REVIEW_SOURCE_REVISION = '8cbf0dafba1a8a96914a322719dfeca1e5d58873'
+export { FROZEN_REVIEW_SOURCE_REVISION, FROZEN_REVIEW_STORAGE_SOURCES, FROZEN_REVIEW_STORAGE_TOTAL }
 
 // C02: prepare production boundary — verify Git identity of the source via real reader
 function verifySourceGitIdentity(repoRoot, logicalPath, revision) {
@@ -72,24 +61,40 @@ function verifySourceGitIdentity(repoRoot, logicalPath, revision) {
 const biomeFormat = (value, path, context) => {
   const input = `${JSON.stringify(value, null, 2)}\n`
   demand(Buffer.byteLength(input) < reviewStorageFlatCap, `unformatted file reaches 1 MiB: ${path}`)
-  const run = context.format
-    ? context.format(input, path)
-    : execFileSync(
-        process.execPath,
-        [
-          context.biomePath ?? require.resolve('@biomejs/biome/bin/biome'),
-          'format',
-          '--stdin-file-path',
-          path,
-        ],
-        {
-          cwd: context.repoRoot ?? process.cwd(),
-          input,
-          encoding: 'utf8',
-          maxBuffer: 16 * 1024 * 1024,
-        },
-      )
-  return Buffer.from(run, 'utf8')
+  if (context.format) return Buffer.from(context.format(input, path), 'utf8')
+  // A regular-file stdin gives the nested Biome launcher an unambiguous EOF;
+  // the project registry formatter uses the same no-follow file-descriptor pattern.
+  const directory = mkdtempSync(join(tmpdir(), 'rrs-format-'))
+  const inputPath = join(directory, 'input.json')
+  writeFileSync(inputPath, input, { flag: 'wx' })
+  const fd = openSync(inputPath, constants.O_RDONLY | constants.O_NOFOLLOW)
+  let result
+  try {
+    result = spawnSync(
+      process.execPath,
+      [
+        context.biomePath ?? require.resolve('@biomejs/biome/bin/biome'),
+        'format',
+        '--stdin-file-path',
+        path,
+      ],
+      {
+        cwd: context.repoRoot ?? process.cwd(),
+        stdio: [fd, 'pipe', 'pipe'],
+        encoding: 'utf8',
+        maxBuffer: 16 * 1024 * 1024,
+        timeout: 30_000,
+      },
+    )
+  } finally {
+    closeSync(fd)
+    rmSync(directory, { recursive: true, force: true })
+  }
+  demand(
+    !result.error && !result.signal && result.status === 0 && result.stderr === '',
+    `formatter failed or emitted diagnostics: ${path}: ${result.stderr || result.error || result.signal || result.status}`,
+  )
+  return Buffer.from(result.stdout, 'utf8')
 }
 
 // C02: post-format strict validation — reparse, deepEqual, Unicode, lossy check
@@ -169,6 +174,8 @@ export function prepareReviewStorageGroup({
     demand(!hasLossyJsonValue(value), 'R92/R94 contains lossy JSON values (-0/NaN/undefined)')
   }
 
+  const sourceBuffers = new Map()
+  const originalRecords = new Map()
   const outputs = []
   const r92Edges = []
   const shardsAll = []
@@ -189,7 +196,9 @@ export function prepareReviewStorageGroup({
       )
     }
     demand(digest(flatBuffer) === source.beforeSHA256, `source identity drift: ${logicalPath}`)
+    sourceBuffers.set(logicalPath, Buffer.from(flatBuffer))
     const flat = parseTerminalJson(flatBuffer)
+    originalRecords.set(logicalPath, parseTerminalJson(flatBuffer))
     demand(isObject(flat) && Array.isArray(flat.entries), `unsupported flat shape: ${logicalPath}`)
     demand(!Object.hasOwn(flat, reviewStorageMarker), `already a manifest: ${logicalPath}`)
     demand(flat.entries.length === source.entryCount, `entry count mismatch: ${logicalPath}`)
@@ -338,7 +347,7 @@ export function prepareReviewStorageGroup({
   expectedSourceSnapshot[R92_LOGICAL] = digest(r92Buffer)
   expectedSourceSnapshot[R94_LOGICAL] = digest(r94Buffer)
 
-  return {
+  const prepared = {
     outputs,
     group: {
       manifests: 8,
@@ -350,6 +359,18 @@ export function prepareReviewStorageGroup({
     expectedSourceSnapshot,
     provenance: gitVerifiedSources ? 'git-verified' : 'pure-fixture',
   }
+  sourceBuffers.set(R92_LOGICAL, Buffer.from(r92Buffer))
+  sourceBuffers.set(R94_LOGICAL, Buffer.from(r94Buffer))
+  preparedPlans.set(prepared, {
+    outputs: outputs.map((output) => ({ ...output, bytes: Buffer.from(output.bytes) })),
+    sourceBuffers,
+    originalRecords,
+    snapshot: { ...expectedSourceSnapshot },
+    sourceRoot: context.repoRoot ? resolve(context.repoRoot) : undefined,
+    provenance: prepared.provenance,
+    actualFormatter: !context.format && !context.biomePath && !process.env.BIOME_BINARY,
+  })
+  return prepared
 }
 
 const R92_EDGE_INDEX = {
@@ -368,262 +389,273 @@ function r92EdgeIndex(stem) {
   return index
 }
 
-// C01: closed complete-group publish
-// Binds to expected source snapshot, validates safe paths + owned root, stages in
-// owned temp dir, rechecks inputs under exclusive lock, reloads 599+9edges before
-// final atomic rename into target. No foreign overwrite or unknown generation reuse.
+// Only real prepare results carry a plan. The handle never exempts IO rechecks:
+// private original bytes, exact descriptors and target states are verified again.
 export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
-  demand(prepared?.outputs && prepared.outputs.length > 0, 'prepared outputs required')
-  // C01: enforce complete frozen output set — 8 manifests + owned shards + R92 + R94 + 10 source keys
-  demand(prepared.outputs.filter((o) => o.kind === 'manifest').length === 8, 'expected 8 manifests')
+  const plan = preparedPlans.get(prepared)
+  demand(plan, 'publication requires an actual prepare result, not a shaped token')
   demand(
-    prepared.outputs.filter((o) => o.kind === 'review').length === 2,
-    'expected R92+R94 (2 reviews)',
+    isDeepStrictEqual(prepared.expectedSourceSnapshot, plan.snapshot),
+    'expected source set changed',
   )
+  demand(prepared.provenance === plan.provenance, 'source provenance changed')
   demand(
-    Object.keys(prepared.expectedSourceSnapshot).length === 10,
-    'expected 10 source keys (8+R92+R94)',
+    prepared.outputs.length === plan.outputs.length &&
+      prepared.outputs.every(
+        (o, i) =>
+          o.kind === plan.outputs[i].kind &&
+          o.path === plan.outputs[i].path &&
+          Buffer.isBuffer(o.bytes) &&
+          o.bytes.equals(plan.outputs[i].bytes),
+      ),
+    'complete prepared output set changed',
   )
-  demand(prepared.expectedSourceSnapshot, 'expected source snapshot required (C01)')
-  const base = resolve(targetRoot)
-  const sourceReader = options.sourceReadBuffer
-  demand(typeof sourceReader === 'function', 'source readBuffer required for input recheck (C01)')
-  // C02: pure-fixture prepared results cannot claim Git-verified provenance
+  const base = resolve(targetRoot),
+    sourceReader = options.sourceReadBuffer
+  demand(typeof sourceReader === 'function', 'source readBuffer required')
+  const inPlace = base === plan.sourceRoot
   demand(
-    prepared.provenance !== undefined,
-    'prepared result must declare provenance (git-verified or pure-fixture)',
+    !inPlace ||
+      (options.allowInPlace === true && plan.provenance === 'git-verified' && plan.actualFormatter),
+    'in-place publication requires explicit Owner mode and verified Git sources',
   )
-
-  // C01: validate all output paths are safe and within the owned target root
-  const targetFiles = new Set()
-  for (const output of prepared.outputs) {
-    demand(
-      typeof output.path === 'string' && output.path.startsWith(`${reviewDirRelative}/`),
-      `output path outside review directory: ${output.path}`,
-    )
-    const segments = output.path.split('/')
-    demand(
-      !segments.some((s) => s === '' || s === '.' || s === '..'),
-      `unsafe output path: ${output.path}`,
-    )
-    demand(
-      output.bytes !== undefined && output.bytes.length > 0,
-      `empty output bytes: ${output.path}`,
-    )
-    demand(!targetFiles.has(output.path), `duplicate output path: ${output.path}`)
-    targetFiles.add(output.path)
-  }
-
-  // C01: recheck all expected source inputs still match the prepare snapshot
-  for (const [path, expectedSha] of Object.entries(prepared.expectedSourceSnapshot)) {
-    const current = sourceReader(path)
-    demand(current !== undefined, `source went missing during prepare→publish: ${path}`)
-    demand(digest(current) === expectedSha, `source changed during prepare→publish: ${path}`)
-  }
-
-  // C01: lstat-based parent checks (stat follows symlinks, lstat does not)
-  const targetReviewDir = join(base, reviewDirRelative)
-  mkdirSync(targetReviewDir, { recursive: true })
-  const targetShardsDir = join(targetReviewDir, 'shards')
-  const lstatIf = (p) => {
-    try {
-      return lstatSync(p)
-    } catch {
-      return null
+  const expected = new Map(plan.outputs.map((output) => [output.path, output]))
+  let inPlaceInputMode
+  const sourceCheck = () => {
+    const modes = []
+    for (const [path, before] of plan.sourceBuffers) {
+      const current = sourceReader(path)
+      demand(Buffer.isBuffer(current), `source missing: ${path}`)
+      if (!inPlace) demand(before.equals(current), `source changed: ${path}`)
+      if (plan.sourceRoot)
+        demand(
+          current.equals(fileState(plan.sourceRoot, path).buffer),
+          `source filesystem changed: ${path}`,
+        )
+      if (inPlace)
+        modes.push(
+          before.equals(current)
+            ? 'original'
+            : current.equals(expected.get(path).bytes)
+              ? 'published'
+              : 'foreign',
+        )
     }
-  }
-  const groupStems = new Set(
-    prepared.outputs.filter((o) => o.kind === 'shard').map((o) => o.path.split('/')[4]),
-  )
-  const shardsLstat = lstatIf(targetShardsDir)
-  if (shardsLstat) {
-    demand(
-      shardsLstat.isDirectory() && !shardsLstat.isSymbolicLink(),
-      'target shards/ not an ordinary directory',
-    )
-    for (const stemName of readdirSync(targetShardsDir)) {
-      const stemStat = lstatIf(join(targetShardsDir, stemName))
+    if (inPlace) {
+      // Exact prior outputs are a legitimate no-op replay, but a mixed/foreign
+      // source group needs explicit recovery rather than implicit completion.
       demand(
-        stemStat?.isDirectory() && !stemStat?.isSymbolicLink(),
-        `shard root has non-directory stem: ${stemName}`,
+        modes.every((mode) => mode === modes[0]) && modes[0] !== 'foreign',
+        'partial or foreign in-place source group',
       )
-      if (groupStems.has(stemName)) {
-        for (const genName of readdirSync(join(targetShardsDir, stemName))) {
-          const genStat = lstatIf(join(targetShardsDir, stemName, genName))
-          demand(
-            genStat?.isDirectory(),
-            `stem ${stemName} has non-directory generation: ${genName}`,
-          )
-        }
-      }
+      inPlaceInputMode ??= modes[0]
+      demand(inPlaceInputMode === modes[0], 'source changed under publication lock')
     }
   }
-  // C01: target outputs allow absence / original source bytes / exact previously published output
-  for (const output of prepared.outputs) {
-    if (output.kind === 'shard') continue
-    const targetPath = join(base, output.path)
-    const targetStat = lstatIf(targetPath)
-    if (targetStat) {
+  sourceCheck()
+  const states = new Map(),
+    parents = new Map()
+  for (const output of plan.outputs) {
+    const state = fileState(base, output.path, parents)
+    if (state.buffer) {
+      const before = plan.sourceBuffers.get(output.path)
       demand(
-        targetStat.isFile() && !targetStat.isSymbolicLink(),
-        `target not ordinary file: ${output.path}`,
+        state.buffer.equals(output.bytes) || before?.equals(state.buffer),
+        `target has foreign bytes: ${output.path}`,
       )
-      const existing = readFileSync(targetPath)
-      const isOurOutput = existing.equals(output.bytes)
-      const isOriginalSource =
-        prepared.expectedSourceSnapshot[output.path] !== undefined &&
-        digest(existing) === prepared.expectedSourceSnapshot[output.path]
-      demand(isOurOutput || isOriginalSource, `target has foreign bytes: ${output.path}`)
+    }
+    states.set(output.path, state)
+  }
+  inspectShardInventory(base, expected)
+  const assertTargets = () => {
+    for (const [path, state] of parents)
+      demand(
+        isDeepStrictEqual(state, directoryIdentity(lstatSync(path))),
+        `target parent changed: ${path}`,
+      )
+    for (const [path, state] of states) {
+      const current = fileState(base, path)
+      demand(
+        isDeepStrictEqual(state.identity, current.identity) &&
+          (state.buffer ? current.buffer?.equals(state.buffer) : !current.buffer),
+        `target changed under publication lock: ${path}`,
+      )
     }
   }
-
-  // C01: stage in owned temp directory
-  const stagingDir = mkdtempSync(join(tmpdir(), 'rrs-publish-'))
-  const lockPath = join(targetReviewDir, '.storage.lock')
-
-  // C01: exclusive lock then full recheck
+  assertTargets()
+  const reviewDir = join(base, reviewDirRelative)
+  mkdirSync(reviewDir, { recursive: true })
+  checkOrdinaryPath(base, reviewDirRelative, 'directory', parents)
+  const stagingDir = mkdtempSync(join(tmpdir(), 'rrs-publish-')),
+    lock = join(reviewDir, '.storage.lock')
   try {
-    writeFileSync(lockPath, `${new Date().toISOString()}\n`, { flag: 'wx' })
+    writeFileSync(lock, `${new Date().toISOString()}\n`, { flag: 'wx' })
   } catch (error) {
     rmSync(stagingDir, { recursive: true, force: true })
-    if (error.code === 'EEXIST')
-      throw new Error('review-record-storage-writer: publication lock already present')
     throw error
   }
-
+  const recovery = { source: plan.snapshot, targetRoot: base, written: [], state: 'locked' }
+  const saveRecovery = () =>
+    writeFileSync(join(stagingDir, 'recovery.json'), `${JSON.stringify(recovery, null, 2)}\n`)
   try {
-    // recheck sources under lock
-    for (const [path, expectedSha] of Object.entries(prepared.expectedSourceSnapshot)) {
-      const current = sourceReader(path)
-      demand(current !== undefined, `source went missing under lock: ${path}`)
-      demand(digest(current) === expectedSha, `source changed under lock: ${path}`)
-    }
-    // stage all outputs to the owned temp dir
-    for (const output of prepared.outputs) {
+    saveRecovery()
+    sourceCheck()
+    assertTargets()
+    inspectShardInventory(base, expected)
+    for (const output of plan.outputs) {
       const staged = join(stagingDir, output.path)
       mkdirSync(dirname(staged), { recursive: true })
       writeFileSync(staged, output.bytes)
-      demand(
-        digest(readFileSync(staged)) === digest(output.bytes),
-        `staged output drift: ${output.path}`,
-      )
+      const before = states.get(output.path).buffer
+      if (before) {
+        const backup = join(stagingDir, 'before', output.path)
+        mkdirSync(dirname(backup), { recursive: true })
+        writeFileSync(backup, before)
+      }
     }
-    // C01: reload-verify 599 entries + 9 edges + artifact set from the staged tree
-    const reloadCheck = verifyStagedGroup(stagingDir, prepared)
-    demand(
-      reloadCheck.totalEntries === FROZEN_REVIEW_STORAGE_TOTAL,
-      `reload found ${reloadCheck.totalEntries} entries != 599`,
+    saveRecovery()
+    verifyStagedGroup(stagingDir, plan)
+    sourceCheck()
+    assertTargets()
+    inspectShardInventory(base, expected)
+    // Shards first, then all manifests, R92 and R94. Readers refuse the whole locked group.
+    const order = [...plan.outputs].sort(
+      (a, b) =>
+        ({ shard: 0, manifest: 1, review: 2 })[a.kind] -
+        { shard: 0, manifest: 1, review: 2 }[b.kind],
     )
-    demand(reloadCheck.edgeCount === 9, `reload found ${reloadCheck.edgeCount} edges != 9`)
-
-    // C01: inventory entire group-stem shard roots under lock — reject unknown sibling generations
-    // whether or not the active generation exists; immutable reuse requires byte-identical
-    for (const stem of groupStems) {
-      const ourGenerations = new Set(
-        prepared.outputs
-          .filter((o) => o.kind === 'shard' && o.path.split('/')[4] === stem)
-          .map((o) => o.path.split('/')[5]),
-      )
-      const stemRoot = join(base, reviewDirRelative, 'shards', stem)
-      const stemStat2 = lstatIf(stemRoot)
-      if (!stemStat2) continue
-      demand(stemStat2.isDirectory(), `stem root not ordinary: ${stem}`)
-      for (const genName of readdirSync(stemRoot)) {
-        if (!ourGenerations.has(genName)) {
-          demand(false, `unknown sibling generation in group stem ${stem}: ${genName}`)
-        }
-      }
-      for (const gen of ourGenerations) {
-        const genDir = join(stemRoot, gen)
-        if (lstatIf(genDir)) {
-          for (const name of readdirSync(genDir)) {
-            const existing = readFileSync(join(genDir, name))
-            const stagedPath = join(stagingDir, reviewDirRelative, 'shards', stem, gen, name)
-            const staged = readFileSync(stagedPath)
-            demand(
-              existing.equals(staged),
-              `immutable generation foreign bytes: ${stem}/${gen}/${name}`,
-            )
-          }
-        }
-      }
-    }
-
-    // final placement from staging into target
-    for (const output of prepared.outputs) {
-      const staged = join(stagingDir, output.path)
-      const target = join(base, output.path)
-      mkdirSync(dirname(target), { recursive: true })
-      renameSync(staged, target)
+    for (const output of order) {
+      assertTargets()
+      mkdirSync(dirname(join(base, output.path)), { recursive: true })
+      checkOrdinaryPath(base, output.path.split('/').slice(0, -1).join('/'), 'directory', parents)
+      renameSync(join(stagingDir, output.path), join(base, output.path))
+      states.set(output.path, fileState(base, output.path, parents))
       demand(
-        digest(readFileSync(target)) === digest(output.bytes),
+        states.get(output.path).buffer.equals(output.bytes),
         `final placement drift: ${output.path}`,
       )
+      recovery.written.push(output.path)
+      saveRecovery()
     }
+    verifyStagedGroup(base, plan)
+    assertTargets()
+    inspectShardInventory(base, expected)
+    if (!inPlace) sourceCheck()
+    recovery.state = 'verified'
+    saveRecovery()
   } catch (error) {
-    // C01: leave lock AND staging in place on failure — recovery materials preserved
     throw new Error(
       `review-record-storage-writer: publish failed (lock+staging preserved at ${stagingDir}): ${error.message}`,
     )
   }
-
-  // C01: post-publish full group verification
-  const postCheck = verifyStagedGroup(base, prepared)
-  demand(postCheck.totalEntries === FROZEN_REVIEW_STORAGE_TOTAL, 'post-publish 599 check failed')
-  demand(postCheck.edgeCount === 9, 'post-publish 9-edge check failed')
-
-  rmSync(lockPath)
+  rmSync(lock)
   rmSync(stagingDir, { recursive: true, force: true })
   return {
-    written: prepared.outputs.length,
+    written: expected.size,
     lockReleased: true,
-    totalEntries: postCheck.totalEntries,
-    edgeCount: postCheck.edgeCount,
+    totalEntries: FROZEN_REVIEW_STORAGE_TOTAL,
+    edgeCount: 9,
   }
 }
-
-function verifyStagedGroup(treeRoot, prepared) {
-  let totalEntries = 0
-  let edgeCount = 0
-  const treeReadBuffer = (p) => {
+function directoryIdentity(stat) {
+  demand(stat.isDirectory() && !stat.isSymbolicLink(), 'target parent not an ordinary directory')
+  return { dev: stat.dev, ino: stat.ino, mode: stat.mode }
+}
+function checkOrdinaryPath(root, relative, kind, parents = new Map()) {
+  demand(
+    relative.startsWith(reviewDirRelative) &&
+      !relative.includes('\\') &&
+      !relative.split('/').some((part) => !part || part === '.' || part === '..'),
+    `unsafe target path: ${relative}`,
+  )
+  const parts = relative.split('/')
+  for (let i = 0; i <= parts.length; i++) {
+    const path = join(root, ...parts.slice(0, i))
+    let stat
     try {
-      return readFileSync(join(treeRoot, p))
-    } catch {
-      return undefined
+      stat = lstatSync(path)
+    } catch (error) {
+      if (error.code === 'ENOENT') return null
+      throw error
     }
+    if (i < parts.length || kind === 'directory') {
+      const state = directoryIdentity(stat)
+      if (parents.has(path))
+        demand(isDeepStrictEqual(parents.get(path), state), `target parent changed: ${path}`)
+      else parents.set(path, state)
+    } else demand(stat.isFile(), `target not an ordinary file: ${relative}`)
+    if (i === parts.length) return stat
   }
-  for (const output of prepared.outputs) {
-    if (output.kind === 'manifest') {
-      const { record } = materializeReviewRecord(output.path, { readBuffer: treeReadBuffer })
-      totalEntries += record.entries.length
-    }
-    if (output.path.includes('r92-phase-governance')) {
-      const r92 = parseTerminalJson(readFileSync(join(treeRoot, output.path)))
-      for (const idx of [4, 5, 6, 7, 16, 17, 18, 19]) {
-        const target = r92.entries[idx].path
-        const targetSha = digest(readFileSync(join(treeRoot, target)))
-        demand(r92.entries[idx].afterSha256 === targetSha, `R92 edge ${idx} not refreshed`)
-        edgeCount++
+}
+function fileState(root, path, parents) {
+  const stat = checkOrdinaryPath(root, path, 'file', parents)
+  if (!stat) return { identity: null, buffer: null }
+  const buffer = readFileSync(join(root, path)),
+    after = lstatSync(join(root, path))
+  const identity = (s) => ({
+    dev: s.dev,
+    ino: s.ino,
+    mode: s.mode,
+    size: s.size,
+    mtime: s.mtimeMs,
+    ctime: s.ctimeMs,
+  })
+  demand(
+    after.isFile() && isDeepStrictEqual(identity(stat), identity(after)),
+    `target changed while read: ${path}`,
+  )
+  return { identity: identity(after), buffer }
+}
+function inspectShardInventory(root, expected) {
+  const shards = [...expected.values()].filter((output) => output.kind === 'shard')
+  const rootPath = `${reviewDirRelative}/shards`
+  if (!checkOrdinaryPath(root, rootPath, 'directory')) return
+  for (const stem of readdirSync(join(root, rootPath))) {
+    const stemPath = `${rootPath}/${stem}`,
+      owned = shards.filter((output) => output.path.startsWith(`${stemPath}/`))
+    demand(owned.length, `unknown shard stem: ${stem}`)
+    checkOrdinaryPath(root, stemPath, 'directory')
+    for (const generation of readdirSync(join(root, stemPath))) {
+      const generationPath = `${stemPath}/${generation}`,
+        files = owned.filter((output) => output.path.startsWith(`${generationPath}/`))
+      demand(files.length, `unknown sibling generation: ${generationPath}`)
+      checkOrdinaryPath(root, generationPath, 'directory')
+      const names = readdirSync(join(root, generationPath)).sort()
+      demand(
+        isDeepStrictEqual(names, files.map((o) => o.path.split('/').pop()).sort()),
+        `immutable generation file set differs: ${generationPath}`,
+      )
+      for (const name of names) {
+        const path = `${generationPath}/${name}`,
+          output = expected.get(path)
+        demand(output?.kind === 'shard', `orphan shard: ${path}`)
+        demand(
+          fileState(root, path).buffer.equals(output.bytes),
+          `immutable generation foreign bytes: ${path}`,
+        )
       }
     }
-    if (output.path.includes('r94-final-machine')) {
-      const r94 = parseTerminalJson(readFileSync(join(treeRoot, output.path)))
-      const r92Sha = digest(
-        readFileSync(
-          join(treeRoot, `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`),
-        ),
-      )
-      demand(r94.entries[6].afterSha256 === r92Sha, 'R94[6] edge not refreshed')
-      edgeCount++
-    }
   }
-  return { totalEntries, edgeCount }
 }
-
-function _statIfExists(path) {
-  try {
-    return statSync(path)
-  } catch {
-    return null
+function verifyStagedGroup(root, plan) {
+  const readBuffer = (path) => readFileSync(join(root, path))
+  for (const [path, original] of plan.originalRecords) {
+    const { record } = materializeReviewRecord(path, { readBuffer })
+    demand(
+      isDeepStrictEqual(record, original) && JSON.stringify(record) === JSON.stringify(original),
+      `logical content changed: ${path}`,
+    )
   }
+  const r92Path = `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`
+  const r94Path = `${reviewDirRelative}/20261017-r94-final-machine-artifacts.json`
+  const r92 = parseTerminalJson(readBuffer(r92Path)),
+    r94 = parseTerminalJson(readBuffer(r94Path))
+  for (const index of Object.values(R92_EDGE_INDEX)) {
+    const edge = r92.entries[index]
+    demand(edge.afterSha256 === digest(readBuffer(edge.path)), `R92 edge ${index} drift`)
+  }
+  demand(r94.entries[6].afterSha256 === digest(readBuffer(r92Path)), 'R94[6] drift')
+  for (const output of plan.outputs)
+    demand(readBuffer(output.path).equals(output.bytes), `output drift: ${output.path}`)
+  inspectShardInventory(root, new Map(plan.outputs.map((o) => [o.path, o])))
 }

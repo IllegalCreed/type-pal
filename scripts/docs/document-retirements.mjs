@@ -4,7 +4,12 @@ import { resolve } from 'node:path'
 import { inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { markdownLinks } from './markdown.mjs'
-import { readReviewRecordObject } from './review-record-storage.mjs'
+import {
+  assertReviewRecordSourceUnchanged,
+  loadReviewRecord,
+  loadReviewRecordFromGit,
+  readReviewRecordObject,
+} from './review-record-storage.mjs'
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const object = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -106,7 +111,14 @@ function quoteRange(text) {
 /** Validate the lifecycle action independently of content/template review credit. */
 export function inspectDocumentRetirements(
   registry,
-  { cohort, readBuffer, readSourceBuffer, present = (path) => readBuffer(path) !== undefined },
+  {
+    cohort,
+    readBuffer,
+    readSourceBuffer,
+    reviewReader,
+    historicalReviewReader,
+    present = (path) => readBuffer(path) !== undefined,
+  },
 ) {
   const declaration = registry.documentRetirements
   const issues = retirementShapeIssues(declaration)
@@ -171,17 +183,19 @@ export function inspectDocumentRetirements(
         path: priorPath,
       })
       // Use the storage-aware reader on the prior review buffer (handles flat or sharded)
-      const priorRecord = readReviewRecordObject(priorPath, {
-        readBuffer: (p) => {
-          if (p === priorPath) return priorSnap?.buffer
-          // Shards at the same revision need individual lookups
-          const shardSnap = readSourceBuffer({
-            revision: declaration.previousRegistry.revision,
-            path: p,
+      const priorRecord = historicalReviewReader
+        ? historicalReviewReader(declaration.previousRegistry.revision, priorPath)
+        : readReviewRecordObject(priorPath, {
+            readBuffer: (p) => {
+              if (p === priorPath) return priorSnap?.buffer
+              // Shards at the same revision need individual lookups
+              const shardSnap = readSourceBuffer({
+                revision: declaration.previousRegistry.revision,
+                path: p,
+              })
+              return shardSnap?.buffer
+            },
           })
-          return shardSnap?.buffer
-        },
-      })
       const oldPins = priorRecord.entries.filter((row) => row.path === entry.path)
       demand(
         oldPins?.length === 1 && oldPins[0].afterSha256 === entry.source.sha256,
@@ -205,7 +219,9 @@ export function inspectDocumentRetirements(
           `retirement replacement missing or rebound: ${row.path}`,
         )
         const reviewPath = `docs/phase-governance/reviews/${row.reviewRecord}`
-        const review = readReviewRecordObject(reviewPath, { readBuffer })
+        const review = reviewReader
+          ? reviewReader(reviewPath)
+          : readReviewRecordObject(reviewPath, { readBuffer })
         demand(
           review?.entries?.filter((candidate) => candidate.path === row.path).length === 1,
           `retirement replacement review not unique: ${row.path}`,
@@ -287,10 +303,21 @@ export function readDocumentRetirements(root, registry) {
   })
   if (baseline.issues.length)
     return { entries: [], issues: baseline.issues, historicalTarget: () => false }
-  return inspectDocumentRetirements(registry, {
+  const reviewReads = []
+  const reviewReader = (logicalPath) => {
+    const loaded = loadReviewRecord({ root, logicalPath })
+    reviewReads.push(loaded.loadedSource)
+    return loaded.record
+  }
+  const result = inspectDocumentRetirements(registry, {
+    reviewReader,
+    historicalReviewReader: (revision, logicalPath) =>
+      loadReviewRecordFromGit({ root, revision, logicalPath }).record,
     cohort: new Set(baseline.entries.map((entry) => entry.path)),
     readBuffer,
     readSourceBuffer,
     present,
   })
+  for (const source of reviewReads) assertReviewRecordSourceUnchanged(source)
+  return result
 }

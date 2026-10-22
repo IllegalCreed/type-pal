@@ -210,7 +210,7 @@ test('real CLI guard: sync reads and validates the whole directory before any re
     { cwd: dir, encoding: 'utf8' },
   )
   assert.notEqual(run.status, 0)
-  assert.match(run.stderr, /guard/)
+  assert.match(run.stderr, /review-record-storage: unknown producer:/)
   assert.deepEqual(
     snapshot(dir),
     before,

@@ -1,199 +1,275 @@
-// review-record-storage.test.mjs — loader core contract tests (C05: self-contained, no /tmp).
-// Uses small synthetic records via the test-support helper; one real-CLI publish covers 599+9edges.
-
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import fs from 'node:fs'
+import { syncBuiltinESMExports } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import {
+  assertReviewRecordSourceUnchanged,
   loadReviewRecord,
   loadReviewRecordFromGit,
   materializeReviewRecord,
-  readReviewRecordObject,
-  reconcileShardDirectories,
   reviewDirRelative,
-  reviewStorageMarker,
 } from './review-record-storage.mjs'
 import { buildSmallShardedRecord } from './review-record-storage.test-support.mjs'
 
-const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
-const here = fileURLToPath(new URL('.', import.meta.url))
-const _sha = (b) => createHash('sha256').update(b).digest('hex')
-function tempTree() {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-core-'))
-  mkdirSync(join(dir, reviewDirRelative), { recursive: true })
-  return dir
-}
-const ctx = (dir) => ({
-  readBuffer: (p) => {
-    try {
-      return readFileSync(join(dir, p))
-    } catch {
-      return undefined
-    }
-  },
-})
-
-test('small sharded record materializes to the exact logical object (public-caller success)', () => {
-  const dir = tempTree()
-  const built = buildSmallShardedRecord(3)
-  for (const [path, bytes] of built.files) {
-    mkdirSync(dirname(join(dir, path)), { recursive: true })
-    writeFileSync(join(dir, path), bytes)
+const root = fileURLToPath(new URL('../..', import.meta.url)),
+  sha = (b) => createHash('sha256').update(b).digest('hex')
+const git = (dir, ...args) =>
+  execFileSync('git', ['-C', dir, ...args], { stdio: ['ignore', 'pipe', 'pipe'] })
+    .toString()
+    .trim()
+function fixture() {
+  const dir = fs.mkdtempSync(join(tmpdir(), 'rrs-owner-reader-')),
+    built = buildSmallShardedRecord(3)
+  const write = (path, bytes) => {
+    fs.mkdirSync(dirname(join(dir, path)), { recursive: true })
+    fs.writeFileSync(join(dir, path), bytes)
   }
-  const { record, storage } = materializeReviewRecord(built.logicalPath, ctx(dir))
-  assert.deepEqual(record, built.logical)
-  assert.equal(storage.totalEntries, 3)
-  const loaded = loadReviewRecord({ root: dir, logicalPath: built.logicalPath })
-  assert.equal(loaded.loadedSource.files.length, 1 + built.shardCount)
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('descriptor SHA drift is rejected (tampered shard bytes)', () => {
-  const dir = tempTree()
-  const built = buildSmallShardedRecord(3)
-  for (const [path, bytes] of built.files) {
-    mkdirSync(dirname(join(dir, path)), { recursive: true })
-    writeFileSync(join(dir, path), bytes)
-  }
-  const shardPath = built.files.find(([p]) => p.includes('part-'))[0]
-  const tampered = JSON.parse(readFileSync(join(dir, shardPath), 'utf8'))
-  tampered.entries[0].path = 'docs/tampered.md'
-  writeFileSync(join(dir, shardPath), `${JSON.stringify(tampered, null, 2)}\n`)
-  assert.throws(
-    () => loadReviewRecord({ root: dir, logicalPath: built.logicalPath }),
-    /shard SHA drift/,
-  )
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('manifest top-level key order and storage field order are exact (frozen contract)', () => {
-  const dir = tempTree()
-  const built = buildSmallShardedRecord(2)
-  for (const [path, bytes] of built.files) {
-    mkdirSync(dirname(join(dir, path)), { recursive: true })
-    writeFileSync(join(dir, path), bytes)
-  }
-  const manifest = JSON.parse(readFileSync(join(dir, built.logicalPath), 'utf8'))
-  const topKeys = Object.keys(manifest)
-  assert.equal(topKeys[topKeys.length - 1], reviewStorageMarker)
-  const storageKeys = Object.keys(manifest[reviewStorageMarker])
-  assert.equal(storageKeys[0], 'schemaVersion')
-  assert.equal(storageKeys[storageKeys.length - 1], 'shards')
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('orphan shard detection: unlisted file in generation dir is reported', () => {
-  const dir = tempTree()
-  const built = buildSmallShardedRecord(3)
-  for (const [path, bytes] of built.files) {
-    mkdirSync(dirname(join(dir, path)), { recursive: true })
-    writeFileSync(join(dir, path), bytes)
-  }
-  const manifest = JSON.parse(readFileSync(join(dir, built.logicalPath), 'utf8'))
-  const storage = manifest[reviewStorageMarker]
-  const genDir = storage.shards[0].path.replace(/part-\d+\.json$/, '')
-  writeFileSync(join(dir, reviewDirRelative, genDir, 'part-999.json'), '{}\n')
-  const { issues } = reconcileShardDirectories(built.logicalPath, storage, {
-    resolve: (p) => join(dir, p),
-  })
-  assert.ok(issues.some((x) => x.includes('orphan shard')))
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('lock present → loader refuses; lock removed → loader succeeds', () => {
-  const dir = tempTree()
-  const built = buildSmallShardedRecord(2)
-  for (const [path, bytes] of built.files) {
-    mkdirSync(dirname(join(dir, path)), { recursive: true })
-    writeFileSync(join(dir, path), bytes)
-  }
-  const lockPath = join(dir, reviewDirRelative, '.storage.lock')
-  writeFileSync(lockPath, 'locked\n')
-  assert.throws(
-    () => loadReviewRecord({ root: dir, logicalPath: built.logicalPath }),
-    /lock present/,
-  )
-  rmSync(lockPath)
-  const loaded = loadReviewRecord({ root: dir, logicalPath: built.logicalPath })
-  assert.equal(loaded.record.entries.length, 2)
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('flat records are first-class inputs everywhere (real repo r85/r76)', () => {
-  const flat = readReviewRecordObject(
-    'docs/phase-governance/reviews/20261017-r76-testing-archive.json',
-    {
-      readBuffer: (p) => readFileSync(join(repoRoot, p)),
-    },
-  )
-  assert.equal(flat.entries.length, 50)
-  const loaded = loadReviewRecord({
-    root: repoRoot,
-    logicalPath: 'docs/phase-governance/reviews/20261017-r85-testing-archive.json',
-  })
-  assert.equal(loaded.record.entries.length, 100)
-  assert.equal(loaded.loadedSource.files.length, 1)
-})
-
-test('Git loader: flat from real revision; sharded from temp Git commit; missing refuses', () => {
-  const gitFlat = loadReviewRecordFromGit({
-    root: repoRoot,
-    revision: '8cbf0dafba1a8a96914a322719dfeca1e5d58873',
-    logicalPath: 'docs/phase-governance/reviews/20261017-r73-testing-archive.json',
-  })
-  assert.equal(gitFlat.record.entries.length, 50)
-  assert.equal(gitFlat.storage, null)
-  const dir = tempTree()
-  execFileSync('node', [join(here, 'migrate-review-record-storage.mjs'), '--publish', dir])
-  execFileSync('git', ['-C', dir, 'init', '-q'])
-  execFileSync('git', ['-C', dir, 'add', '-A'])
-  execFileSync('git', [
-    '-C',
+  git(dir, 'init', '-q')
+  write(built.logicalPath, Buffer.from(JSON.stringify(built.logical)))
+  git(dir, 'add', 'docs')
+  git(
     dir,
     '-c',
-    'user.email=t@t',
+    'user.name=fixture',
     '-c',
-    'user.name=t',
+    'user.email=fixture@example.invalid',
     'commit',
     '-qm',
-    'rehearsal',
-  ])
-  const head = execFileSync('git', ['-C', dir, 'rev-parse', 'HEAD']).toString().trim()
-  const fromGit = loadReviewRecordFromGit({
-    root: dir,
-    revision: head,
-    logicalPath: 'docs/phase-governance/reviews/20261017-r85-testing-archive.json',
-  })
-  assert.equal(fromGit.record.entries.length, 100)
-  assert.ok(fromGit.storage !== null)
-  assert.throws(
-    () =>
-      loadReviewRecordFromGit({
-        root: dir,
-        revision: head,
-        logicalPath: `${reviewDirRelative}/nonexistent.json`,
-      }),
-    /Git review missing/,
+    'original flat',
   )
-  rmSync(dir, { recursive: true, force: true })
+  const revision = git(dir, 'rev-parse', 'HEAD'),
+    gitObject = git(dir, 'rev-parse', `HEAD:${built.logicalPath}`)
+  for (const [path, bytes] of built.files) {
+    if (path !== built.logicalPath) write(path, bytes)
+    else {
+      const manifest = JSON.parse(bytes)
+      manifest._reviewStorage.source = {
+        revision,
+        path,
+        gitObject,
+        sha256: sha(fs.readFileSync(join(dir, path))),
+      }
+      write(path, Buffer.from(JSON.stringify(manifest)))
+    }
+  }
+  return {
+    dir,
+    built,
+    write,
+    close: () => fs.rmSync(dir, { recursive: true, force: true }),
+    readBuffer: (p) => fs.readFileSync(join(dir, p)),
+  }
+}
+
+test('pure materialization and protected real-Git fixture preserve object/order and report exact artifact facts', () => {
+  const f = fixture()
+  try {
+    assert.deepStrictEqual(materializeReviewRecord(f.built.logicalPath, f).record, f.built.logical)
+    const loaded = loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath })
+    assert.deepStrictEqual(loaded.record, f.built.logical)
+    assert.equal(JSON.stringify(loaded.record), JSON.stringify(f.built.logical))
+    for (const artifact of loaded.loadedSource.artifactSet) {
+      assert.equal(artifact.sha256, sha(f.readBuffer(artifact.path)))
+      assert.equal(artifact.bytes, f.readBuffer(artifact.path).length)
+      assert.equal(artifact.caller, f.built.logicalPath)
+      assert.equal(artifact.credit, 0)
+      assert.deepEqual(artifact.positions, JSON.parse(f.readBuffer(artifact.path)).positions)
+    }
+    assertReviewRecordSourceUnchanged(loaded.loadedSource)
+    assert.throws(
+      () => assertReviewRecordSourceUnchanged({ ...loaded.loadedSource }),
+      /actual protected read snapshot/,
+    )
+  } finally {
+    f.close()
+  }
 })
 
-test('real CLI publish: 8 manifests, 19 shards, 599 entries, 9 edges', () => {
-  const dir = tempTree()
-  const result = JSON.parse(
-    execFileSync('node', [join(here, 'migrate-review-record-storage.mjs'), '--publish', dir], {
-      encoding: 'utf8',
-    }),
-  )
-  assert.equal(result.mode, 'publish')
-  assert.equal(result.totalEntries, 599)
-  assert.equal(result.edgeCount, 9)
-  assert.equal(result.shards, 19)
-  assert.ok(result.entries.every((n) => n > 0))
-  rmSync(dir, { recursive: true, force: true })
+test('saved original shard bytes cannot be substituted between materialization and final verification', () => {
+  const f = fixture(),
+    path = f.built.files.find(([p]) => p.includes('part-'))[0],
+    absolute = join(f.dir, path),
+    original = fs.readFileSync
+  let calls = 0
+  try {
+    fs.readFileSync = function (file, ...args) {
+      if (String(file) === absolute && ++calls === 2) {
+        const value = JSON.parse(original(absolute))
+        value.entries[0].path = 'docs/substituted.md'
+        fs.writeFileSync(absolute, JSON.stringify(value))
+      }
+      return original.call(this, file, ...args)
+    }
+    syncBuiltinESMExports()
+    assert.throws(
+      () => loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath }),
+      /input bytes or identity changed/,
+    )
+    assert.equal(calls, 2)
+  } finally {
+    fs.readFileSync = original
+    syncBuiltinESMExports()
+    f.close()
+  }
+})
+
+test('same-byte symlink leaf and parent are rejected by production reader, not by a checksum accident', () => {
+  for (const parent of [false, true]) {
+    const f = fixture(),
+      shard = f.built.files.find(([p]) => p.includes('part-'))[0],
+      path = parent ? dirname(join(f.dir, shard)) : join(f.dir, shard),
+      backup = join(f.dir, 'owned-backup')
+    try {
+      fs.renameSync(path, backup)
+      fs.symlinkSync(backup, path, parent ? 'dir' : 'file')
+      assert.throws(
+        () => loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath }),
+        /ordinary file|ordinary directory/,
+      )
+    } finally {
+      f.close()
+    }
+  }
+})
+
+test('whole inventory rejects unknown stem and orphan even when active generation is otherwise valid', () => {
+  for (const kind of ['stem', 'orphan']) {
+    const f = fixture(),
+      shard = f.built.files.find(([p]) => p.includes('part-'))[0]
+    try {
+      const path =
+        kind === 'stem'
+          ? `${reviewDirRelative}/shards/unowned/file.json`
+          : `${dirname(shard)}/part-999.json`
+      f.write(path, Buffer.from('{}'))
+      assert.throws(
+        () => loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath }),
+        /unknown shard stem|orphan shard/,
+      )
+    } finally {
+      f.close()
+    }
+  }
+})
+
+test('descriptor filename binding and original Git pin have actual production rejection oracles', () => {
+  for (const kind of ['filename', 'original-pin', 'key-order']) {
+    const f = fixture()
+    try {
+      let manifest = JSON.parse(f.readBuffer(f.built.logicalPath))
+      if (kind === 'filename') {
+        const descriptor = manifest._reviewStorage.shards[0],
+          old = descriptor.path
+        descriptor.path = old.replace('part-001.json', 'other.json')
+        f.write(
+          `${reviewDirRelative}/${descriptor.path}`,
+          f.readBuffer(`${reviewDirRelative}/${old}`),
+        )
+      } else if (kind === 'original-pin') manifest._reviewStorage.source.gitObject = '1'.repeat(40)
+      else {
+        const { schemaVersion, ...rest } = manifest
+        manifest = { ...rest, schemaVersion }
+      }
+      f.write(f.built.logicalPath, Buffer.from(JSON.stringify(manifest)))
+      assert.throws(
+        () => loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath }),
+        /shard path outside|source pin mismatch|top-level keys/,
+      )
+    } finally {
+      f.close()
+    }
+  }
+})
+
+test('returned snapshot rechecks both changed bytes and a later lock', () => {
+  const f = fixture()
+  try {
+    const loaded = loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath })
+    const lock = `${reviewDirRelative}/.storage.lock`
+    f.write(lock, Buffer.from('owned test lock'))
+    assert.throws(() => assertReviewRecordSourceUnchanged(loaded.loadedSource), /lock present/)
+    fs.rmSync(join(f.dir, lock))
+    const shard = f.built.files.find(([p]) => p.includes('part-'))[0]
+    f.write(shard, Buffer.from('{}'))
+    assert.throws(
+      () => assertReviewRecordSourceUnchanged(loaded.loadedSource),
+      /input bytes or identity changed/,
+    )
+  } finally {
+    f.close()
+  }
+})
+
+test('Git uses the declared commit for every shard, even when a missing committed shard is live in worktree', () => {
+  const f = fixture()
+  try {
+    git(f.dir, 'add', 'docs')
+    git(
+      f.dir,
+      '-c',
+      'user.name=fixture',
+      '-c',
+      'user.email=fixture@example.invalid',
+      'commit',
+      '-qm',
+      'manifest',
+    )
+    const revision = git(f.dir, 'rev-parse', 'HEAD')
+    assert.deepStrictEqual(
+      loadReviewRecordFromGit({ root: f.dir, revision, logicalPath: f.built.logicalPath }).record,
+      f.built.logical,
+    )
+    const shard = f.built.files.find(([p]) => p.includes('part-'))[0]
+    git(f.dir, 'rm', '--cached', '--', shard)
+    git(
+      f.dir,
+      '-c',
+      'user.name=fixture',
+      '-c',
+      'user.email=fixture@example.invalid',
+      'commit',
+      '-qm',
+      'missing shard',
+    )
+    assert.ok(fs.existsSync(join(f.dir, shard)))
+    assert.throws(
+      () =>
+        loadReviewRecordFromGit({
+          root: f.dir,
+          revision: git(f.dir, 'rev-parse', 'HEAD'),
+          logicalPath: f.built.logicalPath,
+        }),
+      /Git review missing/,
+    )
+  } finally {
+    f.close()
+  }
+})
+
+test('flat marker text is ordinary data; CLI dry-run derives the real fixed group without publishing', () => {
+  const f = fixture()
+  try {
+    f.write(
+      f.built.logicalPath,
+      Buffer.from(JSON.stringify({ entries: [], note: '_reviewStorage literal text' })),
+    )
+    fs.rmSync(join(f.dir, reviewDirRelative, 'shards'), { recursive: true, force: true })
+    assert.equal(loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath }).storage, null)
+    const result = JSON.parse(
+      execFileSync('node', [join(root, 'scripts/docs/migrate-review-record-storage.mjs')], {
+        env: { ...process.env, RAYON_NUM_THREADS: '1' },
+      }),
+    )
+    assert.equal(result.mode, 'dry-run')
+    assert.equal(result.manifests, 8)
+    assert.equal(result.shards, 19)
+    assert.equal(result.totalEntries, 599)
+  } finally {
+    f.close()
+  }
 })

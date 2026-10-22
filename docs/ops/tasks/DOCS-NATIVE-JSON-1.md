@@ -4,7 +4,7 @@ Status: rework
 Execution: rework（S27源映射保留；consumer/测试影响/pin映射定点补正）
 Phase: ops
 Capability: native historical evidence governance
-Coding Owner: GLM（S28工具实施、逐文件八维与自验；后续逐篇治理）
+Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
 Reviewer: Codex（非作者证据验收；作者自验不代签）
 Branch: codex/docs-s28-glm-review-storage
@@ -195,23 +195,37 @@ Codex非作者裁定partial-counter-closure/rework，候选54314318e9947c83a94c9
 
 剩余实施仍build allowed、同分支从54314318追加、19白名单/1.0.0合同不扩权；清单/tmp/type-pal-S28-release-readiness-54314318-2t5r4o36/execution-manifest.json，SHA-256 `7f36e18130e27779503644dffbb716280fd968a54d43684c6b3b2059f8cfbd4b`，新证据仅/tmp/s28-glm-review-storage-release-fix，原三包冻结。只修剩余失败合同，内部持续推进、集中回交，不逐批问许可。
 
+### S28 Owner接手剩余实现（用户2026-10-22授权）
+
+用户在54991168证据复核中授权Codex接手剩余返工。Codex build allowed：仅既有19代码文件、必要的新文档工具测试和原卡写回；GLM5499116808a74c639f32f80fc48cb8052d8ddfcb九提交作为隔离返工基底保留，不代表接收或中央发布。原四份GLM包冻结，8源599/302原生/R92/R94仍只读，旧测试仍限原一import两读取适配，产品/coverage/共享配置不扩权。
+
+本轮已独立核实writer11/0，original-before迁移、active旁未知代拒绝、native真实reader和leaf符号链接保护接受。仍复现extra shard/unknown stem/锁内目标覆盖，loader读A记B/父目录/原Git pin/filename缺口；新reader测试传错参数、未调用reader就可通过。Codex直接修根因并以有效公开caller反例先红后绿，不继续把摘要更正交贡献者循环返工。新增修改作者如实为Codex，非作者验收保持待办，不自授独立accept。
+
+实施澄清保持1.0.0：完整组以固定路径、可信prepare原始buffer及其descriptor派生，不能用8+2+10计数替代集合；加载以单次保存的原buffer物化，出口核所有输入字节/普通父与leaf/lock并对账全部物理片；生产Git pin核真实100644原blob。演练树显式提供固定Git source snapshot provider，纯物化器不隐式回落实际仓库。同步writer使用一次安全组读取，并在registry首写前重核整个组。仅owned临时树演练，非作者接收前不实际发布599，不接269、不合main、不推送、不标done。
+
+#### Codex作者修复与待非作者复验
+
+Codex沿用已核GLM成果，直接修复完整prepare计划/输出字节防改、锁内源与目标原态复核、未知stem/兄弟/孤片拒绝；loader用原Buffer物化并复核全字节/普通父与leaf，真实原Git pin/filename绑定与derived artifact事实；五caller按实际依赖安全读取，sync首写前重核。原before、幂等及隔离显式inplace演练均实测，未在本仓库发布。
+
+作者回归：真实反例旧549为红，当前指定拒绝及合法Git/before正例为绿；未改的`pnpm test:docs-tools`曾实际231/0/0skip。最终补入inplace幂等复验后，以正式完整collector运行`pnpm test:docs-tools --test-concurrency=1`仍231/0/0skip，源指纹前后一致（调度参数不改变收集集/断言/规则）。开发期导出切片失误、一次格式infos、stdin挂起、一次eager read引入42个旧合同失败及新增幂等针7/1的错误判别顺序问题均保留原件；相应修复后相关65/65、最终writer8/8与完整231恢复绿。采用现有registry的普通fd输入及30秒formatter进程护栏，不改旧测试/共享runner或放宽门。整仓`check:docs`一次卡在旧工具测试Git stdin子进程，由Owner结束自己的子树并保留原件；不能声称整仓绿，单独严格门仍2384诊断/1195篇待办。
+
+这些是Codex作者自验，nonAuthorReviewer=false；19文件八维、有效反例、完整原件与逐源保护由原单份压缩日志保全。源8/599、302原生、registry/routing/templates及产品/coverage未改；R94仅随卡片作必要行政pin级联，不是存储发布。GLM仅可对Codex后续差异作只读非作者复验，不把自己的549原包重新自验升格。599正式发布与269语义接入均待后续，父子卡保持rework。
+
 ## 设计与风险
 
 GLM读原生文件及其实际上下文，将历史观察和当前适用性写成可核稿件；Codex接收后复用既有record位置处理准确delta，不再让贡献者修改共享账本。269件原生合同复用S25基础；新增路径/相位/当前review关联仍须由Owner实现并验证，30件例外不混进该合同。提供的机械工具只验身份、集合与原文锚，不认证阅读深度或业务正确性。
 
 ## 状态与交接
 
-- 当前Owner：GLM执行稿件与自验，Codex维护准入和中央接入。未交付前不宣称269已审/已迁移。
+- 当前Owner：Codex已按用户授权接手S28剩余实现；269稿件既有接收保留，正式语义迁移待存储验收后另行准入。
 - 稳定交接入口为授权包中的`INSTRUCTIONS.md`和本卡；进度保存在证据目录review-index/已落盘分片，不依赖聊天记忆。工具/清单hash及原件必须可核；指纹全由程序实取。
-- 下一步：GLM按S28终修裁定只补组发布/安全loader/真实caller及相应反例，复用已核子项和Owner23/231原件；Codex据证接受后才发布599存储，269语义另行。
+- 下一步：未参与Codex补丁的验收者仅据证复核本次作者修复；通过后Codex受控发布599存储，再推进269语义。无需重做已核盘点，不自授独立accept。
 
 ## 下一位Agent提示词
 
 ```text
-你是type-pal GLM Coding Owner，继续S28发布就绪整改，build allowed。
-读/tmp/type-pal-S28-release-readiness-54314318-2t5r4o36/GLM-PROMPT.md、execution-manifest.json及/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-S28-final-owner-audit-ys230wp_/verdict.json。
-同分支从54314318e9947c83a94c93c9f3633c819e166b5f追加，仅既有19代码白名单；原三包冻结，新证据/tmp/s28-glm-review-storage-release-fix。
-C02 prepare及已核子项保留；只闭C01封闭组/目标before/未知代，C03同Buffer快照/普通文件/原Git pin/精确path，C04五生产caller安全接线，C05真实反例，E01如实声明与19文件八维。
-Owner已补正式231/0原件，保留其产生者与实际候选身份；最终实现改后按影响集中实跑，不改runner/共享规则/旧断言，不重做599语义。
-只在owned临时树演练；不改中央docs/原生/产品/coverage，不合main、不推送、不标done、不授迁移/运行信用。内部持续推进后一次回交。
+只读复验Codex S28作者补丁，先读/tmp/type-pal-S28-owner-independent-os18svo7/REVIEW.md及execution-manifest.json。
+候选身份由该清单实取；验证真实代码指纹、19文件A-H、原反例拒绝/合法正例、231完整suite与零诊断，不重做599语义盘点。
+作者为Codex，复验者只对未参与的Codex补丁范围标nonAuthorReviewer=true；GLM自己的549原成果不得自验升格。
+只写清单指定/tmp回执，不改工作树/账本/规则，不运行真实publish，不合main、不推送、不标done。
 ```

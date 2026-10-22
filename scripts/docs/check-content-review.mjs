@@ -4,7 +4,7 @@ import { resolve } from 'node:path'
 import { reviewCreditIssues } from './document-integrity.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
-import { readReviewRecordObject } from './review-record-storage.mjs'
+import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')
@@ -57,12 +57,11 @@ for (const entry of registry.entries ?? []) {
     add(`${entry.path}: invalid templateCompliance`)
 }
 
+const reviewGroup = loadReviewRecords({ root: repoRoot })
 const reviewEntries = new Map()
 const reviewDir = resolve(repoRoot, 'docs/phase-governance/reviews')
 for (const file of readdirSync(reviewDir).filter((name) => name.endsWith('.json'))) {
-  const document = readReviewRecordObject(`docs/phase-governance/reviews/${file}`, {
-    readBuffer: (p) => readFileSync(resolve(repoRoot, p)),
-  })
+  const document = reviewGroup.records.get(`docs/phase-governance/reviews/${file}`)
   for (const entry of document.entries ?? []) {
     if (reviewEntries.has(entry.path)) add(`${entry.path}: duplicate content review record`)
     reviewEntries.set(entry.path, { ...entry, record: file })
@@ -157,6 +156,7 @@ for (const path of reviewEntries.keys())
   if (!registry.entries.some((entry) => entry.path === path))
     add(`${path}: review record outside governed registry`)
 
+assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 const counts = {}
 for (const entry of registry.entries ?? []) {
   const status = reviewEntries.get(entry.path)?.contentReviewStatus ?? 'missing'

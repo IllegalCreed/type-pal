@@ -1,323 +1,282 @@
-// review-record-storage-writer.test.mjs — C05: self-contained with real 599 readback
-// and discriminative public-API counter-examples targeting remaining contracts.
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import {
-  mkdirSync,
-  mkdtempSync,
-  readdirSync,
-  readFileSync,
-  rmSync,
-  statSync,
-  symlinkSync,
-  writeFileSync,
-} from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
-import { test } from 'node:test'
+import { dirname, join } from 'node:path'
+import { before, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { isDeepStrictEqual } from 'node:util'
-import { loadReviewRecord, loadReviewRecordFromGit } from './review-record-storage.mjs'
+import { checkMigratedDocument } from './document-model.mjs'
+import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { readGitDocumentSource } from './git-document-source.mjs'
+import { historicalVitestContract, historicalVitestPilots } from './historical-vitest-native.mjs'
+import { loadReviewRecord } from './review-record-storage.mjs'
 import {
   FROZEN_REVIEW_SOURCE_REVISION,
   FROZEN_REVIEW_STORAGE_SOURCES,
-  FROZEN_REVIEW_STORAGE_TOTAL,
   prepareReviewStorageGroup,
   publishReviewStorageGroup,
 } from './review-record-storage-writer.mjs'
 
-const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
-const sha = (b) => createHash('sha256').update(b).digest('hex')
-const readBuffer = (p) => readFileSync(join(repoRoot, p))
-const records = () =>
-  FROZEN_REVIEW_STORAGE_SOURCES.map((frozen) => ({
-    path: frozen.path,
-    beforeSHA256: sha(
-      execFileSync('git', [
-        '-C',
-        repoRoot,
-        'cat-file',
-        'blob',
-        `${FROZEN_REVIEW_SOURCE_REVISION}:${frozen.path}`,
-      ]),
-    ),
-    entryCount: frozen.entryCount,
+const root = fileURLToPath(new URL('../..', import.meta.url)),
+  sha = (b) => createHash('sha256').update(b).digest('hex')
+const r92 = 'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'
+const r94 = 'docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'
+const read = (p, at = root) => readFileSync(join(at, p))
+const sourceSnapshot = (pin) => readGitDocumentSnapshot(root, pin)
+const group = (at = root) => ({
+  records: FROZEN_REVIEW_STORAGE_SOURCES.map((r) => ({
+    ...r,
+    beforeSHA256: sha(read(r.path, at)),
     sourceRevision: FROZEN_REVIEW_SOURCE_REVISION,
-    sourceGitObject: execFileSync('git', [
-      '-C',
-      repoRoot,
-      'rev-parse',
-      `${FROZEN_REVIEW_SOURCE_REVISION}:${frozen.path}`,
-    ])
-      .toString()
-      .trim(),
-  }))
-const group = () => ({
-  records: records(),
-  r92Buffer: readBuffer(
-    'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json',
-  ),
-  r94Buffer: readBuffer('docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'),
-  readBuffer,
-  context: { repoRoot },
+  })),
+  r92Buffer: read(r92, at),
+  r94Buffer: read(r94, at),
+  readBuffer: (p) => read(p, at),
+  context: { repoRoot: at },
 })
-
-test('prepare is deterministic and snapshot covers all 10 source keys', () => {
-  const a = prepareReviewStorageGroup(group())
-  const b = prepareReviewStorageGroup(group())
-  a.outputs.forEach((x, i) => {
-    assert.equal(x.path, b.outputs[i].path)
-    assert.equal(sha(x.bytes), sha(b.outputs[i].bytes))
-  })
-  assert.equal(a.group.totalEntries, FROZEN_REVIEW_STORAGE_TOTAL)
-  assert.equal(Object.keys(a.expectedSourceSnapshot).length, 10)
+let prepared
+before(() => {
+  prepared = prepareReviewStorageGroup(group())
 })
-
-test('real 599 readback: 8 objects deepStrictEqual + JSON key-sequence + 9 concrete SHA pins', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-readback-'))
-  const prepared = prepareReviewStorageGroup(group())
-  const pub = publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
-  assert.equal(pub.totalEntries, 599)
-  assert.equal(pub.edgeCount, 9)
-  let total = 0
-  for (const frozen of FROZEN_REVIEW_STORAGE_SOURCES) {
-    const sourceFlat = JSON.parse(readBuffer(frozen.path))
-    const { record } = loadReviewRecord({ root: dir, logicalPath: frozen.path })
-    assert.ok(isDeepStrictEqual(record, sourceFlat), `deepStrictEqual: ${frozen.path}`)
-    assert.equal(JSON.stringify(Object.keys(record)), JSON.stringify(Object.keys(sourceFlat)))
-    total += record.entries.length
-  }
-  assert.equal(total, 599)
-  const r92 = JSON.parse(
-    readFileSync(
-      join(dir, 'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'),
-    ),
-  )
-  for (const idx of [4, 5, 6, 7, 16, 17, 18, 19])
-    assert.equal(r92.entries[idx].afterSha256, sha(readFileSync(join(dir, r92.entries[idx].path))))
-  const r94 = JSON.parse(
-    readFileSync(
-      join(dir, 'docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'),
-    ),
-  )
-  assert.equal(
-    r94.entries[6].afterSha256,
-    sha(
-      readFileSync(
-        join(dir, 'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'),
-      ),
-    ),
-  )
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('C01+: same-content original source tree can migrate (target has original before bytes)', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-original-'))
-  mkdirSync(join(dir, 'docs/phase-governance/reviews'), { recursive: true })
-  for (const frozen of FROZEN_REVIEW_STORAGE_SOURCES) {
-    mkdirSync(join(dir, frozen.path, '..'), { recursive: true })
-    writeFileSync(join(dir, frozen.path), readBuffer(frozen.path))
-  }
-  writeFileSync(
-    join(dir, 'docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'),
-    readBuffer('docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json'),
-  )
-  writeFileSync(
-    join(dir, 'docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'),
-    readBuffer('docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json'),
-  )
-  const prepared = prepareReviewStorageGroup(group())
-  const result = publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
-  assert.equal(result.totalEntries, 599)
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('C01-: unknown sibling generation in group stem rejected', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-sibling-'))
-  const prepared = prepareReviewStorageGroup(group())
-  const stem = prepared.outputs.find((o) => o.kind === 'shard').path.split('/')[4]
-  const siblingDir = join(dir, 'docs/phase-governance/reviews/shards', stem, 'f'.repeat(64))
-  mkdirSync(siblingDir, { recursive: true })
-  writeFileSync(join(siblingDir, 'part-001.json'), '{}')
-  assert.throws(
-    () => publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer }),
-    /unknown sibling generation/,
-  )
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('C01-: extra review output beyond frozen group rejected at boundary', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-extra-'))
-  const prepared = prepareReviewStorageGroup(group())
-  prepared.outputs.push({
-    kind: 'review',
-    path: 'docs/phase-governance/reviews/evil.json',
-    bytes: Buffer.from('{}'),
-  })
-  assert.throws(
-    () => publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer }),
-    /expected R92\+R94/,
-  )
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('C01-: foreign target bytes (neither our output nor original source) rejected', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-foreign-'))
-  const prepared = prepareReviewStorageGroup(group())
-  const manifestPath = prepared.outputs.find((o) => o.kind === 'manifest').path
-  mkdirSync(join(dir, manifestPath, '..'), { recursive: true })
-  writeFileSync(join(dir, manifestPath), '{"foreign":true}')
-  assert.throws(
-    () => publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer }),
-    /foreign bytes/,
-  )
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('C03-: symlinked shard leaf rejected (not ordinary file)', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-symlink-'))
-  const prepared = prepareReviewStorageGroup(group())
-  publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
-  const shardOutput = prepared.outputs.find((o) => o.kind === 'shard')
-  rmSync(join(dir, shardOutput.path))
-  symlinkSync('/etc/hostname', join(dir, shardOutput.path))
-  const manifestPath = prepared.outputs.find((o) => o.kind === 'manifest').path
-  assert.throws(
-    () => loadReviewRecord({ root: dir, logicalPath: manifestPath }),
-    /ordinary file|SHA drift|not strict JSON|not an object|shard missing/,
-  )
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('C03-: swapped shard content triggers SHA drift (identity mismatch)', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-swap-'))
-  const prepared = prepareReviewStorageGroup(group())
-  publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
-  // Swap two shard file contents within the same stem
-  const shards = prepared.outputs
-    .filter(
-      (o) =>
-        o.kind === 'shard' &&
-        o.path.split('/')[4] ===
-          prepared.outputs.find((o) => o.kind === 'shard').path.split('/')[4],
-    )
-    .slice(0, 2)
-  if (shards.length === 2) {
-    const a = readFileSync(join(dir, shards[0].path))
-    const b = readFileSync(join(dir, shards[1].path))
-    writeFileSync(join(dir, shards[0].path), b)
-    writeFileSync(join(dir, shards[1].path), a)
-    const manifestPath = prepared.outputs.find((o) => o.kind === 'manifest').path
-    assert.throws(() => loadReviewRecord({ root: dir, logicalPath: manifestPath }), /SHA drift/)
-  }
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('C04-: native consumes options.reviewReader (rejecting reader error propagates)', async () => {
-  const { historicalVitestNativeIssues } = await import('./historical-vitest-native.mjs')
-  // Build a minimal valid doc+template+contract shape that passes the fixed-path gate
-  // and reaches the reviewReader call — using the same approach as the existing test file
-  const doc = {
-    path: 'docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json',
-    templateId: 'test-machine-evidence-v1',
-    variant: 'historical-vitest-native-v1',
-    historyOverlay: false,
-  }
-  const template = { templateId: 'test-machine-evidence-v1' }
-  const _contract = {
-    format: 'json-native',
-    templateVersion: '1.0.0',
-    metadataLocation: 'current-review',
-    sourceBaseline: 'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json',
-  }
-  const _phases = {
-    'docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json': 'adjacent-green',
-  }
-  // Patch the module-level phase map is complex; instead verify the reader is consumed by
-  // checking that the function does NOT silently return [] when the reader throws —
-  // if reviewReader is consumed, its error either propagates or appears in issues
-  let readerCalled = false
-  const opts = {
-    readBuffer: () => Buffer.alloc(0),
-    readSourceBuffer: () => undefined,
-    reviewReader: (_path) => {
-      readerCalled = true
-      throw new Error('reader rejected')
-    },
-  }
-  try {
-    const result = historicalVitestNativeIssues(doc, template, () => '', opts)
-    // If it returns issues without calling the reader, the reader is not wired
-    if (!readerCalled && Array.isArray(result) && result.length === 0) {
-      assert.fail('reviewReader was not consumed — native validator returned [] without calling it')
-    }
-    // Reader was called and its error either propagated (throw) or surfaced in issues
-    assert.ok(
-      readerCalled || (Array.isArray(result) && result.length > 0),
-      'reviewReader not called and no issues returned',
-    )
-  } catch (error) {
-    // If the reader error propagated as a throw, that's the strongest form of consumption
-    assert.ok(readerCalled || error.message.includes('reader rejected'))
-  }
-})
-
-test('Git: same-revision load works; missing path rejects without worktree fallback', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-git-'))
-  const prepared = prepareReviewStorageGroup(group())
-  publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
-  execFileSync('git', ['-C', dir, 'init', '-q'])
-  execFileSync('git', ['-C', dir, 'add', '-A'])
-  execFileSync('git', [
-    '-C',
-    dir,
-    '-c',
-    'user.email=t@t',
-    '-c',
-    'user.name=t',
-    'commit',
-    '-qm',
-    'full',
-  ])
-  const head = execFileSync('git', ['-C', dir, 'rev-parse', 'HEAD']).toString().trim()
-  const fromGit = loadReviewRecordFromGit({
-    root: dir,
-    revision: head,
-    logicalPath: FROZEN_REVIEW_STORAGE_SOURCES[0].path,
-  })
-  assert.ok(fromGit.record.entries.length > 0)
-  assert.throws(
-    () =>
-      loadReviewRecordFromGit({
-        root: dir,
-        revision: head,
-        logicalPath: 'docs/phase-governance/reviews/nonexistent.json',
-      }),
-    /Git review missing/,
-  )
-  rmSync(dir, { recursive: true, force: true })
-})
-
-test('re-publishing is byte-idempotent', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'rrs-idem-'))
-  const prepared = prepareReviewStorageGroup(group())
-  publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
-  const before = snapshot(dir)
-  publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: readBuffer })
-  assert.deepEqual(snapshot(dir), before)
-  rmSync(dir, { recursive: true, force: true })
-})
-
-function snapshot(dir) {
-  const out = {}
-  const walk = (d) => {
-    for (const name of readdirSync(d)) {
-      const p = join(d, name)
-      if (statSync(p).isDirectory()) walk(p)
-      else out[p.slice(dir.length)] = sha(readFileSync(p))
+const temp = () => mkdtempSync(join(tmpdir(), 'rrs-owner-writer-'))
+const publish = (dir) => publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: read })
+const files = (dir) => {
+  const result = {}
+  const walk = (p) => {
+    for (const entry of readdirSync(p, { withFileTypes: true })) {
+      const path = join(p, entry.name)
+      if (entry.isDirectory()) walk(path)
+      else result[path.slice(dir.length)] = sha(readFileSync(path))
     }
   }
   walk(dir)
-  return out
+  return result
 }
+function cleanupRecovery(error) {
+  const stage = error.message.match(/lock\+staging preserved at ([^)]+)/)?.[1]
+  assert.ok(stage, 'failure must identify recovery staging')
+  const recovery = JSON.parse(readFileSync(join(stage, 'recovery.json')))
+  assert.deepEqual(recovery.written, [])
+  rmSync(stage, { recursive: true, force: true })
+}
+
+test('prepare deterministic; actual publish preserves eight full JSON objects and nine independent byte pins', () => {
+  const second = prepareReviewStorageGroup(group())
+  assert.deepEqual(prepared.outputs, second.outputs)
+  const dir = temp()
+  try {
+    assert.deepEqual(publish(dir), {
+      written: 29,
+      lockReleased: true,
+      totalEntries: 599,
+      edgeCount: 9,
+    })
+    for (const { path } of FROZEN_REVIEW_STORAGE_SOURCES) {
+      const original = JSON.parse(read(path)),
+        actual = loadReviewRecord({
+          root: dir,
+          logicalPath: path,
+          readSourceSnapshot: sourceSnapshot,
+        }).record
+      assert.deepStrictEqual(actual, original)
+      assert.equal(JSON.stringify(actual), JSON.stringify(original))
+    }
+    const a = JSON.parse(read(r92, dir)),
+      b = JSON.parse(read(r94, dir))
+    for (const i of [4, 5, 6, 7, 16, 17, 18, 19])
+      assert.equal(a.entries[i].afterSha256, sha(read(a.entries[i].path, dir)))
+    assert.equal(b.entries[6].afterSha256, sha(read(r92, dir)))
+    const prior = files(dir)
+    publish(dir)
+    assert.deepEqual(files(dir), prior)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('original before-state copy migrates; foreign target refuses without writing a valid prefix', () => {
+  const dir = temp()
+  try {
+    for (const path of Object.keys(prepared.expectedSourceSnapshot)) {
+      mkdirSync(dirname(join(dir, path)), { recursive: true })
+      writeFileSync(join(dir, path), read(path))
+    }
+    const first = prepared.outputs.find((o) => o.kind === 'manifest').path
+    writeFileSync(join(dir, first), 'foreign target')
+    const before = files(dir)
+    assert.throws(() => publish(dir), /target has foreign bytes/)
+    assert.deepEqual(files(dir), before)
+    writeFileSync(join(dir, first), read(first))
+    assert.equal(publish(dir).totalEntries, 599)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('actual prepared plan rejects extra shard/review and substituted ten-key snapshot before any filesystem write', () => {
+  for (const kind of ['shard', 'review', 'source-set']) {
+    const dir = temp(),
+      snapshot = prepared.expectedSourceSnapshot
+    try {
+      if (kind === 'source-set') prepared.expectedSourceSnapshot = { ...snapshot, [r94]: undefined }
+      else
+        prepared.outputs.push({
+          kind,
+          path: 'docs/phase-governance/reviews/shards/foreign/x/part-001.json',
+          bytes: Buffer.from('{}'),
+        })
+      assert.throws(() => publish(dir), /source set changed|complete prepared output set changed/)
+      assert.deepEqual(files(dir), {})
+    } finally {
+      if (kind !== 'source-set') prepared.outputs.pop()
+      prepared.expectedSourceSnapshot = snapshot
+      rmSync(dir, { recursive: true, force: true })
+    }
+  }
+})
+
+test('whole physical inventory rejects unknown stem, sibling with active generation, and orphan without overwriting', () => {
+  for (const variant of ['stem', 'sibling', 'orphan']) {
+    const dir = temp()
+    try {
+      publish(dir)
+      const shard = prepared.outputs.find((o) => o.kind === 'shard').path
+      const foreign =
+        variant === 'stem'
+          ? join(dir, 'docs/phase-governance/reviews/shards/unknown/part.json')
+          : variant === 'sibling'
+            ? join(dirname(dirname(join(dir, shard))), 'unknown-generation/part.json')
+            : join(dirname(join(dir, shard)), 'part-999.json')
+      mkdirSync(dirname(foreign), { recursive: true })
+      writeFileSync(foreign, 'unowned bytes')
+      const before = files(dir)
+      assert.throws(
+        () => publish(dir),
+        /unknown shard stem|unknown sibling generation|immutable generation file set/,
+      )
+      assert.deepEqual(files(dir), before)
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  }
+})
+
+test('target changed under lock is preserved, with lock/recovery and zero placed prefix', () => {
+  const dir = temp(),
+    path = prepared.outputs.find((o) => o.kind === 'manifest').path
+  let reads = 0
+  try {
+    const reader = (p) => {
+      if (p === r94 && ++reads === 2) {
+        mkdirSync(dirname(join(dir, path)), { recursive: true })
+        writeFileSync(join(dir, path), 'appeared under lock')
+      }
+      return read(p)
+    }
+    assert.throws(
+      () => publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: reader }),
+      (error) => {
+        assert.match(error.message, /target changed under publication lock/)
+        assert.equal(read(path, dir).toString(), 'appeared under lock')
+        assert.ok(readFileSync(join(dir, 'docs/phase-governance/reviews/.storage.lock')).length)
+        cleanupRecovery(error)
+        return true
+      },
+    )
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('source changes under lock are refused before any output and retain recovery', () => {
+  const dir = temp()
+  let reads = 0
+  try {
+    const reader = (p) => (p === r94 && ++reads === 2 ? Buffer.from('changed source') : read(p))
+    assert.throws(
+      () => publishReviewStorageGroup(prepared, dir, { sourceReadBuffer: reader }),
+      (error) => {
+        assert.match(error.message, /source changed/)
+        cleanupRecovery(error)
+        return true
+      },
+    )
+    const names = Object.keys(files(dir))
+    assert.deepEqual(names, ['/docs/phase-governance/reviews/.storage.lock'])
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('explicit Owner in-place mode works on a new isolated Git/object-sharing rehearsal; default refuses', () => {
+  const dir = temp()
+  try {
+    execFileSync('git', ['-C', dir, 'init', '-q'])
+    const common = execFileSync('git', [
+      '-C',
+      root,
+      'rev-parse',
+      '--path-format=absolute',
+      '--git-common-dir',
+    ])
+      .toString()
+      .trim()
+    mkdirSync(join(dir, '.git/objects/info'), { recursive: true })
+    writeFileSync(join(dir, '.git/objects/info/alternates'), `${join(common, 'objects')}\n`)
+    for (const path of Object.keys(prepared.expectedSourceSnapshot)) {
+      mkdirSync(dirname(join(dir, path)), { recursive: true })
+      writeFileSync(join(dir, path), read(path))
+    }
+    const own = prepareReviewStorageGroup(group(dir)),
+      before = files(dir)
+    assert.throws(
+      () => publishReviewStorageGroup(own, dir, { sourceReadBuffer: (p) => read(p, dir) }),
+      /explicit Owner mode/,
+    )
+    assert.deepEqual(files(dir), before)
+    assert.equal(
+      publishReviewStorageGroup(own, dir, {
+        sourceReadBuffer: (p) => read(p, dir),
+        allowInPlace: true,
+      }).totalEntries,
+      599,
+    )
+    const published = files(dir)
+    publishReviewStorageGroup(own, dir, {
+      sourceReadBuffer: (p) => read(p, dir),
+      allowInPlace: true,
+    })
+    assert.deepEqual(files(dir), published)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('real native/model fixture reaches and obeys a rejecting protected reader', () => {
+  const document = {
+    path: Object.keys(historicalVitestPilots)[0],
+    templateId: 'test-machine-evidence-v1',
+    variant: historicalVitestContract.variant,
+  }
+  const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'))
+  const options = {
+    readBuffer: read,
+    readSource: (pin) => readGitDocumentSource(root, pin),
+    readSourceBuffer: sourceSnapshot,
+  }
+  assert.deepEqual(
+    checkMigratedDocument(document, registry, (p) => read(p).toString('utf8'), options),
+    [],
+  )
+  let calls = 0
+  const issues = checkMigratedDocument(document, registry, (p) => read(p).toString('utf8'), {
+    ...options,
+    reviewReader: () => {
+      calls++
+      throw new Error('publication lock')
+    },
+  })
+  assert.equal(calls, 1)
+  assert.deepEqual(issues, ['native Vitest current review unavailable'])
+})

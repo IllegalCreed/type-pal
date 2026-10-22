@@ -9,7 +9,8 @@ import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 import { gitInventory } from './git-inventory.mjs'
-import { readReviewRecordObject } from './review-record-storage.mjs'
+import { historicalVitestContract } from './historical-vitest-native.mjs'
+import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const readBuffer = (path) => {
@@ -22,7 +23,13 @@ const readBuffer = (path) => {
 const read = (path) => readBuffer(path)?.toString('utf8')
 const json = (path) => JSON.parse(read(path))
 const digest = (text) => createHash('sha256').update(text).digest('hex')
+let reviewGroup
+const reviewReader = (path) => {
+  reviewGroup ??= loadReviewRecords({ root, logicalPaths: [...requiredReviews] })
+  return reviewGroup.records.get(path)
+}
 const sourceOptions = {
+  reviewReader,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
   readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
@@ -42,6 +49,13 @@ const templateRegistry = json('docs/phase-governance/templates/registry.json')
 const templates = new Map(templateRegistry.types.map((entry) => [entry.templateId, entry]))
 const records = new Map()
 const routing = json('docs/phase-governance/routing.json')
+const requiredReviews = new Set(
+  registry.entries
+    .filter((entry) => entry.templateCompliance === 'template-compliant' && !entry.artifactOnly)
+    .map((entry) => `docs/phase-governance/reviews/${entry.reviewRecord}`),
+)
+if (routing.migratedDocuments.some((doc) => doc.variant === historicalVitestContract.variant))
+  requiredReviews.add(historicalVitestContract.reviewRecord)
 const issues = [
   ...baseline.issues,
   ...retirements.issues,
@@ -60,8 +74,7 @@ for (const entry of registry.entries) {
   if (!records.has(entry.reviewRecord))
     records.set(
       entry.reviewRecord,
-      readReviewRecordObject(`docs/phase-governance/reviews/${entry.reviewRecord}`, { readBuffer })
-        .entries,
+      reviewReader(`docs/phase-governance/reviews/${entry.reviewRecord}`).entries,
     )
   const record = records.get(entry.reviewRecord).find((value) => value.path === entry.path)
   if (
@@ -140,6 +153,7 @@ if (args.some((arg) => !['--json', '--require-complete'].includes(arg)))
   throw new Error(
     'Usage: node scripts/docs/report-governance-progress.mjs [--json] [--require-complete]',
   )
+if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 if (args.includes('--json')) console.log(JSON.stringify(report, null, 2))
 else
   console.log(

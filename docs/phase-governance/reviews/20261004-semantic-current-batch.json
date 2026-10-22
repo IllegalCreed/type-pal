@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "1f63e1a7e72dff409b0787b3767c9d3e3f264bacf0c4e526cdb892c9adf14d0e",
+      "afterSha256": "b21be7f81e648be7d6961c7a832d15b23793a47f4ecac87ba2bfa3e01899d601",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -2444,21 +2444,20 @@
       "historyOverlay": false,
       "templateCompliance": "needs-migration",
       "template": "docs/phase-governance/templates/task-card.md",
-      "readMethod": "Owner-authored task delta after Codex non-author bounded54314318 evidence check:19file scope/source8/native302/authorizedadapter and six currentreceipt hashes, targeted6file delta; root3suites serial23/0 and unchangedofficialpnpmtest:docs-tools231/0 (RAYON_NUM_THREADS=1 processenvironment), read-only actual599source/validrelativepath ownedtemporarypublication probes, loaderprovider/filesystem/tempGit probes and actualmodel/native rejectedreviewReader probe. No599semantic reread or productexecution.",
+      "readMethod": "Codex non-author evidence check of incomingGLM549: fixed19file/9commit/source8/native302/frozenpackages/7receipts, writer11 and bounded realGit FS/source/target/public-native probes. Then explicit user-authorized Codex followup implementation: all changed functions and callers/adjacent validation plus inheritedguard-only scope, actual whole231source-bound suite and specificguards7. Separate author and incoming-review scopes; no599semantic reread, no productexecution.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S28终修54314318部分闭合：8提交19白名单，8源599/302原生保全；根per-file23/0与正式docs-tools231/0完整raw，C02格式deepStrictEqual/9beforepin接受。发布仍接受额外本目录输出并漏active旁未知代、拒精确原before；loader读A记B且symlink保护退化、真实model忽略保护reader。只退剩余合同/弱反例/失实声明，0中央发布或迁移信用。",
+      "coreConclusion": "用户授权Codex接手S28剩余返工。GLM549源8/599和302原生保全、writer11/0及已核子项保留；其extra shard/unknown stem/锁内覆盖、读A记B与弱hook测试仍counter。Codex作者修复完整私有prepare计划、全输入快照/原Git/物理归属、真实caller与有效反例；完整231绿，随后guard判别增强7/7。当前作者自验，非作者待复验，0中央599/269迁移/运行信用。",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
         "docs/phase-governance/templates/registry-proposal-20261011.md:333"
       ],
       "unresolved": [
-        "S28-C01closed group/target beforestate underlock/unknown sibling inventory/ordinary parents; source10snapshot andforeigntargetrefusal retained.",
-        "S28-C03one originalBuffer snapshot/ordinaryleaf+parents/realoriginalGit pin/parseddispatch/exactkeypath/full artifact inventory; C04actual5productionreader wiring andsyncsafegroup beforewrite.",
-        "S28-C05replace weakfixture/outputselfchecks and missingGit-withoutworktreecounter; E01accurate implementationclaims and19actualfileA-H. Ownerfull231rawfills oldrunner evidence gap at543only.",
-        "599storage/native269semantic centralintegration remainblocked; retainC02prepare acceptance/allclosedsubclaims/earlierS26S27 andcurrentcredit."
+        "Codex-authored S28 followup awaits non-author evidence acceptance; its own tests/A-H do not grant independent completion.",
+        "No central599storage publication or269semantic migration; frozen1838 cohort/1195currentpending/2384strictdiagnostics remain.",
+        "Inherited legacy writer bodies have no new execution/truth authority; only guards adapted, never used to refresh actual source pins."
       ],
-      "nextStep": "GLM appends remaining release-readiness from54314318 samebranch/19white list; old3packagesfrozen, new/tmp/s28-glm-review-storage-release-fix. Fixactualpublication/loader/consumercontracts andspecificpubliccounteroracles; central599storage onlyafteraccept,269separate.",
+      "nextStep": "Readonly non-author verification of Codex followup per external handoff, exactsource identities and counterproof; acceptance precedes controlled599storage publication. Native269 semantics remains a separate admission.",
       "phase": "ops",
       "module": "native-document-governance",
       "capability": "S26 native historical evidence batch",
@@ -2473,10 +2472,11 @@
         "Codex non-author S27 C01-C03 correction acceptance, candidatec55ebedf3a347cef306c04de352652614f93dd39; source10/edges9/counts/receipts3 verified. Verdict 7b9395db59309a56c6ae39c09353e93964bf9a53a90048a8db1d8dbb3bac303a",
         "Codex non-author S28b6e9325f55c957ca491bdcdca6e818488a1137e2 evidence review: source/native/finalscope and authorizedadapter accepted; storageimplementation/publication rework. Verdict 80947023f2d58edd53a15a2cf1f7c889856a745615f3691bf35d548d24658471",
         "Codex non-author S28fc7be36e19437f8a99e886b42efd8abf880cc2da correction review, accepted closed subclaims but remainingC01-C05/E01 blockcentralpublish; verdict c5b9b44b7645aff185c34bc4f2895d35485cf59dc74c729e5009036f8fce5d2b",
-        "Codex non-author S28final54314318e9947c83a94c93c9f3633c819e166b5f partialclosure/rework; current23/231realpassed butpublication/loader/callerprobesstillfail; verdict bfe5074bcd9226087206c099be766577e4a8d3f5419f1d254a50098f0defd7fa"
+        "Codex non-author S28final54314318e9947c83a94c93c9f3633c819e166b5f partialclosure/rework; current23/231realpassed butpublication/loader/callerprobesstillfail; verdict bfe5074bcd9226087206c099be766577e4a8d3f5419f1d254a50098f0defd7fa",
+        "User2026-10-22 authorizesCodex takeover; GLM549partial evidence retained, Codex implementation self-validation is explicitlynon-independent."
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "0723a2251038c47d79847319b12a59379ffadae5bdcd91887608c4408b4556cc",
+      "afterSha256": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2505,8 +2505,8 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "0723a2251038c47d79847319b12a59379ffadae5bdcd91887608c4408b4556cc",
-        "implementationSha": "0723a2251038c47d79847319b12a59379ffadae5bdcd91887608c4408b4556cc",
+        "currentSha": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
+        "implementationSha": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
         "history": [
           {
             "date": "2026-10-21",
@@ -2553,6 +2553,12 @@
             "revision": "6430be68cd8cd6f8c240ba1492b65ff00f4c0060",
             "afterSha256": "c0f16831980edeb86990682f64985033eb46f2494f07e43c428573e8fe69a161",
             "scope": "Priorfc7partialclosure/S28admission andallS26S27acceptance preservedinGit; no reopening supportedsourceclaims."
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "7a7d5ffdd768c2cd501c1fa3679944cbb05f0ac2",
+            "afterSha256": "0723a2251038c47d79847319b12a59379ffadae5bdcd91887608c4408b4556cc",
+            "scope": "Prior GLM543 partial verdict and frozen S28/S26/S27 claims preserved by Git; new Owner code has separate authorship."
           }
         ]
       },
@@ -2601,11 +2607,16 @@
           "date": "2026-10-22",
           "action": "S28final partialclosure; C02prepare/current23and231 accepted, publication/readercounter remains. No codeintegration orcentral599publication/credit.",
           "priorRecordRevision": "6430be68cd8cd6f8c240ba1492b65ff00f4c0060"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "GLM549 rework transferred to Codex peruser; author fixes and231selftest only, independent acceptance/publication not claimed.",
+          "priorRecordRevision": "7a7d5ffdd768c2cd501c1fa3679944cbb05f0ac2"
         }
       ],
       "supersedes": [],
       "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
-      "reviewedLines": "Owner task/currentverdict delta; separate s28FinalFixAcceptance independently reviews GLM evidence/actualcallerprobes, not self-acceptance of Ownercard nor storagepublication/599semantics.",
+      "reviewedLines": "Owner task delta plus incomingGLM549 bounded evidence and separate Codex authored implementation; currentQualification remains nonAuthorReviewer=false.",
       "documentStatus": "current",
       "currentQualification": {
         "task": "DOCS-NATIVE-JSON-1/S26",
@@ -2733,33 +2744,54 @@
         "reviewer": "Codex",
         "nonAuthorReviewer": true,
         "author": "GLM",
-        "candidateCommit": "54314318e9947c83a94c93c9f3633c819e166b5f",
-        "decision": "partial-counter-closure; rework-remaining-no-central-publication",
-        "verdictSHA256": "bfe5074bcd9226087206c099be766577e4a8d3f5419f1d254a50098f0defd7fa",
+        "candidateCommit": "5499116808a74c639f32f80fc48cb8052d8ddfcb",
+        "decision": "partial-counter-closure; remaining-rework-taken-over-by-Codex",
         "evidencePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "closedPrepareCounter": "S28-C02",
-        "remainingCounters": ["S28-C01", "S28-C03", "S28-C04", "S28-C05", "S28-E01"],
         "sourceEntriesRetained": 599,
         "nativeFilesRetained": 302,
-        "authorizedOldTestAdapterAccepted": true,
         "rootReplay": {
-          "directedPassed": 23,
+          "writerPassed": 11,
+          "failed": 0,
+          "wholeSuite234RawProvided": false,
+          "sourceAndTargetSnapshotCounter": true,
+          "shardSnapshotAndOriginalGitCounter": true,
+          "nativeProtectedReaderConsumed": true
+        },
+        "implementedStorageAccepted": false,
+        "newMigrationCredit": 0,
+        "priorDecisionRevision": "7a7d5ffdd768c2cd501c1fa3679944cbb05f0ac2"
+      },
+      "ownerImplementation": {
+        "date": "2026-10-22",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "status": "author-self-validated-awaiting-non-author",
+        "authorization": "User explicitly requested Codex take over remaining S28 rework",
+        "sourceGLMCandidate": "5499116808a74c639f32f80fc48cb8052d8ddfcb",
+        "isolatedBaseline": "7a7d5ffdd768c2cd501c1fa3679944cbb05f0ac2",
+        "codeFingerprintSHA256": "25827937117ca91885ae9b02be0e8e863ec9ba08a457ff4f56a3cb2d5692a66f",
+        "selfReviewSHA256": "b77cc1bb31893908ce00d32e06bdeb86bf67957c090c50226443ebddd7d56ca6",
+        "actualProofSHA256": "b6bbd74aa791e547e58137a487dd6561de0949438b011e615758e2e1ae364e8c",
+        "validation": {
           "officialDocsToolsPassed": 231,
           "failed": 0,
           "skipped": 0,
-          "completeRawPreserved": true,
-          "producer": "Codex",
-          "environment": {
-            "RAYON_NUM_THREADS": "1"
+          "inputsUnchanged": true,
+          "laterGuardsOnlyStrongerOraclePassed": 7,
+          "finalCompleteCollector": {
+            "argv": ["pnpm", "test:docs-tools", "--test-concurrency=1"],
+            "passed": 231,
+            "failed": 0,
+            "skipped": 0,
+            "inputsUnchanged": true
           },
-          "candidateAndInputsUnchanged": true,
-          "validPathPublicationCountersRemain": true,
-          "loaderSnapshotAndSymlinkCountersRemain": true,
-          "actualNativeProtectedReaderIgnored": true
+          "finalWriterPassed": 8,
+          "wholeCheckDocsPassed": false
         },
-        "fullToolsAccepted": true,
-        "implementedStorageAccepted": false,
-        "newMigrationCredit": 0
+        "centralStoragePublished": false,
+        "native269Published": 0,
+        "newMigrationCredit": 0,
+        "productRuntimeCredit": 0
       }
     }
   ],
@@ -2852,6 +2884,12 @@
       "date": "2026-10-22",
       "task": "DOCS-NATIVE-JSON-1/S28-final-partial-rework",
       "action": "Record S28final C02prepare closure/current23and231 evidence and remainingpublication/reader/actualcaller contracts; retain allprioracceptance/credit. Exacttask pins only.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-22",
+      "task": "DOCS-NATIVE-JSON-1/S28-owner-rework",
+      "action": "Record incoming549counter and user-authorized Codex implementation/self-validation separately; exacttask pins only, no completion/publication.",
       "nonAuthorReviewer": false
     }
   ]

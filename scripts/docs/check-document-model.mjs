@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { checkDocumentModel } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
-import { loadReviewRecord } from './review-record-storage.mjs'
+import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const readBuffer = (path) => {
@@ -21,13 +21,18 @@ const read = (path) => {
 const config = JSON.parse(read('docs/phase-governance/routing.json'))
 const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'))
 // C04: protected review reader — materializes flat or sharded reviews through the safe loader
-const reviewReader = (logicalPath) => loadReviewRecord({ root, logicalPath }).record
+let reviewGroup
+const reviewReader = (logicalPath) => {
+  reviewGroup ??= loadReviewRecords({ root, logicalPaths: [logicalPath] })
+  return reviewGroup.records.get(logicalPath)
+}
 const issues = checkDocumentModel(config, registry, read, {
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
   readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
   reviewReader,
 })
+if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 for (const issue of issues) console.error(`- ${issue}`)
 console.log(
   `document model: ${issues.length ? 'FAIL' : 'PASS'} (${config.routes.length} routes; ${config.migratedDocuments.length} body contracts; ${issues.length} issues; structure only)`,

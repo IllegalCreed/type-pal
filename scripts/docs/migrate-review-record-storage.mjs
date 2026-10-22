@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { loadReviewRecord } from './review-record-storage.mjs'
 import {
   FROZEN_REVIEW_SOURCE_REVISION,
@@ -17,6 +18,10 @@ import {
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const args = process.argv.slice(2)
+if (!(args.length === 0 || (args.length === 2 && args[0] === '--publish' && args[1])))
+  throw new Error(
+    'Usage: migrate-review-record-storage.mjs [--publish <owned-rehearsal-directory>]',
+  )
 const publishIndex = args.indexOf('--publish')
 const publishDir = publishIndex !== -1 ? resolve(args[publishIndex + 1]) : null
 
@@ -97,7 +102,11 @@ if (!publishDir) {
   })
   const entries = []
   for (const record of records) {
-    const loaded = loadReviewRecord({ root: publishDir, logicalPath: record.path })
+    const loaded = loadReviewRecord({
+      root: publishDir,
+      logicalPath: record.path,
+      readSourceSnapshot: (pin) => readGitDocumentSnapshot(repoRoot, pin),
+    })
     entries.push(loaded.record.entries.length)
   }
   console.log(
