@@ -1,14 +1,16 @@
 /**
  * TEST-GROK-RENDER-HOST-LARGE-1 专属合法宿主。
- * 只供 grok-r1 测试 import。产品代码不得引用本目录。
+ * 仅供测试使用；产品代码不得引用本目录。不是完整可玩游戏宿主。
  * 调色板固定 256 色；RLE / PNG 都是真实字节，不 mock 解码核心。
  */
 
 import { gzipSync } from 'node:zlib'
 import type {
+  Enemy,
   EventFile,
   LevelUpMagicEntry,
   Magic,
+  ObjectPlayerView,
   Palette,
   PlayerRole,
   SceneEventObject,
@@ -197,14 +199,14 @@ export interface LoadAllScript {
   scene: SceneObjects
   roles: PlayerRole[]
   words: { flat?: string[] }
-  objectPlayers: Array<{ id: number }>
+  objectPlayers: ObjectPlayerView[]
   magics: Magic[]
   fireChunks: Array<{ chunkIndex: number; frameCount: number }>
   battleSprites: Array<{ kind: 'player' | 'enemy'; id: number }>
   battleBgIds: number[]
   uiFrames: number[]
   itemIcons: number[]
-  enemies: Array<{ id: number }>
+  enemies: Enemy[]
   stores: Store[]
   levelUpExp: number[]
   levelUpMagic: LevelUpMagicEntry[][]
@@ -227,7 +229,7 @@ export function loadAllScript(patch: Partial<LoadAllScript> = {}): LoadAllScript
     scene,
     roles: patch.roles ?? [legalRole(0, 2), legalRole(1, 0)],
     words: patch.words ?? { flat: ['甲', '乙'] },
-    objectPlayers: patch.objectPlayers ?? [{ id: 1 }],
+    objectPlayers: patch.objectPlayers ?? [{ id: 36, scriptOnFriendDeath: 0, scriptOnDying: 0 }],
     magics: patch.magics ?? [legalMagic(0, 0), legalMagic(1, 4), legalMagic(2, 4)],
     fireChunks: patch.fireChunks ?? [
       { chunkIndex: 0, frameCount: 2 },
@@ -242,7 +244,48 @@ export function loadAllScript(patch: Partial<LoadAllScript> = {}): LoadAllScript
     battleBgIds: patch.battleBgIds ?? [8],
     uiFrames: patch.uiFrames ?? [0, 1, 2],
     itemIcons: patch.itemIcons ?? [3, 12],
-    enemies: patch.enemies ?? [{ id: 41 }],
+    enemies: patch.enemies ?? [
+      {
+        id: 41,
+        idleFrames: 1,
+        magicFrames: 1,
+        attackFrames: 1,
+        idleAnimSpeed: 1,
+        actWaitFrames: 1,
+        yPosOffset: 0,
+        attackSound: 0,
+        actionSound: 0,
+        magicSound: 0,
+        deathSound: 0,
+        callSound: 0,
+        health: 100,
+        exp: 1,
+        cash: 1,
+        level: 1,
+        magic: 0,
+        magicRate: 0,
+        attackEquivItem: 0,
+        attackEquivItemRate: 0,
+        stealItem: 0,
+        stealItemCount: 0,
+        attackStrength: 0,
+        magicStrength: 0,
+        defense: 0,
+        dexterity: 0,
+        fleeRate: 0,
+        poisonResistance: 0,
+        elemResistance: {
+          wind: 0,
+          thunder: 0,
+          water: 0,
+          fire: 0,
+          earth: 0,
+        },
+        physicalResistance: 0,
+        dualMove: 0,
+        collectValue: 0,
+      },
+    ],
     stores: patch.stores ?? [{ id: 3, items: [61, 0] }],
     levelUpExp: patch.levelUpExp ?? [10, 20],
     levelUpMagic: patch.levelUpMagic ?? [[{ level: 2, magic: 296 }]],

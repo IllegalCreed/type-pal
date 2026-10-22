@@ -66,7 +66,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,357。
-当前已闭合核验：377；已读但待审：113；尚未逐文件核验：2,867；合计未闭合：2,980。
+当前已闭合核验：377；已读但待审：115；尚未逐文件核验：2,865；合计未闭合：2,980。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -248,6 +248,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/assets/loader.test.ts` | test | review | [3h合法缓存/排重](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/quality.json) | 7→4，三个弱子集转更强HTTP/引用合同；四LRU保留，typed输入与返回对象补强；模块门待跑 |
 | `packages/game/src/assets/load-all-recover.grok-r1.test.ts` | test | review | [3h告警与原编号](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) | 十原例完整告警，C10旧错误压紧oracle按批准修正/拆出C11保留物品断言；11绿，统一门未跑不关闭 |
 | `packages/game/src/assets/load-all-ui-frame-identity.test.ts` | test | review | [3h原编号修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) | 三例真实loadAll→PNG→数字/边框消费，正式旧1绿2业务红；模块216绿/TC0，统一门未跑不关闭 |
+| `packages/game/src/assets/load-all-assemble.grok-r1.test.ts` | test | review | [3h装配夹具补核](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/fixture-refresh.json) | 十例当前A–H，A10真实角色表36/必需字段，A06工厂/非空断言精简，A09一标题映射；统一门待跑 |
+| `packages/game/src/__tests__/grok-render-r1/legal-host.ts` | test | review | [3h宿主有限返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/fixture-refresh.json) | 仅两表类型/默认值补齐，18其它函数守恒；完整helper跨caller与可玩输入不授信用，继续review |
 | `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |
 | `packages/game/src/assets/rle-decode.ts` | product | 已验证 | CODE-QUALITY-3h；shared codec re-export、dialog-assets base64 caller、identity tests | 无重复 codec；base64 非法输入继续 fail-loud |

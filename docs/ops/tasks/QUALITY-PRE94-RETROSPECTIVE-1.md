@@ -1420,6 +1420,8 @@ Codex单Owner，同一3y，基点c4278084be4b04ebbb77fb0633b5a94c1c0eafe2与最�
 
 ## 2026-10-22 CODE3h UI original-index fix
 
+测试输入补核准入：Codex唯一Owner仅legal-host.ts的LoadAllScript类型与默认Enemy/ObjectPlayerView数据，以及load-all-assemble的A06同值typed工厂、A10对应oracle/过时头注与A09标题。原{id}不满足真实必需字段，角色OBJECT编号1也不在36..41；完整Enemy与角色36的两个零脚本入口替换伪输入，A10从只验ID增强到完整角色视图。无产品/格式变更，其余helper函数与测试数量保留。正式UI反例须在新typed夹具上重放；helper全文与assemble其它合同不借此自动关闭。此前“合法”只证明PNG/RLE/角色等实际核过的域，不能外推这两张表或完整可玩宿主；历史原件保留。
+
 收尾有限准入：沿用户合理重构/测试整改可调整baseline的既有授权，approved-baseline-adjustments仅新增一条固定c427整基线与七实际变更路径SHA的数据；只按loader单源已测移除语句2/分支2/函数1/行1重算game，不降低其它旧下限。原三未覆盖诊断逐句相同，旧11项/程序AST不变及错源拒绝已核。[重算原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/recount.json)。覆盖率只在当前模块收尾：单源54例预检为避免全仓采集后再因结构计数拒绝；正式官方全仓仍待本窗一次集中采集，不增加弱例/恢复旧列表。
 
 User approval recorded on GAME-UI-ASSET-FRAME-IDENTITY-1. Codex sole Owner: official old source 1 pass / 2 business AssertionErrors, then real loadAll/PNG/drawNumber/drawBox contracts pass; 4 directed files28 and complete assets-adjacent27 files216 (zero skipped/stderr), game typecheck0. C10 incorrect packing assertion replaced; original item-key/pixels move to independent C11. All first nine recovery contracts remain. Cache7->4: the third generic-hit subset is covered by G01-D01 plus retained unbounded exact requests, with exact retirement identity map.

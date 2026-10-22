@@ -63,6 +63,64 @@ assert.equal(record.ci.runtimeStderrBlocks, 0)
 assert.equal(record.ci.actWarnings, 0)
 assert.equal(record.ci.platformDeprecationWarnings, 6)
 assert.equal(record.ci.platformWarningAnnotations, 1)
+const json = (name) => JSON.parse(readFileSync(resolve(here, name), 'utf8'))
+const native = (name) =>
+  JSON.parse(gunzipSync(readFileSync(resolve(here, `${name}.native.json.gz`))))
+for (const [name, expected] of [
+  ['before', [43, 0]],
+  ['after-fixed', [40, 0]],
+  ['clone-return-before', [17, 0]],
+  ['clone-return-after', [10, 4]],
+  ['warning-context-before', [17, 0]],
+  ['warning-context-after', [13, 1]],
+]) {
+  const actual = native(name)
+  assert.deepEqual(
+    [actual.numPassedTests, actual.numFailedTests, actual.numPendingTests],
+    [...expected, 0],
+    name,
+  )
+  for (const suite of actual.testResults)
+    for (const test of suite.assertionResults) {
+      if (test.status === 'failed')
+        assert(
+          test.failureMessages.every((message) => message.includes('AssertionError')),
+          test.fullName,
+        )
+    }
+}
+for (const report of [json('ui-fix.json'), json('recount.json'), json('fixture-refresh.json')]) {
+  for (const entry of report.artifacts) {
+    const compressed = readFileSync(resolve(here, entry.file))
+    const raw = gunzipSync(compressed)
+    assert.equal(sha(compressed), entry.gzipSha256, entry.file)
+    assert.equal(raw.length, entry.bytes, entry.file)
+    assert.equal(sha(raw), entry.sha256, entry.file)
+  }
+}
+const current = json('fixture-refresh.json')
+for (const entry of current.currentSourcePins)
+  assert.equal(
+    sha(readFileSync(resolve(root, entry.path))),
+    entry.sha256,
+    `STALE current source: ${entry.path}`,
+  )
+const red = native('ui-typed-fixture-red')
+assert.deepEqual([red.numPassedTests, red.numFailedTests, red.numPendingTests], [1, 2, 0])
+for (const suite of red.testResults)
+  for (const test of suite.assertionResults) {
+    if (test.status === 'failed')
+      assert(
+        test.failureMessages.every((message) => message.includes('AssertionError')),
+        test.fullName,
+      )
+  }
+assert.deepEqual(
+  [native('fixture-directed').numPassedTests, native('fixture-assemble-final').numPassedTests],
+  [167, 10],
+)
+assert.equal(current.recountRefresh.currentRow.sources.length, 9)
+assert.equal(current.recountRefresh.metricsUnchanged, true)
 process.stdout.write(
   'MATCH: frozen quality slice, originals, 40 green, 4+1 business controls, c427 CI success; no whole-CODE3h acceptance.\n',
 )

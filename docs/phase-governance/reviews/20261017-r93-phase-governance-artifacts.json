@@ -6929,7 +6929,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed115review2865pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -6950,7 +6950,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
+      "afterSha256": "8d14021ec7bcf99307843921a6e00fc61977d10b2d4e241b1df6398dad9f39a5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6974,7 +6974,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
+        "implementationSha": "8d14021ec7bcf99307843921a6e00fc61977d10b2d4e241b1df6398dad9f39a5",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -7642,8 +7642,8 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
-        "lineCount": 6673,
+        "afterSha256": "8d14021ec7bcf99307843921a6e00fc61977d10b2d4e241b1df6398dad9f39a5",
+        "lineCount": 6686,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -8904,6 +8904,36 @@
           "afterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
           "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-typed-fixture-freeze",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+            "afterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
+            "lineCount": 6673,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 302305,
+              "sourceLines": 5074,
+              "sourceFinalNewline": true,
+              "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
+          "afterSha256": "8d14021ec7bcf99307843921a6e00fc61977d10b2d4e241b1df6398dad9f39a5",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
         }
       ],
       "supersedes": [
@@ -8911,7 +8941,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only approved UI task, three review ledger rows, current counts, generated index and owned descendant pins",
+      "reviewedLines": "Only approved UI task, five review ledger rows, current counts, generated index and owned descendant pins",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

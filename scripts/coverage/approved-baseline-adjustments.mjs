@@ -8,9 +8,18 @@ const approvedAdjustments = [
     id: 'pre94-ui-frame-index-assembly-recount-20261022',
     authority:
       'User standing authority allows exact coverage recount for justified cleanup, without restoring dead code or weak tests. Approved UI original-index fix removes success-only packing, 1 function/2 statements/2 branches/1 line; all removed counters were covered. Existing three uncovered diagnostic lines are unchanged. Only game counters rebased by the measured single-source delta; all other baseline floors, scope, predicates and configuration unchanged.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/recount.json',
+    evidence:
+      'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/fixture-refresh.json',
     baselineSha256: 'a2beab0a46435a9bd17c877f2e858a787295a1b621689a1d3502d967f07eda3f',
     sources: [
+      {
+        path: 'packages/game/src/__tests__/grok-render-r1/legal-host.ts',
+        sha256: '895cd55fee073b5f0a7a286af31bbeab2e41d4fc0829306d773c8681184c4bcc',
+      },
+      {
+        path: 'packages/game/src/assets/load-all-assemble.grok-r1.test.ts',
+        sha256: '1d21d4085cc12a016be2468928a8eb876fb5eb7ae337339463e0cf0eaee72228',
+      },
       {
         path: 'packages/game/src/assets/load-all-recover.grok-r1.test.ts',
         sha256: 'bafbf8a7c6ca9b3197ea764cf112df7a94ca77f010527a264fc93fcd2059e059',
