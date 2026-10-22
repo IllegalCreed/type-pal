@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { assertWritableReviewSelection } from './review-record-storage-guards.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const relativePath = process.argv[2]
@@ -9,6 +10,10 @@ if (!relativePath)
     'Usage: node scripts/docs/enrich-content-review-file.mjs docs/phase-governance/reviews/BATCH.json',
   )
 const file = resolve(repoRoot, relativePath)
+assertWritableReviewSelection([relativePath], {
+  readBuffer: (p) => readFileSync(resolve(repoRoot, p)),
+  resolve: (p) => resolve(repoRoot, p),
+})
 const review = JSON.parse(readFileSync(file, 'utf8'))
 const revision = '6a5675efade246f0332fa9333b0729532a5545d8'
 const digest = (path) =>

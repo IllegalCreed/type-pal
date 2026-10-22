@@ -1,12 +1,15 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { assertWritableReviewSelection } from './review-record-storage-guards.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
-const reviewPath = resolve(
-  repoRoot,
-  'docs/phase-governance/reviews/20261004-lore-phase3-batch1.json',
-)
+const reviewRelative = 'docs/phase-governance/reviews/20261004-lore-phase3-batch1.json'
+const reviewPath = resolve(repoRoot, reviewRelative)
+assertWritableReviewSelection([reviewRelative], {
+  readBuffer: (p) => readFileSync(resolve(repoRoot, p)),
+  resolve: (p) => resolve(repoRoot, p),
+})
 const review = JSON.parse(readFileSync(reviewPath, 'utf8'))
 const revision = '6a5675efade246f0332fa9333b0729532a5545d8'
 const digest = (path) =>
