@@ -252,6 +252,66 @@ describe('translated message groups', () => {
     expect(battle.gs.dialogBox?.portraitIcon).toBe(8)
   })
 
+  it('battle timed dialogue clears and continues without another confirmation', () => {
+    setEnglishMessages([
+      {
+        start: 100,
+        end: 102,
+        lines: ['Li Xiaoyao:', '$02 Tss! Demon Mistress~40', null, 'Farewell.'],
+      },
+    ])
+    const commands: Command[] = [
+      { op: 'setDialogStyleBottom', arg0: 8 },
+      ...sourceLines,
+      { op: 'end' },
+    ]
+    const { gs, state, bus } = createBattleLifecycleFixture({ commands })
+    runScript({
+      commands,
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: { gs, state, caster: { type: 'enemy', idx: 0 } },
+    })
+    let waitedForPageKey = false
+    for (let frame = 0; frame < 100 && gs.dialogBox?.currentLineText !== 'Farewell.'; frame++) {
+      tickBattleDialog(state, gs, input(false, frame))
+      waitedForPageKey ||= gs.dialogBox?.phase === 'waiting-page-key'
+    }
+    expect(gs.dialogBox?.currentLineText).toBe('Farewell.')
+    expect(waitedForPageKey).toBe(false)
+    expect(gs.dialogBox?.shownLines).toEqual([])
+    expect(gs.dialogBox?.titleText).toBe('Li Xiaoyao:')
+    expect(gs.dialogBox?.portraitIcon).toBe(8)
+  })
+
+  it('battle narration clear after timeout adds no empty dialog or extra wait', () => {
+    setEnglishMessages([{ start: 100, end: 102, lines: ['The jewel is free.', null, 'Take it.'] }])
+    const commands: Command[] = [{ op: 'setDialogStyleNarration' }, ...sourceLines, { op: 'end' }]
+    const { gs, state, bus } = createBattleLifecycleFixture({ commands })
+    runScript({
+      commands,
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: { gs, state, caster: { type: 'enemy', idx: 0 } },
+    })
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox?.currentLineText).toBe('The jewel is free.')
+    // The narration remains for 1.4 seconds: 35 battle ticks at 40 ms, without Confirm.
+    for (let frame = 1; frame <= 34; frame++) {
+      tickBattleDialog(state, gs, input(false, frame))
+    }
+    expect(gs.dialogBox?.currentLineText).toBe('The jewel is free.')
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox).toBeUndefined()
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox).toBeUndefined()
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox?.currentLineText).toBe('Take it.')
+    expect(gs.dialogBox?.style).toBe('narration')
+  })
+
   it('wraps words without exposing escapes, control suffixes or losing persistent color/speed', () => {
     const lines = wrapEnglishDialogLine('@Alpha beta\\- gamma@ $01omega~02hidden suffix', 64)
     expect(lines).toEqual(['@Alpha', 'beta\\-', 'gamma@', '$01omega~02hidden suffix'])
