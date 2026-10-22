@@ -2330,3 +2330,9 @@ Codex非作者裁定6项C01-C05/E01返工，具体path/反例/解除条件归[�
 fc7be36e候选实际7提交/18文件，599源与302原生、授权三处适配6/6、正常dry-run保留。Git/source/分片SHA/主要键序/原Buffer/历史provider等已修子项接受；但合法path临时树实证目标manifest/R92/R94仍被覆盖、未知兄弟代留下释放锁，生产loader/consumer/真独立oracle和完整runner/八维仍有精确剩余。根新定向卡在自己的Biome子进程后停止，仅观察12pass，不记当前20/20；旧GLM后台管线交作者处理，未动他人进程。
 
 [子卡剩余裁定](DOCS-NATIVE-JSON-1.md#s28-修正轮部分闭合中央发布仍停止2026-10-22)逐counter保留已支持成果，只退未闭子项。新终修包给19文件（仅新增check-document-model生产安全reader接线），旧包冻结，新证据/tmp/s28-glm-review-storage-final-fix；仍先599存储后269语义，中央代码未接入、存储未发布、计数/信用不变。本卡rework，不合main、不推送、不标done。
+
+#### S28终修仍阻断发布（2026-10-22）
+
+54314318候选8提交/19白名单、599源/302原生及授权三处旧测试适配保全；Codex实跑per-file三套23/0和正式docs-tools231/0，完整raw补齐，不倒签作者摘要。C02 prepare的deepStrictEqual/9 before-pin闭合，其余已核子项复用。
+
+[子卡本轮裁定](DOCS-NATIVE-JSON-1.md#s28-终修验收测试通过发布反例未闭2026-10-22)保留具体反例：组API仍写额外合法path、放过active旁未知代、拒精确原before；loader读A记B与symlink/原pin缺口、实际consumer忽略保护reader。只退剩余合同及弱反例/失实声明，既有19文件同分支追加，原三包冻结。中央未接代码/599存储，269语义另行；计数/信用不变，全卡rework，不合main、不推送、不标done。

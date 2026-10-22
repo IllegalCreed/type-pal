@@ -180,6 +180,21 @@ Codex冻结`review-record-storage / 1.0.0`，关闭S27方案§6四个设计未�
 
 剩余包在同分支fc7后追加，旧两包冻结，新证据仅`/tmp/s28-glm-review-storage-final-fix/`；清单`/tmp/type-pal-S28-final-fix-fc7be36e/execution-manifest.json`，SHA-256 `32c739a9ceb4c99c43072a212d085fdd6211ada377657b1a9a4d24544f0297d4`。Owner为真实root接线补准入`scripts/docs/check-document-model.mjs`，仅增加安全review reader依赖/option、原判据/输出不变（document-model已透传options无需改）；总19代码文件。其余旧测试/共享配置/产品/coverage/docs/原源不扩权，原冻结1.0.0不放宽；build allowed只剩余整改与临时树验证，不逐批问许可。
 
+### S28 终修验收：测试通过，发布反例未闭（2026-10-22）
+
+Codex非作者裁定partial-counter-closure/rework，候选54314318e9947c83a94c93c9f3633c819e166b5f，实际8提交/19白名单代码文件；tracked净，仅node_modules。8源599条、302原生、中央docs零改；旧50件/修正30件冻结，新17件清单和六组真实回执身份/输出SHA一致。授权旧测试仍仅一import两读取（含Biome换行）。四旧PID在Owner本轮观察时均不存在；具体kill时点仅为作者记录，不反推未存命令。
+
+根按per-file串行实跑三套23/0/0skip，并补跑未改的正式`pnpm test:docs-tools`231/0/0skip，完整raw与代码/输入前后指纹保留，进程环境RAYON_NUM_THREADS=1只限资源、不改runner或规则。作者per-file.out仍是摘要，不能追授其完整套执行；本轮正式套缺口由Owner真实执行补齐。未重做599语义、S26/S27盘点或产品测试。
+
+- C02 prepare闭合：真实deepStrictEqual/格式后lossy检查、9条before-pin先核后改、生产Git来源核验与纯fixture区别保留。C01十输入快照、foreign target拒绝、失败锁/staging保留，C03 source四键/orphan接线，C04移除undefined root、sync先查锁，C05去/tmp及8完整对象/9实际pin强读回均保留，不整批重审。
+- C01仍阻断：真实599源、合法相对path、仅新owned临时树反例表明，额外本目录review输出被写入（30件），active代旁未知兄弟代留下仍释放锁；精确原始10源before态复制树反而不能迁移。须精确封闭组与目标原态/锁内重核、完整物理集合和普通父目录，不删除未知材料救门。
+- C03/C04仍阻断：root/Git wrapper仍raw.includes，filename!=key可过；返回A内容却loadedSource记变后B，且leaf普通文件保护在本轮退化，symlink片/父目录、伪原Git pin可过。真实model/native caller传拒绝reviewReader仍calls0/issues[]，其余生产caller仍绕保护入口。须同一原Buffer物化/来源与读后全字节复核、真实Git原pin、全部生产接线与同步写前验证。
+- C05/E01只退剩余：以真实caller反例替换自造键序/producer自比、当前树也缺的missingGit等弱针；修正与代码不符的one-pass/allparsed/filename/consumer声明。A–H仍合并四writer且漏授权adapter，须真实19文件各自依据。既有23/231绿与已核原件保留，不能代替上述失败合同；无需新平行canonical账本。
+
+完整裁定/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-S28-final-owner-audit-ys230wp_/verdict.json，SHA-256 `bfe5074bcd9226087206c099be766577e4a8d3f5419f1d254a50098f0defd7fa`；Owner反例/完整门与新冻结作者证据按内容去重追加原单份压缩日志。中央代码未接入，599存储未发布，269语义仍另行；1195待办/2384诊断（交集1189）、1151/1838+3retired+87incremental和全部信用不变。不合main、不推送、不标本卡/父卡done。
+
+剩余实施仍build allowed、同分支从54314318追加、19白名单/1.0.0合同不扩权；清单/tmp/type-pal-S28-release-readiness-54314318-2t5r4o36/execution-manifest.json，SHA-256 `7f36e18130e27779503644dffbb716280fd968a54d43684c6b3b2059f8cfbd4b`，新证据仅/tmp/s28-glm-review-storage-release-fix，原三包冻结。只修剩余失败合同，内部持续推进、集中回交，不逐批问许可。
+
 ## 设计与风险
 
 GLM读原生文件及其实际上下文，将历史观察和当前适用性写成可核稿件；Codex接收后复用既有record位置处理准确delta，不再让贡献者修改共享账本。269件原生合同复用S25基础；新增路径/相位/当前review关联仍须由Owner实现并验证，30件例外不混进该合同。提供的机械工具只验身份、集合与原文锚，不认证阅读深度或业务正确性。
@@ -188,15 +203,15 @@ GLM读原生文件及其实际上下文，将历史观察和当前适用性写�
 
 - 当前Owner：GLM执行稿件与自验，Codex维护准入和中央接入。未交付前不宣称269已审/已迁移。
 - 稳定交接入口为授权包中的`INSTRUCTIONS.md`和本卡；进度保存在证据目录review-index/已落盘分片，不依赖聊天记忆。工具/清单hash及原件必须可核；指纹全由程序实取。
-- 下一步：转交S28剩余终修包，先清理作者自己旧后台管线，再按逐counter剩余项及19文件白名单修复；本轮已闭合子项保留。Codex据完整新原件接受后才中央发布599存储，随后另接269语义。
+- 下一步：GLM按S28终修裁定只补组发布/安全loader/真实caller及相应反例，复用已核子项和Owner23/231原件；Codex据证接受后才发布599存储，269语义另行。
 
 ## 下一位Agent提示词
 
 ```text
-你是type-pal的GLM Coding Owner，执行S28剩余定点终修，build allowed。
-先读/tmp/type-pal-S28-final-fix-fc7be36e/GLM-PROMPT.md、execution-manifest.json及/tmp/type-pal-S28-correction-owner-audit-8lcrdth8/verdict.json。
-同分支从fc7be36e19437f8a99e886b42efd8abf880cc2da追加；先处理你自己遗留旧后台capture/shell管线，防晚到写证据/git操作，不动其它Owner。
-保留已闭合子项，只补C01-C05/E01剩余；旧两包冻结，新证据/tmp/s28-glm-review-storage-final-fix；19文件白名单仅补check-document-model生产reader接线，不改原判据。
-真实目标状态/10输入快照/生产reader/独立oracle/正式runner完整raw/真逐文件八维满足后集中回交；不倒签dirty执行，不修改旧原件。
-不真实仓库publish，不合main、不推送、不标done，不授599语义/269迁移/运行信用。
+你是type-pal GLM Coding Owner，继续S28发布就绪整改，build allowed。
+读/tmp/type-pal-S28-release-readiness-54314318-2t5r4o36/GLM-PROMPT.md、execution-manifest.json及/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-S28-final-owner-audit-ys230wp_/verdict.json。
+同分支从54314318e9947c83a94c93c9f3633c819e166b5f追加，仅既有19代码白名单；原三包冻结，新证据/tmp/s28-glm-review-storage-release-fix。
+C02 prepare及已核子项保留；只闭C01封闭组/目标before/未知代，C03同Buffer快照/普通文件/原Git pin/精确path，C04五生产caller安全接线，C05真实反例，E01如实声明与19文件八维。
+Owner已补正式231/0原件，保留其产生者与实际候选身份；最终实现改后按影响集中实跑，不改runner/共享规则/旧断言，不重做599语义。
+只在owned临时树演练；不改中央docs/原生/产品/coverage，不合main、不推送、不标done、不授迁移/运行信用。内部持续推进后一次回交。
 ```
