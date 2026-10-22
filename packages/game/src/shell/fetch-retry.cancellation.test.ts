@@ -5,10 +5,12 @@ import { installFetchRetry, uninstallFetchRetryForTest } from './fetch-retry.js'
 const originalFetch = globalThis.fetch
 const url = 'http://127.0.0.1:1/never-sent'
 
-afterEach(() => {
+afterEach(async () => {
   try {
-    uninstallFetchRetryForTest(originalFetch)
+    // 先清本例的退避及监听器；不要把尚未结局的重试带到真实时钟或下个 fetch。
+    if (vi.isFakeTimers()) await vi.runAllTimersAsync()
   } finally {
+    uninstallFetchRetryForTest(originalFetch)
     globalThis.fetch = originalFetch
     vi.restoreAllMocks()
     vi.useRealTimers()

@@ -35,6 +35,7 @@ describe('bootstrap resource lifecycle', () => {
     const fetchSoundfont = vi.fn(async () => new ArrayBuffer(1))
     const load = startBootstrapResourceLoad(7, ports({ fetchSoundfont }), false)
     expect(fetchSoundfont).not.toHaveBeenCalled()
+    await expect(load.soundfontData).resolves.toHaveProperty('byteLength', 0)
     await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })
     await expect(load.soundfontSettled).resolves.toBeUndefined()
   })

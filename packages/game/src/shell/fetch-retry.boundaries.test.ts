@@ -10,10 +10,12 @@ import { installFetchRetry, uninstallFetchRetryForTest } from './fetch-retry.js'
 
 const originalFetch = globalThis.fetch
 
-afterEach(() => {
+afterEach(async () => {
   try {
-    uninstallFetchRetryForTest(originalFetch)
+    // 业务断言提前失败时也先结局本例重试，再撤掉它持有的 fetch/timer 端口。
+    if (vi.isFakeTimers()) await vi.runAllTimersAsync()
   } finally {
+    uninstallFetchRetryForTest(originalFetch)
     globalThis.fetch = originalFetch
     vi.restoreAllMocks()
     vi.useRealTimers()
@@ -84,9 +86,13 @@ describe('H01 installFetchRetry 边界', () => {
     })
     installFetchRetry({ retries: 1, backoffMs: [1] })
     const retried = globalThis.fetch(new Request('https://x.test/g', { method: 'GET' }))
-    const resolved = retried.then((response) => response)
+    const settled = retried.then(
+      (response) => ({ response }),
+      (error: unknown) => ({ error }),
+    )
     await vi.runAllTimersAsync()
-    expect(await resolved).toBe(recovered)
+    const outcome = await settled
+    expect('response' in outcome && outcome.response).toBe(recovered)
     expect(getCalls).toBe(2) // GET 重试
   })
 
@@ -165,9 +171,13 @@ describe('H01 installFetchRetry 边界', () => {
           : last
     })
     installFetchRetry({ retries: 3, backoffMs: [1, 2] })
-    const resolved = globalThis.fetch('https://x.test/d').then((res) => res)
+    const settled = globalThis.fetch('https://x.test/d').then(
+      (response) => ({ response }),
+      (error: unknown) => ({ error }),
+    )
     await vi.runAllTimersAsync()
-    expect(await resolved).toBe(last)
+    const outcome = await settled
+    expect('response' in outcome && outcome.response).toBe(last)
     expect(m).toBe(3)
   })
   it('backoff 末值用于超出数组长度的后续重试', async () => {
@@ -180,9 +190,12 @@ describe('H01 installFetchRetry 边界', () => {
       throw new Error('e')
     })
     installFetchRetry({ retries: 3, backoffMs: [5, 7] })
-    const resolved = globalThis.fetch('https://x.test/e').then((res) => res)
+    const settled = globalThis.fetch('https://x.test/e').then(
+      (response) => ({ response }),
+      (error: unknown) => ({ error }),
+    )
     await vi.runAllTimersAsync()
-    expect((await resolved).status).toBe(200)
+    expect(await settled).toMatchObject({ response: { status: 200 } })
     expect(timeoutSpy.mock.calls.map((call) => call[1])).toEqual([5, 7, 7]) // 超长退避取末值
   })
 
@@ -195,9 +208,12 @@ describe('H01 installFetchRetry 边界', () => {
       return k > 1 ? new Response('ok') : Promise.reject(new Error('e'))
     })
     installFetchRetry({ retries: 1, backoffMs: [] })
-    const resolved2 = globalThis.fetch('https://x.test/f').then((res) => res)
+    const settled = globalThis.fetch('https://x.test/f').then(
+      (response) => ({ response }),
+      (error: unknown) => ({ error }),
+    )
     await vi.runAllTimersAsync()
-    expect((await resolved2).status).toBe(200)
+    expect(await settled).toMatchObject({ response: { status: 200 } })
     expect(timeoutSpy.mock.calls.map((call) => call[1])).toEqual([1000])
   })
 })
