@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "focused-independent-canvas-and-loader-review",
+  "reviewer": "english_patch_audit",
+  "status": "two-specific-counters-await-root-fix-recheck",
+  "createdAt": "2026-10-22T12:41:01.920885+00:00",
+  "reviewScope": "Read-only independent check of root canvas/layout/loading additions and current draw-description diff; no product files, card, ledger or quality configuration changed. Focused risk review, not a full-file governance closure.",
+  "initialIdentity": {
+    "head": "c892d5f381474f0fc186cb780716f5001aaa479d",
+    "files": [
+      {
+        "path": "packages/game/src/assets/language-pack.ts",
+        "sha256": "4520aec19909c2a1855cfef4dbe84cf939e6e2f3d6cff12ba4b3c9e4580f8257"
+      },
+      {
+        "path": "packages/game/src/localization/layout.ts",
+        "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c"
+      },
+      {
+        "path": "packages/game/src/present/small-font.ts",
+        "sha256": "30125e927d84cee514c163a42fddbbf0f1912c25f0fd2e8cd531371a9003f643"
+      },
+      {
+        "path": "packages/game/src/present/menu/localized-background.ts",
+        "sha256": "b879073cd9631bd3b3e2e0342f8771862fbc6812bda65a39f64893f46fe506bc"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.ts",
+        "sha256": "9fcd4810b9675a0840d29d1d7a1040e7cfbe883ebbdfebe0b74e501d04f2aff6"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-equip.ts",
+        "sha256": "3602c707c2edfebc4af4bd71ec143490727b493d6158d7b617af80f91bac4c7c"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-description.ts",
+        "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485"
+      },
+      {
+        "path": "packages/game/src/core/word-lookup.ts",
+        "sha256": "e8f01ede5466b24f54b711b77f37c64bd675e49742a650aa67f2ce51d6f3deda"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement.ts",
+        "sha256": "1dcc02eccfa1d756d3742b987e6872d2dcb9dc9141942b78cda72d4d53618fa6"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "sha256": "3f4ce47e1daaca16e71b5dab587b71087ef88934a603ab5edab78784480cbd8f"
+      }
+    ]
+  },
+  "primarySources": [
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "path": "reference/sdlpal/ascii.h",
+      "sha256": "fb3a8ba21cde4b167949c6f429f8cf2b8ce080cde0d6cd43db2f32edfdbae9d6"
+    },
+    {
+      "path": "reference/sdlpal/font.c",
+      "sha256": "8b1f8f9c9325024bca8c99f15dab3a8122d9d278e471614f4d5ddab944a461d6"
+    },
+    {
+      "path": "reference/sdlpal/palcfg.h",
+      "sha256": "421928f28fc7ded88f4f02b173ecd14a11b5d66a8ba568d724896afe6ee95424"
+    },
+    {
+      "path": "data/en/win_files/m_eng.slf",
+      "sha256": "81c4bed62f48ccf30bcd50ae9afc766352c06e0b52b782a9d64d7517af86ef73"
+    },
+    {
+      "path": "data/raw/FBP.MKF",
+      "sha256": "29bbc71c10c58a555e5b45b853dfeef3fa0d299ceeb8e7556b6c1d6bc40c4d84"
+    },
+    {
+      "path": "data/raw/DATA.MKF",
+      "sha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+    },
+    {
+      "path": "data/raw/unifont-cn.bdf",
+      "sha256": "1ab843ec8d2540a702974044f9a4a3acb8bb91bb9dfc1ec10605c7ce813f02bd"
+    },
+    {
+      "path": "data/extracted/lookup/en.json",
+      "sha256": "050289f885822f44840a54fe974206e9c2039aa80b38acb6471b7fa334390f2f"
+    },
+    {
+      "path": "data/extracted/lookup/words.json",
+      "sha256": "dbd24525ebacf1fe252f19ab9c3158c4b6ef1d73e0de925a18a09f1a0cb1b75d"
+    },
+    {
+      "path": "data/extracted/events/all.json",
+      "sha256": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885"
+    }
+  ],
+  "findings": [
+    {
+      "id": "CANVAS-01",
+      "severity": "P1",
+      "status": "confirmed-root-accepted-fix-pending",
+      "file": "packages/game/src/present/menu/draw-description.ts",
+      "symbol": "drawScriptDescription",
+      "counter": "The actual translated item description group12746 includes Atk+28 U+3000 Agi+12 U+3000 Def+3. SMALL_FONT initially covers U+0020..U+007F only; renderColoredText substitutes 16x16 TOFU for U+3000 while description row step is10. Isolated rendering lights y151..166 rather than within an8-pixel row.",
+      "actualCaller": "getScriptDescLines for every item/spell scriptDesc after setGlobalEvents(actual all.json)+setEnglishMessages(actual en.json); 46 catalog entries have missing small-font U+3000, and no other missing character is present in these actual description callers.",
+      "evidence": ["description-scan.ts", "description-scan.json", "probe.ts", "probe.json"],
+      "rootResolutionPlan": "Add a16-pixel-wide,8-pixel-high blank U+3000 glyph and actual attribute-line pixel regression; preserve full-width spacing and control-code semantics, no NFKC."
+    },
+    {
+      "id": "CANVAS-02",
+      "severity": "P2",
+      "status": "source-confirmed-root-accepted-fix-pending",
+      "file": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "symbols": ["buildBattleWonSettlement", "drawBattleSettlement"],
+      "counter": "Settlement construction caches getWord role/magic names into screen.data.name/magicName. Switching effective language after screen creation leaves those strings in the old language while render-time level/stat/Up labels use the new one. Existing roleId provides a stable numeric lookup; learned-magic data previously lacked the corresponding numeric ID.",
+      "evidence": ["snapshot-initial.json"],
+      "rootResolutionPlan": "Resolve role display name from supplied playerRoles using screen.data.roleId at draw time; retain optional magicId in learned-magic display data and validate its optional save projection. Add a real caller red/green switch-after-creation test. No claim of a browser observation is made here."
+    }
+  ],
+  "supportedConclusions": [
+    {
+      "id": "CANVAS-SOURCE-01",
+      "claim": "Current status background transformation exactly matches independently transcribed SDLPal uigame.c1092-1120 memcpy placement over original FBP.MKF chunk0 and supported SLF layout positions53..58. All64000 indices agree; original source remains unchanged.",
+      "evidence": "probe.json",
+      "differences": 0,
+      "sourceSha256": "2893c64aaf7158ca9bb891168f6a8bbf6b232d94eedd98da95a0f16a4e135580",
+      "boundary": "Raw file proves pixel source; SDLPal is the reference for translation-specific relocation, not proof of original executable visual behavior."
+    },
+    {
+      "id": "CANVAS-SOURCE-02",
+      "claim": "Current equipment-label background cleanup matches full SDLPal uigame.c1825-1855 transformation over original FBP.MKF chunk1 with supported SLF EquipImageBox=(8,8). All64000 indices agree; source remains unchanged.",
+      "evidence": "probe.json",
+      "differences": 0,
+      "sourceSha256": "b34f8fbec66e8c75560c5a27b13279044bca7868dcc0a0868fea067eca3401cf",
+      "boundary": "The TS helper omits the72x72 image-box relocation loop; for this protected source the loop erases/restores at the same8,8 and is byte-equivalent. A future different EquipImageBox location invalidates this acceptance and requires adding/testing that loop."
+    },
+    {
+      "id": "CANVAS-FONT-01",
+      "claim": "All128 source8x8 row strings exactly match reference/sdlpal/ascii.h basic-Latin data. The LSB-to-MSB reversal matches font.c559-570 bit1<<j drawing and the project MSB-left Glyph contract.",
+      "sourceRows": 128,
+      "referenceRows": 128,
+      "mismatches": 0,
+      "boundary": "Does not establish coverage for Unicode outside the basic-Latin table; CANVAS-01 demonstrated that gap."
+    },
+    {
+      "id": "CANVAS-LAYOUT-01",
+      "claim": "Layout bit0 small-font / bit1 disable-shadow matches palcfg.h178-179; IDs1..26 equip and27..80 status align with the supplied SLF. Chinese layoutPosition returns the original fallback object and layoutFont returns supplied Chinese font; English-only background branches leave Chinese source untouched.",
+      "evidence": "finite-tests.json"
+    },
+    {
+      "id": "CANVAS-NAMES-01",
+      "claim": "Actual extracted item/spell _name fields and all role name pointers agree with the Chinese flat WORD table. Reviewed render-time getWord replacements therefore preserve current Chinese names. Known role ordering uses role.name directly, including Queen/AhNu swapped word pointers.",
+      "mismatches": [],
+      "evidence": "probe.json"
+    },
+    {
+      "id": "CANVAS-LIVE-01",
+      "claim": "Actual raw glyphs/UI/backgrounds with a single already-created main menu, status state and equip pick-role state render zh-CN -> en -> zh-CN without rebuilding those state objects. Each changes pixels in English, restores the exact Chinese64000-byte frame hash, and leaves serialized GameState/menu input unchanged.",
+      "evidence": "live-menu-probe.json",
+      "observations": [
+        {
+          "name": "main",
+          "stateUnchanged": true,
+          "chinesePixelsRestored": true,
+          "englishPixelsDiffer": true,
+          "hashes": [
+            "720816208706764cf5f92ed4c7e0995a14a62c281f099bfd2fadd136c3cfae12",
+            "0ec681ca7e34b883eb072409c496f49add1b212dd971f30e7e43c98c094e683e",
+            "720816208706764cf5f92ed4c7e0995a14a62c281f099bfd2fadd136c3cfae12"
+          ]
+        },
+        {
+          "name": "status",
+          "stateUnchanged": true,
+          "chinesePixelsRestored": true,
+          "englishPixelsDiffer": true,
+          "hashes": [
+            "23773bdae998ec8a78d2810f25f7031d402b6d8f30c3a8baf88d29e4db394568",
+            "d0fcd65a4ee4cf535b6ad837152be05997a49ff81a9da51fdf0694c17b67d6f8",
+            "23773bdae998ec8a78d2810f25f7031d402b6d8f30c3a8baf88d29e4db394568"
+          ]
+        },
+        {
+          "name": "equip",
+          "stateUnchanged": true,
+          "chinesePixelsRestored": true,
+          "englishPixelsDiffer": true,
+          "hashes": [
+            "70994ddf1c4716fa49c6d933d3101bf3ac21dd5bda18ff6d7ba013af49a90895",
+            "39592c525bf6f690bce8df98cacaedfd9052725e1485548c9a4fb64ef79eff49",
+            "70994ddf1c4716fa49c6d933d3101bf3ac21dd5bda18ff6d7ba013af49a90895"
+          ]
+        }
+      ],
+      "boundary": "Offscreen functional rendering under fixed Date.now=0; no browser/E2E/manual visual credit."
+    },
+    {
+      "id": "CANVAS-LOADER-01",
+      "claim": "loadEnglishLanguage fetches no en.json for a Chinese-only manifest and rejects an advertised503 or invalid duplicate group. Bootstrap publishes an empty overlay and useFallbackLanguage on loading failure. useFallbackLanguage changes effective state without writing localStorage; initializeLanguage can recover the persisted en preference.",
+      "evidence": "finite-tests.json",
+      "boundary": "Loader and preference module tests plus bootstrap source review; no new live-network failure/browser test performed."
+    }
+  ],
+  "finiteVerification": {
+    "command": "pnpm --filter @type-pal/game exec vitest run src/assets/language-pack.test.ts src/localization/language.test.ts src/localization/presentation.test.ts src/present/menu/localized-background.test.ts --reporter=json --outputFile=<worktree>/build/english-canvas-review/finite-tests.json",
+    "cwd": "/Users/zhangxu/illegal/type-pal",
+    "exitCode": 0,
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "legalInputs": "Typed pack fixtures in the existing finite tests; raw-backed probes use current extracted resources and original Win MKF/BDF. Negative loader/source cases are explicit malformed/download failure scenarios.",
+    "oracle": "Original C byte-copy loops+known SLF positions for background; independent raw source glyph rows; exact locale roundtrip frame hashes/unchanged inputs; expected actual glyph bounding height for CANVAS-01.",
+    "dedupe": "No new canonical tests added by reviewer; finite existing checks plus narrowly scoped source-backed probes, not a repeated package/full coverage run."
+  },
+  "followupRecheck": {
+    "status": "awaiting-root-fix-diff",
+    "onlyClaims": ["CANVAS-01", "CANVAS-02"],
+    "expected": "Read focused fix and caller/save projection changes, inspect native red/green tests and independently rerun only the affected pixel/settlement evidence if needed."
+  },
+  "nativeArtifacts": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan.json",
+      "bytes": 10720,
+      "sha256": "8eb1ed041ab8e41ad5d2b84808535e71b87f01096047bfd95d92b0501e4c6719"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan.ts",
+      "bytes": 1323,
+      "sha256": "fea38ab83db2cf8592185f2bcade4eba6319c4bbff3391fb67f6336fcbeaed0e"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/finite-tests.json",
+      "bytes": 4813,
+      "sha256": "daf92122cb18962edaeddc42ce6d254f6f468ce28ffbc6d6b5c329f3992a6a1f"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/finite-tests.txt",
+      "bytes": 123,
+      "sha256": "d25c11e8a2882e75816d691f50ae977fcaf0dc4c29a9adfc54f412c618519ed0"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/live-menu-probe.json",
+      "bytes": 1233,
+      "sha256": "b0571a4090c39d93acb8b31f9694ffb33df04e2dd5fc55564eea9ccf88590c25"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/live-menu-probe.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/live-menu-probe.ts",
+      "bytes": 4254,
+      "sha256": "2191fafc3589ed1f3977467565c79cfb026b09e393b7310cc61300c73716b195"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe.json",
+      "bytes": 8508,
+      "sha256": "344f87201dda4bc10214aef893c131ae1787706cee7f6806ae3de2ef31c53acc"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe.ts",
+      "bytes": 4801,
+      "sha256": "f2a9273e5c79958ed39f1fbaa56ddb3ce67a8b266c451a81906af4f4920d1e2d"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/snapshot-initial.diff",
+      "bytes": 3824,
+      "sha256": "e36fc66dd5b9c035a9d6c005e80b117a854031f28f9b4049d814938b699e73e9"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/snapshot-initial.json",
+      "bytes": 1829,
+      "sha256": "b27fc05405ce8d03d3a5d75280e2d807d2d91b4a9265c3bcd15fa3bef2e8e725"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/status-overlap-probe.json",
+      "bytes": 260,
+      "sha256": "1a1941a04a86cbe1ea555b5346a0cb02433bcf0d663bdb4eec2bbc5ae3082c88"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/status-overlap-probe.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/status-overlap-probe.ts",
+      "bytes": 3042,
+      "sha256": "cc9f1f5c30ab5805f5702ab24a585c13391e21a396cdd04f3488c2679c5b996e"
+    }
+  ],
+  "limitations": [
+    "No full product/full-file quality closure, official coverage count, browser screenshot, gameplay E2E or deployment acceptance.",
+    "No changes made to reviewed product files, script source, extracted assets or root task card.",
+    "The broad probe group>=12500 glyph scan is only an initial candidate scan and contains late-story lines; only description-scan.ts actual catalog callers support the46-entry/U+3000-only conclusion."
+  ]
+}
