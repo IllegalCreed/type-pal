@@ -1,0 +1,613 @@
+{
+  "id": "GAME-ENGLISH-1-shell-review",
+  "schemaVersion": 1,
+  "template": "evidence-receipt-v1",
+  "status": "recorded",
+  "producer": "english_shell_audit",
+  "owner": "english_shell_audit",
+  "reviewer": "Codex (pending independent acceptance)",
+  "sourceBase": "557e8fab5",
+  "candidate": "433a8a0ad37b3471d6b8ebadcb686a53a06f7dfd",
+  "implementationCommits": ["95d2454cf", "755f9750a", "bac616697", "433a8a0ad"],
+  "createdAt": "2026-10-22T12:30:26.799692+00:00",
+  "scope": "First-stage player DOM display only; no bootstrap/main/core/inspect/gameplay/save schema changes. Foundation language service is shared with root/runtime.",
+  "sourceRefs": [
+    "packages/game/src/main.ts:24",
+    "packages/game/src/shell/bootstrap.ts:100",
+    "packages/game/src/core/inspect/battle-inspect.ts:137",
+    "packages/shared/src/tables.ts:344",
+    "packages/shared/src/tables.ts:468"
+  ],
+  "publicCallers": [
+    "main -> initializeLanguage / localizeStaticShell / createGameShell",
+    "bootstrap -> setupToolsPanel / setupQuickSave",
+    "main -> boot/precache UI",
+    "analytics installer -> consent UI",
+    "main loop -> speedrun render"
+  ],
+  "legalInputs": "GameLanguage union; unknown persisted storage validated at IO boundary; current typed GameState/PlayerRoles/EnemyObject data; native DOM events; unchanged save v1 validation domain.",
+  "businessOracle": "Chinese default; stored English restored; no gameplay reset when UI language changes; ready-pack gate; correct role.name and enemy objectIndex Word identities (not roleId/typeId); English display with mobile exclusions; language cannot grant consent or overwrite startup failure.",
+  "dedupe": "Existing Chinese panel/mobile/loading/consent/map/timer/save tests retained. New 4 language + 3 surface + 5 panel cases cover language-specific axes; no test retirement or count/coverage claim.",
+  "files": [
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "caller": "main startup; localization UI and root display resolver",
+      "dimensions": {
+        "A": "Validated persisted en or default zh-CN; setters have no gameplay/save dependency; blocked storage leaves memory usable; resource fallback does not overwrite preference.",
+        "B": "Comments identify browser preference ownership and readiness responsibility; subscribe is documented as change-only.",
+        "C": "One preference owner publishes language; persistence and effective fallback have distinct operations.",
+        "D": "localize is shared by DOM/canvas callers; no framework/dependency introduced.",
+        "E": "language.test covers default/unknown/restored preference, one change notification, release, storage exceptions and preference-preserving fallback.",
+        "F": "Explicit GameLanguage union and small verbs keep lifecycle visible.",
+        "G": "Only current language and subscriber set are retained; no duplicate saved language/game state.",
+        "H": "Browser IO is caught at the preference boundary; direct public API exercises state and storage."
+      }
+    },
+    {
+      "path": "packages/game/src/localization/language.test.ts",
+      "sha256": "4c96a04add9afdccf39f1ff310e5978285f9384890372a76a8b81e3cf8a816c4",
+      "caller": "game Vitest runner",
+      "dimensions": {
+        "A": "Uses browser Storage and public language API; every test restores globals/storage/language.",
+        "B": "Test titles state observable storage/notification contracts.",
+        "C": "Four cases separate persistence, subscription lifetime, blocked IO and effective fallback.",
+        "D": "No core mock or invented test-only language API.",
+        "E": "New feature contracts do not duplicate touch preference tests; language resources and fallback are independent.",
+        "F": "Expected languages/DOM lang are literal external oracles.",
+        "G": "No snapshot/count inflation, no casts or skips.",
+        "H": "IO failures injected only via Storage boundary spy and restored after each test."
+      }
+    },
+    {
+      "path": "packages/game/src/localization/ui-text.ts",
+      "sha256": "d39fb2476e782d14fe4b0ae3de372786ec929417d948fd325a802340a7c55971",
+      "caller": "tools-panel presentation helpers/status labels",
+      "dimensions": {
+        "A": "Finite display-label mapping; logic keys and dialogue history never rewritten; missing labels preserve caller text.",
+        "B": "Header explicitly excludes identities, script text and history.",
+        "C": "Localization vocabulary separated from DOM assembly and inspector keys.",
+        "D": "Shared labels are translated once; role/item names remain word-index based.",
+        "E": "All six player tabs are mounted and scanned for unintended Han text; battle test checks labels and colors.",
+        "F": "Chinese source label and English counterpart are adjacent.",
+        "G": "No generic text-node replacement, regex translator or external i18n framework.",
+        "H": "Pure lookup depends only on language; callers test final DOM output."
+      }
+    },
+    {
+      "path": "packages/game/src/localization/map-names-en.ts",
+      "sha256": "ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06",
+      "caller": "tools/map-names.ts",
+      "dimensions": {
+        "A": "English table keyed by authored map IDs; no control flow/scene identity changed; full authored key set has an ASCII English display entry.",
+        "B": "Comment limits table to display names.",
+        "C": "PAL-specific English display data stays outside shared authored Chinese truth.",
+        "D": "Map name accessor serves tools scene information and dialogue grouping.",
+        "E": "shell-surfaces checks all authored IDs plus Suzhou/Fairy Island/unknown identity oracles and switch-back Chinese.",
+        "F": "Explicit ID table is auditable against shared PAL_AUTHORED_MAP_NAMES.",
+        "G": "No runtime transliteration heuristics or canonical map-table mutation.",
+        "H": "Data is deterministic and directly verified against the finite authored domain."
+      }
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.ts",
+      "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5",
+      "caller": "root main.ts after initializeLanguage (integration outside this worktree)",
+      "dimensions": {
+        "A": "Only stable title/loading IDs are updated; data-initial stops static copy from overwriting progress/failure.",
+        "B": "Comments identify mount timing and progress node ownership.",
+        "C": "Initial static view separate from boot/precache state controllers.",
+        "D": "Uses common preference/localize/subscription; returns unsubscribe to owner.",
+        "E": "shell-surfaces tests saved English copy, failure preservation and late progress.",
+        "F": "Static labels listed next to their IDs; no DOM traversal/replacement heuristic.",
+        "G": "No new loading state or request counting.",
+        "H": "Public mount function can be exercised against a minimal legal DOM host."
+      }
+    },
+    {
+      "path": "packages/game/src/localization/shell-surfaces.test.ts",
+      "sha256": "24332cfaa43e1f543c5c11f7e5bb18157d1133c72442c7226ca70785bce45b25",
+      "caller": "game Vitest runner",
+      "dimensions": {
+        "A": "Uses real progress controller, consent UI, shared map domain and public language API; storage/title restored.",
+        "B": "Titles separate startup state ownership, consent intent and map display identity.",
+        "C": "Three unrelated surfaces have separate cases and cleanup scopes.",
+        "D": "Reuses production components instead of cloning state-machine logic.",
+        "E": "New axes are language-change preservation and map English completeness; earlier tests cover Chinese native state flow.",
+        "F": "Oracles assert literal UI copy plus immutable state rather than callback counts.",
+        "G": "No core casts, core mocks, skips or enlarged timeout.",
+        "H": "No network needed; native DOM and public storage directly observable."
+      }
+    },
+    {
+      "path": "packages/game/index.html",
+      "sha256": "55a747276b155879353b1c1d5978d56cbddf7ebe1cca2e53281271ca21e08b9d",
+      "caller": "browser static loading skeleton",
+      "dimensions": {
+        "A": "Adds stable IDs/data-initial only; existing copyright English statement and loading/game canvas structure retained.",
+        "B": "Existing ownership comments retained; no claims of visual proof.",
+        "C": "Static markup remains usable before JS; dynamic text ownership is in static-shell/progress modules.",
+        "D": "IDs consumed by one static-shell function and existing controllers.",
+        "E": "Static-shell host test checks text/ownership; actual browser layout remains root visual verification.",
+        "F": "English-only letter spacing/title size rules follow base selectors for clean CSS specificity.",
+        "G": "No additional banner, toolbar or mobile game-area layout change.",
+        "H": "Named static elements permit native DOM and browser inspection."
+      }
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "2b0b50eb2ed05a4a2f89e8acbf73e8365839ef552de1f433b47cc940e15b0934",
+      "caller": "installTypePalAnalytics -> mountAnalyticsConsentUi",
+      "dimensions": {
+        "A": "Language changes only text/ARIA; consent choice, privacy signal, hidden state and real policy URL unchanged; text node preserves link.",
+        "B": "No false translated policy URL or new privacy claims.",
+        "C": "Consent workflow remains owner; subscription updates a labels-only closure and releases on destroy.",
+        "D": "Common localize/subscription, existing UI return API unchanged.",
+        "E": "Three existing consent cases and new language-preserving refusal/reopen/link test pass.",
+        "F": "renderLabels makes changed fields explicit.",
+        "G": "No duplicate consent store/listeners or analytics requests.",
+        "H": "Real storage/UI choice observed without mocking consent functions."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.ts",
+      "sha256": "fd3ecbb8ae06dc98c56dc7a05bff7e8dad69a9a4469243ce756631194cb27520",
+      "caller": "main.ts createGameShell",
+      "dimensions": {
+        "A": "Touch button labels/ARIA change while action data, SVGs, fit, positions and gamepad lifecycle remain unchanged.",
+        "B": "Existing shell ownership comment retained; English labels are concise OK/Back.",
+        "C": "Labels-only closure does not modify input state or layout state.",
+        "D": "Common language subscription; directions keep original native buttons.",
+        "E": "Existing two real shell lifecycle tests pass; browser translation/layout is pending root.",
+        "F": "Direction label pairs sit next to action and rotation.",
+        "G": "No extra touch controls or shortcut actions.",
+        "H": "Existing matchMedia/ResizeObserver host still exercises complete shell without core mocks."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a",
+      "caller": "main init/failure and bootstrap resource note",
+      "dimensions": {
+        "A": "Changes only status text; same monotonic count/restore guards; subscriptions released with fetch ownership.",
+        "B": "Ownership comments distinguish static placeholder and controller-owned progress.",
+        "C": "Fetch counter remains sole state owner; language listener schedules a render, not a new request.",
+        "D": "Common localize/subscription; existing API unchanged.",
+        "E": "11 existing loading tests pass; combined ownership case covers sibling precache/static path.",
+        "F": "Literal localized prefixes retain numeric values and original failure details.",
+        "G": "No duplicate fetch wrapper or progress state.",
+        "H": "Existing public IO host tests retain real fetch counters and cleanup."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "4075c170e5a937f834dac8a7b08df249dd1f193146244a91e0101f0c132976f8",
+      "caller": "main SW progress callbacks",
+      "dimensions": {
+        "A": "Current status message stored as renderer; language change preserves phase, monotonic bar and failure; widget releases subscription on done.",
+        "B": "Original three-phase loading comments retained.",
+        "C": "Progress owns phase/bytes; only formatted copy is recomputed.",
+        "D": "Existing widget reused after enter; common language service avoids duplicate preference state.",
+        "E": "9 existing progress cases and new late-progress/failure/language case pass.",
+        "F": "paint takes a text renderer; meaningful state stays in original variables.",
+        "G": "No new SW/client calls or parallel progress model.",
+        "H": "Native DOM text and bar width checked through public progress API."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/map-names.ts",
+      "sha256": "17cb9d607c1d17e14bdc70b2c9d724ca441061819be6ad48add0d7335327deb8",
+      "caller": "tools scene refresh and dialogue history group headings",
+      "dimensions": {
+        "A": "Chinese accessor unchanged by language; English display table and Map N fallback preserve map identity.",
+        "B": "Existing authored truth/fallback comment retained.",
+        "C": "Local display selection only; no shared canonical mutation.",
+        "D": "One accessor covers every player tools map label.",
+        "E": "Existing three Chinese cases plus English/completeness/switch-back case pass.",
+        "F": "Single localize expression keeps both fallbacks explicit.",
+        "G": "hasMapName still consults authored truth, not translated/fallback labels.",
+        "H": "Pure mapNum input directly testable."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "a9f9f88e33b8d7f5b54f513bdc8b193940c332a118fc4cb5ed921b8ee22505ca",
+      "caller": "setupToolsPanel -> setupMinimap",
+      "dimensions": {
+        "A": "Only two zoom button titles translated on creation/current widget sync; coordinates, classifier, visibility and mobile controls unchanged.",
+        "B": "Existing heuristic-classification limits retained; unused item-name bookkeeping is not a display surface.",
+        "C": "Existing widget loop recomputes tooltips; no new subscription/loop.",
+        "D": "Common localize; no new minimap controller API.",
+        "E": "14 existing geometry/classification tests pass; panel/mobile cases retain visibility.",
+        "F": "Zoom text stays next to respective +/- action.",
+        "G": "No marker renderer or asset pipeline changes.",
+        "H": "Existing public world/viewport/render helpers retained."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "9a3e15aff078041f076a9715ba12592243ce72dc93fcd3a0c9208e1a8ec0905c",
+      "caller": "bootstrap setupQuickSave -> native F5/F9",
+      "dimensions": {
+        "A": "Only result/error toast text translated; save eligibility, slots, awaits and error propagation unchanged.",
+        "B": "Existing quick-save eligibility and ownership comments retained.",
+        "C": "Input/store remain caller owned; localize runs at feedback time.",
+        "D": "Existing toast reused; no new save API.",
+        "E": "Nine existing save/load success/failure/eligibility cases pass.",
+        "F": "English prefixes adjacent to exact Chinese result; raw error detail preserved.",
+        "G": "No new fallback, migration or saved data.",
+        "H": "Existing public keyboard host and injected Save API remain testable."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "4eb173f96cd19b0bcc1175ad9a96e439cd5a6235d7896550deeec22bf7c5b3e0",
+      "caller": "tools-panel file import",
+      "dimensions": {
+        "A": "Only validation error messages translated; envelope/version/schema predicates and serialized bytes unchanged.",
+        "B": "V1/timestamp ownership comment retained; no compatibility assertion added.",
+        "C": "Validation remains pure except reading current display preference for errors; no DOM.",
+        "D": "Common localize avoids duplicating validator.",
+        "E": "29 existing valid/invalid envelope cases pass; JSON input remains unknown at IO boundary.",
+        "F": "English diagnostic describes same failing field/version.",
+        "G": "No new parser, save schema or catch swallowing validation.",
+        "H": "Public parse/serialize APIs remain directly usable in tests."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "ca9bb468bc7a1c900b1dcd9099c71ab90bc1d51ec9420eed8e150f5c6fb7dcb6",
+      "caller": "speedrun timer and tools/overlay display",
+      "dimensions": {
+        "A": "Only checkpointName accessor/table added; all detector IDs, coordinates, default times and BANANA config unchanged.",
+        "B": "Accessor comment explicitly excludes gameplay/persisted identity.",
+        "C": "Localized labels separate from persistent Checkpoint.name/ID facts.",
+        "D": "One accessor consumed by split dropdown/time labels and overlay.",
+        "E": "English all-tabs scan exercises all 21 split names; existing timer suite passes.",
+        "F": "Names keyed by meaningful stable checkpoint IDs.",
+        "G": "No rebuilding detector list or rewriting stored times on language changes.",
+        "H": "Accessor accepts only id/name; production detectors remain independently testable."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad",
+      "caller": "main-loop tick and bootstrap timer hotkeys",
+      "dimensions": {
+        "A": "Only existing toast strings localized at event time; clock/timer/pause/shortcut logic untouched.",
+        "B": "Existing timer and banana semantics comments retained.",
+        "C": "No new language listener or mutation of timer singleton.",
+        "D": "Common localize with existing toast.",
+        "E": "11 existing orchestration/hotkey cases pass.",
+        "F": "Plain English event strings next to original feedback.",
+        "G": "No extra timer state/API/shortcut.",
+        "H": "Existing controlled time and typed snapshots still exercise behavior."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62",
+      "caller": "tickSpeedrunTimer -> renderOverlay",
+      "dimensions": {
+        "A": "Checkpoint/ETA display translated; English width/wrapping scoped by lang only; values/splits/ETA arithmetic unchanged.",
+        "B": "Existing ETA source comment retained.",
+        "C": "Overlay remains derived from run/checkpoints/bests; language is display input.",
+        "D": "Shared checkpointName and localize.",
+        "E": "Four existing row/timer/ETA/hide cases pass; full English browser overlay remains root visual check.",
+        "F": "Names and ETA prefix computed at render time.",
+        "G": "No new timer intervals or persistence.",
+        "H": "Existing pure data-to-native-DOM render API retained."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "df6083ef6eeaf958db857a728a7a661185d2975e300bfba28a47c32a75f911de",
+      "caller": "bootstrap setupToolsPanel with ready-pack flag/resources",
+      "dimensions": {
+        "A": "English selection gated by ready flag; no GameState replacement; role.name and enemy objectIndex identities verified; inspector keys/filter/colors stable; mobile omissions unchanged.",
+        "B": "New comments explain readiness gate, display-only item clone and poison-only fallback identity; old mechanics caveats preserved.",
+        "C": "Language state owns pref, helpers own presentation, inspector owns stable model; no raw text mutation in history or gameplay.",
+        "D": "uiText covers common labels; getWord owns object names; no ad-hoc global text replacement.",
+        "E": "Existing 22 panel cases plus five new workflows pass; object-type vs object-word identity mutant gives exactly one AssertionError and recovery green.",
+        "F": "Explicit enemy name/steal/effect helpers avoid parsing arbitrary display nouns; language section is direct DOM.",
+        "G": "No new mobile features; English desktop-only width/sidebar changes constrained after cascade review in 433a8a0ad.",
+        "H": "Public native DOM workflows test availability, focus, game-state continuity, all tabs, mobile exclusions and real battle resource identities."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.english.test.ts",
+      "sha256": "8d539ec2b88f18f88c70c7f09e02484a5e0a74bf7bc39e4845a11c6b0d073d45",
+      "caller": "game Vitest runner",
+      "dimensions": {
+        "A": "Uses native select/click events and real game/battle constructors/word table; restores language/word table/layout with existing host cleanup.",
+        "B": "Five titles describe independent language/availability/mobile/help/resource-identity contracts.",
+        "C": "No fixture copies of production translation code; typed resources created with existing legal helpers.",
+        "D": "Reuses existing panel host/real battle factories, not new core mocks.",
+        "E": "New tests do not claim old Chinese behavior or extra coverage count as value; identity mutation is discriminating.",
+        "F": "Literal English names/labels and missing forbidden mobile controls are external oracles.",
+        "G": "No casts, skips, timeout increases or dependency changes.",
+        "H": "Real public workflow observable without private internals; fixture API calibration failures retained separately."
+      }
+    }
+  ],
+  "executions": {
+    "finalScoped": {
+      "command": "pnpm --filter @type-pal/game exec vitest run src/localization src/tools/tools-panel.english.test.ts src/tools/tools-panel.test.ts src/tools/tools-panel.mobile.test.ts src/tools/tools-panel.glm-phase1-leaves.test.ts src/tools/map-names.test.ts src/tools/quick-save.test.ts src/tools/save-io.test.ts src/tools/speedrun/overlay.test.ts src/tools/speedrun/index.test.ts src/shell/game-shell.test.ts src/shell/boot-loading.test.ts src/shell/precache-ui.test.ts src/analytics/analytics-consent-ui.test.ts src/tools/minimap.test.ts --reporter=default --reporter=json --outputFile=build/english-shell-final.json",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-shell/type-pal",
+      "exitCode": 0,
+      "nativeSummary": {
+        "numTotalTests": 129,
+        "numPassedTests": 129,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "numTotalTestSuites": 40,
+        "numPassedTestSuites": 40,
+        "numFailedTestSuites": 0,
+        "success": true
+      },
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0,
+        "runtimeStderr": 0
+      },
+      "logVisibility": "Explicit default reporter retained alongside native JSON. Complete merged output attached; no console interception.",
+      "candidateScope": "bac616697 functional code; followup 433a8a0ad changes only three desktop-vs-mobile CSS selector guards, reviewed separately and pending browser visual proof."
+    },
+    "identityCounter": {
+      "receipt": {
+        "cwd": "/Users/zhangxu/.codex/worktrees/english-shell/type-pal",
+        "startedAt": "2026-10-22T12:25:21.294488+00:00",
+        "sourceSha256": "462953f46df4ffb8b7406a921e6c5348de7247148ba4bec6aa15fd9221d033bb",
+        "mutantSha256": "5c995b96eb9ab8250276a2d83cf93a83756d37963e798177e5f8ec75cefe20ca",
+        "mutation": "Use enemy type ID in place of the exact enemy object/word identity",
+        "testSha256": "8d539ec2b88f18f88c70c7f09e02484a5e0a74bf7bc39e4845a11c6b0d073d45",
+        "mutant": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/tools-panel.english.test.ts",
+            "--reporter=default",
+            "--reporter=json",
+            "--outputFile=build/english-shell-identity-mutant-full.json"
+          ],
+          "exitCode": 1
+        },
+        "restoredSha256": "462953f46df4ffb8b7406a921e6c5348de7247148ba4bec6aa15fd9221d033bb",
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/tools-panel.english.test.ts",
+            "--reporter=default",
+            "--reporter=json",
+            "--outputFile=build/english-shell-identity-restored.json"
+          ],
+          "exitCode": 0
+        }
+      },
+      "nativeSummary": {
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "numTotalTestSuites": 1,
+        "numPassedTestSuites": 0,
+        "numFailedTestSuites": 1,
+        "success": false
+      },
+      "expected": "Five selected tests, four passed, one business AssertionError at Second enemy object; zero pending/skip/todo. Prior -t calibration created skips and is not credited.",
+      "failureMessages": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-shell/type-pal/packages/game/src/tools/tools-panel.english.test.ts",
+          "fullName": "uses role and enemy word identities while leaving inspector filtering and element colors intact",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 'Battle overviewTurnTurn 1Gourd value0…' to contain 'Second enemy object'\n    at /Users/zhangxu/.codex/worktrees/english-shell/type-pal/packages/game/src/tools/tools-panel.english.test.ts:151:28\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    },
+    "identityRestored": {
+      "nativeSummary": {
+        "numTotalTests": 5,
+        "numPassedTests": 5,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "numTotalTestSuites": 1,
+        "numPassedTestSuites": 1,
+        "numFailedTestSuites": 0,
+        "success": true
+      },
+      "exitCode": 0
+    },
+    "typecheck": {
+      "command": "pnpm --filter @type-pal/game typecheck",
+      "exitCode": 0,
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    "biome": {
+      "command": "pnpm exec biome check [20 owned implementation/test/HTML files]",
+      "exitCode": 0,
+      "checkedFiles": 20,
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "followup": "433a8a0ad tools-panel-only Biome passed, one file, zero diagnostics."
+    },
+    "calibrationFailures": "Earlier new-test constructor invocations used obsolete calling shapes. Fixed to current hydratePlayerRolesRuntime(runtime, roles) and createBattleState(input); runtime fixture failure is not a business regression/mutation claim. Last calibration native output attached."
+  },
+  "nativeAttachments": [
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/final-tests.log.gz",
+      "originalPath": "build/english-shell/final-tests.log",
+      "rawSha256": "2bb07a86645ca8057e6162d88edf24d791268c336426e37d2398035b89ab5693",
+      "rawBytes": 1546,
+      "sha256": "62eda7a7be741f37fa3f3d3c0d3dfe489feaa102dd4396580372544e144ab4cc",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/final-tests.json.gz",
+      "originalPath": "packages/game/build/english-shell-final.json",
+      "rawSha256": "2328736a264ed77f2f9f80c21c883cfdf022756cfb42492c8b4adf4e75554cec",
+      "rawBytes": 42509,
+      "sha256": "b64a6795216c573c24326db5048363e3ffb73fc984a34444b397bea05587f815",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/identity-mutant.stdout.log.gz",
+      "originalPath": "build/english-shell/identity-mutant-full.stdout.log",
+      "rawSha256": "947a1453e808dbf2c350d995da71902d024c718fc7f378b5b0aa6bc7f614e63e",
+      "rawBytes": 1298,
+      "sha256": "83e09d9f1a23be80b94c9f367fa902b51e83760ae4b9cfccc899c89100c17d33",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/identity-mutant.stderr.log.gz",
+      "originalPath": "build/english-shell/identity-mutant-full.stderr.log",
+      "rawSha256": "9ae62bc1b28d13bd84cfdaa013ae286381bdf7f62b2c0e7e6d545a0bda32ab73",
+      "rawBytes": 1355,
+      "sha256": "fc90bca6ee3bf54f2270b1b81bb2037e88ec31b1e61e49f6b0eb5564bb9d5433",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/identity-mutant.json.gz",
+      "originalPath": "packages/game/build/english-shell-identity-mutant-full.json",
+      "rawSha256": "c9ad2198300b1cef00ce04469ece6d815986b7d1a4a1f7b3952f5dd9ee3f84b5",
+      "rawBytes": 3654,
+      "sha256": "1881035fac6ea7621dcce52f557169f8ee481d76f5382f936bc57b14414f60e7",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/identity-restored.stdout.log.gz",
+      "originalPath": "build/english-shell/identity-restored.stdout.log",
+      "rawSha256": "dbb4f27f1c0b74b6df276e3452a4b7e8bae5f493c97fa995db3ba2a2279dc1a7",
+      "rawBytes": 449,
+      "sha256": "a90b769fca4acfe88a64b9be397103aa171305df6b02eebc71272dd163273517",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/identity-restored.stderr.log.gz",
+      "originalPath": "build/english-shell/identity-restored.stderr.log",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawBytes": 0,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/identity-restored.json.gz",
+      "originalPath": "packages/game/build/english-shell-identity-restored.json",
+      "rawSha256": "67a755cd3e7e5c552f885cf1e7deb8aee7cca8366cdccb07e0a7b1c920f8a038",
+      "rawBytes": 2300,
+      "sha256": "7144dfcae3b348d3bee29c58aa1bd255be67d2dc8ebf12695055406f83fc0a76",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/typecheck.log.gz",
+      "originalPath": "build/english-shell/typecheck-final.log",
+      "rawSha256": "4940103d16245f9ae2468d946711dc687abff1aa00f911d9437ff01babf3dedb",
+      "rawBytes": 119,
+      "sha256": "404b267ec577743a7488a91d143dc86a9745bcbebd203534c83cf14880d002c0",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/biome.log.gz",
+      "originalPath": "build/english-shell/biome-final.log",
+      "rawSha256": "ed2001efb835e3c4f5c0696a77ddd92b66fbd338df4fa0702f8d63e3a84af606",
+      "rawBytes": 44,
+      "sha256": "89b9593ddeba896b04092cf5416c9a3ab7df45fc6425ce40295aa5bd7a67d2d1",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/fixture-calibration-failure.log.gz",
+      "originalPath": "build/english-shell/new-calibration-failure.log",
+      "rawSha256": "6728ec5d9c5e9bde8d46ba517319aea39018a2a29bbfbe866a6a5b2c14168bde",
+      "rawBytes": 2074,
+      "sha256": "4cda876497d5d4c2cae51f2173bf8d30623c80eb6467cdcd35bbd43d19028d13",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/shell-native/fixture-calibration-failure.json.gz",
+      "originalPath": "packages/game/build/english-shell-calibration-failure.json",
+      "rawSha256": "9b18763f7c1c660b2168441ff2208618fd7c03ad5ca2bca727115c6be0dad262",
+      "rawBytes": 5832,
+      "sha256": "daa6bae4d7f764fc7990b12352b99b753ac6188046be8ceb4f39efbf95c03696",
+      "producer": "english_shell_audit",
+      "owner": "english_shell_audit",
+      "consumer": "Codex independent review of GAME-ENGLISH-1",
+      "retention": "Native scoped execution evidence; retained through feature integration review"
+    }
+  ],
+  "unexecuted": [
+    "Browser/dev-functional visual review (root owns; integration server not run in this contribution)",
+    "Full story English E2E",
+    "Full monorepo check/coverage/protected CI",
+    "Deployment and publishing"
+  ],
+  "limitations": [
+    "Historical dialogue is retained verbatim in the language originally displayed; switching UI does not translate already captured history.",
+    "Unknown/ambiguous enemy type without exact or unique object identity preserves its source name rather than guessing. Real bootstrap must supply enemyObjects.",
+    "The existing tools/shell are page-scoped; new language callbacks unregister when notified after their root has been removed. Consent/progress disposable lifecycles explicitly unsubscribe.",
+    "The privacy policy remains the verified /zh/privacy URL; no English policy URL was invented.",
+    "English map names are presentation translations of authored Chinese identifiers, not new lore canon.",
+    "No full-file code quality ledger closure or official coverage credit claimed."
+  ],
+  "invalidation": "Recheck claims if language API semantics, object identity mapping, inspector formatter/fallback shape, tools mobile CSS, progress ownership or tested legal input constructors change. Style-only 433a8a0ad does not change identity resolver function or test contract; its visual impact remains for root browser verification.",
+  "quickVerify": [
+    "git show --stat 433a8a0ad; git diff 557e8fab5..433a8a0ad -- packages/game",
+    "Decompress shell-native/final-tests.json.gz and inspect 129 passed/0 failed/0 pending; inspect raw output for diagnostics",
+    "Decompress identity-mutant.json.gz and identity-restored.json.gz: one named business failure then five green; use recorded source/mutant/test hashes",
+    "pnpm --filter @type-pal/game exec vitest run src/localization src/tools/tools-panel.english.test.ts --reporter=default"
+  ],
+  "next": "Codex independent diff/evidence acceptance; mount root loader/word overlay integration; verify actual desktop/mobile English UI and continue global stable window."
+}
