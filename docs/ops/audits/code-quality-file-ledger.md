@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 后继CI／WORD记录：385主线Docs成功、Coverage在pal-meal-shell normal landing默认5s超时。当前仅核该测试夹具内部重复压缩，九业务主体/timeout与产品不改；该Reforge文件保持隐式pending，0新增关闭。用户已选择隐藏成长保留TS持续增长，明确记录第一阶段偏离，不据此自动接受3x。完整实际门与原件随[战斗窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)后继记录，计数371/114/2870保持。
+
 2026-10-22主线CI窄返工：cb67a6a0e原窗口已FF main，实际Coverage在M05异步就绪断言失败；补真实等待/文案/独立oracle后，又核清K06五条RAF act诊断。最终official20032/758及固定main保护零诊断，全部覆盖率计数不变。两editor测试仍隐式pending，未授整文件接受，0新增关闭；371/114/2870保持。[完整失败、返工及最终原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md#cb67a6a0e远端ci与两测试窄返工)。本笔远端同步/CI另按实际refs/run核对。
 
 2026-10-22 状态／结算／成长窗口：10明确文件八维与反控接受，CODE3u按原合同接受；3w/3x关键余项仍partial。当前371closed/114review/2870pending，库存以机器为准。完整check在未变产品执行上20430零诊断，随后唯一H02测试夹具增量16/TC重验；最终official fast及同报告严格protected按原件记录，未伪造第二次全check。[唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)。

@@ -16,6 +16,12 @@ Template: reference-canon-v1 / 1.0.0
 
 ## 适用范围
 
+### 2026-10-22 第一阶段隐藏成长的当前偏离
+
+用户裁决“保留TS持续增长，明确记录偏离”。第一阶段`applyHiddenExpGrowth`的体力、真气、武术、灵力、防御、身法、吉运七项基础属性继续按当前TS数值累加，超过65535不作16位回绕。例如65535再涨1为65536；SDLPal的`WORD`字段复合赋值则为0。主等级升级的999封顶是另一合同，本裁决不改变它，不改存档格式／导入校验，也不推及二阶段。
+
+该极端分歧已用原生C字段赋值及真实TS结算入口复现；尚未证明普通原盘剧情自然达到此边界。原件及适用范围见[隐藏成长边界任务](../ops/tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)和[战斗窗口证据](../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)。下方历史引文保留原貌，不再据其“完整实现”措辞推出全数值域与SDLPal一致。
+
 - 阶段、版本、受众和使用场景：phase1 historical；仅用于原版真值/工程知识的日期化回顾。
 
 ## 一手来源

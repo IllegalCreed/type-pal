@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only owned current battle-quality window row and exact descendant binding; original unrelated review reused",
+      "readMethod": "Read exact current WORD decision prefix or owned CI row/index/ledger delta and descendant binding; reuse original unrelated body",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+      "coreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
+      "afterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
+        "implementationSha": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1805,12 +1805,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-battle-quality-window-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+        "kind": "codex-owned-meal-ci-and-word-policy-delta",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
-        "lineCount": 17532,
+        "afterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
+        "lineCount": 17730,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -3023,6 +3023,162 @@
           "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-local-candidate",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
+            "lineCount": 17532,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousAfterSha256": "013944b3dad3f225a089d341b55b97faabae8a101e9ceede581629a850ca652d",
+          "afterSha256": "ae6151bd750c25f6355f9531ac48079dfff3ed61ffef8515e5ece4766bbdb2a3",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-phase1-catalog-binding",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "ae6151bd750c25f6355f9531ac48079dfff3ed61ffef8515e5ece4766bbdb2a3",
+            "lineCount": 17622,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "ae6151bd750c25f6355f9531ac48079dfff3ed61ffef8515e5ece4766bbdb2a3",
+          "afterSha256": "438d9c688e072e45e6674b51311968923ae60a209200ddc9b1c45cf09388f89b",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-phase1-shard-manifest",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "438d9c688e072e45e6674b51311968923ae60a209200ddc9b1c45cf09388f89b",
+            "lineCount": 17659,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "438d9c688e072e45e6674b51311968923ae60a209200ddc9b1c45cf09388f89b",
+          "afterSha256": "88ed5aea7a7b19118542435eb1742210f0df1604161834acad6aa1985f2b2db2",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Battle-quality-window-accepted-policy-index",
+          "previousEvidence": {
+            "kind": "codex-owned-meal-ci-and-word-policy-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "88ed5aea7a7b19118542435eb1742210f0df1604161834acad6aa1985f2b2db2",
+            "lineCount": 17700,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          },
+          "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
+          "previousAfterSha256": "88ed5aea7a7b19118542435eb1742210f0df1604161834acad6aa1985f2b2db2",
+          "afterSha256": "fa1483cb872208a9bf3a20a12dce3ccd2dbb8fec5c5409387ee46ced7e75c1cc",
+          "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json"
         }
       ],
       "supersedes": [
@@ -3030,7 +3186,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only battle-quality current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
+      "reviewedLines": "Only WORD current decision outside historical quote, current CI board/index/zero-closure ledger, or named child binding; no whole-file reacceptance",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

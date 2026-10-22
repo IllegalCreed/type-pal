@@ -56,7 +56,6 @@ Template: governance-index-v1 / 1.0.0
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入](GAME-MENU-HELPER-API-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -497,6 +496,7 @@ Template: governance-index-v1 / 1.0.0
 | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算](GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界](GAME-MAGIC-PLAYERINFO-STATUS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持](GAME-MOBILE-LAYOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |

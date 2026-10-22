@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前窗口：6个明确IO文件逐项接受；最新main整合后全check20430、单次official ratchet/protected20032零诊断。账本3354/361closed/123review/2870pending，固定83卡仍56accept/27partial。[原件与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md)。P3待用户裁决，原3/3g不升格；提交/推送/合并以实际Git refs为准。
+> 当前窗口：固定83卡57accept/26partial/0pending，账本3355/371closed/114review/2870pending。385已推3y并FF main：Docs成功，Coverage在Reforge normal landing默认5s超时，当前仅做其输入准备窄返工，不能宣布远端门通过。用户已裁决第一阶段隐藏成长保留TS持续增长，记录偏离、不改算术。完整原件与限制见[战斗窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1275,3 +1275,19 @@ Codex唯一Owner，白名单仅BattleSpriteLibrary.glm-m.test.tsx及本卡/必�
 M05真实reader迟到旧1绿1指定断言红→新2绿→恢复2绿；K06两帧RAF校准旧5act→新0/恢复0，8业务主体AST不变，五文件29相邻及editor TC零诊断。首轮新增official20032虽exit0但5act/2328stderr明确拒绝；第二轮ci-two-tests-final-ratchet实际20032/758、所有诊断/stderr0，固定cb67a6a0e保护与同报告严格范围/计数复核通过；全部包和总计指标不变。baseline仅一条标题身份/摘要及首次官方生成时间，没有比例下调/删除/新调整授权。完整check仍在150650c59，后继15测试变化另核、20415未变结果复用，未冒称新全check。
 
 逐项A–H、两轮失败/恢复、完整GitHub原件与只读快检仍归battle-quality，0新增closed、两editor文件仍implicit pending，原57accept/26partial与371/114/2870保持。第一次隔离probe的Vite路径collection错误不授红例信用。本地静态及实际发布后CI分开记；继续同一3y先commit/push，fresh fetch确认0behind后FF main并核真实CI，主工作树不改。下一仍pre94 3v基础动作已证参数/夹具余项，94–102不扩展。
+
+### 2026-10-22 385主线CI的meal夹具窄返工 build allowed
+
+38502c046已推3y并FF main、0behind/0ahead。main Docs39689206973成功；Coverage39689207073实际在pal-meal-shell第639行normal landing的默认5000ms超时，Reforge8965例中仅1失败，完整原件另存。不能写成本笔远端质量门通过，也不作行为反例。3v的6文件草案/154相邻/typed preferred-slot单红仅在自有临时副本，canonical未动、无新分支/接受；当前优先修CI。
+
+Codex唯一Owner。build allowed限pal-meal-shell.test.ts的输入准备及必要证据：原574个精灵定义按asset需求反复编码相同1×1帧；只允许在每次project夹具内部按同一帧工厂/帧数复用已完成的gzip/hash，保留每asset独立字节副本及每case独立catalog/source。先profile并比对完整manifest/catalog/scenes与二进制输入，核真实caller、错误传播和返回buffer隔离。九用例身份、全部业务主体/断言、计时/timeout、原地图/场景及真正渲染/脚本链保持；不改产品/配置/规则，不作E2E路线新验收，不扩94–102。定向与必要相邻后，只刷新受影响Reforge官方collector，其余六包须有源码/输入未变的明确复用证明，严格保护比较仍执行；不伪造新全仓采集。
+
+### 2026-10-22 隐藏成长WORD边界用户裁决
+
+用户明确选择“保留TS持续增长，明确记录偏离”。[WORD卡](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)与机制文档已记录：第一阶段七项隐藏成长65535+1继续为65536，不回绕、不新增cap、不改save/导入或二阶段。当前算术本就符合所选策略，无数值产品修复；冻结C/TS分歧原件保留，不将C对齐失败重写成通过。仅解除该项取舍停止线，CODE3x及26张partial仍须各自核清余项；本次0新增closed。
+
+### 2026-10-22 meal夹具本地有限验收
+
+相同帧数的561sprite资源只有13种编码需求；缓存归每次project内部，sprite/tile工厂隔离、失败不缓存、每asset独立字节。六case完整输入相同、原九业务主体/身份/timeout AST一致；9定向、Reforge TC与ownership/失败探针零诊断。单次profile约150→58ms只是本地成本观察，不冒称已证明CI超时唯一原因。fresh官方Reforge8965/158通过，其余六包按冻结输入复用，组合20032/758的严格metrics/scope/protected均无变化、baseline不写；不重复全仓check/coverage。静态/实际提交及远端CI另据原件，0新增关闭，[完整本地依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md)。
+
+WORD风险卡按已批准偏离策略done，数值实现不改、不自动接受CODE3x。首轮文档consumer发现mechanics的phase1 catalog旧指纹；补该唯一条目后完整check:docs又正确拒绝未同步的shard manifest SHA（124绿/1红）。仅更新manifest该SHA并核全部相关review绑定，受影响catalog套件与全部五consumer/progress复验零诊断，原两次失败均保留；未把完整命令改写成首次通过。
