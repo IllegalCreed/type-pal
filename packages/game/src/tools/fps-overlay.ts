@@ -1,7 +1,7 @@
 // fps-overlay.ts —— 左上角 FPS 显示(rAF 真实帧率;.tp-* 暗底金边,pointer-events:none 不挡操作)。
 //   工具面板「系统」tab 开关切换,localStorage 持久化(全局,跨存档)。
-//   诊断用:rAF 维持 ~60 = 浏览器无 CPU 卡顿(动画若仍顿挫则属逻辑 tick 量化,非性能);
-//            rAF 掉到 <50 = 真 CPU 瓶颈。绿色 ≥50 / 红色 <50。
+//   只统计当前采样窗的 rAF 频率，不能单凭它判断动画顿挫原因或 CPU 瓶颈。
+//   绿色 ≥50 / 红色 <50，用于提示帧率下降，具体原因另行定位。
 
 import { isMobileLayout } from '../shell/presentation.js'
 

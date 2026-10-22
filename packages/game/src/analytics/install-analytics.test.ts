@@ -27,7 +27,7 @@ describe('Type Pal analytics installation boundary', () => {
     }
   })
 
-  it('公开 Measurement ID 合法，开发环境只显示 UI 且无 Google 请求', () => {
+  it('公开安装器：Measurement ID 合法，开发模式不注入SDK且偏好入口可重开UI', () => {
     expect(TYPE_PAL_GA_MEASUREMENT_ID).toMatch(/^G-[A-Z0-9]{6,20}$/)
 
     installation = installTypePalAnalytics({
@@ -38,6 +38,21 @@ describe('Type Pal analytics installation boundary', () => {
     })
 
     expect(host.document.querySelector('[data-testid="analytics-consent-panel"]')).not.toBeNull()
+    expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
+    const panel = host.document.querySelector<HTMLElement>(
+      '[data-testid="analytics-consent-panel"]',
+    )
+    const preferences = host.document.querySelector<HTMLElement>(
+      '[data-testid="analytics-preferences"]',
+    )
+    expect(panel?.hidden).toBe(false)
+    host.document.querySelector<HTMLButtonElement>('[data-choice="denied"]')?.click()
+    expect(panel?.hidden).toBe(true)
+    expect(preferences?.hidden).toBe(false)
+    installation.openPreferences()
+    expect(panel?.hidden).toBe(false)
+    expect(preferences?.hidden).toBe(true)
+    expect(localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY)).toBe('denied')
     expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
   })
 
