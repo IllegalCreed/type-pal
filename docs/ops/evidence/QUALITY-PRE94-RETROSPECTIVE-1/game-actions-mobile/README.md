@@ -29,3 +29,7 @@ Template: evidence-receipt-v1 / 1.0.0
 历史868主线Docs39703338326、Coverage39703338497均实际success，完整GitHub原件在归档ci868成员；Coverage20032/758，lint5795为0/0/0。两job各有平台Node20 action迁移warning及Ubuntu notice，单列保留，不能写成平台annotation0；不影响对仓库act/type/lint诊断的零计数，但也不能拿历史绿覆盖新AVI行为。
 
 初6例草案含一条与既有lifecycle同轴的迟到例，最终删去该新草案而不退役历史测试。初green命令含两个不存在的过滤路径，实际4文件41绿；正式纠正后实际8文件61。3v证明器首版范围越界与格式换行误判失败不授门信用，首版完整stderr未保存，明确披露；原初raw、最终native及producer保留。覆盖率未提前运行。
+
+## 首官方指标拒绝与有限调整
+
+首采集20034/758实际通过，全部测试stderr为0；game/total分支因旧伪fixture的两项偶然覆盖消失而门exit1。上一成功CI的完整game V8/LCOV与旧baseline逐项相同，未改的AttackMate源码逐字节一致；下降精确定位到protect未定义回退及缺锚即时数字，非HP/protect/defend/clamp业务合同丢失。[有限授权与原件归因](recount.json)只下调固定旧game branch covered两项，其它下限不变；13实际源SHA不符即拒绝，所有旧授权条目/程序AST原样。已实测有效授权、错误源拒绝、未授权baseline不匹配不调整；正式门待新一轮实际运行，旧失败绝不改写为通过。

@@ -1315,3 +1315,9 @@ Codex唯一Owner，复用旧四源全文/primary与本轮已完成的逐段核�
 同窗B维另准入fps-overlay两句“帧率可证明CPU原因”的过强推论纠正；display-scale/FPS都只改注释，证明生成JS相同。当前3v纯重构2077d7ecf与测试补强7eea19e05分提交推3y；analytics原两例增强及AVI窄修与逐文件证据待本模块集中全门后验收。来源868完整Docs/Coverage实际成功（平台Node20迁移warning与Ubuntu notice另列，不冒称平台annotation零）；不把其绿覆盖到新AVI行为。当前56accept/27partial与370/115/2870保持，覆盖率仅在这个冻结窗口集中运行。
 
 本游戏窗口唯一八维/原件/只读快检入口：[game-actions-mobile](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)。当前16逐文件候选与3实际上下文范围均已区分，正式验收仍待集中门结果。
+
+### 2026-10-22 typed fixture覆盖率精确调整准入
+
+首官方窗口20034/758实际全例通过、运行诊断0，但game branch9557→9555使指标门exit1，不能写通过。实取868成功CI的game逐文件V8/LCOV与旧baseline完全吻合：仅AttackMate未改实现的protect ??0未定义回退及缺锚立即数字两分支因合法typed构造不再触达，旧7例三字段强转原来偶然覆盖；HP/保护/防御/clamp/随机目标等业务断言保留且预选目标增强。其它game变化只有AVI授权修复及公开隐私入口覆盖提升，另六包全部指标相同。
+
+沿用户既有合理重构/测试质量整改baseline授权，Codex唯一Owner，build allowed仅approved-baseline-adjustments新增固定旧baseline与13实际源SHA的有限数据项（以机器实际去重路径数为准），只将game branch covered降2；其它旧计数下限、函数体/规则/选择/超时不动。先证旧新LCOV及源码相同、原表/程序AST不变，并实测有效授权/错误源拒绝，再集中正式复跑一次门，不恢复伪fixture或新增弱例。全check产品结果保留，新增纯授权数据只补工具定向；94–102不扩展。
