@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
+      "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
+        "implementationSha": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1668,9 +1668,9 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3h-assets-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
-        "afterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
-        "lineCount": 91,
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+        "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+        "lineCount": 90,
         "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
         "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
         "workingTreeDelta": true
@@ -2560,6 +2560,24 @@
           "afterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
           "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "afterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
+            "lineCount": 91,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
+          "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+          "scope": "Only3h owned document delta and descendant pins; Only five already-reviewed asset files accepted after full gates; CODE3h remains partial, no new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
         }
       ],
       "supersedes": [],
@@ -2885,7 +2903,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2897,7 +2915,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+      "afterSha256": "6e2b405c1d2805108ed3706d7c27284ac620bf28550263490bdfb86d4809e409",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2918,7 +2936,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+        "implementationSha": "6e2b405c1d2805108ed3706d7c27284ac620bf28550263490bdfb86d4809e409",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3276,8 +3294,8 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3h-assets-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
-        "afterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+        "afterSha256": "6e2b405c1d2805108ed3706d7c27284ac620bf28550263490bdfb86d4809e409",
         "lineCount": 524,
         "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
         "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
@@ -3966,6 +3984,24 @@
           "afterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
           "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "afterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+            "lineCount": 524,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+          "afterSha256": "6e2b405c1d2805108ed3706d7c27284ac620bf28550263490bdfb86d4809e409",
+          "scope": "Only3h owned document delta and descendant pins; Only five already-reviewed asset files accepted after full gates; CODE3h remains partial, no new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
         }
       ],
       "supersedes": [],

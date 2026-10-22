@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { stripVTControlCharacters } from 'node:util'
 import { gunzipSync } from 'node:zlib'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -99,11 +100,17 @@ for (const report of [json('ui-fix.json'), json('recount.json'), json('fixture-r
   }
 }
 const current = json('fixture-refresh.json')
+// This packet is frozen before main sync; verify its source identity in Git.
+// The module closeout below owns the current-source checks after that sync.
 for (const entry of current.currentSourcePins)
   assert.equal(
-    sha(readFileSync(resolve(root, entry.path))),
+    sha(
+      execFileSync('git', ['show', `71d45db07d5541c0399a92bbd44530d3bb06f8ad:${entry.path}`], {
+        cwd: root,
+      }),
+    ),
     entry.sha256,
-    `STALE current source: ${entry.path}`,
+    entry.path,
   )
 const red = native('ui-typed-fixture-red')
 assert.deepEqual([red.numPassedTests, red.numFailedTests, red.numPendingTests], [1, 2, 0])
@@ -121,6 +128,67 @@ assert.deepEqual(
 )
 assert.equal(current.recountRefresh.currentRow.sources.length, 9)
 assert.equal(current.recountRefresh.metricsUnchanged, true)
+
+const moduleReceipt = json('module-closeout.json')
+for (const entry of moduleReceipt.artifacts) {
+  const compressed = readFileSync(resolve(here, entry.file))
+  const raw = gunzipSync(compressed)
+  assert.equal(sha(compressed), entry.gzipSha256, entry.file)
+  assert.equal(raw.length, entry.bytes, entry.file)
+  assert.equal(sha(raw), entry.sha256, entry.file)
+}
+for (const entry of moduleReceipt.currentSourcePins)
+  assert.equal(
+    sha(readFileSync(resolve(root, entry.path))),
+    entry.sha256,
+    `STALE current source/caller: ${entry.path}`,
+  )
+assert.equal(moduleReceipt.acceptedFiles.length, 5)
+for (const entry of moduleReceipt.acceptedFiles) {
+  assert.equal(sha(blob(entry.gitBlobSha1)), entry.sha256, entry.path)
+  for (const ref of entry.eightDimensionEvidence)
+    assert.deepEqual(
+      Object.keys(json(ref.file).files.find((file) => file.path === ref.path).dimensions),
+      ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+    )
+}
+const raw = (name) => gunzipSync(readFileSync(resolve(here, `${name}.gz`)))
+for (const id of ['integrated-check-r2', 'integrated-ratchet-r2', 'integrated-protected']) {
+  const run = JSON.parse(raw(`${id}.execution.json`))
+  assert.equal(run.exit, 0, id)
+  assert.equal(run.signal, null, id)
+  assert.equal(raw(`${id}.stderr.raw`).length, 0, id)
+}
+const cleanCheck = stripVTControlCharacters(raw('integrated-check-r2.stdout.raw').toString())
+const actualTests = [...cleanCheck.matchAll(/^\s*Tests\s+(\d+) passed/gm)].map((match) =>
+  Number(match[1]),
+)
+assert.equal(actualTests.length, 7)
+assert.equal(
+  actualTests.reduce((a, b) => a + b, 0),
+  moduleReceipt.validation.fullCheckTests,
+)
+assert.equal(
+  [...cleanCheck.matchAll(/^# tests (\d+)$/gm)].reduce((sum, match) => sum + Number(match[1]), 0),
+  moduleReceipt.validation.fullCheckTools,
+)
+const measured = JSON.parse(raw('integrated-summary.json'))
+const baseline = JSON.parse(readFileSync(resolve(root, 'scripts/coverage/baseline.fast.json')))
+const protectedReport = JSON.parse(raw('integrated-protected-report.json'))
+assert.equal(measured.testCount, moduleReceipt.validation.officialTests)
+assert.equal(measured.sourceFileCount, moduleReceipt.validation.productionSources)
+assert.equal(
+  sha(readFileSync(resolve(root, 'scripts/coverage/baseline.fast.json'))),
+  protectedReport.baselineAfterSha256,
+  'STALE current baseline',
+)
+assert.deepEqual(baseline, JSON.parse(raw('integrated-baseline.after.json')))
+assert.deepEqual(protectedReport.strict.regressions, [])
+assert.deepEqual(protectedReport.scope.changes, [])
+assert.deepEqual(protectedReport.protectedMetrics.regressions, [])
+assert.deepEqual(protectedReport.protectedScope.removals, [
+  { kind: 'test-count', value: 'packages/game/src/assets/loader.test.ts', previous: 7, current: 4 },
+])
 process.stdout.write(
-  'MATCH: frozen quality slice, originals, 40 green, 4+1 business controls, c427 CI success; no whole-CODE3h acceptance.\n',
+  `MATCH: five finite asset files, full ${moduleReceipt.validation.fullCheckTests}+${moduleReceipt.validation.fullCheckTools}, official ${measured.testCount}/${measured.sourceFileCount}, protected0; CODE3h remains partial.\n`,
 )

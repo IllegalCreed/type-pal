@@ -1,6 +1,6 @@
 # GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移
 
-Status: review
+Status: done
 Phase: phase1
 Capability: assets / UI frame identity
 Coding Owner: Codex（用户2026-10-22批准，三文件窄build allowed）
@@ -54,8 +54,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 交接日志
 
+- 2026-10-22：[模块最终收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)完成同步main后的全部集中门；五文件有限接受，浏览器/实际视觉未执行。旧失败与中断原件保留，原编号裁决无扩张。
 - 2026-10-22：2例真实宿主，1绿/1指定像素 AssertionError（expected20/received21），无超时/collection失败；全部端口恢复。不是正式产品测试通过，也不算新增closed。
 
 ## 下一位 Agent 提示词
 
-默认Codex单Agent继续。用户已批保留原编号，无需再次请求；先完成本冻结模块集中门，未过门不合main。不重做已有效八维/反控，不扩94–102。
+本卡代码与模块门已完成。后续按父卡3h剩余范围推进；用户原编号裁决已固化，不重开相同修复，不扩94–102。

@@ -3139,7 +3139,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+      "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3290,10 +3290,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "13eff54355aecd626a266bbe803643900e32a8bdcccacf194c299464c8b8eecd",
+      "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "13eff54355aecd626a266bbe803643900e32a8bdcccacf194c299464c8b8eecd",
+        "implementationSha": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4147,9 +4147,9 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-3h-assets-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
-        "afterSha256": "13eff54355aecd626a266bbe803643900e32a8bdcccacf194c299464c8b8eecd",
-        "lineCount": 970,
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+        "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+        "lineCount": 972,
         "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
         "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
         "workingTreeDelta": true
@@ -5088,6 +5088,24 @@
           "afterSha256": "13eff54355aecd626a266bbe803643900e32a8bdcccacf194c299464c8b8eecd",
           "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "afterSha256": "13eff54355aecd626a266bbe803643900e32a8bdcccacf194c299464c8b8eecd",
+            "lineCount": 970,
+            "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "13eff54355aecd626a266bbe803643900e32a8bdcccacf194c299464c8b8eecd",
+          "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+          "scope": "Only3h owned document delta and descendant pins; Only five already-reviewed asset files accepted after full gates; CODE3h remains partial, no new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
         }
       ],
       "supersedes": [

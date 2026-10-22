@@ -1427,3 +1427,11 @@ Codex单Owner，同一3y，基点c4278084be4b04ebbb77fb0633b5a94c1c0eafe2与最�
 User approval recorded on GAME-UI-ASSET-FRAME-IDENTITY-1. Codex sole Owner: official old source 1 pass / 2 business AssertionErrors, then real loadAll/PNG/drawNumber/drawBox contracts pass; 4 directed files28 and complete assets-adjacent27 files216 (zero skipped/stderr), game typecheck0. C10 incorrect packing assertion replaced; original item-key/pixels move to independent C11. All first nine recovery contracts remain. Cache7->4: the third generic-hit subset is covered by G01-D01 plus retained unbounded exact requests, with exact retirement identity map.
 
 Current evidence: [UI finite eight-dimension receipt](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json). Six formerly missing GOP input cases now actually ran with eight read-only resource fingerprints. No extraction or shared-format change. Current3357/377closed/113review/2867pending, fixed83 remains62accept/21partial. Whole check/official/protected are pending one concentrated module freeze, not inherited from c427. Product fix is separate from pushed quality commit da00c610a; no94-102 expansion.
+
+## 2026-10-22 CODE3h资产模块有限收口
+
+本窗仅接受loader.ts、loader.test.ts、load-all-recover.grok-r1.test.ts、load-all-ui-frame-identity.test.ts、load-all-assemble.grok-r1.test.ts五文件，八维具体结论复用quality/UI/fixture三个冻结包，差异/正式业务红绿/合法输入与合同去向已核；[模块原件与低成本只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)。legal-host只补两表类型，整helper仍review；3h整卡仍partial，shared格式G1不解冻。当前3374/382closed110review2882pending，固定83保持62accept21partial0pending。
+
+首次模块check20444+685、official20046/758属同步前，原ratchet少显式减例flag退出1保留，原尾段/写入/保护检查复用同报告后0；新main6a29带实际脚本实现/资源类型/baseline，已同线合入、保留双方记录与两精确退役47/net97。旧本地资源缺新manifest导致首集成check拒绝，停止受影响未完成采集后，只对治理树自有输出用当前提取器重生。补齐缺失Musics只读复制；faithful也成功，但新main真实调用测试要求默认修正版，最终按默认生成；原八项资产SHA未变。提取原盘空MAP0一条告警如实单列，不冒称输入准备零诊断。
+
+最新冻结候选9f9b6cd57的完整check20521+686工具、七包TC，official20095/760源原CLI显式减例确认exit0，同报告strict/protected0；全部原件/退出码/诊断完整保留，不改规则/超时/测试选择。全仓硬静态error/warning/info与测试stderr/act/环境/Node诊断0。最终文档/账本静态另记，不再重采覆盖率。后续仅3h blob/RLE适配与测试质量余项，不扩94–102；当前提交/推送/main同步以Git实际结果为准。
