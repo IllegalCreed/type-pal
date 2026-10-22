@@ -1,7 +1,11 @@
 import type { InputSnapshot } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { runScript } from '../event-system.js'
-import { type GameState, writeBackBattleRolesToRuntime } from '../game-state.js'
+import {
+  type GameState,
+  projectRuntimeToBattleRoles,
+  writeBackBattleRolesToRuntime,
+} from '../game-state.js'
 import { BATTLE_FRAME_TIME } from './anim-timeline.js'
 import { finalizeBattleCleanup } from './battle-finalization.js'
 import { battleWonLevelUp } from './battle-progression.js'
@@ -143,6 +147,26 @@ function runBattleWonPostScripts(
   res: BattleResources,
   bus: CommandBus,
 ): void {
+  // 战斗HP/MP已在build时回写,升级随后可能改上限/当前值。Phase E起以runtime为唯一Owner:
+  // raw属性指令直接写runtime,战斗治疗指令写role;两者必须逐指令互见,不能在脚本末用旧快照回填。
+  // 保留playerRoles容器供战后对话呈现读取;资源随cleanup释放,普通战中仍使用原可写投影。
+  const runtime = gs.PlayerRolesRuntime
+  const projected = projectRuntimeToBattleRoles(runtime, res.playerRoles, gs.rgEquipmentEffect)
+  res.playerRoles.roles = projected.roles.map((role) => ({
+    ...role,
+    get hp() {
+      return runtime.rgwHP[role.id] ?? 0
+    },
+    set hp(value: number) {
+      runtime.rgwHP[role.id] = value
+    },
+    get mp() {
+      return runtime.rgwMP[role.id] ?? 0
+    },
+    set mp(value: number) {
+      runtime.rgwMP[role.id] = value
+    },
+  }))
   // battle.c:1334-1337逐槽执行,不按health/defeated过滤;返回值不回写。
   // 常规全灭和0x89直接置won都走此入口,不能假定所有胜利都由全灭触发。
   for (let ei = 0; ei < state.enemies.length; ei++) {
@@ -158,6 +182,7 @@ function runBattleWonPostScripts(
       runtimeMode: 'battle',
       battleCtx: {
         state,
+        playerRoles: res.playerRoles,
         caster: { type: 'enemy', idx: ei },
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
         enemyPos: res.enemyPos,

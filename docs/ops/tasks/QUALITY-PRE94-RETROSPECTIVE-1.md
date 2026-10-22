@@ -1385,3 +1385,9 @@ Owner Codex单Agent；无下一位Agent提示词。用户待裁决期间继续3w
 用户明确批准后，原清理owner将party解毒与全角色Extra拆成各自循环；未改变毒规则、装备部位0..5、>999装备状态、接口或格式。[当前逐文件八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json)含唯一正式业务红→236实际局部绿和game TC0。新case使用role5上界、真实仙女剑8武术/32760双攻保护，没有手塞效果、终态或核心mock。不存在过滤路径不计执行，实际native4文件28、2文件39、3文件169可核。
 
 新测试登记review，3356tracked/373closed/114review/2869pending；固定83仍61accept/22partial，0新增关闭。全仓check/官方coverage/protected在产品修复后尚未新跑，集中3w多卡收尾，当前只提交推送3y、未合main。普通剧情可达性、GS/BattleState广域队伍快照、PhaseE中间对话可观察性不附带关闭；继续沿既有3w范围，不扩94–102。
+
+## 2026-10-22 3w已批战后HP/MP窄修
+
+用户另批保留战后脚本体力／真气效果。Codex单Owner、同一3y，仅settlement及其专测两文件build；正式旧13绿/新两业务AssertionError后修复漏角色参数与状态Owner。Phase E重取升级后的runtime投影，HP/MP访问绑定runtime，通用raw和治疗逐指令互见；无末尾盲回填，也不变普通战中的原可写投影。
+
+[逐文件八维/原件/只读复验入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)记录9文件238绿、game TC0，以及原可接受改动V1→真实190tick战斗的394→500闭环。两正式反例的常数由C原函数和半恢复片段核定，范围不冒充完整SDL/browser或普通原盘可达性。旧13结算身份/断言不变，新增两个不同输入轴；测试当前review，机器3356/372closed/115review/2869pending，0新关闭，固定61accept/22partial不变。两个已批窄修的全仓check/官方coverage/protected仍集中3w相关卡收尾；本片不合main，不扩94–102。

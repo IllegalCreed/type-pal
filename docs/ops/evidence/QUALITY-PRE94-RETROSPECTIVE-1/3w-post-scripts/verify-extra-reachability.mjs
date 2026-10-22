@@ -14,6 +14,8 @@ const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim()
 const receipt = JSON.parse(readFileSync(resolve(folder, 'extra-reachability.json'), 'utf8'))
 const fix = receipt.currentResolution ? JSON.parse(read(receipt.currentResolution)) : undefined
+const playerFixPath = resolve(folder, 'post-player-state-fix.json')
+const playerFix = JSON.parse(readFileSync(playerFixPath, 'utf8'))
 
 for (const source of receipt.sourceTrees) {
   const revision = fix ? receipt.base : 'HEAD'
@@ -90,7 +92,16 @@ if (fix) {
   const changed = git('diff', '--name-only', receipt.base, '--', ...paths)
   const untracked = git('ls-files', '--others', '--exclude-standard', '--', ...paths)
   const actualPaths = [...new Set(`${changed}\n${untracked}`.split('\n').filter(Boolean))].sort()
-  assert.deepEqual(actualPaths, [...fix.changedSourcePaths].sort())
+  // The successor has two additional approved paths. Verify each revision's exact delta,
+  // rather than letting a historical receipt silently accept arbitrary newer source.
+  assert.deepEqual(
+    git('diff', '--name-only', receipt.base, playerFix.base, '--', ...paths)
+      .split('\n')
+      .filter(Boolean)
+      .sort(),
+    [...fix.changedSourcePaths].sort(),
+  )
+  assert.deepEqual(actualPaths, [...fix.changedSourcePaths, ...playerFix.changedSourcePaths].sort())
   for (const pin of fix.pins) assert.equal(hash(read(pin.path)), pin.sha256, `STALE ${pin.path}`)
   const current = readArchive(fix.artifact)
   assert.equal(hash(read(fix.changedSourcePaths[0])), hash(current['finalization-after.ts']))
@@ -133,6 +144,96 @@ if (fix) {
     }
   }
 }
+const playerCounter = JSON.parse(read(playerFix.counter))
+const counterMembers = readArchive(playerCounter.artifact)
+const playerMembers = readArchive(playerFix.artifact)
+for (const pin of playerCounter.pins) {
+  const historical = pin.path.startsWith('data/')
+    ? read(pin.path)
+    : execFileSync('git', ['show', `${playerCounter.base}:${pin.path}`], { cwd: root })
+  assert.equal(hash(historical), pin.sha256, `STALE counter ${pin.path}`)
+}
+for (const pin of playerFix.pins) {
+  assert.equal(hash(read(pin.path)), pin.sha256, `STALE player fix ${pin.path}`)
+}
+assert.deepEqual(
+  git('diff', '--name-only', playerFix.base, '--', 'packages', 'scripts')
+    .split('\n')
+    .filter(Boolean)
+    .sort(),
+  [...playerFix.changedSourcePaths].sort(),
+)
+assert.equal(git('ls-files', '--others', '--exclude-standard', '--', 'packages', 'scripts'), '')
+for (const run of [...playerCounter.runs, ...playerFix.runs]) {
+  const native = playerCounter.runs.includes(run) ? counterMembers : playerMembers
+  assert.deepEqual(JSON.parse(native[`${run.id}.execution.json`]), run)
+  assert.equal(run.head, playerFix.base)
+  assert.equal(run.signal, null)
+  assert.equal(run.spawnError, null)
+  assert.equal(run.observerTimeout, false)
+  assert.equal(run.exit, run.id === 'post-context-red' ? 1 : 0)
+  assert.equal(Buffer.byteLength(native[`${run.id}.stdout.raw`]), run.stdoutBytes)
+  assert.equal(Buffer.byteLength(native[`${run.id}.stderr.raw`]), run.stderrBytes)
+  if (run.id !== 'post-context-red') assert.equal(run.stderrBytes, 0)
+}
+for (const test of playerFix.tests) {
+  const native = JSON.parse(playerMembers[`${test.id}.vitest.json`])
+  assert.equal(native.numPassedTests, test.passed)
+  assert.equal(native.numFailedTests, test.failed)
+  assert.equal(native.numPendingTests, 0)
+  const identities = native.testResults.flatMap((file) =>
+    file.assertionResults.map((item) => ({
+      file: `packages/${file.name.split('/packages/')[1]}`,
+      fullName: item.fullName,
+      status: item.status,
+    })),
+  )
+  assert.deepEqual(identities, test.identities)
+  const failures = native.testResults.flatMap((file) =>
+    file.assertionResults.filter((item) => item.status === 'failed'),
+  )
+  assert.deepEqual(
+    failures.map((item) => item.fullName),
+    test.failedFullNames,
+  )
+  for (const failure of failures) assert.match(failure.failureMessages[0], /^AssertionError:/)
+}
+assert.equal(
+  hash(read(playerFix.changedSourcePaths[0])),
+  hash(playerMembers['settlement-after.ts']),
+)
+assert.equal(
+  hash(read(playerFix.changedSourcePaths[1])),
+  hash(playerMembers['settlement-test.red.ts']),
+)
+const before = JSON.parse(counterMembers['post-heal-actual.stdout.raw'])
+const rolesOnly = JSON.parse(counterMembers['post-heal-roles-only.stdout.raw'])
+const after = JSON.parse(playerMembers['post-heal-fixed.stdout.raw'])
+assert.equal(before.final.runtimeHP, 394)
+assert.equal(rolesOnly.final.liveHP, 500)
+assert.equal(rolesOnly.final.runtimeHP, 394)
+assert.equal(after.ticks, before.ticks)
+assert.deepEqual(after.defeated, [true, true])
+assert.deepEqual(after.final, {
+  runtimeHP: 500,
+  liveHP: 500,
+  mode: 'explore',
+  resourcesReleased: true,
+})
+assert.equal(after.observations[0].runtime, 289)
+assert.ok(after.observations.every((item) => item.hasRoles))
+assert.deepEqual(JSON.parse(playerMembers['c-state-run.stdout.raw']), {
+  heals: [500, 30],
+  mixed: [325, 23],
+})
+assert.equal(playerMembers['post-context-typecheck.stdout.raw'], '')
+assert.match(
+  playerMembers['local-lint.stdout.raw'],
+  /0 errors \/ 0 warnings \/ 0 infos; complete report/,
+)
+assert.match(playerMembers['local-docs.stdout.raw'], /docs: PASS \(0 issues\)/)
+assert.match(playerMembers['local-docs.stdout.raw'], /0 integrity issues; not full acceptance/)
+assert.match(playerMembers['local-ledger.stdout.raw'], /372 closed \/ 115 review \/ 2869 pending/)
 console.log(
-  'MATCH: frozen input counter and approved current cleanup fix; whole gates deferred; no file acceptance',
+  'MATCH: both frozen counters and approved Extra/HP-MP fixes; whole gates deferred; no file acceptance',
 )

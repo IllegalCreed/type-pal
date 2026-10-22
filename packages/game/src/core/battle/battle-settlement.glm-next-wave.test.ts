@@ -212,6 +212,48 @@ describe('逐屏输入与时间边界', () => {
 })
 
 describe('Phase E→对话→恢复与释放', () => {
+  it('战后脚本的HP/MP治疗保留到半恢复和退出', () => {
+    const f = wonFixture({
+      scriptOnBattleEnd: 1,
+      expGained: 0,
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] },
+        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },
+        { op: 'end' },
+      ],
+    })
+    // global.c:PAL_IncreaseHPMP与battle.c:PAL_BattleWon共用PlayerRoles。
+    // 300HP补至500;10MP补至20后恢复缺口一半,得到30。fixture仅隔离合法战后边界。
+    enterSettlement(f)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([500, 30])
+    expect(f.gs.mode).toBe('explore')
+    expect(getBattleResources(f.gs)).toBeUndefined()
+  })
+
+  it('通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填', () => {
+    const f = wonFixture({
+      scriptOnBattleEnd: 1,
+      expGained: 0,
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x1a, operands: [9, 100, 1] },
+        { op: 'raw', opcode: 0x1b, operands: [1, 50, 0] },
+        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },
+        { op: 'raw', opcode: 0x1a, operands: [10, 6, 1] },
+        { op: 'end' },
+      ],
+    })
+    // script.c:0x1A的row9/10是HP/MP,op2=1明确选role0。
+    // 同一状态应先100HP→150HP、10MP→20MP→6MP;半恢复后325HP/23MP。
+    enterSettlement(f)
+    tickBattle(f.gs, NO_KEY, f.bus)
+    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([325, 23])
+    expect(f.gs.mode).toBe('explore')
+    expect(getBattleResources(f.gs)).toBeUndefined()
+  })
+
   it('真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放', () => {
     const f = wonFixture({
       scriptOnBattleEnd: 1,

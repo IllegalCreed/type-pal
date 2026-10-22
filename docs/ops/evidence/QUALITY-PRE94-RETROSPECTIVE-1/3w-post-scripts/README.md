@@ -6,6 +6,12 @@ Date: 2026-10-18
 Base: `599d35717d8a5213802f76535eb14ba187f709e5`
 Branch: `codex/code-quality-3y`
 
+## 2026-10-22 战后HP/MP状态归属窄修
+
+用户批准后，两正式业务红→9文件238绿/TC0；[逐文件八维/原件清单](post-player-state-fix.json)、[修前真实输入反证](post-player-context.json)与[统一只读快检](verify-extra-reachability.mjs)可复验。原可接受改动V1经过实际190tick自动战斗，退出HP由394修为500；只传角色表仍394的对照保留。HP/MP只在Phase E移交runtime，普通战中、掉落/对话顺序、存档与装备不改。
+
+当前3356tracked/372closed/115review/2869pending，0新关闭、固定61accept/22partial。结算源及本次修改专测维持review；全仓/official/protected留3w多卡收尾。快检按903→09的Extra两文件及09→当前HP/MP两文件分别锁定，不能由旧快检放行任意新增源码。以下各段是明确历史时点，不是当前门通过或全部脚本等价证明。
+
 ## 2026-10-22 当前修复
 
 用户另批清全角色Extra；[两文件八维/正式红绿](extra-cleanup-fix.json)及[完整原件](extra-cleanup-fix-native.json.gz)记录旧一业务红、236局部绿及game TC0。末role5效果经真实出口清零，仙女剑8武术/32760双攻保留。当前3356/373closed/114review/2869pending，0新关闭；全仓与覆盖率在此产品变化后尚未新跑，留3w多卡收尾。下段原反证和静态门绑定修复前，不作当前产品门。
