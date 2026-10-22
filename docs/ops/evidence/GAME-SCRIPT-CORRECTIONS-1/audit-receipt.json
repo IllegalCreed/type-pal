@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-SCRIPT-CORRECTIONS-1",
+  "kind": "read-only-audit-receipt",
+  "date": "2026-10-22",
+  "owner": "Codex",
+  "baselineGit": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+  "caller": "User request to enumerate English-patch changes, existing corrections, reasons and repair layer; appended historical-report research.",
+  "retention": "Keep reviewable audit/probes with this task; supersede conclusions explicitly when inputs or callers change, preserving historical evidence.",
+  "sourceInputs": "Input paths and SHA256 are in binary-inventory.json; local raw/en resources are not added to Git.",
+  "attachments": [
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/audit-diff.py",
+      "bytes": 7961,
+      "sha256": "b7dd457f247ea0a910b5a20783eb0bcb4af0367bdc6f6009307ee3831cf4e14d"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/probe-runtime.mjs",
+      "bytes": 11398,
+      "sha256": "ce8c45f1df274c32c29f461df038df6c2c8a7f12f93ce11cbeed74693e46a1fc"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/binary-inventory.json",
+      "bytes": 14766,
+      "sha256": "00b8c2ccabe4ca21d4e0e4698b7c207ac1436a70244966923803a3104ab8bcfc"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime-probes.json",
+      "bytes": 20919,
+      "sha256": "385c180c7112c6235644e44fad27943081f3b0a75a75c2e8be284e3634e1e8fc"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime-probes.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/existing-corrections-regression.txt",
+      "bytes": 311,
+      "sha256": "d8b7aded5e28c8d00244707877c16212f2a2b275f0aa703a77b5d517fcf8a641"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/governor-regression.txt",
+      "bytes": 311,
+      "sha256": "e0a61ffd1fa6590dc9d32ccd7d693c3acafa8f76d97fd6cd17f70754f90ed4c3"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt",
+      "bytes": 311,
+      "sha256": "f799ffea65d6d6e2830abffa4daaa1f1f16f8557e2447e0b1f314d4338a7c8c6"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/docs-initial.txt",
+      "bytes": 30618,
+      "sha256": "bb97bd0f1f27bb3ed7072bdef4fcb899582ed3a8648fc573a7fc9b332fb1e207"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/docs-final.txt",
+      "bytes": 30630,
+      "sha256": "03bb587808447226b3ab2fa73fdaa9ea0c04698ba8ab7389279622cd2f5ba888"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/lint-final.txt",
+      "bytes": 164,
+      "sha256": "9f1e4e9cc384d35c488f5b49578b03c9010e2e4de923728d736e3af20043883f"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/audit-diff.py /tmp/type-pal-script-inventory.json",
+      "result": "43503 -> 43538 instructions; 37 diff regions; 2 event-object changes; all assigned",
+      "requires": "Local user-supplied raw/en files with recorded SHA256"
+    },
+    {
+      "command": "pnpm exec tsx docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/probe-runtime.mjs",
+      "result": "exit 0; stderr 0 bytes; results in runtime-probes.json",
+      "requires": "Current extracted resources and source at the recorded baseline"
+    },
+    {
+      "command": "pnpm --filter @type-pal/game exec vitest run src/core/event-system.test.ts -t 'patchGiveItemZeroBugs|opcode 0x0086 jumpIfNotEquipped' --reporter=default",
+      "result": "5 passed; 321 filtered; existing tests"
+    },
+    {
+      "command": "pnpm --filter @type-pal/game exec vitest run src/core/scene-system.test.ts -t '扬州太守' --reporter=default",
+      "result": "2 passed; 108 filtered; existing tests; exact caller is the two governor contracts"
+    },
+    {
+      "command": "pnpm --filter @type-pal/reforge exec vitest run src/battle/r13-six-b-battle.test.ts -t 酒神 --reporter=default",
+      "result": "7 passed; 3 filtered; existing phase2 tests, not phase1 acceptance"
+    }
+  ],
+  "historicalAuthorSource": {
+    "url": "https://www.newsmth.net/bbsanc.php?path=%2Fgroups%2Fsport.faq%2FPalSword%2Fother%2Fdosmx%2FM.1119159580.50",
+    "readMethod": "web fetch timed out; terminal curl succeeded; full HTML decoded with gb18030, tags removed for reading",
+    "responseBytes": 5710,
+    "responseSha256": "386b48429c40921db607108c23884469142088ed946bd4a9c807cd4a99767ff2",
+    "postAuthor": "yc25wszw",
+    "postDate": "2005-06-19",
+    "limits": "Historical DOS author report, not current Win runtime proof; full copyrighted post not copied into repository."
+  },
+  "correctionsToEarlyDiagnosis": [
+    "Probe calibration failures were fixture/oracle issues, not a product red/green claim.",
+    "Equipment row21 is FLEE_RATE (吉运), not DEXTERITY.",
+    "D14/D17 current-function equality does not disprove historical 0000 bug reports; retain them as compatibility candidates.",
+    "D07 concerns the scene182/map17 Anu instance, not first joining in the tree cave.",
+    "The archived Ghost Yin altar report is by 小瞿, not the next contributor on that page."
+  ],
+  "qualityGates": {
+    "docs": {
+      "exitCode": 0,
+      "diagnostics": 0,
+      "log": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/docs-final.txt"
+    },
+    "lint": {
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "log": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/lint-final.txt"
+    },
+    "diffCheck": {
+      "exitCode": 0,
+      "diagnostics": 0
+    },
+    "initialDocsAttempt": {
+      "exitCode": 1,
+      "reason": "New board/index review metadata changed its parent review artifact hash; exact owned parent bindings were then reviewed and updated. No blanket refresh.",
+      "log": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/docs-initial.txt"
+    }
+  },
+  "notRun": [
+    "Product full check",
+    "Official coverage recalculation",
+    "Original or SDLPal executables",
+    "Browser / full story / visual E2E",
+    "Save roundtrip for proposed repairs"
+  ],
+  "scope": "No product changes, new official tests, deployment, broad source-quality closure or automatic approval of all patch changes.",
+  "sourceInputsUnchangedAtClose": true
+}

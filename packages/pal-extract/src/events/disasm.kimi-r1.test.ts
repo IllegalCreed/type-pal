@@ -10,10 +10,8 @@
  * - setPalette / 具名未处理 opcode（startBattle 0x0007 → raw 保字节）/ 表外未知 opcode
  *   （0x0100 不在 opcodeTable 0x00..0xA7 填充范围与 0xFFFF 之外）均字节级往返。
  * - 合成 bytecode 的原始 bytes 与 sha256 硬断言（证据锚）。
- * 不覆盖（ledger）：emitRawFallback `operands[f] ?? 0`（:225，disasm 恒传定长三元组）、
- * findOpcodeByName `n < found`（:235，能走到这里的 verb 在 opcodeTable 均只挂一个 opcode：
- * startBattle/waitFrames/setObjectXY/setScriptEntry/setObjectState/playMusic/playSfx/ifItemLess，
- * 全部单映射）、`found ?? 0`（:238，verb 必在表内）。
+ * 2026-10-22：具名 raw 回退直接保留扫描到的 opcode 与三操作数，不再反查 verb；
+ * 旧 ledger 中的缺操作数和反查失败分支随该实现删除，现有字节 oracle 保留。
  */
 
 import { createHash } from 'node:crypto'
@@ -66,7 +64,7 @@ describe('KIMI-R1 disasm setPalette case 与具名 raw 回退', () => {
 
   test('具名但未结构化 opcode（startBattle 0x0007）落 raw 保字节，label operand 目标打标签', () => {
     // startBattle fields: [enemyId, onLost(label), onFled(label)] — emitCommand 无 case，
-    // 走 emitRawFallback；pass 1 收集 label 目标 → pass 2 给指令 3 打 L_3。
+    // raw 回退保留原 opcode；pass 1 收集 label 目标 → pass 2 给指令 3 打 L_3。
     const bytecode = concat(
       instr(0x0007, 5, 3, 2), // startBattle enemy=5 onLost=L_3 onFled=L_2
       instr(0x0000), // 1 filler
@@ -120,7 +118,7 @@ describe('KIMI-R1 disasm setPalette case 与具名 raw 回退', () => {
     expect(commands).toEqual([
       { op: 'end', label: 'L_0' }, // end reset 的 resetTo=0 是 label 字段 → 指令 0 被打标
       { op: 'end', advance: true, label: 'L_1' },
-      { op: 'end', reset: true, resetTo: 0, idleFrames: 7 },
+      { op: 'end', reset: true, resetTo: 0, idleFrames: 7, label: 'L_2' },
     ])
     expect([...recompile(commands, [])]).toEqual([...bytecode])
   })

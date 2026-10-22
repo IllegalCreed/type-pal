@@ -514,29 +514,33 @@ describe('npcFromEventObject', () => {
   // ── 扬州太守领赏 bug(tp 层修原版「书案太长够不到太守」data/布局 bug)─────────────
   // 太守(场景 81 obj 1518)原版是 Confirm-search(triggerMode 3),但公案在 map84 用 obstacle tile
   // 围成斜墙,玩家挤不到能搜查命中的格 → 5500 文赏金领不到(实测最近只到加权 160 被挡)。
-  // tp 层把 obj 1518 改成走近自动触发(mode >= 4)+ autoTriggerOnce 只触发一次(防修好可达性后凭空
+  // 纠错资源将 obj 1518 设为走近自动触发(mode 6)+ autoTriggerOnce 只触发一次(防修好可达性后凭空
   // 多出原版没有的刷钱漏洞)。门禁靠 scene 81 只在擒贼后载入(结构性),不在此层加 flag。
-  it('太守 obj 1518:Confirm-search(mode 3)→ 走近自动触发(mode >= 4)+ autoTriggerOnce', () => {
+  it('纠错资源的自动触发元数据透传，NPC造型位置保持原值', () => {
     const eo: SceneEventObject = {
       id: 1518,
       x: 1616,
       y: 968,
       spriteNum: 382,
       triggerLabel: 'L_15293',
-      triggerMode: 3,
+      triggerMode: 6,
+      autoTriggerOnce: true,
+      autoTriggerAnchorX: 1600,
+      autoTriggerAnchorY: 1040,
       sState: 1,
     }
     const npc = npcFromEventObject(eo)
-    expect(npc.triggerMode).toBeGreaterThanOrEqual(4) // sdlpal kTriggerTouchNear=4 起为自动触发区
+    expect(npc.triggerMode).toBe(6) // sdlpal kTriggerTouchNear=4 起为自动触发区
     expect(npc.autoTriggerOnce).toBe(true)
     // 触发判定中心挪到书案前站立点(非太守 sprite)→ 出发点不在附近,不自动触发(速通不强制领赏)
     expect(npc.autoTriggerAnchorX).toBe(1600)
     expect(npc.autoTriggerAnchorY).toBe(1040)
+    expect([npc.x, npc.y]).toEqual([1616, 968])
   })
 
-  it('其它对象 triggerMode 3 不受补丁影响(仍是 Confirm-search,无 autoTriggerOnce)', () => {
+  it('没有纠错元数据时不按对象编号暗改触发方式', () => {
     const eo: SceneEventObject = {
-      id: 999,
+      id: 1518,
       x: 1616,
       y: 968,
       spriteNum: 382,

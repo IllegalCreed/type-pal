@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ✓ src/battle/pal-cure-status-corrections.test.ts (3 tests) 5ms
+ ✓ src/pal-story-corrections.test.ts (6 tests) 11ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  15:51:44
+   Duration  3.36s (transform 2.61s, setup 0ms, import 3.61s, tests 16ms, environment 0ms)
+

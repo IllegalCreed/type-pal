@@ -1,0 +1,26 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
+
+ ✓ src/events/disasm.test.ts (14 tests) 5ms
+ ✓ src/cli-script-corrections.pal.test.ts (2 tests) 5913ms
+   ✓ default CLI corrects gameplay before every event consumer is emitted  2259ms
+   ✓ default CLI rejects an altered source before corrected event outputs; faithful mode remains explicit  3652ms
+ ✓ src/events/script-corrections.pal.test.ts (4 tests) 1806ms
+   ✓ supported source corrections preserve raw input and change only reviewed instructions  1200ms
+   ✓ unknown source fingerprint and drifted old instruction fail closed without changing source  585ms
+ ✓ src/cli-error-exits.kimi-r1.test.ts (9 tests) 9871ms
+   ✓ KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）  982ms
+   ✓ KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1  1525ms
+   ✓ KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1  1460ms
+   ✓ KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1  1058ms
+   ✓ KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1  1283ms
+   ✓ KIMI-R1 CLI：输入预检失败保留既有产物与 videos  930ms
+   ✓ KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略  899ms
+   ✓ KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker  836ms
+   ✓ KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker  813ms
+
+ Test Files  4 passed (4)
+      Tests  29 passed (29)
+   Start at  16:43:14
+   Duration  10.00s (transform 146ms, setup 0ms, import 236ms, tests 17.60s, environment 0ms)
+

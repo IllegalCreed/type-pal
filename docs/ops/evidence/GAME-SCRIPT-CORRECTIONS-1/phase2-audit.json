@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-SCRIPT-CORRECTIONS-1",
+  "kind": "phase2-read-only-author-content-audit",
+  "date": "2026-10-22",
+  "baselineGit": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+  "owner": "Codex",
+  "contributors": ["phase2_fix_mechanics_audit (read only)", "phase2_fix_story_audit (read only)"],
+  "caller": "User asks whether first-phase fixes also need corresponding second-phase changes.",
+  "method": "Read current canonical authored nodes and actual engine consumers; two read-only source audits followed by Codex targeted source review. No retired converter used.",
+  "sourceFiles": [
+    {
+      "path": "docs/phase2/guides/content-publication.md",
+      "sha256": "ba0d436e9e5e0cc068f57af4a6ca15e45c2643a4d2e9dec94a96dc6523ad9da2"
+    },
+    {
+      "path": "projects/pal/content/skills.json",
+      "sha256": "63f1ec959bea073b37cdd8f2d4cde724f12556dbf273e319fae2988099fb32dd"
+    },
+    {
+      "path": "projects/pal/content/items.json",
+      "sha256": "47ca1837bdfdd45db8bd43a2429333b4d7a45c25a8331aa832dd0cc07d5b427d"
+    },
+    {
+      "path": "projects/pal/content/shared-scripts.json",
+      "sha256": "31adee7b0ce4734c9eefd55579052f9fbee5a07b54bc876362c68ccc33a1ceea"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-core.ts",
+      "sha256": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-session.ts",
+      "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-launch-preparation.ts",
+      "sha256": "c13c54d7e6cad926432e810cbd028661fc216b3f04e538e371e792e9710a7c20"
+    },
+    {
+      "path": "packages/reforge/src/script-runner-core.ts",
+      "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
+    },
+    {
+      "path": "packages/content/src/item.ts",
+      "sha256": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b"
+    },
+    {
+      "path": "projects/pal/content/scenes/s023.json",
+      "sha256": "de40418683e8d533a25705aab5c59cef9bf9e8f7bb095ef5077fb9d5efeafa4e"
+    },
+    {
+      "path": "projects/pal/content/scenes/s064.json",
+      "sha256": "6248fd1ee231241ec5cec351ee6567309e23f839f8091a0dba155c7f8549b1e0"
+    },
+    {
+      "path": "projects/pal/content/scenes/s077.json",
+      "sha256": "8116f1ad3893cf324cf9c096f3e87fefe492d457894e32b58d84204e89bec2c6"
+    },
+    {
+      "path": "projects/pal/content/scenes/s078.json",
+      "sha256": "d83a667c490a76611673f3c195cc1279732c3b1e2d6a51570a013e669fa3b13b"
+    },
+    {
+      "path": "projects/pal/content/scenes/s081.json",
+      "sha256": "3f8cec83dc5f923500b91bf48d1f240a509a2a356d3c2fe0cf5119bb0e1beb1f"
+    },
+    {
+      "path": "projects/pal/content/scenes/s092.json",
+      "sha256": "a20ab41c924869ecbacf84f5135ffa63a07189741903bed183b3675fe93c68d6"
+    },
+    {
+      "path": "projects/pal/content/scenes/s102.json",
+      "sha256": "94e84d504a55bdd263d1cebc148836907b8726a43aaf0b89ababfe4db1cb3d2a"
+    },
+    {
+      "path": "projects/pal/content/scenes/s156.json",
+      "sha256": "4bc8fd34a75e4c878ae0de38ff4ff73a0033969d2b4973a59846b564171ed112"
+    },
+    {
+      "path": "projects/pal/content/scenes/s166.json",
+      "sha256": "acb25847b6a964d6bf5951c4805e2703cfe3bc6b49088eab019857e59b745f38"
+    },
+    {
+      "path": "projects/pal/content/scenes/s172.json",
+      "sha256": "b53ee64a0c6a4099e309f141c8f8da8ac75161a4428aefa362c7442781e508aa"
+    },
+    {
+      "path": "projects/pal/content/scenes/s182.json",
+      "sha256": "9c11c4087fec5183ba47ffb730b30616413e35d124dc5777650aa2f73316e923"
+    },
+    {
+      "path": "projects/pal/content/scenes/s215.json",
+      "sha256": "7a2a1f4ae9adfdedc0628c2a462284a9defa786ad9d640e8c02c2348a3415e00"
+    },
+    {
+      "path": "projects/pal/content/scenes/s225.json",
+      "sha256": "f3b7c2e19aefd940cd3951b486e388efa490becc3e10e6ba2611081e0a9e4aee"
+    },
+    {
+      "path": "projects/pal/content/scenes/s226.json",
+      "sha256": "ccc3321a992152b335015968d38244b1d05040f8523b6e8aea993ac5f578c056"
+    },
+    {
+      "path": "projects/pal/content/scenes/s281.json",
+      "sha256": "23e86fefa0e95cdbff2b835eec95ba34df89ebc5190b39a9151ac4a8013e2a65"
+    },
+    {
+      "path": "projects/pal/content/scenes/s285.json",
+      "sha256": "fbbc7c5cd7186af46bc69dd607829827c9c2bd30515aa1a38540bafdf575dab3"
+    },
+    {
+      "path": "projects/pal/content/scenes/s286.json",
+      "sha256": "33d4f179eaa2b918714932e8f1ace62af4987815471224aa635257c166318cd1"
+    },
+    {
+      "path": "projects/pal/content/scenes/s292.json",
+      "sha256": "366b236d1d171e9751c774dc3a3218f0c88e3d594c8a3625c7da0003cb3d1403"
+    }
+  ],
+  "directStaticObservations": {
+    "bingxin": {
+      "id": "307",
+      "name": "冰心诀",
+      "removeStatuses": ["confused", "paralyzed", "sleep"]
+    },
+    "lingxue": {
+      "id": "308",
+      "name": "灵血咒",
+      "removeStatuses": ["confused", "paralyzed", "sleep"]
+    },
+    "lingxin": {
+      "id": "65",
+      "name": "灵心符",
+      "removeStatuses": ["confused", "paralyzed", "sleep"]
+    },
+    "wineLimit": 9,
+    "weapon187": {
+      "slot": "weapon",
+      "equipableBy": ["anu"],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 98
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 98
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 98
+        },
+        {
+          "kind": "battleSprite",
+          "byActor": {
+            "anu": "player-fighter-7"
+          }
+        },
+        {
+          "kind": "attackAll"
+        },
+        {
+          "kind": "grantStatus",
+          "status": "dualAttack"
+        }
+      ]
+    }
+  },
+  "dispositions": {
+    "alreadyExpressed": [
+      "D02 purchase confirmation order",
+      "D15 weapon bonuses owned by weapon",
+      "D18 stable-role lifetime limit",
+      "E01 explicit equipped count"
+    ],
+    "confirmedMissing": ["D13 silence absent from two skill and one item effect lists"],
+    "scriptCandidates": [
+      "D03 onEnter completion/revisit",
+      "D06 scholar state-write before condition",
+      "D07 Anu initial visibility and explicit entrance",
+      "D08 early delivery cleanup"
+    ],
+    "runtimeAndRouteVerificationRequired": [
+      "E02 governor interaction reachability under new distance semantics",
+      "D09 trial maze target/landing connectivity",
+      "D10 palace entrances and additional exit"
+    ],
+    "originalAddressPatchNotApplicable": [
+      "D14 static poison throw effects",
+      "D17 explicit spell item costs"
+    ],
+    "partialOrNotAudited": [
+      "D12 active purple-ointment chests correct; no current caller found for two other original roots",
+      "D01/D16 language-layout mapping",
+      "D04/D05/D11 full choreography and collision intent"
+    ]
+  },
+  "limits": [
+    "Static source facts are not browser, E2E, save or visual acceptance.",
+    "No product, source assets, retired migration rules, official tests or coverage modified.",
+    "Existing phase2 wine test receipt belongs to the prior audit run; no new test-pass credit here."
+  ],
+  "retention": "Keep with task as input-scoped source review; re-evaluate impacted conclusions when listed file fingerprints change.",
+  "preparationErrata": [
+    "First receipt-generation attempt used an incorrect relative path to battle-launch-preparation.ts and wrote no receipt; corrected to the actual battle subdirectory."
+  ],
+  "qualityGates": {
+    "docs": {
+      "exitCode": 0,
+      "diagnostics": 0
+    },
+    "lint": {
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "diffCheck": {
+      "exitCode": 0,
+      "diagnostics": 0
+    },
+    "logs": [
+      {
+        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/phase2-docs.txt",
+        "sha256": "c8463ae5faa154b62b8a1cb956db4345248daef3d3cfd8756609cf41311ba76f"
+      },
+      {
+        "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/phase2-lint.txt",
+        "sha256": "9f1e4e9cc384d35c488f5b49578b03c9010e2e4de923728d736e3af20043883f"
+      }
+    ]
+  }
+}

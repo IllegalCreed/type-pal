@@ -18,6 +18,7 @@ import { startOverworldItemScript } from '../event-system.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { projectRuntimeToBattleRoles } from '../game-state.js'
 import { addItemToInventory } from '../inventory-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from '../object-script-state.js'
 import { Save } from '../save/api.js'
 import {
   cancelEquipMenu,
@@ -714,7 +715,7 @@ function dispatchInventoryMenu(
         // PAL_GameUseItem,不像非 applyToAll 在 ItemUseMenu INNER while 循环反复用)。
         // ts:startOverworldItemScript 标 itemUseApplyToAll → 脚本结束 restoreModeAfterScript 关全
         // 物品菜单回 explore,让脚本设的世界 trigger 触发(桂花酒设酒剑仙 proximity → 回 explore 即对话)。
-        startOverworldItemScript(gs, item.id, item.scriptOnUse, 0xffff, item.flags.consuming)
+        startOverworldItemScript(gs, item, 0xffff)
         return
       }
       // 单 target 路径:进 use-target phase
@@ -731,13 +732,7 @@ function dispatchInventoryMenu(
           // ts:**不**清 menuStack;phase 保 'use-target'(confirmInventoryTarget 把 phase 设了
           // 'done',要 revert 回 'use-target' 让 picker 继续);script 跑完 event mode 切 menu
           // 恢复 picker 渲染。
-          const ok = startOverworldItemScript(
-            gs,
-            picked.itemId,
-            item.scriptOnUse,
-            picked.roleId,
-            item.flags.consuming,
-          )
+          const ok = startOverworldItemScript(gs, item, picked.roleId)
           if (ok) {
             // confirmInventoryTarget 把 phase 设了 'done',sdlpal 实际是 INNER loop 继续,
             // 所以这里 revert 回 'use-target' 让 ItemUseMenu picker 继续显示。
@@ -825,9 +820,9 @@ function dispatchEquipMenu(
         }
         // sdlpal uigame.c:2050-2053 真值 `scriptOnEquip = PAL_RunTriggerScript(scriptOnEquip, role)`
         // scriptOnEquip chain 内有 opcode 0x18(equipItem)真做:swap inventory + gs.wLastUnequippedItem = old
-        const sid = item.scriptOnEquip ?? 0
+        const sid = getItemScriptEntry(gs, item, 'scriptOnEquip')
         if (sid !== 0) {
-          runEquipScript(gs, sid, picked.roleId)
+          setItemScriptEntry(gs, item, 'scriptOnEquip', runEquipScript(gs, sid, picked.roleId))
         }
         // sdlpal uigame.c:1859 真值:下一帧渲染重读 wLastUnequippedItem(0x18 已写)
         s.selectedItemId = gs.wLastUnequippedItem

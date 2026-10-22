@@ -22,6 +22,7 @@
  *   data/font/glyphs.json、asset-manifest.json
  *   (rng-frames.json 为 frameCount manifest,不含 PNG;RGM/BALL 亦 PNG 解码)
  */
+import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync } from 'node:fs'
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -31,6 +32,7 @@ import type { Symbols } from './events/annotate.js'
 import { annotate, parseSymbols } from './events/annotate.js'
 import { disasm } from './events/disasm.js'
 import { recompile } from './events/recompile.js'
+import { correctScripts, type ScriptCorrectionManifest } from './events/script-corrections.js'
 import { collectScriptEntries } from './events/script-entries.js'
 import { sliceByScene } from './events/slice.js'
 import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
@@ -163,6 +165,13 @@ function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
 }
 
 async function main(): Promise<void> {
+  if (process.argv.includes('--help')) {
+    console.log(
+      'Usage: pal-extract [--faithful]\nDefault: apply reviewed corrections to the supported Win archive.\n--faithful: decode without corrections for source audits.',
+    )
+    return
+  }
+  const faithful = process.argv.includes('--faithful')
   console.log('[pal-extract] start')
 
   // 清理 cli 旧产物:data/extracted 是 gitignore 的可重生成物。清掉再写,避免上次 extract 的
@@ -174,17 +183,12 @@ async function main(): Promise<void> {
   if (!OUT.endsWith(`${sep}data${sep}extracted`)) {
     throw new Error(`[pal-extract] refuse to clean unexpected OUT: ${OUT}`)
   }
-  mkdirSync(OUT, { recursive: true })
-  const PRESERVE = new Set(['videos']) // 非 cli 步骤产物,勿删(见 extract:videos)
-  for (const entry of readdirSync(OUT)) {
-    if (PRESERVE.has(entry)) continue
-    rmSync(resolve(OUT, entry), { recursive: true, force: true })
-  }
-
   // ── 共享数据 ────────────────────────────────────────────────────
   const sssBuf = loadFile('SSS.MKF')
-  const sss = parseSss(sssBuf)
-  const messages = parseMessages(loadFile('M.MSG'), sss.messageOffsets)
+  let sss = parseSss(sssBuf)
+  const sourceSha256 = createHash('sha256').update(sssBuf).digest('hex')
+  const messageBytes = loadFile('M.MSG')
+  let messages = parseMessages(messageBytes, sss.messageOffsets)
   const words = parseWordDat(loadFile('WORD.DAT'))
   const symbols: Symbols = existsSync(SYMBOLS_PATH)
     ? parseSymbols(JSON.parse(readFileSync(SYMBOLS_PATH, 'utf-8')))
@@ -204,16 +208,16 @@ async function main(): Promise<void> {
   const enemyObjects = parseEnemyObjects(sssObjBuf, words)
   const objectPlayers = parseObjectPlayers(sssObjBuf)
 
-  const { entryIps, globalScriptEntries } = collectScriptEntries({
+  const sources = {
     scenes: sss.scenes,
     eventObjects: sss.eventObjects,
     items,
     spells,
     enemyObjects,
     objectPlayers,
-  })
-
-  const rawCommands = disasm(sss.bytecode, messages, entryIps)
+  }
+  const originalEntries = collectScriptEntries(sources)
+  const rawCommands = disasm(sss.bytecode, messages, originalEntries.entryIps)
 
   // round-trip 自检
   const verify = recompile(rawCommands, messages)
@@ -223,7 +227,41 @@ async function main(): Promise<void> {
   }
   console.log('[pal-extract] events round-trip OK')
 
-  const annotated = annotate(rawCommands, words, symbols)
+  const corrected = faithful ? undefined : correctScripts(sss, sourceSha256, messages)
+  if (corrected) {
+    sss = corrected.sss
+    messages = corrected.messages
+  }
+  const correctionManifest: ScriptCorrectionManifest = corrected?.manifest ?? {
+    source: { file: 'SSS.MKF', sha256: sourceSha256 },
+    mode: 'faithful',
+    version: null,
+    rules: [],
+  }
+  // No existing output is removed until source identity, faithful round-trip and old values pass.
+  mkdirSync(OUT, { recursive: true })
+  const PRESERVE = new Set(['videos']) // 非 cli 步骤产物,勿删(见 extract:videos)
+  for (const entry of readdirSync(OUT)) {
+    if (PRESERVE.has(entry)) continue
+    rmSync(resolve(OUT, entry), { recursive: true, force: true })
+  }
+
+  writeJson(resolve(OUT, 'script-corrections.json'), {
+    ...correctionManifest,
+    messages: {
+      file: 'M.MSG',
+      sha256: createHash('sha256').update(messageBytes).digest('hex'),
+      corrections: corrected ? [{ messageIndex: 1503, before: '看错痢?', after: '看错了' }] : [],
+    },
+  })
+  // Recompute roots and labels after correction, including appended blocks and changed object hooks.
+  const { entryIps, globalScriptEntries } = collectScriptEntries({
+    ...sources,
+    scenes: sss.scenes,
+    eventObjects: sss.eventObjects,
+  })
+  const commands = disasm(sss.bytecode, messages, entryIps)
+  const annotated = annotate(commands, words, symbols)
   const sliced = sliceByScene(annotated, sss.scenes, sss.eventObjects, globalScriptEntries)
 
   sliced.scenes.forEach((sceneFile, i) => {
@@ -622,7 +660,12 @@ async function main(): Promise<void> {
     for (let allSceneId = 0; allSceneId < sss.scenes.length; allSceneId++) {
       const s = sss.scenes[allSceneId]
       if (!s) continue
-      const sceneObjs = dumpScene(allSceneId, sss.scenes, sss.eventObjects)
+      const sceneObjs = dumpScene(
+        allSceneId,
+        sss.scenes,
+        sss.eventObjects,
+        corrected?.eventMetadata,
+      )
       writeJson(dataSubdirPath('scene', String(allSceneId)), sceneObjs)
       sceneWritten++
     }
@@ -631,7 +674,7 @@ async function main(): Promise<void> {
 
   // 忠实 sdlpal lprgEventObject:全局 event object 表(全部 + 各 scene 区间),运行时一次性加载。
   {
-    const allEvtObjs = dumpAllEventObjects(sss.scenes, sss.eventObjects)
+    const allEvtObjs = dumpAllEventObjects(sss.scenes, sss.eventObjects, corrected?.eventMetadata)
     writeJson(resolve(OUT, 'data', 'event-objects.json'), allEvtObjs)
     console.log(
       `[pal-extract] event-objects.json written: ${allEvtObjs.eventObjects.length} objects, ` +
@@ -801,7 +844,10 @@ async function main(): Promise<void> {
   }
 
   // 全资源清单(Service Worker 离线预缓存用)。须在所有产出写完后扫盘,排除自身。
-  const manifest = buildManifest(collectAssetEntries(OUT))
+  const manifest = {
+    ...buildManifest(collectAssetEntries(OUT)),
+    scriptCorrections: correctionManifest,
+  }
   writeJson(resolve(OUT, 'asset-manifest.json'), manifest)
   console.log(
     `[extract] asset-manifest.json: ${manifest.fileCount} files, ` +

@@ -8,6 +8,7 @@
  */
 
 import type { EventObjectsFile, SceneEventObject, SceneObjects } from '@type-pal/shared'
+import type { EventObjectMetadata } from '../events/script-corrections.js'
 import type { EventObject, Scene } from '../io/sss.js'
 
 function labelOf(ip: number): string | undefined {
@@ -15,7 +16,11 @@ function labelOf(ip: number): string | undefined {
 }
 
 /** 单个 EventObject → SceneEventObject(全局 id = sss.eventObjects 下标)。dumpScene / dumpAllEventObjects 共用。 */
-function mapEventObject(eo: EventObject, id: number): SceneEventObject {
+function mapEventObject(
+  eo: EventObject,
+  id: number,
+  metadata?: EventObjectMetadata,
+): SceneEventObject {
   return {
     id,
     x: eo.x,
@@ -34,6 +39,7 @@ function mapEventObject(eo: EventObject, id: number): SceneEventObject {
     spritePtrOffset: eo.spritePtrOffset,
     nSpriteFramesAuto: eo.nSpriteFramesAuto,
     scriptIdleFrameCountAuto: eo.scriptIdleFrameCountAuto,
+    ...metadata,
   }
 }
 
@@ -44,8 +50,9 @@ function mapEventObject(eo: EventObject, id: number): SceneEventObject {
 export function dumpAllEventObjects(
   scenes: Scene[],
   eventObjects: EventObject[],
+  metadata?: ReadonlyMap<number, EventObjectMetadata>,
 ): EventObjectsFile {
-  const allObjs = eventObjects.map((eo, i) => mapEventObject(eo, i))
+  const allObjs = eventObjects.map((eo, i) => mapEventObject(eo, i, metadata?.get(i)))
   const sceneRanges: Record<number, [number, number]> = {}
   for (let s = 0; s < scenes.length; s++) {
     const scene = scenes[s]
@@ -61,6 +68,7 @@ export function dumpScene(
   sceneId: number,
   scenes: Scene[],
   eventObjects: EventObject[],
+  metadata?: ReadonlyMap<number, EventObjectMetadata>,
 ): SceneObjects {
   const scene = scenes[sceneId]
   if (!scene) {
@@ -82,7 +90,7 @@ export function dumpScene(
   for (let i = fromIdx; i < toIdx; i++) {
     const eo = eventObjects[i]
     if (!eo) continue
-    sceneObjects.eventObjects.push(mapEventObject(eo, i))
+    sceneObjects.eventObjects.push(mapEventObject(eo, i, metadata?.get(i)))
   }
 
   return sceneObjects

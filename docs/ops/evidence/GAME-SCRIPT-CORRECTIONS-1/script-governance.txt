@@ -1,0 +1,163 @@
+
+> type-pal@ test:script-governance /Users/zhangxu/illegal/type-pal
+> node --test scripts/script-governance/*.test.mjs
+
+TAP version 13
+# Subtest: confirmation refusal remains structurally reachable with its real caller owner
+ok 1 - confirmation refusal remains structurally reachable with its real caller owner
+  ---
+  duration_ms: 2.414875
+  type: 'test'
+  ...
+# Subtest: current loadScene.scene contributes its actual canonical scene token
+ok 2 - current loadScene.scene contributes its actual canonical scene token
+  ---
+  duration_ms: 0.653125
+  type: 'test'
+  ...
+# Subtest: keeps every physical edge, including duplicates, no-op and clear
+ok 3 - keeps every physical edge, including duplicates, no-op and clear
+  ---
+  duration_ms: 6.336708
+  type: 'test'
+  ...
+# Subtest: maps by explicit identity and unique body, never legacy number or array position
+ok 4 - maps by explicit identity and unique body, never legacy number or array position
+  ---
+  duration_ms: 0.540625
+  type: 'test'
+  ...
+# Subtest: missing explicit source/canonical identities remain unknown
+ok 5 - missing explicit source/canonical identities remain unknown
+  ---
+  duration_ms: 0.23175
+  type: 'test'
+  ...
+# Subtest: self is resolved from each caller owner, not the source array or a default NPC
+ok 6 - self is resolved from each caller owner, not the source array or a default NPC
+  ---
+  duration_ms: 0.265958
+  type: 'test'
+  ...
+# Subtest: scene/item self lacks a world owner even when its item id resembles an entity
+ok 7 - scene/item self lacks a world owner even when its item id resembles an entity
+  ---
+  duration_ms: 0.527708
+  type: 'test'
+  ...
+# Subtest: a known self owner does not erase another unknown caller context
+ok 8 - a known self owner does not erase another unknown caller context
+  ---
+  duration_ms: 0.208625
+  type: 'test'
+  ...
+# Subtest: call override uses its own 1-based identity; 65535 is not self in call opcode
+ok 9 - call override uses its own 1-based identity; 65535 is not self in call opcode
+  ---
+  duration_ms: 0.404167
+  type: 'test'
+  ...
+# Subtest: duplicate canonical bodies and distinct source entries with identical bodies are ambiguous
+ok 10 - duplicate canonical bodies and distinct source entries with identical bodies are ambiguous
+  ---
+  duration_ms: 0.426083
+  type: 'test'
+  ...
+# Subtest: author edits are unmapped or protected, not converted into a missing-script verdict
+ok 11 - author edits are unmapped or protected, not converted into a missing-script verdict
+  ---
+  duration_ms: 0.272208
+  type: 'test'
+  ...
+# Subtest: unknown instruction or source branch cannot yield a confident simple-body match
+ok 12 - unknown instruction or source branch cannot yield a confident simple-body match
+  ---
+  duration_ms: 0.108958
+  type: 'test'
+  ...
+# Subtest: successor content elsewhere never proves the installed cursor is fixed
+ok 13 - successor content elsewhere never proves the installed cursor is fixed
+  ---
+  duration_ms: 0.152833
+  type: 'test'
+  ...
+# Subtest: reward then source advance flags a risk even when the successor starts with a condition
+ok 14 - reward then source advance flags a risk even when the successor starts with a condition
+  ---
+  duration_ms: 0.095542
+  type: 'test'
+  ...
+# Subtest: self-rebinding and explicit completion are not labelled a repeating reward
+ok 15 - self-rebinding and explicit completion are not labelled a repeating reward
+  ---
+  duration_ms: 0.154917
+  type: 'test'
+  ...
+# Subtest: source and author explicit successor handoff is separate from missing-successor risks
+ok 16 - source and author explicit successor handoff is separate from missing-successor risks
+  ---
+  duration_ms: 0.295125
+  type: 'test'
+  ...
+# Subtest: dynamic install reachability is propagated; unrelated unreachable source is not erased
+ok 17 - dynamic install reachability is propagated; unrelated unreachable source is not erased
+  ---
+  duration_ms: 0.171708
+  type: 'test'
+  ...
+# Subtest: invalid global addresses and duplicate source IDs fail closed
+ok 18 - invalid global addresses and duplicate source IDs fail closed
+  ---
+  duration_ms: 0.26125
+  type: 'test'
+  ...
+# Subtest: report carries hashes and token IDs but no dialogue plaintext; inputs are unchanged
+ok 19 - report carries hashes and token IDs but no dialogue plaintext; inputs are unchanged
+  ---
+  duration_ms: 0.221791
+  type: 'test'
+  ...
+# Subtest: CLI rejects repair and arbitrary input/output paths
+ok 20 - CLI rejects repair and arbitrary input/output paths
+  ---
+  duration_ms: 90.38225
+  type: 'test'
+  ...
+# Subtest: canonical scenes come from the manifest, not the directory containing index.json
+ok 21 - canonical scenes come from the manifest, not the directory containing index.json
+  ---
+  duration_ms: 0.295708
+  type: 'test'
+  ...
+# Subtest: real corpus inventory can be reproduced without an archived converter
+not ok 22 - real corpus inventory can be reproduced without an archived converter
+  ---
+  duration_ms: 30.251833
+  type: 'test'
+  location: '/Users/zhangxu/illegal/type-pal/scripts/script-governance/census.test.mjs:374:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    43522 !== 43503
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 43503
+  actual: 43522
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/zhangxu/illegal/type-pal/scripts/script-governance/census.test.mjs:386:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 21
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 199.422875
+ ELIFECYCLE  Command failed with exit code 1.

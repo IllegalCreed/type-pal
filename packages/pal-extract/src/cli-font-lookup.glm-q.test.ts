@@ -61,7 +61,7 @@ async function runTailCli(withBdf: boolean): Promise<{ tree: string; result: Cli
   for (const [name, bytes] of Object.entries(rawFiles)) writeFileSync(join(rawDir, name), bytes)
   if (withBdf) writeFileSync(join(rawDir, 'unifont-cn.bdf'), buildBdf())
   mkdirSync(join(rawDir, 'Musics'), { recursive: true })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   return { tree, result }
 }
 

@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract
+
+ ✓ src/events/script-corrections.raw.test.ts (3 tests) 1507ms
+   ✓ supported source corrections preserve raw input and change only reviewed instructions  1016ms
+   ✓ unknown source fingerprint and drifted old instruction fail closed without changing source  474ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  15:56:37
+   Duration  1.63s (transform 46ms, setup 0ms, import 60ms, tests 1.51s, environment 0ms)
+

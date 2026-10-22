@@ -1,0 +1,13 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ✓ src/core/script-corrections.pal.test.ts (8 tests) 580ms
+ ✓ src/core/script-story-corrections.pal.test.ts (10 tests) 654ms
+ ✓ src/core/script-topology-corrections.pal.test.ts (4 tests) 316ms
+
+ Test Files  3 passed (3)
+      Tests  22 passed (22)
+   Start at  17:33:28
+   Duration  2.63s (transform 1.37s, setup 193ms, import 1.98s, tests 1.55s, environment 4ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-pal-green.native.stdout.txt

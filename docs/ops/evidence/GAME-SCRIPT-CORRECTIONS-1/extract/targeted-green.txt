@@ -1,0 +1,18 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract
+
+ ✓ src/resources/asset-manifest.glm-runtime-resource.test.ts (2 tests) 2ms
+ ✓ src/__tests__/asset-manifest.test.ts (3 tests) 3ms
+ ✓ src/__tests__/asset-manifest.boundaries.test.ts (2 tests) 6ms
+ ✓ src/events/script-corrections.raw.test.ts (3 tests) 1614ms
+   ✓ supported source corrections preserve raw input and change only reviewed instructions  1059ms
+   ✓ unknown source fingerprint and drifted old instruction fail closed without changing source  538ms
+ ✓ src/cli-script-corrections.raw.test.ts (2 tests) 3678ms
+   ✓ default CLI corrects gameplay before every event consumer is emitted  1500ms
+   ✓ default CLI rejects an altered source before corrected event outputs; faithful mode remains explicit  2177ms
+
+ Test Files  5 passed (5)
+      Tests  12 passed (12)
+   Start at  15:51:27
+   Duration  3.81s (transform 198ms, setup 0ms, import 276ms, tests 5.30s, environment 0ms)
+

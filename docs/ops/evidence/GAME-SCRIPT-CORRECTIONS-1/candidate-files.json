@@ -1,0 +1,530 @@
+{
+  "kind": "contributor-working-tree-snapshot",
+  "acceptance": "pending root review and fixes",
+  "files": [
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "c8f11b2f5a5796de9734c8f5de4c1967ae805ae39f96413154717c5c7156287a"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "72a01242b0d21f457045bd3bc4737f0a6bf14ff2e12bacf4eebb7ba0ec747d2c"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/README.md",
+      "sha256": "8511f9eaaefe744c2a06e4badad3d6362c83e07b47187b3738fdf04f9a54f936"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+      "sha256": "b6d04e4598cd8c5aebcfd71c975ebbd6fde71da9587e340f09bc5e5dbcd394cf"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+      "sha256": "56374015e7d049a7a23a1f744c064ce6acba95ec59e5e54b474ce81b1d04343a"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "sha256": "acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "6c8345905fe3a1db7bd32ce31dc89d69422c08cde58bfb9ecad8109ae3a97950"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "sha256": "f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "de694a8f5b9c32aa900f477b0f85d24ba5bbf90a0e742c9109dd471d8944f8b2"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+      "sha256": "dc5ccf2ce7158be2df5c103c75d4eda4f3cecaee51f2c757cc78d384f405a9df"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/resources/asset-manifest.ts",
+      "sha256": "064c788e473795cf2fda5502188115dfe8b5d644c1b0e451c1cce37ada63a47f"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+      "sha256": "96fc6d03c76ed9581658b76e3cc650f8f2989bc1c90b308b0eba47c41e1e9326"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/resources/scene.ts",
+      "sha256": "d164c20ab364826c7b198c33cffebc805dfb667d35a072246504548be2157206"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/added-map-green.txt",
+      "sha256": "8d7f516094d65d58dcca8998b4b338bf599076da32b2e7fd2eb5f399b8f5b438"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/blade.red.json",
+      "sha256": "304fb036e625459b02d5473d3efdf217fa6c423585e5a6be762f48d0b757043d"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/blade.red.txt",
+      "sha256": "ff8db4992b05c73a13c2f7020a286ed405f0be44080061d9eeaa83ebc4ca8e06"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.json",
+      "sha256": "3ccb7b12d612f6cd25325b37b71c42ebdf350d16ad906cb379d4c92bc7c5946c"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.txt",
+      "sha256": "5ab80b9c888089443d62f455470d400abd52e3ccf45e18980ef944ba6269ec25"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cli-red.txt",
+      "sha256": "6372f83e33cca0b429e6eea0ecf4a05dc2d944728a48f2974ae157488012d493"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cure.red.json",
+      "sha256": "11bd3244ed4f9494c0ee811a203d4ecb4e007c2b70376c715519b0c1c8f54d5c"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cure.red.txt",
+      "sha256": "ec27a4046a294bd0e18cd258fd431854e77a489eca5d49bee49460e5f7fcfe09"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/extract-first.txt",
+      "sha256": "23ab575a429c1a701bd6b857fd81add9beeabbe241bf79c286bb58bdda124ec8"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-caller-clock-green.txt",
+      "sha256": "05d535b891b9d0fae03bb372f49354871180b84d7c74536f917b4ab1eee82f60"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-caller-controls.json",
+      "sha256": "5839f0b58b89c285c329cf6c074bc07bb9cc3fe83e911eb2bc26bc5e455f2ec0"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-caller-corrected-green.txt",
+      "sha256": "0e485edc04fe3db2c5e5ab4491bca6554dc1059f5b8bcea5ed530810a6fe859e"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-caller-green.txt",
+      "sha256": "fc55f1752c9a60d22b600b77693c652e45af4d0f19a629aea90d0b166097e5c9"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-caller-selection-green.txt",
+      "sha256": "b9ebc78fa37225f116615bbb96bf7a99e6f16ab0c6256851b6c77708094a07f0"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-typecheck.txt",
+      "sha256": "cdd67205e4880aff5d4675c9d7a8548f7ef506ddf1b577f6fb76e6d81dee969e"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/manifest-red.txt",
+      "sha256": "b062a99d3f0721a0da6e9cd34fc0aa9676ee1451b3e888178a8631c94237c698"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/package-tests-second.txt",
+      "sha256": "adc0f27f9fb67df6069782c69f3c2fd3f454e68a196443c7211eebaf9d3f5ca2"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/package-tests.txt",
+      "sha256": "9f2d350e723fecd66fc676980ec41bb87076c8600cd2130c0d938e1048c7b915"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/targeted-green.txt",
+      "sha256": "cebfb4d7c74d00c4a4616c108aeed472dc35069d865a2b4f4290018f6d4a2de9"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/typecheck.txt",
+      "sha256": "03c05a441190e7601c9905e681e93f80f63c0fc548b759273421a9f705c0c7b2"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/game/src/core/script-corrections.raw.test.ts",
+      "sha256": "6a5f2e8c1fc80d627869b78f2cd7e6b0d5cd3ae562c22fabd0c2713a788be9a2"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/cli-script-corrections.raw.test.ts",
+      "sha256": "4e7a9399b50fd1771ec219f25d671018b406d02467f89067227f97db474573fc"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/events/script-corrections.raw.test.ts",
+      "sha256": "2bfdd73f2ba35ccd2f1d1dfe95fd4645d1f76924c7db37dc0220c6a166b259a8"
+    },
+    {
+      "worktree": "script-extract-fixes",
+      "path": "packages/pal-extract/src/events/script-corrections.ts",
+      "sha256": "90a4556e4f4d5ddf38784d08a22bf863374ce6606119a490a17a77d5d1dba970"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "23cfabd1cef51236becebc4cb3795d3a1a78e72558484e99d2be85c670d94623"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts",
+      "sha256": "8b05fcb08da6d2d37ab22d82339014d65df872ea0de1e7c8d5fbb82fe5ea49d1"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "7e2753f7ebdf9972d86f50de3f0da714711652185dd901cf920a95d4435bb32a"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "3c1f018c397303fedbc45633468d53d719e65e192b78bd47f302ca2599bd6a19"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "sha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/battle/actions/throw-item.ts",
+      "sha256": "ea6ce09bf4d63fe39fa721ec3ddd4f43c44b81df034dd6a70b5562af8efb53a6"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/event-system.glm-event-k06.test.ts",
+      "sha256": "821a593c20bd47118c177e90f03161e39f4c156a74d7f3338ef38841068bb436"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "19d3f1b6c9a64ca18fdaccc47d44a2bd124df479ccf6b65aca4199a35f7ca70d"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "80d2e038c3a27290a8dad0426b96cf5c2c3ab67c37e611d9acc6687ea751b75f"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/game-state.test.ts",
+      "sha256": "a1743e390379367926e23c015ec4b3de3b021fbbd510c2db62662d775595f089"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "391694cefcd1de1f816d177b13e2e035290e62b5f0ed90c3b70a9f519571e03d"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "sha256": "320d06326b087a178a995150f3b1c76004e20c09bfecb1feaf1b72d7f67d0434"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "d909b4b5b99293d88a0d85e41cf77c4283868780ea69c34e5823b28db8c1119e"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/save/v1-world.ts",
+      "sha256": "ec7843cbb0e9acd528040bbd94f9941b4f8db0d38e1b2f4da67f5d1f3b9613c0"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "4c0d694485cbf0c2f9da4ce7d21f87c1b90202b13d73282c2a17656aa5e2640a"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "569d5f8171f8316b0d78a6d92dbc1c42ba1f078758d5e48a49c8eeb76d256ad8"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "988629e03895443fdd49964924f23d1d43cdab7d930a7348f1629553ce000b7f"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/battle/__tests__/object-script-progress.test.ts",
+      "sha256": "5d71849943de52ee70fde458c0c34d400eae64d70961f7e21a8ed3120d1d92b9"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/object-script-progress.test.ts",
+      "sha256": "d718382d00e9263408fcfca1f44d5a600d94df9f798d74cbb44fae194759e74b"
+    },
+    {
+      "worktree": "script-runtime-fixes",
+      "path": "packages/game/src/core/object-script-state.ts",
+      "sha256": "aa7c111f0b5da4f57b88b1377b8cd5d715303cf48faea42537e0e794d9a635c2"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/pal-gov3-content-world-recovery.test.ts",
+      "sha256": "7ff7c830e4b13e0435f5e232ce1acf7a929501b5ede38846b6e9a8a050a72e28"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/pal-unified-steps-content.test.ts",
+      "sha256": "a9cda09aba70eacff7ccecefd0a1ea93c3981de8a94f7658dd1d38ef3151b09c"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/items.json",
+      "sha256": "169aea997e38278426095db6a55c9ad74c6b9b2b7c7348f9d08d846a31e4bddc"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s077.json",
+      "sha256": "044c11d7ebf018384e4fff2671e77e0390fe13f52c16048e0e13b5e868f2f943"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s081.json",
+      "sha256": "a6872c36fbdb94ad0a6ecdf2e992f6454a10493d8757df38f9528128561a691b"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s102.json",
+      "sha256": "ab1b37bf78ce759607d66912e15f23c3c19d415274f7441eb3971393af134522"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s172.json",
+      "sha256": "1efaf54fa5b9573d88acafef832aad2d699d1c2f3f09bcaae5e7ab726e6e9cbe"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s182.json",
+      "sha256": "71e4655626de09385623c37ad4f717be0adcaf9bf97fecffd6069b50278a72e8"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s225.json",
+      "sha256": "e784c101ead234935d75dd07207ab5fc8bacb4cc34735d2dfc89434bb04eb0b6"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s226.json",
+      "sha256": "a6886f58290d1e898ce53abf29019d4befbcea0e95f848ab6cf2f6c1290245d3"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s249.json",
+      "sha256": "80991553a96920a0516dab4888082428fca57fe5962247cd1e431cb6bef8259b"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s260.json",
+      "sha256": "e665d9244950eadaee63427d908fe98ecd311ac96cb0fbae6cae9a804f114fa6"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s278.json",
+      "sha256": "4b02fef39cc1db6deae71e09e483f9afaaca5e50c8a51c861065f265c9c885a1"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s285.json",
+      "sha256": "e4f9ce0347c15ce6995ae160c071c3308c845e6f4da49db882f479375128ed3b"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/scenes/s286.json",
+      "sha256": "4dae4de0f504304939cd4bdad23f0741068ac7f9bcef0d65cc60963a9038129e"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "projects/pal/content/skills.json",
+      "sha256": "11798f862b16025f7efd2bad4bf6348281836b16d0747e366386468dc8857598"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-boss-red.txt",
+      "sha256": "9fcdd818d5051f857c1ff7a6f7237cdcfd60be8fe443632031f5a001d69c3513"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-content-check.txt",
+      "sha256": "976e05934b5c6370c61b3c69eba5b1bab3d9997a3bd9f70e7889a9f16581df38"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-court-red.txt",
+      "sha256": "94b508d7f66e7467aabe6e1957cf1f2b89694f29f0378752ec3cfe6261dadf42"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-court-trial-oracle-calibration.txt",
+      "sha256": "0079673c4743a0e046949d6e41b95ad645bfb14d40c746c41a9d3ce8fd37fd84"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-cure-fixture-calibration.txt",
+      "sha256": "b4e3ebb43360f14b066e49c5b8ee71927b7d4c8643e6791f7c64622fa5530583"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-cure-red.txt",
+      "sha256": "1dbfcf96625e4b29149df1eea8ea4cb9712a8d93d898db0b3aa1c7aff23e0f44"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-format.txt",
+      "sha256": "f9f980f85dfcda4586b711efe9ba0a89b8f1bbc013596cd15e93d1f25e808c76"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-initial-green.txt",
+      "sha256": "5334a5ceff1da9cce5d12fc0249d340007ca24fc3a4b6f115ad641602dc8ba2f"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-palace-green.txt",
+      "sha256": "3de39e6a743eacc058dbee2cd57fdaeafd09c6bb39fbeb62e06790565235d35b"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-palace-red.txt",
+      "sha256": "e7b88b53256f6a7fa9dfed14a46f08ea8b0bd66de6fdaf2abfc600c792bffa06"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-preservation-green.txt",
+      "sha256": "6d1900bef09838cde173aea95a5c90c725a7248c7c1bedb6c1a44f05d59a60b4"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-regression.txt",
+      "sha256": "be0652175d99132d23a87a5067a93988c302ce441159433067d7a27c4b0f7fc2"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-story-fixture-calibration.txt",
+      "sha256": "33e408eab601f014caf7975339b569ac5b6dd53dcf14af95a14b5731264abdac"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-story-red.txt",
+      "sha256": "192340b0c571c361bf0fbe74b6a9b831cc73a65c0ca3c7fc8497f97206dacabc"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-targeted-green.txt",
+      "sha256": "2f50d2fb411aa7762d47b654ba00ce11b348df151b31317e61058868400e057b"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-trial-red.txt",
+      "sha256": "ee4fd9ba2a28e0f2f5c9dc6c1e77d537d1ff68bf21218f8ea4ae13b411d3b1c0"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-typecheck-initial.txt",
+      "sha256": "78678614340c79332075a5b14c9eff4cb58b7e0e7235044bfd67dc4941b6dc12"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-typecheck.txt",
+      "sha256": "78678614340c79332075a5b14c9eff4cb58b7e0e7235044bfd67dc4941b6dc12"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/__tests__/pal-corrections-harness.ts",
+      "sha256": "4db536e7735041d9791ffc1642b0796ec71faba54f2ad465ae7ca36b2e159e3f"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+      "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/pal-court-corrections.test.ts",
+      "sha256": "ee7910d77e5a2d56280c525a53f12b35ca7b2cc20b04999589b805adf9b7d0df"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/pal-palace-corrections.test.ts",
+      "sha256": "fb7150b18b0269580839913c0317f826acc0fdf18bcf38b5eee8727b245e5fd1"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/pal-story-corrections.test.ts",
+      "sha256": "8628bbf7c7dd9bd935a3e2d38b50eae5405eb8c2ec47b29b842158bdec476361"
+    },
+    {
+      "worktree": "script-author-fixes",
+      "path": "packages/reforge/src/pal-trial-portals-corrections.test.ts",
+      "sha256": "93480181f7bfeba2c1a45dac1c0a978b3a0f1a1951e31936d657e5c105af3a99"
+    }
+  ],
+  "packagedNativeLogs": [
+    {
+      "producerPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/blade.red.json",
+      "preservedAt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/blade.red.json.stdout.txt"
+    },
+    {
+      "producerPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.json",
+      "preservedAt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.json.stdout.txt"
+    },
+    {
+      "producerPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cure.red.json",
+      "preservedAt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cure.red.json.stdout.txt"
+    }
+  ]
+}

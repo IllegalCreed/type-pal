@@ -502,6 +502,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持](GAME-MOBILE-LAYOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧](GAME-PRE94-MENU-PIXEL-PARITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对](GAME-SCRIPT-CORRECTIONS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）

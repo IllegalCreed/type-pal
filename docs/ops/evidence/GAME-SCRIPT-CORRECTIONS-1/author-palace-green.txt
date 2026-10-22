@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ✓ src/pal-palace-corrections.test.ts (6 tests) 6ms
+ ✓ src/pal-story-corrections.test.ts (7 tests) 13ms
+ ✓ src/pal-unified-steps-content.test.ts (5414 tests) 2756ms
+
+ Test Files  3 passed (3)
+      Tests  5427 passed (5427)
+   Start at  15:58:11
+   Duration  6.25s (transform 4.41s, setup 0ms, import 7.32s, tests 2.78s, environment 0ms)
+

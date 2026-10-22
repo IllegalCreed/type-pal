@@ -156,6 +156,7 @@ export const eventCursor = object<EventCursor>({
   reloadSlotAfterFade: argument,
   currentEventObjectId: argument,
   triggerOwnerId: argument,
+  itemScript: optional(object({ objectId: number, entry: number })),
   startedExecution: optional(boolean),
   waitGestureReset: optional(boolean),
   callStack: optional(callStack),

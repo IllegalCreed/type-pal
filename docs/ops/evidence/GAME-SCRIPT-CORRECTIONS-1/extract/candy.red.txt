@@ -1,0 +1,43 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/game
+
+ ❯ src/core/script-corrections.raw.test.ts (7 tests | 1 failed | 6 skipped) 35ms
+   × candy purchase 'Cancel' with 100 cash pays only for a received candy 35ms
+   ↓ candy purchase 'Confirm' with 100 cash pays only for a received candy
+   ↓ candy purchase 'Confirm' with 19 cash pays only for a received candy
+   ↓ real cure 307 clears silence and debuffs while preserving positive statuses
+   ↓ real cure 308 clears silence and debuffs while preserving positive statuses
+   ↓ real cure 65 clears silence and debuffs while preserving positive statuses
+   ↓ replacing and removing the dark blade clears its luck without overwriting the equipped sachet
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  15:56:52
+   Duration  772ms (transform 185ms, setup 16ms, import 225ms, tests 35ms, environment 425ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.json
+undefined
+/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-corrections.raw.test.ts -t candy purchase 'Cancel' --reporter=default --reporter=json --outputFile=/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-corrections.raw.test.ts > candy purchase 'Cancel' with 100 cash pays only for a received candy
+AssertionError: expected 80 to be 100 // Object.is equality
+
+- Expected
++ Received
+
+- 100
++ 80
+
+ ❯ src/core/script-corrections.raw.test.ts:72:21
+     70|   expect(gs.mode).toBe('explore')
+     71|   expect(decisions).toBe(1)
+     72|   expect(gs.dwCash).toBe(expectedCash)
+       |                     ^
+     73|   expect(gs.inventory.filter((item) => item.itemId === 80)).toEqual(
+     74|     count ? [{ itemId: 80, count }] : [],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/game/src/core/script-catalog.ts",
-      "lines": "33-40",
-      "anchor": "export function patchGiveItemZeroBugs",
+      "lines": "17",
+      "anchor": "export function setGlobalEvents",
       "role": "owner",
-      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+      "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
     },
     {
       "path": "packages/game/src/core/inventory-state.ts",
@@ -53,10 +53,10 @@
     },
     {
       "path": "packages/game/src/core/dependency-ownership.test.ts",
-      "lines": "26-45",
+      "lines": "26",
       "anchor": "describe('D1 shared-state ownership",
       "role": "oracle",
-      "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9"
+      "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a"
     },
     {
       "path": "packages/game/src/core/cross-module-boundaries.test.ts",
@@ -103,13 +103,13 @@
       "id": "phase1-dependency-ownership-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/game/src/core/script-catalog.ts:33-40",
+        "packages/game/src/core/script-catalog.ts:17",
         "packages/game/src/core/inventory-state.ts:10-23",
         "packages/game/src/core/equipment-state.ts:6-13",
         "packages/game/src/core/player-poison-state.ts:12-19",
         "packages/game/src/core/scene-identity.ts:6-13",
         "packages/game/src/core/menu/menu-stack.ts:12-19",
-        "packages/game/src/core/dependency-ownership.test.ts:26-45",
+        "packages/game/src/core/dependency-ownership.test.ts:26",
         "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
         "packages/content/src/character.ts:168-170"
       ]
@@ -184,6 +184,28 @@
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
+    },
+    {
+      "date": "2026-10-22",
+      "action": "script-correction-ownership-delta",
+      "scope": "Treasure repair moved from runtime catalog into versioned extraction. setGlobalEvents now publishes the supplied corrected array without mutating operands. Finite catalog ownership test updated; historical D1 SCC/token/browser results are not rerun or promoted.",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/script-catalog.ts",
+          "lines": "33-40",
+          "anchor": "export function patchGiveItemZeroBugs",
+          "role": "owner",
+          "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+        },
+        {
+          "path": "packages/game/src/core/dependency-ownership.test.ts",
+          "lines": "26-45",
+          "anchor": "describe('D1 shared-state ownership",
+          "role": "oracle",
+          "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9"
+        }
+      ],
+      "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
     }
   ],
   "_governance": {

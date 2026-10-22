@@ -1,0 +1,16 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
+
+ ✓ src/cli-entrypoint-paths.test.ts (6 tests) 3434ms
+   ✓ video entrypoint refuses shared data before invoking ffmpeg or changing its target  423ms
+   ✓ video entrypoint refuses shared extracted before invoking ffmpeg or changing its target  375ms
+   ✓ owned video output accepts read-only raw links, writes six outputs and then skips them  1014ms
+   ✓ absolute CLI entrypoint through a directory link executes main instead of silently exiting zero  536ms
+   ✓ importing CLI from a different real entrypoint stays side-effect free  539ms
+   ✓ default prepareOutputRoot checks the imported CLI tree, independently of process cwd  546ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  17:16:14
+   Duration  3.54s (transform 25ms, setup 0ms, import 33ms, tests 3.43s, environment 0ms)
+

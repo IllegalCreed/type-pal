@@ -1026,14 +1026,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only owned current battle-quality window row and exact descendant binding; original unrelated review reused",
+      "readMethod": "Read exact task acceptance and generated navigation delta; existing product evidence and unrelated review records retained.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+      "coreConclusion": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
       ],
-      "nextStep": "Software merged and issue closed; physical hardware and deployment remain separate.",
+      "nextStep": "This task is accepted with an explicit user waiver; no measured story/visual/preview pass is added.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261004-semantic-current-batch.json machine artifact",
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "8be5064e0a2d5fc55bf448e7aa2528bc1bdbc45b57e4e07a8aea05945bd4ce06",
+      "afterSha256": "58566f82c2e70037012561c3eb8f1040ed1dee92663c830a583687210a28d603",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1073,7 +1073,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "8be5064e0a2d5fc55bf448e7aa2528bc1bdbc45b57e4e07a8aea05945bd4ce06",
+        "implementationSha": "58566f82c2e70037012561c3eb8f1040ed1dee92663c830a583687210a28d603",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1728,16 +1728,34 @@
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "9924cff8fcca9e36290eec35640cabd6959c3cbe0bb84c377550443c8f87766e",
+            "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
+          },
+          {
+            "date": "2026-10-22",
+            "action": "final-correction-task-writeback",
+            "previousAfterSha256": "5ac05d7dd3ca9e2e9f2b277be905c7be876e1d6bcb50d2cd1833ca98799b33dd",
+            "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
           }
         ]
       },
       "evidence": {
-        "kind": "codex-owned-battle-quality-window-delta",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+        "kind": "script-corrections-scoped-control-artifact-review",
+        "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "8be5064e0a2d5fc55bf448e7aa2528bc1bdbc45b57e4e07a8aea05945bd4ce06",
-        "lineCount": 4139,
+        "afterSha256": "9924cff8fcca9e36290eec35640cabd6959c3cbe0bb84c377550443c8f87766e",
+        "lineCount": 4163,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1750,6 +1768,15 @@
         "nativeShape": {
           "format": "json",
           "byteStable": true
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "afterSha256": "58566f82c2e70037012561c3eb8f1040ed1dee92663c830a583687210a28d603",
+          "lineCount": 4330,
+          "scope": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -2467,14 +2494,89 @@
           "afterSha256": "8be5064e0a2d5fc55bf448e7aa2528bc1bdbc45b57e4e07a8aea05945bd4ce06",
           "scope": "Only named owned current rows/fingerprints; all unrelated entry values and original provenance retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Review only correction-audit board/index records in the bound control artifact",
+          "previousAfterSha256": "8be5064e0a2d5fc55bf448e7aa2528bc1bdbc45b57e4e07a8aea05945bd4ce06",
+          "previousCoreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
+          "previousEvidence": {
+            "kind": "codex-owned-battle-quality-window-delta",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+            "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+            "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+            "afterSha256": "8be5064e0a2d5fc55bf448e7aa2528bc1bdbc45b57e4e07a8aea05945bd4ce06",
+            "lineCount": 4139,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable phase-governance artifact",
+              "sourceBytes": 110121,
+              "sourceLines": 1987,
+              "sourceFinalNewline": true,
+              "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "byteStable": true
+            }
+          },
+          "scope": "Read actual diff: only board and generated-index records, preserving all unrelated entries and original history. No product or broad governance reacceptance.",
+          "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "9924cff8fcca9e36290eec35640cabd6959c3cbe0bb84c377550443c8f87766e",
+          "previousCoreConclusion": "Only the GAME-SCRIPT-CORRECTIONS-1 draft navigation delta and corresponding board/index review metadata changed; all unrelated entries and historical source records remain unchanged.",
+          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence retains historical artifact envelope; currentMaintenance records only the current scoped delta."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "final-correction-task-writeback",
+          "previousAfterSha256": "5ac05d7dd3ca9e2e9f2b277be905c7be876e1d6bcb50d2cd1833ca98799b33dd",
+          "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "98defccb7efe30e0b4315c8dd88ca16f74158396c5776353f99c616bfd9a6ef4",
+          "previousCoreConclusion": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "scope": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "ad37d1a685be706c06de4e2b570a9ac41cfa362f8b2d500680f334969c29fd2e",
+          "previousCoreConclusion": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
+          "scope": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
         }
       ],
       "supersedes": [
         "governed-legacy phase-governance presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Only battle-quality current board row, explicit related ledger rows/counts or exact named child binding; no global reacceptance",
+      "reviewedLines": "Only entries for docs/ops/board.md and docs/ops/tasks/index.md plus their appended current-delta history.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2510,12 +2612,31 @@
       ],
       "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.",
       "maintenanceReview": {
-        "reviewer": "Codex",
         "date": "2026-10-22",
-        "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
-        "afterSha256": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "scope": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
-        "limits": "Original preservation envelope remains historical and unchanged; this maintenance delta makes no new byte-stable migration claim."
+        "reviewer": "Codex",
+        "scope": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true,
+        "finalWriteback": {
+          "date": "2026-10-22",
+          "action": "final-correction-task-writeback",
+          "previousAfterSha256": "5ac05d7dd3ca9e2e9f2b277be905c7be876e1d6bcb50d2cd1833ca98799b33dd",
+          "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+        },
+        "userAcceptance": {
+          "date": "2026-10-22",
+          "action": "user-acceptance-with-explicit-story-preview-waiver",
+          "previousAfterSha256": "ad37d1a685be706c06de4e2b570a9ac41cfa362f8b2d500680f334969c29fd2e",
+          "previousCoreConclusion": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
+          "scope": "Scoped incoming binding for the two navigation entries reflecting explicit user acceptance and unexecuted story/preview waiver. Original artifact envelope and unrelated records preserved; no new runtime, visual or coverage credit.",
+          "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+          "notRun": [
+            "complete story E2E",
+            "frame-by-frame visual comparison",
+            "editor preview initial-state verification"
+          ]
+        }
       }
     },
     {
@@ -3937,9 +4058,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
       "truthAnchors": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -3960,7 +4081,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "52aeeb6baac1fad89e87e6e5bb2ff7423695334857b4e147c071b79caddfa99d",
+      "afterSha256": "53caa633d9bd31c835d0fc039c1055c8cb1e1fe3fe1b9d2619007b7e8cee7b41",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3984,7 +4105,7 @@
       },
       "revision": {
         "currentSha": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "implementationSha": "52aeeb6baac1fad89e87e6e5bb2ff7423695334857b4e147c071b79caddfa99d",
+        "implementationSha": "53caa633d9bd31c835d0fc039c1055c8cb1e1fe3fe1b9d2619007b7e8cee7b41",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -4016,6 +4137,18 @@
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "52aeeb6baac1fad89e87e6e5bb2ff7423695334857b4e147c071b79caddfa99d",
+            "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -4038,6 +4171,15 @@
         "nativeShape": {
           "format": "json",
           "byteStable": true
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "53caa633d9bd31c835d0fc039c1055c8cb1e1fe3fe1b9d2619007b7e8cee7b41",
+          "lineCount": 3449,
+          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -4097,12 +4239,26 @@
           "afterSha256": "52aeeb6baac1fad89e87e6e5bb2ff7423695334857b4e147c071b79caddfa99d",
           "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "52aeeb6baac1fad89e87e6e5bb2ff7423695334857b4e147c071b79caddfa99d",
+          "previousCoreConclusion": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence retains historical artifact envelope; currentMaintenance records only the current scoped delta."
         }
       ],
       "supersedes": [
         "governed-legacy phase-governance presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
       "reviewedLines": "1-3317",
       "templateVersion": "1.0.0",
@@ -4138,7 +4294,15 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
@@ -4288,9 +4452,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json:1"
       ],
@@ -4313,7 +4477,7 @@
         }
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "c9dabd17ba09bd5be51f6d3b31749bf23cc92907af67171fc15a9d41520db223",
+      "afterSha256": "ad2302594538cd8716a62e3861d80c9d378aa1308e5d1534a48475dff5e6eeab",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4337,7 +4501,7 @@
       },
       "revision": {
         "currentSha": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "implementationSha": "c9dabd17ba09bd5be51f6d3b31749bf23cc92907af67171fc15a9d41520db223",
+        "implementationSha": "ad2302594538cd8716a62e3861d80c9d378aa1308e5d1534a48475dff5e6eeab",
         "history": [
           {
             "revision": "577e531ccd991707ef73a56426d46e915220fec6",
@@ -4400,6 +4564,18 @@
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "c9dabd17ba09bd5be51f6d3b31749bf23cc92907af67171fc15a9d41520db223",
+            "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -4422,6 +4598,15 @@
         "nativeShape": {
           "format": "json",
           "byteStable": true
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "ad2302594538cd8716a62e3861d80c9d378aa1308e5d1534a48475dff5e6eeab",
+          "lineCount": 8049,
+          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -4521,12 +4706,26 @@
           "afterSha256": "c9dabd17ba09bd5be51f6d3b31749bf23cc92907af67171fc15a9d41520db223",
           "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "c9dabd17ba09bd5be51f6d3b31749bf23cc92907af67171fc15a9d41520db223",
+          "previousCoreConclusion": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence retains historical artifact envelope; currentMaintenance records only the current scoped delta."
         }
       ],
       "supersedes": [
         "governed-legacy phase-governance presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
       "reviewedLines": "1-7969",
       "templateVersion": "1.0.0",
@@ -4562,7 +4761,15 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
@@ -10135,9 +10342,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261016-testing-index-navigation.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-testing-index-navigation.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -10158,7 +10365,7 @@
         }
       ],
       "sourceSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
-      "afterSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
+      "afterSha256": "07506fbd67760dc3eb0e28a758aa77beca644b7fb566c105ff8c12e674a6f93b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10182,13 +10389,25 @@
       },
       "revision": {
         "currentSha": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
-        "implementationSha": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
+        "implementationSha": "07506fbd67760dc3eb0e28a758aa77beca644b7fb566c105ff8c12e674a6f93b",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
+            "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
@@ -10211,6 +10430,15 @@
         "nativeShape": {
           "format": "json",
           "byteStable": true
+        },
+        "currentMaintenance": {
+          "kind": "script-corrections-scoped-document-maintenance",
+          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "afterSha256": "07506fbd67760dc3eb0e28a758aa77beca644b7fb566c105ff8c12e674a6f93b",
+          "lineCount": 12028,
+          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "workingTreeDelta": true
         }
       },
       "history": [
@@ -10225,12 +10453,26 @@
           "action": "R93 phase-governance artifact migration",
           "reviewer": "r93_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
+          "previousCoreConclusion": "docs/phase-governance/reviews/20261016-testing-index-navigation.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ],
+          "previousEvidencePreservedAt": "evidence retains historical artifact envelope; currentMaintenance records only the current scoped delta."
         }
       ],
       "supersedes": [
         "governed-legacy phase-governance presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
       "reviewedLines": "1-11727",
       "templateVersion": "1.0.0",
@@ -10265,7 +10507,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261016-testing-lab-history.json",

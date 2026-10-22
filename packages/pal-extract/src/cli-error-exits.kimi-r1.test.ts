@@ -84,7 +84,7 @@ test('KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 �
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(2)
   expect(result.stderr).toContain('[pal-extract] ROUND-TRIP FAILED — events 不忠实')
   expect(result.stdout).not.toContain('[pal-extract] events round-trip OK')
@@ -94,7 +94,7 @@ test('KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 �
 
 test('KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1', async () => {
   const tree = makeTree({ 'SSS.MKF': buildSss(new Uint8Array(8)), 'WORD.DAT': buildWordDat() })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('ENOENT')
   expect(result.stderr).toContain('M.MSG')
@@ -105,7 +105,7 @@ test('KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1', async () => {
     'SSS.MKF': buildSss(new Uint8Array(8)),
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('ENOENT')
   expect(result.stderr).toContain('WORD.DAT')
@@ -117,7 +117,7 @@ test('KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1', async (
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('MKF: buffer too small for header')
 })
@@ -128,21 +128,21 @@ test('KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1'
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('MKF: first offset 6 not multiple of 4')
 })
 
-test('KIMI-R1 CLI：输出目录覆盖策略——陈旧产物清除、videos/ PRESERVE 保留', async () => {
-  const tree = makeTree({}) // 无 SSS.MKF：清理在加载输入之前执行
+test('KIMI-R1 CLI：输入预检失败保留既有产物与 videos', async () => {
+  const tree = makeTree({}) // 无 SSS.MKF：输入预检失败不得清理旧输出
   const extracted = join(tree, 'data', 'extracted')
   mkdirSync(join(extracted, 'videos'), { recursive: true })
   writeFileSync(join(extracted, 'stale-events.json'), '{}')
   writeFileSync(join(extracted, 'videos', '1.mp4'), 'KEEP')
-  const result = await runCli(tree)
-  expect(result.exitCode).toBe(1) // 随后加载 SSS.MKF 才失败
+  const result = await runCli(tree, ['--faithful'])
+  expect(result.exitCode).toBe(1) // 在加载 SSS.MKF 时失败
   expect(result.stderr).toContain('SSS.MKF')
-  expect(existsSync(join(extracted, 'stale-events.json'))).toBe(false) // 陈旧产物被清
+  expect(readFileSync(join(extracted, 'stale-events.json'), 'utf8')).toBe('{}')
   expect(readFileSync(join(extracted, 'videos', '1.mp4'), 'utf8')).toBe('KEEP') // PRESERVE
 })
 
@@ -164,7 +164,7 @@ test('KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目�
   rmSync(extracted, { recursive: true, force: true })
   symlinkSync(sharedOut, extracted, 'dir')
 
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(existsSync(join(sharedOut, 'owned-by-other-tree'))).toBe(true)
   expect(readFileSync(join(sharedOut, 'owned-by-other-tree'), 'utf8')).toBe('KEEP')
@@ -180,7 +180,7 @@ test('KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保�
   rmSync(data, { recursive: true, force: true })
   symlinkSync(sharedData, data, 'dir')
 
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(existsSync(join(sharedData, 'extracted', 'owned-by-other-tree'))).toBe(true)
   expect(readFileSync(join(sharedData, 'extracted', 'owned-by-other-tree'), 'utf8')).toBe('KEEP')

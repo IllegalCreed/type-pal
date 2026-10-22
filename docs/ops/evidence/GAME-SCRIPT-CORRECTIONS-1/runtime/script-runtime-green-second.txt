@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+
+ ✓ src/core/menu/magic-script.test.ts (31 tests) 17ms
+ ✓ src/core/event-system.glm-event-k06.test.ts (6 tests) 9ms
+ ✓ src/core/equip-effect.test.ts (36 tests) 11ms
+ ✓ src/core/battle/__tests__/magic-inline-damage.test.ts (33 tests) 13ms
+ ✓ src/core/battle/__tests__/actions.test.ts (89 tests) 29ms
+ ✓ src/core/battle/__tests__/object-script-progress.test.ts (3 tests) 14ms
+
+ Test Files  6 passed (6)
+      Tests  198 passed (198)
+   Start at  15:53:09
+   Duration  1.56s (transform 1.85s, setup 157ms, import 2.29s, tests 93ms, environment 5.22s)
+

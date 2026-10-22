@@ -1,0 +1,34 @@
+{
+  "kind": "approved-corpus-reference-census-update",
+  "date": "2026-10-22",
+  "file": "packages/editor/src/core/project-reference.pal.test.ts",
+  "sha256": "bc3ea898b34209830400d13a81e6698f2572785b01e8719516902d75c9f38664",
+  "beforeSha256": "5a49917232cf8420e54b20a403667bb94eaa7a3b3753e20310efceb3ae3ef861",
+  "deltas": {
+    "entityAddresses": [22660, 22668],
+    "deletionBlockers": [4368, 4376],
+    "loadSceneEntryEdges": [795, 796],
+    "enemyTeamUses": [1002, 1001],
+    "worldSpriteEdges": [3835, 3834],
+    "assetUses": [5969, 5968],
+    "worldSpriteIndexReferences": [4235, 4234],
+    "behaviorReferences": [4451, 4452],
+    "workerRows": [25215, 25222],
+    "workerTargetEdgeIds": [28121, 28134]
+  },
+  "primaryChanges": [
+    "s172/e2862 trigger adds seven explicit cleanup targets in s215; newly pinned stable target IDs3657..3663.",
+    "s182 onEnter entry preparation adds one explicit reveal target for e2984, independently pinned.",
+    "s286/e4841 becomes a portal instead of an ordinary enemy; scene entry/behavior references replace its enemy-team/world-sprite/asset references."
+  ],
+  "oracle": "Existing independent direct collectors/index deletion-blocker equality, exact other scene/shop/asset/owner facts, worker round-trip and payload compactness remain asserted. Only the ten current corpus census values change; two stable source/target dependency assertions added.",
+  "diagnostic": "Temporary soft assertions enumerated all stale census values, still exiting1. They are absent from the final file. First new dependency selector used scene instead of scene-entity for e2862; that calibration failure is preserved, not claimed as original business red.",
+  "result": "Focused normal-assertion case passed;630 other editor files passed in the full execution. No editor production source changes.",
+  "logs": [
+    "workspace-check-tail.txt",
+    "editor-reference-count-diagnostic.txt",
+    "editor-reference-owner-calibration.txt",
+    "editor-reference-current.txt"
+  ],
+  "coverageScope": "This existing PAL-only file is outside the unchanged fast selection; production files, fast identities, config and thresholds remain unchanged after protected-fast execution."
+}

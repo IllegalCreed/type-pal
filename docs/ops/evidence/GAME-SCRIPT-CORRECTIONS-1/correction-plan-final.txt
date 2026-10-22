@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
+
+ ✓ src/events/disasm.kimi-r1.test.ts (5 tests) 3ms
+ ✓ src/events/script-corrections.test.ts (9 tests) 8ms
+ ✓ src/events/disasm.test.ts (14 tests) 5ms
+ ✓ src/events/script-corrections.pal.test.ts (4 tests) 1550ms
+   ✓ supported source corrections preserve raw input and change only reviewed instructions  1014ms
+   ✓ unknown source fingerprint and drifted old instruction fail closed without changing source  503ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  16:55:51
+   Duration  1.76s (transform 213ms, setup 0ms, import 317ms, tests 1.57s, environment 0ms)
+

@@ -63,6 +63,7 @@ import {
 import type { DialogBoxState, EventCursor, GameState, NpcState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { addItemToInventory } from './inventory-state.js'
+import { getItemObjectState, getItemScriptEntry } from './object-script-state.js'
 import {
   blackColors,
   buildColorFade,
@@ -124,7 +125,6 @@ export {
   getCmds,
   getGlobalCommands,
   getGlobalLabelMap,
-  patchGiveItemZeroBugs,
   resolveScriptLabel,
   setGlobalEvents,
 } from './script-catalog.js'
@@ -1968,6 +1968,18 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
             //   回退到 triggerLabel 原点重播已推进过的 cutscene。
           }
         }
+        if (cursor.itemScript) {
+          // PAL_GameUseItem saves the returned entry even when the effect reports failure.
+          // Only a completed root script commits; cancellation/invalid branches leave the old entry armed.
+          const owner = cursor.itemScript
+          const nextEntry = cmd.advance
+            ? cursor.ip + 1
+            : cmd.reset && cmd.resetTo !== undefined
+              ? (getLabels(cursor)[`L_${cmd.resetTo}`] ?? owner.entry)
+              : owner.entry
+          const object = gs.rgObject[owner.objectId]
+          if (object) object.rgwData[2] = nextEntry
+        }
         gs.eventCursor = undefined
         clearDialogBoxes(gs)
         gs.currentDialogPortraitIcon = undefined
@@ -2204,6 +2216,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
             cursor.onEnterResumeIp = resumeIp
             gs.sceneOnEnterIp[cursor.onEnterSceneId] = resumeIp
           }
+          if (cursor.itemScript && !cursor.callStack?.length) cursor.itemScript.entry = resumeIp
           cursor.ip = resumeIp // 继续跑(本 tick 接下条 opcode)
           break
         }
@@ -3240,6 +3253,7 @@ function savePostBattleResume(
     onEnterSceneId: cursor.onEnterSceneId,
     onEnterStartIp: cursor.onEnterStartIp,
     onEnterResumeIp: cursor.onEnterResumeIp, // DL14:0x08 checkpoint 跨战斗保留(1000981 姊妹)
+    itemScript: cursor.itemScript,
     callStack: cursor.callStack,
   }
 }
@@ -3283,11 +3297,11 @@ function signExtendI16(u: number): number {
  */
 export function startOverworldItemScript(
   gs: GameState,
-  itemId: number,
-  scriptOnUse: number,
+  item: Item,
   targetRoleIdOrAll: number | 0xffff,
-  consuming: boolean,
 ): boolean {
+  const itemId = item.id
+  const scriptOnUse = getItemScriptEntry(gs, item, 'scriptOnUse')
   if (scriptOnUse === 0) {
     console.warn(`[item-use] scriptOnUse=0 for itemId=${itemId},不可用`)
     return false
@@ -3303,12 +3317,14 @@ export function startOverworldItemScript(
   // 我们 tick 模型脚本跨多帧 → 延迟消耗:重置 fScriptSuccess=TRUE(对齐 PAL_RunTriggerScript 入口
   // script.c:3187),记 pendingItemConsume,脚本 cursor 结束时 consumePendingItem 按 fScriptSuccess gate 扣。
   gs.fScriptSuccess = true
-  gs.pendingItemConsume = consuming ? itemId : undefined
+  gs.pendingItemConsume = item.flags.consuming ? itemId : undefined
+  getItemObjectState(gs, item)
   // applyToAll 物品(targetRoleIdOrAll=0xFFFF):sdlpal play.c:305-322 用完 `return` 退出 PAL_GameUseItem
   // → 脚本结束关物品菜单回 explore(让脚本设的世界 trigger 触发,如桂花酒酒剑仙)。非 applyToAll 留菜单。
   gs.itemUseApplyToAll = targetRoleIdOrAll === 0xffff
   gs.eventCursor = {
     ip, // P2#5:全局 ip,默认读全局数组(不内嵌 commands/labelMap)
+    itemScript: { objectId: itemId, entry: ip },
     // sdlpal `script.c:3140 wEventObjectID` 参数 — items 上下文里是 wPlayer(0-based role id)或
     // 0xFFFF(applyToAll)。NPC trigger 用 1-based NPC id;opcode handler 自行按 op 区分语义。
     currentEventObjectId: targetRoleIdOrAll,
@@ -4322,7 +4338,7 @@ function applyRawOpcode(
     }
     case OP_JUMP_IF_NOT_EQUIPPED: {
       // sdlpal script.c:2522-2537:统计队伍装备 op0 件数 < op1 → jump op2
-      // sdlpal#324(未合并,2025-10):op1==0 时按 1 处理 —— 否则 `count < 0` 恒假、门禁永不触发。
+      // sdlpal#324(2026-07-22 已合并):op1==0 时按 1 处理 —— 否则 `count < 0` 恒假、门禁永不触发。
       //   原版 SSS.MKF 将军冢阴气屏障 @11986 = 0x86[274=玉佛珠, 0, →阴气推回] 正是 op1=0,
       //   致不佩戴玉佛珠也能破屏障进将军冢(原版/sdlpal 同此潜在 bug)。取 1 = "全队无人装备就拦"。
       const r = gs.PlayerRolesRuntime

@@ -1,0 +1,14 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+ ✓ src/pal-court-corrections.test.ts (6 tests) 13ms
+ ✓ src/pal-story-corrections.test.ts (8 tests) 13ms
+ ✓ src/pal-trial-portals-corrections.test.ts (3 tests) 6ms
+ ✓ src/pal-palace-corrections.test.ts (6 tests) 6ms
+ ✓ src/battle/pal-cure-status-corrections.test.ts (3 tests) 4ms
+
+ Test Files  5 passed (5)
+      Tests  26 passed (26)
+   Start at  16:41:29
+   Duration  4.12s (transform 4.34s, setup 0ms, import 7.69s, tests 42ms, environment 0ms)
+

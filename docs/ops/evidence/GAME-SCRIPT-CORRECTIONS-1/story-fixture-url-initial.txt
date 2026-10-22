@@ -1,0 +1,29 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ❯ src/core/script-story-corrections.raw.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-story-corrections.raw.test.ts [ src/core/script-story-corrections.raw.test.ts ]
+Error: ENOENT: no such file or directory, open '/Users/zhangxu/illegal/type-pal/packages/game/src/core/undefined'
+ ❯ readResource src/core/script-story-corrections.raw.test.ts:11:21
+      9|
+     10| function readResource<T>(path: string): T {
+     11|   return JSON.parse(readFileSync(new URL(`../../../../data/extracted/$…
+       |                     ^
+     12| }
+     13| const commands = readResource<{ segments: { commands: Command[] }[] }>…
+ ❯ src/core/script-story-corrections.raw.test.ts:13:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:58:23
+   Duration  1.17s (transform 280ms, setup 23ms, import 0ms, tests 0ms, environment 741ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-story-corrections.raw.test.ts --reporter=default

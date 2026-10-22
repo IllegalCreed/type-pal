@@ -1,0 +1,421 @@
+{
+  "version": "pal-win-1",
+  "sourceSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+  "instructionCount": 43503,
+  "rules": [
+    {
+      "id": "D01",
+      "reason": "Repair the corrupt Chinese farewell and remove its garbage line.",
+      "instructions": [
+        {
+          "ip": 3923,
+          "before": [65535, 1504, 0, 0],
+          "after": [0, 0, 0, 0]
+        }
+      ],
+      "messages": [
+        {
+          "index": 1503,
+          "before": "看错痢?",
+          "after": "看错了"
+        },
+        {
+          "index": 1504,
+          "before": "?",
+          "after": "?"
+        }
+      ]
+    },
+    {
+      "id": "D03",
+      "reason": "Complete the altar onEnter after the farewell.",
+      "instructions": [
+        {
+          "ip": 12910,
+          "before": [0, 0, 0, 0],
+          "after": [
+            3,
+            {
+              "block": "altarComplete"
+            },
+            0,
+            0
+          ]
+        }
+      ],
+      "appends": [
+        {
+          "id": "altarComplete",
+          "instructions": [[1, 0, 0, 0], [0, 0, 0, 0]]
+        }
+      ]
+    },
+    {
+      "id": "D06",
+      "reason": "Decide scholar farewell from his hiring state before hiding him.",
+      "instructions": [
+        {
+          "ip": 16390,
+          "before": [73, 1883, 0, 0],
+          "after": [3, 16391, 0, 0]
+        },
+        {
+          "ip": 16474,
+          "before": [0, 0, 0, 0],
+          "after": [
+            3,
+            {
+              "block": "scholarNotHired"
+            },
+            0,
+            0
+          ]
+        }
+      ],
+      "appends": [
+        {
+          "id": "scholarNotHired",
+          "instructions": [[73, 1883, 0, 0], [0, 0, 0, 0]]
+        }
+      ]
+    },
+    {
+      "id": "D07",
+      "reason": "Hide the cutscene Anu until her explicit entrance preparation.",
+      "instructions": [
+        {
+          "ip": 27448,
+          "before": [37, 2961, 25096, 0],
+          "after": [
+            3,
+            {
+              "block": "anuEntrance"
+            },
+            0,
+            0
+          ]
+        }
+      ],
+      "appends": [
+        {
+          "id": "anuEntrance",
+          "instructions": [[37, 2961, 25096, 0], [73, 2985, 1, 0], [3, 27449, 0, 0], [0, 0, 0, 0]]
+        }
+      ],
+      "objects": [
+        {
+          "id": 2984,
+          "before": {
+            "state": 1,
+            "spriteNum": 5
+          },
+          "after": {
+            "state": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "D08",
+      "reason": "Clear Gai Luojiao and retinue even when worms are collected early.",
+      "instructions": [
+        {
+          "ip": 28423,
+          "before": [32, 152, 36, 0],
+          "after": [
+            3,
+            {
+              "block": "wormHandover"
+            },
+            0,
+            0
+          ]
+        }
+      ],
+      "appends": [
+        {
+          "id": "wormHandover",
+          "instructions": [[32, 152, 36, 0], [154, 3658, 3664, 0], [3, 28424, 0, 0], [0, 0, 0, 0]]
+        }
+      ]
+    },
+    {
+      "id": "D02",
+      "reason": "Confirm the candy purchase before deducting twenty cash.",
+      "instructions": [
+        {
+          "ip": 7568,
+          "before": [30, 65516, 7573, 0],
+          "after": [10, 7566, 0, 0]
+        },
+        {
+          "ip": 7569,
+          "before": [10, 7566, 0, 0],
+          "after": [30, 65516, 7573, 0]
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "reason": "Separate the first interrogation from repeated denial dialogue.",
+      "instructions": [
+        {
+          "ip": 14461,
+          "before": [5, 0, 0, 0],
+          "after": [3, 14465, 0, 0]
+        },
+        {
+          "ip": 14486,
+          "before": [10, 14461, 0, 0],
+          "after": [
+            10,
+            {
+              "block": "deniedAgain"
+            },
+            0,
+            0
+          ]
+        }
+      ],
+      "appends": [
+        {
+          "id": "deniedAgain",
+          "instructions": [[5, 0, 0, 0], [3, 14462, 0, 0], [0, 0, 0, 0]]
+        }
+      ]
+    },
+    {
+      "id": "D09",
+      "reason": "Connect the trial-cave central island and its return route.",
+      "instructions": [
+        {
+          "ip": 30946,
+          "before": [89, 226, 0, 0],
+          "after": [89, 227, 0, 0]
+        },
+        {
+          "ip": 30947,
+          "before": [70, 43, 75, 1],
+          "after": [70, 34, 93, 1]
+        },
+        {
+          "ip": 30951,
+          "before": [70, 53, 71, 0],
+          "after": [70, 31, 88, 0]
+        },
+        {
+          "ip": 31046,
+          "before": [89, 226, 0, 0],
+          "after": [89, 227, 0, 0]
+        },
+        {
+          "ip": 31047,
+          "before": [70, 36, 56, 1],
+          "after": [70, 53, 71, 0]
+        }
+      ]
+    },
+    {
+      "id": "D10",
+      "reason": "Connect both palace eras; reuse one ordinary enemy event as the missing exit.",
+      "instructions": [
+        {
+          "ip": 34025,
+          "before": [70, 36, 65, 1],
+          "after": [70, 29, 51, 0]
+        },
+        {
+          "ip": 34029,
+          "before": [70, 36, 65, 1],
+          "after": [70, 43, 38, 1]
+        },
+        {
+          "ip": 35092,
+          "before": [70, 36, 65, 1],
+          "after": [70, 29, 51, 0]
+        }
+      ],
+      "appends": [
+        {
+          "id": "palaceExit",
+          "instructions": [[89, 286, 0, 0], [70, 43, 38, 1], [80, 0, 0, 0], [0, 0, 0, 0]]
+        }
+      ],
+      "objects": [
+        {
+          "id": 4841,
+          "before": {
+            "x": 1088,
+            "y": 464,
+            "triggerScript": 41999,
+            "autoScript": 41099,
+            "state": 2,
+            "spriteNum": 548,
+            "nSpriteFrames": 3,
+            "triggerMode": 5
+          },
+          "after": {
+            "x": 880,
+            "y": 840,
+            "triggerScript": {
+              "block": "palaceExit"
+            },
+            "autoScript": 0,
+            "state": 1,
+            "spriteNum": 0,
+            "nSpriteFrames": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "D11",
+      "reason": "Restore collision for Bai Yue after the impostor-king battle.",
+      "instructions": [
+        {
+          "ip": 35394,
+          "before": [73, 4799, 1, 0],
+          "after": [73, 4799, 2, 0]
+        }
+      ]
+    },
+    {
+      "id": "D12",
+      "reason": "Restore the whip, purple balm and corpse-meat chest rewards.",
+      "instructions": [
+        {
+          "ip": 36936,
+          "before": [31, 0, 0, 0],
+          "after": [31, 164, 0, 0]
+        },
+        {
+          "ip": 37482,
+          "before": [31, 0, 0, 0],
+          "after": [31, 103, 0, 0]
+        },
+        {
+          "ip": 37848,
+          "before": [31, 0, 0, 0],
+          "after": [31, 116, 0, 0]
+        }
+      ]
+    },
+    {
+      "id": "D13",
+      "reason": "The common cure chain removes silence instead of confused twice.",
+      "instructions": [
+        {
+          "ip": 39352,
+          "before": [47, 0, 0, 0],
+          "after": [47, 3, 0, 0]
+        }
+      ]
+    },
+    {
+      "id": "D14",
+      "reason": "Keep poison guards inside their own scripts instead of jumping to entry zero.",
+      "instructions": [
+        {
+          "ip": 39471,
+          "before": [94, 558, 0, 0],
+          "after": [94, 558, 39473, 0]
+        },
+        {
+          "ip": 39476,
+          "before": [94, 560, 0, 0],
+          "after": [94, 560, 39478, 0]
+        },
+        {
+          "ip": 39481,
+          "before": [94, 555, 0, 0],
+          "after": [94, 555, 39483, 0]
+        },
+        {
+          "ip": 39486,
+          "before": [94, 557, 0, 0],
+          "after": [94, 557, 39488, 0]
+        },
+        {
+          "ip": 39491,
+          "before": [94, 559, 0, 0],
+          "after": [94, 559, 39493, 0]
+        },
+        {
+          "ip": 39496,
+          "before": [94, 556, 0, 0],
+          "after": [94, 556, 39498, 0]
+        }
+      ]
+    },
+    {
+      "id": "D15",
+      "reason": "Assign the blade luck bonus to the weapon slot so unequipping removes it.",
+      "instructions": [
+        {
+          "ip": 39700,
+          "before": [23, 16, 21, 98],
+          "after": [23, 14, 21, 98]
+        }
+      ]
+    },
+    {
+      "id": "D17",
+      "reason": "Keep enemy poison-magic guards inside their own scripts.",
+      "instructions": [
+        {
+          "ip": 43041,
+          "before": [104, 0, 0, 0],
+          "after": [104, 43043, 0, 0]
+        },
+        {
+          "ip": 43049,
+          "before": [104, 0, 0, 0],
+          "after": [104, 43051, 0, 0]
+        },
+        {
+          "ip": 43055,
+          "before": [104, 0, 0, 0],
+          "after": [104, 43057, 0, 0]
+        }
+      ]
+    },
+    {
+      "id": "D18",
+      "reason": "Remove Wine God from Li Xiaoyao explicitly, independent of party order.",
+      "instructions": [
+        {
+          "ip": 43134,
+          "before": [86, 370, 0, 0],
+          "after": [86, 370, 1, 0]
+        }
+      ]
+    },
+    {
+      "id": "E02",
+      "reason": "Trigger the governor reward once from the reachable point before the desk.",
+      "objects": [
+        {
+          "id": 1518,
+          "before": {
+            "triggerMode": 3,
+            "x": 1616,
+            "y": 968
+          },
+          "after": {
+            "triggerMode": 6
+          }
+        }
+      ],
+      "metadata": [
+        {
+          "id": 1518,
+          "value": {
+            "autoTriggerOnce": true,
+            "autoTriggerAnchorX": 1600,
+            "autoTriggerAnchorY": 1040
+          }
+        }
+      ]
+    }
+  ]
+}

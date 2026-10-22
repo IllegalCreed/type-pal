@@ -4605,9 +4605,9 @@
       "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
+      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+      "coreConclusion": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -4696,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
+      "afterSha256": "89ff4b32035cd0b6e9614612856e491d4ec42a157ec6dd78e5ce10c3a779dea2",
       "revision": {
         "currentSha": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
-        "implementationSha": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
+        "implementationSha": "89ff4b32035cd0b6e9614612856e491d4ec42a157ec6dd78e5ce10c3a779dea2",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4755,15 +4755,29 @@
             "sourceSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
             "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
             "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+          },
+          {
+            "date": "2026-10-22",
+            "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+            "action": "script-corrections-scoped-semantic-maintenance",
+            "previousAfterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
+            "scope": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
+            "notRun": [
+              "full-document re-audit of unrelated sections",
+              "full story/visual/editor preview E2E",
+              "deployment"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "full-source-preservation-and-real-domain-publication-consumer",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
-        "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
-        "afterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
-        "lineCount": 230
+        "kind": "script-corrections-scoped-document-maintenance",
+        "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+        "afterSha256": "89ff4b32035cd0b6e9614612856e491d4ec42a157ec6dd78e5ce10c3a779dea2",
+        "lineCount": 252,
+        "scope": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true
       },
       "history": [
         {
@@ -4881,10 +4895,30 @@
           "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
           "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-22",
+          "revision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "action": "script-corrections-scoped-semantic-maintenance",
+          "previousAfterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
+          "previousCoreConclusion": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "previousEvidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+            "afterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
+            "lineCount": 230
+          },
+          "scope": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
+          "notRun": [
+            "full-document re-audit of unrelated sections",
+            "full story/visual/editor preview E2E",
+            "deployment"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
       "reviewedLines": "1-208",
       "phase": "testing",
@@ -5347,7 +5381,15 @@
           }
         }
       ],
-      "reviewNotes": "\n2026-10-20: Exact equipment source-ref binding and proof history added; historical D1 execution remains dated. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Exact equipment source-ref binding and proof history added; historical D1 execution remains dated. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "maintenanceReview": {
+        "date": "2026-10-22",
+        "reviewer": "Codex",
+        "scope": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
+        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",

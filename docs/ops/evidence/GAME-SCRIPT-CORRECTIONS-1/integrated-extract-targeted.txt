@@ -1,0 +1,17 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
+
+ ✓ src/__tests__/asset-manifest.boundaries.test.ts (2 tests) 7ms
+ ✓ src/events/script-corrections.pal.test.ts (4 tests) 2465ms
+   ✓ supported source corrections preserve raw input and change only reviewed instructions  1666ms
+   ✓ unknown source fingerprint and drifted old instruction fail closed without changing source  777ms
+ ✓ src/__tests__/asset-manifest.test.ts (3 tests) 3ms
+ ✓ src/cli-script-corrections.pal.test.ts (2 tests) 6075ms
+   ✓ default CLI corrects gameplay before every event consumer is emitted  3069ms
+   ✓ default CLI rejects an altered source before corrected event outputs; faithful mode remains explicit  3005ms
+
+ Test Files  4 passed (4)
+      Tests  11 passed (11)
+   Start at  16:38:21
+   Duration  6.48s (transform 230ms, setup 0ms, import 369ms, tests 8.55s, environment 0ms)
+
