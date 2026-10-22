@@ -1,12 +1,12 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S28代码非作者accept；Owner受控发布599存储，269语义另行准入）
+Execution: rework（S28中央存储及补线非作者accept已接收；269语义新卡草案待用户明确build allowed）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
-Reviewer: GLM（35a后的Codex补丁非作者复验）/ Codex（中央证据接入；作者自验不代签）
+Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（中央证据接入；作者自验不代签）
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-23
 Template: task-card-v1 / 1.0.0
@@ -226,20 +226,24 @@ Codex沿用已核GLM成果，直接修复完整prepare计划/输出字节防改�
 - 302原生、269稿状态、registry条目/路由/模板和既有信用未改；原四GLM包与本轮非作者包冻结。发布及完整保全/幂等/归属/后续门回执追加原s22-validation.log.gz，未重跑旧产品/E2E/coverage。
 - 组合实测：完整工具232/0/0skip，导航1303MD/10180links/365tasks、model7/1272、testing与phase/lore均通过；check:docs最终仅严格门2384诊断而exit1。进度1195待办、1151/1838+3retired+87incremental、19artifact及0integrity保持，未宣布统一门通过；首轮lint的单个import排序诊断保留并定向修复。269语义另卡准入，不借存储接入授reviewed/template-compliant，不合main、不推送、不标父子卡done。
 
+### S28 中央发布非作者accept接收（2026-10-23）
+
+- GLM只读接受候选3eec25022187311903426ae65daeeb3607bf9d58（base35a33f102、39文件）的599存储发布和4文件补线，nonAuthorReviewer=true、零counter；既有35a接受和GLM549限制分别保留。HANDBACK SHA-256为29b4cff0783bfffc2aee9c79434d780ce1cd79d7e8f1250fddf87c0fe58b311f，verdict为82eecbe94652e7c30755c774e318b4cdbfada19d9eabe6a4951878c0eddaec2b，原包冻结保全。
+- GLM实际读域：4文件delta、直读Git重建/canonical序列与指纹、8源/19片及9存储pin共172/172、3新套24/0；232工具及lint4544零诊断按候选codeSHA cf181d21…复用。其脚本对entries按descriptor串接，manifest容量核1MiB；positions逐位归位、实际Git物理全集、manifest≤512KiB和deepStrictEqual由Owner额外直读Git核实，均过。分别记录方法，未把摘要扩成原脚本未执行的断言，也不补造GLM缺少的单命令时间回执。
+- Owner实际核验：候选干净、两SHA、署名/范围与raw，并定向回放172脚本；独立补核8完整逻辑/599条、19片、positions/JSON序列/容量/源pin、14条after变化精确。14=9存储+5行政，未重跑24/232或599语义。补核首轮把同目录Markdown当JSON的checker自身错误保留，过滤JSON后恢复绿，未触及仓库源码/数据或作者原件。
+- 本次只写原卡/父卡/board与current→R93→R94五个行政pin、原单份压缩日志；8manifest/19片/R92/registry/routing/templates/302原生/所有旧状态信用零改。S28存储接入证据闭合，父子卡继续rework，严格2384/1195待办和1151/1838+3retired+87incremental不因accept清零。
+- 269语义另卡：只读核269唯一绑定及八相位，8review分布R85=72/R86=34/R87=71/R88=71/R73=1/R74=1/R75=9/R76=10，269均partial/needs。拟卡DOCS-NATIVE-VITEST-269-1草案仅在/tmp/type-pal-S28-accept-3eec-sj24bcfy/DOCS-NATIVE-VITEST-269-1.draft.md及本次原日志中保存，尚未入仓注册，未增加文档/待办。用户本条要求明确build allowed，本轮没有S29实施准入或GLM语义派发。
+
 ## 设计与风险
 
 GLM读原生文件及其实际上下文，将历史观察和当前适用性写成可核稿件；Codex接收后复用既有record位置处理准确delta，不再让贡献者修改共享账本。269件原生合同复用S25基础；新增路径/相位/当前review关联仍须由Owner实现并验证，30件例外不混进该合同。提供的机械工具只验身份、集合与原文锚，不认证阅读深度或业务正确性。
 
 ## 状态与交接
 
-- 当前Owner：Codex已接收35a非作者accept并受控发布599存储；269稿件既有接收保留，正式语义迁移另卡准入。
+- 当前Owner：Codex已接收35a及3eec非作者accept，S28存储证据闭合；269草案等待用户明确build allowed。
 - 稳定交接入口为授权包中的`INSTRUCTIONS.md`和本卡；进度保存在证据目录review-index/已落盘分片，不依赖聊天记忆。工具/清单hash及原件必须可核；指纹全由程序实取。
-- 下一步：据证核中央补线及599实际发布保全；S29只做269稿件到分片的后继准入设计，不重做已核盘点或自行授语义信用。
+- 下一步：用户审定S29拟卡范围；明确build allowed后再入仓开卡、冻结具体合同/发布计划、pilot及一次269包。不重复已核盘点、不预授语义信用。
 
 ## 下一位Agent提示词
 
-```text
-按Owner最终回复中的固定候选与清单，只读核S28中央发布及4文件补线；先验599逻辑保全、19物理归属、9pin、302原生/全部历史信用不动，再给269后继准入设计输入。
-非作者范围仅本轮未参与的Codex补线/发布，不重授GLM549信用，不重做已核269/599内容盘点。
-仅写指定/tmp证据，不修改仓库或已冻结包；不执行真实publish、旧enrich/refresh、不合main、不推送、不标done。269语义实施须新卡明确build allowed。
-```
+无新的GLM实施派发。S29草案已备，当前draft、未入仓；按用户本轮停止线等待明确build allowed。批准后由Codex先冻结合同、跨8review受控更新和pilot前提，再交付一次性269白名单包，不逐小批申请；本卡/S28 accept不代替S29授权。

@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "fa9d37c67b2c2d0fe53142ef4f46a080d60a0deffbb9d5ccd53a44be2664f10e",
+      "afterSha256": "2e9967f6691f28d624d489da22044eff67098960528305fe6fcca8b0e08693e4",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -2444,20 +2444,20 @@
       "historyOverlay": false,
       "templateCompliance": "needs-migration",
       "template": "docs/phase-governance/templates/task-card.md",
-      "readMethod": "Receive human-forwarded GLM read-only non-author verdict for fixed35a; verify candidate, two exactSHA/raw23 and frozen packet, reuse supported231/lint bindings. Codex central activation: actual public group publication, whole8-object/599-entry/9pin/physical19/302native/idempotence checks;4 integration files self-reviewed. No599semantic reread or productexecution.",
+      "readMethod": "Receive GLM fixed3eec scoped verdict; verify actual clean candidate and exact twoSHA/raw/source script. Owner replays GLM172 and separately checks positions-based directGit reconstruction/deepStrictEqual/committed inventory/512KiB and14pin deltas; reuse24/232/lint only within supported original input scope. Read-only269 mapping/pinned index check is admission design, not new semantic review or implementation.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S26的269稿与30例外限定接收保持。GLM非作者接受Codex35a补丁（23/0及代码指纹复用231）；Owner已发布8薄manifest/19分片的599原逻辑存储，完整对象/JSON序列/历史守恒、9pin和幂等成立。中央4文件补线由Codex自验24/0并另列，未倒签35a接受。0新语义/迁移/runtime信用，269另卡、1195原待办/2384严格诊断不清零。",
+      "coreConclusion": "S28中央599存储及4文件补线获GLM对3eec非作者accept、零counter；172规范序列/指纹验证与24回放/232原件有证据，Owner额外核positions/实际Git19片全集/512KiB及14精确pin。599全字段/历史保全、0语义/迁移/runtime信用。269仍partial/needs，已核唯一绑定分布全部8review和8提议相位；S29拟卡仅外部draft，待用户明确build allowed。",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
         "docs/phase-governance/templates/registry-proposal-20261011.md:333"
       ],
       "unresolved": [
-        "Full governance1195pending/2384diagnostics and fixed1838cohort remain incomplete; no new semantic/template credit.",
-        "269native semantics requires a separate admitted task; accepted S26 drafts retain their actual program/context read domain.",
-        "Central4-file activation is Codex-authored/self-validated and separate from GLM acceptance of35a; publication observations need evidence review, not retrodated acceptance."
+        "Full1838 governance and1195pending/2384strict diagnostics remain; this acceptance closes storage/wiring evidence only.",
+        "Native269 semantics requires a separate task and explicit human build allowed per latest user; external draft is not an admission.",
+        "S29 needs multi-review native contract and controlled semantic delta publication; current three-pilot/R85 validator and frozen-flat initial writer are not blanket269 authority."
       ],
-      "nextStep": "Readonly evidence review of central599 storage activation and exact4-file caller/test delta; prepare the269 successor admission separately, without rerunning prior semantic inventory or granting credit.",
+      "nextStep": "Human reviews external DOCS-NATIVE-VITEST-269-1 draft; after explicit build allowed, Codex registers the new card/final scope and freezes native contract/transaction/pilots before269 batch work. No newGLM implementation dispatch now.",
       "phase": "ops",
       "module": "native-document-governance",
       "capability": "S26 native historical evidence batch",
@@ -2474,10 +2474,11 @@
         "Codex non-author S28fc7be36e19437f8a99e886b42efd8abf880cc2da correction review, accepted closed subclaims but remainingC01-C05/E01 blockcentralpublish; verdict c5b9b44b7645aff185c34bc4f2895d35485cf59dc74c729e5009036f8fce5d2b",
         "Codex non-author S28final54314318e9947c83a94c93c9f3633c819e166b5f partialclosure/rework; current23/231realpassed butpublication/loader/callerprobesstillfail; verdict bfe5074bcd9226087206c099be766577e4a8d3f5419f1d254a50098f0defd7fa",
         "User2026-10-22 authorizesCodex takeover; GLM549partial evidence retained, Codex implementation self-validation is explicitlynon-independent.",
-        "2026-10-23 GLM non-author accepts fixedCodex35a scope; Owner controlled599storage publication is separate, native269/semantic credit unchanged."
+        "2026-10-23 GLM non-author accepts fixedCodex35a scope; Owner controlled599storage publication is separate, native269/semantic credit unchanged.",
+        "2026-10-23 human-forwarded GLM accepts central3eec scope; Owner source/positions/inventory supplement separate. S29 explicit user build gate remains; external draft does not add a current document or credit."
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "f81a03f74fae24c666373b41568d9436773f0f96528ebe0455823907b53f744f",
+      "afterSha256": "6dbca994bc74750b3679189641a4ca287593e28a9b6ec90bee11830d40b6b705",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2506,8 +2507,8 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "f81a03f74fae24c666373b41568d9436773f0f96528ebe0455823907b53f744f",
-        "implementationSha": "f81a03f74fae24c666373b41568d9436773f0f96528ebe0455823907b53f744f",
+        "currentSha": "6dbca994bc74750b3679189641a4ca287593e28a9b6ec90bee11830d40b6b705",
+        "implementationSha": "6dbca994bc74750b3679189641a4ca287593e28a9b6ec90bee11830d40b6b705",
         "history": [
           {
             "date": "2026-10-21",
@@ -2566,6 +2567,12 @@
             "revision": "35a33f102a3fd45ee2ef2884e158b0abdda85bbd",
             "afterSha256": "03a1c185fea3f514cb082fafe5c57f97b4484bc2e2d23ffe274af67f61d36be1",
             "scope": "Prior self-validated code preserved at fixedGit; current accept/publication do not regrant historical semantic credit."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "3eec25022187311903426ae65daeeb3607bf9d58",
+            "afterSha256": "f81a03f74fae24c666373b41568d9436773f0f96528ebe0455823907b53f744f",
+            "scope": "Prior published/pending-acceptance observation preserved in Git; receipt acceptance changes no native/body semantic status."
           }
         ]
       },
@@ -2624,11 +2631,16 @@
           "date": "2026-10-23",
           "action": "Receive GLM35aaccept and publish599 original logical records as8manifest19artifact; exactcurrenttask pins,0newmigration/runtimecredit",
           "priorRecordRevision": "35a33f102a3fd45ee2ef2884e158b0abdda85bbd"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Record GLM3eecaccept, precise method boundary and Owner supplements; currenttask/admin pins only, S29 externaldraft gated byuser",
+          "priorRecordRevision": "3eec25022187311903426ae65daeeb3607bf9d58"
         }
       ],
       "supersedes": [],
       "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
-      "reviewedLines": "Current S28 task delta, fixed GLM acceptance and Owner actual storage/readback/inventory/consumer checks; no repeated599semantic review.",
+      "reviewedLines": "S28 currenttask acceptance delta and bounded fixedGit reconstruction;269unique-current-binding/program phase mapping only, no new269/599semantic credit.",
       "documentStatus": "current",
       "currentQualification": {
         "task": "DOCS-NATIVE-JSON-1/S26",
@@ -2827,7 +2839,7 @@
         "date": "2026-10-23",
         "author": "Codex",
         "nonAuthorReviewer": false,
-        "status": "published-pending-activation-evidence-review",
+        "status": "non-author-evidence-accepted",
         "sourceCodeCandidate": "35a33f102a3fd45ee2ef2884e158b0abdda85bbd",
         "storageContract": "review-record-storage/1.0.0",
         "logicalReviews": 8,
@@ -2850,7 +2862,42 @@
           "failed": 0,
           "skipped": 0
         },
-        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"
+        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "independentEvidenceAcceptance": {
+          "date": "2026-10-23",
+          "reviewer": "GLM",
+          "nonAuthorReviewer": true,
+          "candidateCommit": "3eec25022187311903426ae65daeeb3607bf9d58",
+          "scope": "Central599storage publication and4-file activation after35a; no599/269semantic or product credit",
+          "decision": "accept",
+          "counters": [],
+          "handbackSha256": "29b4cff0783bfffc2aee9c79434d780ce1cd79d7e8f1250fddf87c0fe58b311f",
+          "verdictSha256": "82eecbe94652e7c30755c774e318b4cdbfada19d9eabe6a4951878c0eddaec2b",
+          "actualReviewerEvidence": {
+            "independentCanonicalChecks": 172,
+            "newSuitesPassed": 24,
+            "failed": 0,
+            "skipped": 0,
+            "completeToolsReused": 232,
+            "lintFilesReused": 4544,
+            "codeSha256": "cf181d2126da8939521db8c46d247db25b0e93b2c462f6ce0d545fd8c77698a3"
+          },
+          "ownerSupplement": {
+            "author": "Codex",
+            "nonAuthorReviewer": false,
+            "directGitPositionsAndCommittedInventory": true,
+            "allManifestAndShardsBelow512KiB": true,
+            "wholeObjectDeepStrictEqual": true,
+            "pinDeltas": 14,
+            "storagePins": 9,
+            "adminPins": 5,
+            "scope": "Bounded additional checks, not retrocertification of missing original per-command GLM receipt metadata"
+          },
+          "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+          "newSemanticCredit": 0,
+          "newMigrationCredit": 0,
+          "native269Published": 0
+        }
       }
     }
   ],
@@ -2955,6 +3002,11 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-JSON-1/S28-central-publication",
       "action": "Record scoped GLM35aaccept and separate actual Owner599storage publication; all semantic/migration statuses retained"
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S28-central-acceptance",
+      "action": "Receive scoped GLM3eecaccept and bounded Owner supplement; externalS29draft only,0newcredit"
     }
   ]
 }

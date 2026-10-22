@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "7fd7f3bff6788114442276dafbb0afba53a2791ebd3a3ed7da48f259b3ef05c6",
+      "afterSha256": "5251c2d3d7753044ffe0e6df3e247ceb2f2a5d965a393e35aa4c4896c99ae821",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -5757,7 +5757,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "0f3267224e0adc2467032896be643c9996ebacf1e4f2cee2e319f3fa73db2ea6",
+      "afterSha256": "14c09487f0b5690430ede0cbd5770bed8bac670e8238a9bb818dd9dbfafb221f",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -7244,6 +7244,11 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-JSON-1/S28-central-publication",
       "action": "Exact task/current-review administrative after pins after controlled599 storage publication; no semantic credit"
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S28-central-acceptance",
+      "action": "Exact current task/review administrative pins only; no source8/R92/registry/native changes"
     }
   ]
 }
