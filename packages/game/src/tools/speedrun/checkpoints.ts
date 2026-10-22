@@ -4,6 +4,8 @@
 //     我们 gs.party.x/y 是**世界坐标 = 视口 + PARTYOFFSET**(2026-06-19 查 PalTimer 源 `仙剑98柔情.cs` +
 //     香蕉处实测坐实:站位 (1280,720) − PalTimer 视口 (1120,608) = 正好 (160,112))。地图边缘点(见石碑)
 //     偏移>160 且各点不一(spec §4.1),已标 ⚠、须实跑读 gs.party 核(spec §4.4 Task 12 未竟)。
+
+import { localize } from '../../localization/language.js'
 import {
   atAnySpot,
   atSpot,
@@ -30,6 +32,35 @@ export interface BananaConfig {
   tolX: number
   tolY: number
   itemId: number
+}
+
+const ENGLISH_CHECKPOINT_NAMES: Readonly<Record<string, string>> = {
+  stele: 'Read stele',
+  kungfu: 'Learn swordplay',
+  boat: 'Board boat',
+  'exit-lin': 'Leave Lin mansion',
+  'exit-yinlong': 'Leave Hidden Dragon Cave',
+  biohazard: 'Zombie outbreak',
+  'boss-guijiang': 'Ghost General',
+  'boss-chigui': 'Scarlet Ghost King',
+  'enter-yangzhou': 'Enter Yangzhou',
+  'exit-yangzhou': 'Leave Yangzhou',
+  'exit-trouble': 'Leave Trouble Cave',
+  'enter-jing': 'Enter capital',
+  'boss-caiyi': 'Caiyi',
+  'enter-tower': 'Enter Demon Tower',
+  'sword-pillar': 'Sword pillar',
+  'boss-huolong': 'Destroy tower',
+  'boss-fenghuang': 'Phoenix',
+  'enter-tenyears': 'Ten years ago',
+  'water-pearl': 'Water Orb',
+  'pray-rain': 'Pray for rain',
+  clear: 'Finish game',
+}
+
+/** Localized display only; checkpoint IDs, detectors and persisted times stay unchanged. */
+export function checkpointName(checkpoint: Pick<Checkpoint, 'id' | 'name'>): string {
+  return localize(checkpoint.name, ENGLISH_CHECKPOINT_NAMES[checkpoint.id] ?? checkpoint.name)
 }
 
 const H = 3_600_000,

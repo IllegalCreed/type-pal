@@ -1,3 +1,4 @@
+import { localize, subscribeLanguage } from '../localization/language.js'
 import { startGamepadInput } from './gamepad-input.js'
 import type { KeyboardInputSource } from './input.js'
 import { isMobileLayout, LAYOUT_CHANGE } from './presentation.js'
@@ -23,15 +24,17 @@ export function createGameShell(canvas: HTMLCanvasElement): GameShell {
   const dpad = document.createElement('div')
   dpad.className = 'tp-dpad'
   dpad.setAttribute('role', 'group')
-  dpad.setAttribute('aria-label', '方向控制')
-  for (const [key, rotation, label] of [
-    ['Up', 0, '向上'],
-    ['Left', 270, '向左'],
-    ['Right', 90, '向右'],
-    ['Down', 180, '向下'],
+  dpad.setAttribute('aria-label', localize('方向控制', 'Direction controls'))
+  const directionButtons: { button: HTMLButtonElement; chinese: string; english: string }[] = []
+  for (const [key, rotation, label, english] of [
+    ['Up', 0, '向上', 'Up'],
+    ['Left', 270, '向左', 'Left'],
+    ['Right', 90, '向右', 'Right'],
+    ['Down', 180, '向下', 'Down'],
   ] as const) {
     const button = createTouchButton(key, '')
-    button.setAttribute('aria-label', label)
+    button.setAttribute('aria-label', localize(label, english))
+    directionButtons.push({ button, chinese: label, english })
     const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     icon.setAttribute('viewBox', '0 0 24 24')
     icon.setAttribute('aria-hidden', 'true')
@@ -57,6 +60,22 @@ export function createGameShell(canvas: HTMLCanvasElement): GameShell {
   actions.append(confirm, menu)
   stage.append(dpad, actions)
   shell.append(stage)
+
+  const updateLabels = (): void => {
+    dpad.setAttribute('aria-label', localize('方向控制', 'Direction controls'))
+    for (const { button, chinese, english } of directionButtons) {
+      button.setAttribute('aria-label', localize(chinese, english))
+    }
+    confirm.textContent = localize('确认', 'OK')
+    confirm.setAttribute('aria-label', localize('确认 / 交互', 'Confirm / interact'))
+    menu.textContent = localize('取消', 'Back')
+    menu.setAttribute('aria-label', localize('取消 / 菜单', 'Cancel / menu'))
+  }
+  updateLabels()
+  const unsubscribeLanguage = subscribeLanguage(() => {
+    if (shell.isConnected) updateLabels()
+    else unsubscribeLanguage()
+  })
 
   let input: KeyboardInputSource | undefined
   let scale = 100
