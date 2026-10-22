@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Exact owned diff from reviewed main body through frozen 05e1cfcff and this documentation change; no unchanged-file re-audit or historical acceptance promotion.",
+      "readMethod": "Read exact parent deltas, retain both history sequences, verify current merged navigation/counts and scoped incoming bindings; no unrelated full-source re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
+      "coreConclusion": "Combined navigation retains main asset module work and English review row; user accepted English, merged gates and release pending. Inventory accounts for28 English pending paths alongside5 main closures.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,16 +468,16 @@
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
       "unresolved": [
-        "Official coverage/final unified acceptance and user UI acceptance remain pending for GAME-ENGLISH-1. Full-story English E2E and deployment are not claimed."
+        "Current merged-candidate gates and remote release receipts pending; no full-story English E2E inferred."
       ],
-      "nextStep": "Codex consumes final reports and unified gate results, obtains user UI judgment, and keeps the task in review until its actual acceptance conditions are met.",
+      "nextStep": "Codex independently accepts merged candidate, runs actual gates and records CI/merge/Alibaba verification before done.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "3add0996fc17ffb83f6a8fd83daf5b690636ba5a7cba07274da176d4f2550cf8",
+      "afterSha256": "d24e8813f78fa1009f29995233f6508d39634b9ddb5c15eee17e03ccc91b447e",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -493,11 +493,11 @@
       ],
       "legalInputs": ["current repository documentation", "docs/ops/board.md"],
       "businessOracle": {
-        "type": "scoped-authorized-document-maintenance",
+        "type": "bounded-document-merge-and-actual-consumers",
         "assertions": [
-          "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
-          "Task top remains the task status authority; no other historical status is changed.",
-          "Static document/hash checks do not create runtime/visual/coverage acceptance."
+          "Combined navigation retains main asset module work and English review row; user accepted English, merged gates and release pending. Inventory accounts for28 English pending paths alongside5 main closures.",
+          "Both parent history objects and artifact preservation fields remain intact; scoped current hashes match actual formatted targets.",
+          "No unrelated task, product or whole-file quality acceptance."
         ]
       },
       "dedupe": {
@@ -506,7 +506,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "3add0996fc17ffb83f6a8fd83daf5b690636ba5a7cba07274da176d4f2550cf8",
+        "implementationSha": "d24e8813f78fa1009f29995233f6508d39634b9ddb5c15eee17e03ccc91b447e",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1669,12 +1669,13 @@
         ]
       },
       "evidence": {
-        "kind": "english-feature-scoped-documentation-writeback",
-        "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
-        "afterSha256": "3add0996fc17ffb83f6a8fd83daf5b690636ba5a7cba07274da176d4f2550cf8",
+        "kind": "english-release-main-sync-documentation",
+        "path": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json",
+        "afterSha256": "d24e8813f78fa1009f29995233f6508d39634b9ddb5c15eee17e03ccc91b447e",
         "lineCount": 91,
-        "scope": "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
-        "candidateBaseRevision": "05e1cfcff",
+        "scope": "Combined navigation retains main asset module work and English review row; user accepted English, merged gates and release pending. Inventory accounts for28 English pending paths alongside5 main closures.",
+        "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+        "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
         "workingTreeDelta": true
       },
       "history": [
@@ -2608,12 +2609,164 @@
             "Full-story English E2E",
             "User UI acceptance"
           ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-freeze",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
+          "previousAfterSha256": "2e00e3ca7295b3364349abe6b8e4713f4004b069297ace484791bfa8425c7ecb",
+          "afterSha256": "1134df0cebc051bef90b7685da56b5131681af90a10a1c8e8cc093c523416e70",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-main-sync",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "afterSha256": "100280f64a1a31255cf96cc469d17204c01eb0dd5698be0ea1d207862f830fb5",
+            "lineCount": 90,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "1134df0cebc051bef90b7685da56b5131681af90a10a1c8e8cc093c523416e70",
+          "afterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "afterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
+            "lineCount": 91,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "026ddd1f468dbf6d0a1344e3455604935576c1cb74ef2395b2ca343dbce7d5ff",
+          "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+          "scope": "Only3h owned document delta and descendant pins; Only five already-reviewed asset files accepted after full gates; CODE3h remains partial, no new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "english-release-main-sync-documentation",
+          "parents": {
+            "english": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+            "main": "acb96a123bcb062c7204fdbc51903188c9fa0c5f"
+          },
+          "previousEnglish": {
+            "afterSha256": "3add0996fc17ffb83f6a8fd83daf5b690636ba5a7cba07274da176d4f2550cf8",
+            "coreConclusion": "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
+            "evidence": {
+              "kind": "english-feature-scoped-documentation-writeback",
+              "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+              "afterSha256": "3add0996fc17ffb83f6a8fd83daf5b690636ba5a7cba07274da176d4f2550cf8",
+              "lineCount": 91,
+              "scope": "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
+              "candidateBaseRevision": "05e1cfcff",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "english_shell_audit (Codex delegated documentation owner)",
+              "scope": "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
+              "sourceFrozenSha": "05e1cfcff",
+              "notAFullSourceReaudit": true
+            },
+            "businessOracle": {
+              "type": "scoped-authorized-document-maintenance",
+              "assertions": [
+                "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
+                "Task top remains the task status authority; no other historical status is changed.",
+                "Static document/hash checks do not create runtime/visual/coverage acceptance."
+              ]
+            },
+            "unresolved": [
+              "Official coverage/final unified acceptance and user UI acceptance remain pending for GAME-ENGLISH-1. Full-story English E2E and deployment are not claimed."
+            ],
+            "nextStep": "Codex consumes final reports and unified gate results, obtains user UI judgment, and keeps the task in review until its actual acceptance conditions are met.",
+            "readMethod": "Exact owned diff from reviewed main body through frozen 05e1cfcff and this documentation change; no unchanged-file re-audit or historical acceptance promotion.",
+            "reviewedLines": "Only the GAME-ENGLISH-1 navigation/status delta or inventory summary/pending delta; all unrelated rows and historical conclusions retained."
+          },
+          "previousMain": {
+            "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+            "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+            "evidence": {
+              "kind": "codex-owned-pre94-3h-assets-quality-local",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+              "afterSha256": "a943900c1b89772907e02c2145c6a36d15905fb8ccd0c93643c58efdc0d98377",
+              "lineCount": 90,
+              "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "Codex",
+              "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+              "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+              "workingTreeDelta": true,
+              "notAFullSourceReaudit": true,
+              "finalWriteback": {
+                "date": "2026-10-22",
+                "action": "final-correction-task-writeback",
+                "previousAfterSha256": "5567830814f27fc48145633b19b9873e1c66271763149f95892ec54a8517ea49",
+                "scope": "Board next step now names only pending story/editor-preview E2E; implementation/static/headless integration results are recorded in the task. Incoming control change is limited to that reviewed row/receipt, with original artifact envelope retained."
+              },
+              "userAcceptance": {
+                "date": "2026-10-22",
+                "action": "user-acceptance-with-explicit-story-preview-waiver",
+                "previousAfterSha256": "dc78e52eb70b1b2146082ba2e142d528efce018cae3e32658118c330d3c80b05",
+                "previousCoreConclusion": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+                "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+                "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+                "notRun": [
+                  "complete story E2E",
+                  "frame-by-frame visual comparison",
+                  "editor preview initial-state verification"
+                ]
+              },
+              "mainSync": {
+                "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+                "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+                "preservedBothParentHistories": true
+              }
+            },
+            "businessOracle": {
+              "type": "authorized-document-content-and-real-route-template-consumers",
+              "assertions": [
+                "User resumedpre94:GLM execution/Codex evidence-first acceptance;89800a1c1 evidence-only reworkC1-C3 before integration/card promotions. Previous gate closeout remains historical;94-102excluded.",
+                "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+                "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
+              ]
+            },
+            "unresolved": [
+              "Historical product/coverage/unified gates remain outside this documentation-only integration."
+            ],
+            "nextStep": "This task is accepted with an explicit user waiver; no measured story/visual/preview pass is added.",
+            "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
+            "reviewedLines": "Only approved UI task, five review ledger rows, current counts, generated index and owned descendant pins"
+          },
+          "scope": "Combined navigation retains main asset module work and English review row; user accepted English, merged gates and release pending. Inventory accounts for28 English pending paths alongside5 main closures.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only the GAME-ENGLISH-1 navigation/status delta or inventory summary/pending delta; all unrelated rows and historical conclusions retained.",
+      "reviewedLines": "Combined navigation retains main asset module work and English review row; user accepted English, merged gates and release pending. Inventory accounts for28 English pending paths alongside5 main closures.",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2637,9 +2790,11 @@
       "historyOverlay": false,
       "maintenanceReview": {
         "date": "2026-10-22",
-        "reviewer": "english_shell_audit (Codex delegated documentation owner)",
-        "scope": "Only GAME-ENGLISH-1 is added and advanced to review; package/resource/browser samples are evidence, user UI acceptance and final coverage remain pending. Other task rows and historical acceptance are unchanged.",
-        "sourceFrozenSha": "05e1cfcff",
+        "reviewer": "english_release_docs (Codex delegated documentation owner)",
+        "scope": "Combined navigation retains main asset module work and English review row; user accepted English, merged gates and release pending. Inventory accounts for28 English pending paths alongside5 main closures.",
+        "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+        "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+        "workingTreeDelta": true,
         "notAFullSourceReaudit": true
       }
     },
@@ -2906,9 +3061,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Exact owned diff from reviewed main body through frozen 05e1cfcff and this documentation change; no unchanged-file re-audit or historical acceptance promotion.",
+      "readMethod": "Read exact parent deltas, retain both history sequences, verify current merged navigation/counts and scoped incoming bindings; no unrelated full-source re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
+      "coreConclusion": "Official generated projection retains both parent task changes; English remains review for CI/release. No unrelated task promotion.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -2916,16 +3071,16 @@
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
       "unresolved": [
-        "Official coverage/final unified acceptance and user UI acceptance remain pending for GAME-ENGLISH-1. Full-story English E2E and deployment are not claimed."
+        "Current merged-candidate gates and remote release receipts pending; no full-story English E2E inferred."
       ],
-      "nextStep": "Codex consumes final reports and unified gate results, obtains user UI judgment, and keeps the task in review until its actual acceptance conditions are met.",
+      "nextStep": "Codex independently accepts merged candidate, runs actual gates and records CI/merge/Alibaba verification before done.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "c88eaa5c5aa16e69b68daef729544c87e3a2ecfa260feee60b0494312d91df89",
+      "afterSha256": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2933,11 +3088,11 @@
       ],
       "legalInputs": ["各任务卡顶部 Status", "scripts/docs/check.mjs", "当前任务看板"],
       "businessOracle": {
-        "type": "scoped-authorized-document-maintenance",
+        "type": "bounded-document-merge-and-actual-consumers",
         "assertions": [
-          "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
-          "Task top remains the task status authority; no other historical status is changed.",
-          "Static document/hash checks do not create runtime/visual/coverage acceptance."
+          "Official generated projection retains both parent task changes; English remains review for CI/release. No unrelated task promotion.",
+          "Both parent history objects and artifact preservation fields remain intact; scoped current hashes match actual formatted targets.",
+          "No unrelated task, product or whole-file quality acceptance."
         ]
       },
       "dedupe": {
@@ -2946,7 +3101,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "c88eaa5c5aa16e69b68daef729544c87e3a2ecfa260feee60b0494312d91df89",
+        "implementationSha": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3303,12 +3458,13 @@
         ]
       },
       "evidence": {
-        "kind": "english-feature-scoped-documentation-writeback",
-        "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
-        "afterSha256": "c88eaa5c5aa16e69b68daef729544c87e3a2ecfa260feee60b0494312d91df89",
-        "lineCount": 524,
-        "scope": "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
-        "candidateBaseRevision": "05e1cfcff",
+        "kind": "english-release-main-sync-documentation",
+        "path": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json",
+        "afterSha256": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
+        "lineCount": 525,
+        "scope": "Official generated projection retains both parent task changes; English remains review for CI/release. No unrelated task promotion.",
+        "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+        "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
         "workingTreeDelta": true
       },
       "history": [
@@ -4034,12 +4190,158 @@
             "Full-story English E2E",
             "User UI acceptance"
           ]
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-freeze",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json"
+          },
+          "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
+          "previousAfterSha256": "55e38b481e73c7fae395a82c57af0dd5e04ce247f89e49d0d9fed61fcd5734f9",
+          "afterSha256": "9e9a359b46cf1ca775f5eb99ec9a7cdb899f0694ff8284127607902997e04332",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-main-sync",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "afterSha256": "8d0a2077a57e1b340f9309173f920ac4903ef47da67720c0e6fba30e478f398f",
+            "lineCount": 523,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "9e9a359b46cf1ca775f5eb99ec9a7cdb899f0694ff8284127607902997e04332",
+          "afterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+          "scope": "Only3h owned document delta and descendant pins; no acceptance promotion or new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "Pre94-3h-assets-local-module-closeout",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-3h-assets-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json",
+            "afterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+            "lineCount": 524,
+            "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/377closed115review2882pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Latest main6a29 script changes merged; new integrated gates pending, no new file/card acceptance;94-102 excluded.",
+          "previousAfterSha256": "81387cf2586fe62b17f5c3b4d26d3cd3f8492ea104d74292a715a1e3419c65d5",
+          "afterSha256": "6e2b405c1d2805108ed3706d7c27284ac620bf28550263490bdfb86d4809e409",
+          "scope": "Only3h owned document delta and descendant pins; Only five already-reviewed asset files accepted after full gates; CODE3h remains partial, no new product permission.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "english-release-main-sync-documentation",
+          "parents": {
+            "english": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+            "main": "acb96a123bcb062c7204fdbc51903188c9fa0c5f"
+          },
+          "previousEnglish": {
+            "afterSha256": "c88eaa5c5aa16e69b68daef729544c87e3a2ecfa260feee60b0494312d91df89",
+            "coreConclusion": "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
+            "evidence": {
+              "kind": "english-feature-scoped-documentation-writeback",
+              "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+              "afterSha256": "c88eaa5c5aa16e69b68daef729544c87e3a2ecfa260feee60b0494312d91df89",
+              "lineCount": 524,
+              "scope": "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
+              "candidateBaseRevision": "05e1cfcff",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "english_shell_audit (Codex delegated documentation owner)",
+              "scope": "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
+              "sourceFrozenSha": "05e1cfcff",
+              "notAFullSourceReaudit": true
+            },
+            "businessOracle": {
+              "type": "scoped-authorized-document-maintenance",
+              "assertions": [
+                "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
+                "Task top remains the task status authority; no other historical status is changed.",
+                "Static document/hash checks do not create runtime/visual/coverage acceptance."
+              ]
+            },
+            "unresolved": [
+              "Official coverage/final unified acceptance and user UI acceptance remain pending for GAME-ENGLISH-1. Full-story English E2E and deployment are not claimed."
+            ],
+            "nextStep": "Codex consumes final reports and unified gate results, obtains user UI judgment, and keeps the task in review until its actual acceptance conditions are met.",
+            "readMethod": "Exact owned diff from reviewed main body through frozen 05e1cfcff and this documentation change; no unchanged-file re-audit or historical acceptance promotion.",
+            "reviewedLines": "Only the GAME-ENGLISH-1 navigation/status delta or inventory summary/pending delta; all unrelated rows and historical conclusions retained."
+          },
+          "previousMain": {
+            "afterSha256": "6e2b405c1d2805108ed3706d7c27284ac620bf28550263490bdfb86d4809e409",
+            "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+            "evidence": {
+              "kind": "codex-owned-pre94-3h-assets-quality-local",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+              "afterSha256": "6e2b405c1d2805108ed3706d7c27284ac620bf28550263490bdfb86d4809e409",
+              "lineCount": 524,
+              "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "Codex",
+              "scope": "Combined navigation delta only: preserve latest main quality/post-battle task rows, keep GAME-SCRIPT-CORRECTIONS-1 done with explicit user waiver in the generated index and retire its active-board row; board date updated. No unrelated task promotion or new story/visual/preview credit.",
+              "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+              "workingTreeDelta": true,
+              "notAFullSourceReaudit": true,
+              "userAcceptance": {
+                "date": "2026-10-22",
+                "action": "user-acceptance-with-explicit-story-preview-waiver",
+                "previousAfterSha256": "a3743b2584dff9f3b546ba46929933d3a7dec4011a9c3e79b2f52ee4739fe5b4",
+                "previousCoreConclusion": "Generated projection adds the same cross-phase GAME-SCRIPT-CORRECTIONS-1 review card; task top remains sole status authority. No historical task status changes.",
+                "scope": "Only GAME-SCRIPT-CORRECTIONS-1 moves review to done per explicit user acceptance on existing automated evidence. Complete story/visual/editor-preview checks are waived for this task and remain unexecuted; unrelated tasks and historical measured results unchanged.",
+                "evidence": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json",
+                "notRun": [
+                  "complete story E2E",
+                  "frame-by-frame visual comparison",
+                  "editor preview initial-state verification"
+                ]
+              },
+              "mainSync": {
+                "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
+                "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+                "preservedBothParentHistories": true
+              }
+            },
+            "businessOracle": {
+              "type": "generated-navigation-and-template-contract",
+              "assertions": [
+                "official generator output matches current task-card statuses",
+                "governance-index-v1 sections and metadata are present",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "unresolved": [
+              "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
+            ],
+            "nextStep": "This task is accepted with an explicit user waiver; no measured story/visual/preview pass is added.",
+            "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
+            "reviewedLines": "Only approved UI task, five review ledger rows, current counts, generated index and owned descendant pins"
+          },
+          "scope": "Official generated projection retains both parent task changes; English remains review for CI/release. No unrelated task promotion.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Only the GAME-ENGLISH-1 navigation/status delta or inventory summary/pending delta; all unrelated rows and historical conclusions retained.",
+      "reviewedLines": "Official generated projection retains both parent task changes; English remains review for CI/release. No unrelated task promotion.",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -4061,9 +4363,11 @@
       "historyOverlay": false,
       "maintenanceReview": {
         "date": "2026-10-22",
-        "reviewer": "english_shell_audit (Codex delegated documentation owner)",
-        "scope": "Only the generated GAME-ENGLISH-1 entry is added in review to match its task top; no unrelated task status changes.",
-        "sourceFrozenSha": "05e1cfcff",
+        "reviewer": "english_release_docs (Codex delegated documentation owner)",
+        "scope": "Official generated projection retains both parent task changes; English remains review for CI/release. No unrelated task promotion.",
+        "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+        "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+        "workingTreeDelta": true,
         "notAFullSourceReaudit": true
       }
     },

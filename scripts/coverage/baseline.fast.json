@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-22T14:00:29.639Z",
+  "generatedAt": "2026-10-22T14:25:24.175Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 774,
-  "testCount": 20180,
+  "testCount": 20181,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4793,8 +4793,8 @@
       ],
       "scopeDigest": "155e267b6b9aca7ea6ef4342a662f6e4aa07f516c6691711d850f35ab81f1acf",
       "fastTests": {
-        "testCount": 3764,
-        "testFileCount": 339,
+        "testCount": 3765,
+        "testFileCount": 340,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4810,6 +4810,7 @@
           "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
           "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
           "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+          "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
           "packages/game/src/assets/loader.test.ts",
           "packages/game/src/assets/png-decode.grok-r1.test.ts",
           "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
@@ -5195,7 +5196,7 @@
           {
             "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
             "testCount": 10,
-            "identityDigest": "e1a0dd3c5cf4a5b1af5fbf702dae8f176cf1cba48f1763a9c8973b3872413785"
+            "identityDigest": "4307bbf9fc325421670c11965deeb9a8ce828db964e5203727f6f9a993432046"
           },
           {
             "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
@@ -5204,13 +5205,18 @@
           },
           {
             "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
-            "testCount": 10,
-            "identityDigest": "771bac9ea91df22c3ea436207a67cc1b2d68329ae57df0109bf04511d90bde60"
+            "testCount": 11,
+            "identityDigest": "82ccd4b15693ef7aaa706c8ea7563315b539871bce28c24fd80aa2d438948267"
+          },
+          {
+            "file": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+            "testCount": 3,
+            "identityDigest": "6daf29dbb2c20b1cdbe96d16a843e179ca7ae66f7e02849552b97007d500b714"
           },
           {
             "file": "packages/game/src/assets/loader.test.ts",
-            "testCount": 7,
-            "identityDigest": "5f98ca22f6e487c5cc5f4fef1b753d6f1bd87a962c0041c10d08262c34abb431"
+            "testCount": 4,
+            "identityDigest": "8462c7758c5590e831f140d410f5f3708fab13e0a22a0c1315a639b22fd4f776"
           },
           {
             "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
@@ -6833,26 +6839,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "610c14293cb64f068e32a08b20ae70e2d811b0fa14550ba13e1a6541ffabe414",
+        "identityDigest": "a25a7852fbf07dd52bfb0103b3cc5b9440dcb13489a469c9564e811ffc01d4c4",
         "duplicateIdentityCount": 0,
-        "executionDigest": "8180466bf3f4f3d46f25f283cb6a28a7b4b7fde903cac5478d44ef3da28d92c8"
+        "executionDigest": "70b0f727c6bfbbb2185e3da6d51f4b3cb83af507588b37188985d5bfbc98b586"
       },
       "metrics": {
         "statements": {
-          "covered": 15292,
-          "total": 17080
+          "covered": 15290,
+          "total": 17078
         },
         "branches": {
-          "covered": 9906,
-          "total": 12279
+          "covered": 9904,
+          "total": 12277
         },
         "functions": {
-          "covered": 1836,
-          "total": 2137
+          "covered": 1835,
+          "total": 2136
         },
         "lines": {
-          "covered": 13628,
-          "total": 14964
+          "covered": 13627,
+          "total": 14963
         }
       }
     },
@@ -10871,20 +10877,20 @@
   },
   "total": {
     "statements": {
-      "covered": 72677,
-      "total": 80471
+      "covered": 72675,
+      "total": 80469
     },
     "branches": {
-      "covered": 52607,
-      "total": 62703
+      "covered": 52605,
+      "total": 62701
     },
     "functions": {
-      "covered": 13731,
-      "total": 15293
+      "covered": 13730,
+      "total": 15292
     },
     "lines": {
-      "covered": 64901,
-      "total": 70413
+      "covered": 64900,
+      "total": 70412
     }
   }
 }

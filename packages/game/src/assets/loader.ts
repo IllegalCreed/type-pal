@@ -316,19 +316,19 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const uiSpriteFrames: IndexedImage[] = []
   try {
     const meta = await fetchJson<UiSpriteManifest>(`${BASE}/data/ui-sprite/spriteui.json`)
-    const frames = await Promise.all(
-      meta.frames.map((f) =>
-        fetchPng(`${BASE}/images/ui/frame-${f.index.toString().padStart(2, '0')}.png`).catch(
-          (err: unknown) => {
-            console.warn(`assets: ui-sprite frame ${f.index} load failed:`, err)
-            return undefined
-          },
-        ),
-      ),
+    await Promise.all(
+      meta.frames.map(async (frame) => {
+        try {
+          const image = await fetchPng(
+            `${BASE}/images/ui/frame-${frame.index.toString().padStart(2, '0')}.png`,
+          )
+          // 呈现按SPRITEUI原编号取帧；缺图不能使后续数字、边框补到错误位置。
+          uiSpriteFrames[frame.index] = image
+        } catch (err) {
+          console.warn(`assets: ui-sprite frame ${frame.index} load failed:`, err)
+        }
+      }),
     )
-    for (const f of frames) {
-      if (f) uiSpriteFrames.push(f)
-    }
   } catch (err) {
     console.warn('assets: ui-sprite/spriteui.json 缺失,menu box 渲染将抛 frame missing:', err)
   }
@@ -437,9 +437,9 @@ export type SceneFetcher = (sceneId: number) => Promise<SceneAssets>
  * (bootstrap 的 tileImagesBySceneId 解码位图 —— 全 223 scene 常驻可达 ~100MB);
  * `protect` 返回当前正在渲染的 sceneId,即使它在 LRU 端也永不淘汰(防黑屏)。
  *
- * 真 SceneFetcher 实现(从 `/extracted/data/scene-N.json` + tilemap-N.json +
- * palette + sprites 各 PNG fetch)写在 bootstrap.ts(T16+ 用),不在 loader.ts。
- * loader.ts 只管 cache 本身。
+ * 生产 SceneFetcher 在 bootstrap.ts：先读 data/scene/{sceneId}.json，按 mapNum 读
+ * tilemap 与 gzip RLE tileset，并补载缺少的角色精灵；palette 复用启动加载结果。
+ * cache 只持有 SceneAssets；并行的位图表由 caller 通过 onEvict 清理。
  */
 export interface SceneAssetsCacheOptions {
   /** 最多缓存的 scene 数;超出按 LRU 淘汰最旧(且非 protect)条目。省略 = 无限缓存(向后兼容)。 */

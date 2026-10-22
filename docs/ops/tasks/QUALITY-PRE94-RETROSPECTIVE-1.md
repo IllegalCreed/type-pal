@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前：3c专属动画回归及92工程纠错按原合同接受，固定83卡61accept/22partial/0pending；账本漂移修正后3355/373closed/113review/2869pending。Workbench整文件维持review，3w非队员Extra/时序仍未知；解释器两头注纯文案已提交，当前文档静态/推送/主线/CI按本窗实际回执，94–102不扩展。
+> 当前：固定83卡62accept/21partial/0pending；3w原合同已接受并合main c427，其Coverage39742213502成功。当前3h资产测试质量已分提交推3y，获批UI缺帧编号修复已先红后绿，模块集中门待跑；不把定向绿当3h整卡接受，94–102不扩展。以下旧时点结论按各自版本保留。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -1409,3 +1409,29 @@ Owner Codex单Agent；无下一位Agent提示词。用户待裁决期间继续3w
 [模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)逐文件接受五项review：finalization源/Extra专测、settlement源/专测、system三例专测；旧finalization.test不重复关闭。3w只按原两个实现与结算/cleanup合同接受，完整battle-system、event-system、单脚本通用yield与视觉E2E不借此接受。当前固定83为62accept/21partial/0pending；源账本3356/377closed/110review/2869pending。原all-cards header59/24已按实际逐对象61/22勘误，仅3w新增接受，其余82卡逐对象相同。
 
 当前完整check20443+684工具、七包TC及lint零诊断；官方与同报告protected零诊断、未做第二次采集。初轮12个5秒超时保留，全455原超时两worker绿后，原命令加Vitest原生worker环境参数全量重跑；无规则/timeout/断言/排除变化。最终文档/账本静态回执另补，不重启覆盖率。下一3h资产源八维余项，暂不扩94–102。
+
+## 2026-10-22 CODE3h 资产测试质量有限准入
+
+Codex单Owner，同一3y，基点c4278084be4b04ebbb77fb0633b5a94c1c0eafe2与最新main同点、干净。发布Coverage39742213502最后有效API仍in_progress，类型/lint步骤success；随后EOF不当CI失败或成功，完成后补原件。3w已闭合事实不重开，94–102不扩展。
+
+本片build allowed：loader.test.ts与load-all-recover.grok-r1.test.ts测试质量、loader.ts缓存caller路径与rle-decode.ts前缀记法的仅注释更正。旧404弱摘要转G01-B07、字段透传弱子集转G01-D01；五个独立cache合同保留，换合法typed输入并观察返回对象和淘汰，而非只数mock。恢复路径核完整warning消息、错误参数和次数，意外告警须失败。精确退役仅数据新增，predicate/规则/旧授权不动；实际身份从原生结果取得。
+
+复用3h已有PNG/启动屏障/fetch-retry八维与反控，只补失效或欠缺范围。UI单帧失败压紧数组与真实按编号呈现的关系待核，不将当前恢复用例升为可渲染结论；新产品/资产策略须另卡裁决。先定向、相邻模块与必要TC，累积相关切片后集中全仓/official/protected，本片不重采覆盖率。整3h保持partial、源与测试不据包绿关闭。
+
+## 2026-10-22 CODE3h UI original-index fix
+
+测试输入补核准入：Codex唯一Owner仅legal-host.ts的LoadAllScript类型与默认Enemy/ObjectPlayerView数据，以及load-all-assemble的A06同值typed工厂、A10对应oracle/过时头注与A09标题。原{id}不满足真实必需字段，角色OBJECT编号1也不在36..41；完整Enemy与角色36的两个零脚本入口替换伪输入，A10从只验ID增强到完整角色视图。无产品/格式变更，其余helper函数与测试数量保留。正式UI反例须在新typed夹具上重放；helper全文与assemble其它合同不借此自动关闭。此前“合法”只证明PNG/RLE/角色等实际核过的域，不能外推这两张表或完整可玩宿主；历史原件保留。
+
+收尾有限准入：沿用户合理重构/测试整改可调整baseline的既有授权，approved-baseline-adjustments仅新增一条固定c427整基线与七实际变更路径SHA的数据；只按loader单源已测移除语句2/分支2/函数1/行1重算game，不降低其它旧下限。原三未覆盖诊断逐句相同，旧11项/程序AST不变及错源拒绝已核。[重算原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/recount.json)。覆盖率只在当前模块收尾：单源54例预检为避免全仓采集后再因结构计数拒绝；正式官方全仓仍待本窗一次集中采集，不增加弱例/恢复旧列表。
+
+User approval recorded on GAME-UI-ASSET-FRAME-IDENTITY-1. Codex sole Owner: official old source 1 pass / 2 business AssertionErrors, then real loadAll/PNG/drawNumber/drawBox contracts pass; 4 directed files28 and complete assets-adjacent27 files216 (zero skipped/stderr), game typecheck0. C10 incorrect packing assertion replaced; original item-key/pixels move to independent C11. All first nine recovery contracts remain. Cache7->4: the third generic-hit subset is covered by G01-D01 plus retained unbounded exact requests, with exact retirement identity map.
+
+Current evidence: [UI finite eight-dimension receipt](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json). Six formerly missing GOP input cases now actually ran with eight read-only resource fingerprints. No extraction or shared-format change. Current3357/377closed/113review/2867pending, fixed83 remains62accept/21partial. Whole check/official/protected are pending one concentrated module freeze, not inherited from c427. Product fix is separate from pushed quality commit da00c610a; no94-102 expansion.
+
+## 2026-10-22 CODE3h资产模块有限收口
+
+本窗仅接受loader.ts、loader.test.ts、load-all-recover.grok-r1.test.ts、load-all-ui-frame-identity.test.ts、load-all-assemble.grok-r1.test.ts五文件，八维具体结论复用quality/UI/fixture三个冻结包，差异/正式业务红绿/合法输入与合同去向已核；[模块原件与低成本只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)。legal-host只补两表类型，整helper仍review；3h整卡仍partial，shared格式G1不解冻。当前3374/382closed110review2882pending，固定83保持62accept21partial0pending。
+
+首次模块check20444+685、official20046/758属同步前，原ratchet少显式减例flag退出1保留，原尾段/写入/保护检查复用同报告后0；新main6a29带实际脚本实现/资源类型/baseline，已同线合入、保留双方记录与两精确退役47/net97。旧本地资源缺新manifest导致首集成check拒绝，停止受影响未完成采集后，只对治理树自有输出用当前提取器重生。补齐缺失Musics只读复制；faithful也成功，但新main真实调用测试要求默认修正版，最终按默认生成；原八项资产SHA未变。提取原盘空MAP0一条告警如实单列，不冒称输入准备零诊断。
+
+最新冻结候选9f9b6cd57的完整check20521+686工具、七包TC，official20095/760源原CLI显式减例确认exit0，同报告strict/protected0；全部原件/退出码/诊断完整保留，不改规则/超时/测试选择。全仓硬静态error/warning/info与测试stderr/act/环境/Node诊断0。最终文档/账本静态另记，不再重采覆盖率。后续仅3h blob/RLE适配与测试质量余项，不扩94–102；当前提交/推送/main同步以Git实际结果为准。
