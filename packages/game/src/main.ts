@@ -2,6 +2,8 @@ import {
   installTypePalAnalytics,
   type TypePalAnalyticsInstallation,
 } from './analytics/install-analytics.js'
+import { initializeLanguage } from './localization/language.js'
+import { localizeStaticShell } from './localization/static-shell.js'
 import { warmUpVideoAutoplay } from './shell/avi-player.js'
 import { failBootLoading, initBootLoading, restoreBootFetch } from './shell/boot-loading.js'
 import { bootstrap, showError } from './shell/bootstrap.js'
@@ -11,6 +13,8 @@ import { registerPrecache, startPrecache } from './shell/precache-client.js'
 import { createUnifiedProgressUi } from './shell/precache-ui.js'
 
 if (typeof document !== 'undefined') {
+  initializeLanguage()
+  localizeStaticShell()
   const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true
   let analytics: TypePalAnalyticsInstallation | undefined
   try {

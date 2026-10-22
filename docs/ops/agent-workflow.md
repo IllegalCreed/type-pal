@@ -1,7 +1,7 @@
 # 多 Agent 工作流
 
 Status: current
-Last reviewed: 2026-10-18
+Last reviewed: 2026-10-23
 Owner: Codex
 Template: guide-runbook-v1 / 1.0.0
 
@@ -66,6 +66,8 @@ Codex 直接核交付和一手证据，决定返工或接收；结论写回卡�
 高风险继续核原前提、可证伪观察与充分验证；核心前提变化使旧准入失效，先 rework/blocked 再核，不能用旧结论授权新方案。schema/save/migration/资源管线问题先证明根因层，修上游、重生成并验幂等；当前作者真源边界按 READ-FIRST，不恢复已退役转换器。开发期只消费当前 canonical 版本；旧版 fallback/upgrader/双读写等默认删除，真实不可重建输入的临时隔离转换器须有用户批准、唯一 caller 和退出条件。
 
 质量门与独立交付复核分开记录；全仓未零诊断前不得宣布统一质量门或集成收口。通过后由 Codex 提交/合并/推送并按授权清理退休候选，不能替用户作新的产品取舍。
+
+GitHub `main` 分支保护于2026-10-23按本会话用户授权配置，已由 API 回读核实：所有修改（含纯文档和发布收尾）均通过 PR，禁止直接推送 `main` 或管理员绕过。合并须在最新 `main` 基础上通过 GitHub Actions（App ID `15368`）的 `documentation` 与 `fast-coverage` 两项必需检查；管理员同样受限，禁止强制推送或删除 `main`。GitHub 的必需批准数为0，不代替本页规定的 Codex 独立验收；不额外要求线性历史、签名提交或对话全部解决。发布回执按真实 CI、合并与部署结果写回，不能用本地通过或用户发布授权代替远端检查。
 
 ### 4. 视觉、资源与用户验收
 

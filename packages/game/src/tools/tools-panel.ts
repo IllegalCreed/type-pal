@@ -1,6 +1,6 @@
 // 生产增强工具面板(canvas 外 DOM,非 DEV 门;只读 + 玩家便利动作)。左上角悬浮、非模态、左竖 Tab。
 //   视觉复用 load 界面「仙剑 金/朱 暗底」配色(见 injectToolsPanelStyles)。tab 内容见 renderActiveTab。
-import type { Item, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
+import type { EnemyObject, Item, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../core/game-state.js'
 import {
   collectEnemyStatusReadouts,
@@ -9,6 +9,9 @@ import {
 } from '../core/inspect/battle-inspect.js'
 import type { SaveSnapshot } from '../core/save/data.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
+import { getWord } from '../core/word-lookup.js'
+import { getLanguage, localize, setLanguage, subscribeLanguage } from '../localization/language.js'
+import { uiText } from '../localization/ui-text.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import type { MusicSourceController } from '../shell/music-source.js'
 import { isMobileLayout, LAYOUT_CHANGE } from '../shell/presentation.js'
@@ -18,7 +21,7 @@ import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { getMapName } from './map-names.js'
 import { DOT_COLORS, type MinimapController, setupMinimap } from './minimap.js'
 import { parseImportedSave, serializeSave } from './save-io.js'
-import { CHECKPOINTS } from './speedrun/checkpoints.js'
+import { CHECKPOINTS, checkpointName } from './speedrun/checkpoints.js'
 import {
   clearSpeedrunBests,
   getSpeedrunBests,
@@ -34,6 +37,7 @@ import { showToast } from './toast.js'
 
 export interface PanelResources {
   playerRoles: PlayerRoles
+  enemyObjects?: readonly EnemyObject[]
   objectPoisons: readonly ObjectPoisonView[]
   items: readonly Item[]
   /** DATA.MKF chunk 14 LevelUpExp[100]:我方经验「升至下一级所需」显示用。 */
@@ -41,6 +45,8 @@ export interface PanelResources {
 }
 
 export interface ToolsPanelDeps {
+  /** English is selectable only after its display pack has loaded successfully. */
+  languageAvailable?: boolean
   onOpenChange?: (open: boolean) => void
   openPrivacySettings?: () => void
   getGs: () => GameState
@@ -96,6 +102,15 @@ export function injectToolsPanelStyles(): void {
   box-shadow:0 0 22px var(--tp-glow), 0 6px 26px rgba(0,0,0,0.62);
   font:14px/1.6 "Songti SC","SimSun",serif; color:var(--tp-text);
   overflow:hidden; animation:tp-panel-in .18s ease; }
+html[lang="en"]:not([data-tp-layout="mobile"]) #tp-tools-panel { width:min(550px,calc(100vw - 32px)); }
+html[lang="en"] #tp-tools-panel .tp-title,
+html[lang="en"] #tp-tools-panel .tp-tab,
+html[lang="en"] #tp-tools-panel .tp-section-title { letter-spacing:normal; }
+html[lang="en"]:not([data-tp-layout="mobile"]) #tp-tools-panel .tp-tabbar { flex-basis:96px; }
+html[lang="en"]:not([data-tp-layout="mobile"]) #tp-tools-panel .tp-tab { padding-left:12px; }
+html[lang="en"] #tp-tools-panel .tp-stat-line .k { flex-basis:6em; }
+html[lang="en"] #tp-tools-panel .tp-time-row { flex-wrap:wrap; }
+html[lang="en"] #tp-tools-panel .tp-time-row .tp-ctrl-label { min-width:110px; }
 @keyframes tp-panel-in { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
 #tp-tools-panel[hidden], #tp-tools-panel [hidden] { display:none; }
 .tp-tabbar { flex:0 0 88px; display:flex; flex-direction:column; padding:14px 0;
@@ -248,7 +263,7 @@ function liveRow(parent: HTMLElement, label: string): (value: string) => void {
   d.className = 'tp-row'
   const l = document.createElement('span')
   l.className = 'tp-row-label'
-  l.textContent = label
+  l.textContent = uiText(label)
   const v = document.createElement('span')
   v.className = 'tp-row-value'
   d.append(l, v)
@@ -261,14 +276,14 @@ function liveRow(parent: HTMLElement, label: string): (value: string) => void {
 function sectionTitle(parent: HTMLElement, text: string): void {
   const d = document.createElement('div')
   d.className = 'tp-section-title'
-  d.textContent = text
+  d.textContent = uiText(text)
   parent.appendChild(d)
 }
 
 function muted(parent: HTMLElement, text: string): void {
   const d = document.createElement('div')
   d.className = 'tp-muted'
-  d.textContent = text
+  d.textContent = uiText(text)
   parent.appendChild(d)
 }
 
@@ -278,7 +293,7 @@ function kvLine(parent: HTMLElement, label: string, value: string, valueCss = ''
   d.className = 'tp-stat-line'
   const k = document.createElement('span')
   k.className = 'k'
-  k.textContent = label
+  k.textContent = uiText(label)
   const v = document.createElement('span')
   v.textContent = value
   v.style.cssText = `font-family:ui-monospace,Menlo,monospace;font-size:13px;${valueCss}`
@@ -296,11 +311,11 @@ function sliderRow(
   r.className = 'tp-ctrl-row'
   const l = document.createElement('span')
   l.className = 'tp-ctrl-label'
-  l.textContent = label
+  l.textContent = uiText(label)
   const slider = document.createElement('input')
   slider.type = 'range'
   slider.className = 'tp-range'
-  slider.setAttribute('aria-label', label)
+  slider.setAttribute('aria-label', uiText(label))
   slider.min = String(opts.min)
   slider.max = String(opts.max)
   if (opts.step !== undefined) slider.step = String(opts.step)
@@ -315,7 +330,7 @@ function sliderRow(
 function button(parent: HTMLElement, text: string, onClick: () => void): HTMLButtonElement {
   const b = document.createElement('button')
   b.className = 'tp-btn'
-  b.textContent = text
+  b.textContent = uiText(text)
   b.addEventListener('click', onClick)
   parent.appendChild(b)
   return b
@@ -331,7 +346,7 @@ function toggleRow(
   const r = document.createElement('label')
   r.className = 'tp-toggle'
   const span = document.createElement('span')
-  span.textContent = label
+  span.textContent = uiText(label)
   const cb = document.createElement('input')
   cb.type = 'checkbox'
   cb.checked = checked
@@ -355,12 +370,12 @@ function keyRow(parent: HTMLElement, keys: readonly string[], desc: string): voi
     }
     const cap = document.createElement('kbd')
     cap.className = 'tp-kbd'
-    cap.textContent = k
+    cap.textContent = uiText(k)
     caps.appendChild(cap)
   })
   const d = document.createElement('div')
   d.className = 'tp-key-desc'
-  d.textContent = desc
+  d.textContent = uiText(desc)
   r.append(caps, d)
   parent.appendChild(r)
 }
@@ -379,7 +394,7 @@ function minimapLegend(parent: HTMLElement): void {
     it.className = 'tp-mm-leg'
     const sw = document.createElement('i')
     sw.style.cssText = `background:${color}`
-    it.append(sw, document.createTextNode(name))
+    it.append(sw, document.createTextNode(uiText(name)))
     wrap.appendChild(it)
   }
   parent.appendChild(wrap)
@@ -414,7 +429,7 @@ function chipLine(
   d.className = 'tp-stat-line'
   const k = document.createElement('span')
   k.className = 'k'
-  k.textContent = label
+  k.textContent = uiText(label)
   d.appendChild(k)
   // chips 单独成右列(flex-wrap):换行后左缘对齐到 label 列之后,不顶格。
   const chips = document.createElement('span')
@@ -457,7 +472,7 @@ function resistChips(
   resistances: { label: string; value: number }[],
 ): { text: string; cls: string }[] {
   return resistances.map((r) => ({
-    text: `${r.label}${r.value > 0 ? '+' : ''}${r.value}`,
+    text: `${uiText(r.label)}${r.value > 0 ? '+' : ''}${r.value}`,
     cls: ELEM_CLASS[r.label] ?? '',
   }))
 }
@@ -466,10 +481,51 @@ function statusChips(
   statuses: { name: string; kind: string; rounds?: number }[],
 ): { text: string; cls: string }[] {
   // buff/debuff 带剩余回合(>999 = 装备/永久效果 → 「永久」);毒无回合 → 只名。
-  return statuses.map((s) => ({
-    text: s.rounds && s.rounds > 0 ? `${s.name} ${s.rounds > 999 ? '永久' : s.rounds}` : s.name,
-    cls: `s-${s.kind}`,
-  }))
+  return statuses.map((s) => {
+    // Some poison-only objects have no Item row. The inspector's explicit #ID fallback retains identity.
+    const poisonId =
+      getLanguage() === 'en' && s.kind === 'poison' ? /^毒#(\d+)$/.exec(s.name)?.[1] : undefined
+    const name = poisonId
+      ? getWord(Number(poisonId), localize(s.name, `Poison #${poisonId}`))
+      : uiText(s.name)
+    return {
+      text:
+        s.rounds && s.rounds > 0 ? `${name} ${s.rounds > 999 ? uiText('永久') : s.rounds}` : name,
+      cls: `s-${s.kind}`,
+    }
+  })
+}
+
+function enemyDisplayName(
+  gs: GameState,
+  res: PanelResources,
+  slot: number,
+  fallback: string,
+): string {
+  const enemy = gs.battleState?.enemies[slot]
+  if (!enemy) return fallback
+  const exact = res.enemyObjects?.find((object) => object.objectIndex === enemy.objectId)
+  if (exact?.enemyId === enemy.e.id) return getWord(exact.objectIndex, fallback)
+  const candidates = res.enemyObjects?.filter((object) => object.enemyId === enemy.e.id)
+  return candidates?.length === 1 ? getWord(candidates[0]!.objectIndex, fallback) : fallback
+}
+
+function enemyStealText(gs: GameState, slot: number, fallback: string): string {
+  if (getLanguage() !== 'en') return fallback
+  const enemy = gs.battleState?.enemies[slot]?.e
+  if (!enemy) return fallback
+  const count = enemy.stealItemCount ?? 0
+  if (count <= 0) return 'Nothing to steal'
+  const id = enemy.stealItem ?? 0
+  return `${id === 0 ? 'Coins' : getWord(id, `Item #${id}`)} ×${count}`
+}
+
+function enemyAttackEffectText(gs: GameState, slot: number, fallback: string): string {
+  if (getLanguage() !== 'en') return fallback
+  const enemy = gs.battleState?.enemies[slot]?.e
+  if (!enemy) return fallback
+  const id = enemy.attackEquivItem ?? 0
+  return `${getWord(id, `Item #${id}`)}#${id} (${enemy.attackEquivItemRate ?? 0}/10)`
 }
 
 /** 战斗 tab:我方/敌方各独立 panel(HP/MP/抗性/状态/可偷,彩色) + 场地。非战斗 → 提示。 */
@@ -483,21 +539,38 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
   const ov = document.createElement('div')
   ov.className = 'tp-unit'
   parent.appendChild(ov)
-  kvLine(ov, '回合', `第 ${gs.battleState.turn + 1} 回合`, 'color:var(--tp-gold)')
+  kvLine(
+    ov,
+    '回合',
+    localize(`第 ${gs.battleState.turn + 1} 回合`, `Turn ${gs.battleState.turn + 1}`),
+    'color:var(--tp-gold)',
+  )
   kvLine(ov, '灵葫值', String(gs.wCollectValue ?? 0), 'color:#b88fd6')
   sectionTitle(parent, '我方')
   const levelUpExp = res.levelUpExp ?? []
+  // Inspector labels remain stable logic keys; only item names enter its display snapshot.
+  const displayItems = res.items.map((item) => ({
+    ...item,
+    _name: getWord(item.id, item._name ?? ''),
+  }))
   for (const p of collectPartyStatusReadouts(
     gs,
     res.playerRoles,
     res.objectPoisons,
-    res.items,
+    displayItems,
     levelUpExp,
   )) {
     // 头:角色名 + 修行(等级)。经验单独成行。
     //   我方体力/真气**不显示**:本面板读持久 PlayerRolesRuntime,战斗中当前血/蓝由战斗工作副本
     //   持有、仅在边界回写,会滞后误导(战斗框才是 live 值)。敌方 HP 读 battleState 故保留。
-    const u = unitPanel(parent, p.roleName, `修行 ${p.level}`, 'color:var(--tp-gold)')
+    const role = res.playerRoles.roles.find((r) => r.id === p.roleId)
+    const roleName = role ? getWord(role.name, p.roleName) : p.roleName
+    const u = unitPanel(
+      parent,
+      roleName,
+      localize(`修行 ${p.level}`, `Level ${p.level}`),
+      'color:var(--tp-gold)',
+    )
     kvLine(
       u,
       '经验',
@@ -506,18 +579,18 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     )
     // 6 属性(= 游戏内状态框,含装备加成):修行(头)+ 武术/灵力/防御/身法/吉运。
     chipLine(u, '属性', [
-      { text: `武术 ${p.attack}`, cls: '' },
-      { text: `灵力 ${p.magicPower}`, cls: '' },
-      { text: `防御 ${p.defense}`, cls: '' },
-      { text: `身法 ${p.dexterity}`, cls: '' },
-      { text: `吉运 ${p.fleeRate}`, cls: '' },
+      { text: `${uiText('武术')} ${p.attack}`, cls: '' },
+      { text: `${uiText('灵力')} ${p.magicPower}`, cls: '' },
+      { text: `${uiText('防御')} ${p.defense}`, cls: '' },
+      { text: `${uiText('身法')} ${p.dexterity}`, cls: '' },
+      { text: `${uiText('吉运')} ${p.fleeRate}`, cls: '' },
     ])
     // 修为:五属性隐藏经验(累积/升点阈值;+N = 本场战斗已累积、战后结算转经验涨属性)。
     chipLine(
       u,
       '修为',
       p.hiddenExp.map((h) => ({
-        text: `${h.label} ${h.next > 0 ? `${h.cur}/${h.next}` : h.cur}${h.gained > 0 ? ` +${h.gained}` : ''}`,
+        text: `${uiText(h.label)} ${h.next > 0 ? `${h.cur}/${h.next}` : h.cur}${h.gained > 0 ? ` +${h.gained}` : ''}`,
         cls: '',
       })),
     )
@@ -525,11 +598,11 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     chipLine(u, '状态', statusChips(p.statuses)) // 含中毒(紫 s-poison chip)
   }
   sectionTitle(parent, '敌方')
-  for (const e of collectEnemyStatusReadouts(gs, res.objectPoisons, res.items)) {
+  for (const e of collectEnemyStatusReadouts(gs, res.objectPoisons, displayItems)) {
     const u = unitPanel(
       parent,
-      e.name,
-      e.defeated ? '已倒' : `HP ${e.hp}/${e.maxHp}`,
+      enemyDisplayName(gs, res, e.slot, e.name),
+      e.defeated ? uiText('已倒') : `HP ${e.hp}/${e.maxHp}`,
       e.defeated ? 'color:var(--tp-text-dim)' : hpCss(e.hp, e.maxHp),
     )
     // 属性:全战斗属性(隐藏 法术id 调试项);经验/金钱单独成「战利」行。
@@ -537,31 +610,40 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     chipLine(
       u,
       '属性',
-      combat.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })),
+      combat.map((s) => ({
+        text: localize(`${s.label}${s.value}`, `${uiText(s.label)} ${s.value}`),
+        cls: '',
+      })),
     )
     const drops = e.stats.filter((s) => s.label === '经验' || s.label === '金钱')
     chipLine(
       u,
       '战利',
-      drops.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })),
+      drops.map((s) => ({
+        text: localize(`${s.label}${s.value}`, `${uiText(s.label)} ${s.value}`),
+        cls: '',
+      })),
     )
     chipLine(u, '抗性', resistChips(e.resistances))
     chipLine(u, '状态', statusChips(e.statuses)) // 含中毒
-    chipLine(u, '偷取', [{ text: e.steal, cls: 's-steal' }]) // 始终显示(可偷物/金钱 或「不可偷」)
+    chipLine(u, '偷取', [{ text: enemyStealText(gs, e.slot, e.steal), cls: 's-steal' }]) // 始终显示(可偷物/金钱 或「不可偷」)
     // 灵葫值:>0 = 灵葫咒可收(秒掉时并入全局灵葫值供炼丹);=0 → 灵葫咒永远收不掉,显「无」提示。始终显示。
     chipLine(u, '灵葫', [
-      { text: e.collectValue > 0 ? String(e.collectValue) : '无', cls: 's-collect' },
+      { text: e.collectValue > 0 ? String(e.collectValue) : uiText('无'), cls: 's-collect' },
     ])
     // 普攻毒:敌普攻命中按 rate/10 概率附该道具(全 0x29 单体毒)效果;无此机制(equiv 或 rate 为 0)→ null 不显示。
     // label 取 3 字(「普攻附毒」4 字会在 label 列换行)。
-    if (e.attackEquivPoison) chipLine(u, '普攻毒', [{ text: e.attackEquivPoison, cls: 's-poison' }])
+    if (e.attackEquivPoison)
+      chipLine(u, '普攻毒', [
+        { text: enemyAttackEffectText(gs, e.slot, e.attackEquivPoison), cls: 's-poison' },
+      ])
   }
   const field = collectFieldInfoReadout(gs)
   if (field) {
     sectionTitle(parent, '场地')
     const u = unitPanel(
       parent,
-      `场地 #${field.fieldId}`,
+      localize(`场地 #${field.fieldId}`, `Field #${field.fieldId}`),
       field.isBoss ? 'BOSS' : '',
       field.isBoss ? 'color:var(--tp-crimson);font-weight:bold' : '',
     )
@@ -569,7 +651,7 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
       u,
       '场效',
       field.elements.map((s) => ({
-        text: `${s.label}${s.value > 0 ? '+' : ''}${s.value}`,
+        text: `${uiText(s.label)}${s.value > 0 ? '+' : ''}${s.value}`,
         cls: ELEM_CLASS[s.label] ?? '',
       })),
     )
@@ -609,6 +691,47 @@ function renderSceneTab(parent: HTMLElement, gs: GameState, minimap: MinimapCont
 
 /** 系统 tab:显示(缩放滑块 10%~1000% 正中100% + 全屏) / 音频(BGM 滑块 + 静音) / 存档(导出/导入)。 */
 function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
+  sectionTitle(parent, localize('语言 / Language', 'Language / 语言'))
+  const languageRow = document.createElement('label')
+  languageRow.className = 'tp-ctrl-row'
+  const languageSelect = document.createElement('select')
+  languageSelect.id = 'tp-language'
+  languageSelect.className = 'tp-input'
+  languageSelect.setAttribute('aria-label', '语言 / Language')
+  for (const [value, label] of [
+    ['zh-CN', '简体中文'],
+    ['en', 'English'],
+  ] as const) {
+    const option = document.createElement('option')
+    option.value = value
+    option.textContent = label
+    option.disabled = value === 'en' && deps.languageAvailable !== true
+    languageSelect.append(option)
+  }
+  languageSelect.value = getLanguage()
+  languageSelect.addEventListener('change', () => {
+    if (languageSelect.value === 'en' && deps.languageAvailable === true) setLanguage('en')
+    else if (languageSelect.value === 'zh-CN') setLanguage('zh-CN')
+    else languageSelect.value = getLanguage()
+  })
+  languageRow.append(languageSelect)
+  parent.append(languageRow)
+  if (deps.languageAvailable !== true) {
+    muted(
+      parent,
+      localize(
+        '英文语言包未就绪，暂时使用中文。',
+        'English language pack is unavailable; using Chinese.',
+      ),
+    )
+  }
+  muted(
+    parent,
+    localize(
+      '英文补丁：Xire及原翻译者；SDLPal移植与修订：Nostaljaded，v3.3（2019）。本项目另补界面和残留文本。',
+      'English patch: Xire and the original translators. SDLPal port and revisions: Nostaljaded, v3.3 (2019). Additional UI and remaining text translated for type-pal.',
+    ),
+  )
   sectionTitle(parent, '操作')
   if (isMobileLayout()) {
     toggleRow(parent, '显示虚拟按键', areTouchControlsVisible(), setTouchControlsVisible)
@@ -661,18 +784,18 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   sourceRow.className = 'tp-ctrl-row'
   const sourceLabel = document.createElement('span')
   sourceLabel.className = 'tp-ctrl-label'
-  sourceLabel.textContent = '音源'
+  sourceLabel.textContent = uiText('音源')
   const sourceSelect = document.createElement('select')
   sourceSelect.id = 'tp-music-source'
   sourceSelect.className = 'tp-input'
-  sourceSelect.setAttribute('aria-label', '音乐音源')
+  sourceSelect.setAttribute('aria-label', uiText('音乐音源'))
   for (const [value, text] of [
     ['midi', 'MIDI（当前音色）'],
     ['rix', 'DOS FM（RIX）'],
   ] as const) {
     const option = document.createElement('option')
     option.value = value
-    option.textContent = text
+    option.textContent = uiText(text)
     sourceSelect.appendChild(option)
   }
   sourceSelect.addEventListener('change', () => {
@@ -695,7 +818,8 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   // 主静音:一键静音/恢复 音乐+音效+视频。三路控制器共用同一静音 localStorage 键(见 bootstrap),
   //   故 audioVolume.isMuted() 即代表当前主静音态;静音只叠加开关、不改各路滑块音量,恢复即回滑块值。
   const muteChannels = [deps.audioVolume, deps.sfxVolume, deps.videoVolume]
-  const muteLabel = (): string => (deps.audioVolume.isMuted() ? '🔇 已静音' : '🔊 静音')
+  const muteLabel = (): string =>
+    deps.audioVolume.isMuted() ? uiText('🔇 已静音') : uiText('🔊 静音')
   const muteBtn = button(parent, muteLabel(), () => {
     const next = !deps.audioVolume.isMuted()
     for (const c of muteChannels) c.setMuted(next)
@@ -715,13 +839,13 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     row.className = 'tp-save-row'
     const lbl = document.createElement('span')
     lbl.className = 'tp-save-label'
-    lbl.textContent = `存档位 ${slot}`
+    lbl.textContent = localize(`存档位 ${slot}`, `Slot ${slot}`)
     row.appendChild(lbl)
     button(row, '导出', () => {
       void (async (): Promise<void> => {
         const g = await deps.loadSlot(slot)
         if (!g) {
-          showToast(`存档位 ${slot} 暂无存档`, { type: 'error' })
+          showToast(localize(`存档位 ${slot} 暂无存档`, `Slot ${slot} is empty`), { type: 'error' })
           return
         }
         const blob = new Blob([serializeSave(g)], { type: 'application/json' })
@@ -730,7 +854,7 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
         a.download = `type-pal-save-slot${slot}.json`
         a.click()
         URL.revokeObjectURL(a.href)
-        showToast(`已导出存档位 ${slot}`, { type: 'success' })
+        showToast(localize(`已导出存档位 ${slot}`, `Exported slot ${slot}`), { type: 'success' })
       })()
     })
     const fileInput = document.createElement('input')
@@ -745,11 +869,16 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
         void (async (): Promise<void> => {
           try {
             await deps.saveSlot(slot, parseImportedSave(String(reader.result)))
-            showToast(`已导入到存档位 ${slot}`, { type: 'success' })
-          } catch (err) {
-            showToast(`导入失败:${err instanceof Error ? err.message : String(err)}`, {
-              type: 'error',
+            showToast(localize(`已导入到存档位 ${slot}`, `Imported to slot ${slot}`), {
+              type: 'success',
             })
+          } catch (err) {
+            showToast(
+              `${localize('导入失败:', 'Import failed: ')}${err instanceof Error ? err.message : String(err)}`,
+              {
+                type: 'error',
+              },
+            )
           }
         })()
       }
@@ -771,9 +900,9 @@ function updateMusicSourceUi(parent: HTMLElement, controller: MusicSourceControl
   if (status) {
     status.textContent =
       state.status === 'loading'
-        ? '正在加载音乐…'
+        ? uiText('正在加载音乐…')
         : state.status === 'error'
-          ? `音乐加载失败：${state.error}`
+          ? localize(`音乐加载失败：${state.error}`, `Music failed to load: ${state.error}`)
           : ''
   }
   if (retry) retry.hidden = state.status !== 'error'
@@ -789,9 +918,9 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   const search = document.createElement('input')
   search.type = 'text'
   search.className = 'tp-input'
-  search.setAttribute('aria-label', '搜索对话')
+  search.setAttribute('aria-label', uiText('搜索对话'))
   search.autocomplete = 'off'
-  search.placeholder = '搜索对话…'
+  search.placeholder = uiText('搜索对话…')
   parent.appendChild(search)
   const list = document.createElement('div')
   list.style.marginTop = '8px'
@@ -842,16 +971,16 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
   ops.className = 'tp-action-row'
   button(ops, '重置本局', () => {
     resetSpeedrun()
-    showToast('计时器已重置', { type: 'success' })
+    showToast(uiText('计时器已重置'), { type: 'success' })
   })
   button(ops, '本次设为最佳', () => {
     setSpeedrunBestFromCurrent()
-    showToast('已设为最佳', { type: 'success' })
+    showToast(uiText('已设为最佳'), { type: 'success' })
     rerender()
   })
   button(ops, '清空最佳', () => {
     clearSpeedrunBests()
-    showToast('已清空最佳', { type: 'success' })
+    showToast(uiText('已清空最佳'), { type: 'success' })
     rerender()
   })
   parent.appendChild(ops)
@@ -865,11 +994,11 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
   jumpRow.className = 'tp-action-row'
   const sel = document.createElement('select')
   sel.className = 'tp-input'
-  sel.setAttribute('aria-label', '计时器跳转节点')
+  sel.setAttribute('aria-label', uiText('计时器跳转节点'))
   CHECKPOINTS.forEach((cp, i) => {
     const opt = document.createElement('option')
     opt.value = String(i)
-    opt.textContent = `${i + 1}. ${cp.name}`
+    opt.textContent = `${i + 1}. ${checkpointName(cp)}`
     if (i === curStep) opt.selected = true
     sel.appendChild(opt)
   })
@@ -877,7 +1006,13 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
   button(jumpRow, '跳到此节点', () => {
     const idx = Number(sel.value)
     setSpeedrunStep(idx)
-    showToast(`已跳到「${CHECKPOINTS[idx]?.name}」,从此节点起检测`, { type: 'success' })
+    showToast(
+      localize(
+        `已跳到「${CHECKPOINTS[idx]?.name}」,从此节点起检测`,
+        `Detection starts at ${CHECKPOINTS[idx] ? checkpointName(CHECKPOINTS[idx]) : idx}`,
+      ),
+      { type: 'success' },
+    )
     rerender()
   })
   parent.appendChild(jumpRow)
@@ -889,10 +1024,13 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
     row.className = 'tp-ctrl-row tp-time-row'
     const label = document.createElement('span')
     label.className = 'tp-ctrl-label'
-    label.textContent = cp.name
+    label.textContent = checkpointName(cp)
     const input = document.createElement('input')
     input.className = 'tp-input'
-    input.setAttribute('aria-label', `${cp.name}最佳时间`)
+    input.setAttribute(
+      'aria-label',
+      localize(`${cp.name}最佳时间`, `${checkpointName(cp)} best time`),
+    )
     input.autocomplete = 'off'
     input.placeholder = 'H:MM:SS'
     const b = bests[cp.id]
@@ -905,7 +1043,7 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
       }
       const ms = parseHms(raw)
       if (ms == null) {
-        showToast('格式应为 H:MM:SS', { type: 'error' })
+        showToast(uiText('格式应为 H:MM:SS'), { type: 'error' })
         return
       }
       setSpeedrunBest(cp.id, ms)
@@ -1043,7 +1181,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   titleWrap.className = 'tp-title-wrap'
   const title = document.createElement('div')
   title.className = 'tp-title'
-  title.textContent = '仙剑 · 工具'
+  title.textContent = uiText('仙剑 · 工具')
   const ghLink = document.createElement('a')
   ghLink.className = 'tp-gh-link'
   ghLink.href = 'https://github.com/IllegalCreed/type-pal'
@@ -1055,7 +1193,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   const closeBtn = document.createElement('button')
   closeBtn.className = 'tp-close'
   closeBtn.textContent = '×'
-  closeBtn.setAttribute('aria-label', '关闭')
+  closeBtn.setAttribute('aria-label', uiText('关闭'))
   header.append(titleWrap, closeBtn)
   const body = document.createElement('div')
   body.className = 'tp-body'
@@ -1066,11 +1204,12 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   const render = (): void => {
     if (isMobileLayout() && (active === 'timer' || active === 'keys')) active = 'system'
     for (const [k, btn] of tabButtons) {
+      btn.textContent = uiText(TABS.find(([key]) => key === k)?.[1] ?? '')
       btn.hidden = isMobileLayout() && (k === 'timer' || k === 'keys')
       btn.classList.toggle('tp-tab-active', k === active)
       btn.setAttribute('aria-pressed', String(k === active))
-      if (k === 'scene') btn.textContent = isMobileLayout() ? '地图' : '场景'
-      if (k === 'system') btn.textContent = isMobileLayout() ? '设置' : '系统'
+      if (k === 'scene') btn.textContent = uiText(isMobileLayout() ? '地图' : '场景')
+      if (k === 'system') btn.textContent = uiText(isMobileLayout() ? '设置' : '系统')
     }
     body.replaceChildren()
     renderActiveTab(body, active, panelDeps, minimap)
@@ -1080,7 +1219,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
     b.className = 'tp-tab'
     b.dataset.key = key
     if (key === 'battle' || key === 'dialog' || key === 'keys') b.dataset.extra = ''
-    b.textContent = label
+    b.textContent = uiText(label)
     b.addEventListener('click', () => {
       active = key
       render()
@@ -1090,7 +1229,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   }
   const moreTabs = document.createElement('button')
   moreTabs.className = 'tp-tabs-more'
-  moreTabs.textContent = '更多'
+  moreTabs.textContent = uiText('更多')
   moreTabs.setAttribute('aria-expanded', 'false')
   moreTabs.addEventListener('click', () => {
     const expanded = tabbar.toggleAttribute('data-expanded')
@@ -1104,8 +1243,8 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   const launcher = document.createElement('button')
   launcher.id = 'tp-tools-launcher'
   launcher.textContent = '⚙'
-  launcher.title = '工具面板(`)'
-  launcher.setAttribute('aria-label', '打开工具面板')
+  launcher.title = uiText('工具面板(`)')
+  launcher.setAttribute('aria-label', uiText('打开工具面板'))
 
   let open = false
   let previousFocus: HTMLElement | null = null
@@ -1118,7 +1257,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
       previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
       if (isMobileLayout()) {
         root.setAttribute('role', 'dialog')
-        root.setAttribute('aria-label', '游戏工具')
+        root.setAttribute('aria-label', uiText('游戏工具'))
         render()
         closeBtn.focus()
       } else render()
@@ -1133,6 +1272,26 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
         }
       : undefined,
   }
+  const unsubscribeLanguage = subscribeLanguage(() => {
+    if (!root.isConnected) {
+      unsubscribeLanguage()
+      return
+    }
+    title.textContent = uiText('仙剑 · 工具')
+    closeBtn.setAttribute('aria-label', uiText('关闭'))
+    moreTabs.textContent = uiText('更多')
+    launcher.title = uiText('工具面板(`)')
+    launcher.setAttribute('aria-label', uiText('打开工具面板'))
+    if (root.hasAttribute('aria-label')) root.setAttribute('aria-label', uiText('游戏工具'))
+    if (open) {
+      const focusedId =
+        document.activeElement instanceof HTMLElement ? document.activeElement.id : ''
+      const scrollTop = body.scrollTop
+      render()
+      body.scrollTop = scrollTop
+      if (focusedId) document.getElementById(focusedId)?.focus()
+    }
+  })
   window.addEventListener(LAYOUT_CHANGE, () => {
     if (open) render()
   })

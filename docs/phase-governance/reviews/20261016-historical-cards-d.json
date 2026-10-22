@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read current11 per-file A-H, native controls and only owned board/index/ledger delta; preserve unrelated entries",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
+      "readMethod": "Review exact two-parent delta and finite current reconciliation; preserve histories/envelopes without unrelated full-file acceptance.",
+      "coreConclusion": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3238,7 +3238,9 @@
         "85ebe86d38d047c10339e053299ae050af5ec053:scripts/docs/terminal-namespace.mjs",
         "scripts/quality/code-quality-inventory.mjs",
         "scripts/quality/code-quality-ledger.mjs",
-        "docs/phase-governance/reviews/20261016-terminal-a8-design.md"
+        "docs/phase-governance/reviews/20261016-terminal-a8-design.md",
+        "docs/ops/tasks/GAME-ENGLISH-1.md",
+        "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
       "phaseAnchors": [
         "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
@@ -3263,11 +3265,11 @@
         "Real tracked inventory and one continuous live table; 3300 unique inventory paths; old248 full rows and273-line source bytes exact; six new tool/test paths pending only."
       ],
       "businessOracle": {
-        "type": "A8-source-format-partial-and-pending-inventory-integrity",
+        "type": "bounded-document-merge-and-actual-consumers",
         "assertions": [
-          "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
-          "Both real docs/lint callers retain mandatory ordinary quality checks. approvalChecked/currentChecked/completeChecked=false; B/C0/C1 not accepted.",
-          "Unique current root verdict is in 20261016-terminal-a8.json rootIntake; full immediate prior retained at fixedGit."
+          "Combined ledger retains main5 asset closures plus English28 implicit pending:3402tracked/382closed/110review/2910pending/3020unclosed; no new whole-file closures.",
+          "Both parent history objects and artifact preservation fields remain intact; scoped current hashes match actual formatted targets.",
+          "No unrelated task, product or whole-file quality acceptance."
         ]
       },
       "dedupe": {
@@ -3285,15 +3287,15 @@
         "limits": "No whole code semantic closure, B/C0/C1, runtime/E2E/visual/coverage or whole-goal acceptance."
       },
       "unresolved": [
-        "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
+        "Current merged-candidate gates and remote release receipts pending; no full-story English E2E inferred."
       ],
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+      "afterSha256": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+        "implementationSha": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4146,12 +4148,13 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-blob-dialog-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
-        "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
-        "lineCount": 985,
-        "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
-        "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+        "kind": "english-release-second-main-sync",
+        "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
+        "afterSha256": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
+        "lineCount": 991,
+        "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
+        "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+        "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
         "workingTreeDelta": true
       },
       "history": [
@@ -5047,6 +5050,59 @@
         },
         {
           "date": "2026-10-22",
+          "action": "english-feature-scoped-documentation-writeback",
+          "previousAfterSha256": "df2328e4f1eaf09f2eaffc0a1e6054ef13a63cc27600e3405d52c41206003e42",
+          "previousCurrent": {
+            "coreConclusion": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+            "evidence": {
+              "kind": "script-corrections-main-sync-publication",
+              "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+              "afterSha256": "df2328e4f1eaf09f2eaffc0a1e6054ef13a63cc27600e3405d52c41206003e42",
+              "lineCount": 963,
+              "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "Codex",
+              "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+              "mainSync": {
+                "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+                "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+                "preservedBothParentHistories": true
+              }
+            },
+            "businessOracle": {
+              "type": "A8-source-format-partial-and-pending-inventory-integrity",
+              "assertions": [
+                "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+                "Both real docs/lint callers retain mandatory ordinary quality checks. approvalChecked/currentChecked/completeChecked=false; B/C0/C1 not accepted.",
+                "Unique current root verdict is in 20261016-terminal-a8.json rootIntake; full immediate prior retained at fixedGit."
+              ]
+            },
+            "unresolved": [
+              "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
+            ],
+            "nextStep": "Complete official coverage and CI before merge and issue closure.",
+            "readMethod": "Review exact combined navigation/publication delta against synchronized main; both parent histories retained. No unchanged-file re-audit.",
+            "reviewedLines": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+            "revision": {
+              "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
+              "implementationSha": "df2328e4f1eaf09f2eaffc0a1e6054ef13a63cc27600e3405d52c41206003e42"
+            }
+          },
+          "scope": "Inventory-only English feature delta:28 new tracked paths remain implicit pending; total3401/pending2914/unclosed3024, existing377closed/110review and all prior table rows unchanged. No full-file quality closure or coverage acceptance.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+          "sourceFrozenSha": "05e1cfcff",
+          "notRun": [
+            "Official coverage/final unified acceptance",
+            "Full-story English E2E",
+            "User UI acceptance"
+          ]
+        },
+        {
+          "date": "2026-10-22",
           "action": "Pre94-3h-assets-local-freeze",
           "previousEvidence": {
             "kind": "codex-owned-pre94-3w-approved-extra-cleanup-local",
@@ -5109,6 +5165,87 @@
         },
         {
           "date": "2026-10-22",
+          "action": "english-release-main-sync-documentation",
+          "parents": {
+            "english": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+            "main": "acb96a123bcb062c7204fdbc51903188c9fa0c5f"
+          },
+          "previousEnglish": {
+            "afterSha256": "47afb9e15a6a1d05e4bb834d4c266e9648ada63633598f3e5eb21cdbc30ba0d9",
+            "coreConclusion": "Inventory-only English feature delta:28 new tracked paths remain implicit pending; total3401/pending2914/unclosed3024, existing377closed/110review and all prior table rows unchanged. No full-file quality closure or coverage acceptance.",
+            "evidence": {
+              "kind": "english-feature-scoped-documentation-writeback",
+              "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+              "afterSha256": "47afb9e15a6a1d05e4bb834d4c266e9648ada63633598f3e5eb21cdbc30ba0d9",
+              "lineCount": 965,
+              "scope": "Inventory-only English feature delta:28 new tracked paths remain implicit pending; total3401/pending2914/unclosed3024, existing377closed/110review and all prior table rows unchanged. No full-file quality closure or coverage acceptance.",
+              "candidateBaseRevision": "05e1cfcff",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "english_shell_audit (Codex delegated documentation owner)",
+              "scope": "Inventory-only English feature delta:28 new tracked paths remain implicit pending; total3401/pending2914/unclosed3024, existing377closed/110review and all prior table rows unchanged. No full-file quality closure or coverage acceptance.",
+              "sourceFrozenSha": "05e1cfcff",
+              "notAFullSourceReaudit": true
+            },
+            "businessOracle": {
+              "type": "scoped-authorized-document-maintenance",
+              "assertions": [
+                "Inventory-only English feature delta:28 new tracked paths remain implicit pending; total3401/pending2914/unclosed3024, existing377closed/110review and all prior table rows unchanged. No full-file quality closure or coverage acceptance.",
+                "Task top remains the task status authority; no other historical status is changed.",
+                "Static document/hash checks do not create runtime/visual/coverage acceptance."
+              ]
+            },
+            "unresolved": [
+              "Official coverage/final unified acceptance and user UI acceptance remain pending for GAME-ENGLISH-1. Full-story English E2E and deployment are not claimed."
+            ],
+            "nextStep": "Codex consumes final reports and unified gate results, obtains user UI judgment, and keeps the task in review until its actual acceptance conditions are met.",
+            "readMethod": "Exact owned diff from reviewed main body through frozen 05e1cfcff and this documentation change; no unchanged-file re-audit or historical acceptance promotion.",
+            "reviewedLines": "Only the GAME-ENGLISH-1 navigation/status delta or inventory summary/pending delta; all unrelated rows and historical conclusions retained."
+          },
+          "previousMain": {
+            "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+            "coreConclusion": "Current pre94 fixed83 remains62accept21partial;3374/382closed110review2882pending. Five finite asset files accepted by complete referenced A-H, formal red/green and meaningful retained oracles; helper whole lifecycle/CODE3h/shared G1 remain review/partial. Latest main6a29 integrated with histories and exact retirement union47/net97. Full20521+686 tools/sevenTC, official20095/760 and same-report strict/protected0, hard static and test diagnostics0. Earlier missing flag/metadata/extraction/aborted receipts preserved; no rule/timeout/test selection relaxation. No browser/E2E/deployment credit;94-102 excluded.",
+            "evidence": {
+              "kind": "codex-owned-pre94-3h-assets-quality-local",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json",
+              "afterSha256": "0bf6914b5401db7f4b7a406a9f3d3a30c924b4e20214bcfdfdf2687f845aeef2",
+              "lineCount": 972,
+              "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "Codex",
+              "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+              "mainSync": {
+                "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+                "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+                "preservedBothParentHistories": true
+              }
+            },
+            "businessOracle": {
+              "type": "A8-source-format-partial-and-pending-inventory-integrity",
+              "assertions": [
+                "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+                "Both real docs/lint callers retain mandatory ordinary quality checks. approvalChecked/currentChecked/completeChecked=false; B/C0/C1 not accepted.",
+                "Unique current root verdict is in 20261016-terminal-a8.json rootIntake; full immediate prior retained at fixedGit."
+              ]
+            },
+            "unresolved": [
+              "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
+            ],
+            "nextStep": "Complete official coverage and CI before merge and issue closure.",
+            "readMethod": "Read current3h quality/UI/recount evidence and own board/index/ledger delta; preserve unrelated rows",
+            "reviewedLines": "Only approved UI task, five review ledger rows, current counts, generated index and owned descendant pins"
+          },
+          "scope": "Combined ledger retains main5 asset closures plus English28 implicit pending:3402tracked/382closed/110review/2910pending/3020unclosed; no new whole-file closures.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json"
+        },
+        {
+          "date": "2026-10-22",
           "action": "Pre94-blob-dialog-local-pre-gates",
           "previousEvidence": {
             "kind": "codex-owned-pre94-3h-assets-quality-local",
@@ -5142,6 +5279,68 @@
           "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
           "scope": "Only owned board/ledger and descendant pins; seven new closes, RLE old source close withdrawn, net+6. Nine finite contracts accepted; CODE3h/3i and two RLE files remain partial/review; no broad or visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+        },
+        {
+          "date": "2026-10-22",
+          "action": "english-release-second-main-sync",
+          "parents": {
+            "english": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+            "main": "d297e64d0a928abb813ce280122d51c2c852bea5"
+          },
+          "previousEnglish": {
+            "afterSha256": "358187c91359829f4ba640800d468e647c63d2c45ad18db176cf01550c23ee80",
+            "coreConclusion": "Combined ledger retains main5 asset closures plus English28 implicit pending:3402tracked/382closed/110review/2910pending/3020unclosed; no new whole-file closures.",
+            "evidence": {
+              "kind": "english-release-main-sync-documentation",
+              "path": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json",
+              "afterSha256": "358187c91359829f4ba640800d468e647c63d2c45ad18db176cf01550c23ee80",
+              "lineCount": 976,
+              "scope": "Combined ledger retains main5 asset closures plus English28 implicit pending:3402tracked/382closed/110review/2910pending/3020unclosed; no new whole-file closures.",
+              "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+              "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "english_release_docs (Codex delegated documentation owner)",
+              "scope": "Combined ledger retains main5 asset closures plus English28 implicit pending:3402tracked/382closed/110review/2910pending/3020unclosed; no new whole-file closures.",
+              "candidateBaseRevision": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+              "synchronizedMain": "acb96a123bcb062c7204fdbc51903188c9fa0c5f",
+              "workingTreeDelta": true,
+              "notAFullSourceReaudit": true
+            },
+            "readMethod": "Read exact parent deltas, retain both history sequences, verify current merged navigation/counts and scoped incoming bindings; no unrelated full-source re-audit.",
+            "reviewedLines": "Combined ledger retains main5 asset closures plus English28 implicit pending:3402tracked/382closed/110review/2910pending/3020unclosed; no new whole-file closures.",
+            "nextStep": "Codex independently accepts merged candidate, runs actual gates and records CI/merge/Alibaba verification before done."
+          },
+          "previousMain": {
+            "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+            "coreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
+            "evidence": {
+              "kind": "codex-owned-pre94-blob-dialog-quality-local",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+              "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+              "lineCount": 985,
+              "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            },
+            "maintenanceReview": {
+              "date": "2026-10-22",
+              "reviewer": "Codex",
+              "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+              "mainSync": {
+                "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+                "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+                "preservedBothParentHistories": true
+              }
+            },
+            "readMethod": "Read current11 per-file A-H, native controls and only owned board/index/ledger delta; preserve unrelated entries",
+            "reviewedLines": "Only current pre94 board/ledger, nine finite acceptance rows and two retained RLE reviews, actual machine counts and owned descendant pins",
+            "nextStep": "Complete official coverage and CI before merge and issue closure."
+          },
+          "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json"
         }
       ],
       "supersedes": [
@@ -5152,13 +5351,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Complete official coverage and CI before merge and issue closure.",
+      "nextStep": "Codex verifies merged actual gates and remote release facts before final closeout.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only current pre94 board/ledger, nine finite acceptance rows and two retained RLE reviews, actual machine counts and owned descendant pins",
+      "reviewedLines": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -5884,13 +6083,12 @@
       "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\nLate dev pure574line E gap repaired:full typed fixtures/public runtime getter;33currentdev0stderr;wholecoverage receipts predate this test-only repair and remain failed,not final-green.\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "maintenanceReview": {
         "date": "2026-10-22",
-        "reviewer": "Codex",
-        "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
-        "mainSync": {
-          "receipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
-          "synchronizedMain": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
-          "preservedBothParentHistories": true
-        }
+        "reviewer": "english_release_docs (Codex delegated documentation owner)",
+        "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
+        "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+        "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "workingTreeDelta": true,
+        "notAFullSourceReaudit": true
       }
     },
     {

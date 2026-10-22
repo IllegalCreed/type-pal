@@ -163,6 +163,7 @@ describe('won首tick的结算装配', () => {
         roleId: 1,
         name: 'Role1',
         magicName: '五气朝元',
+        magicId: 350,
       },
     })
     expect(screens[4]).toMatchObject({
@@ -171,7 +172,7 @@ describe('won首tick的结算装配', () => {
     })
     expect(screens[5]).toEqual({
       kind: 'learn-magic',
-      data: { roleId: 0, name: 'Role0', magicName: '天师符法' },
+      data: { roleId: 0, name: 'Role0', magicName: '天师符法', magicId: 349 },
     })
   })
 })

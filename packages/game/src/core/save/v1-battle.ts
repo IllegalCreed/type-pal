@@ -204,7 +204,12 @@ const screen: Guard<BattleSettlementScreen> = variant<'kind', BattleSettlementSc
   }),
   'learn-magic': object({
     kind: oneOf('learn-magic'),
-    data: object({ roleId: playerRoleId, name: string, magicName: string }),
+    data: object({
+      roleId: playerRoleId,
+      name: string,
+      magicName: string,
+      magicId: optional(number),
+    }),
   }),
 })
 const settlement = object<BattleSettlementState>({
@@ -332,6 +337,7 @@ export const battle = object<Data>({
         portrait: arg,
         fontColor: arg,
         clearBefore: flag,
+        clearPage: flag,
         effect: optional(object({ opcode: number, operands: array(number) })),
       }),
     ),

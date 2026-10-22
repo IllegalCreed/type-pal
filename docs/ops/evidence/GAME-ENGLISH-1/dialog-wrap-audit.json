@@ -1,0 +1,5 @@
+{
+  "checkedLines": 67715,
+  "failures": [],
+  "scope": "All translated raw lines at each portrait/body/narration width; checks no visible non-whitespace loss, max pixel width under the ASCII8/nonASCII16 display contract, final color and delay. Not a glyph raster/layout screenshot oracle."
+}

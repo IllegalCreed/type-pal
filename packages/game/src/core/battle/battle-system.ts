@@ -1,3 +1,4 @@
+import { getWord } from '../word-lookup.js'
 /**
  * 战斗模式 phase 状态机 —— M3 T22(整合 T11-T21 所有 building blocks)。
  *
@@ -46,6 +47,7 @@ import { FRAME_MS_EXPLORE } from '@type-pal/shared'
 import {
   appendDialogLine,
   confirmDialog,
+  resetDialogBody,
   setWaitingEndKey,
   setWaitingPageKey,
   shouldWaitPageKey,
@@ -2345,6 +2347,9 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
     const next = state.battleDialogQueue?.[0]
     if (!next) {
       setWaitingEndKey(box) // 无后续 → 等结束键(Confirm 关 box)
+    } else if (next.clearPage) {
+      if (box.dialogLineCount > 0) setWaitingPageKey(box)
+      else feedNextBattleDialogLine(state, gs)
     } else if (next.clearBefore || next.style !== box.style) {
       setWaitingEndKey(box) // 新段(显式清屏 / 风格变)→ 先结束当前段,下段起新框
     } else if (shouldWaitPageKey(box)) {
@@ -2367,6 +2372,10 @@ function feedNextBattleDialogLine(state: BattleState, gs: GameState): void {
       gs.pendingSounds ??= []
       gs.pendingSounds.push(45) // 敌逃跑音(battle.c:1397)
     }
+    return
+  }
+  if (line.clearPage) {
+    if (gs.dialogBox) resetDialogBody(gs.dialogBox)
     return
   }
   const text = line.text ?? ''
@@ -2869,7 +2878,10 @@ function performBattleAction(
               casterPos: caster.posOriginal,
               targetIdx,
               playerCount: state.players.length,
-              itemName: res.items.find((it) => it.id === action.actionId)?._name, // L15:演出显示物品名
+              itemName: getWord(
+                action.actionId ?? -1,
+                res.items.find((it) => it.id === action.actionId)?._name,
+              ), // L15:演出显示物品名
             }),
             bus,
             undefined,

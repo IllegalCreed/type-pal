@@ -1,0 +1,13 @@
+{
+  "source": "/Users/zhangxu/illegal/type-pal/data/extracted/events/all.json",
+  "sourceSha256": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885",
+  "pack": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/en.json",
+  "packSha256": "8234b5380fb8b43ce2652390cb1caf5ac272b7fc0f81626e5dfe99288dd78f69",
+  "commandCount": 43522,
+  "labeledEntryCount": 5316,
+  "groupCount": 4768,
+  "missingFullGroups": [],
+  "middleEntries": [],
+  "missing": [],
+  "scope": "Static labels cover disasm opcode targets, random jump range, resume/advance entries and collectScriptEntries roots. No runtime claim; dynamic/transformed save targets are outside this audit."
+}

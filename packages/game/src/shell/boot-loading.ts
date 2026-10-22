@@ -1,3 +1,5 @@
+import { localize, subscribeLanguage } from '../localization/language.js'
+
 /**
  * 启动 loading 覆盖层(2026-06-12,用户报生产首载 20-30s 黑屏)。
  *
@@ -40,6 +42,7 @@ let _note = ''
 // PROD 两段进度:把必要资源加载进度(fraction 0→1)回调给统一 UI(虚线前段),不自渲染 DOM。
 // 未设(fallback:SW 不可用)时 render 自渲染 #boot-loading-fill/status。
 let _onProgress: ((fraction: number) => void) | null = null
+let _unsubscribeLanguage: (() => void) | null = null
 
 function byId(id: string): HTMLElement | null {
   return typeof document === 'undefined' ? null : document.getElementById(id)
@@ -64,9 +67,10 @@ function render(): void {
   _shownPct = Math.min(99, Math.max(_shownPct, raw)) // 单调 + 99 封顶(满格只由 finish 给)
   if (fill) fill.style.width = `${_shownPct}%`
   if (status) {
+    status.dataset.initial = 'false'
     status.textContent = _note
-      ? `正在加载资源 ${_done} / ${denom} — ${_note}`
-      : `正在加载资源 ${_done} / ${denom}`
+      ? `${localize('正在加载资源', 'Loading resources')} ${_done} / ${denom} — ${localize(_note, _note === '音色库' ? 'Soundfont' : _note)}`
+      : `${localize('正在加载资源', 'Loading resources')} ${_done} / ${denom}`
   }
 }
 
@@ -87,6 +91,8 @@ function scheduleRender(): void {
 }
 
 function restoreFetch(): void {
+  _unsubscribeLanguage?.()
+  _unsubscribeLanguage = null
   if (_origFetch) {
     // 只撤下自己仍占有的全局槽,不覆盖后来安装的网络层。
     if (globalThis.fetch === _wrappedFetch) globalThis.fetch = _origFetch
@@ -116,6 +122,7 @@ export function initBootLoading(
   _shownPct = 0
   _note = ''
   _onProgress = onProgress ?? null
+  _unsubscribeLanguage = subscribeLanguage(scheduleRender)
   const orig = globalThis.fetch.bind(globalThis)
   _origFetch = orig
   const wrapped: typeof fetch = async (...args) => {
@@ -155,5 +162,8 @@ export function failBootLoading(msg: string): void {
   if (!root) return
   root.classList.add('boot-loading-error')
   const status = byId('boot-loading-status')
-  if (status) status.textContent = `启动失败:${msg}`
+  if (status) {
+    status.dataset.initial = 'false'
+    status.textContent = `${localize('启动失败:', 'Startup failed: ')}${msg}`
+  }
 }

@@ -1,3 +1,5 @@
+import { getWord } from '../../core/word-lookup.js'
+import { drawScriptDescription } from './draw-description.js'
 /**
  * 物品列表与使用目标层；采用本项目中文 WIN95 菜单布局。
  *
@@ -157,7 +159,7 @@ function drawItemUseMenu(
   for (let i = 0; i < STAT_LABELS.length; i++) {
     renderText(
       fb,
-      STAT_LABELS[i]!,
+      getWord(48 + i, STAT_LABELS[i]!),
       ITEMUSE_STAT_LABEL_X,
       16 + 18 * i,
       ITEMUSEMENU_COLOR_STATLABEL,
@@ -210,7 +212,7 @@ function drawItemUseMenu(
   // 4. party member names(uigame.c:1383-1396)
   state.targetMenu.items.forEach((memberItem, i) => {
     const role = playerRoles.roles[memberItem.id]
-    const name = role?._name ?? `role#${memberItem.id}`
+    const name = getWord(role?.name ?? -1, role?._name ?? `role#${memberItem.id}`)
     const color = i === cursorIdx ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     renderText(
       fb,
@@ -245,7 +247,7 @@ function drawItemUseMenu(
   // 物品名 at (116, 143),color = STATUS_COLOR_EQUIPMENT 0xBE,fShadow=TRUE
   renderText(
     fb,
-    selectedItem._name ?? `?${selectedItem.id}`,
+    getWord(selectedItem.id, selectedItem._name ?? `?${selectedItem.id}`),
     ITEMUSE_ITEM_NAME_POS.x,
     ITEMUSE_ITEM_NAME_POS.y,
     STATUS_COLOR_EQUIPMENT,
@@ -300,7 +302,7 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
       // Item label — sdlpal itemmenu.c:187 PAL_DrawText fShadow=TRUE
       const labelX = 15 + k * INV_ITEM_TEXT_WIDTH
       const labelY = 12 + j * 18
-      const label = item?._name ?? `?${slot.itemId}`
+      const label = getWord(slot.itemId, item?._name ?? `?${slot.itemId}`)
       renderText(fb, label, labelX, labelY, color, glyphs, true)
 
       if (isSelected) {
@@ -355,9 +357,7 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
     const curItem = items.find((it) => it.id === curSlot.itemId)
     const sid = curItem?.scriptDesc ?? 0
     const lines = getScriptDescLines(sid)
-    for (let li = 0; li < lines.length; li++) {
-      renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
-    }
+    drawScriptDescription(fb, lines, 71, 151, 240, DESCTEXT_COLOR, glyphs)
   }
 
   // 目标层需要 live runtime 与角色名；draw-menu 负责注入，绘制不推进菜单状态。

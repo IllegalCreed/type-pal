@@ -1,4 +1,6 @@
 /** 右上角固定进度小组件:显示后台资源预缓存进度,完成后淡出移除。canvas 之外的纯 DOM。 */
+
+import { localize, subscribeLanguage } from '../localization/language.js'
 import type { PrecacheProgress } from './precache-client.js'
 
 export interface PrecacheWidget {
@@ -63,7 +65,7 @@ export function createPrecacheWidget(): PrecacheWidget {
     'transition:opacity 0.6s ease',
   ].join(';')
   const text = document.createElement('div')
-  text.textContent = '后台缓存中…' // 初始占位:enterGame 到首条 SW progress 之间不显空白框
+  text.textContent = localize('后台缓存中…', 'Caching in background…') // 初始占位:enterGame 到首条 SW progress 之间不显空白框
   const bar = document.createElement('div')
   bar.style.cssText =
     'height:4px;margin-top:4px;background:#2a1515;border-radius:2px;overflow:hidden'
@@ -74,6 +76,20 @@ export function createPrecacheWidget(): PrecacheWidget {
   document.body.appendChild(el)
 
   const mb = (b: number): string => (b / 1024 / 1024).toFixed(0)
+  let currentProgress: { bytes: number; totalBytes: number } | undefined
+  const renderText = (): void => {
+    if (!currentProgress) {
+      text.textContent = localize('后台缓存中…', 'Caching in background…')
+      return
+    }
+    const { bytes, totalBytes } = currentProgress
+    const pct = totalBytes > 0 ? Math.floor((bytes / totalBytes) * 100) : 0
+    text.textContent = `${localize('后台缓存资源', 'Caching resources')} ${pct}% (${mb(bytes)}/${mb(totalBytes)}MB)`
+  }
+  const unsubscribeLanguage = subscribeLanguage(() => {
+    if (el.isConnected) renderText()
+    else unsubscribeLanguage()
+  })
   return {
     update(p) {
       const progress = normalizeByteProgress(p.bytes, p.totalBytes)
@@ -81,10 +97,12 @@ export function createPrecacheWidget(): PrecacheWidget {
       // 态3 只有字节进度(SW 统一数据源)→ 百分比按 bytes/totalBytes 算,与态1 大条同口径。
       const pct =
         progress.totalBytes > 0 ? Math.floor((progress.bytes / progress.totalBytes) * 100) : 0
-      text.textContent = `后台缓存资源 ${pct}% (${mb(progress.bytes)}/${mb(progress.totalBytes)}MB)`
+      currentProgress = progress
+      renderText()
       fill.style.width = `${pct}%`
     },
     done() {
+      unsubscribeLanguage()
       el.style.opacity = '0'
       setTimeout(() => el.remove(), 600)
     },
@@ -113,13 +131,23 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
   let lastBytes = 0
   let lastTotal = 0
   let widget: PrecacheWidget | null = null
+  let statusMessage: (() => string) | undefined
+  const unsubscribeLanguage = subscribeLanguage(() => {
+    const status = byId('boot-loading-status')
+    if (status && statusMessage) status.textContent = statusMessage()
+    else if (!byId('boot-loading')) unsubscribeLanguage()
+  })
 
-  function paint(pct: number, text: string): void {
+  function paint(pct: number, text: () => string): void {
+    statusMessage = text
     shownPct = Math.min(100, Math.max(shownPct, pct)) // 单调 + 0..100 clamp
     const fill = byId('boot-loading-fill')
     if (fill) fill.style.width = `${shownPct}%`
     const status = byId('boot-loading-status')
-    if (status) status.textContent = text
+    if (status) {
+      status.dataset.initial = 'false'
+      status.textContent = text()
+    }
   }
 
   return {
@@ -127,12 +155,17 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       if (phase !== 'necessary') return // 已过虚线 → SW 全量接管
       if (!Number.isFinite(fraction)) return
       const frac = Math.max(0, Math.min(1, fraction))
-      paint(frac * playableFraction * 100, `加载必要资源 ${Math.floor(frac * 100)}%`)
+      paint(
+        frac * playableFraction * 100,
+        () => `${localize('加载必要资源', 'Loading essentials')} ${Math.floor(frac * 100)}%`,
+      )
     },
     markPlayable(onEnter) {
       if (phase !== 'necessary') return
       phase = 'full'
-      paint(playableFraction * 100, '必要资源就绪 — 可进入') // 到虚线
+      paint(playableFraction * 100, () =>
+        localize('必要资源就绪 — 可进入', 'Essential resources ready — you can enter'),
+      ) // 到虚线
       const box = byId('boot-loading-enter')
       const btn = byId('boot-loading-enter-btn')
       if (!box || !btn) {
@@ -153,13 +186,18 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       } else if (phase === 'full') {
         // 虚线后 = SW 真实进度 bytes/total(单调不回退,起步 < 虚线时 clamp 在虚线不退)。
         const pct = progress.totalBytes > 0 ? (progress.bytes / progress.totalBytes) * 100 : 0
-        paint(pct, `已缓存 ${mb(progress.bytes)}/${mb(progress.totalBytes)}MB`)
+        paint(
+          pct,
+          () =>
+            `${localize('已缓存', 'Cached')} ${mb(progress.bytes)}/${mb(progress.totalBytes)}MB`,
+        )
       }
       // phase 'necessary'(SW 还没启动)→ 忽略
     },
     enterGame() {
       if (phase === 'entered') return
       phase = 'entered'
+      unsubscribeLanguage()
       const root = byId('boot-loading')
       if (root) {
         root.classList.add('boot-loading-done') // CSS opacity 过渡淡出
@@ -183,7 +221,11 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       if (!root) return
       root.classList.add('boot-loading-error')
       const status = byId('boot-loading-status')
-      if (status) status.textContent = `启动失败:${msg}`
+      statusMessage = () => `${localize('启动失败:', 'Startup failed: ')}${msg}`
+      if (status) {
+        status.dataset.initial = 'false'
+        status.textContent = statusMessage()
+      }
     },
   }
 }

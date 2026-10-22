@@ -1,3 +1,4 @@
+import { localize } from '../../localization/language.js'
 /**
  * 物理战斗动画时间线 builder(D17a)—— 纯函数,**不 mutate state**,只产
  * `BattleAnimFrame[]`。接收 fighter pos/idx 等只读快照 + sdlpal 参数,
@@ -68,7 +69,7 @@ export function buildFleeFailTimeline(
   frames.push({
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: playerIdx, currentFrame: 1 }],
-    battleMessage: { text: '逃跑失败', durationMs: delayMs(8) },
+    battleMessage: { text: localize('逃跑失败', 'Escape failed'), durationMs: delayMs(8) },
   })
   return frames
 }

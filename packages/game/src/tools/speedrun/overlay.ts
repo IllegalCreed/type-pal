@@ -1,6 +1,7 @@
 // overlay.ts —— 右侧速通覆盖层(.tp-* 暗底金边,pointer-events:none 不挡操作)。
 //   每行 4 列:节点名 | 最佳 | 差值(±色) | 本次;底部:预计通关 + 大号主计时。
-import type { Checkpoint } from './checkpoints.js'
+import { localize } from '../../localization/language.js'
+import { type Checkpoint, checkpointName } from './checkpoints.js'
 import type { BestTimes } from './store.js'
 import { formatClock, formatDiff, formatHms } from './time-format.js'
 import type { RunState } from './timer.js'
@@ -23,6 +24,8 @@ export function injectOverlayStyles(): void {
 .tp-sr-row { display:grid; grid-template-columns:1fr auto auto auto; gap:4px 8px; align-items:baseline;
   font-family:ui-monospace,Menlo,monospace; padding:1px 0; }
 .tp-sr-row .nm { font-family:"Songti SC","SimSun",serif; color:var(--sr-dim); white-space:nowrap; }
+html[lang="en"] #${ROOT_ID} { width:300px; }
+html[lang="en"] .tp-sr-row .nm { white-space:normal; overflow-wrap:anywhere; }
 .tp-sr-row.cur .nm { color:var(--sr-cream); font-weight:bold; }
 .tp-sr-best { color:var(--sr-dim); font-size:11px; }
 .tp-sr-cur { color:var(--sr-cream); font-size:11px; min-width:62px; text-align:right; }
@@ -66,7 +69,7 @@ export function renderOverlay(
     row.className = i === run.stepIndex ? 'tp-sr-row cur' : 'tp-sr-row'
     const nm = document.createElement('span')
     nm.className = 'nm'
-    nm.textContent = cp.name
+    nm.textContent = checkpointName(cp)
     const best = document.createElement('span')
     best.className = 'tp-sr-best'
     const b = bests[cp.id] ?? null
@@ -93,7 +96,7 @@ export function renderOverlay(
   foot.className = 'tp-sr-foot'
   const eta = document.createElement('div')
   eta.className = 'tp-sr-eta'
-  eta.textContent = `预计通关 ${formatEta(run, checkpoints, bests)}`
+  eta.textContent = `${localize('预计通关', 'Estimated finish')} ${formatEta(run, checkpoints, bests)}`
   const clock = document.createElement('div')
   clock.className = 'tp-sr-clock'
   clock.textContent = `${run.bananaPaused || run.manualPaused ? '*' : ''}${formatClock(run.elapsedMs)}`

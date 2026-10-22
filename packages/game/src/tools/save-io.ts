@@ -2,6 +2,7 @@
 import type { SaveDataV1, SaveSnapshot } from '../core/save/data.js'
 import { invalidSaveField, isSaveDataV1 } from '../core/save/v1.js'
 import { isRecord } from '../core/save/v1-shape.js'
+import { localize } from '../localization/language.js'
 
 const FORMAT = 'type-pal-save'
 const VERSION = 1
@@ -16,17 +17,45 @@ export function parseImportedSave(text: string): SaveDataV1 {
   try {
     obj = JSON.parse(text)
   } catch {
-    throw new Error('存档文件不是合法 JSON')
+    throw new Error(localize('存档文件不是合法 JSON', 'The save file is not valid JSON'))
   }
-  if (!isRecord(obj) || obj.format !== FORMAT) throw new Error('存档格式不符(format 头缺失/错误)')
-  if (obj.version !== VERSION) throw new Error(`存档版本不符(version 只接受 ${VERSION})`)
+  if (!isRecord(obj) || obj.format !== FORMAT)
+    throw new Error(
+      localize(
+        '存档格式不符(format 头缺失/错误)',
+        'Invalid save format (missing or incorrect header)',
+      ),
+    )
+  if (obj.version !== VERSION)
+    throw new Error(
+      localize(
+        `存档版本不符(version 只接受 ${VERSION})`,
+        `Unsupported save version (expected ${VERSION})`,
+      ),
+    )
   const gs = obj.gs
   if (!isRecord(gs) || !Array.isArray(gs.partyMembers) || typeof gs.wNumScene !== 'number') {
-    throw new Error('存档缺必要字段(partyMembers / wNumScene)')
+    throw new Error(
+      localize(
+        '存档缺必要字段(partyMembers / wNumScene)',
+        'Missing save fields (partyMembers / wNumScene)',
+      ),
+    )
   }
   if (typeof gs.dwCash !== 'number' || !Number.isFinite(gs.dwCash)) {
-    throw new Error('存档金钱字段非法(dwCash 必须为有限数值)')
+    throw new Error(
+      localize(
+        '存档金钱字段非法(dwCash 必须为有限数值)',
+        'Invalid cash field (dwCash must be finite)',
+      ),
+    )
   }
-  if (!isSaveDataV1(gs)) throw new Error(`存档内容字段非法(${invalidSaveField(gs)})`)
+  if (!isSaveDataV1(gs))
+    throw new Error(
+      localize(
+        `存档内容字段非法(${invalidSaveField(gs)})`,
+        `Invalid save field (${invalidSaveField(gs)})`,
+      ),
+    )
   return gs
 }
