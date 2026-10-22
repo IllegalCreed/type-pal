@@ -144,12 +144,15 @@ export function materializeReviewRecord(logicalPath, context = {}) {
     'materialized entry order fingerprint mismatch',
   )
   const record = {}
-  storage.logicalKeys.forEach((key, position) => {
-    if (key === 'entries') return
+  for (const key of storage.logicalKeys) {
+    if (key === 'entries') {
+      record.entries = entries
+      continue
+    }
     demand(Object.hasOwn(manifest, key), `manifest lost logical key: ${key}`)
     record[key] = manifest[key]
-  })
-  record.entries = entries
+  }
+  demand(Array.isArray(record.entries), 'entries not restored at its logical position')
   const expectedKeys = [...storage.logicalKeys]
   demand(
     JSON.stringify(Object.keys(record)) === JSON.stringify(expectedKeys),
@@ -230,10 +233,7 @@ export function readReviewRecordObject(logicalPath, context = {}) {
 
 export function loadReviewRecordFromGit({ root, revision, logicalPath }) {
   demand(/^[a-f\d]{40}$/.test(revision ?? ''), 'revision must be a full 40-hex commit')
-  const readBuffer = (path) => {
-    const snapshot = readGitDocumentSnapshot(root, revision, path)
-    return snapshot?.buffer
-  }
+  const readBuffer = (path) => readGitDocumentSnapshot(root, { revision, path })?.buffer
   const { record, storage } = materializeReviewRecord(logicalPath, { readBuffer })
   return { record, storage }
 }
