@@ -5,7 +5,7 @@ function record(value: unknown): value is Record<string, unknown> {
 }
 
 /** Validate the optional text resource before publishing any part of it to the running game. */
-function validLanguagePack(value: unknown): value is PalLanguagePack {
+function assertLanguagePack(value: unknown): asserts value is PalLanguagePack {
   const invalid = (): never => {
     throw new Error('Invalid English language pack')
   }
@@ -59,12 +59,11 @@ function validLanguagePack(value: unknown): value is PalLanguagePack {
       return invalid()
     }
   }
-  return true
 }
 
 export function parseLanguagePack(value: unknown): PalLanguagePack {
-  if (validLanguagePack(value)) return value
-  throw new Error('Invalid English language pack')
+  assertLanguagePack(value)
+  return value
 }
 
 /** Chinese-only extractions do not request en.json, avoiding a speculative missing-resource fetch. */

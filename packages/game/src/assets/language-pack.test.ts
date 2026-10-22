@@ -50,3 +50,44 @@ it('propagates an advertised language download failure instead of reporting Engl
   )
   await expect(loadEnglishLanguage()).rejects.toThrow('English language pack HTTP 503')
 })
+
+// These are untrusted JSON responses, not invalid typed gameplay fixtures.
+it.each([
+  ['missing envelope', null],
+  ['wrong schema version', { ...pack, version: 2 }],
+  ['wrong language', { ...pack, language: 'zh-CN' }],
+  ['missing source', { ...pack, source: null }],
+  ['non-string source hash', { ...pack, source: { ...pack.source, slfSha256: 1 } }],
+  ['invalid source hash', { ...pack, source: { ...pack.source, scriptSha256: 'bad' } }],
+  ['invalid word identity', { ...pack, words: { '01': 'Name' } }],
+  ['non-text word', { ...pack, words: { '37': false } }],
+  ['negative message identity', { ...pack, groups: [{ start: -1, end: 0, lines: [] }] }],
+  ['backward message range', { ...pack, groups: [{ start: 8, end: 6, lines: [] }] }],
+  ['non-integer message identity', { ...pack, groups: [{ start: 6.5, end: 8, lines: [] }] }],
+  ['non-text message', { ...pack, groups: [{ start: 6, end: 8, lines: [false] }] }],
+  ['invalid layout identity', { ...pack, layout: { '0': { x: 6, y: 6, flags: 1 } } }],
+  ['missing layout position', { ...pack, layout: { '29': null } }],
+  ['non-numeric position', { ...pack, layout: { '29': { x: '6', y: 6, flags: 1 } } }],
+  ['fractional position', { ...pack, layout: { '29': { x: 6, y: 6.5, flags: 1 } } }],
+  ['position outside framebuffer', { ...pack, layout: { '29': { x: 320, y: 6, flags: 1 } } }],
+  ['unsupported layout flag', { ...pack, layout: { '29': { x: 6, y: 6, flags: 4 } } }],
+])('rejects an advertised corrupt language response: %s', async (_name, value) => {
+  vi.stubGlobal(
+    'fetch',
+    vi
+      .fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ languages: ['zh-CN', 'en'] })))
+      .mockResolvedValueOnce(new Response(JSON.stringify(value))),
+  )
+  await expect(loadEnglishLanguage()).rejects.toThrow('Invalid English language pack')
+})
+
+it.each([
+  ['HTTP failure', new Response('', { status: 503 }), 'Language manifest HTTP 503'],
+  ['invalid shape', new Response(JSON.stringify({ languages: 'en' })), 'Invalid language manifest'],
+])('rejects an unusable language manifest without requesting the pack: %s', async (_name, response, error) => {
+  const fetcher = vi.fn().mockResolvedValueOnce(response)
+  vi.stubGlobal('fetch', fetcher)
+  await expect(loadEnglishLanguage('/assets')).rejects.toThrow(error)
+  expect(fetcher.mock.calls).toEqual([['/assets/lookup/languages.json']])
+})
