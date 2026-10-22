@@ -1,6 +1,6 @@
 # GAME-ENGLISH-1 - 第一阶段英文语言包与界面
 
-Status: review
+Status: done
 Phase: phase1
 Capability: 第一阶段多语言展示
 Coding Owner: Codex（集成与画布界面）；english_patch_audit（提取）；english_runtime_audit（对话）；english_shell_audit（DOM壳层）
@@ -83,7 +83,7 @@ Branch: codex/game-english
 - 贡献者交付与自验：三个隔离包及集成实现已完成；提取、对话、DOM各自逐文件审查与原生结果见[文本审查](../evidence/GAME-ENGLISH-1/text-review.json)、[对话审查](../evidence/GAME-ENGLISH-1/dialog-review.json)、[DOM审查](../evidence/GAME-ENGLISH-1/shell-review.json)。作者自验不代替独立验收。
 - Codex独立复核：已核共同脚本、精确分组、字形/名称身份、贡献者差异/原件、自然英文开场及实际浏览器切换；装备宽度用户反例、JSON输入与定时清屏补验见集成回执。最终全仓检查与官方coverage/ratchet已通过，有限核验不关闭旧广域源码。
 - 用户体验/产品验收：accepted（用户2026-10-22“可以了”，并明确授权提交推送、CI后合并、阿里云部署与清理多余分支）。
-- done准入结论：用户体验已接受；发布收尾保持review。同步main`acb96a123`后统一门、CI、合并及阿里云验证按后继实际结果写回，不把旧脚本修复卡的剧情免测外推到本卡。
+- done准入结论：用户体验已接受，合并候选实际门、PR #11必需CI、合并及阿里云资源/线上英文smoke均已有真实结果；功能与发布准入满足。文档收尾另走保护分支PR，分支/worktree清理尚待执行；不外推完整剧情E2E、实体设备或线上离线导航。
 
 ## Draft: 设计与风险
 
@@ -103,8 +103,8 @@ Branch: codex/game-english
 - [最终集成回执](../evidence/GAME-ENGLISH-1/integration-review.json)记录有限独立验收、候选指纹、资源/浏览器原件和门禁状态；[无损原件索引](../evidence/GAME-ENGLISH-1/native-publication.json)保留失败校准、有效反控及恢复结果。后继结果按实际执行更新，不改写初轮失败。
 - 官方初轮：全部20,141项通过，但ratchet在game/pal-extract分支和全仓比例处真实失败，原件保留；后继补定时清屏、SLF/alias拒绝、未知JSON网络输入及英文标点显示合同。最终以`VITEST_MAX_WORKERS=2 TYPE_PAL_COVERAGE_BASE_REF=6a29b455fc51664df85334bc177d0994348a7987 pnpm coverage:ratchet`实跑20,180项全绿，12项指标提升、10项范围变化，原规则下更新基线。最终摘要对新基线及受保护基点只读核算均0回退、0删减。
 - 最终统一门：`VITEST_MAX_WORKERS=2 pnpm check`通过；七包共1,684文件/20,609项通过，TC及lint零诊断。默认并发整轮曾有1项旧CLI测试5秒超时，原件保留；复跑仅降低并发，不改测试选择、timeout、规则或阈值。最终生产build0warnings。
-- 英文冻结候选的本地实现及必要门已完成，用户体验已认可并授权发布。同步main`acb96a123`引入资产质量修订后须按合并候选重验统一门；本笔仅记录授权，尚未取得CI、合并或阿里云部署回执。全剧情逐段英文E2E/专业译文校订不由本次功能抽样外推。
-- 代码库存：Git实际3,401条，较原3,373净增28条，全部保留pending；377closed/110review不变，pending2,914、unclosed3,024。本卡功能验收不自动关闭旧代码质量记录。
+- 发布已完成：同步main后的实际门已核，PR #11在必需CI成功后合并为`365e582e2`，从该main构建并部署阿里云。源站/CDN资源与线上英文选择、刷新记忆、真实画布对话smoke通过；[发布回执](../evidence/GAME-ENGLISH-1/release.json)保留具体输入、原件与限制。全剧情逐段英文E2E/专业译文校订不由本次功能抽样外推。
+- 英文冻结候选时点库存：Git实际3,401条，较原3,373净增28条，全部保留pending；当时377closed/110review，pending2,914、unclosed3,024。后继main合并与当前数量见唯一[代码账本](../audits/code-quality-file-ledger.md)；本卡功能验收不自动关闭旧代码质量记录。
 
 - 同步main后的发布候选门：官方ratchet实跑20,181项/774源文件通过、相对保护基点无回退；七包TC、check:docs及lint零诊断，见[合并候选回执](../evidence/GAME-ENGLISH-1/release-gates.json)。旧英文基线和主分支结构调整各自保留，不拼接旧覆盖率数字。
 
@@ -116,16 +116,17 @@ Branch: codex/game-english
 - 自然英文开场：独立贡献者从正常标题New Game实跑原视频、呼喊、婶婶对话和暗道演出至scene2返回控制；[原始报告](../evidence/GAME-ENGLISH-1/opening-browser.json)及输入/状态原件已核，Codex实看呼喊、多行页与无遮挡底部补拍。仅英文功能smoke，不改正式001、剧情时间线或编辑器预览验收状态。
 - 装备返工：实际菜单选帽子进入选角，英/中文截图已看，语言切换前后选角/物品状态相同。此项明确通过公共库存helper准备真实物品201，仅供dev-functional视觉，不冒充自然剧情检查点。
 - 生产预览：真实SW缓存2,909文件/208,976,882字节，断网请求英文包200并可页内切换；未验证离线导航/刷新，不等于阿里云部署。
+- 线上发布smoke：正常生产URL真实进入工具System选择English，刷新仍为英文加载页；真实键盘经过标题/视频后到李大娘完整英文画布台词。根Agent与文档Owner实看该对话截图，warn/error日志为空；没有注入状态/存档/光标。此为有限上线核验，不替代正式001、全剧情、实体设备或线上离线导航测试。原件见发布回执。
 - 范围限制：背包、战斗及其它剧情的完整视觉范围不能由上述抽样外推；全剧情逐段英文E2E仍未全面执行。用户体验已在2026-10-22认可。
 
 ## Review: 审查与返工
 
-- Reviewer：Codex；当前为review，用户已验收，CI及发布收尾待完成。已有贡献者分文件A–H、真实caller、合法输入和独立oracle；Codex按实际差异/原件作有限独立复核，未因包级绿数或文档门关闭广域文件。
+- Reviewer：Codex；功能与发布已验收，当前done。已有贡献者分文件A–H、真实caller、合法输入和独立oracle；Codex按实际差异/原件作有限独立复核，未因包级绿数或文档门关闭广域文件。
 - 已核修订：SLF三处范围差异与message0剧情恢复；控制/转义与clear；同一enemy type的对象词条身份；小字体空格与战后实际角色名；英文桌面CSS不覆盖移动尺寸。
 - 装备返工已闭合（用户2026-10-22追加）：本次英文适配写死4格造成过宽；按SDLPal的WORD36..39半角宽计算改为当前3格，真实宽119→103px，中文仍87px。源证据、真实菜单像素断言及旧4格精准反控→恢复4绿、浏览器中英文实看和独立复核均已完成，见集成回执；不预填用户体验认可。
 - 后继审查：未知JSON语言资源20个输入边界用例经独立排重/合法性核验；SHA校验代表性突变仅指定拒绝合同失败，恢复24/24；首次反控harness类名匹配错误独立保留。私有校验改assertion function仅移除不可达throw。
 - 偷物名称字面量返工已闭合：新英文WORD的撇号/连字符曾被控制语法吞掉，仅在偷物提示拼接处转义name，保留外层颜色；真实caller最终可见文本/红色/库存及偷取余数通过，精准去escape反控后恢复70项相邻全绿。当前敌表无偷取110/135，不冒充自然剧情已到该场景；合法公共caller缺陷已修。
-- 英文冻结候选的代码审查、全仓检查及coverage已接收；用户UI体验已认可。当前维持review，等待同步main后的真实统一门和发布回执。
+- 英文功能审查与用户UI体验已接收；同步main后的真实统一门、PR #11必需CI与实际生产smoke均已核。收尾文档经新PR接受及退休分支/worktree清理待Codex执行，不预填后继结果。
 
 ## 用户验收
 
@@ -145,8 +146,10 @@ Branch: codex/game-english
 
 - 2026-10-22 Codex第二次同步：发布等待期间main继续推进至`d297e64d0`；本次保留blob/宿主/对话与RLE裁定、测试去重及原件，先合并再按当前候选重跑实际门。用户验收与发布授权保持，状态review；先前`b4dc2688e`的集成门仅证明其冻结版本，不代替本次候选结果。见[第二次同步回执](../evidence/GAME-ENGLISH-1/main-sync-2.json)。
 
+- 2026-10-23 Codex后继：同步main `d297e64d0`，独立核注释守恒及净减五例的真实合同退役；最终官方ratchet20,176项/774源通过，七包TC、完整125文档工具及全部消费者/lint零诊断。保留缺scope确认、旧CLI超时及Git夹具停滞原件，见[第二次同步门](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json)。用户授权的[main保护](../evidence/GAME-ENGLISH-1/branch-protection.json)已配置/回读；后续含文档收尾全部经PR与必需CI。English继续review等待当前PR和真实部署回执。
+
+- 2026-10-23 Codex发布完成：PR #11在候选`612b203a1`两项必需Actions及GitGuardian成功后，于`2026-10-22T15:50:13Z`合并为`365e582e288ea1c0052595f2aa31ab59ab72da01`，与候选整棵tracked tree相等。`deploy all --skip-check`复用已核门并重新生产构建，exit0/186modules/0buildwarnings；CDN刷新完成。源站/CDN11应用文件、2,909资源全量set/bytes/SHA及28HTTPS闭合，正常线上URL经真实UI选English、刷新保持、真实键盘到李大娘英文对话，日志无warn/error。原Actions外部Node20-deprecation注记保留，未改写成原始CI无任何warning；详见[发布回执](../evidence/GAME-ENGLISH-1/release.json)。退休分支/worktree清理和本收尾文档PR尚待，不预填完成。
+
 ## 下一位 Agent 提示词
 
-无用户转交；用户已验收并授权本次发布。接手先读本卡、AGENTS现行协议、集成回执和发布前同步回执；当前保持review，完成同步main后的统一门、推送/CI/合并、阿里云部署与真实上线验证，再按实际证据收口并清理退休分支/worktree。此前冻结候选的门保留原基点，不冒充当前合并候选门或全剧情E2E通过。
-
-- 2026-10-23 Codex后继：同步main `d297e64d0`，独立核注释守恒及净减五例的真实合同退役；最终官方ratchet20,176项/774源通过，七包TC、完整125文档工具及全部消费者/lint零诊断。保留缺scope确认、旧CLI超时及Git夹具停滞原件，见[第二次同步门](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json)。用户授权的[main保护](../evidence/GAME-ENGLISH-1/branch-protection.json)已配置/回读；后续含文档收尾全部经PR与必需CI。English继续review等待当前PR和真实部署回执。
+无新产品交接。功能与生产发布已完成；Codex独立审核本收尾候选后，另经保护分支PR和两项必需CI合入，再清理已核退休分支/worktree。清理尚未执行；旧冻结门、正式剧情E2E和本次线上有限smoke各保留实际边界。

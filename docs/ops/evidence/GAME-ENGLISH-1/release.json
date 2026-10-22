@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "id": "GAME-ENGLISH-1-release",
+  "template": "evidence-receipt-v1",
+  "status": "released",
+  "owner": "Codex (actual release and independent acceptance); english_release_docs (documentation/native publication)",
+  "task": "docs/ops/tasks/GAME-ENGLISH-1.md",
+  "recordedAt": "2026-10-22T16:01:37.304Z",
+  "scope": "First-stage English feature release and finite production smoke. This receipt supersedes only current user-acceptance/release-pending statements; historical failed runs and frozen evidence remain unchanged.",
+  "userAcceptance": {
+    "date": "2026-10-22",
+    "decision": "accepted; explicit push/CI/merge/Alibaba deployment and retired branch cleanup authorization"
+  },
+  "source": {
+    "candidate": "612b203a1313960fd33feb509cfb294471802b98",
+    "merged": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+    "candidateTree": "298a44910d826bf4130627604dbdb188518da0e1",
+    "mergedTree": "298a44910d826bf4130627604dbdb188518da0e1",
+    "exactEntireTrackedTreeEqual": true
+  },
+  "github": {
+    "pr": "https://github.com/IllegalCreed/type-pal/pull/11",
+    "mergedAt": "2026-10-22T15:50:13Z",
+    "checks": [
+      {
+        "name": "fast-coverage",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-10-22T15:47:46Z",
+        "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39803908117/job/119911884779"
+      },
+      {
+        "name": "documentation",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-10-22T15:22:06Z",
+        "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39803908156/job/119911884629"
+      },
+      {
+        "name": "GitGuardian Security Checks",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-10-22T15:20:56Z",
+        "url": "https://dashboard.gitguardian.com"
+      }
+    ],
+    "requiredActionsAppId": 15368,
+    "annotationBoundary": "Original GitHub Actions Node20-deprecation notices are external action-runtime annotations and retained. Successful application gates are not a claim of zero warnings anywhere in raw CI.",
+    "protectionAfterMerge": {
+      "native": "release-native/branch-protection-after-merge.json.gz",
+      "requiredPullRequest": true,
+      "strict": true,
+      "requiredChecks": [
+        {
+          "context": "documentation",
+          "app_id": 15368
+        },
+        {
+          "context": "fast-coverage",
+          "app_id": 15368
+        }
+      ],
+      "adminsEnforced": true,
+      "requiredApprovals": 0,
+      "forceMainAllowed": false,
+      "deleteMainAllowed": false
+    }
+  },
+  "localGates": {
+    "canonical": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2-gates.json",
+    "officialTests": 20176,
+    "productionCoverageFiles": 774,
+    "scope": "Actual merged candidate official ratchet, seven-package TC and complete docs/lint consumer results retain their recorded command/concurrency/base. No product tests rerun for documentation publication."
+  },
+  "deployment": {
+    "url": "https://pal.illegalscreed.cn/",
+    "command": "COPYFILE_DISABLE=1 bash scripts/deploy.sh all --skip-check",
+    "head": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+    "exit": 0,
+    "passed": true,
+    "skipCheckReason": "Exact merged tracked tree equals independently accepted and current required-CI-success candidate; deployment performs fresh production build; no gate reduction.",
+    "freshBuild": {
+      "modules": 186,
+      "warnings": 0,
+      "mainBundle": "assets/index-CeUwW4q0.js"
+    },
+    "cdn": {
+      "taskId": "33649693428",
+      "status": "Complete",
+      "progress": "100%"
+    },
+    "backup": {
+      "original": "release-native/aliyun-backup.txt.gz",
+      "freshness": "release-native/aliyun-backup-freshness-final.txt.gz",
+      "includes": ["application", "extracted resources"]
+    },
+    "postflight": {
+      "passed": true,
+      "issues": [],
+      "appFiles": 11,
+      "appExactFileSet": true,
+      "allAppMatch": true,
+      "manifestVersion": "00fa07bbb38ef7a6",
+      "manifestSha256": "14865dfa10c8783a5058c73d4185c4f243e718ba57e54d3280f8de95d0cb997e",
+      "resourceCount": 2909,
+      "resourceTotalBytes": 208976882,
+      "resourceExactFileSet": true,
+      "resourceChecks": 2909,
+      "allResourceMatch": true,
+      "httpsProbes": 28,
+      "allHttpsMatch": true,
+      "languageFiles": [
+        {
+          "path": "lookup/languages.json",
+          "bytes": 46,
+          "sha256": "18e1cece216c85134c423d13b8a0e6b9b9d9007c70f16453c965d13cf4a195de",
+          "match": true
+        },
+        {
+          "path": "lookup/en.json",
+          "bytes": 830010,
+          "sha256": "050289f885822f44840a54fe974206e9c2039aa80b38acb6471b7fa334390f2f",
+          "match": true
+        }
+      ],
+      "groups": 4768,
+      "words": 578
+    }
+  },
+  "browser": {
+    "passed": true,
+    "url": "https://pal.illegalscreed.cn/",
+    "mode": "production browser smoke with real UI input",
+    "observations": [
+      "Opened live normal URL without dev query",
+      "Entered via loading page button",
+      "Tools → 系统 → language selector English changed DOM title and settings labels",
+      "Reload retained English loading page and title",
+      "Entered again, keyboard Return and Escape through actual title/movie flow; no injected state/save/cursor",
+      "Observed English Li’s Aunt canvas dialogue: How dare you say I’m a demoness!!!"
+    ],
+    "warningErrorLogs": [],
+    "scope": [
+      "Finite release smoke, not full story E2E",
+      "No physical device/gamepad assertion",
+      "No production offline reload/navigation assertion",
+      "Did not separately verify all menu/dialogue/battle branches online"
+    ],
+    "dialoguePng": "release-native/production-english-dialog.png",
+    "dialogueVisuallyInspectedBy": ["Codex root", "delegated documentation owner"],
+    "settingsScreenshotBoundary": "Original production-english-settings.png is retained as a mistimed video frame and carries no settings claim. Fresh followup report/DOM/PNG verify actual System panel and English selected after prior reload.",
+    "settingsFollowup": {
+      "passed": true,
+      "report": "release-native/production-browser-followup.json.gz",
+      "dom": "release-native/production-settings-followup-dom.txt.gz",
+      "image": "release-native/production-settings-followup.png",
+      "visuallyInspectedBy": ["Codex root", "delegated documentation owner"],
+      "scope": "Public UI settings inspection only; no new story E2E or hidden state writes."
+    }
+  },
+  "native": {
+    "index": "release-native/index.json",
+    "publication": "Original bytes gzip-preserved or PNG copied verbatim; original/gzip SHA and round-trip checks recorded in index."
+  },
+  "cleanup": {
+    "status": "pendingCleanup",
+    "executed": false,
+    "scope": "Retired English feature/contributor branches and managed worktrees after independent closeout acceptance; unrelated work untouched."
+  },
+  "documentationCloseout": {
+    "status": "pending independent Codex review and a new protected PR with documentation+fast-coverage",
+    "branch": "codex/english-release-closeout",
+    "directMainPush": false,
+    "localGates": {
+      "recordedAt": "2026-10-22T16:00:43.492Z",
+      "commands": [
+        {
+          "command": "NODE_PATH=/Users/zhangxu/illegal/type-pal/node_modules pnpm check:docs",
+          "exit": 0,
+          "tools": 125,
+          "passed": 125,
+          "failed": 0,
+          "skipped": 0,
+          "issues": 0,
+          "native": "release-native/closeout-check-docs.txt.gz"
+        },
+        {
+          "command": "NODE_PATH=/Users/zhangxu/illegal/type-pal/node_modules pnpm lint",
+          "exit": 0,
+          "files": 5933,
+          "errors": 0,
+          "warnings": 0,
+          "infos": 0,
+          "native": "release-native/closeout-lint.txt.gz"
+        },
+        {
+          "command": "git diff --check",
+          "exit": 0,
+          "native": "release-native/closeout-diff-check.txt.gz"
+        }
+      ],
+      "note": "NODE_PATH selects installed dependency runtime only; original full scripts/selection/config unchanged. Product tests are not rerun for docs-only candidate."
+    }
+  },
+  "publicCallers": [
+    "Codex independent release acceptance",
+    "Protected GitHub PR merge",
+    "scripts/deploy.sh all",
+    "Read-only production postflight",
+    "Production browser real UI input"
+  ],
+  "legalInputs": [
+    "Merged365 tracked tree equals verified612 candidate",
+    "Successful required CI check runs at612",
+    "Fresh merged-main build and exact source/CDN hashes",
+    "Normal production URL, public UI selection and real keyboard flow"
+  ],
+  "businessOracle": [
+    "Actual required CI and merge precede deploy",
+    "Deployed app and full resource identity match local merged build/extraction",
+    "English preference persists reload and full canvas dialogue is visibly English",
+    "Finite smoke does not become full-story/offline/device E2E",
+    "Cleanup and closeout PR are pending, not fabricated"
+  ],
+  "limits": [
+    "Full-story English E2E/professional translation revision not completed by this release",
+    "No physical device/gamepad run claimed",
+    "No production offline reload/navigation run claimed",
+    "Not every menu/dialogue/battle branch separately verified online",
+    "No new whole-file code quality closures or revised historical failures"
+  ],
+  "independentProductionAcceptance": {
+    "owner": "english_release_audit",
+    "original": "release-native/independent-production-review.json.gz",
+    "followup": "release-native/independent-production-followup.json.gz",
+    "decision": "Finite production release smoke accepted; initial settings screenshot timing gap resolved by explicit supplemental evidence, no historical rewrite.",
+    "noDuplicateProductTests": true
+  }
+}
