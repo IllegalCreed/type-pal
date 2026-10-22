@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "literal-item-name-dialog-boundary-fix",
+  "owner": "english_runtime_audit",
+  "status": "delivered-for-independent-review",
+  "createdAt": "2026-10-22T13:37:23.309172+00:00",
+  "base": "25dc80d715fd08895944f9ee3789416544b6fd85",
+  "candidate": "40c3c827a09ec14fdf4992395c6f265b3d287965",
+  "scope": "Only stolen item WORD name interpolation is escaped; surrounding color controls and plain renderText item-name paths are unchanged. No new helper/export, data/script/save/quality rule change. Two actual dictionary values share one real-caller contract; prior11 tests retain their semantics.",
+  "publicCaller": "runScript(raw0x6a,runtimeMode battle) -> dispatchBattleOpcode -> battleDialogQueue narration -> tickBattleDialog -> startDialogLine/parseDialogText",
+  "legalInputs": "createBattleLifecycleFixture runs real default initialization/startBattle. Enemy input stealItem110 or135 and count1 are legal typed data; opcode stealRate0 guarantees success without RNG mocking. Legal enemy caster avoids unrelated player-steal animation. makeItem builds valid typed catalogs; real setEnglishWordTable supplies actual source strings.",
+  "businessOracle": "WORD names are display literals. Actual English110God's Tea and135Knock-Out must appear unchanged after dialog parsing, red0x17 under intentional outer@. Visible wording, uniform item color, exact inventory+1 and remaining enemy item count0 are asserted. Valid public input does not need a full-story route to establish punctuation preservation.",
+  "dedupe": "Existing opcode tests exercise Chinese theft outcomes and English message-group tests exercise source span/page/lifecycle. None had a literal WORD control-character interpolation oracle. The new two rows cover actual apostrophe/hyphen names; no original assertion weakened.",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "2cd6d03e5be5d0046f9b1ebe0a62df164e62718a652af05f35d9bb0f257d703a",
+      "reviewScope": "New English theft literal interpolation and adjacent real caller/queue/parser sink; not a whole-file governance closure.",
+      "dimensions": {
+        "A": "One-pass regex prefixes backslash before each parser syntax character, including backslash itself. Only literal name is transformed; outer@ and Got/Chinese prefix remain control language. Numeric steal result, RNG and inventory paths are unchanged.",
+        "B": "Added comment explains the WORD-literal/domain boundary so future translations with punctuation are not treated as script controls.",
+        "C": "Boundary escaping stays at the single control-string construction. Shared word lookup/parser and unrelated plain animation painters retain their ownership.",
+        "D": "No generic helper, public export or second parser. Existing lookup and queue continue serving all callers.",
+        "E": "Both real names fail visible text before fix and pass after. Removal counter recreates Got Gods Tea at the exact final-text assertion;70 restored localization+adjacent opcode cases pass.",
+        "F": "Name replacement is inline next to intentional@ delimiters; the literal/control distinction is immediately visible.",
+        "G": "Only one expression plus domain comment changes; no compatibility layer, extra state, queue rewrite or new branch.",
+        "H": "Existing public runScript and tickBattleDialog fully expose parsed output and gameplay results; no test-only implementation API."
+      }
+    },
+    {
+      "path": "packages/game/src/localization/messages.test.ts",
+      "sha256": "14a04511d1bc2704c54fc31d9e6af8b75ae5dde1e70deba6341dbc2928d2bdc7",
+      "reviewScope": "New two-row theft display contract and word-overlay teardown; original11 tests unchanged.",
+      "dimensions": {
+        "A": "Uses valid typed item/command inputs and formal startBattle fixture. enemy.e fields are source input setup, not forged result state; no casts, incompleteBattleState or mocked parser/RNG.",
+        "B": "Test title identifies literal WORD and red punctuation contract; production comment supplies the non-obvious boundary rationale.",
+        "C": "One parametrized behavior with two actual dictionary names; no unrelated gameplay axes or external systems added.",
+        "D": "Reuses real initialization, makeItem, runScript, existing input and public battle dialog host.",
+        "E": "Exact visible text detects lost apostrophe/hyphen; item colors detect inner control toggles, inventory/count assert behavior unchanged. Existing Chinese theft tests remain adjacent and pass.",
+        "F": "Inputs list actual itemId/name/Chinese fallback; expected output is literal user text rather than implementation-constructed escaped raw string.",
+        "G": "Two source-backed input rows, no timeouts/skips/weakening/core mocks. One teardown clears the newly installed overlay to avoid leakage into original cases.",
+        "H": "Final DialogBox text/colors and real inventory are directly observable public state; no spy-count or type-only runtime assertion."
+      }
+    }
+  ],
+  "verification": {
+    "initialRed": {
+      "passed": 0,
+      "failed": 2,
+      "unselectedPending": 11,
+      "failures": ["Got Gods Tea versus Got God's Tea", "Got KnockOut versus Got Knock-Out"],
+      "credit": "Two collected and executed visible-text AssertionErrors;11 filtered-out cases receive no test execution credit."
+    },
+    "preciseRemovalCounter": {
+      "passed": 0,
+      "failed": 1,
+      "unselectedPending": 12,
+      "failure": "Expected Got God's Tea, received Got Gods Tea",
+      "restore": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/localization/messages.test.ts",
+          "-t",
+          "battle stealing displays the literal WORD name.*God",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=../../build/english-dialog-literal/counter.json"
+        ],
+        "productionBeforeSha256": "2cd6d03e5be5d0046f9b1ebe0a62df164e62718a652af05f35d9bb0f257d703a",
+        "mutantSha256": "145a670139079a1906e4281e48995bdf1b99b623419017f98e352ddd70795b93",
+        "exitCode": 1,
+        "restoredExactly": true,
+        "productionRestoredSha256": "2cd6d03e5be5d0046f9b1ebe0a62df164e62718a652af05f35d9bb0f257d703a"
+      },
+      "credit": "One selected actual business assertion, not a collection/environment failure;12 unselected cases receive no execution credit."
+    },
+    "restoredFinal": {
+      "passed": 70,
+      "failed": 0,
+      "pending": 0,
+      "files": 2,
+      "split": "13 localization,57 existing battle-opcodes.cov85"
+    },
+    "typecheck": "pnpm --filter @type-pal/game typecheck: exit0,zero diagnostic output",
+    "biome": "pnpm exec biome check packages/game/src/localization/messages.test.ts packages/game/src/core/battle/battle-opcodes.ts:2files,zero diagnostics",
+    "diffCheck": "git diff --check passed before commit",
+    "notRun": [
+      "Official/full coverage and whole-repo final checks: root will execute after freeze",
+      "Browser/full-story trigger: not required for the valid public caller assertion and not claimed"
+    ]
+  },
+  "controlSinkAudit": {
+    "parserBound": "Only stolen-item name at battle-opcodes.ts interpolation uses dialog parser.",
+    "plainLiteral": [
+      "throw-item -> buildThrowWindupTimeline -> battleMessage -> renderText",
+      "battle-system use-item -> buildUseItemTimeline -> battleMessage -> renderText",
+      "menu/settlement getWord names -> renderText"
+    ],
+    "reasonUnchanged": "Applying backslash escaping to these plain painters would render unwanted backslashes; getWord must continue returning literal names."
+  },
+  "artifacts": [
+    {
+      "path": "build/english-dialog-literal/red.log",
+      "bytes": 3602,
+      "sha256": "1c1f6e29ccd4d1658d113ebb8c931a2e0eb2cf14591c7f7d6ac3a4829920f3fe",
+      "gzipPath": "build/english-dialog-literal/red.log.gz",
+      "gzipSha256": "d70460840579af5fe51c1a9237f193d396ae552c5bc32e0ec3ca9d0325f4b01a"
+    },
+    {
+      "path": "build/english-dialog-literal/red.json",
+      "bytes": 7604,
+      "sha256": "24dd787eee297ed9010720fb78f135860b3c57e12b56464d4842b3d233df0dd8",
+      "gzipPath": "build/english-dialog-literal/red.json.gz",
+      "gzipSha256": "4ed91b1f3433bbffd12bb27a90b435f3f69b99148add60430cbaa6e4d94a9e06"
+    },
+    {
+      "path": "build/english-dialog-literal/red-command.json",
+      "bytes": 349,
+      "sha256": "42bbd4c8f8b10b7a89c70a8fa968b31f2ccc0cd9c7eb84de4947aa639a0d893d",
+      "gzipPath": "build/english-dialog-literal/red-command.json.gz",
+      "gzipSha256": "f5aabbf0e1ef363d0e5093dc2ec8d9da7e6348c07cc57dc8d595ec604f6f36c4"
+    },
+    {
+      "path": "build/english-dialog-literal/green.log",
+      "bytes": 431,
+      "sha256": "d345c0b6e2bfdd8d13e6c1862ff4a66fc314f4d10a7bd1bbc8eba6deb753f740",
+      "gzipPath": "build/english-dialog-literal/green.log.gz",
+      "gzipSha256": "6dc02c306133c616e3519a91d9106ee1f30f27ae91081e2aee234e6fd628ec5e"
+    },
+    {
+      "path": "build/english-dialog-literal/green.json",
+      "bytes": 5260,
+      "sha256": "035f19b5886c153e19e5e8e3d86996d0c508d7f903aea8df63c136187d95f3c7",
+      "gzipPath": "build/english-dialog-literal/green.json.gz",
+      "gzipSha256": "16aa53e5c0a68cb014435d539420409372e5dc29f3869b8ce9ec37fb2046d9a9"
+    },
+    {
+      "path": "build/english-dialog-literal/green-command.json",
+      "bytes": 287,
+      "sha256": "c073ddcbdb869f59fc1eea11308475c0ee5dc91877cd5c32ead65ff77c37b529",
+      "gzipPath": "build/english-dialog-literal/green-command.json.gz",
+      "gzipSha256": "b475b5842b83a6ee19f8ff2a5dad33f914afded29d5e90c7e58b864fe2861c15"
+    },
+    {
+      "path": "build/english-dialog-literal/counter.log",
+      "bytes": 2841,
+      "sha256": "a0b577b1938184c2f03540617362d007c3c0a03932ace105dc8e4ff852b4338f",
+      "gzipPath": "build/english-dialog-literal/counter.log.gz",
+      "gzipSha256": "266e25b9c8fea3b4e3223bafb9e169dfdb9e781070df36b538f6a4b731c2372c"
+    },
+    {
+      "path": "build/english-dialog-literal/counter.json",
+      "bytes": 6250,
+      "sha256": "89554c91b783d0eb1e29241fe78200aeac5f9558d268a323cdc40e3a49070f46",
+      "gzipPath": "build/english-dialog-literal/counter.json.gz",
+      "gzipSha256": "50ecbcd2561d96e29d2dfd67ba5ea575631f926a9b5e16b21e9e08cd7f21b067"
+    },
+    {
+      "path": "build/english-dialog-literal/counter-meta.json",
+      "bytes": 665,
+      "sha256": "7e97e6f8618811c6de9e5ed4850081f8fd0d954e348194284ee094b9c82bc659",
+      "gzipPath": "build/english-dialog-literal/counter-meta.json.gz",
+      "gzipSha256": "f03e5368197b066b9ac8dd54033eca020e9721e7035644297dd97e9e06ca5afd"
+    },
+    {
+      "path": "build/english-dialog-literal/restored-adjacent.log",
+      "bytes": 500,
+      "sha256": "146ef411effa2220677958689413c87b5a3497d04429fdf060712f3952fb5d57",
+      "gzipPath": "build/english-dialog-literal/restored-adjacent.log.gz",
+      "gzipSha256": "3091a248794ed08adf901d89ba608747ed413ec6d4d0b57dce4e4e9860bdd9d1"
+    },
+    {
+      "path": "build/english-dialog-literal/restored.json",
+      "bytes": 26560,
+      "sha256": "f2b973b765e1f7c38e16b3cb9f2e7b1acdc62d39726715353914170b268e5daf",
+      "gzipPath": "build/english-dialog-literal/restored.json.gz",
+      "gzipSha256": "b6f1e141cafadb621501e062125977f21c0b06ff147558e76a264c38da7496ed"
+    },
+    {
+      "path": "build/english-dialog-literal/typecheck.log",
+      "bytes": 120,
+      "sha256": "91e087942212d8241dfdcef926edb3d61b7d67308e9cdaba7299e1edb3379a04",
+      "gzipPath": "build/english-dialog-literal/typecheck.log.gz",
+      "gzipSha256": "652b014b977dc1628e472a16b7ff6c155b8253a45d682154098e4d2035dfe21e"
+    },
+    {
+      "path": "build/english-dialog-literal/biome.log",
+      "bytes": 43,
+      "sha256": "f706d864e5d4e23b964531f6078ae790a9fae2b52f67b93a92906c1c75d564c5",
+      "gzipPath": "build/english-dialog-literal/biome.log.gz",
+      "gzipSha256": "633aa0e96902ca271cbaad6a0c6dde8b836c01cd6253e99a99d4888b568ce05d"
+    }
+  ],
+  "limits": "Candidate delivered, not self-accepted. Root final gates/coverage/taskdone/ledgerclosure are not prefilled."
+}
