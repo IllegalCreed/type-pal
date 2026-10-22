@@ -2306,3 +2306,9 @@ Codex非作者核候选ccc094e860e7e118bacb95b61c425f9fc2d037de及仓库零写�
 Codex据证接受C01-C03修正：候选ccc094e860e7e118bacb95b61c425f9fc2d037de仓库零写入，旧包冻结，269/0/30回放；N-B10撤回/probe时序角色与两族producer/后继抽核成立。143红报告完整集合及三份四失败、三份pending均核对，Owner直接补207处遗漏比较计数与两处撤回锚，不让GLM为机械小问题再次往返。共享上下文复用和程序核读如实记，不称269次人工深审。23来源与7格式沿用限定接收，原执行/历史撤信不恢复，本轮reviewed/template-compliant/迁移信用均0。
 
 中央预演被1MiB前置拦截：r85/r87/r88新稿1081574/1113330/1073436B，所有8份review仍保留原字节，未发布269行。停止于写入前，不压缩语义或放宽Biome。Owner选择保留逻辑review身份的薄manifest＋有界分片方向；[子卡S27](DOCS-NATIVE-JSON-1.md#s27-review存储接入前置2026-10-22)准入GLM只读一次性交付8源599entry的source/consumer/test-impact/pin映射，Codex处理通用设计与实施准入，不重做S26。复用原卡与压缩日志，无新canonical账本；1195待办/2384诊断及1151/1838不变，全量仍rework、不合main、不推送、不标done。
+
+#### S27源映射接受与前提定点返工（2026-10-22）
+
+Codex非作者核c55ebedf3a347cef306c04de352652614f93dd39及S26分支保留/仓库零写入，回放8源599并独立核599条entry SHA、两序指纹、registry入边数/冻结源与三份回执，源成果接受。consumer-map将check-content-review直读错称经registry透明，漏全目录/参数化writer；“零旧测试必改”被Vitest测试直接parse r85后entries.filter反证；pin-map漏R92八条及R94一条afterSHA入边，并误把124个与after不同的revision.currentSha泛称当前pin。599个after本身全部匹配当前正文，不是新增124个SHA漂移。
+
+仅返工consumer/test-impact/pin及相关plan，原599源/回执与S26接收不重做。Owner处理引用行号/逐源total小订正，Git同revision物化/完整逻辑头保全/先599存储后269/逐片实format是后续设计方向；实际schema/实施包仍待事实前提闭合，不根据错误影响图提前冻结。精确C01-C03、证据与新/tmp只读域归[子卡裁定](DOCS-NATIVE-JSON-1.md#s27前置映射非作者裁定2026-10-22)，仍复用原卡与压缩日志。0迁移/完成信用、1195待办/2384诊断不变，不合main、不推送、不标done。

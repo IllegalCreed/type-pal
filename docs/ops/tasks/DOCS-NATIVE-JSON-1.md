@@ -1,7 +1,7 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
-Status: review
-Execution: review（S26修正证据接受；中央入账待存储方案，S27仅只读映射）
+Status: rework
+Execution: rework（S27源映射保留；consumer/测试影响/pin映射定点补正）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: GLM（逐篇语义、来源核实与自验）
@@ -98,6 +98,17 @@ Codex build allowed仅GLM只读一次性映射：8份逻辑源共599条现行ent
 
 清单`/tmp/type-pal-S27-GLM-review-storage-preflight/execution-manifest.json`，SHA-256 `d13568e8b090a5e947bbea2f977e532c36bce1a6d44b244227b38eb92c264119`；完整说明INSTRUCTIONS.md。GLM唯一新写入`/tmp/s27-glm-review-storage-preflight/`；source-map/consumer-map/pin-map/迁移方案/真实回执集中交付，不复制完整entry或native对象，不重查S26/23来源/7格式，不跑整仓/产品/E2E/coverage。实际旧测试适配需求须列具体断言交Owner按授权处置，不预先扩大旧测试授权。本卡复用，不新增canonical任务/账本或文档分母。
 
+### S27前置映射非作者裁定（2026-10-22）
+
+- 候选实取c55ebedf3a347cef306c04de352652614f93dd39、分支codex/docs-s27-glm-review-storage-preflight；仅node_modules未跟踪，旧S26分支仍ccc094e860e7e118bacb95b61c425f9fc2d037de。原包冻结。Codex非作者接受8源/599逐条canonical SHA及两序指纹、registry按名入边100/100/100/99/50/50/50/50、frozenRegistrySource三值、三份真实回执和零仓库写入；不将机械核验写成599篇语义重读。
+- S27-C01：consumer-map错误称check-content-review经registry透明，实际scripts/docs/check-content-review.mjs:59-66自行枚举review并读document.entries，薄manifest会漏整批记录。enrich-content-review-file.mjs:6-12/18由argv接受任意源，不能断言不触及8件；refresh-content-review-sha.mjs:11-29与remap-review-paths.mjs:16-37也遍历读写全部扁平review，却未列。须补实际reader/writer选择条件与适配/写入前拒绝策略，不按脚本名猜retired。
+- S27-C02：migration-plan“零旧测试必改”不成立。historical-vitest-native.test.mjs:19直接JSON.parse真实文件，第25/175行读r85、第176行立即entries.filter；改生产read回调不能救此前直接parse的对象。Owner对拟薄对象复现该原语句的只读反例为undefined.filter，非实跑旧测试或新loader。须撤回零适配结论，列最小加载/fixture提案并保留所有断言；不授权修改旧测试，本轮无需用户审批问题。
+- S27-C03：pin-map只有registry引用计数，漏R92的8条afterSha256直接入边和R94[6]到R92的传递边。599个after均匹配当前正文，但r73-r76合计124个revision.currentSha与after不同，不能一概写成当前正文pin，也不能自动刷新。须补精确record/index/target/beforeSHA/字段角色与拓扑；只修映射，不改历史值。
+- Owner直接订正小处：599是8源合计，各源100/100/100/99/50/50/50/50；sync枚举实际第10-12行、progress读第59-64行、冻结registry源第32-37行。分片保全指逻辑条目/键序/全局序与原Git字节可恢复，不声称新格式化分片与旧文件物理字节相同。七边界提案与四未知作为设计输入保留，不冒称已冻结/已实测。
+- Owner明确后续方向：Git与工作树复用同一纯物化规则，历史全部分片须同一个固定revision，不回落工作树；保留原逻辑头部/键/值/序，区分逻辑schema与storage schema；先599原条目存储迁移、独立接受后再做269合同/语义接入；每片实format后核严格JSON与canonical等价，不做Unicode/trim/codec救急。实际loader字段/API与发布合同待事实映射闭合后正式冻结，当前不准实施。
+- 返工仅consumer-map/pin-map及相关plan/HANDBACK/回执，唯一新写入`/tmp/s27-glm-review-storage-preflight-correction/`。source-map599、原回执、S26接收全部保留并可按SHA引用，不重做原盘点。完整裁定`/tmp/type-pal-S27-owner-audit-4IktvCDJ/verdict.json`，SHA-256 `a404553ac6d26048b49512500559bff691c59a1ba6f8df703b3c02aff137309c`，原单份压缩日志保全。consumer遗漏/旧测试影响/pin拓扑是实施前提缺口，非通过文字小修就可开实施包。
+- 本轮源/8份逻辑记录/所有历史值、registry/routing/templates、1195待办/2384诊断均不变；无迁移/完成信用，不合main、不推送、不标done。
+
 ## 设计与风险
 
 GLM读原生文件及其实际上下文，将历史观察和当前适用性写成可核稿件；Codex接收后复用既有record位置处理准确delta，不再让贡献者修改共享账本。269件原生合同复用S25基础；新增路径/相位/当前review关联仍须由Owner实现并验证，30件例外不混进该合同。提供的机械工具只验身份、集合与原文锚，不认证阅读深度或业务正确性。
@@ -106,14 +117,14 @@ GLM读原生文件及其实际上下文，将历史观察和当前适用性写�
 
 - 当前Owner：GLM执行稿件与自验，Codex维护准入和中央接入。未交付前不宣称269已审/已迁移。
 - 稳定交接入口为授权包中的`INSTRUCTIONS.md`和本卡；进度保存在证据目录review-index/已落盘分片，不依赖聊天记忆。工具/清单hash及原件必须可核；指纹全由程序实取。
-- 下一步：用户一次转交S27只读映射提示词，GLM完成重复性source/consumer/pin明细，Codex负责存储与合同设计/实施准入。S26修正无需再返工，Owner机械补丁复用；未过存储和扩展原生合同门前不发布269行或改变待办。
+- 下一步：用户一次转交S27定点映射补正提示词，GLM只补consumer/旧测试影响/pin的实际事实，Codex保留架构/合同责任；原599源和S26不返工。待C01-C03映射闭合后才冻结实际loader/Git物化/发布schema并开实施包，不提前发布269行或改变待办。
 
 ## 下一位Agent提示词
 
 ```text
-你是type-pal的GLM贡献者，执行DOCS-NATIVE-JSON-1/S27只读review存储前置映射。
-先读 /tmp/type-pal-S27-GLM-review-storage-preflight/INSTRUCTIONS.md 与execution-manifest.json，核清单SHA d13568e8b090a5e947bbea2f977e532c36bce1a6d44b244227b38eb92c264119。
-按转发提示词的完整Owner准入HEAD，在原工作树核S26旧分支干净后新建S27隔离分支；旧分支/所有原证据保留，不reset/stash/覆盖。
-8逻辑源599entry的源位置/真实consumer/文档测试影响/pin映射一次交齐，唯一写入/tmp/s27-glm-review-storage-preflight；仓库/269正文/中央均只读，不重做S26。
-架构与合同选择由Codex负责，本包不实施。真实身份/回执，未知明确counter；内部自行分段，集中回交并附Codex提示词。不合main、不推送、不标done。
+你是type-pal的GLM贡献者，仅补正DOCS-NATIVE-JSON-1/S27的consumer/test-impact/pin映射。
+先读 /tmp/type-pal-S27-owner-audit-4IktvCDJ/GLM-PROMPT.md、verdict.json和observations.json，按精确C01-C03修正。
+固定S27分支/HEAD c55ebedf3a347cef306c04de352652614f93dd39，原仓库/证据冻结；只写/tmp/s27-glm-review-storage-preflight-correction。
+599源映射和原回执已接受，可按原path+SHA复用，不重造、不重做S26；补真实读写入口/旧测试最小适配提案/9条afterSHA入边与历史revision差别。
+不改代码/旧测试/中央，不授实施或冻结权限；集中一次回交并附Codex验收提示词，不合main、不推送、不标done。
 ```
