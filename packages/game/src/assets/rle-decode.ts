@@ -2,7 +2,7 @@
  * 运行时 RLE 解码 re-export + base64 帮手。
  *
  * `decodeRle` / `parseSpriteChunk` / `RleFrame` 已**统一到 `@type-pal/shared`**:此前 game 这份
- * 多一段 `0x02000000` 单帧 file-header 前缀跳过、与 shared 分叉,现由 shared `decodeRle(buf,
+ * 多一段单帧 file-header 前缀跳过(字节 `02 00 00 00`，小端值 2)、与 shared 分叉,现由 shared `decodeRle(buf,
  * { skipFilePrefix })` 参数覆盖(见 shared/rle.ts)。本文件改为 re-export 共享解码器,只保留
  * game 专用的 `base64ToBytes`(浏览器 atob)。
  *

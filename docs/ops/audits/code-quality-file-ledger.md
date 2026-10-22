@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-22 3h资产测试质量切片：两个测试从隐式pending登记review，0新关闭；四LRU合法typed输入/引用结果、十条恢复路径完整预期告警已补。loader/RLE适配仅注释正文守恒，UI帧编号反证获批后另提交修复。[本片A–H与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)。全仓/official/protected留相关模块收尾；固定83仍62accept/21partial，不据定向绿关闭3h。
+
 2026-10-22 3w模块收口：五文件按逐文件八维及正式反例闭合，[收口原件入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)。完整check20443/工具684、七包TC、official20045与同报告protected均零诊断；初轮12超时原件保留且未改规则/timeout。当前3356tracked/377closed/110review/2869pending，固定83卡62accept/21partial。仅3w原状态/结算/清理合同，不升格整体battle-system/event-system或视觉E2E。
 
 2026-10-22 3w战后HP/MP窄修：用户批准保留脚本效果；两正式业务红→238定向/相邻绿、game TC0，原导入真实190tick战斗退出394→500。旧结算测试已验证暂恢复review等待模块集中门，0新增关闭；3356tracked/372closed/115review/2869pending，61accept/22partial不变。[本片八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)。
@@ -64,7 +66,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,356。
-当前已闭合核验：377；已读但待审：110；尚未逐文件核验：2,869；合计未闭合：2,979。
+当前已闭合核验：377；已读但待审：112；尚未逐文件核验：2,867；合计未闭合：2,979。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -242,7 +244,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs` | product | review | scene/event/tilemap BFS 与写盘脚本直接读过 | 诊断生成器需后续 path/input 复核 |
 | `packages/pal-extract/audit-data-mkf.mjs` | product | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `packages/pal-extract/src/audit-data-mkf.test.ts` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
-| `packages/game/src/assets/loader.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: loader-six-skips；不升closed |
+| `packages/game/src/assets/loader.ts` | product | review | [3h资产当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) | GLM29与既有八维复用，补缓存caller/测试；UI缺帧编号反证获批待修，snapshot输入执行缺口待收尾核，不升closed |
+| `packages/game/src/assets/loader.test.ts` | test | review | [3h合法缓存/排重](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/quality.json) | 7→4，三个弱子集转更强HTTP/引用合同；四LRU保留，typed输入与返回对象补强；模块门待跑 |
+| `packages/game/src/assets/load-all-recover.grok-r1.test.ts` | test | review | [3h告警oracle](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/quality.json) | 十例核完整消息/Error/次数，丢上下文指定单红；UI压紧旧断言另卡获批待迁移，未关闭 |
 | `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |
 | `packages/game/src/assets/rle-decode.ts` | product | 已验证 | CODE-QUALITY-3h；shared codec re-export、dialog-assets base64 caller、identity tests | 无重复 codec；base64 非法输入继续 fail-loud |

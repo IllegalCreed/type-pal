@@ -1409,3 +1409,11 @@ Owner Codex单Agent；无下一位Agent提示词。用户待裁决期间继续3w
 [模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)逐文件接受五项review：finalization源/Extra专测、settlement源/专测、system三例专测；旧finalization.test不重复关闭。3w只按原两个实现与结算/cleanup合同接受，完整battle-system、event-system、单脚本通用yield与视觉E2E不借此接受。当前固定83为62accept/21partial/0pending；源账本3356/377closed/110review/2869pending。原all-cards header59/24已按实际逐对象61/22勘误，仅3w新增接受，其余82卡逐对象相同。
 
 当前完整check20443+684工具、七包TC及lint零诊断；官方与同报告protected零诊断、未做第二次采集。初轮12个5秒超时保留，全455原超时两worker绿后，原命令加Vitest原生worker环境参数全量重跑；无规则/timeout/断言/排除变化。最终文档/账本静态回执另补，不重启覆盖率。下一3h资产源八维余项，暂不扩94–102。
+
+## 2026-10-22 CODE3h 资产测试质量有限准入
+
+Codex单Owner，同一3y，基点c4278084be4b04ebbb77fb0633b5a94c1c0eafe2与最新main同点、干净。发布Coverage39742213502最后有效API仍in_progress，类型/lint步骤success；随后EOF不当CI失败或成功，完成后补原件。3w已闭合事实不重开，94–102不扩展。
+
+本片build allowed：loader.test.ts与load-all-recover.grok-r1.test.ts测试质量、loader.ts缓存caller路径与rle-decode.ts前缀记法的仅注释更正。旧404弱摘要转G01-B07、字段透传弱子集转G01-D01；五个独立cache合同保留，换合法typed输入并观察返回对象和淘汰，而非只数mock。恢复路径核完整warning消息、错误参数和次数，意外告警须失败。精确退役仅数据新增，predicate/规则/旧授权不动；实际身份从原生结果取得。
+
+复用3h已有PNG/启动屏障/fetch-retry八维与反控，只补失效或欠缺范围。UI单帧失败压紧数组与真实按编号呈现的关系待核，不将当前恢复用例升为可渲染结论；新产品/资产策略须另卡裁决。先定向、相邻模块与必要TC，累积相关切片后集中全仓/official/protected，本片不重采覆盖率。整3h保持partial、源与测试不据包绿关闭。

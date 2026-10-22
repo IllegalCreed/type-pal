@@ -1,0 +1,209 @@
+{
+  "gates": [
+    {
+      "execution": {
+        "id": "quality-docs",
+        "command": "pnpm",
+        "args": ["check:docs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T08:14:22.064Z",
+        "end": "2026-10-22T08:15:19.963Z",
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "head": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+        "observerTimeout": false,
+        "stdoutBytes": 30264,
+        "stderrBytes": 99
+      },
+      "originals": [
+        {
+          "file": "quality-docs.execution.json.gz",
+          "bytes": 411,
+          "sha256": "a218e8504ee21e6cdf9198ab6a0462d53dbb9edf7d9040b51a42b26e0a78a572"
+        },
+        {
+          "file": "quality-docs.stdout.raw.gz",
+          "bytes": 30264,
+          "sha256": "d5893245c3be700153d597f1cf7c707e47416830862d18228ca49dba8ac091cd"
+        },
+        {
+          "file": "quality-docs.stderr.raw.gz",
+          "bytes": 99,
+          "sha256": "29e79c2265751a0c534949bc504f6fe1493954d851fb6ec70f1055abe7637acd"
+        }
+      ]
+    },
+    {
+      "execution": {
+        "id": "quality-lint",
+        "command": "pnpm",
+        "args": ["lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T08:15:20.002Z",
+        "end": "2026-10-22T08:15:22.636Z",
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "head": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+        "observerTimeout": false,
+        "stdoutBytes": 167,
+        "stderrBytes": 202
+      },
+      "originals": [
+        {
+          "file": "quality-lint.execution.json.gz",
+          "bytes": 404,
+          "sha256": "c730e0ffa5201b2467e199fed0c11a39d8a854e516f47d18a6bc90caab728b2e"
+        },
+        {
+          "file": "quality-lint.stdout.raw.gz",
+          "bytes": 167,
+          "sha256": "67abbd7779934ba2192a5352a46a8591ebaaa412e7460de07adcaaa3f87b5165"
+        },
+        {
+          "file": "quality-lint.stderr.raw.gz",
+          "bytes": 202,
+          "sha256": "337d0b4dc47d2e1e72392e795518a937173faeff5fa19eea8e1b71ab789cfb32"
+        }
+      ]
+    },
+    {
+      "execution": {
+        "id": "quality-ledger",
+        "command": "node",
+        "args": ["scripts/quality/code-quality-ledger.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T08:15:22.675Z",
+        "end": "2026-10-22T08:15:23.581Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+        "observerTimeout": false,
+        "stdoutBytes": 113,
+        "stderrBytes": 0
+      },
+      "originals": [
+        {
+          "file": "quality-ledger.execution.json.gz",
+          "bytes": 439,
+          "sha256": "42c21e345f8af66522af7cec42b60589ca909111a12d0750c9545b10790d4f00"
+        },
+        {
+          "file": "quality-ledger.stdout.raw.gz",
+          "bytes": 113,
+          "sha256": "b2bc9e891159e73909ed3f63fcc3102a20d58cb1a564edd7d1b701858f4114b9"
+        },
+        {
+          "file": "quality-ledger.stderr.raw.gz",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "execution": {
+        "id": "quality-docs-fixed",
+        "command": "node",
+        "args": ["scripts/docs/check.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T08:16:10.309Z",
+        "end": "2026-10-22T08:16:10.880Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+        "observerTimeout": false,
+        "stdoutBytes": 93,
+        "stderrBytes": 0
+      },
+      "originals": [
+        {
+          "file": "quality-docs-fixed.execution.json.gz",
+          "bytes": 425,
+          "sha256": "3c6b09c2e04eacff627d44708bb2bcccb199dec48c5147390a19f7ea9989736d"
+        },
+        {
+          "file": "quality-docs-fixed.stdout.raw.gz",
+          "bytes": 93,
+          "sha256": "d0c250e7b7bb2e5dff27cc8c2faadde23411bc37abe2e90659665307129817ae"
+        },
+        {
+          "file": "quality-docs-fixed.stderr.raw.gz",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "execution": {
+        "id": "quality-lint-fixed",
+        "command": "pnpm",
+        "args": ["lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T08:16:10.916Z",
+        "end": "2026-10-22T08:16:13.636Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+        "observerTimeout": false,
+        "stdoutBytes": 193,
+        "stderrBytes": 0
+      },
+      "originals": [
+        {
+          "file": "quality-lint-fixed.execution.json.gz",
+          "bytes": 408,
+          "sha256": "960d0ff950c3a92fab3188cc0b44f72969ab59a81b300a179047ecf04f8f44be"
+        },
+        {
+          "file": "quality-lint-fixed.stdout.raw.gz",
+          "bytes": 193,
+          "sha256": "9a0273d3323949f2ffaa57df0130fe990de54c1aefeff9b15a2f3965bba0b1e3"
+        },
+        {
+          "file": "quality-lint-fixed.stderr.raw.gz",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "execution": {
+        "id": "quality-diff",
+        "command": "git",
+        "args": ["diff", "--check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T08:16:13.674Z",
+        "end": "2026-10-22T08:16:13.719Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+        "observerTimeout": false,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        {
+          "file": "quality-diff.execution.json.gz",
+          "bytes": 414,
+          "sha256": "07de436cd93c4d7d9529c7a0bbc4c6f8a80d55ab31401d8288577efdf5437fdc"
+        },
+        {
+          "file": "quality-diff.stdout.raw.gz",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "quality-diff.stderr.raw.gz",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ],
+  "limits": "First docs failed board draft/build mismatch, first lint failed quality JSON format. Fixed scoped docs/lint zero; full docs unit tests were not repeated. Whole repo/coverage remain module-window pending."
+}

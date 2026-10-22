@@ -7,6 +7,17 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE3h: weak HTTP, generic hit and field subsets transfer to G01-B07/D01
+    // and retained LRU results. User standing test-quality/dedup authority.
+    // Exact contracts/native proofs: pre94 3h/assets-quality/quality.json.
+    {
+      file: 'packages/game/src/assets/loader.test.ts',
+      previous: 7,
+      current: 4,
+      previousIdentityDigest: '5f98ca22f6e487c5cc5f4fef1b753d6f1bd87a962c0041c10d08262c34abb431',
+      currentIdentityDigest: '8462c7758c5590e831f140d410f5f3708fab13e0a22a0c1315a639b22fd4f776',
+      fileSha256: '9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437',
+    },
     // CODE2 2026-10-21: later small-plane duplicate transfers to retained complete
     // MARK-plane delta oracle; exact failure-set subtraction in shared-codecs/evidence.json.
     {
