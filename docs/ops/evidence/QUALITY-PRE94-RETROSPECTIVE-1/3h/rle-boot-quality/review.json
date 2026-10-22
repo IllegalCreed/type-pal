@@ -1,0 +1,4091 @@
+{
+  "schemaVersion": 1,
+  "base": "d297e64d0a928abb813ce280122d51c2c852bea5",
+  "owner": "Codex single Agent; no third-party claim",
+  "state": "Eleven finite files accepted/refreshed with concrete A-H and source gates, shared main RLE test stays review. Document statics/publish tracked separately.",
+  "files": [
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "f0f543bc5137a385438ec02ecb3aa62ce073bdae43ffdf00e7f8b27d11c639fb",
+      "gitBlobSha1": "4f10a0120b5b66a91a6ae043ebb9f1ba55fb310e",
+      "lines": 12,
+      "state": "accept",
+      "dimensions": {
+        "A": "Full current file and real dialog-assets caller read. atob errors continue upward to the icons-only catch; empty string remains an empty typed array. shared parser behavior is unchanged and not re-certified.",
+        "B": "Replaced migration/future-caller prose with current DATA chunk12 transport ownership; no PNG or single-frame caller claimed.",
+        "C": "Synchronous base64 conversion plus one shared sprite parser binding; no game state, IO, cache, timer or hidden lifecycle.",
+        "D": "Keep shared parser, never a game decoder copy. base64 helper is local to browser transport; font-specific glyph logic is a different contract.",
+        "E": "Base64 empty/padded/unpadded unit inputs plus D09/D10 binary values and D05 invalid-input production catch retained; D11 verifies live parse binding.",
+        "F": "Module heading names present responsibility; no algorithm walkthrough or speculative API advice.",
+        "G": "Removed game-only decodeRle/type RleFrame re-exports: no production consumers, private app with no package exports, no dynamic module entry. shared public exports remain.",
+        "H": "Pure conversion directly callable; parser identity and real dialog pipeline are observable without another injected interface."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "sha256": "37f6896cfc773c970652f0aab175160a47f2df5f64c99f08cf0b99a0954e9284",
+      "gitBlobSha1": "96414830a4784bf03bdcd7bf357101e87f400c57",
+      "lines": 13,
+      "state": "accept",
+      "dimensions": {
+        "A": "Full six old/two retained cases read; all retained calls finish synchronously. Valid typed bytes/base64. Invalid base64 caller contract remains in D05.",
+        "B": "Two remaining titles accurately distinguish empty input and padded/unpadded zero bytes; no round-trip claim.",
+        "C": "Only browser byte transport tests remain; codec contracts belong to shared, not a game facade with no single-frame caller.",
+        "D": "Four codec repetitions map individually below to existing shared oracles, strengthened full planes; no generic fixture or new wrapper.",
+        "E": "Retained two explicit byte arrays; binary high values covered D09/D10. Plain/prefix/mixed/container old assertions mapped, not merely removed for count.",
+        "F": "Short fixed encodings and expected bytes show the contract directly.",
+        "G": "Six to two, four proven cross-package repetitions only; no other test or input-policy retirement.",
+        "H": "No mocks, global writes, pending work or core casts; typed return directly observed."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "f6c00cd4c2b182c1326e5935a7fa0969b76ccd885a03b5d2320667d48ed1a3b8",
+      "gitBlobSha1": "f5c8576ad034bb35b028141275714aeb7532fb06",
+      "lines": 335,
+      "state": "accept-refresh",
+      "dimensions": {
+        "A": "Reuse S7 full-file 13-case review, exact diagnostic contracts and PNG/icon results; current full file read, only D11 and unused imports changed.",
+        "B": "D11 now names only the live dialog sprite-group binding; other titles retain their qualified S7 meaning.",
+        "C": "Port warnings/globals belong to hooks, maps to each load. Real PNG/RLE code runs; internal facade no longer exports an unused single-frame decoder.",
+        "D": "Keep independently justified D14 single portrait failure and the live parse wiring guard; D09/D10 are distinct binary padding axes.",
+        "E": "All13 identities except one explicit rename and all12 business bodies unchanged; remove decode identity assertion only with dead internal export. Parse identity stays.",
+        "F": "Single import and assertion make D11 match its production caller.",
+        "G": "No new cases or removed count; no collateral retirement or broad dialog re-review.",
+        "H": "Existing real Response/canvas host and exact expectedWarnings hooks preserved; no matcher weakening."
+      }
+    },
+    {
+      "path": "packages/shared/src/rle.test.ts",
+      "sha256": "3c7d16c7b864365dbceab122c66687ce7bcbad6401580aa366df384bedb48e60",
+      "gitBlobSha1": "44a2e39db939c88c64f1ca2380ddcdf3efd7f698",
+      "lines": 337,
+      "state": "review",
+      "dimensions": {
+        "A": "Reuse RLE format-freeze evidence, current full test file read. Only existing single-frame container oracle gains complete width/height/pixels/opaque.",
+        "B": "Existing direct-byte comments used for transferred container contract; this batch does not correct or certify all historical SDL truth prose.",
+        "C": "Public shared entry remains the codec owner; game tests no longer own a second single-frame specification.",
+        "D": "Existing literal/transparent/mixed/container tests carry equivalent semantic axes despite different fixed byte values/dimensions.",
+        "E": "One existing case strengthened to full object. No test count/title changes; all other assertions unchanged. Full algorithm/truth questions remain outside this transfer.",
+        "F": "Explicit frame object shows each expected plane and dimensions.",
+        "G": "No new cases, API or helper. Do not promote the old withdrawn whole-file close from this patch.",
+        "H": "Pure fixed-byte oracles need no core mock; data allocation/format unknowns stay with truth card."
+      }
+    },
+    {
+      "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "sha256": "2b3753e52bd78f915271d40a2cccd86fd028b491ae53a3b68d3f7c8eafb96d1a",
+      "gitBlobSha1": "cdfc3d96f9ce4fa05bfb7363326de419fff08d6f",
+      "lines": 152,
+      "state": "accept-refresh",
+      "dimensions": {
+        "A": "Current nine cases read; prefix option matrix, subarray, trailing data and legacy rejections remain fixed TS contracts, not all SDL semantics.",
+        "B": "Removed obsolete reference to game prefix test; matrix positive now states the complete frame instead of only one pixel.",
+        "C": "Pure decoder/container tests own arrays; oddView owns its parent and passes a bounded byteOffset view.",
+        "D": "Metamorphic padding/subarray comparisons check distinct inputs and bounded view handling, unlike snapshot decoding identical bytes twice; independent basic pixel oracles stay in rle.test.",
+        "E": "Prefix positive now checks both complete planes and dimensions, retains transparent plus opaque palette0; existing no-option/wrong-prefix/short-buffer negatives unchanged.",
+        "F": "Literal expected frame exposes the prefix result and opaque0 distinction.",
+        "G": "Nine cases unchanged, no duplicate positive added; current shared public API and production body unchanged.",
+        "H": "Inputs are ordinary Uint8Array views, no injected codec or private state. No format-security claim."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+      "sha256": "013d4f9cc9a6d5cced331b875aeb13ec8b47600fb7e6fa149859b368200700ec",
+      "gitBlobSha1": "eb40c2d3dcec930fd7e2cf542f02cc2e1eb69122",
+      "lines": 78,
+      "state": "accept",
+      "dimensions": {
+        "A": "Entire suite read; six existing disk samples and beforeAll lifetime retained. If either top-level GOP input or extracted directory is absent, skip+warn; when both exist, any missing sample file fails. Independent MKF offsets provide exact expected bytes.",
+        "B": "Renamed pixel truth claim to transport. Narrowed unsupported scene representativeness and server Content-Encoding claim; optional whole-input absence policy unchanged.",
+        "C": "Only disk transport integration; no scene state or parser semantics. Raw input read once, each blob loaded per existing case.",
+        "D": "Removed same-parser double decode after byte equality; unit codec tests and real render pipeline retain their separate roles.",
+        "E": "Six renamed identities, full decompressed Uint8Array equals independently selected raw chunk; nonempty raw and gzip magic checks remain. Byte equality already subsumes subsequent same-codec equality; no independent pixel oracle retired.",
+        "F": "One byte equality replaces nested counters/manual throws; failures now expose expected vs received bytes.",
+        "G": "No extra telemetry parser call or six noisy console reports; no sample, timeout, skip-policy or input change.",
+        "H": "Real GOP/extracted inputs and native stream, no fake codec; exact input hashes pin reproducibility, not all maps/browsers."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "sha256": "fb250ebe6d6d2206be60aa7c5faee40a590e42f48e547b38be30360daa8db6aa",
+      "gitBlobSha1": "042eb6d2ec252ba91eb913353b314603cd5d160a",
+      "lines": 219,
+      "state": "accept",
+      "dimensions": {
+        "A": "Full11 cases read; lawful Request overrides/config values and explicit invalid IO/config negatives. Real method/Response/Error/backoff contracts, native source unchanged.",
+        "B": "Current gateway exhaustion means return final Response, not rejection; header and current names agree.",
+        "C": "Hook now drains in-flight fake retries before uninstall/global restoration; typed handlers consume rejection immediately.",
+        "D": "Keep method priority, status family, error identity and backoff fallback as distinct input axes, not one universal fetch host.",
+        "E": "11 identities stable; exact recovered/last Response identity retained after settling both branches. Existing C1/source guards reused, no mock-count-only replacement.",
+        "F": "Outcome objects expose success/error without unhandled promise rejection; no unrelated flow abstraction.",
+        "G": "No added test or removed branch/guard; timer completion belongs to existing hook, not repeated per case.",
+        "H": "Typed IO seam and deterministic fake timers isolate retries; global fetch and clocks restored even on failure."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "sha256": "f77605ba8fac4893f06280b648e537e006d36c3e72368aa3e3fac6ac967699d9",
+      "gitBlobSha1": "703f72d0f6cc2fb4932f7324923b0973cb8c66ce",
+      "lines": 145,
+      "state": "accept",
+      "dimensions": {
+        "A": "All7 expanded cases read. Actual Request/AbortController/native fetch pre-abort oracle; reason, init/null override, timer/listener ownership preserved.",
+        "B": "New hook comment describes test cleanup only, not cancellation of real production requests.",
+        "C": "Drain fake backoffs before test-owned fetch/clock reset. Early business assertions can no longer strand this suite retry listener.",
+        "D": "Keep init vs Request and explicit signal vs null separate: two different Fetch precedence contracts; boundary init-in-flight rejection is a distinct window.",
+        "E": "Reuse C1 three named business mutants and original26-green plus current213 regression. Intentional early-failure probe old/new each6green1AssertionError, but old timer/listener1, new0. This is teardown evidence, not another product red.",
+        "F": "Sequential cancel-at-backoff snapshots remain readable; no custom cancellation scheduler introduced.",
+        "G": "All7 names and business assertions unchanged; hook is the only production-test delta.",
+        "H": "Native construction and listener observations avoid internal retry-state access; pending rejections consumed, observers removed at source completion."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "sha256": "06dcb4cc62af1829205e6742d545918d3b5ac5abd8346cc520c5ddb43268b750",
+      "gitBlobSha1": "12681f8c52bbbd733cd4af167a5948f3489cd5bc",
+      "lines": 100,
+      "state": "accept",
+      "dimensions": {
+        "A": "All3 cases read against current ports and real bootstrap MIDI/FM selection. Original soundfont rejection preserved; FM explicitly returns zero-byte ArrayBuffer while not requesting soundfont.",
+        "B": "Titles state startup order, optional font and original rejection, without claiming playable browser validation.",
+        "C": "Local typed ports and complete LoadedAssets fixture; deferred font and all actual promises settled in finally for pending cases.",
+        "D": "Glyph degradation weak duplicate already transferred to Grok independent barrier; preserve three separate order/rejection/FM contracts.",
+        "E": "Reuse original soundfont identity/glyph barrier controls for production contracts. Additional byteLength assertion distinguishes current empty placeholder from length1 (old3green/new2green1 named AssertionError); bootstrap.ts:480 passes undefined on FM, so this is return-value assertion sensitivity only, not a new production consumer/defect or gameplay coverage. Initial toEqual(ArrayBuffer) survived and is preserved.",
+        "F": "Explicit byteLength expresses returned empty data; no reliance on cross-realm buffer equality.",
+        "G": "No added case; one formerly unobserved return value covered in existing FM caller test.",
+        "H": "Direct ports isolate IO; controlled deferreds finish before global state could be restored; no product API expanded."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "a24ecd452ca31eb32eb012dc3d7517524ab323066549ce746541c6a8236d62f3",
+      "gitBlobSha1": "ec4d014bd707b5ae6ce533a3e7aba11da2760f98",
+      "lines": 365,
+      "state": "accept",
+      "dimensions": {
+        "A": "All9 current cases read; typed resource tokens, real default Response paths and four held URLs agree with source. resources/font/settle lifetimes stay independent.",
+        "B": "Header limits default-port tests to real IO request/Response evidence, not complete playable fixture.",
+        "C": "Registration owns every deferred and three returned promises; releases then awaits before restoring globals, including assertion failure path.",
+        "D": "Distinct assets/dialog/glyph barrier axes and glyph fallback retained. Does not merge route host with render-host due to different lifecycle.",
+        "E": "Reuse frozen glyph-race and failure-IO-cleanup controls. Exact references, warn payload and ordered default requests are real outcomes; current213 regression refreshes versions.",
+        "F": "Named heldResourceResponse routes document controlled IO; no hidden mock data casting.",
+        "G": "Nine original identities retained; private startResources wrapper is used to centralize promise ownership, not a dead abstraction.",
+        "H": "Typed public ports and native responses, all delayed IO can be released; no core mock or new test-only production exposure."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "gitBlobSha1": "e69aab7ce3afd15c57d86338c3e880a4eed6ddce",
+      "lines": 49,
+      "state": "accept-refresh",
+      "dimensions": {
+        "A": "Full49-line source read; existing PNG evidence/real loader and dialog callers reused. createImageBitmap failure retains original cause; finally closes successful bitmap through later context/read errors.",
+        "B": "Header/current consumers agree R palette index and A>0 mask, including opaque palette0; no unsupported browser-memory promise.",
+        "C": "One decode-to-indexed responsibility. Bitmap lifetime local; returned two new arrays belong to consumer, no game state writes.",
+        "D": "Common pure image transport is reused by loader/dialog; do not merge it with RLE or independent fixture encoder.",
+        "E": "Reuse 3h PNG native cause/full-plane/close mutants and actual PNG/render oracles. Current asset cohort executes real PNG; node-canvas close observation is call-through only.",
+        "F": "Linear acquire/try/read/return/finally is direct; no split with a demonstrated responsibility benefit.",
+        "G": "Both public shape and function have real callers; loop required for R/A adaptation, no dead option or compatibility path.",
+        "H": "Browser seams observable through existing canvas/bitmap ports. No product test-only dependency; visual and browser allocator behavior not claimed."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "gitBlobSha1": "2737e7dd7eaacab2b02633cc451778ed8e33db6a",
+      "lines": 67,
+      "state": "accept-refresh",
+      "dimensions": {
+        "A": "Full source and current bootstrap caller read. preloadSoundfont false for FM, true for MIDI; soundfont settles independently, glyph-only fallback, assets/dialog errors propagate via Promise.all.",
+        "B": "Comments distinguish original soundfont rejection, settled barrier and resourcesReady; no all-resources cancellation claim.",
+        "C": "Finite download orchestration only. Returned promises owned by bootstrap/MIDI; no UI/game-state mutation, no cancellable producer or abort policy invented.",
+        "D": "Existing narrow ports serve both product defaults and tests. Do not combine resource-ready and font-settle because callers intentionally await at different times.",
+        "E": "Reuse font-identity/glyph-race controls, current3+9 tests and new FM return mutation. No broad bootstrap or visible-startup credit from these barriers.",
+        "F": "Explicit Promise.all tuple and two named font promises expose readiness semantics.",
+        "G": "Each port is used; preload flag has real music-source caller; no redundant global readiness state or speculative controller.",
+        "H": "Download dependencies already injectable; exact failures and pending barriers observable without new API. No source change required."
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "gitBlobSha1": "5d7f8e4c2505c9a3e63cf6073f1022b3867e28e2",
+      "lines": 325
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "868c492fc155e8a6becd1ff29ee1be002dd78573964d26c84700ac959f0a9f27",
+      "gitBlobSha1": "4f815fa4bffb0caae297f7b2e7e6812d1649b4a6",
+      "lines": 148
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed",
+      "gitBlobSha1": "41484430887a1942f0f13f805c351314b27c365e",
+      "lines": 119
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "gitBlobSha1": "3a4bb0cb43987fd85f2711bb6eb128af19618d9f",
+      "lines": 501
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+      "gitBlobSha1": "a3bb58a510d88c5a2a63fac0fb2e49040d57c71e",
+      "lines": 97
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "d86607b8497b1f98383d62b3f9047e62610e3cdf9d217dce0fe218e1ad96278a",
+      "gitBlobSha1": "391c57c5fd3a49ddf1968f9eccfb91c1cf88fdb0",
+      "lines": 95
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8",
+      "gitBlobSha1": "abb6af8ad74321890730a07de64503977cece1ce",
+      "lines": 1938
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4",
+      "gitBlobSha1": "e6cc1b22c7dce04a4dcc8545d8de0c8e55920b3f",
+      "lines": 243
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "sha256": "28dc3195ead8750a41de04ff0b142f89ac62a11cf773f3c21239d96a023dfd89",
+      "gitBlobSha1": "8dc4f7743a51a9c943f6d9d4aef66c8bf63c51f8",
+      "lines": 163
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "gitBlobSha1": "5fe1958c60b4fa5ca4fbb6967187c62c7a28cb58",
+      "lines": 25
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "gitBlobSha1": "cc85530bc05315d71dd41a6f38aa97c73d5e2165",
+      "lines": 11
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "gitBlobSha1": "13bcbac1f54907b6bf6e2da98f15e437b450af51",
+      "lines": 20
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "gitBlobSha1": "660a297ad1876f1f9d748626cba5cd294b7187dd",
+      "lines": 586
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
+      "gitBlobSha1": "3d7bcf39d9b34eee978a439d35c445c74542bf5a",
+      "lines": 265
+    }
+  ],
+  "inputs": [
+    {
+      "path": "data/raw/GOP.MKF",
+      "sha256": "5745d016a8d9c280b90a8b92d2871210a2dd0a0c04a79d4c8e65f4d0396aa04b",
+      "gitBlobSha1": "bd14f4e639501bbc9f7c174296389f3b2d4dc3db",
+      "lines": 31670
+    },
+    {
+      "path": "data/extracted/data/tileset/1.rle",
+      "sha256": "beacbdf0abca55bf4c63c7e3e3a132aa8601c5b26a1b763fef6b3dfe6d6e3751",
+      "gitBlobSha1": "a319cb033a5346be1f0c823b394a57e61c0dd7e9",
+      "lines": 145
+    },
+    {
+      "path": "data/extracted/data/tileset/6.rle",
+      "sha256": "f1de11df560cbde4467bccae5924aef83a59f7f91796dd55921f5df13cecf6cf",
+      "gitBlobSha1": "d42f431419041ee1c0600fb08fdf5a3569745a78",
+      "lines": 78
+    },
+    {
+      "path": "data/extracted/data/tileset/12.rle",
+      "sha256": "9d738a0cbbcf83491634365a73c297be141b272cd1651beb3fb271aa87e1974b",
+      "gitBlobSha1": "4030854d08471678ae3a25e04109adb4f066fb11",
+      "lines": 96
+    },
+    {
+      "path": "data/extracted/data/tileset/50.rle",
+      "sha256": "80d4e545bd28f916e3d9d270f78caa362151e7916dcab61783101a7cc3cb80ad",
+      "gitBlobSha1": "eacc4dfd9bd84395d7b14dd1795beb7f8c5a82b0",
+      "lines": 142
+    },
+    {
+      "path": "data/extracted/data/tileset/100.rle",
+      "sha256": "99023072eacaf5fa7b7ee3de8a9ef3edb735abf099ef2ee3603dc80f29cf8b0a",
+      "gitBlobSha1": "b896cba0a4c4ddf83f6fa6db34d92a62652093d7",
+      "lines": 86
+    },
+    {
+      "path": "data/extracted/data/tileset/200.rle",
+      "sha256": "0ba92706a8d401925990efc9bd490602437f1ac9588a223e3206c966b51a7f32",
+      "gitBlobSha1": "81149c1b2bd4d35df30f9f7afb363da4d5b21363",
+      "lines": 239
+    }
+  ],
+  "transfers": [
+    {
+      "from": "decodeRle / plain2x2AA",
+      "to": "shared/rle.test.ts :: decodeRle > 2×2 实心方块",
+      "retained": "Exact same fixed input and both full planes plus dimensions."
+    },
+    {
+      "from": "decodeRle / explicit file prefix",
+      "to": "shared/rle.glm-runtime-resource.test.ts :: R01 decodeRle skipFilePrefix 选项矩阵 > 0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）",
+      "retained": "Same opt-in prefix boundary, now complete frame with transparent and opaque palette0; neighboring no-option/wrong-prefix/short negatives retained."
+    },
+    {
+      "from": "decodeRle / skip2 then literal2",
+      "to": "shared/rle.test.ts :: decodeRle > 混合 —— 1 透明 + 2 实心 + 1 透明",
+      "retained": "Same mixed-command, exact full pixel+opaque contract with leading/trailing skips; changing sample dimensions/pixel values is not a new contract."
+    },
+    {
+      "from": "parseSpriteChunk / single-slot count+offset",
+      "to": "shared/rle.test.ts :: parseSpriteChunk > 切 1 帧 —— byte 0..1 = imagecount = 1,frame[0] word-offset = 1 (=2 字节)",
+      "retained": "Count1/word1 offset2, strengthened complete frame/planes; nonzero literal value and dimensions are sample values, not a distinct contract."
+    }
+  ],
+  "retirement": {
+    "entry": {
+      "file": "packages/game/src/assets/rle-decode.test.ts",
+      "previous": 6,
+      "current": 2,
+      "previousIdentityDigest": "b202ef061bcbad3589734304e5ec144778120cd6aae2d4ed2121be7eb8054503",
+      "currentIdentityDigest": "4ae69c1cb9241cc4431fa204e693d41ffaa5295e4567767f42252ab5b3fd0b17",
+      "fileSha256": "37f6896cfc773c970652f0aab175160a47f2df5f64c99f08cf0b99a0954e9284"
+    },
+    "previous": {
+      "testCount": 6,
+      "identityDigest": "b202ef061bcbad3589734304e5ec144778120cd6aae2d4ed2121be7eb8054503",
+      "identities": [
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: base64ToBytes > 有 padding 的两字节与无 padding 的三字节零值输入",
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: base64ToBytes > 空 string → 空 Uint8Array",
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: decodeRle > 0x82 跳过两个透明像素，随后两个 literal 像素保持不透明",
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: decodeRle > 单帧 RLE 无 0x00000002 前缀(普通 sprite frame)— 直接读 width/height",
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: decodeRle > 单帧 RLE 显式跳过 0x00000002 文件前缀后读取宽高和像素",
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: parseSpriteChunk > 单槽 sprite group 的首 word 同时给出槽数与首帧偏移"
+      ]
+    },
+    "current": {
+      "testCount": 2,
+      "identityDigest": "4ae69c1cb9241cc4431fa204e693d41ffaa5295e4567767f42252ab5b3fd0b17",
+      "identities": [
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: base64ToBytes > 有 padding 的两字节与无 padding 的三字节零值输入",
+        "packages/game/src/assets/rle-decode.test.ts :: project root :: base64ToBytes > 空 string → 空 Uint8Array"
+      ]
+    },
+    "authority": "User current RLE exports/dedup instruction; standing test-quality authority. Exact6->2 only; predicate and all51 old entries unchanged."
+  },
+  "probes": {
+    "results": [
+      {
+        "id": "ownership-before",
+        "passed": 6,
+        "failed": 1,
+        "pending": 0,
+        "failures": [
+          {
+            "name": "fetch-retry 取消与退避资源 init 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+            "messages": [
+              "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/rle-boot-ownership-probe.test.ts:91:38\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ownership-after",
+        "passed": 6,
+        "failed": 1,
+        "pending": 0,
+        "failures": [
+          {
+            "name": "fetch-retry 取消与退避资源 init 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+            "messages": [
+              "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/rle-boot-ownership-probe.test.ts:93:38\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fm-before",
+        "passed": 3,
+        "failed": 0,
+        "pending": 0,
+        "failures": []
+      },
+      {
+        "id": "fm-after",
+        "passed": 3,
+        "failed": 0,
+        "pending": 0,
+        "failures": []
+      },
+      {
+        "id": "fm-after-v2",
+        "passed": 2,
+        "failed": 1,
+        "pending": 0,
+        "failures": [
+          {
+            "name": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+            "messages": [
+              "Error: expected  to have property \"byteLength\" with value +0\n    at _Assertion.__VITEST_RESOLVES__ (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1710:17)\n    at _Assertion.propertyGetter (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/rle-boot-fm-probe.test.ts:38:36\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+            ]
+          }
+        ]
+      }
+    ],
+    "observations": {
+      "before": [
+        {
+          "timers": 1,
+          "listeners": 1
+        },
+        {
+          "timers": 0,
+          "listeners": 0
+        }
+      ],
+      "after": [
+        {
+          "timers": 0,
+          "listeners": 0
+        },
+        {
+          "timers": 0,
+          "listeners": 0
+        }
+      ]
+    },
+    "removed": [
+      "packages/game/src/shell/rle-boot-ownership-probe.test.ts",
+      "packages/game/src/shell/bootstrap-resources.rle-boot-mutant.ts",
+      "packages/game/src/shell/rle-boot-fm-probe.test.ts"
+    ],
+    "sourceSha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+    "limitations": [
+      "Ownership intentional assertion proves teardown only, not product defect.",
+      "Initial toEqual(ArrayBuffer) failed to distinguish length1; all3green raw retained. Corrected byteLength yields one named business AssertionError.",
+      "First collector expected AssertionError token in native async failureMessages, but native reports Error at resolves wrapper; complete stderr has actual AssertionError and expected0/received1. Reconciled without rerunning or changing raw."
+    ]
+  },
+  "github": {
+    "runId": 39797201562,
+    "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+    "status": "completed",
+    "conclusion": "success",
+    "projectStderrBlocks": 0,
+    "actDiagnostics": 0,
+    "platformDeprecationWarningLines": [
+      "fast-coverage\tRun pnpm/action-setup@v4\t2026-10-22T14:37:12.7189901Z (node:2081) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tRun actions/setup-node@v4\t2026-10-22T14:37:13.4294373Z (node:2095) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tRun actions/setup-node@v4\t2026-10-22T14:37:14.1981787Z (node:2095) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tUpload per-package reports\t2026-10-22T14:54:31.9142007Z (node:32215) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tUpload per-package reports\t2026-10-22T14:54:33.1147047Z (node:32215) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tPost Run actions/setup-node@v4\t2026-10-22T14:54:34.5153164Z (node:32229) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead."
+    ],
+    "platformWorkflowWarnings": [
+      "fast-coverage\tComplete job\t2026-10-22T14:54:34.8836989Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+    ],
+    "errorAnnotations": [],
+    "limits": "Action/Node notices separated from project checks; no claim of all-platform zero. Full raw preserved including stdout; no console filtering."
+  },
+  "identities": {
+    "beforeGame": [
+      {
+        "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D03 chunk 0 的头像 URL 补成 portraits/00.png",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D04 头像清单为空数组时不请求 PNG，图标照常解码",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D06 两张头像分别以 chunk 8 和 12 为键",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D14 单张头像 404 不会清掉已经解码的图标",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D09 base64 /wCA 解出 [255, 0, 128]",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D10 base64 /w== 解出单字节 255",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/rle-decode.test.ts",
+        "tests": [
+          {
+            "name": "decodeRle > 单帧 RLE 无 0x00000002 前缀(普通 sprite frame)— 直接读 width/height",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 单帧 RLE 显式跳过 0x00000002 文件前缀后读取宽高和像素",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 0x82 跳过两个透明像素，随后两个 literal 像素保持不透明",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 单槽 sprite group 的首 word 同时给出槽数与首帧偏移",
+            "status": "passed"
+          },
+          {
+            "name": "base64ToBytes > 空 string → 空 Uint8Array",
+            "status": "passed"
+          },
+          {
+            "name": "base64ToBytes > 有 padding 的两字节与无 padding 的三字节零值输入",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+        "tests": [
+          {
+            "name": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "tests": [
+          {
+            "name": "grok-mid-1 bootstrap barriers > loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > dialog 未兑现时 resourcesReady 保持未就绪",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > assets 未兑现时 resourcesReady 保持未就绪",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > 两轮 boot 的拒绝与成功资产互不穿越",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "tests": [
+          {
+            "name": "bootstrap resource lifecycle > FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+            "status": "passed"
+          },
+          {
+            "name": "bootstrap resource lifecycle > starts soundfont first and all resource loaders before awaiting any result",
+            "status": "passed"
+          },
+          {
+            "name": "bootstrap resource lifecycle > keeps the original soundfont rejection while its settle barrier still resolves",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "tests": [
+          {
+            "name": "H01 installFetchRetry 边界 > 拒绝无效 retries 且不替换全局 fetch",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 网络失败耗尽抛最后一次 Error 身份",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > init.signal 在请求中取消时用原始非AbortError原因拒绝，不退避或重试",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 重试后成功：返回最终那次 Response 身份（502→504→200）",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > backoff 末值用于超出数组长度的后续重试",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 空 backoff 数组使用 1000ms fallback",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+        "tests": [
+          {
+            "name": "fetch-retry 取消与退避资源 > 已取消 Request：'自定义 Error' 原因与原生 fetch 一致，不进入退避",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > 已取消 Request：'默认 AbortError，零次重试' 原因与原生 fetch 一致，不进入退避",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > 已取消 init.signal 不遮蔽原生 Request 构造错误",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > init 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > Request 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > init.signal=signal 覆盖已取消 Request；正常退避恢复后不持有监听器",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > init.signal=null 覆盖已取消 Request；正常退避恢复后不持有监听器",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "tests": [
+          {
+            "name": "L23 uninstallFetchRetryForTest 还原合同 > 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+            "status": "passed"
+          },
+          {
+            "name": "L23 uninstallFetchRetryForTest 还原合同 > 还原后 install 可重新装载（installed 复位合同）",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.test.ts",
+        "tests": [
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 503 → 重试后返回恢复的 Response",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 404 → 原样返回同一 Response，不重试",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 非 GET(POST)不重试(非幂等)",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 重复 install 幂等(不双层包)",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+            "status": "passed"
+          }
+        ]
+      }
+    ],
+    "afterGame": [
+      {
+        "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "tests": [
+          {
+            "name": "L23 loadDialogAssets 全链路（fetch 全隔离） > 两路清单均失败时，返回两个空 map 并分别报告原因",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D03 chunk 0 的头像 URL 补成 portraits/00.png",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D04 头像清单为空数组时不请求 PNG，图标照常解码",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D06 两张头像分别以 chunk 8 和 12 为键",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D14 单张头像 404 不会清掉已经解码的图标",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D09 base64 /wCA 解出 [255, 0, 128]",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D10 base64 /w== 解出单字节 255",
+            "status": "passed"
+          },
+          {
+            "name": "G02-D 对话图标与 base64 > G02-D11 对话图标的 parseSpriteChunk 入口就是 shared 的同一函数",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "tests": [
+          {
+            "name": "grok-mid-1 dialog parallel degradation > 单张头像失败仍保留成功头像与图标第 0 帧",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 dialog parallel degradation > 头像清单与图标清单在任一响应前都已发出",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 dialog parallel degradation > 重复 chunk 的第二次失败不删第一次精灵",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 dialog parallel degradation > portraits.json 的 count 不决定 PNG 请求次数",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A09 物品图标按 chunkIndex 入 map，UI 帧保留原编号",
+            "status": "passed"
+          },
+          {
+            "name": "G01-A loadAll 合法装配 > G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B06 words.json 没有 flat 字段时词表为空数组",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色",
+            "status": "passed"
+          },
+          {
+            "name": "G01-B loadAll 边界守卫 > G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C02 words.json 500 时词表为空，商店表仍透传",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C10 UI 帧 1 失败时，缺失位置留空，其余帧保留原编号",
+            "status": "passed"
+          },
+          {
+            "name": "G01-C loadAll 失败恢复 > G01-C11 物品 12 失败时省略该键，物品 3 的像素保留",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+        "tests": [
+          {
+            "name": "loadAll SPRITEUI frame identity > 完整清单保留全部帧号，黄色数字1使用frame20",
+            "status": "passed"
+          },
+          {
+            "name": "loadAll SPRITEUI frame identity > frame19失败后数字1仍用frame20，缺失的数字0沿用跳过",
+            "status": "passed"
+          },
+          {
+            "name": "loadAll SPRITEUI frame identity > 必要边框frame1失败后报原编号缺失，不用frame2补位",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/loader.test.ts",
+        "tests": [
+          {
+            "name": "SceneAssetsCache LRU > 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+            "status": "passed"
+          },
+          {
+            "name": "SceneAssetsCache LRU > cache hit 刷新 recency:最近命中的不被淘汰",
+            "status": "passed"
+          },
+          {
+            "name": "SceneAssetsCache LRU > protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+            "status": "passed"
+          },
+          {
+            "name": "SceneAssetsCache LRU > 不传 opts → 无限缓存(向后兼容,永不淘汰)",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G02-A decodePngToIndices 通道与上下文 > G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+            "status": "passed"
+          },
+          {
+            "name": "G02-A decodePngToIndices 通道与上下文 > G02-A02 3×2 完整下标与遮罩按行保存",
+            "status": "passed"
+          },
+          {
+            "name": "G02-A decodePngToIndices 通道与上下文 > G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+            "status": "passed"
+          },
+          {
+            "name": "G02-A decodePngToIndices 通道与上下文 > G02-A05 解码失败时把原始异常放在 Error.cause 上",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
+        "tests": [
+          {
+            "name": "L23 decodePngToIndices 剩余合同 > alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/png.test.ts",
+        "tests": [
+          {
+            "name": "decodePngToIndices > 保留包含高位下标 200 的完整首行",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/rle-decode.test.ts",
+        "tests": [
+          {
+            "name": "base64ToBytes > 空 string → 空 Uint8Array",
+            "status": "passed"
+          },
+          {
+            "name": "base64ToBytes > 有 padding 的两字节与无 padding 的三字节零值输入",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/rng-blob-snapshot.test.ts",
+        "tests": [
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > 原 RNG.MKF 必须有可核对的 chunk（缺整组输入时显式跳过）",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 0: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 1: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 2: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 3: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 4: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 5: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 6: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 7: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 8: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 9: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 10: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          },
+          {
+            "name": "RNG blob 真值对拍(raw RNG.MKF vs extracted .rle) > chunk 11: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "tests": [
+          {
+            "name": "grok-mid-1 scene cache eviction > protect 切换后原先受保护的场景成为下一次淘汰对象",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 scene cache eviction > onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 scene cache eviction > maxEntries 为 0 时仍淘汰未受保护场景",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 scene cache eviction > fetcher 拒绝后兄弟场景仍命中且不触发 onEvict",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 scene cache eviction > onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 scene cache eviction > onEvict 重入重新获取受害者后继续淘汰下一个最旧场景",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D01 命中返回 fetcher 交出的同一对象引用",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中",
+            "status": "passed"
+          },
+          {
+            "name": "G01-D SceneAssetsCache 归属与迟到 > G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+        "tests": [
+          {
+            "name": "assertion evidence plain preserves the real counts",
+            "status": "passed"
+          },
+          {
+            "name": "assertion evidence ANSI preserves the real counts",
+            "status": "passed"
+          },
+          {
+            "name": "assertion evidence missing still rejects invalid proof",
+            "status": "passed"
+          },
+          {
+            "name": "assertion evidence zero still rejects invalid proof",
+            "status": "passed"
+          },
+          {
+            "name": "assertion evidence partial still rejects invalid proof",
+            "status": "passed"
+          },
+          {
+            "name": "'effect-control' → 'pass' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'missing-effect' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'empty-enemy' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'empty-player' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'empty-fire' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'empty-npc' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'absent-sprite' → 'skip' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'absent-sprite-extracted' → 'skip' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'absent-rng' → 'skip' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'absent-rng-directory' → 'skip' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'absent-tileset' → 'skip' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'absent-tileset-directory' → 'skip' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'rng-control' → 'pass' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'missing-rng-blob' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'empty-rng-chunk' → 'pass' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'zero-rng-chunks' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'tileset-control' → 'pass' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'missing-tileset' → 'fail' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'denied-rng' → 'denied' (real resource test runner)",
+            "status": "passed"
+          },
+          {
+            "name": "'denied-tileset' → 'denied' (real resource test runner)",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+        "tests": [
+          {
+            "name": "sprite blob 真值对拍(npc / battle / magic) > npc: data/sprite/{id}.rle == decompressYj2(MGO.MKF[id])",
+            "status": "passed"
+          },
+          {
+            "name": "sprite blob 真值对拍(npc / battle / magic) > battle enemy: data/battle-sprite/enemy/{id}.rle == tryYj2(ABC.MKF[id])",
+            "status": "passed"
+          },
+          {
+            "name": "sprite blob 真值对拍(npc / battle / magic) > battle player: data/battle-sprite/player/{id}.rle == tryYj2(F.MKF[id])",
+            "status": "passed"
+          },
+          {
+            "name": "sprite blob 真值对拍(npc / battle / magic) > magic effect: data/magic/effect.rle == DATA.MKF[10]",
+            "status": "passed"
+          },
+          {
+            "name": "sprite blob 真值对拍(npc / battle / magic) > magic fire: data/magic/fire-{NN}.rle == tryYj2(FIRE.MKF[NN])",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+        "tests": [
+          {
+            "name": "S5 tileset blob 运输一致性(真实 GOP.MKF vs extracted blob) > mapNum=1: blob 解压字节 == 原 GOP.MKF chunk",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 运输一致性(真实 GOP.MKF vs extracted blob) > mapNum=6: blob 解压字节 == 原 GOP.MKF chunk",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 运输一致性(真实 GOP.MKF vs extracted blob) > mapNum=12: blob 解压字节 == 原 GOP.MKF chunk",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 运输一致性(真实 GOP.MKF vs extracted blob) > mapNum=50: blob 解压字节 == 原 GOP.MKF chunk",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 运输一致性(真实 GOP.MKF vs extracted blob) > mapNum=100: blob 解压字节 == 原 GOP.MKF chunk",
+            "status": "passed"
+          },
+          {
+            "name": "S5 tileset blob 运输一致性(真实 GOP.MKF vs extracted blob) > mapNum=200: blob 解压字节 == 原 GOP.MKF chunk",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/tileset-blob.test.ts",
+        "tests": [
+          {
+            "name": "rleFrameToIndexedImage > RleFrame → IndexedImage 字段重命名，借用 pixels 与 opaque 两份数组",
+            "status": "passed"
+          },
+          {
+            "name": "decodeTilesetBlob > GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,...",
+            "status": "passed"
+          },
+          {
+            "name": "decodeTilesetBlob > 坏槽跳过后，Map 按有效帧顺序编号而不保留原始槽号",
+            "status": "passed"
+          },
+          {
+            "name": "decodeTilesetBlob > 透明像素 + opaque palette-0 都正确表达",
+            "status": "passed"
+          },
+          {
+            "name": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) > decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致",
+            "status": "passed"
+          },
+          {
+            "name": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) > loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]",
+            "status": "passed"
+          },
+          {
+            "name": "framesToCharacterSprite (锚点派生) > 锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)",
+            "status": "passed"
+          },
+          {
+            "name": "framesToCharacterSprite (锚点派生) > 空帧 → 锚点 0",
+            "status": "passed"
+          },
+          {
+            "name": "framesToCharacterSprite (锚点派生) > loadCharacterSpriteBlob:fetch mock → 帧 + 锚点",
+            "status": "passed"
+          },
+          {
+            "name": "decompressGzip > gzip roundtrip:解压后 == 原始字节",
+            "status": "passed"
+          },
+          {
+            "name": "decompressGzip > 空 blob 也支持(边界)",
+            "status": "passed"
+          },
+          {
+            "name": "decompressGzip > Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压",
+            "status": "passed"
+          },
+          {
+            "name": "loadTilesetBlob > 完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B01 只有一个 0x1f 字节时原样返回，不进入解压",
+            "status": "passed"
+          },
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B02 第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回",
+            "status": "passed"
+          },
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B03 环境没有 DecompressionStream 时抛出固定兜底错误",
+            "status": "passed"
+          },
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B04 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案",
+            "status": "passed"
+          },
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]",
+            "status": "passed"
+          },
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B07 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点",
+            "status": "passed"
+          },
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B08 framesToCharacterSprite 保留调用方传入的帧数组引用",
+            "status": "passed"
+          },
+          {
+            "name": "G02-B gzip 魔数与帧锚点 > G02-B09 imagecount 为 0 的 chunk 得到空 Map",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB",
+            "status": "passed"
+          },
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1",
+            "status": "passed"
+          },
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB",
+            "status": "passed"
+          },
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C04 sprite blob 503 的错误带 URL 与状态码",
+            "status": "passed"
+          },
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C05 tileset blob 503 的错误带 URL 与状态码",
+            "status": "passed"
+          },
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL",
+            "status": "passed"
+          },
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串",
+            "status": "passed"
+          },
+          {
+            "name": "G02-C sprite 与 tileset 加载边界 > G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/boot-loading.test.ts",
+        "tests": [
+          {
+            "name": "boot-loading(启动加载覆盖层) > init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > Request/init 与 Response 身份透传，包装层不丢 headers 或 signal",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > 无 overlay 节点时不包装 fetch，公开入口安全",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > 重复 init 幂等(不双层包 fetch)",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > 释放计数时保留后来安装的 fetch 层及其请求透传",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > 释放后在途请求照常完成，不计入随后新建的启动轮次",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+            "status": "passed"
+          },
+          {
+            "name": "boot-loading(启动加载覆盖层) > PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "tests": [
+          {
+            "name": "grok-mid-1 bootstrap barriers > loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > dialog 未兑现时 resourcesReady 保持未就绪",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > assets 未兑现时 resourcesReady 保持未就绪",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+            "status": "passed"
+          },
+          {
+            "name": "grok-mid-1 bootstrap barriers > 两轮 boot 的拒绝与成功资产互不穿越",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "tests": [
+          {
+            "name": "bootstrap resource lifecycle > FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+            "status": "passed"
+          },
+          {
+            "name": "bootstrap resource lifecycle > starts soundfont first and all resource loaders before awaiting any result",
+            "status": "passed"
+          },
+          {
+            "name": "bootstrap resource lifecycle > keeps the original soundfont rejection while its settle barrier still resolves",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+        "tests": [
+          {
+            "name": "G10-D 结局截断与请求归属 > G10-D01 省略跳过键时 Space 不截断结局",
+            "status": "passed"
+          },
+          {
+            "name": "G10-D 结局截断与请求归属 > G10-D02 女孩纵坐标停在 80",
+            "status": "passed"
+          },
+          {
+            "name": "G10-D 结局截断与请求归属 > G10-D03 下半背景长度不足时整屏为 0",
+            "status": "passed"
+          },
+          {
+            "name": "G10-D 结局截断与请求归属 > G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
+            "status": "passed"
+          },
+          {
+            "name": "G10-D 结局截断与请求归属 > G10-D05 POST Request 不重试",
+            "status": "passed"
+          },
+          {
+            "name": "G10-D 结局截断与请求归属 > G10-D06 场景资源拒绝不会升级成字形警告",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "tests": [
+          {
+            "name": "H01 installFetchRetry 边界 > 拒绝无效 retries 且不替换全局 fetch",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 网络失败耗尽抛最后一次 Error 身份",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > init.signal 在请求中取消时用原始非AbortError原因拒绝，不退避或重试",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 重试后成功：返回最终那次 Response 身份（502→504→200）",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > backoff 末值用于超出数组长度的后续重试",
+            "status": "passed"
+          },
+          {
+            "name": "H01 installFetchRetry 边界 > 空 backoff 数组使用 1000ms fallback",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+        "tests": [
+          {
+            "name": "fetch-retry 取消与退避资源 > 已取消 Request：'自定义 Error' 原因与原生 fetch 一致，不进入退避",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > 已取消 Request：'默认 AbortError，零次重试' 原因与原生 fetch 一致，不进入退避",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > 已取消 init.signal 不遮蔽原生 Request 构造错误",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > init 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > Request 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > init.signal=signal 覆盖已取消 Request；正常退避恢复后不持有监听器",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry 取消与退避资源 > init.signal=null 覆盖已取消 Request；正常退避恢复后不持有监听器",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "tests": [
+          {
+            "name": "L23 uninstallFetchRetryForTest 还原合同 > 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+            "status": "passed"
+          },
+          {
+            "name": "L23 uninstallFetchRetryForTest 还原合同 > 还原后 install 可重新装载（installed 复位合同）",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.test.ts",
+        "tests": [
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 503 → 重试后返回恢复的 Response",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 404 → 原样返回同一 Response，不重试",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 非 GET(POST)不重试(非幂等)",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > 重复 install 幂等(不双层包)",
+            "status": "passed"
+          },
+          {
+            "name": "fetch-retry(GET 网络层重试兜底) > AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+            "status": "passed"
+          }
+        ]
+      }
+    ],
+    "beforeShared": [
+      {
+        "path": "packages/shared/src/rle.boundaries.test.ts",
+        "tests": [
+          {
+            "name": "R01 parseSpriteChunkStrict 手列字节完整核 > 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）",
+            "status": "passed"
+          },
+          {
+            "name": "R01 parseSpriteChunkStrict 手列字节完整核 > 末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 像素段越界 / 透明段越界 / 指令流截断 / 尺寸非法各单轴",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/rle.glm-o.test.ts",
+        "tests": [
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseIndexedRleChunk：legacy 坏尾三轴 > legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseIndexedRleChunk：legacy 坏尾三轴 > 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+            "status": "passed"
+          },
+          {
+            "name": "O10 encodeSpriteChunk：上限与空容器 > 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "tests": [
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 传选项但首 4 字节非该前缀：不跳，正常解码",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle 帧后尾随字节（截断边界自上侧） > 完整帧后追加任意字节：解码结果与精确长度输入逐字段相等",
+            "status": "passed"
+          },
+          {
+            "name": "R01 子数组 byteOffset 传播 > decodeRle / parseSpriteChunk / strict / indexed 在 subarray 上与独立缓冲等价",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格容器末帧未消费 payload（rle.ts:162 帧边界唯一真值） > 末帧指令流后残留对齐字节：解析成功且帧语义与精确长度版本相等",
+            "status": "passed"
+          },
+          {
+            "name": "R01 legacy 合法邻接拒绝分支 > canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」",
+            "status": "passed"
+          },
+          {
+            "name": "R01 legacy 合法邻接拒绝分支 > 坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/rle.test.ts",
+        "tests": [
+          {
+            "name": "decodeRle > 2×2 实心方块",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 透明像素填 0 + opaque 标 0",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 混合 —— 1 透明 + 2 实心 + 1 透明",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > palette-0 实心像素也被标 opaque(不与透明混淆)",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 无像素进度命令 0x0 后仍可解合法 literal",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 无像素进度命令 0x128 后仍可解合法 literal",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 未填满像素且源流耗尽时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > literal payload 缺字节时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 透明段超过声明像素数时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > literal 数量超过声明像素数时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 通用帧可解超过 sprite 容器上限的合法宽度",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 切 1 帧 —— byte 0..1 = imagecount = 1,frame[0] word-offset = 1 (=2 字节)",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = 过滤后序列的 tile 索引,非原 slot 号)",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 多帧返回下标连续(0,1,2,...),即使中间有空帧",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > broken-sprite 尾帧 guard:width/height > 400 跳过",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 宽容入口跳过截断坏帧并保留后续合法帧",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 接受作者编码的无 sentinel 单帧容器",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 接受 PAL 末尾唯一 0 sentinel，并且不把 sentinel 计为帧",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 拒绝中间 0 offset 空洞",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 拒绝零帧容器",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > 拒绝运行时传入的未知 profile，不能默认落入 legacy 宽容路径",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > canonical 报告正常 PAL sentinel，不把它算成坏尾",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > legacy-migrated 只跳过不可解的非零尾槽",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > legacy-migrated 支持坏倒数第二槽 + 最后零 sentinel",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > 坏槽之后仍有可解帧时拒绝，不能把中间空洞伪装成坏尾",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > 首个坏尾槽本身仍指向可解帧时拒绝，不能把重复 offset 当历史坏尾",
+            "status": "passed"
+          }
+        ]
+      }
+    ],
+    "afterShared": [
+      {
+        "path": "packages/shared/src/rle.boundaries.test.ts",
+        "tests": [
+          {
+            "name": "R01 parseSpriteChunkStrict 手列字节完整核 > 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）",
+            "status": "passed"
+          },
+          {
+            "name": "R01 parseSpriteChunkStrict 手列字节完整核 > 末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 像素段越界 / 透明段越界 / 指令流截断 / 尺寸非法各单轴",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > 相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格拒绝单轴与相邻正控 > canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/rle.glm-o.test.ts",
+        "tests": [
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseSpriteChunkStrict：容器结构轴 > 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseIndexedRleChunk：legacy 坏尾三轴 > legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+            "status": "passed"
+          },
+          {
+            "name": "O10 parseIndexedRleChunk：legacy 坏尾三轴 > 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+            "status": "passed"
+          },
+          {
+            "name": "O10 encodeSpriteChunk：上限与空容器 > 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "tests": [
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 传选项但首 4 字节非该前缀：不跳，正常解码",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle skipFilePrefix 选项矩阵 > 缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起",
+            "status": "passed"
+          },
+          {
+            "name": "R01 decodeRle 帧后尾随字节（截断边界自上侧） > 完整帧后追加任意字节：解码结果与精确长度输入逐字段相等",
+            "status": "passed"
+          },
+          {
+            "name": "R01 子数组 byteOffset 传播 > decodeRle / parseSpriteChunk / strict / indexed 在 subarray 上与独立缓冲等价",
+            "status": "passed"
+          },
+          {
+            "name": "R01 严格容器末帧未消费 payload（rle.ts:162 帧边界唯一真值） > 末帧指令流后残留对齐字节：解析成功且帧语义与精确长度版本相等",
+            "status": "passed"
+          },
+          {
+            "name": "R01 legacy 合法邻接拒绝分支 > canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」",
+            "status": "passed"
+          },
+          {
+            "name": "R01 legacy 合法邻接拒绝分支 > 坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/rle.test.ts",
+        "tests": [
+          {
+            "name": "decodeRle > 2×2 实心方块",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 透明像素填 0 + opaque 标 0",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 混合 —— 1 透明 + 2 实心 + 1 透明",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > palette-0 实心像素也被标 opaque(不与透明混淆)",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 无像素进度命令 0x0 后仍可解合法 literal",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 无像素进度命令 0x128 后仍可解合法 literal",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 未填满像素且源流耗尽时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > literal payload 缺字节时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 透明段超过声明像素数时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > literal 数量超过声明像素数时显式失败",
+            "status": "passed"
+          },
+          {
+            "name": "decodeRle > 通用帧可解超过 sprite 容器上限的合法宽度",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 切 1 帧 —— byte 0..1 = imagecount = 1,frame[0] word-offset = 1 (=2 字节)",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = 过滤后序列的 tile 索引,非原 slot 号)",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 多帧返回下标连续(0,1,2,...),即使中间有空帧",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > broken-sprite 尾帧 guard:width/height > 400 跳过",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunk > 宽容入口跳过截断坏帧并保留后续合法帧",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 接受作者编码的无 sentinel 单帧容器",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 接受 PAL 末尾唯一 0 sentinel，并且不把 sentinel 计为帧",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 拒绝中间 0 offset 空洞",
+            "status": "passed"
+          },
+          {
+            "name": "parseSpriteChunkStrict > 拒绝零帧容器",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > 拒绝运行时传入的未知 profile，不能默认落入 legacy 宽容路径",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > canonical 报告正常 PAL sentinel，不把它算成坏尾",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > legacy-migrated 只跳过不可解的非零尾槽",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > legacy-migrated 支持坏倒数第二槽 + 最后零 sentinel",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > 坏槽之后仍有可解帧时拒绝，不能把中间空洞伪装成坏尾",
+            "status": "passed"
+          },
+          {
+            "name": "parseWorldSpriteChunk > 首个坏尾槽本身仍指向可解帧时拒绝，不能把重复 offset 当历史坏尾",
+            "status": "passed"
+          }
+        ]
+      }
+    ]
+  },
+  "body": {
+    "base64BodyUnchanged": true,
+    "normalization": "Remove export declarations only, parsed TS sans comments equal; remaining parse binding identity D11; shared codec production unchanged.",
+    "unchangedPrimary": [
+      {
+        "path": "packages/shared/src/rle.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/assets/tileset-blob.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/assets/dialog-assets.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/assets/loader.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/main.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/shell/audio-midi.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/package.json",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/vitest.config.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "packages/game/vitest.setup.ts",
+        "sameAsBase": true
+      },
+      {
+        "path": "scripts/coverage/run.mjs",
+        "sameAsBase": true
+      },
+      {
+        "path": "scripts/coverage/config.mjs",
+        "sameAsBase": true
+      }
+    ],
+    "all51RetirementEntriesAndPredicateUnchanged": true
+  },
+  "reuse": [
+    "3h/bootstrap/README.md original font/glyph-race/IO failure teardown",
+    "QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md original3 product controls and26green",
+    "3h/blob-quality/review.json S7 current parser/dialog/body evidence",
+    "3h/assets-quality/module-closeout.json loader and input numbering contracts",
+    "3h/README.md PNG cause/fullplane/bitmap close original controls"
+  ],
+  "limitations": [
+    "Shared RLE format/allocation truth frozen in QUALITY-RLE-COMMAND-TRUTH-1; rle.test.ts whole-file review not closed by oracle transfer.",
+    "No new renderer/visual/browser-network claim; snapshot covers only six pinned disk samples and runtime stream.",
+    "Current files at modified working candidate, execution HEAD is base only; final actual bytes pinned.",
+    "Only finite internal facade export cleanup; public shared exports/runtime JSON/assets/input policies unchanged.",
+    "3i/broad bootstrap/pre94 and94-102 not automatically accepted.",
+    "FM soundfontData empty placeholder is not read by current FM backend: bootstrap.ts:480 passes undefined. Its byteLength mutation receives no new production-behavior credit; startup acceptance rests on actual no-fetch/resource/settle/error/barrier contracts and reused controls."
+  ],
+  "integration": {
+    "state": "passed",
+    "frozen": {
+      "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+      "time": "2026-10-22T15:01:00.190Z",
+      "files": [
+        {
+          "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+          "sha256": "f6c00cd4c2b182c1326e5935a7fa0969b76ccd885a03b5d2320667d48ed1a3b8"
+        },
+        {
+          "path": "packages/game/src/assets/rle-decode.test.ts",
+          "sha256": "37f6896cfc773c970652f0aab175160a47f2df5f64c99f08cf0b99a0954e9284"
+        },
+        {
+          "path": "packages/game/src/assets/rle-decode.ts",
+          "sha256": "f0f543bc5137a385438ec02ecb3aa62ce073bdae43ffdf00e7f8b27d11c639fb"
+        },
+        {
+          "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "sha256": "013d4f9cc9a6d5cced331b875aeb13ec8b47600fb7e6fa149859b368200700ec"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+          "sha256": "06dcb4cc62af1829205e6742d545918d3b5ac5abd8346cc520c5ddb43268b750"
+        },
+        {
+          "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+          "sha256": "fb250ebe6d6d2206be60aa7c5faee40a590e42f48e547b38be30360daa8db6aa"
+        },
+        {
+          "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+          "sha256": "f77605ba8fac4893f06280b648e537e006d36c3e72368aa3e3fac6ac967699d9"
+        },
+        {
+          "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+          "sha256": "2b3753e52bd78f915271d40a2cccd86fd028b491ae53a3b68d3f7c8eafb96d1a"
+        },
+        {
+          "path": "packages/shared/src/rle.test.ts",
+          "sha256": "3c7d16c7b864365dbceab122c66687ce7bcbad6401580aa366df384bedb48e60"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "af092e640480c84b80b0d32e18c08e224dcc5a916f21d8676821fb083e6f62b1"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "e0c75ac9781d9e82d0e0605698fd7c6ddb0987b2fca1768fd64ea1da0ef96664"
+        }
+      ],
+      "scope": "RLE facade/shared test dedup; six-sample transport snapshot; boot/cancellation test ownership. No94-102. Full gates once after three-slice freeze."
+    },
+    "check": {
+      "id": "module-check",
+      "execution": {
+        "id": "module-check",
+        "command": "env",
+        "args": ["VITEST_MAX_WORKERS=1", "pnpm", "check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T15:01:00.242Z",
+        "end": "2026-10-22T15:24:23.759Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "observerTimeout": false,
+        "stdoutBytes": 375223,
+        "stderrBytes": 0
+      },
+      "packageCounts": [1498, 114, 3750, 477, 8991, 4943, 739],
+      "packageTestCount": 20512,
+      "toolCounts": [125, 100, 47, 397, 22],
+      "toolTestCount": 691,
+      "stdoutBlocks": {
+        "before": 260,
+        "after": 254,
+        "oldFile": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/module-check.stdout.raw.gz",
+        "changed": [
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=1: 452 tiles, 216960 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=6: 209 tiles, 100320 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=12: 323 tiles, 155040 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=50: 348 tiles, 167040 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=100: 322 tiles, 154560 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+            "before": ["[S5] mapNum=200: 495 tiles, 237600 pixels, 0 diff ✓"]
+          },
+          {
+            "header": "src/core/author-disk-baseline.pal.test.ts > PAL actual read evidence covers current serialized author paths without decoding maps or reading binary resources",
+            "before": [
+              "PAL author baseline read cost {\n  elapsedMs: 544,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+            ],
+            "after": [
+              "PAL author baseline read cost {\n  elapsedMs: 1068,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+            ]
+          }
+        ]
+      },
+      "diagnostics": [],
+      "limits": "Exact grouped stdout comparison against prior frozen run, no number normalization. Changed payloads reviewed explicitly; assertion failure probes are outside this source gate."
+    },
+    "coverage": {
+      "target": "d297e64d0a928abb813ce280122d51c2c852bea5",
+      "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+      "testCount": 20086,
+      "sourceFileCount": 760,
+      "summarySha256": "d87c151bd12db24ac800ac8d7110206446b7e8a78ddaec2b9324c49d46f87977",
+      "baselineBeforeSha256": "e481df86e3225a3b8ad53d5b53eb448ca917895bb710152d89a78e85dbdaac58",
+      "baselineAfterSha256": "d6aa49c51d56519f65d59e2d761346f2187453adc5e5d6489a37eb6483dd3efd",
+      "projectionSha256": "a3e81d5a1053fc8b2f933fb104f14d883b8d6ef9d92517bb9142f3a573153b9d",
+      "runnerSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "strict": {
+        "regressions": [],
+        "improvements": []
+      },
+      "scope": {
+        "changes": [],
+        "removals": []
+      },
+      "protectedMetrics": {
+        "regressions": [],
+        "improvements": []
+      },
+      "protectedScope": {
+        "changes": [
+          "game: fast test files +0/-0，内容变化 2（3704 -> 3700 tests）",
+          "game: fast test execution config/digest 已变化"
+        ],
+        "removals": [
+          {
+            "kind": "test-count",
+            "value": "packages/game/src/assets/rle-decode.test.ts",
+            "previous": 6,
+            "current": 2
+          }
+        ]
+      },
+      "approvalsApplied": [],
+      "limits": "Strict protected fast check of the single official report;no second coverage collection and no rule/baseline mutation by verifier"
+    },
+    "coverageAudit": {
+      "id": "module-ratchet",
+      "execution": {
+        "id": "module-ratchet",
+        "command": "env",
+        "args": [
+          "VITEST_MAX_WORKERS=1",
+          "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1",
+          "TYPE_PAL_COVERAGE_BASE_REF=d297e64d0a928abb813ce280122d51c2c852bea5",
+          "pnpm",
+          "coverage:ratchet",
+          "--allow-scope-removal"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-22T15:25:33.757Z",
+        "end": "2026-10-22T15:43:05.398Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "observerTimeout": false,
+        "stdoutBytes": 203496,
+        "stderrBytes": 0
+      },
+      "packageCounts": [114, 1498, 331, 671, 8991, 3700, 4781],
+      "packageTestCount": 20086,
+      "toolCounts": [100],
+      "toolTestCount": 100,
+      "stdoutBlocks": {
+        "before": 253,
+        "after": 253,
+        "oldFile": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/module-ratchet.stdout.raw.gz",
+        "changed": []
+      },
+      "diagnostics": [],
+      "limits": "Exact grouped stdout comparison against prior frozen run, no number normalization. Changed payloads reviewed explicitly; assertion failure probes are outside this source gate."
+    },
+    "successfulExecutionIds": [
+      "module-check",
+      "module-ratchet",
+      "module-protected",
+      "types",
+      "coverage-tools",
+      "adjacent-game",
+      "after-shared"
+    ],
+    "stdoutReview": "Fullcheck260->254 removes six obsolete S5 console telemetry blocks. Sole other difference elapsedMs544->1068;1077reads,152305027totalBytes,538paths,76154226bytes unchanged. Official253 grouped payloads exactly unchanged. Both full streams0stderr/act/environment/Node. No broad numeric normalization.",
+    "finalStatic": {
+      "docs": "final-docs exit0/stderr0",
+      "lint": "final-lint5882/0errors/0warnings/0infos",
+      "ledger": "3374/395closed107review2872pending",
+      "diff": "final-diff0",
+      "limits": "All at pre-English-sync candidate. First combined scoped formatter output was not split/saved; same regex lint diagnostic recaptured in verifier-lint-before, then replaced with node:util stripVTControlCharacters. No rule change."
+    },
+    "coverageCollectionCount": 1,
+    "protectedMode": "Strict/protected compare of the single official report; no second coverage collection",
+    "target": "d297e64d0a928abb813ce280122d51c2c852bea5"
+  },
+  "reusedFetchSource": {
+    "path": "packages/game/src/shell/fetch-retry.ts",
+    "card": "71",
+    "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+    "readBasis": "当前实现/GLM测试全文与真实main/signal caller段；主测既有全文/合同/原生结果按C1同SHA复用，不再重复全部审查",
+    "dimensions": {
+      "A": "GET瞬态/终态身份、init覆盖Request含null、首次输入校验、可取消退避和清timer/listener均由同SHA C1原生26绿/三反控及当前named caller核定；不是全浏览器网络调度认证。",
+      "B": "冷启动3200请求已标历史日期；null覆盖/下一attempt窗口说明为何不能简化；Test后缀准确限定卸载用途。",
+      "C": "main单次安装全局IO adapter，先于boot计数层；只维护installed/捕获orig，每次等待拥有一个timer/listener，成功/取消对称释放，不写GS或音频状态。",
+      "D": "只抽私有waitForRetry，不造通用retry框架；非GET直接转发，Response由原fetch合同决定，未统一不同HTTP/网络失败策略。",
+      "E": "C1原件/三项业务反控按其冻结测试版本复用；当前生产源SHA相同。当前boundary/cancellation仅增失败清理与立即消费拒绝，两份当前版本由213相邻、原生身份与清理探针另证，不宣称它们仍与C1逐字节一致。",
+      "F": "attempt/retries/backoff/signal/lastErr及小wait函数直接表达控制流；未为复杂度指标拆分上下文。",
+      "G": "保留有真实测试生命周期用途的reset出口：既还原global又复位模块安装态，并非无作用薄包装；现有fetch断言保持完整typed输入/Response，不扩API或新增弱类型。",
+      "H": "外部fetch和时间可控，真实AbortController/Request正控，测试恢复自己拥有的global/timer；生产单安装与测试重装分开，不假称生产uninstall。"
+    },
+    "from": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json",
+    "limits": "Same source SHA; current main install ordering and actual signal caller reused from C1; only adjacent test teardown changed in this window."
+  },
+  "complexity": {
+    "typescript": "6.0.3",
+    "method": "Approximate AST branching per function; nested functions excluded from parent. >10 reading hint only, not a quality threshold or target.",
+    "files": [
+      {
+        "path": "packages/game/src/assets/rle-decode.ts",
+        "functions": [
+          {
+            "line": 9,
+            "name": "base64ToBytes",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 11,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/assets/rle-decode.test.ts",
+        "functions": [
+          {
+            "line": 4,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 5,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 8,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "functions": [
+          {
+            "line": 12,
+            "name": "bytesToBase64",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 21,
+            "name": "iconJson",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 25,
+            "name": "pngResponse",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 30,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 32,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 34,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 36,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 40,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 43,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 50,
+            "name": "<callback>",
+            "approximateComplexity": 4
+          },
+          {
+            "line": 59,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 74,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 84,
+            "name": "<callback>",
+            "approximateComplexity": 4
+          },
+          {
+            "line": 106,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 117,
+            "name": "<callback>",
+            "approximateComplexity": 4
+          },
+          {
+            "line": 132,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 136,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 140,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 151,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 156,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 166,
+            "name": "<callback>",
+            "approximateComplexity": 4
+          },
+          {
+            "line": 186,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 197,
+            "name": "<callback>",
+            "approximateComplexity": 5
+          },
+          {
+            "line": 220,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 231,
+            "name": "<callback>",
+            "approximateComplexity": 5
+          },
+          {
+            "line": 253,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 262,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 274,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 284,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 301,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 305,
+            "name": "<callback>",
+            "approximateComplexity": 4
+          },
+          {
+            "line": 324,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 328,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 332,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/shared/src/rle.test.ts",
+        "functions": [
+          {
+            "line": 9,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 10,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 21,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 29,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 37,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 46,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 55,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 56,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 61,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 62,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 65,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 66,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 71,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 72,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 77,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 87,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 88,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 114,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 136,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 170,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 191,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 217,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 218,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 223,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 241,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 247,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 250,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 251,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 255,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 256,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 257,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 262,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 271,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 283,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 290,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 309,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 321,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 324,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 335,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "functions": [
+          {
+            "line": 14,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 15,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 26,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 28,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 31,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 40,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 41,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 47,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 48,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 59,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 61,
+            "name": "oddView",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 69,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 111,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 112,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 130,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 131,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 138,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 139,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 142,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 149,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 150,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+        "functions": [
+          {
+            "line": 35,
+            "name": "readMkfChunk",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 44,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 47,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 54,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "functions": [
+          {
+            "line": 13,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 25,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 26,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 28,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 35,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 37,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 44,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 45,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 55,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 60,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 71,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 72,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 79,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 83,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 90,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 91,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 99,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 111,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 112,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 119,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 132,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 133,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 141,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 146,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 153,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 154,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 161,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 165,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 175,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 176,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 183,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 187,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 194,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 195,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 199,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 202,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 206,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 212,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 213,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 217,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+        "functions": [
+          {
+            "line": 8,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 20,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 24,
+            "name": "<callback>",
+            "approximateComplexity": 3
+          },
+          {
+            "line": 33,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 36,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 37,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 45,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 50,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 60,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 70,
+            "name": "<callback>",
+            "approximateComplexity": 5
+          },
+          {
+            "line": 81,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 84,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 113,
+            "name": "<callback>",
+            "approximateComplexity": 5
+          },
+          {
+            "line": 132,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 133,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "functions": [
+          {
+            "line": 8,
+            "name": "deferred",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 11,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 19,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 19,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 22,
+            "name": "ports",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 24,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 25,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 26,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 27,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 33,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 34,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 35,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 42,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 48,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 52,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 56,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 60,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 72,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 85,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 87,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "functions": [
+          {
+            "line": 20,
+            "name": "deferred",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 23,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 28,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 32,
+            "name": "startResources",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 39,
+            "name": "heldResourceResponse",
+            "approximateComplexity": 5
+          },
+          {
+            "line": 60,
+            "name": "assetToken",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 66,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 67,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 72,
+            "name": "ports",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 74,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 75,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 76,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 77,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 83,
+            "name": "flush",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 88,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 100,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 101,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 109,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 110,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 128,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 136,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 137,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 142,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 145,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 153,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 163,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 164,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 165,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 166,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 172,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 176,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 196,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 198,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 200,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 213,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 216,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 218,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 231,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 240,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 241,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 242,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 253,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 267,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 270,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 289,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 292,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 300,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 302,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 315,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 318,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 326,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 334,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 335,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 341,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 342,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 354,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 355,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/assets/png.ts",
+        "functions": [
+          {
+            "line": 23,
+            "name": "decodePngToIndices",
+            "approximateComplexity": 4
+          },
+          {
+            "line": 24,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.ts",
+        "functions": [
+          {
+            "line": 29,
+            "name": "<callback>",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 37,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 43,
+            "name": "startBootstrapResourceLoad",
+            "approximateComplexity": 2
+          },
+          {
+            "line": 53,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 54,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 59,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          },
+          {
+            "line": 64,
+            "name": "<callback>",
+            "approximateComplexity": 1
+          }
+        ],
+        "hotspots": []
+      }
+    ]
+  },
+  "originalCard3h": {
+    "scope": "Original six production files and their direct test/caller evidence. bootstrap.ts/main flow, save, visual, shared format algorithm remain outside original card.",
+    "candidate": "accept within original six-production-file contract; actual source gates passed",
+    "sourceBindings": [
+      {
+        "path": "packages/game/src/assets/loader.ts",
+        "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json"
+      },
+      {
+        "path": "packages/game/src/assets/tileset-blob.ts",
+        "sha256": "868c492fc155e8a6becd1ff29ee1be002dd78573964d26c84700ac959f0a9f27",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.ts",
+        "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json"
+      },
+      {
+        "path": "packages/game/src/assets/png.ts",
+        "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+        "evidence": "current review.json per-file A-H"
+      },
+      {
+        "path": "packages/game/src/assets/rle-decode.ts",
+        "sha256": "f0f543bc5137a385438ec02ecb3aa62ce073bdae43ffdf00e7f8b27d11c639fb",
+        "evidence": "current review.json per-file A-H"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.ts",
+        "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+        "evidence": "current review.json per-file A-H"
+      }
+    ],
+    "limits": "Accepting original six-file card does not automatically close every adjacent/shared/helper test file. Existing truth/allocation concerns belong to their specific codec contract, not this browser transport facade."
+  },
+  "supersedes": {
+    "scope": "S7 facade/export and its6-case review; snapshot duplicate comparison candidate only",
+    "prior": "3h/blob-quality/review.json",
+    "note": "Expected stale pins for changed facade/icon test do not revoke unrelated S7 contracts. Shared codec truth remains frozen."
+  },
+  "progress": {
+    "tracked": 3374,
+    "closed": 395,
+    "review": 107,
+    "pending": 2872,
+    "pre94": {
+      "total": 83,
+      "accept": 63,
+      "partial": 20,
+      "pending": 0
+    },
+    "newlyClosed": [
+      "packages/game/src/assets/rle-decode.ts",
+      "packages/game/src/assets/rle-decode.test.ts",
+      "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+      "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "packages/game/src/shell/bootstrap-resources.test.ts",
+      "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts"
+    ],
+    "refreshed": [
+      "packages/game/src/assets/png.ts",
+      "packages/game/src/shell/bootstrap-resources.ts",
+      "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "packages/shared/src/rle.glm-runtime-resource.test.ts"
+    ],
+    "heldReview": [
+      "packages/shared/src/rle.test.ts",
+      "packages/shared/src/rle.ts",
+      "packages/shared/src/rle.boundaries.test.ts",
+      "packages/shared/src/rle.glm-o.test.ts"
+    ],
+    "reason": "Only seven new explicit closures. Shared format/allocation truth and3i/broad bootstrap remain separate."
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "7295919f1ff12e228ef592e3b8df65f40b7cc6423b22de3c03bf14e930c304c6",
+    "entryCount": 129,
+    "encoding": "gzip JSON: attachmentName -> bytes/sha256/base64; decode base64 reproduces complete original bytes",
+    "names": [
+      "adjacent-game.execution.json",
+      "adjacent-game.native.json",
+      "adjacent-game.stderr.raw",
+      "adjacent-game.stdout.raw",
+      "after-game.execution.json",
+      "after-game.native.json",
+      "after-game.stderr.raw",
+      "after-game.stdout.raw",
+      "after-shared.execution.json",
+      "after-shared.native.json",
+      "after-shared.stderr.raw",
+      "after-shared.stdout.raw",
+      "audit-output.mjs",
+      "base.json",
+      "baseline-before.json",
+      "before-game.execution.json",
+      "before-game.native.json",
+      "before-game.stderr.raw",
+      "before-game.stdout.raw",
+      "before-shared.execution.json",
+      "before-shared.native.json",
+      "before-shared.stderr.raw",
+      "before-shared.stdout.raw",
+      "caller-census.execution.json",
+      "caller-census.stderr.raw",
+      "caller-census.stdout.raw",
+      "capture.mjs",
+      "code.diff",
+      "coverage-tools.execution.json",
+      "coverage-tools.stderr.raw",
+      "coverage-tools.stdout.raw",
+      "final-diff.execution.json",
+      "final-diff.stderr.raw",
+      "final-diff.stdout.raw",
+      "final-docs.execution.json",
+      "final-docs.stderr.raw",
+      "final-docs.stdout.raw",
+      "final-ledger.execution.json",
+      "final-ledger.stderr.raw",
+      "final-ledger.stdout.raw",
+      "final-lint.execution.json",
+      "final-lint.stderr.raw",
+      "final-lint.stdout.raw",
+      "fm-after-v2.collector.raw",
+      "fm-after-v2.execution.json",
+      "fm-after-v2.native.json",
+      "fm-after-v2.stderr.raw",
+      "fm-after-v2.stdout.raw",
+      "fm-after-v2.ts",
+      "fm-after.collector.raw",
+      "fm-after.execution.json",
+      "fm-after.native.json",
+      "fm-after.stderr.raw",
+      "fm-after.stdout.raw",
+      "fm-after.ts",
+      "fm-before.collector.raw",
+      "fm-before.execution.json",
+      "fm-before.native.json",
+      "fm-before.stderr.raw",
+      "fm-before.stdout.raw",
+      "fm-before.ts",
+      "fm-mutant.ts",
+      "freeze.json",
+      "frozen-fetch-direct.execution.json",
+      "frozen-fetch-direct.stderr.raw",
+      "frozen-fetch-direct.stdout.raw",
+      "frozen-fetch-retry.execution.json",
+      "frozen-fetch-retry.stderr.raw",
+      "frozen-fetch-retry.stdout.raw",
+      "frozen-fetch.execution.json",
+      "frozen-fetch.stderr.raw",
+      "frozen-fetch.stdout.raw",
+      "github-d297-log-retry.execution.json",
+      "github-d297-log-retry.stderr.raw",
+      "github-d297-log-retry.stdout.raw",
+      "github-d297-log.execution.json",
+      "github-d297-log.stderr.raw",
+      "github-d297-log.stdout.raw",
+      "github-d297-status-retry.execution.json",
+      "github-d297-status-retry.stderr.raw",
+      "github-d297-status-retry.stdout.raw",
+      "github-d297-status.execution.json",
+      "github-d297-status.stderr.raw",
+      "github-d297-status.stdout.raw",
+      "github-d297.json",
+      "module-baseline.after.json",
+      "module-check.audit.json",
+      "module-check.execution.json",
+      "module-check.stderr.raw",
+      "module-check.stdout.raw",
+      "module-protected-report.json",
+      "module-protected.execution.json",
+      "module-protected.mjs",
+      "module-protected.stderr.raw",
+      "module-protected.stdout.raw",
+      "module-ratchet.audit.json",
+      "module-ratchet.execution.json",
+      "module-ratchet.stderr.raw",
+      "module-ratchet.stdout.raw",
+      "module-summary.json",
+      "official-baseline.diff",
+      "ownership-after.collector.raw",
+      "ownership-after.execution.json",
+      "ownership-after.native.json",
+      "ownership-after.stderr.raw",
+      "ownership-after.stdout.raw",
+      "ownership-after.ts",
+      "ownership-before.collector.raw",
+      "ownership-before.execution.json",
+      "ownership-before.native.json",
+      "ownership-before.stderr.raw",
+      "ownership-before.stdout.raw",
+      "ownership-before.ts",
+      "packet-verify.execution.json",
+      "packet-verify.stderr.raw",
+      "packet-verify.stdout.raw",
+      "precommit-fetch.execution.json",
+      "precommit-fetch.stderr.raw",
+      "precommit-fetch.stdout.raw",
+      "probes-v2.mjs",
+      "probes.json",
+      "probes.mjs",
+      "retirement.json",
+      "types.execution.json",
+      "types.stderr.raw",
+      "types.stdout.raw",
+      "verifier-lint-before.execution.json",
+      "verifier-lint-before.stderr.raw",
+      "verifier-lint-before.stdout.raw"
+    ]
+  },
+  "mainSync": {
+    "target": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+    "status": "pending sync and integration revalidation; no main merge claimed",
+    "codeCommits": [
+      "a9fdf0051a3a7b2839f0713cd41f2eb1e3300ad8",
+      "b57166fcd3e1b3dd9f19e0bb2e3bbf6466cca695"
+    ],
+    "reason": "Main advanced30English commits after baseD297 gates; code sources do not overlap, but main/bootstrap callers, shared index, inventory and baseline changed. New main requires PR + documentation/fast-coverage checks; never direct push main."
+  }
+}

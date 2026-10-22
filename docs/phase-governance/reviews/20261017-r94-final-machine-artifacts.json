@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read current11 per-file A-H, native controls and only owned board/index/ledger delta; preserve unrelated entries",
+      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
+      "coreConclusion": "Current pre94 fixed83 is63accept20partial. Original3h six-source scope accepted using current A-H bindings; seven new file closes and four refreshed, shared rle.test/format remain review. Current3374/395closed107review2872pending. Fullcheck20512+691tools/sevenTC0, singleofficial20086/760 and same-report strict/protected0. Exact6->2 retirement only; old51/predicate unchanged. Six old Markdown statuses projected from existing JSON accepts without new credit. CI d297 success,7platform notices disclosed. No94-102 or broad bootstrap/visual credit.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+      "afterSha256": "5e089b458ff77e968a3c33038b40b3048de9267818c8cac722ef0d85272b4f14",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+        "implementationSha": "5e089b458ff77e968a3c33038b40b3048de9267818c8cac722ef0d85272b4f14",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,12 +1823,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-blob-dialog-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+        "kind": "codex-owned-pre94-rle-boot-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
-        "lineCount": 19287,
+        "afterSha256": "5e089b458ff77e968a3c33038b40b3048de9267818c8cac722ef0d85272b4f14",
+        "lineCount": 19365,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -4239,6 +4239,54 @@
           "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
           "scope": "Only owned board/ledger and descendant pins; seven new closes, RLE old source close withdrawn, net+6. Nine finite contracts accepted; CODE3h/3i and two RLE files remain partial/review; no broad or visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-local-initial",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-blob-dialog-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+            "lineCount": 19287,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            },
+            "currentMaintenance": {
+              "kind": "script-corrections-main-sync-publication",
+              "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+              "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+              "lineCount": 18885,
+              "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            }
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
+          "previousAfterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+          "afterSha256": "5e089b458ff77e968a3c33038b40b3048de9267818c8cac722ef0d85272b4f14",
+          "scope": "Only owned board/ledger and descendant pins. Seven new explicit closures and CODE3h original six-source acceptance; shared format and3i remain. Historical projection fixes confer no new acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
         }
       ],
       "supersedes": [
@@ -4246,7 +4294,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Only current pre94 board/ledger, nine finite acceptance rows and two retained RLE reviews, actual machine counts and owned descendant pins",
+      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

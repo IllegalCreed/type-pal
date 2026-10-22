@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 62,
+  "currentAccepted": 63,
   "cards": [
     {
       "id": "1",
@@ -468,8 +468,8 @@
       "sha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
       "lines": 72,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -528,8 +528,9 @@
           "text": "输出要求：给出每个白名单文件的 verified/review/blocked 结论、候选与反证；运行定向/相邻、game typecheck、pnpm check、support-mode ratchet、protected fast、lint；通过后提交并推送，未完成项保留待核。"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md",
+      "findings": "Original6production sources each bound to current A-H and direct caller/oracle evidence; loader/tileset/fetch reused, PNG/bootstrap current dimensions filled, internal RLE facade narrowed and four shared-codec repetitions mapped. Source gates and exact scope passed; no shared-format/broad-bootstrap/visual credit."
     },
     {
       "id": "3i",

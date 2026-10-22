@@ -1,6 +1,8 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前：固定83卡62accept/21partial/0pending。本窗blob/宿主/对话九文件有限接受；七新关闭、一旧RLE关闭撤review，源账本388closed/111review/2875pending。完整check/单次official/同报告protected源门已完成，末轮静态/发布以回执与Git为准；3h/3i整卡未接受，94–102不扩展。
+> 同步中：main365e582e2新增英文30提交。当前收口数字与门对应d297候选，待同一3y合并最新main后核差异和组合门；分支保护要求PR与documentation/fast-coverage，不直接推main。
+
+> 当前：固定83卡63accept/20partial/0pending。3h原六生产源及本窗RLE／snapshot／启动取消七文件闭合；3374/395closed/107review/2872pending。集中check／单次official／同报告protected与静态门完成，发布状态看Git；shared格式与3i等余项不附带接受，94–102不扩展。
 
 > 2026-10-22前窗：56accept/27partial/0pending不变；CLI/事件窗口五明确文件范围接受，账本3338/356closed/126review/2856pending。全check20392、单次官方fast ratchet带protected19994均零诊断；原件及只读复验见[本窗回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)。CLI、slice余项继续review，未宣布pre94完成。
 
@@ -19,6 +21,16 @@ Phase: engineering first; phase1/phase2按真实路径分别准入
 Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
+
+## 2026-10-22/23 RLE／snapshot／启动取消窗口（模块收口）
+
+[逐文件A–H、合同迁移、清理/FM反控与完整日志](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md)。七个新关闭、四旧关闭刷新，shared主测仍review；原3h六文件逐项接受，固定83现在63accept/20partial。全check20512+691工具、official20086/760及同报告严格protected0回退/0诊断；无第二覆盖率采集。历史排队后CI39797201562已success，原始7平台提示保留。下一有限范围3i预缓存/启动进度专测，CODE1格式真值继续停线；不扩94–102，无下一位Agent提示词。
+
+## 2026-10-22 RLE／snapshot／启动取消窗口（build allowed）（以下保留准入时点）
+
+最新fetch后origin/main=d297e64d0a928abb813ce280122d51c2c852bea5，与同一codex/code-quality-3y同点且干净；主树只读。Codex单Owner，build allowed三个相关切片：①game内部RLE facade去无生产caller的decodeRle/RleFrame转出口，保留dialog-assets实际使用的parseSpriteChunk/base64ToBytes；四个shared解码重复合同由已有shared用例承接并补齐完整平面，不改shared公共出口或格式算法，D11只约束现役parse接线。game是private应用、无package exports，仓内入口无这两出口消费者，属内部精简。②snapshot保留六固定真实样本的独立MKF字节→gzip还原合同、原缺输入策略/timeout，去同一parser自比及夸大真值/场景代表性/服务器策略注释。③复用bootstrap与fetch C1业务反控，核当前两份barrier测试及boundary/cancellation测试，补失败路径Promise/timer/listener清理与当前caller八维。仅这些源码/测试和必要证据/精确退役数据/账本准入；不改fetch/bootstrap产品行为、存档、资产输出、资源政策或94–102。
+
+该main的Coverage run39797201562首查仍queued，前一main b4dc2688e的run39795880048已success；不把排队写成通过。先定向/相邻/typecheck，三片冻结再集中全仓/official/protected，未完成前不新增关闭或宣布集成收口。
 
 ## 2026-10-22 GitHub CI返工（优先）
 
