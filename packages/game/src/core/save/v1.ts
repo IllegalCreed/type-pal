@@ -34,7 +34,10 @@ const arg = optional(number)
 const flag = optional(boolean)
 // Existing SoA layout:6 roles,6 equipment slots,5 elements and32 learned-magic rows.
 const roles = array(number, 6)
-const experienceRow = array(object({ wExp: number, wLevel: number, wCount: arg }), 6)
+// V1 imports accept WORD experience remainders; battle rewards and grown stats are separate.
+const experienceRemainder = (value: unknown): value is number =>
+  number(value) && Number.isInteger(value) && value >= 0 && value <= 0xffff
+const experienceRow = array(object({ wExp: experienceRemainder, wLevel: number, wCount: arg }), 6)
 const experience = object<AllExperience>({
   rgPrimaryExp: experienceRow,
   rgHealthExp: experienceRow,
