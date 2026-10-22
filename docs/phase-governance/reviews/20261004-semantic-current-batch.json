@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Review exact two-parent delta and finite current reconciliation; preserve histories/envelopes without unrelated full-file acceptance.",
+      "readMethod": "Read actual PR/CI, merged-tree equality, deployment/postflight/browser originals and exact navigation delta; preserve unrelated records without re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current board retains d297 finite blob/host/dialog scope and English review/release workflow with combined inventory; no task promotion or current gate/CI/deploy result.",
+      "coreConclusion": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -512,16 +512,16 @@
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
       "unresolved": [
-        "Current merged-candidate gates and remote release receipts pending; no full-story English E2E inferred."
+        "Retired branch/worktree cleanup and this documentation PR remain pending; full-story English E2E and physical/offline claims are not inferred."
       ],
-      "nextStep": "Codex verifies merged actual gates and remote release facts before final closeout.",
+      "nextStep": "Codex independently accepts closeout candidate through protected PR/required CI, then performs verified retired branch/worktree cleanup; do not prefill cleanup.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "c013fea5a6106507c5fd5213ba5f8c833bfeb00c71f69cada1955486aa43dc4d",
+      "afterSha256": "e58e92ac162219e1296eadb151dcada179503d10f3e4491aea81df1fa4056e25",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "c013fea5a6106507c5fd5213ba5f8c833bfeb00c71f69cada1955486aa43dc4d",
+        "implementationSha": "e58e92ac162219e1296eadb151dcada179503d10f3e4491aea81df1fa4056e25",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,13 +1713,12 @@
         ]
       },
       "evidence": {
-        "kind": "english-release-second-main-sync",
-        "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
-        "afterSha256": "c013fea5a6106507c5fd5213ba5f8c833bfeb00c71f69cada1955486aa43dc4d",
-        "lineCount": 91,
-        "scope": "Current board retains d297 finite blob/host/dialog scope and English review/release workflow with combined inventory; no task promotion or current gate/CI/deploy result.",
-        "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
-        "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "kind": "english-actual-release-documentation-closeout",
+        "path": "docs/ops/evidence/GAME-ENGLISH-1/release.json",
+        "afterSha256": "e58e92ac162219e1296eadb151dcada179503d10f3e4491aea81df1fa4056e25",
+        "lineCount": 90,
+        "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
+        "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true
       },
       "history": [
@@ -2925,12 +2924,30 @@
           },
           "scope": "Current board retains d297 finite blob/host/dialog scope and English review/release workflow with combined inventory; no task promotion or current gate/CI/deploy result.",
           "evidence": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "english-actual-release-documentation-closeout",
+          "previousAfterSha256": "c013fea5a6106507c5fd5213ba5f8c833bfeb00c71f69cada1955486aa43dc4d",
+          "previousCoreConclusion": "Current board retains d297 finite blob/host/dialog scope and English review/release workflow with combined inventory; no task promotion or current gate/CI/deploy result.",
+          "previousCurrentEvidence": {
+            "kind": "english-release-second-main-sync",
+            "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
+            "afterSha256": "c013fea5a6106507c5fd5213ba5f8c833bfeb00c71f69cada1955486aa43dc4d",
+            "lineCount": 91,
+            "scope": "Current board retains d297 finite blob/host/dialog scope and English review/release workflow with combined inventory; no task promotion or current gate/CI/deploy result.",
+            "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+            "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+            "workingTreeDelta": true
+          },
+          "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Current board retains d297 finite blob/host/dialog scope and English review/release workflow with combined inventory; no task promotion or current gate/CI/deploy result.",
+      "reviewedLines": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -2953,11 +2970,10 @@
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "maintenanceReview": {
-        "date": "2026-10-22",
+        "date": "2026-10-23",
         "reviewer": "english_release_docs (Codex delegated documentation owner)",
-        "scope": "Current board retains d297 finite blob/host/dialog scope and English review/release workflow with combined inventory; no task promotion or current gate/CI/deploy result.",
-        "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
-        "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
+        "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
       }
@@ -3225,9 +3241,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Review exact two-parent delta and finite current reconciliation; preserve histories/envelopes without unrelated full-file acceptance.",
+      "readMethod": "Read actual PR/CI, merged-tree equality, deployment/postflight/browser originals and exact navigation delta; preserve unrelated records without re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Generated task statuses remain unchanged; both parent review histories retained. English stays review after user acceptance until actual release closeout.",
+      "coreConclusion": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3235,16 +3251,16 @@
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
       "unresolved": [
-        "Current merged-candidate gates and remote release receipts pending; no full-story English E2E inferred."
+        "Retired branch/worktree cleanup and this documentation PR remain pending; full-story English E2E and physical/offline claims are not inferred."
       ],
-      "nextStep": "Codex verifies merged actual gates and remote release facts before final closeout.",
+      "nextStep": "Codex independently accepts closeout candidate through protected PR/required CI, then performs verified retired branch/worktree cleanup; do not prefill cleanup.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
+      "afterSha256": "0cf6b9f0f22a9ef08e25c7f19d43a93770c7030277745d845185a193f5143285",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3265,7 +3281,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
+        "implementationSha": "0cf6b9f0f22a9ef08e25c7f19d43a93770c7030277745d845185a193f5143285",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3622,13 +3638,12 @@
         ]
       },
       "evidence": {
-        "kind": "english-release-second-main-sync",
-        "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
-        "afterSha256": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
+        "kind": "english-actual-release-documentation-closeout",
+        "path": "docs/ops/evidence/GAME-ENGLISH-1/release.json",
+        "afterSha256": "0cf6b9f0f22a9ef08e25c7f19d43a93770c7030277745d845185a193f5143285",
         "lineCount": 525,
-        "scope": "Generated task statuses remain unchanged; both parent review histories retained. English stays review after user acceptance until actual release closeout.",
-        "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
-        "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "scope": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
+        "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true
       },
       "history": [
@@ -4578,12 +4593,30 @@
           },
           "scope": "Generated task statuses remain unchanged; both parent review histories retained. English stays review after user acceptance until actual release closeout.",
           "evidence": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "english-actual-release-documentation-closeout",
+          "previousAfterSha256": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
+          "previousCoreConclusion": "Generated task statuses remain unchanged; both parent review histories retained. English stays review after user acceptance until actual release closeout.",
+          "previousCurrentEvidence": {
+            "kind": "english-release-second-main-sync",
+            "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
+            "afterSha256": "305f35ec30f554b8b3b05fce1e01c9349337ef4f9f416a165f7d0322c48e9ed4",
+            "lineCount": 525,
+            "scope": "Generated task statuses remain unchanged; both parent review histories retained. English stays review after user acceptance until actual release closeout.",
+            "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+            "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+            "workingTreeDelta": true
+          },
+          "scope": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
+          "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Generated task statuses remain unchanged; both parent review histories retained. English stays review after user acceptance until actual release closeout.",
+      "reviewedLines": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -4604,11 +4637,10 @@
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "maintenanceReview": {
-        "date": "2026-10-22",
+        "date": "2026-10-23",
         "reviewer": "english_release_docs (Codex delegated documentation owner)",
-        "scope": "Generated task statuses remain unchanged; both parent review histories retained. English stays review after user acceptance until actual release closeout.",
-        "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
-        "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "scope": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
+        "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
       }
