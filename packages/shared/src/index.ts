@@ -4,6 +4,7 @@
 
 export * from './events.js'
 export * from './input.js'
+export * from './localization.js'
 export * from './mkf.js'
 export * from './resources.js'
 export * from './rle.js'
