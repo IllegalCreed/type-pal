@@ -102,12 +102,12 @@ export function injectToolsPanelStyles(): void {
   box-shadow:0 0 22px var(--tp-glow), 0 6px 26px rgba(0,0,0,0.62);
   font:14px/1.6 "Songti SC","SimSun",serif; color:var(--tp-text);
   overflow:hidden; animation:tp-panel-in .18s ease; }
-html[lang="en"] #tp-tools-panel { width:min(550px,calc(100vw - 32px)); }
+html[lang="en"]:not([data-tp-layout="mobile"]) #tp-tools-panel { width:min(550px,calc(100vw - 32px)); }
 html[lang="en"] #tp-tools-panel .tp-title,
 html[lang="en"] #tp-tools-panel .tp-tab,
 html[lang="en"] #tp-tools-panel .tp-section-title { letter-spacing:normal; }
-html[lang="en"] #tp-tools-panel .tp-tabbar { flex-basis:96px; }
-html[lang="en"] #tp-tools-panel .tp-tab { padding-left:12px; }
+html[lang="en"]:not([data-tp-layout="mobile"]) #tp-tools-panel .tp-tabbar { flex-basis:96px; }
+html[lang="en"]:not([data-tp-layout="mobile"]) #tp-tools-panel .tp-tab { padding-left:12px; }
 html[lang="en"] #tp-tools-panel .tp-stat-line .k { flex-basis:6em; }
 html[lang="en"] #tp-tools-panel .tp-time-row { flex-wrap:wrap; }
 html[lang="en"] #tp-tools-panel .tp-time-row .tp-ctrl-label { min-width:110px; }
