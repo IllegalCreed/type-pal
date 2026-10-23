@@ -102,10 +102,11 @@ export interface BattleAssets {
 /**
  * 战斗 Present —— 持有跨帧状态:数字弹幕层、单行消息条、召唤 fade 快照/累积缓冲、
  * 入场 fade backup。一帧装配:`draw(fb, gs, state, commands, assets, currentFrame, advanceEffects)`;
- * clearFloatingNums 只清弹幕与消息条；当前 bootstrap 持有实例但未接入战斗退出清理。
- * 跨战斗生命周期仍需由宿主边界核实，不能据本类直调测试推定已自动清理。
+ * 缓存绑定 BattleState 身份；换战自动重置，退出由 presentBattleFrame 调 reset。
+ * 战中状态页保留同一 BattleState，暂停绘制时不清理。
  */
 export class BattlePresent {
+  private activeBattle: BattleState | undefined
   private readonly floatingNums = new FloatingNumsLayer()
   /** 战斗单行消息条(逃跑失败等);currentFrame >= expiryFrame 时消失。 */
   private battleMsg:
@@ -139,6 +140,11 @@ export class BattlePresent {
     currentFrame: number,
     advanceEffects = true, // DM32:fade-only 补帧不推进 wave 计数
   ): void {
+    if (this.activeBattle !== state) {
+      this.reset()
+      this.activeBattle = state
+    }
+
     // D17 死亡淡出渲染细分:每 rAF(含非 tick 的 fade-only 补帧)按 wall-clock 把 deathFadeStep 推到
     //   62.5fps(对齐 sdlpal PAL_BattleFadeScene 16ms/步)。无 battleFade 时早退,纯 no-op。
     stepDeathFadeRender(state, performance.now())
@@ -159,8 +165,8 @@ export class BattlePresent {
       stepPaletteFade(gs.palette.colors, gs.paletteFadeState, performance.now())
     }
 
-    // 入场首帧保存调用方提供的 framebuffer；本函数自身不保证它仍是大世界画面。
-    // presentBattleFrame 的清屏顺序属于宿主接线待核项；introFade 清除时释放快照。
+    // PAL_BattleMain 先备份屏幕再构建战场；清屏必须在捕获之后。
+    // 同一场入场的后续补帧复用快照，introFade 清除或换战时释放。
     if (state.introFade) {
       if (!this.introBackup) {
         this.introBackup = new Uint8Array(fb.indices)
@@ -168,6 +174,8 @@ export class BattlePresent {
     } else {
       this.introBackup = undefined
     }
+
+    fb.clear()
 
     // 1. 消费战斗命令 —— 视觉层只取 showDamageNum(弹幕)与 showBattleMessage(消息条),
     //    其余 op 的去向见模块头注释。
@@ -203,7 +211,7 @@ export class BattlePresent {
     }
 
     // 召唤演出(state.battleAnim.summon):in/loop 期画召唤神替换队员 + 背景染色;out 期(淡出)正常画队员。
-    //   crossfade(淡入/淡出)在本帧 UI 画完后统一处理(applySummonFade)。
+    //   crossfade(淡入/淡出)在场景完成后、UI 之前处理(applySummonFade)。
     const summon = state.battleAnim?.summon
     const summonGodMode = summon !== undefined && summon.fadeDir !== 'out'
 
@@ -441,9 +449,14 @@ export class BattlePresent {
     current.set(buf) // 显示累积态(from 渐变到 to)
   }
 
-  /** 显式清空数字弹幕和消息条；不重置召唤或入场快照。 */
-  clearFloatingNums(): void {
+  /** 释放一场战斗拥有的全部呈现状态；可重复调用，不影响 framebuffer 或核心状态。 */
+  reset(): void {
+    this.activeBattle = undefined
     this.floatingNums.clear()
     this.battleMsg = undefined
+    this.introBackup = undefined
+    this.lastFrameBuf = undefined
+    this.summonFadeBuf = undefined
+    this.summonFadeApplied = -1
   }
 }

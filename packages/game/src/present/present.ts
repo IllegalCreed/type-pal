@@ -798,8 +798,12 @@ export function presentBattleFrame(
   commands: BusEntry[],
   advanceEffects = true, // DM32:fade-only 补帧不推进特效计数
 ): boolean {
-  if (gs.mode !== 'battle' || !gs.battleState) return false
-  fb.clear()
+  if (!gs.battleState) {
+    battle.reset()
+    return false
+  }
+  // 战中状态页临时接管画面，仍由同一 BattleState 持有呈现缓存。
+  if (gs.mode !== 'battle') return false
   battle.draw(fb, gs, gs.battleState, commands, assets, gs.frameNum, advanceEffects)
   return true
 }
