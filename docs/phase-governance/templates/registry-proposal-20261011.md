@@ -349,3 +349,28 @@ pilot要求与停止线：先各做一个固定源原生正控，移除唯一新
 S25三篇pilot及其当时pending口径保留；用户已明确批准S29独立范围，当前新增准入以`scripts/docs/historical-vitest-cohort.mjs`冻结的269个path/source/phase/review/index tuple为准，另302原生保护全集含旧三pilot与30例外。historical-vitest-native-v1仍自有1.0.0，父1.5.0/原六变体/sourcePins不动。GLM已接受Codex259d通用实现与受控writer，另由Owner对已接受S26/S29内容及独立勘误作逐篇有限新裁定；代码accept不单独授语义。治理字段仍在原8个唯一review，原生无envelope/sidecar/payload改写。
 
 本轮正式接入269篇，routing/registry按真实合同同步，完整失败/pending身份、真实pointer/context与双false由model/progress验证。旧R波撤信保留在history，新content-reviewed/template-compliant只表示这次历史文档审阅与迁移，不恢复原测试/反控/产品结论；3旧pilot及23来源/7格式例外不计本轮新增信用。当前generation替换仍storage/1.0.0、512KiB、锁/恢复/读回/显式退役，发布结果另交未参与者；全量严格待办未过，不合main、不推送、不标done。
+
+
+S30 design below binds the d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e source snapshot. Byte counts describe that admission snapshot; later administrative pins are separate deltas and the next publication input must be freshly frozen.
+
+### S30 历史文档交付回执原生合同设计 1.0.0（2026-10-23）
+
+状态：逻辑设计冻结，供后续实施；未注册生产变体、未实施validator/pilot/writer、未接入212篇，信用0。Owner Codex；协议document-delivery-acceptance/1.0.0。复用DOCS-NATIVE-JSON-1和既有单份证据日志，不新建任务卡/sidecar/原件副本。
+
+**类型与职责。** 继续使用17类中的evidence-receipt，父evidence-receipt-v1及已有两JSON变体均不改版。拟新增一个json-native变体historical-document-delivery-native-v1，自有1.0.0；以逐篇冻结的historicalRole区分author-contribution-ledger、readonly-review-verdict、candidate-acceptance-verdict。实际内容纠正后的分布为72/69/71。不以counters存在、entries/documents名称、文件路径或历史verdict判角色；不能把三角色分别重复计成新docType。必要时按明确语义证据修订准入元组，不由可变draft自证期望角色。
+
+**来源与唯一正文。** 精确212准入路径/当前原生SHA/role/现行review/index由固定d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e逐项绑定。这个revision证明当前载体，不认证2026-10-17执行来源。原生字节、原始日期/verdict/错误/纠错块/命令摘要均不改，无_governance/payload/逐篇sidecar；治理正文复用原4个review的唯一行。原sourceSha256与当前after不同的70件须分轴保留，不能刷新旧source或把after当source认证。
+
+**必填治理内容。** 在既有review行中表达本篇身份/实际角色与历史范围、来源与合法治理输入、可证伪内容oracle、具体原始结果/计数/矛盾、限制/停止线/下一步；另含nativeWitnesses和必要contextReferences、真实readDomain、retention。documents/entries的path/source字段与after/pass/result/quoteInverse等观察分列；后者不作合法产品输入。historical candidate、当前载体提交、本次治理提交分别记录，不伪造candidateHead。缺失历史nonAuthorReviewer不当false，本轮作者false和独立裁定另轴。
+
+**见证与内容门。** 严格UTF-8/重复键拒绝、固定Git原生字节、准入identity/role/review绑定、RFC6901 pointer与parsed-string或JSON.stringify逐字表示、上下文Git SHA/行域/quote须由真实model/progress共同检查。counting/success/verdict不能替代语义接受；普通原生JSON合法或哈希相等不能单独计迁移。原件不存在的字段明确未声明，不把生成器undefined写入事实。采用公开consumer注入的readBuffer/reviewReader，禁止将合法物化逻辑对象重新伪装为超限flat或联合换标绕门。
+
+**历史信用。** R23–R36按canonical152逐path求交，不按批号整批撤信；R22/R30交集0。六复制counter、R65摘要手改、R88–R91不可核旧中间树、68已纠HEAD与2未锚定、R53 policy20但实列16等原始矛盾保留。历史accept不变成当前通过；runtimeExecutionPerformed/historicClaimsReexecuted固定false。当前212仍partial-review-unknown/needs-migration；Owner日后只能依据新充分证据和非作者接受逐篇晋升，不恢复旧deep-semantic/独立/执行信用。
+
+**保留与精简。** 当前212暂retain-native：现行after pin和仍在使用的历史/纠错引用尚需安全退出方案。真实33–41个basename引用文件包括大量派生raw副本，不等于同数独立consumer。R22/R24/R89的完整source/after元组有重复，不证明完整对象可替代，亦推翻“唯一逐篇账/全部无替代”的通用断言。永久必要性和完整替代性未证实；后续可评估归并/归档，须保全独有错误/纠错字段、明确原件去向/引用迁移/真实consumer复验，不要求先无任何引用才可精简。本次不删移、不新增归档副本。
+
+**pilot与反例。** 至少覆盖三实际角色，以及R23特殊接受形状、R28对象counter、R53 policy数量矛盾、68纠锚中的一件、R92/93未锚定中的一件、R65和R88–R91隔离边界。可用少量组合pilot覆盖，不堆同构测试。真consumer反例须拒：未准入路径/换role或联合换标、更新原生字节并刷新SHA洗白、坏UTF8/重复键、错pointer/上下文行、将旧source替换after、遗漏canonical撤信、历史缺字段伪false、documents结果冒充输入、双false改true。pilot内容与实现非作者接受前不得批接同类。
+
+**存储与中央发布停止线。** 当前4个flat review共有275条，其中212目标、63完整只读；大小分别842689/522392/862049/373367B，涉及R94这一现行控制根。现有S28冻结8源及S29 Vitest269 writer不能通过改常数或直接扩白名单冒充本组准入。先核4源全部direct reader/writer、R94控制依赖/字节pin DAG、格式化后实际容量和全部外部保护输入，再由Owner冻结发布组与恢复策略。可复用已验证的loader/packing/IO原语，不能假定本组仍是原8源19片。超限须有界分片，不提高maxSize或压缩语义救急。原275条逻辑顺序/历史、63非目标、所有旧source pin与既有S29发布结果保持；新generation/旧片显式退出/锁-staging-读回-幂等及consumer证明另验。
+
+因此本轮仅接受经有界勘误的内容输入和暂保留方向，冻结上述逻辑合同设计；中央接入仍blocked于真实实现、pilot与新4源发布前提，不新增已迁移/已审计完成数。当前仍1420/1838迁移、3retired、87incremental；927篇/1848严格诊断未过，父卡rework，不合main、不推送、不标done。旧文档测试若实际必改仍需具体最小补丁授权，不由本设计自动扩权。

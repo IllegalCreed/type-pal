@@ -1,22 +1,23 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S29的269历史文档中央接入完成；发布结果独立复核与剩余JSON治理待续）
+Execution: rework（S29发布已独立接受；S30的212回执输入经Owner有界勘误及非作者复核，逻辑设计冻结；4源发布前提待核）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
-Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（中央证据接入；作者自验不代签）
+Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（贡献者据证验收）/ 未参与者（Owner勘误与发布复核；作者不自签）
 Branch: codex/docs-s29-native-vitest
 Last reviewed: 2026-10-23
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-承接[全量父卡](DOCS-FULL-TEMPLATE-1.md)的S26大包，让GLM完成269份原生Vitest历史结果的逐篇内容治理稿，并核清30份来源/格式例外。Codex复核证据后才决定新增路径合同、中央字段及迁移信用；此卡复用长期[文档验收协议](../document-quality.md)，不另造通用规范。
+承接[全量父卡](DOCS-FULL-TEMPLATE-1.md)的原生JSON治理：S26起处理269份Vitest内容稿与30份例外，S29已正式接入269篇；S30续核212份历史R波交付回执及保留价值。GLM承担获准的具体内容和证据，Codex处理通用合同、疑难、独立接收及中央写入；此卡复用长期[文档验收协议](../document-quality.md)，不另造通用规范。
 
 ## 范围
 
+- 当前S30：恰212份历史R波JSON，只读内容输入与保留/退役证据。Owner有限勘误、逻辑合同设计及其非作者接受已闭合；未实施生产合同/pilot/中央接入，不改原生、不删移。具体白名单/来源/停止线见本卡S30节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的S28/S29/S30 Owner动作。
 - S26内容白名单269件：S21/F01中原13字段形态且SHA匹配33cc冻结绑定的272件，扣除S25三篇pilot。269件逐篇核全部原生字段、断言/失败、实际相位、producer/consumer、历史继任与信用边界，交具体review草稿。
 - 来源例外23件：无33cc冻结绑定成员，查真实Git载体、引入/移动/生成链，交来源提案或明确unknown；不自行续pin或套用固定源合同。
 - 格式例外7件：4件短摘要、1件含进程信息摘要、2件附distillation；读字段职责与实际consumer，交格式选择与反例提案，不能强补13字段。
@@ -267,3 +268,13 @@ GLM对259d九文件通用实现的非作者accept已接收；Owner据已接受S2
 ### S29 发布结果独立接收与质量门（2026-10-23）
 
 未参与者已据固定差异/独立重建接受269中央数据及用户获准的两处旧文档测试夹具适配，零数据/夹具counter；详见[S29接收](DOCS-NATIVE-VITEST-269-1.md#s29-发布结果与获准夹具适配独立接收2026-10-23)。新实际完整238/0/0skip、lint4555零诊断，原235/3失败与授权保留。迁移1420/1838，当前927篇/1848严格诊断，check:docs仍exit1；本卡与父卡保持rework，不合main、不推送、不标done。旧执行/产品/E2E/coverage信用0，下一包另定具体剩余范围，不重复269全文或新建账本。
+
+### S30 原生历史回执内容输入与设计裁定（2026-10-23）
+
+- 固定来源d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e；GLM仅交212份R22–R94历史JSON草稿，原包与7件身份冻结。index SHA b0a30314465441cd4d76fd6be94ef538d1426fdd3e203e06b3549aaed613b264、HANDBACK ed9b706134659e6c2f5eec8596afe5fbe62ef85ced397fcacf3542bb1086d859、清单94c779e9ada3a0a32f7c6ceab53419d081764baeaa5ba6db5a12cd39ac84d0d9均实核。Owner重放212ready/0blocked/1347witness及原包零漂移；机械绿不等于内容、格式迁移或全文深审。
+- 两条非作者定向通道核角色、见证、撤信与保留：5角色错绑、19原core含生成器undefined、68已纠HEAD误称原记、212缺失历史flag误作false、138混合documents归输入、70旧source与当前after误称双等。152清单逐path交集、六复制/R65/R88–R91边界已核部分直接复用，不重做212全文/下游正文/旧执行。引用统计33–41个不同文件属实，大量为派生raw，不等于独立consumer。
+- Owner直接以有界规则修正，原稿不覆盖：20core变化=15作者身份/来源修正+5角色修正；身份、上下文、GLM声明的实际读域、零信用均不变。有效稿只在内存生成，规则/精确集合/前后指纹复用同一外部差异件，未再复制整包正文。owner-corrections SHA aec49572733625a5021e83d0f788017c3a88bd14ba7d5fb894886ed031bc554e；1406有效witness机械核过。作者Codex/nonAuthorReviewer=false；未参与者独立接受本勘误及逻辑设计，零counter，verdict SHA b2c28b74430e48381e7efe060e8063ea57fb6c27ee3e3d14204312228da5eb75。其读域为精确差异、原生重点字段和相关全族机械反核，未重跑产品/整仓测试。
+- 保留裁定：212当前暂retain-native，0删移；永久不可替代与完整替代性未证实。R22/R24/R89的完整source/after元组有重复，只反驳通用“唯一台账/无替代”，不能推导原对象可删。后续按独有字段、错误/纠错保全、引用迁移与真实consumer核定精简，不要求先无任何引用，也不新增归档原件副本。
+- [逻辑合同设计](../../phase-governance/templates/registry-proposal-20261011.md)1.0.0冻结供实施：拟一个historical-document-delivery-native-v1原生变体，复用evidence-receipt父类，以72作者/69只读/71接受三个角色分轴；父合同/现有变体/registry/routing未改。设计原件SHA 4b2548e74d7576e65fecae1d90d23835e1b14ff0b5e3f3940602c57ec11cf778。这不是生产注册、pilot接受或212迁移。
+- 准入d9时4个flat review共有275行、212目标/63非目标，且含R94控制根；本轮只有明确任务/设计接收及行政pin写回，212原生与其目标review行均不动。下一步GLM一次只读核4源reader/writer/pin DAG/容量/旧测试影响，Owner据真实前提冻结新发布组及通用实现；不得改原8源Vitest writer常数救急、假定63非目标在行政写回前后完全不变或复用旧HEAD作新候选。
+- 本轮0 reviewed/template-compliant/迁移/runtime新信用，仍1420/1838迁移、3retired、87incremental、927篇/1848严格诊断。父子卡rework，不合main、不推送、不标done；原GLM稿/失败/勘误/独立回执只追加既有单份日志，不造canonical平行账本。

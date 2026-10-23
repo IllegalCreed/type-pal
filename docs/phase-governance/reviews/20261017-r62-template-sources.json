@@ -1472,7 +1472,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
+      "afterSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1499,7 +1499,7 @@
         ]
       },
       "revision": {
-        "currentSha": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
+        "currentSha": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
         "implementationSha": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
         "history": [
           {
@@ -1520,6 +1520,12 @@
             "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
             "afterSha256": "cb9c499390501f791b97ec90ae89379c137b269ffff0c51a92bca3e169408368",
             "scope": "S29 central native publication administrative delta; original review/source identity retained."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
+            "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
+            "scope": "S30 content-input and logical-design acknowledgment only; preserve original source/credit."
           }
         ]
       },
@@ -1528,7 +1534,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
         "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
         "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-        "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
+        "afterSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
         "lineCount": 304,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1616,6 +1622,13 @@
           "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
           "beforeSha256": "cb9c499390501f791b97ec90ae89379c137b269ffff0c51a92bca3e169408368",
           "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S30-receipt-inputs",
+          "beforeSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
+          "afterSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
@@ -3711,6 +3724,12 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
       "action": "Exact administrative/dependent pins for scoped implementation acceptance,269new qualified historical-document intake and publication metadata. Original immutable source pins/history retained; publication author self-check pending independent review.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S30-receipt-inputs",
+      "action": "Acknowledge S30 bounded input/correction/logical-design acceptance, current provisional retention and precise dependent pins only. Native212 target rows and all original source/credit remain; strict1848 stays open.",
       "nonAuthorReviewer": false
     }
   ]
