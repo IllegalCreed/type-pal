@@ -5,6 +5,48 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-follower-walking-guard-recount-20261023',
+    authority:
+      'User standing authority permits exact baseline adjustment for justified refactoring. Current3k removes a redundant walking test after the nonwalking branch returns; sole production collision callback does not mutate walking. Same16 retained tests before/current V8: covered statement -1, branches covered -1/total -2 (the unreachable nonwalking arm), functions/lines unchanged. No thresholds, tolerance, scope, or formulas changed.',
+    evidence:
+      'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json',
+    baselineSha256: '9d3d6ab2358d23faa7399097486f1b817706839a57edad8de18670575a3da890',
+    sources: [
+      {
+        path: 'packages/game/src/present/follower-pos.ts',
+        sha256: '1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6',
+      },
+      {
+        path: 'packages/game/src/present/follower-pos.test.ts',
+        sha256: '2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c',
+      },
+      {
+        path: 'packages/game/src/present/follower-pos-axis.grok-r1.test.ts',
+        sha256: '6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7',
+      },
+      {
+        path: 'packages/game/src/present/present.ts',
+        sha256: 'a95de9032a6fbed6500ea11151b04a010f05ffb6d1ee2fd89dffc2bd2c31a2b5',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: { covered: 15289, total: 17075 },
+          branches: { covered: 9905, total: 12276 },
+          functions: { covered: 1835, total: 2135 },
+          lines: { covered: 13628, total: 14962 },
+        },
+        after: {
+          statements: { covered: 15288, total: 17074 },
+          branches: { covered: 9904, total: 12274 },
+          functions: { covered: 1835, total: 2135 },
+          lines: { covered: 13628, total: 14962 },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-time-format-private-default-recount-20261023',
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring without restoring dead code or weak tests. Current3j removes only unexported pad width default; all six callers pass one argument and fixed width2 is unchanged. Same14 unchanged strong tests before/current V8 prove only one covered default-arg branch removed (line2,37hits); all other branch locations/hits and statements/functions/lines unchanged. Pin complete old baseline and four source/test bytes. No tolerance, scope/comparator/timeout or behavior change.',

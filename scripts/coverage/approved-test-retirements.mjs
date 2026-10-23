@@ -7,6 +7,48 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE3k/3l: user standing precise-dedup authority; full old-to-new contracts,
+    // native identities and restored counters in pre94/present-primitives-quality/review.json.
+    {
+      file: 'packages/game/src/present/battle/__tests__/draw-battle-num.test.ts',
+      previous: 6,
+      current: 4,
+      previousIdentityDigest: '38150445e96fa2cca4cc74c403bfccced5cb710078e81987c0b944bfb4da9d17',
+      currentIdentityDigest: 'd85730d4dca5aa15f086b4be5d36bbf60ce68acde86aca8048e89b8eab56f074',
+      fileSha256: '9bfe64fbda591834aa6bb05b1941a9fee98468849c6897e8c0f74984d7621f23',
+    },
+    {
+      file: 'packages/game/src/present/follower-pos.test.ts',
+      previous: 10,
+      current: 6,
+      previousIdentityDigest: 'f13e4b4b9aee465fa9e971e72855969d1fcd5a18b937919f4bd52d7e2aacb5ab',
+      currentIdentityDigest: '3bb146a4417fe7ff1cb44734217c648681b7a18ca60cac1298bd81361edfdb49',
+      fileSha256: '2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c',
+    },
+    {
+      file: 'packages/game/src/present/screen-shake.test.ts',
+      previous: 6,
+      current: 4,
+      previousIdentityDigest: 'af7db43d48d4075af846b424197df1c5d45355f90a13a0445c18a1cab5cf839c',
+      currentIdentityDigest: 'd13d4597f2e42ee8ad27557c649281cc8cd285c5d8c18cfeb1f700d31061b158',
+      fileSha256: '947d456cc8f6d9aad80bd2f4f590ce0f4b6e94a2ddffe0813171d30ff489e786',
+    },
+    {
+      file: 'packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '70528b5a0ff7aacfe8af752c9e5975b539ca626577e262eb5642300af647c418',
+      currentIdentityDigest: 'a45176126d36651bc0adc70e42d04508f008d89837d9d37ccb6e4fb151243fa7',
+      fileSha256: '7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81',
+    },
+    {
+      file: 'packages/game/src/present/screen-wave.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '7848c46807ad12cc7d2b374016f72eb559824047e8ffe214c6dcb06103813bf7',
+      currentIdentityDigest: 'a935519fd611da8df3e47453c7f0890ffa7574a3b8c54a5fe2b5a1e4ffc24063',
+      fileSha256: 'aa3c4e54215380dcbfab2919839b9a716c11ebc22156d699fb94734032eeceff',
+    },
     // CODE3i: ready-after start/pause/resume duplicate transfers to the exact ordered
     // main-client protocol case; the unique early pause/resume negative remains.
     // User current 3i test-quality instruction + standing precise-dedup authority.

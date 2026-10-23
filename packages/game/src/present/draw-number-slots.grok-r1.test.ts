@@ -5,23 +5,15 @@
  */
 import { describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../assets/png.js'
+import { createDigitFrames } from './__tests__/digit-frames.js'
 import { drawNumber } from './draw-number.js'
 import { createFramebuffer } from './framebuffer.js'
-
-function filledFrames(): IndexedImage[] {
-  return Array.from({ length: 80 }, (_, slot) => ({
-    width: 6,
-    height: 8,
-    indices: new Uint8Array(48).fill(slot),
-    opaque: new Uint8Array(48).fill(1),
-  }))
-}
 
 function frameAt(
   slot: number,
   paint: (indices: Uint8Array, opaque: Uint8Array) => void,
 ): IndexedImage[] {
-  const frames = filledFrames()
+  const frames = createDigitFrames()
   const indices = new Uint8Array(48)
   const opaque = new Uint8Array(48)
   paint(indices, opaque)
@@ -58,7 +50,7 @@ describe('G05-C draw-number 空位与掩码', () => {
 
   it('G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置', () => {
     const fb = createFramebuffer()
-    const frames = filledFrames()
+    const frames = createDigitFrames()
     delete frames[19]
     drawNumber(fb, 10, 2, { x: 49, y: 14 }, 'yellow', 'left', frames)
     expect(fb.indices[14 * 320 + 49]).toBe(20)
@@ -68,7 +60,7 @@ describe('G05-C draw-number 空位与掩码', () => {
   it('G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写', () => {
     const fb = createFramebuffer()
     fb.indices.fill(7)
-    drawNumber(fb, 5, 0, { x: 49, y: 14 }, 'yellow', 'left', filledFrames())
+    drawNumber(fb, 5, 0, { x: 49, y: 14 }, 'yellow', 'left', createDigitFrames())
     let ink = 0
     for (const value of fb.indices) if (value !== 7) ink += 1
     expect(ink).toBe(0)
@@ -76,7 +68,7 @@ describe('G05-C draw-number 空位与掩码', () => {
 
   it('G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6', () => {
     const fb = createFramebuffer()
-    drawNumber(fb, 0, 0, { x: 49, y: 14 }, 'yellow', 'right', filledFrames())
+    drawNumber(fb, 0, 0, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())
     expect(fb.indices[14 * 320 + 43]).toBe(19)
     expect(fb.indices[14 * 320 + 49]).toBe(0)
   })

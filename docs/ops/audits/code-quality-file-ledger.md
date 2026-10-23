@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-23 CODE3k／3l有限质量收口：27文件逐项A–H，26接受／draw-number仍review；三项旧测试补强恢复接受，1新数字夹具闭合，相对窗口前净增1closed。当前3404tracked／409closed／103review／2892pending，固定65accept／18partial，两卡仍partial。全check 20589包测试+697工具测试、official20160／774源、同报告strict/protected及静态均零诊断；原失败保留，远端检查/合并另核。[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)。
+
 2026-10-23 CODE3j局部校准：五坐标、BGM86与入塔三场景已实跑，checkpoints一文件review→已验证；固定83卡65accept/18partial。当前3403/408closed/103review/2892pending；实现与配置正文保持，不授完整剧情/E2E信用。[原件与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/README.md)。
 
 2026-10-23 CODE3j质量窗口：三文件新关闭（time-format源与toast/map专测）、checkpoints旧关闭撤review，其它同版接受刷新；当前3403/407closed/104review/2892pending，固定83卡仍64accept/19partial。toast真实6→4合同迁移，未改保护规则；坐标/BGM/入口未知不因静态绿关闭。集中门和实际原件见[本窗收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md)。
@@ -91,8 +93,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,403。
-当前已闭合核验：408；已读但待审：103；尚未逐文件核验：2892；合计未闭合：2995。
+起始基点机器清单：2,962。当前 tracked 清单：3,404。
+当前已闭合核验：409；已读但待审：103；尚未逐文件核验：2892；合计未闭合：2995。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -135,6 +137,8 @@ Template: governance-index-v1 / 1.0.0
 2026-10-19 CODE6a四文件八维续审：发现隐藏示例可虚增进度/坏输出参数假成功，先反例后修；缓存/命名/夹具隔离纯重构另提交。ledger工具及其测试两旧closed精确撤review，其它原review保持，0新关闭；见[CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)。
 
 2026-10-21用户批准旧OGG路径退役：唯一测试夹具audio-element-fixture.ts随全部consumer删除，从当前tracked/live表移除，未记已验证；三个专测身份与授权见[input/audio回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)。73/74七个当前文件通过逐文件核验及集中门后转已验证，已删除fixture不计closed。
+
+2026-10-23 CODE3k／3l质量窗口：三项旧测试信用因有效counter暂撤review（framebuffer leaves、dither相位、飘字主测），新共享数字夹具review；其余既有状态不预授新集成信用。四个正式全文件反控旧绿/新单红，当前90定向、695相邻与TC原件已存；统一门尚待集中，零新关闭，固定65accept/18partial。见[八维与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -343,10 +347,11 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |
 | `packages/game/src/tools/speedrun/checkpoints.ts` | product | 已验证 | [CODE3j局部校准与正文版本桥](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/README.md) | 七项缺口由真实输入/脚本/转场/计时器补证；原八维与测试复用，数据正文未变，不外推完整剧情路线 |
 | `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |
-| `packages/game/src/present/framebuffer.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present/draw-tilemap/draw-sprite caller、framebuffer + leaves tests | 默认/离屏尺寸、边界静默写、palette 缺色 fallback 逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/screen-shake.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:710-715 caller、sdlpal video.c:571-620、shake/bounds tests | 奇偶垂直搬移、level 越界、advance=false 补帧和 shakeTime 递减逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/screen-wave.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:313-317 caller、sdlpal scene.c:365-430、global.h:379/538-539、wave/leaves/mirror tests | `<=0` guard、256 关断、相位/循环与 advance=false 逐文件核验；历史 raw/mutant 结果未在本片重跑 |
-| `packages/game/src/present/dither-fade.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:658-673、battle fade caller、video.c/battle.c、dither/nibble tests | 72-step RG_INDEX/低位逼近与 backup ownership 逐文件核验；未发现直接缺陷 |
+| `packages/game/src/present/__tests__/digit-frames.ts` | fixture | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/framebuffer.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/screen-shake.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/screen-wave.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/dither-fade.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
@@ -374,31 +379,31 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-box.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
-| `packages/game/src/present/draw-number.ts` | product | review | CODE-QUALITY-3k 当前复审；battle/menu/dialog callers、sdlpal ui.c:640-732、draw-number/slots tests | 合法颜色/对齐/R-to-L/truncate/opaque mask/缺帧合同完整；正 Infinity 会卡在长度循环，生产可达性未证，留 review |
-| `packages/game/src/present/follower-pos.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:393-417、sdlpal scene.c:658-780、follower tests | walking/静止冻结/障碍回退/朝向源/trail fallback 逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/framebuffer.test.ts` | test | 已验证 | CODE-QUALITY-3k；默认尺寸/write-clear/toImageData RGBA 合同 | 直接 framebuffer oracle |
-| `packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3k；越界、自定义尺寸、缺色 fallback 反例 | 高判别力边界合同 |
-| `packages/game/src/present/screen-shake.test.ts` | test | 已验证 | CODE-QUALITY-3k；奇偶搬移/递减/level 0/连续帧合同 | 公式 oracle |
-| `packages/game/src/present/screen-shake-bounds.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；level 199/200/256、advance=false 边界合同 | 不重复主干 |
-| `packages/game/src/present/screen-wave.test.ts` | test | 已验证 | CODE-QUALITY-3k；渐弱/清零/循环守恒合同 | 相位 reset 隔离 |
-| `packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3k；advance=false/循环/跨帧相位/真实 raw 负 progression 收尾合同；原卡/总纲 mutant 4 total/3 passed/1 failed→恢复 4/4；旧3 fail误述保留于原snapshot | typed indices + raw oracle |
-| `packages/game/src/present/screen-wave-mirror.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；镜像 wave 表/关断/累加边界合同 | 独立行 shift oracle |
-| `packages/game/src/present/dither-fade.test.ts` | test | 已验证 | CODE-QUALITY-3k；step0/outer1/72-step 收敛合同 | 原版 nibble oracle |
-| `packages/game/src/present/dither-fade-nibble.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；RG_INDEX 顺序/低位回退/邻接不动合同 | 相位合同 |
-| `packages/game/src/present/draw-number.test.ts` | test | 已验证 | CODE-QUALITY-3k；align/color/truncate/缺帧合同 | sdlpal UI oracle |
-| `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；opaque mask/末行/缺位/nLength=0 合同 | 直接 framebuffer oracle |
-| `packages/game/src/present/follower-pos.test.ts` | test | 已验证 | CODE-QUALITY-3k；walking/frozenOffset/0x46/船/隐龙窟回归合同 | 一阶段行为回归 |
-| `packages/game/src/present/follower-pos-axis.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；方向轴/障碍/短 trail/静止不调用 caller 合同 | 轴向反例 |
-| `packages/game/src/present/battle/draw-battle-bg.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle caller、battle.c:50-90/565-620/982、bg tests | 索引0不透明、尺寸裁剪、召唤低 nibble 染色逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/battle/draw-battle-effect.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle overlay caller、fight.c:2183/2188/2760、effect/pixel tests | 底中 anchor、opaque mask、缺资源/坏 frame no-op 逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle showDamageNum caller、uibattle.c:1746-1767,1770-1808、num/pixel tests | 40ms age、0..10 寿命、y上移、5位 right align/颜色合同逐文件核验；未发现新直接缺陷 |
+| `packages/game/src/present/draw-number.ts` | product | review | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 非有限输入的真实生产可达性未证；V1载入先重算装备，不能用直接注入派生效果冒称实际路径。其余合法输入合同已核。 |
+| `packages/game/src/present/follower-pos.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/framebuffer.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/screen-shake.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/screen-shake-bounds.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/screen-wave.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/screen-wave-mirror.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/dither-fade.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/dither-fade-nibble.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/draw-number.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/follower-pos.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/follower-pos-axis.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/battle/draw-battle-bg.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/battle/draw-battle-effect.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/draw-battle-settlement.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle caller、battle.c:991-1373、ui.c:640-732、settlement pixel tests | exp/cash/level/hidden-exp/learn-magic screens 的布局、文字、数字、mask 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/present/battle/draw-battle-sprites.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/game/src/present/battle/draw-battle-ui.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: draw-ui-unused-param；不升closed |
 | `packages/game/src/present/battle/present-battle.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design、bus-contract-cleanup；不升closed |
-| `packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts` | test | 已验证 | CODE-QUALITY-3l；背景写入/低 nibble shift 合同 | 直接 framebuffer oracle |
-| `packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts` | test | 已验证 | CODE-QUALITY-3l；overlay anchor/mask/缺资源合同 | 直接 framebuffer oracle |
-| `packages/game/src/present/battle/__tests__/draw-battle-num.test.ts` | test | 已验证 | CODE-QUALITY-3l；floating nums age/position/clear 合同 | 真实 layer caller |
+| `packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/battle/__tests__/draw-battle-num.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts` | test | 已验证 | CODE-QUALITY-3l；各结算 screen 合法输入合同 | typed settlement oracle |
 | `packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts` | test | 已验证 | CODE-QUALITY-3l；anchor/idle/color shift/death 合同 | battle state oracle |
 | `packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts` | test | 已验证 | CODE-QUALITY-3l；UI state/early-return/menu/grid 合同 | typed UI oracle |
@@ -406,7 +411,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3l；结算文字/布局 leaves 合同 | 不重复主干 |
 | `packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3l；sprite state/target/fade leaves 合同 | 不重复主干 |
 | `packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3l；UI 分支/对话/目标 leaves 合同 | 不重复主干 |
-| `packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；effect/number pixel 证据 | 高判别力像素 oracle |
+| `packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；settlement pixel/word layout 证据 | 高判别力像素 oracle |
 | `packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；sprite pixel/mask/z-order 证据 | 高判别力像素 oracle |
 | `packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；battle UI pixel/early-return 证据 | 高判别力像素 oracle |

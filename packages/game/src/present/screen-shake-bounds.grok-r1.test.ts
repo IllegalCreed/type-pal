@@ -1,7 +1,7 @@
 /**
  * TEST-GROK-RENDER-HOST-LARGE-1 G04-B。
  * 调用方 present.ts:714 applyScreenShake(fb.indices, gs, advanceEffects)。
- * 不重复 screen-shake.test 的奇偶 level 4/10、连减到 0、level 0 仍递减。
+ * 不重复 screen-shake.test 的奇偶 level 4 全帧搬移、连减到 0、level 0 仍递减。
  */
 import { describe, expect, it } from 'vitest'
 import { applyScreenShake } from './screen-shake.js'

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-23T06:05:09.948Z",
+  "generatedAt": "2026-10-23T09:41:38.188Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 774,
-  "testCount": 20170,
+  "testCount": 20160,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4793,7 +4793,7 @@
       ],
       "scopeDigest": "155e267b6b9aca7ea6ef4342a662f6e4aa07f516c6691711d850f35ab81f1acf",
       "fastTests": {
-        "testCount": 3754,
+        "testCount": 3744,
         "testFileCount": 339,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -6084,8 +6084,8 @@
           },
           {
             "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
-            "testCount": 6,
-            "identityDigest": "38150445e96fa2cca4cc74c403bfccced5cb710078e81987c0b944bfb4da9d17"
+            "testCount": 4,
+            "identityDigest": "d85730d4dca5aa15f086b4be5d36bbf60ce68acde86aca8048e89b8eab56f074"
           },
           {
             "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
@@ -6180,7 +6180,7 @@
           {
             "file": "packages/game/src/present/draw-number.test.ts",
             "testCount": 8,
-            "identityDigest": "45139c65bb6431e646d40c395b00dc1beef705472dc9846e1c822e5d3bb2c089"
+            "identityDigest": "b3417746c07a1fcc679c6fae4caefc308f167aabaa9c4d0d70471123c210d54d"
           },
           {
             "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
@@ -6209,8 +6209,8 @@
           },
           {
             "file": "packages/game/src/present/follower-pos.test.ts",
-            "testCount": 10,
-            "identityDigest": "f13e4b4b9aee465fa9e971e72855969d1fcd5a18b937919f4bd52d7e2aacb5ab"
+            "testCount": 6,
+            "identityDigest": "3bb146a4417fe7ff1cb44734217c648681b7a18ca60cac1298bd81361edfdb49"
           },
           {
             "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
@@ -6240,7 +6240,7 @@
           {
             "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
             "testCount": 3,
-            "identityDigest": "268c028ad51f3050aa61637e97eff4ae49fcfc8c9d2e44f28a2239304010872d"
+            "identityDigest": "568d147870fe6f05597a037ba7609bf9eb8da197fb5deaa69efd8dea48d05437"
           },
           {
             "file": "packages/game/src/present/framebuffer.test.ts",
@@ -6384,8 +6384,8 @@
           },
           {
             "file": "packages/game/src/present/screen-shake.test.ts",
-            "testCount": 6,
-            "identityDigest": "af7db43d48d4075af846b424197df1c5d45355f90a13a0445c18a1cab5cf839c"
+            "testCount": 4,
+            "identityDigest": "d13d4597f2e42ee8ad27557c649281cc8cd285c5d8c18cfeb1f700d31061b158"
           },
           {
             "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
@@ -6394,13 +6394,13 @@
           },
           {
             "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
-            "testCount": 4,
-            "identityDigest": "70528b5a0ff7aacfe8af752c9e5975b539ca626577e262eb5642300af647c418"
+            "testCount": 3,
+            "identityDigest": "a45176126d36651bc0adc70e42d04508f008d89837d9d37ccb6e4fb151243fa7"
           },
           {
             "file": "packages/game/src/present/screen-wave.test.ts",
-            "testCount": 5,
-            "identityDigest": "7848c46807ad12cc7d2b374016f72eb559824047e8ffe214c6dcb06103813bf7"
+            "testCount": 4,
+            "identityDigest": "a935519fd611da8df3e47453c7f0890ffa7574a3b8c54a5fe2b5a1e4ffc24063"
           },
           {
             "file": "packages/game/src/shell/audio-midi.test.ts",
@@ -6833,18 +6833,18 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "adc1bed20e51bb5158c033c4cb4ae9a8410686b68cd1c0b6046d1b4b131f4d6b",
+        "identityDigest": "4e578317f8bd0d21a482e83c31368e61ebd92de0a15df1238688e2a7e21e02dc",
         "duplicateIdentityCount": 0,
-        "executionDigest": "6e7d1f334a00826b75fd6b6913c35d02e94dfb1e6cfad23ad333d16d8d43df29"
+        "executionDigest": "9fecdb3a2b988a17c023126ee1db81a6ca42b5a7aa60dbebe361ef3136bc305b"
       },
       "metrics": {
         "statements": {
-          "covered": 15289,
-          "total": 17075
+          "covered": 15288,
+          "total": 17074
         },
         "branches": {
-          "covered": 9905,
-          "total": 12276
+          "covered": 9904,
+          "total": 12274
         },
         "functions": {
           "covered": 1835,
@@ -10871,12 +10871,12 @@
   },
   "total": {
     "statements": {
-      "covered": 72674,
-      "total": 80466
+      "covered": 72673,
+      "total": 80465
     },
     "branches": {
-      "covered": 52606,
-      "total": 62700
+      "covered": 52605,
+      "total": 62698
     },
     "functions": {
       "covered": 13730,

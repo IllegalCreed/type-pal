@@ -28,6 +28,30 @@ Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 
+## 2026-10-23 CODE3k／3l有限质量收口
+
+2026-10-23 CODE3k／3l有限质量收口：27文件逐项A–H，26接受／draw-number仍review；三项旧测试补强恢复接受，1新数字夹具闭合，相对窗口前净增1closed。当前3404tracked／409closed／103review／2892pending，固定65accept／18partial，两卡仍partial。全check 20589包测试+697工具测试、official20160／774源、同报告strict/protected及静态均零诊断；原失败保留，远端检查/合并另核。[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)。
+
+实际变化：八个生产文件仅注释；follower仅移除静止已返回后的重复判断；三消费者共用数字夹具；测试100→90，11旧例的必要断言迁移并新增多位居中例。四个业务反控旧绿/新完整文件单红，恢复17文件90绿，83文件695相邻绿。抽象按输入/ownership复用，未改产品机制、存档、公共接口或资源管线。完整未裁剪原件与只读复验见上链。
+
+下一范围仍为3l结算／精灵／UI／宿主八维缺口，以及3k输入域未决；不扩94–102。主树保持只读，同一3y。无下一位Agent提示词；Codex执行提交推送与受保护PR，实际远端结果不以本地门预报。
+
+## 2026-10-23 CODE3l 背景／overlay／飘字相邻片（build allowed）
+
+[当前两卡合并窗口：逐文件八维、迁移、原件及只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)。
+
+与3k累计同一窗口，Codex单Owner、同一3y，不单独开启全仓/coverage。全文核三个叶实现与四直接测试，复用3l-battle-present-primitives既有primary；当前真实present装配/清理路径已重读。build allowed限这七文件的注释、合法真实Framebuffer替换核心any、像素/生命周期断言和已证重复精简；present-battle.ts仅纠正入场切换误称nibble的注释，不接受其全文件。不得借此改变飘字容量/数值、调色公式、帧时序或接口；结算、精灵、UI及3l整卡仍partial。
+
+补充测试夹具准入：将两个数字主测与slots中相同的6×8实心、槽号即色号工厂提取为present/__tests__/digit-frames.ts，三个真实测试caller共享，只提供0..65数字所需槽；不迁移1×1像素宿主或引入模式参数。当前3k变更后完整present相邻用例已全绿并保存原件，可作为未改3l四测试的基线；反控按实际缺口采集，弃用的弱emit写入次数由精确寿命/像素合同承接。随后一起冻结，集中门通过才发布。无下一位Agent提示词，94–102不扩展。
+
+## 2026-10-23 CODE3k 基础呈现质量补齐（build allowed）
+
+Codex单Owner，同一3y，基点4897a215dd3e7fd6987f1082006d9d8cc9f22bb8与最新main一致、干净；主树只读。先核合并后Documentation成功原件，Coverage仍运行，未预报其成功。当前408closed/103review/2892pending、固定65accept/18partial不变。
+
+build allowed限原3k六个primitive与13个直接测试，分framebuffer/shake、wave、dither、follower、number五个相关切片；present.ts与game-state.ts仅更正已核caller/字段注释，不接受其整文件。复用两份既有3k行为证据，19文件同版；补八维欠账，重点是真实写入Owner、当前caller、朝向与位置合同、完整像素oracle、测试排重和误称集成。允许注释修订、已证冗余walking判断去除及对应测试整理；不改公式、存档字段、数字输入策略、公共出口或产品形态。drawNumber非有限输入的生产可达性仍review，不凭合成Infinity添加守卫。
+
+13文件77例基线已跑，default+JSON完整stdout/stderr0。必要反控按指定业务断言，旧→新合同和完整失败/恢复原件留存。仅定向/相邻与必要TC随片执行；多片冻结后再集中全仓与单次official/同报告protected，不因小改重跑。新行为取舍只停受影响域；当前不关闭任何文件或整卡，不扩94–102。无下一位Agent提示词。
+
 ## 2026-10-23 CODE3j局部校准（build allowed与交接）
 
 Codex单Owner，同一3y，基点38d6b2d136dc38589df9729242590bc37a5a27e2；main Documentation39913781974与Coverage39913781939均success，完整日志和原生App15368 annotation均零诊断。准入限七项局部运行证据、checkpoints注释和必要账本/只读复验；所有配置、检测器、默认PB、存档与产品行为保持。主树只读，DEV使用隔离context、现有初始位置/练习节点接口，自己的浏览器与server由本窗清理。
