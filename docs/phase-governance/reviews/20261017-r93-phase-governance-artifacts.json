@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE3j tools quality projection; unowned entries preserved",
+      "readMethod": "Owned CODE3j local calibration projection; unowned entries preserved",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE3j finite quality accepted after concentrated gates;64accept19partial,3403tracked407closed104review2892pending. Three new closures;checkpoints reopened review for runtime calibration. No route/data/94-102 credit.",
+      "coreConclusion": "CODE3j seven local signals accepted;65accept18partial,3403tracked408closed103review2892pending. Checkpoints body unchanged, no full-story E2E or94-102 credit. Static/PR publication recorded separately.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "7283826850de10413dff38fe9034aa59a93332166c8d1f192016d65f17308735",
+      "afterSha256": "af60c0cac2ccc6065a9991349c83653e7fff6600dc8c88e7fdde5e39b95aceb2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "7283826850de10413dff38fe9034aa59a93332166c8d1f192016d65f17308735",
+        "implementationSha": "af60c0cac2ccc6065a9991349c83653e7fff6600dc8c88e7fdde5e39b95aceb2",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1791,12 +1791,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-tools-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+        "kind": "codex-owned-pre94-checkpoint-calibration",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "7283826850de10413dff38fe9034aa59a93332166c8d1f192016d65f17308735",
-        "lineCount": 5476,
+        "afterSha256": "af60c0cac2ccc6065a9991349c83653e7fff6600dc8c88e7fdde5e39b95aceb2",
+        "lineCount": 5486,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -3792,6 +3792,16 @@
             "entry": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
           },
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3j-local-calibration",
+          "previousSnapshot": {
+            "commit": "38d6b2d136dc38589df9729242590bc37a5a27e2",
+            "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "entry": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/review.json"
         }
       ],
       "supersedes": [
@@ -3799,7 +3809,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Seven source A-H with exact-version reuses, necessary test deltas and current board/ledger only",
+      "reviewedLines": "Checkpoint comments/local runtime records; old A-H and14files exact-version reuse; owned projections only",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -7804,9 +7814,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE3j tools quality projection; unowned entries preserved",
+      "readMethod": "Owned CODE3j local calibration projection; unowned entries preserved",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE3j finite quality accepted after concentrated gates;64accept19partial,3403tracked407closed104review2892pending. Three new closures;checkpoints reopened review for runtime calibration. No route/data/94-102 credit.",
+      "coreConclusion": "CODE3j seven local signals accepted;65accept18partial,3403tracked408closed103review2892pending. Checkpoints body unchanged, no full-story E2E or94-102 credit. Static/PR publication recorded separately.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7827,7 +7837,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "81bf2cf6de489a9ecf6b8b7bc47908ad0bb901bf108373160c8332521b18226d",
+      "afterSha256": "c1fef639d3bc0ce388664269708be78ac1ee1fc0d6bd5339d385b0e3c7f8aa54",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7851,7 +7861,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "81bf2cf6de489a9ecf6b8b7bc47908ad0bb901bf108373160c8332521b18226d",
+        "implementationSha": "c1fef639d3bc0ce388664269708be78ac1ee1fc0d6bd5339d385b0e3c7f8aa54",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8515,12 +8525,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-tools-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+        "kind": "codex-owned-pre94-checkpoint-calibration",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "81bf2cf6de489a9ecf6b8b7bc47908ad0bb901bf108373160c8332521b18226d",
-        "lineCount": 7049,
+        "afterSha256": "c1fef639d3bc0ce388664269708be78ac1ee1fc0d6bd5339d385b0e3c7f8aa54",
+        "lineCount": 7059,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -10353,6 +10363,16 @@
             "entry": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
           },
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3j-local-calibration",
+          "previousSnapshot": {
+            "commit": "38d6b2d136dc38589df9729242590bc37a5a27e2",
+            "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "entry": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/review.json"
         }
       ],
       "supersedes": [
@@ -10360,7 +10380,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Seven source A-H with exact-version reuses, necessary test deltas and current board/ledger only",
+      "reviewedLines": "Checkpoint comments/local runtime records; old A-H and14files exact-version reuse; owned projections only",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

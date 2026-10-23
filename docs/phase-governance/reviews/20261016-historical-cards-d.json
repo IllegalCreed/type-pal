@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned CODE3j tools quality projection; unowned entries preserved",
-      "coreConclusion": "CODE3j finite quality accepted after concentrated gates;64accept19partial,3403tracked407closed104review2892pending. Three new closures;checkpoints reopened review for runtime calibration. No route/data/94-102 credit.",
+      "readMethod": "Owned CODE3j local calibration projection; unowned entries preserved",
+      "coreConclusion": "CODE3j seven local signals accepted;65accept18partial,3403tracked408closed103review2892pending. Checkpoints body unchanged, no full-story E2E or94-102 credit. Static/PR publication recorded separately.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "9c77c3726dc013fce8d71daa550d8c2a992f7774a8eecc17bf8cc7b213ccb7ed",
+      "afterSha256": "0af6f47e3c206c2045bfcec7c4f3af0a6fbbe7f19bcf46fb8f0153c2ebe469c7",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "9c77c3726dc013fce8d71daa550d8c2a992f7774a8eecc17bf8cc7b213ccb7ed",
+        "implementationSha": "0af6f47e3c206c2045bfcec7c4f3af0a6fbbe7f19bcf46fb8f0153c2ebe469c7",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,10 +4148,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-tools-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
-        "afterSha256": "9c77c3726dc013fce8d71daa550d8c2a992f7774a8eecc17bf8cc7b213ccb7ed",
-        "lineCount": 1011,
+        "kind": "codex-owned-pre94-checkpoint-calibration",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/review.json",
+        "afterSha256": "0af6f47e3c206c2045bfcec7c4f3af0a6fbbe7f19bcf46fb8f0153c2ebe469c7",
+        "lineCount": 1013,
         "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
         "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
@@ -5411,6 +5411,16 @@
             "entry": "docs/ops/audits/code-quality-file-ledger.md"
           },
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3j-local-calibration",
+          "previousSnapshot": {
+            "commit": "38d6b2d136dc38589df9729242590bc37a5a27e2",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "entry": "docs/ops/audits/code-quality-file-ledger.md"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/review.json"
         }
       ],
       "supersedes": [
@@ -5427,7 +5437,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Seven source A-H with exact-version reuses, necessary test deltas and current board/ledger only",
+      "reviewedLines": "Checkpoint comments/local runtime records; old A-H and14files exact-version reuse; owned projections only",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

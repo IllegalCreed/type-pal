@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 64,
+  "currentAccepted": 65,
   "cards": [
     {
       "id": "1",
@@ -596,8 +596,8 @@
       "sha256": "f900312c604c58bdbfdd439c88e1af49ac0293ca17258a8865725db4460e18cf",
       "lines": 73,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -653,8 +653,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "currentReviewDepth": "Current original seven-source A–H plus necessary tests; exact-version mobile/present evidence reused. Four related slices; runtime checkpoint calibration still unknown.",
-      "currentReviewEvidence": "3j-tools-quality/README.md"
+      "currentReviewDepth": "Original seven-source A–H accepted; seven held checkpoint signals now locally calibrated through actual input/scripts/scene/timer. Full story E2E not claimed.",
+      "currentReviewEvidence": "3j-route-calibration/README.md"
     },
     {
       "id": "3k",
@@ -4255,33 +4255,28 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 19,
-    "accept": 64
+    "partial": 18,
+    "accept": 65
   },
   "lastIncrementalReview": {
     "date": "2026-10-23",
-    "scope": "CODE3j finite quality and test contracts; runtime checkpoint calibration held",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md",
-    "newlyAcceptedCards": [],
-    "newlyClosedFiles": [
-      "packages/game/src/tools/speedrun/time-format.ts",
-      "packages/game/src/tools/toast.test.ts",
-      "packages/game/src/tools/map-names.test.ts"
-    ],
-    "reopenedReviewFiles": ["packages/game/src/tools/speedrun/checkpoints.ts"],
+    "scope": "CODE3j seven held local checkpoint signals; unchanged implementation/config, comment-only correction",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/README.md",
+    "newlyAcceptedCards": ["3j"],
+    "newlyClosedFiles": ["packages/game/src/tools/speedrun/checkpoints.ts"],
     "fixed83": {
-      "accept": 64,
-      "partial": 19,
-      "pending": 0
+      "pending": 0,
+      "partial": 18,
+      "accept": 65
     },
     "counts": {
       "total": 3403,
-      "verified": 407,
-      "review": 104,
+      "verified": 408,
+      "review": 103,
       "pending": 2892,
-      "unclosed": 2996
+      "unclosed": 2995
     },
-    "limits": "3j stays partial. No route/data/94-102 credit."
+    "limits": "No full story route/E2E/visual or94–102 credit."
   },
   "incrementalReviewHistory": [
     {

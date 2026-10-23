@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-23 [CODE3j七项局部校准](3j-route-calibration/README.md)：checkpoints正文不变，真实移动/脚本/转场/计时器补齐欠账；3j接受，固定83成为65accept/18partial。原八维和集中门复用，当前静态与发布状态另列；不宣称完整剧情E2E。
+
 2026-10-23 [CODE3j tools／speedrun质量窗口](3j-tools-quality/README.md)：七生产源逐文件八维含同版证据复用，toast6→4与map双语反控成立；checkpoints校准仍review、3j仍partial。统一门及文件关闭以本窗integration为准，不扩94–102。
 
 2026-10-23 [RLE出口／运输snapshot／启动取消收口](3h/rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20partial；同步英文main后的check20601+691工具、official20172/774与同报告protected通过，PR状态另核。其余历史段按各自时点保留，shared格式/3i余项不随本窗接受。

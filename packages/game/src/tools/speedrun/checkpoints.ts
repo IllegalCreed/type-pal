@@ -1,7 +1,7 @@
 // 21 个速通节点与香蕉树配置；稳定 ID 用于计时/持久化，显示名可以本地化。
-// 下方坐标沿用历史 PalTimer(98柔情)视口 + (160,112) 的换算记录；地图边缘不能据此推定已校准。
-// docs/phase1/plans/2026-06-18-speedrun-timer-design.md §4.4 所列坐标/BGM/入口仍待运行核验，
-// 静态配置测试不证明路线已跑通；香蕉三格的历史站位记录也不外推为其它节点的证据。
+// 坐标使用世界像素，即 PalTimer(98柔情)视口 + (160,112)；容差与进出场景策略沿用本项目设计。
+// 2026-10-23 已对五坐标、BGM86、进塔三场景做隔离 DEV 局部校准；证据见
+// docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/，不代表完整剧情路线验收。
 
 import { localize } from '../../localization/language.js'
 import {
@@ -75,8 +75,8 @@ export const CHECKPOINTS: readonly Checkpoint[] = [
       [1856, 496],
       [1840, 488],
     ]),
-  }, // PalTimer视口(1696,384)/(1680,376)+PARTYOFFSET ⚠地图边缘,X偏移或>160,须实跑核
-  { id: 'kungfu', name: '学功夫', defaultBestMs: t(0, 11, 13), detector: bgmIs(86) }, // ⊙BGM
+  }, // 石碑触发脚本 L_5182 的实测站位 (1856,496)，容差允许接近时提前打点。
+  { id: 'kungfu', name: '学功夫', defaultBestMs: t(0, 11, 13), detector: bgmIs(86) }, // 教剑脚本地址 2237 切换音乐。
   { id: 'boat', name: '上船', defaultBestMs: t(0, 18, 37), detector: atSpot(6, 1232, 1192) }, // PalTimer视口(1072,1080)+PARTYOFFSET
   { id: 'exit-lin', name: '出林家堡', defaultBestMs: t(0, 24, 53), detector: leaveScene(40) },
   { id: 'exit-yinlong', name: '出隐龙窟', defaultBestMs: t(0, 30, 46), detector: leaveScene(49) },
@@ -120,7 +120,7 @@ export const CHECKPOINTS: readonly Checkpoint[] = [
 
 /**
  * 香蕉树配置沿用精确三格/零容差；站格暂停，拿香蕉(291)恢复。以下为历史换算记录，本轮未实跑复核。
- * 历史 PalTimer CheckCheatBegin 记录（源版本未冻结）：scene 177 + PositionCheck(精确 ==){(1088,608),(1120,608),
+ * PalTimer ba7ca7cc 的 CheckCheatBegin：scene 177 + PositionCheck(精确 ==){(1088,608),(1120,608),
  *   (1120,592)} —— 那是原版**视口**坐标;我们 `party` 是**世界=视口+PARTYOFFSET(160,112)**,故 +offset 换算:
  *   (1088,608)→(1248,720)、(1120,608)→(1280,720)、(1120,592)→(1280,704)。
  * 香蕉树本体(事件对象 EO[16]@scene/176.json 世界 (1264,712)、禁入障碍、人站不上去)就在这 3 个相邻可站格中间;
