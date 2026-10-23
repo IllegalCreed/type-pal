@@ -5,6 +5,108 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-precache-private-formatter-recount-20261023',
+    authority:
+      'User standing authority permits exact baseline adjustment for justified refactoring; current3i scope includes reuse, test quality and concentrated final coverage. Consolidate two byte-for-byte same-input MiB formatter arrows into one private named formatter. Frozen same35 strong tests old/current V8 independently measure only covered counters removed:3statements/1function/1line, zero branch delta, all uncovered counters unchanged. TS normalized full-body proof checks the shared expression against both old arrows. Only these game counters rebased against this complete baseline; no tolerance, scope, comparator or project behavior changed.',
+    evidence:
+      'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json',
+    baselineSha256: '63e37d95e612ff31b62749f16c1673e27a242c893cfb13906dd7e10d6809e162',
+    sources: [
+      {
+        path: 'packages/game/src/shell/precache-ui.ts',
+        sha256: 'c4cd5d12f0bc2dbcc070f5ddcfbb98757353f238bf1b498b3bd15f3d4f87d614',
+      },
+      {
+        path: 'packages/game/src/shell/precache-client.ts',
+        sha256: 'abba42fb5f84f0c04f97f1ee589d5cb933ded67cef7e52c0a8a835d9a1930694',
+      },
+      {
+        path: 'packages/game/src/shell/trademark-fallback.ts',
+        sha256: 'ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee',
+      },
+      {
+        path: 'packages/game/src/shell/precache-ui.test.ts',
+        sha256: '07fff6677212ba351c0e9cef53c3e93725627253151760e7824353bc9d2eb16d',
+      },
+      {
+        path: 'packages/game/src/shell/precache-ui-host.grok-r1.test.ts',
+        sha256: 'fa3bd28549ee88ca59711a90ca10270db7e296f330d4309c4ade63eef1dd013f',
+      },
+      {
+        path: 'packages/game/src/shell/precache-client.test.ts',
+        sha256: '28ce0d5003acf0b193eb544daae13f93ae6f76d20d1fa71e65b2dc861be0b2c1',
+      },
+      {
+        path: 'packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts',
+        sha256: '67256f548bd47c406cfecaaedd1bcff9dec9ad005d5a3342ffeea5f1b717be5c',
+      },
+      {
+        path: 'packages/game/src/shell/trademark-fallback.test.ts',
+        sha256: '2f2ae11c76e2acfad0cb2520732a1345774e6d9e0877fd9f946ee0f0838abf7e',
+      },
+      {
+        path: 'packages/game/src/shell/trademark-splash.grok-r1.test.ts',
+        sha256: 'c5d2cfdce1a5b5d6372a1ee5249936be3e93beffd3b167f9579910ec010eb00b',
+      },
+      {
+        path: 'packages/game/src/__tests__/precache-ui-host.ts',
+        sha256: '4f2cc02f49b8d0885d33d8ca9581b64d5835918fafb6b0de8aebd97a64d87997',
+      },
+      {
+        path: 'packages/game/src/__tests__/precache-client-host.ts',
+        sha256: '973b3a485956111622f1b1bd9be058f1da52cb20ec17b0020ce855fb7e724694',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: '70811672262ddf2d5541281666fa444497f389b81275c48e90e5bc683d3df63b',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.test.mjs',
+        sha256: 'e7a12869bd4940f733ebd5c51a09ee7295896c0500c4601377f454d17c80882e',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15290,
+            total: 17078,
+          },
+          branches: {
+            covered: 9904,
+            total: 12277,
+          },
+          functions: {
+            covered: 1835,
+            total: 2136,
+          },
+          lines: {
+            covered: 13627,
+            total: 14963,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15287,
+            total: 17075,
+          },
+          branches: {
+            covered: 9904,
+            total: 12277,
+          },
+          functions: {
+            covered: 1834,
+            total: 2135,
+          },
+          lines: {
+            covered: 13626,
+            total: 14962,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-ui-frame-index-main-sync-recount-20261022',
     authority:
       'User standing authority allows exact coverage recount for justified cleanup, without restoring dead code or weak tests. Approved UI original-index fix removes success-only packing, 1 function/2 statements/2 branches/1 line; all removed counters were covered. Existing three uncovered diagnostic lines are unchanged. Only game counters rebased by the measured single-source delta; all other baseline floors, scope, predicates and configuration unchanged. Latest main6a29 contains separate script fixes and a measured baseline; repeat only the same already measured loader structural delta against this exact full baseline. No other counter adjusted.',
