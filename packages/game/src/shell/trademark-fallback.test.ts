@@ -1,3 +1,5 @@
+import { strictEqual } from 'node:assert/strict'
+import { Buffer } from 'node:buffer'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { legalPalette } from '../__tests__/grok-render-r1/legal-host.js'
 import type { IndexedImage } from '../assets/png.js'
@@ -24,6 +26,14 @@ function canvasContext(): CanvasRenderingContext2D {
   const context = canvas.getContext('2d')
   if (!context) throw new Error('2d context unavailable')
   return context
+}
+
+// 原生全字节比较同时核长度；失败只输出比较结果，避免展开整幅像素的昂贵 diff。
+function assertBytesEqual(
+  actual: Uint8Array | Uint8ClampedArray,
+  expected: Uint8Array | Uint8ClampedArray,
+): void {
+  strictEqual(Buffer.compare(Buffer.from(actual), Buffer.from(expected)), 0)
 }
 
 const palette = legalPalette((colors) => colors.fill([200, 100, 50]))
@@ -61,18 +71,18 @@ describe('playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence', ()
       },
     )
     await vi.advanceTimersByTimeAsync(0)
-    expect(fb.indices).toEqual(new Uint8Array(320 * 200).fill(1))
+    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', cancelable: true }))
     await vi.advanceTimersByTimeAsync(40)
-    expect(fb.indices).toEqual(new Uint8Array(320 * 200).fill(2))
+    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(2))
     await vi.advanceTimersByTimeAsync(40 + 1000)
     await vi.advanceTimersByTimeAsync(599)
     expect(completed).toBe(false)
     await vi.advanceTimersByTimeAsync(16)
     await pending
     expect(completed).toBe(true)
-    expect(fb.indices).toEqual(new Uint8Array(320 * 200).fill(2))
-    expect(Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data)).toEqual(opaqueBlack)
+    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(2))
+    assertBytesEqual(Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data), opaqueBlack)
     expect(vi.getTimerCount()).toBe(0)
   })
 
@@ -90,14 +100,14 @@ describe('playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence', ()
       fadeOutMs: 0,
     })
     await vi.advanceTimersByTimeAsync(0)
-    expect(fb.indices).toEqual(new Uint8Array(320 * 200).fill(1))
+    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))
     const skip = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })
     window.dispatchEvent(skip)
     await vi.runAllTimersAsync()
     await pending
-    expect(fb.indices).toEqual(new Uint8Array(320 * 200).fill(1))
+    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))
     expect(skip.defaultPrevented).toBe(true)
-    expect(Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data)).toEqual(opaqueBlack)
+    assertBytesEqual(Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data), opaqueBlack)
     const after = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })
     window.dispatchEvent(after)
     expect(after.defaultPrevented).toBe(false)
