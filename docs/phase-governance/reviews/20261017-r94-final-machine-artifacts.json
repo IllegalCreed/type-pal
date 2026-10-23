@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6cfcda487bae0c7b02f0d365883d79276347d195c457c962a2c742d6255aef1e",
+      "afterSha256": "3b2b94008527278ea6f84a8bc291b537900c2748ab3bbcc80eef8a5bdad36fee",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1727,6 +1727,15 @@
           "previousAfterSha256": "5251c2d3d7753044ffe0e6df3e247ceb2f2a5d965a393e35aa4c4896c99ae821",
           "afterSha256": "1c5b9c3754b284944531bc3ce4a180f03da6e4e212476094d86fc3eddd2caf5c",
           "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-evidence-intake",
+          "sourceRevision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+          "previousAfterSha256": "6cfcda487bae0c7b02f0d365883d79276347d195c457c962a2c742d6255aef1e",
+          "afterSha256": "3b2b94008527278ea6f84a8bc291b537900c2748ab3bbcc80eef8a5bdad36fee",
+          "method": "Explicit task/evidence intake or exact administrative dependency; preserve source values and native269 status",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -5766,7 +5775,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "20678a256a6b798783a736f1f7af6268d40e573d491c8ae8e0d94722ff688cd6",
+      "afterSha256": "5d57e71309056467eda910de2ceb37d542ae18812137173a067f7b404976c62f",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6375,6 +6384,15 @@
           "previousAfterSha256": "14c09487f0b5690430ede0cbd5770bed8bac670e8238a9bb818dd9dbfafb221f",
           "afterSha256": "20678a256a6b798783a736f1f7af6268d40e573d491c8ae8e0d94722ff688cd6",
           "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-evidence-intake",
+          "sourceRevision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+          "previousAfterSha256": "20678a256a6b798783a736f1f7af6268d40e573d491c8ae8e0d94722ff688cd6",
+          "afterSha256": "5d57e71309056467eda910de2ceb37d542ae18812137173a067f7b404976c62f",
+          "method": "Explicit task/evidence intake or exact administrative dependency; preserve source values and native269 status",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -7281,6 +7299,11 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-VITEST-269-1",
       "action": "Exact administrative dependencies for approved new task; native599/302 unchanged"
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-evidence-intake",
+      "action": "Exact administrative/task dependency pins for scoped evidence intake only"
     }
   ]
 }

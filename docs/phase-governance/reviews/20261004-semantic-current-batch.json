@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "c9d2a37e3132654fc2e3519448a5d17165562a20b5528621169dcfa44b5b5aab",
+      "afterSha256": "90114520dbf6a5884ed16b870657d395bea1d9bf7ddaf23fc381370004cc1802",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1067,6 +1067,15 @@
           "previousAfterSha256": "2e9967f6691f28d624d489da22044eff67098960528305fe6fcca8b0e08693e4",
           "afterSha256": "9ada644319d2cb1454bbc7b8e40912753c090f3d1cd0dbb674f2b539788a1a3d",
           "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-evidence-intake",
+          "sourceRevision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+          "previousAfterSha256": "c9d2a37e3132654fc2e3519448a5d17165562a20b5528621169dcfa44b5b5aab",
+          "afterSha256": "90114520dbf6a5884ed16b870657d395bea1d9bf7ddaf23fc381370004cc1802",
+          "method": "Explicit task/evidence intake or exact administrative dependency; preserve source values and native269 status",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -2495,7 +2504,7 @@
         "2026-10-23 human-forwarded GLM accepts central3eec scope; Owner source/positions/inventory supplement separate. S29 explicit user build gate remains; external draft does not add a current document or credit."
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "1030f0f8fc028be46fb1978cbaa30b650a45c9c0cba9c877108764b45d3ef0ff",
+      "afterSha256": "97fc18b1fd8a881daca1a907783541708ce3d4d3f7e02e9d18776ff4da69d05a",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2933,6 +2942,15 @@
           "afterSha256": "1030f0f8fc028be46fb1978cbaa30b650a45c9c0cba9c877108764b45d3ef0ff",
           "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-evidence-intake",
+          "sourceRevision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+          "previousAfterSha256": "1030f0f8fc028be46fb1978cbaa30b650a45c9c0cba9c877108764b45d3ef0ff",
+          "afterSha256": "97fc18b1fd8a881daca1a907783541708ce3d4d3f7e02e9d18776ff4da69d05a",
+          "method": "Explicit task/evidence intake or exact administrative dependency; preserve source values and native269 status",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -2945,9 +2963,9 @@
       "historyOverlay": false,
       "templateCompliance": "needs-migration",
       "template": "docs/phase-governance/templates/task-card.md",
-      "readMethod": "Codex author admission: read approved external draft and fixed269/current bindings; replay source/contexts mechanically. No non-author semantic acceptance of this new card or269.",
+      "readMethod": "Codex non-author evidence intake of GLM delivery: fixed verifier replay; independent implementation recomputes269 native result sets, exact one-field binding changes,14pilot fullName sets and actual original receipt fingerprints. Reads14pilot assessments, selected nonpilot generator contradiction slices and7 context excerpts. Reuses accepted S26/Owner209 without claiming269manual full-text re-review. Owner corrections separate, author self-check only.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "User approves S29:269 immutable native Vitest documents across8 current logical reviews. Reuse accepted S26 correction plus209 Owner amendments; contributor supplies necessary content deltas and risk pilots read-only. Codex owns bounded contract and current-generation transaction.330 other rows/302 native objects remain unchanged;0 new semantic/migration/runtime credit.",
+      "coreConclusion": "S29固定1377650ed的269篇GLM只读输入获Codex证据限定接收：269保全/完整结果及跨8review绑定准确，14pilot八相位含3pending和3四失败。新增评语/摘要公共边界由Owner直接勘误；230assessment有效值与3pending摘要的修订未触及S26/原生/身份/读域，Owner作者补丁非作者复核pending。中央269语义发布0，审阅/迁移扣减0，严格2386项保留。",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-NATIVE-VITEST-269-1.md",
         "docs/ops/document-quality.md",
@@ -2955,21 +2973,22 @@
         "scripts/docs/review-record-storage-writer.mjs"
       ],
       "unresolved": [
-        "Production contract still admits only3 pilots; cross8 current-generation writer and risk pilots require implementation and independent acceptance.",
-        "269 semantic/migration statuses remain partial/needs; original1838 full-governance hard gate remains red.",
-        "This new author task is pending independent evidence acceptance; its two strict diagnostics are counted as incremental work."
+        "Bounded Owner correction rules/13pilot fields/3summaries require nonauthor review; original GLM raw package frozen.",
+        "Cross8 native contract/current-generation semantic writer and formal publication remain to implement and independently verify.",
+        "Full1838 hard acceptance and1196pending/2386diagnostics remain;0current semantic/migration/runtime credit."
       ],
-      "nextStep": "GLM performs one read-only269 delta package, reusing S26+Owner amendments; Codex implements shared contract/transaction, reviews pilots, accepts supported entries and performs controlled central publication. No main merge/push/done.",
+      "nextStep": "Codex completes common bounded contract and controlled current-generation semantic writer; GLM next reviews only Owner corrections/ready code evidence, never repeats269. Publish only after required independent acceptance; no main/push/done.",
       "phase": "ops",
       "module": "native-document-governance",
       "capability": "S29 bounded native Vitest semantic intake",
       "owner": "Codex common design/central intake; GLM contributor evidence",
       "provenance": [
         "2026-10-23 human explicitly approves presented S29 draft; current author admission is not independent acceptance.",
-        "Initial card authored on isolated branch from35e3bf2e2c3f8234e8a0e03fa3a8d644466eb941; no earlier card at that revision."
+        "Initial card authored on isolated branch from35e3bf2e2c3f8234e8a0e03fa3a8d644466eb941; no earlier card at that revision.",
+        "2026-10-23 Codex accepts supported GLM evidence, directly handles bounded new-assessment/summary errors under prior user authorization. Original269 source draft/Owner209/current storage untouched; Owner patch acceptance remains separate."
       ],
       "sourceSha256": "43b136aec7676e5fba18fcf45ec637ff434214087ebd15d5ff82f5185a4899f2",
-      "afterSha256": "43b136aec7676e5fba18fcf45ec637ff434214087ebd15d5ff82f5185a4899f2",
+      "afterSha256": "94e0b9ab246aa30dfd5abca14a7e16ce83694181a474610be6b99bdfb27bdeef",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
@@ -3006,11 +3025,17 @@
         ]
       },
       "revision": {
-        "currentSha": "43b136aec7676e5fba18fcf45ec637ff434214087ebd15d5ff82f5185a4899f2",
+        "currentSha": "94e0b9ab246aa30dfd5abca14a7e16ce83694181a474610be6b99bdfb27bdeef",
         "history": [
           {
             "date": "2026-10-23",
             "action": "Initial committed author bytes: sourceSha256 pins the final admission card, not an uncommitted earlier draft or nonexistent earlier Git blob."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+            "afterSha256": "43b136aec7676e5fba18fcf45ec637ff434214087ebd15d5ff82f5185a4899f2",
+            "scope": "Initial approved task/admission preserved in Git; contributor evidence receipt grants no native migration credit."
           }
         ]
       },
@@ -3026,11 +3051,16 @@
         {
           "date": "2026-10-23",
           "action": "Register human-approved S29 task; one incremental pending document, zero old credit restored."
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Receive269GLM evidence, preserve original, stage bounded Owner corrections;0central269write/0pendingreduction",
+          "priorRecordRevision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f"
         }
       ],
       "supersedes": [],
       "stopLine": "No native/source/historical credit changes; no old-test/product/coverage/shared-config expansion. No main merge/push or done until applicable hard acceptance is satisfied.",
-      "reviewedLines": "Approved draft and actual admission/pin/contract delta;269 source/context program checks only, not269 full-text human semantic reviews.",
+      "reviewedLines": "S29 delivered7file packet, original final raw receipt,14pilot claims, selected nonpilot/generated-rule slices and7 context evidence excerpts; programmatic269 result/binding/immutable checks. New Owner assessment corrections are not nonauthor accepted.",
       "documentStatus": "current",
       "currentQualification": {
         "author": "Codex",
@@ -3047,7 +3077,56 @@
         "protectedNative": 302,
         "deliveryModel": "native-vitest-review-delta/1.0.0",
         "productionImplementationAccepted": false
-      }
+      },
+      "contributorEvidenceAcceptance": {
+        "date": "2026-10-23",
+        "author": "GLM",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "candidateCommit": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+        "decision": "accept-evidence-with-bounded-owner-corrections",
+        "scope": "Readonly269 content-delta evidence/preservation/identity/complete results; actual14pilot and declared255reuse read domains, not269manual full-text review",
+        "verdictSha256": "b229271e872249a3aaa6a1342ebad3f70f3d1bc56910c8141285b330bd5461c6",
+        "deliveryIndexSha256": "6d7ed0031c8317a856d6a2d7b58b1779f77812746a0fcfaaa5d77989601f9722",
+        "deliveryFileManifestSha256": "0cc8aaa08553fb621d5f2512b98d749ec954e8e4d547b42dc6e2dec09559aa81",
+        "targets": 269,
+        "protectedOtherRows": 330,
+        "protectedNative": 302,
+        "protectedPhysicalFiles": 27,
+        "pilots": 14,
+        "nativeResultCollectionsRecomputed": 269,
+        "completeFourFailureSets": 3,
+        "source": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "newSemanticCredit": 0,
+        "newMigrationCredit": 0
+      },
+      "ownerCorrections": {
+        "date": "2026-10-23",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "status": "self-verified-awaiting-independent-evidence-acceptance",
+        "kind": "S29-owner-bounded-corrections/1.0.0",
+        "sha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f",
+        "sharedRules": 4,
+        "affectedAssessmentRows": 230,
+        "specificPilotFields": 13,
+        "pendingPilotSummaries": 3,
+        "source": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "originalPackagesUnchanged": true,
+        "newSemanticCredit": 0,
+        "newMigrationCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-evidence-intake",
+          "sourceRevision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+          "previousAfterSha256": "43b136aec7676e5fba18fcf45ec637ff434214087ebd15d5ff82f5185a4899f2",
+          "afterSha256": "94e0b9ab246aa30dfd5abca14a7e16ce83694181a474610be6b99bdfb27bdeef",
+          "method": "Explicit task/evidence intake or exact administrative dependency; preserve source values and native269 status",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     }
   ],
   "currentCorrection": {
@@ -3161,6 +3240,11 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-VITEST-269-1",
       "action": "Register human-approved269 task, one pending incremental card; update current handoff,0 old semantic credit"
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-evidence-intake",
+      "action": "Receive qualifiedGLM269evidence and separately attributed Ownercorrections;0nativecredit"
     }
   ]
 }

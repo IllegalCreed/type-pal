@@ -1,7 +1,7 @@
 # DOCS-NATIVE-VITEST-269-1 — S29 原生 Vitest 269篇语义接入
 
 Status: build
-Execution: build allowed（用户2026-10-23批准；合同与受控写入由Codex负责，GLM只读补齐269篇证据）
+Execution: build allowed（269篇贡献者证据接收；Owner定向勘误待非作者复核，合同与受控发布仍由Codex实施）
 Phase: ops
 Capability: native historical document governance
 Coding Owner: Codex（通用合同、受控写入与中央接入）
@@ -88,7 +88,16 @@ Owner已创建隔离候选分支并冻结准入包；生产合同、受控writer
 
 ## Review：审查与返工
 
-pending。贡献者逐篇交付由Codex据证独立验收；Codex通用实现由未参与者按具体风险复核。原件按时点保存，精确退回单篇缺口，小问题由Codex处理；不循环重做全部269。
+### S29 贡献者证据接收（2026-10-23）
+
+- 固定候选1377650ed91a39009bc1b1c6384ed97ff180ef8f，GLM分支codex/docs-s29-glm-native-vitest；仓库仅node_modules，旧S28分支仍549911680。原七件交付与四件过程文件按SHA冻结，未覆盖。
+- Codex nonAuthorReviewer=true仅指GLM证据验收：固定工具回放269ready/0blocked、330其他行/302原生/27存储输入保全；独立另一实现重算269结果集合和完整计数，核269个fieldRoles差异只改governance首项的真实review/index，其他seed字段未提议改动。14pilot八相位及三pending/三四失败/B5/B10均覆盖，三份四失败完整fullName全部相等。
+- 读域如实分层：GLM14pilot声明补读seed/断言/README锚；255篇为已接受S26字段和族说明的程序组合复用，没有本轮人工全文读域。Codex全读短回执/14pilot评语、定向读7上下文和非pilot矛盾切片，机械核全269；不把这称为269篇重新全文深审。
+- 原包有小错，Owner直接处理而不退整包：3pilot pending摘要截短15个名称；通用生成句让52篇green-run落入“历史红”段，且181篇非alchemy出现“本族B5/B10”；红不等于实际业务针/判据接受，恢复绿不单独证明产品字节恢复。另13个pilot字段修正最大/抽样/跳过原因/因果或缩写边界。原生集合、S26修正稿和Owner209旧补丁均保留。
+- 勘误只作用于新增assessment/3个pilot摘要：4条共享替换及13个定向字段，共230个assessment有效值改变；未改nativeResults、身份/相位/来源、fieldRoles patch或读域。Owner作者Codex/nonAuthorReviewer=false，自验已核差异边界、14份失败/pending全集；勘误独立accept仍pending，不能倒签给本轮GLM作者。
+- 裁定 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-S29-owner-audit-tnirxhzb/verdict.json`，SHA-256 `b229271e872249a3aaa6a1342ebad3f70f3d1bc56910c8141285b330bd5461c6`；Owner勘误 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-S29-owner-audit-tnirxhzb/owner-corrections.json`，SHA-256 `78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f`。decision为accept-evidence-with-bounded-owner-corrections，只接受有证据支撑的载体/绑定/可复用内容输入；不是无条件接受原评语或本卡全文。
+- 原作者final回执的候选/包/工具SHA、stdout及退出码和Owner回放相符；first-pass只有未带完整身份的plain输出，不能追补其时间。runner的269nativePinsCount是清单数量，不称独立逐文件运行前后指纹；实际字节由固定候选和verify真实读取核定。
+- 本轮中央269条、330行及8manifest/19片零写入，review/迁移待办各减少0；仍1196篇、1190审阅+1196迁移=2386项，1151/1838+3retired+87incremental不变。下一步由Codex完成通用合同/当前generation受控writer，勘误与新代码按风险非作者复核后才发布；不要求GLM重做269。
 
 ## 用户验收
 
@@ -101,4 +110,4 @@ pending。贡献者逐篇交付由Codex据证独立验收；Codex通用实现由
 
 ## 下一位Agent提示词
 
-GLM读取本卡、document-quality/1.0.0、准入execution-manifest和ADMISSION，按INSTRUCTIONS从实际准入提交创建新分支；仓库零写入，唯一交付目录/tmp/s29-glm-native-vitest-269。复用S26修正稿+Owner补丁，先做风险pilot再内部完成269条差异包与真实回执，集中交付，不逐批请示。Codex负责新合同/受控writer及后继中央发布；本次贡献者不跑181/整仓/产品/E2E/coverage，不合main、不推送、不标done。
+GLM贡献者包已接收其有支撑证据，不再重做269或生成新正文。下一次非作者工作仅核Owner勘误的4共享规则/13定向字段/3摘要，以及后继已备好的通用实现候选；以Owner自含提示词和固定候选为准，不提前宣称代码已实施/已接受。Codex继续合同与受控writer，未发布前269状态不变，不合main、不推送、不标done。
