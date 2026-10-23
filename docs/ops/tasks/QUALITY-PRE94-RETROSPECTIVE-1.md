@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前2026-10-23 CODE3j局部校准：65accept/18partial/0pending；3403tracked/408closed/103review/2892pending。checkpoints七项实跑欠账闭合，正文/配置未变；当前静态及PR按实际后继回执，不外推全流程E2E，94–102未扩展。以下旧时点计数保留历史。
+
 > 当前2026-10-23 CODE3j质量窗口：64accept/19partial/0pending；3403tracked/407closed/104review/2892pending。三文件新关闭、checkpoints旧关闭撤review；统一门已核，未扩94–102。实际提交/推送/PR状态见Git与后继发布回执。
 
 > 当前2026-10-23 CODE3i窗口：64accept/19partial/0pending；3404tracked/405closed/104review/2895pending。源码集中门零诊断；Action升级的实际远端提示与PR发布待后继核。下面此前各时点计数/待跑状态是历史，不覆盖本条及本窗收口节。
@@ -25,6 +27,12 @@ Phase: engineering first; phase1/phase2按真实路径分别准入
 Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
+
+## 2026-10-23 CODE3j局部校准（build allowed与交接）
+
+Codex单Owner，同一3y，基点38d6b2d136dc38589df9729242590bc37a5a27e2；main Documentation39913781974与Coverage39913781939均success，完整日志和原生App15368 annotation均零诊断。准入限七项局部运行证据、checkpoints注释和必要账本/只读复验；所有配置、检测器、默认PB、存档与产品行为保持。主树只读，DEV使用隔离context、现有初始位置/练习节点接口，自己的浏览器与server由本窗清理。
+
+[逐项观察、A–H增量、原盘字节/冻结PalTimer、完整失败和成功原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/README.md)：见石碑、生化、剑柱、上船空间信号、学功夫BGM86、祈雨完整onEnter、163→164及164→165→147。首轮走错障碍侧/误入方老板对白不授信用，成功记录核真实输入/脚本/计时器推进；容差与原PalTimer时刻差异显式保留。仅checkpoints新关闭，3j原七源合同接受；其余十四文件同版八维/测试及集中门复用，当前注释AST正文守恒。65/18与408/103由逐项账本重算，不按静态绿代替剧情/E2E。当前增量只跑静态/文档/账本快检，不重采本地全仓覆盖率；新PR必需门全部零诊断后普通合并。下一有限范围3k，先核Owner/同版证据；不扩94–102。
 
 ## 2026-10-23 PR14商标专测CI窄返工（build allowed）
 
