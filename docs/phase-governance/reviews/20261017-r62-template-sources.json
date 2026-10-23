@@ -1472,7 +1472,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
+      "afterSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1499,7 +1499,7 @@
         ]
       },
       "revision": {
-        "currentSha": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
+        "currentSha": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
         "implementationSha": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
         "history": [
           {
@@ -1526,6 +1526,12 @@
             "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
             "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
             "scope": "S30 content-input and logical-design acknowledgment only; preserve original source/credit."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "c2fc3fde99d9114c59280ded57a6fe52293c3371",
+            "afterSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
+            "scope": "S31 preflight-input and implementation-design acknowledgment only; preserve original source/credit."
           }
         ]
       },
@@ -1534,7 +1540,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
         "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
         "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-        "afterSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
+        "afterSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
         "lineCount": 304,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1629,6 +1635,13 @@
           "task": "DOCS-NATIVE-JSON-1/S30-receipt-inputs",
           "beforeSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
           "afterSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S31-receipt-inputs",
+          "beforeSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
+          "afterSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
@@ -3730,6 +3743,12 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-JSON-1/S30-receipt-inputs",
       "action": "Acknowledge S30 bounded input/correction/logical-design acceptance, current provisional retention and precise dependent pins only. Native212 target rows and all original source/credit remain; strict1848 stays open.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S31-receipt-inputs",
+      "action": "Acknowledge S31 preflight/Owner-errata and S32 isolated implementation admission with precise dependent pins only. Native212 target rows and all original source/credit remain; strict1848 stays open.",
       "nonAuthorReviewer": false
     }
   ]

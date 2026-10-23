@@ -374,3 +374,29 @@ S30 design below binds the d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e source snaps
 **存储与中央发布停止线。** 当前4个flat review共有275条，其中212目标、63完整只读；大小分别842689/522392/862049/373367B，涉及R94这一现行控制根。现有S28冻结8源及S29 Vitest269 writer不能通过改常数或直接扩白名单冒充本组准入。先核4源全部direct reader/writer、R94控制依赖/字节pin DAG、格式化后实际容量和全部外部保护输入，再由Owner冻结发布组与恢复策略。可复用已验证的loader/packing/IO原语，不能假定本组仍是原8源19片。超限须有界分片，不提高maxSize或压缩语义救急。原275条逻辑顺序/历史、63非目标、所有旧source pin与既有S29发布结果保持；新generation/旧片显式退出/锁-staging-读回-幂等及consumer证明另验。
 
 因此本轮仅接受经有界勘误的内容输入和暂保留方向，冻结上述逻辑合同设计；中央接入仍blocked于真实实现、pilot与新4源发布前提，不新增已迁移/已审计完成数。当前仍1420/1838迁移、3retired、87incremental；927篇/1848严格诊断未过，父卡rework，不合main、不推送、不标done。旧文档测试若实际必改仍需具体最小补丁授权，不由本设计自动扩权。
+
+### S32 四源存储通用实现准入 1.0.0
+
+Owner/作者Codex；复用DOCS-NATIVE-JSON-1及父卡，build allowed仅隔离通用实现和自有临时树演练。S31映射与Owner勘误是输入，S30原生逻辑设计保持；本节没有批准真实四源发布、212语义迁移或main。生产变体/内容pilot另验，先存储后语义。
+
+#### 封闭发布组
+
+沿用review-record-storage/1.0.0精确manifest/descriptor/shard/source schema、positions、512KiB和全inventory规则；不改父合同、原8源常数、formatter maxSize或忽略规则。四逻辑源固定R89/R90/R91/R94，五before源再含flat R92。实现准入重新实取当时完整Git revision和每个普通100644 blob/OID/SHA；不能拿S31 c2旧字节替代已更新的R94。275行/212目标/63非目标的身份顺序、原源pin、历史和语义字段保持；纯存储仅变R92三条current-after与R94[6]，明确区分原source与current-after。
+
+复用packing/IO原语，新增四源prepare/inspect/publish边界；不复制S28 writer或去掉原有校验。源选择全集、before-pin、format后strict JSON/键序/深等价、普通目录和全物理目录快照先验证。锁内重核所有13逻辑对象及其物理输入；不可变generation、独立staging重载、未明目录拒绝、失败保留lock/staging/恢复材料、写后整组读回，再释放锁。先format三源并取SHA→R92三pin并format→R94[6]并pack，R94控制根最后发布。S29的8 manifest/23片、599逻辑行和302原生逐字节保护；初迁移无旧片删除。R94之后任何中央更新必须物化/repack同锁走控制链，不准把manifest套旧flat修补器。
+
+#### 先行兼容策略
+
+明确选择**冻结旧one-shot写入域**：S28原8源writer和S29原8+2语义prepare/旧plan inspect不扩成新四源writer，原固定Git夹具行为保持。新增分片owner进入时，旧写入口必须在任何写入/格式化副作用前给出明确不支持当前组的拒绝，不靠偶然flat异常；禁止仅把10改13或删除owner全集检查。现有fail-before-write基础直接复用，不新增重复守卫。
+
+S28迁移CLI的已发布只读检查须用物化R94，不裸parse entries；仍按原固定S28逻辑断言，当前已由S29改变的内容可明确拒绝，不能冒称当前S28重发布通过。S29旧--plan写路径同样不得在新四源组上静默改写；当前已发布269文档的合法性由现行native合同/model/progress和新增当前组inspect验证，不为重启旧一次性发布去刷新历史plan。
+
+新增inspect用公开生产loader真实读取13逻辑对象/12manifest/完整片集与四控制边，并对S29保护对象/302原生按当次冻结指纹复核；不能以回传计数代替完整逻辑和字节双等。未知额外owner仍拒绝，不能白名单通配。上述兼容代码和组inspect须先于/随同新publisher通过验收，真实发布另作受控动作。
+
+#### 实现范围与验证
+
+仅scripts/docs的新四源边界模块/显式CLI/少量新定向测试及必要旧迁移CLI、旧semantic入口的拒绝/只读适配；优先组合现有packing/IO/loader。无顶层写入、无/tmp硬依赖。先交具体代码diff与逐文件八维/真实caller/反例；未参与者据证独立验收后才裁定发布。旧测试本轮只运行不修改；若确需适配，先备好最小具体补丁按用户既有规则另取授权。
+
+新测试少而精，覆盖真实公开入口：完整13对象/275行/保护599行+302原生/四边演练与幂等；R94[6]错before或split/repack顺序错误首写前拒；额外owner/未知generation/丢片/并发修改拒与失败保留现场；当前组可读、旧写入口不越界。复用原schema/UTF8/重复键/位置/路径/锁反例，不堆同构新针。实际跑相关新旧文档工具测试与正式完整docs-tools、nav/model/testing/phase-lore/非strict review/progress/lint/diff；strict原1848待办须仍精确归因，不改诊断。未跑产品/旧产品测试/E2E/coverage。
+
+交付只在原单份证据日志追加必要真实回执/方案差异，不新建canonical卡/台账、逐篇sidecar或完整275原件副本。每条命令绑定真实候选/输入指纹/起止/exit/signal/完整输出；失败不覆盖。实现作者自验不能代替非作者接受，未过硬门不合main、不推送、不标done。下一步由Codex实施通用边界，GLM可在实际候选交付后承担未参与者只读复验，无需用户逐批转派实现。

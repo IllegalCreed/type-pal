@@ -409,7 +409,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Active routing: S29 publication accepted; S30 historical receipt content inputs received with bounded Owner corrections and non-author acceptance of corrections/logical design. Current212 retained provisionally;4source publication prerequisites remain.927documents/1848strict diagnostics; no global/runtime credit.",
+      "coreConclusion": "Active routing: S31 four-source preflight accepted with bounded independently accepted Owner errata. S32 isolated common implementation admitted; no four-source storage/212semantic publication.927documents/1848strict diagnostics; no new migration/runtime credit.",
       "truthAnchors": [
         "docs/ops/board.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "5a8f4a814f68f243ca4f193ef87e0d9a113ee75f8f6b0a72d85e8d3e65111329",
+      "afterSha256": "2c18c6b275bf13902a2e5561d2a051f7d596ee0bfc843829eeccae6f9921ae13",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -457,7 +457,7 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "5a8f4a814f68f243ca4f193ef87e0d9a113ee75f8f6b0a72d85e8d3e65111329",
+        "currentSha": "2c18c6b275bf13902a2e5561d2a051f7d596ee0bfc843829eeccae6f9921ae13",
         "implementationSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
@@ -669,6 +669,12 @@
             "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
             "afterSha256": "45792094e56921c8fa25de5eb0284b91b85291ca688b98e74ba15501c944f12c",
             "scope": "S30 content-input and logical-design acknowledgment only; preserve original source/credit."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "c2fc3fde99d9114c59280ded57a6fe52293c3371",
+            "afterSha256": "5a8f4a814f68f243ca4f193ef87e0d9a113ee75f8f6b0a72d85e8d3e65111329",
+            "scope": "S31 preflight-input and implementation-design acknowledgment only; preserve original source/credit."
           }
         ]
       },
@@ -697,7 +703,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "5a8f4a814f68f243ca4f193ef87e0d9a113ee75f8f6b0a72d85e8d3e65111329",
+        "afterSha256": "2c18c6b275bf13902a2e5561d2a051f7d596ee0bfc843829eeccae6f9921ae13",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -904,6 +910,12 @@
           "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
           "priorCoreConclusion": "Active task routing remains authoritative: S29 is review after269 historical documents entered governance and publication data/two authorized fixtures received non-author acceptance. Strict1848 remains; parent/native tasks rework. No global completion or product/runtime credit.",
           "action": "RecordS30 bounded input/Owner-correction/logical-design intake, no new migration credit."
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "c2fc3fde99d9114c59280ded57a6fe52293c3371",
+          "priorCoreConclusion": "Active routing: S29 publication accepted; S30 historical receipt content inputs received with bounded Owner corrections and non-author acceptance of corrections/logical design. Current212 retained provisionally;4source publication prerequisites remain.927documents/1848strict diagnostics; no global/runtime credit.",
+          "action": "RecordS31 evidence-input acceptance and S32 isolated common implementation admission only."
         }
       ],
       "supersedes": [],
@@ -1147,6 +1159,13 @@
           "task": "DOCS-NATIVE-JSON-1/S30-receipt-inputs",
           "beforeSha256": "45792094e56921c8fa25de5eb0284b91b85291ca688b98e74ba15501c944f12c",
           "afterSha256": "5a8f4a814f68f243ca4f193ef87e0d9a113ee75f8f6b0a72d85e8d3e65111329",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S31-receipt-inputs",
+          "beforeSha256": "5a8f4a814f68f243ca4f193ef87e0d9a113ee75f8f6b0a72d85e8d3e65111329",
+          "afterSha256": "2c18c6b275bf13902a2e5561d2a051f7d596ee0bfc843829eeccae6f9921ae13",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
@@ -2569,7 +2588,7 @@
       "template": "docs/phase-governance/templates/task-card.md",
       "readMethod": "Receive GLM fixed3eec scoped verdict; verify actual clean candidate and exact twoSHA/raw/source script. Owner replays GLM172 and separately checks positions-based directGit reconstruction/deepStrictEqual/committed inventory/512KiB and14pin deltas; reuse24/232/lint only within supported original input scope. Read-only269 mapping/pinned index check is admission design, not new semantic review or implementation.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S29 published269 bounded historical documents; S30 receives212native receipt content inputs. Owner corrects role/core/HEAD/absent flag/input-result/source-after errors; a fresh non-author accepts bounded corrections and logical design only.212currently retained, permanent necessity/substitution unproven.4flat/275rows/212targets/63others/R94control need publication preflight. No212production contract/pilot/central migration or runtime credit.1420/1838,3retired,87incremental; strict1848 remains.",
+      "coreConclusion": "S31 real four-source275rows/212targets/63others/pinDAG/capacity accepted as implementation input. Owner corrects existing-guard false alarm,10-to13owner impact and5before/0retiredshards counts; fresh non-author accepts corrections/design. S32 Owner implementation isolated; old one-shot domains closed, actual central storage/212semantic publication remain unperformed.1420/1838,3retired,87incremental; strict1848 remains.",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
@@ -2600,7 +2619,7 @@
         "2026-10-23 human-forwarded GLM accepts central3eec scope; Owner source/positions/inventory supplement separate. S29 explicit user build gate remains; external draft does not add a current document or credit."
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "1fc5e164fe4cd33b5c8a28fe65e0c2f51d970ef6f76f2908e067cc1c1dc8623d",
+      "afterSha256": "c5f526c4a6589a95c6d0428a01324488657fdd3bed3e1f58bd8b56136ab7c1f9",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2629,7 +2648,7 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "1fc5e164fe4cd33b5c8a28fe65e0c2f51d970ef6f76f2908e067cc1c1dc8623d",
+        "currentSha": "c5f526c4a6589a95c6d0428a01324488657fdd3bed3e1f58bd8b56136ab7c1f9",
         "implementationSha": "6dbca994bc74750b3679189641a4ca287593e28a9b6ec90bee11830d40b6b705",
         "history": [
           {
@@ -2725,6 +2744,12 @@
             "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
             "afterSha256": "f511dfca8dec9e8c02af404ab8462bd14be29b44266156f23480c2658249f0dc",
             "scope": "S30 content-input and logical-design acknowledgment only; preserve original source/credit."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "c2fc3fde99d9114c59280ded57a6fe52293c3371",
+            "afterSha256": "1fc5e164fe4cd33b5c8a28fe65e0c2f51d970ef6f76f2908e067cc1c1dc8623d",
+            "scope": "S31 preflight-input and implementation-design acknowledgment only; preserve original source/credit."
           }
         ]
       },
@@ -2806,6 +2831,12 @@
           "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
           "priorCoreConclusion": "S28 storage599 and glue accepted. S29 newly qualifies/publishes269 bounded historical documents; independent publication-data/authorized-fixture acceptance recorded.330otherrows/native302 preserved. Actual238tools green/lint zero; strict1848 across927documents still fails. Migration1420/1838+3retired+87incremental. No old execution credit.",
           "action": "RecordS30 bounded input/Owner-correction/logical-design intake, no new migration credit."
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "c2fc3fde99d9114c59280ded57a6fe52293c3371",
+          "priorCoreConclusion": "S29 published269 bounded historical documents; S30 receives212native receipt content inputs. Owner corrects role/core/HEAD/absent flag/input-result/source-after errors; a fresh non-author accepts bounded corrections and logical design only.212currently retained, permanent necessity/substitution unproven.4flat/275rows/212targets/63others/R94control need publication preflight. No212production contract/pilot/central migration or runtime credit.1420/1838,3retired,87incremental; strict1848 remains.",
+          "action": "RecordS31 evidence-input acceptance and S32 isolated common implementation admission only."
         }
       ],
       "supersedes": [],
@@ -3131,6 +3162,13 @@
           "beforeSha256": "f511dfca8dec9e8c02af404ab8462bd14be29b44266156f23480c2658249f0dc",
           "afterSha256": "1fc5e164fe4cd33b5c8a28fe65e0c2f51d970ef6f76f2908e067cc1c1dc8623d",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S31-receipt-inputs",
+          "beforeSha256": "1fc5e164fe4cd33b5c8a28fe65e0c2f51d970ef6f76f2908e067cc1c1dc8623d",
+          "afterSha256": "c5f526c4a6589a95c6d0428a01324488657fdd3bed3e1f58bd8b56136ab7c1f9",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ],
       "historicalDeliveryDraftIntake": {
@@ -3173,6 +3211,53 @@
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
         "publicationPrerequisites": "Fourflat reviews275rows/212targets/63others includingR94control require actual consumer/writer/pinDAG/capacity/test-impact mapping; original8source Vitest writer not authorized by substitution.",
+        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"
+      },
+      "storagePreflightIntake": {
+        "date": "2026-10-23",
+        "sourceCandidate": "c2fc3fde99d9114c59280ded57a6fe52293c3371",
+        "contributor": "GLM",
+        "originalNonAuthorReviewer": false,
+        "decision": "accept-preflight-input-with-bounded-owner-errata",
+        "sourceFiles": 4,
+        "entries": 275,
+        "targets": 212,
+        "nonTargets": 63,
+        "sourceMapSHA256": "2511a7a24c6fce1046206161ccec735073f3af67231a835586b48ce926855488",
+        "consumerMapSHA256": "bfcfe40b54c438b82380f744896002443bc1425d15fa4d6b2f6bbfd7cbd3a7cc",
+        "pinMapSHA256": "8447fb50cc2f92bda44eecd36b9b5dba1e8186062a3a94919994df96e62533cc",
+        "testImpactSHA256": "113452c54c2dde3f290e48359f4085ab80821d0ac6700dc83d9dd921e95082a4",
+        "migrationPlanSHA256": "a217baed7652bffd4ac4aecdd32f04e88240ee0e186ad28ce7fe5b18b4b22e2f",
+        "originalFileManifestSHA256": "158a5aeb6fe83fbe604b91eaa5f7eca93d26adfc4f06ad23deb4f09889b35cc1",
+        "ownerErrataSHA256": "25ca278af88fc162a1e505c348dd4ffafa846d9e4d7f91b67cb9cc8ccb2687dc",
+        "implementationAdmissionSHA256": "fa9886641a209de57df7c73e844be241237a9093d10a98312aafe75201e51816",
+        "independentOwnerDeltaReview": {
+          "reviewer": "fresh Codex /root/s31_owner_errata_independent",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "counterCount": 0,
+          "verdictSHA256": "b57febf5af234c1edd85ddf2b08710b927ef45fe67e3588fcd3ef8d942385e3a"
+        },
+        "publicationPreconditions": {
+          "C1": "Actual capacity uses valid Git OID; future source identity re-freeze/guards not yet implemented",
+          "C2": "Closed old one-shot write domains and new actual current-group inspect frozen; code implementation/review required before publish",
+          "C3": "Closed by verified existing full-selection fail-before-write guard; no duplicate implementation",
+          "C4": "13logical/12manifest/30shards readback frozen; owned rehearsal and actual publication not performed"
+        },
+        "uniqueReadbackSources": 13,
+        "beforeSources": 5,
+        "expectedPostStorageInventory": {
+          "manifests": 12,
+          "shards": 30,
+          "oldShardLeavesRetired": 0
+        },
+        "storagePublicationPerformed": false,
+        "native212Published": 0,
+        "productionContractRegistered": false,
+        "newSemanticCredit": 0,
+        "newTemplateMigrationCredit": 0,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
         "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"
       }
     },
@@ -3651,6 +3736,12 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-JSON-1/S30-receipt-inputs",
       "action": "Exact four dependent pins after removing two extra EOF delimiters introduced by this administrative append; semantic/native/credit unchanged, no generic trim or historical quote edit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S31-receipt-inputs",
+      "action": "Acknowledge S31 preflight/Owner-errata and S32 isolated implementation admission with precise dependent pins only. Native212 target rows and all original source/credit remain; strict1848 stays open.",
       "nonAuthorReviewer": false
     }
   ]

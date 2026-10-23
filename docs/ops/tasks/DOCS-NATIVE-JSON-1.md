@@ -1,7 +1,7 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S29发布已独立接受；S30的212回执输入经Owner有界勘误及非作者复核，逻辑设计冻结；4源发布前提待核）
+Execution: rework（S31四源前置映射已核；Owner订正守卫/13源事务口径，S32隔离通用实现准入；未发布四源或212语义）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
@@ -17,7 +17,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-- 当前S30：恰212份历史R波JSON，只读内容输入与保留/退役证据。Owner有限勘误、逻辑合同设计及其非作者接受已闭合；未实施生产合同/pilot/中央接入，不改原生、不删移。具体白名单/来源/停止线见本卡S30节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的S28/S29/S30 Owner动作。
+- 当前S31/S32：212份历史R波JSON的既有内容输入保留；四源发布前置映射已核并有界订正，Codex获准隔离实施通用存储边界。未实施该原生生产合同/pilot/中央接入，不改原生、不删移。具体白名单/来源/停止线见本卡S30–S32节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
 - S26内容白名单269件：S21/F01中原13字段形态且SHA匹配33cc冻结绑定的272件，扣除S25三篇pilot。269件逐篇核全部原生字段、断言/失败、实际相位、producer/consumer、历史继任与信用边界，交具体review草稿。
 - 来源例外23件：无33cc冻结绑定成员，查真实Git载体、引入/移动/生成链，交来源提案或明确unknown；不自行续pin或套用固定源合同。
 - 格式例外7件：4件短摘要、1件含进程信息摘要、2件附distillation；读字段职责与实际consumer，交格式选择与反例提案，不能强补13字段。
@@ -278,3 +278,19 @@ GLM对259d九文件通用实现的非作者accept已接收；Owner据已接受S2
 - [逻辑合同设计](../../phase-governance/templates/registry-proposal-20261011.md)1.0.0冻结供实施：拟一个historical-document-delivery-native-v1原生变体，复用evidence-receipt父类，以72作者/69只读/71接受三个角色分轴；父合同/现有变体/registry/routing未改。设计原件SHA 4b2548e74d7576e65fecae1d90d23835e1b14ff0b5e3f3940602c57ec11cf778。这不是生产注册、pilot接受或212迁移。
 - 准入d9时4个flat review共有275行、212目标/63非目标，且含R94控制根；本轮只有明确任务/设计接收及行政pin写回，212原生与其目标review行均不动。下一步GLM一次只读核4源reader/writer/pin DAG/容量/旧测试影响，Owner据真实前提冻结新发布组及通用实现；不得改原8源Vitest writer常数救急、假定63非目标在行政写回前后完全不变或复用旧HEAD作新候选。
 - 本轮0 reviewed/template-compliant/迁移/runtime新信用，仍1420/1838迁移、3retired、87incremental、927篇/1848严格诊断。父子卡rework，不合main、不推送、不标done；原GLM稿/失败/勘误/独立回执只追加既有单份日志，不造canonical平行账本。
+
+### S31 四源发布前置证据接收（2026-10-23）
+
+固定候选c2fc3fde99d9114c59280ded57a6fe52293c3371，GLM原七件及准入SHA逐项匹配，Owner实际重放4源/275行=212目标+63非目标、旧8manifest/23片/302原生保全；作者repositoryWrites=0成立。验收只核本包新映射/关键来源与pin/容量，不重复212篇全文或旧执行。source-map 2511a7a24c6fce1046206161ccec735073f3af67231a835586b48ce926855488、consumer-map bfcfe40b54c438b82380f744896002443bc1425d15fa4d6b2f6bbfd7cbd3a7cc、pin-map 8447fb50cc2f92bda44eecd36b9b5dba1e8186062a3a94919994df96e62533cc、test-impact 113452c54c2dde3f290e48359f4085ab80821d0ac6700dc83d9dd921e95082a4、migration-plan a217baed7652bffd4ac4aecdd32f04e88240ee0e186ad28ce7fe5b18b4b22e2f冻结；Owner真实原始回执与定向证明只追加原单份证据日志。
+
+两条非作者通道定向核源码与纯内存格式化：16源码见证真实；114逻辑review/2434 current-after核算，R94按path与当前SHA双轴无入边、37出边全current，R92[20..22]→R89/90/91和R94[6]→R92唯一。真实Git OID及四边级联后，四manifest 10038/59909/8998/9641B，7片最大452682/446022/446245/369110B，均<512KiB。这是固定快照容量证明，不是未来发布身份认证。
+
+Owner直接订正方案：三个旧修补器已有全选择集写前守卫，撤回“未接守卫”并关闭C-3；semantic prepare/inspect精确10源检查会先被新增owner触发，须明确冻结旧one-shot写域并提供新当前组inspect，不能只修R94 flat parse。sync是review读/registry写；progress懒读选择不是排他物理读域。组读回恰13逻辑对象、迁移后12manifest/30片；before恰5文件，flat同路径替换不计旧片退出。三个旧固定Git夹具无需本轮修改，但未来实现后须实跑原断言，不预授兼容。原包不覆盖、不退GLM重做；Owner勘误与实施设计另经未参与者复核，具体SHA见本行现行review的storagePreflightIntake。
+
+裁定accept-with-bounded-owner-errata，仅接收实施输入；C-1发布身份守卫、C-2先行兼容实现和C-4临时组演练仍是发布硬前提。未执行生产writer/迁移CLI/产品/E2E/coverage，未修改四源存储或212目标行；后续本卡行政pin属于明确非目标差异，不冒称63行跨轮次全同。1848严格诊断/927篇、1420/1838迁移、3retired、87incremental保持，父子卡rework，不合main、不推送、不标done。
+
+### S32 四源通用存储实现准入（2026-10-23）
+
+build allowed：Codex作者实施隔离通用边界，依据[冻结设计](../../phase-governance/templates/registry-proposal-20261011.md#s32-四源存储通用实现准入-100)；不新建卡/账本。新四源prepare/inspect/publish复用loader/packing/IO，保护S29原8源599行与302原生，五before、四pin同锁、R94先更新逻辑边再pack、13对象全读回；初迁移0旧片退出。旧8源writer与8+2语义写域保持封闭，额外owner必须明确首写前拒绝；迁移CLI的R94只读物化与新当前组inspect先行，不把原8源常数改成新组。
+
+本准入限scripts/docs新模块/显式CLI/少量定向测试及必要旧CLI/语义入口的只读或拒绝适配，文档仅同提交必要写回；真实中央四源发布、212原生变体生产注册/内容pilot/语义晋升另验。旧测试只运行不修改，若实际必改按最小补丁另取用户授权；产品/旧产品测试/coverage不动。实际实现须正式docs-tools及相关静态门、独立复验与完整回执，不能用本设计accept替代。下一位实施Owner是Codex；GLM只在实际候选交付后据证只读复验，不要求用户继续转派尚不存在的代码。
