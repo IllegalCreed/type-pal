@@ -8,27 +8,19 @@ export interface FollowerPosState {
   /** 队伍是否处于走路态(= sdlpal PAL_UpdatePartyGestures 的 fWalking)。 */
   walking: boolean
   /**
-   * 每个队员(index 1..)的冻结快照(位置偏移 + 朝向)。不走路时复用以**冻结位置与朝向**——
-   * 等价 sdlpal 在 else 分支不更新 rgParty[i] 位置、且骑乘期 PAL_GameUpdate 不重设其 wFrame
-   * (play.c:144 的 UpdatePartyGestures 仅 NPC 邻近转向才调,骑乘 script.c:300 一般不触发)→
-   * 跟随者整帧冻结在"上船走位末帧"状态。trail 整体重填(0x46/进场景/回标题)时清空回退新 trail;
-   * 0xA1(全队聚拢)反过来**设**重叠偏移 {0,-1}(随后骑乘锁死重叠,见 event-system 0xA1)。
+   * 按队员下标保存相对队长的位置，walking 时写入，静止时借用；dir 只作捕获记录。
+   * 轨迹重填或聚拢时由事件/场景 Owner 清空或重设，本 helper 不持有缓存生命周期。
    */
   frozenOffset: (FollowerFrozen | null)[]
 }
 
 /**
- * 跟随者世界坐标 + 朝向 —— port sdlpal `PAL_UpdatePartyGestures` 的 fWalking 二分支(scene.c:658 vs 745)。
- *
- *  - **walking**(fWalking=TRUE,scene.c:690-730):位置 `trail[1]`+方向偏移(撞墙回退 trail[1],scene.c:712);
- *    朝向 = `trail[2].dir`(scene.c:724/728);并捕获冻结快照(位置偏移 + 朝向)。
- *  - **not walking**(else,scene.c:745-771 + 骑乘期 PAL_GameUpdate 不重设 wFrame,play.c:144 仅 NPC 邻近):
- *    **位置与朝向双双冻结** = 队长 + 冻结偏移、朝向 = 冻结朝向。这是原版"上船后两人固定站位、固定朝向、
- *    随船移动不重叠"的来源(旧代码无此闸门 → 跟随者每帧 trail 重定位 + 重设朝向 = 重叠跳变 + 朝向乱)。
- *    无冻结快照(刚进场景/0x46、还没走过)→ 位置 = `trail[m]`(sdlpal 0x46 把 rgParty[m]=队长+m×offset
- *    冻结,script.c:1690),朝向 = `trail[2].dir`。**不是** trail[1]+偏移(那会多退一格 = 间隙)。
- *
- * @returns `{x,y,dir}`;`trail` 不足(<=1)返回 null(不画跟随者)。
+ * 返回跟随者世界坐标与默认朝向，对应 PAL_UpdatePartyGestures 的 walking/静止分支。
+ * walking 用 trail[1] 加队员偏移，遇障碍回退，并捕获相对队长的位置。
+ * 静止时复用冻结偏移；无快照则取 trail[m]，不再次加 walking 偏移或检查障碍。
+ * 两种状态的默认朝向都取当前 trail[2].dir（不足则取 trail[1]），不取冻结记录的 dir。
+ * present caller 仍可用该队员的脚本帧覆盖默认朝向；这里不决定最终演出帧。
+ * @returns trail 不足两项时返回 null，由 caller 跳过该跟随者。
  */
 export function computeFollowerWorldPos(
   s: FollowerPosState,
@@ -78,7 +70,7 @@ export function computeFollowerWorldPos(
     x = baseTrail.x
     y = baseTrail.y
   }
-  // walking 时捕获冻结快照(位置偏移 + 朝向),供下次静止帧冻结用;not walking 不捕获,避免漂移。
-  if (s.walking) s.frozenOffset[m] = { dx: x - s.party.x, dy: y - s.party.y, dir: curDir }
+  // 静止分支已返回；只在当前 walking 帧更新位置快照，供随后静止时复用。
+  s.frozenOffset[m] = { dx: x - s.party.x, dy: y - s.party.y, dir: curDir }
   return { x, y, dir: curDir }
 }

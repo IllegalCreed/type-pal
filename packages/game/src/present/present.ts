@@ -401,7 +401,7 @@ export function presentFrame(
   //   障碍调整(scene.c:712-717):偏移位若撞墙 → 回退到 trail[1](去偏移)。
   if (gs.trail.length > 1) {
     // 位置+朝向(port PAL_UpdatePartyGestures fWalking 闸门,scene.c:658/745):走路 trail+偏移+避障、朝向 trail[2].dir;
-    //   静止(演出/骑乘)位置与朝向**双双冻结** = 队长+frozenOffset、冻结朝向。修"上船赵灵儿队列跟随重叠跳变 + 朝向乱"。
+    //   静止位置借用 frozenOffset，默认朝向仍取当前 trail；下方脚本帧可覆盖最终朝向。
     gs.followerFrozenOffset ??= [] // 防御:旧存档/反序列化路径可能无此字段(present-only 缓存)
     const followerState = {
       party: gs.party,
@@ -664,7 +664,7 @@ export function presentFrame(
     const progress = Math.min(elapsedMs / totalMs, 1)
     const targetSteps = Math.floor(progress * DITHER_TOTAL_STEPS)
 
-    // 复用 nibble-dither 纯 helper(同 battle intro fade D19,dither-fade.ts):推进 [appliedSteps, targetSteps) 步。
+    // 推进场景 nibble-dither 的 [appliedSteps, targetSteps) 步；backupPixels 由 fadeState 持有。
     applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)
     gs.fadeState.appliedSteps = targetSteps
 

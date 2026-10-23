@@ -113,7 +113,7 @@ export class BattlePresent {
   /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
   private lastFrameBuf: Uint8Array | undefined
 
-  /** D19 入场 fade:入场前大世界帧快照(dither backup)+ 已应用 step。introFade 清时复位。 */
+  /** 入场整像素切换的旧画面快照；introFade 清除时释放。 */
   private introBackup: Uint8Array | undefined
   /** 召唤 crossfade 累积态(from 逐步 dither 逼近 to,显示此 buf);+ 已应用到第几步。 */
   private summonFadeBuf: Uint8Array | undefined
@@ -158,7 +158,7 @@ export class BattlePresent {
       stepPaletteFade(gs.palette.colors, gs.paletteFadeState, performance.now())
     }
 
-    // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
+    // 入场切换首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作
     //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
     if (state.introFade) {
       if (!this.introBackup) {
@@ -289,9 +289,7 @@ export class BattlePresent {
     //   PAL_BattleUIUpdate 重画 UI,fade 期 UI 始终清晰不被卷进渐变)。非 fade 帧只快照场景供下次 fade 起手。
     this.applySummonFade(fb, state.battleAnim?.summon, state.battleAnim?.hasSummonFade ?? false)
 
-    // 3.95 D19 入场 dither fade-in(PAL_BattleFadeScene battle.c:609):把战斗**场景层**(bg+精灵+特效)从入场前
-    //   大世界 backup nibble-dither 揭示;UI/弹幕随后画清(对齐 sdlpal fade 后 PAL_BattleUIUpdate 重画 UI)。
-    //   progress = introFade.step/total → dither step;显示累积 backup(= sdlpal 显示 backup buffer)。
+    // 入场先按六轮整像素置换揭示战斗场景，随后绘制 UI/弹幕；与召唤的 nibble 渐变分开。
     if (state.introFade && this.introBackup) {
       // DL29:进战斗揭场 = VIDEO_SwitchScreen(5)(video.c:1092-1126):6 轮 stride-6 **整像素置换**
       //   (rgIndex={0,3,1,5,2,4}),每轮把新画面中 k%6==rgIndex[i] 的像素拷入旧画面,每轮 60ms 共
