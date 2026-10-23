@@ -7,6 +7,32 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE3l: standing user authority for proven dead-code and duplicate-test retirement.
+    // Exact old-to-new contracts and native originals: pre94/battle-present-quality/review.json.
+    {
+      file: 'packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts',
+      previous: 51,
+      current: 40,
+      previousIdentityDigest: 'ad981d1daf19bc820424df598189311402fbdb6c5c3537d2cf3652ac7c9aef56',
+      currentIdentityDigest: '189ff0e5a0f5f6a61faf4c7cb1ff117f98b293fa1a2c5a2978c85fb0e9d2be7b',
+      fileSha256: '7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e',
+    },
+    {
+      file: 'packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts',
+      previous: 31,
+      current: 21,
+      previousIdentityDigest: 'aa82218faf15e82bb4436380f9c087b58fe8447b2100cfb39ab7f33fa3a3787f',
+      currentIdentityDigest: '2f12e8c8f92e6f2e77adb15780750428dc1ee43c7adadfc056dcc9ec1e3ea9d3',
+      fileSha256: '04ede6eb0d4e913868d4d1f1c211af2495d41cf0598633535af4cbb41d1457bd',
+    },
+    {
+      file: 'packages/game/src/present/battle/__tests__/present-battle.test.ts',
+      previous: 25,
+      current: 20,
+      previousIdentityDigest: '01b1c8c92a9f600c8c89a3a5ea69bb551637092d5ce7ae454e2afffdeea7a427',
+      currentIdentityDigest: '48eef6b9d9961afd1bafa9f50f22a811ded7a901e6dd262b32e9c74bc36b22ed',
+      fileSha256: '1867a092d5873b149574fdafb4602b062845ee2487f706de1b2e69f08f258d0d',
+    },
     // CODE3k/3l: user standing precise-dedup authority; full old-to-new contracts,
     // native identities and restored counters in pre94/present-primitives-quality/review.json.
     {

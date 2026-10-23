@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-23T09:41:38.188Z",
+  "generatedAt": "2026-10-23T13:28:44.448Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 774,
-  "testCount": 20160,
+  "sourceFileCount": 775,
+  "testCount": 20134,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4619,7 +4619,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 169,
+      "sourceFileCount": 170,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4713,6 +4713,7 @@
         "packages/game/src/localization/static-shell.ts",
         "packages/game/src/localization/ui-text.ts",
         "packages/game/src/main.ts",
+        "packages/game/src/present/battle/blit-ui-frame.ts",
         "packages/game/src/present/battle/draw-battle-bg.ts",
         "packages/game/src/present/battle/draw-battle-effect.ts",
         "packages/game/src/present/battle/draw-battle-num.ts",
@@ -4791,9 +4792,9 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "155e267b6b9aca7ea6ef4342a662f6e4aa07f516c6691711d850f35ab81f1acf",
+      "scopeDigest": "b068a51495076dc96fe7fa70554f8cf90449a3dcea53395f2e4a8364e8fa6a24",
       "fastTests": {
-        "testCount": 3744,
+        "testCount": 3718,
         "testFileCount": 339,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -6094,18 +6095,18 @@
           },
           {
             "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
-            "testCount": 51,
-            "identityDigest": "ad981d1daf19bc820424df598189311402fbdb6c5c3537d2cf3652ac7c9aef56"
+            "testCount": 40,
+            "identityDigest": "189ff0e5a0f5f6a61faf4c7cb1ff117f98b293fa1a2c5a2978c85fb0e9d2be7b"
           },
           {
             "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
-            "testCount": 31,
-            "identityDigest": "aa82218faf15e82bb4436380f9c087b58fe8447b2100cfb39ab7f33fa3a3787f"
+            "testCount": 21,
+            "identityDigest": "2f12e8c8f92e6f2e77adb15780750428dc1ee43c7adadfc056dcc9ec1e3ea9d3"
           },
           {
             "file": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
-            "testCount": 25,
-            "identityDigest": "01b1c8c92a9f600c8c89a3a5ea69bb551637092d5ce7ae454e2afffdeea7a427"
+            "testCount": 20,
+            "identityDigest": "48eef6b9d9961afd1bafa9f50f22a811ded7a901e6dd262b32e9c74bc36b22ed"
           },
           {
             "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
@@ -6130,7 +6131,7 @@
           {
             "file": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
             "testCount": 4,
-            "identityDigest": "de729f8ae7a755588b05b195f3ff2cf4bbc28757b703e5b9cd3e679e95abc797"
+            "identityDigest": "736bbb51aa83bc912210b35d90636c31c60bd8f2821caee86e834610eb2dcee2"
           },
           {
             "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
@@ -6833,26 +6834,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "4e578317f8bd0d21a482e83c31368e61ebd92de0a15df1238688e2a7e21e02dc",
+        "identityDigest": "3fe1ae0ac790017e4950b7ba11b2d1825a7ce00b37ee491ba74622e87cee0b2c",
         "duplicateIdentityCount": 0,
-        "executionDigest": "9fecdb3a2b988a17c023126ee1db81a6ca42b5a7aa60dbebe361ef3136bc305b"
+        "executionDigest": "43e212d367a7fe22e3292eaa8a0d8604497e7de2d70d44e20bbd8f40926e9e0f"
       },
       "metrics": {
         "statements": {
-          "covered": 15288,
-          "total": 17074
+          "covered": 15272,
+          "total": 17056
         },
         "branches": {
-          "covered": 9904,
-          "total": 12274
+          "covered": 9891,
+          "total": 12264
         },
         "functions": {
-          "covered": 1835,
-          "total": 2135
+          "covered": 1832,
+          "total": 2132
         },
         "lines": {
-          "covered": 13628,
-          "total": 14962
+          "covered": 13618,
+          "total": 14951
         }
       }
     },
@@ -10871,20 +10872,20 @@
   },
   "total": {
     "statements": {
-      "covered": 72673,
-      "total": 80465
+      "covered": 72657,
+      "total": 80447
     },
     "branches": {
-      "covered": 52605,
-      "total": 62698
+      "covered": 52592,
+      "total": 62688
     },
     "functions": {
-      "covered": 13730,
-      "total": 15291
+      "covered": 13727,
+      "total": 15288
     },
     "lines": {
-      "covered": 64901,
-      "total": 70411
+      "covered": 64891,
+      "total": 70400
     }
   }
 }

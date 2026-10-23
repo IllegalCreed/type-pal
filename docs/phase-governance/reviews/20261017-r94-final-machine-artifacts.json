@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3k/3l delta",
+      "readMethod": "Owned3l delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3k/3l finite quality window; gates passed, drawNumber/full3l remain review. No94-102.",
+      "coreConclusion": "3l finite window; gates passed. UI/core duplication and host lifecycle remain review.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "43a3fac907e4f946949d264604dcb3154d21d47cc9528e9e8b2bdae510126cad",
+      "afterSha256": "f98eb0883797e3e92cef2b53cfcf05c0538c38c525a94e5d6cc5f1b989ba9e02",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "43a3fac907e4f946949d264604dcb3154d21d47cc9528e9e8b2bdae510126cad",
+        "implementationSha": "f98eb0883797e3e92cef2b53cfcf05c0538c38c525a94e5d6cc5f1b989ba9e02",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1824,11 +1824,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-present-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "43a3fac907e4f946949d264604dcb3154d21d47cc9528e9e8b2bdae510126cad",
-        "lineCount": 20189,
+        "afterSha256": "f98eb0883797e3e92cef2b53cfcf05c0538c38c525a94e5d6cc5f1b989ba9e02",
+        "lineCount": 20197,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -4828,6 +4828,10 @@
             "commit": "4897a215dd3e7fd6987f1082006d9d8cc9f22bb8",
             "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json"
           }
+        },
+        {
+          "action": "3l-20261023",
+          "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b"
         }
       ],
       "supersedes": [

@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned3k/3l delta",
-      "coreConclusion": "3k/3l finite quality window; gates passed, drawNumber/full3l remain review. No94-102.",
+      "readMethod": "Owned3l delta",
+      "coreConclusion": "3l finite window; gates passed. UI/core duplication and host lifecycle remain review.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "578dfc077f47bb683888f55f0852d914a374ddae507a239b636305e05e6834a5",
+      "afterSha256": "ead24085bb206c44012bd9f88bdbd28cee8921bad14cabcaff1e2568b1f0c378",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "578dfc077f47bb683888f55f0852d914a374ddae507a239b636305e05e6834a5",
+        "implementationSha": "ead24085bb206c44012bd9f88bdbd28cee8921bad14cabcaff1e2568b1f0c378",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4149,9 +4149,9 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-present-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json",
-        "afterSha256": "578dfc077f47bb683888f55f0852d914a374ddae507a239b636305e05e6834a5",
-        "lineCount": 1018,
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
+        "afterSha256": "ead24085bb206c44012bd9f88bdbd28cee8921bad14cabcaff1e2568b1f0c378",
+        "lineCount": 1021,
         "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
         "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
@@ -5429,6 +5429,10 @@
             "commit": "4897a215dd3e7fd6987f1082006d9d8cc9f22bb8",
             "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
           }
+        },
+        {
+          "action": "3l-20261023",
+          "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b"
         }
       ],
       "supersedes": [

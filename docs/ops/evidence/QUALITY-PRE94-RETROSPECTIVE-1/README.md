@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-23 [CODE3l四切片质量返工](battle-present-quality/README.md)：结算字段、精灵排序/透明、UI门控与宿主接线五个反控；同合同UI绘制提取及26例精确退役。相邻664绿，集中门待收尾，宿主生命周期和UI规则重复仍review。
+
 2026-10-23 [CODE3k／3l基础呈现质量窗口](present-primitives-quality/README.md)：八维、真实Framebuffer、四个业务反控与重复合同迁移；两卡仍partial，统一门集中待跑，数字非有限域保持review。
 
 2026-10-23 [CODE3j七项局部校准](3j-route-calibration/README.md)：checkpoints正文不变，真实移动/脚本/转场/计时器补齐欠账；3j接受，固定83成为65accept/18partial。原八维和集中门复用，当前静态与发布状态另列；不宣称完整剧情E2E。
