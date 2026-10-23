@@ -1437,5 +1437,22 @@
       }
     ],
     "gateState": "Test-only CI rework locally refreshed; hosted required rerun pending. Original integration is frozen3d, not a new whole-suite local run."
+  },
+  "runnerVersionBridge": {
+    "path": "runner-rework.json",
+    "sha256": "8ddca91a67750315f0aad802235e4174d2cc6395342a9e48b36c317aac8e2e89",
+    "pins": [
+      {
+        "path": ".github/workflows/coverage.yml",
+        "beforeSha256": "ecffe63c12642aa1a2a59ae779e866170fecbba8485909e0fbf4212697176659",
+        "sha256": "1d1f3e4cf81fbce839a4c7b7c7536497daff82eaa7a8052150f78cee376aa05f"
+      },
+      {
+        "path": ".github/workflows/docs.yml",
+        "beforeSha256": "c36249368ea6e0a50f21b56754968163b12cbac02ae6d207388cde5342158aee",
+        "sha256": "d3fc5b917d0bd7ca3c6e053e539c6cc1e3f823cab8ee51f3e0411bbdc320b668"
+      }
+    ],
+    "gateState": "b658 hosted documentation and coverage passed; original7Action/Node notices0 but2native Ubuntu migration notices blocked platform acceptance. Runner-only pin locally verified; required hosted rerun pending."
   }
 }

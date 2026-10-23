@@ -28,6 +28,10 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 PR14首轮Documentation绿且零平台提示，Coverage实际game3755绿/1超时：本窗商标默认例5478ms、显式跳过例4780ms。原完整原件保留，未合并；不能用本地旧绿替代远端失败。Codex单Owner，仅trademark-fallback.test.ts七处完整typed-array比较换测试内原生Buffer.compare全字节判等，逐个实参/测试身份/时序和产品正文保持，以末字节反证与原skip反控证明不弱化；不改timeout、产品、fixture或CI规则。允许同步该测试在有限重算数据中的精确SHA、当前证据/只读复验版本桥。局部定向/TC/静态刷新并重跑远端必需门，不重复本地全仓/覆盖率；原3d候选的全门仅保留其版本信用。
 
+## 2026-10-23 CODE3i runner通知窄修（build allowed）
+
+原7条Action/Node弃用已在b658两工作流完整成功日志核为0；Coverage20,172例/774源与Documentation均success。但原生annotation接口另有两条ubuntu-latest迁移notice（每任务1），不是raw可见诊断，尚未合并。Codex单Owner、同一3y，build allowed仅两runs-on固定实际现用且受支持ubuntu-24.04，按官方runner-images #14748消除隐式迁移；其余工作流字节不变。不改产品/测试/阈值/timeout，本地门复用；本窗64accept/19partial与账本计数不变。[完整原件与独立版本桥](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/runner-rework.json)。当前必需远端补门及全部annotation清零前不合并。
+
 ## 2026-10-23 CODE3i收口（本地冻结时点）
 
 固定83卡64accept/19partial/0pending，仅3i新接受；13个明确文件逐项A–H含两份同版复用，10新关闭/3旧关闭刷新。3404tracked/405closed/104review/2895pending。实际全check20601包例+692工具、七包TC/lint、official20172例/774源与同报告strict/protected通过，项目诊断0；原中断coverage无最终回执不计通过，补跑一次完整报告。只按实测formatter结构差协调3语句/1函数/1行，精确client2→1退役，未降规则。原72批准失败卡通过当前版本桥与本窗门收口，main/bootstrap整文件仍review。

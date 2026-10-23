@@ -10,8 +10,11 @@ const root = path.resolve(dir, '../../../../../..')
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const report = JSON.parse(fs.readFileSync(path.join(dir, 'review.json')))
 const bridge = report.currentVersionBridge
+const runnerBridge = report.runnerVersionBridge
 const effectiveSha = (file, previous) => {
-  const pin = bridge?.pins.find((entry) => entry.path === file)
+  const pin = [...(bridge?.pins ?? []), ...(runnerBridge?.pins ?? [])].find(
+    (entry) => entry.path === file,
+  )
   if (!pin) return previous
   assert.equal(pin.beforeSha256, previous)
   return pin.sha256
@@ -47,6 +50,29 @@ if (stale.length) {
       else entries[name] = item
     }
   }
+  if (runnerBridge) {
+    const bytes = fs.readFileSync(path.join(dir, runnerBridge.path))
+    assert.equal(hash(bytes), runnerBridge.sha256)
+    const amendment = JSON.parse(bytes)
+    assert.deepEqual(amendment.pins, runnerBridge.pins)
+    const extra = fs.readFileSync(path.join(dir, amendment.receipts.path))
+    assert.equal(hash(extra), amendment.receipts.sha256)
+    for (const [name, item] of Object.entries(JSON.parse(gunzipSync(extra)))) {
+      if (entries[name]) assert.deepEqual(entries[name], item)
+      else entries[name] = item
+    }
+    for (const pin of amendment.pins) {
+      const current = fs.readFileSync(path.join(root, pin.path))
+      assert.equal(
+        hash(
+          Buffer.from(
+            current.toString().replace('runs-on: ubuntu-24.04', 'runs-on: ubuntu-latest'),
+          ),
+        ),
+        pin.beforeSha256,
+      )
+    }
+  }
   const attachment = (name) => {
     const item = entries[name]
     assert(item, `Missing attachment: ${name}`)
@@ -57,6 +83,27 @@ if (stale.length) {
   }
   for (const name of Object.keys(entries)) attachment(name)
   const json = (name) => JSON.parse(attachment(name))
+  if (runnerBridge) {
+    const ready = json('pr-r2-ready.stdout.raw')
+    assert.equal(ready.headRefOid, 'b658febc416ba7fa75c7d00cbd9821f801daba90')
+    const checks = json('pr-r2-required-checks.stdout.raw').check_runs
+    for (const [kind, name] of [
+      ['docs', 'documentation'],
+      ['coverage', 'fast-coverage'],
+    ]) {
+      const check = checks.find((entry) => entry.name === name && entry.app.id === 15368)
+      assert.equal(check.head_sha, ready.headRefOid)
+      assert.equal(check.conclusion, 'success')
+      const annotations = json(`pr-r2-${kind}-annotations-retry.stdout.raw`)
+      assert.equal(annotations.length, check.output.annotations_count)
+      assert.equal(annotations.length, 1)
+      assert.equal(annotations[0].annotation_level, 'notice')
+      assert.match(annotations[0].message, /ubuntu-latest.*Ubuntu 26/)
+      const raw = attachment(`pr-r2-${kind}-log.stdout.raw`).toString()
+      assert.match(raw, /Image: ubuntu-24\.04/)
+      assert.doesNotMatch(raw, /DeprecationWarning|##\[(?:warning|error)\]|not wrapped in act/)
+    }
+  }
   const nativeResult = (id, passed, failed, expectedNames) => {
     const native = json(`${id}.native.json`)
     const execution = json(`${id}.execution.json`)
@@ -137,7 +184,10 @@ if (stale.length) {
   for (const metric of ['statements', 'branches', 'functions', 'lines'])
     assert.equal(report.recount.delta[metric].covered, report.recount.delta[metric].total)
   for (const workflow of report.workflow.reports) {
-    assert.equal(hash(fs.readFileSync(path.join(root, workflow.file))), workflow.afterSha256)
+    assert.equal(
+      hash(fs.readFileSync(path.join(root, workflow.file))),
+      effectiveSha(workflow.file, workflow.afterSha256),
+    )
     assert.equal(workflow.allOtherYamlFieldsUnchanged, true)
     for (const action of workflow.changes) assert.equal(action.runtime, 'node24')
   }
@@ -170,7 +220,7 @@ if (stale.length) {
       files: report.files.length,
       receipts: Object.keys(entries).length,
       integration: report.integration.state,
-      currentGateState: bridge?.gateState ?? report.integration.state,
+      currentGateState: runnerBridge?.gateState ?? bridge?.gateState ?? report.integration.state,
       limits:
         'Read-only identity/result/integrity check; A-H semantic judgments remain explicit in review.json. No SUT, network, coverage or writes.',
     }),

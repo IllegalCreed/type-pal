@@ -1,5 +1,9 @@
 # CODE3i 预缓存 UI／客户端／商标质量收口
 
+## 2026-10-23 runner 迁移通知窄修
+
+[b658 完整远端门与两条原生 annotation](runner-rework.json)、[完整原件](runner-rework-receipts.json.gz)：Documentation39894317671与Coverage39894317718均success；20,172例/774源，硬门与原7条Action/Node提示0。GitHub原生check-runs API另有每工作流1条ubuntu-latest迁移notice，控制台raw没有这些提示，不能据raw零计数宣称全平台零。两任务实际Image均ubuntu-24.04；按官方runner-images #14748仅将两个runs-on固定该现用镜像，恢复两标签后与b658全文字节一致。不改规则/timeout/权限/命令/项目Node，无产品或测试变化。只读verify显式核原生通知与当前两标签版本桥；当前必需远端补门待跑，本地全仓/coverage复用。发布状态看实际后继Git/PR。
+
 ## 2026-10-23 PR14 CI 增量
 
 [商标专测窄返工](ci-rework.json)与[未裁剪原件](ci-rework-receipts.json.gz)区分原3d本地门和当前版本桥：首远端game一例5000ms超时（5478ms），未合并；两工作流完整日志中Action/Node提示已为0。七处大数组比较保留全部原实参、时序与2身份，换原生Buffer.compare核完整长度和全部字节，失败只报告标量，不是抽样或hash oracle。原生deepStrictEqual尝试在失败diff展开时造成worker错误，已撤回，不记有效反控。最终末字节差异两比较器都拒绝，skip变异恰1指定AssertionError，恢复2绿、28相邻绿；没有放宽timeout。私有重算条目仅刷新测试SHA，旧计数、阈值和退役规则不改。当前远端必需补门仍待；下面全check、official与protected是3d冻结版本，不伪称新跑本地全门。只读verify核原包与该明确当前版本桥。
