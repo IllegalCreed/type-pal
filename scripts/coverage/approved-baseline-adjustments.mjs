@@ -5,6 +5,127 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-battle-present-dedup-recount-20261023',
+    authority:
+      'Standing user authority permits exact baseline adjustment for justified refactoring and proven weak-test retirement. Two identical blits become one; unused idle helper and always-false target-arrow path removed. Six-person unsupported smoke and the incorrectly ignored showBattleMessage input no longer receive incidental branch credit. Remaining message lifecycle stays review. Exact old/new contracts, six-file coverage deltas, original rejection and single official collection retained. Only game branches/functions comparison rebased; statements/lines still ratchet from the old value. No rule, exclusion, tolerance or behavior change.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json',
+    baselineSha256: '04adac41f64db1d1906942c601dc28e89768f3f50c2f02a56fd62f50906cb31d',
+    sources: [
+      {
+        path: 'packages/game/src/present/battle/draw-battle-settlement.ts',
+        sha256: '86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e',
+      },
+      {
+        path: 'packages/game/src/present/battle/draw-battle-sprites.ts',
+        sha256: '3fc14745f59a500b8417db1dd0b7757d3279c54df778c91d0874942bbd295540',
+      },
+      {
+        path: 'packages/game/src/present/battle/draw-battle-ui.ts',
+        sha256: '96714e12d8a34a07bf440f39f559d8f74af894c95e526d00a6ba305dd6e4c37c',
+      },
+      {
+        path: 'packages/game/src/present/battle/present-battle.ts',
+        sha256: '75dc24f5a931a4a8642c289e53b8027be9f8da3af480049442c62954c8b6b3e8',
+      },
+      {
+        path: 'packages/game/src/present/battle/blit-ui-frame.ts',
+        sha256: '7635925cacad5e9642e34ec9b5e487daf4a67ac7ef8ec03e071ebad4f1b19103',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts',
+        sha256: '7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts',
+        sha256: '04ede6eb0d4e913868d4d1f1c211af2495d41cf0598633535af4cbb41d1457bd',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/present-battle.test.ts',
+        sha256: '1867a092d5873b149574fdafb4602b062845ee2487f706de1b2e69f08f258d0d',
+      },
+      {
+        path: 'packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts',
+        sha256: 'b321f904c77031a3cbbb4b9d5e205bfc3024a6b2e8abea256ad6620adf16b8ca',
+      },
+      {
+        path: 'packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts',
+        sha256: '2891953e04cfb5200dad7bafb2985fb63a39fb3dd750a70b62c390027810320e',
+      },
+      {
+        path: 'packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts',
+        sha256: '6dcd3bc9ca16f22c9daae99bf853452bd641ad5ab9dfcde1c6c1b00debc1ef60',
+      },
+      {
+        path: 'packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts',
+        sha256: '58af32b51be9a025ea5f12607750cb6cbc7e1850a7782e0db2e3d63417616493',
+      },
+      {
+        path: 'packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts',
+        sha256: '5b63c47a79607ca9100299fbe534fb11657e9972b1423c0fa31fe9b7f494e126',
+      },
+      {
+        path: 'packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts',
+        sha256: 'a82d686149c924abd845c4ee62f951f7e3e7166f7025cb997b1ddd67aa8136b9',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-positions.ts',
+        sha256: 'd068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: '08dfbba7516defe64752ad5f3d30651e01364b527b6b3ed48e9e6d9e29530d03',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15288,
+            total: 17074,
+          },
+          branches: {
+            covered: 9904,
+            total: 12274,
+          },
+          functions: {
+            covered: 1835,
+            total: 2135,
+          },
+          lines: {
+            covered: 13628,
+            total: 14962,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15288,
+            total: 17074,
+          },
+          branches: {
+            covered: 9891,
+            total: 12264,
+          },
+          functions: {
+            covered: 1832,
+            total: 2132,
+          },
+          lines: {
+            covered: 13628,
+            total: 14962,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-follower-walking-guard-recount-20261023',
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring. Current3k removes a redundant walking test after the nonwalking branch returns; sole production collision callback does not mutate walking. Same16 retained tests before/current V8: covered statement -1, branches covered -1/total -2 (the unreachable nonwalking arm), functions/lines unchanged. No thresholds, tolerance, scope, or formulas changed.',

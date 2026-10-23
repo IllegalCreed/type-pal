@@ -880,8 +880,8 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       pos: base ? { ...base } : undefined,
       posOriginal: base ? { ...base } : undefined,
       spriteFrameHeight: input.enemySpriteFrameHeights?.get(e.id),
-      // 敌人 idle 期 currentFrame **保持 undefined** → draw 走 idle 时钟轮播
-      //   (computeIdleFrameIndex,D17c)。动画期 anim-timeline 才置攻击帧号,
+      // 敌人空闲期 currentFrame 保持 undefined，渲染读取 tickEnemyIdleGestures 推进的 idleFrame。
+      //   动画期 anim-timeline 才置攻击帧号,
       //   resetFightersAfterAction 复位回 undefined。置 0 会冻结 idle 轮播(回归)。
       currentFrame: undefined,
       iColorShift: 0,

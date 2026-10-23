@@ -1,15 +1,15 @@
 import type { Enemy, PlayerRole } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'
 import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'
 import type { BusEntry } from '../../../core/command-bus.js'
 import { createInitialGameState, type GameState } from '../../../core/game-state.js'
 import { buildFadeOut } from '../../../core/palette-fade.js'
 import { createSeedableRng } from '../../../core/rng.js'
+import { createDigitFrames } from '../../__tests__/digit-frames.js'
 import { startDialogLine } from '../../dialog-box.js'
 import { createFramebuffer } from '../../framebuffer.js'
 import type { BattleBgAsset } from '../draw-battle-bg.js'
-import { drawBattleSettlement } from '../draw-battle-settlement.js'
 import type { SpriteAsset } from '../draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present-battle.js'
 
@@ -169,23 +169,6 @@ function mkSpriteAsset(w: number, h: number, fill: number): SpriteAsset {
   }
 }
 
-/**
- * D17b:假 SPRITEUI 数字帧数组 —— drawNumber 用 base+digit 帧(yellow 19-28 / blue 29-38
- * / cyan 56-65)。每帧 6×8 全 opaque(index=1),让 drawNumber 一定写像素。
- */
-function mkUiSpriteFrames(): import('../../../assets/png.js').IndexedImage[] {
-  const frames: import('../../../assets/png.js').IndexedImage[] = []
-  for (let i = 0; i < 66; i++) {
-    frames.push({
-      width: 6,
-      height: 8,
-      indices: new Uint8Array(6 * 8).fill(1),
-      opaque: new Uint8Array(6 * 8).fill(1),
-    })
-  }
-  return frames
-}
-
 function mkAssets(overrides: Partial<BattleAssets> = {}): BattleAssets {
   return {
     battleSprites: new Map(),
@@ -193,7 +176,7 @@ function mkAssets(overrides: Partial<BattleAssets> = {}): BattleAssets {
     playerRoles: { roles: [] },
     spells: [],
     items: [],
-    uiSpriteFrames: mkUiSpriteFrames(),
+    uiSpriteFrames: createDigitFrames(),
     ...overrides,
   }
 }
@@ -205,6 +188,8 @@ function fbHasWrites(fb: ReturnType<typeof createFramebuffer>): boolean {
   return false
 }
 
+afterEach(() => vi.restoreAllMocks())
+
 describe('BattlePresent', () => {
   it('draw —— 战斗 palette ramp fade 逐帧染色 gs.palette.colors(此前漏调 stepPaletteFade → 战斗 fade 只 snap 不动画)', () => {
     const fb = createFramebuffer()
@@ -214,17 +199,20 @@ describe('BattlePresent', () => {
     const gs = mkGs({
       palette: { colors: start.map((c) => [...c] as [number, number, number]), cycles: [] },
     })
-    // 600ms 淡黑、起点 300ms 前 → draw 时应已 ramp 过半(从 200 向黑降)
-    gs.paletteFadeState = buildFadeOut(start, 600, performance.now() - 300)
+    // 半程亮度系数30/64，200缩为93；只核宿主接线，完整整数渐变见palette-fade专测。
+    vi.spyOn(performance, 'now').mockReturnValue(300)
+    gs.paletteFadeState = buildFadeOut(start, 600, 0)
     present.draw(fb, gs, state, [], mkAssets(), 0)
-    expect(gs.palette!.colors[1]![0]).toBeLessThan(200) // 色表被 ramp(否则恒 200 = 不动画)
+    expect(gs.palette!.colors[1]).toEqual([93, 93, 93])
   })
 
   it('draw —— 空 assets + 空 commands 不抛错', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
     const state = mkState([], [])
-    expect(() => present.draw(fb, mkGs(), state, [], mkAssets(), 0)).not.toThrow()
+    fb.indices.fill(77)
+    present.draw(fb, mkGs(), state, [], mkAssets(), 0)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   // 战斗法术振屏(山神/泰山压顶等):当前 battleAnim 帧的 frame.shake 须在整帧合成后施加
@@ -270,11 +258,15 @@ describe('BattlePresent', () => {
       ]),
       playerRoles: { roles: [role] },
     })
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))])
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove',
+      selectionStartedForTurn: 1,
+    })
     present.draw(fb, mkGs(), state, [], assets, 0)
-    // bg(填 4)在大多数像素;sprite 在锚点;UI 在底部 / 顶部
-    expect(fbHasWrites(fb)).toBe(true)
-    // 角落位置应被 bg 覆盖(无 sprite / UI)
+    // 各层使用不同颜色，缺任一接线都会使对应像素回落为背景。
+    expect(fb.indices[168 * 320 + 239]).toBe(8)
+    expect(fb.indices[78 * 320 + 159]).toBe(9)
+    expect(fb.indices[140 * 320 + 27]).toBe(40)
     expect(fb.indices[0]).toBe(4)
   })
 
@@ -312,33 +304,12 @@ describe('BattlePresent', () => {
     expect(intact).toBe(30)
   })
 
-  it('showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer', () => {
-    const fb = createFramebuffer()
-    const present = new BattlePresent()
-    const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
-    const commands: BusEntry[] = [
-      {
-        cmdId: 1,
-        cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
-      },
-    ]
-    present.draw(fb, mkGs(), state, commands, mkAssets(), 0)
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
   it('showDamageNum 坐标解析(enemy):x=anchor.x-24, y=clamp(anchor.y-115, 10)', () => {
     // 1 enemy fallback layout = (160,80),yPosOffset=0 → anchor=(160,80)。
     //   sdlpal fight.c:640-641 enemy x=-9,y=-115;再 PAL_BattleUIShowNum x-=15 → x=160-24=136,y=clamp(80-115,10)=10。
     const present = new BattlePresent()
     const fb = createFramebuffer()
     const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
-    // 捕获 floating layer emit 的坐标:用 spy 包 framebuffer.writePixel 收集写点(全 opaque digit)。
-    const writes: Array<{ x: number; y: number }> = []
-    const origWrite = fb.writePixel.bind(fb)
-    fb.writePixel = (x: number, y: number, idx: number) => {
-      writes.push({ x, y })
-      origWrite(x, y, idx)
-    }
     present.draw(
       fb,
       mkGs(),
@@ -352,14 +323,11 @@ describe('BattlePresent', () => {
       mkAssets(),
       0,
     )
-    // 数字 "25" 右对齐 nLength=5 起点 x = (136) - 6 + 6*5 = 160;最右 digit blit 起 x=154。
-    // 关键断言:所有写点 y 都在 anchor.y-115 clamp 到 10 那一行附近(age=0 → y=10),x 在 136 右侧区域。
-    expect(writes.length).toBeGreaterThan(0)
-    const minY = Math.min(...writes.map((w) => w.y))
-    expect(minY).toBe(10) // clamp(80-115, 10) = 10,age=0 时 y 起点 = 10
-    const minX = Math.min(...writes.map((w) => w.x))
-    // 5 位右对齐起点 = (anchor.x-24) - 6 + 6*5 = 136-6+30 = 160;两位数 "25" blit 在 [148..159]
-    expect(minX).toBeGreaterThanOrEqual(136)
+    // 敌方底锚(160,80)，数字最终个位在x=160，十位x=154，顶端y=10。
+    expect(fb.indices[10 * 320 + 154]).toBe(31) // blue 2 = 槽29+2
+    expect(fb.indices[10 * 320 + 160]).toBe(34) // blue 5
+    expect(fb.indices[9 * 320 + 154]).toBe(0)
+    expect(fb.indices[10 * 320 + 153]).toBe(0)
   })
 
   it('多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期', () => {
@@ -384,19 +352,18 @@ describe('BattlePresent', () => {
     ]
     present.draw(fb1, mkGs(), state, commands, assets, 0)
     // 11+ 帧后(超 LIFETIME_FRAMES=11)同 layer 再 draw,数字应过期(画面只剩 0)
-    present.draw(fb2, mkGs(), state, [], assets, 100)
+    present.draw(fb2, mkGs(), state, [], assets, 11)
     expect(fbHasWrites(fb1)).toBe(true)
     expect(fbHasWrites(fb2)).toBe(false)
   })
 
-  it('非 showDamageNum 命令(如 playEnemyAttack)被静默跳过', () => {
+  it('声音及未消费的通知命令不写画面', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
     const state = mkState([], [])
     const commands: BusEntry[] = [
       { cmdId: 1, cmd: { op: 'playEnemyAttack', enemyIdx: 0, targetPlayerIdx: 0 } },
       { cmdId: 2, cmd: { op: 'flashEnemy', enemyIdx: 0, durationMs: 100 } },
-      { cmdId: 3, cmd: { op: 'showBattleMessage', text: 'hello' } },
       { cmdId: 4, cmd: { op: 'showBattleUI', state: 'mainMenu' } },
       {
         cmdId: 5,
@@ -410,7 +377,8 @@ describe('BattlePresent', () => {
         },
       },
     ]
-    expect(() => present.draw(fb, mkGs(), state, commands, mkAssets(), 0)).not.toThrow()
+    present.draw(fb, mkGs(), state, commands, mkAssets(), 0)
+    expect(fbHasWrites(fb)).toBe(false)
   })
 
   it('clearFloatingNums —— 清空残留数字', () => {
@@ -456,7 +424,7 @@ describe('BattlePresent', () => {
   })
 })
 
-describe('BattlePresent —— PresentCommand 不影响 state', () => {
+describe('BattlePresent —— 多帧命令累积', () => {
   it('showDamageNum 多帧累积,合并到一个 floating layer', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
@@ -503,7 +471,9 @@ describe('BattlePresent —— PresentCommand 不影响 state', () => {
       assets,
       5,
     )
-    expect(fbHasWrites(fb2)).toBe(true)
+    expect(fb2.indices[5 * 320 + 160]).toBe(30) // 敌0旧数1上移5px
+    expect(fb2.indices[5 * 320 + 100]).toBe(31) // 敌1旧数2上移5px
+    expect(fb2.indices[95 * 320 + 240]).toBe(22) // 队员新回血3仍在初始高度
   })
 })
 
@@ -533,7 +503,9 @@ describe('BattlePresent —— D17a 动画 overlay', () => {
     const present = new BattlePresent()
     const state = mkState([], [])
     const assets = mkAssets({ effectSprite: { frames: [mkSpriteAsset(2, 2, 22).frames[0]!] } })
-    expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
+    fb.indices.fill(77)
+    present.draw(fb, mkGs(), state, [], assets, 0)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   it('battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)', () => {
@@ -548,7 +520,9 @@ describe('BattlePresent —— D17a 动画 overlay', () => {
       },
     })
     const assets = mkAssets() // 无 effectSprite
-    expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
+    fb.indices.fill(77)
+    present.draw(fb, mkGs(), state, [], assets, 0)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 })
 
@@ -591,7 +565,9 @@ describe('BattlePresent —— D17 法术 magic overlays', () => {
       },
     })
     const assets = mkAssets() // 无 magicSprites
-    expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
+    fb.indices.fill(77)
+    present.draw(fb, mkGs(), state, [], assets, 0)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   it('战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)', () => {
@@ -620,7 +596,6 @@ describe('BattlePresent —— D17 法术 magic overlays', () => {
 })
 
 describe('drawBattleSettlement —— D11b 胜利结算演出渲染', () => {
-  const ui = mkUiSpriteFrames()
   const lvData: LevelUpScreenData = {
     roleId: 0,
     name: '李逍遥',
@@ -634,43 +609,11 @@ describe('drawBattleSettlement —— D11b 胜利结算演出渲染', () => {
     flee: { old: 5, cur: 20 },
   }
 
-  it('exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入', () => {
-    const fb = createFramebuffer()
-    drawBattleSettlement({
-      fb,
-      screen: { kind: 'exp-cash', expGained: 200, cashGained: 999, isBoss: false },
-      uiSpriteFrames: ui,
-    })
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('level-up 屏:画主 box + 8 属性 old→cur 数字 + 箭头/斜杠 → framebuffer 有写入', () => {
-    const fb = createFramebuffer()
-    drawBattleSettlement({ fb, screen: { kind: 'level-up', data: lvData }, uiSpriteFrames: ui })
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入', () => {
-    const fb = createFramebuffer()
-    drawBattleSettlement({
-      fb,
-      screen: { kind: 'learn-magic', data: { roleId: 0, name: '李逍遥', magicName: '天师符法' } },
-      uiSpriteFrames: ui,
-    })
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('无 uiSpriteFrames → 安全 no-op(不抛)', () => {
-    const fb = createFramebuffer()
-    drawBattleSettlement({ fb, screen: { kind: 'level-up', data: lvData } })
-    expect(fbHasWrites(fb)).toBe(false)
-  })
-
   it('BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)', () => {
     const fbBase = createFramebuffer()
     const fbSet = createFramebuffer()
     const present = new BattlePresent()
-    const enemy = mkBattleEnemy({ id: 100, _name: 'e', health: 10 } as Enemy)
+    const enemy = mkBattleEnemy(minimalEnemy(100, 10))
     const stateBase = mkState([], [enemy])
     const stateSet = mkState([], [enemy], {
       settlement: { screens: [{ kind: 'level-up', data: lvData }], index: 0, shownMs: 0 },
@@ -678,10 +621,11 @@ describe('drawBattleSettlement —— D11b 胜利结算演出渲染', () => {
     const assets = mkAssets()
     present.draw(fbBase, mkGs(), stateBase, [], assets, 0)
     present.draw(fbSet, mkGs(), stateSet, [], assets, 0)
-    // 有结算屏的帧应比无结算屏的帧多写像素(证明 present-battle 调了 drawBattleSettlement)
-    let diff = 0
-    for (let i = 0; i < fbSet.indices.length; i++)
-      if (fbSet.indices[i] !== fbBase.indices[i]) diff++
-    expect(diff).toBeGreaterThan(0)
+    // 等级1→12的两组数字和首行箭头来自结算屏，不是任意背景差异。
+    expect(fbBase.indices[47 * 320 + 151]).toBe(0)
+    expect(fbSet.indices[47 * 320 + 151]).toBe(20)
+    expect(fbSet.indices[47 * 320 + 207]).toBe(20)
+    expect(fbSet.indices[47 * 320 + 213]).toBe(21)
+    expect(fbSet.indices[48 * 320 + 180]).toBe(47)
   })
 })

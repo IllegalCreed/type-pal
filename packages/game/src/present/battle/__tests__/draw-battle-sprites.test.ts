@@ -5,10 +5,8 @@ import { createSeedableRng } from '../../../core/rng.js'
 import { createFramebuffer } from '../../framebuffer.js'
 import {
   blitFrameDeathFade,
-  computeIdleFrameIndex,
   computePlayerBattleIdleFrame,
   confusedShakeDelta,
-  DEATH_FADE_TOTAL_STEPS,
   drawBattleSprites,
   enemyTargetHighlightShift,
   type SpriteAsset,
@@ -150,7 +148,7 @@ describe('drawBattleSprites', () => {
       ['enemy-50', mkSpriteAsset(2, 2, 9)],
     ])
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     // M3.5 fix:1 player 真位置 (240, 170)(sdlpal g_rgPlayerPos[0][0][])。
     // anchor 底中:px = 240 - 1 = 239, py = 170 - 2 = 168
     expect(fb.indices[168 * 320 + 239]).toBe(8)
@@ -160,20 +158,18 @@ describe('drawBattleSprites', () => {
     expect(fb.indices[79 * 320 + 160]).toBe(9)
   })
 
-  it('死亡队员画倒下帧(sdlpal fight.c:948-952,不再消失);死亡敌方 deathFadeStep undefined(刚死未淡)→ 照常画', () => {
+  it('死亡队员使用倒下帧2而非站立帧0', () => {
     const fb = createFramebuffer()
     const role = minimalRole(0, { spriteNumInBattle: 1, hp: 0 })
     const playerRoles: PlayerRoles = { roles: [role] }
     const sprites = new Map<string, SpriteAsset>([
-      ['player-1', mkSpriteAsset(2, 2, 8)],
+      ['player-1', { frames: [8, 18, 28].map((color) => mkSpriteAsset(2, 2, color).frames[0]!) }],
       ['enemy-50', mkSpriteAsset(2, 2, 9)],
     ])
     const deadEnemy = minimalEnemy(50, 0)
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(deadEnemy)])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
-    // 死亡队员 (239,168):hp==0 非傀儡 → 倒下帧 2(此单帧 fixture → fallback frames[0]=8)→ **照画**(修"起立":
-    //   旧版 hp<=0 skip 让死员凭空消失 + 死亡定格露站立姿)。
-    expect(fb.indices[168 * 320 + 239]).toBe(8)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
+    expect(fb.indices[168 * 320 + 239]).toBe(28)
     // 死亡敌方 (159,78):deathFadeStep undefined(刚被打死、淡出未开始)→ **照常画**(非瞬隐)
     expect(fb.indices[78 * 320 + 159]).toBe(9)
   })
@@ -184,7 +180,9 @@ describe('drawBattleSprites', () => {
     const playerRoles: PlayerRoles = { roles: [role] }
     const sprites = new Map<string, SpriteAsset>() // 空
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))])
-    expect(() => drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)).not.toThrow()
+    fb.indices.fill(77)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   it('sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)', () => {
@@ -199,20 +197,8 @@ describe('drawBattleSprites', () => {
       ['player-1', { frames: [{ width: 2, height: 2, indices, opaque }] }],
     ])
     const state = mkState([mkBattlePlayer(0)], [])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     expect(fb.indices[168 * 320 + 239]).toBe(77) // 未被透明像素覆盖
-  })
-
-  it('超过 5 个队员/敌方:多出来的不画(POSITIONS 数组限制)', () => {
-    const fb = createFramebuffer()
-    const roles = [0, 1, 2, 3, 4, 5].map((i) => minimalRole(i, { spriteNumInBattle: 1 }))
-    const playerRoles: PlayerRoles = { roles }
-    const sprites = new Map<string, SpriteAsset>([['player-1', mkSpriteAsset(2, 2, 5)]])
-    const state = mkState(
-      [0, 1, 2, 3, 4, 5].map((i) => mkBattlePlayer(i)),
-      [],
-    )
-    expect(() => drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)).not.toThrow()
   })
 })
 
@@ -240,7 +226,7 @@ describe('drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     state.players[0]!.currentFrame = 0
     state.players[0]!.iColorShift = iColorShift
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     return fb.indices
   }
 
@@ -259,7 +245,7 @@ describe('drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411
     expect(idx[169 * 320 + baseX]).toBe(0x0f)
   })
 
-  it('high-nibble 0xF0 保留:0xF3 + 6 → 低 nibble clamp 0x0F → 0xFF', () => {
+  it('high-nibble 0xF0 保留:0xF3 + 6 → 0xF9', () => {
     const N = 4
     const idx = drawPlayerWithShift([0xf3, 0xf3, 0xf3, 0xf3], 6)
     const baseX = 240 - (N >> 1)
@@ -290,11 +276,11 @@ describe('drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411
 
   it('透明像素(opaque=0)无视 shift,背景不变', () => {
     const fb = createFramebuffer()
-    fb.writePixel(238, 169, 77) // 背景
+    fb.writePixel(239, 169, 77) // frame 的第一个像素，而非精灵左侧屏外点
     const role = minimalRole(0, { spriteNumInBattle: 1 })
     const playerRoles: PlayerRoles = { roles: [role] }
     const indices = new Uint8Array([0x03, 0x03])
-    const opaque = new Uint8Array([0, 0]) // 全透明
+    const opaque = new Uint8Array([0, 1]) // 同一行同时核透明和着色正控
     const sprites = new Map<string, SpriteAsset>([
       ['player-1', { frames: [{ width: 2, height: 1, indices, opaque }] }],
     ])
@@ -302,14 +288,15 @@ describe('drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411
     state.players[0]!.pos = { x: 240, y: 170 }
     state.players[0]!.iColorShift = 6
     state.players[0]!.currentFrame = 0
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
-    expect(fb.indices[169 * 320 + 238]).toBe(77) // 透明 → 背景保留,未被 shift 写入
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
+    expect(fb.indices[169 * 320 + 239]).toBe(77)
+    expect(fb.indices[169 * 320 + 240]).toBe(9)
   })
 })
 
 /**
  * D17a:render-state pos / currentFrame 优先 — drawBattleSprites 用 fighter.pos / currentFrame
- * (动画期间逐帧 mutate),旧 fixture(无 render state)走 anchor + idle 时钟兜底。
+ * (动画期间逐帧 mutate),未提供 render pos 时走共享 anchor；敌方空闲帧读 battle-system 写入的 idleFrame。
  */
 describe('drawBattleSprites — render-state pos/currentFrame(D17a)', () => {
   function mkMultiFrameEnemy(fills: number[]): SpriteAsset {
@@ -334,14 +321,14 @@ describe('drawBattleSprites — render-state pos/currentFrame(D17a)', () => {
     be.currentFrame = 0
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameEnemy([7])]])
     const state = mkState([], [be])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     // anchor 底中 (100,100) → frame[0,0] 落在 (99,98)
     expect(fb.indices[98 * 320 + 99]).toBe(7)
     // 旧 anchor (160,80) 处不应有像素
     expect(fb.indices[78 * 320 + 159]).toBe(0)
   })
 
-  it('enemy.currentFrame 覆盖 idle 时钟:固定取该帧(动画攻击帧)', () => {
+  it('enemy.currentFrame 优先于 per-enemy idleFrame', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [] }
     const e = minimalEnemy(50)
@@ -349,11 +336,12 @@ describe('drawBattleSprites — render-state pos/currentFrame(D17a)', () => {
     e.idleAnimSpeed = 1
     const be = mkBattleEnemy(e)
     be.pos = { x: 160, y: 80 }
-    be.currentFrame = 1 // 显式攻击帧 — 不走 idle 时钟
+    be.currentFrame = 1 // 显式动画帧优先于 idleFrame
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameEnemy([11, 22])]])
     const state = mkState([], [be])
-    // frameNum=0:idle 时钟会算 frame0,但 render-state currentFrame=1 优先 → 画 frames[1]=22
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    // idleFrame=0 与 currentFrame=1 冲突时，使用动画帧。
+    be.idleFrame = 0
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     expect(fb.indices[78 * 320 + 159]).toBe(22)
   })
 
@@ -361,10 +349,9 @@ describe('drawBattleSprites — render-state pos/currentFrame(D17a)', () => {
     const fb = createFramebuffer()
     const role = minimalRole(0, { spriteNumInBattle: 1 })
     const playerRoles: PlayerRoles = { roles: [role] }
-    // player 在 (160,100)(Y=100),enemy 在 (160,100)(Y=100) 同点同 Y → X 平局比较
-    // 这里测 Y 不同:enemy Y=80 先画,player Y=100 后画;若重叠,player 盖 enemy。
+    // 两个2×2精灵在 y=99 重叠；上/下独占行同时验证两个精灵确实绘制。
     const be = mkBattleEnemy(minimalEnemy(50))
-    be.pos = { x: 160, y: 102 } // 与 player 底锚附近重叠
+    be.pos = { x: 160, y: 101 }
     const sprites = new Map<string, SpriteAsset>([
       [
         'enemy-50',
@@ -394,57 +381,20 @@ describe('drawBattleSprites — render-state pos/currentFrame(D17a)', () => {
       ],
     ])
     const bp = mkBattlePlayer(0)
-    bp.pos = { x: 160, y: 100 } // Y=100 < enemy Y=102 → player 先画,enemy 后画盖之
+    bp.pos = { x: 160, y: 100 }
     bp.currentFrame = 0
     const state = mkState([bp], [be])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
-    // enemy 底锚 (160,102) → frame 占 (159,100)-(160,101);player 底锚 (160,100) → (159,98)-(160,99)
-    // 重叠区 (159,100)/(160,100):enemy Y 大后画 → 9
-    expect(fb.indices[100 * 320 + 159]).toBe(9)
-  })
-})
-
-/**
- * D17c 敌人 idle 帧轮播闭式索引 — 对照 sdlpal fight.c:991-1019 PAL_BattleUpdateFighters
- * 敌方段(25fps,每 idleAnimSpeed 帧推进 1 格,wCurrentFrame >= idleFrames 环绕回 0)。
- */
-describe('computeIdleFrameIndex', () => {
-  it('idleFrames=2 speed=5:每 5 帧推进 1 格,frame 0/1 交替(fight.c:1008-1018)', () => {
-    // frameNum 0-4 → 0;5-9 → 1;10-14 → 0(环绕);15-19 → 1 …
-    for (let f = 0; f <= 4; f++) expect(computeIdleFrameIndex(f, 2, 5, false)).toBe(0)
-    for (let f = 5; f <= 9; f++) expect(computeIdleFrameIndex(f, 2, 5, false)).toBe(1)
-    for (let f = 10; f <= 14; f++) expect(computeIdleFrameIndex(f, 2, 5, false)).toBe(0)
-    for (let f = 15; f <= 19; f++) expect(computeIdleFrameIndex(f, 2, 5, false)).toBe(1)
-  })
-
-  it('idleFrames=4 speed=1(蜜蜂 id6):每帧推进,t → t%4', () => {
-    for (let t = 0; t < 20; t++) expect(computeIdleFrameIndex(t, 4, 1, false)).toBe(t % 4)
-  })
-
-  it('idleFrames=1(烂香菇 speed=99):任意帧恒 0(永远定格 frame 0)', () => {
-    for (const f of [0, 1, 50, 99, 1000, 99999])
-      expect(computeIdleFrameIndex(f, 1, 99, false)).toBe(0)
-  })
-
-  it('isSleepOrParalyzed=true:任意帧恒 0(fight.c:1001-1006 定格)', () => {
-    for (const f of [0, 3, 5, 7, 10, 13]) expect(computeIdleFrameIndex(f, 2, 5, true)).toBe(0)
-  })
-
-  it('idleAnimSpeed=0(id0 占位):任意帧恒 0 且不抛(防除 0)', () => {
-    for (const f of [0, 1, 5, 100])
-      expect(() => computeIdleFrameIndex(f, 4, 0, false)).not.toThrow()
-    for (const f of [0, 1, 5, 100]) expect(computeIdleFrameIndex(f, 4, 0, false)).toBe(0)
-  })
-
-  it('idleFrames=0(退化):恒 0,不产生负 / NaN 索引', () => {
-    for (const f of [0, 1, 5, 100]) expect(computeIdleFrameIndex(f, 0, 5, false)).toBe(0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
+    expect(Array.from(fb.indices.slice(98 * 320 + 159, 98 * 320 + 161))).toEqual([8, 8])
+    expect(Array.from(fb.indices.slice(99 * 320 + 159, 99 * 320 + 161))).toEqual([9, 9])
+    expect(Array.from(fb.indices.slice(100 * 320 + 159, 100 * 320 + 161))).toEqual([9, 9])
   })
 })
 
 /**
  * D17 死亡淡出 crossfade blit —— 对照 sdlpal PAL_BattleFadeScene(battle.c:608-682)。
  * 像素级:step=0 高 nibble 即换 bg、低 nibble 未移;step 增大 → 低 nibble 收敛到 bg low;
- * step >= |diff| → 完全等于背景。透明像素跳过。
+ * 只有轮到该像素的交错子步才推进；完成后的跳过由 drawBattleSprites 控制。透明像素跳过。
  */
 describe('blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662)', () => {
   function mkFrame(values: number[], opaqueVals?: number[]): SpriteFrame {
@@ -516,10 +466,6 @@ describe('blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662)', 
     blitFrameDeathFade(fb, mkFrame([0x32], [0]), 12, 1, 5)
     expect(fb.indices[0 * 320 + 12]).toBe(0x77) // 未写入
   })
-
-  it('DEATH_FADE_TOTAL_STEPS = 72(battle.c:634-636 外12×内6)', () => {
-    expect(DEATH_FADE_TOTAL_STEPS).toBe(72)
-  })
 })
 
 /**
@@ -544,7 +490,7 @@ describe('drawBattleSprites — 敌人死亡淡出集成(D17)', () => {
     // deathFadeStep 留 undefined → **照常 blit**(非瞬隐)
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(9)]])
     const state = mkState([], [be])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     expect(fb.indices[78 * 320 + 159]).toBe(9) // 照常画(非瞬隐 0)
   })
 
@@ -561,7 +507,7 @@ describe('drawBattleSprites — 敌人死亡淡出集成(D17)', () => {
     // sprite 像素 0x33(high3 low3);step=1>=jr=1,nudges=0 → high=a&F0=0x50,low=bLow=3 → 0x53
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(0x33)]])
     const state = mkState([], [be])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     expect(fb.indices[78 * 320 + 159]).toBe(0x53)
   })
 
@@ -574,29 +520,13 @@ describe('drawBattleSprites — 敌人死亡淡出集成(D17)', () => {
     be.deathFadeStep = 72
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(0x33)]])
     const state = mkState([], [be])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     expect(fb.indices[78 * 320 + 159]).toBe(0x40) // 背景保留,未画 sprite
-  })
-
-  it('health>0 + deathFadeStep undefined:照常普通 blit(不受淡出影响)', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [] }
-    const e = minimalEnemy(50, 50)
-    e.idleFrames = 1
-    e.idleAnimSpeed = 1
-    const be = mkBattleEnemy(e)
-    be.pos = { x: 160, y: 80 }
-    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(9)]])
-    const state = mkState([], [be])
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
-    expect(fb.indices[78 * 320 + 159]).toBe(9) // 普通画
   })
 })
 
 /**
- * D17c 集成 — drawBattleSprites 敌方段按 idle 时钟选帧 blit(像素级断言)。
- * sprite.frames=[A,B],speed=1 → currentFrame=0 blit frames[0](值 A),
- * currentFrame=1 blit frames[1](值 B)。
+ * 敌方空闲帧由 battle-system 推进；这里验证渲染读取、睡眠门控与缺帧回退。
  */
 describe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {
   function mkMultiFrameSprite(fills: number[]): SpriteAsset {
@@ -620,12 +550,12 @@ describe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {
     // 敌方位置 (160, 80),anchor 底中 → frame[0,0] 落在 (159, 78)
     const fb0 = createFramebuffer()
     state.enemies[0]!.idleFrame = 0
-    drawBattleSprites(fb0, state, sprites, playerRoles, undefined, 0)
+    drawBattleSprites(fb0, state, sprites, playerRoles, undefined)
     expect(fb0.indices[78 * 320 + 159]).toBe(11) // frames[0]
 
     const fb1 = createFramebuffer()
     state.enemies[0]!.idleFrame = 1
-    drawBattleSprites(fb1, state, sprites, playerRoles, undefined, 999) // 全局帧号不再影响
+    drawBattleSprites(fb1, state, sprites, playerRoles, undefined)
     expect(fb1.indices[78 * 320 + 159]).toBe(22) // frames[1]
   })
 
@@ -637,10 +567,11 @@ describe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameSprite([11, 22])]])
     const be = mkBattleEnemy(enemyA)
     be.status.sleep = 3
+    be.idleFrame = 1
     const state = mkState([], [be])
 
     const fb = createFramebuffer()
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 1)
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined)
     expect(fb.indices[78 * 320 + 159]).toBe(11) // 定格 frames[0]
   })
 
@@ -652,20 +583,27 @@ describe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {
     // sprite 只 1 帧(资源不全),idx=1 时 frames[1] === undefined → fallback frames[0]
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameSprite([33])]])
     const state = mkState([], [mkBattleEnemy(enemyA)])
+    state.enemies[0]!.idleFrame = 1
 
     const fb = createFramebuffer()
-    expect(() => drawBattleSprites(fb, state, sprites, playerRoles, undefined, 1)).not.toThrow()
+    expect(() => drawBattleSprites(fb, state, sprites, playerRoles, undefined)).not.toThrow()
     expect(fb.indices[78 * 320 + 159]).toBe(33) // fallback frames[0]
   })
 })
 
 describe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510)', () => {
-  const mk = (uiState: string, uiCursor: number, healths: number[]): BattleState =>
-    ({
-      uiState,
-      uiCursor,
-      enemies: healths.map((h) => ({ e: { health: h } })),
-    }) as unknown as BattleState
+  const mk = (
+    uiState: BattleState['uiState'],
+    uiCursor: number,
+    healths: number[],
+  ): BattleState => ({
+    ...mkState(
+      [],
+      healths.map((health, id) => mkBattleEnemy(minimalEnemy(id, health))),
+    ),
+    uiState,
+    uiCursor,
+  })
 
   it('blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)', () => {
     expect(enemyTargetHighlightShift(mk('selectTargetEnemy', 0, [100]), 0, false)).toBe(0)
@@ -692,11 +630,10 @@ describe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibatt
 })
 
 describe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984)', () => {
-  const P = (s: Partial<{ sleep: number; puppet: number }>, defending = false) =>
-    ({ status: { sleep: 0, puppet: 0, ...s }, defending }) as {
-      status: { sleep: number; puppet: number }
-      defending: boolean
-    }
+  const P = (s: Partial<{ sleep: number; puppet: number }>, defending = false) => ({
+    status: { sleep: 0, puppet: 0, ...s },
+    defending,
+  })
   const R = (hp: number, maxHP = 200) => ({ hp, maxHP })
 
   // sdlpal fight.c:948-957:hp==0 非傀儡 → 帧2(倒下死姿);傀儡(死后仍可动)→ 帧0 站立。死帧优先于眠/濒死/防御。
@@ -723,10 +660,6 @@ describe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-
   it('正常(非眠/非濒死/非防御)→ 帧0', () => {
     expect(computePlayerBattleIdleFrame(P({}), R(200))).toBe(0)
   })
-  it('混乱无特殊帧 → 帧0(confused 抖动是 pos 特效,非帧;见 confusedShakeDelta)', () => {
-    // confused 不在 sleep/dying/defending 判定里 → 走 else 帧0(抖动靠 confusedShakeDelta 位移)
-    expect(computePlayerBattleIdleFrame(P({}), R(200))).toBe(0)
-  })
 })
 
 describe('confusedShakeDelta(混乱 ±1px 抖动,sdlpal battle.c:121/196)', () => {
@@ -734,23 +667,5 @@ describe('confusedShakeDelta(混乱 ±1px 抖动,sdlpal battle.c:121/196)', () =
     expect(confusedShakeDelta(0)).toBe(-1) // [0,1/3)
     expect(confusedShakeDelta(0.5)).toBe(0) // [1/3,2/3)
     expect(confusedShakeDelta(0.99)).toBe(1) // [2/3,1)
-  })
-})
-
-describe('DM9:法术精灵参与 Y+sLayerOffset 统一 z 排序(battle.c:441-442)', () => {
-  it('负 layerOffset(地面型)排在精灵前(被精灵覆盖);大 offset 排后(盖精灵)', () => {
-    const playerRoles: PlayerRoles = { roles: [] }
-    const enemyA = minimalEnemy(50) // 位置 (160,80)
-    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSpriteAsset(2, 2, 11)]])
-    const state = mkState([], [mkBattleEnemy(enemyA)])
-    const order: string[] = []
-    const fb = createFramebuffer()
-    // 自定义 blit 探针顺序:负 offset(sortY 80-100=-20)在敌(y80)前画;+99(sortY 179)在敌后画
-    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0, false, [
-      { x: 160, sortY: 80 - 100, draw: () => order.push('ground') },
-      { x: 160, sortY: 80 + 99, draw: () => order.push('top') },
-    ])
-    // 敌精灵 blit 发生在两者之间:验证排序顺序 ground < top,且敌像素覆盖 ground 不覆盖 top
-    expect(order).toEqual(['ground', 'top'])
   })
 })

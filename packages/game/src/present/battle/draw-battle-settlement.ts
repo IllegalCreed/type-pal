@@ -1,3 +1,4 @@
+import { blitUiFrame } from './blit-ui-frame.js'
 /**
  * D11b 战斗胜利结算演出渲染 —— 对照 sdlpal `PAL_BattleWon`(battle.c:991-1373)的多屏 box。
  * 逐帧只画 settlement.screens[index] 当前一屏(sdlpal 每屏 VIDEO_RestoreScreen 清前屏 = 我们每帧
@@ -58,16 +59,6 @@ function wordWidthCols(str: string): number {
   let w = 0
   for (const ch of str) w += charWidthPx(ch)
   return (w + 8) >> 4
-}
-
-/** SPRITEUI frame 不透明 blit(arrow / slash)。 */
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-    }
-  }
 }
 
 export interface DrawBattleSettlementInput {
@@ -206,7 +197,7 @@ function drawLevelUpScreen(
   // 8 箭头(old→cur 指示)+ 8 标签(色 0xBB,有阴影)
   const arrow = ui[SPRITENUM_ARROW]
   for (let j = 0; j < 8; j++) {
-    if (arrow) blitSpriteOpaque(fb, arrow, 180, 48 + 18 * j)
+    if (arrow) blitUiFrame(fb, arrow, 180, 48 + 18 * j)
     renderText(
       fb,
       getWord(48 + j, LEVELUP_LABELS[j]!),
@@ -225,17 +216,17 @@ function drawLevelUpScreen(
   // HP cur"/"max(battle.c:1158-1169)
   drawNumber(fb, d.hp.old, 4, { x: 133, y: 64 }, 'yellow', 'right', ui)
   drawNumber(fb, d.hp.oldMax, 4, { x: 154, y: 68 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 156, 66)
+  if (slash) blitUiFrame(fb, slash, 156, 66)
   drawNumber(fb, d.hp.cur, 4, { x: 195, y: 64 }, 'yellow', 'right', ui)
   drawNumber(fb, d.hp.curMax, 4, { x: 216, y: 68 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 218, 66)
+  if (slash) blitUiFrame(fb, slash, 218, 66)
   // MP cur"/"max(battle.c:1171-1182)
   drawNumber(fb, d.mp.old, 4, { x: 133, y: 82 }, 'yellow', 'right', ui)
   drawNumber(fb, d.mp.oldMax, 4, { x: 154, y: 86 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 156, 84)
+  if (slash) blitUiFrame(fb, slash, 156, 84)
   drawNumber(fb, d.mp.cur, 4, { x: 195, y: 82 }, 'yellow', 'right', ui)
   drawNumber(fb, d.mp.curMax, 4, { x: 216, y: 86 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 218, 84)
+  if (slash) blitUiFrame(fb, slash, 218, 84)
   // Attack/Magic/Defense/Dexterity/Flee old→cur(battle.c:1184-1212)
   const rows: [number, number, number][] = [
     [d.attack.old, d.attack.cur, 101],

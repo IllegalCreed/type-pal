@@ -225,7 +225,6 @@ function paint(opts: {
     opts.gs ?? mkGs(),
     opts.glyphs,
     opts.frames,
-    undefined,
     opts.poisons,
     opts.icons,
   )
@@ -432,18 +431,20 @@ describe('G08-B 战斗界面像素', () => {
   })
 
   it('G08-B15 法术网格不画物品数量，假设的个位保持哨兵', () => {
+    const frames = uiFrames()
+    frames[58] = solidFrame(0x72) // 若误走物品数量路径，青色2必须能覆盖哨兵。
     const fb = paint({
       state: mkState([mkBattlePlayer(0)], {
         menuState: 'magicSelect',
         magicSelect: {
-          items: [{ id: 1, label: '甲', rightText: '×2', disabled: false }],
+          items: [{ id: 1, label: '甲', rightText: 'MP 2', disabled: false }],
           cursor: 0,
           pageSize: 15,
           pageOffset: 0,
         },
       }),
       roles: { roles: [minimalRole(0)] },
-      frames: uiFrames(),
+      frames,
       glyphs: glyphsOf(['甲']),
     })
     expect(pixel(fb, 35, 54)).toBe(0xf9)

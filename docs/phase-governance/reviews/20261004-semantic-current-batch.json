@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3k/3l delta",
+      "readMethod": "Owned3l delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3k/3l finite quality window; gates passed, drawNumber/full3l remain review. No94-102.",
+      "coreConclusion": "3l finite window; gates passed. UI/core duplication and host lifecycle remain review.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "db5a8745426ebb6b59dc16232c7c0216420e8c15e7d9b94312390e0de3766fe7",
+      "afterSha256": "7f0aed533dbb6207e3953f3ff3343cf2932e9de48f1c3b05be9d342f0561f726",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "db5a8745426ebb6b59dc16232c7c0216420e8c15e7d9b94312390e0de3766fe7",
+        "implementationSha": "7f0aed533dbb6207e3953f3ff3343cf2932e9de48f1c3b05be9d342f0561f726",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,8 +1714,8 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-present-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json",
-        "afterSha256": "db5a8745426ebb6b59dc16232c7c0216420e8c15e7d9b94312390e0de3766fe7",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
+        "afterSha256": "7f0aed533dbb6207e3953f3ff3343cf2932e9de48f1c3b05be9d342f0561f726",
         "lineCount": 89,
         "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
@@ -3030,6 +3030,10 @@
             "commit": "4897a215dd3e7fd6987f1082006d9d8cc9f22bb8",
             "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
           }
+        },
+        {
+          "action": "3l-20261023",
+          "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b"
         }
       ],
       "supersedes": [],

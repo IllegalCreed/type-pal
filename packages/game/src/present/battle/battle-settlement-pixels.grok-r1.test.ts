@@ -62,7 +62,7 @@ describe('G08-C 战斗结算像素', () => {
     const screen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 4, isBoss: false }
     const before = { ...screen }
     drawBattleSettlement({ fb, screen })
-    expect(pixel(fb, 83, 60)).toBe(SENTINEL)
+    expect(fb.indices.every((value) => value === SENTINEL)).toBe(true)
     expect(screen).toEqual(before)
   })
 

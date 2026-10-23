@@ -28,6 +28,16 @@ Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 
+## 2026-10-23 CODE3l 结算／精灵／UI／装配器质量窗口
+
+2026-10-23 CODE3l四片有限收口：14文件八维，12项接受（新关闭精灵源与共享blit，6项旧测试重审恢复），UI规则重复与装配器生命周期仍review；固定65accept／18partial不变。3405tracked／411closed／102review／2892pending。相邻82文件664例，全check20563包例+700工具例、game typecheck；唯一官方采集20134例／775源，按用户授权精确重算game branches/functions并登记26例退役，同报告ratchet／严格protected通过。运行与静态零诊断，原始拒绝／错误断言原件保留；本地有限窗完成，远端检查与合并另核。[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)。
+
+Owner Codex（单 Agent），同一 `codex/code-quality-3y`，基点402128e6d4ed3be5783abf4fc941e267cc5c3e4b，与本次fetch后的origin/main同点。PR17已合并；合并后的Documentation39946829459与Coverage39946829440均success，两个check annotations为0，完整日志下载另核，不以API状态替代日志诊断。当前机器账3404／409closed／103review／2892pending。
+
+build allowed：复用上一窗口保存且当前指纹匹配的14份全文读域及既有3l primary；补齐UI专测与真实装配caller。白名单为draw-battle-settlement、draw-battle-sprites、draw-battle-ui、present-battle及其直接专测、P13–P15直接调用和必要共享fixture／相邻注释；整改范围为误导注释、已证无生产caller的内部死路径、无关参数、测试合法性、真实像素判别力与已证重复。先保留定向基线和反控，测试整改与纯重构分提交。新机制、可见行为及生命周期缺陷仍执行停止线，未知项保留review，不借本批关闭整卡。
+
+四个相关切片齐备后冻结代码，集中运行全仓、官方coverage／protected及零诊断静态门；切片内只做必要定向验证，不逐文件运行重门。94–102不扩展。本节为开工准入，尚未新增关闭或声称本窗口完成。[当前四片八维／原件及复验入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)。
+
 ## 2026-10-23 CODE3k／3l有限质量收口
 
 2026-10-23 CODE3k／3l有限质量收口：27文件逐项A–H，26接受／draw-number仍review；三项旧测试补强恢复接受，1新数字夹具闭合，相对窗口前净增1closed。当前3404tracked／409closed／103review／2892pending，固定65accept／18partial，两卡仍partial。全check 20589包测试+697工具测试、official20160／774源、同报告strict/protected及静态均零诊断；原失败保留，远端检查/合并另核。[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)。
@@ -1551,3 +1561,7 @@ Codex唯一Coding Owner、同一3y、基点acb96a123，四文件build allowed：
 九文件源接受含七review新闭合，两既有closed刷新；rle-decode.ts因decodeRle只有测试caller、RleFrame无人导入，旧关闭撤review，rle-decode.test.ts的共享合同排重/真实出口理由未闭合继续review。净增6closed，3374/388/111/2875，固定83不升格。下一范围是这两文件的接口归属/去重、snapshot和启动/取消余项；只复核失效或未补轴，不重做原有效证据。未改当前产品出口或RLE算法/生成物，没有新用户产品裁决；真正接口调整仍先按范围/风险准入。最终静态、提交推送与main同步另按实际回执，不提前声称新mainCI成功。
 
 末轮静态原件：final-docs完整125工具测试与全部文档检查exit0/0issues，final-lint5880文件0/0/0，final-ledger3374/388/111/2875，final-diff0。只将这些完整原件追加同一回执，不再重跑全仓或coverage；提交/推送/main以实际Git结果为准。
+
+### 2026-10-23 CODE3l 纯重构提交说明
+
+本提交移除未调用idle helper及六例专测、无用参数和私有全体箭头分支，统一两个同合同UI blit；只带必要调用迁移。像素测试补强、26例完整迁移账及集中门回执随同一冻结窗口下一提交交付。该中间提交不单独声明整卡或统一门完成，主树未改。
