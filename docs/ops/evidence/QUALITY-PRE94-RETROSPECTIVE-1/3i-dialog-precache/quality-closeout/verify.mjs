@@ -1,0 +1,133 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { gunzipSync } from 'node:zlib'
+
+const dir = path.dirname(fileURLToPath(import.meta.url))
+const root = path.resolve(dir, '../../../../../..')
+const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
+const report = JSON.parse(fs.readFileSync(path.join(dir, 'review.json')))
+const pins = [...report.files, ...report.dependencies, ...report.inputs]
+const stale = pins.filter((pin) => {
+  const file = path.join(root, pin.path)
+  return !fs.existsSync(file) || hash(fs.readFileSync(file)) !== pin.sha256
+})
+if (stale.length) {
+  console.log(JSON.stringify({ state: 'STALE', paths: stale.map((pin) => pin.path) }))
+  process.exitCode = 2
+} else {
+  const archive = fs.readFileSync(path.join(dir, report.receipts.path))
+  assert.equal(hash(archive), report.receipts.sha256)
+  const entries = JSON.parse(gunzipSync(archive))
+  const attachment = (name) => {
+    const item = entries[name]
+    assert(item, `Missing attachment: ${name}`)
+    const bytes = Buffer.from(item.base64, 'base64')
+    assert.equal(bytes.length, item.bytes)
+    assert.equal(hash(bytes), item.sha256)
+    return bytes
+  }
+  for (const name of Object.keys(entries)) attachment(name)
+  const json = (name) => JSON.parse(attachment(name))
+  const nativeResult = (id, passed, failed, expectedNames) => {
+    const native = json(`${id}.native.json`)
+    const execution = json(`${id}.execution.json`)
+    assert.equal(execution.exit, failed ? 1 : 0)
+    assert.equal(execution.signal, null)
+    assert.equal(execution.spawnError, null)
+    assert.equal(native.numPassedTests, passed)
+    assert.equal(native.numFailedTests, failed)
+    assert.equal(native.numPendingTests, 0)
+    const errors = native.testResults.flatMap((file) =>
+      file.assertionResults.filter((test) => test.status === 'failed'),
+    )
+    assert.equal(errors.length, failed)
+    if (expectedNames)
+      assert.deepEqual(
+        errors.map((test) => test.fullName),
+        expectedNames,
+      )
+    if (failed) assert.match(attachment(`${id}.stderr.raw`).toString(), /AssertionError/)
+    else assert.equal(attachment(`${id}.stderr.raw`).length, 0)
+  }
+  for (const [id, passed] of [
+    ['before-shell', 52],
+    ['directed-restored', 52],
+    ['adjacent-shell', 61],
+    ['ui-v8-before', 35],
+    ['ui-v8-after', 35],
+  ])
+    nativeResult(id, passed, 0)
+  for (const control of report.controls.reports) {
+    for (const row of control.rows) {
+      nativeResult(
+        row.id,
+        row.passed,
+        row.failed,
+        row.failedIdentities.map((f) => f.fullName),
+      )
+    }
+    assert.equal(control.sourceRestored, true)
+    assert.equal(control.testsRestored, true)
+  }
+  const fixture = json('ui-ownership-r2-report.json')
+  for (const run of fixture.results)
+    nativeResult(run.id, run.passed, run.failed, run.failedFullNames)
+  assert.equal(fixture.temporarySpecRemoved, true)
+  for (const file of report.files)
+    assert.deepEqual(Object.keys(file.dimensions), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'])
+  for (const file of report.body.records)
+    assert.equal(hash(fs.readFileSync(path.join(root, file.file))), file.afterSha256)
+  assert.equal(report.body.postCounterBridge.bodyUnchanged, true)
+  const { approvedTestRetirements } = await import(
+    pathToFileURL(path.join(root, 'scripts/coverage/approved-test-retirements.mjs'))
+  )
+  assert.deepEqual(
+    approvedTestRetirements.find((entry) => entry.file === report.retirement.entry.file),
+    report.retirement.entry,
+  )
+  assert.equal(approvedTestRetirements.length, 53)
+  assert.equal(report.recount.sourceRestored, true)
+  for (const metric of ['statements', 'branches', 'functions', 'lines'])
+    assert.equal(report.recount.delta[metric].covered, report.recount.delta[metric].total)
+  for (const workflow of report.workflow.reports) {
+    assert.equal(hash(fs.readFileSync(path.join(root, workflow.file))), workflow.afterSha256)
+    assert.equal(workflow.allOtherYamlFieldsUnchanged, true)
+    for (const action of workflow.changes) assert.equal(action.runtime, 'node24')
+  }
+  if (report.integration.state === 'passed') {
+    for (const id of report.integration.successfulExecutionIds) {
+      const execution = json(`${id}.execution.json`)
+      assert.equal(execution.exit, 0)
+      assert.equal(execution.signal, null)
+      assert.equal(execution.spawnError, null)
+      assert.equal(attachment(`${id}.stderr.raw`).length, 0)
+    }
+    const protectedResult = json('module-protected-report.json')
+    assert.deepEqual(protectedResult.strict.regressions, [])
+    assert.deepEqual(protectedResult.scope.changes, [])
+    assert.deepEqual(protectedResult.protectedMetrics.regressions, [])
+    assert.deepEqual(
+      protectedResult.protectedScope.removals.map((r) => r.value),
+      [report.retirement.entry.file],
+    )
+    const text = attachment('module-check.stdout.raw')
+      .toString()
+      .replace(new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g'), '')
+    const count = (pattern) => Array.from(text.matchAll(pattern), (match) => Number(match[1]))
+    assert.deepEqual(count(/^\s*Tests\s+(\d+) passed/gm), report.integration.check.packageCounts)
+    assert.deepEqual(count(/^# tests (\d+)$/gm), report.integration.check.toolCounts)
+  }
+  console.log(
+    JSON.stringify({
+      state: 'MATCH',
+      files: report.files.length,
+      receipts: Object.keys(entries).length,
+      integration: report.integration.state,
+      limits:
+        'Read-only identity/result/integrity check; A-H semantic judgments remain explicit in review.json. No SUT, network, coverage or writes.',
+    }),
+  )
+}

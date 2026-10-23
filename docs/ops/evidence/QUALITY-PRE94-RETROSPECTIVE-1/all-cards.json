@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 63,
+  "currentAccepted": 64,
   "cards": [
     {
       "id": "1",
@@ -540,8 +540,8 @@
       "sha256": "bdadf3cbedcc61784039ba872cde60bdab1331aa47b938e10c781de7c0028f37",
       "lines": 170,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -585,7 +585,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md",
+      "findings": "Five original sources have current A-H/caller coverage: dialog/audio exact-version accepted evidence reused, UI/client/trademark and six tests/two hosts completed. Lifetime isolation, real message/render oracles, precise dedup and private formatter refactor proven. Source unified gates clean; no broad main/bootstrap/splash/shared-format/visual credit."
     },
     {
       "id": "3j",
@@ -4253,34 +4254,42 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 21,
-    "accept": 62,
-    "pending": 0
+    "pending": 0,
+    "partial": 19,
+    "accept": 64
   },
   "lastIncrementalReview": {
-    "date": "2026-10-22",
-    "scope": "CODE3w original settlement/finalization contract after approved Extra/HPMP/defaultrole/order repairs",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json",
-    "newlyAcceptedCards": ["3w"],
+    "date": "2026-10-23",
+    "scope": "CODE3i original five-source contract plus precise test/lifecycle rework",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md",
+    "newlyAcceptedCards": ["3i"],
     "acceptedFiles": [
-      "packages/game/src/core/battle/battle-finalization.ts",
-      "packages/game/src/core/battle/battle-finalization-extra.test.ts",
-      "packages/game/src/core/battle/battle-settlement.ts",
-      "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
-      "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts"
+      "packages/game/src/shell/precache-ui.ts",
+      "packages/game/src/shell/precache-client.ts",
+      "packages/game/src/shell/trademark-fallback.ts",
+      "packages/game/src/shell/precache-ui.test.ts",
+      "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "packages/game/src/shell/precache-client.test.ts",
+      "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "packages/game/src/shell/trademark-fallback.test.ts",
+      "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "packages/game/src/__tests__/precache-ui-host.ts",
+      "packages/game/src/__tests__/precache-client-host.ts",
+      "packages/game/src/assets/dialog-assets.ts",
+      "packages/game/src/shell/audio-volume.ts"
     ],
     "currentReviewCounts": {
-      "partial": 21,
-      "accept": 62,
-      "pending": 0
+      "pending": 0,
+      "partial": 19,
+      "accept": 64
     },
     "ledger": {
-      "tracked": 3356,
-      "closed": 377,
-      "review": 110,
-      "pending": 2869
+      "tracked": 3404,
+      "closed": 405,
+      "review": 104,
+      "pending": 2895
     },
-    "headerCountErratum": "Before update actual83 card rows were61accept22partial;old currentReviewCounts still59/24. Only3w newly accepted,not3cards."
+    "headerCountErratum": "Previous currentReviewCounts62/21 was stale; previous actual83 rows63/20 and currentAccepted63. Only3i new acceptance, now64/19."
   },
   "incrementalReviewHistory": [
     {
@@ -4380,6 +4389,39 @@
         "pending": 2869
       },
       "headerCountErratum": "Before update actual83 card rows were61accept22partial;old currentReviewCounts still59/24. Only3w newly accepted,not3cards."
+    },
+    {
+      "date": "2026-10-23",
+      "scope": "CODE3i original five-source contract plus precise test/lifecycle rework",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md",
+      "newlyAcceptedCards": ["3i"],
+      "acceptedFiles": [
+        "packages/game/src/shell/precache-ui.ts",
+        "packages/game/src/shell/precache-client.ts",
+        "packages/game/src/shell/trademark-fallback.ts",
+        "packages/game/src/shell/precache-ui.test.ts",
+        "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+        "packages/game/src/shell/precache-client.test.ts",
+        "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+        "packages/game/src/shell/trademark-fallback.test.ts",
+        "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "packages/game/src/__tests__/precache-ui-host.ts",
+        "packages/game/src/__tests__/precache-client-host.ts",
+        "packages/game/src/assets/dialog-assets.ts",
+        "packages/game/src/shell/audio-volume.ts"
+      ],
+      "currentReviewCounts": {
+        "pending": 0,
+        "partial": 19,
+        "accept": 64
+      },
+      "ledger": {
+        "tracked": 3404,
+        "closed": 405,
+        "review": 104,
+        "pending": 2895
+      },
+      "headerCountErratum": "Previous currentReviewCounts62/21 was stale; previous actual83 rows63/20 and currentAccepted63. Only3i new acceptance, now64/19."
     }
   ]
 }

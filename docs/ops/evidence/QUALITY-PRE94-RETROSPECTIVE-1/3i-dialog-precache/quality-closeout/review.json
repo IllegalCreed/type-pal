@@ -1,0 +1,1424 @@
+{
+  "schemaVersion": 1,
+  "base": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+  "owner": "Codex single Agent",
+  "state": "Finite CODE3i five-source scope accepted with A-H, exact controls/reuse and concentrated source gates; remote publication pending",
+  "files": [
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "c4cd5d12f0bc2dbcc070f5ddcfbb98757353f238bf1b498b3bd15f3d4f87d614",
+      "gitBlobSha1": "0f7eafd8e637db34c3bfd826bed134b4fc3cfb42",
+      "lines": 233,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full source, real main/boot failure and SW progress callers. Finite/negative/zero bytes, monotone phases, enter/click once, missing DOM, done fade and failed terminal checked. Typed public UI defensive sequences are distinguished from actual startup calls.",
+        "B": "Correct necessary-phase comment: stash bytes for entered widget, leave overlay intact. No promise that arbitrary invalid lifecycle calls are production paths.",
+        "C": "UI owns phase, callback, widget and language subscription; main owns page startup and boot fetch restoration. No IO/game-state mutation or inverse bootstrap dependency. Widget done unsubscribes before delayed DOM removal.",
+        "D": "Two MiB formatter arrows share input, rounding, error and lifetime contracts; consolidate privately. Keep floor widget percentage and fractional overlay percentage separate. Full normalized TS-body proof checks both original expressions and four call sites.",
+        "E": "9+23 current direct cases plus English shell surfaces and original72 formal red/green. New real-language D20 mutant old23green/new22green1AssertionError proves unsubscribe; D07 distinct callbacks proves repeated mark cannot replace first.",
+        "F": "Named phases and methods reveal transitions; private formatMebibytes exposes units without adding configuration or boolean modes.",
+        "G": "One formatter replaces two; public progress shape retained as existing SW wire contract. No dead wrappers retained to protect coverage. No lifecycle interface invented for unsupported HMR/re-registration.",
+        "H": "Real jsdom IDs, language store and controlled timers suffice; host releases subscriptions and callbacks without mocking business UI. Browser/visual scope comes only from original72 qualified evidence."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.ts",
+      "sha256": "abba42fb5f84f0c04f97f1ee589d5cb933ded67cef7e52c0a8a835d9a1930694",
+      "gitBlobSha1": "abddee7e2745571d95f98275e193e37967bfe833",
+      "lines": 90,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full source and main single registration/bootstrap pause-resume/SW112-151 producer. Early start buffered once; early pause/resume without start discarded. Registration rejection notifies unavailable; ready promise never rejects per W3C contract. Real worker message routes verified.",
+        "B": "Header now states page lifetime, single main registration, no DOM dependency and unavailable callback. Does not claim a general reusable multi-registration controller.",
+        "C": "One module owns active worker and pending-start; main owns page. Callback port avoids UI import; browser IO remains boundary. No broad game context or cross-layer state writes.",
+        "D": "Keep start versus pause/resume asymmetry: only start has established buffering contract. Share test IO surface, not product state machine with UI.",
+        "E": "8+1 current tests, exact registration args, ordered three payloads, exact single warn/Error, real MessageEvent progress identity and both done/error terminals. Error-route mutant old9green/new8green1AssertionError.",
+        "F": "Named senders and one register entry expose protocol. Header clarifies module lifetime instead of hiding ownership.",
+        "G": "No new controller or compatibility path. Re-registration/HMR has no production caller; it remains outside current page contract, not falsely certified.",
+        "H": "Real EventTarget/MessageEvent with narrow worker registration IO seam; fresh module instance each case, no core SW bridge mock. Real browser worker/cache timing not claimed."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "sha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee",
+      "gitBlobSha1": "7075a4da85e80ffb4426f8f3b7041c90f5c2f726",
+      "lines": 91,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full source, bootstrap caller and real playRng/Framebuffer/Palette. DOS sequence chunk6@25fps,1000ms dwell,600ms fade and explicit skip semantics checked against PAL_TrademarkScreen. Existing TS elapsed-RGB fade differs from SDL j/64 intermediate pixels; no behavior changed.",
+        "B": "Remove 1:1 port claim and L43/historical line prose. Current header states actual ownership and intermediate-frame limitation; keep useful delay units.",
+        "C": "One Promise serializes animation, dwell and fade; caller owns RAF. Local palette outputs have no scene state ownership; skip listener remains playRng responsibility.",
+        "D": "Do not combine with splash fade merely because loops resemble: skip and lifecycle owners differ. Existing shared playRng/Framebuffer remain reused.",
+        "E": "2 strong direct cases verify full frame planes, normal timing, opaque-black canvas, explicit Space skip and listener release; neighboring6 share legal canvas host. Skip-forward mutant old2green/new1green1AssertionError.",
+        "F": "Concise sequence header and linear code show intent; no narrated implementation or speculative abstraction.",
+        "G": "No API/option or product path removed; obsolete governance commentary removed. No source splitting with no demonstrated cohesion benefit.",
+        "H": "Existing now,manifest,fetch and canvas ports allow deterministic actual rendering. Unit canvas bytes are not browser screenshot or physical timing evidence."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.test.ts",
+      "sha256": "07fff6677212ba351c0e9cef53c3e93725627253151760e7824353bc9d2eb16d",
+      "gitBlobSha1": "838566b5f8751fb2e6ca4ad8c8a59a77530e7483",
+      "lines": 119,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full9 cases; legitimate default/custom fraction, necessary/full failure terminals, enter widget and missing DOM. Original72 failed-state counters retained with real UI and DOM.",
+        "B": "Titles match observed phase/text/width. No false full visual acceptance or failure-policy claim.",
+        "C": "Body, language subscription and clock ownership move to one test host; tests retain local assertions and callbacks.",
+        "D": "Duplicate fade assertions move to stronger D20; full progress text/width remains here. Shared mounting HTML has exactly the real boot IDs.",
+        "E": "9 identities/count unchanged. Exact UI text/CSS width/callback semantics, no copied state machine oracle or mock-count-only replacement. Original two business reds reused.",
+        "F": "Each case exposes input and visible result without repeated setup noise.",
+        "G": "No redundant extra fade case; no guard weakened or callback removed to silence diagnostics.",
+        "H": "Real public module and language store; deterministic timers settled before restore, actual detached subscribers released."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "sha256": "fa3bd28549ee88ca59711a90ca10270db7e296f330d4309c4ade63eef1dd013f",
+      "gitBlobSha1": "d016468ab1e9c28b2f085af75ebc710a6e43384c",
+      "lines": 284,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full23 cases; invalid finite/negative inputs are explicit defensive API negatives, not all main-reachable. Zero-total, custom fraction, missing nodes, saved bytes, once-click and D20 terminal covered.",
+        "B": "D20 title adds unsubscribe contract; encoded dump witness is not a screenshot. Boundary comments retain caller qualification.",
+        "C": "One hook owns body and clock; each UI/widget owns subscription until done or detached language notification.",
+        "D": "Centralize fixture lifecycle; retain distinct invalid-input and method-order axes, remove only duplicated weak lifecycle assertions.",
+        "E": "D07 first/second callbacks differ, so replacement is observable. D20 changes real language during fade and checks599present/600removed; one targeted unsubscribe AssertionError, other22green.",
+        "F": "Local exact DOM expectations expose method effect; no magic platform timer delays.",
+        "G": "23 count retained; no assertion made trivially true by replacing expected business path with helper implementation.",
+        "H": "Real DOM/language notifications and fake clock, no UI mock; test host cleanup probe shows old subscriber1cross-test failure/new2green."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.test.ts",
+      "sha256": "28ce0d5003acf0b193eb544daae13f93ae6f76d20d1fa71e65b2dc861be0b2c1",
+      "gitBlobSha1": "408b5d4ff0eb9a13ca14c3114a53742566bbe218",
+      "lines": 102,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full old7/current8 cases. No-SW optional callback, registration failure, deferred ready/start and actual message routes all exercise production bridge.",
+        "B": "Titles name protocol and terminal behavior, not browser offline acceptance.",
+        "C": "Fresh dynamic module each test isolates module singleton. Host restores own navigator descriptors/persist seam, not prototype/foreign browser state.",
+        "D": "Register-argument-only case merges into stronger ordered onReady protocol case. Two terminal message cases are different branches and survive independently.",
+        "E": "Exact ordered payload list, same progress object, exact warn message/Error/call count. Irrelevant real message leaves state unchanged. Error-route one specific AssertionError proves extra terminal case is discriminating.",
+        "F": "Arrange actual EventTarget, dispatch real MessageEvent, inspect externally returned calls; no bespoke protocol simulator.",
+        "G": "7to8 is one duplicate removed plus two independent terminal routes added; title/contract mapping saved. No test count used as acceptance criterion.",
+        "H": "Controlled registration/ready IO boundary without replacing callback routing; finally hooks restore mocks/descriptors."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "sha256": "67256f548bd47c406cfecaaedd1bcff9dec9ad005d5a3342ffeea5f1b717be5c",
+      "gitBlobSha1": "505600c1f159a105246419fb7f8c5ab39d82c403",
+      "lines": 26,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full old2/current1 cases. Unique early pause/resume without prior start asserts no postMessage after ready; legitimate ready-port object.",
+        "B": "Retained title qualifies the asymmetric buffer behavior. Old ready-after duplicate mapped to main suite.",
+        "C": "Reuse same IO owner/hooks and fresh module, no ad hoc navigator mutations.",
+        "D": "Ready-after protocol duplicate moved to exact ordered main case, not lost; early negative remains separate from buffered-start positive.",
+        "E": "Exact2to1 approved snapshot with both identity digests/file SHA. Main ordered case subsumes weaker some() presence assertions. Predicate unchanged, old52 rows preserved.",
+        "F": "Short negative case exposes when promise resolves and what must not be emitted.",
+        "G": "One proven duplicate retired; no unrelated test removal or scope waiver.",
+        "H": "Same controlled EventTarget port, resolved ready and full descriptor restoration."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "sha256": "2f2ae11c76e2acfad0cb2520732a1345774e6d9e0877fd9f946ee0f0838abf7e",
+      "gitBlobSha1": "cf1576856c2e10a02a4c5ac53144983ebe997d50",
+      "lines": 106,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full2 cases. Valid 320x200 palette/frames from existing legal host and real canvas; normal and explicit Space paths separate.",
+        "B": "Rename old default-skip claim to actual default non-skippable behavior. No claim that intermediate SDL fade pixels match.",
+        "C": "Each case owns fake clock, awaited animation and real document key listener; after completion key is not consumed and no timers remain.",
+        "D": "Use existing Palette/framebuffer builder; no fake Palette cast or duplicate canvas shim.",
+        "E": "Full frame planes1to2, black RGBA,599/615 fade observations, explicit skip firstframe and postcompletion listener release. TypedArray.from only normalizes jsdom realm, compares every byte. Frozen skip case unchanged after timing strengthening.",
+        "F": "Small literal frame arrays and exact output reveal whether default and explicit skip differ.",
+        "G": "2 count unchanged, no new weak default case. Remove .some-only frame summary and incomplete options test.",
+        "H": "Real playRng and renderer execute with controlled fetch/clock; skip forwarding mutant produces exactly the retained explicit-skip failure."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "c5d2cfdce1a5b5d6372a1ee5249936be3e93beffd3b167f9579910ec010eb00b",
+      "gitBlobSha1": "6a6cb091dcca5bf827fb021c5a04e71c059b2ecd",
+      "lines": 193,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full6 cases; trademark chunk/delay, zero fade, clock rollback defensive seam and neighboring splash stop point. Narrow FBP shape not claimed as all production assets.",
+        "B": "Current tests keep qualified boundary titles; do not turn clock rollback into asserted normal browser timing.",
+        "C": "Hook settles in-flight splash and timers before restoring canvas observers and clock. Spy forwards putImageData to real canvas.",
+        "D": "Use established legal host, share clock cleanup only; no generic trademark/splash product wrapper.",
+        "E": "Existing6 identities and business contracts retained. Illegal Math.random=1 fixtures corrected to0.9999999999999999; actual callbacks/rendering remain. Initial2timeout fixture attempt recorded, corrected by advancing fake clock, no timeout rule change.",
+        "F": "Capture pending Promise then advance clock then await completion makes lifecycle explicit.",
+        "G": "Remove manual canvas assignment/type casts and illegal random input, no product or test retirement.",
+        "H": "Real frame buffers/canvas plus transparent call-through spy; deterministic clocks drain before restore. Not a new full splash source acceptance."
+      }
+    },
+    {
+      "path": "packages/game/src/__tests__/precache-ui-host.ts",
+      "sha256": "4f2cc02f49b8d0885d33d8ca9581b64d5835918fafb6b0de8aebd97a64d87997",
+      "gitBlobSha1": "cd7744c10359afe5b6d956a389dfd93aa61c7997",
+      "lines": 40,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full new host. Snapshots current language/html-lang, owns body and fake timers; cleanup removes roots before real alternate/restored language notifications, then drains pending fades.",
+        "B": "Header states test ownership and no new product dispose port; no browser-resource claim.",
+        "C": "Test fixture owns only jsdom body/language/clock for these suites. Production UI stays dependency, never importing test infrastructure.",
+        "D": "Extract identical lifecycle and HTML IDs from two real suites. No mode booleans, broad host context or future extension points.",
+        "E": "Own displaced-subscription witness old1green1businessAssertionError/new2green, exact old teardown extracted from frozen Git.32 green direct UI and35 language/V8 results. First bad probe import explicitly discarded as invalid control.",
+        "F": "Named install hooks and mountBootLoading separate lifetime from markup.",
+        "G": "Two exports each have actual callers; no additional wrapper, hidden configuration or unused argument.",
+        "H": "Real language notification rather than private subscriber access; finally restores timer mode and original lang attribute."
+      }
+    },
+    {
+      "path": "packages/game/src/__tests__/precache-client-host.ts",
+      "sha256": "973b3a485956111622f1b1bd9be058f1da52cb20ec17b0020ce855fb7e724694",
+      "gitBlobSha1": "136bb29c903a41293966c8c270a6cecb71d996a1",
+      "lines": 44,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "accept: dimensions and concrete current evidence; not broader caller closure",
+      "dimensions": {
+        "A": "Full new host. Actual EventTarget/MessageEvent; narrow ready.active.postMessage consumed by source. Storage persist and descriptor state isolated, no real permission or SW registration.",
+        "B": "Explicitly not a complete ServiceWorker environment. Types describe consumed IO port instead of asserting whole API shape.",
+        "C": "Hook owns only navigator own descriptors and mocks; caller retains container/post for assertions. No state-machine simulator.",
+        "D": "Two suites share identical browser boundary and restoration; registration object kept narrow without unsafe full-interface casts.",
+        "E": "Nine current cases execute real bridge and message routing. Initial mock-overload tsc errors retained and fixed with explicit supported overload union, not casts or weakened rules.",
+        "F": "Small port and returned container/post/worker names explain intended observation.",
+        "G": "All returned handles used across real callers; no universal browser factory or mode flag.",
+        "H": "Fresh bridge import plus explicit ready Promise and descriptor restoration make race and failure deterministic."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed",
+      "gitBlobSha1": "41484430887a1942f0f13f805c351314b27c365e",
+      "lines": 119,
+      "dimensions": {
+        "A": "Full file read plus bootstrap/PresentContext/dialog-box consumers. Portraits keyed by chunkIndex, icons by filtered TS index; each route failure logs+returns empty map independently. Trusts generated manifests; no format/domain validator invented.",
+        "B": "DialogSprite lacks SpriteImage anchors; comment corrected. Remove unsupported playable-game guarantee; only missing-blit and independent-map behavior claimed.",
+        "C": "Private IO helpers own local maps and pending Promise.all; startup caller owns returned maps. No writes into battle/scene state or renderer; no inverse dependency.",
+        "D": "PNG portraits and base64 sprite icons have different formats/keys/errors; do not merge for syntactic similarity. Shared indexed shape remains structural, no API change.",
+        "E": "Real PNG/RLE/base64 and controlled HTTP through public function. Exact diagnostics and surviving opposite map asserted; concurrent startup barrier separately tested.",
+        "F": "Two named loaders show parallel independent responsibilities. Existing full module not split merely because two resource kinds differ.",
+        "G": "Outer defensive catch is redundant with ordinary rejecting loaders, but behavior if diagnostic infrastructure itself throws is outside established startup contract. Register structural candidate, retain without silently deleting error policy.",
+        "H": "Fetch and native PNG/codec ports suffice. No new injection/context API; global IO tests isolate and restore stubs."
+      },
+      "state": "prior accept refreshed by current gates",
+      "readMode": "Version-identical full A-H reuse",
+      "reuse": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.ts",
+      "sha256": "2cf70c4cf469c3b337341f999018bfa5f82ab3b21c9a2d95a3794c1c3dc17778",
+      "gitBlobSha1": "799c5c84a879b11482b3c69289c2be6383583c29",
+      "lines": 54,
+      "readMode": "Full current implementation/test read; actual caller and evidence axis below",
+      "state": "prior accept refreshed by current gates",
+      "dimensions": {
+        "A": "Full current source; bootstrap three sinks/tools-panel key caller and accepted70/present-leaves evidence reused. Finite0..1 and NaNto0 behavior current and unchanged.",
+        "B": "Current comments state normalized independent channel gains/shared mute and actual persistence key ownership.",
+        "C": "Local controller owns normalized gains/mute and dispatches to injected sinks; no world/battle state or UI coupling.",
+        "D": "One controller already shared by music/sfx/video; unrelated channel sinks stay injected instead of one global audio object.",
+        "E": "Accepted direct and70boundary tests include0/default/shared mute/key and NaN guard mutant. Exact source unchanged from13c; current main gates include both files.",
+        "F": "Short normalize/load/persist/apply methods expose volume contract without extra annotation.",
+        "G": "Actual exported controller/sinks all have callers; no unused fallback or new compatibility path.",
+        "H": "Existing narrow storage/sink ports and typed getters allow isolated deterministic tests. Device audio quality not claimed."
+      },
+      "reuse": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md + present-leaves-gates.json"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "gitBlobSha1": "e69aab7ce3afd15c57d86338c3e880a4eed6ddce",
+      "lines": 49
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "f0f543bc5137a385438ec02ecb3aa62ce073bdae43ffdf00e7f8b27d11c639fb",
+      "gitBlobSha1": "4f10a0120b5b66a91a6ae043ebb9f1ba55fb310e",
+      "lines": 12
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "gitBlobSha1": "5d7f8e4c2505c9a3e63cf6073f1022b3867e28e2",
+      "lines": 325
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554",
+      "gitBlobSha1": "4d17bc60c06b5465010062c60f238e2f84569c37",
+      "lines": 148
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35",
+      "gitBlobSha1": "88a8dc662756fec9b627311d987426583818c01d",
+      "lines": 35
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "gitBlobSha1": "78b517c3e477d5600b3eb17e9fa301d3d9aee273",
+      "lines": 49
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "04f2dc31ec175a3b1d478a7a485073db510d2a7cf3d914cbeccbda9947daa34a",
+      "gitBlobSha1": "772f107ed5affc45a0bd24300d11cce81cd47009",
+      "lines": 805
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "gitBlobSha1": "29215315461add2c4a42a24d1acb858d97e34da3",
+      "lines": 99
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "gitBlobSha1": "2f83ec3240eac4aaae242e40a078ae5f84cac7cb",
+      "lines": 53
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a",
+      "gitBlobSha1": "e268eb9b7b8ecf41764e3122d89bc456d52bc46e",
+      "lines": 169
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04",
+      "gitBlobSha1": "536ec0c765331ca3392d690f827d7ceabd971960",
+      "lines": 268
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "sha256": "67f2a8b128b07b6faf8da926660473de86d37737c72e4548aa482e1857d947c1",
+      "gitBlobSha1": "23481bbc750673326d24d6dabf794b1961a4480d",
+      "lines": 324
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "gitBlobSha1": "156c314ef23f86f313855161fe38fccb3223b84a",
+      "lines": 1956
+    },
+    {
+      "path": "packages/game/public/sw.js",
+      "sha256": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c",
+      "gitBlobSha1": "7de8ac0aa336a2bc1715064bc23bf564fa480bb5",
+      "lines": 163
+    },
+    {
+      "path": "packages/game/src/localization/shell-surfaces.test.ts",
+      "sha256": "41f5ce926b70b0a68a26392f20c6b890179e900295f97f6859272068effbd372",
+      "gitBlobSha1": "95c68ab79e913ec798e24724bc40c730aba831a0",
+      "lines": 92
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "66175247e57e482b79e43a05fcbe9861cadd5bd6cb549bd14b78f3f0cb6fabca",
+      "gitBlobSha1": "79a26462461bfe4b13029d688225bc5ec3667a42",
+      "lines": 479
+    },
+    {
+      "path": "reference/sdlpal/main.c",
+      "sha256": "f54b46771515966bb76e9fca64496202395b3a3267b00f23b695141805995f0c",
+      "gitBlobSha1": "c442e8b9120d83137409d1ec34ded67071916bb3",
+      "lines": 562
+    },
+    {
+      "path": "reference/sdlpal/palette.c",
+      "sha256": "88a3160fac6bddd28355a28b788b76b848b9853d06eb75b8abe2116b9ee7795d",
+      "gitBlobSha1": "afac5cd10e6c7a3182db19410b50052b9898d7f2",
+      "lines": 667
+    },
+    {
+      "path": "reference/sdlpal/rngplay.c",
+      "sha256": "3fd4066442ea41352737d30ea3f41d05082137ae788e7d1ac792a62cf6f4e1f1",
+      "gitBlobSha1": "26f0f0bcadf9ecc3e69591134975c18cb917c8e3",
+      "lines": 448
+    }
+  ],
+  "inputs": [
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "gitBlobSha1": "660a297ad1876f1f9d748626cba5cd294b7187dd",
+      "lines": 586
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
+      "gitBlobSha1": "3d7bcf39d9b34eee978a439d35c445c74542bf5a",
+      "lines": 265
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "gitBlobSha1": "cc85530bc05315d71dd41a6f38aa97c73d5e2165",
+      "lines": 11
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "gitBlobSha1": "13bcbac1f54907b6bf6e2da98f15e437b450af51",
+      "lines": 20
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "70811672262ddf2d5541281666fa444497f389b81275c48e90e5bc683d3df63b",
+      "gitBlobSha1": "d3882d98e9fab6c7ead53730b60552bd11f399be",
+      "lines": 549
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "e7a12869bd4940f733ebd5c51a09ee7295896c0500c4601377f454d17c80882e",
+      "gitBlobSha1": "25ec60dcb1f5c6fd2c10427ed32c2f4d0b6e5711",
+      "lines": 83
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "7ca19524e381ff615008c3aaaaed8d89c2563970b469cf9f4a5ea8adce6e47ea",
+      "gitBlobSha1": "c1a957c25b264236c122cb2f04def046e2d572b2",
+      "lines": 2104
+    }
+  ],
+  "reading": {
+    "fullCurrent": [
+      "packages/game/src/shell/precache-ui.ts",
+      "packages/game/src/shell/precache-client.ts",
+      "packages/game/src/shell/trademark-fallback.ts",
+      "packages/game/src/shell/precache-ui.test.ts",
+      "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "packages/game/src/shell/precache-client.test.ts",
+      "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "packages/game/src/shell/trademark-fallback.test.ts",
+      "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "packages/game/src/__tests__/precache-ui-host.ts",
+      "packages/game/src/__tests__/precache-client-host.ts"
+    ],
+    "reuse": [
+      {
+        "path": "packages/game/src/assets/dialog-assets.ts",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+        "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed"
+      },
+      {
+        "path": "packages/game/src/shell/audio-volume.ts",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md + present-leaves-gates.json",
+        "sha256": "2cf70c4cf469c3b337341f999018bfa5f82ab3b21c9a2d95a3794c1c3dc17778"
+      }
+    ],
+    "callerReadLimits": {
+      "main.ts": "full",
+      "localization/language.ts": "full",
+      "shell/boot-loading.ts": "full",
+      "shell/rng-player.ts": "full",
+      "shell/splash-fallback.ts": "full dependency only",
+      "shell/bootstrap.ts": "505-535 and1810-1855 caller ranges plus frozen earlier startup evidence; not whole-file closure",
+      "public/sw.js": "112-151 producer",
+      "grok-render-r1/legal-host.ts": "selected Palette/PNG helpers; not helper-file acceptance",
+      "reference/sdlpal/main.c": "PAL_TrademarkScreen179-203",
+      "reference/sdlpal/palette.c": "PAL_FadeOut123-188",
+      "reference/sdlpal/rngplay.c": "371-455 complete PAL_RNGPlay function, iSpeed25 gives1/25second in this pinned version"
+    }
+  },
+  "primary": [
+    {
+      "url": "https://www.w3.org/TR/2026/CRD-service-workers-20260917/",
+      "section": "3.4.2 ready",
+      "finding": "Ready never rejects; wait for active worker. Real browser worker execution remains outside unit credit."
+    },
+    {
+      "url": "https://dom.spec.whatwg.org/commit-snapshots/3c53f93a3e1fb11ef5bd38029b7a9c97baaf0177/",
+      "section": "2.9 inner invoke",
+      "finding": "once listener removed before callback; D07 checks observed first callback independently."
+    }
+  ],
+  "reuse": [
+    "72-boot-loading/approved-fix/README.md formal4reds+realPROD404/late200/screenshots: unchanged fail guard+restore order only",
+    "3h/blob-quality/review.json dialog whole-file A-H exact hash",
+    "70-audio-volume/README.md and present-leaves-gates.json exact audio contract"
+  ],
+  "retirement": {
+    "entry": {
+      "file": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "previous": 2,
+      "current": 1,
+      "previousIdentityDigest": "9fa0085a93536699ce589564f03b6e71870cb1d4f1e27f54ea7324272d3b2fd3",
+      "currentIdentityDigest": "0182a4e4b78c1559218f78ed2c14f34f32e33ab4550ff12e037a8e7211ce56b8",
+      "fileSha256": "67256f548bd47c406cfecaaedd1bcff9dec9ad005d5a3342ffeea5f1b717be5c"
+    },
+    "previous": {
+      "testCount": 2,
+      "identityDigest": "9fa0085a93536699ce589564f03b6e71870cb1d4f1e27f54ea7324272d3b2fd3",
+      "identities": [
+        "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts :: project root :: L22 precache-client 早到指令 > pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+        "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts :: project root :: L22 precache-client 早到指令 > ready 后 start/pause/resume 依次按协议载荷直达 worker"
+      ]
+    },
+    "current": {
+      "testCount": 1,
+      "identityDigest": "0182a4e4b78c1559218f78ed2c14f34f32e33ab4550ff12e037a8e7211ce56b8",
+      "identities": [
+        "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts :: project root :: L22 precache-client 早到指令 > pause/resume 早于 ready：静默丢弃，不缓冲也不补发"
+      ]
+    },
+    "authority": "User current3i precache/lifecycle/test-quality instruction and standing few-and-strong/dedup instruction. Exact2to1 file snapshot only; no general scope waiver.",
+    "transfer": "Retired ready-after case checked unordered some() presence; retained main-client case checks all three exact postMessage calls in order, plus exact registration arguments/onReady. Unique early pause/resume-without-start negative retained."
+  },
+  "controls": {
+    "reports": [
+      {
+        "id": "widget-unsubscribe",
+        "rows": [
+          {
+            "id": "widget-unsubscribe-before",
+            "passed": 23,
+            "failed": 0,
+            "failedIdentities": []
+          },
+          {
+            "id": "widget-unsubscribe-after",
+            "passed": 22,
+            "failed": 1,
+            "failedIdentities": [
+              {
+                "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+                "fullName": "G09-D 预缓存宿主 G09-D20 done 解除语言订阅并淡出：599ms 仍在，600ms 移除"
+              }
+            ]
+          }
+        ],
+        "sourceRestored": true,
+        "testsRestored": true
+      },
+      {
+        "id": "worker-error-route",
+        "rows": [
+          {
+            "id": "worker-error-route-before",
+            "passed": 9,
+            "failed": 0,
+            "failedIdentities": []
+          },
+          {
+            "id": "worker-error-route-after",
+            "passed": 8,
+            "failed": 1,
+            "failedIdentities": [
+              {
+                "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/precache-client.test.ts",
+                "fullName": "registerPrecache 真实 message：进度原样转发，'precache-error' 收尾，其他消息不触发回调"
+              }
+            ]
+          }
+        ],
+        "sourceRestored": true,
+        "testsRestored": true
+      },
+      {
+        "id": "trademark-skip-forward",
+        "rows": [
+          {
+            "id": "trademark-skip-forward-before",
+            "passed": 2,
+            "failed": 0,
+            "failedIdentities": []
+          },
+          {
+            "id": "trademark-skip-forward-after",
+            "passed": 1,
+            "failed": 1,
+            "failedIdentities": [
+              {
+                "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/trademark-fallback.test.ts",
+                "fullName": "playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence 显式允许 Space：停在首帧、淡至全黑并释放按键监听"
+              }
+            ]
+          }
+        ],
+        "sourceRestored": true,
+        "testsRestored": true
+      }
+    ],
+    "identityErratum": "Initial driver expected an unquoted it.each token. Worker actual failing identity exactly matches the independently frozen green native quoted identity; no test rerun or business assertion change for this correction.",
+    "limits": "Three old-green/new-single-AssertionError test discrimination controls; not product behavior repairs."
+  },
+  "body": {
+    "base": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+    "records": [
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "beforeSha256": "4075c170e5a937f834dac8a7b08df249dd1f193146244a91e0101f0c132976f8",
+        "afterSha256": "c4cd5d12f0bc2dbcc070f5ddcfbb98757353f238bf1b498b3bd15f3d4f87d614",
+        "normalizedBodySha256": "153e63ef0d3a834ed56abfcdce2ac135492571617f6400fe8632b8a8bce53891",
+        "kind": "Same-input/rounding/exception/lifecycle formatter consolidation; independently verify helper expression then restore both original local declarations and four calls before full TS body comparison",
+        "oldFormatterDeclarations": 2,
+        "newPrivateFormatter": 1,
+        "normalizedCalls": 4,
+        "helperReturnVerifiedAgainstBothOldArrows": true
+      },
+      {
+        "file": "packages/game/src/shell/precache-client.ts",
+        "beforeSha256": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+        "afterSha256": "abba42fb5f84f0c04f97f1ee589d5cb933ded67cef7e52c0a8a835d9a1930694",
+        "normalizedBodySha256": "67eab37e030976a02172a75ff1962790d955413c134717f50cbea44289bff3cf",
+        "kind": "Comment only, full parsed TS body identical"
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "beforeSha256": "f1d5dd90dec34aabf19cbf91629c5154ad501ea6a2ba1ecb5c764f21283c84cc",
+        "afterSha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee",
+        "normalizedBodySha256": "1af397bbbc9a741cecc2fd990bd4edfc9a2b24823c7bea539491498501bca7ee",
+        "kind": "Comment only, full parsed TS body identical"
+      }
+    ],
+    "postCounterBridge": {
+      "file": "packages/game/src/shell/trademark-fallback.test.ts",
+      "counterCase": "显式允许 Space：停在首帧、淡至全黑并释放按键监听",
+      "bodyUnchanged": true,
+      "defaultCase": "Only normal/default timing observations strengthened after the frozen skip counter, current whole directed run refreshes result."
+    },
+    "limits": "Body equivalence proves this concrete transformation only; caller/version pins and A-H design/oracle judgments remain separate."
+  },
+  "recount": {
+    "file": "packages/game/src/shell/precache-ui.ts",
+    "base": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+    "runs": [
+      {
+        "id": "ui-v8-before",
+        "tests": 35,
+        "summary": {
+          "total": {
+            "lines": {
+              "total": 113,
+              "covered": 110,
+              "skipped": 0,
+              "pct": 97.34
+            },
+            "statements": {
+              "total": 136,
+              "covered": 131,
+              "skipped": 0,
+              "pct": 96.32
+            },
+            "functions": {
+              "total": 28,
+              "covered": 26,
+              "skipped": 0,
+              "pct": 92.85
+            },
+            "branches": {
+              "total": 72,
+              "covered": 65,
+              "skipped": 0,
+              "pct": 90.27
+            },
+            "branchesTrue": {
+              "total": 0,
+              "covered": 0,
+              "skipped": 0,
+              "pct": "Unknown"
+            }
+          },
+          "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/precache-ui.ts": {
+            "lines": {
+              "total": 113,
+              "covered": 110,
+              "skipped": 0,
+              "pct": 97.34
+            },
+            "functions": {
+              "total": 28,
+              "covered": 26,
+              "skipped": 0,
+              "pct": 92.85
+            },
+            "statements": {
+              "total": 136,
+              "covered": 131,
+              "skipped": 0,
+              "pct": 96.32
+            },
+            "branches": {
+              "total": 72,
+              "covered": 65,
+              "skipped": 0,
+              "pct": 90.27
+            }
+          }
+        }
+      },
+      {
+        "id": "ui-v8-after",
+        "tests": 35,
+        "summary": {
+          "total": {
+            "lines": {
+              "total": 112,
+              "covered": 109,
+              "skipped": 0,
+              "pct": 97.32
+            },
+            "statements": {
+              "total": 133,
+              "covered": 128,
+              "skipped": 0,
+              "pct": 96.24
+            },
+            "functions": {
+              "total": 27,
+              "covered": 25,
+              "skipped": 0,
+              "pct": 92.59
+            },
+            "branches": {
+              "total": 72,
+              "covered": 65,
+              "skipped": 0,
+              "pct": 90.27
+            },
+            "branchesTrue": {
+              "total": 0,
+              "covered": 0,
+              "skipped": 0,
+              "pct": "Unknown"
+            }
+          },
+          "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/precache-ui.ts": {
+            "lines": {
+              "total": 112,
+              "covered": 109,
+              "skipped": 0,
+              "pct": 97.32
+            },
+            "functions": {
+              "total": 27,
+              "covered": 25,
+              "skipped": 0,
+              "pct": 92.59
+            },
+            "statements": {
+              "total": 133,
+              "covered": 128,
+              "skipped": 0,
+              "pct": 96.24
+            },
+            "branches": {
+              "total": 72,
+              "covered": 65,
+              "skipped": 0,
+              "pct": 90.27
+            }
+          }
+        }
+      }
+    ],
+    "delta": {
+      "statements": {
+        "covered": -3,
+        "total": -3
+      },
+      "branches": {
+        "covered": 0,
+        "total": 0
+      },
+      "functions": {
+        "covered": -1,
+        "total": -1
+      },
+      "lines": {
+        "covered": -1,
+        "total": -1
+      }
+    },
+    "sourceRestored": true,
+    "limits": "Single source old/current V8 at whole-window freeze, same strengthened35 tests; complete official suite remains required."
+  },
+  "dataProof": {
+    "out": [
+      {
+        "file": "scripts/coverage/approved-test-retirements.mjs",
+        "oldEntries": 52,
+        "newEntries": 53,
+        "allOldDataEqual": true,
+        "allOtherStatementsEqual": true
+      },
+      {
+        "file": "scripts/coverage/approved-baseline-adjustments.mjs",
+        "oldEntries": 13,
+        "newEntries": 14,
+        "allOldDataEqual": true,
+        "allOtherStatementsEqual": true
+      }
+    ],
+    "applied": ["pre94-precache-private-formatter-recount-20261023"],
+    "sourceDriftRefused": true,
+    "limits": "One finite record per data list; no comparator/predicate/old-record changes. Inventory cardinality assertions update separately53/net107."
+  },
+  "workflow": {
+    "base": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+    "reports": [
+      {
+        "file": ".github/workflows/coverage.yml",
+        "beforeSha256": "25f76037b61cb5c96a76f3c4f9456387e975748e27da9f28f0b578b08a6f398b",
+        "afterSha256": "ecffe63c12642aa1a2a59ae779e866170fecbba8485909e0fbf4212697176659",
+        "changes": [
+          {
+            "job": "fast-coverage",
+            "step": 1,
+            "repo": "actions/checkout",
+            "release": "v7.0.1",
+            "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "runtime": "node24"
+          },
+          {
+            "job": "fast-coverage",
+            "step": 2,
+            "repo": "pnpm/action-setup",
+            "release": "v6.1.0",
+            "sha": "ea17c68df8912ef543352723c149a84f56e3d413",
+            "runtime": "node24"
+          },
+          {
+            "job": "fast-coverage",
+            "step": 3,
+            "repo": "actions/setup-node",
+            "release": "v7.1.0",
+            "sha": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "runtime": "node24"
+          },
+          {
+            "job": "fast-coverage",
+            "step": 9,
+            "repo": "actions/upload-artifact",
+            "release": "v7.0.2",
+            "sha": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+            "runtime": "node24"
+          }
+        ],
+        "allOtherYamlFieldsUnchanged": true
+      },
+      {
+        "file": ".github/workflows/docs.yml",
+        "beforeSha256": "f876fb22554ae938e24fca23b333b851c830aa5338fe15adf3522e310fc7b6a9",
+        "afterSha256": "c36249368ea6e0a50f21b56754968163b12cbac02ae6d207388cde5342158aee",
+        "changes": [
+          {
+            "job": "documentation",
+            "step": 1,
+            "repo": "actions/checkout",
+            "release": "v7.0.1",
+            "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "runtime": "node24"
+          },
+          {
+            "job": "documentation",
+            "step": 2,
+            "repo": "pnpm/action-setup",
+            "release": "v6.1.0",
+            "sha": "ea17c68df8912ef543352723c149a84f56e3d413",
+            "runtime": "node24"
+          },
+          {
+            "job": "documentation",
+            "step": 3,
+            "repo": "actions/setup-node",
+            "release": "v7.1.0",
+            "sha": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "runtime": "node24"
+          }
+        ],
+        "allOtherYamlFieldsUnchanged": true
+      }
+    ],
+    "limits": "Static YAML/ref/input verification only. Remote setup, cache, upload and all warning counts require the actual updated workflow run."
+  },
+  "processFailures": [
+    "ui-ownership-before omitted vi import: invalid control, retained; r2 isolates intended business error",
+    "Initial mutant driver expected unquoted it.each token; exact quoted native identity mapped to frozen green, no mutation rerun",
+    "client-trademark-green two full-canvas realm mismatches: compare all bytes after TypedArray.from normalization",
+    "directed-shell two timeouts after fake-clock conversion: explicit pending/advance/await fixed; no timeout changes",
+    "game-types two overloaded Mock type errors: explicit two-argument union fixed without cast",
+    "Initial merged-main log parsers rejected BOM/step descriptor; v3 exact three command boundaries, all originals retained",
+    "Private ledger update first failed with Node default maxBuffer ENOBUFS and then a count-mismatch message-prefix assertion; corrected finite16MiB bound and exact consumer prefix, no product/source write in either failed attempt. First verifier scoped Biome rejected ANSI control-character regex; replaced with explicit character-code RegExp, no rule change. These three initial helper-tool outputs were visible in session but not saved as standalone raw attachments; no pass/counter credit claimed.",
+    "Original module-ratchet interrupted by session before completion: no execution receipt/summary, no pass credit; raw retained. One retry completes frozen whole-window official gate, not a per-file rerun.",
+    "Final packet dependency pin initially used nonexistent shared/src/types.ts and failed before writing packet; actual Palette type is resources.ts. Corrected dependency path, no source/test or gate rerun required. Initial tool output retained in session only."
+  ],
+  "findings": {
+    "fixed": [
+      "Misleading necessary-phase/1:1/lifecycle comments",
+      "Test language subscription/timer/module/navigator ownership",
+      "Exact SW protocol/error oracles; legal Palette/random/canvas fixtures; duplicate ready-after case",
+      "Same-contract private formatter consolidation",
+      "Action Node20/dependency deprecations: official Node24 refs upgraded; actual remote verification pending"
+    ],
+    "retained": [
+      {
+        "kind": "structural candidate",
+        "path": "packages/game/src/assets/dialog-assets.ts",
+        "issue": "Redundant outer defensive catch under ordinary loaders; diagnostic-infrastructure throwing policy unestablished, retained existing failure contract."
+      },
+      {
+        "kind": "scope limit",
+        "path": "packages/game/src/shell/precache-client.ts",
+        "issue": "Page lifecycle only; no production repeated-registration/HMR caller, no new product dispose/re-entry contract."
+      },
+      {
+        "kind": "documented existing deviation",
+        "path": "packages/game/src/shell/trademark-fallback.ts",
+        "issue": "Elapsed RGB fade and SDL integer j/64 differ in intermediate pixels; comment corrected, sequence/default timing retained."
+      }
+    ],
+    "newProductDefects": 0
+  },
+  "limits": [
+    "No new browser visual, HTTP, SW offline, E2E or physical timing evidence; original72 narrow real-PROD evidence reused only.",
+    "No shared codec truth, broad bootstrap/main/splash/file closure, no94-102.",
+    "Partial83 state not promoted until concentrated gates pass. Full test greens alone never establish file completion."
+  ],
+  "integration": {
+    "state": "passed",
+    "frozen": {
+      "at": "2026-10-23T01:37:14.862Z",
+      "base": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+      "files": [
+        {
+          "file": "packages/game/src/shell/precache-ui.ts",
+          "sha256": "c4cd5d12f0bc2dbcc070f5ddcfbb98757353f238bf1b498b3bd15f3d4f87d614"
+        },
+        {
+          "file": "packages/game/src/shell/precache-client.ts",
+          "sha256": "abba42fb5f84f0c04f97f1ee589d5cb933ded67cef7e52c0a8a835d9a1930694"
+        },
+        {
+          "file": "packages/game/src/shell/trademark-fallback.ts",
+          "sha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee"
+        },
+        {
+          "file": "packages/game/src/shell/precache-ui.test.ts",
+          "sha256": "07fff6677212ba351c0e9cef53c3e93725627253151760e7824353bc9d2eb16d"
+        },
+        {
+          "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+          "sha256": "fa3bd28549ee88ca59711a90ca10270db7e296f330d4309c4ade63eef1dd013f"
+        },
+        {
+          "file": "packages/game/src/shell/precache-client.test.ts",
+          "sha256": "28ce0d5003acf0b193eb544daae13f93ae6f76d20d1fa71e65b2dc861be0b2c1"
+        },
+        {
+          "file": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+          "sha256": "67256f548bd47c406cfecaaedd1bcff9dec9ad005d5a3342ffeea5f1b717be5c"
+        },
+        {
+          "file": "packages/game/src/shell/trademark-fallback.test.ts",
+          "sha256": "2f2ae11c76e2acfad0cb2520732a1345774e6d9e0877fd9f946ee0f0838abf7e"
+        },
+        {
+          "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+          "sha256": "c5d2cfdce1a5b5d6372a1ee5249936be3e93beffd3b167f9579910ec010eb00b"
+        },
+        {
+          "file": "packages/game/src/__tests__/precache-ui-host.ts",
+          "sha256": "4f2cc02f49b8d0885d33d8ca9581b64d5835918fafb6b0de8aebd97a64d87997"
+        },
+        {
+          "file": "packages/game/src/__tests__/precache-client-host.ts",
+          "sha256": "973b3a485956111622f1b1bd9be058f1da52cb20ec17b0020ce855fb7e724694"
+        },
+        {
+          "file": ".github/workflows/coverage.yml",
+          "sha256": "ecffe63c12642aa1a2a59ae779e866170fecbba8485909e0fbf4212697176659"
+        },
+        {
+          "file": ".github/workflows/docs.yml",
+          "sha256": "c36249368ea6e0a50f21b56754968163b12cbac02ae6d207388cde5342158aee"
+        }
+      ],
+      "scope": "Current three related CODE3i slices plus two workflow action-version upgrades. No full coverage collection before this source/test freeze. Finite retirement/recount data and final evidence still to be written."
+    },
+    "check": {
+      "id": "module-check",
+      "execution": {
+        "id": "module-check",
+        "command": "env",
+        "args": ["VITEST_MAX_WORKERS=1", "pnpm", "check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-23T01:49:38.934Z",
+        "end": "2026-10-23T02:09:18.030Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+        "observerTimeout": false,
+        "stdoutBytes": 374224,
+        "stderrBytes": 0
+      },
+      "packageCounts": [1498, 114, 3806, 510, 8991, 4943, 739],
+      "packageTestCount": 20601,
+      "toolCounts": [125, 101, 47, 397, 22],
+      "toolTestCount": 692,
+      "lint": ["lint: PASS — 5939 files; 0 errors / 0 warnings / 0 infos; complete report"],
+      "diagnostics": [],
+      "stdoutBlocks": {
+        "before": 251,
+        "after": 251,
+        "priorEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/sync-check.stdout.raw within receipts.json.gz",
+        "priorRawSha256": "0f298e4c1cef4a183f617730bc46e15ef6351ec1469564afe42eaae66406bc93",
+        "changed": [
+          {
+            "header": "src/core/author-disk-baseline.pal.test.ts > PAL actual read evidence covers current serialized author paths without decoding maps or reading binary resources",
+            "before": [
+              "PAL author baseline read cost {\n  elapsedMs: 506,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+            ],
+            "after": [
+              "PAL author baseline read cost {\n  elapsedMs: 620,\n  reads: 1077,\n  totalBytesRead: 152305027,\n  paths: 538,\n  bytesRead: 76154226\n}"
+            ]
+          }
+        ]
+      },
+      "limits": "Complete raw streams retained; exact grouped stdout comparison, no numeric normalization. All changed payloads require concrete review, not an automatic diagnostic exception."
+    },
+    "coverage": {
+      "id": "module-ratchet-retry",
+      "execution": {
+        "id": "module-ratchet-retry",
+        "command": "env",
+        "args": [
+          "VITEST_MAX_WORKERS=1",
+          "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1",
+          "TYPE_PAL_COVERAGE_BASE_REF=13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+          "pnpm",
+          "coverage:ratchet",
+          "--allow-scope-removal"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-23T02:16:16.495Z",
+        "end": "2026-10-23T02:32:50.067Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+        "observerTimeout": false,
+        "stdoutBytes": 204884,
+        "stderrBytes": 0
+      },
+      "packageCounts": [114, 1498, 361, 671, 8991, 3756, 4781],
+      "packageTestCount": 20172,
+      "toolCounts": [101],
+      "toolTestCount": 101,
+      "lint": [],
+      "diagnostics": [],
+      "stdoutBlocks": {
+        "before": 250,
+        "after": 250,
+        "priorEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/sync-ratchet.stdout.raw within receipts.json.gz",
+        "priorRawSha256": "918dc144c1bad6f9efdfe551b7ce45e396a3e1f17a7dc658e5186a91d34172d5",
+        "changed": []
+      },
+      "limits": "Complete raw streams retained; exact grouped stdout comparison, no numeric normalization. All changed payloads require concrete review, not an automatic diagnostic exception."
+    },
+    "protectedReport": "module-protected-report.json",
+    "successfulExecutionIds": [
+      "directed-restored",
+      "adjacent-shell",
+      "game-types-restored",
+      "scoped-source-lint",
+      "coverage-tools",
+      "module-check",
+      "module-ratchet-retry",
+      "module-protected",
+      "final-docs",
+      "final-lint",
+      "final-ledger",
+      "final-diff"
+    ],
+    "scope": "Source gates passed. Final document metadata checks and actual remote PR still required; one interrupted coverage attempt plus one completed report, protected reuses latter.",
+    "finalStatic": {
+      "docs": "0issues including progress-integrity",
+      "lint": "5939files/0errors0warnings0infos",
+      "ledger": "3404/405/104/2895",
+      "diff": "clean",
+      "limits": "Packet repack below changes only attached byte archive/result metadata; final source hash and read-only integrity refresh follow. No repeated full check or coverage."
+    }
+  },
+  "workflowDimensions": {
+    "A": "Both complete workflows read; official releases/tag dereference, action.yml inputs/runtime and runner support checked. Existing hostedUbuntu runner2.338.0 exceedsNode24 minimum. Remote install/cache/artifact behavior still requires actual run.",
+    "B": "Each SHA has exact release comment; no unqualified claim version upgrade alone proves zero warnings.",
+    "C": "Workflow calls remain sequential checkout/pnpm/setup/install/check/report; same job IDs, contents:read, triggers, concurrency and protected branch baseline env.",
+    "D": "Use upstream Node24 actions rather than custom copies of dependency code; keep separate docs/coverage jobs because required contracts differ.",
+    "E": "Parsed YAML equals old after restoring only seven uses refs. Verify every configured with input exists in exact pinned action.yml. Actual requiredchecks/raw and all platform notices must be independently read.",
+    "F": "Full SHA plus short release comment identifies immutable audited code and human version.",
+    "G": "Only seven references changed; no added steps, warning-suppression variables, shell wrapper or changed projectNode/pnpm version.",
+    "H": "Small version-only patch independently parseable; final hosted CI gives setup/cache/upload and warning evidence unavailable to local unit tests."
+  },
+  "bootFailureBridge": {
+    "originalFix": "291b7b59d4296650afb468a761ac269caba997b4",
+    "proofs": [
+      {
+        "file": "packages/game/src/main.ts",
+        "part": "PROD bootstrap catch including restoreBootFetch before ui.fail/showError",
+        "normalizedEqual": true
+      },
+      {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "part": "restoreFetch",
+        "normalizedEqual": true,
+        "onlyOmittedCurrentLanguageCleanup": [
+          "_unsubscribeLanguage?.();",
+          "_unsubscribeLanguage = null;"
+        ]
+      },
+      {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "part": "initBootLoading",
+        "normalizedEqual": true,
+        "onlyOmittedCurrentLanguageCleanup": [
+          "_unsubscribeLanguage = subscribeLanguage(scheduleRender);"
+        ]
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "part": "fail first6 statements",
+        "normalizedEqual": true,
+        "limit": "Only phase/normalization/DOM-owner prefix, no claim entire method unchanged after approved localization."
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "part": "setNecessaryProgress first2 statements",
+        "normalizedEqual": true,
+        "limit": "Only phase/normalization/DOM-owner prefix, no claim entire method unchanged after approved localization."
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "part": "setFullProgress first5 statements",
+        "normalizedEqual": true,
+        "limit": "Only phase/normalization/DOM-owner prefix, no claim entire method unchanged after approved localization."
+      }
+    ],
+    "currentPins": [
+      {
+        "file": "packages/game/src/main.ts",
+        "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03"
+      },
+      {
+        "file": "packages/game/src/shell/boot-loading.ts",
+        "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a"
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "sha256": "c4cd5d12f0bc2dbcc070f5ddcfbb98757353f238bf1b498b3bd15f3d4f87d614"
+      }
+    ],
+    "currentTests": [
+      "directed-restored52",
+      "adjacent-shell61",
+      "original72 formal4reds and qualified actualPROD404/late200/screenshots reused"
+    ],
+    "limits": "Approved defect-only bridge. New upstream language subscription is explicitly omitted only in the two exact old functions; current behavior/read/English shell surfaces covered separately. No new realPROD, offline or whole main/bootstrap acceptance."
+  },
+  "complexity": {
+    "method": "AST syntactic branch heuristic per function, nested functions counted independently; if/conditional/loops/case/catch/&&/||/??. Initial-screen clue only, no complexity threshold used as acceptance.",
+    "rows": [
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "isFiniteNonNegative",
+        "line": 11,
+        "complexityHint": 2
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "formatMebibytes",
+        "line": 15,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "normalizeByteProgress",
+        "line": 19,
+        "complexityHint": 4
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "createPrecacheWidget",
+        "line": 50,
+        "complexityHint": 2
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "update",
+        "line": 52,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "done",
+        "line": 52,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "renderText",
+        "line": 83,
+        "complexityHint": 3
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 92,
+        "complexityHint": 2
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "update",
+        "line": 97,
+        "complexityHint": 3
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "done",
+        "line": 107,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 110,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "createUnifiedProgressUi",
+        "line": 118,
+        "complexityHint": 4
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "byId",
+        "line": 119,
+        "complexityHint": 2
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 137,
+        "complexityHint": 4
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "paint",
+        "line": 143,
+        "complexityHint": 3
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "setNecessaryProgress",
+        "line": 156,
+        "complexityHint": 3
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 162,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "markPlayable",
+        "line": 165,
+        "complexityHint": 4
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 168,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 178,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "setFullProgress",
+        "line": 180,
+        "complexityHint": 6
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 193,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "enterGame",
+        "line": 199,
+        "complexityHint": 5
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 206,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "done",
+        "line": 215,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "fail",
+        "line": 219,
+        "complexityHint": 4
+      },
+      {
+        "file": "packages/game/src/shell/precache-ui.ts",
+        "function": "<callback>",
+        "line": 226,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-client.ts",
+        "function": "startPrecache",
+        "line": 35,
+        "complexityHint": 2
+      },
+      {
+        "file": "packages/game/src/shell/precache-client.ts",
+        "function": "pausePrecache",
+        "line": 41,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-client.ts",
+        "function": "resumePrecache",
+        "line": 46,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/precache-client.ts",
+        "function": "registerPrecache",
+        "line": 50,
+        "complexityHint": 7
+      },
+      {
+        "file": "packages/game/src/shell/precache-client.ts",
+        "function": "<callback>",
+        "line": 67,
+        "complexityHint": 4
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "function": "sleep",
+        "line": 36,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "function": "<callback>",
+        "line": 37,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "function": "scalePalette",
+        "line": 40,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "function": "<callback>",
+        "line": 45,
+        "complexityHint": 1
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "function": "fadeOut",
+        "line": 55,
+        "complexityHint": 3
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "function": "playTrademarkFallback",
+        "line": 73,
+        "complexityHint": 4
+      },
+      {
+        "file": "packages/game/src/shell/trademark-fallback.ts",
+        "function": "<callback>",
+        "line": 74,
+        "complexityHint": 1
+      }
+    ],
+    "over10": [],
+    "duplication": "Two same-contract formatter bodies identified and proven/combined. Test lifecycle/IO duplications extracted for two real suites each. Similar overlay/widget percentage and trademark/splash fade kept separate for semantic/lifecycle differences."
+  },
+  "mergedMainCi": {
+    "run": 39879723853,
+    "head": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+    "bytes": 662661,
+    "sha256": "018a9927b47d64bec80b1bd0fda4737fd160dbc1a8e3f1437fea11588d36610e",
+    "projectDiagnosticLines": [],
+    "lint": ["lint: PASS — 5935 files; 0 errors / 0 warnings / 0 infos; complete report"],
+    "total": "TOTAL        90.31% (72675/80469)  83.90% (52605/62701)  89.79% (13730/15292)  92.17% (64900/70412)  774    20172",
+    "platformNotices": [
+      "fast-coverage\tRun pnpm/action-setup@v4\t2026-10-23T00:42:59.8371156Z (node:2109) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tRun actions/setup-node@v4\t2026-10-23T00:43:00.9555617Z (node:2123) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tRun actions/setup-node@v4\t2026-10-23T00:43:01.7432501Z (node:2123) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tUpload per-package reports\t2026-10-23T01:00:20.7671897Z (node:31814) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tUpload per-package reports\t2026-10-23T01:00:22.1274172Z (node:31814) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tPost Run actions/setup-node@v4\t2026-10-23T01:00:23.4547033Z (node:31826) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tComplete job\t2026-10-23T01:00:23.7337892Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+    ],
+    "stepMapping": "Main log has real step names and a UTF8 BOM before each step timestamp. Initial parser rejected the BOM-prefixed markers; trimStart then parses metadata only. Three exact unique native runner command-group markers still bound complete project output. V2 carried a stale UNKNOWN STEP description from the prior PR auditor; this corrected descriptor changes no diagnostic criteria or raw bytes.",
+    "limits": "Native full run log retained separately. Verify final API/check status and candidate HEAD before merge; no log filtering, all-platform-zero claim or local coverage rerun."
+  },
+  "acceptance": {
+    "newFiles": 10,
+    "refreshedPriorFiles": 3,
+    "card": "3i",
+    "counts": {
+      "tracked": 3404,
+      "closed": 405,
+      "review": 104,
+      "pending": 2895
+    },
+    "fixed83": {
+      "accept": 64,
+      "partial": 19,
+      "pending": 0
+    },
+    "remaining": "Other19 partial cards only; no94-102 or broad main/bootstrap/splash/shared-format credit."
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "dff08d271e92956c624c4caba54f10060effbb9ab755a688a4a0c22c2125bc33",
+    "entries": 262,
+    "encoding": "gzip JSON dictionary of complete raw bytes as base64 + per-entry size/SHA256; failed attempts retained"
+  }
+}
