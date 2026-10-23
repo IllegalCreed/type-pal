@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。
+
 2026-10-23当前：64accept/19partial/0pending；仅3i新增接受，原3h信用保留。状态以[83卡机器表](all-cards.json)和父卡为准；修正旧汇总62/21的滞后，实际此前逐行63/20，不虚增卡信用。94–102不扩展。
 
 2026-10-21当前：56 accept / 27 partial / 0 pending。提取四卡窗口接受3b/3d/3f原合同，3g只收测试宿主切片；[当前逐文件与全门](3b/closeout/evidence.json)。其余27partial保持，94–102不扩展。
@@ -17,9 +19,9 @@
 | [CODE-QUALITY-3g](../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) | done | partial | [当前逐文件八维](3g/closeout/review.json)：五测试/宿主文件接受，CLI主编排仍待，不整卡关闭 |
 | [CODE-QUALITY-3h](../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) | done | accept | [当前正式裁定](3h/rle-boot-quality/README.md)：六生产源逐项八维与当前门闭合，shared格式/大bootstrap不附带接受 |
 | [CODE-QUALITY-3i](../../archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md) | done | accept | [五源逐文件A–H及测试/lifecycle收口](3i-dialog-precache/quality-closeout/README.md)；原72失败终态桥、当前门成立，不附带广域入口/离线/视觉信用 |
-| [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | partial | [time-format 四文件切片](3j-time-format/README.md)：解析溢出反例与修复；3j 其余工具文件仍待核 |
+| [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | accept | [既有七源与局部路标校准](3j-route-calibration/README.md)；仅修本表滞后，JSON原已接受，不新增信用 |
 | [CODE-QUALITY-3k](../../archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md) | done | partial | [present primitives 三文件切片](3k-present-primitives/README.md)：framebuffer/shake/wave 与直接 caller/SDL primary 已核读，35 例/typecheck通过；dither/number/follower 与整卡统一门仍待 |
-| [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | partial | [battle-present 三文件切片](3l-battle-present-primitives/README.md)：背景/effect/飘字与装配 caller/SDL primary 已核读，23 例通过；结算/精灵/UI/整卡统一门仍待 |
+| [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | accept | [七源历次证据与当前装配/UI收口](battle-lifecycle-quality/README.md)；有限浏览器入口，广域core与自然剧情不外推 |
 | [CODE-QUALITY-3m](../../archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md) | done | partial | [battle positions](3m-battle-positions/README.md)、[turn-queue](3m-turn-queue/README.md)、[status](3m-status/README.md)、[formulas/magic-damage](3m-formulas-magic/README.md)、[RNG](3m-rng/README.md) 已形成局部证据；状态切片修复死敌槽位误跳过，公式/伤害222例、RNG边界与相邻638例通过；统一门仍待，整卡不关闭 |
 | [CODE-QUALITY-3n](../../archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md) | done | partial | [fade / identity / catalog 复审切片](3n-fade-identity-catalog/README.md)：四个 core helper 与直接/跨模块 oracle 已重读；修复 PaletteFade `/31` 截断差异，直接34例通过；相邻诊断仍待统一收口 |
 | [CODE-QUALITY-3o](../../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | partial | [mode / history / poison / search 复审切片](3o-mode-history-poison-search/README.md)：四个 core helper 与真实 caller/primary 已重读；直接45例、相邻667例通过但预期 warning 仍待统一诊断收口 |

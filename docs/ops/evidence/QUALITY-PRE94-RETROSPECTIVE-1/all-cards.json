@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 65,
+  "currentAccepted": 66,
   "cards": [
     {
       "id": "1",
@@ -731,8 +731,8 @@
       "sha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
       "lines": 161,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -772,7 +772,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md",
+      "currentReviewDepth": "Original seven-source A–H accepted across retained primitive/sprite/UI/host evidence. Local bootstrap entrance and synthetic lifecycle boundaries only; no whole core, natural-story replay or94–102 credit."
     },
     {
       "id": "3m",
@@ -4255,28 +4256,36 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 18,
-    "accept": 65
+    "partial": 17,
+    "accept": 66
   },
   "lastIncrementalReview": {
-    "date": "2026-10-23",
-    "scope": "CODE3j seven held local checkpoint signals; unchanged implementation/config, comment-only correction",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/README.md",
-    "newlyAcceptedCards": ["3j"],
-    "newlyClosedFiles": ["packages/game/src/tools/speedrun/checkpoints.ts"],
+    "date": "2026-10-24",
+    "scope": "CODE3l original seven presentation sources; current rule/host lifecycle window",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md",
+    "newlyAcceptedCards": ["3l"],
+    "newlyClosedFiles": [
+      "packages/game/src/core/battle/player-condition.ts",
+      "packages/game/src/core/battle/action-availability.ts",
+      "packages/game/src/present/battle/draw-battle-ui.ts",
+      "packages/game/src/present/battle/present-battle.ts",
+      "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+      "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+      "packages/pal-extract/vitest.config.ts"
+    ],
     "fixed83": {
       "pending": 0,
-      "partial": 18,
-      "accept": 65
+      "partial": 17,
+      "accept": 66
     },
     "counts": {
-      "total": 3403,
-      "verified": 408,
-      "review": 103,
+      "total": 3410,
+      "verified": 418,
+      "review": 100,
       "pending": 2892,
-      "unclosed": 2995
+      "unclosed": 2992
     },
-    "limits": "No full story route/E2E/visual or94–102 credit."
+    "limits": "P13 and three broad production files retain prior whole-file state. No94–102 or natural-story E2E credit."
   },
   "incrementalReviewHistory": [
     {
@@ -4434,6 +4443,26 @@
         "unclosed": 2996
       },
       "limits": "3j stays partial. No route/data/94-102 credit."
+    },
+    {
+      "date": "2026-10-23",
+      "scope": "CODE3j seven held local checkpoint signals; unchanged implementation/config, comment-only correction",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/README.md",
+      "newlyAcceptedCards": ["3j"],
+      "newlyClosedFiles": ["packages/game/src/tools/speedrun/checkpoints.ts"],
+      "fixed83": {
+        "pending": 0,
+        "partial": 18,
+        "accept": 65
+      },
+      "counts": {
+        "total": 3403,
+        "verified": 408,
+        "review": 103,
+        "pending": 2892,
+        "unclosed": 2995
+      },
+      "limits": "No full story route/E2E/visual or94–102 credit."
     }
   ]
 }

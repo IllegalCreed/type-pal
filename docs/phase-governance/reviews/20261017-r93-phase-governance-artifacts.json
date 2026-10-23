@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3l delta",
+      "readMethod": "Owned3l lifecycle delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3l finite window; gates passed. UI/core duplication and host lifecycle remain review.",
+      "coreConclusion": "3l lifecycle; gates passed.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "27359b3cc7b46317dcc6cec14ecb13ac0216a0ee1b85fa4a143b1fa84a835294",
+      "afterSha256": "1b23b93c15255f6f72a8e6a7ea7ed2b84fc9f5766e37b7f843652124a80edd1b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "27359b3cc7b46317dcc6cec14ecb13ac0216a0ee1b85fa4a143b1fa84a835294",
+        "implementationSha": "1b23b93c15255f6f72a8e6a7ea7ed2b84fc9f5766e37b7f843652124a80edd1b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1791,11 +1791,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-present-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
+        "kind": "codex-owned-pre94-lifecycle-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "27359b3cc7b46317dcc6cec14ecb13ac0216a0ee1b85fa4a143b1fa84a835294",
+        "afterSha256": "1b23b93c15255f6f72a8e6a7ea7ed2b84fc9f5766e37b7f843652124a80edd1b",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -7826,9 +7826,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3l delta",
+      "readMethod": "Owned3l lifecycle delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3l finite window; gates passed. UI/core duplication and host lifecycle remain review.",
+      "coreConclusion": "3l lifecycle; gates passed.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "3cde9cab3c8061463b49d71eeca5466964636347bccb41956c944ad42a5e1b4a",
+      "afterSha256": "e660f8549e62be3479aab6793f0ce0cd3481fa5608af2cc9eb900cff0ad86116",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "3cde9cab3c8061463b49d71eeca5466964636347bccb41956c944ad42a5e1b4a",
+        "implementationSha": "e660f8549e62be3479aab6793f0ce0cd3481fa5608af2cc9eb900cff0ad86116",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8537,11 +8537,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-present-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
+        "kind": "codex-owned-pre94-lifecycle-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "3cde9cab3c8061463b49d71eeca5466964636347bccb41956c944ad42a5e1b4a",
+        "afterSha256": "e660f8549e62be3479aab6793f0ce0cd3481fa5608af2cc9eb900cff0ad86116",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {

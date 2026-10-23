@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3l delta",
+      "readMethod": "Owned3l lifecycle delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3l finite window; gates passed. UI/core duplication and host lifecycle remain review.",
+      "coreConclusion": "3l lifecycle; gates passed.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "7f0aed533dbb6207e3953f3ff3343cf2932e9de48f1c3b05be9d342f0561f726",
+      "afterSha256": "c8208abf16a35674e3e244f7ccaf4e83f3138d68aeb048749e4b5237ff087803",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "7f0aed533dbb6207e3953f3ff3343cf2932e9de48f1c3b05be9d342f0561f726",
+        "implementationSha": "c8208abf16a35674e3e244f7ccaf4e83f3138d68aeb048749e4b5237ff087803",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,9 +1713,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-present-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
-        "afterSha256": "7f0aed533dbb6207e3953f3ff3343cf2932e9de48f1c3b05be9d342f0561f726",
+        "kind": "codex-owned-pre94-lifecycle-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/review.json",
+        "afterSha256": "c8208abf16a35674e3e244f7ccaf4e83f3138d68aeb048749e4b5237ff087803",
         "lineCount": 89,
         "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
@@ -3333,9 +3333,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Finite owned CODE3i source/test/Action cleanup and actual board/ledger projection, unrelated entries preserved",
+      "readMethod": "Owned3l lifecycle delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current CODE3i five-source scope accepted after per-file A-H and concentrated gates. Fixed83:64accept19partial;3404tracked405closed104review2895pending. Ten new closures and three prior accepts refreshed. Main13c CI wasgreen with7platform notices; official Node24 SHA upgrades awaiting actual PR platform audit. No broader main/bootstrap/splash/shared-format/94-102 credit.",
+      "coreConclusion": "3l lifecycle; gates passed.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3352,7 +3352,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "2d6019a0b93fbf994d22835bf5efe76e5f8166d49dd0d2f6c9c582fd6a6962ed",
+      "afterSha256": "09c41bffa6335e950b5ac83bbf6e6a30636dd82256cbc989b1b3bd2627a83a2a",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3373,7 +3373,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "2d6019a0b93fbf994d22835bf5efe76e5f8166d49dd0d2f6c9c582fd6a6962ed",
+        "implementationSha": "09c41bffa6335e950b5ac83bbf6e6a30636dd82256cbc989b1b3bd2627a83a2a",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3730,10 +3730,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-precache-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json",
-        "afterSha256": "2d6019a0b93fbf994d22835bf5efe76e5f8166d49dd0d2f6c9c582fd6a6962ed",
-        "lineCount": 525,
+        "kind": "codex-owned-pre94-lifecycle-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/review.json",
+        "afterSha256": "09c41bffa6335e950b5ac83bbf6e6a30636dd82256cbc989b1b3bd2627a83a2a",
+        "lineCount": 526,
         "scope": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true
@@ -4718,7 +4718,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Current thirteen per-file A-H records with two exact-version reuses; source/test controls and one private formatter recount; workflow changes only seven Action refs",
+      "reviewedLines": "Board/ledger and owned projections only",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
