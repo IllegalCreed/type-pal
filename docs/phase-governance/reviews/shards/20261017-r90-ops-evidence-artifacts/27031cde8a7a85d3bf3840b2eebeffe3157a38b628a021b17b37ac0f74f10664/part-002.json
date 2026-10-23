@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "logicalPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+  "generation": "27031cde8a7a85d3bf3840b2eebeffe3157a38b628a021b17b37ac0f74f10664",
+  "key": "part-002",
+  "positions": [48, 49],
+  "entries": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-candidate-acceptance-20261017.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-candidate-acceptance-20261017.json:1"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-candidate-acceptance-20261017.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+      "afterSha256": "cb6a74fc22e4d98c07227549182d2eb810a6d73022bc211c1b1b61da45ac9d5e",
+      "publicCallers": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-candidate-acceptance-20261017.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-candidate-acceptance-20261017.json",
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+        "implementationSha": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+        "history": [
+          {
+            "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r90-ops-evidence-artifacts-20261017.json",
+        "sourceSha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+        "candidateSha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+        "afterSha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+        "lineCount": 391,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 15195,
+          "sourceLines": 391,
+          "sourceFinalNewline": true,
+          "inverseSha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "reviewDate",
+            "reviewer",
+            "candidateHead",
+            "verdict",
+            "verdictScope",
+            "scope",
+            "blockingCounters",
+            "nonBlockingCounters",
+            "summaryChecks",
+            "staticCommands",
+            "credit",
+            "documents"
+          ],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R90 ops evidence historical artifact governance",
+          "reviewer": "r90_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+      "candidateSha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-candidate-acceptance-20261017.json",
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "sha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R90-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R90-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "010c2738c366ea4bd930d727d43dbed33a20cb7bf334541176e779e2072aa251",
+          "afterSha256": "cb6a74fc22e4d98c07227549182d2eb810a6d73022bc211c1b1b61da45ac9d5e",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.json:1"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+      "afterSha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+      "publicCallers": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.json",
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+        "implementationSha": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+        "history": [
+          {
+            "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r90-ops-evidence-artifacts-20261017.json",
+        "sourceSha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+        "candidateSha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+        "afterSha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+        "lineCount": 3542,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 97320,
+          "sourceLines": 3542,
+          "sourceFinalNewline": true,
+          "inverseSha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "reviewDate",
+            "reviewer",
+            "scope",
+            "summary",
+            "documents",
+            "verdict"
+          ],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R90 ops evidence historical artifact governance",
+          "reviewer": "r90_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+      "candidateSha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.json",
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "sha256": "59f2b24299412cd4c1a782bf868e9335ec79752df5ffcd428d5ce580d8fcc505",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R90-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R90-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    }
+  ]
+}

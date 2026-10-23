@@ -409,7 +409,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "S32 common four-source storage implementation and owned-tree CLI rehearsal delivered for GLM non-author acceptance. Actual four-source/212semantic publication unperformed;927pending documents/1848strict diagnostics; no new credit.",
+      "coreConclusion": "S32 implementation accepted by GLM; four-source storage published and direct independent readback accepted. Administrative current-generation pin acknowledgment only.212semantic/native contract still not published;927pending/1848strict, zero new credit.",
       "truthAnchors": [
         "docs/ops/board.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "9e04ded4c7cb6fd00801897678ac2ef6533f76dcacaa75e4e8d81c3c5424ef86",
+      "afterSha256": "31529d3bc3d4dc0d2fe67d9c85b5def3a73b14718efce118cb25916da201b5c6",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -457,7 +457,7 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "9e04ded4c7cb6fd00801897678ac2ef6533f76dcacaa75e4e8d81c3c5424ef86",
+        "currentSha": "31529d3bc3d4dc0d2fe67d9c85b5def3a73b14718efce118cb25916da201b5c6",
         "implementationSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
@@ -681,6 +681,14 @@
             "revision": "32045c93ba9eac481142c06bde35c720592e2272",
             "afterSha256": "2c18c6b275bf13902a2e5561d2a051f7d596ee0bfc843829eeccae6f9921ae13",
             "scope": "S32 authored implementation and rehearsal delivery acknowledgment only; preserve original source/credit."
+          },
+          {
+            "date": "2026-10-23",
+            "task": "DOCS-NATIVE-JSON-1/S32-central-storage",
+            "revision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+            "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+            "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit.",
+            "afterSha256": "9e04ded4c7cb6fd00801897678ac2ef6533f76dcacaa75e4e8d81c3c5424ef86"
           }
         ]
       },
@@ -709,7 +717,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "9e04ded4c7cb6fd00801897678ac2ef6533f76dcacaa75e4e8d81c3c5424ef86",
+        "afterSha256": "31529d3bc3d4dc0d2fe67d9c85b5def3a73b14718efce118cb25916da201b5c6",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -928,6 +936,14 @@
           "revision": "32045c93ba9eac481142c06bde35c720592e2272",
           "priorCoreConclusion": "Active routing: S31 four-source preflight accepted with bounded independently accepted Owner errata. S32 isolated common implementation admitted; no four-source storage/212semantic publication.927documents/1848strict diagnostics; no new migration/runtime credit.",
           "action": "RecordS32 authored common implementation and owned-tree rehearsals; independent evidence acceptance pending."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S32-central-storage",
+          "revision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+          "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+          "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit.",
+          "priorCoreConclusion": "S32 common four-source storage implementation and owned-tree CLI rehearsal delivered for GLM non-author acceptance. Actual four-source/212semantic publication unperformed;927pending documents/1848strict diagnostics; no new credit."
         }
       ],
       "supersedes": [],
@@ -1186,6 +1202,15 @@
           "beforeSha256": "2c18c6b275bf13902a2e5561d2a051f7d596ee0bfc843829eeccae6f9921ae13",
           "afterSha256": "9e04ded4c7cb6fd00801897678ac2ef6533f76dcacaa75e4e8d81c3c5424ef86",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S32-central-storage",
+          "revision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+          "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+          "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit.",
+          "beforeSha256": "9e04ded4c7cb6fd00801897678ac2ef6533f76dcacaa75e4e8d81c3c5424ef86",
+          "afterSha256": "31529d3bc3d4dc0d2fe67d9c85b5def3a73b14718efce118cb25916da201b5c6"
         }
       ]
     },
@@ -2607,7 +2632,7 @@
       "template": "docs/phase-governance/templates/task-card.md",
       "readMethod": "Receive GLM fixed3eec scoped verdict; verify actual clean candidate and exact twoSHA/raw/source script. Owner replays GLM172 and separately checks positions-based directGit reconstruction/deepStrictEqual/committed inventory/512KiB and14pin deltas; reuse24/232/lint only within supported original input scope. Read-only269 mapping/pinned index check is admission design, not new semantic review or implementation.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S32 Codex authors5document-tool files: new closed four-source prepare/inspect/publish, explicit CLI and6tests; existing S28 R94 read and S29 exact-ten flat-control domain adapted. Owned real-Git CLI rehearsal12writes/0retired,13objects,275rows/four current-pin changes,31old physical/599rows/302native protected; replay0writes. Original macOS path identity failure preserved and fixed. Author evidence only, awaiting GLM non-author review; real four-source/212semantic publication and new credit0.1420/1838,3retired,87incremental; strict1848 remains.",
+      "coreConclusion": "GLM acceptsS32 five-code implementation/owned rehearsal on a83. Owner truly publishes4manifest/7shards and4control afterpins,12writes/0retired; immediate replay0writes. Fresh non-author directGit/positions accepts13objects/275rows,31oldphysical/599rows/302native preserved and2434current pins exact. R94administrative repack separately bounded;212native contract/pilot/semantic not implemented,0new semantic/migration/runtime credit.1420/1838,3retired,87incremental; strict1848 remains.",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
@@ -2638,7 +2663,7 @@
         "2026-10-23 human-forwarded GLM accepts central3eec scope; Owner source/positions/inventory supplement separate. S29 explicit user build gate remains; external draft does not add a current document or credit."
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "1ac9edfe720694821d30f523039500a5c66ab6bddf769951fc81999eb8b0e820",
+      "afterSha256": "565a78cc160b9d31150ded9ec32a3ed0c02d45faded9aa7372ab4f4d997aff4a",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2667,7 +2692,7 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "1ac9edfe720694821d30f523039500a5c66ab6bddf769951fc81999eb8b0e820",
+        "currentSha": "565a78cc160b9d31150ded9ec32a3ed0c02d45faded9aa7372ab4f4d997aff4a",
         "implementationSha": "6dbca994bc74750b3679189641a4ca287593e28a9b6ec90bee11830d40b6b705",
         "history": [
           {
@@ -2775,6 +2800,14 @@
             "revision": "32045c93ba9eac481142c06bde35c720592e2272",
             "afterSha256": "c5f526c4a6589a95c6d0428a01324488657fdd3bed3e1f58bd8b56136ab7c1f9",
             "scope": "S32 authored implementation and rehearsal delivery acknowledgment only; preserve original source/credit."
+          },
+          {
+            "date": "2026-10-23",
+            "task": "DOCS-NATIVE-JSON-1/S32-central-storage",
+            "revision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+            "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+            "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit.",
+            "afterSha256": "1ac9edfe720694821d30f523039500a5c66ab6bddf769951fc81999eb8b0e820"
           }
         ]
       },
@@ -2868,6 +2901,14 @@
           "revision": "32045c93ba9eac481142c06bde35c720592e2272",
           "priorCoreConclusion": "S31 real four-source275rows/212targets/63others/pinDAG/capacity accepted as implementation input. Owner corrects existing-guard false alarm,10-to13owner impact and5before/0retiredshards counts; fresh non-author accepts corrections/design. S32 Owner implementation isolated; old one-shot domains closed, actual central storage/212semantic publication remain unperformed.1420/1838,3retired,87incremental; strict1848 remains.",
           "action": "RecordS32 authored common implementation and owned-tree rehearsals; independent evidence acceptance pending."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S32-central-storage",
+          "revision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+          "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+          "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit.",
+          "priorCoreConclusion": "S32 Codex authors5document-tool files: new closed four-source prepare/inspect/publish, explicit CLI and6tests; existing S28 R94 read and S29 exact-ten flat-control domain adapted. Owned real-Git CLI rehearsal12writes/0retired,13objects,275rows/four current-pin changes,31old physical/599rows/302native protected; replay0writes. Original macOS path identity failure preserved and fixed. Author evidence only, awaiting GLM non-author review; real four-source/212semantic publication and new credit0.1420/1838,3retired,87incremental; strict1848 remains."
         }
       ],
       "supersedes": [],
@@ -3207,6 +3248,15 @@
           "beforeSha256": "c5f526c4a6589a95c6d0428a01324488657fdd3bed3e1f58bd8b56136ab7c1f9",
           "afterSha256": "1ac9edfe720694821d30f523039500a5c66ab6bddf769951fc81999eb8b0e820",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-JSON-1/S32-central-storage",
+          "revision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+          "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+          "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit.",
+          "beforeSha256": "1ac9edfe720694821d30f523039500a5c66ab6bddf769951fc81999eb8b0e820",
+          "afterSha256": "565a78cc160b9d31150ded9ec32a3ed0c02d45faded9aa7372ab4f4d997aff4a"
         }
       ],
       "historicalDeliveryDraftIntake": {
@@ -3336,6 +3386,64 @@
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
         "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"
+      },
+      "storageCentralPublication": {
+        "date": "2026-10-23",
+        "sourceRevision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "implementationAcceptance": {
+          "reviewer": "GLM",
+          "nonAuthorReviewer": true,
+          "candidate": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+          "decision": "accept",
+          "counterCount": 0,
+          "handbackSHA256": "0a3ad82b8146ba9efa912e3496eeba076939930c3a0d892cd2471e45a1e20d97",
+          "verdictSHA256": "5e9b15c8a4fb2ce92216dabc327b6a4188e3741739b02225b8931e51483a8f51",
+          "scope": "Five-code implementation and owned rehearsal only"
+        },
+        "actualFourSourceStoragePublished": true,
+        "sourceReviews": 4,
+        "logicalRows": 275,
+        "targetRows": 212,
+        "nonTargetRows": 63,
+        "sourcePinRevision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+        "initialPublication": {
+          "written": 12,
+          "retired": 0,
+          "newManifests": 4,
+          "newShards": 7,
+          "controlPinChanges": 4,
+          "replayRepositoryWrites": 0,
+          "globalManifestCount": 12,
+          "globalShardCount": 30,
+          "protectedS29Physical": 31,
+          "protectedS29Rows": 599,
+          "protectedNative": 302
+        },
+        "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+        "replayReceiptSHA256": "dc1406e1aeb371115a9ab280b9681070fddcd7f0057867b188bcd06bbadafa81",
+        "firstPublicationIndependent": {
+          "reviewer": "fresh Codex /root/s32_publication_readback",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "verdictSHA256": "e5a95cf11e60c16af514cfbee112f3a6ccd3de47824fa23b38485d0ec369d031",
+          "scope": "Direct Git/positions and bytes at pre-administrative-writeback window; no production loader imports"
+        },
+        "administrativeAckBoundary": "Only3doc/current/R93/R94 current pin/admin deltas. R94repack preserves original source and replaces exactly1physical fragment under lock. Final bounded evidence separate, not self-certified.",
+        "native212Published": 0,
+        "productionNativeContractRegistered": false,
+        "newSemanticCredit": 0,
+        "newTemplateMigrationCredit": 0,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "strictDiagnostics": 1848,
+        "distinctPending": 927,
+        "migration": [1420, 1838],
+        "retired": 3,
+        "incrementalMigrated": 87,
+        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "mainPushDone": false
       }
     },
     {
@@ -3826,6 +3934,13 @@
       "task": "DOCS-NATIVE-JSON-1/S32-receipt-inputs",
       "action": "Acknowledge S32 authored common implementation and owned-tree rehearsal delivery, awaiting non-author review, with exact dependent administrative pins only. Native212 target rows/source/credit unchanged; strict1848 remains open.",
       "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-JSON-1/S32-central-storage",
+      "revision": "a83e5078e97924bf3e72482b6250dd4a311b2e43",
+      "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
+      "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit."
     }
   ]
 }

@@ -1,7 +1,7 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S32通用存储边界已实现，临时树演练已过；待GLM据证非作者验收，真实四源/212语义未发布）
+Execution: rework（S32实现/演练已获GLM非作者accept；四源存储已受控发布并独立读回，212语义未接入）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
@@ -17,7 +17,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-- 当前S32：212份历史R波JSON的既有内容输入保留；Codex完成隔离通用存储边界与临时树演练，交GLM据证非作者复验。未实施该原生生产合同/pilot/中央接入，真实四源存储与原生载体不动。具体白名单/来源/停止线见本卡S30–S32节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
+- 当前S32：GLM已接受通用实现与临时演练，Codex完成真实四源存储发布。212份历史R波JSON的既有内容输入保留，生产原生合同/pilot/语义尚未接入；原生载体与旧信用保持。具体白名单/来源/停止线见本卡S30–S32节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
 - S26内容白名单269件：S21/F01中原13字段形态且SHA匹配33cc冻结绑定的272件，扣除S25三篇pilot。269件逐篇核全部原生字段、断言/失败、实际相位、producer/consumer、历史继任与信用边界，交具体review草稿。
 - 来源例外23件：无33cc冻结绑定成员，查真实Git载体、引入/移动/生成链，交来源提案或明确unknown；不自行续pin或套用固定源合同。
 - 格式例外7件：4件短摘要、1件含进程信息摘要、2件附distillation；读字段职责与实际consumer，交格式选择与反例提案，不能强补13字段。
@@ -306,3 +306,15 @@ Codex作者完成5个文档工具文件：新增receipt-review-storage-writer、
 另一owned夹具复用S28固定Git原8逻辑并仅将R94控制对象分片，实际旧CLI already-published/599/20片通过，触达改动行；相同只有旧10对象的树中，S29 prepare/inspect均明确拒分片控制且全文件不变。当前S29逻辑若不同S28 frozen内容仍按原合同拒绝，不把旧合同追授当前通过。新6针另覆盖真实Git坏before、伪造handle/输入漂移、prepare后未知兄弟代、缺片、13owner旧写域拒与真实rename失败恢复，未新增生产fault开关或/tmp隐式依赖。
 
 逐文件A–H、真实caller/oracle、失败原件、代码/输入指纹和完整命令输出复用原单份s22-validation.log.gz的S32追加及外部唯一交付入口，正式工具/静态门实际结果以原件为准；strict原1848诊断/927篇不授passed。实现未注册212生产合同、未接入212语义或四源真实存储，新增迁移/runtime信用0；仍1420/1838迁移、3retired、87incremental。不合main、不推送、不标done。
+
+### S32 非作者accept与四源中央存储发布（2026-10-23）
+
+GLM只读接受Codex候选a83e5078e97924bf3e72482b6250dd4a311b2e43的5文件实现和临时演练，零counter；两原件实核SHA：HANDBACK 0a3ad82b8146ba9efa912e3496eeba076939930c3a0d892cd2471e45a1e20d97、verdict 5e9b15c8a4fb2ce92216dabc327b6a4188e3741739b02225b8931e51483a8f51。实际读域/六针6绿/逐104个候选blob对账及244/lint回执复用归原件，不把实现accept当212内容或发布结果accept。聚合codeSHA口径补充为默认basename排序后filename→rawSHA对象的UTF8 JSON.stringify、无空白/尾LF，实重算10197B=7e0d345d…与原件相同；逐文件映射仍为首要绑定，不改GLM原观察或历史回执。
+
+Owner在a83干净codex候选真实执行新CLI --source-revision a83… --publish：12写/0旧片退役/275行、锁释放，默认旧31物理/599逻辑行和302原生保护。随后同一来源再次显式发布先inspect得到published、repositoryWrites=0，完整字节幂等。真实首次发布仅四源flat→manifest/7片及R92三current-after→R94[6]一current-after，275行中其余274行逻辑全同；不改原native/source历史/信用。当前全存储12manifest/30片，所有物理片从已验证descriptor逐件归属，与实际inventory精确对账，不新增canonical分类账或缩1838。
+
+未参与者从Git blob与原生JSON/positions独立重建，不使用生产loader：13对象/275行、实际四source Git身份、旧31/599/302双向字节、所有片容量与全inventory通过；114逻辑review的2434 after pin全部精确，零counter，verdict SHA e5a95cf11e60c16af514cfbee112f3a6ccd3de47824fa23b38485d0ec369d031。其读域严格止于首次发布、行政写回前，未倒签后续差异；一次与发布并发的before探针红件如实保留，不把它算发布失败或通过。
+
+本节和看板的发布事实在命令完成/独立读回后才写。中央行政差异只涉及board/本卡/FULL及current→R93→R94[7]/[33]；R94须以原source pin物化重pack，同锁读回后精确退出被替代的1片，不动R89/90/91六片、R92或旧S29存储。此行政换代另做临时演练/有界独立复核，不能裸parse或把manifest套旧flat刷新器。后继行政generation合法替代后，初迁移旧exact计划不再可充当当前幂等oracle；以公开loader/独立positions/完整current pin为准，初发布幂等原件保留，不倒改原计划或source。
+
+212仍partial-review-unknown/needs-migration，原生生产变体/内容pilot/语义接入尚未实施；本轮0新语义/模板迁移/runtime信用。1420/1838迁移、3retired、87incremental、927篇/1848严格待办保持。全量check:docs未通过，不合main、不推送、不标父子卡done；后续212合同与pilot另按已冻结设计实施，不借本accept扩权到产品或旧测试。
