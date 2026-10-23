@@ -409,7 +409,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。 看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。",
+      "coreConclusion": "Active task routing remains authoritative: S29 is review after269 historical documents entered governance and publication data/two authorized fixtures received non-author acceptance. Strict1848 remains; parent/native tasks rework. No global completion or product/runtime credit.",
       "truthAnchors": [
         "docs/ops/board.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e0402c58d0056953d269974d740b78b2f6fc0e69177bcc2b52b40174fd5e8cd7",
+      "afterSha256": "45792094e56921c8fa25de5eb0284b91b85291ca688b98e74ba15501c944f12c",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -457,7 +457,7 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "e0402c58d0056953d269974d740b78b2f6fc0e69177bcc2b52b40174fd5e8cd7",
+        "currentSha": "45792094e56921c8fa25de5eb0284b91b85291ca688b98e74ba15501c944f12c",
         "implementationSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
@@ -651,6 +651,18 @@
             "revision": "19b583a0c07de64ad81b03241844b5df9acf768c",
             "afterSha256": "90114520dbf6a5884ed16b870657d395bea1d9bf7ddaf23fc381370004cc1802",
             "scope": "Prior administrative candidate preserved; S29 implementation author evidence, no central native publication."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "e0402c58d0056953d269974d740b78b2f6fc0e69177bcc2b52b40174fd5e8cd7",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "b84af69830a456781632761e44708a1b66aee1196927c3bc890a094990336f73",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
           }
         ]
       },
@@ -679,7 +691,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "e0402c58d0056953d269974d740b78b2f6fc0e69177bcc2b52b40174fd5e8cd7",
+        "afterSha256": "45792094e56921c8fa25de5eb0284b91b85291ca688b98e74ba15501c944f12c",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -868,6 +880,18 @@
           "previousAfterSha256": "6b9d75f16f7b61ac820787cb44fcf79ad2426fcb3e19580181576ba72dd40212",
           "afterSha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Update current S29 summary; old statements remain historical.",
+          "priorCoreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。 看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。"
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Record incoming scoped publication/fixture acceptance and actual final validation; preserve prior summary.",
+          "priorCoreConclusion": "Active task routing remains authoritative: S29 is review after269 historical documents entered governance; strict diagnostics1848. Parent/native tasks and catalog split remain rework. No global completion or product/runtime credit."
         }
       ],
       "supersedes": [],
@@ -1091,6 +1115,20 @@
           "beforeSha256": "90114520dbf6a5884ed16b870657d395bea1d9bf7ddaf23fc381370004cc1802",
           "afterSha256": "e0402c58d0056953d269974d740b78b2f6fc0e69177bcc2b52b40174fd5e8cd7",
           "newCredit": 0
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "e0402c58d0056953d269974d740b78b2f6fc0e69177bcc2b52b40174fd5e8cd7",
+          "afterSha256": "b84af69830a456781632761e44708a1b66aee1196927c3bc890a094990336f73",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "b84af69830a456781632761e44708a1b66aee1196927c3bc890a094990336f73",
+          "afterSha256": "45792094e56921c8fa25de5eb0284b91b85291ca688b98e74ba15501c944f12c",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
     },
@@ -1325,7 +1363,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "生成任务索引：保留官方生成器的活动/完成/取消任务分组，并补齐 governance-index-v1 元数据；生成索引不单独证明任何产品或测试通过。 任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。",
+      "coreConclusion": "Official generator projects current task headers and historical groups; S29 stays review and parents remain rework. Index consistency does not certify document completion, historical execution or product tests.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -1337,7 +1375,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "6325d39c5e299f0e1ce55a5e1e75198a4c8524611013b45272502a89e51e3445",
+      "afterSha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1357,7 +1395,7 @@
         "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
+        "currentSha": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
         "implementationSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
@@ -1544,6 +1582,12 @@
             "previousAfterSha256": "8cff3b3a651969563db1fb783d693e9f75ac82caab087887c285d9471b3723ae",
             "afterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "6325d39c5e299f0e1ce55a5e1e75198a4c8524611013b45272502a89e51e3445",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
           }
         ]
       },
@@ -1576,7 +1620,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
+        "afterSha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -1816,6 +1860,18 @@
           "previousAfterSha256": "8cff3b3a651969563db1fb783d693e9f75ac82caab087887c285d9471b3723ae",
           "afterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Update current S29 summary; old statements remain historical.",
+          "priorCoreConclusion": "生成任务索引：保留官方生成器的活动/完成/取消任务分组，并补齐 governance-index-v1 元数据；生成索引不单独证明任何产品或测试通过。 任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。"
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Record incoming scoped publication/fixture acceptance and actual final validation; preserve prior summary.",
+          "priorCoreConclusion": "Official generator projects current task headers and historical groups; S29 changed build to review while parents remain rework. Index consistency does not certify document completion, historical execution or product tests."
         }
       ],
       "supersedes": [],
@@ -1876,6 +1932,13 @@
           "afterSha256": "6325d39c5e299f0e1ce55a5e1e75198a4c8524611013b45272502a89e51e3445",
           "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "6325d39c5e299f0e1ce55a5e1e75198a4c8524611013b45272502a89e51e3445",
+          "afterSha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
     },
@@ -2487,7 +2550,7 @@
       "template": "docs/phase-governance/templates/task-card.md",
       "readMethod": "Receive GLM fixed3eec scoped verdict; verify actual clean candidate and exact twoSHA/raw/source script. Owner replays GLM172 and separately checks positions-based directGit reconstruction/deepStrictEqual/committed inventory/512KiB and14pin deltas; reuse24/232/lint only within supported original input scope. Read-only269 mapping/pinned index check is admission design, not new semantic review or implementation.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S28中央599存储及4补线非作者accept已接收，0语义/迁移/runtime信用。用户2026-10-23批准S29另卡build allowed，269跨8review固定范围和330/302保全已登记；GLM只读复用S26+Owner补丁交差异，Codex负责合同/受控发布。269正式接入尚未实施。",
+      "coreConclusion": "S28 storage599 and glue accepted. S29 newly qualifies/publishes269 bounded historical documents; independent publication-data/authorized-fixture acceptance recorded.330otherrows/native302 preserved. Actual238tools green/lint zero; strict1848 across927documents still fails. Migration1420/1838+3retired+87incremental. No old execution credit.",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
         "docs/ops/document-quality.md:19",
@@ -2518,7 +2581,7 @@
         "2026-10-23 human-forwarded GLM accepts central3eec scope; Owner source/positions/inventory supplement separate. S29 explicit user build gate remains; external draft does not add a current document or credit."
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "c061ea17b0face7b4ab9013fc6aa5ab7e68b9ef7b948e4e3dc9393b2c047688a",
+      "afterSha256": "06e0bac273ee7dbc05df967e2c3546ed13a0c654662bfb15b787b38d03035eb8",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -2547,7 +2610,7 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
       },
       "revision": {
-        "currentSha": "c061ea17b0face7b4ab9013fc6aa5ab7e68b9ef7b948e4e3dc9393b2c047688a",
+        "currentSha": "06e0bac273ee7dbc05df967e2c3546ed13a0c654662bfb15b787b38d03035eb8",
         "implementationSha": "6dbca994bc74750b3679189641a4ca287593e28a9b6ec90bee11830d40b6b705",
         "history": [
           {
@@ -2619,6 +2682,18 @@
             "revision": "19b583a0c07de64ad81b03241844b5df9acf768c",
             "afterSha256": "97fc18b1fd8a881daca1a907783541708ce3d4d3f7e02e9d18776ff4da69d05a",
             "scope": "Prior administrative candidate preserved; S29 implementation author evidence, no central native publication."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "c061ea17b0face7b4ab9013fc6aa5ab7e68b9ef7b948e4e3dc9393b2c047688a",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "c820eb0cdfb567bffdbf67f10519f456cf9b797ea591b07d11eb699f50313bbb",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
           }
         ]
       },
@@ -2682,6 +2757,18 @@
           "date": "2026-10-23",
           "action": "Record GLM3eecaccept, precise method boundary and Owner supplements; currenttask/admin pins only, S29 externaldraft gated byuser",
           "priorRecordRevision": "3eec25022187311903426ae65daeeb3607bf9d58"
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Update current S29 summary; old statements remain historical.",
+          "priorCoreConclusion": "S28中央599存储及4补线非作者accept已接收，0语义/迁移/runtime信用。用户2026-10-23批准S29另卡build allowed，269跨8review固定范围和330/302保全已登记；GLM只读复用S26+Owner补丁交差异，Codex负责合同/受控发布。269正式接入尚未实施。"
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Record incoming scoped publication/fixture acceptance and actual final validation; preserve prior summary.",
+          "priorCoreConclusion": "S28 storage599 and central glue independently accepted. S29 implementation and bounded corrections independently accepted; Owner newly qualifies and publishes269 historical documents, retaining330otherrows/native302. Migration1420/1838+3retired+87incremental; strict1848pending. Publication result review and remaining JSON governance continue; no old execution credit restored."
         }
       ],
       "supersedes": [],
@@ -2979,6 +3066,20 @@
           "beforeSha256": "97fc18b1fd8a881daca1a907783541708ce3d4d3f7e02e9d18776ff4da69d05a",
           "afterSha256": "c061ea17b0face7b4ab9013fc6aa5ab7e68b9ef7b948e4e3dc9393b2c047688a",
           "newCredit": 0
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "c061ea17b0face7b4ab9013fc6aa5ab7e68b9ef7b948e4e3dc9393b2c047688a",
+          "afterSha256": "c820eb0cdfb567bffdbf67f10519f456cf9b797ea591b07d11eb699f50313bbb",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "c820eb0cdfb567bffdbf67f10519f456cf9b797ea591b07d11eb699f50313bbb",
+          "afterSha256": "06e0bac273ee7dbc05df967e2c3546ed13a0c654662bfb15b787b38d03035eb8",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
     },
@@ -2993,7 +3094,7 @@
       "template": "docs/phase-governance/templates/task-card.md",
       "readMethod": "Codex non-author evidence intake of GLM delivery: fixed verifier replay; independent implementation recomputes269 native result sets, exact one-field binding changes,14pilot fullName sets and actual original receipt fingerprints. Reads14pilot assessments, selected nonpilot generator contradiction slices and7 context excerpts. Reuses accepted S26/Owner209 without claiming269manual full-text re-review. Owner corrections separate, author self-check only.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "S29固定1377650ed的269篇GLM只读输入获Codex证据限定接收：269保全/完整结果及跨8review绑定准确，14pilot八相位含3pending和3四失败。新增评语/摘要公共边界由Owner直接勘误；230assessment有效值与3pending摘要的修订未触及S26/原生/身份/读域，Owner作者补丁非作者复核pending。中央269语义发布0，审阅/迁移扣减0，严格2386项保留。",
+      "coreConclusion": "GLM accepted259d common implementation; Owner published269 newly qualified historical documents from accepted S26/S29 evidence and independently accepted corrections. Fresh non-author accepted publication data and two human-authorized fixture adapters; actual238tools pass/lint zero.23new shards/19retired/330others/native302/source8pins preserved. Migration1420/1838; strict1848 remains. No main/push/done or historical/runtime credit.",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-NATIVE-VITEST-269-1.md",
         "docs/ops/document-quality.md",
@@ -3016,7 +3117,7 @@
         "2026-10-23 Codex accepts supported GLM evidence, directly handles bounded new-assessment/summary errors under prior user authorization. Original269 source draft/Owner209/current storage untouched; Owner patch acceptance remains separate."
       ],
       "sourceSha256": "43b136aec7676e5fba18fcf45ec637ff434214087ebd15d5ff82f5185a4899f2",
-      "afterSha256": "8ae228209eabb991a566563d725adf950130e3dcf18d0a1045367eccda7393bd",
+      "afterSha256": "9af3e08a08c073f40c6c73cd9603534a323eeceb502905773b5f7e533599607d",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
@@ -3053,7 +3154,7 @@
         ]
       },
       "revision": {
-        "currentSha": "8ae228209eabb991a566563d725adf950130e3dcf18d0a1045367eccda7393bd",
+        "currentSha": "9af3e08a08c073f40c6c73cd9603534a323eeceb502905773b5f7e533599607d",
         "history": [
           {
             "date": "2026-10-23",
@@ -3070,6 +3171,18 @@
             "revision": "19b583a0c07de64ad81b03241844b5df9acf768c",
             "afterSha256": "94e0b9ab246aa30dfd5abca14a7e16ce83694181a474610be6b99bdfb27bdeef",
             "scope": "Prior administrative candidate preserved; S29 implementation author evidence, no central native publication."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "8ae228209eabb991a566563d725adf950130e3dcf18d0a1045367eccda7393bd",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "cfc1acd30a0109490499233951848e5d3df37c438d665db5c2d6c77a12cbd1e1",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
           }
         ]
       },
@@ -3090,6 +3203,18 @@
           "date": "2026-10-23",
           "action": "Receive269GLM evidence, preserve original, stage bounded Owner corrections;0central269write/0pendingreduction",
           "priorRecordRevision": "1377650ed91a39009bc1b1c6384ed97ff180ef8f"
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Update current S29 summary; old statements remain historical.",
+          "priorCoreConclusion": "S29固定1377650ed的269篇GLM只读输入获Codex证据限定接收：269保全/完整结果及跨8review绑定准确，14pilot八相位含3pending和3四失败。新增评语/摘要公共边界由Owner直接勘误；230assessment有效值与3pending摘要的修订未触及S26/原生/身份/读域，Owner作者补丁非作者复核pending。中央269语义发布0，审阅/迁移扣减0，严格2386项保留。"
+        },
+        {
+          "date": "2026-10-23",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "Record incoming scoped publication/fixture acceptance and actual final validation; preserve prior summary.",
+          "priorCoreConclusion": "GLM accepted259d common implementation. Owner separately qualified269 historical documents from accepted S26/S29 content and independently accepted corrections, then published23new shards/retired19old with330others/native302/source8pins intact. Exact269registry/routes entered; both pending sets decrease269, strict1848, migration1420/1838. Publication independent result review pending; no main/push/done or historical/runtime credit."
         }
       ],
       "supersedes": [],
@@ -3176,13 +3301,27 @@
           "beforeSha256": "94e0b9ab246aa30dfd5abca14a7e16ce83694181a474610be6b99bdfb27bdeef",
           "afterSha256": "8ae228209eabb991a566563d725adf950130e3dcf18d0a1045367eccda7393bd",
           "newCredit": 0
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "8ae228209eabb991a566563d725adf950130e3dcf18d0a1045367eccda7393bd",
+          "afterSha256": "cfc1acd30a0109490499233951848e5d3df37c438d665db5c2d6c77a12cbd1e1",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "cfc1acd30a0109490499233951848e5d3df37c438d665db5c2d6c77a12cbd1e1",
+          "afterSha256": "9af3e08a08c073f40c6c73cd9603534a323eeceb502905773b5f7e533599607d",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ],
       "ownerImplementation": {
         "date": "2026-10-23",
         "author": "Codex",
         "nonAuthorReviewer": false,
-        "status": "self-validated-awaiting-independent-review",
+        "status": "non-author-evidence-accepted",
         "baseRevision": "19b583a0c07de64ad81b03241844b5df9acf768c",
         "codeFiles": 9,
         "allDocsToolInputSHA256": "049a5f20a18d299157dd0c09d25725f08e2e465c8b6040cfed9c5372efaddef3",
@@ -3196,7 +3335,75 @@
         "newMigrationCredit": 0,
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"
+        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "independentAcceptance": {
+          "reviewer": "GLM",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "candidate": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "handbackSha256": "24882339f1a975ed36e969f035f4e5503984102891637ef4fce56222deeaf8db",
+          "verdictSha256": "d5da030563bf0cf32b81e525b3507b5e81eec8c6676a056e0715777e552c2a95",
+          "scope": "Nine implementation files and owned pilot/rehearsal evidence only."
+        }
+      },
+      "centralPublication": {
+        "date": "2026-10-23",
+        "baseRevision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "status": "published-scoped-data-and-authorized-fixtures-independently-accepted",
+        "nativeRows": 269,
+        "otherRowsPreserved": 330,
+        "nativeBytesPreserved": 302,
+        "logicalReviews": 8,
+        "physicalShards": 23,
+        "retiredFragments": 19,
+        "storageControlPins": 9,
+        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "qualifiedDocumentReviews": 269,
+        "templateMigrations": 269,
+        "cohortMigrated": 1420,
+        "cohort": 1838,
+        "retired": 3,
+        "incrementalMigrated": 87,
+        "strictDiagnostics": 1848,
+        "strictDistinct": 927,
+        "grantsRuntimeCredit": false,
+        "originalExecutionReexecuted": false,
+        "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "independentResult": {
+          "reviewer": "fresh non-author Codex /root/s29_publication_independent",
+          "nonAuthorReviewer": true,
+          "decision": "accept-scoped-publication-data",
+          "verdictSha256": "614a2b75d63290c89e1f17527a32a14c35ecc1853241adad53c26939380f0f53",
+          "scope": "Independent direct Git/JSON/positions reconstruction and exact storage/registry/routing/pins; no269manual reread."
+        },
+        "fixtureAdaptation": {
+          "authorization": "Human: 授权这两处夹具适配",
+          "files": [
+            "scripts/docs/historical-vitest-native.test.mjs",
+            "scripts/docs/review-record-storage.test.mjs"
+          ],
+          "sourcePinsAndAssertionsUnchanged": true,
+          "independentVerdictSha256": "26e81c159b1f8758a2a3f47430e000f98eb32c9fa8743f75f8cb6c5e3bf3fdcd",
+          "nonAuthorReviewer": true,
+          "decision": "accept-two-authorized-fixture-adapters",
+          "codeSHA256": "c8b9fed3ea3a21f874b3890fefabe9724aa63c056d558234add74b2031eb7e88"
+        },
+        "validation": {
+          "toolsPass": 238,
+          "toolsFail": 0,
+          "toolsSkip": 0,
+          "lintFiles": 4555,
+          "lintErrors": 0,
+          "lintWarnings": 0,
+          "lintInfos": 0,
+          "wholeCheckDocsPassed": false,
+          "wholeCheckDocsExitCode": 1,
+          "onlyFailure": "strict1848 backlog across927 documents",
+          "readDomain": "Owner actual after-adapter execution before administrative acknowledgment; reviewer matched raw outputs and exact source. Administrative final pins separately rechecked; no reviewer rerun.",
+          "previous235Pass3FailOriginalPreserved": true
+        }
       }
     }
   ],
@@ -3321,6 +3528,24 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-VITEST-269-1/S29-implementation",
       "action": "Receive GLM bounded-correction acceptance and record Codex common-contract/current-generation implementation self-validation only; transitive administrative pins, zero central native publication/credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+      "action": "Exact administrative/dependent pins for scoped implementation acceptance,269new qualified historical-document intake and publication metadata. Original immutable source pins/history retained; publication author self-check pending independent review.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+      "action": "Exact administrative/dependent pins for scoped implementation acceptance,269new qualified historical-document intake and publication metadata. Original immutable source pins/history retained; publication author self-check pending independent review.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+      "action": "Record incoming scoped publication/authorized-fixture non-author acceptance and actual238/0 final validation; update only exact dependent pins. Original immutable source pins/history retained; strict1848 remains open.",
       "nonAuthorReviewer": false
     }
   ]

@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM已接受S24/S25三篇各自pilot证据；迁移信用不变；全量硬验收未完成
-Branch: codex/docs-audit-rework
+Branch: codex/docs-s29-native-vitest
 Last reviewed: 2026-10-21
 Template: task-card-v1 / 1.0.0
 
@@ -2358,3 +2358,11 @@ GLM接受3eec25022（39文件、零counter），Owner核固定候选/两回执SH
 ### S29 勘误accept与通用实现待审（2026-10-23）
 
 GLM对19b583a0的Owner勘误只读非作者accept已接收，零counter；范围仅4共享规则/13字段/3摘要，不自签其原稿。Codex完成9文件原生合同和当前generation受控writer，新增6项实际consumer/并发/幂等测试及owned临时269全包演练；新实现仍作者自验，待非作者复核。中央269、330非目标、302原生和8manifest/19片未写入，严格2386项与迁移1151/1838均不变。完整身份、保全、读域与停止线以[S29卡](DOCS-NATIVE-VITEST-269-1.md)为准；继续rework，不合main、不推送、不标done。
+
+### S29 原生269正式接入（2026-10-23）
+
+GLM对259d九文件通用实现的非作者accept已接收；Owner据已接受S26/S29内容及独立勘误另作269条新的有限文档裁定，在原8review位置正式发布并接入registry/routing。23新片/19旧片退出，330非目标与302原生不变，旧R波深审/执行信用不恢复。实际迁移1420/1838（+269），另3retired、87incremental；当前927篇、921审阅+927迁移=1848严格待办（-538），全量仍未完成。发布结果待未参与者据证复核，详情与SHA/反例见[S29卡](DOCS-NATIVE-VITEST-269-1.md)；本卡仍rework，不合main、不推送、不标done。
+
+### S29 发布与夹具非作者接收（2026-10-23）
+
+未参与者独立接受269发布数据和用户明确授权的两处旧文档测试夹具适配，零新counter；实际完整238工具项通过、lint4555零E/W/I。原235/3失败及授权完整保留，不改原生/产品/coverage或放宽合同。迁移1420/1838（+269），严格2386→1848（-538），去重927篇；check:docs仅该严格待办仍FAIL。本卡rework、S29 review，不合main、不推送、不标done；独立读域/准确SHA/后续边界归[S29](DOCS-NATIVE-VITEST-269-1.md#s29-发布结果与获准夹具适配独立接收2026-10-23)，复用原单份日志与既有review。

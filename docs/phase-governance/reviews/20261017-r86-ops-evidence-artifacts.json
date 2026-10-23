@@ -35,22 +35,28 @@
       "gitObject": "459bf05a94c8b2b71d57d7c6a83b906bfd44b3b6",
       "sha256": "31d980ff2dec1b95e7149d305f2da12bdedb560fc74ed4829cca9c073234e840"
     },
-    "logicalSha256": "b58e50f516a09bdc2d653d12339ec073a4397e52092a97f4067305199905c2c3",
+    "logicalSha256": "6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c",
     "totalEntries": 100,
     "entryOrderSha256": "e8f6411738f253ab08b4a12599141fca1f37b7928c59d9ed634b78eff779df36",
-    "orderedEntriesSha256": "7ca05fd1fea75ba3c8e3d0f08c54cf634dd466f261f3a295bbca15cc3dc8a16d",
+    "orderedEntriesSha256": "dbcb3998d11f8f8d60b2dfd6d90190afb1720ad5e15f15a9f1329225f7ed0bba",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/b58e50f516a09bdc2d653d12339ec073a4397e52092a97f4067305199905c2c3/part-001.json",
-        "total": 51,
-        "sha256": "2e394de2a06b76f855b1e1d7e74749814f05d598c127aa1229a322f4a20f639e"
+        "path": "shards/20261017-r86-ops-evidence-artifacts/6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c/part-001.json",
+        "total": 38,
+        "sha256": "74cae8a9b45bce40167db4b51076bde704e69fe0060d56940ed8dc33f5ad8377"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/b58e50f516a09bdc2d653d12339ec073a4397e52092a97f4067305199905c2c3/part-002.json",
-        "total": 49,
-        "sha256": "ffaae629303506072e15ea585db33fb7100609414dbb4cc8f5e4d6c9e0099be7"
+        "path": "shards/20261017-r86-ops-evidence-artifacts/6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c/part-002.json",
+        "total": 30,
+        "sha256": "22ffac8266d46be012877774e41b5a5162638d3e25a2292c6a07818b159b4552"
+      },
+      {
+        "key": "part-003",
+        "path": "shards/20261017-r86-ops-evidence-artifacts/6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c/part-003.json",
+        "total": 32,
+        "sha256": "41ac79c30e344aee58961cd8aa7a173544c7e560b787d9b635f216b459444ba6"
       }
     ]
   }

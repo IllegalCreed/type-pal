@@ -123,28 +123,34 @@
       "gitObject": "0e24bb9ba4bdefd44a7b3ab898ff14eaaf11203a",
       "sha256": "9194cd1de7b07d27172f0e7947b2f2fd78cf5ff1b05902e2bcc65fe70acf6b4f"
     },
-    "logicalSha256": "20a5af9d20310a106a9e3022d9992bfbacc0e44744f294683fd29d599306e328",
+    "logicalSha256": "bdbbc82a96afaded33fa2a5062fd8ebb6e7404ad57571522a4ad73cb73db3549",
     "totalEntries": 100,
     "entryOrderSha256": "cad52b299207f5ac79af929583972d61ea5e2515cb480e921c44cf59d9a606d1",
-    "orderedEntriesSha256": "67daad7fedf89401ee83ccde30117facdaf932da09f83e1b2fb5efbdc9cd9df0",
+    "orderedEntriesSha256": "06eea7cb571e2c0fb35a63a8e7cdfb8608b2bda87fc4c6fc7707febcba51519e",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r85-testing-archive/20a5af9d20310a106a9e3022d9992bfbacc0e44744f294683fd29d599306e328/part-001.json",
-        "total": 48,
-        "sha256": "2cc6fcfca3c5e92f5b7fc310b3859cc4569daaee51608b1efe910fae327ea830"
+        "path": "shards/20261017-r85-testing-archive/bdbbc82a96afaded33fa2a5062fd8ebb6e7404ad57571522a4ad73cb73db3549/part-001.json",
+        "total": 34,
+        "sha256": "90011c1c7873a77e6e07192d629fa255cf316b1d37e99ee5ed9dec38f6e32547"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r85-testing-archive/20a5af9d20310a106a9e3022d9992bfbacc0e44744f294683fd29d599306e328/part-002.json",
-        "total": 50,
-        "sha256": "6a557d9b7b84bbd19397897023e9bafed795ae0c3eb2a519c7fb354450f36e8e"
+        "path": "shards/20261017-r85-testing-archive/bdbbc82a96afaded33fa2a5062fd8ebb6e7404ad57571522a4ad73cb73db3549/part-002.json",
+        "total": 25,
+        "sha256": "ebacba915df7f5842877bb0c7fb763bdc48dccd35374442cf5fc6eb8b0a418bd"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r85-testing-archive/20a5af9d20310a106a9e3022d9992bfbacc0e44744f294683fd29d599306e328/part-003.json",
-        "total": 2,
-        "sha256": "cdeae390e5d4d2d6acaf676531b5b0c86166a31b946612b16021f74467bd0877"
+        "path": "shards/20261017-r85-testing-archive/bdbbc82a96afaded33fa2a5062fd8ebb6e7404ad57571522a4ad73cb73db3549/part-003.json",
+        "total": 26,
+        "sha256": "f6755b712466a417e5a7d745914c202c2ad9d119152f0e8572f3d48737b9d3b5"
+      },
+      {
+        "key": "part-004",
+        "path": "shards/20261017-r85-testing-archive/bdbbc82a96afaded33fa2a5062fd8ebb6e7404ad57571522a4ad73cb73db3549/part-004.json",
+        "total": 15,
+        "sha256": "2fec644608d603646918cbe59c4c781ef1aafaf5673ccdbfd3add93a05ac7bc0"
       }
     ]
   }

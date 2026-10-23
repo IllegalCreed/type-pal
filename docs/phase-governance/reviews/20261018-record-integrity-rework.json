@@ -2457,12 +2457,18 @@
         }
       ],
       "revision": {
-        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "currentSha": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79",
         "history": [
           {
             "date": "2026-10-18",
             "action": "explicit-pending-registration",
             "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6"
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
           }
         ]
       },
@@ -2480,7 +2486,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f",
+      "afterSha256": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2660,6 +2666,13 @@
           "afterSha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f",
           "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f",
+          "afterSha256": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
     },
@@ -3351,12 +3364,18 @@
         }
       ],
       "revision": {
-        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "currentSha": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
         "history": [
           {
             "date": "2026-10-18",
             "action": "explicit-pending-registration",
             "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
           }
         ]
       },
@@ -3374,7 +3393,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
+      "afterSha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3475,6 +3494,13 @@
           "afterSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
+          "afterSha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
         }
       ]
     },
@@ -8959,6 +8985,12 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-VITEST-269-1",
       "action": "Exact administrative dependencies for approved new task; native599/302 unchanged"
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+      "action": "Exact administrative/dependent pins for scoped implementation acceptance,269new qualified historical-document intake and publication metadata. Original immutable source pins/history retained; publication author self-check pending independent review.",
+      "nonAuthorReviewer": false
     }
   ]
 }

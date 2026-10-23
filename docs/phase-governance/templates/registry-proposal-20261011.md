@@ -343,3 +343,9 @@ pilot要求与停止线：先各做一个固定源原生正控，移除唯一新
 反例：任何字节变化（含格式化）、追加_governance、换payload、joint换标、改baseline/source、删除唯一review或五项语义、相位错配/伪本轮执行均拒绝。使用严格UTF8/重复key parser；model与progress都必须走真实Git源与同一guard。仅正反例通过不授content-reviewed/template-compliant，三篇先保持pending，非作者接受另记。原生不重写是证据格式要求，不放宽全量审阅或1838处置合同。
 
 2026-10-21非作者证据接收：GLM以nonAuthorReviewer=true接受24b93ab8f三件，零counter；Owner确认本变体可作后续同类原生回执的准入基础。三件仍partial-review-unknown/needs-migration，当前实施继续仅三路径，来源/相位/双false、原父与六变体/sourcePins不变；新增范围、迁移信用或批量实施另行准入，不由相同JSON形状继承接受。实际读域与命令、未跑及Owner裁定归[父卡S25](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s25-glm非作者证据接受与owner接入2026-10-21)和既有r85，不增独立账本。
+
+## 2026-10-23 S29：历史原生Vitest准入269与中央接入
+
+S25三篇pilot及其当时pending口径保留；用户已明确批准S29独立范围，当前新增准入以`scripts/docs/historical-vitest-cohort.mjs`冻结的269个path/source/phase/review/index tuple为准，另302原生保护全集含旧三pilot与30例外。historical-vitest-native-v1仍自有1.0.0，父1.5.0/原六变体/sourcePins不动。GLM已接受Codex259d通用实现与受控writer，另由Owner对已接受S26/S29内容及独立勘误作逐篇有限新裁定；代码accept不单独授语义。治理字段仍在原8个唯一review，原生无envelope/sidecar/payload改写。
+
+本轮正式接入269篇，routing/registry按真实合同同步，完整失败/pending身份、真实pointer/context与双false由model/progress验证。旧R波撤信保留在history，新content-reviewed/template-compliant只表示这次历史文档审阅与迁移，不恢复原测试/反控/产品结论；3旧pilot及23来源/7格式例外不计本轮新增信用。当前generation替换仍storage/1.0.0、512KiB、锁/恢复/读回/显式退役，发布结果另交未参与者；全量严格待办未过，不合main、不推送、不标done。

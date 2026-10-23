@@ -1472,7 +1472,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "cb9c499390501f791b97ec90ae89379c137b269ffff0c51a92bca3e169408368",
+      "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1499,7 +1499,7 @@
         ]
       },
       "revision": {
-        "currentSha": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+        "currentSha": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
         "implementationSha": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
         "history": [
           {
@@ -1514,6 +1514,12 @@
             "date": "2026-10-17",
             "action": "R62 byte-stable template source governance",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "cb9c499390501f791b97ec90ae89379c137b269ffff0c51a92bca3e169408368",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
           }
         ]
       },
@@ -1522,7 +1528,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
         "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
         "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-        "afterSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+        "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
         "lineCount": 304,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1603,7 +1609,16 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "cb9c499390501f791b97ec90ae89379c137b269ffff0c51a92bca3e169408368",
+          "afterSha256": "ee86e479f563f88e1a0fa782b47b38c75a24e478f9a5648dad0ba697e9721aad",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/templates/registry.json",
@@ -3690,6 +3705,12 @@
       "date": "2026-10-21",
       "task": "DOCS-FULL-TEMPLATE-1/S25-evidence-intake",
       "action": "Exact current pins for GLM pilot evidence acceptance and owner disposition/source-profile notes only. No semantic/migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+      "action": "Exact administrative/dependent pins for scoped implementation acceptance,269new qualified historical-document intake and publication metadata. Original immutable source pins/history retained; publication author self-check pending independent review.",
       "nonAuthorReviewer": false
     }
   ]

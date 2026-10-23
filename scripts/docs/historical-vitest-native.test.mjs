@@ -34,6 +34,7 @@ function memory(path = paths[0]) {
   }
   const read = (name) => readBuffer(name).toString('utf8')
   const options = {
+    reviewReader: (name) => (name === historicalVitestContract.reviewRecord ? review : undefined),
     readBuffer,
     readSource: (pin) => readGitDocumentSource(root, pin),
     readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),

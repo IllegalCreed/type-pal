@@ -35,7 +35,7 @@ Template: governance-index-v1 / 1.0.0
 | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理](DOCS-NATIVE-JSON-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [DOCS-NATIVE-VITEST-269-1 — S29 原生 Vitest 269篇语义接入](DOCS-NATIVE-VITEST-269-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [DOCS-NATIVE-VITEST-269-1 — S29 原生 Vitest 269篇语义接入](DOCS-NATIVE-VITEST-269-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救](DOCS-RECORD-INTEGRITY-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-REGISTRY-SPLIT-1 — 文档 registry 存储拆分](DOCS-REGISTRY-SPLIT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |

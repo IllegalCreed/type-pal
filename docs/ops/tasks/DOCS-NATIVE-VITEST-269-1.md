@@ -1,7 +1,7 @@
 # DOCS-NATIVE-VITEST-269-1 — S29 原生 Vitest 269篇语义接入
 
-Status: build
-Execution: build allowed（Owner勘误非作者accept已接收；通用合同/受控writer自验，待非作者复核后发布269）
+Status: review
+Execution: review（269发布数据与两处获准夹具适配已非作者accept；238工具项全绿，全量严格1848项仍未过）
 Phase: ops
 Capability: native historical document governance
 Coding Owner: Codex（通用合同、受控写入与中央接入）
@@ -22,7 +22,7 @@ Template: task-card-v1 / 1.0.0
 ## 范围
 
 - 一次269篇包，精确path/source SHA/current logical review/index/proposed phase复用s29-readonly-preflight.json与已接受S26修正稿，不再重复23来源/7格式例外或S25三篇pilot。
-- 269篇目前全部partial-review-unknown/needs-migration。8个目标review分布：R85=72、R86=34、R87=71、R88=71、R73=1、R74=1、R75=9、R76=10；不是只写R85。
+- 269篇准入时全部partial-review-unknown/needs-migration；本轮正式接入后按逐篇新裁定为content-reviewed/template-compliant。8个目标review分布：R85=72、R86=34、R87=71、R88=71、R73=1、R74=1、R75=9、R76=10；不是只写R85。
 - S26提议相位：counterexample-red143、baseline-green30、restored-green27、final-replay-green4、green-run53、gate-run-green8、green-with-pending3、timing-probe-green1。这是已核来源的提议，不是本稿新授运行/语义信用。
 - 599条中其余330条（含原三pilot）、302原生对象、30例外、原1838绑定与所有原source pin只读。原生JSON不加payload/envelope/sidecar，不删历史字段，不恢复撤回B5/B10等旧信用。
 - 代码仅必要scripts/docs原生合同/dispatch、受控review存储更新及新文档工具测试；中央只改精确269的review/registry/routing、必要版本提案/派生artifact与pin、原任务/看板/索引/既有单份日志。产品、旧测试、coverage、共享配置不在授权建议内；若实际证明旧测试必改，列具体最小补丁另行授权。
@@ -60,7 +60,7 @@ Template: task-card-v1 / 1.0.0
 - Codex build allowed：通用合同与受控更新设计/实现/pilot；GLM在固定候选只读复用S26稿及Owner补丁，完善269篇语义和差异证据。中央正式发布须新合同、pilot和受控writer具备有效非作者接受证据，不把本条准入记作accept。
 - 白名单和保全源：`/tmp/type-pal-S29-GLM-native-vitest-269/execution-manifest.json`，SHA-256 `4206abb998623996a6fd0a1cebea8913678f1fc2b29fbf9be09a4579500f8db5`。269个准入tuple、330个只读entry指纹、302个原生SHA、8manifest+19片和6份已接受S26输入均冻结；实际准入提交另由ADMISSION实取绑定，不手填猜测HEAD。
 - 本卡新增1份增量调度文档，独立列为partial-review-unknown/needs-migration；1838原分母、1151迁移及3retired不变。严格待办的增量是本卡review与migration两项，不是新发现两篇旧正文问题。
-- done准入：blocked。0篇新语义/模板/迁移/运行信用；父卡与DOCS-NATIVE-JSON-1保持rework，不合main、不推送。
+- done准入：blocked。269篇新历史文档审阅/模板迁移已正式入账；发布数据及两处夹具适配已独立接受，全量严格门仍待完成，运行信用0；父卡与DOCS-NATIVE-JSON-1保持rework，不合main、不推送。
 
 ## Draft：设计与风险
 
@@ -116,6 +116,22 @@ Owner已创建隔离候选分支并冻结准入包；通用合同和受控writer
 - 开发首红保留：新fixture误用仅JSON的Git reader读取Markdown；改用固定Git普通blob且不扩旧reader。CLI测试树Git状态输出超默认缓冲；增加16MiB有界缓冲/30秒超时后重验。早期断言错误匹配过窄与格式提示原样留痕，未降低规则、未手改回执数字。
 - 新实现与自验须未参与者只读独立复核。中央269状态/8manifest/19片、registry/routing/原生及1151/1838+3retired+87incremental均不变，严格1190审阅+1196迁移=2386诊断仍FAIL。全卡build、父子卡rework；不合main、不推送、不标done。
 
+### S29 通用实现accept与269正式中央发布（2026-10-23）
+
+- 接收GLM对259d7a1790cd9b37af580290822f8e7263d9077c九文件实现的只读非作者accept，零counter。HANDBACK SHA-256 `24882339f1a975ed36e969f035f4e5503984102891637ef4fce56222deeaf8db`、verdict `d5da030563bf0cf32b81e525b3507b5e81eec8c6676a056e0715777e552c2a95`；77文件、049a5f20代码指纹、定向6/0和独立269演练证据已核。该accept只关闭实现前提，不替269文档裁定，也不自签发布结果。
+- Owner在已有S26/S29内容据证接受、Owner209修正与GLM独立接受勘误之上，另作269条逐path有限历史文档accept；实际读域仍为程序逐字段/断言、一次族上下文、14pilot补读与255篇组合复用。原R波撤信完整移入每行history且保留原前缀，本次是新审阅，不恢复旧深审/独立/执行信用。逐篇裁定SHA、原生结果全集、真实witness/context和双false复用现有唯一review行，无新增canonical sidecar或raw副本。
+- 仓外plan在干净259d候选由公共CLI dry-run核过后显式--publish：269行、8manifest、23新片，33文件写入；19旧片按源SHA/固定Git/原因退出，9依赖pin同步，组读回后释锁。独立JSON/positions重建确认599条/键序、330非目标、302原生、8原source pin完整；新片最大446675字节，无孤片/残留锁。随后同一候选新CLI进程只读核already-published、0写入，未靠marker授信。
+- registry精确269条改原生合同与两状态并清旧artifact flags；routing新增269唯一绑定，总1541；真实model/progress仍验证完整内容合同。迁移由1151→1420/1838（新增269），3retired/87incremental不变，基线待审415。两类严格待办各实减269：921review+927migration、交集921，预期1848诊断/927篇；最终以本轮门原件为准，未清零不标全门通过。
+- 发布与中央写回作者Codex/nonAuthorReviewer=false，待未参与者据证复核。独立读回工具首红误将descriptor.total当entries；修正脚本及第二次修补器自身断言失败/缺v2原件均保留，v3仅修精确属性且全过。没有修改生产规则、旧输出或原生内容。CLI幂等证据发生在其9pin事务完成、后续行政pin级联之前；后续元数据是另一个有明确delta的Owner动作。
+- 停止线：本卡review，父子卡rework；不合main、不推送、不标done。只授历史文档内容/模板迁移，原执行、产品、runtime/E2E/视觉/coverage未重跑/未授信。整仓剩余严格待办继续保留。
+
+### S29 发布结果与获准夹具适配独立接收（2026-10-23）
+
+- 未参与实施与发布的Codex子Agent `/root/s29_publication_independent` 对固定259d上的67路径数据差异作只读独立核验，accept-scoped-publication-data，零数据counter。它不经生产loader，独立重建599条/positions并核269发布、330完整保全、302原生、8source pin、23新片/19退出、registry/routing及2434条after pin；未重做269全文语义。verdict SHA-256 `614a2b75d63290c89e1f17527a32a14c35ecc1853241adad53c26939380f0f53`。
+- 发布后完整工具首轮235通过/3失败，原件保留：旧测试把已分片的r85重新编码为超过1MiB的flat fixture，另一个S28 CLI旧测试误用已进入S29的新数据。用户明确「授权这两处夹具适配」后，Owner只改historical-vitest-native.test.mjs注入已物化reviewReader，以及review-record-storage.test.mjs在隔离固定Git原源fixture检查S28。原断言、source pin、产品旧测试与coverage均未改，九个已接受生产实现文件仍与259d逐字节相等。
+- 同一未参与者定向复核两测试diff、授权补丁/输入SHA、67数据路径及302原生未动，并核新实际回执，accept，零新增counter。补充verdict SHA-256 `26e81c159b1f8758a2a3f47430e000f98eb32c9fa8743f75f8cb6c5e3bf3fdcd`；旧报告把77外部包件数误写为工具数的笔误另附勘误，实际101工具文件，原049a5f20指纹有效。适配后工具指纹c8b9fed3，完整238通过/0失败/0跳过；lint4555文件0E/0W/0I，导航/model/testing/phase均零issue。复核者核原始回执并未重复执行这些测试。
+- 实际check:docs仍exit1，仅927篇、921审阅+927迁移=1848诊断；相对2386实减538项，迁移1420/1838、3retired、87incremental。全量未完成，S29保持review、父子卡rework，不合main、不推送、不标done。两份独立接受仅关闭本包数据/夹具证据，运行与旧R波信用不恢复；原失败、授权、精确发布plan重建方法和原件归既有单份压缩日志。
+
 ## 用户验收
 
 用户产品判断N/A（不改可感知行为）。本卡build allowed已获明确批准；不包含新产品取舍、不可逆main操作或未授权旧测试改动。
@@ -127,4 +143,4 @@ Owner已创建隔离候选分支并冻结准入包；通用合同和受控writer
 
 ## 下一位Agent提示词
 
-GLM已接受Owner定向勘误；下一包仅只读复核Codex9文件通用实现、实际consumer与受控发布反例，按固定候选/原件指纹复用有效全门，不重做269篇。独立accept后由Codex生成并核准实际269发布计划；本候选未改中央269状态。自含交接提示词由Owner主动提供，不合main、不推送、不标done。
+269发布数据与两处获准夹具适配已独立接受，原始回执和精确plan重建方法随既有单份日志保存。下一步由Owner按当前927篇待办盘点剩余JSON的可复用合同/具体例外，再冻结下一份GLM大包；未发新的白名单前不扩写中央或重复发布269。复用已核成果，剩余严格1848项未闭前不合main、不推送、不标done。

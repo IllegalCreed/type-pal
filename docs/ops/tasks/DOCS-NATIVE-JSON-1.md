@@ -1,13 +1,13 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S28存储已接受；用户批准S29另卡build allowed，269语义尚未发布）
+Execution: rework（S29的269历史文档中央接入完成；发布结果独立复核与剩余JSON治理待续）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
 Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（中央证据接入；作者自验不代签）
-Branch: codex/docs-audit-rework
+Branch: codex/docs-s29-native-vitest
 Last reviewed: 2026-10-23
 Template: task-card-v1 / 1.0.0
 
@@ -259,3 +259,11 @@ GLM读原生文件及其实际上下文，将历史观察和当前适用性写�
 ### S29 勘误accept与通用实现待审（2026-10-23）
 
 GLM对19b583a0的Owner勘误只读非作者accept已接收，零counter；范围仅4共享规则/13字段/3摘要，不自签其原稿。Codex完成9文件原生合同和当前generation受控writer，新增6项实际consumer/并发/幂等测试及owned临时269全包演练；新实现仍作者自验，待非作者复核。中央269、330非目标、302原生和8manifest/19片未写入，严格2386项与迁移1151/1838均不变。完整身份、保全、读域与停止线以[S29卡](DOCS-NATIVE-VITEST-269-1.md)为准；继续rework，不合main、不推送、不标done。
+
+### S29 原生269正式接入（2026-10-23）
+
+GLM对259d九文件通用实现的非作者accept已接收；Owner据已接受S26/S29内容及独立勘误另作269条新的有限文档裁定，在原8review位置正式发布并接入registry/routing。23新片/19旧片退出，330非目标与302原生不变，旧R波深审/执行信用不恢复。实际迁移1420/1838（+269），另3retired、87incremental；当前927篇、921审阅+927迁移=1848严格待办（-538），全量仍未完成。发布结果待未参与者据证复核，详情与SHA/反例见[S29卡](DOCS-NATIVE-VITEST-269-1.md)；本卡仍rework，不合main、不推送、不标done。
+
+### S29 发布结果独立接收与质量门（2026-10-23）
+
+未参与者已据固定差异/独立重建接受269中央数据及用户获准的两处旧文档测试夹具适配，零数据/夹具counter；详见[S29接收](DOCS-NATIVE-VITEST-269-1.md#s29-发布结果与获准夹具适配独立接收2026-10-23)。新实际完整238/0/0skip、lint4555零诊断，原235/3失败与授权保留。迁移1420/1838，当前927篇/1848严格诊断，check:docs仍exit1；本卡与父卡保持rework，不合main、不推送、不标done。旧执行/产品/E2E/coverage信用0，下一包另定具体剩余范围，不重复269全文或新建账本。

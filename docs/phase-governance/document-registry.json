@@ -45,13 +45,13 @@
     "byType": {
       "task-card": 366,
       "guide-runbook": 18,
-      "archive-record": 1120,
+      "archive-record": 851,
       "governance-index": 271,
       "audit-report": 67,
       "design-spec": 45,
       "evidence-receipt": 140,
       "quality-gate": 3,
-      "test-machine-evidence": 52,
+      "test-machine-evidence": 321,
       "reference-canon": 38,
       "narrative-idea": 2,
       "plan-status": 74,
@@ -62,12 +62,12 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1190,
-      "content-reviewed": 1244
+      "partial-review-unknown": 921,
+      "content-reviewed": 1513
     },
     "templateCompliance": {
-      "needs-migration": 1196,
-      "template-compliant": 1238
+      "needs-migration": 927,
+      "template-compliant": 1507
     }
   },
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta.",
@@ -85,7 +85,7 @@
       "phase": "ops",
       "path": "document-registry.ops.json",
       "total": 1331,
-      "sha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f"
+      "sha256": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79"
     },
     {
       "key": "lore",
@@ -127,7 +127,7 @@
       "phase": "testing",
       "path": "document-registry.testing.json",
       "total": 759,
-      "sha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94"
+      "sha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f"
     }
   ],
   "documentRetirements": {

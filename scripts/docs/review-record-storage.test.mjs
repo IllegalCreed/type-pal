@@ -17,6 +17,10 @@ import {
   reviewDirRelative,
 } from './review-record-storage.mjs'
 import { buildSmallShardedRecord } from './review-record-storage.test-support.mjs'
+import {
+  FROZEN_REVIEW_SOURCE_REVISION,
+  FROZEN_REVIEW_STORAGE_SOURCES,
+} from './review-record-storage-writer.mjs'
 
 const root = fileURLToPath(new URL('../..', import.meta.url)),
   sha = (b) => createHash('sha256').update(b).digest('hex')
@@ -328,8 +332,31 @@ test('flat marker text is ordinary data; CLI dry-run derives the real fixed grou
     )
     fs.rmSync(join(f.dir, reviewDirRelative, 'shards'), { recursive: true, force: true })
     assert.equal(loadReviewRecord({ root: f.dir, logicalPath: f.built.logicalPath }).storage, null)
+    // This S28 contract runs against its fixed original source in an owned tree;
+    // later central semantic updates are not the initial flat migration fixture.
+    fs.cpSync(join(root, 'scripts/docs'), join(f.dir, 'scripts/docs'), { recursive: true })
+    fs.symlinkSync(join(root, 'node_modules'), join(f.dir, 'node_modules'), 'dir')
+    const common = git(root, 'rev-parse', '--path-format=absolute', '--git-common-dir')
+    f.write('.git/objects/info/alternates', Buffer.from(`${join(common, 'objects')}\n`))
+    for (const path of [
+      ...FROZEN_REVIEW_STORAGE_SOURCES.map((entry) => entry.path),
+      `${reviewDirRelative}/20261017-r92-phase-governance-artifacts.json`,
+      `${reviewDirRelative}/20261017-r94-final-machine-artifacts.json`,
+    ])
+      f.write(
+        path,
+        execFileSync(
+          'git',
+          ['-C', root, 'cat-file', 'blob', `${FROZEN_REVIEW_SOURCE_REVISION}:${path}`],
+          {
+            maxBuffer: 16 * 1024 * 1024,
+          },
+        ),
+      )
+    for (const path of ['biome.json', '.gitignore'])
+      f.write(path, fs.readFileSync(join(root, path)))
     const result = JSON.parse(
-      execFileSync('node', [join(root, 'scripts/docs/migrate-review-record-storage.mjs')], {
+      execFileSync('node', [join(f.dir, 'scripts/docs/migrate-review-record-storage.mjs')], {
         env: { ...process.env, RAYON_NUM_THREADS: '1' },
       }),
     )

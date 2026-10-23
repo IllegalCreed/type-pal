@@ -509,22 +509,22 @@
       "gitObject": "c3ae85714d3d83b56805728097aa9c54eeaab3d1",
       "sha256": "9c3611d18a8f9665083b533059ffefe03ecdc3387126ef44bbbe6da3eeadf199"
     },
-    "logicalSha256": "27c3021de83dbeb86da0739fe104b6064a64d3656d4dcca8a5ca2aca64a6842e",
+    "logicalSha256": "7be2d5ce1041dbdb0ea800b16b1fbb6fa8decc6ae4dfb722140b7680a61a992e",
     "totalEntries": 50,
     "entryOrderSha256": "6cb05c7711f940da6f639b1a4cbdd455a9973202ecae4d6f7c95dad3d0fe4724",
-    "orderedEntriesSha256": "bc17d0df5fe16266806212dd4d02c1c7f3db35a6de0f068658067804e80f5699",
+    "orderedEntriesSha256": "3351203838efa6f17763f4a8f92249c2b9f529f2b4ecccc4c072c89536480173",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r74-testing-archive/27c3021de83dbeb86da0739fe104b6064a64d3656d4dcca8a5ca2aca64a6842e/part-001.json",
-        "total": 44,
-        "sha256": "abbeeb74265aa5e0ec67fd1c782b17add9d0bc7e43c6d64a809dab494793f510"
+        "path": "shards/20261017-r74-testing-archive/7be2d5ce1041dbdb0ea800b16b1fbb6fa8decc6ae4dfb722140b7680a61a992e/part-001.json",
+        "total": 43,
+        "sha256": "3b546d86e6c0775d649e47d85c278a502abf04cd2cde7da40cf0758b0605e68b"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r74-testing-archive/27c3021de83dbeb86da0739fe104b6064a64d3656d4dcca8a5ca2aca64a6842e/part-002.json",
-        "total": 6,
-        "sha256": "b8bdcbc853ae1d8e7ae240a76828104b3375e4e2a2a15360848954fc6bde4846"
+        "path": "shards/20261017-r74-testing-archive/7be2d5ce1041dbdb0ea800b16b1fbb6fa8decc6ae4dfb722140b7680a61a992e/part-002.json",
+        "total": 7,
+        "sha256": "a9906f6e463400d759ef63eeacb03d12f42fd2af58c37910c663a92605c800f0"
       }
     ]
   }
