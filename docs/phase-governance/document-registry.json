@@ -32,9 +32,9 @@
     }
   ],
   "summary": {
-    "total": 2433,
+    "total": 2434,
     "byPhase": {
-      "ops": 1330,
+      "ops": 1331,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -43,7 +43,7 @@
       "testing": 759
     },
     "byType": {
-      "task-card": 365,
+      "task-card": 366,
       "guide-runbook": 18,
       "archive-record": 1120,
       "governance-index": 271,
@@ -62,11 +62,11 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1189,
+      "partial-review-unknown": 1190,
       "content-reviewed": 1244
     },
     "templateCompliance": {
-      "needs-migration": 1195,
+      "needs-migration": 1196,
       "template-compliant": 1238
     }
   },
@@ -84,8 +84,8 @@
       "key": "ops",
       "phase": "ops",
       "path": "document-registry.ops.json",
-      "total": 1330,
-      "sha256": "eca01f0f7dfb5a1ae6202ed8dbd08967508470bf08ef2257df0d71bb94ce7b79"
+      "total": 1331,
+      "sha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f"
     },
     {
       "key": "lore",

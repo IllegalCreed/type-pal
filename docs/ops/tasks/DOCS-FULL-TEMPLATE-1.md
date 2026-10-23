@@ -2346,3 +2346,7 @@ GLM只读接受Codex35a33f102（零counter、23/0、当前代码指纹绑定231/
 #### S28中央存储与补线非作者accept已接收（2026-10-23）
 
 GLM接受3eec25022（39文件、零counter），Owner核固定候选/两回执SHA与原件，回放172项并补positions/实际Git全集/512KiB/deepStrictEqual，14pin=9存储+5行政精确。24/232与lint4544按原件/输入复用，不重做599语义。接受只关闭S28存储/4补线证据；所有原生/269状态及2384严格诊断、1195待办/1838分母仍保持。S29拟卡仅外部draft，尚未入仓增加待办，用户要求明确build allowed后方可实施；详情见[子卡最新裁定](DOCS-NATIVE-JSON-1.md#s28-中央发布非作者accept接收2026-10-23)。不合main、不推送、不标父子卡done。
+
+#### S29 用户批准与269篇准入（2026-10-23）
+
+用户明确批准S29草案；[正式子卡](DOCS-NATIVE-VITEST-269-1.md)已入仓build allowed。Codex冻结跨8review/269原生合同与受控delta设计，GLM复用S26修正稿和Owner补丁，只交新增内容/风险pilot及差异；330原行、302原生和全部历史信用保全。生产validator仍限三pilot、269正式发布未实施；本卡继续rework。本次仅新增1增量卡及2项待办，1838不变，不合main、不推送、不标done。

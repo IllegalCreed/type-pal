@@ -1,7 +1,7 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S28中央存储及补线非作者accept已接收；269语义新卡草案待用户明确build allowed）
+Execution: rework（S28存储已接受；用户批准S29另卡build allowed，269语义尚未发布）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
@@ -240,10 +240,14 @@ GLM读原生文件及其实际上下文，将历史观察和当前适用性写�
 
 ## 状态与交接
 
-- 当前Owner：Codex已接收35a及3eec非作者accept，S28存储证据闭合；269草案等待用户明确build allowed。
+- 当前Owner：Codex已接收35a及3eec非作者accept；用户已批准[S29另卡](DOCS-NATIVE-VITEST-269-1.md)，通用能力归Codex，逐篇内容差异交GLM。
 - 稳定交接入口为授权包中的`INSTRUCTIONS.md`和本卡；进度保存在证据目录review-index/已落盘分片，不依赖聊天记忆。工具/清单hash及原件必须可核；指纹全由程序实取。
-- 下一步：用户审定S29拟卡范围；明确build allowed后再入仓开卡、冻结具体合同/发布计划、pilot及一次269包。不重复已核盘点、不预授语义信用。
+- 下一步：按S29冻结合同/受控delta设计推进pilot和只读269差异包；不重复已核盘点、不预授语义信用。
 
 ## 下一位Agent提示词
 
-无新的GLM实施派发。S29草案已备，当前draft、未入仓；按用户本轮停止线等待明确build allowed。批准后由Codex先冻结合同、跨8review受控更新和pilot前提，再交付一次性269白名单包，不逐小批申请；本卡/S28 accept不代替S29授权。
+用户2026-10-23已批准S29草案；后继唯一准入与提示词见[S29卡](DOCS-NATIVE-VITEST-269-1.md)。GLM只读269篇差异证据，Codex负责通用合同/受控写入和中央接入；本卡仍rework，不合main、不推送。
+
+### S29 明确批准转交（2026-10-23）
+
+用户批准已展示草案，Owner已创建[S29正式卡](DOCS-NATIVE-VITEST-269-1.md)并冻结269/330/302范围；历史“等待明确授权”保留为当时事实，已由本条解除。新卡增加一个增量待治理文档和两项严格待办，不改变1838；本次未改8manifest/19片/原生/旧信用，未发布269语义。

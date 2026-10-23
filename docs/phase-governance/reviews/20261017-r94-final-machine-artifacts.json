@@ -1254,7 +1254,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "5251c2d3d7753044ffe0e6df3e247ceb2f2a5d965a393e35aa4c4896c99ae821",
+      "afterSha256": "6cfcda487bae0c7b02f0d365883d79276347d195c457c962a2c742d6255aef1e",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1718,6 +1718,15 @@
           "previousAfterSha256": "dcc32da651f2d76e9c35e81df640c1d3b616a0d3577a69877c849eb5b61bc69a",
           "afterSha256": "ad11fa1fd24be36642aaf947d2b9b32aeb31a0cf3cf1fab1ad6d984c3d1ef361",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-admission",
+          "sourceRevision": "35e3bf2e2c3f8234e8a0e03fa3a8d644466eb941",
+          "previousAfterSha256": "5251c2d3d7753044ffe0e6df3e247ceb2f2a5d965a393e35aa4c4896c99ae821",
+          "afterSha256": "1c5b9c3754b284944531bc3ce4a180f03da6e4e212476094d86fc3eddd2caf5c",
+          "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -5757,7 +5766,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "14c09487f0b5690430ede0cbd5770bed8bac670e8238a9bb818dd9dbfafb221f",
+      "afterSha256": "20678a256a6b798783a736f1f7af6268d40e573d491c8ae8e0d94722ff688cd6",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6358,6 +6367,15 @@
           "afterSha256": "c4136a8a02ca6466756315e41fc9ad5a18423b2927ce3ba98414b34eb855e2a6",
           "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-admission",
+          "sourceRevision": "35e3bf2e2c3f8234e8a0e03fa3a8d644466eb941",
+          "previousAfterSha256": "14c09487f0b5690430ede0cbd5770bed8bac670e8238a9bb818dd9dbfafb221f",
+          "afterSha256": "20678a256a6b798783a736f1f7af6268d40e573d491c8ae8e0d94722ff688cd6",
+          "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6525,7 +6543,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "9a4063a8fc2f10633a4ef3378d21031aba684bcc29f19e45fcd4a97aefb85849",
+      "afterSha256": "858bb219b9c50e6ef0ae46d88c9529c006341ed21a62a13dafe1bd2096f37ae7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6885,6 +6903,15 @@
           "previousAfterSha256": "d3fad7cdadb74cf818a78eb51b18c694f0b9ea8ecc18d18a2d6983b9e743cd41",
           "afterSha256": "cf09d2d620dc020c1160b5dcd13951f6a7d6b68e1089aeb3ba1206ec7a131ce8",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-admission",
+          "sourceRevision": "35e3bf2e2c3f8234e8a0e03fa3a8d644466eb941",
+          "previousAfterSha256": "9a4063a8fc2f10633a4ef3378d21031aba684bcc29f19e45fcd4a97aefb85849",
+          "afterSha256": "858bb219b9c50e6ef0ae46d88c9529c006341ed21a62a13dafe1bd2096f37ae7",
+          "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -7249,6 +7276,11 @@
       "date": "2026-10-23",
       "task": "DOCS-NATIVE-JSON-1/S28-central-acceptance",
       "action": "Exact current task/review administrative pins only; no source8/R92/registry/native changes"
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1",
+      "action": "Exact administrative dependencies for approved new task; native599/302 unchanged"
     }
   ]
 }

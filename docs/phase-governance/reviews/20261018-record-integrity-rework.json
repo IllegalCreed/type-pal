@@ -2480,7 +2480,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "eca01f0f7dfb5a1ae6202ed8dbd08967508470bf08ef2257df0d71bb94ce7b79",
+      "afterSha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2650,6 +2650,15 @@
           "previousAfterSha256": "8f59a159e7463c54d716d8d4f863398fce172d1338b42f8073944cc42446c4a4",
           "afterSha256": "4e21997b90618256b454f20aff20e7698b718b1c0855e6032a97e4ba72a687e4",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-admission",
+          "sourceRevision": "35e3bf2e2c3f8234e8a0e03fa3a8d644466eb941",
+          "previousAfterSha256": "eca01f0f7dfb5a1ae6202ed8dbd08967508470bf08ef2257df0d71bb94ce7b79",
+          "afterSha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f",
+          "method": "Explicit human-approved task registration/current routing of work and exact administrative dependency pin; no semantic acceptance or old native change",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -8945,6 +8954,11 @@
       "task": "DOCS-NATIVE-JSON-1/S26",
       "action": "Exact S26 handoff/card/index/registry pins and transitive dependencies only; no content or execution acceptance.",
       "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1",
+      "action": "Exact administrative dependencies for approved new task; native599/302 unchanged"
     }
   ]
 }
