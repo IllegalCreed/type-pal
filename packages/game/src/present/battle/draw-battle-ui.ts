@@ -32,6 +32,7 @@ import { blitUiFrame } from './blit-ui-frame.js'
 
 import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
+import { isBattleActionValid } from '../../core/battle/action-availability.js'
 import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { GameState } from '../../core/game-state.js'
@@ -373,7 +374,7 @@ function drawPlayerInfoBoxes(
  * 主菜单 4 图标(uibattle.c:1063-1080)。
  *   selectedAction(highlight 时)= 全彩 blit;可用未选 = MonoColor(0, -4);不可用 = MonoColor(0x10, -4)。
  *   highlight=false(target 状态)无选中全彩；可用/不可用仍分别使用上述两种色带。
- * 灰项判定用 selectMove 的 isBattleActionValid(silence / coop healthy)。
+ * 可用性由 core 的 isBattleActionValid 统一判定，本层只选择色带。
  */
 function drawMainIcons(
   fb: Framebuffer,
@@ -387,7 +388,7 @@ function drawMainIcons(
     const icon = MAIN_ICONS[i]!
     const frame = uiSpriteFrames[icon.sprite]
     if (!frame) continue
-    const valid = isBattleActionValidForDraw(state, i, playerRoles)
+    const valid = isBattleActionValid(state, i, playerRoles)
     if (highlight && state.selectedAction === i) {
       blitUiFrame(fb, frame, icon.x, icon.y) // 选中 = 全彩(uibattle.c:1067-1068)
     } else if (valid) {
@@ -395,50 +396,6 @@ function drawMainIcons(
     } else {
       blitSpriteMonoColor(fb, frame, icon.x, icon.y, 0x10, -4) // 不可用 = 更暗(uibattle.c:1076-1078)
     }
-  }
-}
-
-/**
- * 灰项判定(渲染侧)—— 镜像 battle-system isActionValid(uibattle.c:271-341,PAL_CLASSIC):
- *   0攻击/3杂项恒可用;1法术 → 非 silence;2合击 → 本人 healthy 且 healthy 人数 > 1。
- * 渲染层独立实现避免循环依赖 core/battle-system(只读 state,不改)。
- */
-function isBattleActionValidForDraw(
-  state: BattleState,
-  action: number,
-  playerRoles: PlayerRoles,
-): boolean {
-  const idx = state.selectingPlayerIdx
-  // 无有效队员 context → 全部 invalid(镜像 battle-system isActionValid:undefined/缺 role 返回 false)。
-  if (idx === undefined) return false
-  const player = state.players[idx]
-  const role = player ? playerRoles.roles[player.roleId] : undefined
-  if (!player || !role) return false
-  const healthy = (p: typeof player, r: typeof role): boolean => {
-    if (r.hp <= 0 || (r.hp > 0 && r.hp < Math.min(100, Math.floor(r.maxHP / 5)))) return false
-    const st = p.status
-    return (
-      (st.sleep ?? 0) === 0 &&
-      (st.confused ?? 0) === 0 &&
-      (st.silence ?? 0) === 0 &&
-      (st.paralyzed ?? 0) === 0 &&
-      (st.puppet ?? 0) === 0
-    )
-  }
-  switch (action) {
-    case 1:
-      return (player.status.silence ?? 0) === 0
-    case 2: {
-      if (state.players.length <= 1) return false
-      let n = 0
-      state.players.forEach((p) => {
-        const r = playerRoles.roles[p.roleId]
-        if (r && healthy(p, r)) n++
-      })
-      return healthy(player, role) && n > 1
-    }
-    default:
-      return true
   }
 }
 

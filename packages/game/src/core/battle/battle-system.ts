@@ -64,6 +64,7 @@ import { createPlayerStatus } from '../menu/player-status.js'
 import { createSelectionMenu, type SelectionMenuState } from '../menu/primitives.js'
 import { finalizePaletteFade } from '../palette-fade.js'
 import { createSeedableRng } from '../rng.js'
+import { isBattleActionValid } from './action-availability.js'
 import { performAttack, performEnemyConfusedAttack } from './actions/attack.js'
 import { performAttackMate } from './actions/attack-mate.js'
 import { performCoopMagic } from './actions/coop-magic.js'
@@ -93,6 +94,7 @@ import { createBattleState } from './battle-state.js'
 import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
 import { resolveMagicObject } from './magic-object.js'
+import { isPlayerDying } from './player-condition.js'
 import { tickStatusEffects } from './status.js'
 import { type ActionQueueItem, buildActionQueue } from './turn-queue.js'
 
@@ -783,12 +785,6 @@ const MAGIC_GRID_ROWS = 5
 const ITEM_GRID_COLS = 3
 const ITEM_GRID_ROWS = 7
 
-// ── 灰项判定 helpers(PAL_IsPlayerHealthy / PAL_BattleUIIsActionValid)──────
-/** port sdlpal `PAL_IsPlayerDying`(fight.c:29-48):hp>0 且 hp < min(100,maxHP/5)(濒死)。 */
-function isPlayerDying(role: { hp: number; maxHP: number }): boolean {
-  return role.hp > 0 && role.hp < Math.min(100, Math.floor(role.maxHP / 5))
-}
-
 /**
  * 玩家濒死/阵亡音 sweep。比对上次调用留下的 prevHp,判完更新快照。
  * tickPerformAction 在伤亡脚本触发后的动作收尾调用;tickPostAction 还会在毒结算后调用,
@@ -978,50 +974,6 @@ function shouldCheckPlayerCasualties(
       return (action.targetSide ?? 'player') === 'player'
     default:
       return false
-  }
-}
-
-/** port sdlpal `PAL_IsPlayerHealthy`(fight.c:69-76):非濒死 + 无 sleep/confused/silence/paralyzed/puppet。 */
-function isPlayerHealthy(player: BattlePlayer, role: { hp: number; maxHP: number }): boolean {
-  if (role.hp <= 0 || isPlayerDying(role)) return false
-  const st = player.status
-  return (
-    (st.sleep ?? 0) === 0 &&
-    (st.confused ?? 0) === 0 &&
-    (st.silence ?? 0) === 0 &&
-    (st.paralyzed ?? 0) === 0 &&
-    (st.puppet ?? 0) === 0
-  )
-}
-
-/**
- * port sdlpal `PAL_BattleUIIsActionValid`(uibattle.c:271-341,PAL_CLASSIC 分支):
- *   0攻击/3杂项 → 恒 valid;1法术 → 非 silence;2合击 → 本人 healthy 且 healthy 人数 > 1。
- */
-function isActionValid(state: BattleState, action: number, playerRoles: PlayerRoles): boolean {
-  const playerIdx = state.selectingPlayerIdx
-  if (playerIdx === undefined) return false
-  const player = state.players[playerIdx]
-  const role = player ? playerRoles.roles[player.roleId] : undefined
-  if (!player || !role) return false
-  switch (action) {
-    case 0:
-    case 3:
-      return true
-    case 1: // magic — silence 时不可
-      return (player.status.silence ?? 0) === 0
-    case 2: {
-      // coopmagic(CLASSIC):本人 healthy 且 healthy 人数 > 1
-      if (state.players.length <= 1) return false // wMaxPartyMemberIndex==0
-      let healthy = 0
-      state.players.forEach((p) => {
-        const r = playerRoles.roles[p.roleId]
-        if (r && isPlayerHealthy(p, r)) healthy++
-      })
-      return isPlayerHealthy(player, role) && healthy > 1
-    }
-    default:
-      return true
   }
 }
 
@@ -1268,12 +1220,12 @@ function handleMainMenuInput(
   if (input.pressed.has('Up')) state.selectedAction = 0
   else if (input.pressed.has('Down')) state.selectedAction = 3
   else if (input.pressed.has('Left')) {
-    if (isActionValid(state, 1, playerRoles)) state.selectedAction = 1
+    if (isBattleActionValid(state, 1, playerRoles)) state.selectedAction = 1
   } else if (input.pressed.has('Right')) {
-    if (isActionValid(state, 2, playerRoles)) state.selectedAction = 2
+    if (isBattleActionValid(state, 2, playerRoles)) state.selectedAction = 2
   }
   // 当前选中失效 → 回攻击(uibattle.c:1058-1061)
-  if (!isActionValid(state, state.selectedAction, playerRoles)) state.selectedAction = 0
+  if (!isBattleActionValid(state, state.selectedAction, playerRoles)) state.selectedAction = 0
 
   // Confirm(kKeySearch)→ 按 selectedAction 派发(uibattle.c:1085-1164)
   if (input.pressed.has('Confirm')) {
