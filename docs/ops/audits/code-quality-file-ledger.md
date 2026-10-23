@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。[本窗逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md)。
+
 2026-10-23 CODE3l四片有限收口：14文件八维，12项接受（新关闭精灵源与共享blit，6项旧测试重审恢复），UI规则重复与装配器生命周期仍review；固定65accept／18partial不变。3405tracked／411closed／102review／2892pending。相邻82文件664例，全check20563包例+700工具例、game typecheck；唯一官方采集20134例／775源，按用户授权精确重算game branches/functions并登记26例退役，同报告ratchet／严格protected通过。运行与静态零诊断，原始拒绝／错误断言原件保留；本地有限窗完成，远端检查与合并另核。[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)。
 
 2026-10-23 CODE3k／3l有限质量收口：27文件逐项A–H，26接受／draw-number仍review；三项旧测试补强恢复接受，1新数字夹具闭合，相对窗口前净增1closed。当前3404tracked／409closed／103review／2892pending，固定65accept／18partial，两卡仍partial。全check 20589包测试+697工具测试、official20160／774源、同报告strict/protected及静态均零诊断；原失败保留，远端检查/合并另核。[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)。
@@ -95,8 +97,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,405。
-当前已闭合核验：411；已读但待审：102；尚未逐文件核验：2892；合计未闭合：2994。
+起始基点机器清单：2,962。当前 tracked 清单：3,410。
+当前已闭合核验：418；已读但待审：100；尚未逐文件核验：2892；合计未闭合：2992。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -144,6 +146,11 @@ Template: governance-index-v1 / 1.0.0
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/pal-extract/vitest.config.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
+| `packages/game/src/core/battle/action-availability.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
+| `packages/game/src/core/battle/player-condition.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
+| `packages/game/src/present/battle/__tests__/battle-action-availability.test.ts` | test | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
+| `packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts` | test | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
 | `packages/shared/src/__tests__/yj2-rescale.json` | fixture | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/pal-extract/src/io/yj2.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/game/src/tools/__fixtures__/save-v1-store-v2-nested.json` | fixture | 已验证 | [CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) | 具体合同/红绿或有效既有反控、原生入口及全门零诊断；不附带关闭相邻广域源 |
@@ -401,16 +408,16 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/draw-battle-settlement.ts` | product | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
 | `packages/game/src/present/battle/draw-battle-sprites.ts` | product | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
-| `packages/game/src/present/battle/draw-battle-ui.ts` | product | review | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 移除死参／私有死分支并共用blit；有效动作判定仍与core重复，后续核core边界。 |
+| `packages/game/src/present/battle/draw-battle-ui.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
 | `packages/game/src/present/battle/blit-ui-frame.ts` | product | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
-| `packages/game/src/present/battle/present-battle.ts` | product | review | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 真实入场清屏／跨战斗缓存生命周期未核清；消息默认时长与无字形分支不继承旧smoke信用。 |
+| `packages/game/src/present/battle/present-battle.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
 | `packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/__tests__/draw-battle-num.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts` | test | 已验证 | CODE-QUALITY-3l；各结算 screen 合法输入合同 | typed settlement oracle |
 | `packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
 | `packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
-| `packages/game/src/present/battle/__tests__/present-battle.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
+| `packages/game/src/present/battle/__tests__/present-battle.test.ts` | test | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
 | `packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
 | `packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
 | `packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |

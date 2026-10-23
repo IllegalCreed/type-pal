@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-23 [CODE3l规则与生命周期](battle-lifecycle-quality/README.md)：规则单Owner提取、获准入场/跨战缓存修复、真实宿主反例与浏览器局部观测；集中门收尾中。
+
 2026-10-23 [CODE3l四切片质量返工](battle-present-quality/README.md)：结算字段、精灵排序/透明、UI门控与宿主接线五个反控；同合同UI绘制提取及26例精确退役。相邻664绿，集中门待收尾，宿主生命周期和UI规则重复仍review。
 
 2026-10-23 [CODE3k／3l基础呈现质量窗口](present-primitives-quality/README.md)：八维、真实Framebuffer、四个业务反控与重复合同迁移；两卡仍partial，统一门集中待跑，数字非有限域保持review。

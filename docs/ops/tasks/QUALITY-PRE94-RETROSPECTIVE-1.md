@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。 [本窗只读复验及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md)。
+
 > 当前2026-10-23 CODE3j局部校准：65accept/18partial/0pending；3403tracked/408closed/103review/2892pending。checkpoints七项实跑欠账闭合，正文/配置未变；当前静态及PR按实际后继回执，不外推全流程E2E，94–102未扩展。以下旧时点计数保留历史。
 
 > 当前2026-10-23 CODE3j质量窗口：64accept/19partial/0pending；3403tracked/407closed/104review/2892pending。三文件新关闭、checkpoints旧关闭撤review；统一门已核，未扩94–102。实际提交/推送/PR状态见Git与后继发布回执。
@@ -27,6 +29,22 @@ Phase: engineering first; phase1/phase2按真实路径分别准入
 Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
+
+## 2026-10-23 CODE3l 规则归属与真实宿主生命周期（build allowed）
+
+后继验收：2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。
+
+2026-10-24集中门必要返工准入：两次默认全check均停于未改pal-extract CLI测试（5/10个5000ms超时），本机availableParallelism=11使Vitest默认10worker，CLI另起Node/tsx。原样83文件510例仅以maxWorkers=2对照全部通过、stderr0；Codex单Owner追加packages/pal-extract/vitest.config.ts，仅固定test.maxWorkers=2，不改timeout、测试选择/断言、coverage门或产品。它随当前窗口独立配置提交，不开启其它治理卡。
+
+Codex单Owner、同一3y，基点bd37e6d8faa72c16c84e301e80d827439cad0ca7，fetch确认与origin/main同点，主树只读。PR18已按保护合并并同步治理分支；本轮先核合并后CI，Documentation已success/annotations0，Coverage运行中，完整原件后补，不预报成功。
+
+复用battle-present-quality的14份全文八维及P13/P14/P15有效证据，仅展开未决caller/状态Owner。build allowed：UI/core菜单可用规则和相同玩家健康判据的纯提取（battle-system、draw-battle-ui、coop-magic及独立core叶模块），完整保留输入域与既有行为；相邻正式输入/像素测试补齐交叉层合同。大文件只对已保存全文审查后的差异与本次函数/调用域授增量信用，不附带关闭battle-system或coop-magic整文件。
+
+第二组为BattlePresent/真实presentBattleFrame入口及startBattle/finalize/新游戏/读档生命周期核验。允许合法入口反例和准确注释，尚未批准新的入场画面或跨场残留修复；实际可见差异核primary与反例后交用户裁决。观察到缺少clear调用本身不算泄漏。新机制/存档/资产/公共接口仍停受影响域。
+
+后继裁决：2026-10-23用户已批准“进入前画面渐变到战场”与“每场独立提示、飘字、渐变缓存”；正式三红先于实现，见[画面生命周期卡](GAME-BATTLE-PRESENT-LIFECYCLE-1.md)。本段保留上面准入时点，当前受批范围 build allowed，快速换战普通剧情可达性仍未知。
+
+两组相关切片齐备再冻结，全仓check/official coverage/protected集中一次；当前只做必要定向和静态验证。不扩94–102，不新增关闭，无下一位Agent提示词。
 
 ## 2026-10-23 CODE3l 结算／精灵／UI／装配器质量窗口
 

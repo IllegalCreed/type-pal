@@ -113,7 +113,7 @@ describe('P13 战斗命令与提示寿命', () => {
     expect(at(fb, 160, 8)).toBe(yellowDigit(7))
     expect(at(fb, 160, 10)).toBe(BG)
 
-    present.clearFloatingNums()
+    present.reset()
     draw(2, false)
     expect(at(fb, 160, 8)).toBe(BG)
     expect(at(fb, 44, 126)).toBe(BG)
@@ -157,7 +157,7 @@ describe('P13 战斗命令与提示寿命', () => {
     expect(battleView(state)).toEqual(afterIndex)
     expect(at(fb, 83, 60)).toBe(MESSAGE)
 
-    present.clearFloatingNums()
+    present.reset()
     fb.indices.fill(0)
     present.draw(fb, gs, state, [], pack, 0)
     expect(at(fb, 83, 60)).toBe(BG)

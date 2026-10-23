@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-23T13:28:44.448Z",
+  "generatedAt": "2026-10-23T15:31:34.907Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 775,
-  "testCount": 20134,
+  "sourceFileCount": 777,
+  "testCount": 20143,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1628,7 +1628,7 @@
         ],
         "identityDigest": "444865e5ea1e519490958719a485b942c5c50e7fb8b192dbfdea0aaa61f634d1",
         "duplicateIdentityCount": 1,
-        "executionDigest": "29cd06fcdf6554d300dbeda8861aa044c023542eb81dec728313917f19df3971"
+        "executionDigest": "271c3e6fc5ce43573a84f6fbfb28a8894be01188df8959da899106fc21067e54"
       },
       "metrics": {
         "statements": {
@@ -4619,7 +4619,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 170,
+      "sourceFileCount": 172,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4632,6 +4632,7 @@
         "packages/game/src/assets/png.ts",
         "packages/game/src/assets/rle-decode.ts",
         "packages/game/src/assets/tileset-blob.ts",
+        "packages/game/src/core/battle/action-availability.ts",
         "packages/game/src/core/battle/actions/attack-mate.ts",
         "packages/game/src/core/battle/actions/attack.ts",
         "packages/game/src/core/battle/actions/coop-magic.ts",
@@ -4656,6 +4657,7 @@
         "packages/game/src/core/battle/formulas.ts",
         "packages/game/src/core/battle/magic-damage.ts",
         "packages/game/src/core/battle/magic-object.ts",
+        "packages/game/src/core/battle/player-condition.ts",
         "packages/game/src/core/battle/simulated-magic-target.ts",
         "packages/game/src/core/battle/status.ts",
         "packages/game/src/core/battle/turn-queue.ts",
@@ -4792,10 +4794,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "b068a51495076dc96fe7fa70554f8cf90449a3dcea53395f2e4a8364e8fa6a24",
+      "scopeDigest": "e22360d193e55b3e1d5dddf2cb55191d747301ae8fbda51564bbcee53010eea9",
       "fastTests": {
-        "testCount": 3718,
-        "testFileCount": 339,
+        "testCount": 3727,
+        "testFileCount": 341,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4984,6 +4986,8 @@
           "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
           "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
           "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+          "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+          "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
           "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
           "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
           "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
@@ -6074,6 +6078,16 @@
             "identityDigest": "8a30335d04e81bfef04ef8aff3665439fe6355833a30bfdb06c8dcbecc59684a"
           },
           {
+            "file": "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+            "testCount": 2,
+            "identityDigest": "f77605f6db2e7776b28ed3551af098765f7f4f6a4a664f888dcf7e96e110039f"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+            "testCount": 7,
+            "identityDigest": "fc72b45ab04f31a1a661b7b0dc8b8457fbc4bead8c021409d4b258e3d45c7881"
+          },
+          {
             "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
             "testCount": 3,
             "identityDigest": "f58f09ba1ea936d306ecd6fc47fda8fc9bb35de24718406006e274ff43028770"
@@ -6106,7 +6120,7 @@
           {
             "file": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
             "testCount": 20,
-            "identityDigest": "48eef6b9d9961afd1bafa9f50f22a811ded7a901e6dd262b32e9c74bc36b22ed"
+            "identityDigest": "86fa9f6ea5165c15a78e42b205bdfe112f53fd513af3a3b558e90bbc3a9c1a55"
           },
           {
             "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
@@ -6834,26 +6848,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "3fe1ae0ac790017e4950b7ba11b2d1825a7ce00b37ee491ba74622e87cee0b2c",
+        "identityDigest": "4f3dad2081b8dc8896eea470a1c6596279fd9bc258fae49843db18d69f48ba72",
         "duplicateIdentityCount": 0,
-        "executionDigest": "43e212d367a7fe22e3292eaa8a0d8604497e7de2d70d44e20bbd8f40926e9e0f"
+        "executionDigest": "323a788b789629a955cc1f375150b06abfab571930772f5955102038c8b4e7c6"
       },
       "metrics": {
         "statements": {
           "covered": 15272,
-          "total": 17056
+          "total": 17039
         },
         "branches": {
-          "covered": 9891,
-          "total": 12264
+          "covered": 9880,
+          "total": 12220
         },
         "functions": {
-          "covered": 1832,
-          "total": 2132
+          "covered": 1829,
+          "total": 2127
         },
         "lines": {
           "covered": 13618,
-          "total": 14951
+          "total": 14940
         }
       }
     },
@@ -10873,19 +10887,19 @@
   "total": {
     "statements": {
       "covered": 72657,
-      "total": 80447
+      "total": 80430
     },
     "branches": {
-      "covered": 52592,
-      "total": 62688
+      "covered": 52581,
+      "total": 62644
     },
     "functions": {
-      "covered": 13727,
-      "total": 15288
+      "covered": 13724,
+      "total": 15283
     },
     "lines": {
       "covered": 64891,
-      "total": 70400
+      "total": 70389
     }
   }
 }

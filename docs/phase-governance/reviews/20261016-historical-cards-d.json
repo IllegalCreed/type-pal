@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned3l delta",
-      "coreConclusion": "3l finite window; gates passed. UI/core duplication and host lifecycle remain review.",
+      "readMethod": "Owned3l lifecycle delta",
+      "coreConclusion": "3l lifecycle; gates passed.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "ead24085bb206c44012bd9f88bdbd28cee8921bad14cabcaff1e2568b1f0c378",
+      "afterSha256": "c8bbd9d165d47a0a5454ac93bcbc21bad895729044ae5471276bf2d31a17d91b",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "ead24085bb206c44012bd9f88bdbd28cee8921bad14cabcaff1e2568b1f0c378",
+        "implementationSha": "c8bbd9d165d47a0a5454ac93bcbc21bad895729044ae5471276bf2d31a17d91b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,10 +4148,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-present-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
-        "afterSha256": "ead24085bb206c44012bd9f88bdbd28cee8921bad14cabcaff1e2568b1f0c378",
-        "lineCount": 1021,
+        "kind": "codex-owned-pre94-lifecycle-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/review.json",
+        "afterSha256": "c8bbd9d165d47a0a5454ac93bcbc21bad895729044ae5471276bf2d31a17d91b",
+        "lineCount": 1028,
         "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
         "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",

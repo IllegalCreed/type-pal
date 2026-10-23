@@ -212,7 +212,7 @@ describe('BattlePresent', () => {
     const state = mkState([], [])
     fb.indices.fill(77)
     present.draw(fb, mkGs(), state, [], mkAssets(), 0)
-    expect(fb.indices.every((value) => value === 77)).toBe(true)
+    expect(fb.indices.every((value) => value === 0)).toBe(true)
   })
 
   // 战斗法术振屏(山神/泰山压顶等):当前 battleAnim 帧的 frame.shake 须在整帧合成后施加
@@ -381,7 +381,7 @@ describe('BattlePresent', () => {
     expect(fbHasWrites(fb)).toBe(false)
   })
 
-  it('clearFloatingNums —— 清空残留数字', () => {
+  it('reset —— 清空残留数字', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
     const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
@@ -392,7 +392,7 @@ describe('BattlePresent', () => {
       },
     ]
     present.draw(fb, mkGs(), state, cmds, mkAssets(), 0)
-    present.clearFloatingNums()
+    present.reset()
     // 再画一帧 —— 弹幕已清,无遗留写入
     const fb2 = createFramebuffer()
     present.draw(fb2, mkGs(), state, [], mkAssets(), 1)
@@ -505,7 +505,7 @@ describe('BattlePresent —— D17a 动画 overlay', () => {
     const assets = mkAssets({ effectSprite: { frames: [mkSpriteAsset(2, 2, 22).frames[0]!] } })
     fb.indices.fill(77)
     present.draw(fb, mkGs(), state, [], assets, 0)
-    expect(fb.indices.every((value) => value === 77)).toBe(true)
+    expect(fb.indices.every((value) => value === 0)).toBe(true)
   })
 
   it('battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)', () => {
@@ -522,7 +522,7 @@ describe('BattlePresent —— D17a 动画 overlay', () => {
     const assets = mkAssets() // 无 effectSprite
     fb.indices.fill(77)
     present.draw(fb, mkGs(), state, [], assets, 0)
-    expect(fb.indices.every((value) => value === 77)).toBe(true)
+    expect(fb.indices.every((value) => value === 0)).toBe(true)
   })
 })
 
@@ -567,7 +567,7 @@ describe('BattlePresent —— D17 法术 magic overlays', () => {
     const assets = mkAssets() // 无 magicSprites
     fb.indices.fill(77)
     present.draw(fb, mkGs(), state, [], assets, 0)
-    expect(fb.indices.every((value) => value === 77)).toBe(true)
+    expect(fb.indices.every((value) => value === 0)).toBe(true)
   })
 
   it('战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)', () => {
