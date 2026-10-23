@@ -225,7 +225,6 @@ function paint(opts: {
     opts.gs ?? mkGs(),
     opts.glyphs,
     opts.frames,
-    undefined,
     opts.poisons,
     opts.icons,
   )

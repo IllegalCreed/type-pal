@@ -495,7 +495,6 @@ describe('drawBattleUI(新模型 1:1)', () => {
         undefined,
         UI,
         undefined,
-        undefined,
         new Map([[7, icon]]),
       )
     } finally {

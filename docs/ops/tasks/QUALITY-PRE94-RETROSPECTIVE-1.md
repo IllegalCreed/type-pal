@@ -1551,3 +1551,7 @@ Codex唯一Coding Owner、同一3y、基点acb96a123，四文件build allowed：
 九文件源接受含七review新闭合，两既有closed刷新；rle-decode.ts因decodeRle只有测试caller、RleFrame无人导入，旧关闭撤review，rle-decode.test.ts的共享合同排重/真实出口理由未闭合继续review。净增6closed，3374/388/111/2875，固定83不升格。下一范围是这两文件的接口归属/去重、snapshot和启动/取消余项；只复核失效或未补轴，不重做原有效证据。未改当前产品出口或RLE算法/生成物，没有新用户产品裁决；真正接口调整仍先按范围/风险准入。最终静态、提交推送与main同步另按实际回执，不提前声称新mainCI成功。
 
 末轮静态原件：final-docs完整125工具测试与全部文档检查exit0/0issues，final-lint5880文件0/0/0，final-ledger3374/388/111/2875，final-diff0。只将这些完整原件追加同一回执，不再重跑全仓或coverage；提交/推送/main以实际Git结果为准。
+
+### 2026-10-23 CODE3l 纯重构提交说明
+
+本提交移除未调用idle helper及六例专测、无用参数和私有全体箭头分支，统一两个同合同UI blit；只带必要调用迁移。像素测试补强、26例完整迁移账及集中门回执随同一冻结窗口下一提交交付。该中间提交不单独声明整卡或统一门完成，主树未改。

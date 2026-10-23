@@ -1,7 +1,9 @@
 import { getWord } from '../../core/word-lookup.js'
 import { drawScriptDescription } from '../menu/draw-description.js'
+import { blitUiFrame } from './blit-ui-frame.js'
 /**
- * 战斗 UI 渲染 —— 1:1 忠实 port sdlpal PAL_CLASSIC `PAL_BattleUIUpdate`(uibattle.c:785-1767)。
+ * 战斗 UI 渲染 —— 以 SDLPal PAL_CLASSIC `PAL_BattleUIUpdate` 为基准；
+ * 法术说明区的布局扩展与对应来源见 drawMagicSelectGrid。
  *
  * 主菜单是 **4 个图标**(攻击/法术/合击/杂项,方向选),物品/防御/逃跑/状态/围攻在**杂项盒**里;
  * 法术/物品选择是 **3 列分页网格 + 灰项 + MP/数量**;target picker 单敌跳选 / 全体即时 commit。
@@ -12,12 +14,13 @@ import { drawScriptDescription } from '../menu/draw-description.js'
  *   selectMove + useItem/throwItem→ 4 图标 + 物品网格(itemmenu.c)
  *   selectMove + misc            → 4 图标 + 杂项盒(围攻/道具/防御/逃跑/状态)
  *   selectMove + miscItemSubMenu → 4 图标 + 杂项盒 + 物品二级(使用/投掷)
- *   selectTargetEnemy            → 4 图标(mono)+ 选中敌人 sprite ColorShift
+ *   selectTargetEnemy            → 不画主菜单；选中敌人的 ColorShift 由精灵层绘制
  *   selectTargetPlayer           → 4 图标(mono)+ 选中队员上方箭头
  *   selectTargetEnemyAll/PlayerAll→ 即时 commit 的过渡态(不画目标箭头)
- *   wait / hidden                → 只画底部队员状态栏
+ *   wait                         → 玩家选择已开始且非自动攻击时画状态栏
+ *   hidden                       → 不画 UI
  *
- * 对话显示期间(gs.dialogBox / battleDialogQueue)**隐藏动作菜单**(只画状态栏),对话结束恢复。
+ * 对话显示期间(dialogBox / keptBox / battleDialogQueue)整个 UI 早退，对话结束恢复。
  *
  * sdlpal UI sprite 真值(SPRITEUI / DATA.MKF chunk 9):
  *   40-43 = 战斗图标 ATTACK/MAGIC/COOPMAGIC/MISCMENU(uibattle.h:56-59)
@@ -27,7 +30,7 @@ import { drawScriptDescription } from '../menu/draw-description.js'
  * 灰项 / 文字色用 sdlpal `ui.h:29-41` MENUITEM_COLOR_*;像素保真(font / palette)留 user 验。
  */
 
-import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
@@ -151,19 +154,9 @@ function selectedColor(): number {
   )
 }
 
-/** s_iFrame & 1 等价的红/常箭头闪烁(sdlpal uibattle.c:1564-1568 用 s_iFrame,这里用时钟)。 */
+/** s_iFrame & 1 等价的红/常箭头闪烁；这里只控制呈现时钟，不推进战斗状态。 */
 function arrowBlinkRed(): boolean {
   return (Math.floor(Date.now() / 40) & 1) === 1
-}
-
-// ── sprite blit helpers ─────────────────────────────────────────────────────
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-    }
-  }
 }
 
 /** ITEMBOX 阴影:按当前背景色降低低 4 bit,对齐 PAL_RLEBlitToSurfaceWithShadow。 */
@@ -216,8 +209,6 @@ function hasBoxFrames(uiSpriteFrames: IndexedImage[] | undefined, style: 0 | 1):
  * 画战斗 UI。每帧调用一次(在 bg + sprites 之上)。
  *
  * @param uiSpriteFrames SPRITEUI 全 frame(图标/box/cursor/箭头/数字);缺省 → 跳过 sprite 相关绘制。
- * @param _enemyPos      现未使用 —— 敌方目标选择无箭头(高亮走 draw-battle-sprites
- *   ColorShift);present-battle 当前传 assets.enemyPos,本函数不读取此参数。
  */
 export function drawBattleUI(
   fb: Framebuffer,
@@ -228,7 +219,6 @@ export function drawBattleUI(
   gs: GameState,
   glyphs?: GlyphTable,
   uiSpriteFrames?: IndexedImage[],
-  _enemyPos?: EnemyPosTable,
   objectPoisons?: Map<number, { level: number; color: number }>,
   itemIcons?: Map<number, IndexedImage>,
 ): void {
@@ -301,7 +291,7 @@ export function drawBattleUI(
       break
     case 'selectTargetPlayer':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
-      drawPlayerTargetArrow(fb, state, uiSpriteFrames, /* all= */ false)
+      drawPlayerTargetArrow(fb, state, uiSpriteFrames)
       break
     case 'selectTargetPlayerAll':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
@@ -382,7 +372,7 @@ function drawPlayerInfoBoxes(
 /**
  * 主菜单 4 图标(uibattle.c:1063-1080)。
  *   selectedAction(highlight 时)= 全彩 blit;可用未选 = MonoColor(0, -4);不可用 = MonoColor(0x10, -4)。
- *   highlight=false(target 状态)→ 全部 MonoColor(0, -4),无高亮。
+ *   highlight=false(target 状态)无选中全彩；可用/不可用仍分别使用上述两种色带。
  * 灰项判定用 selectMove 的 isBattleActionValid(silence / coop healthy)。
  */
 function drawMainIcons(
@@ -399,7 +389,7 @@ function drawMainIcons(
     if (!frame) continue
     const valid = isBattleActionValidForDraw(state, i, playerRoles)
     if (highlight && state.selectedAction === i) {
-      blitSpriteOpaque(fb, frame, icon.x, icon.y) // 选中 = 全彩(uibattle.c:1067-1068)
+      blitUiFrame(fb, frame, icon.x, icon.y) // 选中 = 全彩(uibattle.c:1067-1068)
     } else if (valid) {
       blitSpriteMonoColor(fb, frame, icon.x, icon.y, 0, -4) // 可用 = 灰阶(uibattle.c:1071-1073)
     } else {
@@ -555,7 +545,7 @@ function drawMagicSelectGrid(
       state.selectingPlayerIdx !== undefined ? state.players[state.selectingPlayerIdx] : undefined
     const currentMp = role ? (gs.PlayerRolesRuntime.rgwMP[role.roleId] ?? 0) : 0
     const slash = uiSpriteFrames[SPRITENUM_SLASH]
-    if (slash) blitSpriteOpaque(fb, slash, MP_SLASH.x, MP_SLASH.y)
+    if (slash) blitUiFrame(fb, slash, MP_SLASH.x, MP_SLASH.y)
     drawNumber(fb, needed, 4, MP_NEEDED, 'yellow', 'right', uiSpriteFrames)
     drawNumber(fb, currentMp, 4, MP_CURRENT, 'cyan', 'right', uiSpriteFrames)
   }
@@ -627,10 +617,10 @@ function drawItemSelectGrid(
   const itemBox = uiSpriteFrames?.[SPRITENUM_ITEMBOX]
   if (itemBox) {
     blitSpriteShadow(fb, itemBox, ITEMBOX_X + 5, ITEMBOX_Y + 5)
-    blitSpriteOpaque(fb, itemBox, ITEMBOX_X, ITEMBOX_Y)
+    blitUiFrame(fb, itemBox, ITEMBOX_X, ITEMBOX_Y)
   }
   const icon = itemIcons?.get(item.bitmap)
-  if (icon) blitSpriteOpaque(fb, icon, ITEMBOX_X + 8, ITEMBOX_Y + 7)
+  if (icon) blitUiFrame(fb, icon, ITEMBOX_X + 8, ITEMBOX_Y + 7)
 
   const description = getScriptDescLines(item.scriptDesc)
   drawScriptDescription(fb, description, 71, 151, 240, ITEM_DESC_COLOR, glyphs)
@@ -692,7 +682,7 @@ function drawSelectGridItems(
       }
       if (selected && uiSpriteFrames) {
         const cursor = uiSpriteFrames[SPRITENUM_CURSOR]
-        if (cursor) blitSpriteOpaque(fb, cursor, x + lay.cursorXOff, y + lay.cursorYOff)
+        if (cursor) blitUiFrame(fb, cursor, x + lay.cursorXOff, y + lay.cursorYOff)
       }
       i++
     }
@@ -727,19 +717,18 @@ function drawCurrentPlayerArrow(
   if (!arrow) return
   const anchor = getPlayerBasePos(state.players.length, state.selectingPlayerIdx)
   if (!anchor) return
-  blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_CURRENT_PLAYER)
+  blitUiFrame(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_CURRENT_PLAYER)
 }
 
 /**
  * 友方 target 箭头(uibattle.c:1564-1576)。
- *   sprite 67(常)/ 66(红)闪烁;箭头画在队员头顶(anchor.y - 67)。all=true 为历史 helper,
- *   PAL_CLASSIC 的 PlayerAll 现在即时 commit,不会调用它画全体箭头。
+ *   sprite 67(常)/66(红)闪烁，只绘制 uiCursor 指向的队员。
+ *   PAL_CLASSIC 的 PlayerAll 即时提交，不调用此函数。
  */
 function drawPlayerTargetArrow(
   fb: Framebuffer,
   state: BattleState,
   uiSpriteFrames: IndexedImage[] | undefined,
-  all: boolean,
 ): void {
   if (!uiSpriteFrames) return
   const arrow =
@@ -749,14 +738,7 @@ function drawPlayerTargetArrow(
         : SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER
     ]
   if (!arrow) return
-  const draw = (idx: number): void => {
-    const anchor = getPlayerBasePos(state.players.length, idx)
-    if (!anchor) return
-    blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_PLAYER)
-  }
-  if (all) {
-    for (let i = 0; i < state.players.length; i++) draw(i)
-  } else {
-    draw(state.uiCursor)
-  }
+  const anchor = getPlayerBasePos(state.players.length, state.uiCursor)
+  if (!anchor) return
+  blitUiFrame(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_PLAYER)
 }

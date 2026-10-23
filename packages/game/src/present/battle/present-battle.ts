@@ -102,7 +102,8 @@ export interface BattleAssets {
 /**
  * 战斗 Present —— 持有跨帧状态:数字弹幕层、单行消息条、召唤 fade 快照/累积缓冲、
  * 入场 fade backup。一帧装配:`draw(fb, gs, state, commands, assets, currentFrame, advanceEffects)`;
- * 战斗结束时调 `clearFloatingNums()` 清弹幕与消息条,避免下次战斗看到上次残留。
+ * clearFloatingNums 只清弹幕与消息条；当前 bootstrap 持有实例但未接入战斗退出清理。
+ * 跨战斗生命周期仍需由宿主边界核实，不能据本类直调测试推定已自动清理。
  */
 export class BattlePresent {
   private readonly floatingNums = new FloatingNumsLayer()
@@ -158,8 +159,8 @@ export class BattlePresent {
       stepPaletteFade(gs.palette.colors, gs.paletteFadeState, performance.now())
     }
 
-    // 入场切换首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作
-    //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
+    // 入场首帧保存调用方提供的 framebuffer；本函数自身不保证它仍是大世界画面。
+    // presentBattleFrame 的清屏顺序属于宿主接线待核项；introFade 清除时释放快照。
     if (state.introFade) {
       if (!this.introBackup) {
         this.introBackup = new Uint8Array(fb.indices)
@@ -259,7 +260,6 @@ export class BattlePresent {
       assets.battleSprites,
       liveRoles,
       assets.enemyPos,
-      currentFrame,
       summonGodMode, // 召唤神出场 → 隐队员
       magicOverlayEntries.length > 0 ? magicOverlayEntries : undefined,
     )
@@ -318,7 +318,6 @@ export class BattlePresent {
       gs,
       assets.glyphs,
       assets.uiSpriteFrames,
-      assets.enemyPos,
       assets.objectPoisons,
       assets.itemIcons,
     )
@@ -395,7 +394,7 @@ export class BattlePresent {
     summon: SummonFrameState | undefined,
     hasSummonFade: boolean,
   ): void {
-    const current = fb.indices as Uint8Array
+    const current = fb.indices
     if (!summon || summon.fadeStep === undefined) {
       // 非 fade 帧:仅召唤动画期快照本帧场景(下次 fade 起手的 "from");非召唤动画不快照(省 64KB/帧 memcpy)。
       if (hasSummonFade) {
@@ -442,7 +441,7 @@ export class BattlePresent {
     current.set(buf) // 显示累积态(from 渐变到 to)
   }
 
-  /** 战斗结束时清空数字弹幕 + 消息条,避免下次战斗看到上次残留。 */
+  /** 显式清空数字弹幕和消息条；不重置召唤或入场快照。 */
   clearFloatingNums(): void {
     this.floatingNums.clear()
     this.battleMsg = undefined
