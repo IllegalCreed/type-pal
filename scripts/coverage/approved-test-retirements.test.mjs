@@ -35,11 +35,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // glm 3->2 snapshot with current 2->1, preserving its old authority in Git/receipt.
   // Main script corrections: exact326→324 retirement retained alongside loader7→4.
   // CODE3h: three weak loader subsets transfer to exact retained HTTP/cache contracts.
-  assert.equal(approvedTestRetirements.length, 53)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 53)
+  // CODE3k/3l: five exact file snapshots retire ten duplicate/subset cases.
+  assert.equal(approvedTestRetirements.length, 58)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 58)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    107,
+    117,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

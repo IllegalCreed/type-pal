@@ -6,7 +6,7 @@ export const SCREEN_H = 200
 export interface Framebuffer {
   readonly width: number
   readonly height: number
-  /** 调试/测试用只读视图;写入只走 writePixel(以保证边界检查)。 */
+  /** 帧缓冲区持有的可变像素；批量特效直接借用并写入，调用方负责尺寸和下标。readonly 仅禁止换引用。 */
   readonly indices: Uint8Array
   writePixel(x: number, y: number, index: number): void
   clear(): void

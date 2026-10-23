@@ -1,89 +1,48 @@
 import { describe, expect, it } from 'vitest'
-import type { IndexedImage } from '../../../assets/png.js'
+import { createDigitFrames } from '../../__tests__/digit-frames.js'
+import { createFramebuffer } from '../../framebuffer.js'
 import { FloatingNumsLayer } from '../draw-battle-num.js'
 
-// Mock Framebuffer
-function makeMockFb() {
-  const writes: Array<{ x: number; y: number; idx: number }> = []
-  return {
-    writePixel: (x: number, y: number, idx: number) => {
-      writes.push({ x, y, idx })
-    },
-    writes,
-  }
-}
-
-/**
- * 假 SPRITEUI 数字帧 —— drawNumber base:yellow 19 / blue 29 / cyan 56(每色 10 位)。
- * 每色 digit 帧填不同 palette index 让测试能区分用了哪个 base:
- *   yellow → idx 0xAA;blue → idx 0xBB;cyan → idx 0xCC。
- * 帧 6×8 全 opaque。
- */
-function mkUiSpriteFrames(): IndexedImage[] {
-  const frames: IndexedImage[] = []
-  for (let i = 0; i < 66; i++) {
-    let fill = 1
-    if (i >= 19 && i <= 28)
-      fill = 0xaa // yellow
-    else if (i >= 29 && i <= 38)
-      fill = 0xbb // blue
-    else if (i >= 56 && i <= 65) fill = 0xcc // cyan
-    frames.push({
-      width: 6,
-      height: 8,
-      indices: new Uint8Array(6 * 8).fill(fill),
-      opaque: new Uint8Array(6 * 8).fill(1),
-    })
-  }
-  return frames
-}
-
 describe('FloatingNumsLayer', () => {
-  const ui = mkUiSpriteFrames()
-
-  it('emit + draw 写入像素(UI sprite 数字帧)', () => {
-    const layer = new FloatingNumsLayer()
-    const fb = makeMockFb()
-    layer.emit({ x: 100, y: 50, value: 25, color: 'yellow', currentFrame: 0 })
-    layer.draw(fb as any, 0, ui)
-    expect(fb.writes.length).toBeGreaterThan(0)
-  })
-
   it('缺 uiSpriteFrames → 不写像素(防御)', () => {
     const layer = new FloatingNumsLayer()
-    const fb = makeMockFb()
+    const fb = createFramebuffer()
+    fb.indices.fill(77)
     layer.emit({ x: 100, y: 50, value: 25, color: 'yellow', currentFrame: 0 })
-    layer.draw(fb as any, 0, undefined)
-    expect(fb.writes.length).toBe(0)
-  })
-
-  it('数字每帧上移 1px(dy = -age,sdlpal uibattle.c:1760)', () => {
-    const layer = new FloatingNumsLayer()
-    const fb0 = makeMockFb()
-    const fb1 = makeMockFb()
-    const fb5 = makeMockFb()
-    layer.emit({ x: 100, y: 50, value: 25, color: 'yellow', currentFrame: 0 })
-    layer.draw(fb0 as any, 0, ui)
-    layer.draw(fb1 as any, 1, ui)
-    layer.draw(fb5 as any, 5, ui)
-    const y0 = Math.min(...fb0.writes.map((w) => w.y))
-    const y1 = Math.min(...fb1.writes.map((w) => w.y))
-    const y5 = Math.min(...fb5.writes.map((w) => w.y))
-    // age 每 +1 上移 1px:y0 - y1 = 1,y0 - y5 = 5
-    expect(y0 - y1).toBe(1)
-    expect(y0 - y5).toBe(5)
+    layer.draw(fb, 0)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
+    expect(layer.count).toBe(1)
+    // 缺图不延长寿命；资源补齐后也不能重新出现已过期条目。
+    layer.draw(fb, 11)
+    expect(layer.count).toBe(0)
+    layer.draw(fb, 12, createDigitFrames())
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   it('寿命 11 帧:age 0..10 显示,age=11 清除(sdlpal uibattle.c:1753)', () => {
     const layer = new FloatingNumsLayer()
     layer.emit({ x: 100, y: 50, value: 25, color: 'yellow', currentFrame: 0 })
-    expect(layer.count).toBe(1)
-    // age=10(currentFrame 10)仍显示
-    layer.draw(makeMockFb() as any, 10, ui)
-    expect(layer.count).toBe(1)
-    // age=11(currentFrame 11)清除 → count 0
-    layer.draw(makeMockFb() as any, 11, ui)
+    const positions = [
+      [0, 50],
+      [1, 49],
+      [5, 45],
+      [10, 40],
+    ] as const
+    for (const [frame, y] of positions) {
+      const fb = createFramebuffer()
+      layer.draw(fb, frame, createDigitFrames())
+      const expected = Buffer.alloc(320 * 200)
+      for (let row = y; row < y + 8; row++) {
+        expected.fill(21, row * 320 + 118, row * 320 + 124)
+        expected.fill(24, row * 320 + 124, row * 320 + 130)
+      }
+      expect(Buffer.compare(fb.indices, expected)).toBe(0)
+      expect(layer.count).toBe(1)
+    }
+    const expired = createFramebuffer()
+    layer.draw(expired, 11, createDigitFrames())
     expect(layer.count).toBe(0)
+    expect(expired.indices.every((value) => value === 0)).toBe(true)
   })
 
   it('clear() 清空', () => {
@@ -93,22 +52,24 @@ describe('FloatingNumsLayer', () => {
     expect(layer.count).toBe(2)
     layer.clear()
     expect(layer.count).toBe(0)
+    const fb = createFramebuffer()
+    layer.draw(fb, 0, createDigitFrames())
+    expect(fb.indices.every((value) => value === 0)).toBe(true)
   })
 
   it('yellow / blue / cyan 选不同 base frame(sprite index 区分)', () => {
-    const draw = (color: 'yellow' | 'blue' | 'cyan') => {
+    const expectedDigits = [
+      ['yellow', 21, 24],
+      ['blue', 31, 34],
+      ['cyan', 58, 61],
+    ] as const
+    for (const [color, tens, units] of expectedDigits) {
       const layer = new FloatingNumsLayer()
-      const fb = makeMockFb()
+      const fb = createFramebuffer()
       layer.emit({ x: 100, y: 50, value: 25, color, currentFrame: 0 })
-      layer.draw(fb as any, 0, ui)
-      return new Set(fb.writes.map((w) => w.idx))
+      layer.draw(fb, 0, createDigitFrames())
+      expect(fb.indices[50 * 320 + 118]).toBe(tens)
+      expect(fb.indices[50 * 320 + 124]).toBe(units)
     }
-    const yIdx = draw('yellow')
-    const bIdx = draw('blue')
-    const cIdx = draw('cyan')
-    // 各色用各自 base frame → palette index 各异
-    expect(yIdx).toEqual(new Set([0xaa]))
-    expect(bIdx).toEqual(new Set([0xbb]))
-    expect(cIdx).toEqual(new Set([0xcc]))
   })
 })

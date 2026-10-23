@@ -1,9 +1,4 @@
-/**
- * TEST-GROK-RENDER-HOST-LARGE-1 G04-A。
- * 调用方 present.ts:316 applyScreenWave(fb.indices, gs, advanceEffects)。
- * 不重复 screen-wave.test 的 0 态/渐弱/到 0 清零/300 清 w/多集守恒，
- * 也不重复 glm 行 0 左移 30、第二帧累计 86、advance=false 在波幅 64 的布尔卷动。
- */
+/** 镜像、边界和补帧合同；基础关断/累加见主测，负 progression 与跨帧相位见 leaves。 */
 import { beforeEach, describe, expect, it } from 'vitest'
 import { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'
 
@@ -64,7 +59,7 @@ describe('G04-A screen-wave 镜像与关断', () => {
   it('G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动', () => {
     const indices = rowPattern()
     const before = indices.slice()
-    const gs = { wScreenWave: 256, sWaveProgression: 4 }
+    const gs = { wScreenWave: 252, sWaveProgression: 4 }
     applyScreenWave(indices, gs, true)
     expect(indices).toEqual(before)
     expect(gs.wScreenWave).toBe(0)

@@ -21,7 +21,7 @@ interface FloatingNum {
  *
  * 颜色 / 字形:`PAL_DrawNumber(wNum, 5, pos, color, kNumAlignRight)`
  *   —— UI sprite 数字帧(yellow 起 frame19 / blue 29 / cyan 56),5 位右对齐。
- *   本层走 ts 忠实 `drawNumber`(present/draw-number.ts,sdlpal `ui.c:640-732` 1:1)。
+ *   本层将布局委托给 drawNumber；只管理 emit 的起始帧、存活条目与 clear。
  *
  * 颜色语义(`fight.c:602-716`):blue=掉血 / yellow=回血 / cyan=回 MP。
  */
@@ -64,7 +64,7 @@ export class FloatingNumsLayer {
     this.nums = []
   }
 
-  /** 测试用:看当前活的 nums 数量 */
+  /** 当前队列长度；到下一次 draw 才按帧号剔除过期条目。 */
   get count(): number {
     return this.nums.length
   }

@@ -3,7 +3,7 @@
  *
  * 逐扫描线按 32 相位偏移表横向**循环卷动**(每行左移 b 像素,卷出去的 b 个像素接回行尾),
  * `index` 每帧 +1 → 波形随时间向上滚动(水波/热浪荡漾感)。每帧先 `wScreenWave += sWaveProgression`;
- * 到 0 或 >= 256 自动清零关闭(sScreenWave 渐增/渐弱动画)。
+ * 降到 <=0 或增到 >=256 时自动清零关闭；负值关断对应 C 的 WORD 回绕。
  *
  * sdlpal 在 PAL_MakeScene 里**画完两层地图、画 sprite 之前**调它(scene.c:486)→ 只波动地图层,
  * sprite 不受影响。我们 present 同序:drawTilemap×2 之后、sprite entries 之前调。
@@ -16,7 +16,7 @@ const SCREEN_H = 200
 // sdlpal PAL_ApplyWave 的 `static int index` —— 每帧 +1 % 32,跨帧持久(波形滚动相位)。
 let s_waveIndex = 0
 
-/** 测试用:重置内部相位(确定性断言)。 */
+/** 新一轮结局动画从首相位开始；测试也用此入口隔离跨例相位。 */
 export function resetScreenWavePhase(): void {
   s_waveIndex = 0
 }
