@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   fast-coverage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
       TYPE_PAL_COVERAGE_PARALLEL_EDITOR: '1'
