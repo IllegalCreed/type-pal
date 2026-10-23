@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Review exact two-parent delta and finite current reconciliation; preserve histories/envelopes without unrelated full-file acceptance.",
-      "coreConclusion": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
+      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
+      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Current combined check20601+691tools/official20172 over774sources/strict protected all pass, project diagnostics0; old20512/20086 kept as pre-sync history. Latest94d03b584 is docs-only. PR/documentation/fast-coverage still required. No directmain push/no94-102/no broad startup/format credit.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
+      "afterSha256": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
+        "implementationSha": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,10 +4148,10 @@
         ]
       },
       "evidence": {
-        "kind": "english-release-second-main-sync",
-        "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
-        "afterSha256": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
-        "lineCount": 991,
+        "kind": "codex-owned-pre94-rle-boot-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
+        "afterSha256": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
+        "lineCount": 998,
         "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
         "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
@@ -5341,6 +5341,56 @@
           },
           "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
           "evidence": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-local-initial",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-blob-dialog-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+            "afterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+            "lineCount": 985,
+            "scope": "Inventory-only integration delta:17 newly tracked script-correction code/test paths remain implicit pending; total3373/pending2886/unclosed2996, existing377closed/110review and table rows unchanged. Original CI failure and47-tool recheck retained; no new code-quality closure or product change.",
+            "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
+          "previousAfterSha256": "847082d56fda08cbc81e04ed83518c3f6db06170854e13a1adef1bb1a6a1a663",
+          "afterSha256": "7b370786c44e038003468ba3aa4db6839e93f4234df8beb516818ac686e871a1",
+          "scope": "Only owned board/ledger and descendant pins. Seven new explicit closures and CODE3h original six-source acceptance; shared format and3i remain. Historical projection fixes confer no new acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-local-sync-pending",
+          "previousEvidence": {
+            "kind": "english-release-second-main-sync",
+            "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
+            "afterSha256": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
+            "lineCount": 991,
+            "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
+            "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+            "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+            "workingTreeDelta": true
+          },
+          "previousCoreConclusion": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
+          "previousAfterSha256": "ace2f172134d3df072bb411f3f0fcd18527a2b98b5f6f717c88b0eca0d9c4d0a",
+          "afterSha256": "73cb67a5183a54b6785ce329b06a2fdea6cd8395530562ed77ef63efc8844381",
+          "scope": "Only owned board/ledger and descendant pins. Seven new explicit closures and CODE3h original six-source acceptance; shared format and3i remain. Historical projection fixes confer no new acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-combined-gates",
+          "previousSnapshot": {
+            "commit": "4192b69fd",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "entry": "docs/ops/audits/code-quality-file-ledger.md"
+          },
+          "previousAfterSha256": "73cb67a5183a54b6785ce329b06a2fdea6cd8395530562ed77ef63efc8844381",
+          "afterSha256": "17d66a172b2fc1444a775f069c0e2642431706420dd3c957b4a7d90d37fdbc81",
+          "scope": "Finite owned pins after combined20601+691/20172 gates and docs-only main sync. Full prior row is frozen in previousSnapshot Git; old histories preserved, shared format/3i remain.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
         }
       ],
       "supersedes": [
@@ -5357,7 +5407,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
+      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

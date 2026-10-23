@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual PR/CI, merged-tree equality, deployment/postflight/browser originals and exact navigation delta; preserve unrelated records without re-audit.",
+      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Current combined check20601+691tools/official20172 over774sources/strict protected all pass, project diagnostics0; old20512/20086 kept as pre-sync history. Latest94d03b584 is docs-only. PR/documentation/fast-coverage still required. No directmain push/no94-102/no broad startup/format credit.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "874a7b02126ad244ba4917a76cfce43289ec0765824a0e7fc8db508e3e045bd3",
+      "afterSha256": "b5b7402cbb63593fff6590a9e098e88905d4e2b7120d2d835a49d250f6e102c3",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "874a7b02126ad244ba4917a76cfce43289ec0765824a0e7fc8db508e3e045bd3",
+        "implementationSha": "b5b7402cbb63593fff6590a9e098e88905d4e2b7120d2d835a49d250f6e102c3",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,12 +1823,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-blob-dialog-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+        "kind": "codex-owned-pre94-rle-boot-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
-        "lineCount": 19287,
+        "afterSha256": "b5b7402cbb63593fff6590a9e098e88905d4e2b7120d2d835a49d250f6e102c3",
+        "lineCount": 20113,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -4682,6 +4682,114 @@
           },
           "scope": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
           "evidence": "docs/ops/evidence/GAME-ENGLISH-1/release.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-local-initial",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-blob-dialog-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+            "lineCount": 19287,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            },
+            "currentMaintenance": {
+              "kind": "script-corrections-main-sync-publication",
+              "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
+              "afterSha256": "2d03cf24346a5ec980ebcc984432d1de78e721d8cf81631e43ce30c576c45a40",
+              "lineCount": 18885,
+              "scope": "Terminal incoming binding for the finite R93 ledger inventory correction; original control history preserved, no product/source/coverage reacceptance.",
+              "candidateBaseRevision": "40cc96ffd8a41a16da5ea3788f1d6fbf58374420",
+              "workingTreeDelta": true
+            }
+          },
+          "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial. Nine finite blob/helper/dialog files accepted by concrete A-H and actual oracles; seven review files newly closed, one old RLE source close withdrawn, net+6. Current3374/388closed111review2875pending. RLE facade and its6-case test remain review for zero-production export ownership/shared-test dedup; CODE3h/3i not accepted. Fullcheck20515+690tools/sevenTC and post-freeze24/gameTC/99tools0; official single20090/760 and same-report strict/protected0, no metric regression/threshold weakening. Exact retirements47/net97 to51/net102, old47/predicate unchanged. Final document statics/publish separate; no94-102.",
+          "previousAfterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+          "afterSha256": "5e089b458ff77e968a3c33038b40b3048de9267818c8cac722ef0d85272b4f14",
+          "scope": "Only owned board/ledger and descendant pins. Seven new explicit closures and CODE3h original six-source acceptance; shared format and3i remain. Historical projection fixes confer no new acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-local-sync-pending",
+          "previousEvidence": {
+            "kind": "codex-owned-pre94-blob-dialog-quality-local",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/review.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "0fc412850551afe8d834b889f0b19f6d92aaf35938b8ec9a087824056f458952",
+            "lineCount": 19287,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            },
+            "currentMaintenance": {
+              "kind": "user-authorized-main-branch-protection-protocol",
+              "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
+              "afterSha256": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
+              "lineCount": 19913,
+              "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+              "workingTreeDelta": true
+            }
+          },
+          "previousCoreConclusion": "Exact incoming binding for user-authorized main protection workflow paragraph; existing sync2 records, all history and original artifact envelopes retained. No new English gate/CI/merge/deployment result.",
+          "previousAfterSha256": "b4c41fde49be068b761108598b4fe8f859b07d92d6f4781e72c0eb9a9e4b0f97",
+          "afterSha256": "08dec36cf5ac272f9b1a5dcc7e75bbabc3e7d2103e13f72e02c2fad1aacb1d54",
+          "scope": "Only owned board/ledger and descendant pins. Seven new explicit closures and CODE3h original six-source acceptance; shared format and3i remain. Historical projection fixes confer no new acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-rle-boot-combined-gates",
+          "previousSnapshot": {
+            "commit": "4192b69fd",
+            "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "entry": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+          },
+          "previousAfterSha256": "874a7b02126ad244ba4917a76cfce43289ec0765824a0e7fc8db508e3e045bd3",
+          "afterSha256": "b5b7402cbb63593fff6590a9e098e88905d4e2b7120d2d835a49d250f6e102c3",
+          "scope": "Finite owned pins after combined20601+691/20172 gates and docs-only main sync. Full prior row is frozen in previousSnapshot Git; old histories preserved, shared format/3i remain.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
         }
       ],
       "supersedes": [
@@ -4689,7 +4797,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Exact incoming control binding for English task done/navigation removal and actual release receipt; preserve existing records/history/artifact envelopes. No new whole-file code closure or full-story/device/offline E2E acceptance.",
+      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -3,14 +3,11 @@
  * 本组解真实 icon chunk，并核对头像尺寸来自 PNG 而不是 manifest。
  */
 
-import {
-  decodeRle as sharedDecodeRle,
-  parseSpriteChunk as sharedParseSpriteChunk,
-} from '@type-pal/shared'
+import { parseSpriteChunk as sharedParseSpriteChunk } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { indexedPng, twoFrameChunk } from '../__tests__/grok-render-r1/legal-host.js'
 import { loadDialogAssets } from './dialog-assets.js'
-import { base64ToBytes, decodeRle, parseSpriteChunk } from './rle-decode.js'
+import { base64ToBytes, parseSpriteChunk } from './rle-decode.js'
 
 function bytesToBase64(bytes: Uint8Array): string {
   let text = ''
@@ -332,8 +329,7 @@ describe('G02-D 对话图标与 base64', () => {
     expect(Array.from(base64ToBytes('/w=='))).toEqual([255])
   })
 
-  it('G02-D11 game 的 decodeRle 与 parseSpriteChunk 就是 shared 的同一函数', () => {
-    expect(decodeRle).toBe(sharedDecodeRle)
+  it('G02-D11 对话图标的 parseSpriteChunk 入口就是 shared 的同一函数', () => {
     expect(parseSpriteChunk).toBe(sharedParseSpriteChunk)
   })
 })

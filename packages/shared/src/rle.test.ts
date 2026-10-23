@@ -103,8 +103,12 @@ describe('parseSpriteChunk', () => {
     ])
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1)
-    expect(frames[0]!.width).toBe(2)
-    expect(frames[0]!.height).toBe(2)
+    expect(frames[0]).toEqual({
+      width: 2,
+      height: 2,
+      pixels: new Uint8Array([0xaa, 0xaa, 0xaa, 0xaa]),
+      opaque: new Uint8Array([1, 1, 1, 1]),
+    })
   })
 
   it('跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = 过滤后序列的 tile 索引,非原 slot 号)', () => {

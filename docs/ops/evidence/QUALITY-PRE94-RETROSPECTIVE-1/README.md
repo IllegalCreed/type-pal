@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-23 [RLE出口／运输snapshot／启动取消收口](3h/rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20partial；同步英文main后的check20601+691工具、official20172/774与同报告protected通过，PR状态另核。其余历史段按各自时点保留，shared格式/3i余项不随本窗接受。
+
 2026-10-22 [3w全角色临时加成窄修](3w-post-scripts/extra-cleanup-fix.json)：另获明确批准后正式单红→236实际定向/相邻绿与game TC0，永久装备效果保留。新测试只记review，3356/373closed/114review/2869pending；61accept/22partial，当前全仓/覆盖率留模块收尾，不沿用旧产品门。
 
 2026-10-22 [3w清理输入域反证](3w-post-scripts/extra-reachability.json)：真实V1导入/内存槽→开战脚本换队→大蒜→逃跑后，离队角色临时毒抗仍残留；只读快检与完整原件齐。仅已接受改动存档域，不声称普通剧情复现；当时清理策略待裁决，当前另批窄修与新计数见上一条；不声称普通剧情复现。
