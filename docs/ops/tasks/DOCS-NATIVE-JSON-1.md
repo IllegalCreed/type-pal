@@ -1,7 +1,7 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S31四源前置映射已核；Owner订正守卫/13源事务口径，S32隔离通用实现准入；未发布四源或212语义）
+Execution: rework（S32通用存储边界已实现，临时树演练已过；待GLM据证非作者验收，真实四源/212语义未发布）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
@@ -17,7 +17,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-- 当前S31/S32：212份历史R波JSON的既有内容输入保留；四源发布前置映射已核并有界订正，Codex获准隔离实施通用存储边界。未实施该原生生产合同/pilot/中央接入，不改原生、不删移。具体白名单/来源/停止线见本卡S30–S32节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
+- 当前S32：212份历史R波JSON的既有内容输入保留；Codex完成隔离通用存储边界与临时树演练，交GLM据证非作者复验。未实施该原生生产合同/pilot/中央接入，真实四源存储与原生载体不动。具体白名单/来源/停止线见本卡S30–S32节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
 - S26内容白名单269件：S21/F01中原13字段形态且SHA匹配33cc冻结绑定的272件，扣除S25三篇pilot。269件逐篇核全部原生字段、断言/失败、实际相位、producer/consumer、历史继任与信用边界，交具体review草稿。
 - 来源例外23件：无33cc冻结绑定成员，查真实Git载体、引入/移动/生成链，交来源提案或明确unknown；不自行续pin或套用固定源合同。
 - 格式例外7件：4件短摘要、1件含进程信息摘要、2件附distillation；读字段职责与实际consumer，交格式选择与反例提案，不能强补13字段。
@@ -294,3 +294,15 @@ Owner直接订正方案：三个旧修补器已有全选择集写前守卫，撤
 build allowed：Codex作者实施隔离通用边界，依据[冻结设计](../../phase-governance/templates/registry-proposal-20261011.md#s32-四源存储通用实现准入-100)；不新建卡/账本。新四源prepare/inspect/publish复用loader/packing/IO，保护S29原8源599行与302原生，五before、四pin同锁、R94先更新逻辑边再pack、13对象全读回；初迁移0旧片退出。旧8源writer与8+2语义写域保持封闭，额外owner必须明确首写前拒绝；迁移CLI的R94只读物化与新当前组inspect先行，不把原8源常数改成新组。
 
 本准入限scripts/docs新模块/显式CLI/少量定向测试及必要旧CLI/语义入口的只读或拒绝适配，文档仅同提交必要写回；真实中央四源发布、212原生变体生产注册/内容pilot/语义晋升另验。旧测试只运行不修改，若实际必改按最小补丁另取用户授权；产品/旧产品测试/coverage不动。实际实现须正式docs-tools及相关静态门、独立复验与完整回执，不能用本设计accept替代。下一位实施Owner是Codex；GLM只在实际候选交付后据证只读复验，不要求用户继续转派尚不存在的代码。
+
+### S32 通用存储实现与临时树演练交付（2026-10-23）
+
+Codex作者完成5个文档工具文件：新增receipt-review-storage-writer、显式migrate-receipt-review-storage CLI及一个6针定向测试文件；旧S28 CLI仅R94读取改用已有group物化，旧S29 prepare/inspect共用精确10源/flat控制域拒绝。所有旧测试/断言/8源常数/source pin、产品/coverage/共享配置、212原生及302保护载体和S29原8manifest/23片保持。作者自验和内部定向review不代GLM非作者accept，父子卡继续rework。
+
+新边界重用现有loader/IO/packing：从真实Git普通blob实取4源身份，5 before与13组全集；只允许R92[20..22]与R94[6]四个current-after随物理存储改变。prepare捕获所有组物理/引用输入/302原生，句柄不可JSON复制，首写前及锁内重核；stage复制完整43物理对象用公开loader+真实Git provider重建，生产只写7新片+4manifest+R92共12文件。R94逻辑边更新后pack、根manifest最后发布，纯读回/字节/全inventory在解锁前完成，失败保留lock/staging/五before，无旧片删除。
+
+临时稀疏Git clone从32045c93ba9eac481142c06bde35c720592e2272构造合法干净codex分支，真实调用新CLI：默认零写、显式12写/0退、独立positions重建13对象/275行（仅四控制边变化）、旧31物理/599行与302原生保全；再--publish为published只读0写，全inventory相同。真实Owner工作树未执行publish。首次CLI因macOS /var与/private/var字符串身份比较误拒，raw保留，修为realpath身份后v2另跑通过；没有改旧失败数字。
+
+另一owned夹具复用S28固定Git原8逻辑并仅将R94控制对象分片，实际旧CLI already-published/599/20片通过，触达改动行；相同只有旧10对象的树中，S29 prepare/inspect均明确拒分片控制且全文件不变。当前S29逻辑若不同S28 frozen内容仍按原合同拒绝，不把旧合同追授当前通过。新6针另覆盖真实Git坏before、伪造handle/输入漂移、prepare后未知兄弟代、缺片、13owner旧写域拒与真实rename失败恢复，未新增生产fault开关或/tmp隐式依赖。
+
+逐文件A–H、真实caller/oracle、失败原件、代码/输入指纹和完整命令输出复用原单份s22-validation.log.gz的S32追加及外部唯一交付入口，正式工具/静态门实际结果以原件为准；strict原1848诊断/927篇不授passed。实现未注册212生产合同、未接入212语义或四源真实存储，新增迁移/runtime信用0；仍1420/1838迁移、3retired、87incremental。不合main、不推送、不标done。

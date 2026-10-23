@@ -86,6 +86,20 @@ const mutable = new Set([
   'currentQualification',
 ])
 
+// The S29 one-shot transaction owns only its original eight sources and two flat controls.
+// A later sharded owner needs its own transaction, never a wider legacy selection.
+function assertLegacySemanticWriteDomain(group, logicalPaths) {
+  const extraOwners = [...group.records.keys()].filter((path) => !logicalPaths.includes(path))
+  demand(
+    group.records.size === logicalPaths.length && extraOwners.length === 0,
+    `unexpected sharded owner outside this ten-source transaction: ${extraOwners.join(', ')}`,
+  )
+  demand(
+    !group.storages.get(r92Path) && !group.storages.get(r94Path),
+    'legacy ten-source transaction requires flat R92/R94 controls; use the current-group boundary',
+  )
+}
+
 function validateChange(change, previous) {
   const binding = historicalVitestAdmission(change.path)
   demand(
@@ -209,11 +223,7 @@ export function prepareReviewSemanticDelta({ root, baseRevision, changes, change
     parents = new Map(),
     extras = new Map(),
     gitCache = new Map()
-  demand(
-    group.records.size === logicalPaths.length &&
-      [...group.records.keys()].every((path) => logicalPaths.includes(path)),
-    'unexpected sharded owner outside this ten-source transaction',
-  )
+  assertLegacySemanticWriteDomain(group, logicalPaths)
   const git = (pin) => {
     const key = `${pin.revision}:${pin.path}`
     if (!gitCache.has(key)) gitCache.set(key, readGitDocumentSnapshot(base, pin))
@@ -357,11 +367,7 @@ export function inspectPublishedReviewSemanticDelta({
   )
   const paths = [...FROZEN_REVIEW_STORAGE_SOURCES.map((e) => e.path), r92Path, r94Path],
     group = loadReviewRecords({ root: base, logicalPaths: paths })
-  demand(
-    group.records.size === paths.length &&
-      [...group.records.keys()].every((p) => paths.includes(p)),
-    'unexpected sharded owner outside this ten-source transaction',
-  )
+  assertLegacySemanticWriteDomain(group, paths)
   const expected = new Map(),
     originalStorage = new Map(),
     seen = new Set()

@@ -101,7 +101,7 @@ if (stored.some(Boolean)) {
   const r92Bytes = readBuffer(r92Path),
     r94Bytes = readBuffer(r94Path)
   const r92 = parseTerminalJson(r92Bytes),
-    r94 = parseTerminalJson(r94Bytes)
+    r94 = group.records.get(r94Path)
   for (const { path } of records) {
     const pins = r92.entries.filter((entry) => entry.path === path)
     if (pins.length !== 1 || pins[0].afterSha256 !== sha(readBuffer(path)))
