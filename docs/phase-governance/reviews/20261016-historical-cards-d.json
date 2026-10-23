@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Finite owned CODE3i source/test/Action cleanup and actual board/ledger projection, unrelated entries preserved",
-      "coreConclusion": "Current CODE3i five-source scope accepted after per-file A-H and concentrated gates. Fixed83:64accept19partial;3404tracked405closed104review2895pending. Ten new closures and three prior accepts refreshed. Main13c CI wasgreen with7platform notices; official Node24 SHA upgrades awaiting actual PR platform audit. No broader main/bootstrap/splash/shared-format/94-102 credit.",
+      "readMethod": "Owned CODE3j tools quality projection; unowned entries preserved",
+      "coreConclusion": "CODE3j finite quality accepted after concentrated gates;64accept19partial,3403tracked407closed104review2892pending. Three new closures;checkpoints reopened review for runtime calibration. No route/data/94-102 credit.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "9f7589928254622260f7298274607ff12d6d93a1646523df1b9f4228e1c1e20c",
+      "afterSha256": "9c77c3726dc013fce8d71daa550d8c2a992f7774a8eecc17bf8cc7b213ccb7ed",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "9f7589928254622260f7298274607ff12d6d93a1646523df1b9f4228e1c1e20c",
+        "implementationSha": "9c77c3726dc013fce8d71daa550d8c2a992f7774a8eecc17bf8cc7b213ccb7ed",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,10 +4148,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-precache-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json",
-        "afterSha256": "9f7589928254622260f7298274607ff12d6d93a1646523df1b9f4228e1c1e20c",
-        "lineCount": 1007,
+        "kind": "codex-owned-pre94-tools-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+        "afterSha256": "9c77c3726dc013fce8d71daa550d8c2a992f7774a8eecc17bf8cc7b213ccb7ed",
+        "lineCount": 1011,
         "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
         "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
@@ -5401,6 +5401,16 @@
             "entry": "docs/ops/audits/code-quality-file-ledger.md"
           },
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3j-quality-window",
+          "previousSnapshot": {
+            "commit": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "entry": "docs/ops/audits/code-quality-file-ledger.md"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json"
         }
       ],
       "supersedes": [
@@ -5417,7 +5427,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Current thirteen per-file A-H records with two exact-version reuses; source/test controls and one private formatter recount; workflow changes only seven Action refs",
+      "reviewedLines": "Seven source A-H with exact-version reuses, necessary test deltas and current board/ledger only",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

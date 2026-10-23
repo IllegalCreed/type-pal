@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前2026-10-23 CODE3j质量窗口：64accept/19partial/0pending；3403tracked/407closed/104review/2892pending。三文件新关闭、checkpoints旧关闭撤review；统一门已核，未扩94–102。实际提交/推送/PR状态见Git与后继发布回执。
+
 > 当前2026-10-23 CODE3i窗口：64accept/19partial/0pending；3404tracked/405closed/104review/2895pending。源码集中门零诊断；Action升级的实际远端提示与PR发布待后继核。下面此前各时点计数/待跑状态是历史，不覆盖本条及本窗收口节。
 
 > 已同步：同一3y合入英文产品main365e582e2与后继纯文档main94d03b584。组合check20601+691工具、official20172/774源及同报告protected通过；七包TC与项目诊断0。最终静态、推送及PR两项必需检查以实际回执为准，禁止直接推main。
@@ -27,6 +29,20 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 ## 2026-10-23 PR14商标专测CI窄返工（build allowed）
 
 PR14首轮Documentation绿且零平台提示，Coverage实际game3755绿/1超时：本窗商标默认例5478ms、显式跳过例4780ms。原完整原件保留，未合并；不能用本地旧绿替代远端失败。Codex单Owner，仅trademark-fallback.test.ts七处完整typed-array比较换测试内原生Buffer.compare全字节判等，逐个实参/测试身份/时序和产品正文保持，以末字节反证与原skip反控证明不弱化；不改timeout、产品、fixture或CI规则。允许同步该测试在有限重算数据中的精确SHA、当前证据/只读复验版本桥。局部定向/TC/静态刷新并重跑远端必需门，不重复本地全仓/覆盖率；原3d候选的全门仅保留其版本信用。
+
+## 2026-10-23 CODE3j有限质量收口
+
+[15文件逐项A–H、同版复用、合同迁移、反控及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md)。三文件新关闭：time-format源、toast/map两专测；checkpoints旧关闭因实际路线校准缺证撤review，3j整卡继续partial，其余11个既有接受刷新。toast实际6→4、map3→3；私有pad死参数移除，三源仅注释正文守恒，数据/公共接口不变。
+
+完整check20599包例+692工具、official20170/774源、原ratchet因已覆盖默认分支-1/-1拒绝，单文件14例前后V8补证后按用户授权精确协调，同报告官方策略重放/strict/protected零诊断/零回退。原首轮Chrome超时与次轮五CLI超时原件保留；仅本次VITEST_MAX_WORKERS=1完整重跑，不改规则或超时。没有第二覆盖率采集、baseline例外、保护规则修改或游戏路线/视觉验收。固定83仍64accept/19partial；3403/407closed/104review/2892pending。仅新增coverage有限快照数据，比较器/保护判据不变、101工具复验0。下一必要证据为五坐标/BGM/三入口真实运行校准；不重复静态用例补数字，不扩94–102。
+
+## 2026-10-23 CODE3j tools／speedrun余项（build allowed，以下保留准入时点）
+
+同一codex/code-quality-3y，最新origin/main与HEAD=1880db84a18aa40574d768621dd3ae6ddc7c9df9，0behind/0ahead且干净；Codex单Owner，主树只读。合并后main Documentation39900260968、Coverage39900261034均success：20,172例/774源、完整raw项目/平台诊断0、原生两check annotation计数0。64accept/19partial、3404/405closed104review2895pending为本窗起点，不继承整卡完成信用。
+
+build allowed：原3j七生产源与对应专测，按四相关切片补八维缺口并一起冻结。display-scale/fps-overlay复用game-actions-mobile逐文件证据并核当前caller；countdown/time-format五专测及相关CODE61–69复用present-speedrun既有正式证据，只重验失效项。重点全文核toast两专测的DOM/计时资源ownership与到期反例、map-names现行中英文caller/oracle及状态隔离、time-format/countdown实现的注释/职责/入口域、checkpoints静态配置与新增本地化出口。允许已证重复合同归并、必要测试宿主清理与行为保持的注释/结构整改；单独提交纯重构与行为修复。checkpoints坐标/节点/defaultBest/BANANA数据只读，不把静态配置升级路线实跑。重要未知保持review；新产品/存档/资源/公共接口取舍停受影响范围。
+
+不扩94–102，不重做仍有效全文复审。卡内仅必要定向/相邻与TC/静态；四片及证据冻结后再一次集中全仓/official与同报告protected，诊断0后分提交推送同一3y，经必需PR检查普通合并。无下一位Agent提示词。
 
 ## 2026-10-23 CODE3i runner通知窄修（build allowed）
 
