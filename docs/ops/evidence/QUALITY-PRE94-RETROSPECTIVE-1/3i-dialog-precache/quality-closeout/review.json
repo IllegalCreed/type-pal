@@ -1420,5 +1420,22 @@
     "sha256": "dff08d271e92956c624c4caba54f10060effbb9ab755a688a4a0c22c2125bc33",
     "entries": 262,
     "encoding": "gzip JSON dictionary of complete raw bytes as base64 + per-entry size/SHA256; failed attempts retained"
+  },
+  "currentVersionBridge": {
+    "path": "ci-rework.json",
+    "sha256": "d2e09400daf96b0d8787fbff9b9a8d9ed498c5c2ff52cdc71518102353df9bbf",
+    "pins": [
+      {
+        "path": "packages/game/src/shell/trademark-fallback.test.ts",
+        "beforeSha256": "2f2ae11c76e2acfad0cb2520732a1345774e6d9e0877fd9f946ee0f0838abf7e",
+        "sha256": "20ef23c546e899e2325d7720420a14697282b11c8b98e6bb8bbe919bba5ffe47"
+      },
+      {
+        "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+        "beforeSha256": "7ca19524e381ff615008c3aaaaed8d89c2563970b469cf9f4a5ea8adce6e47ea",
+        "sha256": "837d66abc4a39113d702e7adcc5f94724e9b96409b56c9814bf76c737a705122"
+      }
+    ],
+    "gateState": "Test-only CI rework locally refreshed; hosted required rerun pending. Original integration is frozen3d, not a new whole-suite local run."
   }
 }

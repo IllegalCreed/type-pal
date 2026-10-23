@@ -1,5 +1,9 @@
 # CODE3i 预缓存 UI／客户端／商标质量收口
 
+## 2026-10-23 PR14 CI 增量
+
+[商标专测窄返工](ci-rework.json)与[未裁剪原件](ci-rework-receipts.json.gz)区分原3d本地门和当前版本桥：首远端game一例5000ms超时（5478ms），未合并；两工作流完整日志中Action/Node提示已为0。七处大数组比较保留全部原实参、时序与2身份，换原生Buffer.compare核完整长度和全部字节，失败只报告标量，不是抽样或hash oracle。原生deepStrictEqual尝试在失败diff展开时造成worker错误，已撤回，不记有效反控。最终末字节差异两比较器都拒绝，skip变异恰1指定AssertionError，恢复2绿、28相邻绿；没有放宽timeout。私有重算条目仅刷新测试SHA，旧计数、阈值和退役规则不改。当前远端必需补门仍待；下面全check、official与protected是3d冻结版本，不伪称新跑本地全门。只读verify核原包与该明确当前版本桥。
+
 ## 证据身份
 
 id：pre94-code3i-quality-20261023；schemaVersion：1；status：recorded。单一 Codex Owner，同一 codex/code-quality-3y，基点13c935e4c646bc1e8fff3c6cb821efef5d22b16c。当前源码集中门通过，3i原五源接受；远端PR发布仍待实核。13个逐文件八维记录（含两份同版复用）、实际 caller、边界与待核项见 [review.json](review.json)。

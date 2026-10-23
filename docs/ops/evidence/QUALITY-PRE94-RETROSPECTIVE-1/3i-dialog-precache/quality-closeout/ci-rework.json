@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "base": "3dab34d0c136020088a48eb7f2676e56e15b2355",
+  "scope": "Only seven full-array assertion operators plus one private test-local byte comparator and two Node built-in imports. Exact arguments, all other test statements, fixtures,2identities and product bytes unchanged. One exact prior structural-approval source pin refreshed, all counters/authority/predicate/old entries unchanged.",
+  "pins": [
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "beforeSha256": "2f2ae11c76e2acfad0cb2520732a1345774e6d9e0877fd9f946ee0f0838abf7e",
+      "sha256": "20ef23c546e899e2325d7720420a14697282b11c8b98e6bb8bbe919bba5ffe47"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "beforeSha256": "7ca19524e381ff615008c3aaaaed8d89c2563970b469cf9f4a5ea8adce6e47ea",
+      "sha256": "837d66abc4a39113d702e7adcc5f94724e9b96409b56c9814bf76c737a705122"
+    }
+  ],
+  "proof": {
+    "base": "3dab34d0c136020088a48eb7f2676e56e15b2355",
+    "file": "packages/game/src/shell/trademark-fallback.test.ts",
+    "beforeSha256": "2f2ae11c76e2acfad0cb2520732a1345774e6d9e0877fd9f946ee0f0838abf7e",
+    "afterSha256": "20ef23c546e899e2325d7720420a14697282b11c8b98e6bb8bbe919bba5ffe47",
+    "pairs": [
+      {
+        "line": 74,
+        "actual": "fb.indices",
+        "expected": "new Uint8Array(320 * 200).fill(1)"
+      },
+      {
+        "line": 77,
+        "actual": "fb.indices",
+        "expected": "new Uint8Array(320 * 200).fill(2)"
+      },
+      {
+        "line": 84,
+        "actual": "fb.indices",
+        "expected": "new Uint8Array(320 * 200).fill(2)"
+      },
+      {
+        "line": 85,
+        "actual": "Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data)",
+        "expected": "opaqueBlack"
+      },
+      {
+        "line": 103,
+        "actual": "fb.indices",
+        "expected": "new Uint8Array(320 * 200).fill(1)"
+      },
+      {
+        "line": 108,
+        "actual": "fb.indices",
+        "expected": "new Uint8Array(320 * 200).fill(1)"
+      },
+      {
+        "line": 110,
+        "actual": "Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data)",
+        "expected": "opaqueBlack"
+      }
+    ],
+    "allSevenOracleArgumentsIdentical": true,
+    "allOtherParsedStatementsEqual": true,
+    "limits": "Native Buffer.compare checks complete byte length and byte contents, only equality result0 accepted. Helper typed inputs are only8-bit arrays, Buffer.from preserves all bytes; RGBA retains original realm normalization. Native last-byte counter and live skip counter below verify real rejection; no sampled or hash-only oracle."
+  },
+  "probes": {
+    "liveSkipMutant": {
+      "passed": 1,
+      "failed": 1,
+      "identity": "显式允许 Space：停在首帧、淡至全黑并释放按键监听",
+      "businessAssertionError": true,
+      "restoredPassed": 2
+    },
+    "byteProbe": {
+      "raw": "ci-byte-comparator-v2.stdout.raw",
+      "spec": "ci-compare-probe.ts",
+      "bothRejectLastByte": true,
+      "removed": true
+    },
+    "productSourceRestored": true
+  },
+  "primary": "InstalledNode22.23.2 Buffer.compare.toString() copied into buffer-compare-primary.txt; native compare and last-byte probe verify exact equality0, includinglength. No sampled/hash oracle.",
+  "failedCi": {
+    "run": 39890560081,
+    "head": "3dab34d0c136020088a48eb7f2676e56e15b2355",
+    "state": "failure",
+    "cause": "One trademark default test timeout5478ms>5000;explicitcase4780ms. Remaininggame3755passed;editor4781passed. No baselinecomparisoncompletion credit.",
+    "platformNoticeCount": 0,
+    "rawBytes": 756494,
+    "rawSha256": "f123933fa62ce493992c851ceb2768ecd7f349ddb8f000b0ad927b61c291e77a"
+  },
+  "localResults": {
+    "directed": "ci-rework-final-directed28passed",
+    "typecheck": "ci-rework-final-types",
+    "static": "ci-rework-final-lint",
+    "docs": "ci-rework-final-docs",
+    "limits": "Previous complete check20601+692 and official20172/774 were at3d. Product bytes and all other test content unchanged; finite argument/body proof plus local refresh and required hosted rerun bridge this test-only change. No local fullcheck/coverage rerun."
+  },
+  "processFailures": [
+    "First direct command had wrongcwd and ENOENT, no testcredit.",
+    "Initial Node deepStrictEqual success wasfast, but live mutant triggered oversized diff/workerfailure, invalidcontrol. Replaced by exact Buffer.compare with scalar failure, then valid singleAssertionError/restored2green.",
+    "An initial typecheck overlapped isolated mutation; no currentsourcecredit. Final TC runs after restoration.",
+    "OfficialNode docwebfetch inaccessible; installed publicBuffer.compare function source and actualnativeprobe used."
+  ],
+  "remote": "AmendedPR checks pending; no merge until actualrequiredchecks andfullraw clean.",
+  "receipts": {
+    "path": "ci-rework-receipts.json.gz",
+    "sha256": "6b9507f0b9a3cdfc7dc241617eb3a9dbd1ac2d8dc8578508306b3dadb0c7f677",
+    "entries": 84
+  }
+}

@@ -9,7 +9,17 @@ const dir = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(dir, '../../../../../..')
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const report = JSON.parse(fs.readFileSync(path.join(dir, 'review.json')))
-const pins = [...report.files, ...report.dependencies, ...report.inputs]
+const bridge = report.currentVersionBridge
+const effectiveSha = (file, previous) => {
+  const pin = bridge?.pins.find((entry) => entry.path === file)
+  if (!pin) return previous
+  assert.equal(pin.beforeSha256, previous)
+  return pin.sha256
+}
+const pins = [...report.files, ...report.dependencies, ...report.inputs].map((pin) => ({
+  ...pin,
+  sha256: effectiveSha(pin.path, pin.sha256),
+}))
 const stale = pins.filter((pin) => {
   const file = path.join(root, pin.path)
   return !fs.existsSync(file) || hash(fs.readFileSync(file)) !== pin.sha256
@@ -21,6 +31,22 @@ if (stale.length) {
   const archive = fs.readFileSync(path.join(dir, report.receipts.path))
   assert.equal(hash(archive), report.receipts.sha256)
   const entries = JSON.parse(gunzipSync(archive))
+  if (bridge) {
+    const bytes = fs.readFileSync(path.join(dir, bridge.path))
+    assert.equal(hash(bytes), bridge.sha256)
+    const amendment = JSON.parse(bytes)
+    assert.deepEqual(amendment.pins, bridge.pins)
+    assert.equal(amendment.proof.allSevenOracleArgumentsIdentical, true)
+    assert.equal(amendment.proof.allOtherParsedStatementsEqual, true)
+    assert.equal(amendment.probes.productSourceRestored, true)
+    assert.equal(amendment.probes.liveSkipMutant.failed, 1)
+    const extra = fs.readFileSync(path.join(dir, amendment.receipts.path))
+    assert.equal(hash(extra), amendment.receipts.sha256)
+    for (const [name, item] of Object.entries(JSON.parse(gunzipSync(extra)))) {
+      if (entries[name]) assert.deepEqual(entries[name], item)
+      else entries[name] = item
+    }
+  }
   const attachment = (name) => {
     const item = entries[name]
     assert(item, `Missing attachment: ${name}`)
@@ -60,6 +86,21 @@ if (stale.length) {
     ['ui-v8-after', 35],
   ])
     nativeResult(id, passed, 0)
+  if (bridge) {
+    nativeResult('ci-rework-final-directed', 28, 0)
+    for (const id of ['ci-rework-final-types', 'ci-rework-final-lint', 'ci-rework-final-docs']) {
+      const execution = json(`${id}.execution.json`)
+      assert.equal(execution.exit, 0)
+      assert.equal(execution.signal, null)
+      assert.equal(execution.spawnError, null)
+      assert.equal(attachment(`${id}.stderr.raw`).length, 0)
+    }
+    nativeResult('ci-rework-bytes-skip-mutant', 1, 1, [
+      'playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence 显式允许 Space：停在首帧、淡至全黑并释放按键监听',
+    ])
+    nativeResult('ci-rework-bytes-skip-restored', 2, 0)
+    nativeResult('ci-byte-comparator-v2', 1, 0)
+  }
   for (const control of report.controls.reports) {
     for (const row of control.rows) {
       nativeResult(
@@ -79,7 +120,10 @@ if (stale.length) {
   for (const file of report.files)
     assert.deepEqual(Object.keys(file.dimensions), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'])
   for (const file of report.body.records)
-    assert.equal(hash(fs.readFileSync(path.join(root, file.file))), file.afterSha256)
+    assert.equal(
+      hash(fs.readFileSync(path.join(root, file.file))),
+      effectiveSha(file.file, file.afterSha256),
+    )
   assert.equal(report.body.postCounterBridge.bodyUnchanged, true)
   const { approvedTestRetirements } = await import(
     pathToFileURL(path.join(root, 'scripts/coverage/approved-test-retirements.mjs'))
@@ -126,6 +170,7 @@ if (stale.length) {
       files: report.files.length,
       receipts: Object.keys(entries).length,
       integration: report.integration.state,
+      currentGateState: bridge?.gateState ?? report.integration.state,
       limits:
         'Read-only identity/result/integrity check; A-H semantic judgments remain explicit in review.json. No SUT, network, coverage or writes.',
     }),

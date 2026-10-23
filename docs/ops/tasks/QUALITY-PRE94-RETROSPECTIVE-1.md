@@ -24,7 +24,11 @@ Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 
-## 2026-10-23 CODE3i收口（当前）
+## 2026-10-23 PR14商标专测CI窄返工（build allowed）
+
+PR14首轮Documentation绿且零平台提示，Coverage实际game3755绿/1超时：本窗商标默认例5478ms、显式跳过例4780ms。原完整原件保留，未合并；不能用本地旧绿替代远端失败。Codex单Owner，仅trademark-fallback.test.ts七处完整typed-array比较换测试内原生Buffer.compare全字节判等，逐个实参/测试身份/时序和产品正文保持，以末字节反证与原skip反控证明不弱化；不改timeout、产品、fixture或CI规则。允许同步该测试在有限重算数据中的精确SHA、当前证据/只读复验版本桥。局部定向/TC/静态刷新并重跑远端必需门，不重复本地全仓/覆盖率；原3d候选的全门仅保留其版本信用。
+
+## 2026-10-23 CODE3i收口（本地冻结时点）
 
 固定83卡64accept/19partial/0pending，仅3i新接受；13个明确文件逐项A–H含两份同版复用，10新关闭/3旧关闭刷新。3404tracked/405closed/104review/2895pending。实际全check20601包例+692工具、七包TC/lint、official20172例/774源与同报告strict/protected通过，项目诊断0；原中断coverage无最终回执不计通过，补跑一次完整报告。只按实测formatter结构差协调3语句/1函数/1行，精确client2→1退役，未降规则。原72批准失败卡通过当前版本桥与本窗门收口，main/bootstrap整文件仍review。
 
