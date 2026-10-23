@@ -42,7 +42,7 @@ const approvedAdjustments = [
       },
       {
         path: 'packages/game/src/shell/trademark-fallback.test.ts',
-        sha256: '2f2ae11c76e2acfad0cb2520732a1345774e6d9e0877fd9f946ee0f0838abf7e',
+        sha256: '20ef23c546e899e2325d7720420a14697282b11c8b98e6bb8bbe919bba5ffe47',
       },
       {
         path: 'packages/game/src/shell/trademark-splash.grok-r1.test.ts',
