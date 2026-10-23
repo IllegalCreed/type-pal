@@ -1,4 +1,4 @@
-// countdown.ts —— 暂停恢复用的顶部居中大号倒计时(3→2→1)。单条元素,null 即移除。
+// 只渲染调用方提供的暂停恢复倒计时文案，不持有时钟；复用单条元素，null 即移除。
 const ID = 'tp-speedrun-countdown'
 
 export function showCountdown(text: string | null): void {
@@ -25,5 +25,6 @@ export function showCountdown(text: string | null): void {
     ].join(';')
     document.body.appendChild(el)
   }
+  // index 每 rAF 调用；相同文案不重建文本节点。
   if (el.textContent !== text) el.textContent = text
 }
