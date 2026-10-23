@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Finite owned CODE3i source/test/Action cleanup and actual board/ledger projection, unrelated entries preserved",
+      "readMethod": "Owned CODE3j tools quality projection; unowned entries preserved",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current CODE3i five-source scope accepted after per-file A-H and concentrated gates. Fixed83:64accept19partial;3404tracked405closed104review2895pending. Ten new closures and three prior accepts refreshed. Main13c CI wasgreen with7platform notices; official Node24 SHA upgrades awaiting actual PR platform audit. No broader main/bootstrap/splash/shared-format/94-102 credit.",
+      "coreConclusion": "CODE3j finite quality accepted after concentrated gates;64accept19partial,3403tracked407closed104review2892pending. Three new closures;checkpoints reopened review for runtime calibration. No route/data/94-102 credit.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "3b1cb55bb664b7723c7799e2af1078ee16b8148fb8e45892c7e0c68baf097130",
+      "afterSha256": "00cd8bc7b3fd3ca9a0f9ce8380484dc21f93e7f4299a487c257b2cf3cbeed6d7",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "3b1cb55bb664b7723c7799e2af1078ee16b8148fb8e45892c7e0c68baf097130",
+        "implementationSha": "00cd8bc7b3fd3ca9a0f9ce8380484dc21f93e7f4299a487c257b2cf3cbeed6d7",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,12 +1823,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-precache-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json",
+        "kind": "codex-owned-pre94-tools-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "3b1cb55bb664b7723c7799e2af1078ee16b8148fb8e45892c7e0c68baf097130",
-        "lineCount": 20133,
+        "afterSha256": "00cd8bc7b3fd3ca9a0f9ce8380484dc21f93e7f4299a487c257b2cf3cbeed6d7",
+        "lineCount": 20153,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -4800,6 +4800,16 @@
             "entry": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
           },
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3j-quality-window",
+          "previousSnapshot": {
+            "commit": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+            "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "entry": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json"
         }
       ],
       "supersedes": [
@@ -4807,7 +4817,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Current thirteen per-file A-H records with two exact-version reuses; source/test controls and one private formatter recount; workflow changes only seven Action refs",
+      "reviewedLines": "Seven source A-H with exact-version reuses, necessary test deltas and current board/ledger only",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

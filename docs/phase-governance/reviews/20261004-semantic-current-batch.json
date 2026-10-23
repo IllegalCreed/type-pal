@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Finite owned CODE3i source/test/Action cleanup and actual board/ledger projection, unrelated entries preserved",
+      "readMethod": "Owned CODE3j tools quality projection; unowned entries preserved",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current CODE3i five-source scope accepted after per-file A-H and concentrated gates. Fixed83:64accept19partial;3404tracked405closed104review2895pending. Ten new closures and three prior accepts refreshed. Main13c CI wasgreen with7platform notices; official Node24 SHA upgrades awaiting actual PR platform audit. No broader main/bootstrap/splash/shared-format/94-102 credit.",
+      "coreConclusion": "CODE3j finite quality accepted after concentrated gates;64accept19partial,3403tracked407closed104review2892pending. Three new closures;checkpoints reopened review for runtime calibration. No route/data/94-102 credit.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "524cf06cc795f32850639fb4101b48f1fc5ce4e16a785ced30bd412a412adb83",
+      "afterSha256": "3b35985f64c5c465497d0d4483d8879b468520fb3ccfcd42c30223926ea2ab46",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "524cf06cc795f32850639fb4101b48f1fc5ce4e16a785ced30bd412a412adb83",
+        "implementationSha": "3b35985f64c5c465497d0d4483d8879b468520fb3ccfcd42c30223926ea2ab46",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,9 +1713,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-precache-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json",
-        "afterSha256": "524cf06cc795f32850639fb4101b48f1fc5ce4e16a785ced30bd412a412adb83",
+        "kind": "codex-owned-pre94-tools-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+        "afterSha256": "3b35985f64c5c465497d0d4483d8879b468520fb3ccfcd42c30223926ea2ab46",
         "lineCount": 89,
         "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
@@ -3002,12 +3002,22 @@
             "entry": "docs/ops/board.md"
           },
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3j-quality-window",
+          "previousSnapshot": {
+            "commit": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+            "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+            "entry": "docs/ops/board.md"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Current thirteen per-file A-H records with two exact-version reuses; source/test controls and one private formatter recount; workflow changes only seven Action refs",
+      "reviewedLines": "Seven source A-H with exact-version reuses, necessary test deltas and current board/ledger only",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",

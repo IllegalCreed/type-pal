@@ -6,7 +6,7 @@ import {
 import { localize } from '../localization/language.js'
 import { ENGLISH_MAP_NAMES } from '../localization/map-names-en.js'
 
-/** mapNum → 人读地名；缺名保持一阶段工具既有的 `地图N` 回退。 */
+/** mapNum → 当前语言的显示地名；缺名分别回退为“地图N”或“Map N”。 */
 export function getMapName(mapNum: number): string {
   return localize(
     getPalAuthoredMapName(mapNum) ?? `地图${mapNum}`,

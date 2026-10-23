@@ -1,9 +1,7 @@
-// checkpoints.ts —— 21 个速通节点定义 + 香蕉树(反作弊/中场休息)配置。
-//   场景号/敌人id/物品id 已对齐我方 extracted 数据(spec §4.5)。
-//   ⚠坐标全部抄自 PalTimer(98柔情),但**须 +PARTYOFFSET(160,112) 换算**:PalTimer 读原版**视口**坐标,
-//     我们 gs.party.x/y 是**世界坐标 = 视口 + PARTYOFFSET**(2026-06-19 查 PalTimer 源 `仙剑98柔情.cs` +
-//     香蕉处实测坐实:站位 (1280,720) − PalTimer 视口 (1120,608) = 正好 (160,112))。地图边缘点(见石碑)
-//     偏移>160 且各点不一(spec §4.1),已标 ⚠、须实跑读 gs.party 核(spec §4.4 Task 12 未竟)。
+// 21 个速通节点与香蕉树配置；稳定 ID 用于计时/持久化，显示名可以本地化。
+// 下方坐标沿用历史 PalTimer(98柔情)视口 + (160,112) 的换算记录；地图边缘不能据此推定已校准。
+// docs/phase1/plans/2026-06-18-speedrun-timer-design.md §4.4 所列坐标/BGM/入口仍待运行核验，
+// 静态配置测试不证明路线已跑通；香蕉三格的历史站位记录也不外推为其它节点的证据。
 
 import { localize } from '../../localization/language.js'
 import {
@@ -121,12 +119,12 @@ export const CHECKPOINTS: readonly Checkpoint[] = [
 ]
 
 /**
- * 圣姑家香蕉树:**站到 3 格之一暂停**,拿香蕉(291)恢复。**照抄 PalTimer 逻辑(精确格、零容差)**。
- * PalTimer `仙剑98柔情.cs:1099` CheckCheatBegin = scene 177 + PositionCheck(精确 ==){(1088,608),(1120,608),
+ * 香蕉树配置沿用精确三格/零容差；站格暂停，拿香蕉(291)恢复。以下为历史换算记录，本轮未实跑复核。
+ * 历史 PalTimer CheckCheatBegin 记录（源版本未冻结）：scene 177 + PositionCheck(精确 ==){(1088,608),(1120,608),
  *   (1120,592)} —— 那是原版**视口**坐标;我们 `party` 是**世界=视口+PARTYOFFSET(160,112)**,故 +offset 换算:
  *   (1088,608)→(1248,720)、(1120,608)→(1280,720)、(1120,592)→(1280,704)。
  * 香蕉树本体(事件对象 EO[16]@scene/176.json 世界 (1264,712)、禁入障碍、人站不上去)就在这 3 个相邻可站格中间;
- *   user 实测捡香蕉站位 (1280,720) = 中间格,精确命中。坐标已知确切 → **不加容错容差**(tol=0,同 PalTimer)。
+ *   历史用户记录的捡香蕉站位 (1280,720) = 中间格，因此保留既有零容差(tol=0)，不凭静态测试改点。
  */
 export const BANANA: BananaConfig = {
   scene: 177,

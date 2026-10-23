@@ -1,7 +1,7 @@
 // time-format.ts —— 速通计时时间格式化(纯函数)。
-const pad = (n: number, w = 2): string => String(n).padStart(w, '0')
+const pad = (n: number): string => String(n).padStart(2, '0')
 
-/** ms → "H:MM:SS.CC"(厘秒)。负数按 0 处理。 */
+/** 调用方提供有限毫秒 → "H:MM:SS.CC"；厘秒向下截断，负数按 0 处理。 */
 export function formatClock(ms: number): string {
   const t = Math.max(0, Math.floor(ms))
   const cc = Math.floor((t % 1000) / 10)
@@ -9,13 +9,13 @@ export function formatClock(ms: number): string {
   return `${Math.floor(s / 3600)}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}.${pad(cc)}`
 }
 
-/** ms → "H:MM:SS"。 */
+/** 调用方提供有限毫秒 → "H:MM:SS"；向下截断到秒，负数按 0 处理。 */
 export function formatHms(ms: number): string {
   const s = Math.max(0, Math.floor(ms / 1000))
   return `${Math.floor(s / 3600)}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`
 }
 
-/** "H:MM:SS" / "HH:MM:SS" / "M:SS" → ms;非法 → null。 */
+/** 文本入口："H:MM:SS" / "M:SS" → 有限毫秒；各段可有首尾空白，分/秒为 0–59，非法返回 null。 */
 export function parseHms(s: string): number | null {
   const parts = s.split(':').map((p) => p.trim())
   if (parts.length < 2 || parts.length > 3) return null
@@ -28,7 +28,7 @@ export function parseHms(s: string): number | null {
   return Number.isFinite(totalMs) ? totalMs : null
 }
 
-/** 差值 ms → "±M:SS"(0 显示 "0:00")。 */
+/** 有限差值毫秒 → "±M:SS"；绝对值截断到秒，保留子秒正负号，精确 0 显示 "0:00"。 */
 export function formatDiff(ms: number): string {
   const sign = ms < 0 ? '-' : ms > 0 ? '+' : ''
   const s = Math.floor(Math.abs(ms) / 1000)

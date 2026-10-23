@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-23 CODE3j质量窗口：三文件新关闭（time-format源与toast/map专测）、checkpoints旧关闭撤review，其它同版接受刷新；当前3403/407closed/104review/2892pending，固定83卡仍64accept/19partial。toast真实6→4合同迁移，未改保护规则；坐标/BGM/入口未知不因静态绿关闭。集中门和实际原件见[本窗收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md)。
+
 2026-10-23 CODE3i：13明确文件逐项A–H，10新关闭与3旧接受刷新；固定83卡64accept/19partial，3404tracked/405closed/104review/2895pending。全check20601+692工具、official20172/774与同报告strict/protected均项目零诊断；原中断coverage不计通过，唯一完成报告复用。仅formatter已覆盖结构计数精确协调与client2→1退役，无规则/接口/产品行为变更。原72窄失败卡收口，main/bootstrap/splash/格式广域不附带接受。[本窗原件及只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)。最终文档门/远端Action提示与PR按实际后继回执核。
 
 2026-10-23 同步英文main365e582e2：保留本窗七新关闭、上游英文28条pending及两边完整历史，当前3402/395closed/107review/2900pending，固定83卡63accept/20partial。下条3374数字与20512/20086门是同步前d297候选；新组合check20601+691工具、official20172/774与同报告protected已0回退/0项目诊断。后继main94d仅文档，不重采；末轮文档静态、PR的documentation/fast-coverage和合并按实际回执核，不以旧main CI代替。
@@ -87,8 +89,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,404。
-当前已闭合核验：405；已读但待审：104；尚未逐文件核验：2,895；合计未闭合：2,999。
+起始基点机器清单：2,962。当前 tracked 清单：3,403。
+当前已闭合核验：407；已读但待审：104；尚未逐文件核验：2892；合计未闭合：2996。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -292,9 +294,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/trademark-fallback.ts` | product | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |
 | `packages/game/src/shell/audio-volume.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/shell/audio-volume.boundaries.test.ts` | test | 已验证 | [CODE70边界与key ownership](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)；100行全文、NaN/0/default/key独立合同 | 改正共享键读写注释、去除重复静音状态机；忽略keyMute旧6绿新7绿1指定AssertionError，恢复8绿；不改生产API |
-| `packages/game/src/tools/display-scale.ts` | product | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |
-| `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |
-| `packages/game/src/tools/toast.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；save/tool callers、success/error/info/stack lifecycle tests | DOM 单例/多 toast 到期自删合同完整；本片未发现直接缺陷 |
+| `packages/game/src/tools/display-scale.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/toast.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
 | `packages/game/src/tools/minimap.ts` | product | review | [minimap分类/缩放返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md)；487行原源全文；caller/Command/原C库存/真实raw数量域核证；只校两注释 | parsedTS/JS相同；425条0x1F中401零量并非地图宝箱分母；raw/具名signed域和其它生命周期仍review |
 | `packages/game/src/tools/minimap.test.ts` | test | review | [minimap分类/缩放返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md)；148行原测全文；独立视野中心/四边钳制与item优先双顺序；14例保持 | 三反控各旧14绿→新13绿1指定AssertionError；一无据标题勘误、未退役；未知输入域保持review |
 | `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | review | [minimap分类/缩放返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md)；200行原测全文；原6保留加2真实widget缩放/焦点合同；正式camera、穿透canvas与精确清理 | 两反控各旧6绿→新7绿1指定AssertionError；正式22直接/36相邻；非法持久zoom/完整视觉未验，仍review |
@@ -310,11 +312,11 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/save-slot-menu.ts` | product | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；menu-driver 标题/系统 save-load caller、draw-menu SlotMeta oracle、Save API/IDB 边界、sdlpal uigame.c:169-242 | 选择状态、1-based/defaultSlot、非顺序 id、空表与异步元数据 ownership 逐文件核验；无 schema/写路径或直接产品缺陷 |
 | `packages/game/src/core/menu/save-slot-menu.test.ts` | test | review | [补审排重勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；2daed1bb7删例与Save API合同逐项对照 | 原完全等价排重声明撤回；六字段/读侧克隆现移到API层，菜单15例仍在；等待再次独立整文件/统一门验收 |
 | `packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；公开工厂同步合同与 sdlpal defaultSlot oracle | 非顺序 id、越界 defaultSlot、空表 Up/Down 反例；与 IO/dispatcher 测试排重 |
-| `packages/game/src/tools/map-names.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；shared authored map-name caller 与 known/fallback tests | 缺名保持 `地图N` 回退，不改 authored table |
-| `packages/game/src/tools/speedrun/time-format.ts` | product | review | [pre-94 CODE3j time-format 当前复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-time-format/README.md)；store/overlay/tools-panel caller、三份直接测试 | 发现超长数字可形成 Infinity 并在 JSON 持久化时静默变 null；已补 finite 反例与解析守卫，整卡/统一门仍待 |
-| `packages/game/src/tools/speedrun/time-format.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
-| `packages/game/src/tools/speedrun/time-format.boundaries.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
-| `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
+| `packages/game/src/tools/map-names.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/speedrun/time-format.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/speedrun/time-format.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/speedrun/time-format.boundaries.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
 | `packages/game/src/tools/speedrun/store.ts` | product | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |
 | `packages/game/src/tools/speedrun/store.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
 | `packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
@@ -332,12 +334,12 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/speedrun/overlay.ts` | product | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
 | `packages/game/src/tools/speedrun/overlay.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
 | `packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
-| `packages/game/src/tools/speedrun/checkpoints.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
+| `packages/game/src/tools/speedrun/checkpoints.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
 | `packages/game/src/tools/speedrun/timer.boundaries.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
-| `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | [pre-94 CODE3j countdown复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/README.md)；speedrun/index caller、singleton/update/remove DOM tests | 单节点复用、null 幂等移除、disabled 清理；本片未发现直接缺陷，3j 整卡仍 partial |
-| `packages/game/src/tools/speedrun/countdown.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
-| `packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
-| `packages/game/src/tools/speedrun/checkpoints.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；speedrun store/detectors caller、21-id/monotonic/BANANA tests 与 PalTimer 注释 | 只读核对坐标/物品/检测器；坐标实跑仍 unknown，不擅改速通数据 |
+| `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/speedrun/countdown.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/speedrun/checkpoints.ts` | product | review | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 五坐标/BGM/入口校准缺当前运行证据；静态合同不能关闭，旧关闭撤回review。数据正文未变 |
 | `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |
 | `packages/game/src/present/framebuffer.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present/draw-tilemap/draw-sprite caller、framebuffer + leaves tests | 默认/离屏尺寸、边界静默写、palette 缺色 fallback 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/present/screen-shake.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:710-715 caller、sdlpal video.c:571-620、shake/bounds tests | 奇偶垂直搬移、level 越界、advance=false 补帧和 shakeTime 递减逐文件核验；未发现直接缺陷 |
@@ -643,6 +645,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/trademark-splash.grok-r1.test.ts` | test | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |
 | `packages/game/src/__tests__/precache-ui-host.ts` | test | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |
 | `packages/game/src/__tests__/precache-client-host.ts` | test | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |
+| `packages/game/src/tools/toast.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
+| `packages/game/src/tools/map-names.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；同版复用明确，3j仍partial，不外推路线或广域 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

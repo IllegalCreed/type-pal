@@ -5,6 +5,71 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-time-format-private-default-recount-20261023',
+    authority:
+      'User standing authority permits exact baseline adjustment for justified refactoring without restoring dead code or weak tests. Current3j removes only unexported pad width default; all six callers pass one argument and fixed width2 is unchanged. Same14 unchanged strong tests before/current V8 prove only one covered default-arg branch removed (line2,37hits); all other branch locations/hits and statements/functions/lines unchanged. Pin complete old baseline and four source/test bytes. No tolerance, scope/comparator/timeout or behavior change.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json',
+    baselineSha256: '4fdc2286c5338060524aaf6c160f08797cbbd681f23c0499318ead4027171187',
+    sources: [
+      {
+        path: 'packages/game/src/tools/speedrun/time-format.ts',
+        sha256: 'ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/time-format.test.ts',
+        sha256: '61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/time-format.boundaries.test.ts',
+        sha256: 'ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts',
+        sha256: '79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15289,
+            total: 17075,
+          },
+          branches: {
+            covered: 9906,
+            total: 12277,
+          },
+          functions: {
+            covered: 1835,
+            total: 2135,
+          },
+          lines: {
+            covered: 13628,
+            total: 14962,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15289,
+            total: 17075,
+          },
+          branches: {
+            covered: 9905,
+            total: 12276,
+          },
+          functions: {
+            covered: 1835,
+            total: 2135,
+          },
+          lines: {
+            covered: 13628,
+            total: 14962,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-precache-private-formatter-recount-20261023',
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring; current3i scope includes reuse, test quality and concentrated final coverage. Consolidate two byte-for-byte same-input MiB formatter arrows into one private named formatter. Frozen same35 strong tests old/current V8 independently measure only covered counters removed:3statements/1function/1line, zero branch delta, all uncovered counters unchanged. TS normalized full-body proof checks the shared expression against both old arrows. Only these game counters rebased against this complete baseline; no tolerance, scope, comparator or project behavior changed.',
