@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-23T02:32:49.679Z",
+  "generatedAt": "2026-10-23T06:05:09.948Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 774,
-  "testCount": 20172,
+  "testCount": 20170,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4793,8 +4793,8 @@
       ],
       "scopeDigest": "155e267b6b9aca7ea6ef4342a662f6e4aa07f516c6691711d850f35ab81f1acf",
       "fastTests": {
-        "testCount": 3756,
-        "testFileCount": 340,
+        "testCount": 3754,
+        "testFileCount": 339,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -5130,7 +5130,6 @@
           "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
           "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/speedrun/timer.test.ts",
-          "packages/game/src/tools/toast.glm-phase1-leaves.test.ts",
           "packages/game/src/tools/toast.test.ts",
           "packages/game/src/tools/tools-panel.english.test.ts",
           "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
@@ -6691,7 +6690,7 @@
           {
             "file": "packages/game/src/tools/map-names.test.ts",
             "testCount": 3,
-            "identityDigest": "b356f65606a38656168c0c634888cccc490350154e311b7d7ac6a38efe4fcf29"
+            "identityDigest": "21ae85c9cc68d6967fc69e02cc485fe0c0f7f97af5c9e4bb9ea3d2c8ffd9be4d"
           },
           {
             "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
@@ -6809,14 +6808,9 @@
             "identityDigest": "59b6b6fc61c1bdf23c462731160394bcab4714fbb952ed1b29c71778a2326dab"
           },
           {
-            "file": "packages/game/src/tools/toast.glm-phase1-leaves.test.ts",
-            "testCount": 2,
-            "identityDigest": "897e82d8715a22c88dc901ee480016a96f9830bdf0b31fa9b8c14dc755e4bce5"
-          },
-          {
             "file": "packages/game/src/tools/toast.test.ts",
             "testCount": 4,
-            "identityDigest": "9a778ec0706af1edeabd40013ffb991ccf961127965095876115130f65dda3b1"
+            "identityDigest": "12946036722427c730490fce9d77f96be3ea8d066c57715e7058b82d2b059848"
           },
           {
             "file": "packages/game/src/tools/tools-panel.english.test.ts",
@@ -6839,9 +6833,9 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "bb142a31995873dc82e05c5a8bf9867b5399655e5f70cc32afbe5bb6d851647f",
+        "identityDigest": "adc1bed20e51bb5158c033c4cb4ae9a8410686b68cd1c0b6046d1b4b131f4d6b",
         "duplicateIdentityCount": 0,
-        "executionDigest": "1581426317e90c09783b18b4de7c13e1cab266a1063c20856f62456352f38da3"
+        "executionDigest": "6e7d1f334a00826b75fd6b6913c35d02e94dfb1e6cfad23ad333d16d8d43df29"
       },
       "metrics": {
         "statements": {
@@ -6849,8 +6843,8 @@
           "total": 17075
         },
         "branches": {
-          "covered": 9906,
-          "total": 12277
+          "covered": 9905,
+          "total": 12276
         },
         "functions": {
           "covered": 1835,
@@ -10881,8 +10875,8 @@
       "total": 80466
     },
     "branches": {
-      "covered": 52607,
-      "total": 62701
+      "covered": 52606,
+      "total": 62700
     },
     "functions": {
       "covered": 13730,
