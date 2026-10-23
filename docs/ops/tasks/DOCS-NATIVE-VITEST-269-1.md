@@ -1,7 +1,7 @@
 # DOCS-NATIVE-VITEST-269-1 — S29 原生 Vitest 269篇语义接入
 
 Status: build
-Execution: build allowed（269篇贡献者证据接收；Owner定向勘误待非作者复核，合同与受控发布仍由Codex实施）
+Execution: build allowed（Owner勘误非作者accept已接收；通用合同/受控writer自验，待非作者复核后发布269）
 Phase: ops
 Capability: native historical document governance
 Coding Owner: Codex（通用合同、受控写入与中央接入）
@@ -84,7 +84,7 @@ Template: task-card-v1 / 1.0.0
 
 ## Build：实现与自测
 
-Owner已创建隔离候选分支并冻结准入包；生产合同、受控writer和269正式发布尚未实施。当前只注册本卡和调度，源8/19片/599条及302原生全只读。新合同与writer的实际文件白名单、测试结果和候选由后继实施如实补录。准入阶段已真实运行完整232项（0失败/0跳过）、导航1304篇/10187链接/366任务、model1272合同、testing与phase门，均零issue；lint4544文件零E/W/I。check:docs仍exit1，仅严格2386项：1196篇，1190审阅待办+1196迁移待办、交集1190；比2384多的两项只来自本卡，原269尚未扣减。原件进入既有单份压缩日志，不能据此称全门通过。
+Owner已创建隔离候选分支并冻结准入包；通用合同和受控writer现已实现、自验，269正式发布尚未实施。源8/19片/599条及302原生仍全只读。实现白名单与自验见下节；以下232项是准入时点原件，不冒充新实现结果。准入阶段已真实运行完整232项（0失败/0跳过）、导航1304篇/10187链接/366任务、model1272合同、testing与phase门，均零issue；lint4544文件零E/W/I。check:docs仍exit1，仅严格2386项：1196篇，1190审阅待办+1196迁移待办、交集1190；比2384多的两项只来自本卡，原269尚未扣减。原件进入既有单份压缩日志，不能据此称全门通过。
 
 ## Review：审查与返工
 
@@ -99,6 +99,23 @@ Owner已创建隔离候选分支并冻结准入包；生产合同、受控writer
 - 原作者final回执的候选/包/工具SHA、stdout及退出码和Owner回放相符；first-pass只有未带完整身份的plain输出，不能追补其时间。runner的269nativePinsCount是清单数量，不称独立逐文件运行前后指纹；实际字节由固定候选和verify真实读取核定。
 - 本轮中央269条、330行及8manifest/19片零写入，review/迁移待办各减少0；仍1196篇、1190审阅+1196迁移=2386项，1151/1838+3retired+87incremental不变。下一步由Codex完成通用合同/当前generation受控writer，勘误与新代码按风险非作者复核后才发布；不要求GLM重做269。
 
+### S29 Owner勘误非作者accept接收（2026-10-23）
+
+- GLM只读接受候选19b583a0c07de64ad81b03241844b5df9acf768c，零counter，nonAuthorReviewer=true仅覆盖Codex勘误：4共享规则357应用、230个assessment、13个pilot字段和3个pending摘要。原GLM稿并未由原作者重新自签接受。
+- HANDBACK SHA-256 `de4f04490f4821c632c4f916e31d378276c57a1efe808aae846590e19d4278d6`；verdict `58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed`。Owner核两SHA、receipt内完整stdout、退出码和前后身份；独立回放/15锚/原包保全沿其明确读域接收，不重复269全文。独立包.out为wrapper摘要，实际命令stdout在receipt内，二者如实区分。
+- 原O01生成器endsWith('green')漏green-run/green-with-pending导致190靶中52绿文挂红段；四规则和定向事实勘误均已闭合。55文件/823断言是不同载体的两个维度极值，不作单份报告宣称。
+
+### S29 通用合同与当前generation writer候选（2026-10-23）
+
+作者Codex/nonAuthorReviewer=false，实施基底19b583a0。只改9个文档工具文件：historical-vitest-cohort/evidence/native、review-record-storage-io/packing/writer、review-record-semantic-writer及其新测试、update-native-vitest-reviews。准入tuple269和保全native302为可执行白名单，不复制正文/原生报告；唯一治理正文仍是原8个review位置。既有storage/1.0.0、父合同/原3pilot版本、routing/registry/templates及旧测试不改。
+
+- 合同：按固定path/source/phase/review/index定位，原生计数、全部失败/pending fullName、真实pointer/上下文SHA与行域由实际consumer校验。未准入路径/联合换标、来源/身份/相位漂移拒绝；读域仍区分复用与补读，不能声称269次全文深审。
+- 写入：prepare绑定固定Git当前8manifest/19片/R92/R94、302原生与上下文、逐行before指纹；仅批准字段变更并保全其余330行/全部历史前缀和原8source pin。复用S28的格式化/packing/普通文件检查，按512KiB合同重分片，未上调maxSize或新增排除。
+- 发布：显式Owner模式、codex分支和干净候选；exclusive lock下staging/组读回→新片/manifest→R92八pin/R94[6]→全inventory/逻辑读回后退出旧片并释锁。失败保留锁及恢复信息，不擅自reset/rollback。私有prepare句柄防篡改，同进程及新CLI进程重放均可只读核实零写入。
+- 自验：新增6项文档工具测试含实际caller、真实子进程锁内输入变动、无前缀写入反例、CLI脏树拒绝及跨进程幂等。完整269在owned临时Git树演练，599逻辑条保序相等、330非目标零改、302原生/8source/9依赖pin全部核对；23新片最大447746字节，19旧片显式退出；重复API及新进程CLI零写入。该临时演练未在本仓库发布269，也未授reviewed/template-compliant信用。
+- 开发首红保留：新fixture误用仅JSON的Git reader读取Markdown；改用固定Git普通blob且不扩旧reader。CLI测试树Git状态输出超默认缓冲；增加16MiB有界缓冲/30秒超时后重验。早期断言错误匹配过窄与格式提示原样留痕，未降低规则、未手改回执数字。
+- 新实现与自验须未参与者只读独立复核。中央269状态/8manifest/19片、registry/routing/原生及1151/1838+3retired+87incremental均不变，严格1190审阅+1196迁移=2386诊断仍FAIL。全卡build、父子卡rework；不合main、不推送、不标done。
+
 ## 用户验收
 
 用户产品判断N/A（不改可感知行为）。本卡build allowed已获明确批准；不包含新产品取舍、不可逆main操作或未授权旧测试改动。
@@ -110,4 +127,4 @@ Owner已创建隔离候选分支并冻结准入包；生产合同、受控writer
 
 ## 下一位Agent提示词
 
-GLM贡献者包已接收其有支撑证据，不再重做269或生成新正文。下一次非作者工作仅核Owner勘误的4共享规则/13定向字段/3摘要，以及后继已备好的通用实现候选；以Owner自含提示词和固定候选为准，不提前宣称代码已实施/已接受。Codex继续合同与受控writer，未发布前269状态不变，不合main、不推送、不标done。
+GLM已接受Owner定向勘误；下一包仅只读复核Codex9文件通用实现、实际consumer与受控发布反例，按固定候选/原件指纹复用有效全门，不重做269篇。独立accept后由Codex生成并核准实际269发布计划；本候选未改中央269状态。自含交接提示词由Owner主动提供，不合main、不推送、不标done。

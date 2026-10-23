@@ -4,22 +4,16 @@
 // C02: prepare verifies fixed Git identity (100644/blob/SHA bytes) via real Git reader;
 // validates unique frozen 8-source/counts/orders/total599/9-edges; after real biome
 // format enforces strict JSON + deepStrictEqual + Unicode preservation.
-import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import {
-  closeSync,
-  constants,
   lstatSync,
   mkdirSync,
   mkdtempSync,
-  openSync,
-  readdirSync,
   readFileSync,
   renameSync,
   rmSync,
   writeFileSync,
 } from 'node:fs'
-import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
@@ -31,14 +25,21 @@ import {
   hasLossyJsonValue,
   materializeReviewRecord,
   reviewDirRelative,
-  reviewStorageContractId,
-  reviewStorageFlatCap,
   reviewStorageMarker,
-  reviewStorageShardCap,
 } from './review-record-storage.mjs'
+import {
+  checkOrdinaryPath,
+  directoryIdentity,
+  fileState,
+  inspectShardInventory,
+} from './review-record-storage-io.mjs'
+import {
+  biomeFormat,
+  packReviewStorageRecord,
+  validateFormattedOutput,
+} from './review-record-storage-packing.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
-const require = createRequire(import.meta.url)
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const demand = (condition, message) => {
   if (!condition) throw new Error(`review-record-storage-writer: ${message}`)
@@ -56,75 +57,6 @@ function verifySourceGitIdentity(repoRoot, logicalPath, revision) {
   demand(/^[a-f\d]{40}$/.test(snap.gitObject ?? ''), `source gitObject invalid: ${logicalPath}`)
   const sha256 = digest(snap.buffer)
   return { gitObject: snap.gitObject, sha256, buffer: snap.buffer }
-}
-
-const biomeFormat = (value, path, context) => {
-  const input = `${JSON.stringify(value, null, 2)}\n`
-  demand(Buffer.byteLength(input) < reviewStorageFlatCap, `unformatted file reaches 1 MiB: ${path}`)
-  if (context.format) return Buffer.from(context.format(input, path), 'utf8')
-  // A regular-file stdin gives the nested Biome launcher an unambiguous EOF;
-  // the project registry formatter uses the same no-follow file-descriptor pattern.
-  const directory = mkdtempSync(join(tmpdir(), 'rrs-format-'))
-  const inputPath = join(directory, 'input.json')
-  writeFileSync(inputPath, input, { flag: 'wx' })
-  const fd = openSync(inputPath, constants.O_RDONLY | constants.O_NOFOLLOW)
-  let result
-  try {
-    result = spawnSync(
-      process.execPath,
-      [
-        context.biomePath ?? require.resolve('@biomejs/biome/bin/biome'),
-        'format',
-        '--stdin-file-path',
-        path,
-      ],
-      {
-        cwd: context.repoRoot ?? process.cwd(),
-        stdio: [fd, 'pipe', 'pipe'],
-        encoding: 'utf8',
-        maxBuffer: 16 * 1024 * 1024,
-        timeout: 30_000,
-      },
-    )
-  } finally {
-    closeSync(fd)
-    rmSync(directory, { recursive: true, force: true })
-  }
-  demand(
-    !result.error && !result.signal && result.status === 0 && result.stderr === '',
-    `formatter failed or emitted diagnostics: ${path}: ${result.stderr || result.error || result.signal || result.status}`,
-  )
-  return Buffer.from(result.stdout, 'utf8')
-}
-
-// C02: post-format strict validation — reparse, deepEqual, Unicode, lossy check
-function validateFormattedOutput(formatted, expectedValue, label, path) {
-  demand(
-    formatted.length <= reviewStorageShardCap,
-    `formatted output exceeds 512 KiB: ${path} (${formatted.length})`,
-  )
-  let reparsed
-  try {
-    reparsed = parseTerminalJson(formatted)
-  } catch (error) {
-    throw new Error(`formatted output is not strict JSON (${error.message}): ${path}`)
-  }
-  // C02: actual deepStrictEqual (not just stringify comparison)
-  demand(
-    isDeepStrictEqual(reparsed, expectedValue),
-    `formatted output deepStrictEqual mismatch (${label}): ${path}`,
-  )
-  demand(
-    !hasLossyJsonValue(reparsed),
-    `formatted output contains lossy values after format (${label}): ${path}`,
-  )
-  const originalJson = JSON.stringify(expectedValue)
-  const reparsedJson = JSON.stringify(reparsed)
-  demand(originalJson === reparsedJson, `formatted output loses logical value (${label}): ${path}`)
-  demand(
-    digest(Buffer.from(reparsedJson)) === digest(Buffer.from(originalJson)),
-    `formatted output Unicode/value fingerprint mismatch: ${path}`,
-  )
 }
 
 export function prepareReviewStorageGroup({
@@ -204,73 +136,10 @@ export function prepareReviewStorageGroup({
     demand(flat.entries.length === source.entryCount, `entry count mismatch: ${logicalPath}`)
     demand(!hasLossyJsonValue(flat), `source contains lossy JSON values: ${logicalPath}`)
     expectedSourceSnapshot[logicalPath] = digest(flatBuffer)
-    const logicalKeys = Object.keys(flat)
-    demand(logicalKeys.includes('entries'), `entries key missing: ${logicalPath}`)
-    const logicalSha256 = digest(Buffer.from(JSON.stringify(flat)))
-    entryOrderFingerprints[logicalPath] = digest(
-      Buffer.from(`[${flat.entries.map((e) => JSON.stringify(e.path)).join(',')}]`),
-    )
-    orderedEntriesFingerprints[logicalPath] = digest(
-      Buffer.from(`[${flat.entries.map((e) => JSON.stringify(e)).join(',')}]`),
-    )
-
     const stem = logicalPath
       .split('/')
       .pop()
       .replace(/\.json$/, '')
-    const shardDir = `shards/${stem}/${logicalSha256}`
-    const shardSpecs = []
-    let current = []
-    let currentBytes = 0
-    for (const entry of flat.entries) {
-      const entryBytes = Buffer.byteLength(JSON.stringify(entry, null, 2)) + 12
-      if (current.length > 0 && currentBytes + entryBytes + 260 > 420_000) {
-        shardSpecs.push(current)
-        current = []
-        currentBytes = 0
-      }
-      current.push(entry)
-      currentBytes += entryBytes
-    }
-    if (current.length) shardSpecs.push(current)
-    demand(shardSpecs.length > 0, `no shards packed: ${logicalPath}`)
-
-    const storageShards = []
-    const materializedEntries = new Array(flat.entries.length)
-    shardSpecs.forEach((entries, shardIndex) => {
-      const key = `part-${String(shardIndex + 1).padStart(3, '0')}`
-      const positions = entries.map((entry) => flat.entries.indexOf(entry))
-      demand(new Set(positions).size === positions.length, `position collision: ${logicalPath}`)
-      const shardValue = {
-        schemaVersion: 1,
-        logicalPath,
-        generation: logicalSha256,
-        key,
-        positions,
-        entries,
-      }
-      const shardPath = `${shardDir}/${key}.json`
-      const formatted = biomeFormat(shardValue, shardPath.split('/').pop(), context)
-      // C02: post-format strict validation
-      validateFormattedOutput(formatted, shardValue, 'shard', shardPath)
-      outputs.push({ kind: 'shard', path: `${reviewDirRelative}/${shardPath}`, bytes: formatted })
-      shardsAll.push({
-        logicalPath,
-        path: `${reviewDirRelative}/${shardPath}`,
-        sha256: digest(formatted),
-      })
-      storageShards.push({ key, path: shardPath, total: entries.length, sha256: digest(formatted) })
-      entries.forEach((entry, i) => {
-        materializedEntries[positions[i]] = entry
-      })
-    })
-    demand(
-      materializedEntries.every((entry) => entry !== undefined),
-      `shard positions do not cover all entries: ${logicalPath}`,
-    )
-
-    const manifestValue = {}
-    for (const key of logicalKeys) if (key !== 'entries') manifestValue[key] = flat[key]
     const sourcePin = gitVerifiedSources
       ? {
           revision: FROZEN_REVIEW_SOURCE_REVISION,
@@ -284,21 +153,14 @@ export function prepareReviewStorageGroup({
           gitObject: source.sourceGitObject,
           sha256: source.beforeSHA256,
         }
-    manifestValue[reviewStorageMarker] = {
-      schemaVersion: 1,
-      producer: reviewStorageContractId,
-      logicalPath,
-      logicalKeys,
-      source: sourcePin,
-      logicalSha256,
-      totalEntries: flat.entries.length,
-      entryOrderSha256: entryOrderFingerprints[logicalPath],
-      orderedEntriesSha256: orderedEntriesFingerprints[logicalPath],
-      shards: storageShards,
-    }
-    const formattedManifest = biomeFormat(manifestValue, logicalPath.split('/').pop(), context)
-    validateFormattedOutput(formattedManifest, manifestValue, 'manifest', logicalPath)
-    outputs.push({ kind: 'manifest', path: logicalPath, bytes: formattedManifest })
+    const packed = packReviewStorageRecord({ logicalPath, record: flat, sourcePin, context })
+    outputs.push(...packed.outputs)
+    for (const output of packed.outputs)
+      if (output.kind === 'shard')
+        shardsAll.push({ logicalPath, path: output.path, sha256: digest(output.bytes) })
+    entryOrderFingerprints[logicalPath] = packed.entryOrderSha256
+    orderedEntriesFingerprints[logicalPath] = packed.orderedEntriesSha256
+    const formattedManifest = packed.outputs.find((output) => output.kind === 'manifest').bytes
 
     // R92 edge — C02: validate the BEFORE pin matches actual source bytes before overwriting
     const stemShort = stem
@@ -555,86 +417,6 @@ export function publishReviewStorageGroup(prepared, targetRoot, options = {}) {
     lockReleased: true,
     totalEntries: FROZEN_REVIEW_STORAGE_TOTAL,
     edgeCount: 9,
-  }
-}
-function directoryIdentity(stat) {
-  demand(stat.isDirectory() && !stat.isSymbolicLink(), 'target parent not an ordinary directory')
-  return { dev: stat.dev, ino: stat.ino, mode: stat.mode }
-}
-function checkOrdinaryPath(root, relative, kind, parents = new Map()) {
-  demand(
-    relative.startsWith(reviewDirRelative) &&
-      !relative.includes('\\') &&
-      !relative.split('/').some((part) => !part || part === '.' || part === '..'),
-    `unsafe target path: ${relative}`,
-  )
-  const parts = relative.split('/')
-  for (let i = 0; i <= parts.length; i++) {
-    const path = join(root, ...parts.slice(0, i))
-    let stat
-    try {
-      stat = lstatSync(path)
-    } catch (error) {
-      if (error.code === 'ENOENT') return null
-      throw error
-    }
-    if (i < parts.length || kind === 'directory') {
-      const state = directoryIdentity(stat)
-      if (parents.has(path))
-        demand(isDeepStrictEqual(parents.get(path), state), `target parent changed: ${path}`)
-      else parents.set(path, state)
-    } else demand(stat.isFile(), `target not an ordinary file: ${relative}`)
-    if (i === parts.length) return stat
-  }
-}
-function fileState(root, path, parents) {
-  const stat = checkOrdinaryPath(root, path, 'file', parents)
-  if (!stat) return { identity: null, buffer: null }
-  const buffer = readFileSync(join(root, path)),
-    after = lstatSync(join(root, path))
-  const identity = (s) => ({
-    dev: s.dev,
-    ino: s.ino,
-    mode: s.mode,
-    size: s.size,
-    mtime: s.mtimeMs,
-    ctime: s.ctimeMs,
-  })
-  demand(
-    after.isFile() && isDeepStrictEqual(identity(stat), identity(after)),
-    `target changed while read: ${path}`,
-  )
-  return { identity: identity(after), buffer }
-}
-function inspectShardInventory(root, expected) {
-  const shards = [...expected.values()].filter((output) => output.kind === 'shard')
-  const rootPath = `${reviewDirRelative}/shards`
-  if (!checkOrdinaryPath(root, rootPath, 'directory')) return
-  for (const stem of readdirSync(join(root, rootPath))) {
-    const stemPath = `${rootPath}/${stem}`,
-      owned = shards.filter((output) => output.path.startsWith(`${stemPath}/`))
-    demand(owned.length, `unknown shard stem: ${stem}`)
-    checkOrdinaryPath(root, stemPath, 'directory')
-    for (const generation of readdirSync(join(root, stemPath))) {
-      const generationPath = `${stemPath}/${generation}`,
-        files = owned.filter((output) => output.path.startsWith(`${generationPath}/`))
-      demand(files.length, `unknown sibling generation: ${generationPath}`)
-      checkOrdinaryPath(root, generationPath, 'directory')
-      const names = readdirSync(join(root, generationPath)).sort()
-      demand(
-        isDeepStrictEqual(names, files.map((o) => o.path.split('/').pop()).sort()),
-        `immutable generation file set differs: ${generationPath}`,
-      )
-      for (const name of names) {
-        const path = `${generationPath}/${name}`,
-          output = expected.get(path)
-        demand(output?.kind === 'shard', `orphan shard: ${path}`)
-        demand(
-          fileState(root, path).buffer.equals(output.bytes),
-          `immutable generation foreign bytes: ${path}`,
-        )
-      }
-    }
   }
 }
 function verifyStagedGroup(root, plan) {

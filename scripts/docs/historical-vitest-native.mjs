@@ -1,5 +1,7 @@
 import { createHash } from 'node:crypto'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
+import { historicalVitestAdmission } from './historical-vitest-cohort.mjs'
+import { historicalVitestEvidenceIssues } from './historical-vitest-evidence.mjs'
 import { readReviewRecordObject } from './review-record-storage.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
@@ -20,7 +22,9 @@ const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
 /** Immutable reporter bytes use the existing current review, never an added payload or sidecar. */
 export function historicalVitestNativeIssues(doc, template, contract, read, options) {
-  const phase = historicalVitestPilots[doc.path]
+  const admission = historicalVitestAdmission(doc.path)
+  const phase = historicalVitestPilots[doc.path] ?? admission?.runPhase
+  const reviewRecord = admission?.reviewRecord ?? historicalVitestContract.reviewRecord
   if (
     !phase &&
     doc.variant !== historicalVitestContract.variant &&
@@ -62,8 +66,9 @@ export function historicalVitestNativeIssues(doc, template, contract, read, opti
     digest(source.buffer) !== bindings[0].sourceSha256
   )
     return ['native Vitest source differs from the independently frozen cohort']
+  let native
   try {
-    parseTerminalJson(bytes)
+    native = parseTerminalJson(bytes)
   } catch (error) {
     return [`native Vitest JSON bytes invalid: ${error.message}`]
   }
@@ -74,8 +79,8 @@ export function historicalVitestNativeIssues(doc, template, contract, read, opti
     // C04: use the protected review reader when the production CLI supplies one;
     // pure fixtures keep the raw provider without any real-root fallback
     const review = options.reviewReader
-      ? options.reviewReader(historicalVitestContract.reviewRecord)
-      : readReviewRecordObject(historicalVitestContract.reviewRecord, {
+      ? options.reviewReader(reviewRecord)
+      : readReviewRecordObject(reviewRecord, {
           readBuffer: options.readBuffer,
         })
     entries = review.entries
@@ -98,7 +103,10 @@ export function historicalVitestNativeIssues(doc, template, contract, read, opti
     row.revision?.currentSha !== digest(bytes) ||
     row.sourceGitRevision !== frozenDocumentBaseline.revision ||
     row.documentStatus !== 'historical' ||
-    row.versionScope?.runPhase !== phase
+    row.versionScope?.runPhase !== phase ||
+    (admission &&
+      (bindings[0].sourceSha256 !== admission.sourceSha256 ||
+        entries[admission.reviewIndex] !== row))
   )
     issues.push('native Vitest review identity/source/phase mismatch')
   if (
@@ -124,11 +132,13 @@ export function historicalVitestNativeIssues(doc, template, contract, read, opti
   )
     issues.push('native Vitest five evidence sections incomplete in current review')
   if (
-    row.evidence?.kind !== 'historical-native-vitest-pilot' ||
+    row.evidence?.kind !==
+      (admission ? 'historical-native-vitest-cohort' : 'historical-native-vitest-pilot') ||
     row.evidence.byteStable !== true ||
     row.evidence.currentAudit?.runtimeExecutionPerformed !== false ||
     row.evidence.currentAudit?.historicClaimsReexecuted !== false
   )
     issues.push('native Vitest cannot grant current or repeated historical execution')
+  if (admission) issues.push(...historicalVitestEvidenceIssues(row, native, options.readBuffer))
   return issues
 }
