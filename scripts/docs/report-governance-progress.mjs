@@ -9,6 +9,10 @@ import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 import { gitInventory } from './git-inventory.mjs'
+import {
+  historicalDeliveryContract,
+  historicalDeliveryPilots,
+} from './historical-document-delivery-native.mjs'
 import { historicalVitestContract } from './historical-vitest-native.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
@@ -56,6 +60,13 @@ const requiredReviews = new Set(
 )
 if (routing.migratedDocuments.some((doc) => doc.variant === historicalVitestContract.variant))
   requiredReviews.add(historicalVitestContract.reviewRecord)
+for (const pilot of historicalDeliveryPilots)
+  if (
+    routing.migratedDocuments.some(
+      (doc) => doc.path === pilot.path && doc.variant === historicalDeliveryContract.variant,
+    )
+  )
+    requiredReviews.add(pilot.reviewRecord)
 const issues = [
   ...baseline.issues,
   ...retirements.issues,

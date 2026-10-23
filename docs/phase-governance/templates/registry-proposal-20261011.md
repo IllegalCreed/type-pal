@@ -400,3 +400,19 @@ S28迁移CLI的已发布只读检查须用物化R94，不裸parse entries；仍�
 新测试少而精，覆盖真实公开入口：完整13对象/275行/保护599行+302原生/四边演练与幂等；R94[6]错before或split/repack顺序错误首写前拒；额外owner/未知generation/丢片/并发修改拒与失败保留现场；当前组可读、旧写入口不越界。复用原schema/UTF8/重复键/位置/路径/锁反例，不堆同构新针。实际跑相关新旧文档工具测试与正式完整docs-tools、nav/model/testing/phase-lore/非strict review/progress/lint/diff；strict原1848待办须仍精确归因，不改诊断。未跑产品/旧产品测试/E2E/coverage。
 
 交付只在原单份证据日志追加必要真实回执/方案差异，不新建canonical卡/台账、逐篇sidecar或完整275原件副本。每条命令绑定真实候选/输入指纹/起止/exit/signal/完整输出；失败不覆盖。实现作者自验不能代替非作者接受，未过硬门不合main、不推送、不标done。下一步由Codex实施通用边界，GLM可在实际候选交付后承担未参与者只读复验，无需用户逐批转派实现。
+
+### S33 历史交付回执原生合同与六 pilot 冻结 1.0.0（2026-10-24）
+
+S32四源存储及最终封存已接受；本节将S30逻辑设计落实为生产校验合同候选，不授212语义或迁移信用。仍为17类，evidence-receipt-v1父合同及两个既有JSON变体均1.0.0不变；新增historical-document-delivery-native-v1自有1.0.0、format=json-native、metadataLocation=existing-current-review，原生字节零写入、零逐篇sidecar。三实际角色以historicalRole表达，不分别新增模板类型。
+
+目的和必填内容仍对应五节：证据身份（实际角色/历史范围/载体与原source分轴）；来源与输入（固定Git原生、唯一review位置、明确治理输入）；断言与业务oracle（本回执历史内容可证伪、非执行认证）；结果（本篇具体结论、原字段pointer见证、矛盾与撤信）；限制与复核（实际读域、暂保留/退出条件、stopLine和nextStep）。治理说明在已有review唯一行，字段/evidence映射由生产guard共用于model和progress，不用artifactOnly跳过正文。
+
+先冻结六个pilot：R23接受、R28只读、R53作者、R65接受、R89接受、R92接受。它们组合覆盖三角色、9/22条canonical交集、对象counter、policy20与实列16、已纠候选头、手改摘要、四批旧执行隔离和未锚定候选。准入模块逐件固定d9载体raw SHA/blob、历史source SHA/revision、review/index、实际role、必要见证及结构化历史边界指纹；只限六篇，212扩展须另行准入，不因同名变体自动接收其它路径。d9只证载体，不能套33cc或把70件不同的历史source刷新为当前after。
+
+必填字段：owner/coreConclusion/readMethod/reviewedLines/truthAnchors/primarySource、两类显式legalInputs、historicalOnly内容oracle、historicalRole、historical状态、模板身份、stopLine/nextStep；evidence中保留nativeWitnesses/contextReferences/readDomain/fieldRoles/retention/historicalBoundary。legalInputs只允许固定native-carrier及historical-context，不接收documents的结果/pass/after等观察。runtimeExecutionPerformed/historicClaimsReexecuted=false、creditGranted=0；历史nonAuthorReviewer缺失仍declared=false/value=null，不冒充作者false或当前独立审。历史边界摘要使用canonicalTerminalJson（JSON token排序、UTF8、尾LF）SHA256，源事实由原生字段及固定integrity-audit解释，可独立复算；指纹本身不证明语义接受。
+
+见证按RFC6901解析，只允许parsed-string或JSON.stringify后的非空逐字子串，不trim/删LF/codec；原接受稿的缩略quote仍为子串语义，不声称全字段相等。pilot将context统一指向同一d9 integrity-audit JSON及实际行域/quote，替代草稿MD引用作为机器合同锚；这是Owner显式上下文归一，不改原稿或谎称字段零变。真实Git JSON reader、固定源SHA及line/quote同时检查，未扩大旧JSON-only读取器的输入域。
+
+状态/历史规则：本轮真实routing和212 review状态零改；六pilot说明仅在owned临时review演练。coreConclusion复用已非作者接受的有限勘误内容，不重写为通用元数据，不恢复旧deep-semantic/full-read/独立/执行资格。实际读域仍是程序解析和关键字段定向核读，下游正文/旧raw未重审；永久保留必要性未知，retain-native只是暂保留。实现与pilot待未参与者验收后，再实现当前generation受控语义writer并裁定212接入；不以合同注册、哈希相等或结构绿单独授迁移。
+
+八项反例族为：路径/角色/合同联合换标；原生改字节并刷新SHA；UTF8/重复键；pointer/上下文伪引；source/after串轴；撤信或历史缺字段洗白；结果冒充输入；双false升真。定向测试触达公开model与progress，原Vitest和旧JSON变体保留原门；新格式不要求旧Markdown滚动版本，不修改旧测试断言/source pin或降低配置。全量严格1848项仍未清零，不合main、不推送、不标父子卡done。

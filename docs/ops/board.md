@@ -2,7 +2,7 @@
 
 当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。
 
-Last reviewed: 2026-10-23
+Last reviewed: 2026-10-24
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -14,7 +14,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 - `status`: current
-- `lastReviewed`: 2026-10-23
+- `lastReviewed`: 2026-10-24
 
 ## 入口与责任
 - canonical 入口：本看板、`docs/ops/tasks/index.md` 和各任务卡。
@@ -30,7 +30,7 @@ Template: governance-index-v1 / 1.0.0
 |---|---|---|---|---|
 | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | Codex / 扩大R23–R36撤信与验收锚点补救，待非作者验收 | 机械保真不授语义信用；原回执保全 |
 | DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / 合同、准入、疑难与据证验收；逐篇执行归GLM | 当前927篇/1848项；S29已实迁269，尚未全量完成 |
-| DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S32实现已接受，四源存储发布读回 | 269已接入；212语义尚未发布，存储不加迁移信用 |
+| DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S32封存已接受，S33通用原生合同与pilot | 269已接入；212合同pilot实施中，语义尚未发布 |
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |
 | DOCS-CATALOG-SPLIT-1 | [phase/lore catalog 分片](tasks/DOCS-CATALOG-SPLIT-1.md) | rework | Codex / 非作者复核待补 | 实现保留；自验冒称独立与过早done撤回 |

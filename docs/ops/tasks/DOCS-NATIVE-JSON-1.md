@@ -318,3 +318,21 @@ Owner在a83干净codex候选真实执行新CLI --source-revision a83… --publis
 本节和看板的发布事实在命令完成/独立读回后才写。中央行政差异只涉及board/本卡/FULL及current→R93→R94[7]/[33]；R94须以原source pin物化重pack，同锁读回后精确退出被替代的1片，不动R89/90/91六片、R92或旧S29存储。此行政换代另做临时演练/有界独立复核，不能裸parse或把manifest套旧flat刷新器。后继行政generation合法替代后，初迁移旧exact计划不再可充当当前幂等oracle；以公开loader/独立positions/完整current pin为准，初发布幂等原件保留，不倒改原计划或source。
 
 212仍partial-review-unknown/needs-migration，原生生产变体/内容pilot/语义接入尚未实施；本轮0新语义/模板迁移/runtime信用。1420/1838迁移、3retired、87incremental、927篇/1848严格待办保持。全量check:docs未通过，不合main、不推送、不标父子卡done；后续212合同与pilot另按已冻结设计实施，不借本accept扩权到产品或旧测试。
+
+### S32 封存非作者接收与 S33 原生合同 pilot 准入（2026-10-24）
+
+GLM对f47e5057384c77c1c48071805ad0493569151d4b只读非作者accept、零counter已接收；Owner实核HANDBACK及verdict两原件SHA（d0fa4bd81fea4f377233947344de2ad8b3828d93e60e8ed12c4090a62dcc434d / 9853275927ae6fdb9e43400b09ec39b9847b6f05c8343f36b6dd38464534599b）并回放封存快检。范围仅最终身份/18文件零代码/封存，复用既有发布和行政裁定；压缩日志不变量为解压历史前缀，原inputsUnchanged=false及其归因不改。四源存储前提闭合，212语义未接入，1848待办/1420迁移保持。
+
+build allowed：Codex为S33唯一实现Owner，从上述干净候选在codex/docs-s33-historical-receipt-native实施historical-document-delivery-native-v1/1.0.0通用生产校验合同和代表性pilot演练。范围仅scripts/docs新原生validator/小型冻结pilot准入/新定向测试、document-model及progress必要分派、既有模板registry/proposal及本卡/FULL/board和必要行政pin/原单份日志。先用少量组合pilot覆盖三实际角色及S30历史反例；生产准入只限本轮pilot，不把212内容稿整体预授合同或信用。
+
+本轮pilot治理说明在owned临时物化review中演练，复用S30已接受勘误稿和唯一既有review位置，原生字节不改；真实四源275行、212目标/63非目标、所有302保护原生、既有S29物理存储和旧source pin保持。d9载体身份与1838原始来源分轴，缺失历史nonAuthorReviewer仍unknown；canonical撤信/纠锚/R65/R88–91矛盾和暂保留限制不得洗白。公开model与progress共同拒绝换标/改字节刷新SHA/伪见证/当前信用。新合同/有效pilot须经未参与者独立接受，后继current-generation语义writer和212中央发布另行实施；本轮不发布语义、不降待办、不改旧测试/产品/coverage/规则/配置，不合main、不推送、不标done。
+
+### S33 通用合同与六 pilot 候选交付（2026-10-24）
+
+Codex已实现新原生guard/小型六篇准入，公开model先分派本合同、progress按真实pilot路由收集既有companion；不修改旧Vitest guard、旧测试、原生字节或真实routing。模板registry新增evidence-receipt下一个独立1.0.0变体，父合同/原两JSON变体/17类不变。两个新测试文件覆盖8个合同原子，含公开model+progress的联合换标、改字节刷SHA和遗漏历史边界拒绝；owned副本有效反控产生唯一AssertionError，恢复后八项全绿，未改共享源码。
+
+六篇真实内容pilot为R23接受/R28只读/R53作者/R65接受/R89接受/R92接受；复用S30已接受勘误稿，在内存克隆的现行review原位置替换说明，真实仓库275行不写。公开model在原1541合同加六pilot的组合下1547/0；六份原生、历史source字段与真实审阅/迁移状态全保全。Owner显式归一上下文到固定integrity JSON、typed治理输入/唯一治理绑定，补必要角色见证；相同pointer/representation/quote合并并保留两条meaning，pilot revision.currentSha按当前after表达且旧值进history。这些是新合同候选说明，未谎称S30字段零变或全文重审。
+
+首轮owned pilot原件FAIL保留：R53重复见证及三份旧revision.currentSha仍为历史source导致合同拒绝；修复的是仓外pilot构建，不改真实旧账或刷新旧source；第二轮1547/0。完整回归/静态门、逐文件A–H、来源身份、有效反控与未跑项以原单份压缩日志本轮追加的真实回执为准，不用预期数字冒充已执行。实现、pilot语义和最终候选待GLM只读非作者据证验收；当前作者自验不代签。
+
+本次行政接入仅五份正文及current/R62/R93/R94八条after依赖，保留所有历史source/nested pin/状态；R94原a83 source不刷新，manifest-aware重pack和原片退出须先镜像演练/有界非作者核再实际执行。212/63原行、S29旧31物理/599与302原生保持，尚未实现current-generation语义writer，未接入212生产语义。严格927篇/1848项、1420/1838迁移、3retired、87incremental、信用0继续保持，父子卡rework，不合main、不推送、不标done。

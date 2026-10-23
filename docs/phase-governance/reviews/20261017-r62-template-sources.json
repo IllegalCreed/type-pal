@@ -1472,7 +1472,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
+      "afterSha256": "2c91a164a62edb9e917bf68583cf0cc5128ba3d41b6339bc139485830edfaedd",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1643,6 +1643,18 @@
           "beforeSha256": "d6c664d7a1cd34e3fb8fdbc39efa80ab912d6f28380c328f19dac3617e7eb7ce",
           "afterSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S33-native-contract",
+          "revision": "f47e5057384c77c1c48071805ad0493569151d4b",
+          "scope": "S32 final identity/sealing non-author acceptance acknowledged; S33 typed historical-delivery native contract plus six owned in-memory content pilots implemented, no212 semantic publication or historical/runtime credit; exact five-body/eight after-pin administrative delta only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
+          "afterSha256": "2c91a164a62edb9e917bf68583cf0cc5128ba3d41b6339bc139485830edfaedd"
         }
       ]
     },
@@ -1673,7 +1685,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-      "afterSha256": "108f9ba4b1ee7202a8827e08785ef5ae9fc6aed8d4725fb2c82cb89713d27ccd",
+      "afterSha256": "78e44e66a02860120c5b861ecc3f8120f54475ce708e6c3fd4da0084e39b4f8d",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1801,7 +1813,21 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S33-native-contract",
+          "revision": "f47e5057384c77c1c48071805ad0493569151d4b",
+          "scope": "S32 final identity/sealing non-author acceptance acknowledged; S33 typed historical-delivery native contract plus six owned in-memory content pilots implemented, no212 semantic publication or historical/runtime credit; exact five-body/eight after-pin administrative delta only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "108f9ba4b1ee7202a8827e08785ef5ae9fc6aed8d4725fb2c82cb89713d27ccd",
+          "afterSha256": "78e44e66a02860120c5b861ecc3f8120f54475ce708e6c3fd4da0084e39b4f8d"
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/templates/task-card.md",
