@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
+      "readMethod": "Finite owned CODE3i source/test/Action cleanup and actual board/ledger projection, unrelated entries preserved",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Current combined check20601+691tools/official20172 over774sources/strict protected all pass, project diagnostics0; old20512/20086 kept as pre-sync history. Latest94d03b584 is docs-only. PR/documentation/fast-coverage still required. No directmain push/no94-102/no broad startup/format credit.",
+      "coreConclusion": "Current CODE3i five-source scope accepted after per-file A-H and concentrated gates. Fixed83:64accept19partial;3404tracked405closed104review2895pending. Ten new closures and three prior accepts refreshed. Main13c CI wasgreen with7platform notices; official Node24 SHA upgrades awaiting actual PR platform audit. No broader main/bootstrap/splash/shared-format/94-102 credit.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "cce30fabe92f01c73fcf03cfd6f1957e0479d5be9c2e3438511e0a18b300d1fd",
+      "afterSha256": "5a6ac504f3e5c6341e603c8e9f00b9d959aa0ff921a20e11d54688ae8dcc41c0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "cce30fabe92f01c73fcf03cfd6f1957e0479d5be9c2e3438511e0a18b300d1fd",
+        "implementationSha": "5a6ac504f3e5c6341e603c8e9f00b9d959aa0ff921a20e11d54688ae8dcc41c0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1791,12 +1791,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-rle-boot-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
+        "kind": "codex-owned-pre94-precache-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "cce30fabe92f01c73fcf03cfd6f1957e0479d5be9c2e3438511e0a18b300d1fd",
-        "lineCount": 5446,
+        "afterSha256": "5a6ac504f3e5c6341e603c8e9f00b9d959aa0ff921a20e11d54688ae8dcc41c0",
+        "lineCount": 5466,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -3772,6 +3772,16 @@
           "afterSha256": "cce30fabe92f01c73fcf03cfd6f1957e0479d5be9c2e3438511e0a18b300d1fd",
           "scope": "Finite owned pins after combined20601+691/20172 gates and docs-only main sync. Full prior row is frozen in previousSnapshot Git; old histories preserved, shared format/3i remain.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3i-quality-closeout",
+          "previousSnapshot": {
+            "commit": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+            "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "entry": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json"
         }
       ],
       "supersedes": [
@@ -3779,7 +3789,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
+      "reviewedLines": "Current thirteen per-file A-H records with two exact-version reuses; source/test controls and one private formatter recount; workflow changes only seven Action refs",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -7784,9 +7794,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read only current RLE/transport/startup acceptance, native/raw probes and owned board/ledger projection delta; preserve unrelated entries",
+      "readMethod": "Finite owned CODE3i source/test/Action cleanup and actual board/ledger projection, unrelated entries preserved",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Current combined candidate has3402tracked/395closed107review2900pending, fixed83 remains63accept20partial. Seven new explicit closures at d297 retained;28English paths remain pending. Merge365e582e preserves all upstream entries/history and our source11hashes. Current combined check20601+691tools/official20172 over774sources/strict protected all pass, project diagnostics0; old20512/20086 kept as pre-sync history. Latest94d03b584 is docs-only. PR/documentation/fast-coverage still required. No directmain push/no94-102/no broad startup/format credit.",
+      "coreConclusion": "Current CODE3i five-source scope accepted after per-file A-H and concentrated gates. Fixed83:64accept19partial;3404tracked405closed104review2895pending. Ten new closures and three prior accepts refreshed. Main13c CI wasgreen with7platform notices; official Node24 SHA upgrades awaiting actual PR platform audit. No broader main/bootstrap/splash/shared-format/94-102 credit.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7807,7 +7817,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "fd078e2aa125c4c977ee32049212057498571fdaafb023648a436a06a822bbaa",
+      "afterSha256": "03e1e9a420fe27702d5c567d6f7d3d95ac7ec1293a4d7241f2a73d5f85b70d9f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7831,7 +7841,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "fd078e2aa125c4c977ee32049212057498571fdaafb023648a436a06a822bbaa",
+        "implementationSha": "03e1e9a420fe27702d5c567d6f7d3d95ac7ec1293a4d7241f2a73d5f85b70d9f",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8495,12 +8505,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-rle-boot-quality-local",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json",
+        "kind": "codex-owned-pre94-precache-quality-local",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "fd078e2aa125c4c977ee32049212057498571fdaafb023648a436a06a822bbaa",
-        "lineCount": 7029,
+        "afterSha256": "03e1e9a420fe27702d5c567d6f7d3d95ac7ec1293a4d7241f2a73d5f85b70d9f",
+        "lineCount": 7039,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -10313,6 +10323,16 @@
           "afterSha256": "fd078e2aa125c4c977ee32049212057498571fdaafb023648a436a06a822bbaa",
           "scope": "Finite owned pins after combined20601+691/20172 gates and docs-only main sync. Full prior row is frozen in previousSnapshot Git; old histories preserved, shared format/3i remain.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json"
+        },
+        {
+          "date": "2026-10-23",
+          "action": "Pre94-CODE3i-quality-closeout",
+          "previousSnapshot": {
+            "commit": "13c935e4c646bc1e8fff3c6cb821efef5d22b16c",
+            "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "entry": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+          },
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json"
         }
       ],
       "supersedes": [
@@ -10320,7 +10340,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Seven new finite file closures, original six-source CODE3h scope, held shared format reviews, actual machine counts and descendant owned pins",
+      "reviewedLines": "Current thirteen per-file A-H records with two exact-version reuses; source/test controls and one private formatter recount; workflow changes only seven Action refs",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -1,23 +1,8 @@
 /**
- * M5.6 T18 Step 6:Trademark fallback(DOS build)— sdlpal `PAL_TrademarkScreen`
- * `reference/sdlpal/main.c:197-203` 真值 1:1 port:
- *
- *   {
- *      if (PAL_PlayAVI("1.avi")) return;  // WIN95 路径,DOS 跳过
- *      PAL_SetPalette(3, FALSE);
- *      PAL_RNGPlay(6, 0, -1, 25);
- *      UTIL_Delay(1000);
- *      PAL_FadeOut(1);
- *   }
- *
- * 流程(DOS):
- *  1. palette 切到 chunk 3(caller 已加载并传入)
- *  2. 播 RNG.MKF chunk 6 全帧,iSpeed=25 → 帧间隔 1000/25 = 40ms
- *  3. 1 秒 delay 让 user 看清最后一帧
- *  4. 600ms 淡出到全黑(PAL_FadeOut(1) = iDelay*10*60,palette.c:163;L43 修正,非 1 秒)
- *
- * 设计:复用 [playRng](rng-player.ts);fadeOut 内嵌(scalePalette + flushToCanvas
- * loop)— 简版,跟 splash-fallback.ts 一致。
+ * DOS 商标演出：RNG chunk 6（25 帧/秒）→ 停留 1000ms → 淡黑 600ms。
+ * 顺序与参数参考 reference/sdlpal/main.c 的 PAL_TrademarkScreen；palette 3 由 caller 传入。
+ * 渐变沿用本项目按经过时间缩放 RGB 的实现；SDLPal 的 PAL_FadeOut 使用 j/64 整数步，
+ * 这里不承诺中间帧像素逐字节相同。RNG/计时/呈现由本 Promise 串行推进，caller 管理 RAF。
  */
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
@@ -44,7 +29,7 @@ export interface PlayTrademarkFallbackOptions {
   /** RNG 播完后到 fadeOut 之间的 delay — sdlpal `UTIL_Delay(1000)` 真值,默认 1000ms。 */
   delayBeforeFadeMs?: number
 
-  /** L43:fadeOut 时长 — sdlpal `PAL_FadeOut(1)` = iDelay*10*60 = 600ms(palette.c:163),非 1000ms。 */
+  /** 淡出时长，默认 600ms（PAL_FadeOut(1) 的 iDelay * 10 * 60）。 */
   fadeOutMs?: number
 }
 
@@ -67,10 +52,6 @@ function scalePalette(base: Palette, factor: number): Palette {
   }
 }
 
-/**
- * fadeOut — palette rgb 从 100% 缩放到 0%(时长由调用方传;默认 600ms,
- * sdlpal `PAL_FadeOut(1)` 真值 = iDelay*10*60 = 600ms,L43)。
- */
 async function fadeOut(
   fb: Framebuffer,
   canvasCtx: CanvasRenderingContext2D,
@@ -104,9 +85,7 @@ export async function playTrademarkFallback(options: PlayTrademarkFallbackOption
     fetchFrame: options.fetchFrame,
   })
 
-  // 2. 1s delay(sdlpal UTIL_Delay(1000))
   await sleep(options.delayBeforeFadeMs ?? 1000)
 
-  // 3. fadeOut(默认 600ms,允许 options 覆写时长)
-  await fadeOut(options.fb, options.canvasCtx, options.palette, options.fadeOutMs ?? 600, now) // L43:PAL_FadeOut(1)=600ms
+  await fadeOut(options.fb, options.canvasCtx, options.palette, options.fadeOutMs ?? 600, now)
 }

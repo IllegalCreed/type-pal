@@ -1,6 +1,6 @@
 # QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权
 
-Status: review
+Status: done
 Owner: Codex
 Phase: phase1 game / boot lifecycle
 Capability: PROD boot failure progress ownership
@@ -16,7 +16,11 @@ Branch: codex/code-quality-3y
 
 修复第一阶段 PROD+SW 必要资源阶段失败后的进度所有权：启动失败提示不能被迟到的资源进度覆盖，计数包装和回调应按本轮 ownership 释放。用户已批准本卡窄修，不改变进入游戏门、重试策略、资源请求取消、UI形态或公共API。
 
-## 当前准入（2026-10-18）
+## 2026-10-23 当前收口
+
+原批准窄缺陷已闭合。3i窗口以原291b7b59d完整SHA的当前版本桥核PROD catch清理顺序、fetch所有权/代次及UI失败终态；上游本地化新增语言订阅另核，未冒称全部源码同字节。复用原四正式红绿与中文真实PROD404/迟到200/正常按钮入场及已查看截图；当前52定向/61相邻与完整check20601+692、official20172/774及同报告strict/protected项目零诊断成立。详见[当前收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)。不授新英文/离线/intro视觉或main/bootstrap整文件信用；任务保持稳定原路径，下面review/未跑为历史。远端PR发布按实际后继回执。
+
+## 当前准入（2026-10-18，历史）
 
 - 用户对“失败提示保持，同时停止本轮 fetch 计数和进度回调；正常启动、进入游戏和其它网络请求保持原行为”回复“批准按此修复（推荐）”。此前 draft/冻结记录仅为历史状态。
 - Codex 核前提与真实 caller 后记 `build allowed`；Coding Owner 为 Codex，沿用 `codex/code-quality-3y` 隔离树，基点 `308f517e6e4bbcb637659bc45b28240ec25238d1`，同步后落后 origin/main 为0。

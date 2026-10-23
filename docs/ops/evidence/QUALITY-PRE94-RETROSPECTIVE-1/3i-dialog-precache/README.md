@@ -1,5 +1,7 @@
 # CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片
 
+2026-10-23 当前补八维及测试质量：[UI／客户端／商标窗口](quality-closeout/README.md)。复用本页与72已有有效证据，补生命周期隔离、真实消息/渲染oracle和三份有效反控；源码仅注释与私有同合同formatter合并。本窗集中门已零项目诊断通过，原五源范围接受、固定83为64accept/19partial；平台提示清零与PR发布待真实远端核。下文是历史时点，不覆盖当前回执。
+
 基点：`f2ebb196f`；分支：`codex/code-quality-3y`，复核前已 `git fetch origin --prune`，相对 `origin/main` 为 `0 behind / 190 ahead`。本切片继续只处理 94 之前的 CODE-QUALITY-3i；94–102 与 103+ 未触碰。整卡仍 `partial`，不把本切片当作整项 `accept`。
 
 ## 逐文件范围与真实边界

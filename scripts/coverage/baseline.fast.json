@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-22T16:41:19.932Z",
+  "generatedAt": "2026-10-23T02:32:49.679Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -6585,23 +6585,23 @@
           },
           {
             "file": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
-            "testCount": 2,
-            "identityDigest": "9fa0085a93536699ce589564f03b6e71870cb1d4f1e27f54ea7324272d3b2fd3"
+            "testCount": 1,
+            "identityDigest": "0182a4e4b78c1559218f78ed2c14f34f32e33ab4550ff12e037a8e7211ce56b8"
           },
           {
             "file": "packages/game/src/shell/precache-client.test.ts",
-            "testCount": 7,
-            "identityDigest": "7ee8d8a857f2646f096fa276ef0801ed118d16d44a88c2ec77e261339fc1012a"
+            "testCount": 8,
+            "identityDigest": "b31462a2e7b45a00873ba8ba23284e6a1f10d7944be7a8b89fa97341b3340257"
           },
           {
             "file": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
             "testCount": 23,
-            "identityDigest": "a1645bfda96ac9772feaccd7fab32f516ea895e9768579ba031d129ddf400e78"
+            "identityDigest": "2298eecd34cc6ba4a4622af56de701f462341fe50ebd6e1b7b3692162c312c6f"
           },
           {
             "file": "packages/game/src/shell/precache-ui.test.ts",
             "testCount": 9,
-            "identityDigest": "4eda3735fc2b91c751cbe723fc83aca7e08ad7aabbe8eea4c6ff15a436645d51"
+            "identityDigest": "276b3677c98fb6bba418802fab24086bbf7b5297ade5cf16e883548d02919ce5"
           },
           {
             "file": "packages/game/src/shell/rix-worklet.test.ts",
@@ -6661,7 +6661,7 @@
           {
             "file": "packages/game/src/shell/trademark-fallback.test.ts",
             "testCount": 2,
-            "identityDigest": "e882d22e446ded1404bb7b1190768cb4a93f95216a53fb7537591f3ca0fdbae4"
+            "identityDigest": "0428f943e977222a83a982a16145171b079a53ff6808fac7b4a4cc0671a07402"
           },
           {
             "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
@@ -6839,26 +6839,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "4160ad2f3a462d8f28275a8d3f0f2db102604e0269deb0309b30050cbafb1a7a",
+        "identityDigest": "bb142a31995873dc82e05c5a8bf9867b5399655e5f70cc32afbe5bb6d851647f",
         "duplicateIdentityCount": 0,
-        "executionDigest": "02a6859c1707cb76ac62e95604f27c90728702a9c1694bf514b764b3e7b2e1fc"
+        "executionDigest": "1581426317e90c09783b18b4de7c13e1cab266a1063c20856f62456352f38da3"
       },
       "metrics": {
         "statements": {
-          "covered": 15290,
-          "total": 17078
+          "covered": 15289,
+          "total": 17075
         },
         "branches": {
-          "covered": 9904,
+          "covered": 9906,
           "total": 12277
         },
         "functions": {
           "covered": 1835,
-          "total": 2136
+          "total": 2135
         },
         "lines": {
-          "covered": 13627,
-          "total": 14963
+          "covered": 13628,
+          "total": 14962
         }
       }
     },
@@ -10877,20 +10877,20 @@
   },
   "total": {
     "statements": {
-      "covered": 72675,
-      "total": 80469
+      "covered": 72674,
+      "total": 80466
     },
     "branches": {
-      "covered": 52605,
+      "covered": 52607,
       "total": 62701
     },
     "functions": {
       "covered": 13730,
-      "total": 15292
+      "total": 15291
     },
     "lines": {
-      "covered": 64900,
-      "total": 70412
+      "covered": 64901,
+      "total": 70411
     }
   }
 }

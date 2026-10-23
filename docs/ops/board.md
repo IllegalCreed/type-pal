@@ -65,12 +65,11 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 同一3y，3h原六文件与RLE/启动测试收口 | 63accept/20partial；本窗七新关闭，395closed/107review/2900pending（含英文28待核）；组合check20601/official20172/protected0诊断；PR待实测；shared格式/3i余项保持，不扩94–102 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 同一3y，3i及Action升级待PR发布 | 64accept/19partial；405closed/104review/2895pending；52定向+61相邻、全check20601+692/official20172/774及同报告protected项目零诊断；原72窄卡done；远端平台提示待实核，不扩94–102 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |
 | QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制counter](tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | Codex / 新增复活装备状态窄修已测 | 原三项保留；0x22两红后修、284game相邻0stderr；统一门/视觉仍待，不关闭整文件 |
-| QUALITY-BOOT-FAILURE-PROGRESS-1 | [启动失败进度所有权](tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) | review | Codex / 窄功能完成，等待统一集成门 | 四旧单红新绿、相邻58绿/原红重放1绿、PROD失败稳定及正常按钮进场已实跑看图；全仓/coverage/protected未跑，不合main |
 | QUALITY-FETCH-ABORT-LIFECYCLE-1 | [重试等待与Request取消](tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | Codex / 同步main后复跑并收口 | 取消反例旧23/3红、控制26绿、变异3枚各单红；当前修复26例绿，统一门未清 |
 | QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 | [game运行时诊断核清](tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | Codex / 逐file归因后选有限包 | C2 两装备负输入测试已逐文件核验；8/8 绿、0 stderr，game typecheck 与相邻6文件66 tests通过；两行保留review，其余15块stderr仍未全文验收 |
 | QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 | [提取器共享输出清理边界](tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | Codex / 原三缺口已补并过集中门 | guard/两测试明确合同接受；整体视频/其它输出策略不附带关闭 |

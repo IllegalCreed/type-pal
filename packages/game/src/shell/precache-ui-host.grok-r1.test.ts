@@ -1,25 +1,18 @@
 /**
  * TEST-GROK-RENDER-HOST-LARGE-1 G09-D。
- * 零字节、自定义虚线、缺按钮和进入后的错误门。不重领默认 12% 单调和按钮点击。
+ * 零字节、自定义虚线、缺按钮、重复进入门与淡出生命周期；主测负责正常两段进度和同步点击。
  */
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { dumpHost, readHost } from '../__tests__/grok-render-r1/dump-evidence.js'
+import {
+  mountBootLoading as fullBoot,
+  installPrecacheUiTestHooks,
+} from '../__tests__/precache-ui-host.js'
+import { useFallbackLanguage } from '../localization/language.js'
 import { createPrecacheWidget, createUnifiedProgressUi } from './precache-ui.js'
 
 function mount(html: string): void {
   document.body.innerHTML = html
-}
-
-function fullBoot(): void {
-  mount(`
-    <div id="boot-loading">
-      <div id="boot-loading-bar">
-        <div id="boot-loading-fill"></div>
-        <div id="boot-loading-mark"></div>
-      </div>
-      <div id="boot-loading-status"></div>
-      <div id="boot-loading-enter" hidden><button id="boot-loading-enter-btn"></button></div>
-    </div>`)
 }
 
 function fillWidth(): string {
@@ -30,10 +23,7 @@ function statusText(): string {
   return document.getElementById('boot-loading-status')?.textContent ?? ''
 }
 
-afterEach(() => {
-  vi.useRealTimers()
-  document.body.innerHTML = ''
-})
+installPrecacheUiTestHooks()
 
 describe('G09-D 预缓存宿主', () => {
   it('G09-D01 总字节为 0 时小组件百分比和条宽都是 0', async () => {
@@ -111,15 +101,15 @@ describe('G09-D 预缓存宿主', () => {
   it('G09-D07 第二次 markPlayable 不调用 onEnter', () => {
     fullBoot()
     const ui = createUnifiedProgressUi()
-    let calls = 0
-    const onEnter = (): void => {
-      calls += 1
-    }
+    const onEnter = vi.fn()
+    const repeated = vi.fn()
     ui.markPlayable(onEnter)
-    ui.markPlayable(onEnter)
-    expect(calls).toBe(0)
+    ui.markPlayable(repeated)
+    expect(onEnter).not.toHaveBeenCalled()
+    expect(repeated).not.toHaveBeenCalled()
     document.getElementById('boot-loading-enter-btn')?.dispatchEvent(new MouseEvent('click'))
-    expect(calls).toBe(1)
+    expect(onEnter).toHaveBeenCalledOnce()
+    expect(repeated).not.toHaveBeenCalled()
   })
 
   it('G09-D08 没有进入按钮容器时 markPlayable 立刻放行', async () => {
@@ -268,12 +258,14 @@ describe('G09-D 预缓存宿主', () => {
     expect(document.getElementById('precache-widget')?.textContent).toBe('后台缓存中…')
   })
 
-  it('G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除', async () => {
-    vi.useFakeTimers()
+  it('G09-D20 done 解除语言订阅并淡出：599ms 仍在，600ms 移除', async () => {
     const widget = createPrecacheWidget()
+    widget.update({ done: 1, total: 2, bytes: 1024 * 1024, totalBytes: 2 * 1024 * 1024 })
     widget.done()
     const el = document.getElementById('precache-widget')
     expect(el?.style.opacity).toBe('0')
+    useFallbackLanguage('en')
+    expect(el?.textContent).toBe('后台缓存资源 50% (1/2MB)')
     const atDone = readHost('done', el, null, el)
     atDone.flags = [`opacity:${el?.style.opacity ?? ''}`, ...atDone.flags]
     vi.advanceTimersByTime(599)
@@ -283,7 +275,6 @@ describe('G09-D 预缓存宿主', () => {
     at599.flags = [`opacity:${mid?.style.opacity ?? ''}`, ...at599.flags]
     vi.advanceTimersByTime(1)
     expect(document.getElementById('precache-widget')).toBeNull()
-    vi.useRealTimers()
     await dumpHost('G09-D20', [
       atDone,
       at599,

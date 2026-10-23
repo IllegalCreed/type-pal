@@ -7,6 +7,17 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE3i: ready-after start/pause/resume duplicate transfers to the exact ordered
+    // main-client protocol case; the unique early pause/resume negative remains.
+    // User current 3i test-quality instruction + standing precise-dedup authority.
+    {
+      file: 'packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts',
+      previous: 2,
+      current: 1,
+      previousIdentityDigest: '9fa0085a93536699ce589564f03b6e71870cb1d4f1e27f54ea7324272d3b2fd3',
+      currentIdentityDigest: '0182a4e4b78c1559218f78ed2c14f34f32e33ab4550ff12e037a8e7211ce56b8',
+      fileSha256: '67256f548bd47c406cfecaaedd1bcff9dec9ad005d5a3342ffeea5f1b717be5c',
+    },
     // CODE3h: four shared-codec repetitions transfer to existing canonical full-plane
     // oracles; internal game facade keeps only its live dialog entry.
     // User current RLE dedup instruction + standing test-quality authority.

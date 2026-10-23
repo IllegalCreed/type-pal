@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-23当前：63accept/20partial/0pending；3h原六文件已闭环。状态以[83卡机器表](all-cards.json)和父卡为准；另同步六行此前已在机器表accept但Markdown未投影的历史状态，不新增这六卡信用。94–102不扩展。
+2026-10-23当前：64accept/19partial/0pending；仅3i新增接受，原3h信用保留。状态以[83卡机器表](all-cards.json)和父卡为准；修正旧汇总62/21的滞后，实际此前逐行63/20，不虚增卡信用。94–102不扩展。
 
 2026-10-21当前：56 accept / 27 partial / 0 pending。提取四卡窗口接受3b/3d/3f原合同，3g只收测试宿主切片；[当前逐文件与全门](3b/closeout/evidence.json)。其余27partial保持，94–102不扩展。
 
@@ -16,7 +16,7 @@
 | [CODE-QUALITY-3f](../../archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md) | done | accept | [当前逐文件八维](3f/closeout/review.json)：原卡有限合同/必要返工与四卡零诊断门成立，不授相邻广域文件信用 |
 | [CODE-QUALITY-3g](../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) | done | partial | [当前逐文件八维](3g/closeout/review.json)：五测试/宿主文件接受，CLI主编排仍待，不整卡关闭 |
 | [CODE-QUALITY-3h](../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) | done | accept | [当前正式裁定](3h/rle-boot-quality/README.md)：六生产源逐项八维与当前门闭合，shared格式/大bootstrap不附带接受 |
-| [CODE-QUALITY-3i](../../archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md) | done | partial | [原NaN窄修](3i-dialog-precache/README.md)保持；[72失败覆盖counter](72-boot-loading/README.md)使precache-ui旧关闭撤回rework；其它范围/统一门仍待 |
+| [CODE-QUALITY-3i](../../archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md) | done | accept | [五源逐文件A–H及测试/lifecycle收口](3i-dialog-precache/quality-closeout/README.md)；原72失败终态桥、当前门成立，不附带广域入口/离线/视觉信用 |
 | [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | partial | [time-format 四文件切片](3j-time-format/README.md)：解析溢出反例与修复；3j 其余工具文件仍待核 |
 | [CODE-QUALITY-3k](../../archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md) | done | partial | [present primitives 三文件切片](3k-present-primitives/README.md)：framebuffer/shake/wave 与直接 caller/SDL primary 已核读，35 例/typecheck通过；dither/number/follower 与整卡统一门仍待 |
 | [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | partial | [battle-present 三文件切片](3l-battle-present-primitives/README.md)：背景/effect/飘字与装配 caller/SDL primary 已核读，23 例通过；结算/精灵/UI/整卡统一门仍待 |

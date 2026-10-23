@@ -12,6 +12,10 @@ function isFiniteNonNegative(value: number): boolean {
   return Number.isFinite(value) && value >= 0
 }
 
+function formatMebibytes(bytes: number): string {
+  return (bytes / 1024 / 1024).toFixed(0)
+}
+
 function normalizeByteProgress(
   bytes: number,
   totalBytes: number,
@@ -75,7 +79,6 @@ export function createPrecacheWidget(): PrecacheWidget {
   el.append(text, bar)
   document.body.appendChild(el)
 
-  const mb = (b: number): string => (b / 1024 / 1024).toFixed(0)
   let currentProgress: { bytes: number; totalBytes: number } | undefined
   const renderText = (): void => {
     if (!currentProgress) {
@@ -84,7 +87,7 @@ export function createPrecacheWidget(): PrecacheWidget {
     }
     const { bytes, totalBytes } = currentProgress
     const pct = totalBytes > 0 ? Math.floor((bytes / totalBytes) * 100) : 0
-    text.textContent = `${localize('后台缓存资源', 'Caching resources')} ${pct}% (${mb(bytes)}/${mb(totalBytes)}MB)`
+    text.textContent = `${localize('后台缓存资源', 'Caching resources')} ${pct}% (${formatMebibytes(bytes)}/${formatMebibytes(totalBytes)}MB)`
   }
   const unsubscribeLanguage = subscribeLanguage(() => {
     if (el.isConnected) renderText()
@@ -115,7 +118,6 @@ export function createPrecacheWidget(): PrecacheWidget {
 export function createUnifiedProgressUi(opts?: { playableFraction?: number }): UnifiedProgressUi {
   const byId = (id: string): HTMLElement | null =>
     typeof document === 'undefined' ? null : document.getElementById(id)
-  const mb = (b: number): string => (b / 1024 / 1024).toFixed(0)
   // 虚线位置 = 必要资源占全量的预估比例(默认 12%)。虚线前段映射必要资源进度、虚线后段是 SW 全量
   // 真实进度(bytes/total);两段在虚线附近自然衔接(必要资源 ≈ playableFraction × total)。
   const requestedPlayableFraction = opts?.playableFraction ?? 0.12
@@ -189,10 +191,10 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
         paint(
           pct,
           () =>
-            `${localize('已缓存', 'Cached')} ${mb(progress.bytes)}/${mb(progress.totalBytes)}MB`,
+            `${localize('已缓存', 'Cached')} ${formatMebibytes(progress.bytes)}/${formatMebibytes(progress.totalBytes)}MB`,
         )
       }
-      // phase 'necessary'(SW 还没启动)→ 忽略
+      // necessary 阶段只暂存字节供进入时初始化 widget，不改覆盖层。
     },
     enterGame() {
       if (phase === 'entered') return

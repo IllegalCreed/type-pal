@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前2026-10-23 CODE3i窗口：64accept/19partial/0pending；3404tracked/405closed/104review/2895pending。源码集中门零诊断；Action升级的实际远端提示与PR发布待后继核。下面此前各时点计数/待跑状态是历史，不覆盖本条及本窗收口节。
+
 > 已同步：同一3y合入英文产品main365e582e2与后继纯文档main94d03b584。组合check20601+691工具、official20172/774源及同报告protected通过；七包TC与项目诊断0。最终静态、推送及PR两项必需检查以实际回执为准，禁止直接推main。
 
 > 当前：固定83卡63accept/20partial/0pending。3h原六生产源及本窗RLE／snapshot／启动取消七文件闭合；3402/395closed/107review/2900pending（英文28待核保留）。集中check／单次official／同报告protected与静态门完成，发布状态看Git；shared格式与3i等余项不附带接受，94–102不扩展。
@@ -21,6 +23,30 @@ Phase: engineering first; phase1/phase2按真实路径分别准入
 Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
+
+## 2026-10-23 PR14商标专测CI窄返工（build allowed）
+
+PR14首轮Documentation绿且零平台提示，Coverage实际game3755绿/1超时：本窗商标默认例5478ms、显式跳过例4780ms。原完整原件保留，未合并；不能用本地旧绿替代远端失败。Codex单Owner，仅trademark-fallback.test.ts七处完整typed-array比较换测试内原生Buffer.compare全字节判等，逐个实参/测试身份/时序和产品正文保持，以末字节反证与原skip反控证明不弱化；不改timeout、产品、fixture或CI规则。允许同步该测试在有限重算数据中的精确SHA、当前证据/只读复验版本桥。局部定向/TC/静态刷新并重跑远端必需门，不重复本地全仓/覆盖率；原3d候选的全门仅保留其版本信用。
+
+## 2026-10-23 CODE3i runner通知窄修（build allowed）
+
+原7条Action/Node弃用已在b658两工作流完整成功日志核为0；Coverage20,172例/774源与Documentation均success。但原生annotation接口另有两条ubuntu-latest迁移notice（每任务1），不是raw可见诊断，尚未合并。Codex单Owner、同一3y，build allowed仅两runs-on固定实际现用且受支持ubuntu-24.04，按官方runner-images #14748消除隐式迁移；其余工作流字节不变。不改产品/测试/阈值/timeout，本地门复用；本窗64accept/19partial与账本计数不变。[完整原件与独立版本桥](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/runner-rework.json)。当前必需远端补门及全部annotation清零前不合并。
+
+## 2026-10-23 CODE3i收口（本地冻结时点）
+
+固定83卡64accept/19partial/0pending，仅3i新接受；13个明确文件逐项A–H含两份同版复用，10新关闭/3旧关闭刷新。3404tracked/405closed/104review/2895pending。实际全check20601包例+692工具、七包TC/lint、official20172例/774源与同报告strict/protected通过，项目诊断0；原中断coverage无最终回执不计通过，补跑一次完整报告。只按实测formatter结构差协调3语句/1函数/1行，精确client2→1退役，未降规则。原72批准失败卡通过当前版本桥与本窗门收口，main/bootstrap整文件仍review。
+
+[逐文件、caller/oracle、三有效单红、正文守恒与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)。旧all-cards.currentReviewCounts62/21滞后，实际逐行63/20；本轮重算64/19，不虚增两卡。7处Action引用升官方Node24完整SHA，配置其它字段相同；远端弃用提示是否清零、PR推送/合并看实际后继回执，不提前宣称。下一有限范围3j tools/speedrun余项，先复用已接受叶文件，只补当前缺口。94–102不扩展；无下一位Agent提示词。
+
+## 2026-10-23 CODE3i UI／客户端／商标测试窗口（build allowed）（以下保留准入时点）
+
+用户追加7条Action/Node平台弃用提示治理：Codex build allowed仅两份.github/workflows工作流的七处Action引用升级，按官方release/tag固定完整commit SHA，核action.yml的node24 runtime与现有输入合同。checkout7.0.1、setup-node7.1.0、upload-artifact7.0.2、pnpm/action-setup6.1.0；项目Node22/pnpm10.29.2、权限、触发、步骤与必需检查保持。独立配置提交，随本窗口冻结后远端实跑核完整日志；不以设置环境变量或过滤日志消除提示，未实跑前不宣称平台清零。
+
+同一codex/code-quality-3y，基点13c935e4c646bc1e8fff3c6cb821efef5d22b16c，Codex单Owner，主树只读。合并后main的Documentation39879723974与Coverage39879723853均success；后者原件20172例/774源、typecheck/lint和项目诊断0，7条Action/Node平台提示单列。先只读核实现/caller及7文件52例基线，无诊断；旧3i/72/C1及glm29证据按具体版本复用，不重做有效轴。当前仍63accept20partial，3402/395closed107review2900pending，不预授整卡或整文件关闭。
+
+build allowed三个相关有限片：①precache-ui及两专测与新测试宿主，统一DOM/语言订阅/淡出时钟的测试清理，精简重复生命周期断言、补一次性按钮与done退订判别力，生产只更正“necessary忽略”与实际暂存字节冲突的注释；②precache-client与两专测/新IO宿主，逐例隔离模块单例及navigator自有描述符，注册失败精确核消息/原异常/次数，重叠注册与消息顺序合同归并，补真实MessageEvent进度/两种收尾路由，生产语义不改；③trademark-fallback与两测试，仅收窄1:1/行号等注释，改合法Palette/真实canvas/受控时钟，Space默认不可跳与显式跳过验证实际帧与清理；相邻splash用例的Math.random=1非法fixture改为合法小于1值，不改splash产品。
+
+补充准入：UI两份输入域/取整/错误策略相同的字节格式化合为同文件私有formatMebibytes，零出口变化；独立纯重构提交，以原表达式核对、调用回填后的TS正文守恒和现有真实DOM合同验证。必要的结构性覆盖率计数协调只在整个窗口冻结后实测登记，不改规则或保留重复函数凑基线。测试与注释分提交；只接受已证明重复的精确退役并保留旧→新断言/身份映射。无新产品/接口/资源/存档/机制变化；发现新行为取舍停受影响范围。先定向/相邻与TC、保留关键反控，三个片及原72失败修复的版本适用性一起冻结后，集中全仓/official/protected与文档静态，再自行提交推送并按PR保护合并。无下一位Agent提示词；94–102不扩展。
 
 ## 2026-10-22/23 RLE／snapshot／启动取消窗口（模块收口）
 

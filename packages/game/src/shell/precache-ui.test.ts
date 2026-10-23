@@ -1,41 +1,22 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import { installPrecacheUiTestHooks, mountBootLoading } from '../__tests__/precache-ui-host.js'
 import { createPrecacheWidget, createUnifiedProgressUi } from './precache-ui.js'
 
-afterEach(() => {
-  vi.useRealTimers()
-  document.getElementById('precache-widget')?.remove()
-})
+installPrecacheUiTestHooks()
 
 describe('createPrecacheWidget', () => {
-  it('挂到 document.body,update 写百分比与 MB,done 后淡出移除', () => {
-    vi.useFakeTimers()
+  it('挂到 document.body，update 写完整字节进度和条宽', () => {
     const w = createPrecacheWidget()
     const el = document.getElementById('precache-widget')
     expect(el).not.toBeNull()
     w.update({ done: 50, total: 100, bytes: 5 * 1024 * 1024, totalBytes: 10 * 1024 * 1024 })
-    expect(el!.textContent).toContain('50%')
-    expect(el!.textContent).toContain('5/10MB')
-    w.done()
-    // done() 触发 0.6s 淡出后从 DOM 移除(用 fake timers 推进动画时长再断言)
-    vi.advanceTimersByTime(600)
-    expect(document.getElementById('precache-widget')).toBeNull()
+    expect(el?.textContent).toBe('后台缓存资源 50% (5/10MB)')
+    const fill = el?.lastElementChild?.firstElementChild
+    expect(fill instanceof HTMLElement ? fill.style.width : '').toBe('50%')
   })
 })
 
-function mountBootLoading(): void {
-  document.body.innerHTML = `
-    <div id="boot-loading">
-      <div id="boot-loading-bar"><div id="boot-loading-fill"></div><div id="boot-loading-mark"></div></div>
-      <div id="boot-loading-status"></div>
-      <div id="boot-loading-enter" hidden><button id="boot-loading-enter-btn"></button></div>
-    </div>`
-}
-
 describe('createUnifiedProgressUi', () => {
-  beforeEach(() => {
-    document.body.innerHTML = ''
-  })
-
   it('虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退', () => {
     mountBootLoading()
     const ui = createUnifiedProgressUi()
@@ -97,7 +78,6 @@ describe('createUnifiedProgressUi', () => {
   })
 
   it('enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget', () => {
-    vi.useFakeTimers()
     mountBootLoading()
     const ui = createUnifiedProgressUi()
     ui.markPlayable(() => {})
@@ -111,7 +91,9 @@ describe('createUnifiedProgressUi', () => {
     ui.setFullProgress(336 * 1024 * 1024, 336 * 1024 * 1024)
     expect(document.getElementById('precache-widget')!.textContent).toContain('100%')
     ui.done()
-    expect((document.getElementById('precache-widget') as HTMLElement).style.opacity).toBe('0')
+    expect(document.getElementById('precache-widget')?.style.opacity).toBe('0')
+    vi.advanceTimersByTime(600)
+    expect(document.getElementById('precache-widget')).toBeNull()
   })
 
   it('进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget', () => {
