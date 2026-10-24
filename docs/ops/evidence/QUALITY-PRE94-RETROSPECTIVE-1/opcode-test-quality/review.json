@@ -97,6 +97,24 @@
       "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
       "lines": 5400,
       "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "sha256": "fae6ab82b67052e4d684e0715882d8f9299bcb8b5a39f4e9250397d134e06a54",
+      "lines": 2428,
+      "scope": "Actual adjacent test execution file; matches frozen base bytes, not a new full-file read/acceptance."
+    },
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "sha256": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069",
+      "lines": 203,
+      "scope": "Actual adjacent test execution file; matches frozen base bytes, not a new full-file read/acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "sha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+      "lines": 303,
+      "scope": "Actual adjacent test execution file; matches frozen base bytes, not a new full-file read/acceptance."
     }
   ],
   "primary": {
@@ -150,7 +168,8 @@
   "processDisclosure": [
     "opcode-repaired first run60pass2fail: exact damage command omitted op field, and plain end rightly retained script entry1. Correct expected full command; change explicit end.advance=true scenario→continuation3. No production change. Raw failures retained.",
     "throw-new/poison-self-new first counter results are invalid as discrimination evidence because candidate had baseline failures. Only corrected native results count; oldgreen receipts reused unchanged baseline.",
-    "Coverage fixture does not hydrate runtime or install fullBattleResources by default. Only runtime-dependent0x66 case explicitly hydrates; other direct API contexts are judged against optional BattleCtx contract, not full startBattle invariants."
+    "Coverage fixture does not hydrate runtime or install fullBattleResources by default. Only runtime-dependent0x66 case explicitly hydrates; other direct API contexts are judged against optional BattleCtx contract, not full startBattle invariants.",
+    "Adjacent native241 was already bound to base plus two-file candidate; explicit three unmodified adjacent test fingerprints added for cheaper future stale detection, without rerunning reliable same candidate tests."
   ],
   "counters": {
     "valid": [
