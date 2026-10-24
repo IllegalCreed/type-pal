@@ -1,8 +1,16 @@
-import type { AbstractKey, Command, InputSnapshot, Palette } from '@type-pal/shared'
-import { describe, expect, it, vi } from 'vitest'
+import type { AbstractKey, Command, InputSnapshot, Palette, PlayerRoles } from '@type-pal/shared'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { startDialogLine } from '../present/dialog-box.js'
 import { computeFollowerWorldPos } from '../present/follower-pos.js'
-import { makeItem, makeItemFlags } from './__tests__/stats/stats-test-fixtures.js'
-import type { BattleState } from './battle/battle-state.js'
+import {
+  makeBattleField,
+  makeEnemy,
+  makeItem,
+  makeItemFlags,
+  makePlayerRole,
+  makePlayerRoles,
+} from './__tests__/stats/stats-test-fixtures.js'
+import { createBattleState } from './battle/battle-state.js'
 import { createCommandBus } from './command-bus.js'
 import {
   addItemToInventory,
@@ -93,9 +101,35 @@ import {
   tickSceneAutoFadeIn,
   walkFrameMod,
 } from './event-system.js'
-import { createInitialGameState, type GameState, resumePostBattleScript } from './game-state.js'
+import {
+  createInitialGameState,
+  type GameState,
+  loadDefaultGame,
+  resumePostBattleScript,
+} from './game-state.js'
 import { createSeedableRng } from './rng.js'
 import { setWordTable } from './word-lookup.js'
+
+afterEach(() => {
+  setGlobalEvents([])
+  setWordTable([])
+  setObjectPoisons([])
+  setEnemyObjectsTable(null)
+  setStoreTable([])
+  setFetchPalette(null)
+  setPaletteSource(null)
+  setSceneLoader(null)
+  setObstacleChecker(null)
+  setStartBattleHandler(null)
+  setRefreshEquipmentsHandler(null)
+  setRngPlayHandler(null)
+  setShowFbpHandler(null)
+  setScrollFbpHandler(null)
+  setEndingAnimationHandler(null)
+  setLoadLastSaveHandler(null)
+  setQuitHandler(null)
+  vi.restoreAllMocks()
+})
 
 function snap(pressed: AbstractKey[] = [], frameNum = 0): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum }
@@ -141,29 +175,32 @@ function loadEvent(gs: GameState, commands: Command[], startIp = 0): void {
   gs.mode = 'event'
 }
 
-/** 取已 loadEvent 的 cursor(测试 setup 后必非空);用 expect narrow 避免 noNonNullAssertion。 */
+/** 取真实已装载游标；setup缺失时立即失败，类型由显式守卫收窄。 */
 function cursorOf(gs: GameState) {
   const cursor = gs.eventCursor
-  expect(cursor).toBeDefined()
-  return cursor as NonNullable<typeof cursor>
+  if (!cursor) throw new Error('event test setup: eventCursor missing')
+  return cursor
 }
 
 /** 测试 setup helper:给 runtime 装备二维数组赋值(rgwEquipment[slot] 已初始化,narrow 避免非空断言)。 */
 function setEquip(gs: GameState, slot: number, role: number, item: number): void {
   const arr = gs.PlayerRolesRuntime.rgwEquipment[slot]
-  if (arr) arr[role] = item
+  if (!arr) throw new Error('event test setup: equipment slot missing')
+  arr[role] = item
 }
 
 /** 测试 setup helper:给 runtime 状态二维数组赋值(rgPlayerStatus[role] 已初始化)。 */
 function setStatus(gs: GameState, role: number, idx: number, val: number): void {
   const arr = gs.rgPlayerStatus[role]
-  if (arr) arr[idx] = val
+  if (!arr) throw new Error('event test setup: status role missing')
+  arr[idx] = val
 }
 
 /** 测试 setup helper:给 runtime 法术二维数组赋值(rgwMagic[role] 已初始化)。 */
 function setMagic(gs: GameState, role: number, slot: number, spell: number): void {
   const arr = gs.PlayerRolesRuntime.rgwMagic[role]
-  if (arr) arr[slot] = spell
+  if (!arr) throw new Error('event test setup: magic role missing')
+  arr[slot] = spell
 }
 
 /** 测试 setup helper:给装备效果数组赋值(rgEquipmentEffect[slot] 已初始化)。 */
@@ -175,7 +212,8 @@ function setEquipEffect(
   val: number,
 ): void {
   const eff = gs.rgEquipmentEffect[slot]
-  if (eff) eff[field][role] = val
+  if (!eff) throw new Error('event test setup: equipment effect slot missing')
+  eff[field][role] = val
 }
 
 describe('walkFrameMod(NPC 走路帧取模,scene.c:880-902)', () => {
@@ -207,9 +245,9 @@ describe('walkFrameMod(NPC 走路帧取模,scene.c:880-902)', () => {
 describe('0x87 animateObject × nSpriteFramesAuto(血池冒泡/血柱冻帧根因)', () => {
   it('nSpriteFrames=0 + nSpriteFramesAuto=24:0x87+goto 循环每 tick 推 1 帧、mod 24 回绕', () => {
     const cmds: Command[] = [
-      { op: 'raw', opcode: 0x87, operands: [0, 0, 0], label: 'L_0' } as Command,
-      { op: 'goto', to: 'L_0', frameDelay: 0 } as Command,
-      { op: 'end' } as Command,
+      { op: 'raw', opcode: 0x87, operands: [0, 0, 0], label: 'L_0' },
+      { op: 'goto', to: 'L_0', frameDelay: 0 },
+      { op: 'end' },
     ]
     setGlobalEvents(cmds)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -235,9 +273,9 @@ describe('0x87 animateObject × nSpriteFramesAuto(血池冒泡/血柱冻帧根�
 
   it('nSpriteFrames=0 + auto=0 + 预设姿势帧:0x87 不动帧(C 不推不清,水月宫拜谢类 pose 保留)', () => {
     const cmds: Command[] = [
-      { op: 'raw', opcode: 0x87, operands: [0, 0, 0], label: 'L_0' } as Command,
-      { op: 'goto', to: 'L_0', frameDelay: 0 } as Command,
-      { op: 'end' } as Command,
+      { op: 'raw', opcode: 0x87, operands: [0, 0, 0], label: 'L_0' },
+      { op: 'goto', to: 'L_0', frameDelay: 0 },
+      { op: 'end' },
     ]
     setGlobalEvents(cmds)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -296,12 +334,13 @@ describe('EventSystem', () => {
   })
 
   // C5(gameOverActive 重构):死亡序列 L_41075 是 0x4F 后跟 4 句 showDialog。showDialog 会清 sceneLoading
-  //   (event-system.ts:1647),若死亡 hold 复用 sceneLoading,这 4 句对话就会露大世界 —— 这正是当初发明
+  //   (tickEventSystem 的 showDialog 分支),若死亡 hold 复用 sceneLoading,这 4 句对话就会露大世界 —— 这正是当初发明
   //   gameOverActive 的根因。回归保证:showDialog 清 sceneLoading,但**绝不**碰 gameOverActive / deathHoldActive。
   it('showDialog 清 sceneLoading 但不碰 gameOverActive/deathHoldActive(死亡4句对话不露大世界)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     gs.gameOverActive = true // 0x4F 已点亮死亡演出
+    gs.deathHoldActive = true
     gs.sceneLoading = true // 同时有冻屏(对照:showDialog 该清它)
     loadEvent(gs, [
       { op: 'showDialog', messageIndex: 0, text: '大侠请重新来过吧' }, // 死亡对话之一
@@ -310,6 +349,7 @@ describe('EventSystem', () => {
     tickEventSystem(gs, snap(), bus)
     expect(gs.sceneLoading).toBe(false) // showDialog 清了 sceneLoading
     expect(gs.gameOverActive).toBe(true) // 但死亡演出标记原样保留 → present 续 hold 染红帧 + 画对话
+    expect(gs.deathHoldActive).toBe(true)
   })
 
   // Bug1(2026-06-17):onEnter 一上来就 PartyWalkTo 走位(如刘晋元房间 enter:0x49→setObjDir→0x70 走位→0x09)
@@ -712,55 +752,46 @@ describe('EventSystem', () => {
   })
 })
 
-/** 最小 BattleState fixture(T17 runScript 测试用;无需真实 enemy/player 数据)。 */
-function makeMinimalBattleCtx(): BattleCtx {
-  const state: BattleState = {
-    players: [],
-    enemies: [],
-    field: {
-      id: 0,
-      screenWave: 0,
-      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    },
+/** 正式初始化和战斗构造器；caster确实对应队伍首位，每次持有独立运行态。 */
+function makeBattleContext(
+  playerRoles: PlayerRoles = makePlayerRoles(),
+  party: number[] = [0],
+): BattleCtx & { gs: GameState; playerRoles: PlayerRoles } {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  loadDefaultGame(gs, playerRoles)
+  gs.partyMembers = party
+  const state = createBattleState({
+    gs,
+    playerRoles,
+    enemies: [makeEnemy()],
+    field: makeBattleField({ id: 0 }),
     isBoss: false,
-    phase: 'preBattle',
-    turn: 0,
-    actionQueue: [],
-    currentActionIndex: 0,
-    pendingActions: new Map(),
-    uiState: 'hidden',
-    menuState: 'main',
-    selectedAction: 0,
-    miscMenuCursor: 0,
-    miscSubMenuCursor: 0,
-    uiCursor: 0,
-    expGained: 0,
-    cashGained: 0,
     rng: createSeedableRng(1),
-    phaseStallTicks: 0,
-  }
-  return { state, caster: { type: 'player', idx: 0 } }
+  })
+  gs.battleState = state
+  gs.mode = 'battle'
+  return { state, gs, playerRoles, caster: { type: 'player', idx: 0 } }
 }
 
 describe('runScript (M3 T17, battle mode)', () => {
-  it('runtimeMode=explore 不传 battleCtx 时 end 立即返回,不修改 GameState', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const before = JSON.stringify(gs)
+  it('runtimeMode=explore 不传 battleCtx 时 end 返回原入口且不发命令', () => {
     const bus = createCommandBus()
-    runScript({
+    const resume = runScript({
       commands: [{ op: 'end' }],
       ip: 0,
       bus,
       runtimeMode: 'explore',
     })
-    expect(JSON.stringify(gs)).toBe(before) // GameState 完全不动
+    expect(resume).toBe(0)
     expect(bus.drain()).toEqual([])
   })
 
   it('runtimeMode=battle + showDialog → 入 battleDialogQueue(战斗对话 hold 消费,不再 emit showBattleMessage)', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    const ctx = makeMinimalBattleCtx()
+    const ctx = makeBattleContext()
+    const { gs } = ctx
+    const hostDialog = startDialogLine('宿主尚未关闭的对话', { style: 'bottom' })
+    gs.dialogBox = hostDialog
     runScript({
       commands: [{ op: 'showDialog', messageIndex: 0, text: '受到攻击' }, { op: 'end' }],
       ip: 0,
@@ -780,12 +811,13 @@ describe('runScript (M3 T17, battle mode)', () => {
       },
     ])
     // runScript 本身不碰 explore gs.dialogBox(由战斗 hold 填)
-    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.dialogBox).toBe(hostDialog)
+    expect(gs.dialogBox.currentLineText).toBe('宿主尚未关闭的对话')
   })
 
   it('runtimeMode=battle + setDialogStyleTop → 下条 showDialog 入队带该风格 + portrait/fontColor', () => {
     const bus = createCommandBus()
-    const ctx = makeMinimalBattleCtx()
+    const ctx = makeBattleContext()
     runScript({
       commands: [
         { op: 'setDialogStyleTop', arg0: 12, arg1: 0x2d },
@@ -806,7 +838,7 @@ describe('runScript (M3 T17, battle mode)', () => {
     const bus = createCommandBus()
     // (a) 已有 dialog 入队(蛇女灵儿 obj502@41060:嘲讽 → 0x69 → narration)→ 0x69 defer 为 effect 条目,
     //     保 sdlpal 序(嘲讽对话 → 逃跑动画 → narration),不在收集时立即跑。
-    const ctx = makeMinimalBattleCtx()
+    const ctx = makeBattleContext()
     runScript({
       commands: [
         { op: 'showDialog', messageIndex: 0, text: '何方妖孽' },
@@ -839,7 +871,7 @@ describe('runScript (M3 T17, battle mode)', () => {
     expect(ctx.state.enemyEscapeAnim).toBeUndefined() // defer:收集时不立即跑逃跑动画
 
     // (b) 队列空(无前置对话)→ 0x69 立即跑(set enemyEscapeAnim),不入队(0x69→narration 序天然对)
-    const ctx2 = makeMinimalBattleCtx()
+    const ctx2 = makeBattleContext()
     runScript({
       commands: [{ op: 'raw', opcode: 0x69, operands: [0, 0, 0] }, { op: 'end' }],
       ip: 0,
@@ -852,9 +884,9 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('battle raw 0x35:缓冲到 pendingScreenShake,不提前写全局 shakeTime', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    const ctx = { ...makeMinimalBattleCtx(), gs, pendingScreenShake: { time: 0, level: 0 } }
+    const ctx = { ...makeBattleContext(), pendingScreenShake: { time: 0, level: 0 } }
+    const { gs } = ctx
     runScript({
       commands: [{ op: 'raw', opcode: OP_SHAKE_SCREEN, operands: [14, 0, 0] }, { op: 'end' }],
       ip: 0,
@@ -870,7 +902,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('runtimeMode=battle + 0x05 ClearDialog → 下条 showDialog 入队标 clearBefore', () => {
     const bus = createCommandBus()
-    const ctx = makeMinimalBattleCtx()
+    const ctx = makeBattleContext()
     runScript({
       commands: [
         { op: 'showDialog', messageIndex: 0, text: 'A' },
@@ -894,6 +926,8 @@ describe('runScript (M3 T17, battle mode)', () => {
   it('runtimeMode=battle + raw → console.debug 含 [event-system battle] 前缀 + ip++', () => {
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     const bus = createCommandBus()
+    const ctx: BattleCtx = makeBattleContext()
+    ctx.gs = undefined
     runScript({
       commands: [
         // 0xC0(192)+ 0x99 都不在 dispatchBattleOpcode 具名集 → D26 debug skip。
@@ -905,13 +939,12 @@ describe('runScript (M3 T17, battle mode)', () => {
       ip: 0,
       bus,
       runtimeMode: 'battle',
-      battleCtx: makeMinimalBattleCtx(),
+      battleCtx: ctx,
     })
-    expect(debugSpy).toHaveBeenCalledTimes(2)
-    // 前缀含 battle 标记,方便 T20/T21 grep
-    const firstCall = debugSpy.mock.calls[0]?.[0] as string
-    expect(firstCall).toMatch(/\[event-system battle\]/)
-    expect(firstCall).toMatch(/opcode=192/) // 0xC0 = 192(未具名样例)
+    expect(debugSpy.mock.calls).toEqual([
+      ['[event-system battle] skip raw opcode=192 ip=0', [1, 2, 3]],
+      ['[event-system battle] skip raw opcode=153 ip=1', [0, 0, 0]],
+    ])
     debugSpy.mockRestore()
   })
 
@@ -920,9 +953,8 @@ describe('runScript (M3 T17, battle mode)', () => {
     //   (对齐 sdlpal 单一 PAL_InterpretInstruction)。0x06 jump-by-rate rate=0 → RandomLong(1,100)>=0 恒真
     //   → 必跳 operand[1](L_3 失败分支)。旧:battle raw 直接 skip → 0x06 不跳 → 失败分支(setDialogStyle
     //   Narration + showDialog "失败 没有效果" msg13364)永不达。需 gs(applyRawOpcode 形参)。
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = makeBattleContext()
     const bus = createCommandBus()
-    const ctx = { ...makeMinimalBattleCtx(), gs }
     runScript({
       commands: [
         { op: 'raw', opcode: 0x06, operands: [0, 3, 0], label: 'L_0' }, // rate=0 恒跳 → L_3
@@ -946,10 +978,10 @@ describe('runScript (M3 T17, battle mode)', () => {
   it('runtimeMode=battle + 0x1E 减钱不足 → 跳 operand[1](资源条件跳转在战斗内真生效)', () => {
     // 0x1E:operand[0]<0 且 dwCash < |operand[0]| → jump operand[1];否则 dwCash += operand[0]。
     //   钱不足分支(sdlpal script.c:952-968)在战斗法术脚本(花钱法术)中靠它。结构修后 fall 到 applyRawOpcode。
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = makeBattleContext()
+    const { gs } = ctx
     gs.dwCash = 5 // 不足以扣 100
     const bus = createCommandBus()
-    const ctx = { ...makeMinimalBattleCtx(), gs }
     runScript({
       commands: [
         { op: 'raw', opcode: 0x1e, operands: [0xff9c, 3, 0], label: 'L_0' }, // -100;cash=5<100 → 跳 L_3
@@ -970,10 +1002,10 @@ describe('runScript (M3 T17, battle mode)', () => {
   it('runtimeMode=battle:条件跳转目标**未打 label** → fall back globalIp(修乾坤一掷43064/酒神43078)', () => {
     // 真 bug(user 报):乾坤一掷"钱不够"分支 @43064 / 酒神"酒不足"@43078 **无 label**;cursor 带 labelMap
     //   时 jumpToGlobalIp 查 L_<n> 查不到 → 旧逻辑静默不跳 → 没钱仍放乾坤一掷且 0 伤害。修:fall back globalIp。
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = makeBattleContext()
+    const { gs } = ctx
     gs.dwCash = 0 // 没钱
     const bus = createCommandBus()
-    const ctx = { ...makeMinimalBattleCtx(), gs }
     runScript({
       commands: [
         { op: 'raw', opcode: 0x1e, operands: [0xffff, 3, 0], label: 'L_0' }, // -1;cash=0<1 → 跳 index3(**无 label**)
@@ -999,20 +1031,10 @@ describe('runScript (M3 T17, battle mode)', () => {
     //   ② 紧随其后的 0x1D 治疗(+9999)封顶到旧 maxHP(374 而非 544);
     //   ③ 菜单(读 runtime)显示 544、战斗(读 snapshot)显示 374 → "血量对不上"。
     //   sdlpal 只有一份 gpGlobals->g.PlayerRoles(战内直接读写,无快照),故加成天然当场生效。
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const rt = gs.PlayerRolesRuntime
-    rt.rgwMaxHP[1] = 374
-    rt.rgwAttackStrength[1] = 100
-    const base = makeMinimalBattleCtx()
-    const ctx = {
-      ...base,
-      gs,
-      state: { ...base.state, players: [{ roleId: 1 } as any] },
-      // 战斗工作副本(开战时 projectRuntimeToBattleRoles 投影);加成前 = 旧值
-      playerRoles: {
-        roles: [{ id: 0 } as any, { id: 1, maxHP: 374, hp: 374, attackStrength: 100 } as any],
-      },
-    } as BattleCtx
+    const playerRoles = makePlayerRoles()
+    playerRoles.roles[1] = makePlayerRole({ id: 1, maxHP: 374, hp: 374, attackStrength: 100 })
+    const ctx = makeBattleContext(playerRoles, [1])
+    const { gs } = ctx
     runScript({
       commands: [
         { op: 'raw', opcode: 0x19, operands: [7, 170, 2] }, // MaxHP +170 → role 1(赵灵儿)
@@ -1052,40 +1074,51 @@ describe('runScript (M3 T17, battle mode)', () => {
         ip: 0,
         bus,
         runtimeMode: 'explore',
-        battleCtx: makeMinimalBattleCtx(),
+        battleCtx: makeBattleContext(),
       }),
     ).toThrow(/explore/)
   })
 
   it('goto 跳转在 battle mode 仍生效', () => {
     const bus = createCommandBus()
+    const ctx = makeBattleContext()
     runScript({
       commands: [
         { op: 'goto', to: 'target' },
-        { op: 'raw', opcode: 0, operands: [0, 0, 0] }, // 不应执行
-        { op: 'end', label: 'target' },
+        { op: 'raw', opcode: OP_PLAY_MUSIC, operands: [31, 0, 0] },
+        { op: 'end' },
+        { op: 'raw', opcode: OP_SET_BATTLE_MUSIC, operands: [7, 0, 0], label: 'target' },
+        { op: 'end' },
       ],
       ip: 0,
       bus,
       runtimeMode: 'battle',
-      battleCtx: makeMinimalBattleCtx(),
+      battleCtx: ctx,
     })
-    expect(bus.drain()).toEqual([]) // 没 emit 任何东西(raw 被跳过)
+    expect(ctx.gs.wNumMusic).toBe(0)
+    expect(ctx.gs.wNumBattleMusic).toBe(7)
+    expect(bus.drain()).toEqual([])
   })
 
-  it('battle mode 下 setDialogStyle* 视为 no-op skip,不改 GameState', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const beforeStyle = gs.currentDialogStyle
+  it('battle mode 下 setDialogStyle* 只改战斗队列样式，保留宿主样式', () => {
+    const ctx = makeBattleContext()
+    const { gs } = ctx
+    gs.currentDialogStyle = 'narration'
     const bus = createCommandBus()
     runScript({
       commands: [{ op: 'setDialogStyleTop' }, { op: 'setDialogStyleBottom' }, { op: 'end' }],
       ip: 0,
       bus,
       runtimeMode: 'battle',
-      battleCtx: makeMinimalBattleCtx(),
+      battleCtx: ctx,
     })
     // GameState.currentDialogStyle 完全不动(不变量)
-    expect(gs.currentDialogStyle).toBe(beforeStyle)
+    expect(gs.currentDialogStyle).toBe('narration')
+    expect(ctx.state.battleDialogStyle).toEqual({
+      style: 'bottom',
+      portrait: undefined,
+      fontColor: 0x4f,
+    })
   })
 
   it('死循环防御:battle mode raw 链 > 256 条抛错', () => {
@@ -1099,7 +1132,7 @@ describe('runScript (M3 T17, battle mode)', () => {
         ip: 0,
         bus,
         runtimeMode: 'battle',
-        battleCtx: makeMinimalBattleCtx(),
+        battleCtx: makeBattleContext(),
       }),
     ).toThrow(/single-tick instruction limit/)
     debugSpy.mockRestore()
@@ -1119,10 +1152,11 @@ describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     // console.warn 被调用,信息含 loadScene + sceneId
-    expect(warnSpy).toHaveBeenCalledTimes(1)
-    const msg = warnSpy.mock.calls[0]?.[0] as string
-    expect(msg).toContain('loadScene')
-    expect(msg).toContain('42')
+    expect(warnSpy.mock.calls).toEqual([
+      [
+        'event-system: loadScene sceneId=42 无 _sceneLoader 注入,skip(测试外 bootstrap 应 setSceneLoader)',
+      ],
+    ])
     warnSpy.mockRestore()
   })
 
@@ -1135,24 +1169,22 @@ describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
         ip: 0,
         bus,
         runtimeMode: 'battle',
-        battleCtx: makeMinimalBattleCtx(),
+        battleCtx: makeBattleContext(),
       }),
     ).not.toThrow()
     // stub 是 no-op,不 emit 任何 bus 命令
     expect(bus.drain()).toEqual([])
     // console.debug 被调用,信息含 loadScene + sceneId + battle 前缀(D26 跨 mode 一致)
-    expect(debugSpy).toHaveBeenCalledTimes(1)
-    const msg = debugSpy.mock.calls[0]?.[0] as string
-    expect(msg).toContain('loadScene')
-    expect(msg).toContain('7')
-    expect(msg).toMatch(/\[event-system battle\]/)
+    expect(debugSpy.mock.calls).toEqual([
+      ['[event-system battle] skip loadScene sceneId=7 ip=0(B 路线 stub)'],
+    ])
     debugSpy.mockRestore()
   })
 })
 
 describe('setPalette opcode handler(M4 P3.T2)', () => {
   const fakePalette: Palette = {
-    colors: Array(256).fill([0, 0, 0]) as [number, number, number][],
+    colors: Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0]),
     cycles: [],
   }
 
@@ -1187,13 +1219,10 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
 
     expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
     expect(gs.mode).toBe('explore')
-    expect(debugSpy).toHaveBeenCalledTimes(1)
-    const msg = debugSpy.mock.calls[0]?.[0] as string
-    expect(msg).toContain('setPalette')
-    expect(msg).toContain('5')
+    expect(debugSpy.mock.calls).toEqual([
+      ['event-system: setPalette paletteIndex=5 ip=0(palette 源未注入)'],
+    ])
     debugSpy.mockRestore()
-    // cleanup: restore a no-op fetchPalette so other tests aren't affected
-    setFetchPalette(() => Promise.resolve(fakePalette))
   })
 
   it('battle mode(runScript): setPalette → no-op skip + console.debug + ip++', () => {
@@ -1207,16 +1236,14 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
         ip: 0,
         bus,
         runtimeMode: 'battle',
-        battleCtx: makeMinimalBattleCtx(),
+        battleCtx: makeBattleContext(),
       }),
     ).not.toThrow()
 
     expect(bus.drain()).toEqual([])
-    expect(debugSpy).toHaveBeenCalledTimes(1)
-    const msg = debugSpy.mock.calls[0]?.[0] as string
-    expect(msg).toContain('setPalette')
-    expect(msg).toContain('2')
-    expect(msg).toMatch(/\[event-system battle\]/)
+    expect(debugSpy.mock.calls).toEqual([
+      ['[event-system battle] skip setPalette paletteIndex=2 ip=0'],
+    ])
     debugSpy.mockRestore()
   })
 })
@@ -1317,7 +1344,11 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
     loadEvent(gs, [{ op: 'raw', opcode: OP_START_BATTLE, operands: [7, 0, 0] }, { op: 'end' }])
 
     expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
-    expect(warnSpy).toHaveBeenCalled()
+    expect(warnSpy.mock.calls).toEqual([
+      [
+        'event-system: opcode 7 startBattle handler 未注入,跳过 (enemyTeamId=7)。 测试外 bootstrap 应 setStartBattleHandler。',
+      ],
+    ])
     expect(gs.eventCursor).toBeUndefined()
     warnSpy.mockRestore()
   })
@@ -1770,7 +1801,9 @@ describe('opcode 0x0013 setObjectPos(sdlpal script.c:716-722)', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     loadEvent(gs, [{ op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 50, 60] }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
-    expect(warnSpy).toHaveBeenCalled()
+    expect(warnSpy.mock.calls).toEqual([
+      ['event-system: setObjectPos 无 currentEventObjectId(可能从 runEnterScript 跑),跳过'],
+    ])
     expect(gs.mode).toBe('explore')
     warnSpy.mockRestore()
   })
@@ -4754,10 +4787,15 @@ describe('特效 A — 调色板 state opcode(2026-05-29)', () => {
   it('setPalette(0x8B)→ gs.numPalette 记当前调色板索引(供 FadeIn/SceneFade 选目标)', () => {
     const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    setPaletteSource(() => ({
+      colors: Array.from({ length: 256 }, () => [10, 20, 30]),
+      cycles: [],
+    }))
     expect(gs.numPalette).toBe(0)
     loadEvent(gs, [{ op: 'setPalette', paletteIndex: 7 }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
     expect(gs.numPalette).toBe(7)
+    expect(gs.basePalette?.colors[0]).toEqual([10, 20, 30])
   })
 })
 
@@ -4801,16 +4839,17 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   })
 
   it('battle runScript raw fallback:0x50 FadeOut → 启动 paletteFadeState 并消费 opcode', () => {
-    const gs = gsWithPalette([200, 100, 50], [200, 100, 50])
+    const ctx = makeBattleContext()
+    const { gs } = ctx
+    gs.palette = mkPal([200, 100, 50])
+    gs.basePalette = mkPal([200, 100, 50])
+    ctx.state.phase = 'performAction'
     runScript({
       commands: [{ op: 'raw', opcode: OP_FADE_OUT, operands: [2, 0, 0] }, { op: 'end' }],
       ip: 0,
       bus: createCommandBus(),
       runtimeMode: 'battle',
-      battleCtx: {
-        state: { phase: 'performAction' } as BattleState,
-        gs,
-      },
+      battleCtx: ctx,
     })
     expect(gs.needToFadeIn).toBe(true)
     expect(gs.paletteFadeState?.mode).toBe('lerp')
@@ -5703,23 +5742,26 @@ describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
   })
 
   it('battle 中(gs.battleState 存在)→ 失败路径(sdlpal !fInBattle gate)', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = makeBattleContext()
+    const { gs } = ctx
     gs.fScriptSuccess = true
     gs.wNumScene = 42
     gs.sceneOnTeleportEntry = 3
-    gs.battleState = {} as any
-    gs.eventCursor = {
+    runScript({
       commands: [
-        { op: 'raw', opcode: OP_TELEPORT_OUT, operands: [2, 0, 0] }, // ip0:fail → jump op0=2
-        { op: 'raw', opcode: 0x36, operands: [111, 0, 0] }, // ip1:跳过
-        { op: 'end' }, // ip2
+        { op: 'raw', opcode: OP_TELEPORT_OUT, operands: [2, 0, 0] },
+        { op: 'raw', opcode: 0x36, operands: [111, 0, 0] },
+        { op: 'end' },
       ],
       ip: 0,
-    }
-    gs.mode = 'event'
-    tickEventSystem(gs, snap(), createCommandBus())
-    expect(gs.fScriptSuccess).toBe(false) // 战斗中 → 失败
-    expect(gs.iCurPlayingRNG).toBe(0) // ip1 跳过(跳到 ip2 end)
+      bus: createCommandBus(),
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+    expect(gs.fScriptSuccess).toBe(false)
+    expect(gs.iCurPlayingRNG).toBe(0)
+    expect(gs.mode).toBe('battle')
+    expect(gs.eventCursor).toBeUndefined()
   })
 })
 
