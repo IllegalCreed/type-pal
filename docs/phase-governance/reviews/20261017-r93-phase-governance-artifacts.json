@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE53/58 GS and export scoped delta",
+      "readMethod": "OwnedCODE53/58 Dev scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "GS/export finite repair; cards partial; gates deferred.",
+      "coreConclusion": "Dev responsibilities accepted; cards partial; gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "dca3901f563a20964b1553ef33c8e194316afe4e24b75c8f9dbf1e5d94d7ab26",
+      "afterSha256": "0107d5ab3846d0e27ed3222c6e3605b0c7e6b83e0b43a1f68f1c35549fc06014",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "dca3901f563a20964b1553ef33c8e194316afe4e24b75c8f9dbf1e5d94d7ab26",
+        "implementationSha": "0107d5ab3846d0e27ed3222c6e3605b0c7e6b83e0b43a1f68f1c35549fc06014",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1792,10 +1792,10 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-status-tools-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "dca3901f563a20964b1553ef33c8e194316afe4e24b75c8f9dbf1e5d94d7ab26",
+        "afterSha256": "0107d5ab3846d0e27ed3222c6e3605b0c7e6b83e0b43a1f68f1c35549fc06014",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1812,11 +1812,11 @@
         },
         "currentMaintenance": {
           "kind": "pre94-status-tools-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
-          "afterSha256": "dca3901f563a20964b1553ef33c8e194316afe4e24b75c8f9dbf1e5d94d7ab26",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
+          "afterSha256": "0107d5ab3846d0e27ed3222c6e3605b0c7e6b83e0b43a1f68f1c35549fc06014",
           "lineCount": 5498,
-          "scope": "GS/export scoped owned delta; original history retained; unified gates deferred.",
-          "candidateBaseRevision": "3bf94a63955156046c6615df663e405917f5813b",
+          "scope": "Dev scoped owned delta; history retained; unified gates deferred.",
+          "candidateBaseRevision": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
           "workingTreeDelta": true
         }
       },
@@ -7826,9 +7826,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE53/58 GS and export scoped delta",
+      "readMethod": "OwnedCODE53/58 Dev scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "GS/export finite repair; cards partial; gates deferred.",
+      "coreConclusion": "Dev responsibilities accepted; cards partial; gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "9d73267539a0af2f2db8e2462ea63c2e72e30d7cfb89be53efc8c891450ce7de",
+      "afterSha256": "f4e5df175e092d5d19c5127328ab57b398e0876aac1f14dc5219e43dae51bd4f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "9d73267539a0af2f2db8e2462ea63c2e72e30d7cfb89be53efc8c891450ce7de",
+        "implementationSha": "f4e5df175e092d5d19c5127328ab57b398e0876aac1f14dc5219e43dae51bd4f",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8538,10 +8538,10 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-status-tools-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "9d73267539a0af2f2db8e2462ea63c2e72e30d7cfb89be53efc8c891450ce7de",
+        "afterSha256": "f4e5df175e092d5d19c5127328ab57b398e0876aac1f14dc5219e43dae51bd4f",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8558,11 +8558,11 @@
         },
         "currentMaintenance": {
           "kind": "pre94-status-tools-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
-          "afterSha256": "9d73267539a0af2f2db8e2462ea63c2e72e30d7cfb89be53efc8c891450ce7de",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
+          "afterSha256": "f4e5df175e092d5d19c5127328ab57b398e0876aac1f14dc5219e43dae51bd4f",
           "lineCount": 7071,
-          "scope": "GS/export scoped owned delta; original history retained; unified gates deferred.",
-          "candidateBaseRevision": "3bf94a63955156046c6615df663e405917f5813b",
+          "scope": "Dev scoped owned delta; history retained; unified gates deferred.",
+          "candidateBaseRevision": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
           "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
           "workingTreeDelta": true
         }

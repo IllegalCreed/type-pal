@@ -115,3 +115,5 @@
 字节SHA、行数和待人工核定的范围原文见[结构原件](all-cards.json)。范围片段不是已验证文件清单；不会因正则命中自动关闭任何文件。
 
 2026-10-24 GS／导出错误当前增量：五文件新关闭、340相关例；53/58仍partial，77/6不变，[有限逐文件证据](gamestate-save-closeout/README.md)。
+
+2026-10-25 [Dev广域质量](dev-panel-quality/README.md)五文件新关闭；53原419行专测仍pending，固定77accept/6partial不变，统一门延后。

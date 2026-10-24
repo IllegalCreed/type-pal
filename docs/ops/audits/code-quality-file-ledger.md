@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-25 Dev代码接受：3445tracked／487closed／74review／2884pending，五新关闭；43旧身份不减、106相关与合法像素单红/恢复、typecheck0。53仍有原419行事件专测，固定77／6不变，全仓/coverage/PR仍等全部pre94。[具体八维和全部失败原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)。
+
 2026-10-24 GS／导出错误增量：3441tracked／482closed／75review／2884pending（提交前以机器复核），五文件新关闭；340相关例、4最终导出及typecheck0；77accept／6partial不变。原件／测试误删恢复及五项精确退役见[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)，统一门/覆盖率/PR仍待全部pre94。
 
 2026-10-24 CODE53中文功能画面与CODE58质量增量：3439tracked／477closed／76review／2886pending，仅静态样式Owner新关闭1项，旧关闭刷新不重复加数。125相关例/TC0；两卡仍partial，固定77／6不变，GS/Dev与导出错误待核，不授英文/普通剧情或统一门信用。[当前八维及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md)。
@@ -129,8 +131,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,441。
-当前已闭合核验：482；已读但待审：75；尚未逐文件核验：2884；合计未闭合：2959。
+起始基点机器清单：2,962。当前 tracked 清单：3,445。
+当前已闭合核验：487；已读但待审：74；尚未逐文件核验：2884；合计未闭合：2958。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -592,7 +594,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/equip-effect.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/game/src/core/equipment-state.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: poison-compaction；不升closed |
 | `packages/game/src/core/menu/menu-driver.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: menu-factory-cleanup；不升closed |
-| `packages/game/src/dev/dev-panel.ts` | product | review | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 大dispatcher/Dev复合设计债仍review；本批有限合同不强关 |
+| `packages/game/src/dev/dev-panel.ts` | product | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | page/工具段装配清晰；完整执行/类型/出口还原、私有上下文收窄及键类型；明确DEV预设/文案限制，不授剧情真值 |
 | `packages/game/src/present/draw-tilemap.ts` | product | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |
 | `packages/game/src/present/menu/draw-player-status.ts` | product | 已验证 | [CODE53既有八维/当前布局桥及画面](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) | 原文件关闭刷新，不新增计数；中英默认注释/运行态ownership更正，非import TS相同；中文runtime0/重复slot画面实核，英文包缺失不授视觉信用 |
 | `packages/game/src/present/present.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design；不升closed |
@@ -671,7 +673,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/actions/item-poison-boundary.test.ts` | test | 已验证 | [物品上下文八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json) | 四旧case及其fixture/data守恒；四新身份核role0/4、all真实恢复与8D投影；289相邻/3724整包及集中门0诊断，不授完整战斗/视觉 |
 | `packages/game/src/dev/dev-panel.glm-next-wave.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/dev/dev-panel.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
-| `packages/game/src/dev/dev-panel-party-lifecycle.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
+| `packages/game/src/dev/dev-panel-party-lifecycle.test.ts` | test | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | 旧接受刷新：四身份不变，基点复现旧live-only断言冲突后核完整16记录；原HPMP/脚本/party断言保留 |
 | `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/core/menu/magic-script.glm-next-wave.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `packages/game/src/present/player-info-box.ts` | product | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |
@@ -735,6 +737,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/game-state.test.ts` | test | 已验证 | [GS／导出错误逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) | 61→56精确五退役，必要codec字段迁移；两误删例恢复，合法Partial/重置夹具，覆盖优先级反控 |
 | `packages/game/src/core/game-state.glm-next-wave.test.ts` | test | 已验证 | [GS／导出错误逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) | 四例完整核读；独立状态行/新初态反控，精灵零值标题与caller注释更正 |
 | `packages/game/src/tools/tools-panel.save-io.test.ts` | test | 已验证 | [GS／导出错误逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) | 四原子IO合同：读取失败/空槽/真实V1 Blob与文件名/下载拒绝URL清理；合法宿主隔离，无核心mock |
+| `packages/game/src/dev/dev-scene-panel.ts` | product | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | 本picker的observer/generation/迟到写回清理，page缓存与场景选择委托明确；原五生命周期合同及完整还原 |
+| `packages/game/src/dev/dev-party-panel.ts` | product | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | 队伍编辑/战况读数职责；战中guard和装备重建走原入口，实际资源依赖收窄，原membership出口保留 |
+| `packages/game/src/dev/dev-indexed-image.ts` | product | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | 实际共享的索引色/alpha到Canvas适配；完整原函数/类型同，三个真实caller，RGBA字面oracle |
+| `packages/game/src/dev/dev-indexed-image.test.ts` | test | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | 完整Palette与真实Canvas；2x2独立16RGBA字面oracle，完全不透明变异单AssertionError，复原绿 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

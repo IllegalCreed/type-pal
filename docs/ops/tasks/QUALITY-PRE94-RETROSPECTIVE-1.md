@@ -1862,3 +1862,19 @@ Codex为唯一Coding Owner，同一3y；复用58-tools-panel-fixtures和前批�
 ## 2026-10-24 GS／导出错误当前增量
 
 GS模型与纯战斗投影职责分离、四文件八维和正式codec字段迁移已完成；53仍保留Dev大装配器质量review，未删原范围。用户批准58导出失败提示后，正式红例再修，错误toast、URL清理和真实Chrome Save/IDB只读失败链均通过。11文件340例、最终导出4例与game typecheck；精确五项退役保护，baseline未动。五个文件新关闭、codec专测旧关闭刷新；固定77accept／6partial不变，未运行全仓/官方coverage/protected或PR。逐文件、过程误删恢复、全部失败/原件和只读入口见[GS／导出错误唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。下一片Dev及1／57；3m/42实际裁决仍待，不扩94–102。
+
+
+## 2026-10-24 Dev 装配器质量准入
+
+同一3y，基点2ccbffd0e，Codex单Owner；root2347行与five-cards原全文A–H/专测版本一致，GS纯搬移有上一窗完整类型/执行桥，不重复旧反控。build allowed仅Dev场景面板生命周期、队伍页和共用索引图绘制职责搬移，最多root+三个明确叶；原public出口/类型、DOM、数据、状态写入、异步结果及关闭次序保留，不加公共disposer或改产品。原大函数中的类型双强转仅在等价键域被证明时删除，不扩大状态写入域。先核整个目标/真实调用与生命周期，基于已有43例及当前源一致证明建立基线；累计本片全部代码后一次定向/相邻/TC，结构证明须包括闭包依赖和cache/cleanup归属，不只删注释哈希。若发现行为缺陷只取证和另列停止线，不夹带修复。统一门/官方coverage/protected/PR仍等全部pre94，94–102不扩展。
+
+Dev准入补充：允许将root剩余工具段按真实tab提成私有装配函数，保持创建/监听器注册顺序；三叶仍限scene/party/indexed-image。新增一份直接RGBA像素专测，使用既有真实Canvas宿主、完整Palette和mask，不与既有只读数／ownership用例重复；原43身份不动。
+
+Dev验收依赖勘误：CODE80旧两例仍期待只存两个毒record，与已批3o保留16槽零记录冲突；必须在2ccb基点与当前依赖核同错后修完整16槽oracle，不过滤、不改生产、不减四例身份。先前43绿只证明旧依赖版本，撤销本候选继承绿；alpha初次反控有这两条无关失败，不计有效，修正后再核。
+
+
+## 2026-10-25 Dev装配器代码质量接受
+
+场景/队伍/索引图职责与page宿主分离，五个文件逐项A–H新关闭，队伍专测旧接受刷新。完整picker执行代码、原其它函数/全局/类型/出口及外部runtime依赖可逆还原，UI/状态/创建顺序保留；私有上下文和状态键类型收窄。旧party2例与已批准3o零记录合同漂移，基点同错后修完整16槽oracle；原43身份保留，10文件106绿，最终合法像素单例绿/反控单红、typecheck0。中间错误/无效反控与已知DEV合成标记/文案限制均明确留存。
+
+53不因Dev接受升整卡：原声明的419行event-opcodes.cov85.test.ts仍pending（本轮全文已读，尚未完成caller/oracle/排重/执行），75断言疑有相同旧record模型，多opcode混合用例和弱no-op仍需核。只读上下文P07不冒充范围文件关闭。固定77accept/6partial不变，统一门/coverage/protected/PR等全部pre94。原件、低成本复验及下一片见[本窗唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)。
