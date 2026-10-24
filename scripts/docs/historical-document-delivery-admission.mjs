@@ -66,7 +66,7 @@ const pilots = [
     sourceSha256: '04c18bc1edc27fcd870bfa658774daf4a67a8d52c7509669fd75ce89f1ef940c',
     gitObject: '386d4aa6c9136f2670cf47bcb7c6a632a7321de8',
     historicalSourceSha256: '8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640',
-    historicalSourceGitRevision: 'bff13f74a4f95bbba05a8353651b5997fea7fc95',
+    historicalSourceGitRevision: '1fb3602fe6819c3b419e8955bc8182ebcfbb9d74',
     reviewRecord: 'docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json',
     reviewIndex: 2,
     historicalRole: 'candidate-acceptance-verdict',
