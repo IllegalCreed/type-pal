@@ -93,13 +93,25 @@ export function addPoisonForPlayer(
   // 首空槽加
   for (let slot = 0; slot < 16; slot++) {
     const key = `${slot}_${partySlot}`
-    if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
-      // M12(2026-06-07 sdlpal 审查):C global.c:1515 落槽时 `wPoisonScript =
-      //   PAL_RunTriggerScript(playerScript, role)` —— 施毒当下跑一次入口脚本(立即生效入口效果 +
-      //   跳过 0x0001 terminator),存返回的 next entry 供后续每回合 tick。无 runner 的旧 caller
-      //   fallback 存原始入口 ip(向后兼容)。
-      const entry = playerScript > 0 && runPoisonEntry ? runPoisonEntry(playerScript) : playerScript
-      gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: entry }
+    const previous = gs.rgPoisonStatus[key]
+    if (!previous || previous.wPoisonID === 0) {
+      // 入口可同步施毒或解毒，必须先占槽；否则嵌套加毒会重用此空位。
+      const pending = { wPoisonID: poisonId, wPoisonScript: playerScript }
+      gs.rgPoisonStatus[key] = pending
+      if (playerScript > 0 && runPoisonEntry) {
+        try {
+          // 续点属于这份毒记录：压紧时随记录移动，清毒后不再写回槽位。
+          pending.wPoisonScript = runPoisonEntry(playerScript)
+        } catch (error) {
+          // 入口失败只撤销自己的占位，不回滚入口已造成的其它效果。
+          for (const [slotKey, poison] of Object.entries(gs.rgPoisonStatus)) {
+            if (poison !== pending) continue
+            if (slotKey === key && previous) gs.rgPoisonStatus[slotKey] = previous
+            else delete gs.rgPoisonStatus[slotKey]
+          }
+          throw error
+        }
+      }
       return
     }
   }
@@ -120,10 +132,8 @@ export function removePoisonLevel99(gs: GameState, roleId: number): void {
     if (!ps || ps.wPoisonID === 0) continue
     const level = _objectPoisons.get(ps.wPoisonID)?.level ?? 0
     if (level >= 99) continue
-    gs.rgPoisonStatus[`${kept}_${partySlot}`] = {
-      wPoisonID: ps.wPoisonID,
-      wPoisonScript: ps.wPoisonScript,
-    }
+    // 保留记录身份，使正在执行的入口能把续点更新到移动后的毒。
+    gs.rgPoisonStatus[`${kept}_${partySlot}`] = ps
     kept++
   }
   for (let slot = kept; slot < 16; slot++)

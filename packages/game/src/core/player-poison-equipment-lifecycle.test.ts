@@ -5,7 +5,7 @@ import { runEquipScript } from './equip-effect.js'
 import { applyPlayerOpcode } from './event-opcode-player.js'
 import { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'
 import { runPlayerPoisonEntrySync } from './event-system.js'
-import { setObjectPoisons } from './player-poison-state.js'
+import { addPoisonForPlayer, isPlayerPoisoned, setObjectPoisons } from './player-poison-state.js'
 import { setGlobalEvents } from './script-catalog.js'
 
 const poisons = [
@@ -105,5 +105,98 @@ describe('Wear removal preserves the ordered ordinary-poison lifecycle', () => {
     for (let slot = 2; slot < 16; slot++)
       expect(gs.rgPoisonStatus[`${slot}_0`]).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
     expect([gs.PlayerRolesRuntime.rgwHP[2], gs.PlayerRolesRuntime.rgwMP[2]]).toEqual([31, 20])
+  })
+})
+
+describe('poison entry keeps its slot ownership across synchronous effects', () => {
+  it('入口再施另一种毒：两种毒及各自续点均保留，效果落在真实role2', () => {
+    const gs = freshPlayerOpcodeState()
+    gs.partyMembers = [2, 0]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[2] = 0
+    setGlobalEvents([
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x29, operands: [0, 553, 0], label: 'L_40866' },
+      { op: 'end', advance: true },
+      { op: 'raw', opcode: 0x1b, operands: [0, 0xffff, 0], label: 'L_40870' },
+      { op: 'end', advance: true },
+    ])
+    apply(gs, 0x29, [0, 552, 0])
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 552, wPoisonScript: 3 })
+    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 553, wPoisonScript: 5 })
+    expect([gs.PlayerRolesRuntime.rgwHP[2], gs.PlayerRolesRuntime.rgwHP[0]]).toEqual([99, 100])
+    expect(isPlayerPoisoned(gs, 0)).toBe(false)
+  })
+
+  it('入口重复施同毒被去重，不再次执行入口的现金分支', () => {
+    const gs = freshPlayerOpcodeState()
+    gs.partyMembers = [2, 0]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[2] = 0
+    gs.dwCash = 1
+    // 首轮花1文后重施自身；若未先占毒槽，嵌套入口钱不足跳L_4，再错误获得100文。
+    setGlobalEvents([
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x1e, operands: [0xffff, 4, 0], label: 'L_40866' },
+      { op: 'raw', opcode: 0x29, operands: [0, 552, 0] },
+      { op: 'end', advance: true },
+      { op: 'raw', opcode: 0x1e, operands: [100, 0, 0], label: 'L_4' },
+      { op: 'end' },
+    ])
+    apply(gs, 0x29, [0, 552, 0])
+    expect(gs.dwCash).toBe(0)
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 552, wPoisonScript: 4 })
+    expect(Object.values(gs.rgPoisonStatus).filter((p) => p.wPoisonID !== 0)).toHaveLength(1)
+  })
+
+  it('入口清除自身后，外层返回不得把毒重新写回', () => {
+    const gs = freshPlayerOpcodeState()
+    gs.partyMembers = [2, 0]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[2] = 0
+    setGlobalEvents([
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x2b, operands: [0, 552, 0], label: 'L_40866' },
+      { op: 'end', advance: true },
+    ])
+    apply(gs, 0x29, [0, 552, 0])
+    expect(isPlayerPoisoned(gs, 2, 552)).toBe(false)
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
+  })
+
+  it('入口卸Wear压紧毒槽后，原毒在新位置收到正确续点，后加毒不被覆盖', () => {
+    const gs = wearingGourd()
+    setGlobalEvents([
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x23, operands: [2, 6, 0], label: 'L_40866' },
+      { op: 'raw', opcode: 0x29, operands: [0, 553, 0] },
+      { op: 'end', advance: true },
+      { op: 'end' },
+      { op: 'raw', opcode: 0x1b, operands: [0, 0xffff, 0], label: 'L_40870' },
+      { op: 'end', advance: true },
+      { op: 'end' },
+    ])
+    apply(gs, 0x29, [0, 552, 0])
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 552, wPoisonScript: 4 })
+    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 553, wPoisonScript: 7 })
+    expect([gs.PlayerRolesRuntime.rgwHP[2], gs.PlayerRolesRuntime.rgwMP[2]]).toEqual([69, 20])
+    expect(gs.PlayerRolesRuntime.rgwEquipment[5]![2]).toBe(0)
+    expect(gs.inventory).toEqual([{ itemId: 269, count: 1 }])
+    for (let slot = 2; slot < 16; slot++)
+      expect(gs.rgPoisonStatus[`${slot}_0`]).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
+  })
+
+  it('入口抛错原样传播，撤销自己的占位且保留原空槽表示', () => {
+    const failure = new Error('poison entry failed')
+    for (const hasEmptyPacket of [false, true]) {
+      const gs = freshPlayerOpcodeState()
+      gs.partyMembers = [2, 0]
+      if (hasEmptyPacket) gs.rgPoisonStatus['0_0'] = { wPoisonID: 0, wPoisonScript: 19 }
+      const original = gs.rgPoisonStatus['0_0']
+      expect(() =>
+        addPoisonForPlayer(gs, 2, 552, () => {
+          throw failure
+        }),
+      ).toThrow(failure)
+      expect(gs.rgPoisonStatus['0_0']).toBe(original)
+      expect(isPlayerPoisoned(gs, 2)).toBe(false)
+    }
   })
 })
