@@ -1,7 +1,7 @@
 import type { Palette, Tilemap } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import { loadTilesetBlob } from '../assets/tileset-blob.js'
-import { drawTilemap } from '../present/draw-tilemap.js'
+import { drawTilemap, repairTilemapSeams } from '../present/draw-tilemap.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 
 /** One renderer per application: shared successful URLs and inflight work outlive individual views. */
@@ -48,10 +48,12 @@ export function createSceneThumbnailRenderer(
     const bufW = (tilemapJson.width + 1) * THUMB_TILE_W
     const bufH = (tilemapJson.height + 2) * THUMB_TILE_H
     const tfb = createFramebuffer(bufW, bufH)
+    const seamCoverage = new Uint8Array(bufW * bufH)
     const camera = { x: -THUMB_TILE_W / 2, y: -THUMB_TILE_H }
     const tiles = { get: (i: number): IndexedImage | undefined => tileImgs.get(i) }
-    drawTilemap(tfb, tilemapJson, tiles, camera, 0)
-    drawTilemap(tfb, tilemapJson, tiles, camera, 1)
+    drawTilemap(tfb, tilemapJson, tiles, camera, 0, seamCoverage)
+    drawTilemap(tfb, tilemapJson, tiles, camera, 1, seamCoverage)
+    repairTilemapSeams(tfb, seamCoverage)
     // full canvas→按outW等比缩放→dataURL。借用启动palette,不读取实时gs.palette。
     const full = document.createElement('canvas')
     full.width = bufW

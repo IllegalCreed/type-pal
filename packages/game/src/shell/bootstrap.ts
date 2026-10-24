@@ -1292,14 +1292,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       })
   })
 
-  /**
-   * 结局 DOS 全片编排(port sdlpal ending.c:396-512 PAL_EndingScreen 的 DOS fallback 分支)。
-   * 一个 suspendRaf 闭包顺序跑全部视觉 beat(RNG/FadeOut-In/ShowFBP/ScrollFBP/ColorFade/EndingAnimation),
-   * fade 用阻塞 palette-scale(全程 suspendRaf,不能走 present 驱动)。caller 包 suspendRaf + finally。
-   * iCurPlayingRNG=9(追真值:游戏 0xA0 结局前 ip 35576 setRNG chunk 9)。
-   * 下方已接setMus配乐、effectSprite 0x27b叠加与waitForKey;这不代替完整原版演出/视觉验收。
-   */
-
   // Sync.2 fix4+:扫 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
   //   操作:operand[0]=roleId, operand[1]=spriteId;任何队员都可能被剧情换形象。
   // present.ts 渲染时按当前 roleId 的 runtime rgwSpriteNum → ctx.npcSpriteFrames.get(spriteId);

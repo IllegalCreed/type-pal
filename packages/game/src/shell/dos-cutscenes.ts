@@ -45,7 +45,7 @@ export function createDosCutscenes({
     // sdlpal main.c:199-203 DOS Trademark fallback / main.c:223-456 DOS Splash fallback
     // palette 3:trademark / palette 1:splash(sdlpal PAL_SetPalette / PAL_GetPalette 真值)
     // DM28:splash 起手播标题曲 5(NUM_RIX_TITLE,main.c:46/:293;蝶恋),退出停乐(main.c:449-455)。
-    //   经 gs.wNumMusic + audio.sync(suspendRaf 只停 present,逻辑 tick 持续轮询)。
+    //   setMusic端口由bootstrap写音乐意图并同步音频；caller暂停主呈现，不暂停本序列。
     setMusic(5)
     const palette3 = await fetchPalette(3).catch(() => palette)
     await playTrademarkFallback({
@@ -89,6 +89,14 @@ export function createDosCutscenes({
       },
     })
   }
+
+  /**
+   * 结局 DOS 全片编排(port sdlpal ending.c:396-512 PAL_EndingScreen 的 DOS fallback 分支)。
+   * 一个 suspendRaf 闭包顺序跑全部视觉 beat(RNG/FadeOut-In/ShowFBP/ScrollFBP/ColorFade/EndingAnimation),
+   * fade 用阻塞 palette-scale(全程 suspendRaf,不能走 present 驱动)。caller 包 suspendRaf + finally。
+   * iCurPlayingRNG=9(追真值:游戏 0xA0 结局前 ip 35576 setRNG chunk 9)。
+   * 下方已接setMusic配乐、effectSprite 0x27b叠加与waitForKey;这不代替完整原版演出/视觉验收。
+   */
 
   async function playDosEnding(): Promise<void> {
     const ctx = canvasCtx!
