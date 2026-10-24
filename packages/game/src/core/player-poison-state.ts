@@ -75,7 +75,7 @@ export function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: 
  * 施毒当下跑一次入口脚本。**不含**抗性 gate —— gate 在调用方(0x29 / 敌普攻 attackEquivItem),
  * SDLPal同此分工。战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
  * 本实现先遍历全部16槽去重;C只查首空槽之前的重复项,有孔洞时不保证等价。
- * 此差异与Wear压缩一并待GAME-PLAYER-POISON-SLOT-COMPACTION-1裁决,不在此改变既有行为。
+ * 全槽去重由GAME-PLAYER-POISON-SLOT-COMPACTION-1保留，不复制空槽后的重复施毒。
  */
 export function addPoisonForPlayer(
   gs: GameState,
@@ -106,20 +106,28 @@ export function addPoisonForPlayer(
 }
 
 /**
- * 卸Wear时清该role的level≥99毒,保留其它毒的原槽位。
- * SDLPal PAL_RemoveEquipmentEffect(global.c:1413-1454)会在首空槽前筛选低级毒并前移、清尾;
- * 本实现遍历全部16槽且不压缩。GAME-PLAYER-POISON-SLOT-COMPACTION-1待裁决此差异。
+ * 卸Wear时清该role的level≥99毒，按原顺序前移幸存毒及其脚本续点，再清尾。
+ * SDLPal PAL_RemoveEquipmentEffect只读首空槽前的毒；这里扫完16槽，保留解毒孔洞后的有效毒。
+ * 这是GAME-PLAYER-POISON-SLOT-COMPACTION-1的明确取舍，不重跑入口或改变角色/队伍归属。
  */
 export function removePoisonLevel99(gs: GameState, roleId: number): void {
   const partySlot = partySlotForRole(gs, roleId)
   if (partySlot < 0) return
+  let kept = 0
   for (let slot = 0; slot < 16; slot++) {
     const key = `${slot}_${partySlot}`
     const ps = gs.rgPoisonStatus[key]
     if (!ps || ps.wPoisonID === 0) continue
     const level = _objectPoisons.get(ps.wPoisonID)?.level ?? 0
-    if (level >= 99) gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
+    if (level >= 99) continue
+    gs.rgPoisonStatus[`${kept}_${partySlot}`] = {
+      wPoisonID: ps.wPoisonID,
+      wPoisonScript: ps.wPoisonScript,
+    }
+    kept++
   }
+  for (let slot = kept; slot < 16; slot++)
+    gs.rgPoisonStatus[`${slot}_${partySlot}`] = { wPoisonID: 0, wPoisonScript: 0 }
 }
 
 /**

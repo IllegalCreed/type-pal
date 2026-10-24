@@ -404,8 +404,8 @@ describe('equip-effect', () => {
       gs.rgPoisonStatus['0_0'] = { wPoisonID: 563, wPoisonScript: 40860 }
       gs.rgPoisonStatus['1_0'] = { wPoisonID: 552, wPoisonScript: 40866 }
       removeEquipmentEffect(gs, 1, 5) // Wear
-      expect(gs.rgPoisonStatus['0_0']!.wPoisonID).toBe(0) // level99 清
-      expect(gs.rgPoisonStatus['1_0']!.wPoisonID).toBe(552) // 低级保留
+      expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 552, wPoisonScript: 40866 })
+      expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
     })
   })
 

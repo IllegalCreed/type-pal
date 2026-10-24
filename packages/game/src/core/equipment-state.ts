@@ -355,8 +355,8 @@ export function setPlayerStatRow(
  * 额外副作用(sdlpal global.c:1406-1455):
  *  - Hand(part 3)卸下 → reset DualAttack status(`rgPlayerStatus[role][kStatusDualAttack] = 0`)
  *  - Wear(part 5)卸下 → 清 level≥99 毒(C 只保留 level<99 的槽)。
- * TS 由下方 partIdx 3/5 分支执行;Wear 的扫描/压缩差异与待裁决项见
- * player-poison-state.ts removePoisonLevel99,不能据等级条件相同推定完整等价。
+ * TS 由下方 partIdx 3/5 分支执行；Wear按序压缩全部幸存毒，不复制C在首空槽后丢毒的边界，
+ * 具体取舍见player-poison-state.ts removePoisonLevel99。
  */
 export function removeEquipmentEffect(gs: GameState, roleId: number, partIdx: number): void {
   if (partIdx < 0 || partIdx > MAX_PLAYER_EQUIPMENTS) return
