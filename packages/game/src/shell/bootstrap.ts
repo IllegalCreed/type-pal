@@ -391,6 +391,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const tileImagesBySceneId = new Map<number, Map<number, IndexedImage>>()
   tileImagesBySceneId.set(SCENE_ID, tileImages)
   let currentSceneId = SCENE_ID
+  let mapReloadRevision = 0
 
   const presentCtx: PresentContext = {
     tilemap,
@@ -671,6 +672,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    * 5. 只发布探索地图；脚本由全局目录解析，basePalette由loadSceneCommon更新
    */
   function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {
+    mapReloadRevision++ // Any scene activation retires earlier map-only publications, including same-scene reloads.
     presentCtx.tilemap = sceneAssets.tilemap
     currentSceneId = sceneAssets.sceneId
     // 资源就绪后同步探索地图；脚本目录不在此重复保存。
@@ -812,14 +814,17 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   })
 
   // opcode 0x99(changeMap)op0==0xFFFF:map-only 重载当前场景 tilemap(不重跑 onEnter / 不重置 npcs)。
-  // 删当前 scene 的 tile cache 强制重 fetch(同 sceneId 不同 mapNum)→ 换 presentCtx.tilemap + scene-system。
+  // 完整加载后同步发布；失败保留活资源。新请求或场景重装会撤销旧请求的发布权。
   setMapReloader(async (mapNum: number) => {
+    const requestRevision = ++mapReloadRevision
+    const sceneId = currentSceneId
     const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
       if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
       return r.json() as Promise<Tilemap>
     })
-    tileImagesBySceneId.delete(currentSceneId) // 强制重 fetch(fetchSceneTileImages 有 cache)
-    await fetchSceneTileImages(currentSceneId, tilemapJson)
+    const nextTiles = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
+    if (requestRevision !== mapReloadRevision) return
+    tileImagesBySceneId.set(sceneId, nextTiles)
     presentCtx.tilemap = tilemapJson
     setSceneContext({
       tilemap: tilemapJson,

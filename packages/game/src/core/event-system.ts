@@ -646,7 +646,7 @@ export function setSceneLoader(fn: SceneLoaderFn | null): void {
  * `rgScene[wNumScene-1].wMapNum = op1; PAL_SetLoadFlags(kLoadScene); PAL_LoadResources()` —
  * **只换地图 tilemap**(脚本继续,不重跑 onEnter / 不重置 npcs)。
  * bootstrap 注入:按新 mapNum re-fetch tilemap + applySceneAssetsToPresent(tilemap-only)。
- * fire-and-forget(不挂 waiting):异步换图期间脚本继续,几帧后新图就绪。
+ * 不挂waiting：异步换图期间脚本继续；本层消费拒绝，资源失败保留旧地图由Shell负责。
  */
 type MapReloaderFn = (mapNum: number) => Promise<void>
 let _mapReloader: MapReloaderFn | null = null
@@ -4480,7 +4480,11 @@ function applyRawOpcode(
       gs.sceneMapNumOverride = gs.sceneMapNumOverride ?? {}
       if (op0 === 0xffff) {
         gs.sceneMapNumOverride[gs.wNumScene] = newMapNum
-        if (_mapReloader) void _mapReloader(newMapNum) // 异步换 tilemap,不动 cursor/npcs
+        if (_mapReloader) {
+          _mapReloader(newMapNum).catch((error: unknown) => {
+            console.error(`event-system: mapReloader(${newMapNum}) failed:`, error)
+          })
+        }
       } else {
         gs.sceneMapNumOverride[op0] = newMapNum
       }

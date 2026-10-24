@@ -1,23 +1,15 @@
 /**
- * TEST-GLM-EVENT-WAVE-K-1 · K04 场景对象、地图与相机边界
- *
- * 审计行(组 K04):
- * - 现行 caller:event-system.ts:4111(OP_SET_OBJECT_LAYER)、:4528(OP_CHANGE_MAP);
- *   入口 = tickEventSystem/trigger/autoScript 共用 applyRawOpcode(mode.ts:63 每帧驱动)。
- * - 旧测证据(排重):
- *   - 0x7E setObjectLayer:event-system.test.ts:1998 `sLayer = SHORT(op1)`(正数路径)→
- *     **SHORT 负值 wrap(op1 ≥ 0x8000)零断言**;
- *   - 0x99 changeMap::4671 `op0!=0xFFFF → sceneMapNumOverride[op0]=op1` →
- *     **op0==0xFFFF 当前场景换图 + mapReloader 触发零断言**(setMapReloader 全仓测试零注入)。
- * - 一手真值:reference/sdlpal/global.h:78(`SHORT sLayer` —— 有符号层值,立交/上下层用负层);
- *   script.c:2740-2753(case 0x0099:op0==0xFFFF → `rgScene[wNumScene-1].wMapNum = op1` +
- *   `PAL_SetLoadFlags(kLoadScene); PAL_LoadResources()`(立即只换图 reload,脚本继续);
- *   否则改指定 scene 的 wMapNum,下次 load 生效)。
- * - 缺口结论:0x7E 负层 SHORT 语义、0x99 当前场景换图合同可达且无旧证 → 新增;
- *   0x7E 正数、0x99 指定 scene、0x46/0x7F/0xA1 相机与走位合同已证不重做。
+ * K04: current-scene map replacement and signed object layers.
+ * Production tick/trigger/auto-script paths share applyRawOpcode in event-system.ts.
+ * Primary: global.h EVENTOBJECT.sLayer is SHORT; script.c case 0x0099 changes the
+ * current map without restarting onEnter. SDLPal's synchronous IO does not define
+ * browser failure recovery; retain-on-failure is the user's 2026-10-25 decision.
+ * event-system.test.ts covers positive layers/named-scene overrides; cov85 covers
+ * successful reload notification. Here the negative layer, same-frame continuation,
+ * absent loader, and rejected loader retain their separate observable contracts.
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from './command-bus.js'
 import {
   buildLabelMap,
@@ -118,6 +110,39 @@ describe('K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即
       expect(reloadedMaps).toEqual([99]) // 撤下注入后未再触发 reload
     } finally {
       setMapReloader(null)
+    }
+  })
+  it('logs a rejected map replacement without interrupting the remaining script or owning its state', async () => {
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+    gs.wNumScene = 5
+    const npcs = gs.npcs
+    const failure = new Error('tileset-blob: fetch /extracted/data/tileset/99.rle failed (500)')
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const commands: Command[] = [
+      { op: 'raw', opcode: OP_CHANGE_MAP, operands: [0xffff, 99, 0] },
+      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [77, 0, 0] },
+      { op: 'end' },
+    ]
+    try {
+      setMapReloader(async () => {
+        throw failure
+      })
+      gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
+      gs.mode = 'event'
+      tickEventSystem(gs, snap(), createCommandBus())
+      await Promise.resolve()
+      expect(error).toHaveBeenCalledExactlyOnceWith(
+        'event-system: mapReloader(99) failed:',
+        failure,
+      )
+      expect(soundsOf(gs)).toEqual([77])
+      expect(gs.mode).toBe('explore')
+      expect(gs.sceneLoading).toBeUndefined()
+      expect(gs.npcs).toBe(npcs)
+      expect(gs.party).toEqual({ x: 160, y: 112, facing: 'down' })
+    } finally {
+      setMapReloader(null)
+      error.mockRestore()
     }
   })
 })
