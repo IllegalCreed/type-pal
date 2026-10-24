@@ -1,8 +1,6 @@
-import { getLanguage } from '../../localization/language.js'
-import { layoutFont, layoutPosition, layoutShadow } from '../../localization/layout.js'
-import { englishStatusBackground } from './localized-background.js'
 /**
- * M5.6 T10d:PlayerStatus 全屏 UI — sdlpal `uigame.c:1051-1286` PAL_PlayerStatus 1:1 port。
+ * 第一阶段角色状态页；中文默认布局参考 SDLPal PAL_PlayerStatus。
+ * 英文包可覆盖位置、字体和阴影，并调整背景；不把本地化布局声称为原版逐像素一致。
  *
  * 真值锚:
  *  - 渲染段:[reference/sdlpal/uigame.c:1089-1253](../../../../../reference/sdlpal/uigame.c#L1089-L1253)
@@ -41,11 +39,14 @@ import {
 import type { GameState } from '../../core/game-state.js'
 import type { PlayerStatusState } from '../../core/menu/player-status.js'
 import { getWord } from '../../core/word-lookup.js'
+import { getLanguage } from '../../localization/language.js'
+import { layoutFont, layoutPosition, layoutShadow } from '../../localization/layout.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
+import { englishStatusBackground } from './localized-background.js'
 
 // ── sdlpal ui.h 真值色 ──────────────────────────────────────────────────────
 const MENUITEM_COLOR = 0x4f // ui.h:29 — 4 EXP/Lv/HP/MP labels + 5 stat labels
@@ -102,8 +103,8 @@ const DEFAULT_ROLE_EQUIP_NAMES = [
 ] as const
 
 // ── sdlpal WORD.DAT flat[N] 真值(verify via lookup/words.json) ─────────────
-// flat[2] = 'Exp'(原版 WIN95 WORD.DAT 真值就是英文 — 不是渲染漏字符;
-// 后续 T20 真值 audit 可考虑改运行时 PAL_GetWord(2) lookup,与其他 menu 一致简化)
+// getWord 使用当前语言词表；下列字符串只作词条缺失时的默认显示。
+// 原版 WIN95 WORD.DAT 的词条2本就是英文 Exp。
 const LABEL_EXP = 'Exp' // STATUS_LABEL_EXP=2
 const LABEL_LEVEL = '修行' // STATUS_LABEL_LEVEL=48
 const LABEL_HP = '体力' // STATUS_LABEL_HP=49
@@ -136,9 +137,9 @@ function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
 export interface DrawPlayerStatusInput {
   fb: Framebuffer
   state: PlayerStatusState
-  /** 渲染需要 PlayerRolesRuntime / Exp / rgPoisonStatus / dwCash 等 runtime state。 */
+  /** 数值、装备与经验取运行态；毒状态按菜单的队伍位置读取。 */
   gs: GameState
-  /** Static PlayerRoles(avatar / _name / base stats / equipment 表)。 */
+  /** 静态角色资料只供姓名和头像查询；属性与装备不回退静态基线。 */
   playerRoles: PlayerRoles
   /** Item catalog(查 equipment._name)。 */
   items: Item[]
@@ -248,7 +249,7 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
 
   // 4. 4 EXP/Lv/HP/MP labels(sdlpal uigame.c:1182-1188)
   //    labels0[]={EXP, LEVEL, HP, MP},pos = &RoleExpLabel + i(RoleExpLabel/LevelLabel/HPLabel/MPLabel)
-  //    color = MENUITEM_COLOR 0x4F,fShadow=TRUE
+  //    中文默认阴影为 TRUE；英文布局可覆盖标签字体与阴影。
   renderText(
     fb,
     getWord(2, LABEL_EXP),
@@ -428,8 +429,8 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   // 10. poisons(sdlpal uigame.c:1245-1253):遍历 rgPoisonStatus[poisonSlot][partySlot] 的 wPoisonID。
   //   与 SDLPal iCurrent 相同，用 cursor 读取；重复 roleId 不能回查首个同角色槽。
   //   仅 poison.wPoisonLevel <= 3 显示(诅咒类毒;高级/装备毒哨兵不显)。名 = getWord(wPoisonID),
-  //   色 = poison.wColor + 10,fShadow=TRUE。位置 RolePoisonNames[j](185, 58+j*18,j 仅显示项递增;
-  //   末两项重叠 184,sdlpal palcfg.c:370 默认布局)。j 是显示计数,跨空 slot 不递增。
+  //   色 = poison.wColor + 10；j 只计显示项，跨空 slot 不递增。
+  //   中文默认位置 (185, 58+min(j,7)*18)，末两项同在 y=184；英文布局可覆盖位置/字体/阴影。
   const MAX_POISONS = 16
   const partySlot = state.cursor
   let j = 0
@@ -439,7 +440,7 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
     const pd = objectPoisons?.get(wPoisonID)
     if (!pd || pd.level > 3) continue // 无数据 / 高级毒(level>3)不显
     const pos = layoutPosition(65 + j, { x: 185, y: 58 + Math.min(j, 7) * 18 })
-    const y = pos.y // // j=0→58 … j=7→184;j=8/9 → 184(同 sdlpal 末两项重叠)
+    const y = pos.y
     renderText(
       fb,
       getWord(wPoisonID, ''),
@@ -448,7 +449,7 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
       pd.color + 10,
       layoutFont(65 + j, glyphs),
       layoutShadow(65 + j),
-    ) // fShadow=TRUE
+    )
     j++
   }
 }
