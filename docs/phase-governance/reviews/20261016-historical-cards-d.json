@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned3k number delta",
-      "coreConclusion": "3k number; gates passed.",
+      "readMethod": "Owned3m/3n scoped delta",
+      "coreConclusion": "3m/3n scoped review; unified gates deferred.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "54c9e1a32069a3f7d3bdb992f3c2afd220ec9b672364f5564196608da4407f30",
+      "afterSha256": "9bdb7668f137f1c8b0cb58edfa50e818da45f76a27a6ece0c366980e3fb26e0a",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "54c9e1a32069a3f7d3bdb992f3c2afd220ec9b672364f5564196608da4407f30",
+        "implementationSha": "9bdb7668f137f1c8b0cb58edfa50e818da45f76a27a6ece0c366980e3fb26e0a",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,10 +4148,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-number-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json",
-        "afterSha256": "54c9e1a32069a3f7d3bdb992f3c2afd220ec9b672364f5564196608da4407f30",
-        "lineCount": 1031,
+        "kind": "codex-owned-pre94-core-fade-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "afterSha256": "9bdb7668f137f1c8b0cb58edfa50e818da45f76a27a6ece0c366980e3fb26e0a",
+        "lineCount": 1034,
         "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
         "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",

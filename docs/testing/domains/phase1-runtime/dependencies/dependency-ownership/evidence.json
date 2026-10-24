@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/game/src/core/script-catalog.ts",
-      "lines": "17",
+      "lines": "16",
       "anchor": "export function setGlobalEvents",
       "role": "owner",
-      "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1"
     },
     {
       "path": "packages/game/src/core/inventory-state.ts",
@@ -39,10 +39,10 @@
     },
     {
       "path": "packages/game/src/core/scene-identity.ts",
-      "lines": "6-13",
+      "lines": "6",
       "anchor": "export function getCurrentMapNum",
       "role": "owner",
-      "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+      "sha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0"
     },
     {
       "path": "packages/game/src/core/menu/menu-stack.ts",
@@ -56,14 +56,14 @@
       "lines": "26",
       "anchor": "describe('D1 shared-state ownership",
       "role": "oracle",
-      "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a"
+      "sha256": "231f97b5936451ddc703629a38f076d1c88b1e5159225c1dbcf5f290c7209f99"
     },
     {
       "path": "packages/game/src/core/cross-module-boundaries.test.ts",
-      "lines": "45-64",
+      "lines": "25",
       "anchor": "describe('G07",
       "role": "oracle",
-      "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+      "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -103,14 +103,14 @@
       "id": "phase1-dependency-ownership-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/game/src/core/script-catalog.ts:17",
+        "packages/game/src/core/script-catalog.ts:16",
         "packages/game/src/core/inventory-state.ts:10-23",
         "packages/game/src/core/equipment-state.ts:6-13",
         "packages/game/src/core/player-poison-state.ts:12-19",
-        "packages/game/src/core/scene-identity.ts:6-13",
+        "packages/game/src/core/scene-identity.ts:6",
         "packages/game/src/core/menu/menu-stack.ts:12-19",
         "packages/game/src/core/dependency-ownership.test.ts:26",
-        "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
+        "packages/game/src/core/cross-module-boundaries.test.ts:25",
         "packages/content/src/character.ts:168-170"
       ]
     }
@@ -124,7 +124,8 @@
     "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
     "Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 needles and a minimum browser check. Current source audit does not rerun PAL or reclassify the old warnings.",
     "2026-10-11 E2E 合入核读：sourceRefs 绑定当前 content22 / minimumSave12 源文件；candidateSha、versions、history、runtimeExecution 和历史计数保持原批次含义，不晋升为 SAVE12 运行时或 E2E 通过。",
-    "2026-10-18 only poison comment sourceRef rebound; executable JS and owner export unchanged. Existing publication/runtimeExecution fields remain historical; current11 ownership tests are finite regression only. See pre94 poison-progression-comments receipt."
+    "2026-10-18 only poison comment sourceRef rebound; executable JS and owner export unchanged. Existing publication/runtimeExecution fields remain historical; current11 ownership tests are finite regression only. See pre94 poison-progression-comments receipt.",
+    "Only unused GameState parameter/obsolete return types and six real callsites removed under user approval. Scene identity comments only. Typed fixtures and exact ownership assertions replace invalid casts; G07-01 duplicate transfers to retained D1 two-entry history case. Other emitted product JS and single-owner storage unchanged. Existing31 E2E instrumentation cases ran; historical D1 SCC/161-token/needles/browser claims and all publication status/dates/versions remain unchanged. Whole-pre94 unified gates deferred."
   ],
   "artifacts": [],
   "history": [
@@ -206,6 +207,43 @@
         }
       ],
       "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+    },
+    {
+      "date": "2026-10-24",
+      "base": "3609b4d23339bae1f23e6492d9c11cd4a955351e",
+      "action": "approved catalog internal API and typed test delta",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/script-catalog.ts",
+          "lines": "17",
+          "anchor": "export function setGlobalEvents",
+          "role": "owner",
+          "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
+        },
+        {
+          "path": "packages/game/src/core/scene-identity.ts",
+          "lines": "6-13",
+          "anchor": "export function getCurrentMapNum",
+          "role": "owner",
+          "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+        },
+        {
+          "path": "packages/game/src/core/dependency-ownership.test.ts",
+          "lines": "26",
+          "anchor": "describe('D1 shared-state ownership",
+          "role": "oracle",
+          "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a"
+        },
+        {
+          "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+          "lines": "45-64",
+          "anchor": "describe('G07",
+          "role": "oracle",
+          "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+        }
+      ],
+      "scope": "Only unused GameState parameter/obsolete return types and six real callsites removed under user approval. Scene identity comments only. Typed fixtures and exact ownership assertions replace invalid casts; G07-01 duplicate transfers to retained D1 two-entry history case. Other emitted product JS and single-owner storage unchanged. Existing31 E2E instrumentation cases ran; historical D1 SCC/161-token/needles/browser claims and all publication status/dates/versions remain unchanged. Whole-pre94 unified gates deferred.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md"
     }
   ],
   "_governance": {

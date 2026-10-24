@@ -1,6 +1,6 @@
 # GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异
 
-Status: draft
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3m / battle damage numerical fidelity
 Coding Owner: Codex
@@ -17,16 +17,16 @@ Visual Verification Timing: e2e-deferred
 
 ## 范围
 
-核清第一阶段法术灵力随机乘法的中间赋值与取整差异，再按用户裁决做有限修复。当前只读核证，不改公式执行、随机算法、抽样次数、公共接口、存档、资源或第二阶段。注释与既有测试质量返工仍由父卡推进。
+核清第一阶段法术灵力随机乘法与抗性计算的浮点精度和中间赋值。用户2026-10-24已批准有限修复；本轮只改可表示的C转换域，保留PRNG、抽样次数、接口、存档、资源与第二阶段。极大/扩展属性保留当前结果，不擅自引入回绕。
 
 ## 前提真值门
 
 | 维度 | 当前真值 | 直接证据 |
 |---|---|---|
 | SDLPal primary | FLOAT为32位float；RandomFloat含端点；灵力先乘后写回WORD，再整数除10 | common.h类型、util.c:250-277、fight.c:173-250原函数 |
-| 当前第一阶段 | caller使用1+SeedableRng.next()*0.1，连续JS浮点运算最后Math.trunc | formulas.ts、magic-damage.ts、rng.ts与真实公开调用重放 |
+| 基点第一阶段 | caller使用1+SeedableRng.next()*0.1，连续JS浮点运算最后Math.trunc；本轮在可表示转换域修FLOAT赋值 | formulas.ts、magic-damage.ts、rng.ts与真实公开调用重放 |
 | 当前二阶段 | N/A，不把phase1数值模型移植到Reforge | 本卡边界 |
-| 当前目标 | 可感知伤害分叉已复现；获准前冻结数值实现 | 原生O0/O2及真实TS完整原件 |
+| 当前目标 | 可感知分叉已获准修复；正式真实caller业务红后修，统一门等全部pre94收尾 | 原生O0/O2及真实TS完整原件 |
 
 ## 直接证据
 
@@ -38,7 +38,7 @@ C样本INT_MAX返回11，故不能把TS半开区间注释反写成原C也半开�
 
 ## 发现与停止线
 
-旧3m“1:1/未发现直接缺陷”及公式文件关闭信用须撤回当前使用。此差异涉及用户可见伤害，按AGENTS高风险规则及用户“机制变更先裁决”边界停数值实现；不以删除死代码或纯重构名义顺带改变结果。
+旧3m“1:1/未发现直接缺陷”及公式关闭信用撤回保留。发现时按AGENTS停线，用户2026-10-24随后批准FLOAT和中间赋值窄修。未定义转换域仍不获新策略；本轮不能恢复全数值域1:1信用。
 
 ## 上下文锚点
 
@@ -50,7 +50,7 @@ AGENTS/CLAUDE第一阶段保真与停线原则、docs/phase1/engineering-notes.m
 
 ## 当前模式推进记录
 
-Codex单Agent、唯一3y工作树；仅只读核证准入，无产品build allowed。父任务其它注释/测试可继续。产品裁决pending；本卡不是整goal blocked。
+Codex单Agent、同一3y。用户已回复“同意按 SDLPal 步骤修复（推荐）”，build allowed仅FLOAT/中间赋值与正式真实caller反例。父任务其它pre94继续；全部剩余pre94解决后才集中统一门并提交一个PR。
 
 ## Draft: 设计与风险
 
@@ -58,15 +58,15 @@ Codex单Agent、唯一3y工作树；仅只读核证准入，无产品build allow
 
 ## Build: 实现与自测
 
-未改产品。原生O0/O2与TS对照均exit0，完整未裁剪输出及程序gz已保存，精确临时目录已清理；这是差异取证，不是修复后通过。
+10-18只读取证原件保留。2026-10-24两批各2条真实caller业务红后修；最终精确5例对仅旧formulas源4业务红/1既有增长绿，恢复后5绿。原C有限36向量和5151抗性输入O0/O2一致、UBSan零诊断，修后TS差异0；23实际相邻文件897例及game TC通过。[当前八维、原件与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)。两个私有计算步骤明确数值转换责任，未新增公共测试出口。
 
 ## Review: 审查与返工
 
-原C FLOAT/WORD赋值与真实TS caller已经核证；旧1:1结论撤回。待用户裁决、先红后修及独立逐文件复核；done未准入。
+产品方向已批且先红后修，局部技术返工已记录；旧全域1:1信用不恢复。全仓check/official/protected及集成仍待全部pre94冻结，done未准入。极端dex/其它caller边界不借本片接受。
 
 ## 用户验收
 
-待裁决：是否按SDLPal修复本次中间赋值/取整口径，保留现有PRNG、抽样次数及接口。未收到回复前不实施数值变化。
+2026-10-24用户裁决call_d1f8582307ae48cc9b783c31c1bbaaa4：“同意按 SDLPal 步骤修复（推荐）”。保留PRNG和次数，未定义转换域不新增回绕；未做完整数值域/视觉验收。
 
 ## 交接日志
 
@@ -74,4 +74,4 @@ Codex单Agent、唯一3y工作树；仅只读核证准入，无产品build allow
 
 ## 下一位Agent提示词
 
-无，Codex单Agent继续父任务；本卡未批准不得实现。
+无，Codex单Agent继续父任务；本卡获准窄修已实现，统一门遵守父卡当前节奏，未准入溢出策略不得顺带实现。

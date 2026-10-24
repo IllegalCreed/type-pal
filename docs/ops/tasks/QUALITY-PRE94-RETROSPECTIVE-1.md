@@ -32,6 +32,16 @@ Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 
+## 当前执行节奏（用户2026-10-24最新裁决）
+
+用户明确要求：**剩余pre94全部解决后再提交一个PR**；不得沿用旧片级/两卡窗口反复开启PR和全仓覆盖率。此前各日期的门禁/合并记录是历史执行事实，不恢复为当前节奏。
+
+- 继续同一codex/code-quality-3y分支及隔离治理树；必要定向/相邻、受影响typecheck和文档/格式/lint可随片执行，纯重构与行为修复分提交，可分批推送此分支。
+- 剩余pre94的逐文件八维、测试质量、必要返工和证据欠账先全部处理；不因单文件、单卡或小窗口完成启动全仓check、official coverage或protected，也不新建中间PR。
+- 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
+- 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
+- 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
 ## 2026-10-24 CODE3k draw-number质量窗口（已有限收口）
 
 后继验收：2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 2026-10-24用户答复call_edfe7d7f551d4841b9fae30c955bcae2批准跳过异常数字，原准入记录如下。
@@ -1593,3 +1603,17 @@ Codex唯一Coding Owner、同一3y、基点acb96a123，四文件build allowed：
 ### 2026-10-23 CODE3l 纯重构提交说明
 
 本提交移除未调用idle helper及六例专测、无用参数和私有全体箭头分支，统一两个同合同UI blit；只带必要调用迁移。像素测试补强、26例完整迁移账及集中门回执随同一冻结窗口下一提交交付。该中间提交不单独声明整卡或统一门完成，主树未改。
+
+## 2026-10-24 CODE3m／3n 当前有限准入
+
+Codex单Owner、同一3y，基点3609b4d23339bae1f23e6492d9c11cd4a955351e与origin/main同点且干净。主树只读，治理账本3411/420closed/99review/2892pending。准入时main文档CI已success、Coverage进行中；后继两项完整日志已成功，见本轮回执，不能借PR通过替代合并后结果。
+
+build allowed：3m队列/status/伤害直接测试的typed夹具、独立oracle、精确结果及排重，3n palette/WORD/identity/catalog的八维缺口与对应测试。复用原C／旧红绿／读域；只重核变化caller和未补维度。原机制／接口未决不借重构实现。用户本轮批准GAME-MAGIC-NUMERIC-ASSIGNMENT-1的浮点精度／中间取整步骤，保留PRNG和抽样次数，先真实入口红例后修；超出C定义转换域的极大属性不改为回绕，新取舍须停线。catalog内部签名清理随后亦获用户明确批准，实际迁移见本轮回执。
+
+各片仅跑必要定向/相邻和TC；本段原拟3m/3n窗口已被顶部最新用户裁决替代：剩余pre94全部处理后才集中check、单次official和同报告protected，并提交一个PR；期间只定向/静态和同线分提交推送，94–102不扩展。此段是准入，不是文件或统一门接受。无下一位Agent提示词，Codex单Agent继续。
+
+### CODE3m／3n技术返工（统一门未跑）
+
+[20文件A–H、指纹、合同去向与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)。用户已批准FLOAT/中间赋值与目录内部签名清理；最终精确5例对仅旧formulas源4业务红/1既有增长绿，修复后5绿。原C有限36向量+5151抗性矩阵O0/O2与TS一致，不冒充全数值域/完整SDL或原盘实跑。23实际相邻文件897例、E2E源码插桩31、game TC0；typed工厂/精确oracle及两重复合同迁移完成。初版AoE算术、四不存在路径选择器、退役旧计数、回放器缺失字段、style info和元数据批脚本解析错误均不当产品红，原件与纠正分别保留。
+
+当前不启动本片全check/coverage/protected或新PR。三旧残缺夹具测试关闭撤review，新数值专测review；0新closed，83卡仍67accept/16partial。3n技术轴补齐，集成信用待最终窗口；3m极端dex输入域/原近似与整battle不凭局部绿关闭。main3609两CI全日志/annotations已核成功，不能当本候选门。下一同线先核3m余域，再续3o等pre94；94–102不扩展。

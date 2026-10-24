@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-24 3m/3n技术返工：三旧测试残缺强转的关闭信用撤review，新5例数值专测只review；0新closed。当前3412 tracked/417 closed/103 review/2892 pending，固定83仍67accept/16partial。用户已批FLOAT/中间赋值与目录内部接口；23实际相邻文件897例、E2E插桩31、game TC通过，全部pre94解决前不跑统一门或新建PR。[逐文件八维、合同迁移与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)；局部审查与最终集成信用分开。
+
 2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 [本窗证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)。
 
 Status: current
@@ -99,8 +101,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,411。
-当前已闭合核验：420；已读但待审：99；尚未逐文件核验：2892；合计未闭合：2991。
+起始基点机器清单：2,962。当前 tracked 清单：3,412。
+当前已闭合核验：417；已读但待审：103；尚未逐文件核验：2892；合计未闭合：2995。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -439,9 +441,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/turn-queue.ts` | product | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 原C交换/SHORT/13槽及速度0xffff前缀已按批准先红后修；有限回归与六反控，整文件仍review |
 | `packages/game/src/core/battle/battle-positions.ts` | product | 已验证 | CODE-QUALITY-3m 当前只读复审；battle-state/opcode/present/UI/sprite callers、battle.c:27/903-939、global.h:401-404、position tests | 1/2/3 人 SDL 表、4/5 fallback、EnemyPos fallback/idx bounds 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/core/rng.ts` | product | 已验证 | CODE-QUALITY-3m 3m-rng；util.c:169-275、battle/event/progression callers、rng tests | mulberry32 deterministic state/range APIs；`to<=from` 返回起点且不消费状态；SDLPal LCG 差异为已记录设计 |
+| `packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts` | test | review | [获准数值赋值返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)；真实hydrate/projection/两种伤害caller、原C独立oracle，5例旧源4业务红/1绿后恢复 | 仅有限可表示转换域；扩展属性不加回绕，统一门留全部pre94收尾 |
 | `packages/game/src/core/battle/__tests__/formulas.test.ts` | test | review | [公式数值/注释与测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md)；全文；28例保持，生产除数1/合法倍率1.05、五灵独立oracle与非零毒抗 | 两枚各旧28绿→新27绿1指定AssertionError；C O0/O2矩阵/毒抗oracle；原全数值域信用撤回review |
-| `packages/game/src/core/battle/__tests__/magic-damage.test.ts` | test | 已验证 | CODE-QUALITY-3m；inline/Simulate/enemy magic/autoDefend contracts | real BattleState caller oracle |
-| `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | CODE-QUALITY-3m 3m-status；all status tick、死敌槽位反例、canAct/canCast、相邻 battle lifecycle contracts | counter lifecycle oracle；旧“死敌不 tick”弱 oracle 已改为 primary 全槽位语义 |
+| `packages/game/src/core/battle/__tests__/magic-damage.test.ts` | test | review | [3m/3n八维返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)；旧残缺强转已替为typed公开工厂，精确oracle/排重已核 | 旧测试质量关闭撤回；当前局部整改已测，全部pre94统一门前不恢复已验证 |
+| `packages/game/src/core/battle/__tests__/status.test.ts` | test | review | [3m/3n八维返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)；旧残缺强转已替为typed公开工厂，精确oracle/排重已核 | 旧测试质量关闭撤回；当前局部整改已测，全部pre94统一门前不恢复已验证 |
 | `packages/game/src/core/battle/__tests__/turn-queue.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 保留9原oracle，过强稳定性标题勘误；新parity承接置换/WORD/真实caller，旧整文件信用不自动恢复 |
 | `packages/game/src/core/rng.test.ts` | test | 已验证 | CODE-QUALITY-3m 3m-rng；same seed/different seed/half-open/inclusive/float/state/invalid-bound contracts | deterministic RNG oracle；边界反例验证无额外抽样 |
 | `packages/game/src/core/palette-fade.ts` | product | review | [ColorFade输入域/测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md)；328行原源全文、C正常4网格/实际提取器8位展开、event/present所有权分段 | 任意8位等价与视觉1:1错注撤回；C有限64步再补终值，原C人工非网格往返不当正常域缺陷；仅注释变化，旧关闭转review |
@@ -451,7 +454,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/palette-fade.test.ts` | test | review | [ColorFade输入域/测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md)；235行原测全文；17例保持、行/快照独立、非网格钳制与正反通道/重复重绘 | 四枚各旧17绿→新16绿1指定AssertionError；恢复17/相邻86绿，精确输入域与C/TS分开；不授整文件关闭 |
 | `packages/game/src/core/word-lookup.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；unloaded/fallback/table priority/out-of-range contracts | direct WORD caller oracle |
 | `packages/game/src/core/dependency-ownership.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；catalog/scene identity ownership、prototype label negative controls、cross-entrypoint identity | 真实公开 entrypoint oracle |
-| `packages/game/src/core/cross-module-boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；scene/event/equipment/battle cross-module caller contracts | 相邻模块回归证据 |
+| `packages/game/src/core/cross-module-boundaries.test.ts` | test | review | [3m/3n八维返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)；旧残缺强转已替为typed公开工厂，精确oracle/排重已核 | 旧测试质量关闭撤回；当前局部整改已测，全部pre94统一门前不恢复已验证 |
 | `packages/game/src/core/dialog-history.ts` | product | 已验证 | CODE-QUALITY-3o 3o-mode-history-poison-search；event-system history writer/bootstrap restore/menu caller、dialog-history tests | trim/连续去重/map 维度/CAP/restore 老档归一合同逐文件核对；未发现新缺陷 |
 | `packages/game/src/core/mode.ts` | product | 已验证 | CODE-QUALITY-3o 3o-mode-history-poison-search；main-loop caller、event/scene/battle/menu mode tests | frameNum、autoScript gate、mode dispatch、同步 event 再驱动合同逐文件核对；未发现新缺陷 |
 | `packages/game/src/core/player-poison-state.ts` | product | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；全文/真实装备与opcode caller/原C；CureKind及Wear/首空槽注释勘误 | 非压缩/全槽去重差异保持review，GAME-PLAYER-POISON-SLOT-COMPACTION-1只读；未改状态、schema或接口 |
