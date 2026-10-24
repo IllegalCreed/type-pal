@@ -45,7 +45,7 @@ export const approvedTestRetirements = Object.freeze(
       current: 75,
       previousIdentityDigest: '83990a58b44244ed68b06125a966cc2dbae7ddcfab70c32eb4b3de8f2b891e18',
       currentIdentityDigest: '2f450b9636dcd731c5fb1445ce2147aae9829a21783375cd170ed8c7102a1a77',
-      fileSha256: '7b7d17b3125860363be550b261c900733049d9229c146f89eae6473188182615',
+      fileSha256: '5be484c2c918aca6514b86eb638dd224638e6f22322725274e0f866f37b4633e',
     },
     // CODE3l: standing user authority for proven dead-code and duplicate-test retirement.
     // Exact old-to-new contracts and native originals: pre94/battle-present-quality/review.json.

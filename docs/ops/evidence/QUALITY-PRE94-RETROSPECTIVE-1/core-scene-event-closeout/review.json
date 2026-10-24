@@ -1,0 +1,1097 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex single agent, own review disclosed",
+  "branch": "codex/code-quality-3y",
+  "base": "82efe44df6d501af61d16018f763e03f5292b481",
+  "commits": {
+    "interface": "d0f6baff588e24971a0e7cd598172a33d69817fc",
+    "replay": "e74f963bb83020a40dcb634b162f1eb1ebfdf006"
+  },
+  "approvals": {
+    "sceneInterface": "User call_37e18bd73f954b61a76c4821ebf0cf95 allows these internal interface removals; not game/save/asset behavior changes."
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c32b60762cfc573fa28e6a372a6e3dafb8710216582e5c0cf565ddfaa06ec38e",
+      "readScope": "full implementation; scoped caller/primary or version-pinned reuse stated in A",
+      "dimensions": {
+        "A": "全文、既有C正常4网格/TS展开差异与4反控复用；event/cursorless/present等待与到时finalize局部重核；正常builder保证正totalMs与256色。",
+        "B": "更正step注释为离散量化，并明示caller前提；不重新宣称任意8位视觉1:1。",
+        "C": "仅构造/推进色表；工作palette由GS持有，谁waiting谁finalize的owner在caller，不在纯模块加定时器。",
+        "D": "三种量化和approach语义不同，保留当前局部分支；moveToward无第二个相同生命周期owner，不导出万能插值。",
+        "E": "17例和4有效旧反控复用；crossfade现有例同时改变原start/target后核独立41常数，补双快照ownership，无加弱例。",
+        "F": "构造、step、finalize分区；CC14来自实际三种离散规则及skip，暂不扩大公共状态union以追求指标。",
+        "G": "全部builder均有opcode caller；skip/remap/freeze和scene63终值不可删；未知invalid delay不堆防御。",
+        "H": "显式now/total、纯色表快照可直接测；主循环生命周期用现有event/present相邻合同而非模拟sleep。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 329,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/palette-fade.ts",
+        "sourceSha256": "c32b60762cfc573fa28e6a372a6e3dafb8710216582e5c0cf565ddfaa06ec38e",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-identity.ts",
+      "sha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0",
+      "readScope": "full implementation; scoped caller/primary or version-pinned reuse stated in A",
+      "dimensions": {
+        "A": "全文与当前scene-system/bootstrap开场/读档写入口核对；identity只保存mapNum，不推定整个异步loadScene正确。",
+        "B": "纠正不存在的本文件loadScene归属；说明就绪后写、history/map名读取。",
+        "C": "唯一map身份存储消除scene/event循环依赖；应用级单例由加载owner写，不把Reforge多实例模型移植来。",
+        "D": "两个旧entrypoint re-export同绑定由现有测试核；没有第二份状态。",
+        "E": "相同history输入G07-01退役，dependency-ownership逐两入口/两图号真实event history及getter保留，映射明确。",
+        "F": "getter/setter和map身份直观；无隐藏转换。",
+        "G": "两出口均有生产caller，不为多文件拆两个函数。",
+        "H": "可直接赋值/读取，测试finally/afterEach复位，未mock身份消费。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 13,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/scene-identity.ts",
+        "sourceSha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934",
+      "readScope": "full implementation; scoped caller/primary or version-pinned reuse stated in A",
+      "dimensions": {
+        "A": "全文核主线新增英文表/当前语言getter，bootstrap两表注入与locale测试；原空表/空串/fallback仍按三层顺序。",
+        "B": "去过时565数量与唯一文案源/TS等价大话；写英文非空覆盖→原表→fallback和只读借用。",
+        "C": "只查文字身份，语言状态由localization owner提供；不写Save/对象id或加载IO。",
+        "D": "不与localize静态消息合并，两者输入和资源缺失策略不同。",
+        "E": "直接3例与locale现有实际画面/身份4例复用，不再新增同合同语言测试；直接例afterEach复位两表与语言。",
+        "F": "getWord分两层显式判空，命名与数值id合同清楚。",
+        "G": "注入/查询均由生产消费；保留fallback是当前启动缺项策略而非退役upgrader。",
+        "H": "数据与语言显式控制；无网络或不可控时钟，测试清理在失败时也执行。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 38,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/word-lookup.ts",
+        "sourceSha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1",
+      "readScope": "full implementation; scoped caller/primary or version-pinned reuse stated in A",
+      "dimensions": {
+        "A": "全文、当前六生产调用点与全局目录生命周期核；unknown→null、ip0、自有/继承/特殊label、cursor override、替换map快照保持。",
+        "B": "删旧兼容返回字段和unused GS注释；保留借用命令数组、全局fallback与原型安全说明。",
+        "C": "获准移除GameState类型依赖和死参数；查询不再接整份状态，执行器仍拥有ip推进/副作用。",
+        "D": "全局与cursor lookup保留不同缺省合同；不为去重把null/undefined错误策略合并。",
+        "E": "11个ownership例中相关6个目录轴复用；旧r?.commands空值断言迁移为精确{ip}对象，未丢“不内嵌commands”合同。",
+        "F": "签名label→{ip}|null揭示实际需求，无void gs或伪可选字段。",
+        "G": "死参数/两死返回字段/反向类型依赖已按本轮明确批准删除；调用点六处全迁。",
+        "H": "直接设置目录和查询可测；没有为测试新增生产导出，实际E2E追踪匹配器也同步且31工具例通过。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 60,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/script-catalog.ts",
+        "sourceSha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.test.ts",
+      "sha256": "42cdb968b4d7b8c89ce53b753d8d0a4c333a959d3289b7c7100e4302481167de",
+      "readScope": "full test file; unchanged trusted assertions reused as stated",
+      "dimensions": {
+        "A": "17例不增删；原C/人工TS非网格域区分，现有crossfade补双向源数组变更后的41常数",
+        "B": "已有4旧反控不重复生产；constructor到step/finalize结果分开",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "17例不增删；原C/人工TS非网格域区分，现有crossfade补双向源数组变更后的41常数；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "已有4旧反控不重复生产；constructor到step/finalize结果分开；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 248,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/palette-fade.test.ts",
+        "sourceSha256": "42cdb968b4d7b8c89ce53b753d8d0a4c333a959d3289b7c7100e4302481167de",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.test.ts",
+      "sha256": "6ae3a29e4fa5eb30d43525c6187c1843b8a6a5bbf81327dcb500c6e9d2a73666",
+      "readScope": "full test file; unchanged trusted assertions reused as stated",
+      "dimensions": {
+        "A": "3身份保留；表为空/命中/空串/越界独立fallback断言；现有缺项例补英文空条目先回原词表，再回fallback，最终3例通过。",
+        "B": "修改afterEach复位两表/语言；英文优先/身份切换主合同复用现有locale测试，空译文→原表补在原缺项例。",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "3原输入未改；表为空/命中/空串/越界独立fallback断言；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "改afterEach清两表/语言；英文显示主线由现有localization/presentation实测；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 34,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/word-lookup.test.ts",
+        "sourceSha256": "6ae3a29e4fa5eb30d43525c6187c1843b8a6a5bbf81327dcb500c6e9d2a73666",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f",
+      "readScope": "full test file; unchanged trusted assertions reused as stated",
+      "dimensions": {
+        "A": "11例保留，六目录/两入口和实际跨模块状态合同逐例核；GameState死实参已移除；后继仅两Wear断言按用户批准压紧毒槽互换，完整差异/原件由mode-player-quality与b51af7ea2承接；目录/身份六轴正文未变。",
+        "B": "history例完整承接G07-01；装备毒列表是现行TS结果，不借此关闭毒槽压缩风险",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "11例保留，六目录/两入口和实际跨模块状态合同逐例核；GameState死实参已移除；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "history例完整承接G07-01；装备毒列表是现行TS结果，不借此关闭毒槽压缩风险；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 178,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/dependency-ownership.test.ts",
+        "sourceSha256": "231f97b5936451ddc703629a38f076d1c88b1e5159225c1dbcf5f290c7209f99",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+      "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4",
+      "readScope": "full test file; unchanged trusted assertions reused as stated",
+      "dimensions": {
+        "A": "4→3；G07-01同合同转ownership；id0拒收核完整库存；G07-03实际hydrate/投影/构造battle替代双强转",
+        "B": "G07-04 updateAllEquipments→脚本目录→真实效果写入保留；目录finally恢复",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "4→3；G07-01同合同转ownership；id0拒收核完整库存；G07-03实际hydrate/投影/构造battle替代双强转；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "G07-04 updateAllEquipments→脚本目录→真实效果写入保留；目录finally恢复；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 106,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+        "sourceSha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98",
+      "bytes": 20064,
+      "lines": 431,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "复用PAL_GameUpdate/StartFrame真值；完整读原实现，移动/菜单/搜索/vanish/trigger时序保留，私有成功结果仅用于起脚本后的站立与一次性消费。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "更正帧顺序、触发不等于阻挡、生产facade误称兼容工具；删重复方向历史说明，保留异步cursor与原同步循环差异。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "探索帧为状态推进Owner，资源装载和纯碰撞拆出；私有链不再接收不用的场景上下文。模块级context单一Owner；公共旧字段和bus参数未借旧授权删除。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "自动/Confirm共用起脚本语义；碰撞由生产bootstrap和follower/场景共同使用，typed方向分支替代重复Set/Map。未将输入/触发/IO合成万能helper。",
+        "E": "现有111基线、split后111、最终107分域；三项旧绿新单业务红及478实际相邻。没有按包绿关闭本文件。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "模块职责边界直接由文件名和导出表达；private loader返回是否成功，避免用强转读取隐式状态写入效果。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "tick可传明确context/input；纯碰撞独立导入，无需装载菜单或事件模块。全局脚本仍由既有setter注入，测试逐例初始化/清理。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene-system.ts",
+        "sourceSha256": "5efc09854794f0bd596ed5096bb0f4fd6b92e76fba153c03123c47082816cf4a",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-context.ts",
+      "sha256": "23b3448b7d56f878882648eab0cde35d67a60364ea546c5dcf8be78cbe580e0e",
+      "bytes": 766,
+      "lines": 20,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "SceneContext公共类型token不变；override优先、未安装时同错误、setter借用引用的旧合同保留。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "说明唯一模块Owner和发布时点；明确保留旧公共形状，不把字段写入误称脚本解析来源。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "只存取当前资源，不导入事件/菜单/loader；不把每帧推进塞进全局服务。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "bootstrap和显式loader共用同一个context实例槽；没有新增替代setter或两套注册表。",
+        "E": "由loadScene→无override tick的两例实际验证setter消费；其它tick用明确override，避免单测模块顺序依赖。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "activeContext命名替代_ctx，三个小声明职责直接可读。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "override仍可注入；测试结束写入中性上下文，不为mock引入产品接口。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene-context.ts",
+        "sourceSha256": "f7e35e6dc7901bd617f2b8c187d713a581e35187fd1987925105fe5061741764",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-collision.ts",
+      "sha256": "1a8e1965d80ec424c753769a953edfc55111abe419e52d466cd5a73944915429",
+      "bytes": 3606,
+      "lines": 90,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "isWalkable/tilemapIsBlocked的类型、默认参数与函数token逐字一致；bit13、菱形四分、范围检查先后、NPC自身排除/sState不变。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "移除错误contact怪豁免说法，写明sState合同；tile完整word不再误称u16。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "纯只读计算，无GS写入、IO、事件或菜单依赖；只借用NpcState及共享几何常量。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "生产walk、bootstrap obstacle hook和follower继续经旧facade使用同一叶函数；没有按caller建模式布尔新变种。",
+        "E": "九纯例及装配例观察固定碰撞结果；忽略tile反控旧例绿/新例红。state×mode矩阵保留三旧合同。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "菱形分支保持与既有真值相同的可读顺序，模块名清楚表达用途。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "所有输入可显式传入，结果确定，不需异步/菜单/global mocks。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene-collision.ts",
+        "sourceSha256": "1a8e1965d80ec424c753769a953edfc55111abe419e52d466cd5a73944915429",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-loading.ts",
+      "sha256": "81c21eb2e4d8928f0120f7c9bc9e809f8914d9a9f94412368418685643cb5223",
+      "bytes": 3467,
+      "lines": 78,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "loadScene正文及LoadSceneInput token守恒；先await资源，后设置场景/NPC引用、context/map、onEnter及显式位置覆盖。失败仍向caller传播，无新增取消/回滚行为。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "明确dev显式跳转与bootstrap正常装配不同；更正旧per-scene label解析说明，onEnter先执行再位置覆盖。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "资源请求与场景发布集中在明确装载模块；context下沉避免依赖探索调度，调用方仍负责呈现资源。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "复用真实SceneAssetsCache接口，不新增通用loader/布尔选项；保持公共facade。",
+        "E": "23装载/全局触发例；typed完整资产，onEnter位置覆盖同时断言音乐副作用，消除跳过脚本也能绿。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "原声明和执行顺序完整保留；模块头准确界定真实调用域。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "真实cache构造接受async fetcher，可注入资产与错误；现无新设计阻塞，未证明dev并发路径缺陷。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene-loading.ts",
+        "sourceSha256": "05b80afc53a305ec2eb6f40dddbe44b7686f752dac3475e587ddf624f97389e2",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "5be484c2c918aca6514b86eb638dd224638e6f22322725274e0f866f37b4633e",
+      "bytes": 58553,
+      "lines": 1365,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "原2121行完整核读后映射全部delta；探索/trigger/菜单/TouchFar/save回入在真实GS/cursor入口执行，合法role经loadDefaultGame初始化。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "更正距离、视口初值、NPC相对方向与过期schema说明；删除把碰撞source当自动触发真值的头注。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "保留跨模块装配合同，纯碰撞/装载下放；所有写入的catalog/context/provider/map/mock均在afterEach清理。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "只共享具有相同数据合同的map/input/asset构造；角色复用现有完整typed factory，不复制生产算法。",
+        "E": "75装配例；精确warning消息/次数，16边界真实达阈值并安装有效脚本；墙体/阻挡不再被范围守卫抢先挡住；trail使用字面五包独立oracle。三项反控均旧绿新单红。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "按责任分组；保留独立Up row7近边界，删除的Right仅固定方向delta由SystemA同向例涵盖。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "无any/never/unknown强转；显式脚本初始化，测试结束清理，意外console诊断由完整默认reporter及验收脚本拒绝。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene-system.test.ts",
+        "sourceSha256": "7b7d17b3125860363be550b261c900733049d9229c146f89eae6473188182615",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-collision.test.ts",
+      "sha256": "2af714b406498dd2368cb01f0a10cb83bf119f05b46037ce058f22e85a4471cc",
+      "bytes": 5347,
+      "lines": 95,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "真实纯函数输入与完整typed tilemap；upper/lower及四菱形分支、越界、NPC距离/排除覆盖原合同。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "原contact与state同时变化的错误归因改为state×mode矩阵；说明bit13和坐标单位。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "只测碰撞，不混入菜单/资源生命周期；装配墙体例留主测。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "复用同语义map构造；不调用生产函数生成expected。",
+        "E": "9例；矩阵含3/4/5各state1/2，涵盖被合并的两DH5例和原mode偏置例；明确distance16边界。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "直接输入和boolean结果，无大段全局setup。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "无spy/global副作用，独立叶导入，测试可隔离运行。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene-collision.test.ts",
+        "sourceSha256": "2af714b406498dd2368cb01f0a10cb83bf119f05b46037ce058f22e85a4471cc",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-loading.test.ts",
+      "sha256": "766d63d4e222d7dac571829bc0cceb8715e2c7a8f3cc75b299b00ed638b6a86f",
+      "bytes": 21600,
+      "lines": 493,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "真实cache与loadScene/无override tick；资源/NPC保留、1-based scene、onEnter、camera与显式落点在实际实现验证。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "删除“不跑onEnter”的陈旧说明；位置最后覆盖不再写为脚本不执行；资产完整/借用约束准确。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "装载责任单独组织，cleanup覆盖模块级注册；没有用cast stub替代真实cache。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "共享typed assets/map/input；onEnter安装脚本的helper仅供本文件，未把副作用藏进通用fixture。",
+        "E": "23例；显式override同时保留音乐副作用，绝对镜头与party目标不同，回正前先移开镜头，能区分跳过对应opcode。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "不再夹在两千行探索测试中，所有装载合同集中。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "无any强转，真实async fetcher确定返回；provider和catalog/context在finally/afterEach复位。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene-loading.test.ts",
+        "sourceSha256": "0679e664aaec677135c6baadd4ea33f9e5910b7c2320a6bde8da59140da3ba21",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene.test-fixtures.ts",
+      "sha256": "0ac159b319f3b18f912d18dc68986b38d5611a2a929abdbe3c901841f7da5a85",
+      "bytes": 1749,
+      "lines": 68,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "map包含声明宽高的完整cells、palette256三元色、SceneEventObject/Command合法类型；没有用空cells伪装完整Tilemap。；本次获准移除两脚本字段/未用bus及整链转传，真实GS与SceneAssets脚本数据和全局目录不变。",
+        "B": "只解释blocked层/bit与mapNum独立测试值，不声称原盘像素或覆盖完整资源。；现行上下文只持地图，旧“同步commands/labelMap”说法已更正。",
+        "C": "只创建输入；无GS修改/全局注册，显式onEnter注册留真实caller测试。；SceneContext与LoopContext不再保存完全未读的脚本副本；tick只接实际需要的gs/input/map。",
+        "D": "四helper均有两个或以上实际消费者；blocked map复用flat构造，不引入泛型万能fixture。",
+        "E": "typecheck及107直接合同实际消费；原生产完整角色factory复用，没有测试fixture自比当业务oracle。；当前509联合相邻含本卡107；旧111→107迁移/反控复用，本次零测试增删或改名。",
+        "F": "按资源名命名，参数表达尺寸/阻挡/命令；返回类型显式。",
+        "G": "用户call_37e18bd73f954b61a76c4821ebf0cf95批准的内部接口冗余已清；81实参、180数据字段、4类型字段及62未用纯bus构造删除，未删断言/指令/真实脚本状态。",
+        "H": "每次调用创建新cells/palette/maps/sets，无共享可变实例和副作用。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "path": "packages/game/src/core/scene.test-fixtures.ts",
+        "sourceSha256": "0ac159b319f3b18f912d18dc68986b38d5611a2a929abdbe3c901841f7da5a85",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "lines": 4973,
+      "readScope": "Reuse complete 3r/GLM29 read; complete actual 5af1b637→bdb diff plus current delta, moved bodies and call/injection boundaries; no fresh full5162line claim",
+      "caller": "mode/scene tick, bootstrap injections, menu/battle runScript, meal observer",
+      "oracle": "3r script/play/scene primary; current script.c:608-639,708-752; existing opcode/player and scene evidence",
+      "dimensions": {
+        "A": "Five moved bodies and whole remaining JS token continuity; 185 public facade names preserved. Global lookup borrows same references; no opcode/order/RNG change.",
+        "B": "Correct pCurrent versus pEvtObj, party index, TS zero-based object context and dither comments. Delete orphan duplicate player/poison/equipment commentary; its owner remains event-opcode-player.；仅后继BattleCtx三段注释更正，bare runtime/effective视图区别有据。",
+        "C": "Object address scope and pure frame modulus leave orchestration. Private jump no longer takes unused GS at19call sites; inventory counter takes only inventory. Remaining interpreter owns ordered opcode state transitions; global injected services remain explicit bootstrap-owned coupling, not declared pure.；当前注入服务由bootstrap的单应用装配拥有，用回调避免scene/menu/shell反向依赖；不是可任意重入的多实例引擎。每例清理本文件写过的17注册点。",
+        "D": "Self/scene/global resolvers remain separate because fallback/warning contracts differ. Global lookup reused by target/range opcodes; no policy Boolean or universal context wrapper.",
+        "E": "324 current main cases preserve identity/count; typed production battle construction, exact diagnostics and actual host-state oracles. 18actual adjacent files546; no full-battle/browser claim.",
+        "F": "Named scope modules make address policy and frame rules readable without scanning5k interpreter. Opcode switch remains a state machine; branch count alone not a reason for arbitrary splitting.",
+        "G": "Remove1dead private parameter,19args and1void; no instruction, facade export, failure guard or product behavior deletion.；原185出口和当前消费仍保持；未因switch大就发明分发框架，先前笼统“广域架构待核”现按具体owner/caller裁定，未发现本原卡范围内未解重要设计缺口。",
+        "H": "Frame rule pure; lookup uses minimal typed borrowed-state scope; orchestration still tested through real public tick/runScript. No test-only product export."
+      },
+      "disposition": "review; local technical evidence, no new closed/full-card acceptance",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+        "path": "packages/game/src/core/event-system.ts",
+        "sourceSha256": "28e96be97ea4360f57899a2e1ac009d7f28527ded8331ee066eecc20af4ff109",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-object-scope.ts",
+      "sha256": "5eb02e8921ed8d68466049408c65bb0bfb7a93269b00954a58c125e578f876df",
+      "lines": 95,
+      "readScope": "Full new module, four original bodies independently token-matched",
+      "caller": "event-system self/scene/target/range opcode handlers",
+      "oracle": "script.c PAL_InterpretInstruction setup and0x81/83/84 scene tests; existing K01–K06",
+      "dimensions": {
+        "A": "Current scene lookup first; global fallback checks object ID equality. Self undefined/missing diagnostics preserved. No mutation/allocation except existing messages.",
+        "B": "Module states borrowed object ownership and one-based raw address. pCurrent explanation moved to actual target resolver; existing scene/global distinctions retained.",
+        "C": "Depends only on GameState/NpcState types, no interpreter/services/IO dependency. Caller owns mutation of returned object.",
+        "D": "Global resolver shared by target and explicit range handlers; scene-only resolver intentionally does not share global fallback.",
+        "E": "Existing public-opcode tests exercise real functions through facade, including scene rejection and off-scene global effects; no duplicate leaf suite added.",
+        "F": "Names separate self, scene and global semantics; narrow scope types expose reads.",
+        "G": "All four helpers have actual interpreter callers; no generic scope-mode argument introduced.",
+        "H": "Only npcs/allEventObjects are required; direct deterministic logic without module injection or fake engine."
+      },
+      "disposition": "review; local technical evidence, no new closed/full-card acceptance",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+        "path": "packages/game/src/core/event-object-scope.ts",
+        "sourceSha256": "5eb02e8921ed8d68466049408c65bb0bfb7a93269b00954a58c125e578f876df",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/npc-walk-frame.ts",
+      "sha256": "5fc7c0d68185ea66d105c719f6d2864a29b1a508e9ca31e50711dca61631449c",
+      "lines": 23,
+      "readScope": "Full new25line pure module; original body exact token continuity",
+      "caller": "event-system movement/animation; preserved facade; opening-trace actual-function test",
+      "oracle": "scene.c PAL_NPCWalkOneStep:880-909 and res.c sprite frame hydration",
+      "dimensions": {
+        "A": "Undefined,3→4,positive auto-frame and preserved static-pose branches unchanged, including clamp0 for absent prior frame.",
+        "B": "Comments distinguish hydrated auto-frame source, static pose and current TS undefined fallback; no new SDL compatibility claim.",
+        "C": "No state/services/imports; frame calculation separated from movement/state writes.",
+        "D": "Walk/animate callers use one frame rule; other palette/actor animation domains not merged.",
+        "E": "Existing main literal modulo/pose and animation tick assertions retained; opening tool reads this actual declaration.",
+        "F": "Arguments name next frame and two frame counts; branch meanings directly readable.",
+        "G": "No new branch/export surface on old facade; all callers retained.",
+        "H": "Pure deterministic function; no clock/RNG or injection needed."
+      },
+      "disposition": "review; local technical evidence, no new closed/full-card acceptance",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+        "path": "packages/game/src/core/npc-walk-frame.ts",
+        "sourceSha256": "5fc7c0d68185ea66d105c719f6d2864a29b1a508e9ca31e50711dca61631449c",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "e60f8a2390114730c9e335f942f40b11e6ad1fce2720f473100c869347e20574",
+      "lines": 6018,
+      "readScope": "Reuse 3r full5974line and GLM29 record; complete current actual diff, setup/counter/caller/oracle changes; not fresh whole-file read",
+      "caller": "tickEventSystem/tickAutoScripts/runScript; real createBattleState/createInitialGS/loadDefaultGame",
+      "oracle": "Literal state/results, SDL records, real constructors, old-green/new-AssertionError three counters",
+      "dimensions": {
+        "A": "Battle caster now belongs to actual nonempty constructor state and hydrated GS; rawFade/teleport use legal battle input. Cursor/setup missing rows fail loudly rather than casts or silent no-op.",
+        "B": "Rename two overstated titles, fix host-style claim/default0x4f and stale showDialog line anchor. Host death hold claim now explicitly asserted.",
+        "C": "Root afterEach clears17service/catalog slots written by this file and restores spies; paired GS/state kept together in battle helper.",
+        "D": "Existing stats/role/enemy factories and real dialog constructor reused. No universal fake context or new test abstraction.",
+        "E": "324→324, two title mappings, no case deletion. Replace unused GS self-comparison, exact warn/debug args+counts, actual dialog ownership and goto skipped/taken music effects. Three bound counters each old1green/new1business red; no mock-count-only success.",
+        "F": "makeBattleContext describes real input, explicit guards replace NonNullable/any assertions; named local GS has actual caller role.",
+        "G": "Remove six scalar Command casts, core any/empty fighters, unused test objects; no weaken/ignore/skip/timeout change.",
+        "H": "Explicit palette fixture removes prior-case dependency exposed by cleanup; captured failures retain exact scope. No helper mocked."
+      },
+      "disposition": "review; local technical evidence, no new closed/full-card acceptance",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+        "path": "packages/game/src/core/event-system.test.ts",
+        "sourceSha256": "e60f8a2390114730c9e335f942f40b11e6ad1fce2720f473100c869347e20574",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "scripts/e2e/meal-item-dispatch.test.mjs",
+      "sha256": "d19a916f93717800cf9dc067bba0f228bd1d2f290a3fbda412727e3677e61c81",
+      "lines": 132,
+      "readScope": "Full new test; final input usable/consuming+stock established before actual frozen-old-plugin red replay",
+      "caller": "instrumentMealTrace / real GS, OBJECT overlay, catalog and typed fixture modules",
+      "oracle": "Literal dispatch payload, cursor2, targetffff, pending consumption272, mode event, unchanged static entry1",
+      "dimensions": {
+        "A": "No fake battle or GS; synthetic item has correct usable/consuming/applyAll flags and inventory. Setup/transform/assertions all inside catalog try/finally.",
+        "B": "Comments limit test to actual transformed declaration and explain sequential tsImport loader registration.",
+        "C": "Services actual production functions, catalog cleaned even if transform/setup assertions throw; no global browser singleton.",
+        "D": "Existing factories/tsImport used; compilation helper private to this file, no exported test seam.",
+        "E": "Two cases: business execution plus semantic-anchor refusal. Exact literal expectations independent of observer output; first final legal fixture reproduced AssertionError against bdb plugin.",
+        "F": "Construction and effect assertions follow real dispatch lifecycle; no mutation of observed inputs to create expected output.",
+        "G": "No duplicate parser implementation, generic scenario framework or broad harness module.",
+        "H": "Direct deterministic execution replaces grep-only source census; isolated observer records before GS mode mutation."
+      },
+      "disposition": "review; local technical evidence, no new closed/full-card acceptance",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+        "path": "scripts/e2e/meal-item-dispatch.test.mjs",
+        "sourceSha256": "d19a916f93717800cf9dc067bba0f228bd1d2f290a3fbda412727e3677e61c81",
+        "scope": "Existing full A-H reused; no repeated whole-file reading or new primary derivation"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/e2e.test.ts",
+      "sha256": "baf23c78938fcf229e14a28791bf4937d35c676f7090fcaaa77b1f3b7efcefef",
+      "lines": 95,
+      "readScope": "Complete original/current one-case file and real tickN/scene search/ReplayInputSource/dialog lifecycle; current full diff read.",
+      "caller": "tickN→singleTick→tickByMode→scene Confirm search→event interpreter; actual onPresent snapshots.",
+      "oracle": "Literal frame3 event/ip2; frame4 currentLineText你好; final explore/no cursor/no dialog plus304/152 position. Same search bypass: old1pass/new1AssertionError.",
+      "dimensions": {
+        "A": "OldtriggerMode0/nonregistered commands did not execute NPC script; legal searchablemode1 and actual global registry now enter/finish dialogue. Original movement/final state assertions retained.",
+        "B": "Headless finite replay explicitly distinguished from browser/story E2E; comments describe actual Confirm/search/typing sequence.",
+        "C": "Input/state/bus/map per case; afterEach clears global catalog and scene context even on assertion failure; observer only snapshots literal scalar state.",
+        "D": "Use real tickN/ReplayInputSource/GS/NPC factories; no duplicated scheduler/interpreter or generic harness.",
+        "E": "One identity retained, no new case/timeout. Added midpoint assertion first fails on old fixture; same product search-bypass mutant oldgreen/newonebusinessred; final509 includes corrected onecase.",
+        "F": "Named frames expose causal intermediate states, no vague no-crash/final-empty-only oracle.",
+        "G": "Remove unused labelMap build; use existing commands instead of underscore/void silencing. All old business assertions preserved, no extra coverage cases.",
+        "H": "Real deterministic seven-snapshot input drives complete fixture path; no core mocks/private introspection. Intermediate state is observed through production onPresent callback."
+      },
+      "decision": "accept-code; no browser E2E credit"
+    }
+  ],
+  "deltaOnly": [
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "1e1347af85d82cf35e7da12c5258fa66cf57898807655ed3f2120f9f8d3c1282",
+      "lines": 63,
+      "readScope": "Exact approved context/argument/import delta only; existing whole-file acceptance unchanged, not newly granted."
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+      "lines": 172,
+      "readScope": "Exact approved context/argument/import delta only; existing whole-file acceptance unchanged, not newly granted."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+      "lines": 1949,
+      "readScope": "Exact approved context/argument/import delta only; existing whole-file acceptance unchanged, not newly granted."
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "sha256": "be78328647bf57576472954bdfd5352e7d62e858172689427341c60423ed7f1b",
+      "lines": 243,
+      "readScope": "Exact approved context/argument/import delta only; existing whole-file acceptance unchanged, not newly granted."
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "sha256": "1c9c7fe5c4e1cf6e2a96bb43ce2efa8acabd7a72893e772e2d502f212b277b99",
+      "lines": 221,
+      "readScope": "Exact approved context/argument/import delta only; existing whole-file acceptance unchanged, not newly granted."
+    },
+    {
+      "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+      "sha256": "f9998585e3836519257016d603857b7ed73da14d52cd5396254509258a8c9b19",
+      "lines": 86,
+      "readScope": "Exact approved context/argument/import delta only; existing whole-file acceptance unchanged, not newly granted."
+    },
+    {
+      "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+      "sha256": "d5459f2f5ee00f2a68556d391e45cc5482624e379eb1a41ae2aa7de45ae2c909",
+      "lines": 335,
+      "readScope": "Exact approved context/argument/import delta only; existing whole-file acceptance unchanged, not newly granted."
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "c670b20da0ca74bb6c645a0101687f3c6ee0b63414c7e5a627f2709f4ae4f24f",
+      "lines": 657,
+      "readScope": "Exact one snapshot hash only, consumer and unchanged tests reused; no whole-file acceptance."
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "lines": 4973
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98",
+      "lines": 431
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "e60f8a2390114730c9e335f942f40b11e6ad1fce2720f473100c869347e20574",
+      "lines": 6018
+    },
+    {
+      "path": "scripts/e2e/game-auto-trace.mjs",
+      "sha256": "eef2427eba3d3da9a858e0e5951f1768b6eece50c5a5758e4f40dd2655589bc8",
+      "lines": 141
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "lines": 2911
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "sha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09",
+      "lines": 1079
+    },
+    {
+      "path": "packages/game/src/core/battle/simulated-magic-target.ts",
+      "sha256": "db7bc7ed824786ea2b6faf2450b77682b2e45ff5e2dba0205fc7fa16d5d065a6",
+      "lines": 23
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0",
+      "lines": 225
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "lines": 53
+    },
+    {
+      "path": "packages/game/src/localization/presentation.test.ts",
+      "sha256": "07cf03de71dd2477bdfa47c066c0126a0cd16241eb6d1eecd6aa2817f77d0757",
+      "lines": 100
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "e9efd9d7960fd97badc1611610ac600d37abb88a4c0bee5f56135e2b15731b33",
+      "lines": 809
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+      "lines": 1949
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400
+    },
+    {
+      "path": "reference/sdlpal/util.c",
+      "sha256": "e8f70ab5b01a21f0a2f40c9ae3fb2c05a38dd3b13bb4fc28d8603af8f54deac7",
+      "lines": 1003
+    },
+    {
+      "path": "reference/sdlpal/palette.c",
+      "sha256": "88a3160fac6bddd28355a28b788b76b848b9853d06eb75b8abe2116b9ee7795d",
+      "lines": 667
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "lines": 2569
+    },
+    {
+      "path": "reference/sdlpal/common.h",
+      "sha256": "48f7ccfe8c287d5518b603ac8c7afe8af868cf42f547d072b175d73d588276ce",
+      "lines": 299
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "1e1347af85d82cf35e7da12c5258fa66cf57898807655ed3f2120f9f8d3c1282",
+      "lines": 63
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "lines": 501
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554",
+      "lines": 148
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0",
+      "lines": 2347
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "d909b4b5b99293d88a0d85e41cf77c4283868780ea69c34e5823b28db8c1119e",
+      "lines": 1050
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3q-scene-system/read-boundaries.json",
+      "sha256": "f22136dbae457577de56c020c3b199ff171c1be904cb643d6c5ce40485fb1f21",
+      "lines": 86
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "lines": 682
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903
+    },
+    {
+      "path": "reference/sdlpal/map.c",
+      "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+      "lines": 418
+    },
+    {
+      "path": "reference/sdlpal/res.c",
+      "sha256": "5bec5dd52c950fe1a6cdafb7fab414f55cd5958adc7c9ddce4e7f6cbfe3ec9d9",
+      "lines": 439
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "lines": 249
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06",
+      "lines": 89
+    },
+    {
+      "path": "packages/game/src/core/object-script-state.ts",
+      "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32",
+      "lines": 87
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1",
+      "lines": 60
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "d326e5b04d37a4c92a31166307e551dab6c5d61dfbf790ad61b9494e8d993eec",
+      "lines": 960
+    },
+    {
+      "path": "scripts/e2e/opening-trace-plugin.mjs",
+      "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2",
+      "lines": 397
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "sha256": "4334d1b2b93e67141007e630e2b44c9830451b8b545fda093dd8ff8b983c782e",
+      "lines": 2315
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "sha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
+      "lines": 156
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-001.json",
+      "sha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
+      "lines": 129
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/common-issues.md",
+      "sha256": "ff461cd62686909db0b7cb5f4e69027413386a04d45d68c78b7df0da32731b1f",
+      "lines": 431
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "sha256": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
+      "lines": 265
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    }
+  ],
+  "inheritedReports": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+      "sha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+      "lines": 542
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+      "sha256": "2e70d703596cdc39348e92d34189470f282d9fbd12722cd681bc8c95c11585f1",
+      "lines": 1732
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+      "sha256": "eda5579511d85e2f9113c923c803af2518116c2e82d9a207fb6fe13ffd75d544",
+      "lines": 1992
+    }
+  ],
+  "changedContexts": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+      "beforeSha256": "b73cac029cd969ea5b690474a64fd66d5f1250e2394be70c443469a4cfe80553",
+      "afterSha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+      "beforeSha256": "edd6df17ec3d86202b9a07fe1287005ae46b7b7675d1187f0a1bd8e97d7a62ae",
+      "afterSha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+      "beforeSha256": "ef786734201beef3ed1833cecc6e8842d0bf100d53a5a89b841af50dace2a0a7",
+      "afterSha256": "e60f8a2390114730c9e335f942f40b11e6ad1fce2720f473100c869347e20574",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "scripts/e2e/game-auto-trace.mjs",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+      "beforeSha256": "9cd0bed7a42cc0f32766be61269ac4659be0e86839a888303b4c61b5ec7aa336",
+      "afterSha256": "eef2427eba3d3da9a858e0e5951f1768b6eece50c5a5758e4f40dd2655589bc8",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+      "beforeSha256": "c1cd2ecced440507aace6a5928393e5209c7e3e7c49888dc543322b3475bb6e1",
+      "afterSha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+      "beforeSha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "afterSha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+      "beforeSha256": "4e20b9dc98a6e88218e4305e80f9d6f5accc5d220d2bc8aab6868b48f61fd17a",
+      "afterSha256": "1e1347af85d82cf35e7da12c5258fa66cf57898807655ed3f2120f9f8d3c1282",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+      "beforeSha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "afterSha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+      "beforeSha256": "40171bdd3ce3617799976dba98cfe622be4bd1e9fb6f71b611d6eee99cfc125c",
+      "afterSha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+      "beforeSha256": "4e20b9dc98a6e88218e4305e80f9d6f5accc5d220d2bc8aab6868b48f61fd17a",
+      "afterSha256": "1e1347af85d82cf35e7da12c5258fa66cf57898807655ed3f2120f9f8d3c1282",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "priorReport": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+      "beforeSha256": "5efc09854794f0bd596ed5096bb0f4fd6b92e76fba153c03123c47082816cf4a",
+      "afterSha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98",
+      "bridge": "Current3q/3r or approved interface delta in this packet; prior3s/3t acceptance in battle-host-opcode-closeout; approved poison expectation delta in mode-player-quality. Only corresponding caller/input scopes reused, no new broad file credit."
+    }
+  ],
+  "interfaceProof": {
+    "base": "82efe44df6d501af61d16018f763e03f5292b481",
+    "rows": [
+      {
+        "path": "packages/game/src/core/scene-context.ts",
+        "beforeSha256": "f7e35e6dc7901bd617f2b8c187d713a581e35187fd1987925105fe5061741764",
+        "afterSha256": "23b3448b7d56f878882648eab0cde35d67a60364ea546c5dcf8be78cbe580e0e",
+        "approvedNormalizedRuntimeSha256": "b170878e345b01e0e94c28fb14d5b8d4a30e2dd898a68b21eb0df7b9fa68f63f"
+      },
+      {
+        "path": "packages/game/src/core/scene-system.ts",
+        "beforeSha256": "5efc09854794f0bd596ed5096bb0f4fd6b92e76fba153c03123c47082816cf4a",
+        "afterSha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98",
+        "approvedNormalizedRuntimeSha256": "a6a825c7a2ffa94fcdcf27137058699abaa7ad98f2a59da846d0d9eb7ddbe1ec"
+      },
+      {
+        "path": "packages/game/src/core/mode.ts",
+        "beforeSha256": "4e20b9dc98a6e88218e4305e80f9d6f5accc5d220d2bc8aab6868b48f61fd17a",
+        "afterSha256": "1e1347af85d82cf35e7da12c5258fa66cf57898807655ed3f2120f9f8d3c1282",
+        "approvedNormalizedRuntimeSha256": "61943ab31bfaeaff0cd65ecf1fcd8cad61d2d25536d5c3dcc98ecbc18e120ceb"
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.ts",
+        "beforeSha256": "01842b519dd9bc8bee3a221c962d2c9cdec043f7c912f848efd2ef3e1c559847",
+        "afterSha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+        "approvedNormalizedRuntimeSha256": "6cb4bdf435f1167d6181aaf0f88a4715b94047d7893f69f1a616480a04756dac"
+      },
+      {
+        "path": "packages/game/src/core/scene-loading.test.ts",
+        "beforeSha256": "0679e664aaec677135c6baadd4ea33f9e5910b7c2320a6bde8da59140da3ba21",
+        "afterSha256": "766d63d4e222d7dac571829bc0cceb8715e2c7a8f3cc75b299b00ed638b6a86f",
+        "approvedNormalizedRuntimeSha256": "d05ae3bf620f259a7f8671ef485885db5247e53da7b2b157b92383a03b07a4b6"
+      },
+      {
+        "path": "packages/game/src/core/scene-system.test.ts",
+        "beforeSha256": "7b7d17b3125860363be550b261c900733049d9229c146f89eae6473188182615",
+        "afterSha256": "5be484c2c918aca6514b86eb638dd224638e6f22322725274e0f866f37b4633e",
+        "approvedNormalizedRuntimeSha256": "26740a486f6b45ff884c58e3b32b72e15736caf95e7b284fe9bc831a637d8982"
+      },
+      {
+        "path": "packages/game/src/core/scene-loading.ts",
+        "beforeSha256": "05b80afc53a305ec2eb6f40dddbe44b7686f752dac3475e587ddf624f97389e2",
+        "afterSha256": "81c21eb2e4d8928f0120f7c9bc9e809f8914d9a9f94412368418685643cb5223",
+        "approvedNormalizedRuntimeSha256": "309867ad2d2bf612e405a3e192ed9f6986f206a747c9231ad525fe6589297947"
+      },
+      {
+        "path": "packages/game/src/e2e.test.ts",
+        "beforeSha256": "af5425e1cc8bce8f86f7e614613954982bc668d85eeba7aab6d7c688b3fc6c31",
+        "afterSha256": "adc6cb7b8cf742bc0e4f4218bf0d25cc60402e3fe0312a1eef14caa8b2b2e502",
+        "approvedNormalizedRuntimeSha256": "c828b3bb031d3889cd6e4f53d5deb9444da0181b1fd88668b54b491e0311a2f1"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "beforeSha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+        "afterSha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+        "approvedNormalizedRuntimeSha256": "b867ea568174b852702597d62ef02ad1ce26cd823571973986817d23d86e518a"
+      },
+      {
+        "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "beforeSha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65",
+        "afterSha256": "be78328647bf57576472954bdfd5352e7d62e858172689427341c60423ed7f1b",
+        "approvedNormalizedRuntimeSha256": "35ab0ae979d7b9ed6df1a58650712e012ffce0f1e4be32462625d8b9b1ca3da1"
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.test.ts",
+        "beforeSha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524",
+        "afterSha256": "1c9c7fe5c4e1cf6e2a96bb43ce2efa8acabd7a72893e772e2d502f212b277b99",
+        "approvedNormalizedRuntimeSha256": "4cfea28b2cccddc19d42fb3cbdd2721f48e851a835caa08c52aaf6d82206ba4c"
+      },
+      {
+        "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+        "beforeSha256": "7700eac27d7331d08118477b2a55908d334bddbe082a74260759c72dfa9673f1",
+        "afterSha256": "f9998585e3836519257016d603857b7ed73da14d52cd5396254509258a8c9b19",
+        "approvedNormalizedRuntimeSha256": "5c304905144aade41414a0143b0c996d506ab9aa3cf60af24b4d8f430b1aac50"
+      },
+      {
+        "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "beforeSha256": "f1ba30df263e9513f2f68cbc76356a02c1e833595c015f558bb80c5ac36488ea",
+        "afterSha256": "d5459f2f5ee00f2a68556d391e45cc5482624e379eb1a41ae2aa7de45ae2c909",
+        "approvedNormalizedRuntimeSha256": "e6471252cbfb79f67cc8c9d7be8750046c2b5a84813b15d8c845dde9049355a1"
+      }
+    ],
+    "counts": {
+      "busArguments": 81,
+      "dataFields": 180,
+      "interfaceFields": 4,
+      "pureBusConstructions": 62,
+      "deadLiteralFixtures": 4
+    },
+    "scope": "Replay only explicit recorded typed data-field/parameter/call edits, pure unused construction removals and four unused literal fixtures; concrete remaining JS AST equal including operators/binding kinds. No business predicates/literals/assertions masked.",
+    "phase": "Pure-interface commit d0f6baff5 for e2e.test.ts; other12 files current exact SHA. Later actual replay quality is separately pinned and counter-verified."
+  },
+  "runtimeTool": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/prove-runtime.cjs",
+    "sha256": "4d773647e57b7836e58415f5ed6a7ba56d847b864e930c210102ecbfdcdc678a",
+    "lines": 67
+  },
+  "gates": {
+    "game": {
+      "files": 14,
+      "passed": 509,
+      "failed": 0,
+      "skipped": 0,
+      "stderrBytes": 0
+    },
+    "node": {
+      "files": 4,
+      "passed": 69,
+      "failed": 0,
+      "skipped": 0,
+      "stderrBytes": 0
+    },
+    "typecheck": "tc-final exit0, diagnostics0",
+    "lint": "lint-code-final 5994files;0errors/0warnings/0infos",
+    "unified": "DEFERRED: no fullcheck/official/ratchet/protected/PR until all remaining pre94",
+    "retirementTool": {
+      "passed": 80,
+      "failed": 0,
+      "scope": "Exact existing snapshot predicate Node test only; not coverage collection"
+    }
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "entries": 90,
+    "sha256": "cd43d59b7ef84e4935c256e76a22f43b8dfb0f0b3a04b8b8d8a196cc8e8f560f",
+    "bytes": 240317
+  },
+  "acceptance": {
+    "cards": ["3n", "3q", "3r"],
+    "newlyClosed": [
+      "packages/game/src/core/palette-fade.ts",
+      "packages/game/src/core/palette-fade.test.ts",
+      "packages/game/src/core/cross-module-boundaries.test.ts",
+      "packages/game/src/core/scene-system.ts",
+      "packages/game/src/core/scene-context.ts",
+      "packages/game/src/core/scene-collision.ts",
+      "packages/game/src/core/scene-loading.ts",
+      "packages/game/src/core/scene-system.test.ts",
+      "packages/game/src/core/scene-collision.test.ts",
+      "packages/game/src/core/scene-loading.test.ts",
+      "packages/game/src/core/scene.test-fixtures.ts",
+      "packages/game/src/core/event-system.ts",
+      "packages/game/src/core/event-object-scope.ts",
+      "packages/game/src/core/npc-walk-frame.ts",
+      "packages/game/src/core/event-system.test.ts",
+      "scripts/e2e/meal-item-dispatch.test.mjs",
+      "packages/game/src/e2e.test.ts"
+    ],
+    "pre94": {
+      "accept": 72,
+      "partial": 11,
+      "pending": 0
+    },
+    "ledger": {
+      "tracked": 3424,
+      "closed": 438,
+      "review": 97,
+      "pending": 2889
+    },
+    "scope": "Original3n four helpers,3q scene module,3r interpreter/object scope/main tests and direct Node/headless caller quality. No entire bootstrap/loop/browser/story/save/schema/pipeline acceptance."
+  },
+  "designDecisions": {
+    "scene": "Pure collision, resource loading and map-context ownership were split by actual lifetime; global script catalogue remains the one script owner. Redundant pass-through state and unused bus now removed under explicit approval. No unproven concurrent-load policy invented.",
+    "event": "Address scopes and pure frame rules are distinct leaves; interpreter owns ordered cursor/dispatch waits and capabilities are injected by single application bootstrap. No event→scene/menu/shell reverse implementation imports. Callback services permit scoped injection/cleanup; do not claim arbitrary parallel engines or reentrant controller purity.",
+    "palette": "ColorFade grid-vs-expanded8bit distinction and exact step/finalize contract are documented; four established discrimination controls and actual extractor/C bounded oracles reused. Unknown invalid-delay/extensions are outside existing builder contract; not introduced as mandatory product policy changes."
+  },
+  "processDisclosure": [
+    "No repeated full-file review or unchanged tests/controls. Existing raw/native results remain frozen; current checks only actual affected14game files and4Node tools.",
+    "Old quick verifiers report STALE on specific later input changes; new bridges are explicit and old reports are not rewritten into new passes.",
+    "Initial interface edit captured8unused diagnostics. Pure-bus getFullStart initially consumed a preceding inline comment; corrected by retaining full trivia before any test run; full current delta reviewed.",
+    "Pure interface commit d0f6baff5 retained1unused commands warning in the exposed weak replay fixture and was not pushed; code acceptance is for the cumulative candidate after actual catalogue registration, tc-final and lint-zero0, not that intermediate commit.",
+    "New midpoint assertion first red is a test-fixture defect proof, not a product bug. No source behavior changed; mutation is temporary, restored with exact source/test hashes.",
+    "No changed test selection/timeout/rules/ignores/baseline; no core mocks. Headless/Node execution is not browser/E2E route/visual acceptance.",
+    "Initial scratch AST comparator returned Array.push from ts.forEachChild callback, stopping traversal after first child. Its two initial proof runs are INVALID and confer no continuity credit; preserved raw, not overwritten. Packet verifier used the complete existing traversal and caught its incompatible checksum. Replaced scratch comparator with the complete shared runtime tree and3 grouping/const/unary sanity controls; interface-proof-strong validates all13 files, old replay at pure commit explicit. No product changes or test rerun for this tool correction.",
+    "One preflight Python inspector mistakenly sliced a dict, and unrecorded preliminary docs consumer reported missing child navigation. Tool transcript only for these preflight calls; neither counts as gate/counter evidence. Final actual consumers will be captured.",
+    "Before final delivery noticed approved scene retirement snapshot still pinned old test bytes. Updated only this one fileSHA after current107 identity mapping and entire approved JS proof; no count/identity/policy/threshold/baseline change or official sample. Necessary exact retirement predicate test is separate Node verification, not coverage."
+  ],
+  "remaining": [
+    "3m extreme dexterity domain is still explicit pending judgment; not attached to3n acceptance.",
+    "Other11 partial cards remain individually open;72 code accepted does not mean final integration/PR complete.",
+    "94–102 excluded."
+  ],
+  "retirementBinding": {
+    "path": "scripts/coverage/approved-test-retirements.mjs",
+    "baseRevision": "e74f963bb83020a40dcb634b162f1eb1ebfdf006",
+    "beforeSha256": "3057ae74b528a6715a9135d7296551710eb65406b435efecb49de1eacfdc5411",
+    "afterSha256": "c670b20da0ca74bb6c645a0101687f3c6ee0b63414c7e5a627f2709f4ae4f24f",
+    "oldFileSha256": "7b7d17b3125860363be550b261c900733049d9229c146f89eae6473188182615",
+    "newFileSha256": "5be484c2c918aca6514b86eb638dd224638e6f22322725274e0f866f37b4633e",
+    "scope": "One already-approved exact scene111→75 snapshot fileSHA refreshed after interface-only fixtures. Counts/identities/predicates/authority unchanged; no official coverage sampling."
+  }
+}

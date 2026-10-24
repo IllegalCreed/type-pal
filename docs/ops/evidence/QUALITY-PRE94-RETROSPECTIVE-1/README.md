@@ -439,3 +439,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 ## 2026-10-24 CODE3s／3t代码验收
 
 [七文件当前代码接受、两旧关闭刷新、八维设计裁定与六反控完整原件](battle-host-opcode-closeout/README.md)。上面两卡局部记录中的余项已由本次逐项补齐，固定83卡69accept／14partial。仅接受原代码范围，最终全仓check／official／protected与单PR仍等所有剩余pre94；旧原件和时点计数保留，94–102不扩展。
+
+## 2026-10-24 CODE3n／3q／3r代码验收
+
+[三卡逐文件八维、批准接口清理、真实回放误绿与原件/只读复验](core-scene-event-closeout/README.md)。72accept／11partial，17新关闭；当前509相邻/69Node/TC/lint0，全仓/official/protected与单PR继续等全部pre94，不扩94–102。

@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 69,
+  "currentAccepted": 72,
   "cards": [
     {
       "id": "1",
@@ -839,8 +839,8 @@
       "sha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
       "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -884,7 +884,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "findings": "Original scoped code accepted after explicit eight-axis review/evidence reuse and necessary rework.3q approved dead interfaces removed; real replay false-green fixed. Current509game/69Node/TC/lint0 support, not substitute, file decisions. Unified integration gates/PR deferred until all pre94."
     },
     {
       "id": "3o",
@@ -1010,8 +1011,8 @@
       "sha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
       "lines": 129,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 18,
@@ -1051,7 +1052,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3q-scene-system/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "findings": "Original scoped code accepted after explicit eight-axis review/evidence reuse and necessary rework.3q approved dead interfaces removed; real replay false-green fixed. Current509game/69Node/TC/lint0 support, not substitute, file decisions. Unified integration gates/PR deferred until all pre94."
     },
     {
       "id": "3r",
@@ -1061,8 +1063,8 @@
       "sha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
       "lines": 132,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 20,
@@ -1122,7 +1124,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3r-event-system/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "findings": "Original scoped code accepted after explicit eight-axis review/evidence reuse and necessary rework.3q approved dead interfaces removed; real replay false-green fixed. Current509game/69Node/TC/lint0 support, not substitute, file decisions. Unified integration gates/PR deferred until all pre94."
     },
     {
       "id": "3s",
@@ -4261,36 +4264,46 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 14,
-    "accept": 69
+    "partial": 11,
+    "accept": 72
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE3s/3t original code scopes accepted; code review separated from deferred unified integration",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
-    "newlyAcceptedCards": ["3s", "3t"],
+    "scope": "CODE3n/3q/3r original code acceptance; approved scene interface cleanup and real replay oracle",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+    "newlyAcceptedCards": ["3n", "3q", "3r"],
     "newlyClosedFiles": [
-      "packages/game/src/core/battle/battle-system.ts",
-      "packages/game/src/core/battle/battle-dialog.ts",
-      "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
-      "packages/game/src/core/battle/__tests__/battle-system.test.ts",
-      "packages/game/src/core/battle/battle-opcodes.ts",
-      "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
-      "packages/game/src/core/battle/battle-opcodes.cov85.test.ts"
+      "packages/game/src/core/palette-fade.ts",
+      "packages/game/src/core/palette-fade.test.ts",
+      "packages/game/src/core/cross-module-boundaries.test.ts",
+      "packages/game/src/core/scene-system.ts",
+      "packages/game/src/core/scene-context.ts",
+      "packages/game/src/core/scene-collision.ts",
+      "packages/game/src/core/scene-loading.ts",
+      "packages/game/src/core/scene-system.test.ts",
+      "packages/game/src/core/scene-collision.test.ts",
+      "packages/game/src/core/scene-loading.test.ts",
+      "packages/game/src/core/scene.test-fixtures.ts",
+      "packages/game/src/core/event-system.ts",
+      "packages/game/src/core/event-object-scope.ts",
+      "packages/game/src/core/npc-walk-frame.ts",
+      "packages/game/src/core/event-system.test.ts",
+      "scripts/e2e/meal-item-dispatch.test.mjs",
+      "packages/game/src/e2e.test.ts"
     ],
     "fixed83": {
       "pending": 0,
-      "partial": 14,
-      "accept": 69
+      "partial": 11,
+      "accept": 72
     },
     "counts": {
       "total": 3424,
-      "verified": 421,
-      "review": 113,
-      "pending": 2890,
-      "unclosed": 3003
+      "verified": 438,
+      "review": 97,
+      "pending": 2889,
+      "unclosed": 2986
     },
-    "limits": "Code acceptance only; final check/official/ratchet/protected/PR pending. No94–102 or broad event-system/save/visual acceptance."
+    "limits": "Code acceptance only; final unified check/official/protected/PR pending. No broad bootstrap/loop/browser/save/94–102 credit."
   },
   "incrementalReviewHistory": [
     {
@@ -4519,6 +4532,34 @@
         "unclosed": 2991
       },
       "limits": "No broad core/save acceptance, natural-story E2E or94–102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3s/3t original code scopes accepted; code review separated from deferred unified integration",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
+      "newlyAcceptedCards": ["3s", "3t"],
+      "newlyClosedFiles": [
+        "packages/game/src/core/battle/battle-system.ts",
+        "packages/game/src/core/battle/battle-dialog.ts",
+        "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "packages/game/src/core/battle/battle-opcodes.ts",
+        "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+        "packages/game/src/core/battle/battle-opcodes.cov85.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 14,
+        "accept": 69
+      },
+      "counts": {
+        "total": 3424,
+        "verified": 421,
+        "review": 113,
+        "pending": 2890,
+        "unclosed": 3003
+      },
+      "limits": "Code acceptance only; final check/official/ratchet/protected/PR pending. No94–102 or broad event-system/save/visual acceptance."
     }
   ]
 }

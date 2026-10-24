@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前3n／3q／3r原代码范围accept：72accept／11partial／0pending；3424tracked／438closed／97review／2889pending，17新关闭。用户批准清接口，真实headless回放误绿已修；509相邻／69Node与TC/lint0，最终统一门与PR仍待全部pre94。[逐文件八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md)。
+
 > 当前3s／3t代码复审接受：固定83卡69accept／14partial／0pending；3424tracked／421closed／113review／2890pending，七新关闭、两旧关闭刷新。八维/真实caller/原始反控/版本桥逐项裁定；统一门与PR待所有剩余pre94，不因延后大门强留partial，也不把代码接受写成集成通过。[当前验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md)。
 
 > Current CODE3t dedicated-test slice: 3424 tracked / 414 closed / 120 review / 2890 pending; fixed83 remains67accept/16partial. Two dedicated files62cases retained;241adjacent andTC0. No new closed; main opcode test debt continues. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/README.md).
@@ -49,6 +51,12 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
+## 2026-10-24 CODE3n／3q／3r代码验收
+
+按[本窗逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md)接受三卡原合同，17明确文件新关闭、5旧文件当前信用刷新；固定72accept／11partial。3q的真实死接口已获批删除，81调用/180数据属性/4类型字段和62纯bus构造按类型定位同步，业务断言保留；额外一条原装饰NPC误绿headless回放经中途正式红与旧绿新红反控修正。源码纯清理d0f6baff5与测试质量e74f963bb分提交，初期诊断及证明工具错误撤信用并保留原件，最终完整强AST验证与当前零诊断候选才获本次代码accept。
+
+一次共同相邻14文件509例、4Node工具69例及game TC、lint-zero0；复用既有机制/全文/反控及原件，不重复重门或冒称浏览器。bootstrap/loop广域只获准接口增量，3m极端dex、其它11卡和最终check/official/protected/PR仍开放。未扩94–102。
 
 ## 2026-10-24 CODE3n／3q／3r代码收口（build allowed）
 
