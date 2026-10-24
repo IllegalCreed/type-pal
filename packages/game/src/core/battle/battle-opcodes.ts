@@ -40,7 +40,7 @@ import {
 } from './anim-timeline.js'
 import { playerRestFrame, startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
-import type { BattleStatus } from './battle-state.js'
+import type { BattleEnemy, BattleStatus } from './battle-state.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 import { resolveSimulatedMagicTarget } from './simulated-magic-target.js'
 
@@ -49,7 +49,9 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
-function refreshEnemyBattlePositions(ctx: BattleCtx): void {
+function refreshEnemyBattlePositions(
+  ctx: Pick<BattleCtx, 'enemyPos'> & { state: Pick<BattleCtx['state'], 'enemies'> },
+): void {
   // DH1:布局列数 = wMaxEnemyIndex+1 = 槽数组长度(含 0 占位/死敌空槽 —— battle.c 中
   // wMaxEnemyIndex 不因 wObjectID 清 0 而缩小;0x9C 扩槽时数组 push 使 length 同步增长)。
   const count = ctx.state.enemies.length
@@ -67,22 +69,17 @@ function refreshEnemyBattlePositions(ctx: BattleCtx): void {
   })
 }
 
-function isActiveEnemy(
-  enemy: BattleCtx['state']['enemies'][number] | undefined,
-): enemy is BattleCtx['state']['enemies'][number] {
+function isActiveEnemy(enemy: BattleEnemy | undefined): enemy is BattleEnemy {
   return !!enemy && !enemy.defeated
 }
 
-function isAliveEnemy(enemy: BattleCtx['state']['enemies'][number] | undefined): boolean {
+function isAliveEnemy(enemy: BattleEnemy | undefined): boolean {
   return isActiveEnemy(enemy) && enemy.e.health > 0
 }
 
 function resetEnemySlot(
-  slot: BattleCtx['state']['enemies'][number],
-  init: Omit<
-    BattleCtx['state']['enemies'][number],
-    'pos' | 'posOriginal' | 'currentFrame' | 'iColorShift' | 'deathFadeStep'
-  >,
+  slot: BattleEnemy,
+  init: Omit<BattleEnemy, 'pos' | 'posOriginal' | 'currentFrame' | 'iColorShift' | 'deathFadeStep'>,
 ): void {
   slot.e = init.e
   slot.status = init.status
@@ -115,7 +112,7 @@ function resetEnemySlot(
  * `ctx.bus` 缺省(未注入 / 测试不传)→ 静默 no-op(不抛)。
  */
 function emitDamageNum(
-  ctx: BattleCtx,
+  ctx: Pick<BattleCtx, 'pendingDamageNums' | 'bus'>,
   kind: 'enemy' | 'player',
   idx: number,
   before: number,
@@ -139,7 +136,13 @@ function emitDamageNum(
  * (casterIdx=-1,无 caster 帧切换;magic.sound 已挂特效起手帧)push 进缓冲,performThrowItem 接挥臂后一起播。
  * 否则(无投掷动画上下文 / 无 sprite 帧数)→ 把 magic.sound 即时 push pendingSounds(向后兼容,旧行为)。
  */
-function pushThrowOffMagicAnim(ctx: BattleCtx, magicObjId: number, target: number | 'all'): void {
+function pushThrowOffMagicAnim(
+  ctx: Pick<BattleCtx, 'magicTables' | 'magicSpriteFrameCounts' | 'pendingAnimFrames' | 'gs'> & {
+    state: Pick<BattleCtx['state'], 'enemies' | 'field'>
+  },
+  magicObjId: number,
+  target: number | 'all',
+): void {
   const tables = ctx.magicTables
   if (!tables) return
   const om = resolveObjectMagic(magicObjId, tables.objectMagics)
@@ -390,7 +393,10 @@ interface DispatchResult {
  * 绕开 applyRawOpcode 依赖的 eventObjectId —— 目标入口从战斗槽映射到roleId；
  * 物品脚本的eventObjectId与通用解释器接线不替代这里的目标解析。sdlpal fight.c:4390 wEventObjectID = 目标 wPlayerRole。
  */
-function resolvePlayerPoisonTargets(ctx: BattleCtx, op0: number): number[] {
+function resolvePlayerPoisonTargets(
+  ctx: Pick<BattleCtx, 'target' | 'caster'> & { state: Pick<BattleCtx['state'], 'players'> },
+  op0: number,
+): number[] {
   const players = ctx.state.players
   if (op0 !== 0) return players.map((p) => p.roleId)
   const sel =
