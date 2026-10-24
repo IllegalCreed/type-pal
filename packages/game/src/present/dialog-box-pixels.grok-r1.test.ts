@@ -3,6 +3,7 @@
  * 不重复 dialog-box.test 的控制符/翻页/时序，也不重复 P16 的底框立绘像素。
  */
 import { describe, expect, it } from 'vitest'
+import { dialogGlyphs as glyphs } from '../__tests__/dialog-fixtures.js'
 import { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../__tests__/grok-render-r1/legal-host.js'
 import type { DialogBoxState } from '../core/game-state.js'
@@ -15,28 +16,11 @@ import {
   resetDialogBody,
   startDialogLine,
 } from './dialog-box.js'
-import type { Glyph, GlyphTable } from './font.js'
 import { createFramebuffer, type Framebuffer } from './framebuffer.js'
 import { flushToCanvas } from './present.js'
 
 function at(fb: Framebuffer, x: number, y: number): number {
   return fb.indices[y * 320 + x] ?? 0
-}
-
-function glyphs(specs: Record<string, number>): GlyphTable {
-  const map = new Map<number, Glyph>()
-  for (const [ch, width] of Object.entries(specs)) {
-    const cp = ch.codePointAt(0)
-    if (cp === undefined) continue
-    const bytesPerRow = Math.ceil(width / 8)
-    const bitmap = new Uint8Array(bytesPerRow * 16)
-    bitmap[0] = 0x80
-    map.set(cp, { width, height: 16, bitmap })
-  }
-  return {
-    has: (cp) => map.has(cp),
-    get: (cp) => map.get(cp),
-  }
 }
 
 function reveal(state: DialogBoxState): void {

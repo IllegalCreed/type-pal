@@ -3,7 +3,11 @@
  * 不重复默认箭头位置、底框立绘和物品框图标的正向坐标。
  */
 import { describe, expect, it } from 'vitest'
-import { dialogItem as item, dialogSprite as solidSprite } from '../__tests__/dialog-fixtures.js'
+import {
+  dialogGlyphs as glyphs,
+  dialogItem as item,
+  dialogSprite as solidSprite,
+} from '../__tests__/dialog-fixtures.js'
 import type { IndexedImage } from '../assets/png.js'
 import {
   appendDialogLine,
@@ -14,7 +18,6 @@ import {
   setWaitingEndKey,
   startDialogLine,
 } from './dialog-box.js'
-import type { Glyph, GlyphTable } from './font.js'
 import { createFramebuffer, type Framebuffer } from './framebuffer.js'
 
 function at(fb: Framebuffer, x: number, y: number): number {
@@ -27,22 +30,6 @@ function dotImage(width: number, height: number, color: number): IndexedImage {
   indices[0] = color
   opaque[0] = 1
   return { width, height, indices, opaque }
-}
-
-function glyphs(specs: Record<string, number>): GlyphTable {
-  const map = new Map<number, Glyph>()
-  for (const [ch, width] of Object.entries(specs)) {
-    const cp = ch.codePointAt(0)
-    if (cp === undefined) continue
-    const bytesPerRow = Math.ceil(width / 8)
-    const bitmap = new Uint8Array(bytesPerRow * 16)
-    bitmap[0] = 0x80
-    map.set(cp, { width, height: 16, bitmap })
-  }
-  return {
-    has: (cp) => map.has(cp),
-    get: (cp) => map.get(cp),
-  }
 }
 
 function boxFrames(): IndexedImage[] {
