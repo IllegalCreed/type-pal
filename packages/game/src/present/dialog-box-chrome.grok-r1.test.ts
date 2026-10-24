@@ -9,7 +9,6 @@ import {
   appendDialogLine,
   type DialogSprite,
   drawDialogBox,
-  getDialogBoxRect,
   getDialogTextPos,
   getDialogTitlePos,
   setWaitingEndKey,
@@ -199,9 +198,5 @@ describe('G05-D dialog 图标物品框与旁白', () => {
   it('G05-D12 物品框姓名坐标也是占位 (160,30)', () => {
     expect(getDialogTitlePos('item-box', false)).toEqual({ x: 160, y: 30 })
     expect(getDialogTitlePos('item-box', true)).toEqual({ x: 160, y: 30 })
-  })
-
-  it('G05-D13 物品框占位矩形是 (8,80,304,48)', () => {
-    expect(getDialogBoxRect('item-box')).toEqual({ x: 8, y: 80, w: 304, h: 48 })
   })
 })

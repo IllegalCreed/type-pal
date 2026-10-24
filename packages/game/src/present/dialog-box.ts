@@ -9,11 +9,9 @@ import {
 } from './dialog-text.js'
 
 export {
-  type BoxRect,
   type DialogBoxDrawCtx,
   type DialogSprite,
   drawDialogBox,
-  getDialogBoxRect,
   getDialogTextPos,
   getDialogTitlePos,
   LINE_HEIGHT_PX,

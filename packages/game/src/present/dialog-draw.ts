@@ -71,27 +71,6 @@ function getPortraitPos(style: DialogBoxStyle, width: number, height: number): P
   }
 }
 
-// ── 4 styles 矩形(仅供测试 / e2e 引用;实际不画 box) ─────────────────────────
-
-export interface BoxRect {
-  x: number
-  y: number
-  w: number
-  h: number
-}
-
-const STYLE_RECTS: Record<DialogBoxStyle, BoxRect> = {
-  top: { x: 8, y: 8, w: 304, h: 48 },
-  center: { x: 8, y: 80, w: 304, h: 48 },
-  bottom: { x: 8, y: 144, w: 304, h: 48 },
-  narration: { x: 8, y: 144, w: 304, h: 48 },
-  'item-box': { x: 8, y: 80, w: 304, h: 48 }, // 物品框实际居中动态画(drawItemBoxDialog),此 rect 仅占位/测试
-}
-
-export function getDialogBoxRect(style: DialogBoxStyle): BoxRect {
-  return STYLE_RECTS[style]
-}
-
 // ── drawDialogBox ─────────────────────────────────────────────────────────────
 
 /** sprite 资产接口(与 dialog-assets.DialogSprite / draw-sprite.SpriteImage 同结构)。 */
@@ -176,7 +155,15 @@ export function drawDialogBox(
   // 2a. title(姓名,以 `:` 结尾 — sdlpal text.c:1725 真值 FONT_COLOR_CYAN_ALT,独立位置)
   if (state.titleText !== undefined) {
     const titlePos = getDialogTitlePos(state.style, hasPortrait)
-    drawTextLine(fb, state.titleText, titlePos.x, titlePos.y, state, glyphs, FONT_COLOR_CYAN_ALT)
+    drawTextLine(
+      fb,
+      state.titleText,
+      titlePos.x,
+      titlePos.y,
+      state.fontColor,
+      glyphs,
+      FONT_COLOR_CYAN_ALT,
+    )
   }
 
   // 2b. text:所有已完成行 + 当前行(截 charsRevealed)
@@ -189,7 +176,7 @@ export function drawDialogBox(
       line,
       basePos.x,
       basePos.y + i * LINE_HEIGHT_PX,
-      state,
+      state.fontColor,
       glyphs,
       undefined,
       state.shownLineColors?.[i],
@@ -205,7 +192,7 @@ export function drawDialogBox(
       visible,
       basePos.x,
       basePos.y + lineIdx * LINE_HEIGHT_PX,
-      state,
+      state.fontColor,
       glyphs,
       undefined,
       state.currentLineColors?.slice(0, state.charsRevealed),
@@ -255,7 +242,7 @@ function drawTextLine(
   text: string,
   x: number,
   y: number,
-  state: DialogBoxState,
+  fontColor: number,
   glyphs: GlyphTable | undefined,
   colorOverride?: number,
   colors?: number[],
@@ -266,13 +253,13 @@ function drawTextLine(
   // 阴影算法 = 三层 (+1,0)/(0,+1)/(+1,+1) **color 0**(text.c:1144-1156,DOS triple,sdlpal 统一 triple)。
   // 旧实现手搓**单层** (+1,+1) color 50 是错的 —— 改用 renderText 内建 fShadow=true(正确三层 color0)。
   // colorOverride(姓名 title CYAN_ALT)优先;否则 colors(parseDialogText 逐字符色,`"`黄/`-`青/`'``@`红)
-  //   逐字符上色;再否则 fallback 单色(state.fontColor)。
+  //   逐字符上色;再否则 fallback 单色(fontColor)。
   if (colorOverride !== undefined) {
     renderText(fb, text, x, y, colorOverride, glyphs, true)
   } else if (colors) {
     renderColoredText(fb, text, colors, x, y, glyphs, true)
   } else {
-    renderText(fb, text, x, y, state.fontColor, glyphs, true)
+    renderText(fb, text, x, y, fontColor, glyphs, true)
   }
 }
 
@@ -288,6 +275,15 @@ function blitSprite(fb: Framebuffer, sprite: DialogSprite, x: number, y: number)
       }
     }
   }
+}
+
+/** Center-window box width in 8px units: ASCII=1, other dialogue characters=2.
+ * This is the dialogue layout contract, independent of the loaded glyph bitmap widths.
+ */
+function measureDialogUnits(text: string): number {
+  let units = 0
+  for (const ch of text) units += ch.codePointAt(0)! < 0x80 ? 1 : 2
+  return units
 }
 
 /**
@@ -317,12 +313,7 @@ function drawNarrationDialog(
   // 逐字符色(parseDialogText with isDialog=TRUE:DEFAULT→0;`-`青/`'``@`红;`"`黄被屏蔽)
   const colors = state.currentLineColors ?? state.shownLineColors?.[0]
 
-  // sdlpal len:半角 1 / 全角 2
-  let len = 0
-  for (const ch of text) {
-    const cp = ch.codePointAt(0)!
-    len += cp < 0x80 ? 1 : 2
-  }
+  const len = measureDialogUnits(text)
 
   // sdlpal text.c:1345 posDialogText = PAL_XY(160, 40)
   const POS_X = 160
@@ -428,9 +419,7 @@ function drawItemBoxLine(
   ctx?: DialogBoxDrawCtx,
 ): void {
   if (!text) return
-  // sdlpal len:半角 1 / 全角 2(text.c:1681)
-  let len = 0
-  for (const ch of text) len += ch.codePointAt(0)! < 0x80 ? 1 : 2
+  const len = measureDialogUnits(text)
   const boxX = posX - len * 4 // text.c:1685 pos.x = posDialogText.x - len*4
   if (ctx?.uiSpriteFrames) {
     drawSingleLineBox({

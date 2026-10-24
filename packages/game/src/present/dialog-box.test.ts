@@ -11,7 +11,6 @@ import {
   FONT_COLOR_RED_ALT,
   FONT_COLOR_YELLOW,
   FRAMES_PER_CHAR,
-  getDialogBoxRect,
   getDialogTextPos,
   MAX_LINES_PER_PAGE,
   parseDialogText,
@@ -491,14 +490,6 @@ describe('Sync.2 DialogBox · confirmDialog 4 case', () => {
     expect(s.phase).toBe('waiting-end-key')
     const r = confirmDialog(s)
     expect(r).toBe('dialog-end')
-  })
-})
-
-describe('Sync.2 DialogBox · getDialogBoxRect', () => {
-  it('4 styles 返回不同 y 坐标', () => {
-    expect(getDialogBoxRect('top').y).toBeLessThan(getDialogBoxRect('center').y)
-    expect(getDialogBoxRect('center').y).toBeLessThan(getDialogBoxRect('bottom').y)
-    expect(getDialogBoxRect('narration').y).toBe(getDialogBoxRect('bottom').y)
   })
 })
 
