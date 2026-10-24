@@ -119,11 +119,18 @@ const ENEMY_OBJ = (objectIndex: number, enemyId: number): EnemyObject => ({
 })
 
 describe('Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）', () => {
-  test('复用槽非空毒残留被清零、对象身份替换', () => {
+  test('复用槽非空毒和状态残留清零、对象身份替换', () => {
     // 主测0x9E指定召唤例已证满血/maxHealth/defeated=false/
-    // 空毒 poisons=[]/scriptOnReady/抗性/全队位置——本例只断言两个旧证未覆盖的精确轴：
-    // ①战中毒残留（非空 poisons）复用时清零；②objectId 由死亡时身份 440 替换为召唤对象 419。
-    const dead = slot({ id: 40, health: 0, maxHealth: 100, objectId: 440, defeated: true })
+    // 空毒 poisons=[]/scriptOnReady/抗性/全队位置——本例准备非空毒、非零状态和旧身份，核实际清理：
+    // 毒与坏/好状态均不能残留；objectId由死亡时440替换为召唤对象419。
+    const dead = slot({
+      id: 40,
+      health: 0,
+      maxHealth: 100,
+      objectId: 440,
+      defeated: true,
+      status: { sleep: 4, confused: 3, bravery: 6 },
+    })
     dead.poisons = [{ poisonId: 7, scriptEntry: 2 }] // 死前中毒残留（旧例 poisons 本来为空）
     const caster = slot({ id: 76, health: 200, objectId: 473 })
     const state = battleState([dead, caster])
@@ -131,7 +138,9 @@ describe('Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占�
     const r = dispatchBattleOpcode(0x9e, [419, 1, 300], ctx)
     expect(r.consumed).toBe(true)
     expect(dead.poisons).toEqual([]) // 非空毒残留 → 复用时清零（旧例未证：旧 poisons 本来为空）
-    expect(dead.objectId).toBe(419) // 对象身份 440 → 419 替换（核死亡前旧身份替换）
+    expect(dead.objectId).toBe(419) // 对象身份440→419
+    expect(dead.status).toMatchObject({ sleep: 0, confused: 0 })
+    expect(dead.status.bravery ?? 0).toBe(0)
   })
 
   test('同席两死亡槽只复用一间：另一间保持 defeated 与残留身份', () => {
