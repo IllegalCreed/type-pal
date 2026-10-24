@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE42 named drawing/parser/test scopes; title speed review scoped delta",
+      "readMethod": "OwnedCODE56 six code scopes accepted scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE42 named drawing/parser/test scopes; title speed review code accepted; unified gates deferred.",
+      "coreConclusion": "CODE56 six code scopes accepted code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "9419142c14f0b0b7717344fb6aa2456235e738846fb7b33073001183ce84fb49",
+      "afterSha256": "39d4d66d07172808dd4608d3a87ffc31101bdc3f945938b64d3acb460e53a369",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "9419142c14f0b0b7717344fb6aa2456235e738846fb7b33073001183ce84fb49",
+        "implementationSha": "39d4d66d07172808dd4608d3a87ffc31101bdc3f945938b64d3acb460e53a369",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1824,10 +1824,10 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-extract-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/review.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "9419142c14f0b0b7717344fb6aa2456235e738846fb7b33073001183ce84fb49",
+        "afterSha256": "39d4d66d07172808dd4608d3a87ffc31101bdc3f945938b64d3acb460e53a369",
         "lineCount": 20197,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1846,11 +1846,11 @@
         },
         "currentMaintenance": {
           "kind": "pre94-extract-code-acceptance-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/review.json",
-          "afterSha256": "9419142c14f0b0b7717344fb6aa2456235e738846fb7b33073001183ce84fb49",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/review.json",
+          "afterSha256": "39d4d66d07172808dd4608d3a87ffc31101bdc3f945938b64d3acb460e53a369",
           "lineCount": 20197,
-          "scope": "CODE42 named drawing/parser/test scopes; title speed review owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "56a4fa2a389ccfce074d7b7c03fb9553296928ac",
+          "scope": "CODE56 six code scopes accepted owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "1006f197c48bcc57e70b380487bb076ab3a2fc77",
           "workingTreeDelta": true
         }
       },

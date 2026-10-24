@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-24 CODE56接受，当前固定77accept／6partial／0pending；六文件新关闭，3438tracked／476closed／76review／2886pending。[逐文件与只读复验](minimap-closeout/README.md)，全仓/coverage/一个PR仍等全部pre94。
+
 2026-10-24 CODE42五文件新关闭，固定76accept／7partial／0pending不变；[职责、typed夹具与精确oracle](dialog-quality/README.md)。姓名速度已具体复现待裁决；统一门/单PR仍等全部pre94。
 
 2026-10-24当前3m：五文件新关闭，四数值source/test范围继续review等两项实际回答；固定76accept／7partial／0pending。[当前核心证据](battle-core-closeout/README.md)。
@@ -69,7 +71,7 @@
 | [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | partial | [五卡八维/返工](five-cards/README.md)：runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 |
 | [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
-| [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | partial | [minimap lifecycle 复审](56-minimap/README.md)：2 文件/20 直接，tools/dev 51 + picker 5 相邻；loading ownership 变异1红5绿，seam repair 留 CODE-QUALITY-57 |
+| [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | accept | [当前六文件代码接受](minimap-closeout/README.md)：三职责/只读依赖、22直接+32相邻、330核心及成功缓存单红；保留明示启发式边界，57/58及最终统一门另核 |
 | [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | partial | [工具/thumbnail有限切片](core-comment-audit/tools-thumbnail-hotkeys/README.md)：1944行宿主与两helper测试全文，注释/接线已核；未驱动thumbnail，seam/色板/视觉仍review |
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [夹具/隔离勘误](58-tools-panel-fixtures/README.md)：更正核心强转/窗口监听跨例，正式19绿/相邻199绿；无新统一门，save边界不认证 |
 | [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | accept | [九文件及quick-save补强](save-v1-local.json)：52相邻/20386check/19988official ratchet与protected，全部零诊断；5次真实文件/IDB验证，既有反控复用 |

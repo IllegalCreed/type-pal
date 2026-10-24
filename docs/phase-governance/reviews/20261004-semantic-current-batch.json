@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE42 named drawing/parser/test scopes; title speed review scoped delta",
+      "readMethod": "OwnedCODE56 six code scopes accepted scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE42 named drawing/parser/test scopes; title speed review code accepted; unified gates deferred.",
+      "coreConclusion": "CODE56 six code scopes accepted code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "d604410d727b176171ff49e328e25644956d42f53dd8680e0bfe298d4790e71b",
+      "afterSha256": "308ce8d262906c97c60a4f68d851f370036753b8f3fc47edafc97ef666a02259",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "d604410d727b176171ff49e328e25644956d42f53dd8680e0bfe298d4790e71b",
+        "implementationSha": "308ce8d262906c97c60a4f68d851f370036753b8f3fc47edafc97ef666a02259",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,11 +1714,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-extract-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/review.json",
-        "afterSha256": "d604410d727b176171ff49e328e25644956d42f53dd8680e0bfe298d4790e71b",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/review.json",
+        "afterSha256": "308ce8d262906c97c60a4f68d851f370036753b8f3fc47edafc97ef666a02259",
         "lineCount": 90,
-        "scope": "CODE42 named drawing/parser/test scopes; title speed review owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "56a4fa2a389ccfce074d7b7c03fb9553296928ac",
+        "scope": "CODE56 six code scopes accepted owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "1006f197c48bcc57e70b380487bb076ab3a2fc77",
         "workingTreeDelta": true
       },
       "history": [

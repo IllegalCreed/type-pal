@@ -455,3 +455,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-24 3m五新关闭、两数值停止线待答；固定76accept／7partial不变。[当前核心scope与只读快检](battle-core-closeout/README.md)。
 
 2026-10-24 [CODE42职责与测试质量](dialog-quality/README.md)：七文件明确接受、五新关闭；532不同身份与当前子集刷新，姓名速度停线，42仍partial；全仓重门继续延后。
+
+2026-10-24 [CODE56小地图代码接受](minimap-closeout/README.md)：六文件新关闭、固定77accept/6partial；纯规则/绘制/控制器分开，移除执行器依赖；54与330相邻及单红，统一门继续延后。

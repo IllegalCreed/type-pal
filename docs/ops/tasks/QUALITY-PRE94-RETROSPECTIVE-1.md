@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
+
 > 2026-10-24 CODE42有限质量接受：3435tracked／470closed／79review／2886pending，五新关闭、两旧测试刷新；parser/state/draw职责与三个typed夹具叶完成，两个死矩形测试精确退役。105直接／427相邻、game TC与局部静态；姓名速度counter待实际裁决，42整卡仍partial，固定76／7不变。统一全仓/official/protected/PR待全部pre94。[本窗证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)。
 
 > 当前3m五文件新关闭、四旧关闭刷新：3432tracked／465closed／79review／2888pending；固定76accept／7partial／0pending。两错误映射旧全绿/新各一业务红，86核心+14状态构造/TC0；四数值范围待两项用户答复，整卡不提前收口。统一门与单PR待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md)。
@@ -1813,3 +1815,23 @@ build allowed：先3文件职责搬移，保持全部现有root出口/调用身�
 532不同身份一次集中通过，后继25／23只替换其重叠子集，不记580；game TC/静态记录按实际候选，未跑统一重门。新增speed→style→name→body真实事件观察揭示速度14被姓名重置3，SDLPal姓名分支不改iDelayTime；普通原盘可达性未证，已异步请求这条具体产品裁决，尚未收到，不改行为。42状态源继续review而不把其它已核七文件一并冻结。此前两项用户call_331批准（毒入口／P3接回）已由ef012/b285修复，当前重复送达不产生重复实现或二次授权请求。
 
 初始工具语法/路径、格式及warning/info原件如实保留，已纠正的仅按新结果记通过；完整[只读复验入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)。剩余1／3m／42／53／56／57／58继续，全部pre94冻结后单一统一门及一个PR；94–102未扩展。
+
+## 2026-10-24 CODE56规则／绘制／控制器余项准入
+
+同一3y／1006f197c基点、单一Coding Owner Codex；fetch已核main b3d、0behind，主树只读。复用56、tools-thumbnail-hotkeys全文/四真实反控与58合法宿主证据，已完整读取当前minimap499行、主测161行与L18专测254行；差异只在既有分类注释/变换断言和移动布局/语言接线，旧合同按实际函数体桥接，不重复反控。
+
+build allowed为三文件纯职责拆分：几何／分类／投影规则、Canvas绘制、DOM/持久偏好/异步Image与rAF Owner；root所有现有export/type/signature、像素、监听和缓存政策保持。先保存22例同版基线，再全声明/导入/根出口及初始化证明。控件仅有page单次安装Owner，不借此新增disposer/API或改变UI；640坐标与bootstrap实际caller绑定，seam/palette仍CODE57。
+
+必要测试返工同模块内独立提交：已有Image.pending用例只证onload前dedup，若实际counter可证遗漏成功缓存判别力，保留原身份补合法CanvasImageSource解码宿主和onload后缓存/像素，不mock被测函数。每针旧绿/新指定业务红、精确恢复与完整原件；相关片冻结后一次定向/相邻/TC，全部pre94前不跑全仓/official/protected/PR，94–102不扩展。CODE58随后核剩余职责与实际caller，不用本片绿批量关闭。
+
+CODE56依赖准入增量：实际根仅用script-catalog的两个getter，规则层仅借三个opcode字面值却经event-system/event-opcode-player整份解释器加载。允许三ID移入无副作用script-opcode-ids内部叶，原解释器出口/值保留；再将小地图两getter直连现成catalog、三ID直连新叶。两片分别3/2文件，完整当前声明/正文/导入/出口还原验证；不改字节码、指令值、解释器逻辑、公共入口或资源。3r/3p仅这段已核纯导入/const增量，既有其余接受不撤回；额外新叶逐项八维，旧可见机制证据复用。
+
+## 2026-10-24 CODE56原代码范围验收
+
+2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
+
+91025c0a4为三职责精确搬移；8cd2428d4成功缓存反例强化，初版IO类返回foreign实例的lint拒绝原样保留，由1ffd1d020改为合法构造型IO工厂并核坏持久zoom路径。aea5cf9df三ID同值下沉，a2b8f4c64只读目录／地图身份直连；8c9629175纯注释纠正错位单位/偏好与过时全局CSS说明。原22身份不增减、不改baseline；删除成功缓存写入的最终变异旧22绿、新21绿1指定AssertionError，复原完整字节。
+
+54与330为两组不同身份，相邻5条正常装配console.log单列原件，不冒称stdout空。新纯规则/绘制没有执行器依赖，原root所有公共值/类型出口保持；两核心源只const/import变化，全文件恢复证明给已有3r/3p接受承接。旧dialog等严格context SHA快检因此STALE时，仅两ID声明/绑定变化按本窗证明桥接，不倒写原件或自动扩读其它范围。当前局部静态/发布见本窗static；全部pre94前未跑新全仓/official/protected或PR。
+
+本轮把旧输入域未知拆清：生产all.json/catalog提供null-prototype整数索引，导入cursor不替换全局目录；标准方形DPR画布和固定正视野宽为真实输入；坏zoom字符串有直接默认档反证。分类明确是潜在奖励启发式，同数组标签非实时、raw数量不精确模拟均保留已知限制，不声称原盘可达性或任意外部DOM/Record。CODE57seam/palette仍review，58源/两测已读而未改，具体C–H/IO余项留review.next58Review避免后继重复全文。剩余1／3m／42／53／57／58，不扩94–102。

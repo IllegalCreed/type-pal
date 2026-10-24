@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 76,
+  "currentAccepted": 77,
   "cards": [
     {
       "id": "1",
@@ -2329,8 +2329,8 @@
       "sha256": "3d760c42ad5c52570e7458a0c41c15cd095c98c8b575f8fa626a21340bdc30ce",
       "lines": 80,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2353,7 +2353,9 @@
           "text": "- build 准入: Codex build allowed（先写失败反例；只改本卡白名单）"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md",
+      "currentReviewNote": "Original controller/model/draw and tests accepted with six named file closures; CODE57/58 and final unified gates separate."
     },
     {
       "id": "57",
@@ -4273,34 +4275,35 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 7,
-    "accept": 76
+    "partial": 6,
+    "accept": 77
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE42 quality separation, five new file closures; state/title-speed review",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md",
-    "newlyAcceptedCards": [],
+    "scope": "CODE56 original scope and six named files accepted; read-only interpreter dependency removed without value/API change",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md",
+    "newlyAcceptedCards": ["56"],
     "newlyClosedFiles": [
-      "packages/game/src/present/dialog-text.ts",
-      "packages/game/src/present/dialog-draw.ts",
-      "packages/game/src/__tests__/dialog-fixtures.ts",
-      "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
-      "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+      "packages/game/src/tools/minimap.ts",
+      "packages/game/src/tools/minimap-model.ts",
+      "packages/game/src/tools/minimap-draw.ts",
+      "packages/game/src/tools/minimap.test.ts",
+      "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "packages/game/src/core/script-opcode-ids.ts"
     ],
     "fixed83": {
       "pending": 0,
-      "partial": 7,
-      "accept": 76
+      "partial": 6,
+      "accept": 77
     },
     "counts": {
-      "total": 3435,
-      "verified": 470,
-      "review": 79,
+      "total": 3438,
+      "verified": 476,
+      "review": 76,
       "pending": 2886,
-      "unclosed": 2965
+      "unclosed": 2962
     },
-    "limits": "State speed question pending; no whole42/fullpre94/unified gates or94-102 credit."
+    "limits": "No CODE57/58, broad core reacceptance, fullpre94 or unified gate credit. 3m/42 product answers pending."
   },
   "incrementalReviewHistory": [
     {
@@ -4706,6 +4709,32 @@
         "unclosed": 2967
       },
       "limits": "Two actual product answers pending; no entire3m/fullpre94/unified gate or94-102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE42 quality separation, five new file closures; state/title-speed review",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md",
+      "newlyAcceptedCards": [],
+      "newlyClosedFiles": [
+        "packages/game/src/present/dialog-text.ts",
+        "packages/game/src/present/dialog-draw.ts",
+        "packages/game/src/__tests__/dialog-fixtures.ts",
+        "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 7,
+        "accept": 76
+      },
+      "counts": {
+        "total": 3435,
+        "verified": 470,
+        "review": 79,
+        "pending": 2886,
+        "unclosed": 2965
+      },
+      "limits": "State speed question pending; no whole42/fullpre94/unified gates or94-102 credit."
     }
   ]
 }

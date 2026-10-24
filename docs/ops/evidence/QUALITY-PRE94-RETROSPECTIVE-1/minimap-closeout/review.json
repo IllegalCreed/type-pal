@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "owner": "Codex single agent; own code review, no independent third-party claim",
+  "base": "1006f197c48bcc57e70b380487bb076ab3a2fc77",
+  "candidate": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+  "decision": "CODE56 original scope and three new pure leaves accepted; final pre94 integration deferred, CODE57/58 and broader core files not granted by adjacency",
+  "files": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "2535e26d93586f17b77404adff93b04946435812bcd556014fd4086de9adbbf3",
+      "lines": 298,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Page single-install owner via setupToolsPanel guard; image transactions stay per-map until load/error, reject/null fail closed. Scene-array replacement invalidates marker cache. Late image completion only fills its captured key, not current DOM/scene. LocalStorage alpha zoom uses default index2; real key then reaches index1. Canonical map>0, square DPR canvas and four positive view widths are actual caller inputs.",
+        "B": "Page lifetime vs surface detachment explicit; fixed moved LS comments and obsolete global canvas960x600 claim. Widget-only presentationKey is distinguished from shared marker/zoom preferences. No general abort/unmount/SSR promise.",
+        "C": "Owns only preferences, image/cache, DOM and rAF; model and Canvas writing delegated. Getters bind directly to existing read-only catalog/identity leaves, no event/scene executor import; state is borrowed, never mutated.",
+        "D": "Single model transform shared by draw/controller. Only real map/outW producer remains bootstrap; no universal cache/service helper. Page owner avoids redundant controller/disposer interfaces.",
+        "E": "Original22 identities unchanged; 54direct/adjacent run plus330core adjacency. Previous decode-error/dedup/pixel/keys/discrimination evidence reused at named bodies; successful-cache hole strengthened with real CanvasImageSource and pixels, old22green/new21green1AssertionError.",
+        "F": "Page controller separated from coordinate/classification and Canvas operations; explicit baseLoading/baseFailed per-key lifecycle, no mode boolean abstraction.",
+        "G": "Every root public export preserved; new leaf-only SCALE/WHOLE_VIEW not exposed by root. No dead fallback, disposer API, schema field, CSS/UI variant or product change. Permanent listeners are page-owned, active rAF resumes surfaces as intended.",
+        "H": "Real canvas and exact callbacks test output; Image is IO-only adapter, not mocked cache. Controlled timers/listeners/storage/map restored by test host. No compiler casts, ignores, timeouts or rule changes added."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/minimap-model.ts",
+      "sha256": "cacc7e36d063c9aefe36491e9c8b4d11d843fde880be822c7b035fe816a291d7",
+      "lines": 140,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Full geometry/classifier/projection declarations preserved from base. The tool deliberately scans <=400 rows without following branches; raw1F positive-id policy is an existing heuristic, not exact inventory execution. Current global table is set from all.json and its null-prototype label map stores integer array indices; imported cursor commands do not replace that global table. Unsupported arbitrary external Record/DOM values are not a hidden accepted runtime domain.",
+        "B": "Correct coordinate/scale comments after move; potential reward marker is no longer called certain reachable treasure. Raw/parsed quantity distinction and non-reactive same-array cache limitation remain explicit.",
+        "C": "No DOM/clock/IO calls or executor dependency; type-only GameState/NpcState, three immutable numeric identifiers only. Pure outputs derive from caller snapshot/tables; array/key ownership stays controller/catalog.",
+        "D": "One2080→640 coordinate definition shared by draw and four view widths. No consolidation with96px picker layout or glyph/scene renderer because output/ownership differ.",
+        "E": "14 direct model identities use literal4/13 offsets, asymmetric center, both clamps, item/teleport ordering and legal typed factories. Prior nine controlled mutants bind unchanged pure functions; no repeated full old reviews claimed.",
+        "F": "Geometry/marker/data snapshot names separate units and heuristic limits; no interleaved DOM/cache branches.",
+        "G": "Two leaf-only shared constants have real draw/controller users; root API exactly preserved. No added generic options, future interface or compatibility routine.",
+        "H": "Pure functions can be imported independently of event/scene execution, resources or DOM. Static dependency check rejects executor imports; real direct tests retain independent literals."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/minimap-draw.ts",
+      "sha256": "0c85c9834d521dbb12777ba1217f8f033ccfe684005651f1cfaf7a2c8fbf18f9",
+      "lines": 97,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Borrowed square canvas/context, thumbnail, snapshot/toggles/view only; positive source width from four canonical views. Transform, crop and draw order are exact moved declarations; no current map/state lookup or DOM attach. Current pixels preserve NPC/item independent toggles and320x200 viewport.",
+        "B": "Fixed inherited trailing comment misassociation on viewportW/H; units distinguish backing pixels and source/world pixels. No screenshot/SDL minimap UI claim.",
+        "C": "Only model value/type imports; no interpreter, localStorage, requestAnimationFrame, URL, Image loading, global scene lookup or game state writes.",
+        "D": "Uses one coordinate rule and shared marker palette with actual tools legend, keeps canvas circle policy local rather than merging unrelated sprite/render text code.",
+        "E": "Real Canvas pixels for player/items/NPC and crop; previous color/crop/toggle mutants remain applicable by exact full function-body bridge. New image cache test confirms actual loaded base reaches this writer.",
+        "F": "Short concrete writer and dot helper; source/domain inputs named; rendering decisions separate from controller lifecycle.",
+        "G": "All moved helpers consumed, no expanded root API or redundant base-loading wrapper. Existing canvas-null guard remains caller boundary, not new fallback.",
+        "H": "Supplied real canvas and image permit independent pixel samples. Only browser IO adapter is controlled; drawing not mocked. Non-square arbitrary external canvas not claimed."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "sha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+      "lines": 161,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Current161lines/14 identities fully read. Uses real initial state/NPC fields and typed Command; fixed geometrical constants are independent of source BASE_PX. No actual script execution or exact treasure reachability claim.",
+        "B": "count0 title no longer claims raw treasure/name population; comments distinguish raw Word vs tool heuristic and literal geometry evidence.",
+        "C": "Pure test inputs/outputs, no controller lifecycle setup or shared global script mutation. Models are real root exports; typed state factory reused.",
+        "D": "Primitive transforms kept here, pixel/IO/keys in leaves. Historical geometry assertions explicitly migrated, no equivalent assertion dropped.",
+        "E": "Source-mutant evidence for Y/X, upper clamp, priority and horizontal transfer reused; exact current model functions match frozen versions. Literal outputs/sizes and opposite-priority order discriminate;14 count retained.",
+        "F": "Domain helper factories show operand/type intent; asymmetric x/y prevents apparently useful symmetric fixture.",
+        "G": "No new tests/skip/only, duplicated loops or weakened matcher; keeping range/tolerance reflects actual floating calculation, not blanket approximate output.",
+        "H": "Deterministic pure inputs; no DOM, mocks, time, network or filesystem. Current54 suite includes this14 directly."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "17055b8282521bd5fff700d171206f79f248ae7e344e769876efb1b253e863f7",
+      "lines": 276,
+      "decision": "accept",
+      "dimensions": {
+        "A": "8identities cover real canvas, preferences, keyboard, image decode pending/error/success; cache success now observes load event, request count and exact real base pixel. Invalid stored zoom alpha follows actual default→Minus path.",
+        "B": "Header now states bounded malformed-zoom check and separate pixel/control domains; no all-visibility or arbitrary external input guarantee.",
+        "C": "Fresh stable state, real controller/cache/drawing; Image factory replaces only decoding IO. Host owns controllers, listeners, rAF, DOM, preferences and map identity, exact cleanup in finally.",
+        "D": "No geometry duplicate added; existing pending-load identity extended through successful completion. Independent fixed RGBA/crop and keyboard range stay separate contracts.",
+        "E": "Mutation deleting cache write passes entire old22; final counterpart fails exactly one business AssertionError,29green/1red in30executions including shared14. Pixel assertion prevents request count alone serving as draw oracle. Original8 identities unchanged; no weakening.",
+        "F": "Image-host factory produces a genuine CanvasImageSource; no class constructor returning foreign value. Pending vs success vs error explicit event boundaries.",
+        "G": "8count retained, no test retirement or baseline change. New noConstructorReturn failure corrected in own follow-up rather than rule change; no core cast/ignore/timeout increase.",
+        "H": "Explicit fake rAF and call-through listeners/Canvas spies; real output remains observable, controllers disabled and own resources removed even on failures. IO mock is not a mock of production logic."
+      }
+    },
+    {
+      "path": "packages/game/src/core/script-opcode-ids.ts",
+      "sha256": "1c78cbdf887755ccef0fa6958fe6937366fad3c4e1503dc0daa46234f44a7705",
+      "lines": 6,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Exactly0x1e/0x1f/0x55 copied from original interpreter declarations; full two core files reconstruct identically when these declarations are restored, including all other imports/functions/types/exports.",
+        "B": "Header states shared grant identifiers and absence of interpreter/DOM/resource ownership; no independent mechanism claim beyond frozen exact values.",
+        "C": "Three const literals, no imports or eager calls; interpreter/player family and read-only marker are actual consumers. Protocol knowledge can be used without loading executors.",
+        "D": "One definition per shared ID, original event-system and player exports forward same values. No copied opcode numbers or new enum/dispatch abstraction.",
+        "E": "Static literal/entire-file reconstruction plus330core identities. This tests alias/binding preservation; no trivial per-constant runtime test added merely for coverage.",
+        "F": "Existing OP_ADD names retained to preserve callers; small protocol leaf makes dependency direction explicit.",
+        "G": "All3constants have real current consumers, no future registry, generic helper or unused export. Other opcode IDs remain with current owners until an actual shared need exists.",
+        "H": "Pure immutable values have no state/test seam. Static exact binding proof catches ID/value/export drift without fake runtime cases."
+      }
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ce9cce7e91ab2b0f662f25508acdf88234768b5b63d2f9ecc3232ef4151638a0",
+      "lines": 47
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "sha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+      "lines": 159
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1",
+      "lines": 60
+    },
+    {
+      "path": "packages/game/src/core/scene-identity.ts",
+      "sha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0",
+      "lines": 13
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98",
+      "lines": 431
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "7d11e97184667016599674cfded05289bc41ed691e4125ee914b9589d8d5f9bf",
+      "lines": 4973
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "84580af1ab2a5f5ff9a331aa2494eef7d6a54e86e2808a21d691c7496065014e",
+      "lines": 421
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "df6083ef6eeaf958db857a728a7a661185d2975e300bfba28a47c32a75f911de",
+      "lines": 1332
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+      "lines": 10
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+      "lines": 1949
+    },
+    {
+      "path": "packages/game/index.html",
+      "sha256": "55a747276b155879353b1c1d5978d56cbddf7ebe1cca2e53281271ca21e08b9d",
+      "lines": 136
+    }
+  ],
+  "inherited": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md",
+      "sha256": "12db758df754d892209e2d2271e77180657a8d483f6ff627279222c624736970",
+      "lines": 35
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/controls.json",
+      "sha256": "6a1bc63b0ddc775c0e7abb8e8bd9b33edd8233187e8334daf9a7850fcb3932ee",
+      "lines": 1005
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/raw-quantity-audit.json",
+      "sha256": "8925167929aebc6ad9a5ac0c48b95022f32b7608c1055c5246c0bda87b229c07",
+      "lines": 19
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/controls.json",
+      "sha256": "66b28ee64f82e1d53a6f9c2140dc486a5fdd1f758b1cdd9a1af4ee8723473613",
+      "lines": 439
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/transfer-controls.json",
+      "sha256": "f59a4e486713fb04a5b222665edceea3df1b9d8333bbeddd78bd1443db408d75",
+      "lines": 233
+    }
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "267ccce9e2bfab1fcef2be0304824b25c076c022b4f84c856250ce3153cf0bb9"
+  },
+  "stages": {
+    "split": "91025c0a47b55bb0638fefd825b5ebd66df41598",
+    "testBeforeStaticRepair": "8cd2428d4ff9cb9b7cff7d3e0f2d0cea40ee3fc0",
+    "test": "1ffd1d0206e69ed8ed8f1a75968975e3e6602be0",
+    "ids": "aea5cf9df46b4403cec0720948fe3b7a2f57e2c5",
+    "bindings": "a2b8f4c64600f907d04b477eab03a106a5469cae",
+    "comments": "8c96291751aafc10c4ec09f32257e8cf58ce42cd"
+  },
+  "bodyBridge": "Frozen split proves all full TS declarations and root exports/import bindings. Current binding proof reconstructs two core files and two import-only changes; comments are full AST invariant. Current pure model/draw functions equal old aaf snapshot independent of imports. No old checker simply repinned to pass.",
+  "contextDeltas": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "scope": "Only two const declarations replaced by same literal leaf imports/reexports; full remaining TS reconstructed, prior3r whole acceptance inherited."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "scope": "Only OP_ADD_MAGIC same-literal import/reexport; full remaining TS reconstructed, prior3p whole acceptance inherited."
+    }
+  ],
+  "gates": {
+    "baseline": "22direct",
+    "current": "54distinct cases in7files=22direct+32adjacent",
+    "coreCurrent": "330distinct in2corefiles, exact IDs/body binding and current typecheck",
+    "counter": "30executions=14shared+8old+8new; old22green, new21green+one business AssertionError. No extra30 acceptance cases.",
+    "static": "static.json",
+    "unified": "NOT RUN until all pre94 code/evidence complete"
+  },
+  "newClosed": [
+    "packages/game/src/tools/minimap.ts",
+    "packages/game/src/tools/minimap-model.ts",
+    "packages/game/src/tools/minimap-draw.ts",
+    "packages/game/src/tools/minimap.test.ts",
+    "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/script-opcode-ids.ts"
+  ],
+  "counts": {
+    "total": 3438,
+    "verified": 476,
+    "review": 76,
+    "pending": 2886,
+    "unclosed": 2962
+  },
+  "fixed83": {
+    "accept": 77,
+    "partial": 6,
+    "pending": 0
+  },
+  "knownRetained": [
+    {
+      "item": "raw/parsed quantity and goto/call reachability",
+      "classification": "Known heuristic limit, not unresolved interpreter truth",
+      "disposition": "Classifier emits optional potential reward markers only and never executes scripts. Retain documented linear/current raw-positive-ID policy. Original43503-row/425raw1F statistics reused; no negative qty in that frozen raw snapshot; not claiming arbitrary imported cursor code is classified soundly."
+    },
+    {
+      "item": "Same npcs array in-place label changes",
+      "classification": "Known cache policy",
+      "disposition": "Cache remains array-generation scoped, no promise of immediate trigger-script live edits. No new cache invalidation policy/feature approved or introduced."
+    },
+    {
+      "item": "DPR/non-square/invalid map/labelmap domains",
+      "classification": "Caller contract settled",
+      "disposition": "Production installs once in browser; map loader and all.json supply standard maps and null-prototype integer index table. Four positive world widths, square backing and browser DPR are real inputs; malformed local zoom alpha now directly validated. Arbitrary canvas/labelmap/fake browser values are not certified."
+    },
+    {
+      "item": "Seam/palette/global thumbnail writer",
+      "classification": "CODE57 review",
+      "disposition": "Not a claim of this controller/model/draw quality acceptance."
+    }
+  ],
+  "normalOutputs": {
+    "id": "minimap-adjacent",
+    "count": 5,
+    "kind": "Existing dev-panel console.log installation notices, same literal each case; complete output kept. They are not warnings/errors or an empty-stdout claim.",
+    "literal": "[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump"
+  },
+  "processDisclosure": [
+    "Initial split producer omitted computeView in model list: raw static redeclaration/unused import failure preserved, source regenerated from immutable before, final TS proof passed.",
+    "Initial static after regeneration had unused BASE_PX import; removed actual unused binding, no ignore.",
+    "First IO host used class constructor returning canvas; lint noConstructorReturn rejected. Intermediate local8cd was not publication-ready; proper constructable IO factory in1ffd, no rule change. Final same mutation rerun under final fixture.",
+    "First selector preflight rejected nonexistent shell/presentation.test.ts before any Vitest run; actual seven files used, no product-red credit.",
+    "Opcode export organization first static failed; normal formatter grouped aliases. Binding proof quote/import-order assumptions produced a false failure; corrected proof checks whole non-import TS and exact mapped import bindings, frozen failed producer/raw preserved.",
+    "Old source comments became attached to next declarations during pure move; fixed all coordinate/LS/CSS associations in comments-only commit, TS invariant proof preserved.",
+    "First verifier assumed every old control packet declared nativeSha256; four earlier controls only pinned raw. No mismatch was found: new explicit native gzip SHA/Git blob pins at pre-window base added, old metadata untouched; native counts/identities/failure assertions still checked."
+  ],
+  "next58Review": {
+    "source": {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "df6083ef6eeaf958db857a728a7a661185d2975e300bfba28a47c32a75f911de",
+      "lines": 1332
+    },
+    "read": "Full1332 lines; main310/leaves70/fixture89 and bootstrap GS identity/current SaveSnapshot inspected this turn; code untouched.",
+    "axes": {
+      "A": "Production GS const identity retained by Object.assign on load, so scene callback closure not proven stale. Save export async rejection/FileReader error surface still needs actual caller/IO verification.",
+      "B": "BGM MIDI+OGG comment stale; currently MIDI/RIX. Keys section title/test says5 while actual6.",
+      "C": "DOM styles, helpers, tab business projection/IO and setup owner cohabit; battleSig has two unnecessary structural casts, private English helpers take wider GS/resources than needed.",
+      "D": "Reuse named UI rows; avoid generic mode helpers or merging speedrun/save side-effect contracts.",
+      "E": "Typed stable host and19direct contracts/old isolation evidence applicable; current first-poll case uses explore signature, do not claim status/money or save IO covered. Literal key pairing can be strengthened.",
+      "F": "Tab names clear; styles and IO operations deserve ownership boundaries rather than1kline length target.",
+      "G": "Page listeners/interval are page-owned, no new disposer needed; private unused fields/contexts must be inspected before deletion.",
+      "H": "Real DOM callbacks and injected ports support direct controlled tests; no core mocks or test-only public API planned."
+    },
+    "disposition": "review; not CODE58/file acceptance"
+  },
+  "invalidation": "Any listed source/caller/fixture/import/input-policy change stales affected claims; workflow-only metadata does not require rerunning unchanged product. Hashes prove identity, manual scoped A-H review supplies semantic judgment.",
+  "inheritedNativePins": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/view-y-uses-x.old.vitest.json.gz",
+      "sha256": "f987d6e68646871f384b5447497d5edb33d7e8f23c08a876c7895e9f5d31a766",
+      "gitBlobAtBase": "0447f90364930f20867df1f2d39721f7050d38eb",
+      "legacyDeclaredNativeSha256": "bdcfb147cd714e600f8624d533d170dae59186024051183fcfcab7da7b2135bc"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/view-y-uses-x.current.vitest.json.gz",
+      "sha256": "a50add7954913d7645d048ad76fdea508883d51f6c9adfe30ec172491588acfa",
+      "gitBlobAtBase": "8e071cb28e4506614998945c0a0d4b811232b33c",
+      "legacyDeclaredNativeSha256": "356432d382e483c3277bef9a991495c5b2e368cd109ebaa1687aeb51a12b951f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/view-upper-clamp-missing.old.vitest.json.gz",
+      "sha256": "8e240600055b748d4b37f0f2fea27444622bbd7395f89ec3104e493d8ff1b39a",
+      "gitBlobAtBase": "33ae534e32d8bec1571b46b2968fcec345012eaf",
+      "legacyDeclaredNativeSha256": "f8994857109e3ed122cb79010afa4959fb8daceb893fa83dd1c20d498927664b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/view-upper-clamp-missing.current.vitest.json.gz",
+      "sha256": "3a4f1f21eedcdd1693838fd91f6a55e24873b4e11ad56e6e13333ecc97799ddb",
+      "gitBlobAtBase": "ea27709f8b79fcbadd7231812a09639654b88a28",
+      "legacyDeclaredNativeSha256": "4adaacb349925c9a26664d70bd724d9080b6e15c44330c21603d10ddf96bbbe4"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/teleport-returns-before-later-item.old.vitest.json.gz",
+      "sha256": "0d6bdc26983e1fa72274420a594e9f2cbd8b37aa91a1378011e0f8798bcacb78",
+      "gitBlobAtBase": "124ad3702ccf7f0923faf6cd6393ec6891137b24",
+      "legacyDeclaredNativeSha256": "0d897286a16b557e6118d7860c277bdfee8050b9f4aa6317b0138604692d9200"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/teleport-returns-before-later-item.current.vitest.json.gz",
+      "sha256": "0cc4153b0b4ca6671fc3e3db30606e221a6b77fdcaa5da96b728b8fa6bfdc5db",
+      "gitBlobAtBase": "d4176bc16f3953e901c8a519e063ac79320fd0b1",
+      "legacyDeclaredNativeSha256": "05742380c755729e1db522eef457dc6a6d05ca16431c2c3c0b34a4d32419d3ab"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/equal-shortcut-no-zoom.old.vitest.json.gz",
+      "sha256": "16e91d46204c009d9a276d5833b7e10c09fb1e64b5841a6e24a7329ebcc4d19d",
+      "gitBlobAtBase": "e75e54702b88013502a1068b062522793b4d331b",
+      "legacyDeclaredNativeSha256": "50b0c0661a838d3b22442ff52a531433794092e48736f43107ad8e7be771062c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/equal-shortcut-no-zoom.current.vitest.json.gz",
+      "sha256": "2ac11a726782f1770d7e2b963a9cc2528e0ed9289eea99a9f2ce90837195d097",
+      "gitBlobAtBase": "fa5fa081782826023e844d86108f44b508408dd6",
+      "legacyDeclaredNativeSha256": "14efef2f44d42856b89c3235dea6629b5b52e54faa8425cb8d4ead627d0b9c4a"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/input-focus-guard-missing.old.vitest.json.gz",
+      "sha256": "2e8babbdf8c5158efb6c3817897f4a3726e63bbf02ad5ad21f8867ca90dbb5c9",
+      "gitBlobAtBase": "0cb2ae1f33524572f1ffa08c55eb6900f8ad54f0",
+      "legacyDeclaredNativeSha256": "b6618bef5801d0b08145839e2cd91c484157478cfa6563a05e84664153507c2f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/input-focus-guard-missing.current.vitest.json.gz",
+      "sha256": "7c9137096aeb8b56346e8a793c7b3ebb31bf5e6416e36b9ff91bc8681fb03f31",
+      "gitBlobAtBase": "afcc8781503e489d41188fc0bc3d62625e0d6abb",
+      "legacyDeclaredNativeSha256": "3417d957bf42f04f1dba20d2d6734f262d58bcb08eb64d1c6b74db8240a901a5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/player-color-oracle-follows-source.old.vitest.json.gz",
+      "sha256": "ac9933810149badd50314cc060e0cbd6de55f507502ad793c69ba6c6321bdab3",
+      "gitBlobAtBase": "51d77e516cb5d1ff256741c6bf3232b218d75320",
+      "legacyDeclaredNativeSha256": null
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/player-color-oracle-follows-source.current.vitest.json.gz",
+      "sha256": "b3fdfb414ff4e7521c21a8b74619cf7e815e1f051f7607bcfa3d904e2fa036a8",
+      "gitBlobAtBase": "e2d6e1b000839fd614c5993a5328166bbc42d57e",
+      "legacyDeclaredNativeSha256": null
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/base-crop-ignored.old.vitest.json.gz",
+      "sha256": "b3794c3dc772fa1f667115af3ac613ca1651ecae1b50ecdfddca033fdb55569f",
+      "gitBlobAtBase": "820a7c06190e3c351fb037b3c0ba28d736be7044",
+      "legacyDeclaredNativeSha256": null
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/base-crop-ignored.current.vitest.json.gz",
+      "sha256": "4f245acaa3a7cafe73e4c52b16c4b6f65758398f82f50ef568161818bd1ae967",
+      "gitBlobAtBase": "35df796e5e594b28b2d3bcf21db651c6fefe4863",
+      "legacyDeclaredNativeSha256": null
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/npc-toggle-ignored.old.vitest.json.gz",
+      "sha256": "8820e8c2d5a9dafede3d94c283bcff0e48ec7efbe44fa29c0ae02fa7495f9544",
+      "gitBlobAtBase": "ab68b957c55839888e08ef6fdb1cfdb742bdfd3a",
+      "legacyDeclaredNativeSha256": null
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/npc-toggle-ignored.current.vitest.json.gz",
+      "sha256": "6b076c32f1d226d2dadd3b98fc423923bf615b656b2dddc6ba96ca8e53d951e5",
+      "gitBlobAtBase": "3f068e592ca25b1afb1148d96bf591d7f6222df1",
+      "legacyDeclaredNativeSha256": null
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/horizontal-geometry-transfer.old.vitest.json.gz",
+      "sha256": "879df086154bbca018df05956e3536847ca894b4e40e4feaecfca847e666a8f3",
+      "gitBlobAtBase": "92fb84e42ae28196a033c7b957a29917881b72fa",
+      "legacyDeclaredNativeSha256": null
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/horizontal-geometry-transfer.current.vitest.json.gz",
+      "sha256": "4cb4aae1651e95cc5db5341b503a4da14e4c7156cc66f04b00b3ea6693fafc60",
+      "gitBlobAtBase": "81a5df31bd911fb2dbceef094c10a6306ec8febb",
+      "legacyDeclaredNativeSha256": null
+    }
+  ]
+}
