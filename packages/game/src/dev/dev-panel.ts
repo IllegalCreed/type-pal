@@ -36,8 +36,14 @@ import type {
 import type { DialogSprite } from '../assets/dialog-assets.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
+import type { BattleStatus } from '../core/battle/battle-state.js'
+import { indexImageToCanvas } from './dev-indexed-image.js'
+import { mountDevPartyPanel } from './dev-party-panel.js'
+import { mountDevScenePanel } from './dev-scene-panel.js'
+
+export { togglePartyMembership } from './dev-party-panel.js'
+
 import { startBattle } from '../core/battle/battle-system.js'
-import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap,
   getGlobalCommands,
@@ -57,21 +63,10 @@ import {
   OP_WAVE_SCREEN,
 } from '../core/event-system.js'
 import type { Facing, GameState } from '../core/game-state.js'
-import {
-  hydratePlayerRolesRuntime,
-  PARTYOFFSET_X,
-  PARTYOFFSET_Y,
-  projectRuntimeToBattleRoles,
-} from '../core/game-state.js'
-import {
-  collectEnemyStatusReadouts,
-  collectFieldInfoReadout,
-  collectPartyStatusReadouts,
-} from '../core/inspect/battle-inspect.js'
+import { hydratePlayerRolesRuntime, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { partySlotForRole } from '../core/player-poison-state.js'
 import { loadScene } from '../core/scene-system.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
-import { getMapName, hasMapName } from '../tools/map-names.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/dev/fixtures/battle-fixtures.json` 对齐。 */
 export interface BattleFixture {
@@ -125,23 +120,6 @@ export interface SceneNamesData {
   _doc?: string
 }
 
-/**
- * 队伍在队开关纯逻辑(devpanel 队伍 tab 用):返回 toggle roleId 后的 partyMembers。
- * - role 0(队首李逍遥)常驻,toggle 无效(user 2026-06-04:至少保留队首)。
- * - 不在队 → push 末尾(站位顺序);在队 → 保序移除。
- * - 纯函数,不 mutate 入参。
- */
-export function togglePartyMembership(members: readonly number[], roleId: number): number[] {
-  if (roleId === 0) return [...members]
-  if (members.includes(roleId)) return members.filter((m) => m !== roleId)
-  return [...members, roleId]
-}
-
-/** 正数补 `+` 号(场效 signed 显示用)。 */
-function signedText(n: number): string {
-  return n > 0 ? `+${n}` : `${n}`
-}
-
 /** 自定义战斗临时 enemyTeam id(devpanel A);applyCustomBattle push 进 enemyTeams,startBattle 按此查。 */
 export const CUSTOM_BATTLE_TEAM_ID = 90000
 
@@ -176,7 +154,7 @@ export function computeMagicGrantsByRole(commands: Command[]): Map<number, Set<n
   for (const c of commands) {
     if (c.op !== 'raw' || c.opcode !== OP_ADD_MAGIC) continue
     const r1 = c.operands[1] ?? 0
-    if (r1 === 0) continue // dynamic(本游戏无)
+    if (r1 === 0) continue // 动态角色依赖执行上下文,静态DEV预设不推断
     const role = r1 - 1
     let set = grants.get(role)
     if (!set) {
@@ -189,11 +167,9 @@ export function computeMagicGrantsByRole(commands: Command[]): Map<number, Set<n
 }
 
 /**
- * 角色在 `level` 级时会的全部仙术 = 起手 role.magic + 升级习得(`entry.level<=level`,battle-system.ts:2701
- * 权威 `m.level>level` 跳过)+ 剧情/法宝授予,去重 cap 32(MAX_PLAYER_MAGICS)。
- *
- * level-up-magic 是 `[ROW][ROLE]`(sdlpal lprgLevelUpMagic[j].m[role]),角色习得 = 遍历所有 row 取该角色列。
- * 法术测试(runSpellTest)传 level=99 即全学(等价旧 roleMagics)。
+ * DEV预设法术集合：起手role.magic、等级不高于level的习得记录、传入的固定角色授予集合。
+ * 去重并保留前32项；不推演剧情条件或动态角色授予，不代表当前存档已学清单。
+ * level-up-magic按[ROW][ROLE]取列，与battle-progression的习得循环同域。
  */
 export function roleMagicsAtLevel(input: {
   playerRoles: PlayerRoles
@@ -328,33 +304,6 @@ function syncAllExpLevelsForRole(gs: GameState, roleId: number, level: number): 
   }
 }
 
-/**
- * 把索引位图头像(DialogSprite:R=G=B=palette index + opaque mask)用调色板上色画到 DOM canvas。
- * portraits PNG 是索引位图(非真彩),直接 <img> 会错色 —— 必须 palette 上色(同 framebuffer.toImageData)。
- */
-function indexImageToCanvas(
-  img: { width: number; height: number; indices: Uint8Array; opaque: Uint8Array },
-  palette: Palette,
-): HTMLCanvasElement {
-  const canvas = document.createElement('canvas')
-  canvas.width = img.width
-  canvas.height = img.height
-  const ctx = canvas.getContext('2d')
-  if (ctx) {
-    const data = new Uint8ClampedArray(img.width * img.height * 4)
-    for (let i = 0; i < img.indices.length; i++) {
-      const col = palette.colors[img.indices[i]!] ?? [0, 0, 0]
-      data[i * 4] = col[0]
-      data[i * 4 + 1] = col[1]
-      data[i * 4 + 2] = col[2]
-      data[i * 4 + 3] = img.opaque[i] ? 255 : 0 // RLE-skip 透明 → alpha 0
-    }
-    ctx.putImageData(new ImageData(data, img.width, img.height), 0, 0)
-  }
-  // 只画像素(canvas 内在尺寸 = 原始);显示尺寸由 caller 设 style(头像 88 高 cover / 道具图标 22×22)。
-  return canvas
-}
-
 export interface DevPanelDeps {
   gs: GameState
   fixtures: BattleFixturesData
@@ -465,13 +414,6 @@ export function setupDevPanel(deps: DevPanelDeps): void {
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
 let currentPicker: HTMLDivElement | undefined
 let currentPickerCleanup: (() => void) | undefined
-
-/**
- * 场景缩略图 dataURL 缓存(key = `m{mapNum}` / 无 map 时 `s{sceneId}`)—— **模块级**,跨 picker 开关存活,
- * 同 map 多场景共享。renderSceneThumbnail(bootstrap)内部另按 mapNum 缓存渲染结果;这里再缓存一层
- * 让重开面板 / 同 map 卡片立即出图不闪。
- */
-const sceneThumbCache = new Map<string, string>()
 
 /**
  * M5.6 W2.a:dev panel CSS 注入。
@@ -858,19 +800,6 @@ function openPicker(deps: DevPanelDeps): void {
   // 已开 → 先关再开(防多按 B 累浮层)
   if (currentPicker) closePicker()
 
-  // picker-owned async resources must stop observing the old DOM before a new
-  // picker takes ownership. The generation also fences deferred thumbnail
-  // results after filtering or closing; the shared URL cache remains useful.
-  let pickerClosed = false
-  let sceneGeneration = 0
-  let sceneObserver: IntersectionObserver | undefined
-  const cleanupPicker = (): void => {
-    if (pickerClosed) return
-    pickerClosed = true
-    sceneObserver?.disconnect()
-    sceneObserver = undefined
-  }
-
   injectDevPanelCSS()
 
   const div = document.createElement('div')
@@ -882,7 +811,7 @@ function openPicker(deps: DevPanelDeps): void {
   h3.textContent = 'Dev Panel'
   h3.className = 'tp-dev-panel-title'
 
-  // M5.6 UX hotfix:close 按钮右上角 X(user 怒怼"Cancel 在底部不顺手")
+  // 关闭入口位于右上角，与页面级B键共用picker清理。
   const closeBtn = document.createElement('button')
   closeBtn.textContent = '×'
   closeBtn.title = 'Close'
@@ -890,7 +819,7 @@ function openPicker(deps: DevPanelDeps): void {
     'position:absolute; top:6px; right:8px; padding:0 8px; cursor:pointer; font-size:20px; line-height:1; background:transparent; border:none; color:#fff; font-weight:bold'
   closeBtn.addEventListener('click', closePicker)
 
-  // ── Tab 栏 + 5 个 content 容器(战斗 / 队伍 / 场景 / 演出 / 系统);各 section 开头切 `body` 决定归属 ──
+  // 五个tab容器由page宿主创建，各工具段显式接收自己的容器。
   const TAB_DEFS = [
     ['battle', '⚔ 战斗'],
     ['party', '👥 队伍'],
@@ -926,9 +855,44 @@ function openPicker(deps: DevPanelDeps): void {
   const tabSystem = contents.system!
   div.append(h3, closeBtn, tabBar, tabBattle, tabParty, tabScene, tabEffect, tabSystem)
 
-  // 当前 section 的 append 目标(每个 section 开头重设);初始 = 战斗 tab。
-  let body: HTMLDivElement = tabBattle
+  mountBattleTools(tabBattle, deps)
 
+  const cleanupPicker = mountDevScenePanel(tabScene, deps, (jump) => {
+    closePicker()
+    void applySceneJump(deps, jump)
+  })
+
+  mountStoryTools(tabEffect, deps)
+
+  mountDevPartyPanel(tabParty, deps)
+
+  mountInventoryTools(tabSystem, deps)
+
+  mountEffectPlayers(tabEffect, deps)
+
+  mountMusicTools(tabSystem, deps)
+
+  showTab('battle') // 默认显示战斗 tab
+  document.body.appendChild(div)
+  currentPicker = div
+  currentPickerCleanup = cleanupPicker
+}
+
+type EventInjectionDeps = { gs: Pick<GameState, 'eventCursor' | 'mode'> }
+type StoryToolsDeps = Pick<
+  DevPanelDeps,
+  'gs' | 'sceneAssetsCache' | 'onSceneChanged' | 'onFontTest'
+>
+type CutsceneToolsDeps = Pick<DevPanelDeps, 'gs' | 'sceneAssetsCache' | 'onSceneChanged'>
+type InventoryToolsDeps = Pick<DevPanelDeps, 'itemIcons' | 'palette'> & {
+  gs: Pick<GameState, 'inventory' | 'dwCash'>
+  resources: Pick<DevPanelDeps['resources'], 'items'>
+}
+type EffectPlayersDeps = EventInjectionDeps &
+  Pick<DevPanelDeps, 'playRngCutscene' | 'playDosOpening' | 'playVideo' | 'playDosEnding'>
+type MusicToolsDeps = { gs: Pick<GameState, 'wNumMusic' | 'musicLoop'> }
+
+function mountBattleTools(body: HTMLDivElement, deps: DevPanelDeps): void {
   const battleH = document.createElement('h4')
   battleH.textContent = '⚔ 快捷战斗'
   battleH.className = 'tp-dev-section-h'
@@ -958,8 +922,8 @@ function openPicker(deps: DevPanelDeps): void {
   body.appendChild(autoT37Btn)
 
   // 法术测试战斗:李逍遥(0)/赵灵儿(1)/林月如(2)各自学会**本角色原本会的技能** + 高 HP/MP/灵力,
-  // vs 5 敌(team 7)。用来测 E 类法术伤害结算(inline / 0x42 / 0x57·0x88 等)。
-  // 每角色技能 = 起手 magic(playerRoles[i].magic)+ 升级习得(levelUpMagic[i]),非全员同一套
+  // 敌队244，供观察法术伤害结算(inline / 0x42 / 0x57·0x88 等)。
+  // 每角色技能取起手magic和升级表每行的角色列,非全员同一套
   //   (user 2026-05-31:"按照每个人原本会的技能分配")。**key 必须是 `magic`**(PlayerRole 真字段;
   //   hydratePlayerRolesRuntime 读 role.magic → rgwMagic → 战斗投影 → 法术菜单)。
   // 法术测试:三人各带**本角色原本会的技能**(起手 magic + 升级习得 + 剧情授予)+ 高 HP/MP/灵力,vs 5 敌。
@@ -1038,7 +1002,7 @@ function openPicker(deps: DevPanelDeps): void {
     body.appendChild(statusH)
 
     // [label, statusKey | 'poison' | 'clear', 中文说明]
-    const STATUS_BTNS: Array<[string, string]> = [
+    const STATUS_BTNS: Array<[string, keyof BattleStatus | 'poison' | 'clear']> = [
       ['混乱 confused(攻友军)', 'confused'],
       ['定身/麻痹 paralyzed(跳回合)', 'paralyzed'],
       ['睡眠 sleep(跳回合)', 'sleep'],
@@ -1081,7 +1045,7 @@ function openPicker(deps: DevPanelDeps): void {
             `[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${partySlot}]=id5;打完战斗应被清(D21)`,
           )
         } else if (key === 'clear') {
-          const s = p0.status as unknown as Record<string, number>
+          const s = p0.status
           for (const k of [
             'confused',
             'paralyzed',
@@ -1093,14 +1057,14 @@ function openPicker(deps: DevPanelDeps): void {
             'haste',
             'slow',
             'dualAttack',
-          ])
+          ] as const)
             s[k] = 0
           if (partySlot >= 0)
             for (let slot = 0; slot < 16; slot++)
               delete deps.gs.rgPoisonStatus[`${slot}_${partySlot}`]
           console.log('[dev] P0 全部状态/毒已清')
         } else {
-          ;(p0.status as unknown as Record<string, number>)[key] = 5
+          p0.status[key] = 5
           console.log(`[dev] P0 status.${key}=5(5 回合)。回合末逐回合 -1`)
         }
         closePicker()
@@ -1108,208 +1072,11 @@ function openPicker(deps: DevPanelDeps): void {
       body.appendChild(btn)
     }
   } // end if (mode==='battle') — 战斗状态调试仅战斗中显示
+}
 
-  // M4 P3 T6: scene jump section —— input + filter list(294 entries)。
-  // ── 🗺 场景 tab ──
-  body = tabScene
-  const sceneH = document.createElement('h4')
-  sceneH.textContent = '🗺 场景跳转'
-  sceneH.className = 'tp-dev-section-h'
-  body.appendChild(sceneH)
-
-  const sceneInput = document.createElement('input')
-  sceneInput.type = 'text'
-  sceneInput.placeholder = '过滤:场景 id / map id / 地名'
-  sceneInput.style.cssText =
-    'width:100%; box-sizing:border-box; margin-bottom:4px; padding:3px 6px; font-family:monospace; font-size:12px'
-  body.appendChild(sceneInput)
-
-  // 计数 / 状态提示(显示全部 294,不再 slice(30) 截断)
-  const sceneCount = document.createElement('div')
-  sceneCount.style.cssText = 'font-size:10px; color:#999; margin-bottom:4px'
-  body.appendChild(sceneCount)
-
-  // 📍 坐标传送:同场景内直接搬 party(x,y 世界像素坐标)+ camera 跟随。
-  //   跳场景卡片无 partyStart 时落点可能不合法(困在水面/墙里),用这个救;也方便对准触发垫调试。
-  const teleRow = document.createElement('div')
-  teleRow.style.cssText = 'display:flex; gap:4px; margin-bottom:6px; align-items:center'
-  const teleLabel = document.createElement('span')
-  teleLabel.textContent = '📍'
-  teleLabel.title = '坐标传送(世界像素坐标)'
-  const teleX = document.createElement('input')
-  const teleY = document.createElement('input')
-  for (const [inp, ph] of [
-    [teleX, 'x'],
-    [teleY, 'y'],
-  ] as const) {
-    inp.type = 'number'
-    inp.placeholder = ph
-    inp.style.cssText = 'width:72px; padding:3px 6px; font-family:monospace; font-size:12px'
-  }
-  const teleBtn = document.createElement('button')
-  teleBtn.textContent = '传送'
-  teleBtn.addEventListener('click', () => {
-    const x = Number(teleX.value)
-    const y = Number(teleY.value)
-    if (!Number.isFinite(x) || !Number.isFinite(y)) return
-    deps.gs.party.x = x
-    deps.gs.party.y = y
-    deps.gs.camera = { x: x - PARTYOFFSET_X, y: y - PARTYOFFSET_Y }
-    console.log(`[dev-panel] teleport → (${x}, ${y})`)
-  })
-  teleRow.append(teleLabel, teleX, teleY, teleBtn)
-  body.appendChild(teleRow)
-
-  // 缩略图卡片网格:全部场景,可滚动;缩略图 IntersectionObserver lazy 渲染。
-  const sceneList = document.createElement('div')
-  sceneList.style.cssText =
-    'display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:5px; max-height:360px; overflow-y:auto; padding:2px 0 4px; background:#1a1a1a'
-  body.appendChild(sceneList)
-
-  const thumbKeyOf = (j: SceneJump): string =>
-    j.mapNum !== undefined ? `m${j.mapNum}` : `s${j.sceneId}`
-  // 场景无名,只有地图有名(map-names)。供搜索过滤用。
-  const mapNameOf = (j: SceneJump): string =>
-    j.mapNum !== undefined && hasMapName(j.mapNum) ? getMapName(j.mapNum) : ''
-
-  // 缩略图 lazy 加载:命中模块级缓存立即出图;否则调 bootstrap renderSceneThumbnail(按 mapNum 缓存)。
-  const loadThumb = (
-    img: HTMLImageElement,
-    ph: HTMLElement,
-    j: SceneJump,
-    generation: number,
-  ): void => {
-    const key = thumbKeyOf(j)
-    const apply = (url: string): void => {
-      if (pickerClosed || generation !== sceneGeneration) return
-      img.src = url
-      img.style.display = 'block'
-      ph.style.display = 'none'
-    }
-    const cached = sceneThumbCache.get(key)
-    if (cached) {
-      apply(cached)
-      return
-    }
-    if (!deps.renderSceneThumbnail) return
-    ph.textContent = '渲染中…'
-    void deps
-      .renderSceneThumbnail(j.sceneId, j.mapNum)
-      .then((url) => {
-        // Keep successful results in the shared cache even when this picker or
-        // list generation is gone; only the stale DOM write is suppressed.
-        if (url) sceneThumbCache.set(key, url)
-        if (pickerClosed || generation !== sceneGeneration) return
-        if (!url) {
-          ph.textContent = j.mapNum !== undefined ? `map ${j.mapNum}` : '—'
-          return
-        }
-        apply(url)
-      })
-      .catch(() => {
-        if (pickerClosed || generation !== sceneGeneration) return
-        ph.textContent = j.mapNum !== undefined ? `map ${j.mapNum}` : '—'
-      })
-  }
-
-  // 单一 observer,每次 filter 重建(列表重建)。场景 tab 初始 display:none → observer 不触发;
-  // 用户切到场景 tab 显示后,可见卡片才渲染缩略图(避免 294 张同时打爆网络)。
-  const hasIO = typeof IntersectionObserver !== 'undefined'
-
-  const renderSceneList = (filter: string): void => {
-    if (pickerClosed) return
-    const generation = ++sceneGeneration
-    sceneObserver?.disconnect()
-    sceneList.textContent = ''
-    const f = filter.toLowerCase()
-    const filtered = deps.sceneJumps.jumps.filter((e) => {
-      if (!f) return true
-      const name = mapNameOf(e)
-      return (
-        String(e.sceneId).includes(f) ||
-        e.label.toLowerCase().includes(f) ||
-        name.toLowerCase().includes(f) ||
-        (e.mapNum !== undefined && String(e.mapNum).includes(f))
-      )
-    })
-    const total = deps.sceneJumps.jumps.length
-    sceneCount.textContent =
-      (filter ? `匹配 ${filtered.length} / 共 ${total}` : `共 ${total} 个场景`) +
-      (deps.renderSceneThumbnail ? ' · 缩略图滚动加载' : ' · 无缩略图渲染器')
-
-    const cardToJump = new WeakMap<Element, SceneJump>()
-    if (hasIO) {
-      sceneObserver = new IntersectionObserver(
-        (entries, obs) => {
-          if (pickerClosed || generation !== sceneGeneration) return
-          for (const ent of entries) {
-            if (!ent.isIntersecting) continue
-            const j = cardToJump.get(ent.target)
-            const img = ent.target.querySelector<HTMLImageElement>('img')
-            const ph = ent.target.querySelector<HTMLElement>('[data-ph]')
-            if (j && img && ph) loadThumb(img, ph, j, generation)
-            obs.unobserve(ent.target)
-          }
-        },
-        { root: sceneList, rootMargin: '150px' },
-      )
-    }
-
-    for (const jump of filtered) {
-      const card = document.createElement('div')
-      card.title = jump.label
-      card.style.cssText =
-        'min-width:0; cursor:pointer; border:1px solid #3a3a42; border-radius:4px; background:#222; padding:3px; display:flex; flex-direction:column; align-items:center; gap:2px'
-      card.addEventListener('mouseenter', () => (card.style.borderColor = '#6c8eef'))
-      card.addEventListener('mouseleave', () => (card.style.borderColor = '#3a3a42'))
-
-      const thumbWrap = document.createElement('div')
-      thumbWrap.style.cssText =
-        'width:100%; aspect-ratio:1 / 1; max-height:96px; background:#111; display:flex; align-items:center; justify-content:center; overflow:hidden; border:1px solid #2a2a2a'
-      const ph = document.createElement('div')
-      ph.dataset.ph = '1'
-      ph.textContent = jump.mapNum !== undefined ? `map ${jump.mapNum}` : '…'
-      ph.style.cssText = 'font-size:10px; color:#555'
-      const img = document.createElement('img')
-      img.alt = ''
-      img.style.cssText = 'max-width:100%; max-height:100%; image-rendering:auto; display:none'
-      thumbWrap.append(ph, img)
-      card.appendChild(thumbWrap)
-
-      // 第一行:场景号(场景无名)。
-      const sceneLine = document.createElement('div')
-      sceneLine.textContent = `#${jump.sceneId}`
-      sceneLine.style.cssText =
-        'font-size:12px; line-height:1.2; text-align:center; width:100%; color:#ddd; font-family:monospace'
-      card.appendChild(sceneLine)
-
-      // 第二行:地图号 + 地图名(map-names);未起名灰色显「地图N」,方便补名。
-      const mn = jump.mapNum
-      const named = mn !== undefined && hasMapName(mn)
-      const mapLine = document.createElement('div')
-      mapLine.textContent = mn !== undefined ? `map-${mn} ${getMapName(mn)}` : 'map-?'
-      mapLine.style.cssText = `font-size:10px; line-height:1.2; font-family:monospace; width:100%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center; color:${named ? '#fdf6a8' : '#888'}`
-      card.appendChild(mapLine)
-
-      card.addEventListener('click', () => {
-        closePicker()
-        void applySceneJump(deps, jump)
-      })
-      sceneList.appendChild(card)
-      cardToJump.set(card, jump)
-      if (sceneObserver) sceneObserver.observe(card)
-      else loadThumb(img, ph, jump, generation) // 无 IO 兜底:直接加载(命中缓存即出图)
-    }
-  }
-
-  sceneInput.addEventListener('input', () => renderSceneList(sceneInput.value.trim()))
-  renderSceneList('')
-
-  // M5.6 UX hotfix:底部 Cancel 按钮删除 — 走右上角 X(已加在 div 内)
-
+function mountStoryTools(body: HTMLDivElement, deps: StoryToolsDeps): void {
   // P4.T5: Font Test sheet — 渲染中英文混合字符串到 fb,spot-check Unifont glyph 真显示
   // ── 🎬 演出 tab(字体 / 对话 / 特效 / RNG / FBP / 视频)──
-  body = tabEffect
   // 🎭 剧情测试点:扬州太守领赏(scene 81 / wNumScene 82)——验证「书案太长够不到太守」bug 修复。
   //   走真实异步入场 + 抓贼后 on-enter(全局脚本 14707,= 擒贼脚本 0x6D override 目标):**必须播这段公堂
   //   cutscene**——14707 里的 0x46 setPartyPos 才把李逍遥定位到官府内;跳过它则李逍遥留旧坐标(scene81
@@ -1403,239 +1170,11 @@ function openPicker(deps: DevPanelDeps): void {
   // M5.S-w2.1: Save / Load / List / Clear entry
   // ── Save Slots + Menu Units 已删(2026-06-04 user:游戏内已实现,dev 入口冗余)──
   //   系统 tab 现在 = 物品作弊(精细化)+ MIDI 音乐(各自 body=tabSystem)。
+}
 
-  // ── 👥 队伍 tab:6 角色在队开关(头像 + 灯,绿=在队/红=离队;队首李逍遥 role0 常驻)──
-  body = tabParty
-  const partyH = document.createElement('h4')
-  partyH.textContent = '👥 队伍编辑(点头像切换在队;队首李逍遥常驻)'
-  partyH.className = 'tp-dev-section-h'
-  body.appendChild(partyH)
-
-  const partyGrid = document.createElement('div')
-  partyGrid.style.cssText =
-    'display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin:4px 0' // 2 行 × 3 列
-  const partyStatusList = document.createElement('div')
-  partyStatusList.style.cssText =
-    'margin:6px 0 8px; padding:6px; border:1px solid #444; background:#18181d; font-size:11px; line-height:1.45'
-
-  const renderPartyStatusList = (): void => {
-    partyStatusList.textContent = ''
-    const title = document.createElement('div')
-    title.style.cssText = 'color:#fdf6a8; font-weight:bold; margin-bottom:4px'
-    title.textContent = '当前队伍状态'
-    partyStatusList.appendChild(title)
-
-    const readouts = collectPartyStatusReadouts(
-      deps.gs,
-      deps.resources.playerRoles,
-      deps.resources.objectPoisons,
-      deps.resources.items,
-    )
-    if (readouts.length === 0) {
-      const empty = document.createElement('div')
-      empty.style.cssText = 'color:#888'
-      empty.textContent = '无队员'
-      partyStatusList.appendChild(empty)
-      return
-    }
-
-    for (const r of readouts) {
-      const row = document.createElement('div')
-      row.style.cssText =
-        'display:grid; grid-template-columns:70px 1fr; gap:6px; padding:2px 0; border-top:1px solid #2a2a32'
-      const name = document.createElement('div')
-      name.style.cssText = 'color:#ddd; white-space:nowrap; overflow:hidden; text-overflow:ellipsis'
-      name.textContent = `P${r.slot + 1} ${r.roleName}`
-      name.title = `role ${r.roleId} · ${r.source === 'battle' ? '战斗局部状态' : '持久/装备状态'}`
-      const status = document.createElement('div')
-      status.style.cssText = r.entries.length > 0 ? 'color:#bde0ff' : 'color:#777'
-      status.textContent = r.entries.length > 0 ? r.entries.join(' / ') : '无 buff / 异常 / 毒'
-      row.append(name, status)
-      partyStatusList.appendChild(row)
-    }
-  }
-
-  const renderPartyCards = (): void => {
-    partyGrid.textContent = ''
-    for (let roleId = 0; roleId <= 5; roleId++) {
-      const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
-      const inParty = deps.gs.partyMembers.includes(roleId)
-      const isLeader = roleId === 0
-      const partyEditingDisabled = deps.gs.mode === 'battle'
-      const card = document.createElement('button')
-      card.style.cssText =
-        `display:flex; flex-direction:column; align-items:center;` +
-        ` padding:0; overflow:hidden; height:140px; cursor:${isLeader || partyEditingDisabled ? 'default' : 'pointer'};` +
-        ` background:${inParty ? '#1f3a24' : '#3a1f1f'};` +
-        ` border:1px solid ${inParty ? '#4c8' : '#c55'}; border-radius:4px`
-      if (partyEditingDisabled && !isLeader) card.disabled = true
-      // 头像:object-fit:cover 自适应裁剪(统一尺寸、不变形、顶对齐显示脸);缺 palette/帧 → 名字占位块
-      const sprite = deps.portraitFrames?.get(role?.avatar ?? -1)
-      if (sprite && deps.palette) {
-        const c = indexImageToCanvas(sprite, deps.palette)
-        c.style.cssText =
-          'width:100%; height:90px; object-fit:cover; object-position:top center; display:block'
-        card.appendChild(c)
-      } else {
-        const ph = document.createElement('div')
-        ph.style.cssText =
-          'width:100%; height:90px; background:#555; display:flex; align-items:center; justify-content:center; font-size:9px; color:#ccc'
-        ph.textContent = role?._name ?? `R${roleId}`
-        card.appendChild(ph)
-      }
-      const nm = document.createElement('div')
-      nm.style.cssText = 'font-size:11px; white-space:nowrap; margin-top:4px'
-      nm.textContent = role?._name ?? `role${roleId}`
-      card.appendChild(nm)
-      // 灯:绿=在队 / 红=离队;margin-top:auto 推到卡片底部 → 6 个灯统一对齐
-      const lamp = document.createElement('div')
-      lamp.style.cssText =
-        `width:9px; height:9px; border-radius:50%; margin:auto 0 7px;` +
-        ` background:${inParty ? '#4f4' : '#f44'}; box-shadow:0 0 4px ${inParty ? '#4f4' : '#f44'}`
-      card.appendChild(lamp)
-      card.title = isLeader
-        ? '队首李逍遥常驻,不可离队'
-        : partyEditingDisabled
-          ? '战斗中不可编辑队伍'
-          : inParty
-            ? '点击离队'
-            : '点击入队'
-      if (!isLeader) {
-        card.addEventListener('click', () => {
-          if (deps.gs.mode === 'battle') return
-          deps.gs.partyMembers = togglePartyMembership(deps.gs.partyMembers, roleId)
-          deps.gs.rgPoisonStatus = {} // 队伍重组后毒槽不继承给新成员（SDLPal 0x75）。
-          updateAllEquipments(deps.gs, deps.resources.items)
-          // Dev 切队后同步当前队首 runtime sprite;present 会按 partyMembers[0] 的 rgwSpriteNum 渲染。
-          const leader = deps.gs.partyMembers[0]
-          if (leader !== undefined) {
-            const spriteNum = deps.resources.playerRoles.roles.find(
-              (r) => r.id === leader,
-            )?.spriteNum
-            if (spriteNum !== undefined) deps.gs.PlayerRolesRuntime.rgwSpriteNum[leader] = spriteNum
-            if (leader === 0 && deps.gs.PlayerRolesRuntime.rgwSpriteNum[0] !== undefined) {
-              deps.gs.partyLeaderSpriteId = deps.gs.PlayerRolesRuntime.rgwSpriteNum[0]
-            }
-          }
-          renderPartyCards()
-        })
-      }
-      partyGrid.appendChild(card)
-    }
-    renderPartyStatusList()
-  }
-  renderPartyCards()
-  body.appendChild(partyGrid)
-  body.appendChild(partyStatusList)
-
-  // ── 敌方状态 + 场地信息(战斗中读 battleState;user 2026-06-08)——挨着「当前队伍状态」放,
-  //    三块合成"当前战况"快照。带 🔄 刷新(逐回合 state 会变,而面板是开局快照)。──
-  const enemyStatusList = document.createElement('div')
-  enemyStatusList.style.cssText =
-    'margin:6px 0 8px; padding:6px; border:1px solid #553f2a; background:#1d1813; font-size:11px; line-height:1.5'
-  const renderEnemyStatusList = (): void => {
-    enemyStatusList.textContent = ''
-    const title = document.createElement('div')
-    title.style.cssText = 'color:#ffcaa0; font-weight:bold; margin-bottom:4px'
-    title.textContent = '敌方状态'
-    enemyStatusList.appendChild(title)
-    const readouts = collectEnemyStatusReadouts(
-      deps.gs,
-      deps.resources.objectPoisons,
-      deps.resources.items,
-    )
-    if (readouts.length === 0) {
-      const empty = document.createElement('div')
-      empty.style.cssText = 'color:#888'
-      empty.textContent = '不在战斗中(无敌方单位)'
-      enemyStatusList.appendChild(empty)
-      return
-    }
-    for (const r of readouts) {
-      const block = document.createElement('div')
-      block.style.cssText = 'padding:3px 0; border-top:1px solid #332a22'
-      const head = document.createElement('div')
-      head.style.cssText = `color:${r.defeated ? '#888' : '#ffd9b3'}; font-weight:bold`
-      const ratio = r.maxHp > 0 ? Math.round((r.hp / r.maxHp) * 100) : 0
-      head.textContent = `E${r.slot + 1} ${r.name}#${r.enemyId}  HP ${r.hp}/${r.maxHp}(${ratio}%)${r.defeated ? ' [已倒]' : ''}`
-      block.appendChild(head)
-      const stats = document.createElement('div')
-      stats.style.cssText = 'color:#cdbfa8'
-      stats.textContent = r.stats.map((s) => `${s.label}${s.value}`).join(' ')
-      block.appendChild(stats)
-      const resist = document.createElement('div')
-      resist.style.cssText = 'color:#b8c9a8'
-      resist.textContent = `抗性 ${r.resistances.map((s) => `${s.label}${s.value}`).join(' ')}`
-      block.appendChild(resist)
-      const steal = document.createElement('div')
-      steal.style.cssText = `color:${r.canSteal ? '#ffe08a' : '#777'}`
-      steal.textContent = `偷 ${r.steal}`
-      block.appendChild(steal)
-      if (r.attackEquivPoison) {
-        const equiv = document.createElement('div')
-        equiv.style.cssText = 'color:#b88fd6' // 紫 = 毒,同工具面板 s-poison
-        equiv.textContent = `普攻毒 ${r.attackEquivPoison}`
-        block.appendChild(equiv)
-      }
-      if (r.statusEntries.length > 0) {
-        const st = document.createElement('div')
-        st.style.cssText = 'color:#ffb0b0'
-        st.textContent = `异常/毒 ${r.statusEntries.join(' / ')}`
-        block.appendChild(st)
-      }
-      enemyStatusList.appendChild(block)
-    }
-  }
-
-  const fieldInfoList = document.createElement('div')
-  fieldInfoList.style.cssText =
-    'margin:6px 0 8px; padding:6px; border:1px solid #3a445c; background:#15181d; font-size:11px; line-height:1.5'
-  const renderFieldInfo = (): void => {
-    fieldInfoList.textContent = ''
-    const title = document.createElement('div')
-    title.style.cssText = 'color:#a8d0ff; font-weight:bold; margin-bottom:4px'
-    title.textContent = '场地信息'
-    fieldInfoList.appendChild(title)
-    const info = collectFieldInfoReadout(deps.gs)
-    if (!info) {
-      const empty = document.createElement('div')
-      empty.style.cssText = 'color:#888'
-      empty.textContent = '不在战斗中'
-      fieldInfoList.appendChild(empty)
-      return
-    }
-    const head = document.createElement('div')
-    head.style.cssText = 'color:#cfe0ff'
-    head.textContent = `场地#${info.fieldId}${info.isBoss ? ' · BOSS战' : ''}  屏幕波纹 ${info.screenWave}`
-    fieldInfoList.appendChild(head)
-    const el = document.createElement('div')
-    el.style.cssText = 'color:#bcd'
-    el.textContent = `元素场效 ${info.elements.map((s) => `${s.label}${signedText(s.value)}`).join(' ')}`
-    fieldInfoList.appendChild(el)
-    const note = document.createElement('div')
-    note.style.cssText = 'color:#778; font-size:10px; margin-top:2px'
-    note.textContent = '(场效=该元素法术在本场地的增/减成,signed;正=增伤)'
-    fieldInfoList.appendChild(note)
-  }
-
-  const refreshBtn = document.createElement('button')
-  refreshBtn.textContent = '🔄 刷新战况(队伍/敌方/场地)'
-  refreshBtn.style.cssText = 'display:block; width:100%; padding:4px; margin:4px 0; cursor:pointer'
-  refreshBtn.addEventListener('click', () => {
-    renderPartyStatusList()
-    renderEnemyStatusList()
-    renderFieldInfo()
-  })
-
-  body.appendChild(refreshBtn)
-  body.appendChild(enemyStatusList)
-  body.appendChild(fieldInfoList)
-  renderEnemyStatusList()
-  renderFieldInfo()
-
+function mountInventoryTools(body: HTMLDivElement, deps: InventoryToolsDeps): void {
   // ── 🎒 物品作弊(2026-06-04 user:挪系统 tab + 精细化)——全道具 / 清空 / 逐道具数量编辑 ──
-  //   (道具图标待第 2 批:需 bootstrap 预加载 item sprite,与敌人/boss 缩略图同类接线。)
-  body = tabSystem
+  //   图标使用bootstrap传入的itemIcons与palette；缺失时保留对齐占位。
   const inventoryAllH = document.createElement('h4')
   inventoryAllH.textContent = '🎒 物品作弊'
   inventoryAllH.className = 'tp-dev-section-h'
@@ -1745,10 +1284,11 @@ function openPicker(deps: DevPanelDeps): void {
   body.appendChild(invSearch)
   renderInvList('')
   body.appendChild(invList)
+}
 
+function mountEffectPlayers(body: HTMLDivElement, deps: EffectPlayersDeps): void {
   // ✨ Effects (Opcode) —— 逐特效触发(注入合成 raw 脚本走 tickEventSystem,1:1 真实控制流)。
   // ── 回到 🎬 演出 tab(特效 opcode / RNG / FBP / 视频)──
-  body = tabEffect
   const fxH = document.createElement('h4')
   fxH.textContent = '✨ 特效(opcode 触发)'
   fxH.className = 'tp-dev-section-h'
@@ -1913,12 +1453,13 @@ function openPicker(deps: DevPanelDeps): void {
     })
     body.appendChild(btn)
   }
+}
 
+function mountMusicTools(body: HTMLDivElement, deps: MusicToolsDeps): void {
   // ── M6 MIDI 音乐调试 ─────────────────────────────────────────────────────
   // 点 track 号 → gs.wNumMusic = N → AudioManager 每帧轮询切 BGM(SpessaSynth 播 music/{NNN}.mid)。
   //   注:会覆盖当前场景乐(调试副作用,重进场景恢复)。manifest midi:[1..87] 缺 29。
   // ── 回到 ⚙ 系统 tab(MIDI 音乐)──
-  body = tabSystem
   const musicH = document.createElement('h4')
   musicH.textContent = '♪ MIDI 音乐(点号试听;停=0)'
   musicH.className = 'tp-dev-section-h'
@@ -1949,11 +1490,6 @@ function openPicker(deps: DevPanelDeps): void {
     musicGrid.appendChild(btn)
   }
   body.appendChild(musicGrid)
-
-  showTab('battle') // 默认显示战斗 tab
-  document.body.appendChild(div)
-  currentPicker = div
-  currentPickerCleanup = cleanupPicker
 }
 
 /**
@@ -1961,7 +1497,7 @@ function openPicker(deps: DevPanelDeps): void {
  * 与 triggerDialogStyleTest 同模式 —— 1:1 复现 opcode 真实控制流(waiting / needToFadeIn / nightPalette
  * toggle / sceneLoading),不绕过。cursor 带 commands override → 不污染全局脚本数组。
  */
-function triggerEffectScript(deps: DevPanelDeps, cmds: Command[]): void {
+function triggerEffectScript(deps: EventInjectionDeps, cmds: Command[]): void {
   const commands: Command[] = [...cmds, { op: 'end' }]
   const labelMap = buildLabelMap(commands)
   deps.gs.eventCursor = { commands, labelMap, ip: 0 }
@@ -1980,9 +1516,9 @@ function triggerEffectScript(deps: DevPanelDeps, cmds: Command[]): void {
  *
  * 4 style:top / center / bottom / narration —— 每段一行短文 + 一行多页提示。
  */
-function triggerDialogStyleTest(deps: DevPanelDeps): void {
+function triggerDialogStyleTest(deps: EventInjectionDeps): void {
   const commands: Command[] = [
-    // 1) top + portrait icon=1 + color=55(默认) — 多页测试(2 段)
+    // 1) top + portrait icon=1，颜色沿用指令默认值；两段正文用于翻页观察
     { op: 'setDialogStyleTop', arg0: 1 },
     { op: 'showDialog', messageIndex: 0, text: '李大娘:' },
     { op: 'showDialog', messageIndex: 1, text: '上方对话框 + 头像 + typing 测试' },
@@ -2015,7 +1551,7 @@ function triggerDialogStyleTest(deps: DevPanelDeps): void {
  * 过滤 0x7A 队伍行走(dev 跳场景无战后队伍/寻路状态,走不到目标会卡死整段)—— 镜头(0x7F)与彩依
  * autoScript 各自逐 tick 推进,正是本次排查对象,不依赖队伍行走。
  */
-async function triggerCaiyiFlyaway(deps: DevPanelDeps): Promise<void> {
+async function triggerCaiyiFlyaway(deps: CutsceneToolsDeps): Promise<void> {
   await applySceneJump(deps, { id: 'caiyi-flyaway', label: '彩依飞走', sceneId: 108 })
 
   // 找彩依事件对象:优先 cutscene owner(triggerLabel L_20784),回退飞 autoScript 持有者(L_19683)
