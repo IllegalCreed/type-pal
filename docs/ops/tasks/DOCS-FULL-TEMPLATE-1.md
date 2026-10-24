@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s40-phase2-reference
+Branch: codex/docs-s41-template-sources
 Last reviewed: 2026-10-24
 Template: task-card-v1 / 1.0.0
 
@@ -2443,3 +2443,11 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - Codex build allowed：从6f33d0f3后继隔离worktree docs-s40-phase2-reference、分支codex/docs-s40-phase2-reference，全文治理 `docs/phase2/specs/editor-architecture.md` 与 `docs/phase2/reference/dialogue-presentation.md`。前者核现行设计职责/导航及源码有限切片；后者核2026-06-26/27历史外观、时序和字体更正，并明确与当前二阶段的适用边界。复用design-spec/reference-canon与archive overlay 1.0.0，不新增模板或产品决定。
 - 白名单：两正文、本卡、R33对应唯一两行及R93/R94必要after级联、catalog.phase2两after和薄catalog descriptor、既有单份gzip。marker至EOF与固定原源逐字节保全；历史争议不删除、不把sdlpal说成原版独立实测。只就实际读域写具体结论；不把代码切片当全实现、runtime/E2E/视觉/coverage验收。原source/history/撤信不恢复，作者nonAuthorReviewer=false/creditGranted=0，partial/needs不自动晋升，独立正文验收另交未参与者。
 - S34–S39全部候选、原工作树和证据冻结；不改中央routing/registry/matrix、产品、旧测试、coverage、规则、日期或212行，不新建canonical账本/sidecar；完整硬门未过保持rework，不合main、不推送、不done。
+
+## S41 二十份模板源正文治理准入与一次集中验收（2026-10-24）
+
+- 用户要求减少中间转交；Codex build allowed从S40 3ed87f734df357799c4d9a44205781d3deba5c14后继独立树docs-s41-template-sources、同名codex分支治理二十份Markdown模板源。S40两篇及S34–S39候选/原证据冻结；本次与S40合成一次22篇非作者验收，不单独按两篇派发。
+- 精确正文范围：通用模板archive-record/audit-report/design-spec/evidence-receipt/governance-index/guide-runbook/narrative-idea/plan-status/reference-canon/task-card十份；testing的e2e-report/e2e-stage-README/quality-gate/test-catalog/test-contract/test-domain-report/test-e2e-stage/test-run-report八份Markdown；Ops完整与轻量任务卡两份。JSON模板、注册表合同及版本/词表、模板README/规则不改；完整/lite与旧E2E starter不重复计类型，17类保持。
+- 目标是可读的reference-canon说明与原骨架明确分开；原当前源整体保留在可精确提取的代码块，说明只约束如何填写、身份/字段职责、状态/证据与停止线，不改原占位、示例旧版本或业务合同。test-catalog.md是JSON合同说明而非发布对象。逐篇全文核读当前raw，旧source pin只核身份不冒称全部原历史已重审；既有artifactOnly是待中央显式处置的旧机械登记，本次不据此放行、不新加豁免。
+- 白名单限二十正文、本卡、R58/R62各篇唯一review及必要R93/R94 after级联、原单份gzip。routing/registry/matrix不改；拟reference-canon真实公共checker定向检查仅作本轮结构证据，正式route/去旧artifactOnly与信用仍待非作者接受和Owner另行接入。作者nonAuthorReviewer=false/creditGranted=0，partial/needs保持，不堆新canonical账本或sidecar。
+- 所有原骨架字节、旧source/history/撤信、212/302原生与已接收十篇保持；不改产品、旧测试、coverage、日期、模板注册表、机器字段或规则。中央物化先临时树验证后真写，失败留原件；必要硬门按实记红，父子卡rework、不合main、不推送、不done。

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "ebfe88cded36a093e1471a45c41485d926e5874c0ce10dc8f806c4c6cf58fcb3",
+  "generation": "bfb9e4995c9d556151533bb15054d00123f15725043893aceed17e919f566d0d",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
   "entries": [
@@ -2055,7 +2055,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "744520dbf87373de4674806ef08d814dea8ad6738c1e0a66949ab6d761adadb7",
+      "afterSha256": "01cc47a557b7dd0c24057e3130e23f1c237cca64016b1ca0ac03a6c0bcafc683",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2764,6 +2764,18 @@
           "beforeSha256": "8803f24ef5292b56d3bd001ad4de41be0b5a42a312da9f9fff36d5a54ae5be41",
           "afterSha256": "744520dbf87373de4674806ef08d814dea8ad6738c1e0a66949ab6d761adadb7",
           "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S41",
+          "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+          "beforeSha256": "744520dbf87373de4674806ef08d814dea8ad6738c1e0a66949ab6d761adadb7",
+          "afterSha256": "01cc47a557b7dd0c24057e3130e23f1c237cca64016b1ca0ac03a6c0bcafc683",
+          "scope": "Twenty template-source usage bodies and existing task admission; no routing/registry/contract or completion grant.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

@@ -13602,7 +13602,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-      "afterSha256": "a10f4965c41e28bade4e0925c8bc0b6aae3e9a0a671a318889217d0c5569e897",
+      "afterSha256": "ef18008e504806d36b48a7e3e98d1aca8670f4452fb8f88f13f857c5e6785a79",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13753,6 +13753,18 @@
           "afterSha256": "a10f4965c41e28bade4e0925c8bc0b6aae3e9a0a671a318889217d0c5569e897",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S41",
+          "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+          "beforeSha256": "a10f4965c41e28bade4e0925c8bc0b6aae3e9a0a671a318889217d0c5569e897",
+          "afterSha256": "ef18008e504806d36b48a7e3e98d1aca8670f4452fb8f88f13f857c5e6785a79",
+          "scope": "Twenty template-source usage bodies and existing task admission; no routing/registry/contract or completion grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -14369,7 +14381,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "1239d7e3d012444366bc1a099b5af12ac03a86abcf0a3566d1eb64178b22a017",
+      "afterSha256": "eb06964186230d7bdd0274c6e4b8b6f6344a28dfb32cf779aad903bbd1991cfd",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14565,6 +14577,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "2199021e9f07701f52469540bc6c155338807280b0f5975c180af1409fab0a9a",
           "afterSha256": "1239d7e3d012444366bc1a099b5af12ac03a86abcf0a3566d1eb64178b22a017"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S41",
+          "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+          "beforeSha256": "1239d7e3d012444366bc1a099b5af12ac03a86abcf0a3566d1eb64178b22a017",
+          "afterSha256": "eb06964186230d7bdd0274c6e4b8b6f6344a28dfb32cf779aad903bbd1991cfd",
+          "scope": "Twenty template-source usage bodies and existing task admission; no routing/registry/contract or completion grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

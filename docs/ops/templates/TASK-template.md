@@ -1,3 +1,43 @@
+# Ops完整任务卡模板源
+
+Status: current
+Validity: current
+Owner: Codex
+Last reviewed: 2026-10-24
+Template: reference-canon-v1 / 1.0.0
+
+## 适用范围
+
+这是`task-card-v1`的模板说明，本页自身使用reference-canon，不新增类型。完整卡保留前提真值矩阵、反证/用户偏离、上下文、build/done独立准入、设计风险、实施、资源/视觉记录和交接提示词。
+
+本页说明与原卡骨架分开；完整卡和lite都属于task-card，按[AGENTS](../../../AGENTS.md)选择风险相符的变体，不能以lite减免前提门。
+
+## 一手来源
+
+下方源块是基点`3ed87f734df357799c4d9a44205781d3deba5c14`的完整原内容：blob `807bf63fcf1d24b4c6a1c5ba1b2d5c2a51f148dc`，SHA-256 `522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d`，5997B，本轮逐行核读。旧source pin `ba60e9dccc2833b30be349213b86593260f4f66c` / `4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2`仅复核身份，不冒称原执行或原深审已重认证。
+
+[统一注册表](../../phase-governance/templates/registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](../document-quality.md)决定交付验收；本页不改这些合同。[模板入口](../../phase-governance/templates/README.md)提供统一选择入口。
+
+## 当前真值
+
+源结构：目标；范围；前提真值门；上下文锚点；验收条件；当前模式推进记录；Draft: 设计与风险；分派与容量记录（如适用）；Build: 实现与自测；资源生成记录(如适用)；视觉验证记录(如适用)；Review: 审查与返工；用户验收；交接日志；下一位 Agent 提示词。
+
+Coding Owner、Generation Owner与Visual Owner职责分开；高风险关键unknown保持blocked，固定三贤人退休不豁免事实门或用户产品裁决。
+
+## 未知与冲突
+
+空字段、示例ID/命令/日期是待填输入，不是结果。Status current只指模板说明；正式使用须按实际任务和现行合同替换占位，保全块中的旧版本不作当前断言。来源或许可未知时停受影响项，不填假通过；本轮未审全部使用者文档、未跑产品或历史执行。
+
+## 使用边界
+
+复制时只取下面源块，另填真实标题、身份、范围与证据，不把本页说明复制成任务或结果。作者自验、非作者接受和中央接入分开；旧机械artifactOnly不授完成，本篇partial/needs待独立验收与显式路由/标志处置。结构通过不授runtime/E2E/视觉/coverage，全量硬门未过不合main、不done。
+
+## 原有源内容
+
+保全块的外层fence之外不属于骨架。按记录前缀/后缀提取即可逐字节等基点原文，不trim、替换或升级字段；嵌套YAML/testing-meta/代码保持原样。
+
+<!-- template-source-example:start -->
+````markdown
 # TASK-ID - 任务标题
 
 Status: draft
@@ -198,3 +238,6 @@ Codex 对所有贡献者交付作独立验收；可按难度邀请其它 Agent �
 不要做:
 输出要求:
 ```
+
+````
+<!-- template-source-example:end -->
