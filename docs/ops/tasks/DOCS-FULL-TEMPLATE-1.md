@@ -2404,3 +2404,11 @@ GLM已对35716b4a只读非作者accept，C1关闭，S33合同/六pilot及其余�
 用户要求GLM复核期间继续推进。Codex build allowed：从b2f3d839297c1e68835db906b47eec609dd36870在独立worktree docs-parallel-guides、分支codex/docs-s35-ops-guides，全文治理browser-verification.md、dev-servers.md及ops/evidence、ops/audits两份README。保持S34工作树/HEAD/原验收包冻结，不能自行代签S34或提前发布212。
 
 正文复用guide-runbook-v1与governance-index-v1/1.0.0，逐篇以实际脚本、输入路由和导航消费者核事实；原quote/marker尾部保全，历史执行不重授。仅改四正文、本节、对应R35/R39/R54唯一review和必要R93/R94 after级联、既有单份证据日志；不新建模板、writer、测试、sidecar或第二份中央账本，不改产品/旧测试/coverage/日期门槛。作者非独立review，实际迁移信用待未参与者接收；全文治理候选、当前文档有效性与产品执行分别表达，父卡仍rework，不合main、不推送、不done。
+
+## S36 并行架构审计与纠错证据导航（2026-10-24）
+
+- Codex build allowed；Owner为Codex，隔离分支codex/docs-s36-audit-navigation，基点601cd5af1e6db54a15144a94f9f63857b4c88050。S34/S35候选及原验收材料冻结不动。
+- 白名单正文恰三篇：ops/audits/architecture-debt.md、ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md、ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md。按现有audit-report/governance-index合同恢复具体队列/职责导航，历史数字与旧待验段标原时点，不授新产品或旧执行信用。
+- 现有唯一review三行写作者语义、真实读域和before/after；只更新必需after依赖及既有gzip，不新建中央账本/sidecar。架构原quote不动；两导航原历史段落/目标完整保留，旧全文由本基点Git定位。
+- document-delivery-acceptance/1.0.0；作者nonAuthorReviewer=false，partial-review-unknown/needs-migration保持，新信用0。正文/来源/历史及导航须未参与者独立接受，不自行恢复旧R批信用。
+- 不改产品、旧测试、coverage、模板、规则、catalog日期或212待发布行；不合main、不推送、不标done。静态门如实记失败，S34独立审先完成，S35/S36排队交付，不打断GLM当前验收。

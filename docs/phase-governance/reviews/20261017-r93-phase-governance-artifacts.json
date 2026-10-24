@@ -12777,7 +12777,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f5861c171503534434d0d935b45a9e5c8a8b0132e77109b305b4acda58dc0297",
-      "afterSha256": "7f323874d20e5a1582e3f3d63e6fcecda2139a9311424c6a4e0febe45048bdf0",
+      "afterSha256": "c5ce446af9618959af7ba465407f699e3cf1c7aa458d16c388a45eeff1af5f5a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -12922,6 +12922,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "2f89924a22d05ceb0acecd822192e6bd29543480cf7c385fc5da96fbb55810db",
           "afterSha256": "7f323874d20e5a1582e3f3d63e6fcecda2139a9311424c6a4e0febe45048bdf0"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S36-audit-navigation",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "scope": "S36 three actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Six explicitly owned after dependencies (three author/three administrative) only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "7f323874d20e5a1582e3f3d63e6fcecda2139a9311424c6a4e0febe45048bdf0",
+          "afterSha256": "c5ce446af9618959af7ba465407f699e3cf1c7aa458d16c388a45eeff1af5f5a"
         }
       ]
     },

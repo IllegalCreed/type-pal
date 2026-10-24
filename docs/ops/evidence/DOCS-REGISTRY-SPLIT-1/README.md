@@ -2,22 +2,27 @@
 
 Status: current
 Owner: Codex
-Last reviewed: 2026-10-18
+Last reviewed: 2026-10-24
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-保存[存储拆分任务](../../tasks/DOCS-REGISTRY-SPLIT-1.md)的非作者设计复核、实现反例和后续固定候选验收，区分设计准入、存储实现与正文语义信用。
+从[registry拆分卡](../../tasks/DOCS-REGISTRY-SPLIT-1.md)进入指定设计、实现、反例、中央接入与原件运输，回答“接受了哪个候选的哪一层”。本页导航current不等于卡done；语义进度仍由[全量卡](../../tasks/DOCS-FULL-TEMPLATE-1.md)与当前唯一review/registry负责。
 
 ## 范围
 
-覆盖设计 2.0.2、固定95def601存储实现、两次路径返工、中央接入脚本的隔离反例与原2374条的canonical映射核验。1838固定cohort和五项历史回执隔离不由存储验收续期。
+本目录保存registry设计2.0.2、37/db返工、95def601实现接收、b753 canonical映射、c4d增量以及S03–S05限定中央验收和私有接入护栏。这里的registry分片不同于后来review存储分片；前者保存分类/覆盖，后者保存逐篇审阅，不能把2374对象保真当作2374篇语义完成。
+
+原1838 cohort、1896撤回及五个历史执行隔离各有固定范围；运输产物数量、工具检查数与正文篇数不相加。新文件仍需显式pending登记，不借structuralRoots或路径启发式消分母。
 
 ## 当前状态
 
-设计、固定95实现和c4d中央存储增量已获非作者限定接收，均只在候选分支，任务仍build。b753快照的原2374对象/顺序/缺省与八项metadata保真；c4d仅按33个新增pending调整summary，不把现summary说成原值，也不授正文完成。S03/S04固定65ee30ad组合也已获限定接收；本次报告接入、再新增候选及全量硬门按各自实际字节另验。
+原卡顶部为build。设计、固定95实现、c4d存储增量、固定65ee30ad的S03/S04组合、固定4ddd的S05组合与76509484私有护栏有各自限定报告；这些接受均只覆盖原候选，不预授后继中央字节、产品运行或全量语义。本轮只重整导航并核原报告定位，未重新运行旧50/178专项或产品流程。
+
+b753的2374对象/顺序/缺省和八metadata保真，与c4d新增33pending后的summary不是同一个数值快照。原迁移mapping不改目标；canonical转换和格式化阅读投影用显式映射记录，不能拿后继summary或展示SHA替换原件身份。
 
 ## 入口与责任
+
 
 - [固定 38f18ff9 的设计独立报告](independent-design-review-38f18ff9.json)：只接收设计；完整门超时、strict/progress 失败和两处旧 pin 漂移原样保留。
 - [原报告与110项产物的无损接入映射](design-intake-38f18ff9.json)：报告保持原 SHA，附件以 gzip 保存原 payload/stored 双 SHA 和字节数，解压后逐字节核对。
@@ -29,6 +34,19 @@ Template: governance-index-v1 / 1.0.0
 - [固定65ee30ad的S03/S04中央报告](independent-S03-S04-central-review-65ee30ad.json)与[146项运输](intake-independent-central-65ee.json)：只接收两篇唯一迁移及原2407→2411→2414组合，新增七份仍pending；本次确认写回和后继正文另验。
 - [固定c4d中央增量独立报告](independent-central-intake-review-c4d00d3e.json)与[134项原件运输](intake-independent-central-c4d.json)：核原2374+33pending、2407绑定/全部pin、原报告/四阅读投影与实际门；不外推后继S03/S04或全量语义。
 
+
+Codex维护中央登记、导航与实际组合验收；隔离实现Owner的原职责仅适用于指定候选，新写入仍先核当前任务准入。读取原报告先找其配对intake/transport：payload SHA证明原件，stored SHA证明gzip容器，formattedReaderViews只证明展示件及JSON值相等；三者不互换。
+
+## 证据与下一步
+
+首版输出前置失败曾在exit1前发布七片但缺mapping；37/db分别有路径别名和孤立代理项反例。原失败保留，95限定接收只关闭报告中明确复验的counter。中央接入脚本也不保证跨文件回滚：发布后外部竞态可留下已发registry与空输出，必须查实际原stderr，不把空JSON作成功证据。
+
+继续工作先核原卡当前Owner、目标候选和引用DAG，format后取最终pin；语义接收、中央组合和全量硬门分记。raw/central-sessions由root中央维护，原命令metadata/完整流/脚本按原字节运输，未知来源不补造。未满足硬验收前不合main、不推送、不done。
+
+### 2026-10-18运输与验收记录（原时点）
+
+以下沿用本批基点的历史段落和链接；“本次/尚不/未来/当前”等词只指原固定候选，不覆盖上方现行职责。590项晚期快照、110设计产物、228清单、1859运输/666容器、146/62/210/460等运输数量只证明各自清单，不是新测试数或正文完成数。
+
 上述每个原报告的`intake-*.json`配对表逐项保存原路径、payload/stored双SHA与字节数。原始文本、fixture的Git元文件等均按payload SHA无损gzip保存，避免在仓库重建嵌套`.git`；字节相等才复用同一容器。作者37目录的590项是本次实际晚期快照，活动命令索引已追加过，不能冒称原37报告生成时的完整快照。
 
 首轮中央lint实际报四项format error，原日志不改。三份作者报告和中央脚本首版counter报告的同名JSON现为仅格式化的阅读投影；配对表的`formattedReaderViews`给出展示SHA、原件payload/stored SHA及JSON值相等验证，原始报告身份须解压指定容器核对，不能拿展示件SHA替换原报告pin。其余原报告保持原字节。
@@ -37,7 +55,7 @@ Template: governance-index-v1 / 1.0.0
 
 `registry_storage_author` 独占隔离实现文件；root 维护本目录与中央登记并独立验实现。原命令 stdout/stderr 不编辑，后续结论只追加新记录。
 
-## 证据与下一步
+### 当时的证据与下一步
 
 迁移输出旧counter保留未冻结完整模块的限制。固定实现已通过非作者真实输出前置拒绝、并发writer、映射snapshot、真实混包kill与显式恢复检查。中央脚本也不提供跨文件事务：发布后的外部字节竞态会拒绝继续pin，但可能已发布registry并留下空输出；外部原始stderr才是该次失败证据，空JSON不能登记为成功。
 
