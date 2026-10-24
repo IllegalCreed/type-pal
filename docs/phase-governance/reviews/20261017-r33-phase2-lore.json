@@ -1944,39 +1944,25 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+      "readMethod": "S40 author manually read both full base body/quote and full fixed original; separate explicit static source slices only; no historical execution or runtime reenactment",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "六月外观/时序参考含FONT.MKF→Unifont更正、24ms与100ms分轴、普通行/tilde归因更正与尾停顿重置史；当前cue/rows/AssetId与四slot按静态源码限缩。advance/pageDone与update(typeMs+auto)分述，不冒称跳字只等尾停顿或700ms已验，历史缺口/勾选不作当前红绿。",
       "truthAnchors": [
-        "docs/phase2/reference/dialogue-presentation.md:1",
-        "docs/phase2/reference/dialogue-presentation.md:1 切片 1 子任务：对话框外观继承原版（spec for Claude）",
-        "docs/phase2/reference/dialogue-presentation.md:9 原则",
-        "docs/phase2/reference/dialogue-presentation.md:15 reforge 当前缺口（对照原版）",
-        "docs/phase2/reference/dialogue-presentation.md:32 移植清单（给 Claude 的具体指引）",
-        "docs/phase2/reference/dialogue-presentation.md:34 1. 资产加载（dialog-assets.ts 对应物）",
-        "docs/phase2/reference/dialogue-presentation.md:42 2. 渲染函数（替代 main.ts 里的 drawDialogueBox）",
-        "docs/phase2/reference/dialogue-presentation.md:57 3. 关键真值速查（避免再查 sdlpal）",
-        "docs/phase2/reference/dialogue-presentation.md:92 \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）"
+        "docs/phase2/reference/dialogue-presentation.md#一手来源",
+        "docs/phase2/reference/dialogue-presentation.md#当前真值",
+        "docs/phase2/reference/dialogue-presentation.md#未知与冲突",
+        "docs/phase2/reference/dialogue-presentation.md#使用边界",
+        "packages/content/src/index.ts:20-65",
+        "packages/reforge/src/dialogue.ts:1-26",
+        "packages/reforge/src/dialog/slot.ts:1-40",
+        "packages/reforge/src/dialog/dialog-box.ts:1-395",
+        "packages/reforge/src/text/typewriter.ts:1-36"
       ],
       "unresolved": [
-        "正文信号 7:> **\u26a0 2026-06-27 修正**：原稿误称字模 = 原版 FONT.MKF。实为 **GNU Unifont CN 简体点阵**（第一阶段实现，见 §1）——原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n（zh + 将来 en）。② 字体端口 Unifont，**不碰 FONT.MKF**。",
-        "正文信号 36:reforge 需要这几类对话资产（第一阶段已有解析逻辑，可端口）。**\u26a0 字模不走 MKF**（见下），头像 / 光标才是原版 MKF：",
-        "正文信号 37:- **字模**：\u26a0 **不是 FONT.MKF**。第一阶段用 **GNU Unifont CN**（简体点阵 BDF → `data/font/glyphs.json`），端口 `packages/game/src/present/font.ts`（`loadGlyphs` + `renderText` / `renderColoredText`，已含三",
-        "正文信号 92:### \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
-        "正文信号 129:### \u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
-        "正文信号 137:> \u26a0️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**",
-        "正文信号 143:普通行（非 `~`）跳字路径 —— `confirmDialog`（dialog-box.ts:527）走 `phase='line-done'` 且**不**设 `lineDoneRenderPending`：",
-        "正文信号 146:Tick N+1 line-done → 1820 lineDoneRenderPending? 否 → 1824 ip++ → 跑下一条 showDialog",
-        "正文信号 162:**`~` 尾行特例**（比文档旧版说的还卡）：`tickDialog:484` 对 `currentLineEndedWithTilde` 设 `lineDoneRenderPending=true` → 1820-1822 命中 → **额外再 return 一 tick**。即 `~` 尾行行间转换 = 2 个 tick（200ms）。",
-        "正文信号 165:- dialogue.ts 当前是纯状态机、**没有 `lineDoneRenderPending` 这种隐式等待态**——保持这个设计。绝不为「修渲染」往状态机塞等待态（渲染问题在渲染层解：确保满行帧被画出，不在逻辑层堵）。",
-        "正文信号 167:- **关键：一次按键的\"连锁瞬显\"必须在同一逻辑步内完成**，不能拆成多个 tick 各自等下一次按键。reforge 应让 advance/advanceAll 在**一次 core tick** 内把「当前页所有未显行」一次性设为瞬显 + 全部入页，而不是每行一个 tick。",
-        "正文信号 171:**这两个 bug 的关系**：打字卡顿（渲染层 10fps）+ 按键要多次（逻辑层等待态）是**独立**的两个问题，原版都没问题所以\"丝滑+按一下全显\"，第一阶段两个都中招所以\"又卡又要按很多遍\"。reforge 要两个都做对。",
-        "正文信号 92:### \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
-        "正文信号 129:### \u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
-        "正文信号 137:> \u26a0️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**的机制，下面分述。",
-        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+        "S40 non-author document evidence acceptance pending; no whole implementation/product/visual audit.",
+        "Preserved R33 withdrawal/counters and original execution claims are not reauthenticated."
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "nextStep": "未参与者据两篇具体结论、固定原源逆回与明确源码切片独立验收；新版本限定接受另由Owner接入，其余文档继续。",
       "phase": "phase2",
       "module": "reference",
       "capability": "phase2-reference-dialogue-presentation",
@@ -1989,32 +1975,42 @@
           "nonAuthorReviewer": "r33_readonly_review",
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42"
+        },
+        {
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "actor": "Codex",
+          "role": "author",
+          "nonAuthorReviewer": false,
+          "creditGranted": 0,
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c"
         }
       ],
       "sourceSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
-      "afterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
-      "publicCallers": [
-        "docs/phase2/reference/dialogue-presentation.md → ../design-backlog.md",
-        "docs/phase2/reference/dialogue-presentation.md → ../archive/designs/visual-design.md"
-      ],
+      "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+      "publicCallers": ["docs/phase2/README.md", "docs/phase2/reference/dialogue-presentation.md"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/reference/dialogue-presentation.md"
+        "fixed original 0d5311075b4f5e67362d1953a138d678c0a4aa42:docs/phase2/reference/dialogue-presentation.md",
+        "current typed content22/SAVE12 and fixed source slices at 6f33d0f3bd9eb0f7986d84292328057e5f0deb3c"
       ],
       "businessOracle": {
-        "type": "historical-template-migration",
+        "type": "scoped-document-contract-and-history",
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "June claims and current static slices are dated separately",
+          "24ms typing constant is not 10fps frame or runtime proof",
+          "cue/rows/AssetId and four-slot static shape supersede old schema as interface source",
+          "autoAdvance time condition is stated literally, not certified as old700ms behavior"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/phase2/reference/dialogue-presentation.md"]
+        "result": "responsibility-separated; no duplicate interface or execution ledger",
+        "against": [
+          "docs/phase2/specs/content-schema.md",
+          "docs/testing/e2e/contract.md",
+          "docs/phase2/archive/designs/visual-design.md"
+        ]
       },
       "revision": {
-        "currentSha": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
+        "currentSha": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
         "implementationSha": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
         "history": [
           {
@@ -2027,6 +2023,12 @@
             "revision": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
             "date": "2026-10-17",
             "action": "R33 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+            "date": "2026-10-24",
+            "action": "S40 authored body and declared source slices",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -2085,15 +2087,93 @@
           "templateCompliance": "needs-migration",
           "bodyReadPerformed": false,
           "nonAuthorReviewer": false
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S40 actual body/source full read plus declared limited static source slices; author not independent; old withdrawal retained",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "previousAfterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+          "previousCurrentFields": {
+            "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+            "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+            "reviewDepth": "structured-content",
+            "truthAnchors": [
+              "docs/phase2/reference/dialogue-presentation.md:1",
+              "docs/phase2/reference/dialogue-presentation.md:1 切片 1 子任务：对话框外观继承原版（spec for Claude）",
+              "docs/phase2/reference/dialogue-presentation.md:9 原则",
+              "docs/phase2/reference/dialogue-presentation.md:15 reforge 当前缺口（对照原版）",
+              "docs/phase2/reference/dialogue-presentation.md:32 移植清单（给 Claude 的具体指引）",
+              "docs/phase2/reference/dialogue-presentation.md:34 1. 资产加载（dialog-assets.ts 对应物）",
+              "docs/phase2/reference/dialogue-presentation.md:42 2. 渲染函数（替代 main.ts 里的 drawDialogueBox）",
+              "docs/phase2/reference/dialogue-presentation.md:57 3. 关键真值速查（避免再查 sdlpal）",
+              "docs/phase2/reference/dialogue-presentation.md:92 \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）"
+            ],
+            "unresolved": [
+              "正文信号 7:> **\u26a0 2026-06-27 修正**：原稿误称字模 = 原版 FONT.MKF。实为 **GNU Unifont CN 简体点阵**（第一阶段实现，见 §1）——原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n（zh + 将来 en）。② 字体端口 Unifont，**不碰 FONT.MKF**。",
+              "正文信号 36:reforge 需要这几类对话资产（第一阶段已有解析逻辑，可端口）。**\u26a0 字模不走 MKF**（见下），头像 / 光标才是原版 MKF：",
+              "正文信号 37:- **字模**：\u26a0 **不是 FONT.MKF**。第一阶段用 **GNU Unifont CN**（简体点阵 BDF → `data/font/glyphs.json`），端口 `packages/game/src/present/font.ts`（`loadGlyphs` + `renderText` / `renderColoredText`，已含三",
+              "正文信号 92:### \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
+              "正文信号 129:### \u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
+              "正文信号 137:> \u26a0️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**",
+              "正文信号 143:普通行（非 `~`）跳字路径 —— `confirmDialog`（dialog-box.ts:527）走 `phase='line-done'` 且**不**设 `lineDoneRenderPending`：",
+              "正文信号 146:Tick N+1 line-done → 1820 lineDoneRenderPending? 否 → 1824 ip++ → 跑下一条 showDialog",
+              "正文信号 162:**`~` 尾行特例**（比文档旧版说的还卡）：`tickDialog:484` 对 `currentLineEndedWithTilde` 设 `lineDoneRenderPending=true` → 1820-1822 命中 → **额外再 return 一 tick**。即 `~` 尾行行间转换 = 2 个 tick（200ms）。",
+              "正文信号 165:- dialogue.ts 当前是纯状态机、**没有 `lineDoneRenderPending` 这种隐式等待态**——保持这个设计。绝不为「修渲染」往状态机塞等待态（渲染问题在渲染层解：确保满行帧被画出，不在逻辑层堵）。",
+              "正文信号 167:- **关键：一次按键的\"连锁瞬显\"必须在同一逻辑步内完成**，不能拆成多个 tick 各自等下一次按键。reforge 应让 advance/advanceAll 在**一次 core tick** 内把「当前页所有未显行」一次性设为瞬显 + 全部入页，而不是每行一个 tick。",
+              "正文信号 171:**这两个 bug 的关系**：打字卡顿（渲染层 10fps）+ 按键要多次（逻辑层等待态）是**独立**的两个问题，原版都没问题所以\"丝滑+按一下全显\"，第一阶段两个都中招所以\"又卡又要按很多遍\"。reforge 要两个都做对。",
+              "正文信号 92:### \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
+              "正文信号 129:### \u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
+              "正文信号 137:> \u26a0️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**的机制，下面分述。",
+              "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+            ],
+            "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+            "publicCallers": [
+              "docs/phase2/reference/dialogue-presentation.md → ../design-backlog.md",
+              "docs/phase2/reference/dialogue-presentation.md → ../archive/designs/visual-design.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/phase2/reference/dialogue-presentation.md"
+            ],
+            "businessOracle": {
+              "type": "historical-template-migration",
+              "assertions": [
+                "original bytes remain hashable",
+                "historical boundary explicit",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": ["docs/phase2/reference/dialogue-presentation.md"]
+            },
+            "phaseAnchors": {
+              "phase": "phase2",
+              "module": "canonical",
+              "currentBoundary": "current phase2/lore docs/code/tests own truth"
+            },
+            "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
+            "versionScope": {
+              "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+              "date": "2026-06-26",
+              "validity": "historical"
+            },
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+            "reviewedLines": "1-300",
+            "documentStatus": "historical"
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-300",
+      "stopLine": "No old R-wave claim restoration, no current implementation/runtime/E2E/visual/coverage credit; only explicit source read domain. New user-visible decisions require separate authorization.",
+      "userVisibleBeforeAfter": "泛化历史封套→具体职责与时点/来源分层；原quote与产品行为零变化。",
+      "reviewedLines": "1-312",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "documentStatus": "historical",
+      "documentStatus": "current",
       "sourceGitRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
       "candidateSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
       "primarySource": [
@@ -2106,14 +2186,20 @@
       ],
       "phaseAnchors": {
         "phase": "phase2",
-        "module": "canonical",
-        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+        "currentBoundary": "READ-FIRST current design rules; phase1/sdlpal only explicitly attributed reference"
       },
-      "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
+      "dependencies": [
+        "packages/content/src/index.ts",
+        "packages/reforge/src/dialogue.ts",
+        "packages/reforge/src/dialog/slot.ts",
+        "packages/reforge/src/dialog/dialog-box.ts",
+        "packages/reforge/src/text/typewriter.ts"
+      ],
       "versionScope": {
-        "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-        "date": "2026-06-26",
-        "validity": "historical"
+        "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+        "contentVersion": 22,
+        "saveVersion": 12,
+        "validity": "current reference; June source claims historical"
       },
       "counterReworkBlocked": [
         {
@@ -2135,6 +2221,11 @@
           "id": "R33-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
+        },
+        {
+          "id": "S40-NONAUTHOR-PENDING",
+          "status": "open",
+          "statement": "Owner authored both bodies; independent document acceptance required, no self-sign."
         }
       ],
       "correctiveDelta": {
@@ -2177,7 +2268,109 @@
         "authorCanonicalTask": "/root/s12_semantic_author",
         "nonAuthorReviewer": false,
         "noNewSemanticOrTemplateOrRuntimeCredit": true
-      }
+      },
+      "templateConformance": {
+        "status": "author-checked-pending-independent",
+        "templateId": "reference-canon-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "scope": "five body and five archive sections; actual model check required; no completion status grant"
+      },
+      "currentAuthoredReview": {
+        "task": "DOCS-FULL-TEMPLATE-1/S40",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "baseRevision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+        "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+        "readDomain": {
+          "body": "full base envelope and quote, all lines",
+          "fixedOriginal": {
+            "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+            "gitObject": "ad69e0df822942d580985cdc5308e8ec4149885e",
+            "sha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
+            "bytes": 17519,
+            "read": "full original, all lines"
+          },
+          "staticSourceSlices": [
+            {
+              "path": "packages/content/src/index.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "89e0a38ca46d18770355bcb5748d134458c5daa6",
+              "sha256": "5115b11a723821755cb015acb5b31ad1aaec401d33c639c96603d4610222d2d4",
+              "lineRanges": [[20, 65]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/reforge/src/dialogue.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "a88b41412307adc7bda30e273513ec17ce8989af",
+              "sha256": "cbcc41de19aaeb8833829d71ff516cf015e09724ffcc630898b8a388f2dfb213",
+              "lineRanges": [[1, 26]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/reforge/src/dialog/slot.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "f8221c9bf223a0bdd7fe119dd3562d2813312eee",
+              "sha256": "58af51bbfc5b458fbffcf8f3bd22864371538b28aca31cfd3bc128024e914f03",
+              "lineRanges": [[1, 40]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/reforge/src/dialog/dialog-box.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "ee44183864b3ca064aad349dde0700d763e6262b",
+              "sha256": "a0830592bcd98dc6dd5630558fae1a17920d50a4c6fe89a2aaa463b526738a0d",
+              "lineRanges": [[1, 395]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/reforge/src/text/typewriter.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "3b34ac4b4a5642df678b4d2d843b573bbe8b7d06",
+              "sha256": "549bc7f88c74830ccfe137efd7e0e1081e6a52ab1833934b5800c53d53d27fa8",
+              "lineRanges": [[1, 36]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            }
+          ],
+          "notRead": [
+            "full downstream implementations",
+            "historical raw runtime logs",
+            "original game executable",
+            "all old tests"
+          ]
+        },
+        "beforeAfter": {
+          "beforeSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+          "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+          "quoteTailSha256": "a6772df8c917a1cf40bc4f730ba8fecd2ef39f812eaa71d02ad0355f645d1406",
+          "quoteTailUnchanged": true,
+          "inverseRule": "sep-lf-1",
+          "inverseSourceBytes": 17519
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "beforeSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+          "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+          "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase2/reference/phase1-knowledge-harvest.md",
@@ -3339,40 +3532,26 @@
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+      "readMethod": "S40 author manually read both full base body/quote and full fixed original; separate explicit static source slices only; no historical execution or runtime reenactment",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "九业务模块与画布模式分层；字段只设一位作者，作者态Command/临时UI态/SAVE12游戏现场分轴；统一导航位置含精灵domain/view/action，current-author引用索引决定删除。恢复现行设计适用性，旧v2→v3/三签/历史UI数字不恢复，未核全实现。",
       "truthAnchors": [
-        "docs/phase2/specs/editor-architecture.md:1",
-        "docs/phase2/specs/editor-architecture.md:1 编辑器架构与工作台合同",
-        "docs/phase2/specs/editor-architecture.md:11 模式即插件的外壳(第三根)",
-        "docs/phase2/specs/editor-architecture.md:27 一级模块与稳定深链(ED-2,2026-07-14)",
-        "docs/phase2/specs/editor-architecture.md:49 单一新版地图库与场景绑定（W7F，2026-07-14）",
-        "docs/phase2/specs/editor-architecture.md:69 地图内容选择、Inspector 与可逆变换（W8，2026-07-18）",
-        "docs/phase2/specs/editor-architecture.md:89 地图/组合共享编辑面与来源面板（2026-08-19）",
-        "docs/phase2/specs/editor-architecture.md:100 音乐资源工作台(A7-0,2026-07-15)",
-        "docs/phase2/specs/editor-architecture.md:120 过场资源工作台(A7-3,2026-07-16)"
+        "docs/phase2/specs/editor-architecture.md#问题与目标",
+        "docs/phase2/specs/editor-architecture.md#真值与约束",
+        "docs/phase2/specs/editor-architecture.md#方案",
+        "docs/phase2/specs/editor-architecture.md#边界与风险",
+        "docs/phase2/specs/editor-architecture.md#验收",
+        "packages/editor/src/ui/editor-navigation.ts:1-210,300-570",
+        "packages/editor/src/core/project-reference-adapters.ts:1810-1855",
+        "packages/editor/src/core/project-reference.ts:1238-1310",
+        "packages/content/src/character.ts:168-170",
+        "packages/reforge/src/save/types.ts:1-12"
       ],
       "unresolved": [
-        "正文信号 58:- 保存、clone 与 ZIP 对未加载地图按原始字节 copy-through，不为输出而全量解析；修改过的地图使用",
-        "正文信号 67:- 地图工作区的四条状态轴必须正交：瓦片面板素材、待盖图章模板、地图已有内容选区、活动图层不可复用同一状态。`MapSelection` 以稳定 `VisualSlotRef {layerId,row,col}` 和去重 `GridPointRef {row,col}` 分别表示视觉槽/独立碰撞格，按 mapId 存于临时 `MapWorkspaceStat",
-        "正文信号 69:命中的内容尚未全部入选时整批追加，已全部入选时整批移除；因此既能逐次组出不规则集合，又不会在框选部分重叠时意外反选旧成员。默认只命中活动层，“跨层选择”是显式 scope 开关且不改已有选区。全选只收集活动层非空视觉槽和非零碰撞格，不枚举无内容空格。",
-        "正文信号 79:collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作",
-        "正文信号 105:禁止删除并展示引用数量，未引用条目才可删除。",
-        "正文信号 110:- serialize/save 同时写 `assets/index.json` 与 pending blob；本地 v2 工程先单向升级为 v3 再进入工作态。",
-        "正文信号 113:引用保护与未引用删除状态正确。完整闭包数据见",
-        "正文信号 128:未修改旧帧保持惰性来源引用，保存时才恢复完整帧并自动压缩。",
-        "正文信号 131:- 有未保存帧编辑时切换资源必须确认；有 typed 引用的资源禁删，无引用资源确认删除。首次修改迁移资产后",
-        "正文信号 142:- 左侧列表提供搜索、profile 过滤、共享/未引用状态和稳定选择回退；定义切到资源视图时聚焦当前定义实际引用的",
-        "正文信号 147:- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均",
-        "正文信号 148:fail-closed。删除定义与删除未使用二进制是两个命令，save/undo/save/redo 保持 record、bytes 和引用一致。",
-        "正文信号 83:  collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作",
-        "正文信号 151:- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均",
-        "正文信号 225:  edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续",
-        "正文信号 262:- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里消费同 revision 的 diagnostics snapshot 与统一 `ProjectReferenceIndex`，不在状态条另建扫描器；异步地图正文引用另由带完整 coverage/revision 的 proof batch 提供，partial/failed ",
-        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+        "S40 non-author document evidence acceptance pending; no whole implementation/product/visual audit.",
+        "Preserved R33 withdrawal/counters and original execution claims are not reauthenticated."
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "nextStep": "未参与者据两篇具体结论、固定原源逆回与明确源码切片独立验收；新版本限定接受另由Owner接入，其余文档继续。",
       "phase": "phase2",
       "module": "specs",
       "capability": "phase2-specs-editor-architecture",
@@ -3385,37 +3564,42 @@
           "nonAuthorReviewer": "r33_readonly_review",
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42"
+        },
+        {
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "actor": "Codex",
+          "role": "author",
+          "nonAuthorReviewer": false,
+          "creditGranted": 0,
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c"
         }
       ],
       "sourceSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
-      "afterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
-      "publicCallers": [
-        "docs/phase2/specs/editor-architecture.md → ../../ops/audits/pre-e2e/summary.md",
-        "docs/phase2/specs/editor-architecture.md → ../archive/designs/editor-design.md",
-        "docs/phase2/specs/editor-architecture.md → ../../ops/archive/tasks/done/W8-map-content-selection-inspector.md",
-        "docs/phase2/specs/editor-architecture.md → ../archive/audits/a7-0-music-resource-closure-report.md",
-        "docs/phase2/specs/editor-architecture.md → ../archive/designs/cutscene-asset-workbench-design.md",
-        "docs/phase2/specs/editor-architecture.md → ../../ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
-        "docs/phase2/specs/editor-architecture.md → editor-design-system.md"
-      ],
+      "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+      "publicCallers": ["docs/phase2/README.md", "docs/phase2/specs/editor-architecture.md"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/specs/editor-architecture.md"
+        "fixed original 0d5311075b4f5e67362d1953a138d678c0a4aa42:docs/phase2/specs/editor-architecture.md",
+        "current typed content22/SAVE12 and fixed source slices at 6f33d0f3bd9eb0f7986d84292328057e5f0deb3c"
       ],
       "businessOracle": {
-        "type": "historical-template-migration",
+        "type": "scoped-document-contract-and-history",
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "nine modules and canvas modes have separate responsibilities",
+          "unique field ownership and current-author deletion policy are explicit",
+          "UI transient state, author data and SAVE12 runtime are distinct",
+          "historical upgrade/signature/UI results do not become current acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/phase2/specs/editor-architecture.md"]
+        "result": "responsibility-separated; no duplicate interface or execution ledger",
+        "against": [
+          "docs/phase2/specs/editor-design-system.md",
+          "docs/phase2/specs/project-lifecycle.md",
+          "docs/phase2/specs/content-schema.md"
+        ]
       },
       "revision": {
-        "currentSha": "c15fb8aeb6ad3c05379ab66f27dd64df72f7626c9016347bf003e7f49efe71cd",
+        "currentSha": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
         "implementationSha": "c15fb8aeb6ad3c05379ab66f27dd64df72f7626c9016347bf003e7f49efe71cd",
         "history": [
           {
@@ -3438,6 +3622,12 @@
             "revision": "c15fb8aeb6ad3c05379ab66f27dd64df72f7626c9016347bf003e7f49efe71cd",
             "date": "2026-10-17",
             "action": "R33 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+            "date": "2026-10-24",
+            "action": "S40 authored body and declared source slices",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -3506,12 +3696,96 @@
           "templateCompliance": "needs-migration",
           "bodyReadPerformed": false,
           "nonAuthorReviewer": false
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S40 actual body/source full read plus declared limited static source slices; author not independent; old withdrawal retained",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "previousAfterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+          "previousCurrentFields": {
+            "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+            "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+            "reviewDepth": "structured-content",
+            "truthAnchors": [
+              "docs/phase2/specs/editor-architecture.md:1",
+              "docs/phase2/specs/editor-architecture.md:1 编辑器架构与工作台合同",
+              "docs/phase2/specs/editor-architecture.md:11 模式即插件的外壳(第三根)",
+              "docs/phase2/specs/editor-architecture.md:27 一级模块与稳定深链(ED-2,2026-07-14)",
+              "docs/phase2/specs/editor-architecture.md:49 单一新版地图库与场景绑定（W7F，2026-07-14）",
+              "docs/phase2/specs/editor-architecture.md:69 地图内容选择、Inspector 与可逆变换（W8，2026-07-18）",
+              "docs/phase2/specs/editor-architecture.md:89 地图/组合共享编辑面与来源面板（2026-08-19）",
+              "docs/phase2/specs/editor-architecture.md:100 音乐资源工作台(A7-0,2026-07-15)",
+              "docs/phase2/specs/editor-architecture.md:120 过场资源工作台(A7-3,2026-07-16)"
+            ],
+            "unresolved": [
+              "正文信号 58:- 保存、clone 与 ZIP 对未加载地图按原始字节 copy-through，不为输出而全量解析；修改过的地图使用",
+              "正文信号 67:- 地图工作区的四条状态轴必须正交：瓦片面板素材、待盖图章模板、地图已有内容选区、活动图层不可复用同一状态。`MapSelection` 以稳定 `VisualSlotRef {layerId,row,col}` 和去重 `GridPointRef {row,col}` 分别表示视觉槽/独立碰撞格，按 mapId 存于临时 `MapWorkspaceStat",
+              "正文信号 69:命中的内容尚未全部入选时整批追加，已全部入选时整批移除；因此既能逐次组出不规则集合，又不会在框选部分重叠时意外反选旧成员。默认只命中活动层，“跨层选择”是显式 scope 开关且不改已有选区。全选只收集活动层非空视觉槽和非零碰撞格，不枚举无内容空格。",
+              "正文信号 79:collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作",
+              "正文信号 105:禁止删除并展示引用数量，未引用条目才可删除。",
+              "正文信号 110:- serialize/save 同时写 `assets/index.json` 与 pending blob；本地 v2 工程先单向升级为 v3 再进入工作态。",
+              "正文信号 113:引用保护与未引用删除状态正确。完整闭包数据见",
+              "正文信号 128:未修改旧帧保持惰性来源引用，保存时才恢复完整帧并自动压缩。",
+              "正文信号 131:- 有未保存帧编辑时切换资源必须确认；有 typed 引用的资源禁删，无引用资源确认删除。首次修改迁移资产后",
+              "正文信号 142:- 左侧列表提供搜索、profile 过滤、共享/未引用状态和稳定选择回退；定义切到资源视图时聚焦当前定义实际引用的",
+              "正文信号 147:- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均",
+              "正文信号 148:fail-closed。删除定义与删除未使用二进制是两个命令，save/undo/save/redo 保持 record、bytes 和引用一致。",
+              "正文信号 83:  collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作",
+              "正文信号 151:- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均",
+              "正文信号 225:  edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续",
+              "正文信号 262:- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里消费同 revision 的 diagnostics snapshot 与统一 `ProjectReferenceIndex`，不在状态条另建扫描器；异步地图正文引用另由带完整 coverage/revision 的 proof batch 提供，partial/failed ",
+              "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+            ],
+            "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+            "publicCallers": [
+              "docs/phase2/specs/editor-architecture.md → ../../ops/audits/pre-e2e/summary.md",
+              "docs/phase2/specs/editor-architecture.md → ../archive/designs/editor-design.md",
+              "docs/phase2/specs/editor-architecture.md → ../../ops/archive/tasks/done/W8-map-content-selection-inspector.md",
+              "docs/phase2/specs/editor-architecture.md → ../archive/audits/a7-0-music-resource-closure-report.md",
+              "docs/phase2/specs/editor-architecture.md → ../archive/designs/cutscene-asset-workbench-design.md",
+              "docs/phase2/specs/editor-architecture.md → ../../ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+              "docs/phase2/specs/editor-architecture.md → editor-design-system.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/phase2/specs/editor-architecture.md"
+            ],
+            "businessOracle": {
+              "type": "historical-template-migration",
+              "assertions": [
+                "original bytes remain hashable",
+                "historical boundary explicit",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": ["docs/phase2/specs/editor-architecture.md"]
+            },
+            "phaseAnchors": {
+              "phase": "phase2",
+              "module": "canonical",
+              "currentBoundary": "current phase2/lore docs/code/tests own truth"
+            },
+            "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
+            "versionScope": {
+              "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+              "date": "2026-07-14",
+              "validity": "historical"
+            },
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+            "reviewedLines": "1-340",
+            "documentStatus": "historical"
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-340",
+      "stopLine": "No old R-wave claim restoration, no current implementation/runtime/E2E/visual/coverage credit; only explicit source read domain. New user-visible decisions require separate authorization.",
+      "userVisibleBeforeAfter": "泛化历史封套→具体职责与时点/来源分层；原quote与产品行为零变化。",
+      "reviewedLines": "1-353",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-11",
@@ -3527,7 +3801,7 @@
       },
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "documentStatus": "historical",
+      "documentStatus": "current",
       "sourceGitRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
       "candidateSha256": "3405d8b19cc02d5e377867cfb8e4f2d81d3610405f64a8f85cf88f165fde5d77",
       "primarySource": [
@@ -3540,14 +3814,20 @@
       ],
       "phaseAnchors": {
         "phase": "phase2",
-        "module": "canonical",
-        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+        "currentBoundary": "READ-FIRST current design rules; phase1/sdlpal only explicitly attributed reference"
       },
-      "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
+      "dependencies": [
+        "packages/editor/src/ui/editor-navigation.ts",
+        "packages/editor/src/core/project-reference-adapters.ts",
+        "packages/editor/src/core/project-reference.ts",
+        "packages/content/src/character.ts",
+        "packages/reforge/src/save/types.ts"
+      ],
       "versionScope": {
-        "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-        "date": "2026-07-14",
-        "validity": "historical"
+        "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+        "contentVersion": 22,
+        "saveVersion": 12,
+        "validity": "current design contract"
       },
       "counterReworkBlocked": [
         {
@@ -3574,6 +3854,11 @@
           "id": "R33-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
+        },
+        {
+          "id": "S40-NONAUTHOR-PENDING",
+          "status": "open",
+          "statement": "Owner authored both bodies; independent document acceptance required, no self-sign."
         }
       ],
       "correctiveDelta": {
@@ -3616,7 +3901,109 @@
         "authorCanonicalTask": "/root/s12_semantic_author",
         "nonAuthorReviewer": false,
         "noNewSemanticOrTemplateOrRuntimeCredit": true
-      }
+      },
+      "templateConformance": {
+        "status": "author-checked-pending-independent",
+        "templateId": "design-spec-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "scope": "five body and five archive sections; actual model check required; no completion status grant"
+      },
+      "currentAuthoredReview": {
+        "task": "DOCS-FULL-TEMPLATE-1/S40",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "baseRevision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+        "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+        "readDomain": {
+          "body": "full base envelope and quote, all lines",
+          "fixedOriginal": {
+            "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+            "gitObject": "06a7672fc8c17d0b30dee9aa136b02b8fa8890e5",
+            "sha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+            "bytes": 26639,
+            "read": "full original, all lines"
+          },
+          "staticSourceSlices": [
+            {
+              "path": "packages/editor/src/ui/editor-navigation.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "974d7aa1cd04a5d737ae851fa9f8382ea6a74e4f",
+              "sha256": "091277ddd2850f0074f9199fe27dfd738fb329df7f7c4dbb1a108490c2ddb4a8",
+              "lineRanges": [[1, 210], [300, 570]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/editor/src/core/project-reference-adapters.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "ce40ebe436c0d383248ab0c310c994dd523edd3d",
+              "sha256": "c962483e77f4ae26225ae1f6754a61943944057f97656b11c04b171ed788a89f",
+              "lineRanges": [[1810, 1855]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/editor/src/core/project-reference.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "554dc7c33a5df1be0eab485ff84dcef9714eaf76",
+              "sha256": "c05cdbb27dc252d07117504dd274a781a6d6f8b4a03ead5af469d525d151087a",
+              "lineRanges": [[1238, 1310]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/content/src/character.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "e67d7e135deacb70ec1328b4d2624842b61fdba1",
+              "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+              "lineRanges": [[168, 170]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            },
+            {
+              "path": "packages/reforge/src/save/types.ts",
+              "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+              "gitObject": "9554c46717487f519361f8bcd470b04eb5723ef7",
+              "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+              "lineRanges": [[1, 12]],
+              "readMethod": "manual static slices only; not full file unless range spans it",
+              "runtimeExecutionPerformed": false
+            }
+          ],
+          "notRead": [
+            "full downstream implementations",
+            "historical raw runtime logs",
+            "original game executable",
+            "all old tests"
+          ]
+        },
+        "beforeAfter": {
+          "beforeSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+          "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+          "quoteTailSha256": "2d6829dc29beeae27e94505493f3ffe94fbe3ef87eee4e9e628249639fcca4bd",
+          "quoteTailUnchanged": true,
+          "inverseRule": "sep-lf-1",
+          "inverseSourceBytes": 26639
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "beforeSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+          "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+          "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase2/specs/editor-design-system.md",

@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s39-markdown-intake
+Branch: codex/docs-s40-phase2-reference
 Last reviewed: 2026-10-24
 Template: task-card-v1 / 1.0.0
 
@@ -2436,3 +2436,10 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - Owner据上述逐篇accept明确授这十篇当前文档的content-reviewed/template-compliant，registry同条同步。范围为已写的指南/导航/规格正文及模板，不认证执行、下游报告全文或全部实现合规。预期新增8/1838基线迁移+2增量，当前pending减10、strict减20；最终只以真实progress/strict和合同输出核定，不用预期数冒充命令产物。
 - 白名单限现有FULL/NATIVE卡与board、routing、registry的ops/phase2分片及薄manifest、现有matrix的document-template-contract限定接受边界、原十篇review行与必要精确after级联、既有单份gzip。无新canonical账本/sidecar/模板/代码/旧测试/coverage；212已发布行、302原生、全部旧来源/quote及五棵先前候选树冻结。先owned临时树完整物化/真实合同/投影，再受控实际接入；所有新after格式后取SHA，R33字符值/键序必须完全保值，不改规则。
 - 本轮是Owner中央接入作者动作，接受原正文不等于新行政结果已独立接受；证据另交未参与者据差异核验，不再重做十篇全文。E2E006过期红保持，硬门未全通过，父子卡rework、不合main、不推送、不标done。
+
+## S39 中央接入非作者接受与 S40 两篇正文准入（2026-10-24）
+
+- 接收GLM对6f33d0f3bd9eb0f7986d84292328057e5f0deb3c四轴只读非作者accept，零counter。HANDBACK SHA `72d9b5d7e05cbe80709ba0fa384f3b699ef6b381056b4f5b49f44e464d96751f`，verdict SHA `5879ab959c04483b554cb58686dcb867d00e91ad5460504d65e991bf5046e74b`；Owner实取候选及两SHA一致，复用其十篇保全、十行晋升、两路由及行政封存复验，不再重复正文或复审接受回执本身。当前1428/1838、3 retired、89 incremental、917 pending/1828 strict；212迁移/runtime信用仍0，E2E006日期红不延期。
+- Codex build allowed：从6f33d0f3后继隔离worktree docs-s40-phase2-reference、分支codex/docs-s40-phase2-reference，全文治理 `docs/phase2/specs/editor-architecture.md` 与 `docs/phase2/reference/dialogue-presentation.md`。前者核现行设计职责/导航及源码有限切片；后者核2026-06-26/27历史外观、时序和字体更正，并明确与当前二阶段的适用边界。复用design-spec/reference-canon与archive overlay 1.0.0，不新增模板或产品决定。
+- 白名单：两正文、本卡、R33对应唯一两行及R93/R94必要after级联、catalog.phase2两after和薄catalog descriptor、既有单份gzip。marker至EOF与固定原源逐字节保全；历史争议不删除、不把sdlpal说成原版独立实测。只就实际读域写具体结论；不把代码切片当全实现、runtime/E2E/视觉/coverage验收。原source/history/撤信不恢复，作者nonAuthorReviewer=false/creditGranted=0，partial/needs不自动晋升，独立正文验收另交未参与者。
+- S34–S39全部候选、原工作树和证据冻结；不改中央routing/registry/matrix、产品、旧测试、coverage、规则、日期或212行，不新建canonical账本/sidecar；完整硬门未过保持rework，不合main、不推送、不done。

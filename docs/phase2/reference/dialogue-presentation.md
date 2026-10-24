@@ -1,68 +1,80 @@
 # 切片 1 子任务：对话框外观继承原版（spec for Claude）
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Validity: current
+Owner: Codex（历史参考与适用边界；不代签原执行）
+Last reviewed: 2026-10-24
 Template: reference-canon-v1 / 1.0.0
-
-本页把历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 适用范围
 
-- 阶段、版本、受众和使用场景：历史 phase2/lore 资料，仅用于日期化回顾。
+本页是对2026-06-26/27切片1对话外观与时序排查的当前引用说明。Status current只表示参考入口正在维护；下方“当前缺口”、已勾选验收、Bug1/2/3及行号均属于原稿时点，不是今天的缺陷清单或执行结论。第二阶段按[READ-FIRST](../READ-FIRST.md)移植知识并重新组织模块，不能把历史“直接port”当作照搬旧引擎的许可。
+
+本页解释姓名/头像/光标布局、字体勘误、逐字时钟与确认/尾停顿三类语义的来源，给后续演出核对提供可追溯检查项。原文不替代当前[内容合同](../specs/content-schema.md)、[脚本合同](../specs/script-system.md)或[共同演出标准](../../testing/e2e/contract.md)。
 
 ## 一手来源
 
-- source/primary refs：`docs/phase2/reference/dialogue-presentation.md` 原始全文及其中列出的文件/数据来源。
-- 证据等级：source quote、Git SHA 和原文引用；无本轮执行信用。
+- 固定原稿0d5311075b4f5e67362d1953a138d678c0a4aa42，包含六月用户反馈、旧实现推断、sdlpal行号和六月27日回填。本轮全文读原稿并保全；未据这些行号重审当年的全部代码、原版程序或用户现场。
+- 当前[DialogueRow/DialogueCue](../../../packages/content/src/index.ts)把逐行text/speed与cue共享speaker/slot/autoAdvance/portrait/cursorFrame分开；头像按AssetId引用，不能照抄原稿的icon下标草案。
+- [纯cue指针](../../../packages/reforge/src/dialogue.ts)、[slot代数](../../../packages/reforge/src/dialog/slot.ts)、[DialogBox](../../../packages/reforge/src/dialog/dialog-box.ts)的布局/advance/update/render顺序和[打字时钟](../../../packages/reforge/src/text/typewriter.ts)经本轮定向静态核读。未核完整主循环、真实输入caller、字体供应链或截图。
+- sdlpal是参考实现；原文“原版sdlpal”“原版真值”的措辞保留为历史表述，不能据此声称独立运行大宇原版已证实。第一阶段实现同样不能自行提升为原版实测。
 
 ## 当前真值
 
-- 已确认：原文语义、日期、状态词和引用关系可由 quote inverse 重建。
-- 仅为历史/候选：当前实现状态和产品结论。
+### 本轮静态核对的职责
+
+`dialogue.ts`只推进Dialogue.cues，折行与每页四显示行在渲染侧。默认打字速度常量为24ms，charsShown按elapsed/speed取整，不按逻辑tick计字符。它证明当前模块的算法接口，不能独立证明真实帧率或现场流畅度。
+
+DialogBox的top/bottom正文与姓名位置、18px行高、320px右界和头像居中锚沿用原稿的参考坐标；center/narration现有独立布局，不能继续使用六月“只一种style”的缺口表判断现状。同slot覆盖、异slot保留，推进只作用活跃slot。脚本普通上下对白可以结束等待后继续留显；确认完成与清除可见槽不是同一个动作。
+
+`advance`在未全显时先把pageDone置真；全显后优先翻当前cue的下一页，末页若有autoAdvance则不手动推进。`update`用当前页各行字符数×行速度之和加autoAdvance作为时间条件，`render`先绘制再调用update。本轮只记这些实际代码分支，不声称已证“跳字后恰只等尾停顿”或原稿700ms承诺，也不从静态分支推定无按键重播。
+
+### 原稿提供的历史线索
+
+| 线索 | 原稿结论及本页使用边界 |
+|---|---|
+| 字模 | 06-27明确撤回FONT.MKF说法，改称第一阶段GNU Unifont CN；保留字体来源修正，不认证今天加载的字模/许可证 |
+| 速度 | 24ms是原稿iDelayTime=3×8的参考基数，100ms是当时10fps tick间隔；二者不可互换 |
+| 按一下全显 | 原稿把跨行skip语义与单tick输入/行间return拆开分析，并纠正旧版把普通行也算入tilde等待分支的说法 |
+| 尾停顿 | 原稿记录wall-clock快进与反复Confirm重置造成的卡死及修法；该事件、旧行号和700ms验收属于当时，未复跑 |
+| 外观 | 透明上下对白、独立姓名/头像、光标跟末行、三层阴影是参考约束；实际演出仍按当前意图和完整帧验收 |
 
 ## 未知与冲突
 
-- 未知：- 正文信号 92:### ⚠️ 打字速度查证（2026-06-26，作者反馈"第一阶段比原版慢"）
-- 正文信号 129:### ⚠️ 第二个独立 bug："按一下全显"丢失（作者核心痛点）
-- 正文信号 137:> ⚠️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**的机制，下面分述。
-- 冲突双方与待裁决问题：由当前 primary source、代码、测试和用户裁决重新确认。
+原稿先写FRAMES_PER_CHAR=1/@10fps=100ms，随后明确纠正每字间隔为24ms；保留前后版本，引用时以勘误后的数值语义解释，不能把前句重新当默认速度。对话数据草案的DialogueLine/portrait.icon与当前cue/rows/portrait.asset不兼容，本页不恢复旧schema。
+
+当前update尾停顿的静态时间条件与原稿“首次跳字重设起点后只等尾停顿”的第一阶段修法不是同一实现证明。本轮不裁定它是否构成用户可感知缺陷；如要确认，另按真实caller/页面内容/时钟与输入序列实跑，不能由本文替它判绿或判红。历史字体、原版行为和六月验收截图未重认证。
 
 ## 使用边界
 
-- 可以支持的结论：历史背景、原版约束和当时工程判断。
-- 不得推出的结论：当前 runtime、E2E、视觉、coverage 或产品完成。
-- 复核/升格条件：带版本/日期引用，并由当前 Owner 复核。
+使用者可据此区分字体更正、typing采样、输入消费、页/cue/slot与可见留显生命周期，设计相应反例；合法输入是固定原稿或当前typed DialogueCue及其locale/资源，不是旧Line草案或任意数组位置。
+
+文档oracle是各时点与证据等级无混淆：不得把六月缺口当现行红项、六月勾选当今天通过、sdlpal当原版独立实测，或仅凭24ms常量宣称流畅。产品验证须覆盖长文分页、同/异slot、typing确认、末页自动推进、重复按键、清除/留显与真实绘制；未跑就保持未知。正文由未参与者按现有R33逐篇记录据证验收。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-06-26；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920。
+原稿日期2026-06-26，含06-27字体/实现回填及Bug3修正。它服务当时切片1，不是全部第二阶段对话系统的现行接口规范。
 
 ## 原始结论
 
-- 切片 1 子任务：对话框外观继承原版（spec for Claude）：这是 reference-canon，当前文档状态为 draft。全文 233 行、13 个标题；摘要/首段为「> 2026-06-26 立。承接 [backlog 议题 14 对话外观子项](../design-backlog.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+原稿要求保留纯状态机与呈现解耦，补齐透明正文、头像/姓名/光标、点阵字和24ms逐字；分析采样卡顿、跨行确认与尾停顿重置三类问题，记录一次字体来源撤回、一次普通行/tilde分支归因纠正及切片验收勾选。原数字、勾选与“已实现”均仅限原时点。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+quote完整保留game/reforge/sdlpal路径与行号、旧commit名、位置/色值、时序图、输入与修法说明。本轮以固定Git原稿字节为原源，不用旧R33模板结论或其已撤回深审信用作证。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 92:### ⚠️ 打字速度查证（2026-06-26，作者反馈"第一阶段比原版慢"）
-- 正文信号 129:### ⚠️ 第二个独立 bug："按一下全显"丢失（作者核心痛点）
-- 正文信号 137:> ⚠️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**的机制，下面分述。
+当前参考入口，历史结论限六月时点；本轮新增的是来源分层、现行typed接口和有限静态分支的具体说明。partial/needs与新信用0保持，未重新认证历史执行、字体、原版或当前runtime/E2E/视觉/coverage。
 
 ## 继任文档
 
-- Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+当前接口归[content-schema](../specs/content-schema.md)与typed内容源码，段落清除/演出差异归[共同演出标准](../../testing/e2e/contract.md)，新实现按[脚本系统](../specs/script-system.md)及实际DialogBox caller检查。六月[visual设计](../archive/designs/visual-design.md)只作为设计史；现行规格、代码变化或新用户判断使对应静态说明失效时定向重审。
 
 ## 原文保全
 
-固定源 SHA `b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920`；下方 quote 可逆回原始 UTF-8 字节。
+固定原源`0d5311075b4f5e67362d1953a138d678c0a4aa42`，Git blob `ad69e0df822942d580985cdc5308e8ec4149885e`，SHA-256 `b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920`，17519B。marker至EOF与S40基点逐字节相同；剥每行引用前缀后，精确排除end marker前恰一个未引用分隔LF再等原源，不trim、不替换字符。
+
 <!-- original-source-quote:start -->
 > # 切片 1 子任务：对话框外观继承原版（spec for Claude）
 >

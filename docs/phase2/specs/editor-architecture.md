@@ -1,77 +1,88 @@
 # 编辑器架构与工作台合同
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Validity: current
+Owner: Codex（设计职责与文档维护；不代签历史执行）
+Last reviewed: 2026-10-24
 Template: design-spec-v1 / 1.0.0
-
-本页把历史材料接入 `design-spec-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 问题与目标
 
-- 当前问题：历史设计记录 design-spec historical document full-text review: 编辑器架构与工作台合同.，不能单独证明当前实现。
-- 目标结果：保全设计目标、约束、方案和历史验收意图。
+编辑器同时承载场景、地图、脚本、资源和项目设置，必须让每个字段只有一个作者、每个业务页只有一个权威入口。模式处理画布手势，模块组织业务导航，两者职责分开；不能把旧 DataMode 再变成可见的“数据”总容器。当前适用内容为 contentVersion 22 / SAVE12，格式轴以[内容合同](content-schema.md)与[存档合同](save-system.md)为准。
+
+本页维护这些已存在的设计约束。旧R33封套把原稿开头的“现行规范”整体改成historical，本次纠正适用性；不因此恢复其已撤回的深审声明，也不证明所有工作台已实现或验收通过。
 
 ## 真值与约束
 
-- 原版/primary source：`docs/phase2/specs/editor-architecture.md` 原始全文及其中的一手引用。
-- 当前阶段证据：固定历史 source revision；本次只做静态治理。
-- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授执行信用。
-- 未知与冲突：- 正文信号 83:  collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作
-- 正文信号 151:- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均
-- 正文信号 225:  edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续
-- 正文信号 262:- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里消费同 revision 的 diagnostics snapshot 与统一 `ProjectReferenceIndex`，不在状态条另建扫描器；异步地图正文引用另由带完整 coverage/revision 的 proof batch 提供，partial/failed
+- 第二阶段按[READ-FIRST](../READ-FIRST.md)采用干净架构与当前canonical；原始设计及其历次补充在下方固定quote保全。[历史编辑器设计](../archive/designs/editor-design.md)解释来历，不作为新实现入口。
+- [editor-navigation.ts](../../../packages/editor/src/ui/editor-navigation.ts)集中维护九个一级模块、子页、默认页和位置编码。`EditorLocation`区分module/subpage/objectId；精灵库另有domain/view，资源动作或角色工作区可有actionId。显示名、数组位置和文件path均不替代对象身份。
+- 对象作者态与持久修改归领域会话/Command；视口、活动层、地图选区和面板偏好不混入内容或存档。SAVE12的sceneRuntime是游戏现场，不回写作者工程，不自行新增作者状态方案或预览能力。
+- typed引用由content语义、editor定位与删除策略、统一builder、公共Reference UI分层承担。[同步collector](../../../packages/editor/src/core/project-reference-adapters.ts)构造current-author索引；[ProjectReferenceIndex](../../../packages/editor/src/core/project-reference.ts)按target与删除scope计算blocker/warning。`where`是可读说明，不是解析身份的协议。
 
 ## 方案
 
-- 原设计的流程、数据、接口和取舍在 quote 中完整保全。
-- 选择理由：design-spec 保留规范性决策。
-- 明确不做：不修改产品实现、不改写原始 quote。
+### 模块、深链与字段维护权
+
+| 模块id | 唯一职责与入口 |
+|---|---|
+| scene / map | 场景编排与氛围；地图编辑、瓦片集和组合库 |
+| story / actor | 脚本库、变量、指令手册；角色编辑 |
+| item / battle / simulator | 物品与商店等作者数据；技能、敌人及战斗定义；独立试打预设 |
+| asset | 精灵、图像、音乐、音效、过场素材及其二进制生命周期 |
+| project | 概览、全局资源与启动、入口与开局、问题四页 |
+
+URL使用`module/page/object`，统一decoder归一化非法模块/子页到安全默认页；合法object是否存在由对象消费者给出空态，不能由URL解析器证明。对象仅在同一子页间保留，不能把音乐AssetId带到过场素材页；精灵域/视图及角色子视图按注册的条件保留。浏览器历史由统一导航会话维护，页面不并行保存第二套路由。
+
+项目页维护manifest的name/defaultEntryId/entryPoints/assets.roles；资源页维护catalog与二进制，场景/脚本维护演出编排。入口的startWorld完整自含，没有从默认入口继承或隐式跟随。默认入口仅选择一个真实入口，不增加伪入口；概览只汇总并引导到字段的唯一作者，不另建编辑表单。
+
+### 地图、资源与可撤销编辑
+
+地图按稳定mapId组织、正文懒加载；脏文档及撤销栈引用文档保留，未加载文件保存/clone/ZIP按原始字节copy-through。场景绑定MapId而非复制地图。已有选区、待盖模板、素材选择、活动层四轴独立；图层/source/tile/height/collision修改先完整校验，一动作一Command，no-op不置脏、不入history、不清redo。
+
+地图和组合共用IsometricEditorCanvas与工具栏，组合以草稿保存形成一笔命令；相对H与地图绝对H在ghost与提交时用同一解析。作者有序集合复用公共grip、键盘与精确移动，重复值用occurrence token，不能因底层是数组就新增排序能力。
+
+音乐替换保持AssetId，试听共用单一owner；过场帧序列按draft-history组织完整RGBA编辑与惰性来源；战斗精灵定义与二进制资源是两条生命周期。替换/删除需复核消费者、字节/SHA、定义与profile边界，不能用过期索引或partial地图facts授权破坏动作。原文各专项保留完整领域细节和任务入口。
+
+### 工作台布局与诊断
+
+顶栏负责工程、撤销/重做和保存；模块导航、对象目录、画布、Inspector、底栏分工不重叠。尺寸和交互形态归[设计系统](editor-design-system.md)，本页不复制像素规范。底栏/问题页消费同revision的统一diagnostics；partial/failed不能显示成“零引用”，也不能另建页面扫描器绕过统一索引。
 
 ## 边界与风险
 
-- 风险：历史设计可能与当前代码、数据或产品决策漂移。
-- 可证伪观察：当前 primary source 或执行证据与本页不一致时，以新证据为准。
-- 迁移/兼容/法律边界：只迁移文档表达和证据账本。
+当前核读仅覆盖下方原稿全文、导航注册与decoder切片、同步引用collector入口及索引删除策略、版本常量。地图缓存、各资源命令、保存/ZIP、Worker覆盖、实际焦点/滚动/浏览器历史没有在本轮逐实现审计或实跑；上面的职责是规范要求，不是本轮已验证的实现清单。
+
+quote中音乐工作台的“v2升级v3”、W7G“另开三签”和旧UI验收数字保留当时语境；当前开发期兼容与协作规则分别由READ-FIRST及AGENTS决定，不恢复旧upgrader或固定三签。发现新格式、删除安全或用户可见形态取舍，停受影响项交Owner/用户，不以文档改写替代产品授权。
 
 ## 验收
 
-- 可执行验证：source/after SHA、quote inverse、模板章节和三账本。
-- 业务 oracle：设计目标和约束可追溯，当前行为由继任实现与测试证明。
-- 复核 Owner 与截止条件：Codex 独立复核后接收。
+文档oracle是九模块/统一位置、字段唯一作者、作者态与游戏现场分轴、current-author删除证据和非持久UI态可明确追溯。结构、实链、quote逆回、source/after及catalog/review依赖须一致；作者自验不等于非作者接收。
+
+实现验收另按原领域任务运行：过期引用不得授权删除；取消/no-op零命令；一次修改可一次undo/redo；保存重开保留字节/引用。原文的86首音乐、27%/103%浏览器和历史done只属于当时记录，本轮未复跑，不授runtime/E2E/视觉/coverage信用。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-07-14；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a。
+固定来源为0d5311075b4f5e67362d1953a138d678c0a4aa42的完整原稿，含2026-07至10月补充。R33旧封套及其撤信保留于Git和唯一review历史，不作为当前职责判断依据。
 
 ## 原始结论
 
-- 2026-10-04 原复核：编辑器架构与工作台合同：这是 design-spec，当前文档状态为 draft。全文 262 行、14 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：SAVE12 场景现场不回写作者工程、不新增状态方案或剧情阶段；原编辑器 Page/Behavior/Hook 与预览合同保留。
+原稿以模式插件外壳与九模块分层组织工作台；后续补入地图选择/共享编辑面、音乐与过场/战斗精灵生命周期、manifest入口、公共排序、ED-3引用和场景/商店安全删除。其规范约束与当时各专项完成声明分轴使用，不能把任一done推成整个编辑器已验收。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+原始任务、源码路径、日期和浏览器数字仍在quote；本轮的源切片、逆回规则、before→after与未跑域记录在现有R33本篇行。catalog旧reviewed为旧库存登记，不充当新的非作者接受。
 
 ## 当前有效性
 
-- 当前合同声明（仅供 current contract checker）：contentVersion 22 / SAVE12；原文 quote 中的旧版本只属于历史证据。
-
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 83:  collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作
-- 正文信号 151:- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均
-- 正文信号 225:  edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续
-- 正文信号 262:- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里消费同 revision 的 diagnostics snapshot 与统一 `ProjectReferenceIndex`，不在状态条另建扫描器；异步地图正文引用另由带完整 coverage/revision 的 proof batch 提供，partial/failed
+现行设计合同，适用contentVersion 22 / SAVE12；本轮正文重写与有限静态核对待非作者接收，partial/needs不自动晋升。现行约束可用于审查，但不能证明各领域实现、旧测试或UI已经符合。
 
 ## 继任文档
 
-- Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+版本归[内容合同](content-schema.md)/[存档合同](save-system.md)，脚本归[脚本系统](script-system.md)，工程I/O归[工程生命周期](project-lifecycle.md)，视觉组件归[设计系统](editor-design-system.md)。新的字段或行为变更须在相应唯一事实源和任务闭环；本页只同步受影响的职责边界。
 
 ## 原文保全
 
-固定源 SHA `e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a`；下方 quote 可逆回原始 UTF-8 字节。
+固定原源`0d5311075b4f5e67362d1953a138d678c0a4aa42`，Git blob `06a7672fc8c17d0b30dee9aa136b02b8fa8890e5`，SHA-256 `e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a`，26639B。marker至EOF与S40基点逐字节相同；剥每行引用前缀后，精确排除end marker前恰一个未引用分隔LF再等原源，不trim、不替换字符。
+
 <!-- original-source-quote:start -->
 > # 编辑器架构与工作台合同
 >

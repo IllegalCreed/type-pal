@@ -354,7 +354,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "ce72716254fe506a6f6cdacf7902901dd3a5b3b15b139c4242b0cd545c3c810b",
+      "afterSha256": "7f68744a7bd2e2437cc15b6c22dc361c2e25aa3138a8b14a6df892167e1f385b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -531,6 +531,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "70ba1c6ff2c02f11f1d24a3e880a2f03d247d33ce41daa6c491a7f54f3f0e733",
           "afterSha256": "ce72716254fe506a6f6cdacf7902901dd3a5b3b15b139c4242b0cd545c3c810b"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "beforeSha256": "ce72716254fe506a6f6cdacf7902901dd3a5b3b15b139c4242b0cd545c3c810b",
+          "afterSha256": "7f68744a7bd2e2437cc15b6c22dc361c2e25aa3138a8b14a6df892167e1f385b",
+          "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -9248,7 +9260,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "f778f5bb47315e65e98f35c9ae3df75c5935ea7150be6177b962a8d04bde8231",
+      "afterSha256": "3d92b56483b6e4b39ef918eec8e9e6b450eb6761000bb882f4c661a46af183f1",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9410,6 +9422,18 @@
           "beforeSha256": "b506775388322a5196503bfd7b0d310658c0c85b5c9d5223c341332ff13e876b",
           "afterSha256": "f778f5bb47315e65e98f35c9ae3df75c5935ea7150be6177b962a8d04bde8231",
           "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "beforeSha256": "f778f5bb47315e65e98f35c9ae3df75c5935ea7150be6177b962a8d04bde8231",
+          "afterSha256": "3d92b56483b6e4b39ef918eec8e9e6b450eb6761000bb882f4c661a46af183f1",
+          "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -15937,7 +15961,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
-      "afterSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f",
+      "afterSha256": "fae6a59f9ab0937df73d27c321332bccc0582af2e57ec38096943447e9587c97",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/build-phase-lore-governance.mjs",
@@ -16094,6 +16118,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "c2d1031a30e75c70b7159d6211f17c76333b8569bb6c011645b1016b8f65f52c",
           "afterSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "beforeSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f",
+          "afterSha256": "fae6a59f9ab0937df73d27c321332bccc0582af2e57ec38096943447e9587c97",
+          "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

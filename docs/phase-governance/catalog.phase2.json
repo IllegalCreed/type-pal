@@ -11800,7 +11800,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
-      "afterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+      "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
       "sourceRefs": [
         {
           "path": "packages/game/src/present/dialog-box.ts",
@@ -11874,6 +11874,16 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
           "afterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S40 explicit two bounded reference/specification body deltas; catalog inventory not semantic reacceptance",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "previousAfterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+          "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+          "newSemanticCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
@@ -12413,7 +12423,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
-      "afterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+      "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
       "sourceRefs": [
         {
           "path": "packages/editor/src/ui/editor-navigation.ts",
@@ -12491,6 +12501,16 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "3405d8b19cc02d5e377867cfb8e4f2d81d3610405f64a8f85cf88f165fde5d77",
           "afterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S40 explicit two bounded reference/specification body deltas; catalog inventory not semantic reacceptance",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "previousAfterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+          "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+          "newSemanticCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
