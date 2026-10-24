@@ -1247,12 +1247,12 @@ export function tickAutoScripts(gs: GameState): void {
       // sceneLabelMap;**入口在全局数组**(events/all.json 高位 entry,如丁大伯挥锄 autoScript
       // L_36205)的 NPC 解不到 → autoCursor 留 undefined → 冻在首帧不跑 autoScript,直到对话触发
       // 0x24 setAutoScript(走 resolveScriptLabel)才解析上。此处补走同一 resolveScriptLabel
-      // (scene→shared→global),与 0x24 同路:sdlpal `wAutoScript` 本是单一全局 lprgScriptEntry
+      // (只查全局),与 0x24 同路:sdlpal `wAutoScript` 本是单一全局 lprgScriptEntry
       // 索引,无 per-scene 概念(play.c:178-183),切片优化后在此补回全局语义。
       // autoLabel 被 0x24 清空(undefined)的不动;已解析的 autoCursor 在共享 event object 上持久
       // (保留 autoscript 进度,重进 scene 不重解)。
       if (!npc.autoLabel) continue
-      const r = resolveScriptLabel(gs, npc.autoLabel)
+      const r = resolveScriptLabel(npc.autoLabel)
       if (!r) continue
       npc.autoCursor = { ip: r.ip } // P2#5:只存全局 ip,默认读 _globalCommands
     }
@@ -3345,7 +3345,7 @@ export function startOverworldItemScript(
     return false
   }
   // P2#5:item scriptOnUse 是全局 entry → 全局 ip(identity)。
-  const r = resolveScriptLabel(gs, `L_${scriptOnUse}`)
+  const r = resolveScriptLabel(`L_${scriptOnUse}`)
   if (!r) {
     console.warn(`[item-use] L_${scriptOnUse} 不在全局 labelMap(itemId=${itemId})`)
     return false
@@ -3862,7 +3862,7 @@ function applyRawOpcode(
           // autoCursor 只存全局 ip,默认读单一全局数组(_globalCommands),不再按 scene 切片重排。
           const label = `L_${entry}`
           npc.autoLabel = label
-          const r = resolveScriptLabel(gs, label)
+          const r = resolveScriptLabel(label)
           if (r) {
             npc.autoCursor = { ip: r.ip }
           } else {

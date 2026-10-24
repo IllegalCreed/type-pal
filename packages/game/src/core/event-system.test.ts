@@ -3570,7 +3570,6 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
 
 describe('全局脚本解析 resolveScriptLabel(P2#5 单一全局数组,跨 scene 脚本引用)', () => {
   it('label → 全局 ip(李大娘 L_560 等 116 处跨 scene trigger 的根治)', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // P2#5:无 scene/shared 层 — resolveScriptLabel 只查单一全局 labelMap(L_<n> → 全局下标)。
     // 全局脚本数组:命令带 label L_560(全局 entry index 1)、L_1(index 0)。
     setGlobalEvents([
@@ -3579,16 +3578,14 @@ describe('全局脚本解析 resolveScriptLabel(P2#5 单一全局数组,跨 scen
       { op: 'end' },
     ])
     try {
-      const r = resolveScriptLabel(gs, 'L_560')
-      expect(r?.ip).toBe(1) // 命中 global 的 index 1
+      const r = resolveScriptLabel('L_560')
+      expect(r).toEqual({ ip: 1 }) // 命中 global 的 index 1
       // P2#5:返回只含 ip(不内嵌 commands)→ caller 建的 cursor 默认读全局数组。
-      expect(r?.commands).toBeUndefined()
       // 任何 scene 的 label 都在同一全局数组(不再有 scene 优先 / scene 切片来源)。
-      const rOther = resolveScriptLabel(gs, 'L_1')
-      expect(rOther?.ip).toBe(0)
-      expect(rOther?.commands).toBeUndefined()
+      const rOther = resolveScriptLabel('L_1')
+      expect(rOther).toEqual({ ip: 0 })
       // 全局无此 label → null。
-      expect(resolveScriptLabel(gs, 'L_NOPE')).toBeNull()
+      expect(resolveScriptLabel('L_NOPE')).toBeNull()
     } finally {
       setGlobalEvents([]) // 复位
     }

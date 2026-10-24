@@ -1,6 +1,5 @@
 /** 第一阶段共享脚本目录；只保存命令和标签，不依赖任何执行器。 */
 import type { Command } from '@type-pal/shared'
-import type { GameState } from './game-state.js'
 
 // P2#5(2026-05-29):旧 shared.json 切片(_sharedCommands/setSharedEvents/getShared*)已删 —
 // shared 只是全局数组的一个切片,塌缩进单一全局数组后 goto `shared#L_xxx` 由 resolveLabelIp 剥前缀
@@ -54,16 +53,8 @@ export function resolveLabelIp(
   return Object.hasOwn(labels, label) ? labels[label] : undefined
 }
 
-/**
- * 脚本 label → 全局 ip。P2#5 后塌缩成单一全局数组查找(all.json 的 L_<n> → n 恒等,0 违例)。
- * 返回 ip(全局下标);commands/labelMap 省略 → caller 建的 cursor 默认读全局数组(不再内嵌 → 不膨胀存档)。
- * 保留 gs 参数 + 可选 commands/labelMap 返回字段,兼容旧 caller 的解构(得 undefined → 默认全局)。
- */
-export function resolveScriptLabel(
-  gs: GameState,
-  label: string,
-): { commands?: Command[]; labelMap?: Record<string, number>; ip: number } | null {
-  void gs
+/** 全局 label → ip;未知标签返回 null。只借用目录,不读写游戏状态或内嵌命令副本。 */
+export function resolveScriptLabel(label: string): { ip: number } | null {
   const ip = Object.hasOwn(_globalLabelMap, label) ? _globalLabelMap[label] : undefined
   return ip !== undefined ? { ip } : null
 }

@@ -289,7 +289,7 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
     if (!npc.triggerLabel) return
     // P2#5:triggerLabel(L_<globalIndex>,来自 event-objects.json)→ 全局 ip(identity)。
     // sdlpal wTriggerScript 本是单一全局 offset(events.bin unified),与此一致。
-    const r = resolveScriptLabel(gs, npc.triggerLabel)
+    const r = resolveScriptLabel(npc.triggerLabel)
     if (!r) {
       console.warn(
         `scene-system: triggerLabel ${npc.triggerLabel} 不在全局 labelMap(NPC id=${npc.id})`,
@@ -596,7 +596,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   gs.deathHoldActive = false // 同清过渡帧 hold(残留会冻住新场景渲染);死亡演出退出点
   // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
   gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
-    ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)
+    ? (resolveScriptLabel(sceneAssets.onTeleportLabel)?.ip ?? 0)
     : 0
   gs.npcs =
     sliceSceneEventObjects(gs, wNumScene) ??
@@ -623,7 +623,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   // 直跳的 scene 永远不跑 setBattlefield → 战斗背景永远 default。本 fix 让两者并存:
   // enter script 跑全(含 setPartyPos),partyStart 之后覆写位置。
   if (sceneAssets.onEnterLabel) {
-    const ip = resolveScriptLabel(gs, sceneAssets.onEnterLabel)?.ip // P2#5:onEnterLabel = L_<global> → 全局 ip
+    const ip = resolveScriptLabel(sceneAssets.onEnterLabel)?.ip // P2#5:onEnterLabel = L_<global> → 全局 ip
     if (ip !== undefined) {
       runEnterScript(gs, undefined, undefined, ip) // P2#5:默认全局数组
     }
