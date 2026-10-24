@@ -38,6 +38,7 @@ import { sliceByScene } from './events/slice.js'
 import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
 import { chunkCount, openMkf, readChunk } from './io/mkf.js'
 import { parseMessages } from './io/msg.js'
+import { readBinary } from './io/read.js'
 import { parseSlf } from './io/slf.js'
 import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
@@ -47,33 +48,18 @@ import { buildLanguagePack } from './localization/build-language-pack.js'
 import { englishRevisions } from './localization/english-revisions.js'
 import { assertOwnedOutputRoot } from './output-boundary.js'
 import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
-import { parseEnemyPos } from './resources/enemy-pos.js'
+import { writeDataAssets } from './resources/data-assets.js'
 import { writeMusicAssets } from './resources/music.js'
 import { decodePalette } from './resources/palette.js'
 import { decodeBallIcon } from './resources/parsers/ball.js'
-import {
-  parseBattleEffectIndex,
-  parseLevelUpExp,
-  parseLevelUpMagic,
-} from './resources/parsers/data-misc.js'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
-import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './resources/sprite.js'
+import { encodeIndexedPng, parseSpriteChunk } from './resources/sprite.js'
 import {
-  buildEnemyObjectNameMap,
-  buildObjectIndexToEnemyIdMap,
-  parseBattleFields,
-  parseEnemies,
   parseEnemyObjects,
-  parseEnemyTeams,
   parseItems,
-  parseMagicTable,
-  parseObjectMagics,
   parseObjectPlayers,
-  parseObjectPoisons,
-  parsePlayerRoles,
   parseSpells,
-  parseStores,
 } from './resources/tables.js'
 import { writeWorldAssets } from './resources/world-assets.js'
 
@@ -103,18 +89,9 @@ function imageBattleBgPath(bgId: number): string {
   return resolve(OUT, 'images', 'battle', 'bg', `${bgId.toString().padStart(3, '0')}.png`)
 }
 
-function imageUiPath(frameIdx: number): string {
-  return resolve(OUT, 'images', 'ui', `frame-${frameIdx.toString().padStart(2, '0')}.png`)
-}
-
 // 资源管线优化(2026-06-22):battle / magic sprite 同 tileset/npc 改 gzip RLE blob,后缀 `.rle`。
 function battleSpriteBlobPath(kind: 'enemy' | 'player', id: number): string {
   return resolve(OUT, 'data', 'battle-sprite', kind, `${id}.rle`)
-}
-
-/** magic 命中特效(DATA chunk 10)单 blob。 */
-function magicEffectBlobPath(): string {
-  return resolve(OUT, 'data', 'magic', 'effect.rle')
 }
 
 /** FIRE.MKF 每 chunk(法术特效)blob。 */
@@ -123,12 +100,12 @@ function magicFireBlobPath(chunkIdx: number): string {
 }
 
 /** Internal JSON destinations used by this entrypoint; writeJson owns directory creation. */
-function dataSubdirPath(subdir: 'palette' | 'ui-sprite', name: string): string {
+function dataSubdirPath(subdir: 'palette', name: string): string {
   return resolve(OUT, 'data', subdir, `${name}.json`)
 }
 
 function loadFile(name: string): Uint8Array {
-  return new Uint8Array(readFileSync(resolve(RAW, name)))
+  return readBinary(resolve(RAW, name))
 }
 
 function loadMkfChunk(file: string, chunkIndex: number, decompress = false): Uint8Array {
@@ -287,121 +264,7 @@ async function main(): Promise<void> {
     `[pal-extract] events written: ${sliced.scenes.length} scenes + shared(含 ${globalScriptEntries.length} item/spell/enemyObj script entries)+ objects + all(${annotated.length} 全局命令)`,
   )
 
-  // ── 数据表(全量) ────────────────────────────────────────────────
-  console.log('[pal-extract] data tables …')
-
-  // DATA.MKF chunk 1 = ENEMY 敌人基础数据;chunk 2 = ENEMYTEAM 敌队;
-  // chunk 4 = MAGIC 法术细节;chunk 5 = BATTLEFIELD 战场背景 + 元素 buff
-  // (对照 sdlpal global.c::PAL_LoadDefaultGame 的 LOAD_DATA 调用)
-  const dataMkf = openMkf(loadFile('DATA.MKF'))
-  const storeBuf = readChunk(dataMkf, 0)
-  const enemyBuf = readChunk(dataMkf, 1)
-  const teamBuf = readChunk(dataMkf, 2)
-  const magicBuf = readChunk(dataMkf, 4)
-  const fieldBuf = readChunk(dataMkf, 5)
-
-  writeJson(resolve(OUT, 'data', 'items.json'), items)
-  // M3 T6:Spell wrapper(SSS chunk 2) + Magic 详细 stats(DATA chunk 4)分两个文件 dump。
-  // Spell.magicNumber 指向 magic[] 索引;运行时按需 join。
-  writeJson(resolve(OUT, 'data', 'spells.json'), spells)
-  // E 类 0x42 SimulateMagic / 0x66 throw weapon:把任意 object id 当 magic 解读
-  // (rgObject[id].magic),投掷物 op0 可低至 24(item 段之下,不在 spells.json [296..397])。
-  // dump 完整 OBJECT 数组的 magic-union 视图供运行时解析任意 op0(parseObjectMagics)。
-  writeJson(resolve(OUT, 'data', 'object-magics.json'), parseObjectMagics(sssObjBuf))
-  // 0x28 apply poison:poison object 的 wEnemyScript(敌人中毒每回合脚本)。
-  writeJson(resolve(OUT, 'data', 'object-poisons.json'), parseObjectPoisons(sssObjBuf))
-  // OBJECT_PLAYER 死亡 / 濒死脚本:队友死亡或濒死时触发角色脚本。
-  writeJson(resolve(OUT, 'data', 'object-players.json'), objectPlayers)
-  writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
-  const enemies = parseEnemies(enemyBuf, sssObjBuf, words)
-  writeJson(resolve(OUT, 'data', 'enemies.json'), enemies)
-  // M5.B-w2.a:OBJECT_ENEMY 段 5 字段全 dump(scriptOnReady/scriptOnTurnStart/
-  // scriptOnBattleEnd 等 AI hook),enemy-objects.json index = OBJECT 表绝对 index。
-  writeJson(resolve(OUT, 'data', 'enemy-objects.json'), enemyObjects)
-  // M3 T7:EnemyTeam(DATA chunk 2) + BattleField(DATA chunk 5)dev panel 选 fixture 用。
-  // EnemyTeam._names 反查 — 用 OBJECT_ENEMY 段 + words 建 map。
-  const enemyObjectNames = buildEnemyObjectNameMap(sssObjBuf, words)
-  // M3.30 Bug 1 修复:enemy-teams.json 槽位之前 dump 为 OBJECT 数组绝对 index(398-550),
-  // 与 enemies.json id 范围(0-153)不匹配,运行时 `find(e => e.id === slot)` 全 miss → enemy
-  // 不显示。dump 时翻译 OBJECT index → enemies.json id(= OBJECT_ENEMY.wEnemyID),
-  // 同时保留 enemyObjectIndexes,供运行时区分同 enemyId 的多个脚本变体。
-  const objectIndexToEnemyId = buildObjectIndexToEnemyIdMap(sssObjBuf)
-  writeJson(
-    resolve(OUT, 'data', 'enemy-teams.json'),
-    parseEnemyTeams(teamBuf, enemyObjectNames, objectIndexToEnemyId),
-  )
-  writeJson(resolve(OUT, 'data', 'battle-fields.json'), parseBattleFields(fieldBuf))
-  // DATA.MKF chunk 0 = STORE 商店表(global.c:292)。买菜单 opcode 0x0026 按 operand[0] 取。
-  writeJson(resolve(OUT, 'data', 'stores.json'), parseStores(storeBuf))
-  // M3.5:ENEMYPOS(DATA.MKF chunk 13)= 5×5 PALPOS table。game runtime
-  // draw-battle-sprites.ts 按 state.enemies.length 选 layouts[count-1] 行,
-  // 替代 M3 simple version 的 hardcoded ENEMY_POSITIONS。
-  const enemyPosBuf = readChunk(dataMkf, 13)
-  writeJson(resolve(OUT, 'data', 'enemy-pos.json'), parseEnemyPos(enemyPosBuf))
-  // M3 T8:PlayerRoles(DATA.MKF chunk 3)— M2 半解扩到 M3 战斗子集 dump。
-  // T9:cli.ts 不再硬编码 leader sprite,改读 playerRoles.roles[0].spriteNum 真值用于切片。
-  const playerRoles = parsePlayerRoles(loadFile('DATA.MKF'), words)
-  writeJson(resolve(OUT, 'data', 'player-roles.json'), playerRoles)
-
-  // M4 P2 T2: DATA.MKF 余下 chunks ─────────────────────────────────────────
-  // chunk 14: rgLevelUpExp[100] = 升级经验阈值(WORD × 100 = 200 字节)
-  const levelUpExpBuf = readChunk(dataMkf, 14)
-  writeJson(resolve(OUT, 'data', 'level-up-exp.json'), parseLevelUpExp(levelUpExpBuf))
-
-  // chunk 6: lprgLevelUpMagic = LEVELUPMAGIC_ALL × N
-  //   LEVELUPMAGIC_ALL = { LEVELUPMAGIC m[5] }, LEVELUPMAGIC = { WORD wLevel; WORD wMagic }
-  //   MAX_PLAYABLE_PLAYER_ROLES = 5
-  const levelUpMagicBuf = readChunk(dataMkf, 6)
-  writeJson(resolve(OUT, 'data', 'level-up-magic.json'), parseLevelUpMagic(levelUpMagicBuf, 5))
-
-  // chunk 11: rgwBattleEffectIndex[10][2] = WORD × 20 = 40 字节
-  const battleEffectBuf = readChunk(dataMkf, 11)
-  writeJson(
-    resolve(OUT, 'data', 'battle-effect-index.json'),
-    parseBattleEffectIndex(battleEffectBuf),
-  )
-
-  // M4 P2 T3: DATA.MKF chunk 9 (SPRITEUI) → images/ui/frame-NN.png
-  // sdlpal ui.h: CHUNKNUM_SPRITEUI = 9; PAL_MKFReadChunk(raw, no YJ2)
-  // gpSpriteUI 是单个 sprite group chunk,帧按 SPRITENUM_* 常量直接索引。
-  // 最高已知 SPRITENUM = SPRITENUM_ITEMBOX = 70;实测 imagecount = 72。
-  const uiSpriteBuf = readChunk(dataMkf, 9)
-  const uiFrames = parseSpriteChunk(uiSpriteBuf)
-  const uiFrameOut = framesToOut(uiFrames)
-  for (const f of uiFrameOut) {
-    writeBinary(imageUiPath(f.index), f.pngBytes)
-  }
-  writeJson(dataSubdirPath('ui-sprite', 'spriteui'), {
-    chunkIndex: 9,
-    sdlpalName: 'SPRITEUI',
-    frameCount: uiFrameOut.length,
-    frames: uiFrameOut.map((f) => ({ index: f.index, width: f.width, height: f.height })),
-  })
-  console.log(`[pal-extract] SPRITEUI (chunk 9) written: ${uiFrameOut.length} frames`)
-
-  // DATA.MKF chunk 10 (battle effect sprite) — 资源管线优化:存 gzip RLE blob(去 per-frame
-  // PNG + magic-sprite/effect.json)。sdlpal battle.c:1787 单 sprite group,runtime parseSpriteChunk。
-  const effectSpriteBuf = readChunk(dataMkf, 10)
-  writeBinary(magicEffectBlobPath(), gzipSync(effectSpriteBuf))
-  console.log(
-    `[pal-extract] battle effect sprite blob (chunk 10): ${parseSpriteChunk(effectSpriteBuf).length} frames`,
-  )
-
-  // M5 Sync.2: DATA.MKF chunk 12 (282B) = bufDialogIcons (sdlpal text.c:891)
-  // sprite group: 多帧 icon (key continue / cursor / 等),index 由 g_TextLib.bIcon 选。
-  // 运行时 game 包用 parseSpriteChunk + decodeRle 解(packages/game/src/assets/rle-decode.ts)。
-  // 不导 PNG — 帧很小 (~16×16),运行时解一次 cache 比磁盘 IO 还快。
-  const dialogIconsBuf = readChunk(dataMkf, 12)
-  writeJson(resolve(OUT, 'data', 'dialog-icons-raw.json'), {
-    source: 'DATA.MKF chunk 12 — bufDialogIcons (sdlpal text.c:891 PAL_MKFReadChunk size=282)',
-    size: dialogIconsBuf.byteLength,
-    base64: Buffer.from(dialogIconsBuf).toString('base64'),
-  })
-  console.log(
-    `[pal-extract] dialog-icons (DATA.MKF chunk 12) written: ${dialogIconsBuf.byteLength} bytes`,
-  )
-
-  // chunk 7/8 空(0 字节);DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
+  writeDataAssets(RAW, OUT, sssObjBuf, words, { items, spells, enemyObjects, objectPlayers })
 
   // RNG/FIRE保留压缩blob与帧清单；RGM/BALL解码为索引PNG。
   // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。

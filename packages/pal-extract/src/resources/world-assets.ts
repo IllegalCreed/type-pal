@@ -3,11 +3,11 @@
  * 只借用已解析的场景/对象与可选修订metadata，不清理输出，不改原始资源。
  * MAP/GOP读入、解码失败跳过、逐场景写出和全局表的顺序由本阶段统一保持。
  */
-import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import type { EventObjectMetadata } from '../events/script-corrections.js'
 import { chunkCount, openMkf, readChunk } from '../io/mkf.js'
+import { readBinary } from '../io/read.js'
 import type { EventObject, Scene } from '../io/sss.js'
 import { writeBinary, writeJson } from '../io/write.js'
 import { decompressYj2 } from '../io/yj2.js'
@@ -35,7 +35,7 @@ export function writeWorldAssets(
   }
 
   function loadFile(name: string): Uint8Array {
-    return new Uint8Array(readFileSync(resolve(rawRoot, name)))
+    return readBinary(resolve(rawRoot, name))
   }
 
   const mapMkf = openMkf(loadFile('MAP.MKF'))
