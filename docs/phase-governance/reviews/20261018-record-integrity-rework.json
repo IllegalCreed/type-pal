@@ -8,12 +8,12 @@
   "entries": [
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "partial-semantic",
-      "readMethod": "S36 full before/current document review; scoped dependencies as declared; author self-check, independent acceptance pending",
+      "readMethod": "Author full document/source review in S36; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
       "coreConclusion": "记录完整性入口以58e899bf/23b62e97各自限定报告纠正旧尾段“扩大补救待验”的现行歧义；10项解释与C08/C09/C12/C13/C15五限定隔离分开。152追加claim、原1896 scope/2048历史并集与S01-S06已合格后继各守范围，原mtime/空diff/SHA不能认证旧执行，导航不生成另一进度账本。",
       "truthAnchors": [
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md#目的",
@@ -25,9 +25,9 @@
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-record-correction-nonauthor-fixed-23b/transport.json.gz"
       ],
       "unresolved": [
-        "S36 document acceptance pending; preserved historical evidence credit boundaries unchanged."
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "由未参与者据本篇差异/读域/历史段与真实门裁定，不重做全部下游审计；S34/S35原候选保持冻结。",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "owner": "Codex（S36作者；nonAuthorReviewer=false）",
       "provenance": [
         "corrective-maintenance",
@@ -81,8 +81,15 @@
         ]
       },
       "evidence": {
-        "kind": "corrective-registration",
-        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "e769cc1c649222c853606e80ed6acfbe68ce38a4e084cd1fcd0431ef2be912b9",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -127,10 +134,44 @@
             },
             "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
           }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "afterSha256": "e769cc1c649222c853606e80ed6acfbe68ce38a4e084cd1fcd0431ef2be912b9",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S36 full before/current document review; scoped dependencies as declared; author self-check, independent acceptance pending",
+            "unresolved": [
+              "S36 document acceptance pending; preserved historical evidence credit boundaries unchanged."
+            ],
+            "nextStep": "由未参与者据本篇差异/读域/历史段与真实门裁定，不重做全部下游审计；S34/S35原候选保持冻结。",
+            "stopLine": "No current execution or global completion from old reports/navigation. No main/push/done or 212 publication.",
+            "counterReworkBlocked": [
+              {
+                "id": "S36-NONAUTHOR-PENDING",
+                "status": "pending",
+                "statement": "Author cannot grant semantic/template migration credit; independent content and navigation acceptance required."
+              }
+            ],
+            "templateConformance": {
+              "status": "needs-migration",
+              "scope": "S36 author writes existing template sections with document-specific content; independent acceptance pending"
+            },
+            "evidence": {
+              "kind": "corrective-registration",
+              "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
-      "stopLine": "No current execution or global completion from old reports/navigation. No main/push/done or 212 publication.",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
       "sourceSha256": "add111f0dadbb9f6bd171af655a780120b193e06ac9610b53c6296019cd99ce0",
       "afterSha256": "e769cc1c649222c853606e80ed6acfbe68ce38a4e084cd1fcd0431ef2be912b9",
       "reviewedLines": "full before 93 and candidate 107 lines; dependencies scoped below",
@@ -230,14 +271,16 @@
       "counterReworkBlocked": [
         {
           "id": "S36-NONAUTHOR-PENDING",
-          "status": "pending",
-          "statement": "Author cannot grant semantic/template migration credit; independent content and navigation acceptance required."
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
         }
       ],
       "userVisibleBeforeAfter": "旧待验/历史当前状态混排 → 五章职责导航与定候选后继、原时点明示；旧细目及报告原件保持。",
       "templateConformance": {
-        "status": "needs-migration",
-        "scope": "S36 author writes existing template sections with document-specific content; independent acceptance pending"
+        "status": "template-compliant",
+        "scope": "Existing governance-index-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
       },
       "primarySource": [
         {
@@ -326,6 +369,30 @@
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
         "creditGranted": 0
+      },
+      "templateVersion": "1.0.0",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "e769cc1c649222c853606e80ed6acfbe68ce38a4e084cd1fcd0431ef2be912b9",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/5",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {
@@ -2681,7 +2748,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "21c9f8dc78c1ec4341b656185df5c5fcf44cb6238f14a6959646e2da853aaf22",
+      "afterSha256": "5025f478b718745ae613da8c471d7272b76a8227b8f46428d37fd97b76f77bc4",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2876,6 +2943,18 @@
           "beforeSha256": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79",
           "afterSha256": "21c9f8dc78c1ec4341b656185df5c5fcf44cb6238f14a6959646e2da853aaf22",
           "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "revision": "c1e457f9e069497eb9a92b59cb63aa732217518e",
+          "beforeSha256": "21c9f8dc78c1ec4341b656185df5c5fcf44cb6238f14a6959646e2da853aaf22",
+          "afterSha256": "5025f478b718745ae613da8c471d7272b76a8227b8f46428d37fd97b76f77bc4",
+          "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3200,7 +3279,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
-      "afterSha256": "298f1a1fef894c2c3e479ff6eba6c4c2aae920729812c8185f6a6464a886458a",
+      "afterSha256": "e2f70c7709bb9e963fcbe83342c4ec2f821c21cfde852c58e21bbaa5714c96f8",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3229,6 +3308,18 @@
           "afterSha256": "6369a8c0893131b89677cefeb4ade30ad1b75596104263ce20ba5331003cf3f8",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "revision": "c1e457f9e069497eb9a92b59cb63aa732217518e",
+          "beforeSha256": "298f1a1fef894c2c3e479ff6eba6c4c2aae920729812c8185f6a6464a886458a",
+          "afterSha256": "e2f70c7709bb9e963fcbe83342c4ec2f821c21cfde852c58e21bbaa5714c96f8",
+          "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3713,13 +3804,13 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "partial-semantic",
-      "readMethod": "S36 full before/current document review; scoped dependencies as declared; author self-check, independent acceptance pending",
+      "readMethod": "Author full document/source review in S36; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
       "coreConclusion": "registry拆分入口按设计/37-db反例/95实现/b753映射/c4d增量/65两篇/4ddd单篇/765护栏各自固定范围路由，区别2374对象保真、33新增pending及正文语义；payload/stored/阅读投影三轴不混。原7片先发缺mapping和发布后竞态/空输出失败保留，590晚期快照不冒原37完整执行输入，存储接收不预授后继中央结果。",
       "truthAnchors": [
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md#目的",
@@ -3731,9 +3822,9 @@
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-private-runner-v3-review-76509484.json"
       ],
       "unresolved": [
-        "S36 document acceptance pending; preserved historical evidence credit boundaries unchanged."
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "由未参与者据本篇差异/读域/历史段与真实门裁定，不重做全部下游审计；S34/S35原候选保持冻结。",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "ops",
       "owner": "Codex（S36作者；nonAuthorReviewer=false）",
       "provenance": [
@@ -3835,8 +3926,10 @@
       "counterReworkBlocked": [
         {
           "id": "S36-NONAUTHOR-PENDING",
-          "status": "pending",
-          "statement": "Author cannot grant semantic/template migration credit; independent content and navigation acceptance required."
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
         }
       ],
       "revision": {
@@ -3856,9 +3949,15 @@
         ]
       },
       "evidence": {
-        "kind": "registration-not-semantic-acceptance",
-        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
-        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "85beb839bbcad21098457328314c4d7d9bff5be789a6cc21eadcb1df0a89b6b5",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -3925,10 +4024,45 @@
               "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
             }
           }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "afterSha256": "85beb839bbcad21098457328314c4d7d9bff5be789a6cc21eadcb1df0a89b6b5",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S36 full before/current document review; scoped dependencies as declared; author self-check, independent acceptance pending",
+            "unresolved": [
+              "S36 document acceptance pending; preserved historical evidence credit boundaries unchanged."
+            ],
+            "nextStep": "由未参与者据本篇差异/读域/历史段与真实门裁定，不重做全部下游审计；S34/S35原候选保持冻结。",
+            "stopLine": "No current execution or global completion from old reports/navigation. No main/push/done or 212 publication.",
+            "counterReworkBlocked": [
+              {
+                "id": "S36-NONAUTHOR-PENDING",
+                "status": "pending",
+                "statement": "Author cannot grant semantic/template migration credit; independent content and navigation acceptance required."
+              }
+            ],
+            "templateConformance": {
+              "status": "needs-migration",
+              "scope": "S36 author writes existing template sections with document-specific content; independent acceptance pending"
+            },
+            "evidence": {
+              "kind": "registration-not-semantic-acceptance",
+              "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+              "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
-      "stopLine": "No current execution or global completion from old reports/navigation. No main/push/done or 212 publication.",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
       "sourceSha256": "49f62dd2284b98364d55573609e0a961d61980fc2b7a1ad71526277e9c7457a6",
       "afterSha256": "85beb839bbcad21098457328314c4d7d9bff5be789a6cc21eadcb1df0a89b6b5",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
@@ -3938,8 +4072,8 @@
         "after": "Unique pending binding recorded; native file content and statuses not promoted."
       },
       "templateConformance": {
-        "status": "needs-migration",
-        "scope": "S36 author writes existing template sections with document-specific content; independent acceptance pending"
+        "status": "template-compliant",
+        "scope": "Existing governance-index-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
       },
       "maintenanceDeltas": [
         {
@@ -4050,6 +4184,29 @@
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
         "creditGranted": 0
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "85beb839bbcad21098457328314c4d7d9bff5be789a6cc21eadcb1df0a89b6b5",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/6",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {

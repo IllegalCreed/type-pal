@@ -965,9 +965,10 @@
       "phase": "ops",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r54-ops-audits-layout.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r54-ops-audits-layout.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/audits/pre-e2e/battle.md",
@@ -1095,9 +1096,10 @@
       "phase": "ops",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r54-ops-audits-layout.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r54-ops-audits-layout.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/board.md",
@@ -1140,8 +1142,8 @@
       "phase": "ops",
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r35-ops-guides.json",
       "templateVersion": "1.0.0"
     },
@@ -1150,8 +1152,8 @@
       "phase": "ops",
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r35-ops-guides.json",
       "templateVersion": "1.0.0"
     },
@@ -1740,8 +1742,8 @@
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     },
     {
@@ -14924,8 +14926,8 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "reviewStatus": "partial-review-unknown",
-      "templateCompliance": "needs-migration",
+      "reviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
       "reviewRecord": "20261018-record-integrity-rework.json"
     },
     {
@@ -15276,8 +15278,8 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261018-record-integrity-rework.json"
     },
     {

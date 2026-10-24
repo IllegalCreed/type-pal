@@ -5,9 +5,9 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM已接受S24/S25三篇各自pilot证据；迁移信用不变；全量硬验收未完成
-Branch: codex/docs-s29-native-vitest
-Last reviewed: 2026-10-21
+Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
+Branch: codex/docs-s39-markdown-intake
+Last reviewed: 2026-10-24
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -2427,3 +2427,12 @@ GLM对b2f3d839的212准入/零信用writer/演练只读非作者accept已核两�
 本次只发布已接受内容说明，不晋升partial/needs或接routing/registry，0新增迁移/runtime信用；927篇/1848项与1420/1838保持，实际发布结果独立复核待补。S35–S37十篇候选/原树继续冻结，集中一次交GLM据证逐篇核验；不重做全文、不堆重复账本。E2E006过期红及另分支延期隔离保持，父卡rework，不合main、不推送、不done。
 
 S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path缺失），不冒称只剩1848。Owner限定补齐原212字段/中央分类与pin，零迁移/执行信用，失败回执原状保留；最终门按新实跑值记。
+
+## S39 十篇非作者接受、两条路由与当前版本迁移接入（2026-10-24）
+
+- 接收GLM对S35 601cd5af1e6db54a15144a94f9f63857b4c88050四篇、S36 9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c三篇、S37 50d02fcb9fe63885ecf6069b61a45252bb88a1af三篇的逐篇accept，零counter；原HANDBACK SHA `2a5db10cb482b3eeb2edd6138668841a4e0eadf0c19996e31bfdfff3685cc04d`，verdict `42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20`。读域为十篇完整差异/来源保全、对应静态源码切片与声明依赖，未读下游全报告或全量产品源码，未跑产品/E2E/视觉/coverage。
+- 同时接收S38 c1e457f9e069497eb9a92b59cb63aa732217518e发布/行政/补线/封存四阶段非作者accept；HANDBACK SHA `54b828ebd18181e6d4a55c9191dc4e3791f14f2c204cb2a90d636fd566d1ea2f`，verdict `05e0d2ca7d10f4700a5bd0dd4782bc3437cf94c37927b8a95d8fb40d174b8f2e`。这只接收212零信用发布事实，不授212迁移/runtime或恢复R批历史信用。
+- Codex build allowed在c1e457f9后继独立worktree docs-s39-markdown-intake、codex/docs-s39-markdown-intake处理本批中央接入。十篇正文SHA与quote不改，已有八条route保持；两份S36 evidence README新增governance-index-v1/historyOverlay=false路由，真实合同通过才纳入迁移投影。唯一原review行增加本次独立接受与当前版本限定裁定，currentAuthoredReview的作者自验与零信用字段不倒签。旧claimCorrection逐值移入本次history的historicalClaimCorrection、旧evidence及pending字段保留于历史；旧R波声明继续无效，不因新版本接受而复活。
+- Owner据上述逐篇accept明确授这十篇当前文档的content-reviewed/template-compliant，registry同条同步。范围为已写的指南/导航/规格正文及模板，不认证执行、下游报告全文或全部实现合规。预期新增8/1838基线迁移+2增量，当前pending减10、strict减20；最终只以真实progress/strict和合同输出核定，不用预期数冒充命令产物。
+- 白名单限现有FULL/NATIVE卡与board、routing、registry的ops/phase2分片及薄manifest、现有matrix的document-template-contract限定接受边界、原十篇review行与必要精确after级联、既有单份gzip。无新canonical账本/sidecar/模板/代码/旧测试/coverage；212已发布行、302原生、全部旧来源/quote及五棵先前候选树冻结。先owned临时树完整物化/真实合同/投影，再受控实际接入；所有新after格式后取SHA，R33字符值/键序必须完全保值，不改规则。
+- 本轮是Owner中央接入作者动作，接受原正文不等于新行政结果已独立接受；证据另交未参与者据差异核验，不再重做十篇全文。E2E006过期红保持，硬门未全通过，父子卡rework、不合main、不推送、不标done。

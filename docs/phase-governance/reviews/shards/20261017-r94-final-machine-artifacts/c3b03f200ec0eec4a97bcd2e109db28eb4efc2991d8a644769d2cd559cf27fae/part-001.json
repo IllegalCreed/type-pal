@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "b7014d877752d55a008ab774dbf2e3435f6f8bc0d94f650bc4644535fec6c08e",
+  "generation": "c3b03f200ec0eec4a97bcd2e109db28eb4efc2991d8a644769d2cd559cf27fae",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
   "entries": [
@@ -2055,7 +2055,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "c1a3c8f208a5032d66a4d8d794cd880feed822853417c4e633ecb1ee918758d3",
+      "afterSha256": "8803f24ef5292b56d3bd001ad4de41be0b5a42a312da9f9fff36d5a54ae5be41",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2740,6 +2740,18 @@
           "beforeSha256": "70af61f0083c7c086adb4011ab4df3ee2faadd49afe142f442a9603d34859484",
           "afterSha256": "c1a3c8f208a5032d66a4d8d794cd880feed822853417c4e633ecb1ee918758d3",
           "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "revision": "c1e457f9e069497eb9a92b59cb63aa732217518e",
+          "beforeSha256": "c1a3c8f208a5032d66a4d8d794cd880feed822853417c4e633ecb1ee918758d3",
+          "afterSha256": "8803f24ef5292b56d3bd001ad4de41be0b5a42a312da9f9fff36d5a54ae5be41",
+          "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

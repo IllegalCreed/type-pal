@@ -7,7 +7,7 @@ Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
 Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（贡献者据证验收）/ 未参与者（Owner勘误与发布复核；作者不自签）
-Branch: codex/docs-s38-receipt-publication
+Branch: codex/docs-s39-markdown-intake
 Last reviewed: 2026-10-24
 Template: task-card-v1 / 1.0.0
 
@@ -362,3 +362,9 @@ S34 作者实施事实：212候选逐条新合同检查通过、全部历史Git�
 #### S38 中央通用门整合纠错
 
 首次真实整合的strict为2272=原1848待办+212旧registry分类不符+212 evidence.path缺失；927篇与921/927两待办集合未变。该失败原件保留，不能记为1848或全绿。S34 guard验证具体原生语义，但未代替中央通用字段/registry一致性；Owner直接补本轮小缺口，不退贡献者重做全文、不改检查规则。build allowed仅在原212唯一行补evidence.path=本篇原生路径，并把现行registry这212条的分类/overlay/artifact标志与已接受原生合同对齐，原reviewStatus/templateCompliance不变；原生、routing、catalog及模板/代码/旧测试均不动。registry仅ops分片与薄manifest变化，按真实DAG同步必要after pin并在临时树先验。此补线是Codex作者delta，非作者接受仍待，不借S34结论倒签。
+
+### S38 非作者 accept 接收（2026-10-24）
+
+GLM对c1e457f9的发布/行政/补线/封存分别accept，零counter。Owner核对HANDBACK `54b828ebd18181e6d4a55c9191dc4e3791f14f2c204cb2a90d636fd566d1ea2f`、verdict `05e0d2ca7d10f4700a5bd0dd4782bc3437cf94c37927b8a95d8fb40d174b8f2e`。真实终态151物理=12manifest+37片，212原内容只补通用evidence.path；9来源勘误、2434pin/12source/302原生保全，原2272首红与151对150期望失败原件留痕。accept只关闭该发布/补线证据项，212仍partial/needs、0迁移/runtime信用，不接新routing。
+
+S39仅接收十篇Markdown和S38报告并维护三份卡/看板；212及其四源内容保持c1原样，后续212逐篇信用/原生路由另行裁定。本卡保持rework，整仓E2E006过期及剩余严格待办不豁免，不合main、不推送、不done。

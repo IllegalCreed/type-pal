@@ -122,7 +122,7 @@
               "docs/phase2/guides/content-publication.md",
               "docs/phase2/specs/content-schema.md"
             ],
-            "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+            "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve \u26a0/❓ and version boundaries.",
             "status": "guarded",
             "evidence": [
               "docs/lore/README.md:1-63",
@@ -203,7 +203,7 @@
                     "docs/phase2/guides/content-publication.md",
                     "docs/phase2/specs/content-schema.md"
                   ],
-                  "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+                  "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve \u26a0/❓ and version boundaries.",
                   "status": "guarded",
                   "evidence": [
                     "docs/lore/README.md:1-63",
@@ -310,7 +310,14 @@
           ],
           "scope": "Original limited-registry statement retained; not whole-docs proof."
         }
-      ]
+      ],
+      "currentAcceptedBoundary": {
+        "task": "DOCS-FULL-TEMPLATE-1/S39",
+        "date": "2026-10-24",
+        "bodyScope": "S35-S37 ten specific guide/navigation/specification bodies accepted; current accepted SHA and actual template route required for new migration credit.",
+        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s39-十篇非作者接受两条路由与当前版本迁移接入2026-10-24",
+        "excluded": "S38 212 native receipts remain zero-credit; old R-wave claims stay withdrawn; no runtime/E2E/visual/coverage acceptance."
+      }
     },
     {
       "id": "historical-cooperation-vs-current-ops",

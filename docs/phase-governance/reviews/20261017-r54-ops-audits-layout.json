@@ -7,12 +7,12 @@
   "entries": [
     {
       "path": "docs/ops/audits/architecture-debt.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "S36 full before/current document review; scoped dependencies as declared; author self-check, independent acceptance pending",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Author full document/source review in S36; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "原13批按历史所有权与实际后继逐项可见导航；原630文件静态census不涵盖动态边，7文件SCC不等于7个bug。两项demo/s135观察只保留当时未知，不称今日故障或重开build。统一回执明确62 warning/6 info、109针沿用，历史13/13与exit0不构成今天全仓质量/运行完成。",
       "truthAnchors": [
@@ -25,9 +25,9 @@
         "docs/phase2/READ-FIRST.md"
       ],
       "unresolved": [
-        "S36 document acceptance pending; preserved historical evidence credit boundaries unchanged."
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "由未参与者据本篇差异/读域/历史段与真实门裁定，不重做全部下游审计；S34/S35原候选保持冻结。",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "ops",
       "module": "audits",
       "capability": "architecture-debt",
@@ -94,22 +94,15 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
-        "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
-        "candidateSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
-        "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
-        "lineCount": 132,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 11911,
-          "sourceLines": 87,
-          "sourceFinalNewline": true,
-          "inverseSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -199,12 +192,68 @@
             "userVisibleBeforeAfter": "原始 ops audit 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
             "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision"
           }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S36 full before/current document review; scoped dependencies as declared; author self-check, independent acceptance pending",
+            "unresolved": [
+              "S36 document acceptance pending; preserved historical evidence credit boundaries unchanged."
+            ],
+            "nextStep": "由未参与者据本篇差异/读域/历史段与真实门裁定，不重做全部下游审计；S34/S35原候选保持冻结。",
+            "stopLine": "No current execution or global completion from old reports/navigation. No main/push/done or 212 publication.",
+            "counterReworkBlocked": [
+              {
+                "id": "S36-NONAUTHOR-PENDING",
+                "status": "pending",
+                "statement": "Author cannot grant semantic/template migration credit; independent content and navigation acceptance required."
+              }
+            ],
+            "templateConformance": {
+              "status": "needs-migration",
+              "scope": "S36 author writes existing template sections with document-specific content; independent acceptance pending"
+            },
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+              "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+              "candidateSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+              "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+              "lineCount": 132,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 11911,
+                "sourceLines": 87,
+                "sourceFinalNewline": true,
+                "inverseSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+                "exactRoundTrip": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
         "governed-legacy presentation; original source retained with SHA and successor boundary"
       ],
-      "stopLine": "No current execution or global completion from old reports/navigation. No main/push/done or 212 publication.",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
       "userVisibleBeforeAfter": "三条概括封套 → 13队列/两独立观察的具体所有权、入口和原执行非零诊断边界；原quote不动。",
       "reviewedLines": "full before 132 and candidate 142 lines; dependencies scoped below",
       "templateVersion": "1.0.0",
@@ -275,21 +324,15 @@
       "counterReworkBlocked": [
         {
           "id": "S36-NONAUTHOR-PENDING",
-          "status": "pending",
-          "statement": "Author cannot grant semantic/template migration credit; independent content and navigation acceptance required."
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateConformance": {
-        "status": "needs-migration",
-        "scope": "S36 author writes existing template sections with document-specific content; independent acceptance pending"
+        "status": "template-compliant",
+        "scope": "Existing audit-report-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
       },
       "currentAuthoredReview": {
         "task": "S36",
@@ -357,16 +400,39 @@
           "beforeSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
           "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871"
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/4",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/audits/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Author full document/source review in S35; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "ops审计导航用六个可见入口区分架构队列、代码治理路线、逐文件账本、pre-E2E只读发现、修复总览与历史归档；原四个分类目的地均在quote外，计数回到真实账本consumer。导航current不替旧审计续期、不把只读发现当修复，也不授新build或产品执行通过。",
       "truthAnchors": [
@@ -380,9 +446,9 @@
         "docs/ops/guides/documentation-model.md"
       ],
       "unresolved": [
-        "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "ops",
       "module": "audits",
       "capability": "README",
@@ -454,22 +520,15 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
-        "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
-        "candidateSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
-        "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
-        "lineCount": 54,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 657,
-          "sourceLines": 12,
-          "sourceFinalNewline": true,
-          "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -535,12 +594,69 @@
               ]
             }
           }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+            "unresolved": [
+              "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
+            ],
+            "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
+            "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+            "counterReworkBlocked": [
+              {
+                "id": "S35-INDEPENDENT-PENDING",
+                "status": "pending",
+                "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+              },
+              {
+                "id": "S35-NO-EXECUTION",
+                "status": "not-in-scope",
+                "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
+              }
+            ],
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+              "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+              "candidateSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+              "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+              "lineCount": 54,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 657,
+                "sourceLines": 12,
+                "sourceFinalNewline": true,
+                "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+                "exactRoundTrip": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
         "governed-legacy presentation; original source retained with SHA and successor boundary"
       ],
-      "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
       "userVisibleBeforeAfter": "必要入口多在历史quote、当前与旧候选易混 → 可见职责导航并回原任务/consumer裁定；原件及旧时点结论保留。",
       "reviewedLines": "本篇before 54行与固定source 12行全文；候选 59行；依赖为下述限定读域",
       "templateVersion": "1.0.0",
@@ -621,8 +737,10 @@
       "counterReworkBlocked": [
         {
           "id": "S35-INDEPENDENT-PENDING",
-          "status": "pending",
-          "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
         },
         {
           "id": "S35-NO-EXECUTION",
@@ -630,14 +748,6 @@
           "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "currentAuthoredReview": {
         "task": "S35",
         "date": "2026-10-24",
@@ -714,7 +824,34 @@
           "beforeSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
           "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a"
         }
-      ]
+      ],
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Existing governance-index-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/3",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/archive/ops-governance-layout-20261004.json",
