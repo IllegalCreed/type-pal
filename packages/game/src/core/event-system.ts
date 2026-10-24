@@ -3449,10 +3449,9 @@ function applyRawOpcode(
       break
     }
 
-    // 战斗(/autoScript)raw fallback 的其余 palette fade —— event 主路径在 tickEventSystem(2440+)拦截
-    //   并带 cursor 阻塞,**不落此处**;此处只服务无 cursor 的战斗/autoScript(tickBattlePaletteFade hold +
-    //   BattlePresent.draw 逐帧 ramp)。builder 镜像 tickEventSystem。补全前这 4 个在战斗里静默无效(只有
-    //   0x50 有 case)= dual-interpreter-opcode-gap。0x4F FadeToRed 仍只 event 侧(死亡演出 + gameOverActive)。
+    // event 主路径在 tickEventSystem 拦截这些 fade 并持有跨帧等待；raw fallback 这里只启动色表状态。
+    // runScript 虽有局部 cursor，此处不把它变成世界事件等待；战斗宿主负责 hold 与逐帧 ramp。
+    // 0x4F FadeToRed 仍只在 event 侧处理（死亡演出与 gameOverActive）。
     case OP_FADE_IN: {
       const now = performance.now()
       const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
@@ -3569,7 +3568,7 @@ function applyRawOpcode(
     case OP_PLAY_MUSIC: {
       // sdlpal script.c:1647 AUDIO_PlayMusic(op0, op1!=1, op1==3&&op0!=9 ? 3.0 : 0)。
       //   op0 = music track;loop = op1!=1;fade = op1==3 时 3s。ts:写 wNumMusic + musicLoop,
-      //   shell 每帧轮询切 BGM(Musics/{op0}.mid)。
+      //   shell 每帧按状态交给当前 MIDI/RIX 后端；此通道不传脚本 fade 秒数。
       const musicId = operands[0] ?? 0
       gs.wNumMusic = musicId
       gs.musicLoop = (operands[1] ?? 0) !== 1
@@ -3585,11 +3584,8 @@ function applyRawOpcode(
 
     case OP_STOP_MUSIC: {
       // sdlpal script.c:2215:AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + wNumMusic=0。
-      //   op0 = fade-out 秒(0 → 2.0s,否则 op0*3s)。ts:state-set wNumMusic=0;shell 停 BGM。
-      // DL12 结案:停乐淡出秒数(script.c:2219-2221 `op0==0?2.0:op0*3`)。本项目音乐走 MIDI 后端,
-      //   C 的 native MIDI 同样丢弃 fade(audio.c MIDI_Play 不收 flFadeTime)→ 忠实不做 ramp,
-      //   保留计算供未来 OGG/RIX 后端消费。
-      const _fadeSec = (operands[0] ?? 0) === 0 ? 2.0 : (operands[0] ?? 0) * 3
+      // TS 只写停止意图；shell.sync 调当前后端的无参 stop，不传该脚本淡出秒数。
+      // MIDI/RIX 的现有停止行为由各后端持有，此处不实现音量 ramp。
       gs.wNumMusic = 0
       break
     }
@@ -3597,7 +3593,7 @@ function applyRawOpcode(
     case OP_PLAY_CD_MUSIC: {
       // sdlpal script.c:3023:gpGlobals->wNumMusic = op1;CD 可用 → PlayCDTrack(op0,-1→-2),失败回
       //   RIX PlayMusic(op1);CD 不可用 → 直接 RIX PlayMusic(op1)。
-      //   ts 无 CD → 等价"回退 RIX":wNumMusic=op1 looped(sdlpal AUDIO_PlayMusic(op1,TRUE,0))。
+      //   TS 无 CD：写 op1 + loop，实际播放由 shell 当前选择的 MIDI/RIX 后端负责。
       gs.wNumMusic = operands[1] ?? 0
       gs.musicLoop = true
       break
