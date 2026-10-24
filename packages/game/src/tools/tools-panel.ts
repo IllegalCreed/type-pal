@@ -680,18 +680,31 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     row.appendChild(lbl)
     button(row, '导出', () => {
       void (async (): Promise<void> => {
-        const g = await deps.loadSlot(slot)
-        if (!g) {
-          showToast(localize(`存档位 ${slot} 暂无存档`, `Slot ${slot} is empty`), { type: 'error' })
-          return
+        try {
+          const g = await deps.loadSlot(slot)
+          if (!g) {
+            showToast(localize(`存档位 ${slot} 暂无存档`, `Slot ${slot} is empty`), {
+              type: 'error',
+            })
+            return
+          }
+          const blob = new Blob([serializeSave(g)], { type: 'application/json' })
+          const url = URL.createObjectURL(blob)
+          try {
+            const a = document.createElement('a')
+            a.href = url
+            a.download = `type-pal-save-slot${slot}.json`
+            a.click()
+          } finally {
+            URL.revokeObjectURL(url)
+          }
+          showToast(localize(`已导出存档位 ${slot}`, `Exported slot ${slot}`), { type: 'success' })
+        } catch (err) {
+          showToast(
+            `${localize('导出失败:', 'Export failed: ')}${err instanceof Error || err instanceof DOMException ? err.message : String(err)}`,
+            { type: 'error' },
+          )
         }
-        const blob = new Blob([serializeSave(g)], { type: 'application/json' })
-        const a = document.createElement('a')
-        a.href = URL.createObjectURL(blob)
-        a.download = `type-pal-save-slot${slot}.json`
-        a.click()
-        URL.revokeObjectURL(a.href)
-        showToast(localize(`已导出存档位 ${slot}`, `Exported slot ${slot}`), { type: 'success' })
       })()
     })
     const fileInput = document.createElement('input')
