@@ -886,7 +886,7 @@ export interface BattleCtx {
   /**
    * E 类伤害 opcode(0x42 SimulateMagic / 0x66 throw weapon)解析 magic 用 ——
    * `0x42` op0 是 magic object id,需 objectMagics 解析成 magicNumber/flags,
-   * 再 magics 取 baseDamage/elemental。由 performThrowItem(及未来 0x66 caller)注入;
+   * 再 magics 取 baseDamage/elemental。由performThrowItem注入供0x42/0x66使用;
    * 不注入时 0x42 走 no-op(consumed,防御)。
    */
   magicTables?: { magics: Magic[]; objectMagics: ObjectMagicView[] }
@@ -895,8 +895,8 @@ export interface BattleCtx {
   /** 0x88 set magic damage by money 需 `gpGlobals->dwCash` —— performMagic 注入。 */
   gs?: GameState
   /**
-   * 0x66 throw weapon 算 w 需 `PAL_GetPlayerAttackStrength(movingPlayer=caster)` ——
-   * 由 performThrowItem 注入(caster 是投掷队员)。不注入 → attackStrength 当 0。
+   * 战斗HP/MP和effective属性视图，动作caller注入；投掷0x66的裸武术另读gs.PlayerRolesRuntime，
+   * 不能把本投影当成不含装备/Extra的基础值。
    */
   playerRoles?: PlayerRoles
   /**

@@ -128,8 +128,8 @@ export function performThrowItem(input: PerformThrowItemInput): void {
         target: targetCtx,
         magicTables: { magics: input.magics, objectMagics: input.objectMagics },
         objectPoisons: input.objectPoisons, // 0x28 apply poison
-        playerRoles: input.playerRoles, // 0x66 throw weapon 算 w 需 caster attackStrength
-        gs: input.gs, // raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs
+        playerRoles: input.playerRoles, // 嵌套脚本所需战斗视图；0x66裸武术从gs.PlayerRolesRuntime读取
+        gs: input.gs, // 0x66裸武术与通用raw控制流/资源/数据读取当前runtime
         // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
         commands: input.commands,
         runScript: input.runScript,
