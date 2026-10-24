@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "8c8f985e53fb0e5d28a4f64853d1bda62eece7231655b3a886c43cdaab39d4bf",
+      "afterSha256": "1a86116ce3179cb6c4864fd8fefd148fed297b7e7d56b9dd69250dcb6642ed3f",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "8c8f985e53fb0e5d28a4f64853d1bda62eece7231655b3a886c43cdaab39d4bf",
+        "implementationSha": "1a86116ce3179cb6c4864fd8fefd148fed297b7e7d56b9dd69250dcb6642ed3f",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,11 +1823,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-dialog-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
+        "kind": "codex-owned-pre94-battle-main-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "8c8f985e53fb0e5d28a4f64853d1bda62eece7231655b3a886c43cdaab39d4bf",
+        "afterSha256": "1a86116ce3179cb6c4864fd8fefd148fed297b7e7d56b9dd69250dcb6642ed3f",
         "lineCount": 20197,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1845,12 +1845,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-battle-dialog-scoped-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
-          "afterSha256": "8c8f985e53fb0e5d28a4f64853d1bda62eece7231655b3a886c43cdaab39d4bf",
+          "kind": "pre94-battle-main-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
+          "afterSha256": "1a86116ce3179cb6c4864fd8fefd148fed297b7e7d56b9dd69250dcb6642ed3f",
           "lineCount": 20197,
           "scope": "3s owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "f1ba65aaa17427f1c538868b899e1d97f2f3be4e",
+          "candidateBaseRevision": "805ae1e31f1d48fce337905d74ac270de41e8e54",
           "workingTreeDelta": true
         }
       },

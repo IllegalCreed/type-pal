@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "41505a2fa2084107395dd50dc94ccf6692baa9f2e2ac4635c028ed422a89fc8d",
+      "afterSha256": "edbc2a2aa96828954d3e8f6ae8762eb738c3b19b7d4f9c8e86344dfe1b3dc6a8",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "41505a2fa2084107395dd50dc94ccf6692baa9f2e2ac4635c028ed422a89fc8d",
+        "implementationSha": "edbc2a2aa96828954d3e8f6ae8762eb738c3b19b7d4f9c8e86344dfe1b3dc6a8",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,12 +1713,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-dialog-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
-        "afterSha256": "41505a2fa2084107395dd50dc94ccf6692baa9f2e2ac4635c028ed422a89fc8d",
+        "kind": "codex-owned-pre94-battle-main-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
+        "afterSha256": "edbc2a2aa96828954d3e8f6ae8762eb738c3b19b7d4f9c8e86344dfe1b3dc6a8",
         "lineCount": 90,
         "scope": "3s owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "f1ba65aaa17427f1c538868b899e1d97f2f3be4e",
+        "candidateBaseRevision": "805ae1e31f1d48fce337905d74ac270de41e8e54",
         "workingTreeDelta": true
       },
       "history": [

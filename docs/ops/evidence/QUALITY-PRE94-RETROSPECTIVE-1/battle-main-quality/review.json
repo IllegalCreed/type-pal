@@ -1,0 +1,232 @@
+{
+  "base": "805ae1e31f1d48fce337905d74ac270de41e8e54",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single agent",
+  "commits": ["8f6a8499a", "124540175"],
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "lines": 2911,
+      "readScope": "Reuse 3s/GLM29 full read; current full actual delta and complete changed functions/caller chain. Not a new full 3k-line read.",
+      "caller": "mode tick/startBattle; private force-auto/main-magic selectors; repeat restore; action-availability validates co-op",
+      "oracle": "Existing3s primary unchanged; current canonical PlayerRole and production parser/projector/developer panel producers.",
+      "dimensions": {
+        "A": "Canonical magic remains the declared PlayerRole input. 109 canonical examples agree; Map normalizer concrete JS identical. Availability-checked co-op valid callers unchanged; explicit TypeError replaces incidental TypeError for corrupted missing-role context (diagnostic text changes there). No opcode, RNG, formula or save behavior adjustment.",
+        "B": "Orphan tickBattle doc moved onto correct function; no false mode!=battle no-op. Learned spell doc names OBJECT IDs and zero slots, not an undeclared dev field.",
+        "C": "Phase host owns ordered dispatch; dialogue/settlement/actions/resources already delegated. This delta does not invent another scheduler or expose private state. Runtime ownership remains through get/setBattleResources.",
+        "D": "Map/entries/record/null/undefined restoration remains one shared implementation; explicit private union replaces assertions. Canonical magic read uses existing producer contract rather than another compatibility helper.",
+        "E": "Real typed main fixtures, exact automatic action and real terminal boundary now exercise supported contracts;266 adjacent plus3 affected co-op results. No test-only production seam.",
+        "F": "Private input types express supported restore representations; narrow role invariant guards property access without assertion. Tick documentation attached to actual owner.",
+        "G": "Undeclared learnedSpells has zero production producers/references; three test writers migrated to magic. Existing supported Map restoration paths retained, no speculative retirement. Public21 names unchanged.",
+        "H": "Existing real constructors/resource APIs and deterministic input/RNG are sufficient. No exported private helper or injectable万能context added."
+      },
+      "decision": "review: local rework complete, full pre94 integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "13dbc2ab5f437c353bd982d5222e242b4b3a4adee68550db54a2ed3b57c9d6bb",
+      "lines": 4290,
+      "readScope": "Existing full3s/GLM29 read reused; all changed helpers, complete changed cases and adjacent lifecycle read. 186 unchanged native identities; not a second full4251-line assertion review.",
+      "caller": "Actual startBattle/tickBattle; hydratePlayerRolesRuntime/projectRuntimeToBattleRoles; real resource getter/setter; actual V1 serialize/parse then production Object.assign restore boundary.",
+      "oracle": "Literal 79HP/16MP winner half-recovery after 70/10 live state; explicit pending attack target/side/id; literal lifecycle/Map/menu/throw/status results and retained primary anchors.",
+      "dimensions": {
+        "A": "Shared constructor now hydrates runtime and party before startBattle and reads installed resources, replacing shadow context. Fourteen HP>max fixtures repaired explicitly; three direct equipment/repeat boundaries hydrated. Valid V1 JSON restore follows production boundary rather than assigning invalid wire type.",
+        "B": "Synthetic weapon fixture no longer falsely names stock item. Cross-battle cases explicitly seed fled terminal state and assert actual exit; they do not claim complete flee-roll execution. Typed default differences documented by direct local construction.",
+        "C": "Fixture owns resource installation through production API; global event/poison state cleared; root restores spies. Nested warning asserts run before parent restoration per installed runner source. No business function mocked.",
+        "D": "Reuse existing mkMagic/mkItem/bootstrap factories with full contracts. Retain local input helpers with distinct compile-time key domains; generic wrapper would add layers for three fields. No duplicate case removed without evidence.",
+        "E": "186 identities retained. Old400-step driver silently returned in battle; new helper rejects incomplete execution. Three repeat cases finish via real terminal path before party edits. Exact automatic attack rejects defend where old loose predicate passed. Expected missing-resource warning asserts full message/args and exact calls; other warn scopes assert no calls. Two independent business AssertionError receipts preserved.",
+        "F": "Named finishAtFledBoundary makes test seam honest. Direct maxHP/maxMP values expose input domain rather than a hidden normalizer. Core any/unknown/partial-type casts removed from changed main test.",
+        "G": "No retired/added/renamed tests, no skipped tests, no added timeout/ignore or coverage workaround. Remove redundant post-start runtime patch now hydration owns it. Distinct snapshot constructors intentionally retained.",
+        "H": "Real legal GS/roles/state/input permit direct state assertions. No private resource field peeking, no shadow BattleResources or partial auto/hiding state. Time/RNG remain deterministic and restored."
+      },
+      "decision": "review: local main-test quality debt repaired; final unified gates pending"
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078,
+      "scope": "Complete affected hydrate/project functions; phase1 current runtime and magic producer."
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828",
+      "lines": 628,
+      "scope": "PlayerRole optional magic/cooperativeMagic definitions and adjacent role fields."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "sha256": "faddc5642418cfcf1eb639850bc71fbdde2a8784190263fa022d2af42d03da4d",
+      "lines": 276,
+      "scope": "Actual parser role magic32-slot producer; no asset pipeline changes."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98,
+      "scope": "Full real get/set resource owner module."
+    },
+    {
+      "path": "packages/game/src/core/battle/action-availability.ts",
+      "sha256": "6273674ee91e28616a0ea5d9dc3bb6469c611fdf6dad77c6708a15869b1b6ce5",
+      "lines": 38,
+      "scope": "Full co-op availability/missing-role gate."
+    },
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af",
+      "lines": 95,
+      "scope": "Full SaveDataV1 JSON wire vs runtime shape."
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "lines": 99,
+      "scope": "Actual save/load current clone/JSON paths; no new acceptance of whole API."
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9",
+      "lines": 73,
+      "scope": "Wire record guards, whole small helper."
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "4eb173f96cd19b0bcc1175ad9a96e439cd5a6235d7896550deeec22bf7c5b3e0",
+      "lines": 61,
+      "scope": "Actual serialize/parse validated V1 import functions."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "lines": 1956,
+      "scope": "loadGameFromSlot production Object.assign boundary only; not whole shell reacceptance."
+    },
+    {
+      "path": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+      "sha256": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965",
+      "lines": 423,
+      "scope": "Typed actual projection Q08 cases337–425; current adjacent13."
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0",
+      "lines": 2347,
+      "scope": "Canonical magic writer chain; pin only, no whole new acceptance."
+    }
+  ],
+  "continuity": {
+    "publicNames": [
+      "BattleLevelUpResult",
+      "BattleResources",
+      "HiddenExpGrowthResult",
+      "INTRO_FADE_TICKS",
+      "RunScriptFn",
+      "StartBattleInput",
+      "activateHidingEffect",
+      "applyHiddenExpGrowth",
+      "battleWonLevelUp",
+      "decrementHidingEffect",
+      "emitPlayerCasualtySounds",
+      "getBattleLiveRoles",
+      "pickAutoMagic",
+      "selectAutoTargetFrom",
+      "startBattle",
+      "stepDeathFadeRender",
+      "stepSummonLoopRender",
+      "tickBattle",
+      "tickBattleDialog",
+      "tickBattleSettlement",
+      "tickEnemyIdleGestures"
+    ],
+    "runtimeRemainderSha256": "5de0cc21080cf193509db96774f777e82c76dc4750013e5c5851796d065451e7",
+    "mapNormalizerRuntimeSha256": "92ba41710b102b8b1025931fa99748136d624d2d2b55e039ffb41e3cb1f6a79a",
+    "canonicalExamples": 109,
+    "canonicalFilter": "[[11,\"\\\"use strict\\\"\"],[27,\";\"],[100,\"function\"],[80,\"getLearnedSpells\"],[21,\"(\"],[80,\"role\"],[22,\")\"],[19,\"{\"],[107,\"return\"],[21,\"(\"],[80,\"role\"],[25,\".\"],[80,\"magic\"],[61,\"??\"],[23,\"[\"],[24,\"]\"],[22,\")\"],[25,\".\"],[80,\"filter\"],[21,\"(\"],[21,\"(\"],[80,\"x\"],[22,\")\"],[39,\"=>\"],[80,\"x\"],[38,\"!==\"],[9,\"0\"],[22,\")\"],[27,\";\"],[20,\"}\"]]",
+    "undeclaredFieldProductionReferences": 0,
+    "cooperativeGuard": {
+      "count": 1,
+      "type": "TypeError",
+      "scope": "Availability-checked valid callers unchanged; missing-role invariant fails explicitly, diagnostic text changed only for corrupted private context."
+    },
+    "normalization": "Only canonical getLearnedSpells and exact one invariant guard excluded; all remaining concrete JS tokens compared, type assertions erased. No opcode/math/RNG/mode masks."
+  },
+  "identity": {
+    "before": 186,
+    "after": 186,
+    "added": 0,
+    "retired": 0,
+    "renamed": 0,
+    "scope": "Native file/fullName set equality. All186 cases retained; changed cases read in full, prior evidence reused for unchanged cases."
+  },
+  "gates": {
+    "adjacent": {
+      "files": 8,
+      "passed": 266,
+      "failed": 0,
+      "skipped": 0,
+      "visibleRuntimeBlocks": 0,
+      "stderrBytes": 0
+    },
+    "followupCooperative": {
+      "files": 1,
+      "passed": 3,
+      "filtered": 183,
+      "scope": "Actual main-file co-op cases only. Command also supplied nonexistent action-availability.test.ts filter; it matched nothing and gains no credit."
+    },
+    "finalTypecheck": "typecheck-input-contract exit0, no diagnostics",
+    "versionBridge": "266 run precedes final co-op invariant guard and Map type signature. Actual3co-op cases rerun after guard; Map concrete JS identical and final typecheck0. No redundant266 rerun.",
+    "unified": "DEFERRED until all remaining pre94; no PR/fullcheck/official/ratchet/protected run"
+  },
+  "counters": {
+    "crossBattle": "Old passing186 baseline + single terminal assertion fails AssertionError: mode battle not explore; demonstrates old test never completed, not a new product defect.",
+    "auto": "Same legal typed fixture; commitAutoAttack mutated attack→defend. Old loose oracle1green; exact new action oracle1AssertionError. No collection/runtime failure credit.",
+    "restoration": "counters.json binds source/test restored snapshots. Later test delta limited to finishAtFledBoundary and three repeat cases; auto case and supporting bootstrap/defaults unchanged."
+  },
+  "postCounterDelta": "Counter snapshots compared except the one new terminal helper and three exactly named repeat cases; source continuity allows only canonical magic and explicit missing-role guard.",
+  "processDisclosure": [
+    "First TC after assertion removal failed TS18048; retained raw. Explicit co-op invariant guard fixes it, no fallback/cast.",
+    "Initial formatting unused-import diagnostic has tool transcript only; corrected before first186 run.",
+    "Cooperative command supplied one nonexistent file filter; native actual1file3 tests only.",
+    "Captured runtime execution HEAD805 describes uncommitted candidate; final source/test fingerprints and commits bind actual code.",
+    "No fresh full-file reading or visual/browser/E2E credit claimed. 125 docs-tool tests unchanged; reuse prior evidence rather than rerun.",
+    "Evidence producer first guessed shared tables path incorrectly and stopped before writing report; corrected to actual src/tables.ts. Initial verifier style check emitted1info (template literal), manually corrected before scoped-final0. These producer diagnostics have tool transcript only.",
+    "First post-counter AST checker removed a call expression and TypeScript rejected its required parent child. Corrected checker removes the complete three test expression statements; no product/test change. Initial failure has tool transcript only."
+  ],
+  "remaining": [
+    "All16 partial cards remain until actual quality debts and final unified gates. This batch repairs main test and canonical fields; other battle/opcode scopes continue.",
+    "No whole save/API/asset/visual behavior acceptance;94–102 remain outside scope."
+  ],
+  "ledger": {
+    "tracked": 3424,
+    "closed": 414,
+    "review": 120,
+    "pending": 2890,
+    "newClosed": 0
+  },
+  "pre94": {
+    "accept": 67,
+    "partial": 16,
+    "pending": 0
+  },
+  "staticReceipts": [
+    "scoped-final",
+    "docs-final",
+    "document-model-final",
+    "testing-docs-final",
+    "phase-final",
+    "content-final",
+    "progress-final",
+    "lint-final",
+    "ledger-final",
+    "diff-final"
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "entries": 83,
+    "bytes": 331931,
+    "sha256": "9b5fb65776dd0233e3b2522004981907e725faf156336e72ae91d65023d42ebb"
+  }
+}

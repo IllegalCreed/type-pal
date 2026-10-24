@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "ba76667e40841580d35e87798491fd7b04d178b7f97c0099cc11ef2939eafbd1",
+      "afterSha256": "1e9d1488a688014964afdd97e91888cdb3f18f7162910d66a6c69465e782e31d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "ba76667e40841580d35e87798491fd7b04d178b7f97c0099cc11ef2939eafbd1",
+        "implementationSha": "1e9d1488a688014964afdd97e91888cdb3f18f7162910d66a6c69465e782e31d",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1791,11 +1791,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-dialog-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
+        "kind": "codex-owned-pre94-battle-main-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "ba76667e40841580d35e87798491fd7b04d178b7f97c0099cc11ef2939eafbd1",
+        "afterSha256": "1e9d1488a688014964afdd97e91888cdb3f18f7162910d66a6c69465e782e31d",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1811,12 +1811,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-battle-dialog-scoped-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
-          "afterSha256": "ba76667e40841580d35e87798491fd7b04d178b7f97c0099cc11ef2939eafbd1",
+          "kind": "pre94-battle-main-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
+          "afterSha256": "1e9d1488a688014964afdd97e91888cdb3f18f7162910d66a6c69465e782e31d",
           "lineCount": 5498,
           "scope": "3s owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "f1ba65aaa17427f1c538868b899e1d97f2f3be4e",
+          "candidateBaseRevision": "805ae1e31f1d48fce337905d74ac270de41e8e54",
           "workingTreeDelta": true
         }
       },
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "79d2ed5ae684196e11fb9a6b07e9ef310cdfa2b49d91f63667c57b42bb910e81",
+      "afterSha256": "2d9c5fc066bb78b2b444db09189a3e1520dbeebf98b348792ea8bb7e746799ac",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "79d2ed5ae684196e11fb9a6b07e9ef310cdfa2b49d91f63667c57b42bb910e81",
+        "implementationSha": "2d9c5fc066bb78b2b444db09189a3e1520dbeebf98b348792ea8bb7e746799ac",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8537,11 +8537,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-dialog-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
+        "kind": "codex-owned-pre94-battle-main-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "79d2ed5ae684196e11fb9a6b07e9ef310cdfa2b49d91f63667c57b42bb910e81",
+        "afterSha256": "2d9c5fc066bb78b2b444db09189a3e1520dbeebf98b348792ea8bb7e746799ac",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8557,12 +8557,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-battle-dialog-scoped-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
-          "afterSha256": "79d2ed5ae684196e11fb9a6b07e9ef310cdfa2b49d91f63667c57b42bb910e81",
+          "kind": "pre94-battle-main-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
+          "afterSha256": "2d9c5fc066bb78b2b444db09189a3e1520dbeebf98b348792ea8bb7e746799ac",
           "lineCount": 7071,
           "scope": "3s owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "f1ba65aaa17427f1c538868b899e1d97f2f3be4e",
+          "candidateBaseRevision": "805ae1e31f1d48fce337905d74ac270de41e8e54",
           "synchronizedMain": "3609b4d23339bae1f23e6492d9c11cd4a955351e",
           "workingTreeDelta": true
         }

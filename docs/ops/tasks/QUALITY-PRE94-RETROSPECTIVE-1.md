@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> Current CODE3s dialogue slice: 3424 tracked / 414 closed / 120 review / 2890 pending; fixed83 remains67accept/16partial. No new closed. Core main-test casts remain. Unified gates/coverage/PR deferred until all remaining pre94. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md).
+> Current CODE3s main-test slice: 3424 tracked / 414 closed / 120 review / 2890 pending; fixed83 remains67accept/16partial. No new closed. Legal runtime fixtures, real terminal boundary and precise action oracle repaired; unified gates/coverage/PR deferred until all remaining pre94. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/README.md).
 
 > Prior snapshot: 当前CODE3r技术返工：3423tracked／414closed／118review／2891pending；固定83卡67accept／16partial／0pending。对象职责与主测/E2E工具整改已验证局部合同，0新closed；全部剩余pre94完成前不开PR、不跑全仓/official/protected。[八维、完整原件与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。
 
@@ -47,6 +47,16 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
+## 2026-10-24 CODE3s main test quality (build allowed)
+
+Codex soleOwner, same3y at805ae1e31. Reuse full3s/GLM read, current186 main native within253; scope only main test helper/fixture/caller/oracle/isolation debt and exact test-contract mapping if proven duplicate. Real item/magic/battle construction and canonical learned-magic input replace unsafe core casts; maxHP/MP input corrections must be explicit, not silently normalized. Resource assertions use actual owner APIs. V1 Map JSON case follows real serialize/parse and production restore shape, not direct invalid GS assignment. Save/schema/behavior/public interfaces unchanged; no retirement of unknown compatibility. No fullcheck/coverage/protected/PR before all pre94.
+
+Scope addition: canonical learned-magic producer/caller chain read (parser, runtime projection, current dev panel, package-private exports, both getLearnedSpells consumers and Q08 typed tests). Only3main test fixtures used undeclared learnedSpells; migrate those to magic and remove private no-producer fallback, preserving all supported PlayerRole inputs and public signatures. Reattach orphan tickBattle doc and correct its false mode no-op claim. No save/schema/asset/interface behavior change; main fixture hydration/owner and real terminal-boundary gaps are repaired together.
+
+Private Map input union preserves all existing Map/entries/record/null paths, JS token-equal; no compatibility retirement. Co-op assertion removal initially exposed TS18048; availability caller was re-read and a missing-role TypeError invariant made explicit. Valid caller behavior is unchanged; only corrupted private-context error text changes. No added product branch fallback.
+
+本片交接：8f6a8499a测试整改／124540175私有字段与类型整理；186身份保持，旧跨场测试未结束及自动攻击宽断言各有业务AssertionError原件。8文件266例、实际1文件3合击例及最终TC通过；零新关闭，统一门等全部pre94。[完整八维、限制及只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/README.md)。
 
 ## 2026-10-24 CODE3s 战斗对话职责与专测（build allowed）
 

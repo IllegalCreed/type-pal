@@ -427,3 +427,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 ## 2026-10-24 CODE3s对话职责与测试
 
 [五文件增量八维／正文守恒／13→12映射／两反控与只读快检](battle-dialog-quality/README.md)。对话消费独立、旧签名保留、真实typed夹具和精确时序/内容；7相邻253，主测余项仍review，0新closed。统一门/PR等全部pre94，94–102不扩展。
+
+## 2026-10-24 CODE3s主测与canonical输入
+
+[两文件八维、186身份、跨场误绿及自动攻击反控、完整原件与只读复验](battle-main-quality/README.md)。真实runtime/资源Owner、合法typed fixture与胜利79/16 oracle；8文件266及实际3合击定向，0新closed，统一门/一个PR等所有剩余pre94。
