@@ -200,7 +200,7 @@ export interface EnemyDexInput {
  *
  * 公式(PAL_CLASSIC):
  *   C先将(level+6)*3赋回SHORT，再累加(SHORT)dexterity。
- *   TS当前仅截取输入dexterity，极端等级的中间回绕差异已取证、待3m裁决。
+ *   TS仅截取输入dexterity，不复制等级运算中的16位中间回绕。
  *
  * 非 classic 分支额外做(M3 不实现):
  *   - s < 20 → s = 20  lowerbound
@@ -227,7 +227,7 @@ export interface PlayerStatusFlags {
  *
  * PAL_CLASSIC 路径:
  *   - C先将haste三倍速度赋回WORD，再限999；TS当前直接三倍后限999。
- *   - 极端身法可能因此分叉；3m已取证，未擅自新增回绕。
+ *   - 极端身法可能因此分叉；这里不把TS的增长域宣称为全域C等价。
  *
  * 非 classic 分支(M3 不实现):
  *   - haste     → dex *= 6/5

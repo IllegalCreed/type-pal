@@ -49,6 +49,7 @@ describe('B-w1.a status tick', () => {
 
   it('全部 9 种 status 逐回合 -1(含 boolean 类 haste/protect/bravery/dualAttack,对齐 fight.c:1632-1638)', () => {
     const state = makeBattleState({})
+    // 九项Classic计数器之外，当前TS还显式验证slow。
     state.players[0]!.status = makePlayerStatus({
       confused: 2,
       paralyzed: 1,

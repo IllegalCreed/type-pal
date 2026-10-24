@@ -20,40 +20,29 @@ describe('SeedableRng (mulberry32)', () => {
   })
 
   it('range(0, 100) 总在 [0, 100)', () => {
-    const r = createSeedableRng(123)
-    for (let i = 0; i < 1000; i++) {
-      const v = r.range(0, 100)
-      expect(v).toBeGreaterThanOrEqual(0)
-      expect(v).toBeLessThan(100)
-    }
+    const r = createSeedableRng(42)
+    // 独立整数word向量映射到[0,100)，精确值可拒绝常量和错误缩放。
+    expect(Array.from({ length: 4 }, () => r.range(0, 100))).toEqual([60, 44, 85, 66])
+    expect(r.getState()).toBe(3031295998)
   })
 
   it('rangeInclusive(0, 10) 总在 [0, 10] 且能取到边界', () => {
-    const r = createSeedableRng(456)
-    const counts = new Map<number, number>()
-    for (let i = 0; i < 11000; i++) {
-      const v = r.rangeInclusive(0, 10)
-      expect(v).toBeGreaterThanOrEqual(0)
-      expect(v).toBeLessThanOrEqual(10)
-      counts.set(v, (counts.get(v) ?? 0) + 1)
-    }
-    expect(counts.size).toBe(11)
+    const r = createSeedableRng(42)
+    // span=11的精确映射可区分floor(next*11)与有偏的round(next*10)。
+    expect(Array.from({ length: 5 }, () => r.rangeInclusive(0, 10))).toEqual([6, 4, 9, 7, 1])
+    // 两个确定的合法seed分别命中下端点和上端点，不靠上万次抽样碰撞。
+    expect(createSeedableRng(7).rangeInclusive(0, 10)).toBe(0)
+    expect(createSeedableRng(4).rangeInclusive(0, 10)).toBe(10)
   })
 
   it('rangeFloat(1, 1.125) 总在 [1, 1.125)(TS 半开区间)', () => {
-    const r = createSeedableRng(2026)
-    let sawLow = false
-    let sawHigh = false
-    for (let i = 0; i < 5000; i++) {
-      const v = r.rangeFloat(1, 1.125)
-      expect(v).toBeGreaterThanOrEqual(1)
-      expect(v).toBeLessThan(1.125)
-      if (v < 1.01) sawLow = true
-      if (v > 1.11) sawHigh = true
-    }
-    // 覆盖到区间两端附近(非退化常量)
-    expect(sawLow).toBe(true)
-    expect(sawHigh).toBe(true)
+    const r = createSeedableRng(42)
+    // [1,1+1/8)的精确二进制分数；word独立冻结，不由SUT动态产生期望。
+    const expected = [2581720956, 1925393290, 3661312704, 2876485805].map(
+      (word) => 1 + word / 34359738368,
+    )
+    expect(Array.from({ length: 4 }, () => r.rangeFloat(1, 1.125))).toEqual(expected)
+    expect(r.getState()).toBe(3031295998)
   })
 
   it('rangeFloat 同 seed 确定性', () => {
