@@ -431,3 +431,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 ## 2026-10-24 CODE3s主测与canonical输入
 
 [两文件八维、186身份、跨场误绿及自动攻击反控、完整原件与只读复验](battle-main-quality/README.md)。真实runtime/资源Owner、合法typed fixture与胜利79/16 oracle；8文件266及实际3合击定向，0新closed，统一门/一个PR等所有剩余pre94。
+
+## 2026-10-24 CODE3t专测执行质量
+
+[两专测八维、62身份／7准确标题映射、两有效反控与完整原件](opcode-test-quality/README.md)。真实嵌套脚本与非零裸武术项，241相邻、TC0；0新closed，主测及dispatcher余项继续。

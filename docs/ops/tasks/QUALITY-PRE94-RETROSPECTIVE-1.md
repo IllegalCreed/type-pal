@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> Current CODE3s main-test slice: 3424 tracked / 414 closed / 120 review / 2890 pending; fixed83 remains67accept/16partial. No new closed. Legal runtime fixtures, real terminal boundary and precise action oracle repaired; unified gates/coverage/PR deferred until all remaining pre94. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/README.md).
+> Current CODE3t dedicated-test slice: 3424 tracked / 414 closed / 120 review / 2890 pending; fixed83 remains67accept/16partial. Two dedicated files62cases retained;241adjacent andTC0. No new closed; main opcode test debt continues. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/README.md).
 
 > Prior snapshot: 当前CODE3r技术返工：3423tracked／414closed／118review／2891pending；固定83卡67accept／16partial／0pending。对象职责与主测/E2E工具整改已验证局部合同，0新closed；全部剩余pre94完成前不开PR、不跑全仓/official/protected。[八维、完整原件与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。
 
@@ -47,6 +47,12 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
+## 2026-10-24 CODE3t opcode 专测质量（build allowed）
+
+Codex单Owner，同一3y，基点457cfe0b8。复用3t主实现/主测全文与已修机制counter，完整读取当前cov85的1217行和glm-next-wave的70行及实际helper输入；当前只改两专测的已证oracle/标题/注释缺口，保持测试数量。真实runScript代替入口脚本回调替身；投掷以非零随机项和已hydrate裸武术断言手算伤害；不改任何产品、机制、Save/资产或公共接口。必要局部相邻和TC/静态，全部pre94前不全仓/coverage/protected/PR。主测残缺强转另续，不把本片全绿当3t整卡关闭。
+
+本片交接：a771f5b29两专测质量整改，62身份保持、7准确标题映射。两有效变异各旧绿/新单业务红；首轮两错误预期及无效counter原件保留，不计信用。相邻5文件241及game TC通过；glm五例旧关闭保留，cov与主测仍review，0新closed。全仓门/PR仍等全部pre94。[八维与只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/README.md)。
 
 ## 2026-10-24 CODE3s main test quality (build allowed)
 

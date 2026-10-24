@@ -1,0 +1,216 @@
+{
+  "base": "457cfe0b80e1d8b44023a0446c6d91e1ae916155",
+  "owner": "Codex single Agent",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+      "sha256": "4deaa6d96c356b5951d5af8fde1efcd542f2490e5ff95cdc2313d5744b8b882b",
+      "lines": 1230,
+      "readScope": "Current complete1217-line baseline read; all62 branch/alias cases across both files read, shared fixture source and actual changed caller/primary sections. Not full new product dispatcher acceptance.",
+      "dimensions": {
+        "A": "Direct dispatch contexts are allowed to omit dependencies and test no-op results. Runtime-dependent0x66 now explicitly hydrates bare attack60; direct role-mutating cases use legal PlayerRole.0x30 runtime rows explicitly seeded. Revive poison IDs now register actual level2/4 definitions and retain level4. Shared fixture is a state factory, not full startBattle.",
+        "B": "Remove unproved no-duplication header; distinguish layer overlap. Four corrected titles remove nonexistent resistance/unused playerRoles claims and sleeping-vs-paralyzed/count wording. RNG11 input is actually clamped to10 by script RNG; comment now honest. Hand313 oracle states formula, no formula function as expected-value oracle.",
+        "C": "Test owns context/table/bus/RNG; registered poison table cleared afterEach. Stateful role/GS domains explicit; no source writer or cross-layer mutation added. Entry callback now actual runScript, no business-core mock.",
+        "D": "Local item/magic/object constructors remain full typed fixtures for these dependency shapes. Similar main/H factories have different defaults/slot/ownership domains; no generic factory or whole-harness refactor justified for this finite test delta.",
+        "E": "All57 cases retained with literal branch results; four title maps recorded.0x66 roll0 old case could not observe attack term, now roll2→270→313 exact HP and damage command. Poison callback no longer returns ip+1 blindly; real0x21/advance execution proves target1 HP8995, other9000, saved continuation3 and emitted command. Two corrected mutants oldgreen/newoneAssertionError. Existing mixed positive/no-op sequences retained as one dispatch family; no extra row for each branch.",
+        "F": "Explicit runtime hydration and formula input identify causal data; actual command discriminant included in exact expected payload. Comments accurately name truncated/clamped RNG and definitions, no empty test-score claims.",
+        "G": "No case addition/deletion/timeout/skip or blanket cast. Remove runScriptCalls fake counter with actual side effects and continuation. No production helper exposed or removed.",
+        "H": "Existing real state factory/direct dispatch and real nested runScript permit deterministic HP/queue/bus assertions; no mock of opcode/formula core. Fixture limitation documented instead of silently normalizing all users."
+      },
+      "decision": "review; dedicated test rework complete locally; final unified gates and3t main-test debt remain"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+      "sha256": "abbb5b90bdafe77f1a5e50e65c86af7750e20ca8a6d28757a1e7db7ae465665f",
+      "lines": 70,
+      "readScope": "Complete70-line test and current H fixture construction; source case and actualrunScript dialogue consumer checked; no assertion/body change.",
+      "dimensions": {
+        "A": "Both ClearDialog alias dispatches and one-time clearBefore real runScript path use actual typed state; signed blow4/0xffff→-1 valid WORD operands.",
+        "B": "ClearDialog C anchors corrected to include actual call3271/3432, not before-call ends. No unsupportedclaim of whole-screen browser behavior.",
+        "C": "Per-case state/bus ownership; no global catalog mutation or core mock. H harness only makes state, which is sufficient for these two fields/queue.",
+        "D": "Reuse H fixture; 0x05 and0x8E separate alias cases deliberately retained, real consumer test proves flag consumption. Similar shape is not proof of equivalent opcode entry.",
+        "E": "All5 cases/asssertions retained. Exact consumed flag/pending marker/first vs second text and signed -1; renamed3 fullNames from corrected describe anchor only, runtime tokens prove equality.",
+        "F": "Grouped by aliases/consumer and signed blow. Corrected source spans identify actual calls.",
+        "G": "No extra abstraction/dead fixture/public export. Alias cases retained with specific dispatch entry counter-value.",
+        "H": "Real runScript and state expose delay flag consumption directly with no timer, mocking or private seam."
+      },
+      "decision": "Existing closed retained: current five cases and title-only body proof; no new file closed, current unified window deferred."
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "2cd6d03e5be5d0046f9b1ebe0a62df164e62718a652af05f35d9bb0f257d703a",
+      "lines": 1533,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "28e96be97ea4360f57899a2e1ac009d7f28527ded8331ee066eecc20af4ff109",
+      "lines": 4973,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06",
+      "lines": 89,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "68ad16c9cce690d85e468bf7e3e3f396ca751a27cd1220005b53a36fef1fbf2d",
+      "lines": 245,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+      "lines": 152,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0",
+      "lines": 225,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance."
+    }
+  ],
+  "primary": {
+    "poison": "script.c1193–1214: target entry and returned continuation; actual runScript end/advance2848–2916",
+    "throw": "script.c2007–2014;fight.c131–249; current bare runtime0x66 handler; legal w270/def54/base200/zero-element/rngFactor1 yields313 independently",
+    "dialog": "script.c3267–3271 and3428–3432 actual ClearDialog(TRUE)"
+  },
+  "identity": {
+    "before": 62,
+    "after": 62,
+    "added": 0,
+    "removed": 0,
+    "renamed": [
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+        "before": "cov85 0x66 ThrowWeapon 攻击力系数 caster=player + playerRoles → w=op1*5+attackStrength*roll(0),模拟 magic 落到目标敌",
+        "after": "cov85 0x66 ThrowWeapon 攻击力系数 player caster 使用已hydrate的裸武术60与roll2，精确造成313伤害"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+        "before": "cov85 0x66 ThrowWeapon 攻击力系数 无 playerRoles / 非 player caster → attackStr=0 仍结算",
+        "after": "cov85 0x66 ThrowWeapon 攻击力系数 enemy caster 无玩家武术项，操作数150仍造成53伤害"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+        "before": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 抗性 9(rng=0 抵抗)→ 不落毒;抗性 0 → 落毒且带入口脚本返回值",
+        "after": "cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本 单体只毒target1：真实入口立即扣5血并保存续点3，非目标不受影响"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+        "before": "cov85 0x9E EnemySummon hiding / 自身睡眠 → failJump;count≤0 → 1",
+        "after": "cov85 0x9E EnemySummon hiding / 自身定身 → failJump;count=0 → 1"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+        "before": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)",
+        "after": "0x0005 / 0x008E ClearDialog(script.c:3267-3271 / 3428-3432) 0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+        "before": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x8E → battleDialogPendingClear = true(与 0x05 同一战斗侧语义)",
+        "after": "0x0005 / 0x008E ClearDialog(script.c:3267-3271 / 3428-3432) 0x8E → battleDialogPendingClear = true(与 0x05 同一战斗侧语义)"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+        "before": "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 战斗脚本内 0x05 → 下一个 showDialog 带 clearBefore 且只清一次;后续行不受影响",
+        "after": "0x0005 / 0x008E ClearDialog(script.c:3267-3271 / 3428-3432) 战斗脚本内 0x05 → 下一个 showDialog 带 clearBefore 且只清一次;后续行不受影响"
+      }
+    ]
+  },
+  "processDisclosure": [
+    "opcode-repaired first run60pass2fail: exact damage command omitted op field, and plain end rightly retained script entry1. Correct expected full command; change explicit end.advance=true scenario→continuation3. No production change. Raw failures retained.",
+    "throw-new/poison-self-new first counter results are invalid as discrimination evidence because candidate had baseline failures. Only corrected native results count; oldgreen receipts reused unchanged baseline.",
+    "Coverage fixture does not hydrate runtime or install fullBattleResources by default. Only runtime-dependent0x66 case explicitly hydrates; other direct API contexts are judged against optional BattleCtx contract, not full startBattle invariants."
+  ],
+  "counters": {
+    "valid": [
+      {
+        "old": "throw-old",
+        "new": "throw-new-corrected",
+        "oracle": "HP8687 vs missing attack term8747, one business AssertionError"
+      },
+      {
+        "old": "poison-self-old",
+        "new": "poison-self-new-corrected",
+        "oracle": "corrected real target health[9000,8995] vs miswired[8995,9000], one business AssertionError"
+      }
+    ],
+    "restored": "counters-corrected.json; final test exact snapshot, source restored; no postcounter code delta"
+  },
+  "gates": {
+    "directed": {
+      "files": 2,
+      "passed": 62
+    },
+    "adjacent": {
+      "files": 5,
+      "passed": 241,
+      "failed": 0,
+      "skipped": 0,
+      "stderrBytes": 0,
+      "visibleRuntimeBlocks": 0
+    },
+    "unified": "DEFERRED; no fullcheck/coverage/protected/PR",
+    "typecheck": "game typecheck exit0, no diagnostics"
+  },
+  "ledger": {
+    "tracked": 3424,
+    "closed": 414,
+    "review": 120,
+    "pending": 2890,
+    "newClosed": 0
+  },
+  "remaining": [
+    "Main2428-line opcode test core any/partial fixtures remain; previous whole-read evidence retained but no new whole-file acceptance.",
+    "Product dispatcher eight-axis C–H and other pre94 remainders continue, no94–102 expansion."
+  ],
+  "commits": ["a771f5b29"],
+  "staticReceipts": [
+    "scoped-final",
+    "docs-final",
+    "document-model-final",
+    "testing-docs-final",
+    "phase-final",
+    "content-final",
+    "progress-final",
+    "lint-final",
+    "ledger-final",
+    "diff-final"
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "entries": 83,
+    "bytes": 139352,
+    "sha256": "db1a56b8c429dc491294728bb8de4a9de031c766a343aa7ac066822046406ba9"
+  }
+}
