@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "85a4f7b346e193411666e9ffd3865a868cca083edd94128c91900163040e79a2",
+  "generation": "b7014d877752d55a008ab774dbf2e3435f6f8bc0d94f650bc4644535fec6c08e",
   "key": "part-002",
   "positions": [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -1325,7 +1325,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json"
       },
       "history": [
         {
@@ -1652,7 +1653,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r94-final-machine-artifacts-candidate-acceptance-20261017.json"
       },
       "history": [
         {
@@ -1936,7 +1938,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r94-final-machine-artifacts-readonly-review-20261017.json"
       },
       "history": [
         {
@@ -2036,7 +2039,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "2d62b85d505c90981eff639c88916d6f10187160e2107e436cc764b4269df4c8",
+      "afterSha256": "f202431804b283a148dfe78efab01672ffaa5cd05694da13c870d2feff33fffe",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -2836,6 +2839,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "6cb7d553dd214620f312cb6869c7ce8dfdb3cc37ef52b1e0891c24e4f66afc5c",
           "afterSha256": "2d62b85d505c90981eff639c88916d6f10187160e2107e436cc764b4269df4c8"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-central-integration",
+          "revision": "3e7190373da2480d16e35cd57a34b0f00f4d95f0",
+          "beforeSha256": "2d62b85d505c90981eff639c88916d6f10187160e2107e436cc764b4269df4c8",
+          "afterSha256": "f202431804b283a148dfe78efab01672ffaa5cd05694da13c870d2feff33fffe",
+          "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3003,7 +3018,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "2788bc25fde9adc73550886249f774c1ddf091a39c20fa4c566984c0d57aa6ff",
+      "afterSha256": "f6635123505f1fc0cc3c4531555c305ac433046b93795628750b47c9b3e484b0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -3386,6 +3401,18 @@
           "beforeSha256": "858bb219b9c50e6ef0ae46d88c9529c006341ed21a62a13dafe1bd2096f37ae7",
           "afterSha256": "2788bc25fde9adc73550886249f774c1ddf091a39c20fa4c566984c0d57aa6ff",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-central-integration",
+          "revision": "3e7190373da2480d16e35cd57a34b0f00f4d95f0",
+          "beforeSha256": "2788bc25fde9adc73550886249f774c1ddf091a39c20fa4c566984c0d57aa6ff",
+          "afterSha256": "f6635123505f1fc0cc3c4531555c305ac433046b93795628750b47c9b3e484b0",
+          "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

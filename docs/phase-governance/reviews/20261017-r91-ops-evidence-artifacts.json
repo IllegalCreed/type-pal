@@ -124,34 +124,40 @@
       "gitObject": "292d86a954e7763f69ee26071c925bf94dcf095e",
       "sha256": "962732bd4e9e5fc5324ea09101740bb82db0240fe1c7682a862860c6a0b3f8e3"
     },
-    "logicalSha256": "3a54732e1c7e0d4929989faf8247da0936fd3e7031c5095171f47381a45a93a2",
+    "logicalSha256": "5c21f89fa88af01abe927beec8388d70d7cd374bd11062abfca6777eae59628a",
     "totalEntries": 94,
     "entryOrderSha256": "bf799714ef72f4a7b7fe5237bc8e7cf595774f093bc7e5296992fef84f3cc2f5",
-    "orderedEntriesSha256": "889bc6e0ad7dd4e8be4761187090bf26dd6aa138d0608cde44ce56dadaa1f2bd",
+    "orderedEntriesSha256": "17987244f1fbef80928dbf8bf29fc763b6576f415a2b7d2fe5d45a05194e1194",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r91-ops-evidence-artifacts/3a54732e1c7e0d4929989faf8247da0936fd3e7031c5095171f47381a45a93a2/part-001.json",
+        "path": "shards/20261017-r91-ops-evidence-artifacts/5c21f89fa88af01abe927beec8388d70d7cd374bd11062abfca6777eae59628a/part-001.json",
         "total": 19,
-        "sha256": "46ffa93908b032e7c8bc195251fc71b670301cc085fe5f673e69fd7ce215455c"
+        "sha256": "104452e2ec36e933fabf31414774727317e8ed41f96a6e48e5a2f53cb3be8bc5"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r91-ops-evidence-artifacts/3a54732e1c7e0d4929989faf8247da0936fd3e7031c5095171f47381a45a93a2/part-002.json",
-        "total": 21,
-        "sha256": "b40a1f6da1aa8f60377965f0b7ada57f5ed500fec4a93971013040fdd07e0df9"
+        "path": "shards/20261017-r91-ops-evidence-artifacts/5c21f89fa88af01abe927beec8388d70d7cd374bd11062abfca6777eae59628a/part-002.json",
+        "total": 20,
+        "sha256": "bf8870ad2aa5e4650a48465fad6d43c165bd89a2a6e8d4e2167a7386a7d9d98d"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r91-ops-evidence-artifacts/3a54732e1c7e0d4929989faf8247da0936fd3e7031c5095171f47381a45a93a2/part-003.json",
+        "path": "shards/20261017-r91-ops-evidence-artifacts/5c21f89fa88af01abe927beec8388d70d7cd374bd11062abfca6777eae59628a/part-003.json",
         "total": 20,
-        "sha256": "b1eb5acaa98e8ebaaad3e838614e8ace24d9e23bafb52969b3bc27194f1ba41b"
+        "sha256": "a15c4fe88328a1bc0d3f3d6c3f7034c40b08f3cec873febbb86f7454bc8c8943"
       },
       {
         "key": "part-004",
-        "path": "shards/20261017-r91-ops-evidence-artifacts/3a54732e1c7e0d4929989faf8247da0936fd3e7031c5095171f47381a45a93a2/part-004.json",
-        "total": 34,
-        "sha256": "d9bfcf6b7f60525e2e2c12b0ef0b56cdf216641ef80bc14e9e35afe2f2b718ff"
+        "path": "shards/20261017-r91-ops-evidence-artifacts/5c21f89fa88af01abe927beec8388d70d7cd374bd11062abfca6777eae59628a/part-004.json",
+        "total": 33,
+        "sha256": "d76e1e6095a323c89092b62c75bdf280bd827333d3ec91d21641ac50e827075f"
+      },
+      {
+        "key": "part-005",
+        "path": "shards/20261017-r91-ops-evidence-artifacts/5c21f89fa88af01abe927beec8388d70d7cd374bd11062abfca6777eae59628a/part-005.json",
+        "total": 2,
+        "sha256": "1e4e15312f81e2bd11a9ec000d051b279c61fe9aaeffa07f45a1312aa1554912"
       }
     ]
   }

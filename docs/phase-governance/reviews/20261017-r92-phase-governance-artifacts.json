@@ -3884,7 +3884,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-      "afterSha256": "3439eb11c9e251da99388d942559e71da9d8b7a112f4df14523cf8e9911930b8",
+      "afterSha256": "e40a90dbc587e12aff7ba9366ea4908aeb1984147a6d076d8efc249babebea91",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4060,6 +4060,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-central-integration",
+          "revision": "3e7190373da2480d16e35cd57a34b0f00f4d95f0",
+          "beforeSha256": "3439eb11c9e251da99388d942559e71da9d8b7a112f4df14523cf8e9911930b8",
+          "afterSha256": "e40a90dbc587e12aff7ba9366ea4908aeb1984147a6d076d8efc249babebea91",
+          "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -4090,7 +4102,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-      "afterSha256": "173085f192dbbe9ed39ecc8d9594f2603af7b2fb316d3e206c07362b13792884",
+      "afterSha256": "d4ed9d4d00bfd4620bae99d2d5830c8fad93333e351d621aaa59ea726e55fd8f",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4266,6 +4278,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-central-integration",
+          "revision": "3e7190373da2480d16e35cd57a34b0f00f4d95f0",
+          "beforeSha256": "173085f192dbbe9ed39ecc8d9594f2603af7b2fb316d3e206c07362b13792884",
+          "afterSha256": "d4ed9d4d00bfd4620bae99d2d5830c8fad93333e351d621aaa59ea726e55fd8f",
+          "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -4296,7 +4320,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
-      "afterSha256": "04aadd0b593f5e696ddcf74149a8c8ef7d92030b0e6adc9f061f3d6f7a1ba9b4",
+      "afterSha256": "f2cdce312329033d6b9be6f1d9d93af2dad7951f1f71525a0a021d312ee270a7",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4468,6 +4492,18 @@
           "beforeSha256": "cfa8691045e20f7d8abbb9105fdae41e9169173af9bdf51b2d51a46d72f9c9b7",
           "afterSha256": "04aadd0b593f5e696ddcf74149a8c8ef7d92030b0e6adc9f061f3d6f7a1ba9b4",
           "scope": "Current-generation historical receipt governance body only; historical source pins unchanged",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-central-integration",
+          "revision": "3e7190373da2480d16e35cd57a34b0f00f4d95f0",
+          "beforeSha256": "04aadd0b593f5e696ddcf74149a8c8ef7d92030b0e6adc9f061f3d6f7a1ba9b4",
+          "afterSha256": "f2cdce312329033d6b9be6f1d9d93af2dad7951f1f71525a0a021d312ee270a7",
+          "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

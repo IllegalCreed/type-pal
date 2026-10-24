@@ -2681,7 +2681,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79",
+      "afterSha256": "21c9f8dc78c1ec4341b656185df5c5fcf44cb6238f14a6959646e2da853aaf22",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2868,6 +2868,18 @@
           "beforeSha256": "9dfd536fc1142338a59e13f10412bf8aeb7ab7d37d74a302941f1722c8eaa85f",
           "afterSha256": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-central-integration",
+          "revision": "3e7190373da2480d16e35cd57a34b0f00f4d95f0",
+          "beforeSha256": "481b0ef148556bba5de59d590c76a4f854baf1fb1eec6e8a4c57de54928b1c79",
+          "afterSha256": "21c9f8dc78c1ec4341b656185df5c5fcf44cb6238f14a6959646e2da853aaf22",
+          "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

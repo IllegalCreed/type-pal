@@ -358,3 +358,7 @@ S34 作者实施事实：212候选逐条新合同检查通过、全部历史Git�
 - 实际发布先在owned临时Git树重演，再在真实隔离树执行原公开CLI；两侧18写/7旧片退出，最终114逻辑对象、150物理=12manifest+36片。212内容与4控制边改变，另2218行逐字段保全；2434 after pin、12 source pin和302原生载体全等。9旧来源指针按原接受的erratum改正，旧sourceSha及旧指针历史保留，不重授旧运行。CLI随后识别already-published/0写；真实发布提交见43b76ac63。
 - 接收记录与发布记录分轴：本accept不等于发布结果已由GLM独立接受。发布、三份卡/看板及五条行政after接入是Codex作者动作，独立结果复核待补。无正文副本/sidecar/第二中央账本，原审阅唯一位置与原单份gzip日志继续使用；原生载体、routing、registry、catalog、旧测试、产品、coverage、共享规则均不改。
 - 212条信用状态保持，迁移仍1420/1838、3retired、87incremental；严格927篇/1848诊断不扣。旧草稿中的实施停止线属于其S34时点，当前执行状态以本节为准。E2E006日期过期红保持，不借另分支延期。父子卡继续rework，不合main、不推送、不标done。下一步为独立核发布差异，并另作逐篇信用/模板路由接入裁定，不能靠这次零信用写入静默晋升。
+
+#### S38 中央通用门整合纠错
+
+首次真实整合的strict为2272=原1848待办+212旧registry分类不符+212 evidence.path缺失；927篇与921/927两待办集合未变。该失败原件保留，不能记为1848或全绿。S34 guard验证具体原生语义，但未代替中央通用字段/registry一致性；Owner直接补本轮小缺口，不退贡献者重做全文、不改检查规则。build allowed仅在原212唯一行补evidence.path=本篇原生路径，并把现行registry这212条的分类/overlay/artifact标志与已接受原生合同对齐，原reviewStatus/templateCompliance不变；原生、routing、catalog及模板/代码/旧测试均不动。registry仅ops分片与薄manifest变化，按真实DAG同步必要after pin并在临时树先验。此补线是Codex作者delta，非作者接受仍待，不借S34结论倒签。

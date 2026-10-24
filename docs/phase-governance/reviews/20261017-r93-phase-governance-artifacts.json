@@ -1133,7 +1133,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "486e29fac824b6b70e78e4233b20d3b66a9371028965661d161fad608c398269",
+      "afterSha256": "2776f17a539d79c2f4d8348ed1a0a466d466392fe6f9a6d34ece64bec31012dc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1622,6 +1622,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "695cd754467c9324d17983d84d45b65b36e9799375c2ce58a104c7014527d7b9",
           "afterSha256": "486e29fac824b6b70e78e4233b20d3b66a9371028965661d161fad608c398269"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-central-integration",
+          "revision": "3e7190373da2480d16e35cd57a34b0f00f4d95f0",
+          "beforeSha256": "486e29fac824b6b70e78e4233b20d3b66a9371028965661d161fad608c398269",
+          "afterSha256": "2776f17a539d79c2f4d8348ed1a0a466d466392fe6f9a6d34ece64bec31012dc",
+          "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
