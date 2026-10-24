@@ -24,10 +24,10 @@
     },
     {
       "path": "packages/pal-extract/src/cli.ts",
-      "lines": "211",
+      "lines": "138",
       "anchor": "const corrected = faithful",
       "role": "caller",
-      "sha256": "1c7a00699e8c8889e7b516babfdb6f9d3c271ea43c1f8d0eb59de04f57513efa"
+      "sha256": "1e467403d0bce8f169b0d4be83dd8dfdb02c22831ed2929374a711002eb54387"
     },
     {
       "path": "packages/game/src/core/object-script-state.ts",
@@ -138,6 +138,22 @@
       ],
       "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md"
+    },
+    {
+      "date": "2026-10-24",
+      "base": "4c684dfd2f307e221f983837958d671f734f6132",
+      "action": "resource-stages-pure-refactor-caller-binding",
+      "previousSourceRefs": [
+        {
+          "path": "packages/pal-extract/src/cli.ts",
+          "lines": "211",
+          "anchor": "const corrected = faithful",
+          "role": "caller",
+          "sha256": "1c7a00699e8c8889e7b516babfdb6f9d3c271ea43c1f8d0eb59de04f57513efa"
+        }
+      ],
+      "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md"
     }
   ],
   "claims": [

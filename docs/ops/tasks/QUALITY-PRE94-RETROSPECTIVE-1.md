@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前CODE3原slice/annotate范围accept、world写出阶段独立接受：75accept／8partial／0pending；3425tracked／452closed／85review／2888pending，五新关闭。35切分、39真实CLI相邻、TC/局部静态0；CLI/3g仍rework，统一门与单PR待全部pre94。[当前裁定与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)。
+> 当前CODE3g代码接受：76accept／7partial／0pending；3432tracked／460closed／84review／2888pending，八新关闭。总装窄根/职责与精灵单容器整改完成，39实际CLI、809资源字节等价/TC/局部静态0。全部pre94前不跑统一门或PR。[当前裁定与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md)。
 
 > 当前3o／3p原代码范围accept：74accept／9partial／0pending；3424tracked／447closed／89review／2888pending，九新关闭。获批毒入口四正式业务红后修，P3两分支窄修另有两红；491游戏/83提取相邻与两包TC0，统一门/单PR待全部pre94。[八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。
 
@@ -1765,3 +1765,19 @@ build allowed另含CLI地图／场景／全局事件对象写出阶段提取到�
 本窗候选最终静态：六文档消费者、ledger/diff/lint-zero全部通过，实际lint6009文件，error/warning/info=0/0/0；初轮master JSON一格式错误与证据工具6info均留原件、修正后通过。详细[原始执行与未跑项](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/static.json)。最终同分支推送/合并父与ahead/behind按Git refs核，不把main同步说成治理已合main。
 
 最终delivery lint已覆盖新增manifest/快检器，6010文件、error/warning/info=0/0/0；只读快检MATCH。六文档消费者均已核合入README/截图的候选树，所有原先失败继续保留。
+
+## 2026-10-24 CODE3g剩余总装阶段准入
+
+基点4c684dfd2，同一3y，单Owner Codex；最新main b3d35be617已同步，主工作树只读。复用上轮当前同版39 CLI/35切分与精确搬移证据作基线，不重复全文旧审计或先跑全包。
+
+build allowed：CLI剩余DATA表/动画/位图/精灵/声音/lookup阶段按输入、输出与错误生命周期拆到内部资源模块；二进制读入相同合同可共用IO叶。每代码片2–4文件或明确模块，纯结构与可能行为问题分开。保持原日志/读/写/解码/跳过/抛错顺序、固定路径及manifest、修订/英文预检、输出guard/清理和原退化政策。先按实际调用做完整源守恒和导入绑定证明；相邻验证等相关阶段冻结后一次集中。无新公共包出口、格式/Save/机制/产品取舍或生成物修改授权；若真实差异需新行为裁决，停相应点。
+
+CLI主编排、全文件B/C/D/F/G/H欠账须实际解决，不能只因行数下降关闭3g。允许删除已证无调用的私有参数/包装或内部镜像状态，不恢复compat/fallback，不降低规则；所有pre94解决前全仓/official/protected/PR仍延后，94–102不扩展。
+
+## 2026-10-24 CODE3g总装代码接受
+
+基点4c684dfd2f，同一codex/code-quality-3y、Owner Codex；7f5946aa3／182332279／653e3656d按4／3／4文件相关阶段拆分，b3dc6d12a再删已证私有死模式和两个精灵镜像容器。保留全部资源读写/log/失败顺序；数据表、RNG/FIRE、RGM/BALL/splash/PAT/背景、MGO/F/ABC、sounds、lookup职责均已逐文件A–H，world仅同义IO叶刷新；没有更改资产政策、生成物、存档或公共包API。
+
+[逐文件/完整原件/版本桥/只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md)：39原CLI身份一次相邻恢复、extract TC/局部静态0；33child业务错误/降级逐项披露而非“stderr全空”。真实MGO/F/ABC只读输入到两自有临时输出809文件/172refs/日志一致，输入SHA不变；这不是全提取/音频/E2E验收。三阶段冻结AST/import还原和唯一false参数内联可低成本重算，既有可靠测试counter不重复。
+
+八文件新关闭、world旧关闭刷新；机器3432／460closed／84review／2888pending，固定83卡76accept／7partial／0pending。剩余1／3m／42／53／56／57／58按已有证据继续补八维与必要返工；全仓/official/protected/PR仍等全部pre94代码与证据解决，暂不94–102。已批准3o毒槽与CODE3双接回均在前窗完成，不重复实施或重新询问。

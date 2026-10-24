@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-24 CODE3g代码接受：3432tracked／460closed／84review／2888pending，八新关闭；固定76accept／7partial。七新模块显式持根/资源写出，CLI仅总装；三段源码还原、39真实CLI及809精灵文件等价成立。全仓/coverage/protected/PR仍等全部pre94。[本轮八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md)。
+
 2026-10-24当前CODE3及独立world阶段代码接受：3425tracked／452closed／85review／2888pending；五新关闭、四旧关闭刷新，固定75accept／8partial。slice/annotate八维与三已批控制流证据闭合、原专测身份补强；CLI world五参精确搬移，余下CLI/3g仍rework。35切分、39实际CLI相邻和TC/局部静态0；统一全仓/official/protected与单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)。
 
 2026-10-24当前3o／3p代码接受：3424tracked／447closed／89review／2888pending；9新关闭、六既有关闭刷新，固定74accept／9partial。复用逐文件八维/原反控与已核接口版本桥，获批毒入口正式四红后修；491游戏/83提取相邻、两包TC0。P3两return窄修不关闭CLI/slice整卡，全仓/coverage/protected与一个PR仍待全部pre94。[当前代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。
@@ -117,8 +119,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,425。
-当前已闭合核验：452；已读但待审：85；尚未逐文件核验：2888；合计未闭合：2973。
+起始基点机器清单：2,962。当前 tracked 清单：3,432。
+当前已闭合核验：460；已读但待审：84；尚未逐文件核验：2888；合计未闭合：2972。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -258,7 +260,14 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/palette.ts` | product | 已验证 | VGA/night color pins、short-input宽容既有合同、CLI caller | 不改变 palette mapping |
 | `packages/pal-extract/src/resources/scene.ts` | product | 已验证 | scene range dump/real resource tests、CLI caller | dense scene bounds |
 | `packages/pal-extract/src/resources/tables.ts` | product | 已验证 | parser barrel exports、all table callers/typecheck | 无运行时实现 |
-| `packages/pal-extract/src/cli.ts` | product | rework | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 具体A–H/风险与反控；本窗统一门已过，未修语义及未知合同仍不授关闭 |
+| `packages/pal-extract/src/cli.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
+| `packages/pal-extract/src/io/read.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
+| `packages/pal-extract/src/resources/data-assets.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
+| `packages/pal-extract/src/resources/animation-assets.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
+| `packages/pal-extract/src/resources/bitmap-assets.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
+| `packages/pal-extract/src/resources/sprite-assets.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
+| `packages/pal-extract/src/resources/sound-assets.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
+| `packages/pal-extract/src/resources/lookup-assets.ts` | product | 已验证 | [CLI阶段八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) | 实际caller/窄根/顺序与错误合同核清；纯重构、39真实CLI及有限原盘等价；最终pre94统一门另待 |
 | `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
 | `packages/pal-extract/src/output-boundary.ts` | product | 已验证 | [CLI IO逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 仅两个输出节点symlink与lstat传播合同；原生ENOENT/ENOTDIR，不认证子项/TOCTOU |
 | `packages/pal-extract/src/output-boundary.test.ts` | test | 已验证 | [CLI IO逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 5真实自有路径合同；宽吞errno恰1业务红，临时根立即登记清理 |
@@ -702,7 +711,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/toast.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |
 | `packages/game/src/tools/map-names.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |
 | `packages/game/src/core/equip-effect.test.ts` | test | 已验证 | [3o／3p逐文件代码验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) | 新规则改为slot0普通毒+原script，slot1清零；不是删除失败断言。其它35例只作相邻执行。 |
-| `packages/pal-extract/src/resources/world-assets.ts` | product | 已验证 | [CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) | CLI原97行阶段与四helper精确搬移；5参/借用/错误及写出顺序保持，39实际相邻；全仓门待全部pre94 |
+| `packages/pal-extract/src/resources/world-assets.ts` | product | 已验证 | [当前IO同义版本桥与前窗八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/review.json) | 原world整文件接受继承；新owned-byte叶展开与全world正文相同，当前39真实CLI恢复；仅刷新，不算新关闭 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

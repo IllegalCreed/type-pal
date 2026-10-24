@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 75,
+  "currentAccepted": 76,
   "cards": [
     {
       "id": "1",
@@ -422,8 +422,8 @@
       "sha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
       "lines": 55,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -453,13 +453,14 @@
       "scopeConfirmed": true,
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md",
       "currentReviewer": "Codex",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
-      "findings": "P3 approved and fixed; world-assets phase now independently accepted from exact stage/helper/import proof and39 CLI cases. Whole CLI binary/data/fallback orchestration still rework, not card acceptance.",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/review.json",
+      "findings": "Complete CLI A-H closes remaining resource/IO orchestration debt: explicit-root stages, shared owned read, dead private mode and mirror containers removed, precise failure/output order retained;3frozen full-runtime/import proofs,39real CLI cases,809actual sprite output equality. Original nonatomic partial-output policy disclosed;final whole-pre94 unified gates deferred.",
       "additionalEvidence": [
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
-        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json"
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/review.json"
       ],
       "currentReviewDate": "2026-10-24"
     },
@@ -4267,34 +4268,37 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 8,
-    "accept": 75
+    "partial": 7,
+    "accept": 76
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE3 original code acceptance and world phase extraction; CODE3g stays partial",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md",
-    "newlyAcceptedCards": ["3"],
+    "scope": "CODE3g complete CLI orchestration code acceptance; final unified pre94 gates deferred",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md",
+    "newlyAcceptedCards": ["3g"],
     "newlyClosedFiles": [
-      "packages/pal-extract/src/events/slice.ts",
-      "packages/pal-extract/src/events/slice.test.ts",
-      "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
-      "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
-      "packages/pal-extract/src/resources/world-assets.ts"
+      "packages/pal-extract/src/cli.ts",
+      "packages/pal-extract/src/io/read.ts",
+      "packages/pal-extract/src/resources/data-assets.ts",
+      "packages/pal-extract/src/resources/animation-assets.ts",
+      "packages/pal-extract/src/resources/bitmap-assets.ts",
+      "packages/pal-extract/src/resources/sprite-assets.ts",
+      "packages/pal-extract/src/resources/sound-assets.ts",
+      "packages/pal-extract/src/resources/lookup-assets.ts"
     ],
     "fixed83": {
       "pending": 0,
-      "partial": 8,
-      "accept": 75
+      "partial": 7,
+      "accept": 76
     },
     "counts": {
-      "total": 3425,
-      "verified": 452,
-      "review": 85,
+      "total": 3432,
+      "verified": 460,
+      "review": 84,
       "pending": 2888,
-      "unclosed": 2973
+      "unclosed": 2972
     },
-    "limits": "Code review only; final whole-pre94 unified gates still deferred. No94–102."
+    "limits": "Code review acceptance only; no wholecheck/official/protected/PR until remaining seven pre94 partial resolved. No94–102."
   },
   "incrementalReviewHistory": [
     {
@@ -4619,6 +4623,32 @@
         "unclosed": 2977
       },
       "limits": "Retrospective derivative metadata repair only; prior actual74/9 preserved, not new progress."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3 original code acceptance and world phase extraction; CODE3g stays partial",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md",
+      "newlyAcceptedCards": ["3"],
+      "newlyClosedFiles": [
+        "packages/pal-extract/src/events/slice.ts",
+        "packages/pal-extract/src/events/slice.test.ts",
+        "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/world-assets.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 8,
+        "accept": 75
+      },
+      "counts": {
+        "total": 3425,
+        "verified": 452,
+        "review": 85,
+        "pending": 2888,
+        "unclosed": 2973
+      },
+      "limits": "Code review only; final whole-pre94 unified gates still deferred. No94–102."
     }
   ]
 }

@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-24当前：76代码accept／7partial／0pending；CODE3g总装八维及必要结构整改闭合、八文件新关闭，最终统一门等全部pre94。[本批原件](cli-stages-closeout/README.md)。
+
 2026-10-24当前：75代码accept／8partial／0pending；CODE3原slice/annotate接受、world阶段独立接受，五文件新关闭。CLI/3g仍partial；派生汇总72/11滞后于上轮实际74/9的勘误已保存，不算新进度。[逐文件/原件](extract-scene-closeout/README.md)。
 
 2026-10-24当前：74代码accept／9partial／0pending；本窗3o／3p接受，九文件新关闭，获批毒入口及P3窄修有正式红绿。最终集成门仍待全部pre94；[逐文件验收](mode-player-closeout/README.md)。
@@ -26,7 +28,7 @@
 | [CODE-QUALITY-3c](../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md) | done | accept | [当前正式裁定](3c/closeout.json)：原专属动画/确定性合同已接受，大Workbench不附带接受 |
 | [CODE-QUALITY-3d](../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md) | done | accept | [当前逐文件八维](3d/closeout/review.json)：原卡有限合同/必要返工与四卡零诊断门成立，不授相邻广域文件信用 |
 | [CODE-QUALITY-3f](../../archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md) | done | accept | [当前逐文件八维](3f/closeout/review.json)：原卡有限合同/必要返工与四卡零诊断门成立，不授相邻广域文件信用 |
-| [CODE-QUALITY-3g](../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) | done | partial | [world编排片](extract-scene-closeout/README.md)：精确搬移与39真实CLI相邻成立；其余总装资源/错误策略质量仍rework，不关闭整卡 |
+| [CODE-QUALITY-3g](../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) | done | accept | [总装代码接受](cli-stages-closeout/README.md)：显式root/归属、错误顺序、39真实CLI与809产物等价；统一门延后 |
 | [CODE-QUALITY-3h](../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) | done | accept | [当前正式裁定](3h/rle-boot-quality/README.md)：六生产源逐项八维与当前门闭合，shared格式/大bootstrap不附带接受 |
 | [CODE-QUALITY-3i](../../archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md) | done | accept | [五源逐文件A–H及测试/lifecycle收口](3i-dialog-precache/quality-closeout/README.md)；原72失败终态桥、当前门成立，不附带广域入口/离线/视觉信用 |
 | [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | accept | [既有七源与局部路标校准](3j-route-calibration/README.md)；仅修本表滞后，JSON原已接受，不新增信用 |
