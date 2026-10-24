@@ -223,10 +223,47 @@ export function instrumentMealTrace(source, file) {
       node.name?.text === 'startOverworldItemScript'
     ) {
       assert(ts.isBlock(node.body), 'meal game use body changed')
+      assert.deepEqual(
+        node.parameters.map((parameter) => parameter.name.getText(ast)),
+        ['gs', 'item', 'targetRoleIdOrAll'],
+        'meal game use input parameters changed',
+      )
+      assert(
+        !node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.AsyncKeyword),
+        'meal game use dispatch became asynchronous',
+      )
+      const [idStatement, entryStatement] = node.body.statements
+      assert(
+        idStatement &&
+          entryStatement &&
+          ts.isVariableStatement(idStatement) &&
+          ts.isVariableStatement(entryStatement),
+        'meal game use input declarations moved',
+      )
+      assert.equal(idStatement.declarationList.declarations.length, 1)
+      assert.equal(entryStatement.declarationList.declarations.length, 1)
+      const id = idStatement.declarationList.declarations[0]
+      const entry = entryStatement.declarationList.declarations[0]
+      assert.equal(id.name.getText(ast), 'itemId')
+      assert.equal(id.initializer?.getText(ast), 'item.id')
+      assert.equal(entry.name.getText(ast), 'scriptOnUse')
+      assert(
+        entry.initializer &&
+          ts.isCallExpression(entry.initializer) &&
+          entry.initializer.expression.getText(ast) === 'getItemScriptEntry',
+        'meal game use effective script source changed',
+      )
+      assert.deepEqual(
+        entry.initializer.arguments.map((argument) => argument.getText(ast)),
+        ['gs', 'item', "'scriptOnUse'"],
+        'meal game use effective script arguments changed',
+      )
       anchors.push('actualGameItemDispatch')
+      // Observe the effective saved OBJECT entry after its binding is initialized,
+      // before validation or coroutine state changes. The Item owns its consuming flag.
       edits.push({
-        at: node.body.getStart(ast) + 1,
-        text: "\nglobalThis.__mealDispatch?.('game',{itemId:String(itemId),scriptOnUse,targetRoleIdOrAll,consuming});\n",
+        at: entryStatement.end,
+        text: "\nglobalThis.__mealDispatch?.('game',{itemId:String(itemId),scriptOnUse,targetRoleIdOrAll,consuming:item.flags.consuming});\n",
       })
     }
     ts.forEachChild(node, walk)

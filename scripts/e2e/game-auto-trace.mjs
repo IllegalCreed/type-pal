@@ -55,7 +55,7 @@ export function instrumentGameAutoBatch(code, file) {
       }
       if (
         ts.isExpressionStatement(node) &&
-        node.expression.getText(ast) === 'updateEventObjectsAndTrigger(gs, ctx)'
+        node.expression.getText(ast) === 'updateEventObjectsAndTrigger(gs)'
       )
         add(
           'explore-triggered',
