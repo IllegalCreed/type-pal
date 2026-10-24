@@ -210,13 +210,17 @@ describe('L18 setupMinimap 控制器持久化', () => {
 
   it('底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map', async () => {
     class PendingImage {
-      static last: PendingImage | undefined
-      onload: (() => void) | null = null
-      onerror: (() => void) | null = null
+      static last: HTMLCanvasElement | undefined
       constructor() {
-        PendingImage.last = this
+        // 只替换Image解码IO：就绪后提供真实CanvasImageSource，保留drawImage像素路径。
+        const surface = document.createElement('canvas')
+        surface.width = surface.height = 640
+        const context = surface.getContext('2d')!
+        context.fillStyle = '#123abc'
+        context.fillRect(0, 0, 640, 640)
+        PendingImage.last = surface
+        return surface
       }
-      set src(_value: string) {} // 本例只暂停宿主decode,不替换控制器缓存
     }
     vi.stubGlobal('Image', PendingImage)
     setCurrentMapNum(1)
@@ -228,6 +232,12 @@ describe('L18 setupMinimap 控制器持久化', () => {
     await vi.waitFor(() => expect(PendingImage.last).toBeDefined())
     ctl.mountSceneView(document.createElement('div'), 64)
     expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    PendingImage.last!.dispatchEvent(new Event('load'))
+    const afterLoad = document.createElement('div')
+    ctl.mountSceneView(afterLoad, 64)
+    expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    const canvas = afterLoad.querySelector('canvas')!
+    expect(pixel(canvas.getContext('2d')!, 30, 30)).toEqual([18, 58, 188, 255])
   })
 
   it('Image 解码失败后标记 map failed，不在后续帧反复请求', async () => {
