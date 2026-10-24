@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s41-template-sources
+Branch: codex/docs-s42-large-admission
 Last reviewed: 2026-10-24
 Template: task-card-v1 / 1.0.0
 
@@ -2451,3 +2451,13 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 目标是可读的reference-canon说明与原骨架明确分开；原当前源整体保留在可精确提取的代码块，说明只约束如何填写、身份/字段职责、状态/证据与停止线，不改原占位、示例旧版本或业务合同。test-catalog.md是JSON合同说明而非发布对象。逐篇全文核读当前raw，旧source pin只核身份不冒称全部原历史已重审；既有artifactOnly是待中央显式处置的旧机械登记，本次不据此放行、不新加豁免。
 - 白名单限二十正文、本卡、R58/R62各篇唯一review及必要R93/R94 after级联、原单份gzip。routing/registry/matrix不改；拟reference-canon真实公共checker定向检查仅作本轮结构证据，正式route/去旧artifactOnly与信用仍待非作者接受和Owner另行接入。作者nonAuthorReviewer=false/creditGranted=0，partial/needs保持，不堆新canonical账本或sidecar。
 - 所有原骨架字节、旧source/history/撤信、212/302原生与已接收十篇保持；不改产品、旧测试、coverage、日期、模板注册表、机器字段或规则。中央物化先临时树验证后真写，失败留原件；必要硬门按实记红，父子卡rework、不合main、不推送、不done。
+
+## S42 剩余683份一次授权大包与Owner并行接入（2026-10-24）
+
+- 用户指出22篇不是大包。Owner纠正工作分解：在固定83743275bb560a4ea4bbbd2a15baf7f138f9145b树，917份当前needs-migration精确分成S40–S41验收中22份、已交内容且由Owner负责后续接入的212原生历史回执、剩余683份。三集合互斥且全集相等；683=640 JSON+28 Markdown+15 HTML，共65704700当前载体字节。1838是固定cohort：已迁移1428、显式退役3、原基线余407；当前917另含增量，1828是两类待办诊断，不是文档份数。当前数字不改为预计完成。
+- Codex build allowed一次派发GLM完成683份内容/原生审阅差异与精简裁定大包，协议document-delivery-acceptance/1.0.0。授权源为本节固定Git提交；正文输入固定S41候选及逐路径SHA，GLM仅向仓外交付，repositoryWrites=0。原S40/S41工作树/两包/合并提示词继续冻结，当前22篇验收不中断；不重做那22篇或S30/S38已交的212内容。GLM可内部按内容族/容量分段，自存进度、遇单篇counter只停该篇，最终一次集中回交，不逐批请示。
+- 逐篇交付实际治理内容而非新一轮盘点：具体core/事实见证/读域/来源与状态边界/依赖caller/legalInputs/oracle/排重/历史与停止线，绑定现有owner/index；JSON保留原生字节，治理说明复用现有review，不加_governance/payload/逐篇sidecar。Markdown确需改写给真实body候选，已符合者提供逐节对应与保留依据；HTML保留代码/DOM/脚本资源职责，不改成散文。旧type只是输入分类，最终建议依实际内容，未冻结格式不伪报符合。
+- 精简优先：逐篇区分仍有直接消费者的系统/治理数据、不可替代证据、可被替代/重复派生产物与未知。引用分当前直接consumer、历史quote、机器pin，不把多份raw转录当独立用途；退役提案须列独有语义/精确替代/源Git保全/引用和pin迁移，未经Owner独立裁定不删移。现有空账本专用退役合同不可冒充一般JSON通用许可。
+- 完整逐篇读域如实记录：机器解析/全数组机械遍历与人工语义核读分开；缺失来源、未运行、旧撤信/红相位/重复或pending保持，不用标题/路径/行数或批量通用句充当结论。当前载体提交不冒充历史执行来源，manifest用公开loader物化并区分carrier与logical见证。不能因683大包降低验收；正文/原生合同缺口只隔离对应族，不阻断其余交付。
+- 本包只交唯一分片review-delta索引/必要body候选和真实命令原件，不复制全部source/native/raw或创建第二份canonical账本。共享registry/routing/review/catalog/矩阵/任务/看板/模板/规则、产品/旧测试/coverage均禁止GLM写。source检查、进度和最终verify只读；不运行生产writer/生成器/发布、旧测试或全仓门。已认证相同输入证据复用，来源/关键上下文变化只使受影响claim失效。
+- Codex并行主导212已有成果的合同/路由/信用前提与接入，不等待GLM683全部结束，不重复既有全文；本准入不自动授212或683信用，不以批量口头批准代签独立接受。Owner后继行政修改与GLM冻结来源分轴，回交仅在源SHA仍匹配时接入；漂移只重核该篇，不重做整包。全量必要门未过，父子卡rework，不合main、不推送、不done。

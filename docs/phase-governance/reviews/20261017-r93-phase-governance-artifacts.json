@@ -1157,7 +1157,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "8284b8a53d595e7d4a4742e1cefdec05f0a2590ae072c5217a67df3a561eff06",
+      "afterSha256": "6aaf285ed34ffe66056b23bb4a582138cab4ba9ea93800262b82bca7986da703",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1666,6 +1666,18 @@
           "beforeSha256": "2776f17a539d79c2f4d8348ed1a0a466d466392fe6f9a6d34ece64bec31012dc",
           "afterSha256": "8284b8a53d595e7d4a4742e1cefdec05f0a2590ae072c5217a67df3a561eff06",
           "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S42",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "beforeSha256": "8284b8a53d595e7d4a4742e1cefdec05f0a2590ae072c5217a67df3a561eff06",
+          "afterSha256": "6aaf285ed34ffe66056b23bb4a582138cab4ba9ea93800262b82bca7986da703",
+          "scope": "Single large-package admission in existing task/board only; source/semantic/migration/runtime unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

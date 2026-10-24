@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "bfb9e4995c9d556151533bb15054d00123f15725043893aceed17e919f566d0d",
+  "generation": "27ccc6099c0ec7042e47c6c250776b10ed0c1beb50c4f29b8fc43f6839cc3873",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
   "entries": [
@@ -2055,7 +2055,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "01cc47a557b7dd0c24057e3130e23f1c237cca64016b1ca0ac03a6c0bcafc683",
+      "afterSha256": "f073829eb9a831c91ffb4413367a94284c057846beccfbfdc9fc422c2e2f6339",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2776,6 +2776,18 @@
           "beforeSha256": "744520dbf87373de4674806ef08d814dea8ad6738c1e0a66949ab6d761adadb7",
           "afterSha256": "01cc47a557b7dd0c24057e3130e23f1c237cca64016b1ca0ac03a6c0bcafc683",
           "scope": "Twenty template-source usage bodies and existing task admission; no routing/registry/contract or completion grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S42",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "beforeSha256": "01cc47a557b7dd0c24057e3130e23f1c237cca64016b1ca0ac03a6c0bcafc683",
+          "afterSha256": "f073829eb9a831c91ffb4413367a94284c057846beccfbfdc9fc422c2e2f6339",
+          "scope": "Single large-package admission in existing task/board only; source/semantic/migration/runtime unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
