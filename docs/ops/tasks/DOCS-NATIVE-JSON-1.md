@@ -1,14 +1,14 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
 Status: rework
-Execution: rework（S32实现/演练已获GLM非作者accept；四源存储已受控发布并独立读回，212语义未接入）
+Execution: rework（S34准入/writer已获GLM非作者accept；S38已发布212条零信用内容，状态晋升与迁移接入未做）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
 Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（贡献者据证验收）/ 未参与者（Owner勘误与发布复核；作者不自签）
-Branch: codex/docs-s29-native-vitest
-Last reviewed: 2026-10-23
+Branch: codex/docs-s38-receipt-publication
+Last reviewed: 2026-10-24
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -17,7 +17,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-- 当前S34：S32真实四源存储、S33合同/六pilot及C1已获非作者接受；Codex完成212精确准入与当前组writer临时树演练，等待非作者复核。真实212语义未发布，原生载体与旧信用保持。具体范围/停止线见本卡S30–S34节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
+- 当前S38：S34精确准入、零信用writer和临时树演练已获GLM非作者accept；Owner已在S37后继隔离树发布212条接受内容并完成全组读回与幂等检查。212条仍partial-review-unknown/needs-migration，routing/registry未接本原生变体；本次不授历史执行或迁移信用。后续状态晋升须明确逐篇裁定及受控接入。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
 - S26内容白名单269件：S21/F01中原13字段形态且SHA匹配33cc冻结绑定的272件，扣除S25三篇pilot。269件逐篇核全部原生字段、断言/失败、实际相位、producer/consumer、历史继任与信用边界，交具体review草稿。
 - 来源例外23件：无33cc冻结绑定成员，查真实Git载体、引入/移动/生成链，交来源提案或明确unknown；不自行续pin或套用固定源合同。
 - 格式例外7件：4件短摘要、1件含进程信息摘要、2件附distillation；读字段职责与实际consumer，交格式选择与反例提案，不能强补13字段。
@@ -350,3 +350,11 @@ build allowed：Codex 从上述候选在 codex/docs-s34-historical-receipt-write
 S34 作者实施事实：212候选逐条新合同检查通过、全部历史Git来源可解析，9指针勘误显式入候选history；原sourceSha不动。新5项边界测试加原8项回归为13/0/0skip，原测试未改。临时树完整写入18/退出7/最终150物理（12manifest+36片），212目标与4控制边改变、其他2218条行完全保持；旧八源599与302原生保持。重复整组重建识别published/0写。未知flat owner首写前拒绝；真实第二rename故障后已写1/退出0、12份精确before备份及lock/staging保留，公开loader拒绝锁中树。首轮临时Biome夹具缺文件、漏局部canonical函数和多旧generation逐叶退出失败原件均保留；已修为完整generation目录一次rename退出。
 
 本批新writer仍明确零信用、不允许改review/迁移状态；真实发布及逐篇信用须在未参与者接受后另作受控动作。全仓静态/工具原件、逐文件八维作者复核与未跑范围只归原单份压缩日志S34追加，不以作者自验代签。S34实现等待GLM非作者验收，父子卡仍rework。
+
+### S34 非作者 accept 接收与 S38 零信用中央内容发布（2026-10-24）
+
+- Owner核对GLM只读非作者accept：候选b2f3d839297c1e68835db906b47eec609dd36870，base35716b4a；HANDBACK SHA-256 `25e7b045db806c667f82fead80a7d8a119274ebaf1be0363ba187299a9646e19`，verdict `382d5a72848bd87fef6379601be7b680ea655a28c9605a2c3092738445beb0eb`。范围仅212来源准入/9项指针勘误、零信用writer、临时树演练；nonAuthorReviewer=true，零counter。复用S30/S33接受的内容基础，不将抽核说成重做212全文。
+- Codex build allowed执行S38：基点50d02fcb9fe63885ecf6069b61a45252bb88a1af，独立worktree docs-s38-receipt-publication、分支codex/docs-s38-receipt-publication。S34–S37原HEAD、工作树和证据冻结。212篇after行与S34已接受候选逐字段相同，计划仅baseRevision显式改到后继；外部canonical计划SHA `9e5935ad530eb8fb17e22433e5f86f338c36f21e0adbb3d635464dc722c2c9df`，不复制整包内容进新账本。
+- 实际发布先在owned临时Git树重演，再在真实隔离树执行原公开CLI；两侧18写/7旧片退出，最终114逻辑对象、150物理=12manifest+36片。212内容与4控制边改变，另2218行逐字段保全；2434 after pin、12 source pin和302原生载体全等。9旧来源指针按原接受的erratum改正，旧sourceSha及旧指针历史保留，不重授旧运行。CLI随后识别already-published/0写；真实发布提交见43b76ac63。
+- 接收记录与发布记录分轴：本accept不等于发布结果已由GLM独立接受。发布、三份卡/看板及五条行政after接入是Codex作者动作，独立结果复核待补。无正文副本/sidecar/第二中央账本，原审阅唯一位置与原单份gzip日志继续使用；原生载体、routing、registry、catalog、旧测试、产品、coverage、共享规则均不改。
+- 212条信用状态保持，迁移仍1420/1838、3retired、87incremental；严格927篇/1848诊断不扣。旧草稿中的实施停止线属于其S34时点，当前执行状态以本节为准。E2E006日期过期红保持，不借另分支延期。父子卡继续rework，不合main、不推送、不标done。下一步为独立核发布差异，并另作逐篇信用/模板路由接入裁定，不能靠这次零信用写入静默晋升。

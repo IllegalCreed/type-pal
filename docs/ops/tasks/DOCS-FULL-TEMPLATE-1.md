@@ -2419,3 +2419,9 @@ GLM已对35716b4a只读非作者accept，C1关闭，S33合同/六pilot及其余�
 - 正文白名单恰三篇phase2/specs/content-schema、script-system、project-lifecycle。按现有design-spec-v1/1.0.0+history overlay恢复原现行合同，核版本/公开guard/身份/命令根的限定源码；不改产品设计、实现、旧测试、coverage或旧quote，不授实跑。
 - 现有R33唯一三行记录具体内容/真实读域/保全；catalog.phase2只维护三条after+追加历史、薄catalog只维护该片descriptor，既有R93/R94顺序级联。无需新合同、writer、canonical账本或sidecar。
 - 文档适用性current与审阅完成分轴，partial/needs及新信用0保持；待未参与者据证裁定。全量硬门未过不合main、不推送、不done，不因旧catalog.reviewed或原三席接受恢复信用。
+
+## S34 accept 接收与 S38 实际内容发布（2026-10-24）
+
+GLM对b2f3d839的212准入/零信用writer/演练只读非作者accept已核两份原件SHA接收，零counter。Codex在50d02fcb后继独立树执行真实212内容发布：18写/7退出、150物理，全组2434 pin/12source/302原生与2218非目标行保全，212 after正文与接受计划完全一致、幂等0写。详见[子卡S38](DOCS-NATIVE-JSON-1.md#s34-非作者-accept-接收与-s38-零信用中央内容发布2026-10-24)及原单份压缩日志。
+
+本次只发布已接受内容说明，不晋升partial/needs或接routing/registry，0新增迁移/runtime信用；927篇/1848项与1420/1838保持，实际发布结果独立复核待补。S35–S37十篇候选/原树继续冻结，集中一次交GLM据证逐篇核验；不重做全文、不堆重复账本。E2E006过期红及另分支延期隔离保持，父卡rework，不合main、不推送、不done。

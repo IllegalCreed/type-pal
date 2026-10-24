@@ -1133,7 +1133,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "695cd754467c9324d17983d84d45b65b36e9799375c2ce58a104c7014527d7b9",
+      "afterSha256": "486e29fac824b6b70e78e4233b20d3b66a9371028965661d161fad608c398269",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1610,6 +1610,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "39b152234d72bb1d8eda3983643787fb35ce3fd693873f328cb830d0576be2db",
           "afterSha256": "695cd754467c9324d17983d84d45b65b36e9799375c2ce58a104c7014527d7b9"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-acceptance-administration",
+          "revision": "43b76ac63a168a6654b35d5cc16a90573b9199b4",
+          "scope": "S34 GLM non-author accept received with exact original report hashes. S38 accepted zero-credit 212 content published and read back; only three existing task/board bodies and five administrative after edges acknowledged; no promotion, no routing/registry/catalog/native/other semantic edits.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "695cd754467c9324d17983d84d45b65b36e9799375c2ce58a104c7014527d7b9",
+          "afterSha256": "486e29fac824b6b70e78e4233b20d3b66a9371028965661d161fad608c398269"
         }
       ]
     },

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "f62bb20c8d4c7743a4cdb7fa92003b93549ac0948e06d4261d8b50a6d6a0c84b",
+  "generation": "85a4f7b346e193411666e9ffd3865a868cca083edd94128c91900163040e79a2",
   "key": "part-002",
   "positions": [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2036,7 +2036,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "6cb7d553dd214620f312cb6869c7ce8dfdb3cc37ef52b1e0891c24e4f66afc5c",
+      "afterSha256": "2d62b85d505c90981eff639c88916d6f10187160e2107e436cc764b4269df4c8",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -2824,6 +2824,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "6298dfc7e4393b4ae7438acf6fc915a48ed7213914428bec5273f695374e7d2c",
           "afterSha256": "6cb7d553dd214620f312cb6869c7ce8dfdb3cc37ef52b1e0891c24e4f66afc5c"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S38-acceptance-administration",
+          "revision": "43b76ac63a168a6654b35d5cc16a90573b9199b4",
+          "scope": "S34 GLM non-author accept received with exact original report hashes. S38 accepted zero-credit 212 content published and read back; only three existing task/board bodies and five administrative after edges acknowledged; no promotion, no routing/registry/catalog/native/other semantic edits.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "6cb7d553dd214620f312cb6869c7ce8dfdb3cc37ef52b1e0891c24e4f66afc5c",
+          "afterSha256": "2d62b85d505c90981eff639c88916d6f10187160e2107e436cc764b4269df4c8"
         }
       ]
     },
