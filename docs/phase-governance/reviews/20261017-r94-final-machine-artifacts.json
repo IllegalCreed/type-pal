@@ -208,16 +208,22 @@
       "gitObject": "848c95762b95102e62b72a781566f5762cbc2bb4",
       "sha256": "74f0d95c6a34cd8fc43ddc8cedc95c42e16dea88ba3550b3b9f6cc29f8d1dd58"
     },
-    "logicalSha256": "9af24dcef16cf70fec0ff953a6338452f432584ffebd4ab55d3cba85635d5111",
+    "logicalSha256": "f62bb20c8d4c7743a4cdb7fa92003b93549ac0948e06d4261d8b50a6d6a0c84b",
     "totalEntries": 37,
     "entryOrderSha256": "0174f70af24dfd959daf3be38d49dfd5fc55d32a977d2c211f338e6eefbbf9e7",
-    "orderedEntriesSha256": "80695d13180a5190ce8258c54dcd659c4a3855562f2fee6a79b30671f8d4d61e",
+    "orderedEntriesSha256": "2f93dca3da45309724556633b4d3a419702bed608513d43617a92899d979469a",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r94-final-machine-artifacts/9af24dcef16cf70fec0ff953a6338452f432584ffebd4ab55d3cba85635d5111/part-001.json",
-        "total": 37,
-        "sha256": "11bbde02a6d44f66520fc53022568af247ede24adfced58159e952ae2cebf309"
+        "path": "shards/20261017-r94-final-machine-artifacts/f62bb20c8d4c7743a4cdb7fa92003b93549ac0948e06d4261d8b50a6d6a0c84b/part-001.json",
+        "total": 23,
+        "sha256": "527c26379f7c9b2a4b7bac12a77929dabfb50eceee260b0bdf2915fd9a2f419f"
+      },
+      {
+        "key": "part-002",
+        "path": "shards/20261017-r94-final-machine-artifacts/f62bb20c8d4c7743a4cdb7fa92003b93549ac0948e06d4261d8b50a6d6a0c84b/part-002.json",
+        "total": 14,
+        "sha256": "949a56337d0b44fbf1ff553d9ff6362d71843b71dd62caa6b639e317a0f80f81"
       }
     ]
   }

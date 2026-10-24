@@ -799,22 +799,28 @@
       "gitObject": "3c8897daa17106b4af1467157498ea56c435d258",
       "sha256": "ceae89ebe0fccef74ddee88950dbfe73ac3295e2964dc270bed51b97904e5c5e"
     },
-    "logicalSha256": "27031cde8a7a85d3bf3840b2eebeffe3157a38b628a021b17b37ac0f74f10664",
+    "logicalSha256": "a6ed2939a84f97fb968b77b2c75cad7b744bc532bb57cc28da88bd80cd021795",
     "totalEntries": 50,
     "entryOrderSha256": "4f3950c385b8305470db5bcdcb14ec6abf149a45e93187cf2fc2db182bbc7f16",
-    "orderedEntriesSha256": "1d115e58c7620739a55e537f5b3950a717e9523a235a43a68a3e52db525268c9",
+    "orderedEntriesSha256": "5d63552f10c98e10d432db598f02b2cf31b18b62351453cde1983ee2285d12f1",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r90-ops-evidence-artifacts/27031cde8a7a85d3bf3840b2eebeffe3157a38b628a021b17b37ac0f74f10664/part-001.json",
-        "total": 48,
-        "sha256": "e1e46416422400b73f47e89a64d70aba4a409fecd40dd5e70b45b3f02d67645c"
+        "path": "shards/20261017-r90-ops-evidence-artifacts/a6ed2939a84f97fb968b77b2c75cad7b744bc532bb57cc28da88bd80cd021795/part-001.json",
+        "total": 17,
+        "sha256": "b789b0f2fb4ec5a8f186f37774e935c13498a250835536f2821364efb60bc061"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r90-ops-evidence-artifacts/27031cde8a7a85d3bf3840b2eebeffe3157a38b628a021b17b37ac0f74f10664/part-002.json",
-        "total": 2,
-        "sha256": "09b08256097a091934c2ef2c5537a77c93985e5ddfcadd1716cca306f43fd5c2"
+        "path": "shards/20261017-r90-ops-evidence-artifacts/a6ed2939a84f97fb968b77b2c75cad7b744bc532bb57cc28da88bd80cd021795/part-002.json",
+        "total": 19,
+        "sha256": "b3ddb36e300252aa31080ef6d399d685e6e2f7f0daa62099a15ca92c206ccda5"
+      },
+      {
+        "key": "part-003",
+        "path": "shards/20261017-r90-ops-evidence-artifacts/a6ed2939a84f97fb968b77b2c75cad7b744bc532bb57cc28da88bd80cd021795/part-003.json",
+        "total": 14,
+        "sha256": "eb30cdb7fd6bd926dcee22200b461743b49fd5b6cd75a0e7a8ea7e43a94b9186"
       }
     ]
   }
