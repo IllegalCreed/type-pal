@@ -636,6 +636,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'a9f2fee19cf165466ec949abbcb3cb5a56d1edae92d106402365d34e495b96e9',
       fileSha256: '4ae59bab77937826270a8f005dd6ad4bd64a5f75668365ac09a1a697b8e1d47b',
     },
+    // User2026-10-03/18/24 pre94 test-quality authority: two type-only cases, one
+    // illegal caller and two JSON-self oracles retire; required fields migrate to
+    // real save-io codec. Exact identities/proof: gamestate-save-closeout/review.json.
+    {
+      file: 'packages/game/src/core/game-state.test.ts',
+      previous: 61,
+      current: 56,
+      previousIdentityDigest: '5c2929f5339eeef64004a6c7cb40a34c552cdd2b4f3c7d5fdddbcb690d500812',
+      currentIdentityDigest: '0620f5871091791b7eeca26a9cdcdf4f77d446f9e019bc4d64912d7a26cb77a6',
+      fileSha256: '59fa4eda5dc5f088df79d4e6c8e8bc0bb8c3d89c7b832967470cd714bb2b664c',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 
