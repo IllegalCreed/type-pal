@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-24当前3m：五文件新关闭，四数值source/test范围继续review等两项实际回答；固定76accept／7partial／0pending。[当前核心证据](battle-core-closeout/README.md)。
+
 2026-10-24当前：76代码accept／7partial／0pending；CODE3g总装八维及必要结构整改闭合、八文件新关闭，最终统一门等全部pre94。[本批原件](cli-stages-closeout/README.md)。
 
 2026-10-24当前：75代码accept／8partial／0pending；CODE3原slice/annotate接受、world阶段独立接受，五文件新关闭。CLI/3g仍partial；派生汇总72/11滞后于上轮实际74/9的勘误已保存，不算新进度。[逐文件/原件](extract-scene-closeout/README.md)。
@@ -34,7 +36,7 @@
 | [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | accept | [既有七源与局部路标校准](3j-route-calibration/README.md)；仅修本表滞后，JSON原已接受，不新增信用 |
 | [CODE-QUALITY-3k](../../archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md) | done | accept | [原六源与当前数字质量收口](3k-number-quality/README.md)；有限极值caller与像素，不外推广域Save/公式或自然剧情 |
 | [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | accept | [七源历次证据与当前装配/UI收口](battle-lifecycle-quality/README.md)；有限浏览器入口，广域core与自然剧情不外推 |
-| [CODE-QUALITY-3m](../../archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md) | done | partial | [当前八维与数值/typed测试返工](battle-core-fade-quality/README.md)：正式红后修FLOAT中间赋值；队列精确oracle/状态与伤害夹具/重复合同已处理，极端dex输入域及全部pre94统一门仍待 |
+| [CODE-QUALITY-3m](../../archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md) | done | partial | [核心技术片](battle-core-closeout/README.md)：九文件范围接受/五新关闭；速度回绕与正防御误读两边界待裁决，整卡不关闭 |
 | [CODE-QUALITY-3n](../../archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md) | done | accept | [当前代码验收](core-scene-event-closeout/README.md)：原卡八维/必要返工及当前输入桥成立；最终全仓门/PR待全部pre94 |
 | [CODE-QUALITY-3o](../../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | accept | [当前代码验收](mode-player-closeout/README.md)：八维/原反控及版本桥成立；获批毒入口已修，最终统一门待全部pre94 |
 | [CODE-QUALITY-3p](../../archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md) | done | accept | [当前代码验收](mode-player-closeout/README.md)：八维/原反控及版本桥成立；获批毒入口已修，最终统一门待全部pre94 |

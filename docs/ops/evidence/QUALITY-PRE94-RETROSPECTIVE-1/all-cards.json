@@ -833,7 +833,11 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/review.json",
+      "currentReviewDate": "2026-10-24",
+      "currentReviewer": "Codex",
+      "findings": "Nine named code scopes accepted,five new closures;RNG8identities kept with two old8green/new7green1business-red mapping controls;86core+14state-adjacent/TC0. Four formula/magic/source-test scopes remain review for two concrete numerical choices awaiting user. Whole3m not accepted;unified pre94 gates deferred."
     },
     {
       "id": "3n",
@@ -4273,18 +4277,15 @@
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE3g complete CLI orchestration code acceptance; final unified pre94 gates deferred",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md",
-    "newlyAcceptedCards": ["3g"],
+    "scope": "CODE3m nine scoped code acceptances and two concrete numerical stoplines; whole card partial",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md",
+    "newlyAcceptedCards": [],
     "newlyClosedFiles": [
-      "packages/pal-extract/src/cli.ts",
-      "packages/pal-extract/src/io/read.ts",
-      "packages/pal-extract/src/resources/data-assets.ts",
-      "packages/pal-extract/src/resources/animation-assets.ts",
-      "packages/pal-extract/src/resources/bitmap-assets.ts",
-      "packages/pal-extract/src/resources/sprite-assets.ts",
-      "packages/pal-extract/src/resources/sound-assets.ts",
-      "packages/pal-extract/src/resources/lookup-assets.ts"
+      "packages/game/src/core/battle/turn-queue.ts",
+      "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+      "packages/game/src/core/battle/__tests__/status.test.ts",
+      "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+      "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts"
     ],
     "fixed83": {
       "pending": 0,
@@ -4293,12 +4294,12 @@
     },
     "counts": {
       "total": 3432,
-      "verified": 460,
-      "review": 84,
+      "verified": 465,
+      "review": 79,
       "pending": 2888,
-      "unclosed": 2972
+      "unclosed": 2967
     },
-    "limits": "Code review acceptance only; no wholecheck/official/protected/PR until remaining seven pre94 partial resolved. No94–102."
+    "limits": "Two actual product answers pending; no entire3m/fullpre94/unified gate or94-102 credit."
   },
   "incrementalReviewHistory": [
     {
@@ -4649,6 +4650,35 @@
         "unclosed": 2973
       },
       "limits": "Code review only; final whole-pre94 unified gates still deferred. No94–102."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3g complete CLI orchestration code acceptance; final unified pre94 gates deferred",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md",
+      "newlyAcceptedCards": ["3g"],
+      "newlyClosedFiles": [
+        "packages/pal-extract/src/cli.ts",
+        "packages/pal-extract/src/io/read.ts",
+        "packages/pal-extract/src/resources/data-assets.ts",
+        "packages/pal-extract/src/resources/animation-assets.ts",
+        "packages/pal-extract/src/resources/bitmap-assets.ts",
+        "packages/pal-extract/src/resources/sprite-assets.ts",
+        "packages/pal-extract/src/resources/sound-assets.ts",
+        "packages/pal-extract/src/resources/lookup-assets.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 7,
+        "accept": 76
+      },
+      "counts": {
+        "total": 3432,
+        "verified": 460,
+        "review": 84,
+        "pending": 2888,
+        "unclosed": 2972
+      },
+      "limits": "Code review acceptance only; no wholecheck/official/protected/PR until remaining seven pre94 partial resolved. No94–102."
     }
   ]
 }

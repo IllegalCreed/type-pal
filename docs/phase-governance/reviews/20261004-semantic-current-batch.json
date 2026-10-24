@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE3g complete stages scoped delta",
+      "readMethod": "OwnedCODE3m named scopes; numerical review scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE3g complete stages code accepted; unified gates deferred.",
+      "coreConclusion": "CODE3m named scopes; numerical review code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "046bf6f6b01705cde84d779751954f3b11df785c7074b6dbf2ba3c09968ad927",
+      "afterSha256": "cdd34d5597e4901d23e2a0f35e72d8bc9e50f7d5cad9058553c557089f05b105",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "046bf6f6b01705cde84d779751954f3b11df785c7074b6dbf2ba3c09968ad927",
+        "implementationSha": "cdd34d5597e4901d23e2a0f35e72d8bc9e50f7d5cad9058553c557089f05b105",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,11 +1714,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-extract-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/review.json",
-        "afterSha256": "046bf6f6b01705cde84d779751954f3b11df785c7074b6dbf2ba3c09968ad927",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/review.json",
+        "afterSha256": "cdd34d5597e4901d23e2a0f35e72d8bc9e50f7d5cad9058553c557089f05b105",
         "lineCount": 90,
-        "scope": "CODE3g complete stages owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "4c684dfd2f307e221f983837958d671f734f6132",
+        "scope": "CODE3m named scopes; numerical review owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "b4123cb5f0d56cb76d5d04c122d18b6e12d92163",
         "workingTreeDelta": true
       },
       "history": [

@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前CODE3g代码接受：76accept／7partial／0pending；3432tracked／460closed／84review／2888pending，八新关闭。总装窄根/职责与精灵单容器整改完成，39实际CLI、809资源字节等价/TC/局部静态0。全部pre94前不跑统一门或PR。[当前裁定与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md)。
+> 当前3m五文件新关闭、四旧关闭刷新：3432tracked／465closed／79review／2888pending；固定76accept／7partial／0pending。两错误映射旧全绿/新各一业务红，86核心+14状态构造/TC0；四数值范围待两项用户答复，整卡不提前收口。统一门与单PR待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md)。
 
 > 当前3o／3p原代码范围accept：74accept／9partial／0pending；3424tracked／447closed／89review／2888pending，九新关闭。获批毒入口四正式业务红后修，P3两分支窄修另有两红；491游戏/83提取相邻与两包TC0，统一门/单PR待全部pre94。[八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。
 
@@ -1781,3 +1781,17 @@ CLI主编排、全文件B/C/D/F/G/H欠账须实际解决，不能只因行数下
 [逐文件/完整原件/版本桥/只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md)：39原CLI身份一次相邻恢复、extract TC/局部静态0；33child业务错误/降级逐项披露而非“stderr全空”。真实MGO/F/ABC只读输入到两自有临时输出809文件/172refs/日志一致，输入SHA不变；这不是全提取/音频/E2E验收。三阶段冻结AST/import还原和唯一false参数内联可低成本重算，既有可靠测试counter不重复。
 
 八文件新关闭、world旧关闭刷新；机器3432／460closed／84review／2888pending，固定83卡76accept／7partial／0pending。剩余1／3m／42／53／56／57／58按已有证据继续补八维与必要返工；全仓/official/protected/PR仍等全部pre94代码与证据解决，暂不94–102。已批准3o毒槽与CODE3双接回均在前窗完成，不重复实施或重新询问。
+
+## 2026-10-24 CODE3m核心合同余项准入
+
+基点b4123cb5f，同一3y、Codex单Owner，主树只读；远端fetch已核main b3d、0behind。六helper及前窗整改测试SHA匹配，按既有八维/真实红绿/原C证据复用，广域caller变化按实际读域桥接。build allowed仅formulas/magic-damage/status/turn-queue的注释纠正与rng.test三个区间合同的判别力补强，输入/PRNG/公式/队列行为冻结。RNG原抽样例可放过错误映射须真实旧绿/新指定业务红，保留8身份、用少量独立定值替代大量弱抽样；反控恢复字节，先完成相关整改再一次必要相邻/TC。
+
+极端dex的C中间赋值先用原函数/typed生产投影核证，不因新普通矩阵授全域或直接实现回绕；如需新取舍只停该范围，复用现有GAME-MAGIC-NUMERIC-ASSIGNMENT-1，不新造编号任务。全仓/official/protected/PR仍待全部pre94，94–102不扩展。
+
+## 2026-10-24 CODE3m有限技术接受与数值停止线
+
+0c06906a0只改四helper注释，d7ba0b3b9补RNG三个区间的精确判别力/状态消耗及Classic九项与TS slow说明，runtime未改。八RNG身份保持，两个错误映射在旧八例各全绿、补强后各恰一AssertionError；临时四源码副本完整原件/恢复证据保存，未mock核心或放宽选择/timeout。正式七文件86绿，首命令不存在的state路径不计信用；正确__tests__路径补14绿，TC/局部静态0。旧可靠C36/5151、队列六反控及其它相邻不重复跑。
+
+[逐文件A–H/版本桥/完整原件与只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md)支持queue源及两专测、status专测、数值赋值五例专测五新关闭；status/rng/positions源与RNG专测四旧关闭刷新。formulas/magic-damage及各自主要专测仍review：极端dex中间回绕取舍、正WORD防御误归零已具体复现，两实际回答未收到，不把预选项当批准，不改数值实现。原FLOAT批准修复不撤回。
+
+机器3432/465closed/79review/2888pending，固定76accept/7partial不变。下一继续42对话质量/56-58工具生命周期等独立pre94欠账，3m仅受影响数值范围等待，不暂停其它工作；全部pre94冻结前不跑统一全仓/official/protected或PR，不扩94–102。

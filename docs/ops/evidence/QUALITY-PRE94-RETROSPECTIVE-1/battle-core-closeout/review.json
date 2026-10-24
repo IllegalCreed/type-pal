@@ -1,0 +1,449 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex single agent; own review disclosed",
+  "branch": "codex/code-quality-3y",
+  "base": "b4123cb5f0d56cb76d5d04c122d18b6e12d92163",
+  "codeHead": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+  "state": "Nine named file scopes code accepted;four numerical scopes review; CODE3m remains partial, final unified gates deferred",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "252ad9227b16f06b16dd70ae2f39edf15dd7bdd71c597326bf8c662bb6ffdda0",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "Existing FLOAT/抗性5正式反例、36/5151原C有限矩阵有效；本轮新增原两dex函数C O0/O2与真实GS投影159行对比。原盘154敌条目本getter相等，但haste基身法21846与敌level11000的中间回绕分歧已具体化，产品回答未收到，整文件保留review。",
+        "B": "SHORT注释限定JS位截取而非任意C转换；明确C敌等级两次SHORT赋值与玩家WORD乘法/上限顺序、当前TS差异，不再压缩成全域等价公式。没有临时待裁决状态塞进产品注释。",
+        "C": "纯计算、无GS/IO/RNG；两个私有转换函数分别拥有灵力和抗性中间赋值，主函数按业务步骤推进。",
+        "D": "isWord复用两条已证同域判定；两个asShort短私函暂保留，避免为两行引入跨模块API与依赖；不是通用数值框架。",
+        "E": "28旧公式合同复用；新5例含真实hydrate/projection/伤害caller与C常数、极大输入旧结果。先2红、再2红，最终精确spec对旧源4业务红/1绿。",
+        "F": "randomizeMagicStrength/applyElementResistance命名揭示赋值边界；随机倍率恢复10标度与除10分别表达。",
+        "G": "原*10/10只在未批准改变的扩展域保留既有字节算式；定义域内替换为有实际语义的FLOAT乘法/整数赋值，不冒称死代码清理。",
+        "H": "纯输入、显式随机倍率；可由原C原函数和真实生产入口独立观察，无核心mock或新公共测试出口。"
+      },
+      "decision": "review; named numerical policy/counter remains pending",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "68ad16c9cce690d85e468bf7e3e3f396ca751a27cd1220005b53a36fef1fbf2d",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 246
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "sha256": "a4e3a87d547d32311f55c8680d99a1f36a2f8215e0f96bb14877f9cf4e9cc8f5",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "原minDamage/逐目标抽样/预掷/guard/死人槽证据复用；新增真实hydrate/project→rollAutoDefend→伤害调用显示正def32768被asShort后钳0，造成50→68。原C的int def→WORD参数在此域为正，50是primary分支推导，不声称运行完整C敌行动。新增已证问题未获准改实现，本文件保持review。",
+        "B": "纠正PAL_BattleCommitAction错归属为PAL_BattlePlayerPerformAction；补明AoE先掷再判HP、单体预掷无HP条件。现有防御负值“兜底”注释未能说明正WORD误归零，随已证问题保持返工，不宣称B全部闭合。",
+        "C": "伤害只改变敌槽/玩家投影HP；caller拥有演出与脚本；不读IO或反向依赖present。",
+        "D": "inline与simulate共享applyMagicDamage是同合同不同minDamage；敌方防御/抗性/预掷不同，保留独立函数，避免模式bool万能helper。",
+        "E": "23例原身份保留；去残缺PlayerRole/State强转，复用typed公开工厂；两AoE从不相等补成独立手算的精确伤害+HP。",
+        "F": "预掷资格与伤害计算分别命名；高CC来自目标遍历/资格/HP防御，具体分支对应C不同生命周期，不为数字拆零散策略。",
+        "G": "现有可选预掷是直接计算入口的实用合同；未删与真实caller/专项回归有关出口。",
+        "H": "真实SeedableRng用于新反例；已有受控next只用于数值与顺序分离，实际结果另断言，未以次数替代业务结果。"
+      },
+      "decision": "review; named numerical policy/counter remains pending",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "fa02acfd191dd67f649df764f488fe0148a7789bac9fcbed09c64a64d981f108",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 334
+    },
+    {
+      "path": "packages/game/src/core/battle/status.ts",
+      "sha256": "975d4aa54572e348f3e1c169695610881a15a313110644333d5cd42bf978179c",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "复用原死敌槽先红后绿与回合末/战后owner；本轮全文核10个字段、<=0/可选silence与实际typed槽。",
+        "B": "模块头改为真实tick/清理分工：Classic九项与TS slow共十字段；>999也递减，不再把装备计数写成不衰减的永久布尔。",
+        "C": "只推进owner.status；回合/行动调度由battle-system负责，战后清理由finalization负责。",
+        "D": "同一STATUS_KEYS驱动玩家与敌方，输入/寿命相同；canAct/canCast各自合同未混合。",
+        "E": "新typed六例覆盖原7例全部必要轴；paralyzed重复转全字段例；sleep衰减至0、死敌/活敌/资格保留。",
+        "F": "字段清单与两个能力判定直观；无嵌套IO或隐式时钟。",
+        "G": "无死出口；正计数护栏阻止负值递减。",
+        "H": "纯状态推进；用公开createBattleState结构观察计数器，没有残缺对象或any。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "6c56c7892e735d02deeca5ce1c82e3d5b9ae05a2beeeb30e92b8b788a495ba15",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 51
+    },
+    {
+      "path": "packages/game/src/core/battle/turn-queue.ts",
+      "sha256": "8ada110d71d253c2187e5941eca32823701f8d037a641c11ff7add55e63b1d34",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "原C六向量/七正式红/六单红复用；真实队列计算caller从jitter至buildActionQueue与旧基点逐字节相同，当前16专测含真实Confirm/RNG恢复。C合法13槽与有限整数排序已核；超容量/非有限不授C等价且不新增guard，生产factory拒绝>3玩家，敌队合同限定5槽。",
+        "B": "去D7历史叙事，明确独立二抽、较小者标记与排序位置不同；缺省dex2近似仍是原冻结helper合同，生产调用始终提供二抽，不冒称新增SDL支持。",
+        "C": "排序不持RNG或动作执行；输入数组不写，结果条目由本轮动作owner消费。",
+        "D": "与普通稳定sort合同不同，保留C双循环；纯私有13槽和sentinel知识集中。",
+        "E": "旧9例逐例核，空方与综合例补完整条目；parity7例及既有原C/真实Confirm/RNG反控复用，不为每句重跑变异。",
+        "F": "填充/补槽/比较/截取四段明确；CC13标记为阅读线索，四段已有单一职责而非为降指标拆模块。",
+        "G": "缺省dex2是已登记现行helper合同，不主动恢复其它兼容；未发明通用排序框架。",
+        "H": "纯输入输出，生产caller例含真实按键和PRNG状态；无私有状态测试API。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 125
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "lines": 93,
+      "dimensions": {
+        "A": "复用全文和3u/3m已核C/DATA坐标,本轮再全文。getters返回坐标副本,支持输入/零槽布局由真实factory/召唤caller限定,不新增容量。 当前factory仍拒绝>3队员，4/5布局只保留原helper扩展。当前状态构造14例包含独立坐标字面量/offset/独立对象，未将fallback表自比当oracle。",
+        "B": "修正缺人数layout即undefined错注,实际会选fallback;idx越出选中表才undefined。4/5布局明确既有防御兜底,不称C原表。",
+        "C": "纯坐标叶被core与present共享,不引用业务推进/DOM/GS;不让呈现层反向决定状态位置。",
+        "D": "玩家坐标单一来源,敌方按数据表+fallback共用helper;两套输入/选表语义不同不强拼万能函数。",
+        "E": "复用17工厂的实际布局/offset/空槽及六单红中layout针;非empty实例同null槽数按真实坐标断言,不是只判非空。",
+        "F": "getPlayerBasePos/getEnemyBasePos及人数/槽索引名称可解释;保留坐标领域来源信息。",
+        "G": "保留两个现有getter与作为原源码接口可导出的坐标表；表仍被getter实际使用，删除export没有运行收益且涉及接口冻结，不虚报额外生产caller。未为短getters造抽象。",
+        "H": "无时钟/副作用,输入表显式传入,缺表与返回副本可直接测试;无需stub renderer。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "reuses": ["3u-state-factory/README.md", "glm-foundation/game-battlecore-misc/README.md"],
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+        "reportSha256": "bc2164f53fe04a0a6ffed32ab44b4bc69a4b1a348e08288a594cdd1f0e58e1a1",
+        "previousSourceSha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed."
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "全文复用util.c与真实caller消费顺序；本轮核算法/三个<=界/unsigned状态仍相同，mulberry32与LCG差异保留。",
+        "B": "删无证standard PRNG测试宣称，纠正TS半开与C可含上端点；未改算法或范围。",
+        "C": "每工厂闭包独占state；无共享seed/IO/呈现；caller显式传入。",
+        "D": "三range API共享next且各自区间合同不同，未为少几行造模式helper。",
+        "E": "本轮八测试身份保持，三range消费由精确值/末状态补强。两错误映射分别在旧8例中全绿，在新8例中各恰一指定AssertionError。PRNG正文完全未改，旧to<=from先红后绿及固定word证据复用。",
+        "F": "lo/hi、next/getState职责清楚，无随机全局。",
+        "G": "生产使用的四抽样/状态出口保留；无新死参数或无用层。",
+        "H": "同seed可重放；固定向量由独立整数计算核证，不用SUT动态生成期望。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 51
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "28个base/physical/magic/dex原子例；独立手算/C原件；越界例明确仅TS截取合同 极端dex尚缺用户定义的新期望，28旧身份不能替代该取舍，继续review。",
+        "B": "未改原28身份/断言；不借本轮finite矩阵授全dex域信用",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "28个base/physical/magic/dex原子例；独立手算/C原件；越界例明确仅TS截取合同；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "未改原28身份/断言；不借本轮finite矩阵授全dex域信用；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "review; named numerical policy/counter remains pending",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 260
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+      "sha256": "dcef615c601dc44c8ea0689ee7d8d11819787d529f092a5364e76c7154ee663b",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "23身份全部保留；typed H factory替换重复Enemy/残缺State/PlayerRole；对敌AoE740/798与敌对我65/67分别独立算式",
+        "B": "首版740/798手算误写752/810的失败保留，重新按def74推导更正，不当作产品红",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "23身份全部保留；typed H factory替换重复Enemy/残缺State/PlayerRole；对敌AoE740/798与敌对我65/67分别独立算式；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。 新正防御合法边界没有正式回归；已保存真实生产函数probe，获准后先转正式失败反例，当前不关闭。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "首版740/798手算误写752/810的失败保留，重新按def74推导更正，不当作产品红；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "review; named numerical policy/counter remains pending",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "dcef615c601dc44c8ea0689ee7d8d11819787d529f092a5364e76c7154ee663b",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 530
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+      "sha256": "3e2bf24b8e665d2e6c5ed01008ff6407ebf6d587d823164b178210d9cdc02359",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "5实际原子输入：真实伤害入口/精确四分之一/扩展域保留/抗性6与8；4正式业务红+1旧合同绿，最终5绿",
+        "B": "actual hydrate→projection→createBattleState；真实SeedableRng单抽状态，抗性用明确预掷结果而非mock公式",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "5实际原子输入：真实伤害入口/精确四分之一/扩展域保留/抗性6与8；4正式业务红+1旧合同绿，最终5绿；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "actual hydrate→projection→createBattleState；真实SeedableRng单抽状态，抗性用明确预掷结果而非mock公式；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "3e2bf24b8e665d2e6c5ed01008ff6407ebf6d587d823164b178210d9cdc02359",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 119
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/status.test.ts",
+      "sha256": "c6db00a9d1c3963487abda7a03d7bc49e90065eee560029062050ee8a8d6aca3",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "原7→6；用完整公开state/slot，十字段含slow正值及1000装备tick；资格和活/死敌保留",
+        "B": "只加一句Classic九项之外还核TS slow，原六身份与断言不改；status<=999清理与tick分开，避免标题九项漏报实际第十项。",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "原7→6；用完整公开state/slot，十字段含slow正值及1000装备tick；资格和活/死敌保留；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "paralyzed重复被全字段与sleep至0序列覆盖；不是凭覆盖率删例；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "c32e47925d130c69912c81fafb7bd705ee1930bd5f967ca449d1986826441332",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 108
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+      "sha256": "9776a59266eb5abd914b6293a1d0fdbfb9009135c4a5c257a29eac7aaaf0bbf3",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "9例身份保留；单空方、综合排序补完整条目；其他独立双抽大小/同速输入保留",
+        "B": "六C向量/真实caller反控位于parity专测，不重复复制",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "9例身份保留；单空方、综合排序补完整条目；其他独立双抽大小/同速输入保留；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "六C向量/真实caller反控位于parity专测，不重复复制；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "9776a59266eb5abd914b6293a1d0fdbfb9009135c4a5c257a29eac7aaaf0bbf3",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 122
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+      "sha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "7例全文/输入对位；复用既有原生C与六单红/源恢复；本轮相邻重新执行",
+        "B": "primitive高WORD在敌人侧、真实玩家dex100，未把合成边界冒充普通剧情",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "7例全文/输入对位；复用既有原生C与六单红/源恢复；本轮相邻重新执行；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "primitive高WORD在敌人侧、真实玩家dex100，未把合成边界冒充普通剧情；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 176
+    },
+    {
+      "path": "packages/game/src/core/rng.test.ts",
+      "sha256": "a95dcf6392b70dfec72932ae2a48b1c2ee253b546ef23467010d92c0de29b722",
+      "readScope": "Existing full source/test review reused at explicit pin; six current production helpers and changed tests/diffs read; actual queue caller/C source ranges inspected. No claim full unrelated context was re-reviewed.",
+      "dimensions": {
+        "A": "八身份保持，合法SeedableRng实例；same/different seed、整数半开/含端点、float缩放/实例独立、状态、to<=from消费各有实际oracle。新向量复用已有独立unsigned-word事实，期望不由SUT动态生成。",
+        "B": "三旧标题仍准确描述原API输入，注释现在说明精确映射/上下端点与二进制分母；不把固定样本说成统计分布证明或SDL RNG等价。",
+        "C": "每例自建工厂，闭包state由实例独占，无全局random/假时钟/共享spy/设备资源。counter仅显式临时源码副本，不mock核心。",
+        "D": "三range端点/舍入合同不同，分别测试；两实例next与两实例rangeFloat分别约束公开方法状态ownership，不用模式工厂合并。无新增runtime用例。",
+        "E": "旧17000次抽样可放过range常量和inclusive有偏round：两旧8绿→两新各7绿1指定业务红；当前正式8绿且32反控无collection/runtime失败，临时树finally清理、正式PRNG/测试SHA不变。端点/具体缩放与真实state不是mock次数。",
+        "F": "小型有序字面量与明确的2^35分母表达期望，结果和实际状态紧邻；不需要追踪分布Map和sawLow/sawHigh副作用。",
+        "G": "1000+11000+5000抽样改为少量确定输入，不减8身份或原边界合同；无skip/only、弱化断言或覆盖率补丁。",
+        "H": "确定性真实PRNG直接驱动；错误映射必须因业务等式失败。没有注入私有状态、复制SUT函数当预期或为测试扩大生产API。"
+      },
+      "decision": "accept-code; final whole-pre94 unified gates deferred",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+        "reportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+        "previousSourceSha256": "36fd62772a3f483834d4d49f726a96a39adb5fe62a462d5881c6cfab27f03b49",
+        "scope": "Named full A-H previously read; this window reuses exact code or comments-only body bridge, with specific current deltas below."
+      },
+      "lines": 77
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "sha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/simulated-magic-target.ts",
+      "sha256": "db7bc7ed824786ea2b6faf2450b77682b2e45ff5e2dba0205fc7fa16d5d065a6",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "16c1f11837db4fb23df0ff9a07f9bebc9970db875b7e62a582eec9e57bf6d604",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    },
+    {
+      "path": "reference/sdlpal/common.h",
+      "sha256": "48f7ccfe8c287d5518b603ac8c7afe8af868cf42f547d072b175d73d588276ce",
+      "scope": "Actual caller/type/lifecycle/primary identity; exact inherited or named current read/delta, not blanket new whole-file acceptance"
+    }
+  ],
+  "newlyClosedFiles": [
+    "packages/game/src/core/battle/turn-queue.ts",
+    "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+    "packages/game/src/core/battle/__tests__/status.test.ts",
+    "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+    "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts"
+  ],
+  "countsExpected": {
+    "total": 3432,
+    "verified": 465,
+    "review": 79,
+    "pending": 2888,
+    "unclosed": 2967
+  },
+  "fixed83": {
+    "accept": 76,
+    "partial": 7,
+    "pending": 0
+  },
+  "reuse": {
+    "originalEightAxes": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
+    "originalReportSha256": "d1f638fe8c64f041add166dfc941235727f4706e040be4a66c03e1636bfe911e",
+    "positionsEightAxes": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+    "positionsReportSha256": "bc2164f53fe04a0a6ffed32ab44b4bc69a4b1a348e08288a594cdd1f0e58e1a1",
+    "oldPrimaryMatrices": "C36vectors/5151resistance plus original queue/status/RNG primary/counters reused at unchanged relevant implementation/runtime bodies. Not newly run.",
+    "currentBridge": "queue-caller-bridge.json proves actual queue region identical. Current changes outside region handled by already accepted3s host/3n-3r event records, not entire old context verifier. Other old context pins marked stale were not wholesale re-certified."
+  },
+  "currentRuns": {
+    "formalCore": {
+      "files": 7,
+      "passed": 86,
+      "receipt": "core-regression"
+    },
+    "positionSupplement": {
+      "files": 1,
+      "passed": 14,
+      "receipt": "position-adjacency"
+    },
+    "typecheck": "game-types",
+    "scopedStatic": "core-scoped-static",
+    "commentRuntime": "comments-proof-final",
+    "discrimination": {
+      "oldMutantsPassed": 16,
+      "newMutantsPassed": 14,
+      "newBusinessFailed": 2,
+      "files": 4,
+      "receipt": "rng-mutation-matrix",
+      "cleanup": "rng-counter-cleanup.json",
+      "identities": "Original8 names unchanged;copy prefixes differ and are not production test identities"
+    },
+    "scope": "RNG/test source was uncommitted at run; frozen copied specs/SHA,comments runtime proof and current commit bridge identity. No claim every run came from a fully committed checkout."
+  },
+  "pendingDecisions": [
+    {
+      "id": "dex-intermediate-wrap",
+      "state": "awaiting actual user answer",
+      "evidence": "dex-comparison.json",
+      "source": "Exact native C functions O0/O2/minimal globals and real TS GS hydrate/projection→helper;159rows,154current-source enemies equal;not normal story/full engine/original EXE",
+      "example": "Player21846+haste:C2/TS999;enemy level11000,dex20:C-32498/TS33038",
+      "recommendation": "Keep current TS behavior and record deviation; no product modification"
+    },
+    {
+      "id": "positive-defense-cast",
+      "state": "awaiting actual user answer",
+      "evidence": "defense-ts.stdout.raw",
+      "example": "Real GS defense32767→32768 causes same magic50→68;RNG state3663131668 both,autoDefendfalse",
+      "primaryOracle": "fight.c PAL_BattleEnemyPerformAction int def=PAL_GetPlayerDefense passes WORD32768;CalcBaseDamage branch gives0,so magic50. This is source-derived oracle,not a newly run full native enemy action.",
+      "recommendation": "Permit0..65535integer defense as positive; preserve out-of-domain behavior; formal red before approved fix"
+    }
+  ],
+  "limits": [
+    "No behavior/PRNG algorithm/format/schema/save/public API change. Only comments and tests in authorized scopes.",
+    "Four numerical file scopes remain review;not all3m accepted and not allpre94 complete.",
+    "Initial core command included nonexistent src/core/battle/battle-state.test.ts;actual native7files86 only. Correct canonical __tests__ path supplement14;no credit for absent selector and no rerun86.",
+    "A combined Python audit/append shell step failed parsing UTF8 before writes; later source-only commit0c069 still valid. Replaced producer with explicit Node UTF8 and independently checked32-case native assertions; no missing product counter credit.",
+    "No wholecheck/official coverage/protected/newPR/merge;all remaining pre94 freezes first.94–102 untouched."
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "d57cd23717d9934839094f103d35381094101d69155db0b147e614cfd99c8374",
+    "members": 59
+  }
+}
