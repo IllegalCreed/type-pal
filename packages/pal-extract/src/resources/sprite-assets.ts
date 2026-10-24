@@ -23,29 +23,27 @@ export function writeCharacterSpriteAssets(rawRoot: string, outputRoot: string):
 
   const mgoMkf = openMkf(loadFile('MGO.MKF'))
   const mgoChunkCount = chunkCount(mgoMkf)
-  const spriteIds = new Set<number>()
+  // 保留完整扫描后才落盘，Map本身同时提供有序ID与字节，不再镜像一份Set。
   const mgoChunks = new Map<number, Uint8Array>()
   for (let id = 0; id < mgoChunkCount; id++) {
     const raw = readChunk(mgoMkf, id)
     if (raw.byteLength === 0) continue
     try {
       mgoChunks.set(id, decompressYj2(raw))
-      spriteIds.add(id)
     } catch (err) {
       console.warn(`[pal-extract] sprite ${id} YJ2 fail, skip:`, err)
     }
   }
-  console.log(`[pal-extract] sprite scan: ${spriteIds.size} / ${mgoChunkCount} MGO chunks 可解`)
+  console.log(`[pal-extract] sprite scan: ${mgoChunks.size} / ${mgoChunkCount} MGO chunks 可解`)
 
   let spriteFramesTotal = 0
-  for (const id of spriteIds) {
-    const chunk = mgoChunks.get(id)!
+  for (const [id, chunk] of mgoChunks) {
     writeBinary(spriteBlobPath(id), gzipSync(chunk))
     spriteFramesTotal += parseSpriteChunk(chunk).length
   }
 
   console.log(
-    `[pal-extract] sprite blobs written: ${spriteIds.size} sprites, ${spriteFramesTotal} frames total`,
+    `[pal-extract] sprite blobs written: ${mgoChunks.size} sprites, ${spriteFramesTotal} frames total`,
   )
 }
 
@@ -63,8 +61,8 @@ export function writeBattleSpriteAssets(rawRoot: string, outputRoot: string): Ba
   const fChunkCount = chunkCount(fMkf)
   const abcMkf = openMkf(loadFile('ABC.MKF'))
   const abcChunkCount = chunkCount(abcMkf)
-  const battleSpriteIds: Array<{ id: number; kind: 'enemy' | 'player' }> = []
-  const battleChunks = new Map<string, Uint8Array>()
+  // 一个记录同时持有ID与字节；扫描完F、ABC后才写出，避免平行容器脱节。
+  const battleSprites: Array<BattleSpriteRef & { chunk: Uint8Array }> = []
 
   const loadBattleMkf = (
     kind: 'player' | 'enemy',
@@ -81,24 +79,22 @@ export function writeBattleSpriteAssets(rawRoot: string, outputRoot: string): Ba
       } catch {
         decompressed = raw
       }
-      battleChunks.set(`${kind}:${id}`, decompressed)
-      battleSpriteIds.push({ id, kind })
+      battleSprites.push({ id, kind, chunk: decompressed })
     }
   }
   loadBattleMkf('player', fMkf, fChunkCount)
   loadBattleMkf('enemy', abcMkf, abcChunkCount)
 
   let battleFramesTotal = 0
-  for (const { id, kind } of battleSpriteIds) {
-    const chunk = battleChunks.get(`${kind}:${id}`)!
+  for (const { id, kind, chunk } of battleSprites) {
     writeBinary(battleSpriteBlobPath(kind, id), gzipSync(chunk))
     battleFramesTotal += parseSpriteChunk(chunk).length
   }
 
   console.log(
-    `[pal-extract] battle sprite blobs written: ${battleSpriteIds.length} sprites, ${battleFramesTotal} frames total`,
+    `[pal-extract] battle sprite blobs written: ${battleSprites.length} sprites, ${battleFramesTotal} frames total`,
   )
-  return battleSpriteIds
+  return battleSprites.map(({ id, kind }) => ({ id, kind }))
 }
 
 /** CLI deliberately writes this manifest after backgrounds, following the original failure order. */

@@ -23,7 +23,6 @@ import { parseSlf } from './io/slf.js'
 import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
 import { writeJson } from './io/write.js'
-import { decompressYj2 } from './io/yj2.js'
 import { buildLanguagePack } from './localization/build-language-pack.js'
 import { englishRevisions } from './localization/english-revisions.js'
 import { assertOwnedOutputRoot } from './output-boundary.js'
@@ -69,12 +68,6 @@ function loadFile(name: string): Uint8Array {
   return readBinary(resolve(RAW, name))
 }
 
-function loadMkfChunk(file: string, chunkIndex: number, decompress = false): Uint8Array {
-  const mkf = openMkf(loadFile(file))
-  const chunk = readChunk(mkf, chunkIndex)
-  return decompress ? decompressYj2(chunk) : chunk
-}
-
 function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
   if (a.byteLength !== b.byteLength) return false
   for (let i = 0; i < a.byteLength; i++) {
@@ -117,7 +110,7 @@ async function main(): Promise<void> {
   console.log('[pal-extract] events …')
 
   // Parse shared OBJECT tables once; their hooks are roots even without a scene reference.
-  const sssObjBuf = loadMkfChunk('SSS.MKF', 2)
+  const sssObjBuf = readChunk(openMkf(loadFile('SSS.MKF')), 2)
   const items = parseItems(sssObjBuf, words)
   const spells = parseSpells(sssObjBuf, words)
   const enemyObjects = parseEnemyObjects(sssObjBuf, words)
