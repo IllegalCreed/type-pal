@@ -2,7 +2,7 @@
  * 战斗公式 —— 参考 `reference/sdlpal/fight.c` 的 PAL_CLASSIC 路径。
  *
  * 参考原 C 的公式结构;JS 用 `(n << 16) >> 16` 截取有符号 16 位结果。
- * JS double 与 C FLOAT/WORD 中间赋值并非全数值域等价,见 GAME-MAGIC-NUMERIC-ASSIGNMENT-1。
+ * 法术随机灵力在可表示的 WORD 中间域复现 C FLOAT 精度;其它数值域不承诺完全等价。
  * 全部纯函数,无 side effect,可在 worker / Node 直接跑。
  *
  * 5 个公式对照 sdlpal `fight.c` 行号:
@@ -19,6 +19,32 @@
 /** SHORT cast:把任意整数 cast 成 -32768..32767 范围。 */
 function asShort(n: number): number {
   return (n << 16) >> 16
+}
+
+/** C WORD 参数域;超出此域沿用项目既有 JS 数值,不据此引入回绕策略。 */
+function isWord(value: number): boolean {
+  return Number.isInteger(value) && value >= 0 && value <= 0xffff
+}
+
+/** PAL_CalcMagicDamage 的 FLOAT乘法→WORD赋值→整数除10,不消费随机数。 */
+function randomizeMagicStrength(strength: number, factor: number): number {
+  const randomized = Math.fround(strength * Math.fround(factor * 10))
+  if (isWord(strength) && factor >= 1 && factor <= 1.1 && randomized < 0x10000) {
+    return Math.trunc(Math.trunc(randomized) / 10)
+  }
+  // C 浮点转 WORD 越界没有本次可移植合同;保留 TS 的极大/非整数属性行为。
+  return Math.trunc((strength * factor * 10) / 10)
+}
+
+/** 先按 C FLOAT 精度做抗性除法/减法/乘法,再赋回 SHORT。 */
+function applyElementResistance(damage: number, resistance: number, divisor: number): number {
+  if (isWord(resistance) && isWord(divisor) && divisor > 0) {
+    const multiplier = Math.fround(10 - Math.fround(resistance / divisor))
+    const assigned = Math.trunc(Math.fround(damage * multiplier))
+    if (assigned >= -0x8000 && assigned <= 0x7fff) return assigned
+  }
+  // 未定义的 C 浮点转换域和 TS 扩展输入保持原有结果,不新增钳制或整数回绕。
+  return asShort(Math.trunc(damage * (10 - resistance / divisor)))
 }
 
 /**
@@ -86,8 +112,8 @@ export interface MagicDamageInput {
   fieldEffect: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /**
    * TS caller 用 1 + SeedableRng.next() * 0.1,范围 [1.0, 1.1)。
-   * 原 C RandomFloat(10,11) 可取端点11,且先写回 WORD 再除10;不是直接等价替换。
-   * 调用方提供倍率,本函数不持 RNG;中间数值差异见 GAME-MAGIC-NUMERIC-ASSIGNMENT-1。
+   * 本函数将倍率还原到 C 的 [10,11] 标度,在 WORD 可表示域按 FLOAT 精度乘法再取整。
+   * 原 C 的 RandomFloat 可取端点11;本函数不持 RNG,不承诺两种 PRNG 同 seed 等价。
    */
   rngFactor: number
 }
@@ -99,7 +125,7 @@ export interface MagicDamageInput {
  *
  * 流程(sdlpal 注释:Formula courtesy of palxex and shenyanduxing):
  *   1. C: magStr *= RandomFloat(10, 11); magStr /= 10 (WORD 两次赋值)
- *      TS: 接收 rngFactor 后连续 double 运算并截断,存在已登记的数值差异
+ *      TS: WORD 可表示域复现 FLOAT 乘法/整数赋值;超出此域保留已有增长语义,不新增回绕
  *   2. sDamage = calcBaseDamage(magStr, def) / 4
  *   3. sDamage += magic.baseDamage
  *   4. if elemental != 0:
@@ -115,16 +141,12 @@ export interface MagicDamageInput {
  * 解析后的 magic struct;本函数让调用方先解析,只接受 `magicData`。
  *
  * 注:原 C 的 sDamage 每次赋值都回到 SHORT;这里保留相应截断步骤,
- * 但 C FLOAT 运算精度、WORD 中间赋值及越界域尚不能据此称为 1:1。
+ * 随机与抗性乘法在可表示转换域复现 FLOAT 精度;越界/TS扩展输入不承诺全域 1:1。
  */
 export function calcMagicDamage(input: MagicDamageInput): number {
   const NUM_MAGIC_ELEMENTAL = 5
 
-  // step 1: rng-modulated magic strength
-  // sdlpal: wMagicStrength *= RandomFloat(10, 11); wMagicStrength /= 10
-  // 当前连续 double 运算不模拟 C 的 FLOAT→WORD 中间赋值,正常域已有反例。
-  // 按 GAME-MAGIC-NUMERIC-ASSIGNMENT-1 等待裁决;删除 *10/10 不能修复该反例。
-  const magStr = Math.trunc((input.magStr * input.rngFactor * 10) / 10)
+  const magStr = randomizeMagicStrength(input.magStr, input.rngFactor)
 
   // step 2-3: base / 4 + magic.baseDamage
   let damage = asShort(Math.trunc(calcBaseDamage(magStr, input.def) / 4))
@@ -133,10 +155,10 @@ export function calcMagicDamage(input: MagicDamageInput): number {
   // step 4: elemental modifiers
   const elem = input.magicData.elemental
   if (elem !== 0) {
-    let elemMultiplier: number
+    let resistance: number
     if (elem > NUM_MAGIC_ELEMENTAL) {
       // poison
-      elemMultiplier = 10 - input.poisonRes / input.resistMult
+      resistance = input.poisonRes
     } else {
       const elemArr = [
         input.elemRes.wind,
@@ -145,9 +167,9 @@ export function calcMagicDamage(input: MagicDamageInput): number {
         input.elemRes.fire,
         input.elemRes.earth,
       ]
-      elemMultiplier = 10 - elemArr[elem - 1]! / input.resistMult
+      resistance = elemArr[elem - 1]!
     }
-    damage = asShort(Math.trunc(damage * elemMultiplier))
+    damage = applyElementResistance(damage, resistance, input.resistMult)
     damage = asShort(Math.trunc(damage / 5))
 
     if (elem <= NUM_MAGIC_ELEMENTAL) {
