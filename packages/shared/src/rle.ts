@@ -1,14 +1,9 @@
 /**
- * RLE 精灵解码 —— 原版精灵格式。
- * 参考 reference/sdlpal/palcommon.c::PAL_RLEBlitToSurfaceWithShadow。
- *
- * 本模块是纯函数解码器,extractor 与 runtime 共用,保证两端用同一份逻辑解出像素
- * (S1 of tileset 资源管线优化:tileset 从 per-tile PNG 改为每地图 gzip RLE blob)。
- *
- * **唯一解码器**:此前 game `rle-decode.ts` 另有一份带 4 字节前缀 `02 00 00 00`
- * (u32 LE `0x00000002`;见下方 skipFilePrefix 与 palcommon.c:722-728)跳过的 decodeRle
- * (单帧整-chunk 用),与本份分叉。现已用 `decodeRle(buf, { skipFilePrefix })` 参数统一 ——
- * game `rle-decode.ts` 改为 re-export 本份;sprite-group 路径不传(默认不跳),单帧整-chunk 传 true。
+ * Shared indexed-frame codec and sprite-container parsers.
+ * Extractor/runtime share frame pixels and opaque masks; author assets also use the strict entry.
+ * Frame prefix handling belongs to decodeRle's explicit option. game/rle-decode.ts only
+ * re-exports parseSpriteChunk and supplies the dialog base64 adapter; it is not another codec.
+ * PAL reference rules and the author format differ; each entry below states its TS contract.
  */
 
 export interface RleFrame {
@@ -30,11 +25,11 @@ export type IndexedRleChunkProfile = 'canonical' | 'legacy-migrated'
 export type WorldSpriteChunkProfile = IndexedRleChunkProfile
 
 /**
- * 大世界精灵容器的严格解析报告。
+ * Indexed sprite-container validation report.
  *
- * PAL MGO 有少量“声明表尾多出坏 offset”的历史数据。它们的有效帧始终是连续前缀；
- * `legacy-migrated` 只允许跳过这个不可解尾后缀。普通作者/生成资源必须使用 canonical，
- * 任何坏槽都直接失败。
+ * canonical requires every registered frame to decode. legacy-migrated keeps a decodable
+ * prefix and counts nonzero trailing slots rejected by this parser. A skipped slot is not
+ * proof that the original PAL frame is corrupt; source-specific offset rules can differ.
  */
 export interface IndexedRleChunkResult {
   frames: RleFrame[]
@@ -160,7 +155,9 @@ function decodeStrictSpriteFrame(
 }
 
 /**
- * 宽容精灵 chunk 解析(sdlpal `palcommon.c::PAL_SpriteGetFrame` 的容器取帧真值)。
+ * Lenient sprite chunk parser used by PAL transport callers and the public codec entry.
+ * The WORD table layout follows PAL_SpriteGetFrame; the literal WORD*2 offsets below do not
+ * apply its PAL-specific 0x18444 remapping. This entry therefore does not claim full PAL parity.
  *
  * 精灵 chunk 头:byte 0..1 = u16 LE imagecount(同时充当 frame[0] 的 word-offset)。
  * 偏移表在 byte 0..2*imagecount-2,每条 u16 word offset(乘 2 得字节偏移)。
@@ -209,7 +206,7 @@ export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
 }
 
 /**
- * 工程 catalog 的 canonical tileset 使用严格解析：每个登记帧都必须可达且完整，
+ * 工程 catalog 的 canonical indexed-RLE 容器使用严格解析：每个登记帧都必须可达且完整，
  * 不能沿用旧 PAL sprite 容错解析器的“跳坏帧后压缩下标”行为。
  */
 export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
@@ -240,7 +237,7 @@ export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
 }
 
 /**
- * 大世界精灵专用严格解析。
+ * 按来源 profile 解析 indexed-RLE 容器，供 world/battle 等资源 caller 消费。
  *
  * canonical 直接沿用完整严格容器规则。legacy-migrated 先尝试 canonical；仅失败时才
  * 逐槽验证连续有效前缀，并要求余下所有非零槽都不可严格解成帧。这样保留 PAL 的坏尾

@@ -207,7 +207,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/__tests__/magic-cost-fixture.ts` | fixture | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |
 | `packages/game/src/core/menu/__tests__/inventory-menu.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |
 | `packages/shared/src/__tests__/rle-bytes.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | test-only字节夹具，两真实consumer；新叶按A–H接受，不含生产codec |
-| `packages/shared/src/rle.ts` | product | review | [CODE1撤回与本次独立校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md) | c727bc81e已撤回；89bf84e16合并旧live表导致状态漂移，本次恢复review；格式/注释/整卡与统一门未收口 |
+| `packages/shared/src/rle.ts` | product | review | [CODE1当前注释版本桥](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) | 两源B维窄修及完整AST版本桥；已证PAL来源差异待裁，产品算法未改，不授整文件新关闭 |
 | `packages/shared/src/rle.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |
 | `packages/shared/src/rle.boundaries.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |
 | `packages/shared/src/rle.glm-runtime-resource.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |
@@ -234,7 +234,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/index.ts` | product | 已验证 | 直接读取 barrel exports；shared typecheck | 公共出口保持 |
 | `packages/shared/src/pal-authored-map-names.ts` | product | 已验证 | authored fixture hash/222 entries 测试 | 缺名显式 undefined，无 fallback |
 | `packages/shared/src/resources.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
-| `packages/shared/src/rle-encode.ts` | product | 已验证 | encode roundtrip、独立 byte oracle、128KB guard | 与 RLE decoder 合同一致 |
+| `packages/shared/src/rle-encode.ts` | product | 已验证 | [CODE1当前注释版本桥](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) | 作者codec既有合同保留；仅修注释／整体大小策略，imports／类型／执行AST同基点，非PAL全域等价 |
 | `packages/shared/src/tables.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
 | `packages/shared/src/yj2.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/shared/src/__tests__/glm-foundation-fixtures.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |

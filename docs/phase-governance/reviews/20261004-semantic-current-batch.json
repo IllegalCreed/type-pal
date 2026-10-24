@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 engineering/Q1b scoped delta",
+      "readMethod": "Owned CODE1 comment-only ledger delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE1 Q1b accepted; format and final gates open.",
+      "coreConclusion": "CODE1 comments only; format and final gates open.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -1718,7 +1718,7 @@
         "afterSha256": "a5cda736cdb8ab158a3ade7659222ec22423a534dd9c5f04a670b222e7c7fe08",
         "lineCount": 93,
         "scope": "CODE1 scoped delta; history retained; gates deferred.",
-        "candidateBaseRevision": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
+        "candidateBaseRevision": "d1cadb32ea1f6a427cf0257e174bed4b5e23b045",
         "workingTreeDelta": true
       },
       "history": [

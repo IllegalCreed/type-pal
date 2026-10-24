@@ -83,7 +83,7 @@
       ],
       "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md",
-      "findings": "Original engineering4file scope reused unchanged from accepted CODE6a; current Q1b whole-test A-H accepted after1→9 contract split,119 statements/84 assertions preserved. Six RLE test scopes accepted separately; source-format stop remains product review, including real MGO571 and authored-offset collision. No whole-repository/EXE acceptance."
+      "findings": "Original engineering4file scope reused unchanged from accepted CODE6a; current Q1b whole-test A-H accepted after1→9 contract split,119 statements/84 assertions preserved. Six RLE test scopes accepted separately; source-format stop remains product review, including real MGO571 and authored-offset collision. No whole-repository/EXE acceptance. Two source-comment deltas now have exact base/current/whole-AST bridge;no algorithm change or new closure."
     },
     {
       "id": "2",
@@ -4296,8 +4296,8 @@
   },
   "lastIncrementalReview": {
     "date": "2026-10-25",
-    "base": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
-    "scope": "CODE1 engineering/Q1b accepted; RLE format draft stop preserved,0newclosed",
+    "base": "d1cadb32ea1f6a427cf0257e174bed4b5e23b045",
+    "scope": "CODE1 two-source comment quality completed; AST-identical runtime reuse,format/3m/42 decisions still pending",
     "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
     "counts": {
       "pending": 0,

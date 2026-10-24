@@ -151,8 +151,8 @@
   },
   "receipts": {
     "path": "receipts.json.gz",
-    "sha256": "f4b05a297921cafad9b9599639ff0d6ce8443de309127639fcd904f5497a0447",
-    "members": 66
+    "sha256": "70e1408cd6e9aa9ef71ae70be81c405cba9d871e7b3b2a3e369496efefec8c67",
+    "members": 69
   },
   "domainProbe": {
     "report": "domain/typed/domain-probe.json",
@@ -168,7 +168,7 @@
   "previousRle": {
     "review": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
     "sha256": "822194d5ab23120e2e9b49a3245682e4c4b50da395f3ef4a067a8154fce96892",
-    "scope": "All pinned RLE code/caller/tool/raw bytes unchanged. Its historical static report binds the then-current parent task/board; present process text changes do not invalidate those code/native results and do not require repeating59tests."
+    "scope": "RLE executable/type/import ASTs unchanged across the paired two-file comment bridge;all other caller/test/tool/raw bytes remain exact. Original parent-task/static bindings remain historical."
   },
   "processDisclosure": [
     "First AST verifier ran git discovery from the external temporary directory and failed before checking assertions; original script and full failure retained. Fixed cwd uses the repository; final proof is readonly.",
@@ -176,11 +176,44 @@
     "No new whole check/official coverage/protected/PR. Unchanged docs-tool regressions and prior6a/RLE primary evidence reused by exact scope.",
     "Initial formatting exposed two useTemplate infos in the new proof helper, then the verifier correctly rejected its pre-format mapping SHA. Both replays retained; helper corrected without rule changes, exact formatted mapping re-bound only after confirming JSON semantics unchanged.",
     "Final docs check initially rejected the missing parent navigation entry for this new directory. Added only its current navigation link; full failure retained, affected docs consumer rerun separately.",
-    "Static quick-check initially referenced the pre-navigation lint job ID, producing a TypeError before reporting success. Exact failure replay retained; the reference now uses the actual r2 raw member. No gate or diagnostic predicate changed."
+    "Static quick-check initially referenced the pre-navigation lint job ID, producing a TypeError before reporting success. Exact failure replay retained; the reference now uses the actual r2 raw member. No gate or diagnostic predicate changed.",
+    "Subsequent two-file comment-only admission corrects actual exports/indexed parser labels/source-tail and encoder size-policy prose. Complete normalized AST equality preserves old execution credit;no59-test/coverage rerun or whole-product acceptance."
   ],
   "limits": [
     "Original archived CODE1 done stays historical. This receipt supports engineering/Q1b acceptance but not the unresolved RLE source-format boundary or all-repository completion.",
     "Current .pal.test.ts stays on existing runner/profile selection; no new skip/ignore/exclude,baseline or retirement rule edits.",
     "AST equality proves retained code/statement/assertion identity and reorganization,not the semantic quality of84assertions. File review above and actual primary/caller checks supply that judgment."
-  ]
+  ],
+  "rleCommentBridge": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/rle-comments.json",
+    "proof": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/prove-rle-comments.cjs",
+    "scope": "Two source-comment SHA deltas accepted only after complete normalized source AST equality;old runtime/test/native evidence retained. Not a product fix."
+  },
+  "pendingDecisionAudit": {
+    "date": "2026-10-25",
+    "state": "Four explicit user answers still absent across the three consecutive goal turns; independent engineering/Q1b/test/comment debt processed. No product implementation until actual answers.",
+    "items": [
+      {
+        "card": "CODE1",
+        "decision": "Repair original-PAL sprite reading while preserving authored canonical format",
+        "evidence": "QUALITY-RLE-COMMAND-TRUTH-1 plus native/actual-ending/source-domain receipts"
+      },
+      {
+        "card": "3m",
+        "decision": "Keep current TS extreme dex growth/clamp and document native wrap deviation",
+        "evidence": "battle-core-closeout pendingDecisions dex-intermediate-wrap"
+      },
+      {
+        "card": "3m",
+        "decision": "Remove signed misinterpretation only for valid positive WORD defense",
+        "evidence": "battle-core-closeout pendingDecisions positive-defense-cast"
+      },
+      {
+        "card": "42",
+        "decision": "Preserve configured body speed when displaying a speaker name",
+        "evidence": "dialog-quality reviewRemaining CODE42-title-speed"
+      }
+    ],
+    "scope": "Await actual human answers; preselected suggestions/goal continuation are not consent. Final check/official/protected/PR remain disallowed until all pre94 resolved."
+  }
 }

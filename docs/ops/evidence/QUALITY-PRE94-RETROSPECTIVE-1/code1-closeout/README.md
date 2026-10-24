@@ -48,3 +48,10 @@ node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs
 需要定向重放时，从原件包展开到新owned临时目录，按冻结命令修正路径；wx不会覆盖冻结件。未变邻测／类型／原生和旧工具证据直接复用。后续只剩已登记的格式／数值／对话产品裁决，未知不关闭。
 
 过程补充：新证明工具初次格式门有两条useTemplate info，exit0也未记通过；手动修正模板字符串。格式化statement映射后，旧SHA被快检如实拒绝；核JSON语义未变后绑定最终字节，两次回放原件保留。没有降低规则或静音。当前最终[文档／lint／ledger原件](static.json)单列，不复跑未变的125项docs工具测试。
+
+
+## 2026-10-25 两文件B维窄修与版本桥
+
+只改shared/rle.ts及rle-encode.ts注释：真实game重导出、indexed容器通用职责、legacy跳尾的校验策略与原盘真值分开、作者格式与PAL规则区别、编码器131070整体上限不冒称u16格式必然限制。没有临时待裁状态塞入产品文案。完整[两源前后指纹](rle-comments.json)及[只读AST证明](prove-rle-comments.cjs)确认imports／类型／所有执行体逐字打印一致；59个RLE／52相邻及原类型结果复用，不重跑。
+
+默认快检只对这两份已证明的注释delta采用新SHA，且必须先匹配原验收SHA并执行完整AST等价证明；其它旧context继续逐字节校验。原raw不改、不盲刷旧source hash，不继承格式正确或整文件新接受信用。rle.ts仍review，encoder历史代码接受只刷新本注释增量，0新关闭。

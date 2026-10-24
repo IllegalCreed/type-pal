@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 engineering/Q1b scoped delta",
+      "readMethod": "Owned CODE1 comment-only ledger delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE1 Q1b accepted; format and final gates open.",
+      "coreConclusion": "CODE1 comments only; format and final gates open.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "98158ca38fe4236b2e71066c5630aebf5939bd84f0790c5740f91d6aac53039c",
+      "afterSha256": "665bb3e7eb19f6304f68521b00d95d31864dd81b545ca5100fecd3bdea251289",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "98158ca38fe4236b2e71066c5630aebf5939bd84f0790c5740f91d6aac53039c",
+        "implementationSha": "665bb3e7eb19f6304f68521b00d95d31864dd81b545ca5100fecd3bdea251289",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1795,7 +1795,7 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "98158ca38fe4236b2e71066c5630aebf5939bd84f0790c5740f91d6aac53039c",
+        "afterSha256": "665bb3e7eb19f6304f68521b00d95d31864dd81b545ca5100fecd3bdea251289",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1813,10 +1813,10 @@
         "currentMaintenance": {
           "kind": "pre94-rle-test-quality-maintenance",
           "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
-          "afterSha256": "98158ca38fe4236b2e71066c5630aebf5939bd84f0790c5740f91d6aac53039c",
+          "afterSha256": "665bb3e7eb19f6304f68521b00d95d31864dd81b545ca5100fecd3bdea251289",
           "lineCount": 5498,
           "scope": "CODE1 scoped delta; history retained; gates deferred.",
-          "candidateBaseRevision": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
+          "candidateBaseRevision": "d1cadb32ea1f6a427cf0257e174bed4b5e23b045",
           "workingTreeDelta": true
         }
       },
@@ -7826,9 +7826,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 engineering/Q1b scoped delta",
+      "readMethod": "Owned CODE1 comment-only ledger delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE1 Q1b accepted; format and final gates open.",
+      "coreConclusion": "CODE1 comments only; format and final gates open.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "712594a479072c8aca21daa2f73526fe47417b04dd76452a4b15bb51b97c881b",
+      "afterSha256": "6722292df504eb6165e1bbc1792bb915b9e6d94452f71a920b68ec5764e0cee0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "712594a479072c8aca21daa2f73526fe47417b04dd76452a4b15bb51b97c881b",
+        "implementationSha": "6722292df504eb6165e1bbc1792bb915b9e6d94452f71a920b68ec5764e0cee0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8541,7 +8541,7 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "712594a479072c8aca21daa2f73526fe47417b04dd76452a4b15bb51b97c881b",
+        "afterSha256": "6722292df504eb6165e1bbc1792bb915b9e6d94452f71a920b68ec5764e0cee0",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8559,10 +8559,10 @@
         "currentMaintenance": {
           "kind": "pre94-rle-test-quality-maintenance",
           "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
-          "afterSha256": "712594a479072c8aca21daa2f73526fe47417b04dd76452a4b15bb51b97c881b",
+          "afterSha256": "6722292df504eb6165e1bbc1792bb915b9e6d94452f71a920b68ec5764e0cee0",
           "lineCount": 7071,
           "scope": "CODE1 scoped delta; history retained; gates deferred.",
-          "candidateBaseRevision": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
+          "candidateBaseRevision": "d1cadb32ea1f6a427cf0257e174bed4b5e23b045",
           "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
           "workingTreeDelta": true
         }

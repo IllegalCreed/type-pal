@@ -96,15 +96,24 @@ assert.equal(
   report.previousRle.sha256,
 )
 const priorRle = JSON.parse(fs.readFileSync(path.join(root, report.previousRle.review)))
-for (const p of priorRle.context)
+const commentBridge = JSON.parse(fs.readFileSync(path.join(root, report.rleCommentBridge.path)))
+execFileSync(process.execPath, [path.join(root, report.rleCommentBridge.proof)], {
+  cwd: root,
+  stdio: 'pipe',
+})
+function checkRetainedSource(p, scope) {
+  const changed = commentBridge.files.find((f) => f.path === p.path)
+  if (changed) assert.equal(changed.beforeSha256, p.sha256, `WRONG comment bridge base ${p.path}`)
   assert.equal(
     hash(fs.readFileSync(path.join(root, p.path))),
-    p.sha256,
-    `STALE prior RLE code ${p.path}`,
+    changed?.afterSha256 ?? p.sha256,
+    `STALE ${scope} ${p.path}`,
   )
+}
+for (const p of priorRle.context) checkRetainedSource(p, 'prior RLE code')
 execution('domain/domain-typed', 0)
 const domain = json(report.domainProbe.report)
-for (const p of domain.pins) assert.equal(hash(fs.readFileSync(path.join(root, p.path))), p.sha256)
+for (const p of domain.pins) checkRetainedSource(p, 'domain probe')
 assert.equal(domain.authored.offset, 99396)
 assert.equal(domain.authored.nativeOffset, 33860)
 assert.equal(domain.authored.strictFrames, 2)
@@ -161,9 +170,16 @@ for (const id of statics.gates) {
   assert.equal(e.spawnError, null)
   assert.equal(raw.get(`${id}.stderr.raw`).length, 0)
 }
+const lintJobs = statics.gates.filter((id) => {
+  const e = JSON.parse(raw.get(`${id}.execution.json`))
+  return (
+    e.command === 'node' && e.args.length === 1 && e.args[0] === 'scripts/quality/lint-zero.mjs'
+  )
+})
+assert.equal(lintJobs.length, 1, 'Exactly one actual lint-zero command is required')
 assert(
   raw
-    .get('static-lint-r2.stdout.raw')
+    .get(`${lintJobs[0]}.stdout.raw`)
     .toString()
     .includes('0 errors / 0 warnings / 0 infos; complete report'),
 )

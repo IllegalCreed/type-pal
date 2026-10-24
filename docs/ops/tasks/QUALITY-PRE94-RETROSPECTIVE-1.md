@@ -1960,3 +1960,13 @@ Codex single Coding Owner at ea8651ce3 on the same3y branch. The original Q1b ch
 ### 2026-10-25 CODE1工程／Q1b独立收口
 
 原工程清单／账本4源以accepted CODE6a具体A–H及当前完全一致源码复用，不重做全文/工具门；Q1b964行主测试完成全文当前复审并拆九命名合同，119语句和84个matcher AST逐条保全，真实PAL输入仅加载／投影一次。顺序9、seed20261025乱序9、4相邻78与editor TC0；不称18个不同合同，不修改生产／JSON／ED状态方案实现。历史关闭只刷新，0新增closed，3451／502closed／69review／2880pending及80／3不变。格式边界已证同一WORD既可为PAL特殊值也可为合法自建偏移，不能全局hack；真实Reforge公共入口／迁移坏尾计数亦受同源问题影响，未修未授范围外八维信用。原卡engineering／RLE／Q1b三范围已核清，只有格式待裁决；3m／42继续原停止线，全部pre94前不跑统一门／coverage／PR。[低成本复验与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)。
+
+### 2026-10-25 CODE1 two-file comment-only admission
+
+Codex sole owner, base d1cadb32e, same3y. Remaining source B debt is independent of the four product decisions: stale game decoder re-export, world-only labels on indexed parsers, blanket raw-tail truth and encoder format/size claims. Build allowed only comments/docblocks in shared/rle.ts and rle-encode.ts plus version bridge/evidence/owned projections. This narrows the previous product-file freeze for prose only; executable/type/import/API ASTs must match d1cadb32e exactly. No algorithm, tests, data or interface change; pending behavior/format decisions remain unapproved. Reuse current59 RLE/52neighbor/TC results only with that complete-body proof, no repeated tests or whole gates.
+
+
+CODE1同轮B维交付：两源只修可直接证伪的过时／过宽描述，完整imports／类型／执行AST与d1cadb32e相同。原raw／tests不变，版本桥要求原SHA＋当前SHA＋完整去注释打印同时相符，不用无差别hash刷新代替复核。零新关闭、80／3与账本502／69／2880不变；格式／数值／对话的四项具体产品裁决仍未收到，未改其实现。当前只读入口继续code1-closeout/verify.mjs，全仓／coverage／PR等全部pre94。
+
+
+当前等待条件核定：CODE1原盘解码来源修复、3m极值身法策略／正WORD防御修复、42姓名保留正文速度，四项已提具体裁决连续三轮仍无实际回答；goal自动“继续”不视为批准。独立工程／Q1b／RLE专测及两源B维欠账均已处理，三卡仍partial。后续只能在明确回答后实施相应正式红例和修复，不重复采集已有效测试或提前执行全仓／官方覆盖率。原完整目标保持，未宣布专项完成。
