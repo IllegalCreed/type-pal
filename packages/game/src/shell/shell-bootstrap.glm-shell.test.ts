@@ -288,8 +288,6 @@ describe('TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期', () => {
       bus: createCommandBus(),
       input: new ReplayInputSource([]),
       tilemap,
-      eventCommands: [],
-      labelMap: {},
       onPresent: () => {
         presentCount += 1
       },

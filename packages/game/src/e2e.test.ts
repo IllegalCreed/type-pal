@@ -1,7 +1,6 @@
 import type { AbstractKey, Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createCommandBus } from './core/command-bus.js'
-import { buildLabelMap } from './core/event-system.js'
 import { createInitialGameState, npcFromEventObject } from './core/game-state.js'
 import { ReplayInputSource } from './shell/input.js'
 import { type LoopContext, tickN } from './shell/main-loop.js'
@@ -45,7 +44,6 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
       { op: 'showDialog', messageIndex: 0, text: '你好', label: 'L_2' },
       { op: 'end' },
     ]
-    const labelMap = buildLabelMap(commands)
 
     const input = new ReplayInputSource([
       snap(['Right'], [], 0), // tick 0:右
@@ -63,8 +61,6 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
       bus,
       input,
       tilemap: flatMap(20, 20),
-      eventCommands: commands,
-      labelMap,
       onPresent: () => {},
     }
 

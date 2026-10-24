@@ -509,8 +509,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     bus,
     input,
     tilemap,
-    eventCommands,
-    labelMap,
     partyWalkFrames,
     onPresent: (drained, ticked) => {
       // 音频同步必须在 suspendRaf gate 前跑:山神庙传剑等 modal CG/RNG 播放期间仍会有脚本
@@ -661,17 +659,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    *    tile bitmap map(sceneFetcher 已 fetch 进 tileImagesBySceneId)。
    * 3. setSceneContext 重置:scene-system tick 用新 tilemap.width/height 做 walkability + camera clamp
    * 4. npcSprites:closure 同一引用,sceneFetcher 里已补 fetch missing sprite,无需再动
-   * 5. 此处同步scene-system的commands/labelMap;屏幕palette不覆盖,basePalette由loadSceneCommon更新
+   * 5. 只发布探索地图；脚本由全局目录解析，basePalette由loadSceneCommon更新
    */
   function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {
     presentCtx.tilemap = sceneAssets.tilemap
     currentSceneId = sceneAssets.sceneId
-    // P3.T1: 使用新 scene 的 eventCommands / labelMap,
-    // 修 M3.5 ⚠️ a9 #8:loadScene 已 setSceneContext,此处同步覆写保持一致。
+    // 资源就绪后同步探索地图；脚本目录不在此重复保存。
     setSceneContext({
       tilemap: sceneAssets.tilemap,
-      eventCommands: sceneAssets.eventCommands,
-      labelMap: sceneAssets.labelMap,
     })
   }
 
@@ -918,8 +913,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     presentCtx.tilemap = tilemapJson
     setSceneContext({
       tilemap: tilemapJson,
-      eventCommands: gs.sceneCommands ?? [],
-      labelMap: gs.sceneLabelMap ?? {},
     })
   })
 
@@ -1581,7 +1574,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     //   tilemap/palette,故用 loadAll 顶层 primary tilemap)。
     presentCtx.tilemap = tilemap
     currentSceneId = SCENE_ID
-    setSceneContext({ tilemap, eventCommands, labelMap })
+    setSceneContext({ tilemap })
     // 结局 / 死亡演出可能把工作 palette 留在黑色、红色或其他场景色;新游戏从 primary palette 重建。
     gs.palette = makeWorkingPalette(palette)
 

@@ -7,7 +7,6 @@
  */
 
 import type { InputSnapshot, Tilemap } from '@type-pal/shared'
-import type { CommandBus } from './command-bus.js'
 import { resolveScriptLabel, tickAutoScripts, tickChaseTimer } from './event-system.js'
 import {
   type Facing,
@@ -320,7 +319,6 @@ export function tickScenePreInput(gs: GameState, ctxOverride?: SceneContext): vo
 export function tickSceneInput(
   gs: GameState,
   input: InputSnapshot,
-  bus: CommandBus,
   ctxOverride?: SceneContext,
 ): void {
   const ctx = requireSceneContext(ctxOverride)
@@ -416,10 +414,6 @@ export function tickSceneInput(
       loadEventFromNpc(gs, npc)
     }
   }
-
-  // 注:gs.frameNum++ 由 tickByMode 统一推进(所有模式都计),不在此处做。
-
-  void bus
 }
 
 /**
@@ -429,10 +423,9 @@ export function tickSceneInput(
 export function tickSceneSystem(
   gs: GameState,
   input: InputSnapshot,
-  bus: CommandBus,
   ctxOverride?: SceneContext,
 ): void {
   tickScenePreInput(gs, ctxOverride)
   if (gs.mode !== 'explore') return
-  tickSceneInput(gs, input, bus, ctxOverride)
+  tickSceneInput(gs, input, ctxOverride)
 }

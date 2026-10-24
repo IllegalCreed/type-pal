@@ -41,7 +41,7 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
   const prevMode = gs.mode
   switch (gs.mode) {
     case 'explore':
-      tickSceneSystem(gs, input, bus)
+      tickSceneSystem(gs, input)
       break
     case 'event':
       tickEventSystem(gs, input, bus)

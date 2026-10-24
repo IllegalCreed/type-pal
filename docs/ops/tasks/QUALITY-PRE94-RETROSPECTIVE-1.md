@@ -50,6 +50,14 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
 
+## 2026-10-24 CODE3n／3q／3r代码收口（build allowed）
+
+Codex单Owner，同一3y，基点82efe44df；fetch核main3609b4d23，0behind。复用battle-core-fade-quality、scene-quality、event-quality完整八维和原件，只核当前差异、真实调用和具体旧余项，不重做已有效全文或变异。
+
+用户本轮call_37e18bd73f954b61a76c4821ebf0cf95批准删除3q内部接口负担：SceneContext的eventCommands/labelMap及tickSceneInput/tickSceneSystem未用bus；同步完整传递链及LoopContext中仅为该冗余转传保留的两字段。白名单为上述接口/scene装载、mode实际调用、bootstrap/主循环上下文发布与直接测试fixture。不得删除GS/SceneAssets的真实脚本数据、全局目录、所有业务断言或行为；类型/出口以批准后的实际合同核验，参数表达式副作用逐项核。E2E插桩只验证实际参数依赖，不授路线实跑。
+
+3n四helper与3r解释器按原范围逐项验收；重要未知仍保留，不能仅因最终门延后保持所有卡partial。3q/3r旧快检实际STALE仅对应后继差异，按新版本桥复核，不倒写历史。源码纯清理独立提交；多卡齐备后只必要定向/相邻/TC和静态，全仓check/coverage/protected/一个PR继续等全部pre94冻结。94–102不扩展。
+
 ## 2026-10-24 CODE3s／3t代码验收（最终集成待统一门）
 
 Codex逐项裁定原3s宿主与3t dispatcher范围代码accept；固定83从67／16变为69／14。3s主测夹具/资源/收尾/动作oracle、canonical字段与对话职责已整改；3t主测160＋召唤4例合法typed场景、真实毒入口、精确状态/槽位与六业务反控已核。新关闭七文件、两个旧专测关闭刷新，全部八维与未外推范围见[唯一证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md)。

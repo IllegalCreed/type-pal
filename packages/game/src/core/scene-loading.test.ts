@@ -2,7 +2,6 @@ import type { Command } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { SceneAssets } from '../assets/loader.js'
 import { SceneAssetsCache } from '../assets/loader.js'
-import { createCommandBus } from './command-bus.js'
 import {
   OP_CENTER_CAMERA_ON_PARTY,
   OP_PLAY_MUSIC,
@@ -19,7 +18,7 @@ import { loadScene, setCurrentMapNum, setSceneContext, tickSceneSystem } from '.
 afterEach(() => {
   setGlobalEvents([])
   setSpriteFrameCountProvider(null)
-  setSceneContext({ tilemap: makeFlatMap(0, 0), eventCommands: [], labelMap: {} })
+  setSceneContext({ tilemap: makeFlatMap(0, 0) })
   setCurrentMapNum(0)
   vi.restoreAllMocks()
 })
@@ -251,10 +250,9 @@ describe('P2#5 trigger 经全局 labelMap 解析(原 P3.T1)', () => {
     gs.npcs = [
       { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerLabel: 'L_41179', triggerMode: 5 },
     ]
-    const bus = createCommandBus()
 
     // tickSceneSystem 用 _ctx(loadScene 内 setSceneContext 写入的 singleton)
-    tickSceneSystem(gs, snap(), bus)
+    tickSceneSystem(gs, snap())
 
     expect(gs.mode).toBe('event')
     expect(gs.eventCursor?.ip).toBe(0) // 全局 ip
@@ -282,7 +280,7 @@ describe('P2#5 trigger 经全局 labelMap 解析(原 P3.T1)', () => {
     gs.npcs = [
       { id: 1, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 },
     ]
-    tickSceneSystem(gs, snap(), createCommandBus())
+    tickSceneSystem(gs, snap())
     expect(gs.mode).toBe('event') // P2#5:全局解析 → 切 event(原 gating 下是 explore)
     expect(gs.eventCursor?.ip).toBe(1) // L_scene2 全局 ip
 
@@ -292,7 +290,7 @@ describe('P2#5 trigger 经全局 labelMap 解析(原 P3.T1)', () => {
     gs2.npcs = [
       { id: 2, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 },
     ]
-    tickSceneSystem(gs2, snap(), createCommandBus())
+    tickSceneSystem(gs2, snap())
     expect(gs2.mode).toBe('event')
     expect(gs2.eventCursor?.ip).toBe(1)
   })

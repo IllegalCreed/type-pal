@@ -1,12 +1,10 @@
 /** 当前探索资源的唯一模块级Owner；bootstrap与显式场景装载在资源就绪后替换它。
- * tick可显式传入上下文，避免测试共享可变实例；公共SceneContext形状在本次拆分中保留。
+ * tick可显式传入地图上下文；脚本由script-catalog统一持有，不在这里重复保存。
  */
-import type { Command, Tilemap } from '@type-pal/shared'
+import type { Tilemap } from '@type-pal/shared'
 
 export interface SceneContext {
   tilemap: Tilemap
-  eventCommands: Command[]
-  labelMap: Record<string, number>
 }
 
 let activeContext: SceneContext | null = null

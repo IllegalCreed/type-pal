@@ -57,8 +57,6 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   // 资源完成后发布当前探索上下文；脚本入口仍解析全局命令表。
   setSceneContext({
     tilemap: sceneAssets.tilemap,
-    eventCommands: sceneAssets.eventCommands,
-    labelMap: sceneAssets.labelMap,
   })
   setCurrentMapNum(sceneAssets.mapNum) // 场景名按 map 命名:历史对话捕获用 getCurrentMapNum 读它
 
