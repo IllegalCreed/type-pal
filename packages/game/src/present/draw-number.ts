@@ -37,7 +37,7 @@ const FRAME_BASE: Record<NumColor, number> = {
 const DIGIT_WIDTH = 6 // sdlpal ui.c:705 `x -= 6` / :719 `x += 6 * nLength`
 
 /**
- * 将非负有限整数按 PAL_DrawNumber 布局写入 fb；这是调用前提，本函数不做输入校验。
+ * 将非负有限整数按 PAL_DrawNumber 布局写入 fb；非有限值跳过，其余输入由caller负责。
  *
  * @param fb              目标 framebuffer
  * @param num             要画的数字
@@ -56,6 +56,8 @@ export function drawNumber(
   align: NumAlign,
   uiSpriteFrames: IndexedImage[],
 ): void {
+  // TS派生值可从有限输入溢出；跳过异常数字，避免位数循环阻塞整帧。
+  if (!Number.isFinite(num)) return
   const base = FRAME_BASE[color]
 
   // sdlpal ui.c:684-694:计算 actual length(num=0 时 nActualLength=1 — 至少画 1 位"0")
