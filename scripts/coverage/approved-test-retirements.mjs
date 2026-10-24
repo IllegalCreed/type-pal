@@ -7,6 +7,25 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-24 current pre94 test-quality instruction and standing exact-dedup authority.
+    // Two overlapping contracts retained in full-status tick and dependency-ownership history.
+    // Native identities/old-to-new assertions: pre94/battle-core-fade-quality/review.json.
+    {
+      file: 'packages/game/src/core/battle/__tests__/status.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: '1f95c2cb88e3d8c93e43de80d5147f78689862c5f1617119c3aa48d6ed515ca8',
+      currentIdentityDigest: '3969cfad224c5c270d5e1e504721ea2f0ec82e54fec58deca4146ad90d6236d1',
+      fileSha256: 'c32e47925d130c69912c81fafb7bd705ee1930bd5f967ca449d1986826441332',
+    },
+    {
+      file: 'packages/game/src/core/cross-module-boundaries.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'a37e666648b00c40c4a54d437302c013d4beb32cf977edd8173cfd48f49848d6',
+      currentIdentityDigest: '73601accd59f22cd7ee6bb3396a29c0da3bb3173f35058bba71bdcd75712ebb1',
+      fileSha256: '18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4',
+    },
     // CODE3l: standing user authority for proven dead-code and duplicate-test retirement.
     // Exact old-to-new contracts and native originals: pre94/battle-present-quality/review.json.
     {

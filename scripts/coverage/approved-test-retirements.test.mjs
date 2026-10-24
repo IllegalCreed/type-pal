@@ -36,11 +36,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // Main script corrections: exact326→324 retirement retained alongside loader7→4.
   // CODE3h: three weak loader subsets transfer to exact retained HTTP/cache contracts.
   // CODE3k/3l: five exact file snapshots retire ten duplicate/subset cases.
-  assert.equal(approvedTestRetirements.length, 61)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 61)
+  // CODE3m/3n: two exact overlapping contracts, each retaining its stronger oracle.
+  assert.equal(approvedTestRetirements.length, 63)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 63)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    143,
+    145,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

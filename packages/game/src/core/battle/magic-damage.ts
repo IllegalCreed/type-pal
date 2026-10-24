@@ -99,7 +99,7 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
 
     // L18/L20:RandomFloat(10,11) 在 PAL_CalcMagicDamage 函数体内(fight.c:215),群攻 for 循环
     //   逐敌调用(fight.c:4288/4015)→ **每个敌人各掷一次**独立倍率,不是全目标共用一次。
-    const rngFactor = 1 + state.rng.next() * 0.1 // TS 半开倍率;C 数值赋值差异另见 GAME-MAGIC-NUMERIC-ASSIGNMENT-1
+    const rngFactor = 1 + state.rng.next() * 0.1 // TS 半开倍率;formulas 在可表示 WORD 域处理 FLOAT 中间精度
     let dmg = calcMagicDamage({
       magStr,
       def,
@@ -142,7 +142,7 @@ export interface ApplyEnemyMagicDamageInput {
   magicData: { baseDamage: number; elemental: number }
   /** 玩家角色表(取 def / 抗性 / HP,直接 mutate role.hp)。 */
   playerRoles: PlayerRoles
-  /** DM6:scriptOnUse 之前的预掷结果(magic.ts);缺省内部掷(旧 fixture)。 */
+  /** DM6:scriptOnUse 之前的预掷结果(magic.ts);直接调用时可省略,由本函数按相同规则掷骰。 */
   preRolledAutoDefend?: Map<number, boolean>
 }
 
@@ -203,7 +203,7 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
   const targetIdxs: number[] = target === 'all' ? state.players.map((_, i) => i) : [target]
 
   // DM6:预掷优先(magic.ts 在 scriptOnUse **之前**掷,fight.c:4723-4757 在 4761 脚本之前)——
-  //   脚本先施加睡眠/麻痹再结算时不剥夺玩家 1/3 减伤资格;无预掷(旧 fixture/直调)回退此处掷。
+  //   脚本先施加睡眠/麻痹再结算时不剥夺玩家 1/3 减伤资格;直接调用未预掷时在此生成同规则结果。
   const autoDefendByPlayerIdx =
     input.preRolledAutoDefend ?? rollAutoDefend(state, playerRoles, target, targetIdxs)
 
@@ -235,7 +235,7 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
 
     // L20:敌方法术先判定 autoDefend(fight.c:4723-4757),再进入 PAL_CalcMagicDamage(fight.c:4798/4833)。
     //   RandomFloat(10,11) 在 PAL_CalcMagicDamage 内(fight.c:215),AoE 逐存活队员各掷一次独立倍率。
-    const rngFactor = 1 + state.rng.next() * 0.1 // TS 半开倍率;C 数值赋值差异另见 GAME-MAGIC-NUMERIC-ASSIGNMENT-1
+    const rngFactor = 1 + state.rng.next() * 0.1 // TS 半开倍率;formulas 在可表示 WORD 域处理 FLOAT 中间精度
     let dmg = calcMagicDamage({
       magStr,
       def,

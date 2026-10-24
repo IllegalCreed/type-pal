@@ -252,7 +252,8 @@ export function buildFadeToRed(
 
 /**
  * 每帧把 `colors` 从 start ramp 到 target(按 elapsed/totalMs)。原地 mutate `colors`(=gs.palette.colors)。
- * lerp:线性插值;approach:每通道朝 target 移动至多 increment*floor(progress*steps)。
+ * lerp:按离散步骤量化;approach:每通道朝 target 移动至多 increment*floor(progress*steps)。
+ * 生产caller按WORD脚本操作数归一化为正totalMs,传入256色快照;不是任意时间/数组的输入校验器。
  * skipIndex 不动(保留 colors[idx] 原值)。
  */
 export function stepPaletteFade(colors: RGB[], pf: PaletteFadeState, nowMs: number): void {

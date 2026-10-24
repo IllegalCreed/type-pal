@@ -7,7 +7,7 @@ export function getCurrentMapNum(): number {
   return _currentMapNum
 }
 
-/** opcode/正常流程/读档走 bootstrap loadSceneCommon(不经此文件 loadScene),需手动同步当前 mapNum。 */
+/** scene-system.loadScene 与 bootstrap 的开场/读档加载在场景就绪后写入 mapNum;历史/地图名按此身份读取。 */
 export function setCurrentMapNum(n: number): void {
   _currentMapNum = n
 }
