@@ -2,7 +2,7 @@
  * TEST-GROK-RENDER-HOST-LARGE-1 G05-A。
  * 不重复 dialog-box.test 的控制符/翻页/时序，也不重复 P16 的底框立绘像素。
  */
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../__tests__/grok-render-r1/legal-host.js'
 import type { DialogBoxState } from '../core/game-state.js'
@@ -48,10 +48,6 @@ function reveal(state: DialogBoxState): void {
 const wide = glyphs({ 李: 16, ':': 16, 甲: 16, 乙: 16, 丙: 16 })
 
 describe('G05-A dialog 可见文字', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
   it('G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)', () => {
     const fb = createFramebuffer()
     const state = startDialogLine('李:', { style: 'top', fontColor: 200 })

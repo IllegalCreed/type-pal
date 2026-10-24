@@ -14,6 +14,7 @@ import {
   resetDialogBody,
   startDialogLine,
   type TextPos,
+  tickDialog,
 } from './dialog-box.js'
 
 describe('parseDialogText narration tail delay(text.c:1551-1554)', () => {
@@ -59,7 +60,12 @@ describe('resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/po
     expect(state.titleText).toBe('李逍遥:') // 前提:姓名行走 title 路径
 
     appendDialogLine(state, '正文第一句')
-    appendDialogLine(state, '正文第二句')
+    tickDialog(state, 120) // 五字各24ms，首行已自然完成；不用跳字改变后续userSkip。
+    appendDialogLine(state, '正文第二句', 120)
+    tickDialog(state, 144)
+    expect(state.phase).toBe('typing')
+    expect(state.typingFrames).toBe(1)
+    expect(state.charsRevealed).toBe(2)
     expect(state.shownLines).toEqual(['正文第一句'])
     expect(state.dialogLineCount).toBe(2)
 
@@ -80,6 +86,6 @@ describe('resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/po
     expect(state.titleText).toBe('李逍遥:')
     expect(state.portraitIcon).toBe(7)
     expect(state.style).toBe('top')
-    expect(state.fontColor).toBeDefined()
+    expect(state.fontColor).toBe(FONT_COLOR_DEFAULT)
   })
 })
