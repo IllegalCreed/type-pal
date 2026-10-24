@@ -45,14 +45,14 @@ describe('R01 decodeRle skipFilePrefix 选项矩阵', () => {
 })
 
 describe('R01 decodeRle 帧后尾随字节（截断边界自上侧）', () => {
-  test('完整帧后追加任意字节：解码结果与精确长度输入逐字段相等', () => {
-    const exact = decodeRle(FRAME_1X2)
+  test('完整帧后追加字节：仍得到预期尺寸、pixels与opaque', () => {
     const padded = new Uint8Array([...FRAME_1X2, 0xff, 0x00, 0x7f, 0x33])
-    const fromPadded = decodeRle(padded)
-    expect(fromPadded.width).toBe(exact.width)
-    expect(fromPadded.height).toBe(exact.height)
-    expect([...fromPadded.pixels]).toEqual([...exact.pixels])
-    expect([...fromPadded.opaque]).toEqual([...exact.opaque])
+    expect(decodeRle(padded)).toEqual({
+      width: 1,
+      height: 2,
+      pixels: new Uint8Array([0, 0]),
+      opaque: new Uint8Array([0, 1]),
+    })
   })
 })
 
@@ -66,7 +66,7 @@ describe('R01 子数组 byteOffset 传播', () => {
     return parent.subarray(start, start + bytes.length)
   }
 
-  test('decodeRle / parseSpriteChunk / strict / indexed 在 subarray 上与独立缓冲等价', () => {
+  test('四个公开入口在奇数byteOffset视图上保留完整预期帧与报告', () => {
     const withSentinel = new Uint8Array([
       0x02,
       0x00,
@@ -90,26 +90,28 @@ describe('R01 子数组 byteOffset 传播', () => {
       0x3c, // frameCount=1，frame @2：1×1 px 0x3c
     ])
 
-    expect(decodeRle(oddView(FRAME_1X2))).toStrictEqual(decodeRle(FRAME_1X2))
-
-    const fromView = parseSpriteChunk(oddView(withSentinel))
-    expect(fromView).toHaveLength(1)
-    expect(fromView[0]!.pixels[0]).toBe(0x3c)
-
-    const strictStandalone = parseSpriteChunkStrict(withSentinel)
-    const strictView = parseSpriteChunkStrict(oddView(withSentinel))
-    expect(strictView).toStrictEqual(strictStandalone)
-
-    const reportStandalone = parseIndexedRleChunk(noSentinel, 'canonical')
-    const reportView = parseIndexedRleChunk(oddView(noSentinel), 'canonical')
-    expect(reportView).toStrictEqual(reportStandalone)
-    expect(reportView.frames).toHaveLength(1)
-    expect(reportView.trailingSentinel).toBe(false)
+    expect(decodeRle(oddView(FRAME_1X2))).toEqual({
+      width: 1,
+      height: 2,
+      pixels: new Uint8Array([0, 0]),
+      opaque: new Uint8Array([0, 1]),
+    })
+    const expected = [
+      { width: 1, height: 1, pixels: new Uint8Array([0x3c]), opaque: new Uint8Array([1]) },
+    ]
+    expect(parseSpriteChunk(oddView(withSentinel))).toEqual(expected)
+    expect(parseSpriteChunkStrict(oddView(withSentinel))).toEqual(expected)
+    expect(parseIndexedRleChunk(oddView(noSentinel), 'canonical')).toEqual({
+      frames: expected,
+      declaredSlots: 1,
+      trailingSentinel: false,
+      skippedLegacyTailSlots: 0,
+    })
   })
 })
 
 describe('R01 严格容器末帧未消费 payload（offset table 限定帧边界）', () => {
-  test('末帧指令流后残留对齐字节：解析成功且帧语义与精确长度版本相等', () => {
+  test('末帧后残留payload：仍解出独立预期的完整帧', () => {
     const rawFrame = new Uint8Array([0x01, 0x00, 0x01, 0x00, 0x01, 0x3c]) // 1×1 裸帧（w,h + 流）
     const tableBytes = 2
     const chunk = new Uint8Array(tableBytes + rawFrame.length + 3) // 帧后 3 个未消费 payload
@@ -118,12 +120,9 @@ describe('R01 严格容器末帧未消费 payload（offset table 限定帧边界
     chunk.set(rawFrame, tableBytes)
     chunk.set([0x00, 0xee, 0x7f], tableBytes + rawFrame.length)
 
-    const parsed = parseSpriteChunkStrict(chunk)
-    expect(parsed).toHaveLength(1)
-    const exact = parseSpriteChunkStrict(
-      new Uint8Array([0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x01, 0x3c]),
-    )
-    expect(parsed[0]).toStrictEqual(exact[0])
+    expect(parseSpriteChunkStrict(chunk)).toEqual([
+      { width: 1, height: 1, pixels: new Uint8Array([0x3c]), opaque: new Uint8Array([1]) },
+    ])
   })
 })
 

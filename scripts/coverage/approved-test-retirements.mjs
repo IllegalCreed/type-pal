@@ -560,8 +560,19 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2',
       fileSha256: '5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a',
     },
-    // Codex 2026-10-16 CODE2b: four YJ2 cases move from this mixed file to the
-    // stronger canonical byte/negative/determinism oracles; RLE bodies stay unchanged.
+    // User2026-10-03/18 precise-dedup + current complete-pre94 instruction.
+    // CODE1 2026-10-25: seven main-suite duplicates transfer to retained full oracles.
+    // All59 old identities/contract destinations and controls: pre94/rle/quality-closeout.
+    {
+      file: 'packages/shared/src/rle.test.ts',
+      previous: 26,
+      current: 19,
+      previousIdentityDigest: '77d4afa83ab7f7792f5dc0bc5b87c06ee945e1869ecae9cd2091dc7841ffb72b',
+      currentIdentityDigest: 'b4afaa74c82e91c72f3475ea86524a129114386269256f5f0c684c02cabe7975',
+      fileSha256: 'ed84d346193a2001b271c65206d791405047e49841a4b191f81cdfbe241579b1',
+    },
+    // Historical CODE2b13->9 YJ2 move; current CODE1 GLM-o input-axis split has
+    // twelve cases, so this old snapshot does not apply to the current candidate.
     // Human authority: standing-test-quality and warehouse-governance;
     // plus all-pre94-review-scope. Codex decision 2026-10-16.
     // Exact human source IDs: receipt-audit/retirement-authorizations.json.

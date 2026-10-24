@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE57 map ownership scoped delta",
+      "readMethod": "Owned CODE1 test-quality scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE57 code accepted; unified gates deferred.",
+      "coreConclusion": "CODE1 tests accepted; product format and final gates open.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "64fbac974005c9b3adfed432844c67abb73f11e44d6e05dce1ebdde15f296299",
+      "afterSha256": "e1604fd3d595c36e0c615cf34b6080c2cca67aee58e76449852723b8a53d8174",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "64fbac974005c9b3adfed432844c67abb73f11e44d6e05dce1ebdde15f296299",
+        "implementationSha": "e1604fd3d595c36e0c615cf34b6080c2cca67aee58e76449852723b8a53d8174",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,12 +1713,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-map-ownership-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
-        "afterSha256": "64fbac974005c9b3adfed432844c67abb73f11e44d6e05dce1ebdde15f296299",
+        "kind": "codex-owned-pre94-rle-test-quality-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
+        "afterSha256": "e1604fd3d595c36e0c615cf34b6080c2cca67aee58e76449852723b8a53d8174",
         "lineCount": 93,
-        "scope": "CODE57 scoped delta; history retained; gates deferred.",
-        "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
+        "scope": "CODE1 scoped delta; history retained; gates deferred.",
+        "candidateBaseRevision": "13a68691f61693450a04cb3effae6ee5a6e8c277",
         "workingTreeDelta": true
       },
       "history": [

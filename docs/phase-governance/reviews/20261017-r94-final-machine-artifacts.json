@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE57 map ownership scoped delta",
+      "readMethod": "Owned CODE1 test-quality scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE57 code accepted; unified gates deferred.",
+      "coreConclusion": "CODE1 tests accepted; product format and final gates open.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "800cc46fdff95626e5b9f43d3b97bcbe29e38fd92be57bc94bd5b1ab05c98e6c",
+      "afterSha256": "20374f5c1be182dd2dba0bc38511dc964f252755c6c65856b1590b16a9242020",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "800cc46fdff95626e5b9f43d3b97bcbe29e38fd92be57bc94bd5b1ab05c98e6c",
+        "implementationSha": "20374f5c1be182dd2dba0bc38511dc964f252755c6c65856b1590b16a9242020",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,11 +1823,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-map-ownership-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+        "kind": "codex-owned-pre94-rle-test-quality-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "800cc46fdff95626e5b9f43d3b97bcbe29e38fd92be57bc94bd5b1ab05c98e6c",
+        "afterSha256": "20374f5c1be182dd2dba0bc38511dc964f252755c6c65856b1590b16a9242020",
         "lineCount": 20197,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1845,12 +1845,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-map-ownership-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
-          "afterSha256": "800cc46fdff95626e5b9f43d3b97bcbe29e38fd92be57bc94bd5b1ab05c98e6c",
+          "kind": "pre94-rle-test-quality-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
+          "afterSha256": "20374f5c1be182dd2dba0bc38511dc964f252755c6c65856b1590b16a9242020",
           "lineCount": 20197,
-          "scope": "CODE57 scoped delta; history retained; gates deferred.",
-          "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
+          "scope": "CODE1 scoped delta; history retained; gates deferred.",
+          "candidateBaseRevision": "13a68691f61693450a04cb3effae6ee5a6e8c277",
           "workingTreeDelta": true
         }
       },

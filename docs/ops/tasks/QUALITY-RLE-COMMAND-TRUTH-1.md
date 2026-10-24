@@ -43,3 +43,10 @@ Visual Verification Timing: 纯字节前提核验N/A，若实际像素行为受�
 SDLPal `PAL_SpriteGetFrame`（palcommon.c:803–852）先将u16 word offset乘2，遇0x18444再转WORD，结果为0x8444；当前TS parseSpriteChunk/strict/indexed没有该特例。此处仅已证源码差异，真实cohort触达与修复层未定，归本格式真值卡继续只读取证，不据此新增兼容或修改canonical格式。
 
 通用decodeRle不设sprite的400尺寸上限；u16最大宽高理论上每个plane需4,294,836,225字节、两个plane共8,589,672,450字节，不保证当前宿主会分配成功。资源/作者输入的支持上限及具体caller可达域仍待核，不能把“可传畸形头”冒充生产漏洞或擅自套sprite上限。parseSpriteChunk过短输入/table截断的RangeError也只登记错误合同候选，真实caller与期望容错须先核；不得为了错误消息一致直接改实现。详情见[独立校准与分派](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。原高位literal风险、全部历史原件与draft/无算法build状态保持。
+
+
+## 2026-10-25 实际MGO571消费者与原生反例（仍draft）
+
+[本次完整原件和低成本复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)取代上方“特殊offset真实可达性未知”这一项当前结论：八原盘域结构census共4,662,630条当前TS成功帧命令，0高位分类分歧不是全帧native等价。唯一special是MGO571槽1，原WORD49698在TS转99396越界，SDL特殊取帧到33860。未改SDL YJ2／取帧／绘制函数ASan执行获得两幅320×200帧；实际loadSpriteFramesBlob只给1帧，DOS playEndingAnimation因此跳过整个妖兽。真实Canvas第200步与native第二帧有23036非零像素的独立SHA反例成立，无其它浏览器诊断；非PAL.EXE、非完整剧情结局E2E。
+
+已请求用户批准“只修原盘精灵读取，自建canonical格式保持”；当前未答，算法／公开接口／生成物仍冻结，无build allowed。不能直接在canonical严格codec塞入特殊offset，因为作者合法大容器可能真用99396；高位literal与作者透明游程的一般分歧也未因此解决。范围内独立测试质量排重可收口，但不得借它关闭本卡或产品rle.ts。原始资源无写入，原生大plane／binary不入库，完整producer／C源／执行日志／函数和输入SHA保留。

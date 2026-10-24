@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前2026-10-25：固定83卡80代码accept／3partial（1／3m／42），CODE57原范围及获批地图修复代码接受，3r／53信用恢复。七文件新关闭；机器账本与全部原件见[本窗](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。统一check／official／protected及一个PR等剩余pre94解决，94–102不扩展。下方各旧时点计数保持历史。
+> 当前2026-10-25：固定83卡80代码accept／3partial（1／3m／42）。CODE1六测试范围接受（四新关闭、两旧关闭刷新），产品rle.ts仍review；真实MGO571／DOS结局counter转原格式卡待裁决。全部原件、59旧身份逐项映射及快检见[本窗](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)。统一check／official／protected及一个PR等全部pre94解决，94–102不扩展。下方旧计数保留历史。
 
 > 2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
 
@@ -1939,3 +1939,15 @@ CODE57补充准入：为关闭原bootstrap-context-design的重要结构欠账�
 ### 2026-10-25 CODE57及地图ownership代码收口
 
 2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 下载完整后才发布，核心消费原拒绝而不重置脚本/NPC；两次请求/离开返回由revision隔离。成功换图同步身份及借用缓存的两地图字段，非当前scene已有override在入场按现存合法地图重新配对。新cached分支未改Save/剧情脚本或shared cache API。已有全文/真值/门原件复用；初始错误夹具/observer和缺资源map0不获信用。[当前唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
+
+
+### 2026-10-25 CODE1 remaining quality work (build allowed)
+
+Codex single owner, codex/code-quality-3y at13a68691f, latest main b3d35be61, clean isolated tree. Reuse RLE native/GLM copy-fix and current3h evidence; allowed: five RLE/encoder test files, one test-only byte fixture if sharing has real consumers, and paired evidence. Strengthen independent oracles, remove only proved duplicate contracts with exact mapping, preserve original failures and restoration. Product rle.ts/rle-encode.ts, public APIs, format algorithms and outputs remain frozen by QUALITY-RLE-COMMAND-TRUTH-1. Read-only raw GOP/MGO/ABC/F census may extend the evidence without extracting or writing assets. No whole check/official/protected/PR before all pre94 resolved;94-102 excluded.
+
+CODE1 test-quality whitelist supplement: exact identity/count/file-byte retirement records and their fixed-total regression in scripts/coverage/approved-test-retirements{,.test}.mjs are included. Authority is the user's standing precise-dedup instruction and current complete-pre94 scope, not self-approval of new behavior. Retirement predicates, coverage baseline and provider rules stay unchanged; The intermediate native59→50 mapping is retained; late atomicity corrections yield59 final cases. All59 old identities map to executed final contracts; only main26→19 needs a new exact retirement snapshot.
+
+
+### 2026-10-25 CODE1测试质量接受与格式counter
+
+六测试范围逐项A–H接受，三旧review＋新test-only叶四项新关闭，runtime／encoder两旧关闭刷新。59旧身份全部有已执行承接；九重复身份精简，原捆绑输入原子化后最终59例，三旧绿／新单业务红有效；52相邻、shared TC、scoped静态与82精确退役回归通过。产品算法／公共出口／资源零改；502closed／69review／2880pending以同窗机器为准，83卡仍80accept／3partial。只读原盘census和未改SDL C原函数把MGO571特殊offset从未知定位为真实实际播放缺帧：native2、TS1，实际ending调用黑图。已请求明确原盘读取修复裁决，格式卡仍draft，无新算法build。全仓／coverage／protected／PR留总收尾。无下一位Agent提示词；Codex继续既有1／3m／42，保留所有未答裁决，不扩94–102。[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)。

@@ -45,3 +45,7 @@ shared公共出口已使game/extract重导出同一codec；generic与strict的�
 
 [copy-fix-r1](copy-fix-r1/README.md)以d3f59cadd为基点、临时detached worktree交付：仅注释/docblock/错误测试标题9处，实现/fixture/断言零变化；51身份47不变+4标题更正一一映射，去注释打印AST三文件字节级一致，定向前后51/51。候选待Codex独立验收后集成，本节仅为导航，不作接收结论。
 
+
+## 2026-10-25 CODE1当前测试质量收口
+
+[当前逐文件八维、59→50完整合同映射、三真实反控与只读复验](quality-closeout/README.md)：六测试范围接受、四新关闭；产品rle.ts及CODE1整卡仍review／partial。真实MGO571特殊偏移现有原生C和实际结局调用counter，转原格式卡待裁决；不把本页旧未扫描叙述当成当前可达性结论。统一门／coverage／PR继续等全部pre94，不授原版EXE或全结局视觉验收。
