@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "282e5ffbb83da9b100ab0b69df49a0d9e3a817f4fc675cd529d32e5fd55a106b",
+  "generation": "63d4425d684b4dc05636a745b6f5187af7e850d755374eb8f901cb41884150e4",
   "key": "part-002",
   "positions": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2198,7 +2198,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "24b702b90808bc77e13e38c83210d21096b22d35c3d9605f3371919028123ce2",
+      "afterSha256": "4d3a6aca5174693efed77b76f66fd4be58173b9d16a4ca0011773e8086849b00",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3066,6 +3066,18 @@
           "beforeSha256": "640baf1c94bdf4e2d5500be4be4ca958a3e43499b6869382ba1a54c0d88a90c3",
           "afterSha256": "24b702b90808bc77e13e38c83210d21096b22d35c3d9605f3371919028123ce2",
           "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "24b702b90808bc77e13e38c83210d21096b22d35c3d9605f3371919028123ce2",
+          "afterSha256": "4d3a6aca5174693efed77b76f66fd4be58173b9d16a4ca0011773e8086849b00",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

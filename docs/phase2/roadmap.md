@@ -1,44 +1,41 @@
 # 第二阶段路线图 — 重制引擎 + 内容编辑器
 
-Status: historical
-Validity: historical
+Status: current
+Validity: current
 Owner: Codex（文档治理；不代签原执行）
 Last reviewed: 2026-10-17
 Template: plan-status-v1 / 1.0.0
+
+本页的 current 仅指现行导航、长期决定或按领域读取的参考职责，依据现行 READ-FIRST 的范围与铁律9；不是将 quote 内按日期记载的能力/排期/实现或历史执行重新授为当前事实。原始 source、旧复核和 quote 均保全。
 
 本页把历史材料接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 目标与时间范围
 
-- 目标：plan-status historical document full-text review: 第二阶段路线图 — 重制引擎 + 内容编辑器.
-- 时间/版本范围：2026-06-17；source revision `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `2a488824a2dcc6195c76c31a691c2db691eac99c6bfdd6d0a2e2b72562ed43b5`。
-- 当前/历史边界：historical；不能单独证明当前实现。
+- 历史总纲/北极星：第二阶段只定方向、依赖顺序与完成口径，实现细节另见能力地图、任务卡和各自 spec。起草 2026-06-17，2026-07-13 补全执行路线。
+- 阅读提示（quote 原文）：§0–§6 为长期方向与工作原则，§7 保留早期决策/进展快照；当前排期以 §10「当前第二阶段完整队列」及任务看板为准，早期「下一步」不作为当前待办。
 
 ## 里程碑
 
-| ID | 结果 | Owner | 状态 | 证据 |
-|---|---|---|---|---|
-| HIST-001 | 原始历史材料保全 | 原作者 | historical | quote / SHA |
+- quote 正文实际结构：§0 三阶段愿景（一：忠实还原 v1.0.0 已上线；二：现代引擎 + 编辑器 + 内容创作；三：版权资源替换/官网/离线发行/用户系统；远期 MMO）、§1 第二阶段是什么、§2 硬约束（内容源独立版本化、事件可视化编辑、新引擎另起 package、开发期 current-only）、§3 六条关键架构判断（旧 game = 内容参考非真值锚；移植知识不照搬结构；内容 schema 是地基；引擎先吃通 schema；状态分层按当前产品需要；杜绝下标当身份）、§4 顶层分解 P0–P3、§5 骨架先行 + 垂直切片、§6 文档与工作流约定、§7 决议与历史记录、§8 北极星与原版定位（2026-07-04 重组，废「100% 复刻 = 验收」）、§9 能力地图 + 下一步选择器、§10 从当前工程到完整产品的执行路线（2026-07-13）。
 
 ## 当前状态
 
-- 已完成（只写有证据的）：全文读取、模板接入和 quote inverse。
-- 未完成：当前状态、执行结果和产品结论需由继任 primary source 复核。
+- `status`: current（入口/参考职责）；原文对账和实现数字按其历史日期使用。`lastReviewed`: 2026-10-17。
+- 历史冲突/未决（quote §8 原文）：§8 取代旧「硬验收：完整复刻原版」——旧版把「原版全流程通关 = 验收」钉成 done 标准，与铁律 #6（现代化优先，不复刻怪癖）直接冲突；该冲突已由 2026-07-04 重组消除，历史措辞保留。
+- 用户裁决：新的产品取舍必须有当前决策。
 
 ## 阻塞与决策
 
-- 阻塞：- 正文信号 80:> **本节取代旧 §8「硬验收：完整复刻原版」。** 旧版把「原版全流程通关 = 验收」钉成 done 标准，与铁律 #6（现代化优先，不复刻怪癖）直接冲突，导致每步推进都在「要不要为复刻忍脏」上反复拉扯。
-- 正文信号 260:- 支持从地图框选“保存为图章”和由 tileset 预置图章；落笔前显示完整幽灵预览，越界/冲突有明确反馈。
-- 用户裁决：新的产品取舍必须有当前决策。
+- 2026-07-04已消除“完整复刻”与现代化铁律的旧冲突，不把旧硬验收重开；新产品取舍仍须当前用户决定，排期取当前任务看板。
 
 ## 下一步
 
-- 下一项可执行工作：Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
-- 完成定义：新 task card、当前 source/oracle、独立验收和执行证据齐全。
+- 下一项可执行工作由当前任务看板与能力地图选择器决定；本页不产生新待办。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-06-17；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `2a488824a2dcc6195c76c31a691c2db691eac99c6bfdd6d0a2e2b72562ed43b5。
+- phase2/lore archive；日期：2026-06-17；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `2a488824a2dcc6195c76c31a691c2db691eac99c6bfdd6d0a2e2b72562ed43b5`。
 
 ## 原始结论
 
@@ -50,14 +47,11 @@ Template: plan-status-v1 / 1.0.0
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 80:> **本节取代旧 §8「硬验收：完整复刻原版」。** 旧版把「原版全流程通关 = 验收」钉成 done 标准，与铁律 #6（现代化优先，不复刻怪癖）直接冲突，导致每步推进都在「要不要为复刻忍脏」上反复拉扯。
-- 正文信号 260:- 支持从地图框选“保存为图章”和由 tileset 预置图章；落笔前显示完整幽灵预览，越界/冲突有明确反馈。
+current（入口/参考职责）；quote和旧复核的具体实现、时间、计数仍为历史材料，不重授旧执行信用。历史冲突/未决见上方；quote §0–§10 原文为唯一措辞来源。
 
 ## 继任文档
 
-- Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
+- 当前 phase2/lore canonical 文档、代码、测试和 fresh primary-source review。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

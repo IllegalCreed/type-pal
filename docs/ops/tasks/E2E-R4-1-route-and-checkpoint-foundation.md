@@ -5,41 +5,31 @@ Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原目标、范围、前提真值、owner、状态、证据、counter、返工和交接内容在 quote 中保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决。
+本页把当前 ops task card 接入 `task-card-v1`。原当前推进位置、先前进展、脚本合理化要求与调研、用户意图与首批准入、001 实现与实跑及本批执行证据在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
 
 ## 目标
 
-- 维护 001–005 共性 E2E 路线、合法检查点、真实存档恢复和跨阶段问题族治理，并登记后续 Q 执行入口。
-- 当前状态：`Status: build`；状态由本卡顶部和任务看板共同解释，本次迁移不推进状态。
+- 维护 001–005 共性 E2E 路线、合法检查点、真实存档恢复和跨阶段问题族治理，并登记后续 Q1/Q2 执行入口；001–004 已按各自边界核定 verify，005 六份同版实跑与真实终档已独立核验（用户观感复验另列）。
 
 ## 范围
 
-- 当前包含：原卡声明的实现/测试/E2E/视觉/文档范围及其一手锚点。
-- 明确不包含：本次不扩大产品范围、不补造执行证据、不改历史任务状态、不把静态文档迁移当 runtime/E2E/视觉/coverage 验收。
-
-## 前提与证据
-
-- 行为/工程前提：维护 001–005 共性 E2E 路线、合法检查点、真实存档恢复和跨阶段问题族治理，并登记后续 Q 执行入口。
-- 一手证据：docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:1；docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:8；docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:139；对应代码、内容、E2E 或测试 consumer 由 quote 与原卡链接保留。
-- 最强替代解释与可证伪观察：若当前 consumer、合法输入或最新源码推翻上述边界，必须回到本卡重新核前提；不能用旧回执数字补齐缺口。
-- 当前状态：build。本页治理检查口径要求 contentVersion=22 / SAVE12；源卡中较早版本标记只属于其日期范围，未被本次迁移重新认证。
-
-## 验收
-
-- 功能/文档：按原卡验收条件、source:line、caller、合法输入和 business oracle 执行；本次迁移只验 source/after SHA、模板章节、链接和 quote 可逆性。
-- 测试与证据：docs/testing/e2e/contract.md；docs/testing/e2e/cross-stage/common-issues.md；docs/testing/e2e/stages/001-opening/report.md；docs/testing/e2e/stages/005-shrimp/report.md；历史回执、数量、覆盖率和旧 accept 不能单独证明当前通过。
-- 视觉或 E2E（如适用）：遵守原卡的 deferred/functional 约束；未在本批重新执行的 runtime、E2E、视觉、coverage 信用均为 0。
+- 范围为001–005路线驱动、合法检查点与真实存档恢复；运行器异常监督和Q1/Q2各自验收，不外推后期剧情。
 
 ## 状态与交接
 
-- 当前 Owner：按原卡 Owner/贡献者与当前看板；文档治理 Owner 为 Codex。
-- 阻塞/决策：当前仍 build：完整 Q1/Q2、异常监督清理、capture/录像音轨和后续剧情未完成；正常 case 通过不等于监督机制、视觉或全剧情完成。
-- 下一步：当前仍 build：完整 Q1/Q2、异常监督清理、capture/录像音轨和后续剧情未完成；正常 case 通过不等于监督机制、视觉或全剧情完成。 由当前 task card、fresh evidence 和独立验收闭合后再推进状态。
+- build（quote 当前推进位置 2026-10-02）：下一步优先 001–005 共性问题族治理（机械状态展开、动态入口后继、时基及作者模型统一），不等待每段 E2E 重复踩同根问题。
+- 未完成：运行器 `browser.newContext` 崩溃/无返回时的独立超时与自动清理；本轮未生成录像；完整 Q1/Q2 和后期剧情未完成——正常六 case 通过不当作异常监督机制已完善。
+- 脚本系统调研基线（quote）：294 场景 / 4459 stages / 195 machine / 13849 stepEntity；后续 E2E 判断顺序与维护入口以 quote 调研节为准。
 
-## 当前有效性
+## 前提与证据
 
-build。当前仍 build：完整 Q1/Q2、异常监督清理、capture/录像音轨和后续剧情未完成；正常 case 通过不等于监督机制、视觉或全剧情完成。
-- 文档治理只证明结构、来源和状态边界；不授产品实现、runtime、E2E、视觉或 coverage 信用。
+- `docs/testing/e2e/contract.md`；`docs/testing/e2e/cross-stage/common-issues.md`；`docs/testing/e2e/route-proposal.md`。
+- 阶段报告 `docs/testing/e2e/stages/001-opening/report.md` 至 `005-shrimp/report.md`；`docs/lore/timeline.md` 逐段回写要求。
+
+## 验收
+
+- 合法检查点与fresh恢复须有各段同版原件；browser.newContext无返回的独立超时/自动清理仍待实证，正常六case不能证明异常监督完成。
+- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
 
 ## 原文保全
 

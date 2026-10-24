@@ -354,7 +354,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "7f68744a7bd2e2437cc15b6c22dc361c2e25aa3138a8b14a6df892167e1f385b",
+      "afterSha256": "b870205df21178e99aac00041653f6b31c21e85f4148b5913f09943147c48ae7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -539,6 +539,18 @@
           "beforeSha256": "ce72716254fe506a6f6cdacf7902901dd3a5b3b15b139c4242b0cd545c3c810b",
           "afterSha256": "7f68744a7bd2e2437cc15b6c22dc361c2e25aa3138a8b14a6df892167e1f385b",
           "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "7f68744a7bd2e2437cc15b6c22dc361c2e25aa3138a8b14a6df892167e1f385b",
+          "afterSha256": "b870205df21178e99aac00041653f6b31c21e85f4148b5913f09943147c48ae7",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -1169,7 +1181,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "a92cbba6b54a0e4e8facd9d772610f7c351ee7c770ee099e648f9f513a7c6e81",
+      "afterSha256": "7353f01b2ed537b1fe24c8cd2a8ac438aa7a98558fd2a6230b51d7212c4df137",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1702,6 +1714,18 @@
           "beforeSha256": "6aaf285ed34ffe66056b23bb4a582138cab4ba9ea93800262b82bca7986da703",
           "afterSha256": "a92cbba6b54a0e4e8facd9d772610f7c351ee7c770ee099e648f9f513a7c6e81",
           "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "a92cbba6b54a0e4e8facd9d772610f7c351ee7c770ee099e648f9f513a7c6e81",
+          "afterSha256": "7353f01b2ed537b1fe24c8cd2a8ac438aa7a98558fd2a6230b51d7212c4df137",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -9296,7 +9320,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "783488be5f33ced097621a8957aaa084a31f88d4ad796acaf2fa7b7f18d838f7",
+      "afterSha256": "4d64639ee9a613addb41e2802836e7e953e4d767fdec0bd18d5d770880ecb888",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9482,6 +9506,18 @@
           "beforeSha256": "3d92b56483b6e4b39ef918eec8e9e6b450eb6761000bb882f4c661a46af183f1",
           "afterSha256": "783488be5f33ced097621a8957aaa084a31f88d4ad796acaf2fa7b7f18d838f7",
           "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "783488be5f33ced097621a8957aaa084a31f88d4ad796acaf2fa7b7f18d838f7",
+          "afterSha256": "4d64639ee9a613addb41e2802836e7e953e4d767fdec0bd18d5d770880ecb888",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -13489,7 +13525,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-      "afterSha256": "9be294887423079627b8f3606ce46183a538a9f716ea399f26b744114ab17c9a",
+      "afterSha256": "650bdffbca5fa43fcedca72c4a683ab698002115a75bda821d165ac88cada5c4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13621,7 +13657,21 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "9be294887423079627b8f3606ce46183a538a9f716ea399f26b744114ab17c9a",
+          "afterSha256": "650bdffbca5fa43fcedca72c4a683ab698002115a75bda821d165ac88cada5c4",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
@@ -14441,7 +14491,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "391ac1aa9d5865e6ad33a8f41441798268ac0ce26220cf312293868b5c8fde0f",
+      "afterSha256": "a65d4f2c8dcad1ebbe37a9a52b837ea06f8a5bafbfffe27ed4c23469b7889428",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14657,6 +14707,18 @@
           "beforeSha256": "eb06964186230d7bdd0274c6e4b8b6f6344a28dfb32cf779aad903bbd1991cfd",
           "afterSha256": "391ac1aa9d5865e6ad33a8f41441798268ac0ce26220cf312293868b5c8fde0f",
           "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "391ac1aa9d5865e6ad33a8f41441798268ac0ce26220cf312293868b5c8fde0f",
+          "afterSha256": "a65d4f2c8dcad1ebbe37a9a52b837ea06f8a5bafbfffe27ed4c23469b7889428",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -16057,7 +16119,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
-      "afterSha256": "fae6a59f9ab0937df73d27c321332bccc0582af2e57ec38096943447e9587c97",
+      "afterSha256": "66cffbe0b407c12f4c634e7ecb2d6e04504e5d50abc9fb96ed245bcbc4f1208a",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/build-phase-lore-governance.mjs",
@@ -16222,6 +16284,18 @@
           "beforeSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f",
           "afterSha256": "fae6a59f9ab0937df73d27c321332bccc0582af2e57ec38096943447e9587c97",
           "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "fae6a59f9ab0937df73d27c321332bccc0582af2e57ec38096943447e9587c97",
+          "afterSha256": "66cffbe0b407c12f4c634e7ecb2d6e04504e5d50abc9fb96ed245bcbc4f1208a",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

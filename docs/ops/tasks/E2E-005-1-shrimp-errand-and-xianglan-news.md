@@ -5,41 +5,32 @@ Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原目标、范围、前提真值、owner、状态、证据、counter、返工和交接内容在 quote 中保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决。
+本页把当前 ops task card 接入 `task-card-v1`。原目标与范围、前提真值门、当前模式准入与分工、验收与证据、进展、历史转换根因核查、独立复核返工与后续共性治理口径在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
 
 ## 目标
 
-- 用户已批准的 005 正常路线：从 004 真实结束状态买虾出门，完成码头人物链和香兰报信，恢复控制后停止；两阶段真实档、合法保存恢复、对白/说话人/移动与异常边界均需按卡核验。
-- 当前状态：`Status: review`；状态由本卡顶部和任务看板共同解释，本次迁移不推进状态。
+- 用户 2026-10-02 批准的 005 正常路线：真实 004 结束 → 回厨房受托买虾 → 码头鱼嫂、水生叔、张四 → 回村香兰报信，恢复正常操作后停止。两阶段各自产生真实结束档、正式 fresh 恢复回验；不继续探病、诊断、求药或出海；不插取消/复读领奖/存读专项。
+- 前提真值一句话：水生首段切换张四的仙灵岛回应（原版 `all.json` L741 给 50、L1528 切张四 L1436、末尾 `0x6D[5,903,0]` 布防 903 香兰报信），该回应布防回村报信；买虾委托和鱼嫂补足叙事，非程序硬前置。
 
 ## 范围
 
-- 当前包含：原卡声明的实现/测试/E2E/视觉/文档范围及其一手锚点。
-- 明确不包含：本次不扩大产品范围、不补造执行证据、不改历史任务状态、不把静态文档迁移当 runtime/E2E/视觉/coverage 验收。
-
-## 前提与证据
-
-- 行为/工程前提：用户已批准的 005 正常路线：从 004 真实结束状态买虾出门，完成码头人物链和香兰报信，恢复控制后停止；两阶段真实档、合法保存恢复、对白/说话人/移动与异常边界均需按卡核验。
-- 一手证据：docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:1；docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:20；docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:73；对应代码、内容、E2E 或测试 consumer 由 quote 与原卡链接保留。
-- 最强替代解释与可证伪观察：若当前 consumer、合法输入或最新源码推翻上述边界，必须回到本卡重新核前提；不能用旧回执数字补齐缺口。
-- 当前状态：review。本页治理检查口径要求 contentVersion=22 / SAVE12；源卡中较早版本标记只属于其日期范围，未被本次迁移重新认证。
-
-## 验收
-
-- 功能/文档：按原卡验收条件、source:line、caller、合法输入和 business oracle 执行；本次迁移只验 source/after SHA、模板章节、链接和 quote 可逆性。
-- 测试与证据：scripts/e2e/meal-contract.mjs；scripts/e2e/meal-journey.mjs；docs/testing/e2e/stages/005-shrimp/report.md；历史回执、数量、覆盖率和旧 accept 不能单独证明当前通过。
-- 视觉或 E2E（如适用）：遵守原卡的 deferred/functional 约束；未在本批重新执行的 runtime、E2E、视觉、coverage 信用均为 0。
+- 路线限真实004结束至005回村报信恢复控制；两阶段结束档与fresh恢复分列，不进入006探病、求药或出海。
 
 ## 状态与交接
 
-- 当前 Owner：按原卡 Owner/贡献者与当前看板；文档治理 Owner 为 Codex。
-- 阻塞/决策：技术交付已有独立核验，但用户观感、当前脚本/内容版本与后续剧情边界仍需按卡复核；本卡不能把 005 技术回执外推为 006 或全剧情通过。
-- 下一步：技术交付已有独立核验，但用户观感、当前脚本/内容版本与后续剧情边界仍需按卡复核；本卡不能把 005 技术回执外推为 006 或全剧情通过。 由当前 task card、fresh evidence 和独立验收闭合后再推进状态。
+- review。技术交付已有独立核验（Root accept 98a42d4e0 六 case：416 输入/8 trace/两终档；包门 11002 项；lint 2774 零——见 quote 技术交付与剩余边界节）；用户观感复验、当前脚本/内容版本对位和后续剧情边界仍需按卡复核，本卡不能把 005 技术回执外推为 006 或全剧情通过。
+- 转换器根因核查与通用 E2E 动态占位反例保留在 quote 历史节，不因本页迁移重开。
 
-## 当前有效性
+## 前提与证据
 
-review。技术交付已有独立核验，但用户观感、当前脚本/内容版本与后续剧情边界仍需按卡复核；本卡不能把 005 技术回执外推为 006 或全剧情通过。
-- 文档治理只证明结构、来源和状态边界；不授产品实现、runtime、E2E、视觉或 coverage 信用。
+- `scripts/e2e/meal-contract.mjs:112` 独立 case 合同；`meal-journey.mjs:41` 连续 held 输入与异常先松键；`browser-journey.mjs:18` 独占临时浏览器/服务。
+- `projects/pal/content/scenes/s001.json`、`s004.json`、`s005.json`（e83 报信正文、e123/legacy-001、s004 onEnter/legacy-003）。
+- `docs/testing/e2e/stages/005-shrimp/report.md`；`docs/testing/e2e/cross-stage/common-issues.md`；`docs/lore/timeline.md#005`。
+
+## 验收
+
+- 以真实005正常路线、两阶段同版结束档与fresh恢复记录核技术边界；用户观感另验，历史11002项和lint2774不是本次实跑。
+- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
 
 ## 原文保全
 

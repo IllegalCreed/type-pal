@@ -426,3 +426,21 @@ S33合同与六pilot（含C1来源轴修正）已非作者接受。S34仍用hist
 新writer限定四个现行分片owner中的212目标、R92[20–22]三边和R94[6]一边，其他2218条逻辑行不动；四owner原source pin与旧八源/599及302原生保持。复用packing/IO，R89/90/91先pack、R92格式化后更新R94[6]、R94根最后；新片不可变，锁/staging全组公开loader读回、原子rename组与明确旧片退出，失败保留恢复材料，重复执行须完整源/终态重建而非只看存在。
 
 本实施轮仅零信用正文候选与临时树演练；validator明确拒绝修改review/迁移状态，不把来源/存储结构绿等同逐篇接受。真实中央212内容接入与逐篇信用裁定另行受控，不放宽旧writer准入、不改旧测试/产品/coverage/规则/配置。1848待办与真实routing/registry保持。
+
+## 2026-10-25 S44 原生剩余652件的分族设计排期（draft，非合同冻结）
+
+S42作者417个needs-design低估了准入缺口：197个Testing路径不在旧Vitest精确cohort、38个C02整对象回流成旧archive绑定。Owner只修准入声明，不扩旧guard。剩余652=637 JSON+15 HTML，另3件DOC-IA-2复用S24、28件MD走已有合同。以下集合来自固定83743275的683清单和真实payload形状，数量是排期/设计输入，不是内容接受或迁移完成；源变化只失效相应claim。
+
+| 次序/族 | 份数 | 现有事实权与拟合同边界 | pilot与前置 |
+|---|---:|---|---|
+| 先行：现有S24/MD | 3+28 | S24三固定原生对象复用已有两变体；MD先修正文与当前路由，不新增类型 | additional-attachments真实relocation绑定；两来源仍unverified。MD12前缀与6个retain适配分开验 |
+| A：结果载体 | 41 | 复用test-machine-evidence父类；raw reporter、蒸馏文件级、简式totals按实际字段分变体，不假设缺pending=0，不把suite当文件 | 选红、全绿、pending、蒸馏各代表；固定Git载体与历史执行来源分轴，旧路径不自动扩准入 |
+| B：命令/反控 | 49+30 | evidence-receipt父类；argv/cwd/exit/signal/stdout身份与业务断言分开；红相位核预期失败集合而非一律恰一 | 选真实红、hook异常、四失败集、已撤信历史回执；不修改旧数字、不复活旧accept。新source/caller有歧义仅停对应项 |
+| C：治理控制 | 111+16 | 111逻辑review经公开loader读取，16项catalog/registry/routing/matrix等按各自schema与reader；未来governance-index的json-native变体复用唯一review，不造review的review | flat/manifest/shard与原source pin/positions/DAG读回，公开consumer及锁/世代/容量反例；只验载体/治理职责，不给所含599/275条旧claim自动语义信用 |
+| D：数组/映射 | 28 | 原生顶层数组或映射保形，不包payload；逐项身份/顺序/重复/路径与调用者可证伪 | 身份数组、突变定义、路径清单三类pilot；七重复别名退役另有合同，不以SHA相同就静默删 |
+| E：HTML | 3+12 | 3静态设计mockup与12脚本装载宿主分别建html-native候选，优先复用现有review说明、不注入第二份文档 | 原DOM/脚本/资源/本地引用保全；原生解析可核不等于浏览器/视觉/产品验收；mockup不冒充测试报告 |
+| F：混合payload待语义划分 | 362 | 当前只按剩余shape排期，不能冻结万能JSON/通用archive合同；作者补具体目的、原子结论、caller/source/历史后再归入A–D或提出最小新变体 | 不用路径/字段数量猜目的；未知source或oracle保持blocked，不生成一文一模板 |
+
+A–F精确合计652；所有父类型仍17类，旧父版本/历史source pin与已接受cohort保持。拟格式/变体在真实consumer/pilot及新反例接受前均draft，不新增ignore/maxSize、宽泛any-object或状态豁免。Writer复用现有source snapshot/lock/staging/不可变世代/原子组/公开读回守卫；新准入只改限定字段，原生bytes保持。旧测试若实际必改，先给具体最小补丁按既有授权流程，不能默认扩大许可。
+
+治理控制与通用合同/pilot由Codex负责；GLM继续384非控制语义与六个MD适配，一次集中回交。当前集合已有可靠事实直接复用，四指针轴/历史撤信不从头重做。通用合同冻结、内容接受、模板符合、中央发布及待办扣减分别记账；无执行/迁移信用，不合main、不推送、不done。

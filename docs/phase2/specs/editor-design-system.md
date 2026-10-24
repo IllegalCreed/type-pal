@@ -10,44 +10,33 @@ Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
 
-- 当前问题：历史设计记录 design-spec historical document full-text review: Type-Pal 编辑器设计系统与交互规范 v1.，不能单独证明当前实现。
-- 目标结果：保全设计目标、约束、方案和历史验收意图。
+- 历史设计记录：Type-Pal 编辑器设计系统与交互规范，自 v1.0.0（ED-DS-1）起经连续 UX consolidation 演进至 implemented v2.24.0 bounded long-flow editor modal contract（v2.1 历史规范中的「底部问题面板」前提已被用户纠正）。目标是保全设计目标、约束、方案和历史验收意图。
+
+## 方案
+
+- §0 规范语义与使用方法、§1 产品原则与信息层级、§2 Foundations（token 合同，如 `--ds-status-warning #e2b340`）、§3 应用壳与响应式布局、§4 共享组件与状态合同（Panel 状态固定 `ready / empty / loading / partial / error`；扫描未完成或失败时计数必须显示 `at-least / unknown`，不得把下界传成精确 Tab 数字；`statusOwner="external"` 仅限完整 `ready + exact`）、§5 Workbench recipes、§6 交互、导航与反馈（error/warning 必须有可读说明和关联字段；success 不应永久占据主区域）、§7 媒体查看合同、§8 无障碍、国际化与长文本、§9 实现合同与反模式、§10 Reference fixtures 与验收矩阵（Design Lab `RF-16` 行变体基准）、§11 Rollout、例外与版本治理；附录 A 现状映射、B 用户已验收的视觉裁决、C v1.1.0 / D v2.0.0 / E v2.1.0 amendment、F v2.2.0 correction（用户已定形，待 Kimi / GLM 重签）、G 依据与边界、H v2.8.0 interaction / IA consolidation（用户已定形，待 Kimi / GLM 重签）。
 
 ## 真值与约束
 
 - 原版/primary source：`docs/phase2/specs/editor-design-system.md` 原始全文及其中的一手引用。
-- 当前阶段证据：固定历史 source revision；本次只做静态治理。
-- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授执行信用。
-- 未知与冲突：- 正文信号 133:| `--ds-status-warning` | `#e2b340` | 警告状态 |
-- 正文信号 393:`warning`、`success`、`destructive`。
-- 正文信号 400:- error/warning 必须有可读说明和关联字段；success 不应永久占据主区域。
-- 正文信号 443:  图标动作命中区；业务按钮不得再显式传入与父组重复或冲突的 `size`。
-- 正文信号 737:- Panel 状态固定为 `ready / empty / loading / partial / error`。扫描未完成或失败时必须显示
-- 正文信号 738:  `at-least / unknown`，不得把当前下界传成精确 Tab 数字；只有完整结果才向 Inspector Tab 提供 number count。
-- 正文信号 751:  制造第二套行变体。Design Lab `RF-16` 是 simple/grouped/static/loading/partial/error/long-content 基准。
-- 正文信号 783:  总数时，完整 `ready + exact` 结果可用 `statusOwner="external"` 避免重复摘要，`partial / failure` 不得外移或隐藏。
+- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授执行信用。明确不做：不修改产品实现、不改写原始 quote。
 
-## 方案
+## 当前状态与未决
 
-- 原设计的流程、数据、接口和取舍在 quote 中完整保全。
-- 选择理由：design-spec 保留规范性决策。
-- 明确不做：不修改产品实现、不改写原始 quote。
+- `status`: historical；`lastReviewed`: 2026-10-17。
+- 历史冲突/未决（quote 原文）：附录 F（v2.2.0 correction）与附录 H（v2.8.0 consolidation）标注「用户已定形，待 Kimi / GLM 重签」——该待签状态为历史边界，本页迁移不代签、不视为已完成。
 
 ## 边界与风险
 
-- 风险：历史设计可能与当前代码、数据或产品决策漂移。
-- 可证伪观察：当前 primary source 或执行证据与本页不一致时，以新证据为准。
-- 迁移/兼容/法律边界：只迁移文档表达和证据账本。
+- 风险：历史设计可能与当前代码、数据或产品决策漂移。可证伪观察：当前 primary source 或执行证据与本页不一致时，以新证据为准。迁移/兼容边界：只迁移文档表达和证据账本。
 
 ## 验收
 
-- 可执行验证：source/after SHA、quote inverse、模板章节和三账本。
-- 业务 oracle：设计目标和约束可追溯，当前行为由继任实现与测试证明。
-- 复核 Owner 与截止条件：Codex 独立复核后接收。
+- 可执行验证：source/after SHA、quote inverse、模板章节和三账本。业务 oracle：设计目标和约束可追溯，当前行为由继任实现与测试证明。复核 Owner 与截止条件：Codex 独立复核后接收。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-08-14；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8。
+- phase2/lore archive；日期：2026-08-14；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8`。
 
 ## 原始结论
 
@@ -59,20 +48,11 @@ Template: design-spec-v1 / 1.0.0
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 133:| `--ds-status-warning` | `#e2b340` | 警告状态 |
-- 正文信号 393:`warning`、`success`、`destructive`。
-- 正文信号 400:- error/warning 必须有可读说明和关联字段；success 不应永久占据主区域。
-- 正文信号 443:  图标动作命中区；业务按钮不得再显式传入与父组重复或冲突的 `size`。
-- 正文信号 737:- Panel 状态固定为 `ready / empty / loading / partial / error`。扫描未完成或失败时必须显示
-- 正文信号 738:  `at-least / unknown`，不得把当前下界传成精确 Tab 数字；只有完整结果才向 Inspector Tab 提供 number count。
-- 正文信号 751:  制造第二套行变体。Design Lab `RF-16` 是 simple/grouped/static/loading/partial/error/long-content 基准。
-- 正文信号 783:  总数时，完整 `ready + exact` 结果可用 `statusOwner="external"` 避免重复摘要，`partial / failure` 不得外移或隐藏。
+historical。do not promote historical claims to current truth without a current source or user decision。历史冲突/未决见上方；quote §0–§11 与附录 A–H 原文为唯一措辞来源。
 
 ## 继任文档
 
-- Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
+- 当前 phase2/lore canonical 文档、代码、测试和 fresh primary-source review。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

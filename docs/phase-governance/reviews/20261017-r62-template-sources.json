@@ -3371,7 +3371,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "866428ac7cece3e14bdd05bd4abb21b4b1f496453bbfcf41d265a53cb89dbfe7",
+      "afterSha256": "8f57b4a7fb67df571652154040db6dccc1025e89699e63bf22b1bc55acda7e67",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3566,6 +3566,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "2c91a164a62edb9e917bf68583cf0cc5128ba3d41b6339bc139485830edfaedd",
           "afterSha256": "866428ac7cece3e14bdd05bd4abb21b4b1f496453bbfcf41d265a53cb89dbfe7"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "866428ac7cece3e14bdd05bd4abb21b4b1f496453bbfcf41d265a53cb89dbfe7",
+          "afterSha256": "8f57b4a7fb67df571652154040db6dccc1025e89699e63bf22b1bc55acda7e67",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

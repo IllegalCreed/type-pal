@@ -5,41 +5,33 @@ Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原目标、范围、前提真值、owner、状态、证据、counter、返工和交接内容在 quote 中保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决。
+本页把当前 ops task card 接入 `task-card-v1`。原前提真值门、反证与替代解释、上下文锚点、验收条件、交接日志与 Build/Review 收口在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
 
 ## 目标
 
-- 从 005 报信结束状态继续完成小虎子、洪大夫、张四上船及仙灵岛入口首段；停止点是首段完整演出结束并恢复控制。
-- 当前状态：`Status: rework`；状态由本卡顶部和任务看板共同解释，本次迁移不推进状态。
+- 从 005 报信结束状态继续：回客栈房间完成小虎子（s002/e36）与洪大夫（s002/e35）两段必要对话；洪大夫结束后显式选择码头张四（s005/e123 `legacy-002`）并恢复 `state:3`；上船经 e116 乘船载入 s014 仙灵岛入口，完整呈现并确认 1886/1888/1889/1890，落地道谢与张四叮嘱演完、恢复控制后停止（2026-10-07 用户终点纠正保留于 quote 交接日志）。
+- 删除 e36 中无关的 003 回置（e59/e83）；上船动作仍归张四/船只交互脚本。
 
 ## 范围
 
-- 当前包含：原卡声明的实现/测试/E2E/视觉/文档范围及其一手锚点。
-- 明确不包含：本次不扩大产品范围、不补造执行证据、不改历史任务状态、不把静态文档迁移当 runtime/E2E/视觉/coverage 验收。
-
-## 前提与证据
-
-- 行为/工程前提：从 005 报信结束状态继续完成小虎子、洪大夫、张四上船及仙灵岛入口首段；停止点是首段完整演出结束并恢复控制。
-- 一手证据：docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1；docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23；docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:77；对应代码、内容、E2E 或测试 consumer 由 quote 与原卡链接保留。
-- 最强替代解释与可证伪观察：若当前 consumer、合法输入或最新源码推翻上述边界，必须回到本卡重新核前提；不能用旧回执数字补齐缺口。
-- 当前状态：rework。本页治理检查口径要求 contentVersion=22 / SAVE12；源卡中较早版本标记只属于其日期范围，未被本次迁移重新认证。
-
-## 验收
-
-- 功能/文档：按原卡验收条件、source:line、caller、合法输入和 business oracle 执行；本次迁移只验 source/after SHA、模板章节、链接和 quote 可逆性。
-- 测试与证据：projects/pal/content/scenes/s002.json；projects/pal/content/scenes/s005.json；scripts/e2e/boat-contract.mjs；docs/testing/e2e/stages/006-doctor-boat/report.md；历史回执、数量、覆盖率和旧 accept 不能单独证明当前通过。
-- 视觉或 E2E（如适用）：遵守原卡的 deferred/functional 约束；未在本批重新执行的 runtime、E2E、视觉、coverage 信用均为 0。
+- 路线限005结束后的求药、张四上船与仙灵岛首段；区分船队数学、NPC初态、原版顺序及用户视觉裁决。
 
 ## 状态与交接
 
-- 当前 Owner：按原卡 Owner/贡献者与当前看板；文档治理 Owner 为 Codex。
-- 阻塞/决策：当前卡已明确 rework：链路和船队数学有证，但关键 NPC 状态/位置/朝向日志、第一阶段顺序对比和用户指出的视觉问题未闭合，不能标 done。
-- 下一步：当前卡已明确 rework：链路和船队数学有证，但关键 NPC 状态/位置/朝向日志、第一阶段顺序对比和用户指出的视觉问题未闭合，不能标 done。 由当前 task card、fresh evidence 和独立验收闭合后再推进状态。
+- rework。链路和船队数学有证：SAVE11/content22 的 001–005 存档链后接 006；`moveParty → setPartyFacing → ride(e116) → loadScene(s014)` 对齐原版 `L_1509` 的 0x70 走位/0x15 朝向/0x3F 骑乘/载入 scene15；轨迹断言队伍/船相对位移全程为零、骑乘段朝向稳定 down。
+- 未闭合：关键 NPC 状态/位置/朝向日志、第一阶段顺序对比、用户指出的船体锚点/张四抖动/划桨/李逍遥落船位视觉问题，不能标 done。正式 005 存档仅李逍遥一名队员，不能冒充三人实跑（Reforge `mountParty` 代码层已覆盖）。
+- 后续 SAVE12 连续批次（001–006 独立双轨与 headed 连续链）验收记录不在本页，未由本次迁移重新认证；源卡内较早版本标记只属于其日期范围。
 
-## 当前有效性
+## 前提与证据
 
-rework。当前卡已明确 rework：链路和船队数学有证，但关键 NPC 状态/位置/朝向日志、第一阶段顺序对比和用户指出的视觉问题未闭合，不能标 done。
-- 文档治理只证明结构、来源和状态边界；不授产品实现、runtime、E2E、视觉或 coverage 信用。
+- `projects/pal/content/scenes/s002.json` e35/e36；`projects/pal/content/scenes/s005.json` e123 `legacy-002` 与 e116 上船链。
+- `scripts/e2e/boat-contract.mjs`、`boat-journey.mjs`、`boat-reforge.mjs`；`docs/testing/e2e/stages/006-doctor-boat/report.md`。
+- 原始事件 `data/extracted/events/all.json` `L_1026/L_1070/L_1465/L_1509`；`pnpm check:content`（294 场景 / 223 地图 / 1934 资源）为 quote 内 2026-10-04 自验记录。
+
+## 验收
+
+- 关键NPC状态/位置/朝向、第一阶段顺序对比及船体锚点、张四抖动、划桨和落船位counter未闭合就维持rework；数学相对位移为零不能替视觉验收。
+- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
 
 ## 原文保全
 
