@@ -85,6 +85,7 @@ import {
   resolveLabelIp,
   resolveScriptLabel,
 } from './script-catalog.js'
+import { OP_ADD_CASH, OP_ADD_ITEM } from './script-opcode-ids.js'
 import { getWord } from './word-lookup.js'
 
 export {
@@ -166,10 +167,9 @@ export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
 // case 0x001E(30):  Increase or decrease cash(sdlpal script.c:952-968)
 //   operand[0] = signed amount;若 < 0 且 dwCash 不够 → 跳 operand[1] label。
 //   已按真值实现负数不足即跳(handler 见下方;旧"M2 简版不跳"已于 2026-05-31 补全)。
-export const OP_ADD_CASH = 0x001e // 30
 // case 0x001F(31):  Add item to inventory(sdlpal script.c:970-975)
 //   operand[0] = itemId, operand[1] = qty(signed,负值 = remove)。
-export const OP_ADD_ITEM = 0x001f // 31
+export { OP_ADD_CASH, OP_ADD_ITEM } from './script-opcode-ids.js'
 // case 0x0020(32): Remove item from inventory(sdlpal script.c:977-1024)
 //   operand[0] = itemId, operand[1] = qty(0 → 1), operand[2] = 失败跳转目标。
 //   已完整实现:库存移除 + 不足时遍历全队装备槽撤效果补足 + 库存不足且有失败分支 → 跳 op2

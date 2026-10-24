@@ -12,6 +12,7 @@ import {
   curePlayerPoisonByKind,
   curePlayerPoisonByLevel,
 } from './player-poison-state.js'
+import { OP_ADD_MAGIC } from './script-opcode-ids.js'
 
 export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017
 export const OP_EQUIP_ITEM = 0x0018
@@ -32,7 +33,7 @@ export const OP_SET_PLAYER_STATUS = 0x002d
 export const OP_SET_ENEMY_STATUS = 0x002e
 export const OP_REMOVE_PLAYER_STATUS = 0x002f
 export const OP_MARK_SCRIPT_FAILED = 0x0041
-export const OP_ADD_MAGIC = 0x0055
+export { OP_ADD_MAGIC } from './script-opcode-ids.js'
 export const OP_REMOVE_MAGIC = 0x0056
 export const OP_INCREASE_PLAYER_LEVEL = 0x008d
 
