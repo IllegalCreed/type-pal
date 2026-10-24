@@ -2,7 +2,7 @@
  * TEST-GLM-NEW-H-1 / H01 — battle-opcodes 当前公开合同补测。
  *
  * 只覆盖既有测试未证明、一手证据支撑的合同:
- *  - 0x0005 / 0x008E → battleDialogPendingClear(script.c:3267-3269 / 3428-3430 PAL_ClearDialog(TRUE)
+ *  - 0x0005 / 0x008E → battleDialogPendingClear(script.c:3267-3271 / 3428-3432 PAL_ClearDialog(TRUE)
  *    的战斗侧延迟语义),并由下一个战斗 showDialog 消费成 clearBefore(只清一次)
  *  - 0x006B → iBlow = (SHORT)operand[0] 有符号 16 位截断(script.c:2049-2054)
  */
@@ -13,7 +13,7 @@ import { makeHBattle } from '../../__tests__/glm-next-wave/H/harness.js'
 import { runScript } from '../event-system.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 
-describe('0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430)', () => {
+describe('0x0005 / 0x008E ClearDialog(script.c:3267-3271 / 3428-3432)', () => {
   it('0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)', () => {
     const { state } = makeHBattle()
     expect(state.battleDialogPendingClear).toBeUndefined()
