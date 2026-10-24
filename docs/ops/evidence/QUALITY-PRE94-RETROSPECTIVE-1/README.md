@@ -465,3 +465,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-25 [Dev装配器／三职责与像素](dev-panel-quality/README.md)：五个整文件新关闭，party完整16槽oracle，原43身份保留；106相关／合法像素单红恢复及类型门。53原419行专测仍待，不升整卡；全仓和覆盖率仍延后。
 
 2026-10-25 [CODE53事件专测／原15文件代码接受](event-opcodes-quality/README.md)：21→32逐例映射、合法工厂、三项旧绿新单红与518相关；固定78accept／5partial；统一门/coverage/PR仍待全部pre94。
+
+2026-10-25 [CODE58工具面板代码接受](tools-panel-closeout/README.md)：原三文件与两叶完整八维、正式单红/102相关、原生Reader失败与重选、TS还原；固定79accept／4partial；统一门/PR继续等全部pre94。

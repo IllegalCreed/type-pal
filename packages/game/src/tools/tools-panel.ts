@@ -8,7 +8,6 @@ import {
   collectFieldInfoReadout,
   collectPartyStatusReadouts,
 } from '../core/inspect/battle-inspect.js'
-import type { SaveSnapshot } from '../core/save/data.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 import { getWord } from '../core/word-lookup.js'
 import { getLanguage, localize, setLanguage, subscribeLanguage } from '../localization/language.js'
@@ -21,7 +20,6 @@ import type { DisplayScaleController } from './display-scale.js'
 import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { getMapName } from './map-names.js'
 import { DOT_COLORS, type MinimapController, setupMinimap } from './minimap.js'
-import { parseImportedSave, serializeSave } from './save-io.js'
 import { CHECKPOINTS, checkpointName } from './speedrun/checkpoints.js'
 import {
   clearSpeedrunBests,
@@ -35,6 +33,8 @@ import {
 import { loadSettings, saveSetting } from './speedrun/store.js'
 import { formatHms, parseHms } from './speedrun/time-format.js'
 import { showToast } from './toast.js'
+import { button, muted, sectionTitle } from './tools-panel-dom.js'
+import { renderSaveSlots, type SaveSlotActions } from './tools-panel-save.js'
 import { injectToolsPanelStyles } from './tools-panel-style.js'
 
 export { injectToolsPanelStyles } from './tools-panel-style.js'
@@ -48,7 +48,7 @@ export interface PanelResources {
   levelUpExp?: readonly number[]
 }
 
-export interface ToolsPanelDeps {
+export interface ToolsPanelDeps extends SaveSlotActions {
   /** English is selectable only after its display pack has loaded successfully. */
   languageAvailable?: boolean
   onOpenChange?: (open: boolean) => void
@@ -64,10 +64,6 @@ export interface ToolsPanelDeps {
   sfxVolume: AudioVolumeController
   /** 视频(过场 mp4)音量,独立通道。三路共用同一静音键 → 主静音一键全覆盖。 */
   videoVolume: AudioVolumeController
-  /** 写存档位(导入用)。 */
-  saveSlot: (slot: number, gs: SaveSnapshot) => Promise<void>
-  /** 读存档位(导出用);该位无存档 → null。 */
-  loadSlot: (slot: number) => Promise<SaveSnapshot | null>
   /** 小地图底图:标准地图640×640 PNG dataURL,经bootstrap renderSceneThumbnail缓存;省略则无底图。 */
   getMapThumbnail?: (mapNum: number) => Promise<string | null>
 }
@@ -101,20 +97,6 @@ function liveRow(parent: HTMLElement, label: string): (value: string) => void {
   return (value) => {
     if (v.textContent !== value) v.textContent = value
   }
-}
-
-function sectionTitle(parent: HTMLElement, text: string): void {
-  const d = document.createElement('div')
-  d.className = 'tp-section-title'
-  d.textContent = uiText(text)
-  parent.appendChild(d)
-}
-
-function muted(parent: HTMLElement, text: string): void {
-  const d = document.createElement('div')
-  d.className = 'tp-muted'
-  d.textContent = uiText(text)
-  parent.appendChild(d)
 }
 
 /** 单位内「键 值」行(复用 .tp-stat-line):键(dim) + 等宽值(可上色)。 */
@@ -155,15 +137,6 @@ function sliderRow(
   r.append(l, slider, val)
   parent.appendChild(r)
   return { slider, val }
-}
-
-function button(parent: HTMLElement, text: string, onClick: () => void): HTMLButtonElement {
-  const b = document.createElement('button')
-  b.className = 'tp-btn'
-  b.textContent = uiText(text)
-  b.addEventListener('click', onClick)
-  parent.appendChild(b)
-  return b
 }
 
 /** 开关行:文字(左) + 复选框(右)。 */
@@ -668,82 +641,7 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     return
   }
 
-  // ── 存档(5 个存档位各自导入/导出) ──
-  sectionTitle(parent, '存档导入导出')
-  muted(parent, '每个存档位可单独导出为文件、或从文件导入(导入后在读档菜单载入)')
-  for (let slot = 1; slot <= 5; slot++) {
-    const row = document.createElement('div')
-    row.className = 'tp-save-row'
-    const lbl = document.createElement('span')
-    lbl.className = 'tp-save-label'
-    lbl.textContent = localize(`存档位 ${slot}`, `Slot ${slot}`)
-    row.appendChild(lbl)
-    button(row, '导出', () => {
-      void (async (): Promise<void> => {
-        try {
-          const g = await deps.loadSlot(slot)
-          if (!g) {
-            showToast(localize(`存档位 ${slot} 暂无存档`, `Slot ${slot} is empty`), {
-              type: 'error',
-            })
-            return
-          }
-          const blob = new Blob([serializeSave(g)], { type: 'application/json' })
-          const url = URL.createObjectURL(blob)
-          try {
-            const a = document.createElement('a')
-            a.href = url
-            a.download = `type-pal-save-slot${slot}.json`
-            a.click()
-          } finally {
-            URL.revokeObjectURL(url)
-          }
-          showToast(localize(`已导出存档位 ${slot}`, `Exported slot ${slot}`), { type: 'success' })
-        } catch (err) {
-          showToast(
-            `${localize('导出失败:', 'Export failed: ')}${err instanceof Error || err instanceof DOMException ? err.message : String(err)}`,
-            { type: 'error' },
-          )
-        }
-      })()
-    })
-    const fileInput = document.createElement('input')
-    fileInput.type = 'file'
-    fileInput.accept = '.json,application/json'
-    fileInput.style.display = 'none'
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files?.[0]
-      if (!file) return
-      const reader = new FileReader()
-      reader.onload = (): void => {
-        void (async (): Promise<void> => {
-          try {
-            await deps.saveSlot(slot, parseImportedSave(String(reader.result)))
-            showToast(localize(`已导入到存档位 ${slot}`, `Imported to slot ${slot}`), {
-              type: 'success',
-            })
-          } catch (err) {
-            showToast(
-              `${localize('导入失败:', 'Import failed: ')}${err instanceof Error ? err.message : String(err)}`,
-              {
-                type: 'error',
-              },
-            )
-          }
-        })()
-      }
-      reader.onerror = (): void => {
-        showToast(`${localize('导入失败:', 'Import failed: ')}${reader.error?.message ?? ''}`, {
-          type: 'error',
-        })
-      }
-      reader.readAsText(file)
-      fileInput.value = '' // 允许重复导入同名文件
-    })
-    button(row, '导入', () => fileInput.click())
-    row.appendChild(fileInput)
-    parent.appendChild(row)
-  }
+  renderSaveSlots(parent, deps)
 }
 
 function updateMusicSourceUi(parent: HTMLElement, controller: MusicSourceController): void {

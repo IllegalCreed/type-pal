@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-25 CODE58代码接受：原三文件与文件IO/共用DOM两叶逐文件八维闭合；用户批准导入读取错误提示，正式单红后7绿，11相邻文件102绿与typecheck0；原生Chrome真NotFoundError、0写/槽不变、同名重选成功。三新关闭，3447tracked／491closed／73review／2883pending；固定79accept／4partial／0pending。统一门/coverage/PR仍等全部pre94。 [当前回执](tools-panel-closeout/README.md)。
+
 2026-10-25 CODE53代码接受：事件专测21旧身份完整映射到32例，颜色/CD/镜头三项旧21绿新单红，最终9实际文件518绿、typecheck0。15个声明文件逐项有据；本文件新关闭1项，3445tracked／488closed／74review／2883pending；固定78accept／5partial／0pending。全部pre94前统一门/覆盖率/PR继续延后。 [本片合同与原件](event-opcodes-quality/README.md)。
 
 2026-10-24 CODE53中文功能画面与CODE58结构/专测返工，77accept／6partial／0pending不变；仅静态样式新关闭1项，3439tracked／477closed／76review／2886pending。[原件与限制](status-tools-closeout/README.md)。GS/Dev广域及导出失败等继续review，全仓/coverage/单PR待全部pre94。
@@ -77,7 +79,7 @@
 | [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | accept | [当前六文件代码接受](minimap-closeout/README.md)：三职责/只读依赖、22直接+32相邻、330核心及成功缓存单红；保留明示启发式边界，57/58及最终统一门另核 |
 | [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | partial | [工具/thumbnail有限切片](core-comment-audit/tools-thumbnail-hotkeys/README.md)：1944行宿主与两helper测试全文，注释/接线已核；未驱动thumbnail，seam/色板/视觉仍review |
-| [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [当前结构与测试返工](status-tools-closeout/README.md)：样式/私有依赖/键义反控成立；导出失败待裁决，Dev广域未关闭 |
+| [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | accept | [原三文件与两叶代码接受](tools-panel-closeout/README.md)：导入正式单红/7绿、102相关、原生Chrome读错+重选及TS还原；任务review，统一门延后 |
 | [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | accept | [九文件及quick-save补强](save-v1-local.json)：52相邻/20386check/19988official ratchet与protected，全部零诊断；5次真实文件/IDB验证，既有反控复用 |
 | [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | accept | [九文件及quick-save补强](save-v1-local.json)：52相邻/20386check/19988official ratchet与protected，全部零诊断；5次真实文件/IDB验证，既有反控复用 |
 | [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |

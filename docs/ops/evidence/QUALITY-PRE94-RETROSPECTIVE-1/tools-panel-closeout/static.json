@@ -1,0 +1,267 @@
+{
+  "state": "CODE58 scoped static validation accepted; no unified-gate or merge credit",
+  "archive": {
+    "path": "static-receipts.json.gz",
+    "sha256": "fd87f3197b7dc178b0c94ba3bf36a90241bec228e2b8e57bd20854de2f704c5a",
+    "members": 37
+  },
+  "gates": [
+    {
+      "id": "docs-r2",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.904Z",
+      "end": "2026-10-24T16:55:57.346Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0
+    },
+    {
+      "id": "model-r2",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.918Z",
+      "end": "2026-10-24T16:55:58.351Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0
+    },
+    {
+      "id": "testing-r2",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.927Z",
+      "end": "2026-10-24T16:55:56.094Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lore-r2",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.930Z",
+      "end": "2026-10-24T16:55:56.035Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0
+    },
+    {
+      "id": "content-r2",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.926Z",
+      "end": "2026-10-24T16:55:56.355Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0
+    },
+    {
+      "id": "progress-r2",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.937Z",
+      "end": "2026-10-24T16:56:00.328Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0
+    },
+    {
+      "id": "ledger-r2",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.926Z",
+      "end": "2026-10-24T16:55:57.877Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0
+    },
+    {
+      "id": "diff-r2",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.931Z",
+      "end": "2026-10-24T16:55:56.012Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lint-r2",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T16:55:55.927Z",
+      "end": "2026-10-24T16:55:59.255Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3ca935065222db3bd75999109612061e3fdb7d62",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    }
+  ],
+  "lint": {
+    "files": 6072,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "complete": true
+  },
+  "ledger": {
+    "tracked": 3447,
+    "closed": 491,
+    "review": 73,
+    "pending": 2883
+  },
+  "cards": {
+    "accept": 79,
+    "partial": 4,
+    "pending": 0
+  },
+  "firstFailures": [
+    {
+      "id": "final-docs",
+      "exit": 1,
+      "reason": "125 tools passed, then two archival status/link diagnostics; raw retained, not passed aggregate"
+    },
+    {
+      "id": "final-ledger",
+      "exit": 1,
+      "reason": "tracked declared3445 instead of3447; corrected declaration, no change to semantic closure"
+    }
+  ],
+  "retainedValidation": "125 docs-tool tests (TAP #pass125/#fail0/#skip0) in final-docs raw reused; unchanged tool suite not repeated after only owned Markdown/metadata corrections. Six actual static components run separately, all current exits0/stderr0.",
+  "inputs": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+      "sha256": "4c9ef604606556d013e2227f3b39140c9205d0b76c567737cdcea4b98cbd7610"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "sha256": "d52d6a0555d83f31c5c1df8999d3d0f7fde3f93818e06e4911b5239339591632"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "sha256": "b1ef68289484d6f0fc25aac223e5b32aa48c01de9129daae8c529ab1912a8c18"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "sha256": "bc37bb5d5c2de55de3501832aa2224f7f1505749aee677035cb79257b82f2aed"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+      "sha256": "d515cd4fe43be28a36d8afc4e9565bd59db9ccfc4a0e0c31219be61bffdd8052"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+      "sha256": "dd3fee443b8d755373164a80989e4e65da2f8c3a72e3e0c48573e3ad3f1f652b"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md",
+      "sha256": "d6bbd4e6a44e22521e687431e6880a1aaf952a20e13a3f7649283343440da93f"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "sha256": "f78dfdb87e3e4965e0c26225a592615ef41ad98f7ebf85fa2c4614291efd2673"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "sha256": "b3ebb1e384330f013abccf9e76224080c9d398e4915ce55865cdad64683b4b42"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "sha256": "2e4121b75454c428d4a0147bb5311f035ad8fa6fba23bbc6bcc806544a5c7221"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "sha256": "7ef859291ab137e8e813ee7ecf0af03eefdef721b37473673504fc2c5bb91334"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "sha256": "76bf8ffe63e39ec2b28e86e69efd1ad33a9245c74705d15c878aec84fb695bd4"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "sha256": "0344df1eb4d719544db627f3bfa845530dfb5baed848517ab52f25875e453ee6"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-dom.ts",
+      "sha256": "68819b726d01e13ff5a7142929bca0b7f19e4d16a2f6926e98f4482dc1b2009f"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-save.ts",
+      "sha256": "e8ec9cff6baa9f891e2898e84a3f67709f5a34161d0f69546aa5d9a0046bd889"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "2cef2f55c015be3670405b291db640bfae274f1f493a8ac556189a12c3d9fc58"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md",
+      "sha256": "c91440aa47acbdd96153377c6b29b1310d0a19bb8592ca4644f7a7e19eae5db5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/import-reader-error.png",
+      "sha256": "0b4314d86fabf1b9c8a14b73770b0259d11c9d8627714042e62ee8b9297d6401"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/prove-refactor.cjs",
+      "sha256": "b522661c6acbf9055fb5637d9e89d6c1fa83953db53e2f9f1c3503605b17a4ce"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/receipts.json.gz",
+      "sha256": "6ce884ae0d11995b6aa9767613ade4315c01ce4e39ab63dcbd8978973fa026df"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/review.json",
+      "sha256": "7be3dc76662316327924b820d1c4a9006c067fe2dccbc9d1e78d92eb3e9fea9a"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/verify.mjs",
+      "sha256": "5e91da0ff18a41f2a767297f9dde61368f6a50bcf694f38c4e4e346a396d8822"
+    }
+  ],
+  "notRun": ["whole check", "official coverage/ratchet", "protected fast", "PR/merge"]
+}
