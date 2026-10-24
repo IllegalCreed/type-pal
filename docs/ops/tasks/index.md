@@ -57,6 +57,7 @@ Template: governance-index-v1 / 1.0.0
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入](GAME-MENU-HELPER-API-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |

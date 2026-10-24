@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 79,
+  "currentAccepted": 80,
   "cards": [
     {
       "id": "1",
@@ -1133,7 +1133,11 @@
       ],
       "scopeConfirmed": true,
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
-      "findings": "Original scoped code accepted after explicit eight-axis review/evidence reuse and necessary rework.3q approved dead interfaces removed; real replay false-green fixed. Current509game/69Node/TC/lint0 support, not substitute, file decisions. Unified integration gates/PR deferred until all pre94."
+      "findings": "Map-only rejection counter repaired and independently observable; prior whole-file/card code acceptance restored, unrelated claims retained. Unified integration still deferred.",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "currentReviewSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25"
     },
     {
       "id": "3s",
@@ -2237,9 +2241,9 @@
         }
       ],
       "scopeConfirmed": true,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/review.json",
-      "findings": "原15声明文件均有当前八维证据；最后事件专测完成合法工厂/真实依赖、逐例映射、完整毒槽oracle、三业务反控和518相邻。代码接受，任务review与统一门分开；不扩大英文/普通剧情视觉信用。 相邻解释器仅减无消费声明及更正四处注释，整TS桥与最终518支持旧源码接受刷新。",
-      "currentReviewSha256": "be6537246013ae20c43e431d30d5903ea1fd839924ed8b15aed0f5083dd8903b",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "findings": "Map-only rejection counter repaired and independently observable; prior whole-file/card code acceptance restored, unrelated claims retained. Unified integration still deferred.",
+      "currentReviewSha256": "83abdc7f23f3ba4daacac7487727c7e9fbed72c9506d0f5d2463bc631ca56caf",
       "currentReviewer": "Codex",
       "currentReviewDate": "2026-10-25"
     },
@@ -2367,8 +2371,8 @@
       "sha256": "f27f2d45832a0d84efb36c0d279425099143e4e19c7435a21a9c729daab724e9",
       "lines": 64,
       "historicalStatus": "review",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2391,8 +2395,13 @@
           "text": "- Codex 范围/前提核验: counter（已证主 gameplay seam repair 与 bootstrap thumbnail 直绘存在边界，但缺真实 thumbnail 像素 oracle，不能安全改行为）"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "findings": "Original whole root/two tests and extracted leaves code accepted after eight-axis review, valid controls, approved seam and map IO/identity/cache repair. Seven new closures in window; unified gates deferred.",
+      "currentReviewSha256": "58c3cae3814a64b8fc313a046ee88748de450a318a9b05d3f4830fff5b19eed5",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25"
     },
     {
       "id": "58",
@@ -4282,18 +4291,18 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 4,
-    "accept": 79
+    "partial": 3,
+    "accept": 80
   },
   "lastIncrementalReview": {
     "date": "2026-10-25",
-    "base": "47b14abc282ecf08a9795263936475519a104269",
-    "scope": "CODE58 original three files and save/DOM extraction; code accepted, unified gates deferred",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/review.json",
+    "base": "624478c9ff3554d51142214d4d7aef78d67922fb",
+    "scope": "CODE57 accepted after approved seam/map ownership and identity/cache repair;3r/53 restored",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
     "counts": {
       "pending": 0,
-      "partial": 4,
-      "accept": 79
+      "partial": 3,
+      "accept": 80
     }
   },
   "incrementalReviewHistory": [
@@ -4805,6 +4814,28 @@
         "pending": 0,
         "partial": 5,
         "accept": 78
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "47b14abc282ecf08a9795263936475519a104269",
+      "scope": "CODE58 original three files and save/DOM extraction; code accepted, unified gates deferred",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 4,
+        "accept": 79
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "624478c9ff3554d51142214d4d7aef78d67922fb",
+      "scope": "CODE57 finite quality/seam work, map IO direct counter suspends3r/53 aggregate acceptance",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 6,
+        "accept": 77
       }
     }
   ]

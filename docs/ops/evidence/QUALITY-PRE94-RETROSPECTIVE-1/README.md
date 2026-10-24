@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+当前2026-10-25：[CODE57代码收口](bootstrap-quality/README.md)，固定80accept／3partial（1／3m／42）。全仓／coverage／protected／PR待全部pre94；下方旧批次按原时点读取。
+
 2026-10-24 [CODE3m／3n八维与测试返工](battle-core-fade-quality/README.md)：获准FLOAT中间赋值/目录内部签名、typed夹具与两重复合同迁移；只定向/必要静态，全部剩余pre94解决后一个PR及统一门，未新关闭。
 
 2026-10-23 [CODE3l规则与生命周期](battle-lifecycle-quality/README.md)：规则单Owner提取、获准入场/跨战缓存修复、真实宿主反例与浏览器局部观测；集中门收尾中。
@@ -467,3 +469,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-25 [CODE53事件专测／原15文件代码接受](event-opcodes-quality/README.md)：21→32逐例映射、合法工厂、三项旧绿新单红与518相关；固定78accept／5partial；统一门/coverage/PR仍待全部pre94。
 
 2026-10-25 [CODE58工具面板代码接受](tools-panel-closeout/README.md)：原三文件与两叶完整八维、正式单红/102相关、原生Reader失败与重选、TS还原；固定79accept／4partial；统一门/PR继续等全部pre94。
+
+2026-10-25 [CODE57五文件/获批补缝与新换图counter](bootstrap-quality/README.md)：57相邻/TC0及真实像素红绿；换图失败丢活资源/未处理拒绝导致event-system及3r/53整卡credit暂撤。固定77accept/6partial，未强闭合，统一门仍延后。
+
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [本窗代码与真实回归](bootstrap-quality/README.md)。

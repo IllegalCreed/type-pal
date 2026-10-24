@@ -7,6 +7,10 @@ Phase: phase1 game
 Capability: Q3 game/shell
 Visual Verification Timing: functional-ui（缩略图/小地图功能性画面；不做剧情 E2E）
 
+## 当前代码验收
+
+原三个范围文件及拆出的DOS/thumbnail代码与专测已按八维接受；当前无本卡未修产品counter。统一全仓/coverage/protected和合并仍待父卡剩余pre94。当前事实见文末2026-10-25接收与bootstrap-quality证据；下方原初准入是历史，不能覆盖本条。
+
 ## 目标
 
 逐文件核验 bootstrap 启动编排、相关测试与地图缩略图路径，确认资源加载、场景切换、thumbnail caller、framebuffer ownership 与 SDLPal scene 真值一致；明确 `renderMapThumbnail` 未调用 `repairTilemapSeams` 是否属于可直接修复的工程缺陷，还是需要用户/视觉证据裁决。
@@ -41,7 +45,7 @@ Visual Verification Timing: functional-ui（缩略图/小地图功能性画面�
 - 定向：`bootstrap-load.test.ts`、`bootstrap.glm-next-wave.test.ts`、`bootstrap-resources.test.ts`，共 6 tests 通过；这些只证明公开 helper/资源端口，不证明 thumbnail closure。
 - 当前结论：留在 review，未运行本卡专属全仓收口门；不得以现有包级全绿关闭 bootstrap.ts。
 
-## 当前模式推进记录
+## 历史首次模式推进记录（已由2026-10-25后继取代）
 
 - Codex 范围/前提核验: counter（已证主 gameplay seam repair 与 bootstrap thumbnail 直绘存在边界，但缺真实 thumbnail 像素 oracle，不能安全改行为）
 - 受委派 Coding Owner / 隔离分支: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / `codex/code-quality-3y`
@@ -51,7 +55,7 @@ Visual Verification Timing: functional-ui（缩略图/小地图功能性画面�
 - 用户产品裁决/体验验收: pending（是否要求 thumbnail 与 gameplay seam 补偿一致）
 - done 准入: blocked by missing thumbnail pixel oracle / visual decision
 
-## 下一位 Agent 提示词
+## 历史首次交接提示词（已由2026-10-25后继取代）
 
 ```text
 接手任务：CODE-QUALITY-57 game bootstrap thumbnail seam boundary
@@ -62,3 +66,13 @@ Visual Verification Timing: functional-ui（缩略图/小地图功能性画面�
 不要做：不得把 repairTilemapSeams 直接接入 bootstrap、不得改地图 schema/save/启动时序/公共接口
 输出：primary/caller/oracle 证据、counter/用户待裁决问题；未补证据前保持 review
 ```
+
+
+## 2026-10-25 换图失败直接counter
+
+2026-10-25 CODE57增量：两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修、57相邻/TC0成立。另真实换图失败使活瓦片消失并未处理拒绝；event-system旧关闭撤rework，3r/53整卡accept暂停。当前3450tracked／495closed／74review／2881pending；固定77accept／6partial／0pending。统一门/coverage/PR继续等全部pre94。 [当前八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。已接收的其它文件/功能与53状态/毒/GS专测信用保留；暂停的是含event-system的整文件/整卡accept。新[失败归属风险卡](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)等用户答复，未改换图实现。57新增模块职责与获批小地图补缝有据，不代替根异常闭环。
+
+
+## 2026-10-25 当前代码接受（统一集成另核）
+
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [逐文件八维/原件/只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。前节的撤回/用户待答是修前时点；本节以正式反例、批准和当前候选恢复event-system及3r/53代码信用，并接收57原三个范围文件及两个独立叶。历史原件、其它合同和集成待门不改写为通过。

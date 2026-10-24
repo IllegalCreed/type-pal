@@ -205,3 +205,13 @@ GS模型与纯战斗投影职责分离、四文件八维和正式codec字段迁�
 场景/队伍/索引图职责与page宿主分离，五个文件逐项A–H新关闭，队伍专测旧接受刷新。完整picker执行代码、原其它函数/全局/类型/出口及外部runtime依赖可逆还原，UI/状态/创建顺序保留；私有上下文和状态键类型收窄。旧party2例与已批准3o零记录合同漂移，基点同错后修完整16槽oracle；原43身份保留，10文件106绿，最终合法像素单例绿/反控单红、typecheck0。中间错误/无效反控与已知DEV合成标记/文案限制均明确留存。
 
 53不因Dev接受升整卡：原声明的419行event-opcodes.cov85.test.ts仍pending（本轮全文已读，尚未完成caller/oracle/排重/执行），75断言疑有相同旧record模型，多opcode混合用例和弱no-op仍需核。只读上下文P07不冒充范围文件关闭。固定77accept/6partial不变，统一门/coverage/protected/PR等全部pre94。原件、低成本复验及下一片见[本窗唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)。
+
+
+## 2026-10-25 换图失败直接counter
+
+2026-10-25 CODE57增量：两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修、57相邻/TC0成立。另真实换图失败使活瓦片消失并未处理拒绝；event-system旧关闭撤rework，3r/53整卡accept暂停。当前3450tracked／495closed／74review／2881pending；固定77accept／6partial／0pending。统一门/coverage/PR继续等全部pre94。 [当前八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。已接收的其它文件/功能与53状态/毒/GS专测信用保留；暂停的是含event-system的整文件/整卡accept。新[失败归属风险卡](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)等用户答复，未改换图实现。57新增模块职责与获批小地图补缝有据，不代替根异常闭环。
+
+
+## 2026-10-25 当前代码接受（统一集成另核）
+
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [逐文件八维/原件/只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。前节的撤回/用户待答是修前时点；本节以正式反例、批准和当前候选恢复event-system及3r/53代码信用，并接收57原三个范围文件及两个独立叶。历史原件、其它合同和集成待门不改写为通过。

@@ -1456,8 +1456,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
-      "coreConclusion": "保存2026-10-05 event-system解释器/脚本生命周期审计：原卡称5110行实现与5973行主测试核验，无新direct defect、无实现改动；global ip、waiting、异步owner与resume均按原caller，不移植为Reforge结构。",
+      "readMethod": "Owned CODE57 map ownership scoped delta",
+      "coreConclusion": "CODE57 code accepted; unified gates deferred.",
       "documentStatus": "historical; original done",
       "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
       "originalIdentity": {
@@ -1579,10 +1579,10 @@
       "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
       "sourceGitObject": "1aa0b56ee010044f6925f9c19536e53da475d740",
       "candidateSha256": "611dcd2c390a3f8300b59b7f45b6a80976e7cb5e830275d7a458f32803c9ed79",
-      "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+      "afterSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
-        "implementationSha": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+        "implementationSha": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
         "history": [
           {
             "date": "2026-10-16",
@@ -1594,12 +1594,12 @@
         ]
       },
       "evidence": {
-        "kind": "independent-semantic-review-and-strict-byte-integration",
-        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "kind": "codex-owned-pre94-map-ownership-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
         "sourceSha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
         "candidateSha256": "611dcd2c390a3f8300b59b7f45b6a80976e7cb5e830275d7a458f32803c9ed79",
-        "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
-        "lineCount": 256,
+        "afterSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
+        "lineCount": 266,
         "exactOriginalBytes": 14309,
         "originalPreservation": {
           "startMarker": "<!-- original-source-quote:start -->",
@@ -1637,7 +1637,7 @@
         "after": "historical。旧全绿和预期stderr不能代替当前零诊断/测试质量判断；未知fallback仍需真实caller而非静态删分支。尾draft不改变历史done，也不授本次实现或动态信用。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "1-256",
+      "reviewedLines": "Board/ledger and owned projections only",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {

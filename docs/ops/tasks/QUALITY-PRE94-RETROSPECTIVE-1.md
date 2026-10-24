@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前2026-10-25：固定83卡80代码accept／3partial（1／3m／42），CODE57原范围及获批地图修复代码接受，3r／53信用恢复。七文件新关闭；机器账本与全部原件见[本窗](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。统一check／official／protected及一个PR等剩余pre94解决，94–102不扩展。下方各旧时点计数保持历史。
+
 > 2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
 
 > 2026-10-24 CODE42有限质量接受：3435tracked／470closed／79review／2886pending，五新关闭、两旧测试刷新；parser/state/draw职责与三个typed夹具叶完成，两个死矩形测试精确退役。105直接／427相邻、game TC与局部静态；姓名速度counter待实际裁决，42整卡仍partial，固定76／7不变。统一全仓/official/protected/PR待全部pre94。[本窗证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)。
@@ -1922,3 +1924,18 @@ Codex同一3y单Owner build allowed：仅将系统页中的存档DOM/异步文�
 基点624478c9f，同一3y、Codex单Owner，79accept/4partial。已复用GLM shell-bootstrap全文与旧停止线，当前1949行按1–380/381–810/811–1240/1241–1640/1641–1955全文核读，真实main唯一安装、Save/scene切换/各modal/finally、cache与两个消费端已定位。build allowed仅两专测判别力/合法Canvas整改、bootstrap缩略图闭包纯搬移到独立scene-thumbnail叶（palette/缓存/并发Owner一起搬）；可删除私有无真实caller的paletteOverride负担、合并重复cutscene预载扫描，但须给完整有界逆变换证明并分提交，不改行为或公共出口。先保留旧3例，再核clone颜色tuple共享/黑色tuple共享/非默认画布尺寸等有效反控，保留所有旧合同。缩略图seam只读取证真实地图像素，不接repair、不改资源/色表/缓存策略或UI，若需修补另取具体产品裁决。仍不跑全仓/official/protected、不建PR，不扩94–102。
 
 CODE57补充准入：为关闭原bootstrap-context-design的重要结构欠账，允许把DOS开场/结局有序演出提成独立dos-cutscenes工厂，只借用fb/context/初始palette/两资源表，当前色表getter、音乐意图与MGO IO为窄端口，不接整份GameState/AudioManager/LoadedAssets。实例必须在Dev/脚本入口注册前建立，避免把原hoisted函数改成TDZ；原try/finally、脚本等待、资源fallback与音乐/绘制/等待顺序完整TS还原，产品行为不改。用户已批准小地图细缝修补，须在纯重构提交之后另保留实际像素红例再修。
+
+
+### CODE57新地图失败counter
+
+小地图细缝用户批准，正式自包含PNG单红/真实血池边缘业务单红后修，当前57相邻/TC与真实main启动通过。纯重构与修复分提交。进一步核真实0x99换图异常时，JSON500未处理拒绝、blob500提前删除当前瓦片均得到实际Chrome业务反例；当前客栈画布已实看变黑底人物。已开[窄风险卡](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)请求失败时保留当前地图并记录错误，尚未回答/尚未改此实现。event-system旧整文件关闭及原3r/53含它的整卡accept必须暂撤；已成立的其它文件与合同保留。57仍partial，不用既有包绿掩盖直接counter。
+
+
+### CODE57当前文件交付与范围保持
+
+2026-10-25 CODE57增量：两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修、57相邻/TC0成立。另真实换图失败使活瓦片消失并未处理拒绝；event-system旧关闭撤rework，3r/53整卡accept暂停。当前3450tracked／495closed／74review／2881pending；固定77accept／6partial／0pending。统一门/coverage/PR继续等全部pre94。 原1949行root全文/调用与逐项八维复用、根状态/资源Owner和新工厂绑定有完整有界还原，不能据此掩盖新直接counter。剩余1／3m／3r／42／53／57，新增两partial只因同一event-system反例，非另开94–102；未证跨scene竞态不强行关闭。 [唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
+
+
+### 2026-10-25 CODE57及地图ownership代码收口
+
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 下载完整后才发布，核心消费原拒绝而不重置脚本/NPC；两次请求/离开返回由revision隔离。成功换图同步身份及借用缓存的两地图字段，非当前scene已有override在入场按现存合法地图重新配对。新cached分支未改Save/剧情脚本或shared cache API。已有全文/真值/门原件复用；初始错误夹具/observer和缺资源map0不获信用。[当前唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。

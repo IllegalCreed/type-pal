@@ -254,3 +254,13 @@ historical。旧全绿和预期stderr不能代替当前零诊断/测试质量判
 > 不要做：不得凭 opcode 数量改玩法，不得改 scene 数据/save/schema/迁移/生成物/E2E/coverage runner，不得把 Reforge 结构带回第一阶段。
 > 输出要求：历史交接已收口；无下一位 Agent 提示词，继续治理必须新开不重叠卡并重新过前提真值门。
 > ```
+
+
+## 2026-10-25 换图失败直接counter
+
+2026-10-25 CODE57增量：两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修、57相邻/TC0成立。另真实换图失败使活瓦片消失并未处理拒绝；event-system旧关闭撤rework，3r/53整卡accept暂停。当前3450tracked／495closed／74review／2881pending；固定77accept／6partial／0pending。统一门/coverage/PR继续等全部pre94。 [当前八维/原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。已接收的其它文件/功能与53状态/毒/GS专测信用保留；暂停的是含event-system的整文件/整卡accept。新[失败归属风险卡](../../../tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)等用户答复，未改换图实现。57新增模块职责与获批小地图补缝有据，不代替根异常闭环。
+
+
+## 2026-10-25 当前代码接受（统一集成另核）
+
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [逐文件八维/原件/只读复验](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。前节的撤回/用户待答是修前时点；本节以正式反例、批准和当前候选恢复event-system及3r/53代码信用，并接收57原三个范围文件及两个独立叶。历史原件、其它合同和集成待门不改写为通过。

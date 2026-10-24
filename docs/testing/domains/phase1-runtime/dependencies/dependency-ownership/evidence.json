@@ -42,7 +42,7 @@
       "lines": "6",
       "anchor": "export function getCurrentMapNum",
       "role": "owner",
-      "sha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0"
+      "sha256": "7a3b6d9d9b1686b14e684175f8f54c14ead752c4a110eb67c336ec01ba03c44e"
     },
     {
       "path": "packages/game/src/core/menu/menu-stack.ts",
@@ -290,6 +290,22 @@
       ],
       "scope": "Only poison sourceRef and its anchor range updated. User-approved entry reservation and same-record Wear movement; owner export/definition Map unchanged. Current11-file491 regression includes D1. Historical D1 SCC/token/needles/browser/publication/status/versions unchanged; whole-pre94 gates deferred.",
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md"
+    },
+    {
+      "date": "2026-10-25",
+      "revision": "fdbb909f5389ef6a4c4f0a72ccf1b6652d4b4d15",
+      "action": "scene identity comment and successful map-only caller binding",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/scene-identity.ts",
+          "lines": "6",
+          "anchor": "export function getCurrentMapNum",
+          "role": "owner",
+          "sha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0"
+        }
+      ],
+      "scope": "Only scene-identity comments change; getter/setter typed AST identical. Approved bootstrap map-only publication uses existing setter. Current seven root browser cases are separate evidence; historical D1 SCC/token/needles/browser, catalog dates/status/versions and execution credit remain unchanged.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md"
     }
   ],
   "_governance": {
