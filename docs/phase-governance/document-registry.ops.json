@@ -1340,20 +1340,20 @@
       "phase": "ops",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r58-task-template-sources.json",
-      "artifactOnly": true
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/templates/TASK-template.md",
       "phase": "ops",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r58-task-template-sources.json",
-      "artifactOnly": true
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/guides/documentation-model.md",

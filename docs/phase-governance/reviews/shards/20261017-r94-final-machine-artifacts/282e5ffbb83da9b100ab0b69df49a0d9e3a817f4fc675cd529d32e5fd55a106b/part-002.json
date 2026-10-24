@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "27ccc6099c0ec7042e47c6c250776b10ed0c1beb50c4f29b8fc43f6839cc3873",
+  "generation": "282e5ffbb83da9b100ab0b69df49a0d9e3a817f4fc675cd529d32e5fd55a106b",
   "key": "part-002",
   "positions": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2198,7 +2198,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "640baf1c94bdf4e2d5500be4be4ca958a3e43499b6869382ba1a54c0d88a90c3",
+      "afterSha256": "24b702b90808bc77e13e38c83210d21096b22d35c3d9605f3371919028123ce2",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3058,6 +3058,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "640baf1c94bdf4e2d5500be4be4ca958a3e43499b6869382ba1a54c0d88a90c3",
+          "afterSha256": "24b702b90808bc77e13e38c83210d21096b22d35c3d9605f3371919028123ce2",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3225,7 +3237,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "a78dd6afc70bc694f739207696f9f7d0ad390fb1953bb700548c679efe9aa80a",
+      "afterSha256": "1b6554abd96121198068cd030f77ebccc0d3bc83ff264175f2640420ff7026de",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -3632,6 +3644,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "a78dd6afc70bc694f739207696f9f7d0ad390fb1953bb700548c679efe9aa80a",
+          "afterSha256": "1b6554abd96121198068cd030f77ebccc0d3bc83ff264175f2640420ff7026de",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3662,7 +3686,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "fa39cb107892a678e71645e0b814f89ba089dd7b81631e399d7b6a4bb51bc3d3",
+      "afterSha256": "bb115b829f5d324b29be9ab1017a4e00db4495e14bd4cb198a7db64e1831f0a5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -3896,6 +3920,18 @@
           "beforeSha256": "e9b223e60c77f0adb1707eef3bd8b294b31cc5a6f3c0ffc8edd87a879e1dffc3",
           "afterSha256": "fa39cb107892a678e71645e0b814f89ba089dd7b81631e399d7b6a4bb51bc3d3",
           "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "fa39cb107892a678e71645e0b814f89ba089dd7b81631e399d7b6a4bb51bc3d3",
+          "afterSha256": "bb115b829f5d324b29be9ab1017a4e00db4495e14bd4cb198a7db64e1831f0a5",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

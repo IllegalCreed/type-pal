@@ -7906,6 +7906,106 @@
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
       "templateId": "governance-index-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/archive-record.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/audit-report.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/design-spec.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/governance-index.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/guide-runbook.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/narrative-idea.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/plan-status.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/reference-canon.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/task-card.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/e2e-report.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/e2e-stage-README.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/quality-gate.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/test-contract.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/test-domain-report.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/test-e2e-stage.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/test-run-report.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

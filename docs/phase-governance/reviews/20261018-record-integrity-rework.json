@@ -2748,7 +2748,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "5025f478b718745ae613da8c471d7272b76a8227b8f46428d37fd97b76f77bc4",
+      "afterSha256": "acc0d17efcaf87fd49a5f1cf4f33f5af506c189c13148a9b84026a7dfb6fb01f",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2955,6 +2955,18 @@
           "beforeSha256": "21c9f8dc78c1ec4341b656185df5c5fcf44cb6238f14a6959646e2da853aaf22",
           "afterSha256": "5025f478b718745ae613da8c471d7272b76a8227b8f46428d37fd97b76f77bc4",
           "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "5025f478b718745ae613da8c471d7272b76a8227b8f46428d37fd97b76f77bc4",
+          "afterSha256": "acc0d17efcaf87fd49a5f1cf4f33f5af506c189c13148a9b84026a7dfb6fb01f",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3279,7 +3291,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
-      "afterSha256": "e2f70c7709bb9e963fcbe83342c4ec2f821c21cfde852c58e21bbaa5714c96f8",
+      "afterSha256": "26f1ffe68c8a7a3723ddafcab7a78f0c47e1f77a8ce93950d2b8bf63598dd9ad",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3316,6 +3328,18 @@
           "beforeSha256": "298f1a1fef894c2c3e479ff6eba6c4c2aae920729812c8185f6a6464a886458a",
           "afterSha256": "e2f70c7709bb9e963fcbe83342c4ec2f821c21cfde852c58e21bbaa5714c96f8",
           "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "e2f70c7709bb9e963fcbe83342c4ec2f821c21cfde852c58e21bbaa5714c96f8",
+          "afterSha256": "26f1ffe68c8a7a3723ddafcab7a78f0c47e1f77a8ce93950d2b8bf63598dd9ad",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3517,7 +3541,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
-      "afterSha256": "6c457f6a5f282b0f730caea43a679b6243dc88826c075657a3183a511d7864b3",
+      "afterSha256": "e583904f7e3286be9797f664119b0c4691ded3a310a6e0755d00d1af129a5670",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3591,6 +3615,18 @@
           "afterSha256": "83e5b35de4dd742e0536187a91d34219c3a912b01f93236807240394f2228a49",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "6c457f6a5f282b0f730caea43a679b6243dc88826c075657a3183a511d7864b3",
+          "afterSha256": "e583904f7e3286be9797f664119b0c4691ded3a310a6e0755d00d1af129a5670",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3691,7 +3727,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
+      "afterSha256": "597e51140524f288cd030ebd070a841d761c6dfd9c4e8e47b07dac87336c58d9",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3799,6 +3835,18 @@
           "beforeSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
           "afterSha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
           "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
+          "afterSha256": "597e51140524f288cd030ebd070a841d761c6dfd9c4e8e47b07dac87336c58d9",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

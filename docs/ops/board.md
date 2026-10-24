@@ -29,7 +29,7 @@ Template: governance-index-v1 / 1.0.0
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | Codex / 扩大R23–R36撤信与验收锚点补救，待非作者验收 | 机械保真不授语义信用；原回执保全 |
-| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / GLM一次执行683份；Owner并行接入212既有内容 | S40–S41共22篇在非作者验收；917当前待办/1828诊断分列 |
+| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / GLM一次执行683份；Owner并行接入212既有内容 | S40–S41共22篇非作者accept已接收；S42据证返工，语义与机械信用分轴 |
 | DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S38发布/补线/封存已非作者接受 | 269已接入；212仍零迁移信用，逐篇晋升/路由后续单独裁定 |
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |
@@ -48,3 +48,5 @@ Template: governance-index-v1 / 1.0.0
 - 任务顶部 Status、任务索引和此表必须一致。
 - 证据只放 evidence/<task-id>/；审计正文与探针脚本分离。
 - 历史报告保留原结论，不因归档升级为当前通过。
+
+S43 文档接入：S40–S41 22篇非作者accept接收，Owner接20路由并显式处置旧artifactOnly；S42 683包机械成果保留、语义返工（579仅SHA oracle、37残句、28MD需真实正文判定）。七重复清册仅批准合并设计不删除，139按原生/系统/MD分族准入；212及runtime信用0，E2E006日期红不续。父子卡rework，不合main、不推送、不done。

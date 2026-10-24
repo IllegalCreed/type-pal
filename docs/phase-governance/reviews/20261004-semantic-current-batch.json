@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "6c534868002088c91b65ad3f211bcf3f7dcc0a2ce44724c9d34be6f91c33f1aa",
+      "afterSha256": "9319559a2ad4080f1f9cf7db98651dcf6d76b38a7f588a5642cc5be2b5b58c61",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1279,6 +1279,18 @@
           "beforeSha256": "5d77f53708a0a1921888cef40ed8c46b3edf010683f2b6184f63e64602977229",
           "afterSha256": "6c534868002088c91b65ad3f211bcf3f7dcc0a2ce44724c9d34be6f91c33f1aa",
           "scope": "Single large-package admission in existing task/board only; source/semantic/migration/runtime unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "6c534868002088c91b65ad3f211bcf3f7dcc0a2ce44724c9d34be6f91c33f1aa",
+          "afterSha256": "9319559a2ad4080f1f9cf7db98651dcf6d76b38a7f588a5642cc5be2b5b58c61",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

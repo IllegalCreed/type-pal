@@ -1939,12 +1939,12 @@
     },
     {
       "path": "docs/phase2/reference/dialogue-presentation.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "S40 author manually read both full base body/quote and full fixed original; separate explicit static source slices only; no historical execution or runtime reenactment",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Author full document/source review in S40; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "六月外观/时序参考含FONT.MKF→Unifont更正、24ms与100ms分轴、普通行/tilde归因更正与尾停顿重置史；当前cue/rows/AssetId与四slot按静态源码限缩。advance/pageDone与update(typeMs+auto)分述，不冒称跳字只等尾停顿或700ms已验，历史缺口/勾选不作当前红绿。",
       "truthAnchors": [
@@ -1959,10 +1959,9 @@
         "packages/reforge/src/text/typewriter.ts:1-36"
       ],
       "unresolved": [
-        "S40 non-author document evidence acceptance pending; no whole implementation/product/visual audit.",
-        "Preserved R33 withdrawal/counters and original execution claims are not reauthenticated."
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "未参与者据两篇具体结论、固定原源逆回与明确源码切片独立验收；新版本限定接受另由Owner接入，其余文档继续。",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "phase2",
       "module": "reference",
       "capability": "phase2-reference-dialogue-presentation",
@@ -2034,26 +2033,15 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
-        "sourceSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
-        "candidateSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
-        "afterSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
-        "lineCount": 300,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 17519,
-          "sourceLines": 232,
-          "sourceFinalNewline": true,
-          "inverseSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
-          }
-        },
-        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S43/GLM-body-verdict.json",
+        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+        "candidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+        "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -2165,10 +2153,119 @@
           },
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S43 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+          "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S40 author manually read both full base body/quote and full fixed original; separate explicit static source slices only; no historical execution or runtime reenactment",
+            "unresolved": [
+              "S40 non-author document evidence acceptance pending; no whole implementation/product/visual audit.",
+              "Preserved R33 withdrawal/counters and original execution claims are not reauthenticated."
+            ],
+            "nextStep": "未参与者据两篇具体结论、固定原源逆回与明确源码切片独立验收；新版本限定接受另由Owner接入，其余文档继续。",
+            "stopLine": "No old R-wave claim restoration, no current implementation/runtime/E2E/visual/coverage credit; only explicit source read domain. New user-visible decisions require separate authorization.",
+            "counterReworkBlocked": [
+              {
+                "id": "R33-1",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 92:### \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）"
+              },
+              {
+                "id": "R33-2",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 129:### \u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）"
+              },
+              {
+                "id": "R33-3",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 137:> \u26a0️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**的机制，下面分述。"
+              },
+              {
+                "id": "R33-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No product execution or visual acceptance."
+              },
+              {
+                "id": "S40-NONAUTHOR-PENDING",
+                "status": "open",
+                "statement": "Owner authored both bodies; independent document acceptance required, no self-sign."
+              }
+            ],
+            "templateConformance": {
+              "status": "author-checked-pending-independent",
+              "templateId": "reference-canon-v1",
+              "templateVersion": "1.0.0",
+              "historyOverlay": true,
+              "scope": "five body and five archive sections; actual model check required; no completion status grant"
+            },
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
+              "sourceSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
+              "candidateSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
+              "afterSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
+              "lineCount": 300,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 17519,
+                "sourceLines": 232,
+                "sourceFinalNewline": true,
+                "inverseSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
+                "exactRoundTrip": true,
+                "trailingWhitespaceEncoding": {
+                  "space": "␠",
+                  "tab": "⇥"
+                }
+              },
+              "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+            }
+          },
+          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+            "originalCoreConclusion": "切片 1 子任务：对话框外观继承原版（spec for Claude）：这是 reference-canon，当前文档状态为 draft。全文 233 行、13 个标题；摘要/首段为「> 2026-06-26 立。承接 [backlog 议题 14 对话外观子项](../design-backlog.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+            "originalReviewDepth": "deep-semantic",
+            "originalReadMethod": "full-text UTF-8 source read and R33 semantic migration; quote inverse checked",
+            "originalContentReviewStatus": "content-reviewed",
+            "originalTemplateCompliance": "template-compliant",
+            "originalAfterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "ea884f54ef1006fa277af06f4efe24aa846394112367542191d0bf8f1dd9271b"
+            },
+            "originalEntryLocator": {
+              "record": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+              "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+              "sourceRecordSha256": "1ca2a3b7a81032ce9e381613ef1bc851e1c8ca8440d6b09afe9d2534cca672a5",
+              "sourceRecordGitObject": "56cb8caf8c6a3f6e0cd88f8b6a729daf31fd2cbb",
+              "entryIndex": 9,
+              "path": "docs/phase2/reference/dialogue-presentation.md"
+            },
+            "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "authorCanonicalTask": "/root/s12_semantic_author",
+            "nonAuthorReviewer": false,
+            "noNewSemanticOrTemplateOrRuntimeCredit": true
+          }
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "No old R-wave claim restoration, no current implementation/runtime/E2E/visual/coverage credit; only explicit source read domain. New user-visible decisions require separate authorization.",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
       "userVisibleBeforeAfter": "泛化历史封套→具体职责与时点/来源分层；原quote与产品行为零变化。",
       "reviewedLines": "1-312",
       "templateVersion": "1.0.0",
@@ -2224,8 +2321,10 @@
         },
         {
           "id": "S40-NONAUTHOR-PENDING",
-          "status": "open",
-          "statement": "Owner authored both bodies; independent document acceptance required, no self-sign."
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
         }
       ],
       "correctiveDelta": {
@@ -2236,45 +2335,9 @@
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
       },
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "task": "DOCS-RECORD-INTEGRITY-1",
-        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
-        "scopePointer": "/expandedAudit20261018",
-        "evidenceStatus": "pending-root-intake-at-generation",
-        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
-        "originalCoreConclusion": "切片 1 子任务：对话框外观继承原版（spec for Claude）：这是 reference-canon，当前文档状态为 draft。全文 233 行、13 个标题；摘要/首段为「> 2026-06-26 立。承接 [backlog 议题 14 对话外观子项](../design-backlog.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-        "originalReviewDepth": "deep-semantic",
-        "originalReadMethod": "full-text UTF-8 source read and R33 semantic migration; quote inverse checked",
-        "originalContentReviewStatus": "content-reviewed",
-        "originalTemplateCompliance": "template-compliant",
-        "originalAfterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
-        "oldDigest": {
-          "algorithm": "sha256",
-          "encoding": "UTF-8",
-          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
-          "value": "ea884f54ef1006fa277af06f4efe24aa846394112367542191d0bf8f1dd9271b"
-        },
-        "originalEntryLocator": {
-          "record": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
-          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
-          "sourceRecordSha256": "1ca2a3b7a81032ce9e381613ef1bc851e1c8ca8440d6b09afe9d2534cca672a5",
-          "sourceRecordGitObject": "56cb8caf8c6a3f6e0cd88f8b6a729daf31fd2cbb",
-          "entryIndex": 9,
-          "path": "docs/phase2/reference/dialogue-presentation.md"
-        },
-        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "authorCanonicalTask": "/root/s12_semantic_author",
-        "nonAuthorReviewer": false,
-        "noNewSemanticOrTemplateOrRuntimeCredit": true
-      },
       "templateConformance": {
-        "status": "author-checked-pending-independent",
-        "templateId": "reference-canon-v1",
-        "templateVersion": "1.0.0",
-        "historyOverlay": true,
-        "scope": "five body and five archive sections; actual model check required; no completion status grant"
+        "status": "template-compliant",
+        "scope": "Existing reference-canon-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
       },
       "currentAuthoredReview": {
         "task": "DOCS-FULL-TEMPLATE-1/S40",
@@ -2370,7 +2433,30 @@
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+        "afterSha256": "ab0a4f9585ff6473fcbbcef287a665dd87fed6c0a8afce562bdd332fb132ad3d",
+        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/1",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/phase2/reference/phase1-knowledge-harvest.md",
@@ -3527,12 +3613,12 @@
     },
     {
       "path": "docs/phase2/specs/editor-architecture.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "S40 author manually read both full base body/quote and full fixed original; separate explicit static source slices only; no historical execution or runtime reenactment",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Author full document/source review in S40; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "九业务模块与画布模式分层；字段只设一位作者，作者态Command/临时UI态/SAVE12游戏现场分轴；统一导航位置含精灵domain/view/action，current-author引用索引决定删除。恢复现行设计适用性，旧v2→v3/三签/历史UI数字不恢复，未核全实现。",
       "truthAnchors": [
@@ -3548,10 +3634,9 @@
         "packages/reforge/src/save/types.ts:1-12"
       ],
       "unresolved": [
-        "S40 non-author document evidence acceptance pending; no whole implementation/product/visual audit.",
-        "Preserved R33 withdrawal/counters and original execution claims are not reauthenticated."
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "未参与者据两篇具体结论、固定原源逆回与明确源码切片独立验收；新版本限定接受另由Owner接入，其余文档继续。",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "phase2",
       "module": "specs",
       "capability": "phase2-specs-editor-architecture",
@@ -3633,26 +3718,15 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
-        "sourceSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
-        "candidateSha256": "c15fb8aeb6ad3c05379ab66f27dd64df72f7626c9016347bf003e7f49efe71cd",
-        "afterSha256": "c15fb8aeb6ad3c05379ab66f27dd64df72f7626c9016347bf003e7f49efe71cd",
-        "lineCount": 340,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 26639,
-          "sourceLines": 265,
-          "sourceFinalNewline": true,
-          "inverseSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
-          }
-        },
-        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S43/GLM-body-verdict.json",
+        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+        "candidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+        "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -3780,10 +3854,124 @@
           },
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S43 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+          "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S40 author manually read both full base body/quote and full fixed original; separate explicit static source slices only; no historical execution or runtime reenactment",
+            "unresolved": [
+              "S40 non-author document evidence acceptance pending; no whole implementation/product/visual audit.",
+              "Preserved R33 withdrawal/counters and original execution claims are not reauthenticated."
+            ],
+            "nextStep": "未参与者据两篇具体结论、固定原源逆回与明确源码切片独立验收；新版本限定接受另由Owner接入，其余文档继续。",
+            "stopLine": "No old R-wave claim restoration, no current implementation/runtime/E2E/visual/coverage credit; only explicit source read domain. New user-visible decisions require separate authorization.",
+            "counterReworkBlocked": [
+              {
+                "id": "R33-1",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 83:  collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作"
+              },
+              {
+                "id": "R33-2",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 151:- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均"
+              },
+              {
+                "id": "R33-3",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 225:  edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续"
+              },
+              {
+                "id": "R33-4",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 262:- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里消费同 revision 的 diagnostics snapshot 与统一 `ProjectReferenceIndex`，不在状态条另建扫描器；异步地图正文引用另由带完整 coverage/revision 的 proof batch 提供，partial/failed "
+              },
+              {
+                "id": "R33-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No product execution or visual acceptance."
+              },
+              {
+                "id": "S40-NONAUTHOR-PENDING",
+                "status": "open",
+                "statement": "Owner authored both bodies; independent document acceptance required, no self-sign."
+              }
+            ],
+            "templateConformance": {
+              "status": "author-checked-pending-independent",
+              "templateId": "design-spec-v1",
+              "templateVersion": "1.0.0",
+              "historyOverlay": true,
+              "scope": "five body and five archive sections; actual model check required; no completion status grant"
+            },
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
+              "sourceSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+              "candidateSha256": "c15fb8aeb6ad3c05379ab66f27dd64df72f7626c9016347bf003e7f49efe71cd",
+              "afterSha256": "c15fb8aeb6ad3c05379ab66f27dd64df72f7626c9016347bf003e7f49efe71cd",
+              "lineCount": 340,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 26639,
+                "sourceLines": 265,
+                "sourceFinalNewline": true,
+                "inverseSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+                "exactRoundTrip": true,
+                "trailingWhitespaceEncoding": {
+                  "space": "␠",
+                  "tab": "⇥"
+                }
+              },
+              "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+            }
+          },
+          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+            "originalCoreConclusion": "2026-10-04 原复核：编辑器架构与工作台合同：这是 design-spec，当前文档状态为 draft。全文 262 行、14 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：SAVE12 场景现场不回写作者工程、不新增状态方案或剧情阶段；原编辑器 Page/Behavior/Hook 与预览合同保留。",
+            "originalReviewDepth": "deep-semantic",
+            "originalReadMethod": "full-text UTF-8 source read and R33 semantic migration; quote inverse checked",
+            "originalContentReviewStatus": "content-reviewed",
+            "originalTemplateCompliance": "template-compliant",
+            "originalAfterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "fc4db3e2c79bb0d9534b0727e9c723937609db0bca8aebc1debfa699fc72eeb1"
+            },
+            "originalEntryLocator": {
+              "record": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+              "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+              "sourceRecordSha256": "1ca2a3b7a81032ce9e381613ef1bc851e1c8ca8440d6b09afe9d2534cca672a5",
+              "sourceRecordGitObject": "56cb8caf8c6a3f6e0cd88f8b6a729daf31fd2cbb",
+              "entryIndex": 13,
+              "path": "docs/phase2/specs/editor-architecture.md"
+            },
+            "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "authorCanonicalTask": "/root/s12_semantic_author",
+            "nonAuthorReviewer": false,
+            "noNewSemanticOrTemplateOrRuntimeCredit": true
+          }
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "No old R-wave claim restoration, no current implementation/runtime/E2E/visual/coverage credit; only explicit source read domain. New user-visible decisions require separate authorization.",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
       "userVisibleBeforeAfter": "泛化历史封套→具体职责与时点/来源分层；原quote与产品行为零变化。",
       "reviewedLines": "1-353",
       "integrationReview": {
@@ -3857,8 +4045,10 @@
         },
         {
           "id": "S40-NONAUTHOR-PENDING",
-          "status": "open",
-          "statement": "Owner authored both bodies; independent document acceptance required, no self-sign."
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
         }
       ],
       "correctiveDelta": {
@@ -3869,45 +4059,9 @@
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
       },
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "task": "DOCS-RECORD-INTEGRITY-1",
-        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
-        "scopePointer": "/expandedAudit20261018",
-        "evidenceStatus": "pending-root-intake-at-generation",
-        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
-        "originalCoreConclusion": "2026-10-04 原复核：编辑器架构与工作台合同：这是 design-spec，当前文档状态为 draft。全文 262 行、14 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：SAVE12 场景现场不回写作者工程、不新增状态方案或剧情阶段；原编辑器 Page/Behavior/Hook 与预览合同保留。",
-        "originalReviewDepth": "deep-semantic",
-        "originalReadMethod": "full-text UTF-8 source read and R33 semantic migration; quote inverse checked",
-        "originalContentReviewStatus": "content-reviewed",
-        "originalTemplateCompliance": "template-compliant",
-        "originalAfterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
-        "oldDigest": {
-          "algorithm": "sha256",
-          "encoding": "UTF-8",
-          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
-          "value": "fc4db3e2c79bb0d9534b0727e9c723937609db0bca8aebc1debfa699fc72eeb1"
-        },
-        "originalEntryLocator": {
-          "record": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
-          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
-          "sourceRecordSha256": "1ca2a3b7a81032ce9e381613ef1bc851e1c8ca8440d6b09afe9d2534cca672a5",
-          "sourceRecordGitObject": "56cb8caf8c6a3f6e0cd88f8b6a729daf31fd2cbb",
-          "entryIndex": 13,
-          "path": "docs/phase2/specs/editor-architecture.md"
-        },
-        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "authorCanonicalTask": "/root/s12_semantic_author",
-        "nonAuthorReviewer": false,
-        "noNewSemanticOrTemplateOrRuntimeCredit": true
-      },
       "templateConformance": {
-        "status": "author-checked-pending-independent",
-        "templateId": "design-spec-v1",
-        "templateVersion": "1.0.0",
-        "historyOverlay": true,
-        "scope": "five body and five archive sections; actual model check required; no completion status grant"
+        "status": "template-compliant",
+        "scope": "Existing design-spec-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
       },
       "currentAuthoredReview": {
         "task": "DOCS-FULL-TEMPLATE-1/S40",
@@ -4003,7 +4157,30 @@
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "3ed87f734df357799c4d9a44205781d3deba5c14",
+        "afterSha256": "a0e4e271cd0862112c2b55d12f47bddb41ff45292f7757a891729a97f6d346bb",
+        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/0",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/phase2/specs/editor-design-system.md",
