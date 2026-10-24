@@ -170,50 +170,69 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/audits/README.md:1", "docs/ops/audits/README.md:7"],
-      "unresolved": [
-        "Index links are navigation only; each target owns its current state and evidence boundary.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "ops审计导航用六个可见入口区分架构队列、代码治理路线、逐文件账本、pre-E2E只读发现、修复总览与历史归档；原四个分类目的地均在quote外，计数回到真实账本consumer。导航current不替旧审计续期、不把只读发现当修复，也不授新build或产品执行通过。",
+      "truthAnchors": [
+        "docs/ops/audits/README.md#目的",
+        "docs/ops/audits/README.md#原文保全",
+        "docs/ops/audits/architecture-debt.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md",
+        "docs/ops/audits/pre-e2e/README.md",
+        "docs/ops/audits/pre-e2e/summary.md",
+        "docs/ops/guides/documentation-model.md"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
+      ],
+      "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
       "phase": "ops",
       "module": "audits",
       "capability": "README",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S35正文作者；nonAuthorReviewer=false）",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-24",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S35",
+          "nonAuthorReviewer": false,
+          "base": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "four full Markdown documents and exact original sources; source dependencies scoped below"
+        }
       ],
       "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
-      "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+      "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
       "publicCallers": [
-        "docs/ops/README.md → audits/README.md",
-        "task cards and governance ledgers"
+        "docs/ops/README.md（当前导航）",
+        "docs/ops/evidence/README.md（当前审计入口）"
       ],
-      "legalInputs": ["current repository documentation", "docs/ops/audits/README.md"],
+      "legalInputs": ["审计问题/模块与当前任务范围", "指定原审计候选、发现ID、原件与后继任务入口"],
       "businessOracle": {
-        "type": "ops-audit-navigation",
+        "type": "document-content-and-navigation",
         "assertions": [
-          "canonical audit links remain reachable",
-          "index does not own linked document status",
-          "no execution credit is inferred from navigation"
+          "原四类入口均直接可见，修复总览/历史归档职责另分。",
+          "发现、修复、代码账本与任务授权的事实权不相互替代。",
+          "旧quote逐字节保留；本页不复制当前全仓审计/覆盖数字。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "scoped-comparison",
         "against": [
-          "docs/ops/audits/README.md",
+          "docs/ops/guides/browser-verification.md",
+          "docs/ops/guides/dev-servers.md",
+          "docs/ops/evidence/README.md",
           "docs/ops/README.md",
-          "docs/phase-governance/templates/governance-index.md"
-        ]
+          "docs/ops/agent-workflow.md"
+        ],
+        "notes": "四篇正文已全文核读：浏览器输入/服务启动/证据定位/审计定位职责互斥；只对下游标题和路径作定位核验，不声称执行报告全部排重或当前运行通过。"
       },
       "revision": {
-        "currentSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+        "currentSha": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
         "implementationSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
         "history": [
           {
@@ -227,6 +246,13 @@
             "revision": "working-tree",
             "date": "2026-10-17",
             "action": "R54 ops audits/layout template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-24",
+            "action": "S35 current document bytes separated from historical implementation/source",
+            "previousCurrentSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+            "currentSha": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -269,14 +295,58 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S35 authored semantic rewrite; pending non-author acceptance",
+          "beforeSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+          "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "newCredit": 0,
+          "previousReviewFields": {
+            "phaseAnchors": {
+              "phase": "ops",
+              "module": "audits",
+              "currentBoundary": "linked documents and review records own truth"
+            },
+            "versionScope": {
+              "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+              "date": "2026-10-17",
+              "validity": "current"
+            },
+            "publicCallers": [
+              "docs/ops/README.md → audits/README.md",
+              "task cards and governance ledgers"
+            ],
+            "counterReworkBlocked": [
+              {
+                "id": "R54-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No runtime/E2E/visual/coverage credit."
+              }
+            ],
+            "unresolved": [
+              "Index links are navigation only; each target owns its current state and evidence boundary.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "userVisibleBeforeAfter": "原始 ops index 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": [
+                "docs/ops/audits/README.md",
+                "docs/ops/README.md",
+                "docs/phase-governance/templates/governance-index.md"
+              ]
+            }
+          }
         }
       ],
       "supersedes": [
         "governed-legacy presentation; original source retained with SHA and successor boundary"
       ],
-      "stopLine": "do not treat navigation index or linked historical reports as current execution acceptance",
-      "userVisibleBeforeAfter": "原始 ops index 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+      "userVisibleBeforeAfter": "必要入口多在历史quote、当前与旧候选易混 → 可见职责导航并回原任务/consumer裁定；原件及旧时点结论保留。",
+      "reviewedLines": "本篇before 54行与固定source 12行全文；候选 59行；依赖为下述限定读域",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",
@@ -288,24 +358,80 @@
           "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
           "sha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
           "scope": "full UTF-8 source"
+        },
+        {
+          "path": "docs/ops/audits/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+          "scope": "S35 full before-document and preserved quote carrier"
+        },
+        {
+          "path": "docs/ops/audits/architecture-debt.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/code-quality-governance.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/code-quality-file-ledger.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "4f41a1844fad7acd110ca08698a4715baa245146ad740ad47d7c11f0417652a6",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/summary.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "4220a60cb3a2e6ff3448a17f951e396b023b0f7721d2c34fbce2c6344a4a7165",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/guides/documentation-model.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "6693436c5999ce131b539da9b7f84bf3d4572828b209b890b5f523701cbc5068",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "audits",
-        "currentBoundary": "linked documents and review records own truth"
+        "appliesTo": ["cross-phase-navigation"],
+        "currentBoundary": "本页只维护静态操作/导航；各目标按自己的阶段与候选承担事实权，不代替产品执行。"
       },
-      "dependencies": "Architecture debt audit, pre-E2E audit, current task cards and evidence consumer.",
+      "dependencies": [
+        "docs/ops/audits/architecture-debt.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md",
+        "docs/ops/audits/pre-e2e/README.md",
+        "docs/ops/audits/pre-e2e/summary.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
       "versionScope": {
-        "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
-        "date": "2026-10-17",
-        "validity": "current"
+        "historicalSourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+        "historicalSourceDate": "2026-10-17",
+        "currentStaticSourceRevision": "b2f3d839297c1e68835db906b47eec609dd36870",
+        "lastReviewed": "2026-10-24",
+        "validity": "current instructions/navigation; static review only"
       },
       "counterReworkBlocked": [
         {
-          "id": "R54-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "id": "S35-INDEPENDENT-PENDING",
+          "status": "pending",
+          "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+        },
+        {
+          "id": "S35-NO-EXECUTION",
+          "status": "not-in-scope",
+          "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
         }
       ],
       "claimCorrection": {
@@ -315,7 +441,84 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "currentAuthoredReview": {
+        "task": "S35",
+        "date": "2026-10-24",
+        "nonAuthorReviewer": false,
+        "decision": "pending-independent-acceptance",
+        "readDomain": {
+          "fullDocuments": ["docs/ops/audits/README.md"],
+          "fixedSourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "dependencies": "Targeted code ranges and visible target headers/paths only; not a full product or downstream evidence audit",
+          "staticSourceRefs": [
+            {
+              "path": "docs/ops/audits/architecture-debt.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/code-quality-governance.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/code-quality-file-ledger.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/pre-e2e/README.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "4f41a1844fad7acd110ca08698a4715baa245146ad740ad47d7c11f0417652a6",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/pre-e2e/summary.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "4220a60cb3a2e6ff3448a17f951e396b023b0f7721d2c34fbce2c6344a4a7165",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/guides/documentation-model.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "6693436c5999ce131b539da9b7f84bf3d4572828b209b890b5f523701cbc5068",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            }
+          ]
+        },
+        "quote": {
+          "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+          "sourceGitObject": "e93ae5d6b29c2e6593e925109b33e8c18e95d022",
+          "tailSha256": "012c9a46edeb532030d507290b187f5d4f329075fc7df677b1260a0ee94ab510",
+          "tailByteEqual": true,
+          "inverseRule": "drop-exact-final-quoted-empty-line",
+          "separatorCount": 0,
+          "quotedSeparatorCount": 1,
+          "inverseBytes": 657,
+          "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275"
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+          "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a"
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/ops-governance-layout-20261004.json",

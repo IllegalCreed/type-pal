@@ -2398,3 +2398,9 @@ GLM对a83实现/演练的非作者accept原件已实核；Owner据此真实发�
 GLM已对35716b4a只读非作者accept，C1关闭，S33合同/六pilot及其余原范围可接受。S34由Codex按DOCS-NATIVE-JSON-1的新准入实现212篇精确身份/来源边界与当前组writer，在仓外临时树演练，未向真实中央发布。来源机械复核203条直接匹配、9条旧revision中无该路径但声明SHA均有精确Git原件；旧SHA不改，候选显式记录旧/新指针。这9条包含已接受pilot对应的旧中央记录，不推翻S33修正验收，也不认证旧执行。
 
 原生212/保护302、旧八源599及实际目标review状态保持；本轮不授语义/模板迁移/runtime信用。严格927篇/1848项及1420/1838迁移不扣减。实现、全组临时写入/失败恢复证据另交未参与者复验，正式接入仍在后续停止线之外；父卡rework，不合main、不推送、不标done。
+
+### S35 与 S34 并行的四篇 ops 正文治理准入（2026-10-24）
+
+用户要求GLM复核期间继续推进。Codex build allowed：从b2f3d839297c1e68835db906b47eec609dd36870在独立worktree docs-parallel-guides、分支codex/docs-s35-ops-guides，全文治理browser-verification.md、dev-servers.md及ops/evidence、ops/audits两份README。保持S34工作树/HEAD/原验收包冻结，不能自行代签S34或提前发布212。
+
+正文复用guide-runbook-v1与governance-index-v1/1.0.0，逐篇以实际脚本、输入路由和导航消费者核事实；原quote/marker尾部保全，历史执行不重授。仅改四正文、本节、对应R35/R39/R54唯一review和必要R93/R94 after级联、既有单份证据日志；不新建模板、writer、测试、sidecar或第二份中央账本，不改产品/旧测试/coverage/日期门槛。作者非独立review，实际迁移信用待未参与者接收；全文治理候选、当前文档有效性与产品执行分别表达，父卡仍rework，不合main、不推送、不done。

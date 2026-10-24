@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "59b8f633e25bbd671308d8ec17f764b7eaf77b2ab5f3fcbd5c7b27ef87603c6e",
+  "generation": "cd8604386d60f6ada8b0306946af00eaa3a3a5408d5311819e5bfcc8494a8b85",
   "key": "part-001",
   "positions": [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -1257,7 +1257,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "679d9a73b806dce570e1d925568dd82bcd297e6d25c28618658115968194d10b",
+      "afterSha256": "ca0040984266560a4d7d3c035afd5c651e42388ad9f1ac1263f1951c25be8616",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1886,6 +1886,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "9689bdbbb781a84bae14d4c01c50cd2ef0e0e5ee631b17d0d4594df1a6d71ea1",
           "afterSha256": "679d9a73b806dce570e1d925568dd82bcd297e6d25c28618658115968194d10b"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "679d9a73b806dce570e1d925568dd82bcd297e6d25c28618658115968194d10b",
+          "afterSha256": "ca0040984266560a4d7d3c035afd5c651e42388ad9f1ac1263f1951c25be8616"
         }
       ]
     },
@@ -5924,7 +5936,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "8f5db89ebec63f3c41b45d90884329abd3606f338e46e99fec0fbce478be6ba4",
+      "afterSha256": "9e96509211431be24a5014a0c4ea922fc460b16d4154a3683f6a4d4ab1985d56",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6676,6 +6688,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "e45a8ccbe90e3e4768e7d797b90f054d20aa23bb60d17754aae09ee610989f84",
           "afterSha256": "8f5db89ebec63f3c41b45d90884329abd3606f338e46e99fec0fbce478be6ba4"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "8f5db89ebec63f3c41b45d90884329abd3606f338e46e99fec0fbce478be6ba4",
+          "afterSha256": "9e96509211431be24a5014a0c4ea922fc460b16d4154a3683f6a4d4ab1985d56"
         }
       ]
     },

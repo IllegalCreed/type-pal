@@ -1,54 +1,113 @@
 # 任务专属证据
 
 Status: current
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（导航维护；各任务Owner维护原件与caller）
+Last reviewed: 2026-10-24
 Template: governance-index-v1 / 1.0.0
 
-本页是 ops evidence 的当前导航入口；其中列出的交付与历史材料按各自 source revision、任务卡和独立回执解释。索引本身不把旧证据升格为当前 runtime、E2E、视觉或 coverage 通过。
-
 ## 目的
-- 为任务证据、机器产物和历史交付提供唯一导航入口。
+
+按任务找到机器产物、命令回执、反控和交接材料，并回到对应任务卡判断授权与状态。目录存在、旧accept文字或原件全绿都不自动证明当前产品通过。
 
 ## 范围
-- 当前包含：当前证据入口、历史交付入口和 DOCS-FULL-TEMPLATE-1 治理证据。
-- 明确不包含：未由当前 consumer 与独立复核确认的 runtime、E2E、视觉、coverage 结论。
+
+本页区分正在查的治理/返工入口与固定时点的历史交付。当前任务状态从[任务总索引](../tasks/index.md)和卡顶部/后继裁决读取；[历史归档](../archive/README.md)保存旧路径和原结论。本索引不维护另一份runtime、E2E或coverage结果表。
 
 ## 当前状态
-- `status`: current（索引）；被索引的历史回执仍按原日期和适用范围解释。
-- `lastReviewed`: 2026-10-17
+
+current仅指导航。下方历史入口表与quote均包含旧候选、旧完成或“待验收”字样；这些是来源时点记录，不据本页日期更新。当前治理仍rework，源字节保全、正文接受、中央接入和全量完成分别判断。
 
 ## 入口与责任
-- canonical 入口：本页及各任务卡/证据目录的当前链接。
-- Owner：Codex（文档治理）。
-- 下游使用者：任务卡、证据 consumer、审计与文档治理账本。
+
+### 当前治理与明确返工
+
+| 入口 | 在这里查什么 | 返回哪里裁定 |
+|---|---|---|
+| [全docs治理证据](DOCS-FULL-TEMPLATE-1/README.md) | 固定1838、迁移/退役/增量与历史R波证据 | [父任务卡](../tasks/DOCS-FULL-TEMPLATE-1.md)，不能由旧R波汇总恢复信用 |
+| [记录可信度返工](DOCS-RECORD-INTEGRITY-1/README.md) | 撤信范围、错误锚点、原件保全与纠错回执 | [可信度卡](../tasks/DOCS-RECORD-INTEGRITY-1.md)，按明确counter逐项闭合 |
+| [registry存储证据](DOCS-REGISTRY-SPLIT-1/README.md) | 存储设计/实现与其限定验收 | [存储卡](../tasks/DOCS-REGISTRY-SPLIT-1.md)，结构正确不等于语义全量完成 |
+| [回合/结算边界返工卡](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12) | 先前accept已撤回的裁定与缺失条件 | 不把下面历史候选目录当重新接受 |
+
+### 固定原文列出的交付入口
+
+以下链接已提升为可见导航；只说明原件位置与主题，不复制旧执行计数或认证旧候选。各对象的实际当前状态须回原卡/后继回执确认。
+
+- [第一阶段 MIDI / DOS FM 音源选择](game-rix-music-1/README.md)
+- [酒剑仙传功后场景恢复](game-rng-scene-restore-1/README.md)
+- [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)
+- [ControlForm 残余合同](../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)
+- [ItemEffect 残余合同](TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md)
+- [MenuBox 残余合同](TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)
+- [Game 大世界叠层测试性能修复](CI-GAME-OVERLAY-PERFORMANCE-1/README.md)
+- [2026年10月8日有限合同派发](TEST-CONTRACT-BATCH-20261008/README.md)
+- [独立验收](TEST-CONTRACT-BATCH-20261008/codex-review.md)
+- [炼蛊边界贡献候选](TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md)
+- [脚本交互贡献候选](TEST-EDITOR-SCRIPT-INTERACTION-1/README.md)
+- [工程加载贡献候选](TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md)
+- [战斗宿主终局测试确定性与原子性](TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md)
+- [当前存档精简证据](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md)
+- [三审](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)
+- [当前作者命令表单引用与草稿合同](TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md)
+- [TEST-GAME-MEDIA-LIFECYCLE-1 交付证据](TEST-GAME-MEDIA-LIFECYCLE-1/README.md)
+- [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 交付证据](TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md)
+- [TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 交付证据](TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md)
+- [TEST-GLM-GAME-SHELL-BOOTSTRAP-1 交付证据](TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md)
+- [TEST-GLM-GAME-EVENT-STATE-OPCODES-1 交付证据](TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md)
+- [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 交付证据](coverage85-kimi-extract-migrate-r1/README.md)
+- [coverage85-kimi-extract-migrate-r1/](coverage85-kimi-extract-migrate-r1)
+- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)
+- [TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 交付证据](TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md)
+- [TEST-GLM-EDITOR-BATTLE-REGISTRY-1 交付证据](TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md)
+- [TEST-GLM-GAME-DIALOGUE-PAGINATION-1 交付证据](TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md)
+- [TEST-GLM-GAME-BATTLE-STATE-1 交付证据](TEST-GLM-GAME-BATTLE-STATE-1/README.md)
+- [TEST-GLM-GAME-EVENT-CONTRACTS-1 交付证据](TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md)
+- [TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 交付证据](TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md)
+- [TEST-GLM-GAME-MENU-SAVE-IO-1 交付证据](TEST-GLM-GAME-MENU-SAVE-IO-1/README.md)
+- [TEST-GLM-GAME-TURN-BOUNDARIES-1 交付证据](TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md)
+- [TEST-GLM-REFORGE-ASSET-RESOLVER-1 交付证据](TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md)
+- [TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md)
+- [TEST-GLM-REFORGE-BATTLE-FLOW-1 交付证据](TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md)
+- [TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 交付证据](TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md)
+- [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)
+- [TEST-GLM-REFORGE-RUNTIME-SESSION-1 交付证据](TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md)
+- [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md)
+- [TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 交付证据](TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md)
+- [TEST-GLM-MIGRATE-ASSET-SUPPLY-1 交付证据](TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md)
+- [TEST-GLM-REFORGE-MOTION-TRANSITION-1 交付证据](TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md)
+- [TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 交付证据](TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md)
+- [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 交付证据](TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md)
+- [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 交付证据](TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md)
 
 ## 证据与下一步
-- 关键来源：原始 ops evidence README、对应任务卡、机器 artifact 和本批独立 review。
-- 未决/阻塞：历史证据不能单独证明当前产品行为；重新运行时需生成新的 receipt。
-- 下一步：按 source/after SHA 和 consumer 复核继续清理 governed-legacy。
+
+任务Owner保存实际argv/cwd/候选与输入身份、起止/exit/signal、完整输出和失败/恢复原件；引用现有原件与唯一当前review，不为每次核验复制全套日志或新增sidecar。Codex按[证据验收协议](../document-quality.md)据证接受或精准返工，作者自验不代签。
+
+新增/移动证据需说明原始生产者、caller、来源SHA、适用时点、保留理由和退出条件，并同步对应任务/索引。清理候选先核独有字段、字节pin、后继和历史引用；“过时”不直接等于可删，“有引用”也不直接证明永久必要。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`；本轮为 2026-10-17 R39。
-- 归档原因：保留 ops 证据导航的历史入口，同时显式区分当前索引与历史证据。
+
+原文固定于`a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，R39在2026-10-17将其封套化；原件说明中的合并、发布、候选与待验收均属原时点。本页当前导航不重新授权那些任务。
 
 ## 原始结论
-- 原文语义、入口、任务状态、数字和历史边界保留于下方 quote；本页不重写这些结论为当前事实。
+
+原稿区分当时“当前证据”、历史交付与全docs治理入口。这里恢复其可见定位功能，撤回泛称“本批独立review支持全部旧结论”的外推；具体撤信继续由record-integrity事实源解释。
 
 ## 当时证据
-- 当时的来源、命令、SHA、机器产物和链接保留于原文 quote。
+
+原文链接与其原始描述完整保留于下方quote。本次全文读本页并逐项核可见目标路径/本地锚点，读原件入口的标题或任务索引作定位；没有逐件重读所有旧报告、展开raw或重跑旧测试。
 
 ## 当前有效性
-current（仅指导航索引）。历史交付不得外推为当前 runtime/E2E/视觉/coverage acceptance。
-- 历史冲突/未决：每个证据目录的当前 consumer 与新 receipt 仍是事实权。
+
+current只指索引。历史执行资格、输入、覆盖、反控与独立性按对应候选/回执解释；源误标、撤回、未知或blocked不会被导航日期覆盖。
 
 ## 继任文档
-- 当前 canonical 文档：对应任务卡、当前 consumer 和新生成的证据 receipt。
-- supersedes / superseded-by：本页替代 governed-legacy 的未分层导航呈现；原始证据内容不被删除。
-- 若重新启用的复核条件：重新执行合法输入、确认业务 oracle、记录 artifact/after SHA，并完成独立复核。
+
+任务状态取[任务索引](../tasks/index.md)与原卡；组织职责取[ops入口](../README.md)，审计问题取[审计导航](../audits/README.md)，历史材料取显式后继。本索引替代R39泛化导航正文，不替换任何执行原件。
 
 ## 原文保全
-固定源 revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，source SHA `a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`、SHA `a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851`。marker到EOF原样保留，包括R39之后另加的两个可见治理入口；不改旧结论/日期。
+
 <!-- original-source-quote:start -->
 > # 任务专属证据
 >

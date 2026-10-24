@@ -12,50 +12,71 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "ops证据导航将原文45个交付目标提升到可见正文，当前治理/可信度返工/registry存储/回合边界撤信各回原卡裁定；历史accept和待验收只保留原时点语义，不复制为当前运行状态。保留原quote及后加两治理入口，并要求原件caller/来源/退出条件而非无条件永久保留或复制sidecar。",
       "truthAnchors": [
-        "docs/ops/evidence/README.md:1",
-        "当前证据:8; 历史交付入口:18; DOCS-FULL-TEMPLATE-1:57"
+        "docs/ops/evidence/README.md#目的",
+        "docs/ops/evidence/README.md#原文保全",
+        "docs/ops/tasks/index.md",
+        "docs/ops/README.md",
+        "docs/ops/document-quality.md",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
       ],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
       "phase": "ops",
       "module": "evidence",
       "capability": "ops-evidence-evidence-README",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S35正文作者；nonAuthorReviewer=false）",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-24",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S35",
+          "nonAuthorReviewer": false,
+          "base": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "four full Markdown documents and exact original sources; source dependencies scoped below"
+        }
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+      "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
       "publicCallers": [
-        "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
-        "task card / evidence consumer references"
+        "docs/ops/README.md（当前导航）",
+        "docs/ops/audits/README.md（当前证据入口）"
       ],
-      "legalInputs": ["current repository documentation", "docs/ops/evidence/README.md"],
+      "legalInputs": [
+        "任务ID、当前任务索引和原始交付入口",
+        "固定候选/原件SHA及已声明的caller/生产者/后继"
+      ],
       "businessOracle": {
-        "type": "historical-template-migration",
+        "type": "document-content-and-navigation",
         "assertions": [
-          "original UTF-8 bytes remain hashable",
-          "historical boundary explicit",
-          "links and evidence identities remain reachable",
-          "no runtime/E2E/visual/coverage credit"
+          "必要证据目的地在quote外可见且路径/本地锚点可达。",
+          "当前任务状态回原卡/索引；旧accept与历史待验收不构成新裁定。",
+          "完整原文及既有后加入口字节不变，保留/精简按真实consumer与独有字段。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/README.md"]
+        "result": "scoped-comparison",
+        "against": [
+          "docs/ops/guides/browser-verification.md",
+          "docs/ops/guides/dev-servers.md",
+          "docs/ops/audits/README.md",
+          "docs/ops/README.md",
+          "docs/ops/agent-workflow.md"
+        ],
+        "notes": "四篇正文已全文核读：浏览器输入/服务启动/证据定位/审计定位职责互斥；只对下游标题和路径作定位核验，不声称执行报告全部排重或当前运行通过。"
       },
       "revision": {
-        "currentSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+        "currentSha": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
         "implementationSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
         "history": [
           {
@@ -69,6 +90,13 @@
             "revision": "working-tree",
             "date": "2026-10-17",
             "action": "R39 ops evidence README template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-24",
+            "action": "S35 current document bytes separated from historical implementation/source",
+            "previousCurrentSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+            "currentSha": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -111,15 +139,55 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S35 authored semantic rewrite; pending non-author acceptance",
+          "beforeSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+          "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "newCredit": 0,
+          "previousReviewFields": {
+            "phaseAnchors": {
+              "phase": "ops",
+              "module": "evidence",
+              "currentBoundary": "current task card and evidence consumer own truth"
+            },
+            "versionScope": {
+              "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+              "date": "2026-10-17",
+              "validity": "current-index"
+            },
+            "publicCallers": [
+              "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
+              "task card / evidence consumer references"
+            ],
+            "counterReworkBlocked": [
+              {
+                "id": "R39-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No runtime/E2E/visual/coverage credit."
+              }
+            ],
+            "unresolved": [
+              "Historical evidence requires current consumer and fresh receipt before reuse.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "userVisibleBeforeAfter": "原始 ops evidence README 保持 → 接入统一模板、历史 overlay、可逆 quote、SHA 和 consumer/执行边界；产品事实不变。",
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": ["docs/ops/evidence/README.md"]
+            }
+          }
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote evidence receipt or index claims to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops evidence README 保持 → 接入统一模板、历史 overlay、可逆 quote、SHA 和 consumer/执行边界；产品事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+      "userVisibleBeforeAfter": "必要入口多在历史quote、当前与旧候选易混 → 可见职责导航并回原任务/consumer裁定；原件及旧时点结论保留。",
+      "reviewedLines": "本篇before 115行与固定source 59行全文；候选 174行；依赖为下述限定读域",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "documentStatus": "current-index",
+      "documentStatus": "current",
       "sourceGitRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
       "candidateSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
       "primarySource": [
@@ -128,24 +196,73 @@
           "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
           "sha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
           "scope": "full UTF-8 source"
+        },
+        {
+          "path": "docs/ops/evidence/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+          "scope": "S35 full before-document and preserved quote carrier"
+        },
+        {
+          "path": "docs/ops/tasks/index.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/document-quality.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "77602a5fa92106c465a4c0801ab9712216c47da410124c525115f5e68155ec70",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence",
-        "currentBoundary": "current task card and evidence consumer own truth"
+        "appliesTo": ["cross-phase-navigation"],
+        "currentBoundary": "本页只维护静态操作/导航；各目标按自己的阶段与候选承担事实权，不代替产品执行。"
       },
-      "dependencies": "Current evidence consumer and a fresh receipt when rerun.",
+      "dependencies": [
+        "docs/ops/tasks/index.md",
+        "docs/ops/README.md",
+        "docs/ops/document-quality.md",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
       "versionScope": {
-        "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
-        "date": "2026-10-17",
-        "validity": "current-index"
+        "historicalSourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+        "historicalSourceDate": "2026-10-17",
+        "currentStaticSourceRevision": "b2f3d839297c1e68835db906b47eec609dd36870",
+        "lastReviewed": "2026-10-24",
+        "validity": "current instructions/navigation; static review only"
       },
       "counterReworkBlocked": [
         {
-          "id": "R39-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "id": "S35-INDEPENDENT-PENDING",
+          "status": "pending",
+          "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+        },
+        {
+          "id": "S35-NO-EXECUTION",
+          "status": "not-in-scope",
+          "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
         }
       ],
       "claimCorrection": {
@@ -173,8 +290,77 @@
           "afterSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
           "method": "Root actually read sole new registry evidence navigation link relative3fae; target exists, other body inherited; no new semantic acceptance.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+          "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91"
         }
-      ]
+      ],
+      "currentAuthoredReview": {
+        "task": "S35",
+        "date": "2026-10-24",
+        "nonAuthorReviewer": false,
+        "decision": "pending-independent-acceptance",
+        "readDomain": {
+          "fullDocuments": ["docs/ops/evidence/README.md"],
+          "fixedSourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+          "dependencies": "Targeted code ranges and visible target headers/paths only; not a full product or downstream evidence audit",
+          "staticSourceRefs": [
+            {
+              "path": "docs/ops/tasks/index.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/README.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/document-quality.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "77602a5fa92106c465a4c0801ab9712216c47da410124c525115f5e68155ec70",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            }
+          ]
+        },
+        "quote": {
+          "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+          "sourceGitObject": "5f91eb043627638a2358a7cd49da829649492cdb",
+          "tailSha256": "ff1cc69ba1f2fe9fa7f5003e4d9343e321bac87784cbe3da7e6bccf23f1af65e",
+          "tailByteEqual": true,
+          "inverseRule": "direct",
+          "separatorCount": 0,
+          "quotedSeparatorCount": 0,
+          "inverseBytes": 9754,
+          "inverseSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851"
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      }
     },
     {
       "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",

@@ -9541,7 +9541,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ff77e350115598aa491baa6bac2821e108d8dcedb0ed17740c96b8d4c79eaf43",
-      "afterSha256": "cb8d7366168e43d65862997c4daa54adee0da18c43b353d3af72daa750f7cbaf",
+      "afterSha256": "409e38b710f0fd49408edc26d2f4abac8100d28d086886ed4ce56e072cc51e3e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9683,6 +9683,18 @@
           "afterSha256": "cb8d7366168e43d65862997c4daa54adee0da18c43b353d3af72daa750f7cbaf",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "cb8d7366168e43d65862997c4daa54adee0da18c43b353d3af72daa750f7cbaf",
+          "afterSha256": "409e38b710f0fd49408edc26d2f4abac8100d28d086886ed4ce56e072cc51e3e"
         }
       ]
     },
@@ -10055,7 +10067,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "5773450aa8783f4bea12abe2f6e063313a98ad746a30d3995d062f0cf79de092",
+      "afterSha256": "7a40800db5aa461863ca9bf224167c31223c478389fbf8ddd4ab8f0e9b11bfa0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10206,6 +10218,18 @@
           "afterSha256": "5773450aa8783f4bea12abe2f6e063313a98ad746a30d3995d062f0cf79de092",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "5773450aa8783f4bea12abe2f6e063313a98ad746a30d3995d062f0cf79de092",
+          "afterSha256": "7a40800db5aa461863ca9bf224167c31223c478389fbf8ddd4ab8f0e9b11bfa0"
         }
       ]
     },
@@ -12753,7 +12777,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f5861c171503534434d0d935b45a9e5c8a8b0132e77109b305b4acda58dc0297",
-      "afterSha256": "2f89924a22d05ceb0acecd822192e6bd29543480cf7c385fc5da96fbb55810db",
+      "afterSha256": "7f323874d20e5a1582e3f3d63e6fcecda2139a9311424c6a4e0febe45048bdf0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -12885,7 +12909,21 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "2f89924a22d05ceb0acecd822192e6bd29543480cf7c385fc5da96fbb55810db",
+          "afterSha256": "7f323874d20e5a1582e3f3d63e6fcecda2139a9311424c6a4e0febe45048bdf0"
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
