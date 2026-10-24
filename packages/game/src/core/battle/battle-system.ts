@@ -343,15 +343,6 @@ export function startBattle(input: StartBattleInput): void {
 // ============================================================================
 
 /**
- * 战斗 tick —— 由 mode.ts 在 mode='battle' 时每帧调一次。
- *
- * 战斗主循环。phase 路由 + 死循环保护;具体行为见各 phase handler。
- *
- * @param gs GameState(必须 mode='battle' 且 battleState 非空;否则 no-op)
- * @param input 输入快照(战斗选择 UI、对话与结算 hold 会读取)
- * @param bus Present 命令通道(perform 阶段 emit 动画 / 数字弹幕)
- */
-/**
  * DM11:per-enemy idle 推进(fight.c:991-1019/:491-525)。
  * `--idleTick <= 0` → idleFrame++ 并恢复计数;idleFrame >= idleFrames 回绕 0;
  * sleep/paralyzed 定格 0(计数不动,C 在循环顶 continue)。
@@ -383,6 +374,15 @@ export function tickEnemyIdleGestures(state: BattleState): void {
   }
 }
 
+/**
+ * 战斗 tick —— 由 mode.ts 在 mode='battle' 时每帧调一次。
+ *
+ * 战斗主循环。phase 路由 + 死循环保护;具体行为见各 phase handler。
+ *
+ * @param gs GameState；mode路由保证战斗调用，无battleState返回，资源缺失则诊断并退出。
+ * @param input 输入快照(战斗选择 UI、对话与结算 hold 会读取)
+ * @param bus Present 命令通道(perform 阶段 emit 动画 / 数字弹幕)
+ */
 export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
   const state = gs.battleState
   if (!state) return
@@ -967,11 +967,9 @@ function shouldCheckPlayerCasualties(
   }
 }
 
-/** 当前队员已学法术 id 列表 —— runtime role.magic SoA 优先,空则 dev panel learnedSpells。 */
+/** 当前角色投影的已学法术OBJECT编号；0是空槽。 */
 function getLearnedSpells(role: PlayerRole): number[] {
-  const fromMagic = ((role as unknown as { magic?: number[] }).magic ?? []).filter((x) => x !== 0)
-  if (fromMagic.length > 0) return fromMagic
-  return (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
+  return (role.magic ?? []).filter((x) => x !== 0)
 }
 
 /** baseDamage 的 i16(SHORT)解读 —— sdlpal 多处 `(SHORT)wBaseDamage`(global.h 存 u16,负值 = 特殊/即死法术)。 */
@@ -1281,7 +1279,9 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
     case 2: {
       // 合击(uibattle.c:1115-1155)— 选择按真值,执行走 performCoopMagic
       const role = playerRoles.roles[state.players[playerIdx]!.roleId]
-      const coopId = (role as unknown as { cooperativeMagic?: number }).cooperativeMagic ?? 0
+      // Availability must have admitted a real role; keep a broken invariant fail-loud.
+      if (!role) throw new TypeError('battle: co-op dispatch without a selected role')
+      const coopId = role.cooperativeMagic ?? 0
       const spell = res.spells.find((s) => s.id === coopId)
       const toEnemy = spell?.flags.usableToEnemy ?? true
       const applyToAll = spell?.flags.applyToAll ?? false
@@ -1371,11 +1371,13 @@ function commitRepeatAction(
  * 读回不复活 → 一开战 `persisted.get is not a function` 崩(restoreRepeatActionsForParty)。
  * 统一复活为 Map:Map(structuredClone/IndexedDB 路径)直接用;entries 数组 / 普通对象 / 空 → 转 Map。
  */
-function reviveNumberKeyedMap<V>(x: unknown): Map<number, V> {
-  if (x instanceof Map) return x as Map<number, V>
-  if (Array.isArray(x)) return new Map(x as Array<[number, V]>)
+function reviveNumberKeyedMap<V>(
+  x: Map<number, V> | [number, V][] | Record<string, V> | null | undefined,
+): Map<number, V> {
+  if (x instanceof Map) return x
+  if (Array.isArray(x)) return new Map(x)
   if (x && typeof x === 'object') {
-    return new Map(Object.entries(x as Record<string, V>).map(([k, v]) => [Number(k), v]))
+    return new Map(Object.entries(x).map(([k, v]) => [Number(k), v]))
   }
   return new Map()
 }
