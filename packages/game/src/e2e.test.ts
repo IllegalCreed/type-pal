@@ -1,7 +1,10 @@
+/** 主循环headless回放：内存脚本与地图，不授浏览器或剧情路线验收。 */
 import type { AbstractKey, Command, InputSnapshot, Tilemap } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from './core/command-bus.js'
-import { createInitialGameState, npcFromEventObject } from './core/game-state.js'
+import { setGlobalEvents } from './core/event-system.js'
+import { createInitialGameState, type GameState, npcFromEventObject } from './core/game-state.js'
+import { setSceneContext } from './core/scene-system.js'
 import { ReplayInputSource } from './shell/input.js'
 import { type LoopContext, tickN } from './shell/main-loop.js'
 
@@ -20,6 +23,11 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
   }
 }
 
+afterEach(() => {
+  setGlobalEvents([])
+  setSceneContext({ tilemap: flatMap(0, 0) })
+})
+
 describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
   it('完整 NPC 触发流程,最终 mode=explore + dialogBox 已清', () => {
     // M5 P0.0 System A:sdlpal pixel(tile 32×16)。M5:起点改 col8/row8 合法区(避开 fCheckRange
@@ -34,7 +42,7 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
         y: 160,
         spriteNum: 78,
         triggerLabel: 'L_2',
-        triggerMode: 0,
+        triggerMode: 1,
       }),
     ]
 
@@ -44,6 +52,7 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
       { op: 'showDialog', messageIndex: 0, text: '你好', label: 'L_2' },
       { op: 'end' },
     ]
+    setGlobalEvents(commands)
 
     const input = new ReplayInputSource([
       snap(['Right'], [], 0), // tick 0:右
@@ -56,15 +65,25 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
     ])
 
     const bus = createCommandBus()
+    const frames: {
+      mode: GameState['mode']
+      ip: number | undefined
+      text: string | null | undefined
+    }[] = []
     const ctx: LoopContext = {
       gs,
       bus,
       input,
       tilemap: flatMap(20, 20),
-      onPresent: () => {},
+      onPresent: () => {
+        frames.push({ mode: gs.mode, ip: gs.eventCursor?.ip, text: gs.dialogBox?.currentLineText })
+      },
     }
 
     tickN(7, ctx)
+
+    expect(frames[3]).toEqual({ mode: 'event', ip: 2, text: undefined })
+    expect(frames[4]).toEqual({ mode: 'event', ip: 2, text: '你好' })
 
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()

@@ -56,6 +56,8 @@ Codex单Owner，同一3y，基点82efe44df；fetch核main3609b4d23，0behind。�
 
 用户本轮call_37e18bd73f954b61a76c4821ebf0cf95批准删除3q内部接口负担：SceneContext的eventCommands/labelMap及tickSceneInput/tickSceneSystem未用bus；同步完整传递链及LoopContext中仅为该冗余转传保留的两字段。白名单为上述接口/scene装载、mode实际调用、bootstrap/主循环上下文发布与直接测试fixture。不得删除GS/SceneAssets的真实脚本数据、全局目录、所有业务断言或行为；类型/出口以批准后的实际合同核验，参数表达式副作用逐项核。E2E插桩只验证实际参数依赖，不授路线实跑。
 
+追加直接调用测试返工：e2e.test.ts已全文核，原triggerMode0/未注册脚本使“完整NPC流程”误绿。仅增加帧3event/ip2与帧4“你好”断言即正式AssertionError；改合法triggerMode1、真实目录注册与afterEach清理后绿。相同搜索绕过变异旧1绿/新1业务红，完整原件和恢复保留；仍1身份，不冒称浏览器。接口纯清理提交d0f6baff5曾保留1条该夹具未用commands诊断且未推送，本次真实注册后根lint-zero0；不把中间Biome exit0带warning写成通过。
+
 3n四helper与3r解释器按原范围逐项验收；重要未知仍保留，不能仅因最终门延后保持所有卡partial。3q/3r旧快检实际STALE仅对应后继差异，按新版本桥复核，不倒写历史。源码纯清理独立提交；多卡齐备后只必要定向/相邻/TC和静态，全仓check/coverage/protected/一个PR继续等全部pre94冻结。94–102不扩展。
 
 ## 2026-10-24 CODE3s／3t代码验收（最终集成待统一门）
