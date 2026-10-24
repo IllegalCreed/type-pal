@@ -417,3 +417,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - [CODE3k 数字布局、共享blit与非有限隔离](3k-number-quality/README.md)：复用primitive证据，仅补数值生产链、两正式红与mask专测补强，统一门及发布按本窗回执。
 
 - [CODE3o／3p模式、历史、玩家指令及获批Wear整理](mode-player-quality/README.md)：16份完整/有限记录，局部与统一门分开，原红和误绿反控完整保留。
+
+- [CODE3q场景职责与测试返工：八维、完整身份映射、旧绿新红及只读复验](scene-quality/README.md)

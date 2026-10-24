@@ -9,3 +9,5 @@
 验证：scene-system/search/mode/dependency/event 相邻共 `5 files / 467 passed`；输出包含既有 fixture 的预期 warning（未知 label、无当前对象、越界 scene object、脚本 IP 越界），因此运行时诊断未清零。未修改 scene-system 实现；`pnpm --filter @type-pal/game typecheck` 仍通过。coverage、official ratchet、protected fast、全仓 `pnpm check` 未在此小批运行；剧情视觉/E2E也不由纯机制测试代签。
 
 高风险边界：触及第一阶段移动、碰撞、触发和场景加载语义；没有修改坐标/scene 数据、schema/save、生成物、UI 或 runner。3q 仍需统一门和诊断收口。
+
+2026-10-24后继：原主测试“均高判别力”结论已被边界/墙体/onEnter三组旧绿新红推翻，关闭信用撤review；当前拆分与八维补齐见[场景质量返工](../scene-quality/README.md)。本页467例及旧读域保留历史，不作为当前零诊断或整卡验收。

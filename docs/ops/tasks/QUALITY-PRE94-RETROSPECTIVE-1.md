@@ -44,6 +44,14 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
 
+## 2026-10-24 CODE3q 场景职责与测试质量（build allowed）
+
+Codex单一Coding Owner，同一3y，基点c6b0c2c19250e8fca3b577b53d59828a7ea4799e；fetch后main仍3609b4d23，0behind/8ahead，主树只读。复用3q既有机制与caller证据，全文重读当前scene-system及2121行专测，补C–H及误导注释欠账。
+
+准入限场景模块切片：碰撞纯计算、已存在的场景资源装载和上下文Owner按职责拆分，旧scene-system公共出口/参数/执行顺序保留；只清私有未用上下文参数和重复方向映射。测试按职责整理，补合法typed夹具、全局目录隔离、准确告警及边界oracle；不删除未知重复、不改变碰撞/触发/异步取消/产品规则。先保存定向基线，结构调整和测试整改分别提交。只局部/相邻及必要静态验证，全仓/coverage/protected/PR等所有剩余pre94冻结后统一执行；本段不授整卡accept。
+
+2026-10-24本片技术交接：85399a332拆分／610f747f4专测整改；8文件逐项A–H，478相邻及三旧绿新单红，公开接口保留。0新关闭、6新review及主专测撤旧关闭；3420／414closed／115review／2891pending，固定67accept／16partial，整卡和统一门仍待最终pre94窗口。[完整证据与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/README.md)。
+
 ## 2026-10-24 CODE3k draw-number质量窗口（已有限收口）
 
 后继验收：2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 2026-10-24用户答复call_edfe7d7f551d4841b9fae30c955bcae2批准跳过异常数字，原准入记录如下。
