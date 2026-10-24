@@ -459,3 +459,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-24 [CODE56小地图代码接受](minimap-closeout/README.md)：六文件新关闭、固定77accept/6partial；纯规则/绘制/控制器分开，移除执行器依赖；54与330相邻及单红，统一门继续延后。
 
 - [CODE53功能画面与CODE58私有依赖/样式/测试返工](status-tools-closeout/README.md)：125例集中验证，原件/八维及停止线；两卡仍partial，不授整卡或统一门信用。
+
+2026-10-24 [GS模型／投影与导出错误](gamestate-save-closeout/README.md)：五文件新关闭、实际导出失败先红后修、340相邻／4最终导出、类型检查；77／6不变，全仓与覆盖率仍等全部pre94。

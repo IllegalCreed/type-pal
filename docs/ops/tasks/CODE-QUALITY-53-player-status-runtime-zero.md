@@ -189,3 +189,8 @@ runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect�
 
 
 本次最终测试输入统一后实测：两文件37 tests通过；game typecheck exit0；game全包312 files/3540 tests通过，日志无error/warning/navigation诊断。7个反控的源/测试SHA均与当前字节一致。完整命令、起止时间、退出码和日志见 `ownership-results.json` / `ownership-{targeted,typecheck,game}.txt`。这是未收口检查点；CODE80裁决仍待答复，未因game全绿把文件改为已验证。
+
+
+## 2026-10-24 GS／导出错误当前增量
+
+GS模型与纯战斗投影职责分离、四文件八维和正式codec字段迁移已完成；53仍保留Dev大装配器质量review，未删原范围。用户批准58导出失败提示后，正式红例再修，错误toast、URL清理和真实Chrome Save/IDB只读失败链均通过。11文件340例、最终导出4例与game typecheck；精确五项退役保护，baseline未动。五个文件新关闭、codec专测旧关闭刷新；固定77accept／6partial不变，未运行全仓/官方coverage/protected或PR。逐文件、过程误删恢复、全部失败/原件和只读入口见[GS／导出错误唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。下一片Dev及1／57；3m/42实际裁决仍待，不扩94–102。

@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE53/58 finite quality and functional evidence scoped delta",
+      "readMethod": "OwnedCODE53/58 GS and export scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE53/58 finite repair accepted; whole cards partial; unified gates deferred.",
+      "coreConclusion": "GS/export finite repair; cards partial; gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "f5d827b63751b3bd9f8dc5b22f9d59d55f6c4e9fa746ee6ea4c4acc95b1ef4a0",
+      "afterSha256": "9698430353053f160cdd31048ccc8dbb015d422b500d54d68a976f87a926b011",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "f5d827b63751b3bd9f8dc5b22f9d59d55f6c4e9fa746ee6ea4c4acc95b1ef4a0",
+        "implementationSha": "9698430353053f160cdd31048ccc8dbb015d422b500d54d68a976f87a926b011",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,11 +1714,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-status-tools-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/review.json",
-        "afterSha256": "f5d827b63751b3bd9f8dc5b22f9d59d55f6c4e9fa746ee6ea4c4acc95b1ef4a0",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
+        "afterSha256": "9698430353053f160cdd31048ccc8dbb015d422b500d54d68a976f87a926b011",
         "lineCount": 91,
-        "scope": "CODE53/58 finite quality and functional evidence owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+        "scope": "GS/export scoped owned delta; original history retained; unified gates deferred.",
+        "candidateBaseRevision": "3bf94a63955156046c6615df663e405917f5813b",
         "workingTreeDelta": true
       },
       "history": [
@@ -3333,9 +3333,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE53/58 finite quality and functional evidence scoped delta",
+      "readMethod": "OwnedCODE53/58 GS and export scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE53/58 finite quality and functional evidence code accepted; unified gates deferred.",
+      "coreConclusion": "GS/export finite repair; cards partial; gates deferred.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3352,7 +3352,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "51e2641d88376652ecd7a7c4e0c4e50e730bfdc973fbba7ec9dc7fc438477c5e",
+      "afterSha256": "b3293ee6f957dea9719fb5392772fed57c30a5705fb92d6676dcefd37a20d09b",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3373,7 +3373,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "51e2641d88376652ecd7a7c4e0c4e50e730bfdc973fbba7ec9dc7fc438477c5e",
+        "implementationSha": "b3293ee6f957dea9719fb5392772fed57c30a5705fb92d6676dcefd37a20d09b",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3730,12 +3730,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-extract-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/review.json",
-        "afterSha256": "51e2641d88376652ecd7a7c4e0c4e50e730bfdc973fbba7ec9dc7fc438477c5e",
+        "kind": "codex-owned-pre94-status-tools-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
+        "afterSha256": "b3293ee6f957dea9719fb5392772fed57c30a5705fb92d6676dcefd37a20d09b",
         "lineCount": 528,
-        "scope": "CODE53/58 finite quality and functional evidence owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+        "scope": "GS/export scoped owned delta; original history retained; unified gates deferred.",
+        "candidateBaseRevision": "3bf94a63955156046c6615df663e405917f5813b",
         "workingTreeDelta": true
       },
       "history": [
