@@ -732,6 +732,11 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
           }
         })()
       }
+      reader.onerror = (): void => {
+        showToast(`${localize('导入失败:', 'Import failed: ')}${reader.error?.message ?? ''}`, {
+          type: 'error',
+        })
+      }
       reader.readAsText(file)
       fileInput.value = '' // 允许重复导入同名文件
     })
