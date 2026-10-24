@@ -5,6 +5,7 @@ import {
   historicalDeliveryPilots,
   historicalDeliveryReadDomain,
 } from './historical-document-delivery-admission.mjs'
+import { historicalDeliveryAdmission } from './historical-document-delivery-cohort.mjs'
 import { readReviewRecordObject } from './review-record-storage.mjs'
 import { canonicalTerminalJson, parseTerminalJson } from './terminal-json.mjs'
 
@@ -124,7 +125,7 @@ function contextIssues(contexts, readSourceBuffer) {
 
 /** Carrier fidelity + current historical explanation; never authenticates old execution. */
 export function historicalDocumentDeliveryIssues(doc, template, contract, read, options = {}) {
-  const pilot = historicalDeliveryPilots.find((entry) => entry.path === doc.path)
+  const pilot = historicalDeliveryAdmission(doc.path)
   const definition = historicalDeliveryContract
   if (!pilot && doc.variant !== definition.variant) return undefined
   if (

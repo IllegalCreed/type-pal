@@ -416,3 +416,13 @@ S32四源存储及最终封存已接受；本节将S30逻辑设计落实为生�
 状态/历史规则：本轮真实routing和212 review状态零改；六pilot说明仅在owned临时review演练。coreConclusion复用已非作者接受的有限勘误内容，不重写为通用元数据，不恢复旧deep-semantic/full-read/独立/执行资格。实际读域仍是程序解析和关键字段定向核读，下游正文/旧raw未重审；永久保留必要性未知，retain-native只是暂保留。实现与pilot待未参与者验收后，再实现当前generation受控语义writer并裁定212接入；不以合同注册、哈希相等或结构绿单独授迁移。
 
 八项反例族为：路径/角色/合同联合换标；原生改字节并刷新SHA；UTF8/重复键；pointer/上下文伪引；source/after串轴；撤信或历史缺字段洗白；结果冒充输入；双false升真。定向测试触达公开model与progress，原Vitest和旧JSON变体保留原门；新格式不要求旧Markdown滚动版本，不修改旧测试断言/source pin或降低配置。全量严格1848项仍未清零，不合main、不推送、不标父子卡done。
+
+### S34 精确准入扩展与当前 generation writer 1.0.0（2026-10-24）
+
+S33合同与六pilot（含C1来源轴修正）已非作者接受。S34仍用historical-document-delivery-native-v1/1.0.0，不新建类型或变体；精确扩到212路径、角色72/69/71与唯一既有review位置。紧凑准入元组固定当前d9 SHA/OID、独立历史SHA/实际revision/OID、角色、位置、历史边界摘要和按实际原生字段选取的必要见证；不复制完整正文或为每篇新增sidecar。
+
+历史来源212逐项Git解析：203直接等旧声明，9旧revision路径不存在，全部找到等旧SHA的实际原件（8件1fb3602fe、1件fd33caa0b）。候选只改历史指针并留旧值，不刷新sourceSha、不混同载体/历史执行/candidateHead。公共guard延续原字节/角色/输入/oracle/历史边界限制，实际writer在prepare再核全部212历史Git源。
+
+新writer限定四个现行分片owner中的212目标、R92[20–22]三边和R94[6]一边，其他2218条逻辑行不动；四owner原source pin与旧八源/599及302原生保持。复用packing/IO，R89/90/91先pack、R92格式化后更新R94[6]、R94根最后；新片不可变，锁/staging全组公开loader读回、原子rename组与明确旧片退出，失败保留恢复材料，重复执行须完整源/终态重建而非只看存在。
+
+本实施轮仅零信用正文候选与临时树演练；validator明确拒绝修改review/迁移状态，不把来源/存储结构绿等同逐篇接受。真实中央212内容接入与逐篇信用裁定另行受控，不放宽旧writer准入、不改旧测试/产品/coverage/规则/配置。1848待办与真实routing/registry保持。

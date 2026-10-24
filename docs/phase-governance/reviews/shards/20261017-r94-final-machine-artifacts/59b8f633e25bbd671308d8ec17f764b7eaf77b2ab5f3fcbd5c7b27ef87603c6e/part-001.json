@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "511b282e8b528d89b8f666f4a349b483fe32deeb9f71de683af04b0fc9323b6a",
+  "generation": "59b8f633e25bbd671308d8ec17f764b7eaf77b2ab5f3fcbd5c7b27ef87603c6e",
   "key": "part-001",
   "positions": [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -1257,7 +1257,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "9689bdbbb781a84bae14d4c01c50cd2ef0e0e5ee631b17d0d4594df1a6d71ea1",
+      "afterSha256": "679d9a73b806dce570e1d925568dd82bcd297e6d25c28618658115968194d10b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1874,6 +1874,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "c80b42c2e572e4856c764faf6826d9f07465602aff31b157b37d97df171db99f",
           "afterSha256": "9689bdbbb781a84bae14d4c01c50cd2ef0e0e5ee631b17d0d4594df1a6d71ea1"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S34-native-contract",
+          "revision": "35716b4a3d1ef0c8399c880341cb7ca945585f43",
+          "scope": "S33 C1 non-author accept acknowledgment plus S34 exact admission and current-group zero-credit implementation/rehearsal; administrative top after and appended delta only, old source/nested/history/state/212 target semantics preserved",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "9689bdbbb781a84bae14d4c01c50cd2ef0e0e5ee631b17d0d4594df1a6d71ea1",
+          "afterSha256": "679d9a73b806dce570e1d925568dd82bcd297e6d25c28618658115968194d10b"
         }
       ]
     },
@@ -5912,7 +5924,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "e45a8ccbe90e3e4768e7d797b90f054d20aa23bb60d17754aae09ee610989f84",
+      "afterSha256": "8f5db89ebec63f3c41b45d90884329abd3606f338e46e99fec0fbce478be6ba4",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6652,6 +6664,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "7319533d7aa0fc88fd54665179c77c66c039cd56201e3ac827095a5b4118040d",
           "afterSha256": "e45a8ccbe90e3e4768e7d797b90f054d20aa23bb60d17754aae09ee610989f84"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S34-native-contract",
+          "revision": "35716b4a3d1ef0c8399c880341cb7ca945585f43",
+          "scope": "S33 C1 non-author accept acknowledgment plus S34 exact admission and current-group zero-credit implementation/rehearsal; administrative top after and appended delta only, old source/nested/history/state/212 target semantics preserved",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "e45a8ccbe90e3e4768e7d797b90f054d20aa23bb60d17754aae09ee610989f84",
+          "afterSha256": "8f5db89ebec63f3c41b45d90884329abd3606f338e46e99fec0fbce478be6ba4"
         }
       ]
     },

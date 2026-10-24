@@ -1121,7 +1121,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "39b152234d72bb1d8eda3983643787fb35ce3fd693873f328cb830d0576be2db",
+      "afterSha256": "695cd754467c9324d17983d84d45b65b36e9799375c2ce58a104c7014527d7b9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1586,6 +1586,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "cfc6522760f76c265c411b081a5557885cf522028fe8d81740498a60f90b975b",
           "afterSha256": "39b152234d72bb1d8eda3983643787fb35ce3fd693873f328cb830d0576be2db"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S34-native-contract",
+          "revision": "35716b4a3d1ef0c8399c880341cb7ca945585f43",
+          "scope": "S33 C1 non-author accept acknowledgment plus S34 exact admission and current-group zero-credit implementation/rehearsal; administrative top after and appended delta only, old source/nested/history/state/212 target semantics preserved",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "39b152234d72bb1d8eda3983643787fb35ce3fd693873f328cb830d0576be2db",
+          "afterSha256": "695cd754467c9324d17983d84d45b65b36e9799375c2ce58a104c7014527d7b9"
         }
       ]
     },
@@ -14163,7 +14175,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "2199021e9f07701f52469540bc6c155338807280b0f5975c180af1409fab0a9a",
+      "afterSha256": "1239d7e3d012444366bc1a099b5af12ac03a86abcf0a3566d1eb64178b22a017",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14347,6 +14359,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "725119b16a7f4aa109ef9d3bc4a1e661a63ca6bbfddc6feee71213ce37174d48",
           "afterSha256": "2199021e9f07701f52469540bc6c155338807280b0f5975c180af1409fab0a9a"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-NATIVE-JSON-1/S34-native-contract",
+          "revision": "35716b4a3d1ef0c8399c880341cb7ca945585f43",
+          "scope": "S33 C1 non-author accept acknowledgment plus S34 exact admission and current-group zero-credit implementation/rehearsal; administrative top after and appended delta only, old source/nested/history/state/212 target semantics preserved",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "2199021e9f07701f52469540bc6c155338807280b0f5975c180af1409fab0a9a",
+          "afterSha256": "1239d7e3d012444366bc1a099b5af12ac03a86abcf0a3566d1eb64178b22a017"
         }
       ]
     },

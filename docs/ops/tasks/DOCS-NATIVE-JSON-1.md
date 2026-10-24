@@ -17,7 +17,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-- 当前S32：GLM已接受通用实现与临时演练，Codex完成真实四源存储发布。212份历史R波JSON的既有内容输入保留，生产原生合同/pilot/语义尚未接入；原生载体与旧信用保持。具体白名单/来源/停止线见本卡S30–S32节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
+- 当前S34：S32真实四源存储、S33合同/六pilot及C1已获非作者接受；Codex完成212精确准入与当前组writer临时树演练，等待非作者复核。真实212语义未发布，原生载体与旧信用保持。具体范围/停止线见本卡S30–S34节。以下S26原始准入参数保留当时范围和写入域，不覆盖后续明示的Owner动作。
 - S26内容白名单269件：S21/F01中原13字段形态且SHA匹配33cc冻结绑定的272件，扣除S25三篇pilot。269件逐篇核全部原生字段、断言/失败、实际相位、producer/consumer、历史继任与信用边界，交具体review草稿。
 - 来源例外23件：无33cc冻结绑定成员，查真实Git载体、引入/移动/生成链，交来源提案或明确unknown；不自行续pin或套用固定源合同。
 - 格式例外7件：4件短摘要、1件含进程信息摘要、2件附distillation；读字段职责与实际consumer，交格式选择与反例提案，不能强补13字段。
@@ -336,3 +336,17 @@ Codex已实现新原生guard/小型六篇准入，公开model先分派本合同�
 首轮owned pilot原件FAIL保留：R53重复见证及三份旧revision.currentSha仍为历史source导致合同拒绝；修复的是仓外pilot构建，不改真实旧账或刷新旧source；第二轮1547/0。完整回归/静态门、逐文件A–H、来源身份、有效反控与未跑项以原单份压缩日志本轮追加的真实回执为准，不用预期数字冒充已执行。实现、pilot语义和最终候选待GLM只读非作者据证验收；当前作者自验不代签。
 
 本次行政接入仅五份正文及current/R62/R93/R94八条after依赖，保留所有历史source/nested pin/状态；R94原a83 source不刷新，manifest-aware重pack和原片退出须先镜像演练/有界非作者核再实际执行。212/63原行、S29旧31物理/599与302原生保持，尚未实现current-generation语义writer，未接入212生产语义。严格927篇/1848项、1420/1838迁移、3retired、87incremental、信用0继续保持，父子卡rework，不合main、不推送、不标done。
+
+### S33 C1 非作者接收与 S34 当前 generation 语义 writer 准入（2026-10-24）
+
+GLM 对 35716b4a3d1ef0c8399c880341cb7ca945585f43 只读非作者 accept，C1 关闭、零新 counter。Owner 复算 HANDBACK e7ff1f4827441e9fad66cbaa38b8963f27faf78cdaf5724c10768650eee318a1 / verdict be02c4d60528afce034a3e3e7a72ed5ed5dc671fa490a16200040f7e12620273 并重放 C1 快检。接收范围为一行历史来源轴与封存；其余沿用 ddcd78e1 原裁定，不重授历史执行或迁移信用。
+
+build allowed：Codex 从上述候选在 codex/docs-s34-historical-receipt-writer 扩展 212 篇精确准入、实现 current-generation semantic writer，并在隔离临时树演练。复用 S30 已接受的内容勘误与 S33 合同/六 pilot，不重做 212 篇全文治理。准入来源先逐条 Git 解析，旧历史 SHA 不刷新；历史指针有误时保留旧值与实际改正依据。来源修正不等于历史执行认证。当前 212 目标逐篇固定，四源 275 行中的 63 非目标、旧八源 599 行与 302 原生保全；仅明确 R92 三入边及 R94[6] 字节级联可随目标重新打包改变。
+
+白名单：scripts/docs 下新增本批精确准入数据、当前组 writer/CLI/定向测试及必要的既有 native guard 接线；文档只更新本卡、父卡、board、既有设计提案及必要行政 pin/原单份证据日志。不修改旧测试、产品、coverage、共享配置或旧 writer 的封闭准入；无逐篇新 sidecar、无重复原件。
+
+本轮真实 212 review、routing、registry 与原生载体只读；完整正文候选只在仓外计划和临时树既有唯一 review 行中表达。prepare 必须绑定当前源快照、完整精确集合、外部接受前不晋升信用；锁内保护全组/inventory，staging 公开 loader 和实际 Git 来源读回，失败保留恢复材料、最终读回后退出旧片。实现与演练先交未参与者验收，再决定正式中央发布；1848 严格待办与 1420/1838 迁移不扣减，不合 main、不推送、不标父子卡 done。
+
+S34 作者实施事实：212候选逐条新合同检查通过、全部历史Git来源可解析，9指针勘误显式入候选history；原sourceSha不动。新5项边界测试加原8项回归为13/0/0skip，原测试未改。临时树完整写入18/退出7/最终150物理（12manifest+36片），212目标与4控制边改变、其他2218条行完全保持；旧八源599与302原生保持。重复整组重建识别published/0写。未知flat owner首写前拒绝；真实第二rename故障后已写1/退出0、12份精确before备份及lock/staging保留，公开loader拒绝锁中树。首轮临时Biome夹具缺文件、漏局部canonical函数和多旧generation逐叶退出失败原件均保留；已修为完整generation目录一次rename退出。
+
+本批新writer仍明确零信用、不允许改review/迁移状态；真实发布及逐篇信用须在未参与者接受后另作受控动作。全仓静态/工具原件、逐文件八维作者复核与未跑范围只归原单份压缩日志S34追加，不以作者自验代签。S34实现等待GLM非作者验收，父子卡仍rework。
