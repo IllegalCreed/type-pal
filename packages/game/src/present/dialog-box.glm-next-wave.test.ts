@@ -1,17 +1,6 @@
-/** GLM Wave I / I03 — dialog-box.ts 姓名 title / 正文清屏未证公开合同(生产冻结 ced193f4)。
- *
- * 旧证去重:dialog-box.test.ts 已证 parseDialogText / startDialogLine / appendDialogLine /
- * tickDialog(wall-clock)/ confirmDialog / getDialogBoxRect / getDialogTextPos /
- * drawDialogBox / portrait / key icon / MAX_LINES_PER_PAGE;present.test.ts +
- * event-dialogue-pagination.test.ts 已证 setWaitingPageKey / shouldWaitPageKey /
- * setWaitingEndKey / presentFrame / presentBattleFrame / applyDialogIconPaletteShift。
- * present.ts 侧无新增合法缺口:flushToCanvas 是 framebuffer.toImageData 的 2 行包装,
- * toImageData 索引→RGBA 已由 framebuffer.test.ts 直证、putImageData 消费由全部 shell
- * 播放器测试直证 → 登记 existing-proof。
- * 本文件补齐零覆盖导出:
- *  - getDialogTitlePos(sdlpal text.c:1316/1340 姓名 title 位置,4 style × 有无头像)
- *  - isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号真值)
- *  - resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文、留 title/portrait/style)
+/** 姓名位置/识别、正文清理与narration尾时序合同。
+ * 位置表含style类型域的返回值；不把未进入实际绘制路径的占位坐标当作像素证明。
+ * 正文像素、分页和真实事件/战斗接线由相邻专测各自验证。
  */
 
 import type { DialogBoxStyle } from '@type-pal/shared'

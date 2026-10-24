@@ -248,12 +248,8 @@ function drawTextLine(
   colors?: number[],
 ): void {
   if (text.length === 0) return
-  // sdlpal 真值:对话正文 TEXT_DisplayText(..., isDialog=FALSE)(text.c:1737)→ fShadow=!isDialog=TRUE;
-  //   姓名 title PAL_DrawText(..., fShadow=TRUE)(text.c:1725)。两者都带阴影。
-  // 阴影算法 = 三层 (+1,0)/(0,+1)/(+1,+1) **color 0**(text.c:1144-1156,DOS triple,sdlpal 统一 triple)。
-  // 旧实现手搓**单层** (+1,+1) color 50 是错的 —— 改用 renderText 内建 fShadow=true(正确三层 color0)。
-  // colorOverride(姓名 title CYAN_ALT)优先;否则 colors(parseDialogText 逐字符色,`"`黄/`-`青/`'``@`红)
-  //   逐字符上色;再否则 fallback 单色(fontColor)。
+  // 正文和姓名均有三向黑色阴影，由字体渲染器统一处理(text.c:1144-1156)。
+  // 姓名固定色优先，其次逐字色；缺少逐字色才使用调用方给的默认色。
   if (colorOverride !== undefined) {
     renderText(fb, text, x, y, colorOverride, glyphs, true)
   } else if (colors) {
@@ -287,7 +283,7 @@ function measureDialogUnits(text: string): number {
 }
 
 /**
- * T14:narration style(kDialogCenterWindow)1:1 port — sdlpal text.c:1663-1710 真值。
+ * narration居中小窗布局，对照text.c:1663-1710。
  *
  * 视觉:屏幕中央(160, 40)居中 SingleLineBox + 一行文字。box 宽度根据文字长度计算。
  * 用于"获得 XX × N" / "钱不够" / item info 等 1-shot 1.4s 自动关闭提示。
@@ -372,7 +368,7 @@ function drawNarrationDialog(
 const SPRITENUM_ITEMBOX = 70
 
 /**
- * L1 紫金葫芦炼丹物品框(style='item-box')— sdlpal script.c:1479-1513 1:1 port。
+ * 紫金葫芦炼丹物品框(style='item-box')，布局对照script.c:1479-1513。
  *
  * 视觉:屏幕居中 ITEMBOX 精灵(UI 70)+ 物品 BALL 图标@box+(8,7) + 2 行居中文字
  *   (line1="炼出"=getWord(42) / line2=物品名=getWord(itemId))。

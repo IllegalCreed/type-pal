@@ -38,9 +38,8 @@ export const FRAMES_PER_CHAR = 1
 export const MAX_LINES_PER_PAGE = 4
 
 /**
- * sdlpal text.c:1715-1720 姓名 title 判定 —— 三条件 AND:首行(nCurrentDialogLine==0)+ 非居中框
- *(bDialogPosition != kDialogCenter ⇔ style != 'center')+ 末字冒号。M1/L1(2026-06-07 审查):
- * 原先只判末字 → 段中续行冒号句被误当姓名牌(从正文丢失)、center 独白被错画成左上角姓名牌。
+ * 姓名判定使用段首、非center风格和末字冒号三条件(text.c:1715-1720)。
+ * 行间冒号句保留在正文；绘制层另拥有narration/item-box布局。
  */
 function shouldRenderAsTitle(
   text: string,
@@ -72,8 +71,8 @@ export function startDialogLine(
      */
     iDelayFrames?: number
     /**
-     * Bug1 fix(2026-06-26):当前行开始 typing 的墙钟(ms)。打字进度用 (now - lineStartMs) 驱动,
-     * 不再依赖 tick 帧数(旧实现 100ms/tick 把 24ms/字打成成块蹦字)。缺省 0 兼容旧测试/手搭 state。
+     * 当前行开始的时间戳(ms)，须与tickDialog传入的now使用同一时基。
+     * 无now的战斗driver使用tick计时；不能把缺省0当作真实开行时刻。
      */
     now?: number
   },
@@ -102,7 +101,7 @@ export function startDialogLine(
     currentLineEndedWithTilde: isTitle ? false : parsed.endedWithTilde,
     lineDoneRenderPending: false,
     fontColorState: isTitle ? startColor : parsed.endColor, // title 不改色态
-    iDelayState: isTitle ? DIALOG_IDELAY_DEFAULT : parsed.endIDelay, // title 不改打字速度态
+    iDelayState: isTitle ? DIALOG_IDELAY_DEFAULT : parsed.endIDelay, // 首行姓名当前使用默认速度态
     iconKind: parsed.icon,
     typingFrames: 0,
     charsRevealed: 0,
@@ -150,7 +149,7 @@ export function appendDialogLine(state: DialogBoxState, rawText: string, now?: n
   state.currentLineText = parsed.text
   state.currentLineColors = parsed.colors
   state.currentLineRevealAt = parsed.revealAt
-  // Bug1 fix:续行重置 lineStartMs 为新行的 now(缺省 0 兼容旧测试/手搭 state)。
+  // 新行重建时间锚点；与tickDialog的now保持同一时基。
   state.lineStartMs = now ?? 0
   state.currentLineDoneAt = parsed.doneAt
   state.currentLineEndedWithTilde = parsed.endedWithTilde
@@ -255,15 +254,10 @@ export function resetDialogBody(state: DialogBoxState): void {
 // ── tickDialog ────────────────────────────────────────────────────────────────
 
 /**
- * 每逻辑帧调一次:
- *  - typing 中 → 推 charsRevealed,完后 phase → 'line-done'
- *  - line-done / wait 状态 → blink key icon
- *
- * Bug1 fix(2026-06-26):打字进度改 wall-clock 驱动。
- *  - 传 `now`(墙钟 ms):elapsed = now - lineStartMs。精度由调用频率(rAF 60fps)保证,
- *    不受 10fps tick 限制 → 24ms/字 流畅逐字,不再"每 100ms 蹦 4 字成块"。
- *  - 不传 now(旧测试/手搭 state):回退 elapsed = typingFrames*FRAME_MS_EXPLORE(旧行为,100ms/tick)。
- *    兼容现有不传 now 的测试;新测试 & event-system 都传 now。
+ * 推进typing，不拥有driver时钟或输入消费。
+ * 大世界传now，elapsed=now-lineStartMs；战斗每40ms累加，满100ms后无now调用，
+ * elapsed=typingFrames*FRAME_MS_EXPLORE。无revealAt的旧状态仍走恒速路径。
+ * 等键箭头由绘制层常显，闪烁由present调色板轮转；本函数不切换keyIconBlink。
  */
 export function tickDialog(state: DialogBoxState, now?: number): void {
   state.typingFrames++
@@ -272,7 +266,7 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
     const len = state.currentLineText.length
     const revealAt = state.currentLineRevealAt
     if (revealAt) {
-      // Bug1 fix:wall-clock 优先;缺省 now 时回退 tick 驱动(旧行为)。
+      // 两种driver共用reveal时间表，单位均为ms。
       const elapsed =
         now !== undefined && state.lineStartMs !== undefined
           ? now - state.lineStartMs
@@ -301,11 +295,11 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
 // ── confirmDialog ─────────────────────────────────────────────────────────────
 
 /**
- * Confirm 按键时调,返回值告诉 event-system 接下来做什么:
+ * Confirm按键时调；event与battle driver按返回值推进自己的游标或队列：
  *  - 'skip-typing':  当前行 typing 中 → 跳行末(fUserSkip)。caller 不动 cursor。
  *  - 'page-advance': 之前 waiting-page-key → 清屏 + line=0。普通分页保留当前未消费showDialog，
  *                    caller重入并append本行；只有已完成的样式/显式清屏指令才推进ip。
- *  - 'dialog-end':   之前 waiting-end-key → 关 dialog。caller 清 gs.dialogBox + cursor.ip++。
+ *  - 'dialog-end':   waiting-end-key结束；caller负责清框，并推进游标或战斗队列。
  *  - 'noop':         其他状态(line-done 等),Confirm 无效(等自动推进)。
  */
 export type ConfirmResult = 'skip-typing' | 'page-advance' | 'dialog-end' | 'noop'

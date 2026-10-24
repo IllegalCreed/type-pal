@@ -48,11 +48,11 @@ export interface ParsedDialogLine {
 }
 
 /**
- * port sdlpal `TEXT_DisplayText` 控制符 state machine(text.c:1458-1613)。把原始对话文本解析成
- * {可见文本 + 逐字符色},消费控制符(原本被我们字面显示出来 = bug):
+ * `TEXT_DisplayText` 控制符解析(text.c:1458-1613)：输出可见文本、逐字色和时间表。
+ * 控制符不进入可见文本；颜色和速度的行末值交回 caller，供下一行继承：
  *   `-` toggle CYAN(0x8D)/ `'` toggle RED(0x1A)/ `@` toggle RED_ALT(0x17)
  *   `"` toggle YELLOW(0x2D)—— **仅 !isDialog**(text.c:1522 `if(!isDialog)`,但 `"` 总被消费)
- *   `$NN` typing 速度(text.c:1539 `lpszText+=3` 消费 3 字符,不显;我们暂不改 typing 速度)
+ *   `$NN` 设置后续字符延时基数 floor(NN*10/7)，消费三字符(text.c:1538-1539)
  *   `~` 本行提前结束(text.c:1554 return —— 其后丢弃)
  *   `)` icon=1(text.c:1560)/ `(` icon=2(text.c:1568)/ `\` 转义下一字符(text.c:1572)
  * 默认色映射(text.c:1580-1582):isDialog 且当前色 == DEFAULT → 0;否则 = 当前色。
