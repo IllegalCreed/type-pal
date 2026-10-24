@@ -1,9 +1,8 @@
-/** 玩家毒定义与毒槽操作；入口脚本由调用方传入，同步顺序保持。 */
+/** 玩家毒定义与毒槽操作；调用方提供同步入口，毒记录在入口执行前占槽。 */
 import type { GameState } from './game-state.js'
 
-// ── 毒 OBJECT 表注入(0x29 apply-player 取 wPlayerScript / cure-by-level 取真 level)──
-//   ObjectPoisonView{id,level,color,playerScript,enemyScript};id→数据。applyRawOpcode(大世界 + 战斗
-//   fall-through)的 0x29 / curePlayerPoisonByLevel 用。未注入(旧测试)→ 空 Map,playerScript=0/level=0 退化。
+// 启动装配器注入的应用级毒定义；运行态毒与脚本续点分别由各份GameState持有。
+// 缺失定义按入口0、等级0处理；本模块不加载资源或决定施毒抗性。
 let _objectPoisons = new Map<
   number,
   { level: number; color: number; playerScript: number; enemyScript: number }
@@ -35,8 +34,7 @@ export function partySlotForRole(gs: GameState, roleId: number): number {
  * role是否中毒:有效非零毒ID查ByKind,省略毒ID查ByLevel(role,0)。
  * poisonKind给定只看该种非零毒ID,不看等级;省略时:
  *   忽略 level>=99 的装备伪毒(寿葫芦 HP/MP 回补等),对齐 sdlpal global.c:1669-1675。
- *   否则装寿葫芦时这些伪毒会被当"中毒",令毒龙胆/九阴散的 0x61"没中毒就秒杀"误判为有毒 →
- *   分别免风险解毒或回血(原版早期 bug,后期已修)。rgPoisonStatus 16 槽/party slot。
+ *   0x61等按等级查询的caller由此排除装备伪毒；每个队伍位置有16槽。
  */
 export function isPlayerPoisoned(gs: GameState, roleId: number, poisonKind?: number): boolean {
   const partySlot = partySlotForRole(gs, roleId)
@@ -51,7 +49,7 @@ export function isPlayerPoisoned(gs: GameState, roleId: number, poisonKind?: num
     }
     // ByLevel(role, 0):level>=99 的装备伪毒不算"中毒"
     if ((_objectPoisons.get(p.wPoisonID)?.level ?? 0) >= 99) continue
-    return true // level >= wMinLevel(=0) 恒真
+    return true
   }
   return false
 }

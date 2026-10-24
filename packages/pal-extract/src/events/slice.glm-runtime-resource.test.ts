@@ -1,7 +1,7 @@
 /**
  * sliceByScene的合成防御输入观察：外部标签死端、越界跳转、非正global入口。
  * 这些不是原盘资源回放；外部标签和负入口的生产输入合同仍待核，不授完整算法信用。
- * scene/global分支仍各自存在，因此不把Kimi的global外部标签例机械视作重复。
+ * scene/global共用遍历器；本片固定scene外部标签，Kimi对应例另核global归属。
  */
 import type { Command } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
