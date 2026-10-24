@@ -2,8 +2,8 @@
  * TEST-GROK-RENDER-HOST-LARGE-1 G05-D。
  * 不重复默认箭头位置、底框立绘和物品框图标的正向坐标。
  */
-import type { Item } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { dialogItem as item, dialogSprite as solidSprite } from '../__tests__/dialog-fixtures.js'
 import type { IndexedImage } from '../assets/png.js'
 import {
   appendDialogLine,
@@ -20,15 +20,6 @@ import { createFramebuffer, type Framebuffer } from './framebuffer.js'
 
 function at(fb: Framebuffer, x: number, y: number): number {
   return fb.indices[y * 320 + x] ?? 0
-}
-
-function solidSprite(width: number, height: number, color: number): DialogSprite {
-  return {
-    width,
-    height,
-    indices: new Uint8Array(width * height).fill(color),
-    opaque: new Uint8Array(width * height).fill(1),
-  }
 }
 
 function dotImage(width: number, height: number, color: number): IndexedImage {
@@ -52,27 +43,6 @@ function glyphs(specs: Record<string, number>): GlyphTable {
   return {
     has: (cp) => map.has(cp),
     get: (cp) => map.get(cp),
-  }
-}
-
-function item(id: number, bitmap: number): Item {
-  return {
-    id,
-    bitmap,
-    price: 0,
-    scriptOnUse: 0,
-    scriptOnEquip: 0,
-    scriptOnThrow: 0,
-    scriptDesc: 0,
-    flags: {
-      usable: false,
-      equipable: false,
-      throwable: false,
-      consuming: false,
-      applyToAll: false,
-      sellable: false,
-      equipableBy: [false, false, false, false, false, false],
-    },
   }
 }
 
