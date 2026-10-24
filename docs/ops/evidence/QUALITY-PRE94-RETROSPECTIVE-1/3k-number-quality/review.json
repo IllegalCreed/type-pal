@@ -1,0 +1,508 @@
+{
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "relatedTask": "GAME-DRAW-NUMBER-NONFINITE-1",
+  "base": "f5457a14cba4583072ee4a83302aca0d77daf15a",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single agent",
+  "state": "accepted bounded CODE3k window; whole pre94 incomplete",
+  "approval": {
+    "call": "call_edfe7d7f551d4841b9fae30c955bcae2",
+    "answer": "批准跳过异常数字（推荐）",
+    "date": "2026-10-24"
+  },
+  "prior": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json",
+    "sha256": "bef5506830a53ed3cc7ba1941934d3296c594002ca87ff2c399081d577768f3e",
+    "reuse": "Unchanged five original3k primitives and their tests, plus eight-case number main test; source identity checked, not re-read or re-run solely for history."
+  },
+  "reusedPins": [
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "sha256": "e4b1f7da98483db3d25a31a2ce65838fd1bd92f045e690e80a9a909b2454a738",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "79ea8dece3af846c68872168fa2d2f2d5ed01356aea27c30a450ac0ffe4b490e",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.ts",
+      "sha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "sha256": "947d456cc8f6d9aad80bd2f4f590ce0f4b6e94a2ddffe0813171d30ff489e786",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "21a83adc29a46a08ec200f568e8dd792fbfb7dd81f78842613e6ab2b5aca4304",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.ts",
+      "sha256": "2870bdd7ead72b875c3de9c7ab84214f4ac2f41df84b13686a58ffb6b5187484",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "sha256": "aa3c4e54215380dcbfab2919839b9a716c11ebc22156d699fb94734032eeceff",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "sha256": "7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "c88372255ff09d81c3d957c9dd729d65a990661b4d38aecae007b41cce179d4a",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.ts",
+      "sha256": "590b0675e2853a24f78c439ecd782852d4a07c1aabcd06b072e210e0347136b6",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "sha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "cbeef1074d5ca20c20d60b45ed64035ddb4c5d201cb98c0993daf03296848a50",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "sha256": "4251c96b758cb2eae081861eada535db545e695e636239cc408e0a795ec03e9e",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "sha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "sha256": "2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "adc1249981c6a8c32d06dd40fcffaef47e0ba8860b1b51eea0d526975d387497",
+      "read": "Full current file; prior applicable evidence explicitly linked",
+      "decision": "accept",
+      "dimensions": {
+        "A": "原ui.c640–732的颜色19/29/56、6px步距、三种对齐、截高位、0槽例沿旧逐文件证据；新数值链两正式红后guard，原有效布局逐语句不变。",
+        "B": "模块说明缺帧间距和caller前提；入口说明非有限跳过，guard解释TS派生溢出而非冒称C有该行为。",
+        "C": "仅拥有位数/布局；共享blit拥有mask写入，Framebuffer拥有裁剪。无IO、时钟、隐式全局、反向依赖、跨层状态写入；旧widegs参数没有引入。",
+        "D": "旧私有blit与当前通用叶均Framebuffer+IndexedImage+绝对x/y，mask/缺帧/失败和生命周期一致。独立AST证明标识映射后同体；替换减少共同修改点。",
+        "E": "8旧布局+5槽掩码+4新失败隔离；正式正Infinity/真实状态页两红后17绿。缺帧、零槽独立合同保留，未退役或凑覆盖率。",
+        "F": "输入guard早退；位数、对齐和R-to-L主流程平直，无模式布尔值或通用上下文。",
+        "G": "删除仅被本函数调用的私有重复blit，依赖图仅加已有叶导入。槽数/颜色/align均有生产caller，不为指标删分支。",
+        "H": "直接Framebuffer可观测，真实caller通过parse/import/rebuild/startBattle/runScript无核心mock。VM只隔离同步非终止，Vitest默认超时不变。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "6cb8a530e70a1797a35e1795cffd70e78353ccd4f7119f8bc960ffaa5b37e28c",
+      "read": "Full current file; prior applicable evidence explicitly linked",
+      "decision": "accept",
+      "dimensions": {
+        "A": "5例mask/末行/缺个位间距/正数零槽/零数字零槽；旧合法6x8工厂同版复用。",
+        "B": "保留标题身份；新增注释只解释不透明黑色0，矩形oracle不声称完整菜单。",
+        "C": "每例独立Framebuffer/frames，无全局stub与计时器；frameAt只准备一个槽的mask输入。",
+        "D": "共享digit-frames提供同一6x8业务夹具；局部frameAt只处理特殊mask，不混入布局算法。",
+        "E": "前四组抽点改完整buffer，黑色0为mask真值的缺失判别轴；opaque0 mutant旧5绿/新仅C01红。主测8布局与本5边界不重复，身份未删。",
+        "F": "期望坐标/色号为字面值，全帧比较明确多写/少写均失败；不用复刻被测对齐循环。",
+        "G": "将逐像素计数ink简化为Buffer.compare，不改变全帧合同；无新例/辅助模式。",
+        "H": "只调用公开drawNumber/Framebuffer；无私有spy、mock调用次数、强转或timeout修改。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-number-nonfinite.test.ts",
+      "sha256": "d4169c259788e16a080762f332665a514c80a3ea6f0aff3f3f094478f6c78f7c",
+      "read": "Full current file; prior applicable evidence explicitly linked",
+      "decision": "accept",
+      "dimensions": {
+        "A": "有限base经V1/normalize/装备重算/正式startBattle与原盘43028–43031片段再到真实状态页；未将直接塞派生槽叫生产路径。",
+        "B": "注释明确仅相关bootstrap步骤，未称完整读档/剧情/browser；1000msVM是同步死循环隔离。",
+        "C": "各例本地状态；不写Save槽/用户DB，不设全局解释器、依赖容器、console或随机mock。",
+        "D": "既有battle fixture仅构造合法资源；runScript/startBattle/normalizer/equipment用真实实现，inline四命令与primary字节相核。",
+        "E": "3数值各不写像素/能返回；第4例验实际derived Infinity与后续60数字仍画。两个修前失败均业务AssertionError，NaN/-Infinity保持原有成功。无自比clone或只测未抛。",
+        "F": "expectToFinish封装一次看门狗结果，主体按input→source→present→pixels展示因果；代码未复刻公式。",
+        "G": "4例覆盖不同数值与不同层caller；无重复正常smoke，原13全部保留。",
+        "H": "VM包真实入口，不mock内部；错误存unknown经业务断言失败。可控同步完成，未为测试扩产品API。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "sha256": "4251c96b758cb2eae081861eada535db545e695e636239cc408e0a795ec03e9e",
+      "read": "Full current file; prior applicable evidence explicitly linked",
+      "decision": "reuse accepted; unchanged",
+      "dimensions": {
+        "A": "沿原逐文件证据复用8例有限布局、颜色、截断与缺帧合同；本次字节未变。",
+        "B": "标题仅指实际数字函数；历史caller范围限制继续有效。",
+        "C": "每例独立缓冲和数字帧；未引入共享可写状态。",
+        "D": "沿既有6×8数字夹具，不合并不同业务合同。",
+        "E": "原8身份与原件复用；本次17例实跑包含这8例，不重复计算新增信用。",
+        "F": "字面矩形/坐标期望，未复制布局算法。",
+        "G": "本次零删除、零重命名；不继承其它文件的退役结论。",
+        "H": "直接公开函数和Framebuffer，无核心mock或新增产品接口。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/blit-indexed-sprite.ts",
+      "sha256": "28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f",
+      "read": "Full current file; prior applicable evidence explicitly linked",
+      "decision": "reuse accepted; unchanged",
+      "dimensions": {
+        "A": "全文16行与既有accepted renderer证据版本一致；原mask与Framebuffer裁剪继续适用。",
+        "B": "注释阐明opaque0/index0及越界Owner。",
+        "C": "叶只借buffer写像素，不触碰业务/IO/状态。",
+        "D": "与旧digit helper同输入/语义/失败策略，经AST同体证明后复用。",
+        "E": "原renderer/本次numbers整帧与mask单红补充实际caller证据，不新增镜像测试。",
+        "F": "嵌套y/x/rowoff清晰，绝对dst参数表达锚点。",
+        "G": "无新export或分支，临时mutant恢复到原hash。",
+        "H": "公开叶直接像素可测，无外部系统依赖。"
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/digit-frames.ts",
+      "sha256": "8be72033de104a3a86d08a34f0d74b1ef99e9d69daa13b44358e4f7368b2b7fd",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "a4919d656ed2318943f537cb90a7e1f5f53fd10c7fe7cdcdd687c6aa38cbf602",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "4eb173f96cd19b0bcc1175ad9a96e439cd5a6235d7896550deeec22bf7c5b3e0",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+      "read": "Full current input tracing read, no whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288",
+      "read": "1–115 and255–300 rebuild, no whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "read": "1539–1665 projection,1825–1855 normalize only"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "2cd6d03e5be5d0046f9b1ebe0a62df164e62718a652af05f35d9bb0f257d703a",
+      "read": "853–905 buff branch only"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "sha256": "6f531c53952accde2f9990e9a815e945508fa307140b0dcbdc6ecb30d9218f37",
+      "read": "Full current file for narrow input/caller tracing, no automatic whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "9fcd4810b9675a0840d29d1d7a1040e7cfbe883ebbdfebe0b74e501d04f2aff6",
+      "read": "Public status input/draw, vitals and five stat call-sites read; no whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "54e838d92e011fd96d4529ecfee4b6374fcf6b25aa86640d49af832227b36d0f",
+      "read": "950–1080 ctx contract and2948–3185 runner only"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "read": "1653–1723 relevant load normalization/rebuild only"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c1cd2ecced440507aace6a5928393e5209c7e3e7c49888dc543322b3475bb6e1",
+      "read": "80–373 relevant imports, complete StartBattleInput and startBattle; prior lifecycle evidence reused where unchanged, no whole-core acceptance"
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "read": "640–732 PAL_DrawNumber"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "read": "1406–1430 buff"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+      "read": "Relevant growth, WORD/buff and user-selected numeric deviation sections; historical/current claims separated"
+    },
+    {
+      "path": "data/extracted/events/all.json",
+      "sha256": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885",
+      "read": "Only four commands at43028–43031, exact source probe retained; no asset pipeline acceptance"
+    },
+    {
+      "path": "data/extracted/data/spells.json",
+      "sha256": "dd31c1e269018b37ae9b07bad7294c685b491a83c4ae4ff2bab975834a1945bd",
+      "read": "Only spell295 梦蛇 magicNumber47/scriptOnSuccess43028; no full spell catalogue acceptance"
+    }
+  ],
+  "gates": {
+    "unified": "passed",
+    "check": {
+      "id": "module-check-final",
+      "packageTests": 20576,
+      "toolTests": 700,
+      "rawSha256": "97f1e7923cb7c7ad569f1b10549d498705e59d1a78e4caf5cab492a016255c04",
+      "lintDiagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    "collection": {
+      "id": "module-ratchet",
+      "tests": 20147,
+      "sources": 777,
+      "exit": 1,
+      "rawSha256": "e5ad6d1881b48d2032970c6c8f0ffa6ad13466400a5207b449165f1a8fb49bb6",
+      "policy": "original rejection retained; exact structural recount on same report"
+    },
+    "ratchet": {
+      "id": "ratchet-same-report"
+    },
+    "protected": {
+      "id": "protected-fast-same-report",
+      "baseRef": "origin/main",
+      "sameReport": true
+    },
+    "directed": {
+      "files": 3,
+      "tests": 17,
+      "before": 13
+    },
+    "adjacent": {
+      "files": 16,
+      "tests": 77
+    },
+    "typecheck": "all seven packages in pnpm check; separate game tsc also passed",
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "documentation": {
+      "id": "docs-final"
+    },
+    "lint": {
+      "id": "lint-clean"
+    }
+  },
+  "limits": [
+    "No whole save, equipment, battle-opcodes, bootstrap or player-status acceptance. Relevant load steps are tested; full browser slot-load workflow not executed.",
+    "Natural story reachability of Number.MAX_VALUE is unproved. Snapshot manually changes a finite base accepted by current import contract.",
+    "Guard only skips nonfinite num. Existing finite-value arithmetic/layout, negative/fractional unsupported inputs and slot-count contracts are unchanged; no new coercion, stat cap or Save policy."
+  ],
+  "testMapping": {
+    "retired": 0,
+    "renamed": 0,
+    "before": 13,
+    "after": 17,
+    "oldMain": "8 identities/body unchanged",
+    "oldSlots": "5 identities kept; whole-frame masks, complete slots and opaque black strengthened",
+    "added": "3 nonfinite atomic values + one actual source-to-status-page continuation contract",
+    "red": "nonfinite-red-valid:4 cases,2 business AssertionErrors",
+    "counter": "mask-old5/5; mask-new4/5, onlyG05-C01 AssertionError; exact restoration"
+  },
+  "processCorrections": [
+    "First red run used wrong write cwd and found no file; retained, no red credit. Formal red is nonfinite-red-valid only.",
+    "First whole check stopped at expired E2E006 publication reviewBy. Second stopped at one omitted transitive review fingerprint after renewal. Both pre-product failures retained. Scoped catalogue renewal keeps rework, lastVerified and all historical execution fields.",
+    "Final archive manifest JSON required formatting after packing; lint-final rejected one format error. Original rejection retained; formatted candidate receives separate lint-clean and sealed static checks."
+  ],
+  "integration": "Local gates accepted; branch commit/push/protected PR and remote full logs pending, tracked by subsequent Git receipt.",
+  "quantitativeScreen": {
+    "tool": "installed TypeScript6.0.3 AST; decisions+1 for If/While/Case in current module; only priority signal",
+    "drawNumber": 10,
+    "decision": "10作为阅读线索；布局职责清晰，未按指标拆分。"
+  },
+  "gateMaintenance": {
+    "reason": "module-check halted before product tests at expired e2e-006 reviewBy2026-10-23",
+    "scope": "Published evidence/status revalidation only; no E2E implementation or new acceptance",
+    "read": [
+      "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+      "docs/testing/e2e/stages/006-doctor-boat/README.md",
+      "docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "docs/testing/e2e/evidence/e2e-006.json"
+    ],
+    "sourceRefs": [
+      {
+        "path": "scripts/e2e/boat-reforge.mjs",
+        "lines": "3-3",
+        "anchor": "await runBoatJourney",
+        "role": "caller",
+        "sha256": "d5c648a90e22617c1d16b97964f3539c22625cc68836e5194c23802c0dd14b43"
+      },
+      {
+        "path": "scripts/e2e/boat-journey.mjs",
+        "lines": "23-40",
+        "anchor": "export async function runBoatJourney(",
+        "role": "caller",
+        "sha256": "fc976aa809bfca929ec6f09d81cd8b10e16339d2b270b6660e08ff90d30990f4"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "lines": "168-170",
+        "anchor": "export const CONTENT_VERSION =",
+        "role": "version",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      }
+    ],
+    "unchanged": {
+      "status": "rework",
+      "lastVerified": "2026-10-03",
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      }
+    },
+    "reviewBy": "2026-10-31",
+    "otherCatalogEntriesUnchanged": true
+  },
+  "gateInputs": [
+    {
+      "path": "packages/editor/src/core/author-disk-baseline.pal.test.ts",
+      "sha256": "390de8a8890a7085e35f19f657574ab9b0133cc9d0a1b0d4ecbb4de44d9c6640"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "1b31253dd724441ee1c5b6074937b96708e7804162c5bf59ff42b6d7f700fd9b"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "065831a62ca969b9e1fb26d15e589120a003a357b8c42da70c800c63cb447657"
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "sha256": "dae8483fcd9ee6982665f4b0df9284911f50af5aabc13830433dbde92631edb1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+      "sha256": "48838a5f9d44e20949a8160c6b62ca584e1e3a6ace755dc498e0850e9369e8df"
+    }
+  ],
+  "closedFiles": [
+    "packages/game/src/present/draw-number.ts",
+    "packages/game/src/present/draw-number-nonfinite.test.ts"
+  ],
+  "refreshedAcceptedFiles": ["packages/game/src/present/draw-number-slots.grok-r1.test.ts"],
+  "ledger": {
+    "total": 3411,
+    "verified": 420,
+    "review": 99,
+    "pending": 2892,
+    "unclosed": 2991
+  },
+  "fixed83": {
+    "accept": 67,
+    "partial": 16,
+    "pending": 0
+  },
+  "next": "Only remaining16 pre94 partial contracts, after fresh owner/main check. CODE3m battle core contracts and3n fade/identity ownership are candidates; no94–102.",
+  "coverageRecount": "coverage-recount.json in receiptParts",
+  "receiptParts": [
+    {
+      "path": "receipts-1.json.gz",
+      "sha256": "8c7aae4464a9a183e630deff536c2935915855b5bac6f1dd6e030cf6b5bf332d",
+      "entries": 74,
+      "bytes": 675653
+    },
+    {
+      "path": "receipts-2.json.gz",
+      "sha256": "c1ed4da72ea650c37f95cd05c828a027df6650271e7d21f82df91ab5d2331585",
+      "entries": 1,
+      "bytes": 519436
+    },
+    {
+      "path": "receipts-3.json.gz",
+      "sha256": "7c99452ea335ac0e3031c40a02eafc44d52a88896a0f4d6f78e58e0015670c73",
+      "entries": 21,
+      "bytes": 791855
+    }
+  ],
+  "gateReceiptParts": [
+    {
+      "path": "gates-1.json.gz",
+      "sha256": "90ecfe0b00c4e5bf8cec4c18d88533391de041ea48a543e97d7d708a602b933e",
+      "entries": 26,
+      "bytes": 225954
+    }
+  ]
+}

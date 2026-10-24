@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 66,
+  "currentAccepted": 67,
   "cards": [
     {
       "id": "1",
@@ -664,8 +664,8 @@
       "sha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
       "lines": 74,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -721,7 +721,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
+      "currentReviewDepth": "Original six primitives A–H complete across retained evidence and current number window. Extreme finite-import source chain and actual status pixels only; no full browser slot load, natural story or broader save/formula acceptance."
     },
     {
       "id": "3l",
@@ -4256,36 +4257,31 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 17,
-    "accept": 66
+    "partial": 16,
+    "accept": 67
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE3l original seven presentation sources; current rule/host lifecycle window",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md",
-    "newlyAcceptedCards": ["3l"],
+    "scope": "CODE3k number boundary, shared blit and test discrimination; five other primitives reused",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
+    "newlyAcceptedCards": ["3k"],
     "newlyClosedFiles": [
-      "packages/game/src/core/battle/player-condition.ts",
-      "packages/game/src/core/battle/action-availability.ts",
-      "packages/game/src/present/battle/draw-battle-ui.ts",
-      "packages/game/src/present/battle/present-battle.ts",
-      "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
-      "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
-      "packages/pal-extract/vitest.config.ts"
+      "packages/game/src/present/draw-number.ts",
+      "packages/game/src/present/draw-number-nonfinite.test.ts"
     ],
     "fixed83": {
       "pending": 0,
-      "partial": 17,
-      "accept": 66
+      "partial": 16,
+      "accept": 67
     },
     "counts": {
-      "total": 3410,
-      "verified": 418,
-      "review": 100,
+      "total": 3411,
+      "verified": 420,
+      "review": 99,
       "pending": 2892,
-      "unclosed": 2992
+      "unclosed": 2991
     },
-    "limits": "P13 and three broad production files retain prior whole-file state. No94–102 or natural-story E2E credit."
+    "limits": "No broad core/save acceptance, natural-story E2E or94–102 credit."
   },
   "incrementalReviewHistory": [
     {
@@ -4463,6 +4459,34 @@
         "unclosed": 2995
       },
       "limits": "No full story route/E2E/visual or94–102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3l original seven presentation sources; current rule/host lifecycle window",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md",
+      "newlyAcceptedCards": ["3l"],
+      "newlyClosedFiles": [
+        "packages/game/src/core/battle/player-condition.ts",
+        "packages/game/src/core/battle/action-availability.ts",
+        "packages/game/src/present/battle/draw-battle-ui.ts",
+        "packages/game/src/present/battle/present-battle.ts",
+        "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+        "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+        "packages/pal-extract/vitest.config.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 17,
+        "accept": 66
+      },
+      "counts": {
+        "total": 3410,
+        "verified": 418,
+        "review": 100,
+        "pending": 2892,
+        "unclosed": 2992
+      },
+      "limits": "P13 and three broad production files retain prior whole-file state. No94–102 or natural-story E2E credit."
     }
   ]
 }

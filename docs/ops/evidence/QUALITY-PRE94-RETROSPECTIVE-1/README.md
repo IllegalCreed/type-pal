@@ -411,3 +411,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - [已批准的事件切分修复本地增量](event-slice-approved/README.md)：6业务红→53相邻绿/452包绿；纯遍历提取与raw静态影响，统一门待聚合，0新关闭。
 
 - [CLI IO与输出边界冻结窗口](cli-io-closeout/README.md)：两内部模块纯搬移，字节oracle与三登记缺口；统一门待，raw7战败/逃跑两接回边新停线，0提前关闭。
+
+- [CODE3k 数字布局、共享blit与非有限隔离](3k-number-quality/README.md)：复用primitive证据，仅补数值生产链、两正式红与mask专测补强，统一门及发布按本窗回执。

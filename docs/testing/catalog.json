@@ -785,7 +785,7 @@
       "evidence": "e2e/evidence/e2e-006.json",
       "tags": ["story", "npc", "boat", "visual", "rework"],
       "lastVerified": "2026-10-03",
-      "reviewBy": "2026-10-23",
+      "reviewBy": "2026-10-31",
       "dependsOn": ["e2e-005"],
       "sourceRefs": [
         {
@@ -843,7 +843,7 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "2026-10-24 scoped publication/status review: read current stage/report/paired evidence and active card; current three source pins match; rework/lastVerified/old runtime claims retained. No route/E2E/visual/coverage execution. Next publication review 2026-10-31."
     },
     {
       "id": "runtime-active-scene",

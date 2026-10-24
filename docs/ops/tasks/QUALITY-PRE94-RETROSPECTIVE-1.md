@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 [本窗只读复验及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)。
+
 > 2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。 [本窗只读复验及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md)。
 
 > 当前2026-10-23 CODE3j局部校准：65accept/18partial/0pending；3403tracked/408closed/103review/2892pending。checkpoints七项实跑欠账闭合，正文/配置未变；当前静态及PR按实际后继回执，不外推全流程E2E，94–102未扩展。以下旧时点计数保留历史。
@@ -29,6 +31,14 @@ Phase: engineering first; phase1/phase2按真实路径分别准入
 Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
+
+## 2026-10-24 CODE3k draw-number质量窗口（已有限收口）
+
+后继验收：2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 2026-10-24用户答复call_edfe7d7f551d4841b9fae30c955bcae2批准跳过异常数字，原准入记录如下。
+
+Codex单Owner，同一codex/code-quality-3y，基点f5457a14cba4583072ee4a83302aca0d77daf15a，fetch确认origin/main同点且工作树干净。PR19合并后Documentation39983040254、Coverage39983040348均success；完整日志零诊断，annotations另核。
+
+复用present-primitives-quality中六primitive与13专测的既有八维/反控，只补draw-number非有限输入生产链、当前测试判别力与共享blit合同。允许draw-number.ts及两专测的纯重构/准确注释/测试补强；新共享叶blit-indexed-sprite.ts只读核合同。纯重构先保留13例基线，相关切片齐备再集中全仓check/coverage/protected。非有限绘制行为先登记风险与反例，未获新裁决不实现；不改Save/schema/公式。3k仍partial，账本暂不关闭，不扩94–102。
 
 ## 2026-10-23 CODE3l 规则归属与真实宿主生命周期（build allowed）
 

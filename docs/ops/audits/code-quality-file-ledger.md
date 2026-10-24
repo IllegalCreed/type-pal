@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 [本窗证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)。
+
 Status: current
 Last reviewed: 2026-10-23
 Owner: Codex
@@ -97,8 +99,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,410。
-当前已闭合核验：418；已读但待审：100；尚未逐文件核验：2892；合计未闭合：2992。
+起始基点机器清单：2,962。当前 tracked 清单：3,411。
+当前已闭合核验：420；已读但待审：99；尚未逐文件核验：2892；合计未闭合：2991。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -146,6 +148,7 @@ Template: governance-index-v1 / 1.0.0
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/game/src/present/draw-number-nonfinite.test.ts` | test | 已验证 | [3k数字当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md) | 当前逐文件合同、用户批准数值失败隔离与实际caller像素已核；自然剧情极值可达性未证，不外推Save或公式。 |
 | `packages/pal-extract/vitest.config.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
 | `packages/game/src/core/battle/action-availability.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
 | `packages/game/src/core/battle/player-condition.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
@@ -388,7 +391,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-box.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
 | `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |
-| `packages/game/src/present/draw-number.ts` | product | review | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 非有限输入的真实生产可达性未证；V1载入先重算装备，不能用直接注入派生效果冒称实际路径。其余合法输入合同已核。 |
+| `packages/game/src/present/draw-number.ts` | product | 已验证 | [3k数字当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md) | 当前逐文件合同、用户批准数值失败隔离与实际caller像素已核；自然剧情极值可达性未证，不外推Save或公式。 |
 | `packages/game/src/present/follower-pos.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/framebuffer.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
@@ -400,7 +403,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/dither-fade.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/dither-fade-nibble.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/draw-number.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
-| `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
+| `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | [3k数字当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md) | 当前逐文件合同、用户批准数值失败隔离与实际caller像素已核；自然剧情极值可达性未证，不外推Save或公式。 |
 | `packages/game/src/present/follower-pos.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/follower-pos-axis.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |
 | `packages/game/src/present/battle/draw-battle-bg.ts` | product | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |

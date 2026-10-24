@@ -5,6 +5,83 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-number-shared-blit-recount-20261024',
+    authority:
+      'User standing authority permits exact baseline adjustment for justified refactoring. Only draw-number source coverage changes: shared existing blit replaces byte-equivalent private body; approved nonfinite guard offsets part of removed covered code. Source remains100% (statements37→32, branches11 unchanged, functions2→1, lines33→29). No tests retired; all13 existing identities retained and4 meaningful cases added. Only game statements/functions/lines rebased to measured counts; all other metrics/packages/scopes/rules unchanged. Full original policy rejection and same single official collection retained.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json',
+    baselineSha256: '1bcc9268a3d062cd2348ecd2191d1894650fe0d338f0828dd35ff0a538255f84',
+    sources: [
+      {
+        path: 'packages/game/src/present/draw-number.ts',
+        sha256: 'adc1249981c6a8c32d06dd40fcffaef47e0ba8860b1b51eea0d526975d387497',
+      },
+      {
+        path: 'packages/game/src/present/draw-number-slots.grok-r1.test.ts',
+        sha256: '6cb8a530e70a1797a35e1795cffd70e78353ccd4f7119f8bc960ffaa5b37e28c',
+      },
+      {
+        path: 'packages/game/src/present/draw-number-nonfinite.test.ts',
+        sha256: 'd4169c259788e16a080762f332665a514c80a3ea6f0aff3f3f094478f6c78f7c',
+      },
+      {
+        path: 'packages/game/src/present/draw-number.test.ts',
+        sha256: '4251c96b758cb2eae081861eada535db545e695e636239cc408e0a795ec03e9e',
+      },
+      {
+        path: 'packages/game/src/present/blit-indexed-sprite.ts',
+        sha256: '28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15272,
+            total: 17039,
+          },
+          branches: {
+            covered: 9880,
+            total: 12220,
+          },
+          functions: {
+            covered: 1829,
+            total: 2127,
+          },
+          lines: {
+            covered: 13618,
+            total: 14940,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15267,
+            total: 17034,
+          },
+          branches: {
+            covered: 9880,
+            total: 12220,
+          },
+          functions: {
+            covered: 1828,
+            total: 2126,
+          },
+          lines: {
+            covered: 13614,
+            total: 14936,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-battle-present-dedup-recount-20261023',
     authority:
       'Standing user authority permits exact baseline adjustment for justified refactoring and proven weak-test retirement. Two identical blits become one; unused idle helper and always-false target-arrow path removed. Six-person unsupported smoke and the incorrectly ignored showBattleMessage input no longer receive incidental branch credit. Remaining message lifecycle stays review. Exact old/new contracts, six-file coverage deltas, original rejection and single official collection retained. Only game branches/functions comparison rebased; statements/lines still ratchet from the old value. No rule, exclusion, tolerance or behavior change.',
