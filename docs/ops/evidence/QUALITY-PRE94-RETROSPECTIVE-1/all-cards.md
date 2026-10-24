@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-24当前：74代码accept／9partial／0pending；本窗3o／3p接受，九文件新关闭，获批毒入口及P3窄修有正式红绿。最终集成门仍待全部pre94；[逐文件验收](mode-player-closeout/README.md)。
+
 2026-10-24当前：72代码accept／11partial／0pending，本窗3n／3q／3r新接受，17文件新关闭；[逐文件八维、批准接口清理、509相邻与误绿反控](core-scene-event-closeout/README.md)。最终集成门仍待全部pre94，以下计数保留历史。
 
 2026-10-24当前代码验收：69accept／14partial／0pending，仅3s与3t新接受。七文件逐项八维与必要返工完成，完整原件/六反控及当前指纹见[本次裁定](battle-host-opcode-closeout/README.md)。全仓集成门与PR继续待全部pre94冻结；下面旧计数保留历史。
@@ -30,8 +32,8 @@
 | [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | accept | [七源历次证据与当前装配/UI收口](battle-lifecycle-quality/README.md)；有限浏览器入口，广域core与自然剧情不外推 |
 | [CODE-QUALITY-3m](../../archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md) | done | partial | [当前八维与数值/typed测试返工](battle-core-fade-quality/README.md)：正式红后修FLOAT中间赋值；队列精确oracle/状态与伤害夹具/重复合同已处理，极端dex输入域及全部pre94统一门仍待 |
 | [CODE-QUALITY-3n](../../archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md) | done | accept | [当前代码验收](core-scene-event-closeout/README.md)：原卡八维/必要返工及当前输入桥成立；最终全仓门/PR待全部pre94 |
-| [CODE-QUALITY-3o](../../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | partial | [mode / history / poison / search 复审切片](3o-mode-history-poison-search/README.md)：四个 core helper 与真实 caller/primary 已重读；直接45例、相邻667例通过但预期 warning 仍待统一诊断收口 |
-| [CODE-QUALITY-3p](../../archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md) | done | partial | [event-opcode-player 复审切片](3p-event-opcode-player/README.md)：helper、四份直接测试、owner callers/SDL primary 已重读；直接61例/相邻471例通过，预期诊断仍待统一收口 |
+| [CODE-QUALITY-3o](../../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | accept | [当前代码验收](mode-player-closeout/README.md)：八维/原反控及版本桥成立；获批毒入口已修，最终统一门待全部pre94 |
+| [CODE-QUALITY-3p](../../archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md) | done | accept | [当前代码验收](mode-player-closeout/README.md)：八维/原反控及版本桥成立；获批毒入口已修，最终统一门待全部pre94 |
 | [CODE-QUALITY-3q](../../archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md) | done | accept | [当前代码验收](core-scene-event-closeout/README.md)：原卡八维/必要返工及当前输入桥成立；最终全仓门/PR待全部pre94 |
 | [CODE-QUALITY-3r](../../archive/tasks/done/CODE-QUALITY-3r-game-event-system.md) | done | accept | [当前代码验收](core-scene-event-closeout/README.md)：原卡八维/必要返工及当前输入桥成立；最终全仓门/PR待全部pre94 |
 | [CODE-QUALITY-3s](../../archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md) | done | accept | [当前3s代码验收](battle-host-opcode-closeout/README.md)：八维与原始证据/版本桥成立，具体范围见report；最终全仓门待全部pre94，不冒称集成完成 |

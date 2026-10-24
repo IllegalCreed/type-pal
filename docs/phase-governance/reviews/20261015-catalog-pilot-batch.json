@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Scoped E2E unchanged oracle binding",
+      "readMethod": "Scoped D1 source/API binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
+      "coreConclusion": "Approved poison entry delta only; old publication credit retained.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -101,7 +101,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "4334d1b2b93e67141007e630e2b44c9830451b8b545fda093dd8ff8b983c782e",
+      "afterSha256": "6c752dc0a696342727f3ed91831dac512f4a2375ae1384eabd2bacb0bf89388a",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -129,7 +129,7 @@
       },
       "revision": {
         "currentSha": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
-        "implementationSha": "4334d1b2b93e67141007e630e2b44c9830451b8b545fda093dd8ff8b983c782e",
+        "implementationSha": "6c752dc0a696342727f3ed91831dac512f4a2375ae1384eabd2bacb0bf89388a",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -194,12 +194,12 @@
         ]
       },
       "evidence": {
-        "kind": "e2e-scoped-oracle-source-binding",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
-        "afterSha256": "4334d1b2b93e67141007e630e2b44c9830451b8b545fda093dd8ff8b983c782e",
-        "lineCount": 2315,
-        "scope": "3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "bdbcb5cec6b2a32e39fed4295a6ca0f075327808",
+        "kind": "d1-scoped-api-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+        "afterSha256": "6c752dc0a696342727f3ed91831dac512f4a2375ae1384eabd2bacb0bf89388a",
+        "lineCount": 2331,
+        "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
         "workingTreeDelta": true
       },
       "history": [
@@ -450,7 +450,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "One current sourceRef per publication; referenced116line oracle body byte-identical, range shifted+1",
+      "reviewedLines": "Three sourceRefs; exact paired metadata and scope delta",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",
@@ -3220,7 +3220,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Scoped D1 source/API binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Approved Wear delta only; old publication credit retained.",
+      "coreConclusion": "Approved poison entry delta only; old publication credit retained.",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -3269,7 +3269,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "f630078fb68e7a01da286049c3329695fe0675d62fb31a4909a17a0a8684e7c0",
+      "afterSha256": "e0d9645a126f7bf34173c4849c6eb298108d9e2526ce4f25bf05a0f6ffc2edaf",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",
@@ -3300,7 +3300,7 @@
       },
       "revision": {
         "currentSha": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
-        "implementationSha": "f630078fb68e7a01da286049c3329695fe0675d62fb31a4909a17a0a8684e7c0",
+        "implementationSha": "e0d9645a126f7bf34173c4849c6eb298108d9e2526ce4f25bf05a0f6ffc2edaf",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "contentVersion": 22,
@@ -3361,11 +3361,11 @@
       },
       "evidence": {
         "kind": "d1-scoped-api-source-binding",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
-        "afterSha256": "f630078fb68e7a01da286049c3329695fe0675d62fb31a4909a17a0a8684e7c0",
-        "lineCount": 137,
-        "scope": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
-        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+        "afterSha256": "e0d9645a126f7bf34173c4849c6eb298108d9e2526ce4f25bf05a0f6ffc2edaf",
+        "lineCount": 155,
+        "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
         "workingTreeDelta": true
       },
       "history": [

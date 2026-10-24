@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前3o／3p原代码范围accept：74accept／9partial／0pending；3424tracked／447closed／89review／2888pending，九新关闭。获批毒入口四正式业务红后修，P3两分支窄修另有两红；491游戏/83提取相邻与两包TC0，统一门/单PR待全部pre94。[八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。
+
 > 当前3n／3q／3r原代码范围accept：72accept／11partial／0pending；3424tracked／438closed／97review／2889pending，17新关闭。用户批准清接口，真实headless回放误绿已修；509相邻／69Node与TC/lint0，最终统一门与PR仍待全部pre94。[逐文件八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md)。
 
 > 当前3s／3t代码复审接受：固定83卡69accept／14partial／0pending；3424tracked／421closed／113review／2890pending，七新关闭、两旧关闭刷新。八维/真实caller/原始反控/版本桥逐项裁定；统一门与PR待所有剩余pre94，不因延后大门强留partial，也不把代码接受写成集成通过。[当前验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md)。
@@ -51,6 +53,10 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
+## 2026-10-24 CODE3o／3p当前核定
+
+同一3y/c483a9ca4，fetch main3609b4d23且0behind；复用mode-player-quality全文八维与原件。3p源/四专测/共享fixture当前未变，待明确代码裁定；用户call_331f12c139684e7b9b17c3e28ec9b529已批准毒入口归属及raw7两接回边，两项各先正式红再窄修，旧停线保留历史；3o的entry重入未知已由实际有限脚本反证：毒A入口加毒B，B效果发生但毒槽被外层覆盖，原C先登记ID可保留两毒。原盘12入口未证明可达；新入口行为与旧Wear批准分开，已在既有高风险卡停线，未改产品/正式测试。[直接counter与可审方案](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)。全仓/coverage/PR仍等全部pre94，94–102不扩展。
 
 ## 2026-10-24 CODE3n／3q／3r代码验收
 
@@ -1721,3 +1727,15 @@ build allowed：3m队列/status/伤害直接测试的typed夹具、独立oracle�
 [Five scoped A-H records, raw evidence and read-only verification](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md). Refactor ac79a3240 and tests451ee5290 preserve the public signature,21exports,three moved bodies and remaining JS. The dialogue consumer needs3host/5battle fields. Typed paired state, canonical input, exact35ticks and literal text replace weak assertions; one identical-input subset transfers its kept-box assertion.
 
 Seven adjacent files253cases, gameTC and scopedBiome passed; two mutations each old1green/new1businessAssertionError. Retirement records only exact13to12 data, without baseline/coverage refresh. Current machine3424/414closed/120review/2890pending; no newclosed, fixed83still67accept/16partial. Main test core casts/selection/casualty ownership and3t remain. No fullcheck/official/protected/PR until all remaining pre94;94-102 excluded.
+
+## 2026-10-24 CODE3o／3p代码验收与两项批准落实
+
+用户call_331f12c139684e7b9b17c3e28ec9b529批准毒入口槽位归属和P3两条接回收集边。Codex单Owner、同一3y：毒行为ef012023a、管线窄修b285b5a5b、纯注释95883a16c分提交；原始反例／业务红绿及注释守恒／错误证明撤回均有完整原件。未写raw、生成物、all.json、Save或规则配置。
+
+[本轮逐文件裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)复用前窗全文A–H及实际counter，只对毒入口与后继接口/caller变化定向补核。15整文件代码接受含九新关闭、六旧关闭刷新；status-poison-equip仍只delta，不授整文件信用。固定83卡3o/3p接受，74accept/9partial/0pending；剩余1/3/3g/3m/42/53/56/57/58继续，不扩94–102。
+
+当前机器账3424/447closed/89review/2888pending。必要实跑：毒正式7例四红→7绿，copy-packet仅续点一红、恢复字节；11相邻491绿；P3两入口先14绿2红→9相邻83绿；game/extract TC0。原有history/mode/search/opcode反控据有效源/版本桥复用，不当作新跑。全仓check、官方coverage/ratchet/protected、PR/main合并均未执行，等全部剩余pre94后集中一次。
+
+P3原盘43503条只读对比，union38765→38780新增15/删0，334已收战斗点610条非零接回边目的均入union；原始recompile字节一致，三输入SHA前后同。只证明内存切片归属，不说普通剧情或浏览器已验收。CODE3/3g主编排及测试域余项仍partial，下一批沿该范围和3m既有未决域继续。最终静态/推送以本窗后续真实回执为准。
+
+本窗最终局部静态：六实际文档消费者、ledger、lint-zero均通过（6003文件，error/warning/info=0/0/0），[原始双流与明确未运行项](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/static.json)完整。125未变docs工具测试复用前窗，不冒称本次重跑wrapper。网络TLS临时失败后已fetch成功，origin/main仍3609b4d233；工作分支代码三笔已本地提交，后续文档提交/推送以真实refs为准。

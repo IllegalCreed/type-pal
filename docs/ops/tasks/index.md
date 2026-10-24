@@ -73,7 +73,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线](QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性](QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线](QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |

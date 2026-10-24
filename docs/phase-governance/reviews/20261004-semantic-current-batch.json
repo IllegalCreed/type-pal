@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3t scoped delta",
+      "readMethod": "Owned3o/3p scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3n/3q/3r code accepted; unified gates deferred.",
+      "coreConclusion": "3o/3p code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "faf83c2ef5679be328485d9a14b7e28d10f3f739e4139167f7d7c029ad008273",
+      "afterSha256": "4d6ff4ee4d461c32bd5f1fed4de93cb2ddeb11347aa1f57a44054efde9dd42f5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "faf83c2ef5679be328485d9a14b7e28d10f3f739e4139167f7d7c029ad008273",
+        "implementationSha": "4d6ff4ee4d461c32bd5f1fed4de93cb2ddeb11347aa1f57a44054efde9dd42f5",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,11 +1714,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-battle-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
-        "afterSha256": "faf83c2ef5679be328485d9a14b7e28d10f3f739e4139167f7d7c029ad008273",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+        "afterSha256": "4d6ff4ee4d461c32bd5f1fed4de93cb2ddeb11347aa1f57a44054efde9dd42f5",
         "lineCount": 90,
-        "scope": "3n/3q/3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "82efe44df6d501af61d16018f763e03f5292b481",
+        "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
         "workingTreeDelta": true
       },
       "history": [
@@ -3335,7 +3335,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Owned3o/3p scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3o/3p scoped review; unified gates deferred.",
+      "coreConclusion": "3o/3p code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3352,7 +3352,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "b8c91bd5f9bd8738206a46fddaf4b621daf36a38ec49c027ef9e48df0bff8a31",
+      "afterSha256": "90551005b98c76d77a4006b58ba7600ee8b6abd90af10ca7db9140da11c70c1d",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3373,7 +3373,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "b8c91bd5f9bd8738206a46fddaf4b621daf36a38ec49c027ef9e48df0bff8a31",
+        "implementationSha": "90551005b98c76d77a4006b58ba7600ee8b6abd90af10ca7db9140da11c70c1d",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3730,12 +3730,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-mode-player-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
-        "afterSha256": "b8c91bd5f9bd8738206a46fddaf4b621daf36a38ec49c027ef9e48df0bff8a31",
+        "kind": "codex-owned-pre94-battle-code-acceptance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+        "afterSha256": "90551005b98c76d77a4006b58ba7600ee8b6abd90af10ca7db9140da11c70c1d",
         "lineCount": 527,
-        "scope": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
-        "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+        "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
         "workingTreeDelta": true
       },
       "history": [

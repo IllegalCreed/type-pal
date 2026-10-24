@@ -1,0 +1,89 @@
+{
+  "state": "draft-stop-line; product unchanged, new behavior not approved",
+  "base": "c483a9ca470389b19f49d12566075e56592dcd17",
+  "owner": "Codex single agent",
+  "affected": ["CODE3o", "CODE53 poison helper entry scope"],
+  "card": "docs/ops/tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md",
+  "sourcePins": [
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756",
+      "lines": 150
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aff3269c2e0a67fb63add41cd85c67532d7df1f1fe524821d4554b7ccfa690af",
+      "lines": 420
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "lines": 4973
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "sha256": "651558526481ad793272565a6335a50d0bb59d9d28dda62a3a8235b184d11083",
+      "lines": 13
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409
+    }
+  ],
+  "ts": {
+    "consumed": true,
+    "slot0": {
+      "wPoisonID": 552,
+      "wPoisonScript": 1
+    },
+    "slot1": null,
+    "hp": [99, 100],
+    "otherPartyPoison": null
+  },
+  "nativeO0": {
+    "slot0": {
+      "wPoisonID": 552,
+      "wPoisonScript": 1
+    },
+    "slot1": {
+      "wPoisonID": 553,
+      "wPoisonScript": 3
+    },
+    "hp": [99, 100]
+  },
+  "nativeO2": {
+    "slot0": {
+      "wPoisonID": 552,
+      "wPoisonScript": 1
+    },
+    "slot1": {
+      "wPoisonID": 553,
+      "wPoisonScript": 3
+    },
+    "hp": [99, 100]
+  },
+  "claim": "With typed synthetic entry552→apply553, actual TS applyPlayerOpcode/runPlayerPoisonEntrySync executes B HP effect but outer allocation overwrites B poison. Original PAL_AddPoisonForPlayer reserves A before nested entry and retains both slots.",
+  "primary": {
+    "path": "reference/sdlpal/global.c",
+    "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+    "function": "PAL_AddPoisonForPlayer",
+    "bodySha256": "5e943eddf9f64f0e587c8a8c5a6d79dedade74b61b4b40be34a1018101fa2e7c",
+    "scope": "Original function body, only surrounding minimal typed globals and nested-entry stub. Not full C interpreter."
+  },
+  "inputScope": "Synthetic legal command/table fixture through public production entry, nontrivial party=[2,0]. No claim current12 original poison entries contain this nesting, save import permits it, original EXE or browser route reproduction.",
+  "proposed": "Reserve original poison slot before its synchronous entry; preserve another poison added during entry and retain existing all16 dedup/Wear policy. Error propagation and slot ownership must be checked before implementation.",
+  "notRun": [
+    "formal Vitest red regression",
+    "product changes",
+    "whole check",
+    "coverage/protected",
+    "browser/E2E"
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "entries": 19,
+    "sha256": "41e997a352039eadb65b99e6acfa473045350f6f4c395b7acf7229f51c98e0d4",
+    "bytes": 5421
+  }
+}

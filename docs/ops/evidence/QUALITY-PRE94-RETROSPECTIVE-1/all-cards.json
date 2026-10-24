@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 72,
+  "currentAccepted": 74,
   "cards": [
     {
       "id": "1",
@@ -895,8 +895,8 @@
       "sha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
       "lines": 67,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -940,8 +940,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md",
-      "findings": "Current scoped A-H and precise test oracles repaired; approved Wear stable compaction preserves poisons after holes/global dedup. Technical evidence recorded, unified gates deferred. No automatic whole-card acceptance."
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md",
+      "findings": "Original code scope accepted from per-file A-H, preserved effective counters, current dependency bridges and approved poison-entry repair. Whole pre94 integration gates remain deferred."
     },
     {
       "id": "3p",
@@ -951,8 +951,8 @@
       "sha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
       "lines": 130,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 18,
@@ -1000,8 +1000,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md",
-      "findings": "Current scoped A-H and precise test oracles repaired; approved Wear stable compaction preserves poisons after holes/global dedup. Technical evidence recorded, unified gates deferred. No automatic whole-card acceptance."
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md",
+      "findings": "Original code scope accepted from per-file A-H, preserved effective counters, current dependency bridges and approved poison-entry repair. Whole pre94 integration gates remain deferred."
     },
     {
       "id": "3q",

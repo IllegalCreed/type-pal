@@ -96,3 +96,19 @@ Codex/3y单一Owner，仅只读核证已准入；物理差异verified、行为�
 全文重读玩家毒helper，核PAL_AddPoisonForPlayer/两类Cure与装备/opcode生产caller：C施毒只在首空槽之前检查同毒，TS先扫全部16槽去重；CureByKind本身只清零可留下孔洞，因此不能把稀疏域差异只归于Wear。当前只按源码记录这两个控制流，不把它称作已跑通的真实物品/毒tick/存读链。helper注释已显式分开TS行为与C；正ID/原盘catalog/孔洞后的入口脚本与tick顺序仍待完整核证。
 
 现有dependency-ownership专测直接断言卸Wear后低毒仍在slot1，验证的是当前TS跨入口ownership，不能据其全绿认证SDL压缩等价。本批保持该测试与产品行为；0新批准，不实现压缩、去重策略、队伍键或save/upgrader。有限注释/夹具返工证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)。
+
+## 2026-10-24 新停线：毒入口再次添加另一种毒会被覆盖
+
+本段独立待裁决，不从前面的Wear build allowed继承。全文复核helper与真实applyPlayerOpcode/runPlayerPoisonEntrySync后，party[2,0]有限合法合成入口552→553实证：553的HP效果已执行，外层552随后覆盖同一空毒槽，TS漏保留553。原C完整PAL_AddPoisonForPlayer先登记552再跑入口，最小typed globals/入口stub的O0/O2均保留两毒。普通原盘12种入口是否能遇到未证实，不冒称真实剧情/原EXE/浏览器或存档导入可达。
+
+[具体探针、原件及可审方案](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)：拟先登记毒槽再执行同步入口，核清回写Owner/异常传播；保留已批准全16槽去重与不丢毒取舍，schema/save/生成物不变。仅只读取证；未写正式测试或实现，等用户明确批准，3o/helper保持review。
+
+### 2026-10-24 毒入口归属批准与build准入
+
+用户call_331f12c139684e7b9b17c3e28ec9b529明确批准“修复毒入口槽位归属”。Codex唯一Owner，同一3y/c483a9ca4；build allowed限player-poison-state.ts和直接生命周期专测：正式有限nested不同毒/同毒、入口清除自身/卸Wear移位及异常传播反例先行，再最小修复；不得覆盖入口添加的其它毒、复活已清除毒或丢掉脚本续点。保留已定16槽去重/不丢毒及role→party-slot、JSON形状，原盘普通剧情可达未证。旧停线记录保留为当时状态，当前这一有限范围获准。
+
+### 2026-10-24 入口归属技术收口
+
+ef012023a先占毒记录再执行入口；续点直接更新该record，Wear前移同一record，入口清毒后不复活；异常撤自己的占位并原样传播，不回滚其它效果。全16去重/洞后不丢毒、party-slot及Save保持。正式7例四业务红后绿，当前精确spec/旧源重放同四红并恢复7绿；复制移动record的变异恰一条续点业务红、源码还原完整。相邻11文件491例、game TC0，原盘普通剧情嵌套可达未证。
+
+[当前正式原件与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)、[3o原范围八维接受](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。本卡仍review等待全部pre94统一集成门，不能把技术接受说成全门/视觉/合main完成；上方“复制幸存ID”是初次Wear修复记录，现记录移动身份另有正式反控。

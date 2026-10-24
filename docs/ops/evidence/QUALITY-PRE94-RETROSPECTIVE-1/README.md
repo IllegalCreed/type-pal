@@ -443,3 +443,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 ## 2026-10-24 CODE3n／3q／3r代码验收
 
 [三卡逐文件八维、批准接口清理、真实回放误绿与原件/只读复验](core-scene-event-closeout/README.md)。72accept／11partial，17新关闭；当前509相邻/69Node/TC/lint0，全仓/official/protected与单PR继续等全部pre94，不扩94–102。
+
+- [3o毒入口所有权新停线：有限真实TS调用与原C函数对照](poison-entry-ownership/README.md)，普通剧情可达未证明，未改产品。
+
+2026-10-24 [3o／3p当前逐文件代码验收与只读复验](mode-player-closeout/README.md)：15整文件接受、九新关闭，固定74accept/9partial；原始八维/反控与已核接口版本桥复用，统一门仍待全部pre94。[获批P3接回分支](event-battle-returns/README.md)两正式红后修，仅窄范围，不关闭CODE3/3g或写生成物。

@@ -32,10 +32,10 @@
     },
     {
       "path": "packages/game/src/core/player-poison-state.ts",
-      "lines": "12-19",
+      "lines": "11",
       "anchor": "export function setObjectPoisons",
       "role": "owner",
-      "sha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756"
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0"
     },
     {
       "path": "packages/game/src/core/scene-identity.ts",
@@ -106,7 +106,7 @@
         "packages/game/src/core/script-catalog.ts:16",
         "packages/game/src/core/inventory-state.ts:10-23",
         "packages/game/src/core/equipment-state.ts:6-13",
-        "packages/game/src/core/player-poison-state.ts:12-19",
+        "packages/game/src/core/player-poison-state.ts:11",
         "packages/game/src/core/scene-identity.ts:6",
         "packages/game/src/core/menu/menu-stack.ts:12-19",
         "packages/game/src/core/dependency-ownership.test.ts:26",
@@ -274,6 +274,22 @@
       ],
       "scope": "Only three current sourceRefs and the Wear slot oracle change. User approved stable16-slot compaction, preserve poison continuation/after-hole survivors/global dedup. Historical D1 candidate/version/status/publication dates/SCC/token/browser credit unchanged; whole-pre94 gates deferred.",
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md"
+    },
+    {
+      "date": "2026-10-24",
+      "base": "c483a9ca470389b19f49d12566075e56592dcd17",
+      "action": "approved-poison-entry-ownership-source-binding",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/player-poison-state.ts",
+          "lines": "12-19",
+          "anchor": "export function setObjectPoisons",
+          "role": "owner",
+          "sha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756"
+        }
+      ],
+      "scope": "Only poison sourceRef and its anchor range updated. User-approved entry reservation and same-record Wear movement; owner export/definition Map unchanged. Current11-file491 regression includes D1. Historical D1 SCC/token/needles/browser/publication/status/versions unchanged; whole-pre94 gates deferred.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md"
     }
   ],
   "_governance": {

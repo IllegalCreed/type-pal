@@ -1,0 +1,64 @@
+{
+  "state": "approved-code-repair; unified integration gates deferred",
+  "base": "c483a9ca470389b19f49d12566075e56592dcd17",
+  "behaviorCommit": "ef012023aa749cab1e2e810ab5e6ac49391b27fd",
+  "approval": {
+    "call": "call_331f12c139684e7b9b17c3e28ec9b529",
+    "answer": "批准修复毒入口槽位归属（推荐）"
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0",
+      "lines": 158
+    },
+    {
+      "path": "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+      "sha256": "4264b8fe40f0c4c7b8d27644fe24eed98327cf3e2f6ac935a2aa050f920df7d9",
+      "lines": 202
+    }
+  ],
+  "primary": {
+    "path": "reference/sdlpal/global.c",
+    "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+    "lines": 2409
+  },
+  "primaryScope": "PAL_AddPoisonForPlayer 1459–1517 reserves the poison ID before the entry. Native harness uses its full body and minimal globals/entry stub; not full C engine.",
+  "change": "Reserve packet before entry; continuation follows same packet through Wear compaction. Cured/replaced packet is not put back. On throw remove only owned packet, restore old empty representation when still at original key, propagate same error; other entry side effects not rolled back.",
+  "preserved": "Full16 duplicate scan, poisons after holes, stable ordering, role→party slot, save shape, resistance/RNG owner, existing runner/metadata fallback.",
+  "formalRed": {
+    "id": "entry-red",
+    "passed": 3,
+    "failed": 4,
+    "kind": "AssertionError only; real applyPlayerOpcode→runPlayerPoisonEntrySync for nested/same/cure/Wear entry cases"
+  },
+  "frozenReplay": {
+    "id": "entry-frozen-red",
+    "passed": 3,
+    "failed": 4,
+    "source": "entry-before.ts",
+    "spec": "entry-red-spec.ts",
+    "restored": "entry-frozen-restore.json",
+    "recovery": "entry-final-recovery;7/7"
+  },
+  "identityCounter": "copy-packet-counter;6green/1businessRed on Wear continuation, restored exact source",
+  "adjacent": {
+    "id": "entry-adjacent",
+    "files": 11,
+    "passed": 491,
+    "stderrBytes": 0
+  },
+  "typecheck": "game-typecheck exit0, no diagnostics",
+  "receipts": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/receipts.json.gz",
+    "sha256": "b5d210c75fcc08ccb67f3c281837ddc0450a4463ff504a7dd3693be1f72c51f8",
+    "entries": 52,
+    "bytes": 88560
+  },
+  "limits": [
+    "Synthetic legal script domain; stock 12 poison-entry enumeration did not prove nesting in ordinary story. No claim custom poison metadata is importable from Save.",
+    "No browser or original EXE reproduction; native minimal harness is bounded.",
+    "No full check, coverage, protected or PR in this window."
+  ],
+  "historicalProbe": "probe.json remains the exact pre-approval finding, not current approval state."
+}
