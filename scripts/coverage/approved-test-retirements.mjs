@@ -7,6 +7,16 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-24 pre94 quality scope and standing exact-dedup authority.
+    // Same-position keep assertion transfers to exact append content case; see battle-dialog-quality.
+    {
+      file: 'packages/game/src/core/battle/__tests__/battle-dialog.test.ts',
+      previous: 13,
+      current: 12,
+      previousIdentityDigest: 'd9312ec7b02e005ff9672d5ee6cd7c11e635567afda9e5e72744822eb5aabafa',
+      currentIdentityDigest: '6b709c786a9223c79b41388d0276195dd1de1fdd0031f73bb713c03ad900238f',
+      fileSha256: '87f17696fe6e5fb649601a6fb27212f0e6d872964a9dc7c1dbc507e65b5982cd',
+    },
     // User2026-10-24 current pre94 test-quality instruction and standing exact-dedup authority.
     // Two overlapping contracts retained in full-status tick and dependency-ownership history.
     // Native identities/old-to-new assertions: pre94/battle-core-fade-quality/review.json.

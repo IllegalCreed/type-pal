@@ -38,11 +38,11 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE3k/3l: five exact file snapshots retire ten duplicate/subset cases.
   // CODE3m/3n: two exact overlapping contracts, each retaining its stronger oracle.
   // CODE3q: 32 cases relocate; 4 redundant cases transfer to stronger literal/matrix oracles.
-  assert.equal(approvedTestRetirements.length, 64)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 64)
+  assert.equal(approvedTestRetirements.length, 65)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 65)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    181,
+    182,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {
