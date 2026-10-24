@@ -63,6 +63,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异](GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性](GAME-SAVE-INPUT-DOMAIN-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |

@@ -65,7 +65,8 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 77代码accept、6partial逐项续核 | 同一3y；56三职责/只读依赖与六文件接受，54+330定向/相邻；3m/42等裁决，1/53/57/58续核。全仓/coverage与单PR待全部pre94，不扩94–102。 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 77代码accept、6partial逐项续核 | 同一3y；53中文功能画面补证、58样式/私有依赖和键义反控，125相关例；53广域GS/Dev、58导出失败及1/3m/42/57仍待。全仓/coverage与单PR待全部pre94，不扩94–102。 |
+| GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 | [pre94工具导出失败提示](tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | draft | Codex / 待用户产品裁决 | CODE58既有范围；读取拒绝已证缺提示/未处理拒绝，只取证未改；同一3y，不扩展治理波次。 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [毒列表与入口所有权](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | review | Codex / 两项用户批准均修，待统一门 | 全16槽稳定保留、不丢毒不重复；入口先占槽／续点随record，四正式红后7绿、491相邻；普通剧情嵌套未证。 |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | Codex / 已批正式红后窄修 | FLOAT/中间赋值与抗性已修；扩展域不加回绕，统一门等全部pre94收尾 |

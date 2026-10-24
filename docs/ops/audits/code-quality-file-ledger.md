@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-24 CODE53中文功能画面与CODE58质量增量：3439tracked／477closed／76review／2886pending，仅静态样式Owner新关闭1项，旧关闭刷新不重复加数。125相关例/TC0；两卡仍partial，固定77／6不变，GS/Dev与导出错误待核，不授英文/普通剧情或统一门信用。[当前八维及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md)。
+
 2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
 
 2026-10-24 CODE42有限质量接受：3435tracked／470closed／79review／2886pending，五新关闭、两旧测试刷新；parser/state/draw职责与三个typed夹具叶完成，两个死矩形测试精确退役。105直接／427相邻、game TC与局部静态；姓名速度counter待实际裁决，42整卡仍partial，固定76／7不变。统一全仓/official/protected/PR待全部pre94。[本窗证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)。
@@ -125,8 +127,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,438。
-当前已闭合核验：476；已读但待审：76；尚未逐文件核验：2886；合计未闭合：2962。
+起始基点机器清单：2,962。当前 tracked 清单：3,439。
+当前已闭合核验：477；已读但待审：76；尚未逐文件核验：2886；合计未闭合：2962。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -351,8 +353,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/minimap.ts` | product | 已验证 | [CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md) | 原scope及内部纯叶明确代码接受；22直接/32相邻、330核心与TC；旧九反控复用、新成功缓存业务单红，身份保持；全仓/coverage/PR待全部pre94 |
 | `packages/game/src/tools/minimap.test.ts` | test | 已验证 | [CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md) | 原scope及内部纯叶明确代码接受；22直接/32相邻、330核心与TC；旧九反控复用、新成功缓存业务单红，身份保持；全仓/coverage/PR待全部pre94 |
 | `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md) | 原scope及内部纯叶明确代码接受；22直接/32相邻、330核心与TC；旧九反控复用、新成功缓存业务单红，身份保持；全仓/coverage/PR待全部pre94 |
-| `packages/game/src/tools/tools-panel.ts` | product | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；1106行原源全文/真实bootstrap与minimap/index caller | 640接线与battleSig仅选定字段说明修正；保存/文件IO/完整UI仍未验，旧关闭转review |
-| `packages/game/src/tools/tools-panel.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；310行全文、正式GameState/BattleState/hydrate、真实DOM | 更正旧合法fixture声明；HP/turn分别观测、精确目标HP；跨例旧单红新绿，相邻34files199tests；未认证save/计时器编辑 |
+| `packages/game/src/tools/tools-panel.ts` | product | review | [CODE58结构/测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) | 静态样式单独Owner、私有battle依赖收窄及完整JS重建；导出失败已证未处理拒绝，等产品裁决；FileReader错误仍未知，整文件未关闭 |
+| `packages/game/src/tools/tools-panel-style.ts` | product | 已验证 | [静态样式Owner与完整JS重建](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) | 全文件A–H、完整原CSS/幂等DOM函数等价，root原出口保留；真实DOM setup/idempotence相邻，统一门未跑 |
+| `packages/game/src/tools/tools-panel.test.ts` | test | 已验证 | [CODE58键义精确oracle](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) | 原16例，15身份保留、5→6标题映射；分区内键/说明成对，W/F互换旧16绿新恰1业务红；125相关零诊断，统一门未跑 |
 | `packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；70行全文、真实缩放/全屏/FPS输入 | 全屏/FPS拆职责；共用宿主恢复监听/音源/偏好与单例，正式合计19tests；新统一门未运行 |
 | `packages/game/src/tools/tools-panel.test-fixtures.ts` | fixture | 已验证 | [CODE58共用宿主](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；89行全文、两公开test caller、跨例旧19绿1AssertionError→新21绿 | 稳定合法初态/typed依赖；call-through监听精确解绑、timer/rAF/controller/DOM/storage/singleton清理；不改生产API |
 | `packages/game/src/tools/quick-save.ts` | product | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；bootstrap setupQuickSave真实注入、Save API/IDB caller、quick-save/toast tests | F5/F9 时机门、preventDefault、错误反馈、SSR no-op、disposer 与依赖 ownership 逐文件核验；无直接缺陷 |
@@ -589,7 +592,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/menu-driver.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: menu-factory-cleanup；不升closed |
 | `packages/game/src/dev/dev-panel.ts` | product | review | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 大dispatcher/Dev复合设计债仍review；本批有限合同不强关 |
 | `packages/game/src/present/draw-tilemap.ts` | product | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |
-| `packages/game/src/present/menu/draw-player-status.ts` | product | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
+| `packages/game/src/present/menu/draw-player-status.ts` | product | 已验证 | [CODE53既有八维/当前布局桥及画面](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) | 原文件关闭刷新，不新增计数；中英默认注释/运行态ownership更正，非import TS相同；中文runtime0/重复slot画面实核，英文包缺失不授视觉信用 |
 | `packages/game/src/present/present.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design；不升closed |
 | `packages/pal-extract/src/resources/parsers/rix.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/game/src/dev/dev-panel.pure.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |

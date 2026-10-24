@@ -9,6 +9,12 @@ Phase: phase1 game
 Capability: Q3 present/menu
 Visual Verification Timing: mixed（状态数值为用户可见行为；视觉布局留集中 E2E）
 
+## 2026-10-24 当前增量：旧停止线与中文功能画面
+
+原七文件A–H证据复用、六份字节一致；状态绘制主线英文layout差异逐段核对，本轮仅纠正中英默认布局、静态/运行态ownership等注释和格式重排，非import TS完全相同。声明的DEV合法fixture由真实Chrome/资源/键盘/菜单/present验证runtime0、重复[4,5,4]首/末槽毒名差异、公开0x29真实入口HP200→188及正式0x75换队清旧毒。battle整轮机制复用旧正式测试，不冒称本轮浏览器战斗。中文截图已核，英文资源本地缺失未验；DEV debug/log完整披露。
+
+Wear/入口重入由已接收3o及用户批准修复闭合，79/80/81和battle/event各原卡有限合同已分别接收。七个旧关闭不重复计数；GameState/Dev广域质量仍review，当前本卡仍partial，不能把其范围悄悄删除。当前125相关例与typecheck、完整原件、实际读域/八维/版本桥见[本轮唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md)。统一门按用户新成本规则等全部pre94，不继承旧绿。
+
 ## 2026-10-20 当前复审
 
 runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。
