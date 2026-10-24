@@ -7090,9 +7090,9 @@
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "readMethod": "Scoped E2E unchanged oracle binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+      "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "documentStatus": "current / catalog-publication only",
       "owner": "Codex（文档治理，未重签原动态证据）",
       "provenance": [
@@ -7177,10 +7177,10 @@
       "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
-      "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+      "afterSha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+        "implementationSha": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
         "history": [
           {
             "date": "2026-10-15",
@@ -7197,10 +7197,10 @@
         ]
       },
       "evidence": {
-        "kind": "inverse-JSON-object-and-actual-paired-consumer",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "kind": "e2e-scoped-oracle-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
-        "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+        "afterSha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
         "lineCount": 156
       },
       "history": [
@@ -7242,7 +7242,7 @@
       "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
       "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
       "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
-      "reviewedLines": "1-156",
+      "reviewedLines": "One current sourceRef per publication; referenced116line oracle body byte-identical, range shifted+1",
       "phase": "testing",
       "module": "publication-machine-audits",
       "templateConformity": {

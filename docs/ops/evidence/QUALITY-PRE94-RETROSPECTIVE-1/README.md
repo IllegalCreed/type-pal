@@ -419,3 +419,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - [CODE3o／3p模式、历史、玩家指令及获批Wear整理](mode-player-quality/README.md)：16份完整/有限记录，局部与统一门分开，原红和误绿反控完整保留。
 
 - [CODE3q场景职责与测试返工：八维、完整身份映射、旧绿新红及只读复验](scene-quality/README.md)
+
+## 2026-10-24 CODE3r作用域与主测质量
+
+[八文件A–H、324身份映射、三单点反控与只读复验](event-quality/README.md)。复用3r/GLM29全文，补最小对象上下文、帧规则、真实战斗夹具/宿主oracle与失败后清理；3q两个E2E依赖同步，meal真实分派观察器TDZ先红后修。546相邻与80Node工具通过，不授浏览器/视觉信用；0新closed、统一门和单PR等全部剩余pre94。

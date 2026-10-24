@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3q scoped delta",
+      "readMethod": "Owned3r scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3q scoped review; unified gates deferred.",
+      "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "d65a3531ebbc2e4785cc08a70e42923526a1492cb9876ceb8bd893a91960fdcb",
+      "afterSha256": "6bab35f867589b28a6a904083e57cd62f4496a18b174b0df2d963de5e9dcb219",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "d65a3531ebbc2e4785cc08a70e42923526a1492cb9876ceb8bd893a91960fdcb",
+        "implementationSha": "6bab35f867589b28a6a904083e57cd62f4496a18b174b0df2d963de5e9dcb219",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1791,11 +1791,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-scene-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "kind": "codex-owned-pre94-event-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "d65a3531ebbc2e4785cc08a70e42923526a1492cb9876ceb8bd893a91960fdcb",
+        "afterSha256": "6bab35f867589b28a6a904083e57cd62f4496a18b174b0df2d963de5e9dcb219",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1811,12 +1811,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-scene-scoped-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
-          "afterSha256": "d65a3531ebbc2e4785cc08a70e42923526a1492cb9876ceb8bd893a91960fdcb",
+          "kind": "pre94-event-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+          "afterSha256": "6bab35f867589b28a6a904083e57cd62f4496a18b174b0df2d963de5e9dcb219",
           "lineCount": 5498,
-          "scope": "3q owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "c6b0c2c19250e8fca3b577b53d59828a7ea4799e",
+          "scope": "3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "bdbcb5cec6b2a32e39fed4295a6ca0f075327808",
           "workingTreeDelta": true
         }
       },
@@ -5284,9 +5284,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3o/3p scoped delta",
+      "readMethod": "Owned3r scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3o/3p scoped review; unified gates deferred.",
+      "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -5307,7 +5307,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "d761948bd06c75ba3b8011f12232c8f45624722e5ee5f5fcf7a93d716e845990",
+      "afterSha256": "6fc06a15a2dc6c0e2b00ae780bf9dcf999c1ea561115686bbd38a500ff2cb91c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5331,7 +5331,7 @@
       },
       "revision": {
         "currentSha": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "implementationSha": "d761948bd06c75ba3b8011f12232c8f45624722e5ee5f5fcf7a93d716e845990",
+        "implementationSha": "6fc06a15a2dc6c0e2b00ae780bf9dcf999c1ea561115686bbd38a500ff2cb91c",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -5379,11 +5379,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-mode-player-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "kind": "codex-owned-pre94-event-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
         "candidateSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "afterSha256": "d761948bd06c75ba3b8011f12232c8f45624722e5ee5f5fcf7a93d716e845990",
+        "afterSha256": "6fc06a15a2dc6c0e2b00ae780bf9dcf999c1ea561115686bbd38a500ff2cb91c",
         "lineCount": 3476,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5399,12 +5399,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "english-cli-source-reference-incoming-binding",
-          "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
-          "afterSha256": "785338b8e430b8473eb48b7b2edff386ed93d55512005f8fe42ac6098a057930",
+          "kind": "pre94-event-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+          "afterSha256": "6fc06a15a2dc6c0e2b00ae780bf9dcf999c1ea561115686bbd38a500ff2cb91c",
           "lineCount": 3476,
-          "scope": "Exact incoming binding for the single existing script-corrections CLI sourceRef maintenance in testing catalog; original artifact envelope and unrelated review entries preserved.",
-          "candidateBaseRevision": "05e1cfcff",
+          "scope": "3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "bdbcb5cec6b2a32e39fed4295a6ca0f075327808",
           "workingTreeDelta": true
         }
       },
@@ -5695,9 +5695,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3o/3p scoped delta",
+      "readMethod": "Owned3r scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3o/3p scoped review; unified gates deferred.",
+      "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json:1"
       ],
@@ -5720,7 +5720,7 @@
         }
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "93d16c6776ca120fd35dc260debcbd359eefabebdb5b9e32637849771e266722",
+      "afterSha256": "f48879910d9e0d62a210e03baf3a679dd1fc7f7a205ad42f2306036dd6246b07",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5744,7 +5744,7 @@
       },
       "revision": {
         "currentSha": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "implementationSha": "93d16c6776ca120fd35dc260debcbd359eefabebdb5b9e32637849771e266722",
+        "implementationSha": "f48879910d9e0d62a210e03baf3a679dd1fc7f7a205ad42f2306036dd6246b07",
         "history": [
           {
             "revision": "577e531ccd991707ef73a56426d46e915220fec6",
@@ -5823,11 +5823,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-mode-player-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "kind": "codex-owned-pre94-event-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
         "candidateSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "afterSha256": "93d16c6776ca120fd35dc260debcbd359eefabebdb5b9e32637849771e266722",
+        "afterSha256": "f48879910d9e0d62a210e03baf3a679dd1fc7f7a205ad42f2306036dd6246b07",
         "lineCount": 8049,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5843,12 +5843,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "script-corrections-scoped-document-maintenance",
-          "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
-          "afterSha256": "ad2302594538cd8716a62e3861d80c9d378aa1308e5d1534a48475dff5e6eeab",
+          "kind": "pre94-event-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+          "afterSha256": "f48879910d9e0d62a210e03baf3a679dd1fc7f7a205ad42f2306036dd6246b07",
           "lineCount": 8049,
-          "scope": "Only the source-specific GAME-SCRIPT-CORRECTIONS-1 navigation/publication delta records and their preserved historical predecessors changed in this control artifact. Exact child entry diff reviewed; unrelated entries and prior original-preservation claims retain their historical scope. No new product/full-document approval from this artifact.",
-          "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+          "scope": "3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "bdbcb5cec6b2a32e39fed4295a6ca0f075327808",
           "workingTreeDelta": true
         }
       },
@@ -6162,9 +6162,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Owned3r scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json:1"
       ],
@@ -6187,7 +6187,7 @@
         }
       ],
       "sourceSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-      "afterSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
+      "afterSha256": "ba441cf32f32373d20f225483e966d6f8f2015928f126571e95352831655f88c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6211,7 +6211,7 @@
       },
       "revision": {
         "currentSha": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-        "implementationSha": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
+        "implementationSha": "ba441cf32f32373d20f225483e966d6f8f2015928f126571e95352831655f88c",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -6222,11 +6222,11 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+        "kind": "codex-owned-pre94-event-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
         "candidateSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-        "afterSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
+        "afterSha256": "ba441cf32f32373d20f225483e966d6f8f2015928f126571e95352831655f88c",
         "lineCount": 901,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -6261,7 +6261,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-901",
+      "reviewedLines": "Board/ledger and owned projections only",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -7826,9 +7826,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3q scoped delta",
+      "readMethod": "Owned3r scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3q scoped review; unified gates deferred.",
+      "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "4255cc92aba53139ff06d9376bfbfca7d0cc76092b88f5e9047d1cb43cd63211",
+      "afterSha256": "94f800286424033ee3607254665aa468b6586bb5f7187af5ec3b054d6509e996",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "4255cc92aba53139ff06d9376bfbfca7d0cc76092b88f5e9047d1cb43cd63211",
+        "implementationSha": "94f800286424033ee3607254665aa468b6586bb5f7187af5ec3b054d6509e996",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8537,11 +8537,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-scene-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "kind": "codex-owned-pre94-event-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "4255cc92aba53139ff06d9376bfbfca7d0cc76092b88f5e9047d1cb43cd63211",
+        "afterSha256": "94f800286424033ee3607254665aa468b6586bb5f7187af5ec3b054d6509e996",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8557,12 +8557,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-scene-scoped-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
-          "afterSha256": "4255cc92aba53139ff06d9376bfbfca7d0cc76092b88f5e9047d1cb43cd63211",
+          "kind": "pre94-event-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+          "afterSha256": "94f800286424033ee3607254665aa468b6586bb5f7187af5ec3b054d6509e996",
           "lineCount": 7071,
-          "scope": "3q owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "c6b0c2c19250e8fca3b577b53d59828a7ea4799e",
+          "scope": "3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "bdbcb5cec6b2a32e39fed4295a6ca0f075327808",
           "synchronizedMain": "3609b4d23339bae1f23e6492d9c11cd4a955351e",
           "workingTreeDelta": true
         }
@@ -18294,9 +18294,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Owned3r scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -18317,7 +18317,7 @@
         }
       ],
       "sourceSha256": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
-      "afterSha256": "89f9204f3caab64f8ab46f24f7ff6130f768b61c07096c92e96f060014a0ccb8",
+      "afterSha256": "be3dad96750e0ba6ec50b136dff5f1a6202af730fb97c161b53b857844e7edeb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -18341,7 +18341,7 @@
       },
       "revision": {
         "currentSha": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
-        "implementationSha": "89f9204f3caab64f8ab46f24f7ff6130f768b61c07096c92e96f060014a0ccb8",
+        "implementationSha": "be3dad96750e0ba6ec50b136dff5f1a6202af730fb97c161b53b857844e7edeb",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -18361,11 +18361,11 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+        "kind": "codex-owned-pre94-event-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
         "candidateSha256": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
-        "afterSha256": "89f9204f3caab64f8ab46f24f7ff6130f768b61c07096c92e96f060014a0ccb8",
+        "afterSha256": "be3dad96750e0ba6ec50b136dff5f1a6202af730fb97c161b53b857844e7edeb",
         "lineCount": 1220,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -18409,7 +18409,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-1220",
+      "reviewedLines": "Board/ledger and owned projections only",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

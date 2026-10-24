@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Scoped D1 source/API binding",
+      "readMethod": "Scoped E2E unchanged oracle binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Approved Wear delta only; old publication credit retained.",
+      "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -101,7 +101,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "022d1645d3f9fb5f0823d7ec6a8707db10f0e844f08127ced862c3fbf0f2a594",
+      "afterSha256": "4334d1b2b93e67141007e630e2b44c9830451b8b545fda093dd8ff8b983c782e",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -129,7 +129,7 @@
       },
       "revision": {
         "currentSha": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
-        "implementationSha": "022d1645d3f9fb5f0823d7ec6a8707db10f0e844f08127ced862c3fbf0f2a594",
+        "implementationSha": "4334d1b2b93e67141007e630e2b44c9830451b8b545fda093dd8ff8b983c782e",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -194,12 +194,12 @@
         ]
       },
       "evidence": {
-        "kind": "d1-scoped-api-source-binding",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
-        "afterSha256": "022d1645d3f9fb5f0823d7ec6a8707db10f0e844f08127ced862c3fbf0f2a594",
+        "kind": "e2e-scoped-oracle-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+        "afterSha256": "4334d1b2b93e67141007e630e2b44c9830451b8b545fda093dd8ff8b983c782e",
         "lineCount": 2315,
-        "scope": "Only game-script-corrections current CLI caller sourceRef is rebound from line230/previous hash to unchanged correction call at233/current English-capable CLI hash; append exact old sourceRef in revision history. Catalog statuses, other entries, historical runtime and artifact hashes unchanged; no new English test report or execution credit.",
-        "candidateBaseRevision": "05e1cfcff",
+        "scope": "3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "bdbcb5cec6b2a32e39fed4295a6ca0f075327808",
         "workingTreeDelta": true
       },
       "history": [
@@ -450,7 +450,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "Three sourceRefs; exact paired metadata and scope delta",
+      "reviewedLines": "One current sourceRef per publication; referenced116line oracle body byte-identical, range shifted+1",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",

@@ -1,6 +1,8 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前CODE3o／3p局部返工：3414 tracked／415 closed／108 review／2891 pending；固定83卡仍67accept／16partial。两旧误绿测试撤review，0新关闭；用户批准的毒整理已修。全部pre94解决前不开PR、不跑全仓或官方覆盖率；[当前逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
+> 当前CODE3r技术返工：3423tracked／414closed／118review／2891pending；固定83卡67accept／16partial／0pending。对象职责与主测/E2E工具整改已验证局部合同，0新closed；全部剩余pre94完成前不开PR、不跑全仓/official/protected。[八维、完整原件与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。
+
+> 2026-10-24前窗CODE3o／3p局部返工：3414 tracked／415 closed／108 review／2891 pending；固定83卡仍67accept／16partial。两旧误绿测试撤review，0新关闭；用户批准的毒整理已修。全部pre94解决前不开PR、不跑全仓或官方覆盖率；[当前逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
 
 > 2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 [本窗只读复验及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)。
 
@@ -43,6 +45,16 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
+## 2026-10-24 CODE3r 对象作用域与主测夹具（build allowed）
+
+Codex单一Coding Owner，同一3y，基点bdbcb5cec6b2a32e39fed4295a6ca0f075327808；重新fetch确认main3609b4d23、0behind/11ahead，主树只读。复用3r原全文/primary及GLM29全文八维，已完整核5af1b637→当前event-system实际diff；3q冻结原件中的同版324主测作为基线，不重复采一轮。
+
+准入为事件对象与NPC步态模块切片：四个对象定位函数按self/本场景/全局合同拆为叶模块，输入类型收窄；walkFrameMod迁入纯规则模块但保留旧出口。只移除私有jump的未用GameState及收窄库存计数输入，保留数字/查找顺序/告警/别名/全部公开签名。主测仅补已证空战斗caster越界、核心any、静默setup与全局清理欠账，必要caller反例据真实runScript/工厂修正；其余用例复用原审查，不冒称重新全文复审。源码/测试分提交，只局部/相邻与必要静态，所有剩余pre94完成前不跑全仓/coverage/protected或新建PR；重要未知保持review。
+
+CODE3r追加实际caller缺陷：meal-trace-plugin仍在函数体开头读取旧itemId/scriptOnUse/consuming参数，但当前入口已接收item并在体内声明前两者，consuming已不再是绑定。工具观察器安装后会TDZ/未定义变量崩溃，未安装时可被optional call掩盖。准入限该E2E插桩及新执行级专测：真实现有函数、真实GS/目录/OBJECT服务，先保留业务AssertionError红，再从合法声明完成处观察同一字段并加语义锚拒绝；不改产品、剧情、输入动作或判据，不以Node执行冒称004浏览器实跑。
+
+CODE3r追加3q调用桥：game-auto-trace保持整轮trigger扫描之后的同一观察点，仅同步已移除的私有ctx实参；opening-trace专测从新纯模块读取真实walkFrameMod，保留严格锚计数、NPC往返与无别名断言。不扩剧情或浏览器验收信用。
 
 ## 2026-10-24 CODE3q 场景职责与测试质量（build allowed）
 
@@ -1633,3 +1645,11 @@ build allowed：3m队列/status/伤害直接测试的typed夹具、独立oracle�
 同一3y连续完成模式/历史/搜索质量、玩家指令目标规则与测试判别力，以及用户批准的Wear稳定压缩。纯重构、行为修复、装备测试隔离分提交；16文件的完整/有限增量读域分别标明。7/10/12及61旧身份槽位保持，只新增2个真实业务反例；13文件610、毒相邻11文件486与装备36不相加成独立总数，game typecheck通过。原红、旧绿新红、探针错误及旧oracle失败保留在[八维与只读原件入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
 
 0新关闭，两个旧弱测试信用撤review；新夹具/新毒测试及既有residual登记review。固定83卡仍67accept/16partial/0pending，未完成pre94；3m数值扩展与后续大模块继续。当前仅必要局部/静态，全部pre94冻结前不跑全仓check/official coverage/protected，不开PR；没有用旧main绿灯替当前候选。
+
+## 2026-10-24 CODE3r职责与测试质量技术回执
+
+[八文件八维／324身份／三反控／完整原件与只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。同3y，纯重构99a0d8f75／主测b0f4a124d／E2E工具a82a739f8分提交；五函数及剩余解释器正文守恒、185旧出口不变，清私有GS死参19调用，不改变机制/接口。复用3r/GLM全文，仅核失效上下文与实际变化；真实战斗夹具、17服务清理、宿主/精确诊断与goto oracle补强，324槽位不增减，2标题映射。
+
+18实际相邻文件546例、80Node工具、game TC与8文件Biome0/0/0；最后死亡hold断言由当前324例、Node格式整理由当前2例刷新，不能重叠相加。meal工具合法输入TDZ先红后修，3q采样/帧函数依赖真实同步且不减锚；不冒充004浏览器/视觉。首次palette运行日志、TC类型遗漏、非法中间夹具、loader语法错、字色oracle错、7依赖失败、格式与proof wx错误原件/披露分别保留，不混为产品红或干净门。
+
+账本机器应为3423／414closed／118review／2891pending，3新路径仅review、0新closed；固定83仍67accept／16partial／0pending。广域事件装配/服务耦合仍有后续审查域，不由局部绿关闭；下一3s战斗宿主与3t指令质量，及剩余pre94。遵守最新裁决：全部pre94冻结前不跑全check/official/protected、不新建PR、不合main，94–102不扩展。

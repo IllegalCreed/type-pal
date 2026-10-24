@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3q scoped delta",
+      "readMethod": "Owned3r scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3q scoped review; unified gates deferred.",
+      "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "840b13924d793e50c5b37ee147b0073d76eb0885df281d095b2d2233c1eab82b",
+      "afterSha256": "60078dfcda0e31414b06dc860b71695e4ff37c4344d8377887920c4ed3843a9a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "840b13924d793e50c5b37ee147b0073d76eb0885df281d095b2d2233c1eab82b",
+        "implementationSha": "60078dfcda0e31414b06dc860b71695e4ff37c4344d8377887920c4ed3843a9a",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1823,11 +1823,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-scene-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
+        "kind": "codex-owned-pre94-event-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "840b13924d793e50c5b37ee147b0073d76eb0885df281d095b2d2233c1eab82b",
+        "afterSha256": "60078dfcda0e31414b06dc860b71695e4ff37c4344d8377887920c4ed3843a9a",
         "lineCount": 20197,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1845,12 +1845,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-scene-scoped-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/review.json",
-          "afterSha256": "840b13924d793e50c5b37ee147b0073d76eb0885df281d095b2d2233c1eab82b",
+          "kind": "pre94-event-scoped-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
+          "afterSha256": "60078dfcda0e31414b06dc860b71695e4ff37c4344d8377887920c4ed3843a9a",
           "lineCount": 20197,
-          "scope": "3q owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "c6b0c2c19250e8fca3b577b53d59828a7ea4799e",
+          "scope": "3r owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "bdbcb5cec6b2a32e39fed4295a6ca0f075327808",
           "workingTreeDelta": true
         }
       },
