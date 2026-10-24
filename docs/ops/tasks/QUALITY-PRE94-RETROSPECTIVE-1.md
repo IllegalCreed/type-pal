@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 2026-10-24 CODE42有限质量接受：3435tracked／470closed／79review／2886pending，五新关闭、两旧测试刷新；parser/state/draw职责与三个typed夹具叶完成，两个死矩形测试精确退役。105直接／427相邻、game TC与局部静态；姓名速度counter待实际裁决，42整卡仍partial，固定76／7不变。统一全仓/official/protected/PR待全部pre94。[本窗证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)。
+
 > 当前3m五文件新关闭、四旧关闭刷新：3432tracked／465closed／79review／2888pending；固定76accept／7partial／0pending。两错误映射旧全绿/新各一业务红，86核心+14状态构造/TC0；四数值范围待两项用户答复，整卡不提前收口。统一门与单PR待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md)。
 
 > 当前3o／3p原代码范围accept：74accept／9partial／0pending；3424tracked／447closed／89review／2888pending，九新关闭。获批毒入口四正式业务红后修，P3两分支窄修另有两红；491游戏/83提取相邻与两包TC0，统一门/单PR待全部pre94。[八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。
@@ -1795,3 +1797,19 @@ CLI主编排、全文件B/C/D/F/G/H欠账须实际解决，不能只因行数下
 [逐文件A–H/版本桥/完整原件与只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md)支持queue源及两专测、status专测、数值赋值五例专测五新关闭；status/rng/positions源与RNG专测四旧关闭刷新。formulas/magic-damage及各自主要专测仍review：极端dex中间回绕取舍、正WORD防御误归零已具体复现，两实际回答未收到，不把预选项当批准，不改数值实现。原FLOAT批准修复不撤回。
 
 机器3432/465closed/79review/2888pending，固定76accept/7partial不变。下一继续42对话质量/56-58工具生命周期等独立pre94欠账，3m仅受影响数值范围等待，不暂停其它工作；全部pre94冻结前不跑统一全仓/official/protected或PR，不扩94–102。
+
+## 2026-10-24 CODE42对话职责与专测准入
+
+同一3y，基点56a4fa2a3，Codex单Owner。复用42/GLM29/narration尾暂停及3s对话caller证据，已完整读取960行实现、两原专测及chrome/pixel相邻；B轴旧100ms/字/未处理速度/测试独占时钟注释不符，C轴parser/state/draw混合，private drawTextLine仅需fontColor而接整state，D轴narration/item文字单位计算同合同重复；G轴getDialogBoxRect/STYLE_RECTS/BoxRect只有两条dummy断言且全仓生产/E2E零caller，private game包无外部公共出口。
+
+build allowed：先3文件职责搬移，保持全部现有root出口/调用身份与执行体；再以有限相关切片收窄私有绘制上下文、共享字符单位计算、退休无业务矩形helper及两专属测试（记录精确身份，不触coverage baseline），现有状态/save字段和时钟两路径不改。test夹具用公开构造器/合法Item/IndexedImage替代核心any，补强已证缺口并保留真实旧绿/新业务红。分提交、完整原件与默认只读版本桥；多相关切片冻结后一次定向/相邻/TC，全部pre94前不跑统一全仓/official/protected/PR，不改94–102。
+
+## 2026-10-24 CODE42有限质量返工与具体停止线
+
+同一3y／56a4基点、Codex单Owner；实际源码及纯注释/测试按7c80、7f2a、11734、e8a221、06d009、17c3分提交。960行混合职责拆为纯解析／状态／绘制，私有字体色标量化、相同文字单位计算及合法sprite/Item/glyph夹具复用；getDialogBoxRect零生产/E2E调用，删除API与两专属dummy身份，完整映射留存，不碰baseline。旧颜色every空集误绿由同源变异实证，旧69绿、新恰一AssertionError；状态源码恢复原字节。reset先以真实tick建立非零状态，精确字体色代替toBeDefined，像素套件不再执行空mock清理。
+
+2026-10-24 CODE42有限质量接受：3435tracked／470closed／79review／2886pending，五新关闭、两旧测试刷新；parser/state/draw职责与三个typed夹具叶完成，两个死矩形测试精确退役。105直接／427相邻、game TC与局部静态；姓名速度counter待实际裁决，42整卡仍partial，固定76／7不变。统一全仓/official/protected/PR待全部pre94。[本窗证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)。
+
+532不同身份一次集中通过，后继25／23只替换其重叠子集，不记580；game TC/静态记录按实际候选，未跑统一重门。新增speed→style→name→body真实事件观察揭示速度14被姓名重置3，SDLPal姓名分支不改iDelayTime；普通原盘可达性未证，已异步请求这条具体产品裁决，尚未收到，不改行为。42状态源继续review而不把其它已核七文件一并冻结。此前两项用户call_331批准（毒入口／P3接回）已由ef012/b285修复，当前重复送达不产生重复实现或二次授权请求。
+
+初始工具语法/路径、格式及warning/info原件如实保留，已纠正的仅按新结果记通过；完整[只读复验入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)。剩余1／3m／42／53／56／57／58继续，全部pre94冻结后单一统一门及一个PR；94–102未扩展。

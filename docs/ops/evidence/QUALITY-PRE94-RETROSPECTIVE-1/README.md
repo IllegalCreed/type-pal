@@ -453,3 +453,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-24 CODE3g总装代码接受、八新关闭，固定76accept／7partial；[逐文件与默认只读快检](cli-stages-closeout/README.md)。最终统一门/PR仍待全部pre94。
 
 2026-10-24 3m五新关闭、两数值停止线待答；固定76accept／7partial不变。[当前核心scope与只读快检](battle-core-closeout/README.md)。
+
+2026-10-24 [CODE42职责与测试质量](dialog-quality/README.md)：七文件明确接受、五新关闭；532不同身份与当前子集刷新，姓名速度停线，42仍partial；全仓重门继续延后。

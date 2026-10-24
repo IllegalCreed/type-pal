@@ -1736,7 +1736,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/42-dialog-box/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md",
+      "currentReviewNote": "Seven named file scopes accepted, title-speed state source review; no whole42 or unified pre94 acceptance."
     },
     {
       "id": "43",
@@ -4277,15 +4278,15 @@
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE3m nine scoped code acceptances and two concrete numerical stoplines; whole card partial",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md",
+    "scope": "CODE42 quality separation, five new file closures; state/title-speed review",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md",
     "newlyAcceptedCards": [],
     "newlyClosedFiles": [
-      "packages/game/src/core/battle/turn-queue.ts",
-      "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
-      "packages/game/src/core/battle/__tests__/status.test.ts",
-      "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
-      "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts"
+      "packages/game/src/present/dialog-text.ts",
+      "packages/game/src/present/dialog-draw.ts",
+      "packages/game/src/__tests__/dialog-fixtures.ts",
+      "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
     ],
     "fixed83": {
       "pending": 0,
@@ -4293,13 +4294,13 @@
       "accept": 76
     },
     "counts": {
-      "total": 3432,
-      "verified": 465,
+      "total": 3435,
+      "verified": 470,
       "review": 79,
-      "pending": 2888,
-      "unclosed": 2967
+      "pending": 2886,
+      "unclosed": 2965
     },
-    "limits": "Two actual product answers pending; no entire3m/fullpre94/unified gate or94-102 credit."
+    "limits": "State speed question pending; no whole42/fullpre94/unified gates or94-102 credit."
   },
   "incrementalReviewHistory": [
     {
@@ -4679,6 +4680,32 @@
         "unclosed": 2972
       },
       "limits": "Code review acceptance only; no wholecheck/official/protected/PR until remaining seven pre94 partial resolved. No94–102."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3m nine scoped code acceptances and two concrete numerical stoplines; whole card partial",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md",
+      "newlyAcceptedCards": [],
+      "newlyClosedFiles": [
+        "packages/game/src/core/battle/turn-queue.ts",
+        "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+        "packages/game/src/core/battle/__tests__/status.test.ts",
+        "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+        "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 7,
+        "accept": 76
+      },
+      "counts": {
+        "total": 3432,
+        "verified": 465,
+        "review": 79,
+        "pending": 2888,
+        "unclosed": 2967
+      },
+      "limits": "Two actual product answers pending; no entire3m/fullpre94/unified gate or94-102 credit."
     }
   ]
 }

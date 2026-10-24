@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-24 CODE42五文件新关闭，固定76accept／7partial／0pending不变；[职责、typed夹具与精确oracle](dialog-quality/README.md)。姓名速度已具体复现待裁决；统一门/单PR仍等全部pre94。
+
 2026-10-24当前3m：五文件新关闭，四数值source/test范围继续review等两项实际回答；固定76accept／7partial／0pending。[当前核心证据](battle-core-closeout/README.md)。
 
 2026-10-24当前：76代码accept／7partial／0pending；CODE3g总装八维及必要结构整改闭合、八文件新关闭，最终统一门等全部pre94。[本批原件](cli-stages-closeout/README.md)。
@@ -53,7 +55,7 @@
 | [CODE-QUALITY-6a](../../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | accept | [本次正式验收](completion.json)：逐文件账本与清单工具的真实记录、输出和CLI合同（4文件）；6a-C1是可选的私有函数拆分建议；6a-O1涉及完整Markdown语法、特殊Git环境及符号级调用图，均超出当前声明合同，不冒称已验证，也不是现有canonical账本的未修缺陷。 |
 | [CODE-QUALITY-40](../../archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；2个原范围/明确支持文件；不授实网/广域信用。 |
 | [CODE-QUALITY-41](../../archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；2个原范围/明确支持文件；不授实网/广域信用。 |
-| [CODE-QUALITY-42](../../archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md) | done | partial | [既有复审切片](42-dialog-box/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
+| [CODE-QUALITY-42](../../archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md) | done | partial | [当前职责/测试质量返工](dialog-quality/README.md)：七明确文件接受、五新关闭；姓名速度重置待实际裁决，state源review，不授整卡信用 |
 | [CODE-QUALITY-43](../../archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md) | done | accept | [Current original scope](present-leaves-gates.json): 3 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-44](../../archive/tasks/done/CODE-QUALITY-44-game-font.md) | done | accept | [Current original scope](present-leaves-gates.json): 4 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-45](../../archive/tasks/done/CODE-QUALITY-45-game-follower-render.md) | done | accept | [Current original scope](present-leaves-gates.json): 3 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
