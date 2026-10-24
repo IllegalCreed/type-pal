@@ -22,6 +22,7 @@
  */
 
 import type { IndexedImage } from '../assets/png.js'
+import { blitSpriteOpaque } from './blit-indexed-sprite.js'
 import type { Framebuffer } from './framebuffer.js'
 
 export type NumColor = 'yellow' | 'blue' | 'cyan'
@@ -34,18 +35,6 @@ const FRAME_BASE: Record<NumColor, number> = {
 }
 
 const DIGIT_WIDTH = 6 // sdlpal ui.c:705 `x -= 6` / :719 `x += 6 * nLength`
-
-/** sprite blit(opaque mask 决定哪些 pixel 写入)。 */
-function blitDigitSprite(fb: Framebuffer, frame: IndexedImage, x: number, y: number): void {
-  for (let dy = 0; dy < frame.height; dy++) {
-    for (let dx = 0; dx < frame.width; dx++) {
-      const srcIdx = dy * frame.width + dx
-      if (frame.opaque[srcIdx]! > 0) {
-        fb.writePixel(x + dx, y + dy, frame.indices[srcIdx]!)
-      }
-    }
-  }
-}
 
 /**
  * 将非负有限整数按 PAL_DrawNumber 布局写入 fb；这是调用前提，本函数不做输入校验。
@@ -101,7 +90,7 @@ export function drawNumber(
     const digit = remaining % 10
     const frame = uiSpriteFrames[base + digit]
     if (frame) {
-      blitDigitSprite(fb, frame, x, y)
+      blitSpriteOpaque(fb, frame, x, y)
     }
     x -= DIGIT_WIDTH
     remaining = Math.floor(remaining / 10)
