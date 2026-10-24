@@ -215,7 +215,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/mkf.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/shared/src/rng.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/shared/src/rng.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
-| `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | CODE-QUALITY-1b；collector 直接结果与历史提交证据 | 仅更新过期 oracle |
+| `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | [CODE1 Q1b当前逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) | 原119语句／84断言保全，九命名合同只加载一次；当前整文件关闭刷新，0新closed；不授生产或E2E信用 |
 | `packages/pal-extract/src/events/annotate.ts` | product | 已验证 | [CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) | 复用3f完整八维/同版源码与oracle；CLI世界阶段搬移不影响注记，未重复计新关闭 |
 | `packages/pal-extract/src/events/annotate.test.ts` | test | 已验证 | [CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) | 复用3f完整八维/同版源码与oracle；CLI世界阶段搬移不影响注记，未重复计新关闭 |
 | `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | 已验证 | [CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) | 复用3f完整八维/同版源码与oracle；CLI世界阶段搬移不影响注记，未重复计新关闭 |

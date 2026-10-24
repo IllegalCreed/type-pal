@@ -50,3 +50,6 @@ SDLPal `PAL_SpriteGetFrame`（palcommon.c:803–852）先将u16 word offset乘2�
 [本次完整原件和低成本复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)取代上方“特殊offset真实可达性未知”这一项当前结论：八原盘域结构census共4,662,630条当前TS成功帧命令，0高位分类分歧不是全帧native等价。唯一special是MGO571槽1，原WORD49698在TS转99396越界，SDL特殊取帧到33860。未改SDL YJ2／取帧／绘制函数ASan执行获得两幅320×200帧；实际loadSpriteFramesBlob只给1帧，DOS playEndingAnimation因此跳过整个妖兽。真实Canvas第200步与native第二帧有23036非零像素的独立SHA反例成立，无其它浏览器诊断；非PAL.EXE、非完整剧情结局E2E。
 
 已请求用户批准“只修原盘精灵读取，自建canonical格式保持”；当前未答，算法／公开接口／生成物仍冻结，无build allowed。不能直接在canonical严格codec塞入特殊offset，因为作者合法大容器可能真用99396；高位literal与作者透明游程的一般分歧也未因此解决。范围内独立测试质量排重可收口，但不得借它关闭本卡或产品rle.ts。原始资源无写入，原生大plane／binary不入库，完整producer／C源／执行日志／函数和输入SHA保留。
+
+
+2026-10-25 来源边界补证：[真实公开编码器／原生取帧／当前Reforge入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)证明WORD49698不是全域坏值：合法285×346＋1×1作者帧第二偏移99396，当前canonical／lenient均2帧，全局PAL特殊值规则会丢帧／严格拒绝。MGO571仅在内存修表则完整两平面匹配前窗native，当前真实legacy-origin公共入口1帧、内存候选2帧；迁移器571和4133／30源计数相应受影响。原盘／extracted／projects零写入，product仍draft无build；后续方案必须显式按来源隔离并核上游／catalog／迁移域，不借此盲改canonical或生成物。工程／Q1b接受不消除此停止线。

@@ -49,3 +49,5 @@ shared公共出口已使game/extract重导出同一codec；generic与strict的�
 ## 2026-10-25 CODE1当前测试质量收口
 
 [当前逐文件八维、59→50完整合同映射、三真实反控与只读复验](quality-closeout/README.md)：六测试范围接受、四新关闭；产品rle.ts及CODE1整卡仍review／partial。真实MGO571特殊偏移现有原生C和实际结局调用counter，转原格式卡待裁决；不把本页旧未扫描叙述当成当前可达性结论。统一门／coverage／PR继续等全部pre94，不授原版EXE或全结局视觉验收。
+
+[2026-10-25 CODE1工程／Q1b收口与来源边界补证](../code1-closeout/README.md)：同一offset在公开作者编码器中合法，故不能全局套PAL特例；当前Reforge源profile和迁移计数亦有直接影响。仅隔离内存探针、原始源无写入，格式风险仍draft，不新增产品接受信用。

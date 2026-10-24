@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 test-quality scoped delta",
+      "readMethod": "Owned CODE1 engineering/Q1b scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE1 tests accepted; product format and final gates open.",
+      "coreConclusion": "CODE1 Q1b accepted; format and final gates open.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "e1604fd3d595c36e0c615cf34b6080c2cca67aee58e76449852723b8a53d8174",
+      "afterSha256": "a5cda736cdb8ab158a3ade7659222ec22423a534dd9c5f04a670b222e7c7fe08",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "e1604fd3d595c36e0c615cf34b6080c2cca67aee58e76449852723b8a53d8174",
+        "implementationSha": "a5cda736cdb8ab158a3ade7659222ec22423a534dd9c5f04a670b222e7c7fe08",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,12 +1713,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-rle-test-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
-        "afterSha256": "e1604fd3d595c36e0c615cf34b6080c2cca67aee58e76449852723b8a53d8174",
+        "kind": "codex-owned-pre94-code1-quality-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
+        "afterSha256": "a5cda736cdb8ab158a3ade7659222ec22423a534dd9c5f04a670b222e7c7fe08",
         "lineCount": 93,
         "scope": "CODE1 scoped delta; history retained; gates deferred.",
-        "candidateBaseRevision": "13a68691f61693450a04cb3effae6ee5a6e8c277",
+        "candidateBaseRevision": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
         "workingTreeDelta": true
       },
       "history": [

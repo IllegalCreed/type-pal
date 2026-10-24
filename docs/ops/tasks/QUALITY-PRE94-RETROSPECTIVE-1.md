@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前2026-10-25：固定83卡80代码accept／3partial（1／3m／42）。CODE1六测试范围接受（四新关闭、两旧关闭刷新），产品rle.ts仍review；真实MGO571／DOS结局counter转原格式卡待裁决。全部原件、59旧身份逐项映射及快检见[本窗](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)。统一check／official／protected及一个PR等全部pre94解决，94–102不扩展。下方旧计数保留历史。
+> 当前2026-10-25：固定83卡80代码accept／3partial（1／3m／42）。CODE1工程清单四范围复用、Q1b当前全文八维接受；原119语句／84断言保留，1→9合同、乱序及78相邻通过，0新关闭。RLE六测试范围依上窗，格式／数值／对话裁决仍待。[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)。全仓／official／protected及一个PR等全部pre94，不扩94–102。
 
 > 2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
 
@@ -1951,3 +1951,12 @@ CODE1 test-quality whitelist supplement: exact identity/count/file-byte retireme
 ### 2026-10-25 CODE1测试质量接受与格式counter
 
 六测试范围逐项A–H接受，三旧review＋新test-only叶四项新关闭，runtime／encoder两旧关闭刷新。59旧身份全部有已执行承接；九重复身份精简，原捆绑输入原子化后最终59例，三旧绿／新单业务红有效；52相邻、shared TC、scoped静态与82精确退役回归通过。产品算法／公共出口／资源零改；502closed／69review／2880pending以同窗机器为准，83卡仍80accept／3partial。只读原盘census和未改SDL C原函数把MGO571特殊offset从未知定位为真实实际播放缺帧：native2、TS1，实际ending调用黑图。已请求明确原盘读取修复裁决，格式卡仍draft，无新算法build。全仓／coverage／protected／PR留总收尾。无下一位Agent提示词；Codex继续既有1／3m／42，保留所有未答裁决，不扩94–102。[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)。
+
+### 2026-10-25 CODE1 Q1b current test-quality admission
+
+Codex single Coding Owner at ea8651ce3 on the same3y branch. The original Q1b changed only old PAL reference census oracles; the current964-line project-reference.pal.test.ts still has only that historical ledger credit. Complete current file read now proves distinct entity/scene/battle-data/actor/item/sprite/asset/behavior/worker contracts bundled into one test. Build allowed for this test file only plus evidence/owned ledger projections: split named contracts with all existing assertions/input/collector calls preserved, load/project the real authored PAL fixture once, no production or project-data changes. Do not touch ED-ENTITY-STATE-PLAN-1 implementations or fixtures; its active review is unrelated. Pure test structure uses original baseline, AST assertion mapping and final directed result; no product red/green claim, no full editor/check/coverage/protected/PR. CODE1 format stop remains independent. Engineering inventory/ledger scopes reuse completion.json and unchanged source hashes rather than redoing their accepted whole review.
+
+
+### 2026-10-25 CODE1工程／Q1b独立收口
+
+原工程清单／账本4源以accepted CODE6a具体A–H及当前完全一致源码复用，不重做全文/工具门；Q1b964行主测试完成全文当前复审并拆九命名合同，119语句和84个matcher AST逐条保全，真实PAL输入仅加载／投影一次。顺序9、seed20261025乱序9、4相邻78与editor TC0；不称18个不同合同，不修改生产／JSON／ED状态方案实现。历史关闭只刷新，0新增closed，3451／502closed／69review／2880pending及80／3不变。格式边界已证同一WORD既可为PAL特殊值也可为合法自建偏移，不能全局hack；真实Reforge公共入口／迁移坏尾计数亦受同源问题影响，未修未授范围外八维信用。原卡engineering／RLE／Q1b三范围已核清，只有格式待裁决；3m／42继续原停止线，全部pre94前不跑统一门／coverage／PR。[低成本复验与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)。

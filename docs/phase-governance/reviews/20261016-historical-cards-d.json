@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned CODE1 test-quality scoped delta",
-      "coreConclusion": "CODE1 tests accepted; product format and final gates open.",
+      "readMethod": "Owned CODE1 engineering/Q1b scoped delta",
+      "coreConclusion": "CODE1 Q1b accepted; format and final gates open.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "49c425f38a157d17bbdd4c2549931388d01c813d06b04401dbdb60ae44926f74",
+      "afterSha256": "c04eb16d581540649f64ed235ce7055c6a593fe81ade77611560843b92dbbe46",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "49c425f38a157d17bbdd4c2549931388d01c813d06b04401dbdb60ae44926f74",
+        "implementationSha": "c04eb16d581540649f64ed235ce7055c6a593fe81ade77611560843b92dbbe46",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,12 +4148,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-rle-test-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
-        "afterSha256": "49c425f38a157d17bbdd4c2549931388d01c813d06b04401dbdb60ae44926f74",
+        "kind": "codex-owned-pre94-code1-quality-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
+        "afterSha256": "c04eb16d581540649f64ed235ce7055c6a593fe81ade77611560843b92dbbe46",
         "lineCount": 1123,
         "scope": "CODE1 scoped delta; history retained; gates deferred.",
-        "candidateBaseRevision": "13a68691f61693450a04cb3effae6ee5a6e8c277",
+        "candidateBaseRevision": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
         "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
         "workingTreeDelta": true
       },

@@ -81,9 +81,9 @@
           "text": "- 2026-10-04 Codex：复核 raw/primary source 后修正 Q1 前提：generic `decodeRle` 的 0/0x80 no-op 只要后续 source 能填满帧就属于合法 framing；严格 sprite container 仍拒绝 zero-length command。Q1 收紧范围为截断/越界失败，避免把 sprite 上限或 strict 合同错误扩到通用 codec。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
-      "findings": "RLE four-file slice; existing catch oracle strengthened with valid counter; native SDL format discrepancy stopped in draft; three old file closures reopened; Q1b/engineering scope still incomplete"
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md",
+      "findings": "Original engineering4file scope reused unchanged from accepted CODE6a; current Q1b whole-test A-H accepted after1→9 contract split,119 statements/84 assertions preserved. Six RLE test scopes accepted separately; source-format stop remains product review, including real MGO571 and authored-offset collision. No whole-repository/EXE acceptance."
     },
     {
       "id": "2",
@@ -4296,9 +4296,9 @@
   },
   "lastIncrementalReview": {
     "date": "2026-10-25",
-    "base": "624478c9ff3554d51142214d4d7aef78d67922fb",
-    "scope": "CODE57 accepted after approved seam/map ownership and identity/cache repair;3r/53 restored",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+    "base": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
+    "scope": "CODE1 engineering/Q1b accepted; RLE format draft stop preserved,0newclosed",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
     "counts": {
       "pending": 0,
       "partial": 3,

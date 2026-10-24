@@ -1,6 +1,6 @@
 # 94前全部治理成果复审
 
-当前2026-10-25：[CODE57代码收口](bootstrap-quality/README.md)，固定80accept／3partial（1／3m／42）。全仓／coverage／protected／PR待全部pre94；下方旧批次按原时点读取。
+当前2026-10-25：[CODE1工程／Q1b质量收口与来源边界](code1-closeout/README.md)，固定80accept／3partial（1／3m／42）。全仓／coverage／protected／PR待全部pre94；下方旧批次按原时点读取。
 
 2026-10-24 [CODE3m／3n八维与测试返工](battle-core-fade-quality/README.md)：获准FLOAT中间赋值/目录内部签名、typed夹具与两重复合同迁移；只定向/必要静态，全部剩余pre94解决后一个PR及统一门，未新关闭。
 

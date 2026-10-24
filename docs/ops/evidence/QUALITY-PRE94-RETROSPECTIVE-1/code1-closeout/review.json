@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "owner": "Codex",
+  "branch": "codex/code-quality-3y",
+  "base": "ea8651ce3f071e6ad04ac2eb042d28725c47eb7a",
+  "state": "CODE1 engineering inventory/ledger scopes reused; current Q1b whole test file accepted. No new file closure; CODE1 product format still review,3m/42 still partial; all83 remains80accept/3partial.",
+  "file": {
+    "path": "packages/editor/src/core/project-reference.pal.test.ts",
+    "decision": "accept current whole test quality; refresh historical closure,0newclosed",
+    "read": "Full964-line base and all current delta; real current loader/state projection and index query/worker caller lifetimes read in bounded named scopes. No whole production-file acceptance.",
+    "dimensions": {
+      "A": "Public current-project loader supplies the real authored PAL project, loaded scenes/stamps and toEditorState. All119 original setup/test statements and84 matcher ASTs map exactly once; counts, named branch/portrait/map/behavior landmarks and deletion results preserved. No product/canonical-data edits.",
+      "B": "Six-line choreography history condensed to why census/blocker gates must stay together. Fixture comment states actual one-time load/projection and local derived arrays. Old E2E attribution stays historical, not a new E2E run. No raw-resource/SDL claim imported into phase2 metadata tests.",
+      "C": "beforeAll owns one setup snapshot. Nine named contracts separately query entity/scene/battle-data/actor/item/sprite/asset/behavior/worker domains. Every sort is on locally mapped/copied arrays; ProjectReferenceIndex queries read the owned snapshot. Only the worker case creates a fresh stateful runtime.",
+      "D": "One private setup function with nine actual consumers avoids repeated project loading/projection. No shared production helper, broad new public context, mode flag or second fixture implementation. Old source-owner conversion remains local to its genuine legacy-vs-index representation check.",
+      "E": "Full read of84 assertions: fixed literal census/landmarks and actual old/new collector relations retained, no weaker matchers/deletions. Some collector paths share collectAssetReferences; those checks prove adapter/parity, not independent collection correctness. Literal counts/owners/locators separately bind to authored inputs. Worker-vs-direct snapshot proves transport only. Original1→9 identities fully mapped; directed9, shuffled9 and78adjacent all pass without skip or diagnostics.",
+      "F": "Nine domain names replace an opaque964-line single test. Setup lifetime and each case needed inputs are visible in short local destructuring. Cases still contain related multi-field snapshot assertions; file length alone is not a reason to create extra modules.",
+      "G": "No new assertions, exports, runtime abstraction or fake fixtures. FileSource required methods remain because the public loader contract requires them; rawJSON lookup fails when absent. Readonly top-level context avoids a definite-assignment/type assertion, with explicit missing-setup guard.",
+      "H": "Deterministic real JSON FileSource, no fetch/network/core mocks or object URLs. Shared setup is read only by these cases; mutable worker is fresh. Seed20261025 shuffled run proves observed order independence. Existing30s limit moved from the old full test to setup without increasing it; cases retain normal timeout."
+    }
+  },
+  "context": [
+    {
+      "path": "packages/editor/src/core/project-reference.pal.test.ts",
+      "sha256": "eadee0a35c76b72fdf267646c18b6c11854aaab18a16ed8fcc3a1c88bb042ed7"
+    },
+    {
+      "path": "packages/editor/src/core/project-reference.ts",
+      "sha256": "c05cdbb27dc252d07117504dd274a781a6d6f8b4a03ead5af469d525d151087a"
+    },
+    {
+      "path": "packages/editor/src/core/project-reference-adapters.ts",
+      "sha256": "c962483e77f4ae26225ae1f6754a61943944057f97656b11c04b171ed788a89f"
+    },
+    {
+      "path": "packages/editor/src/core/project-diagnostics.ts",
+      "sha256": "ce2806133f57e0899b2b27f031880a5eb744e9cd12cc591076c51c253f3f5a01"
+    },
+    {
+      "path": "packages/editor/src/core/editor-derived-core.ts",
+      "sha256": "0ab344726f92137c33d810fa5fa2d7bc9783ea394ddf5fb90afee5ae5d910bd0"
+    },
+    {
+      "path": "packages/editor/src/core/editor-derived-store.ts",
+      "sha256": "e8ed0e39e4d66fac4afbbe1578b47e4b5664e0b81245a69fd1dfc186c5a87949"
+    },
+    {
+      "path": "packages/editor/src/core/editor-derived-contract.ts",
+      "sha256": "e5433d87027bb32457c193d65e93320dce2800f12d914404ff02a397644cfe1a"
+    },
+    {
+      "path": "packages/editor/src/core/project-io.ts",
+      "sha256": "c74ae36b08829570fd5f9e587ddf3ef66b5a4e4f7f1864b8c44c978e67cfa8bf"
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-references.ts",
+      "sha256": "409293b43c8ff9c4bfd5690e9ab798ed9c3d3ea8659305bcc7ffb0362c5ef0be"
+    },
+    {
+      "path": "packages/editor/src/core/actor-references.ts",
+      "sha256": "6fc2e5f5ea20a7e4a229218dc6d19a319515219a4c8b1fcec5822b52917508d3"
+    },
+    {
+      "path": "packages/editor/src/core/battle-data-references.ts",
+      "sha256": "7fa87bd40f396f997bd7fdba2e073baaa5f1e924fd706483141c7226b2d451e8"
+    },
+    {
+      "path": "packages/editor/src/core/item-references.ts",
+      "sha256": "967f552ebde0b53f3919ca7840af5d2ac5aa8066d279a0297058f3c853987a98"
+    },
+    {
+      "path": "packages/editor/src/core/entity-address-references.ts",
+      "sha256": "b3c17ee293d5822bb25fe2aec064b479e3ef7ee83a4e765791d1881b9078a0dc"
+    },
+    {
+      "path": "packages/reforge/src/project-loader.ts",
+      "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+    },
+    {
+      "path": "packages/reforge/src/file-source.ts",
+      "sha256": "b2881b264bd636164ad20a9daa7944b5d48979b90537efdec22f3595fda388a2"
+    },
+    {
+      "path": "packages/editor/vite.config.ts",
+      "sha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0"
+    },
+    {
+      "path": "packages/editor/tsconfig.json",
+      "sha256": "c070261bee129db1b5ece2040f6833c5b09371ebb762ff4e42c8fe360635c660"
+    },
+    {
+      "path": "packages/editor/package.json",
+      "sha256": "68bee5bb0ea285e9b8d42e100c0c81bb4fc3eb3a0933561d8ac684b0373029bb"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    },
+    {
+      "path": "packages/content/src/asset.ts",
+      "sha256": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e"
+    }
+  ],
+  "fixtureInputs": {
+    "path": "fixture-inputs.json",
+    "sha256": "885f62033df1110c09640b750e8807e1e217029dc260337982f974fffb133650",
+    "count": 539,
+    "scope": "All PAL JSON matched by the fixture glob; source-content changes invalidate this census/landmark claim only, not unrelated pre94 scopes."
+  },
+  "proof": {
+    "path": "prove-split.cjs",
+    "mapping": "split.json",
+    "mappingSha256": "fa27138d5a1bf1b093c200bd1a72ce422d5bbb695acb0f389353b97fb05c927d",
+    "baseStatements": 119,
+    "assertions": 84,
+    "currentTests": 9
+  },
+  "gates": {
+    "baseline": 1,
+    "directed": 9,
+    "shuffled": 9,
+    "adjacent": 78,
+    "typecheck": 0,
+    "proof": 0
+  },
+  "engineeringReuse": {
+    "acceptance": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+    "acceptanceSha256": "9772274e5e841e3aa323bec4da5900f793156f824cd6921d75271190146d5e88",
+    "dimensions": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+    "dimensionsSha256": "d9ce332c44c27dd7bb8a7dfbe0190da5eb9dca1171048cd313f6e4afc32da71f",
+    "files": [
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "sha256": "76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157"
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "sha256": "cbf61f06d3bb5f8992989580a7f3a354741a272f78ef98a0e5153322f3cb5d1b"
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "sha256": "00c89fee45b176a3f58f51bbe3856c2a5675d48d668e23c1f148c40f1e879158"
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "sha256": "bf8019893a5b193dc6e4e5e519cf5ed87230d98a69c5ea6465b49fc9d14fdb85"
+      }
+    ],
+    "scope": "Original CODE1 inventory/ledger record/CLI contract only;6a acceptance is reused, not its superseded partial status. No full Markdown grammar or future symbol graph certification."
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "f4b05a297921cafad9b9599639ff0d6ce8443de309127639fcd904f5497a0447",
+    "members": 66
+  },
+  "domainProbe": {
+    "report": "domain/typed/domain-probe.json",
+    "execution": "domain/domain-typed.execution.json",
+    "scope": "Read-only typed current catalog validator/public decoder and unchanged native SpriteGetFrame. In-memory transformations only, no pipeline/product repair.",
+    "facts": [
+      "Legal current encodeSpriteChunk285×346+1×1 produces second offset99396 (WORD49698); both current parsers return2frames. Native PAL rule maps to33860; applying it indiscriminately loses a legal authored frame and strict parsing fails.",
+      "Real MGO571 memory-only offset normalization produces2frames and0bad-tail slots; both full planes match the independent prior original-C fingerprints. Current Reforge public legacy-origin decoder also returns1frame on actual catalog record,2on the isolated memory candidate with matching new metadata.",
+      "Migrate pal-assets currently freezes571 as1frame/1bad tail and totals4133/30; these are implicated source facts,not approved repairs. Those broad files remain outside the original narrow Q1b acceptance."
+    ],
+    "primaryBoundary": "Native SDL function, current authored bytes and real raw data; no PAL.EXE or full phase2/E2E certification."
+  },
+  "previousRle": {
+    "review": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
+    "sha256": "822194d5ab23120e2e9b49a3245682e4c4b50da395f3ef4a067a8154fce96892",
+    "scope": "All pinned RLE code/caller/tool/raw bytes unchanged. Its historical static report binds the then-current parent task/board; present process text changes do not invalidate those code/native results and do not require repeating59tests."
+  },
+  "processDisclosure": [
+    "First AST verifier ran git discovery from the external temporary directory and failed before checking assertions; original script and full failure retained. Fixed cwd uses the repository; final proof is readonly.",
+    "Initial domain probe selected the actual JSON catalog record through untyped IO; the final typed probe validates the complete current catalog with validateAssetCatalog before selecting the exact source record. Both originals retained.",
+    "No new whole check/official coverage/protected/PR. Unchanged docs-tool regressions and prior6a/RLE primary evidence reused by exact scope.",
+    "Initial formatting exposed two useTemplate infos in the new proof helper, then the verifier correctly rejected its pre-format mapping SHA. Both replays retained; helper corrected without rule changes, exact formatted mapping re-bound only after confirming JSON semantics unchanged.",
+    "Final docs check initially rejected the missing parent navigation entry for this new directory. Added only its current navigation link; full failure retained, affected docs consumer rerun separately.",
+    "Static quick-check initially referenced the pre-navigation lint job ID, producing a TypeError before reporting success. Exact failure replay retained; the reference now uses the actual r2 raw member. No gate or diagnostic predicate changed."
+  ],
+  "limits": [
+    "Original archived CODE1 done stays historical. This receipt supports engineering/Q1b acceptance but not the unresolved RLE source-format boundary or all-repository completion.",
+    "Current .pal.test.ts stays on existing runner/profile selection; no new skip/ignore/exclude,baseline or retirement rule edits.",
+    "AST equality proves retained code/statement/assertion identity and reorganization,not the semantic quality of84assertions. File review above and actual primary/caller checks supply that judgment."
+  ]
+}
