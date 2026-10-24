@@ -700,9 +700,9 @@ export function tickSceneAutoFadeIn(gs: GameState): void {
     gs.mode === 'explore' ||
     // 'camera-pan' 执行态须显式列:0x7F 多帧 pan 是唯一"逐帧 PAL_MakeScene 推进却用独立 waiting"的 op,
     //   isEventCursorAtMakeSceneStep 只认"即将执行"(waiting===undefined + ip 停在该 op)态 → 漏掉 pan
-    //   执行中的全程 → 锁妖塔 scene164 进塔运镜在 FadeOut 黑屏下空扫(user 2026-06-17)。与 mode.ts:42
-    //   autoScript 白名单的 'camera-pan' 同源(sdlpal 0x7F do-while 每帧 PAL_GameUpdate→PAL_MakeScene→
-    //   if(fNeedToFadeIn)PAL_FadeIn,script.c:2364-2366)—— 两白名单必须同步,否则补一处漏一处复发。
+    //   执行中的全程 → 锁妖塔 scene164 进塔运镜在 FadeOut 黑屏下空扫(user 2026-06-17)。
+    //   camera-pan 同时在 mode.ts 的 shouldRunAutoScripts 放行：0x7F 每帧 GameUpdate→MakeScene
+    //   （script.c:2364-2366）。两门并非同一白名单：普通脚本步进可以跑 autoScript，却不能抢先淡入。
     (gs.mode === 'event' &&
       (w === 'frame-wait' ||
         w === 'scene-fade' ||
@@ -2130,7 +2130,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         } else {
           appendDialogLine(gs.dialogBox, text, gs.nowMs)
         }
-        // 历史对话捕获(生产工具面板用,会话态):提交**可见文本**(parseDialogText 剥控制符)入环形缓冲。
+        // 历史对话捕获(生产工具面板用,会话态):提交**可见文本**(parseDialogText 剥控制符)入有界历史。
         // 必须剥再存——否则 `( ) ~ $ \ "` 等脚本控制符原样泄露到历史面板(user 2026-06-24:麒麟洞·麒麟老人
         //   「蛋．．．这．．(」末尾露出半角 `(`,sdlpal text.c:1564 是「等待图标」控制符,主对话框走
         //   parseDialogText 已剥、历史这条曾直传 cmd.text)。空/纯控制符行 → parsed.text 空 → trim 跳过兜底;

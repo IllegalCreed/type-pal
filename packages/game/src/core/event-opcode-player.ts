@@ -184,11 +184,7 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
     case OP_REVIVE_PLAYER: {
       const applyAll = (operands[0] ?? 0) !== 0
       const ratioTenths = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
+      const targets = playerTargets(gs, currentEventObjectId, applyAll)
       let revivedAny = false
       for (const roleId of targets) {
         const currentHP = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
@@ -235,11 +231,7 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
     case OP_POISON_PLAYER: {
       const applyAll = (operands[0] ?? 0) !== 0
       const poisonId = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
+      const targets = playerTargets(gs, currentEventObjectId, applyAll)
       for (const roleId of targets) {
         if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
         addPoisonForPlayer(gs, roleId, poisonId, (ip) => runPlayerPoisonEntry(gs, roleId, ip))
@@ -316,6 +308,7 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
   }
 }
 
+/** 治疗/复活/施解毒：缺单体角色时没有目标；状态 opcode 缺角色时改为全队，不能混用。 */
 function playerTargets(
   gs: GameState,
   currentEventObjectId: number | undefined,
