@@ -1,6 +1,8 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前CODE3r技术返工：3423tracked／414closed／118review／2891pending；固定83卡67accept／16partial／0pending。对象职责与主测/E2E工具整改已验证局部合同，0新closed；全部剩余pre94完成前不开PR、不跑全仓/official/protected。[八维、完整原件与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。
+> Current CODE3s dialogue slice: 3424 tracked / 414 closed / 120 review / 2890 pending; fixed83 remains67accept/16partial. No new closed. Core main-test casts remain. Unified gates/coverage/PR deferred until all remaining pre94. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md).
+
+> Prior snapshot: 当前CODE3r技术返工：3423tracked／414closed／118review／2891pending；固定83卡67accept／16partial／0pending。对象职责与主测/E2E工具整改已验证局部合同，0新closed；全部剩余pre94完成前不开PR、不跑全仓/official/protected。[八维、完整原件与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。
 
 > 2026-10-24前窗CODE3o／3p局部返工：3414 tracked／415 closed／108 review／2891 pending；固定83卡仍67accept／16partial。两旧误绿测试撤review，0新关闭；用户批准的毒整理已修。全部pre94解决前不开PR、不跑全仓或官方覆盖率；[当前逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
 
@@ -45,6 +47,10 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
+## 2026-10-24 CODE3s 战斗对话职责与专测（build allowed）
+
+Codex单Owner，同一3y，基点f1ba65aaa；复用3s/GLM29全文与当前实际78行差异。3l最终review的源SHA及后继提交d6fbd45源/主测/对话专测与当前逐字节相同，借用成功bounded回执，不重跑基线；不能误用原任务base或失败的frozen回执。有限切片为对话队列consumer、宿主委派与对话专测：内部输入收窄、旧tickBattleDialog签名/出口保持；去掉逃跑私有恒值helper的死参数/层，保留用户已定+5/+4。typed真实构造替代any，精确时序/内容及已证同合同排重；其余主测核心cast另续，不以本片全绿关闭3s。纯重构/测试分提交，保留反控；不改对话/战斗/保存行为，全部pre94完成前不全仓/coverage/protected/PR。
 
 ## 2026-10-24 CODE3r 对象作用域与主测夹具（build allowed）
 
@@ -1653,3 +1659,9 @@ build allowed：3m队列/status/伤害直接测试的typed夹具、独立oracle�
 18实际相邻文件546例、80Node工具、game TC与8文件Biome0/0/0；最后死亡hold断言由当前324例、Node格式整理由当前2例刷新，不能重叠相加。meal工具合法输入TDZ先红后修，3q采样/帧函数依赖真实同步且不减锚；不冒充004浏览器/视觉。首次palette运行日志、TC类型遗漏、非法中间夹具、loader语法错、字色oracle错、7依赖失败、格式与proof wx错误原件/披露分别保留，不混为产品红或干净门。
 
 账本机器应为3423／414closed／118review／2891pending，3新路径仅review、0新closed；固定83仍67accept／16partial／0pending。广域事件装配/服务耦合仍有后续审查域，不由局部绿关闭；下一3s战斗宿主与3t指令质量，及剩余pre94。遵守最新裁决：全部pre94冻结前不跑全check/official/protected、不新建PR、不合main，94–102不扩展。
+
+## 2026-10-24 CODE3s dialogue technical receipt
+
+[Five scoped A-H records, raw evidence and read-only verification](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md). Refactor ac79a3240 and tests451ee5290 preserve the public signature,21exports,three moved bodies and remaining JS. The dialogue consumer needs3host/5battle fields. Typed paired state, canonical input, exact35ticks and literal text replace weak assertions; one identical-input subset transfers its kept-box assertion.
+
+Seven adjacent files253cases, gameTC and scopedBiome passed; two mutations each old1green/new1businessAssertionError. Retirement records only exact13to12 data, without baseline/coverage refresh. Current machine3424/414closed/120review/2890pending; no newclosed, fixed83still67accept/16partial. Main test core casts/selection/casualty ownership and3t remain. No fullcheck/official/protected/PR until all remaining pre94;94-102 excluded.

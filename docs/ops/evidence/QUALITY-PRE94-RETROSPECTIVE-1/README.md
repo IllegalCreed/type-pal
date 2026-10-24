@@ -423,3 +423,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 ## 2026-10-24 CODE3r作用域与主测质量
 
 [八文件A–H、324身份映射、三单点反控与只读复验](event-quality/README.md)。复用3r/GLM29全文，补最小对象上下文、帧规则、真实战斗夹具/宿主oracle与失败后清理；3q两个E2E依赖同步，meal真实分派观察器TDZ先红后修。546相邻与80Node工具通过，不授浏览器/视觉信用；0新closed、统一门和单PR等全部剩余pre94。
+
+## 2026-10-24 CODE3s对话职责与测试
+
+[五文件增量八维／正文守恒／13→12映射／两反控与只读快检](battle-dialog-quality/README.md)。对话消费独立、旧签名保留、真实typed夹具和精确时序/内容；7相邻253，主测余项仍review，0新closed。统一门/PR等全部pre94，94–102不扩展。

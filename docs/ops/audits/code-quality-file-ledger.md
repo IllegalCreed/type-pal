@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-24 CODE3s dialogue slice: 3424 tracked /414closed/120review/2890pending; two paths review, zero newclosed. Seven adjacent files253; source continuity and two discrimination counters. Main test debt remains; final gates deferred. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md).
+
 2026-10-24 CODE3r局部返工：两个新产品叶与新Node专测仅review，既有两项review刷新；0新closed，3423tracked／414closed／118review／2891pending，以当前机器复核为准。固定83仍67accept／16partial；全部pre94最终窗口前不跑统一门或PR。[八维/正文守恒/324映射/完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。
 
 2026-10-24 CODE3q局部返工：6新路径仅review、主专测旧弱关闭撤review，0新closed；3420tracked／414closed／115review／2891pending，以当前工具复核为准。固定83卡仍67accept／16partial，全部剩余pre94完成前统一门/coverage/PR继续延后。[八维、身份、完整原件与只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/README.md)。
@@ -107,8 +109,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,423。
-当前已闭合核验：414；已读但待审：118；尚未逐文件核验：2891；合计未闭合：3009。
+起始基点机器清单：2,962。当前 tracked 清单：3,424。
+当前已闭合核验：414；已读但待审：120；尚未逐文件核验：2890；合计未闭合：3010。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -506,7 +508,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/scene-system-search.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 旧normal/far/first-hit声明不实；现12例及六旧绿新单红，保持review不以通过数恢复整文件 |
 | `packages/game/src/core/scene-system.test.ts` | test | review | [场景八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/scene-quality/README.md) | 旧边界/墙体/onEnter可误绿，撤旧关闭；typed/隔离/独立oracle已补，111全映射到107合同，三旧绿新单红；统一门待收尾 |
 | `packages/game/src/core/event-system.test.ts` | test | review | [事件八维/身份/完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md) | 复用3r全文与GLM29、核实际变化；对象作用域/死上下文与typed夹具/真实oracle返工，546相邻与80工具；统一门待全部pre94，0新closed |
-| `packages/game/src/core/battle/battle-system.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: battle-system-count、large-state-machine-design；不升closed |
+| `packages/game/src/core/battle/battle-system.ts` | product | review | [3s对话职责八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md) | 旧全文与actual diff复用；对话Owner/GS字段收窄、恒值死helper清理，21出口及正文守恒；主测其它core cast/宿主余域继续，不关闭 |
+| `packages/game/src/core/battle/battle-dialog.ts` | product | review | [对话八维/13→12映射与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md) | 新模块/专测全文核；typed真实构造、精确35tick和文本oracle，253相邻/两旧绿新红；统一门未跑，0新closed |
+| `packages/game/src/core/battle/__tests__/battle-dialog.test.ts` | test | review | [对话八维/13→12映射与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/README.md) | 新模块/专测全文核；typed真实构造、精确35tick和文本oracle，253相邻/两旧绿新红；统一门未跑，0新closed |
 | `packages/game/src/core/battle/__tests__/battle-system.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；SDL fight.c/script.c、真实runScript/action caller、手算oracle | 3s本会话全文读取后SHA未变；本次补读caller/投掷场景并补裸runtime，未重新认证全4248行 |
 | `packages/game/src/core/battle/battle-system.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3s 当前复审；3s-battle-system；公开 startBattle/tickBattle/tickEnemyIdleGestures callers，battle.c/fight.c oracle | 330 行 branch guard/phase/idle/资源缺失/settlement contracts；两个 console.error spy 已用 try/finally 恢复；定向9 files/242 tests通过，coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/battle-system.glm-next-wave.test.ts` | test | 已验证 | [3w模块收口/逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) | 仅本文件明确合同；Extra/HPMP/默认role/逐敌等待反例与原生身份；全仓20443、official/protected及零诊断；不认证whole battle-system/event-system或视觉E2E |
