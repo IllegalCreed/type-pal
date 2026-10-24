@@ -354,7 +354,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "70ba1c6ff2c02f11f1d24a3e880a2f03d247d33ce41daa6c491a7f54f3f0e733",
+      "afterSha256": "ce72716254fe506a6f6cdacf7902901dd3a5b3b15b139c4242b0cd545c3c810b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -519,6 +519,18 @@
           "afterSha256": "70ba1c6ff2c02f11f1d24a3e880a2f03d247d33ce41daa6c491a7f54f3f0e733",
           "method": "Explicit Owner-reviewed S16 catalog/status/current-navigation delta or S17 build admission; no new semantic grant",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S37-phase2-contracts",
+          "revision": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "scope": "S37 three current phase2 specification author candidates, non-author acceptance pending; original source/review-template credit states/provenance/history and all other rows preserved; three document validity fields explicitly current. Eight explicit after dependencies (three author/five administrative) only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "70ba1c6ff2c02f11f1d24a3e880a2f03d247d33ce41daa6c491a7f54f3f0e733",
+          "afterSha256": "ce72716254fe506a6f6cdacf7902901dd3a5b3b15b139c4242b0cd545c3c810b"
         }
       ]
     },
@@ -9188,7 +9200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "f4e931705ee435ba7b009e3f88b273f1e5610e0a19f3bb97511f6d7678caa214",
+      "afterSha256": "b506775388322a5196503bfd7b0d310658c0c85b5c9d5223c341332ff13e876b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9330,6 +9342,18 @@
           "afterSha256": "f4e931705ee435ba7b009e3f88b273f1e5610e0a19f3bb97511f6d7678caa214",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S37-phase2-contracts",
+          "revision": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "scope": "S37 three current phase2 specification author candidates, non-author acceptance pending; original source/review-template credit states/provenance/history and all other rows preserved; three document validity fields explicitly current. Eight explicit after dependencies (three author/five administrative) only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "f4e931705ee435ba7b009e3f88b273f1e5610e0a19f3bb97511f6d7678caa214",
+          "afterSha256": "b506775388322a5196503bfd7b0d310658c0c85b5c9d5223c341332ff13e876b"
         }
       ]
     },
@@ -15817,7 +15841,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
-      "afterSha256": "c2d1031a30e75c70b7159d6211f17c76333b8569bb6c011645b1016b8f65f52c",
+      "afterSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/build-phase-lore-governance.mjs",
@@ -15962,6 +15986,18 @@
           "afterSha256": "c2d1031a30e75c70b7159d6211f17c76333b8569bb6c011645b1016b8f65f52c",
           "method": "Explicit Owner-reviewed S16 catalog/status/current-navigation delta or S17 build admission; no new semantic grant",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S37-phase2-contracts",
+          "revision": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "scope": "S37 three current phase2 specification author candidates, non-author acceptance pending; original source/review-template credit states/provenance/history and all other rows preserved; three document validity fields explicitly current. Eight explicit after dependencies (three author/five administrative) only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "c2d1031a30e75c70b7159d6211f17c76333b8569bb6c011645b1016b8f65f52c",
+          "afterSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f"
         }
       ]
     },

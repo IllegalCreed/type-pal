@@ -12293,7 +12293,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
-      "afterSha256": "fcf35b532e1d5aff90ac5899e6df28f78730c28a18b243e7506ff2c8aad9aa5d",
+      "afterSha256": "a4a919eb5f41f3906bc8418699bbf6ce014423735752c26bf8d76746c48ff604",
       "sourceRefs": [
         {
           "path": "docs/phase2/specs/content-schema.md",
@@ -12371,6 +12371,16 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "6f47673657dca0b278bb7cf083fe6bb32e34e164b667b6d6977f82844d28266a",
           "afterSha256": "fcf35b532e1d5aff90ac5899e6df28f78730c28a18b243e7506ff2c8aad9aa5d"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S37 explicit three current specification body deltas; catalog inventory not semantic reacceptance",
+          "revision": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "previousAfterSha256": "fcf35b532e1d5aff90ac5899e6df28f78730c28a18b243e7506ff2c8aad9aa5d",
+          "afterSha256": "a4a919eb5f41f3906bc8418699bbf6ce014423735752c26bf8d76746c48ff604",
+          "newSemanticCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
@@ -12590,7 +12600,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
-      "afterSha256": "e69376bef6e5502500e7a0a07c20a22eeed0a76cb3d4221bd776740461f8c193",
+      "afterSha256": "67efdcd0f0b2b4b2240922126e8d00116c9e637c0d8cd043a1b1ef35da7ed201",
       "sourceRefs": [
         {
           "path": "packages/content/src/character.ts",
@@ -12665,6 +12675,16 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "577d15c60666426cd5921c949642d7eeeceee2c1c081d667900ee6ffa5216e5c",
           "afterSha256": "e69376bef6e5502500e7a0a07c20a22eeed0a76cb3d4221bd776740461f8c193"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S37 explicit three current specification body deltas; catalog inventory not semantic reacceptance",
+          "revision": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "previousAfterSha256": "e69376bef6e5502500e7a0a07c20a22eeed0a76cb3d4221bd776740461f8c193",
+          "afterSha256": "67efdcd0f0b2b4b2240922126e8d00116c9e637c0d8cd043a1b1ef35da7ed201",
+          "newSemanticCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
@@ -13106,7 +13126,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
-      "afterSha256": "f271e3fc6d7fed2724793857fac1a16a41dbc7467891838f124a45fe3b706190",
+      "afterSha256": "7db7b0e574215c2b963d8f7b22fcd97d62e30c2b688256469c08e816a2e9704c",
       "sourceRefs": [
         {
           "path": "packages/content/src/author-script-core.ts",
@@ -13184,6 +13204,16 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "16933b62d09a66b4029f81c60dcf6fb7b8e7b020ebc2f2f06ab3dc88cff5156c",
           "afterSha256": "f271e3fc6d7fed2724793857fac1a16a41dbc7467891838f124a45fe3b706190"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S37 explicit three current specification body deltas; catalog inventory not semantic reacceptance",
+          "revision": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "previousAfterSha256": "f271e3fc6d7fed2724793857fac1a16a41dbc7467891838f124a45fe3b706190",
+          "afterSha256": "7db7b0e574215c2b963d8f7b22fcd97d62e30c2b688256469c08e816a2e9704c",
+          "newSemanticCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],

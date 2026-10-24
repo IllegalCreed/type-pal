@@ -1,71 +1,88 @@
 # 内容工程当前格式
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Owner: Codex（规格维护；本轮仅文档与静态核读）
+Last reviewed: 2026-10-24
 Template: design-spec-v1 / 1.0.0
-
-本页把历史材料接入 `design-spec-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 问题与目标
 
-- 当前问题：历史设计记录 design-spec historical document full-text review: 内容工程当前格式.，不能单独证明当前实现。
-- 目标结果：保全设计目标、约束、方案和历史验收意图。
+本页定义当前内容工程入口、目录和等距地图的身份/存储边界，供loader、编辑器、运行时和供应链共同读取。旧R33把整份现行规范套成historical，不能据此废止原合同；本次恢复可用正文，原稿及旧执行只按原时点保留。实现是否完全满足合同仍须相应任务与真实测试，不能从本文current推导产品通过。
 
 ## 真值与约束
 
-- 原版/primary source：`docs/phase2/specs/content-schema.md` 原始全文及其中的一手引用。
-- 当前阶段证据：固定历史 source revision；本次只做静态治理。
-- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授执行信用。
-- 未知与冲突：- 正文信号 52:- 重复/非法 id、空名称、重复/越界 path、缺正文、正文 id 不符和输出路径冲突全部 fail-loud。
+- 当前唯一内容格式为contentVersion 22；SAVE12及minimumSaveVersion 12是另一轴。直接来源为[CurrentManifest](../../../packages/content/src/character.ts)、[存档类型](../../../packages/reforge/src/save/types.ts)与[公开装配入口](../../../packages/reforge/src/project-loader.ts)。旧1..21内容、SAVE11等开发档不进入当前loader，不恢复upgrader/transition或脚本分片。
+- manifest必须有非空entryPoints，每项完整保存稳定id、label、scene、可选introVideo和独立startWorld；defaultEntryId只选择真实入口，入口无继承/合成fallback。顶层entryScene/startWorld不是当前manifest字段；存档保存完整世界和玩家位置，不以入口id代替世界。
+- 场景/共享/技能/敌AI正文按[READ-FIRST维护权](../READ-FIRST.md)作为canonical作者内容；资源/地图等仍归批准的窄供应分区。不能因文件位于projects/pal就恢复退役的完整脚本转换。
+- 本轮静态核类型、目录guard和公开loader切片，未重跑PAL数据、上传/保存、渲染或迁移。固定原稿里的“已落地”与223/56等数量只属于原验收时点。
 
 ## 方案
 
-- 原设计的流程、数据、接口和取舍在 quote 中完整保全。
-- 选择理由：design-spec 保留规范性决策。
-- 明确不做：不修改产品实现、不改写原始 quote。
+### 世界与角色初值
+
+ActorDef.battler拥有初始等级、HP/MP基线、属性、装备与技能；实例经验从0开始。StartWorld持队伍顺序、金钱、库存和世界资源，seedStats只稀疏覆盖当前hp/mp，seedConditions只用于该入口开局队员。buildWorld只在新建时消费；读档不重播种，learnedSkills键已存在（包括空数组）不得恢复出厂技能。
+
+临时condition的运行时owner是CharacterInstance的poisons/extraStatuses/extraPoisonRes，不把它复制到入口或setParty。大世界不自行衰减；入战复制、战后清定时状态/临时毒抗并解到severe，incurable保留；恢复存档则清party和reserve全部condition。剧情施加/清除走稳定ActorId显式命令；规则细节回[脚本合同](script-system.md)。
+
+SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场；位置仍唯一在world.script.entityPos并同步捕获。它不进入作者场景/共享脚本、不新增作者状态方案，也不抬contentVersion。[存档合同](save-system.md)负责离场暂停、正常返回仍跑onEnter、读档不重跑的边界。
+
+### 目录是真实发现与路径来源
+
+| 目录 | 稳定身份与显示 | 路径/加载责任 |
+|---|---|---|
+| manifest.content.scenes目录内index.json（SceneIndex version1） | scenes条目为id/name/path；name不进入SceneDef正文，改名不改SceneId | 入口、脚本、URL、存档用id；查目录得到正文path，不能按id拼路径 |
+| manifest.content.maps（MapIndex version1） | maps条目同样为id/name/path；SceneDef.mapId只存稳定id | 无场景引用地图也属于注册资产，参与编辑/保存/克隆/导出；列表不要求解析全部地图正文 |
+| manifest.content.tilesets | 每条为id/name/category/asset，asset是catalog的tileset AssetId | ProjectMap.tilesetRefs→TilesetDef.id→asset→AssetRecord.path→AssetResolver/FileSource；不能让path或旧编号直通 |
+
+[SceneIndex](../../../packages/content/src/scene-index.ts)与[MapIndex](../../../packages/content/src/map-index.ts)先规范化工程相对JSON路径，再拒重复和覆盖索引本身；绝对路径、反斜杠和父路径越界拒绝。`.//`等可归一化形式不能被误说成全部原样拒绝。目录缺正文、正文id不符、未知mapId或输出碰撞由相应loader/写入入口报错，不猜路径修复或静默覆盖。
+
+### 地图、组合与图像资源分层
+
+[ProjectMap](../../../packages/content/src/project-map.ts)唯一版本4，共享IsometricMapContent：width/height是逻辑尺寸，tiles/sources/heights及collision的lattice为2×height行、width列。tilesetRefs稳定id按字典序，sources逐格选择其下标；layers数组序决定z/tie-break，编辑引用使用layer.id。
+
+单来源sources与全0 heights可按合同省略，加载时物化；多来源必须有sources。null瓦片对应null来源与0高度，每次放置的实例高度决定遮挡，不恢复flat/height图层分叉或tileId→height表。逻辑格对应两个子格collision任一非0即阻挡。
+
+组合是带id/name/origin/category/anchor的局部共享内容，不是第二种地图。地图高度绝对、组合高度相对，放置actualHeight=placementBaseHeight+relativeHeight；组合collision的null是不参与、0是显式可通行。当前ProjectMap还可含version1的authoring.stampPlacements，记录地图局部放置身份/所属槽位，属于编辑器元数据，不改变地图v4或让运行时恢复旧packed Tilemap。
+
+[TilesetDef](../../../packages/content/src/tileset.ts)只描述图像，注册表拒path和旧tiles高度字段。canonical二进制是gzip索引帧组，bytes/SHA针对存储gzip字节；PNG上传按工程标准色彩最近邻量化、alpha<128透明，再encodeSpriteChunk+gzip，不存RGBA副本、paletteId或调色板选择器。原稿56 effect资产/223旧地图是历史批次数量，不当今天完整盘点。
 
 ## 边界与风险
 
-- 风险：历史设计可能与当前代码、数据或产品决策漂移。
-- 可证伪观察：当前 primary source 或执行证据与本页不一致时，以新证据为准。
-- 迁移/兼容/法律边界：只迁移文档表达和证据账本。
+当前合同不等于跨版本兼容；旧工程由对应Git/获准供应链重建，不能在编辑器打开时猜格式升级。显示名、物理path、地图实例高度、存档现场和作者身份是不同事实权；任一混入其他层的设计需停线核真实caller。
+
+本轮没有测试所有上传/克隆/导出与可选地图字段。发现代码/数据与本页矛盾先记录精确来源与候选，保留最强替代解释；不改产品或以文档反向为当前缺陷开豁免。
 
 ## 验收
 
-- 可执行验证：source/after SHA、quote inverse、模板章节和三账本。
-- 业务 oracle：设计目标和约束可追溯，当前行为由继任实现与测试证明。
-- 复核 Owner 与截止条件：Codex 独立复核后接收。
+静态oracle是版本常量/公开manifest、目录guard、ProjectMap与Tileset类型能支撑本页对应断言，原源/quote可精确回读，实际链接和模板有效。运行oracle另按合法canonical工程、重复id/规范化后路径碰撞、坏正文引用及地图矩阵边界验证；本轮未执行，不记PASS。
+
+作者不得自签迁移完成。对应唯一review记录全文读域和限定源码范围，非作者按证据验收；全量硬门未过，父卡rework、不合main、不done。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-07-14；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62。
+R33登记日期2026-07-14不是全部内容的发布日期；原稿含08-19地图、07-19 tileset及10月SAVE12后继。固定来源0d5311075b4f5e67362d1953a138d678c0a4aa42完整保留，不把旧日期截断现行合同。
 
 ## 原始结论
 
-- 2026-10-04 原复核：内容工程当前格式：这是 design-spec，当前文档状态为 current。全文 130 行、6 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：content22 与 SAVE12 分轴；sceneRuntime 必需且属于运行时，NPC 坐标唯一存于 world.script.entityPos，不新增作者 schema 或兼容入口。
+原稿明确content22、SAVE12分轴、SceneIndex/MapIndex稳定身份及ProjectMap4/tileset资产单路。R33按标题/行数生成的旧“deep-semantic/模板完成”已撤信；本次不沿用该接受，也不把旧SAVE11摘要残句当产品合同。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+原“已落地”、旧批次ID、数量和任务链接在原quote与固定Git中保留，只证明当时记录；本轮没有复跑旧数据或认证旧执行。
 
 ## 当前有效性
 
-- 当前合同声明（仅供 current contract checker）：contentVersion 22 / SAVE12；原文 quote 中的旧版本只属于历史证据。
+适用当前产品合同：contentVersion 22 / SAVE12 / minimumSaveVersion 12。
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 52:- 重复/非法 id、空名称、重复/越界 path、缺正文、正文 id 不符和输出路径冲突全部 fail-loud。
+现行规格current；archive overlay只保留原时点材料。规范适用性、当前实现合规、本文独立接受、产品运行分别裁定。
 
 ## 继任文档
 
-- Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+[作者脚本](script-system.md)负责内容执行语义，[工程生命周期](project-lifecycle.md)负责工作区/保存权，[存档](save-system.md)负责运行态；历史设计见[原设计快照](../archive/designs/content-schema.md)。无新版本、兼容入口或产品取舍由本次文档治理产生。
 
 ## 原文保全
 
-固定源 SHA `ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62`；下方 quote 可逆回原始 UTF-8 字节。
+固定原源revision `0d5311075b4f5e67362d1953a138d678c0a4aa42`及source SHA见唯一review记录。marker至EOF对本批基点逐字节保持；逆回只剥每行 `> ` / 空行裸 `>`，精确排除end marker前恰一个未引用分隔LF后等固定原源，不trim或全局替换。原稿中的current说明原合同，旧执行仍只按其日期读取。
 <!-- original-source-quote:start -->
 > # 内容工程当前格式
 >

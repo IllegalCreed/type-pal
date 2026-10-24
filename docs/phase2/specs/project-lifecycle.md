@@ -1,75 +1,104 @@
 # 工程与工作区生命周期
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Owner: Codex（规格维护；本轮仅文档与静态核读）
+Last reviewed: 2026-10-24
 Template: design-spec-v1 / 1.0.0
-
-本页把历史材料接入 `design-spec-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 问题与目标
 
-- 当前问题：历史设计记录 design-spec historical document full-text review: 工程与工作区生命周期.，不能单独证明当前实现。
-- 目标结果：保全设计目标、约束、方案和历史验收意图。
+规定打开、编辑、保存、另存、复制、试玩和导出的工作区身份与写权限。manifest.id描述内容工程，不等于目录、会话或写权限；同一projectId=pal可有多个目录，必须由独立workspaceId与可信句柄区分。原R33把现行规范机械历史化，本次恢复明确流程，不把旧验收续作本轮产品接受。
 
 ## 真值与约束
 
-- 原版/primary source：`docs/phase2/specs/project-lifecycle.md` 原始全文及其中的一手引用。
-- 当前阶段证据：固定历史 source revision；本次只做静态治理。
-- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授执行信用。
-- 未知与冲突：- 正文信号 67:  数据或换浏览器后仍可恢复沙盒身份；marker 与 IDB/manifest/目录句柄冲突时 fail-closed，不能降级为普通
-- 正文信号 100:### 作者文件冲突保护（EDITOR-SAVE-CONFLICT-1，2026-09-07 已验收）
-- 正文信号 111:  冲突时零目标写入并通过现有错误区反馈，保留当前未保存修改，不自动重载、合并或强制覆盖。
+工程只消费contentVersion 22 / SAVE12 / minimumSaveVersion 12，见[内容规格](content-schema.md)。SAVE12必需sceneRuntime，位置仍在entityPos，正常返回跑onEnter、读档不重跑；这些是运行态，不新增作者方案。HTTP/FSA克隆、保存、ZIP、运行/预览使用AssetResolver/FileSource；不恢复旧版本upgrader、transition或脚本分片。
+
+[WorkspaceContext](../../../packages/editor/src/core/workspace-context.ts)是不可变会话身份；[persistence policy](../../../packages/editor/src/core/workspace-persistence.ts)以模块私有WeakMap持有一次授权及活动mutation；[AuthorDiskBaseline](../../../packages/editor/src/core/author-disk-baseline.ts)保存loader实际读到的字节证据。它们既不是manifest字段，也不是存档/输出差异表，不能用对象展开或重新扫描新磁盘冒充旧会话证据。
 
 ## 方案
 
-- 原设计的流程、数据、接口和取舍在 quote 中完整保全。
-- 选择理由：design-spec 保留规范性决策。
-- 明确不做：不修改产品实现、不改写原始 quote。
+### 三种模式与目标
+
+| mode | 可持久化目标 | 后续保存与Save As |
+|---|---|---|
+| pal-development | 可信PAL sentinel与本次HTTP启动关键快照均匹配的明确开发目录 | 只续写已绑定同句柄；Save As是新空目录普通local-project，不复制PAL权 |
+| sandbox | ui_samples/评审副本首次只接受空目录，先写受限marker再写内容 | marker的workspace/project身份与同句柄一致；Save As新workspaceId和新sandbox marker |
+| local-project | 普通打开；HTTP首存、新建及PAL快照克隆只接受空目录 | 只续写已绑定句柄；Save As到新空目录普通local-project |
+
+顶栏/菜单/Cmd或Ctrl+S统一file.save；newBlankProject/newFromPal/Save As/目录复制/writeProject不能拿裸目录绕过policy。目标capability进入前同步由ready转verifying，工作区锁内复验，受控回调期间mutation有效，成功/失败最终都spent；嵌套sink只使用活动mutation，不复制正式状态。
+
+Save As准备、完整暂存、校验封存、作者提交和recent登记属于同一compound operation。首次发现/首存还持discovery lock，同一物理handle在首写复验和最终登记不得裂成两workspaceId；IDB只有transaction complete算成功，不按request success提前解锁。
+
+目标不得是源自身/子目录；目录选择不是身份或源/目标关系证明。慢速复制/准备结束后、第一次目标create/remove之前再验；先完整收集文件/空目录清单、私有暂存逐文件、夹验源字节/作者基线/保存状态，才作者create。只读沙盒仍保留原目录来源证据，不因未绑定可写权限绕过关系检查；源读取不在目标锁中嵌套申请源锁。
+
+### 本地身份元数据
+
+- `.type-pal/workspace.json` current v1精确六字段kind/version/mode/workspaceId/projectId/source，只能声明更受限sandbox，不凭内容取得PAL权限。
+- `.type-pal/pal-development.json` sentinel只证明明确PAL目标，首存仍需可信HTTP指纹。两旁车不进入manifest/content/publication或迁移managed set，不抬contentVersion。
+- 整个.type-pal是保留命名空间。当前isWorkspaceIdentityPath还按首段大小写及末尾空格/点归一化防别名；通用序列化/copy/remove不得覆盖，只有受限marker bootstrap/保存恢复元数据能力可写指定位置。
+- IDB current v2以workspaceId为主键，是句柄/recent加速层。有效sandbox marker可在清站点或换浏览器后恢复；marker与IDB/manifest/句柄冲突则fail-closed，不降为普通local。旧开发v1 recent清理，不保留双读。
+
+Save As排除旧marker和PAL sentinel后按目标mode建立新身份。ZIP是只读导出，包含身份旁车；产品没有ZIP importer。外部解压后再打开不是产品导入流程，若同sandbox workspaceId已绑定别句柄，须阻断并另存新副本。
+
+### PAL关键快照与作者基线分层
+
+可信HTTP boot在ui_samples投影之前冻结sentinel、manifest、其asset catalog、scene index和可选map index；路径取可信manifest，不听待验目标重定向。对象键排序、数组保序canonicalize后SHA256；HTTP与本地metadata/proof在canonical load前后夹验，慢速校验/复制结束、首create/remove前再验。
+
+已绑定保存必须由recent反查同FSA entry、匹配sentinel与会话上次受控成功后态。后态只从本次实际成功close/remove推导，再比live；失败部分也只有精确等于本次已知部分后态才可推进恢复前提，不能采纳外部混入的live reread。仅预检空目录不授中断续写资格。
+
+AuthorDiskBaseline另捕获loader真正消费的manifest、作者表/共享脚本、SceneIndex/正文和地图原始字节，打开完成前夹验，不必解析hydrate全部地图。资源按已读catalog的bytes/hash与将写/删目标检查，未知现存新路径拒绝。它与prevSnapshot输出增量分开；同workspace锁内进入操作及首次作者写前比对，冲突零目标写、保留未保存修改，不自动重载/合并/强覆盖。重新打开重建App refs，但mount计数不进入workspaceId或存档地址。
+
+### 保存恢复、读边界与离开保护
+
+普通保存、空白/HTTP首存、PAL克隆和另存共用持久协调器：完整目标/删除/空目录先暂存并回读，真实浏览器句柄与身份凭据封ready后才发布pending、写作者路径。恢复只重放封存计划，不依赖旧页面回调或重读复制源；清理失败不等于内容未保存。复制原资源不混入编辑差异清单，避免下次误删；UI区分准备保存/正在保存。
+
+本地试玩初装配和ZIP采集持读锁并夹验保存状态，pending/坏状态/读取中换代拒绝，读出口不自动恢复。ZIP只排根.type-pal/save-recovery暂存子树，保留committed状态、旁车和用户文件；不保证已运行试玩未来懒加载永远同代。
+
+新建/打开前统一检查主编辑与脚本两session。取消/保存失败保留原会话及历史；保存后继续与放弃绑定各自点击，后台新改不替换选择，继续打开重新点击启动选夹。另存后原会话若又改，保留原会话并说明副本已保存。新建/打开/保存/另存/导出同步互斥；beforeunload仅请求原生确认，不在卸载时异步保存，强杀及未入session草稿不承诺恢复。A-07不等于D-01全局历史顺序已修。
+
+### 开发快照与试玩地址
+
+projects/pal是仍随E2E修订的开发快照，PAL克隆只创建local工程，不复制sentinel或开发写权。稳定用户种子须未来独立冻结/验证/promotion，不由工程存在、迁移零diff或单段E2E自动认证。
+
+本地play URL用workspaceId定位句柄，projectId只描述内容/明确HTTP fallback；带workspace而句柄丢失须fail-loud，record.projectId/URL project/manifest.id一致，不静默打开同名仓库PAL。未绑定会话不得伪造workspace play参数。ui_samples打开PAL/local只暴露新未绑定sandbox；已有有效sandbox marker才恢复绑定。启动屏新建空白/PAL快照创建按矩阵直接选空目录生成local，不先local再二次降级。
 
 ## 边界与风险
 
-- 风险：历史设计可能与当前代码、数据或产品决策漂移。
-- 可证伪观察：当前 primary source 或执行证据与本页不一致时，以新证据为准。
-- 迁移/兼容/法律边界：只迁移文档表达和证据账本。
+这不是文件夹级事务，不锁其他浏览器/OS写入，检查后非合作写不保证原子CAS；PAL关键proof也不等全工程字节相等。规则与实现缺口分开，原[冲突保护卡](../../ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)、[恢复卡](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)和[A-07回执](../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)只承载当时范围。
+
+本轮核context/marker/关键proof、单次mutation和作者读源baseline切片，未完整审所有FSA/IDB/恢复/ZIP/UI分支，未选真实目录或写用户数据。遇新事实冲突先停相关claim，不由文档改产品、放宽policy或恢复旧compat。
 
 ## 验收
 
-- 可执行验证：source/after SHA、quote inverse、模板章节和三账本。
-- 业务 oracle：设计目标和约束可追溯，当前行为由继任实现与测试证明。
-- 复核 Owner 与截止条件：Codex 独立复核后接收。
+静态oracle是project/workspace/target/baseline四身份不混、关键守卫与公开来源对应、原quote与源SHA可逆、导航和模板有效。运行oracle应覆盖真实同句柄续存、伪造/重入/冲突/中断恢复、Save As源后代、IDB complete及读锁换代等合法和反例；本轮未执行，旧三席/用户验收不代签今天实跑。
+
+本篇等待未参与者据实际diff/读域/保全接受；作者不自行恢复content-reviewed/template-compliant，硬门未过不合main、不标done。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-08-20；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a。
+R33登记2026-08-20，原稿另含09-07冲突保护、09-13恢复/离开保护和SAVE12补充；固定0d5311075b4f5e67362d1953a138d678c0a4aa42，不能把登记日当全篇失效日。
 
 ## 原始结论
 
-- 2026-10-04 原复核：工程与工作区生命周期：这是 design-spec，当前文档状态为 current。全文 154 行、9 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：唯一 current 格式 content22 / SAVE12；sceneRuntime 同步捕获，正常返回运行 onEnter，读档不重跑；旧开发档重新生成。
+manifest.id不是工作区写权，三mode矩阵、一次capability、关键proof/作者baseline分轴及开发快照边界原已明确；机械历史化不撤销它们。旧R33行数式接受被撤回，旧SAVE11摘要不决定当前版本。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+原cd3de679、A-03/A-07三席与用户验收、保存/性能/E2E剩余项保留在quote和原卡。本次没有重跑或把它们标为当前执行通过，也不恢复固定三签。
 
 ## 当前有效性
 
-- 当前合同声明（仅供 current contract checker）：contentVersion 22 / SAVE12；原文 quote 中的旧版本只属于历史证据。
+适用当前产品合同：contentVersion 22 / SAVE12 / minimumSaveVersion 12。
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 67:  数据或换浏览器后仍可恢复沙盒身份；marker 与 IDB/manifest/目录句柄冲突时 fail-closed，不能降级为普通
-- 正文信号 100:### 作者文件冲突保护（EDITOR-SAVE-CONFLICT-1，2026-09-07 已验收）
-- 正文信号 111:  冲突时零目标写入并通过现有错误区反馈，保留当前未保存修改，不自动重载、合并或强制覆盖。
+工程生命周期规范current，history overlay只保存原结论与日期；静态核读不足以证明所有目录写入/恢复及当前UI完全合规。
 
 ## 继任文档
 
-- Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+[内容格式](content-schema.md)、[作者脚本](script-system.md)、[存档](save-system.md)各有唯一职责；[原设计快照](../archive/designs/project-lifecycle-design.md)只查历史，当前缺陷回[审计汇总](../../ops/audits/pre-e2e/summary.md)与获准任务。
 
 ## 原文保全
 
-固定源 SHA `3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a`；下方 quote 可逆回原始 UTF-8 字节。
+固定原源revision `0d5311075b4f5e67362d1953a138d678c0a4aa42`及source SHA见唯一review记录。marker至EOF对本批基点逐字节保持；逆回只剥每行 `> ` / 空行裸 `>`，精确排除end marker前恰一个未引用分隔LF后等固定原源，不trim或全局替换。原稿中的current说明原合同，旧执行仍只按其日期读取。
 <!-- original-source-quote:start -->
 > # 工程与工作区生命周期
 >

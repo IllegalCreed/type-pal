@@ -2412,3 +2412,10 @@ GLM已对35716b4a只读非作者accept，C1关闭，S33合同/六pilot及其余�
 - 现有唯一review三行写作者语义、真实读域和before/after；只更新必需after依赖及既有gzip，不新建中央账本/sidecar。架构原quote不动；两导航原历史段落/目标完整保留，旧全文由本基点Git定位。
 - document-delivery-acceptance/1.0.0；作者nonAuthorReviewer=false，partial-review-unknown/needs-migration保持，新信用0。正文/来源/历史及导航须未参与者独立接受，不自行恢复旧R批信用。
 - 不改产品、旧测试、coverage、模板、规则、catalog日期或212待发布行；不合main、不推送、不标done。静态门如实记失败，S34独立审先完成，S35/S36排队交付，不打断GLM当前验收。
+
+## S37 并行二阶段现行规格正文（2026-10-24）
+
+- Codex build allowed；隔离分支codex/docs-s37-phase2-contracts、基点9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c。S34–S36候选/工作树/原证据冻结。
+- 正文白名单恰三篇phase2/specs/content-schema、script-system、project-lifecycle。按现有design-spec-v1/1.0.0+history overlay恢复原现行合同，核版本/公开guard/身份/命令根的限定源码；不改产品设计、实现、旧测试、coverage或旧quote，不授实跑。
+- 现有R33唯一三行记录具体内容/真实读域/保全；catalog.phase2只维护三条after+追加历史、薄catalog只维护该片descriptor，既有R93/R94顺序级联。无需新合同、writer、canonical账本或sidecar。
+- 文档适用性current与审阅完成分轴，partial/needs及新信用0保持；待未参与者据证裁定。全量硬门未过不合main、不推送、不done，不因旧catalog.reviewed或原三席接受恢复信用。
