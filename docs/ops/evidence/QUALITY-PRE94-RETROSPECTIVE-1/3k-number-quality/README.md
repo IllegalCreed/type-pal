@@ -13,3 +13,5 @@
 2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。
 
 [默认只读复验](verify.mjs)核当前指纹、全部原件分片、原生红绿/反控身份与main CI日志；不重跑测试或覆盖率。完整集中门回执列于review.json的gateReceiptParts。两次文档前置失败保留，后一次为续期引用的一层SHA漏更新；最终全部归零。E2E006仍rework，无新增执行/视觉信用。
+
+封存补核：旧SDLPal注释链接少一级../，已纠正为实际存在的根reference路径；其余源码字节与f2d4ba3b9完整候选一致。原冻结件/原件不重写，commentDelta说明唯一差异；复用同一覆盖率报告，最终Git候选/CI以后继回执为准。

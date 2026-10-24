@@ -13,7 +13,7 @@ const approvedAdjustments = [
     sources: [
       {
         path: 'packages/game/src/present/draw-number.ts',
-        sha256: 'adc1249981c6a8c32d06dd40fcffaef47e0ba8860b1b51eea0d526975d387497',
+        sha256: '148ad2df307b8b9aa316662d71440153762714fdc0027a5c3486e3f7af8e3684',
       },
       {
         path: 'packages/game/src/present/draw-number-slots.grok-r1.test.ts',

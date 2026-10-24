@@ -105,12 +105,12 @@
   "files": [
     {
       "path": "packages/game/src/present/draw-number.ts",
-      "sha256": "adc1249981c6a8c32d06dd40fcffaef47e0ba8860b1b51eea0d526975d387497",
+      "sha256": "148ad2df307b8b9aa316662d71440153762714fdc0027a5c3486e3f7af8e3684",
       "read": "Full current file; prior applicable evidence explicitly linked",
       "decision": "accept",
       "dimensions": {
         "A": "原ui.c640–732的颜色19/29/56、6px步距、三种对齐、截高位、0槽例沿旧逐文件证据；新数值链两正式红后guard，原有效布局逐语句不变。",
-        "B": "模块说明缺帧间距和caller前提；入口说明非有限跳过，guard解释TS派生溢出而非冒称C有该行为。",
+        "B": "模块说明缺帧间距和caller前提；入口说明非有限跳过，guard解释TS派生溢出而非冒称C有该行为。 旧真源链接少一级目录已按实际存在路径纠正。",
         "C": "仅拥有位数/布局；共享blit拥有mask写入，Framebuffer拥有裁剪。无IO、时钟、隐式全局、反向依赖、跨层状态写入；旧widegs参数没有引入。",
         "D": "旧私有blit与当前通用叶均Framebuffer+IndexedImage+绝对x/y，mask/缺帧/失败和生命周期一致。独立AST证明标识映射后同体；替换减少共同修改点。",
         "E": "8旧布局+5槽掩码+4新失败隔离；正式正Infinity/真实状态页两红后17绿。缺帧、零槽独立合同保留，未退役或凑覆盖率。",
@@ -323,7 +323,7 @@
       "id": "ratchet-same-report"
     },
     "protected": {
-      "id": "protected-fast-same-report",
+      "id": "protected-comment-link",
       "baseRef": "origin/main",
       "sameReport": true
     },
@@ -346,7 +346,7 @@
       "id": "docs-final"
     },
     "lint": {
-      "id": "lint-clean"
+      "id": "lint-comment-link"
     }
   },
   "limits": [
@@ -368,7 +368,9 @@
   "processCorrections": [
     "First red run used wrong write cwd and found no file; retained, no red credit. Formal red is nonfinite-red-valid only.",
     "First whole check stopped at expired E2E006 publication reviewBy. Second stopped at one omitted transitive review fingerprint after renewal. Both pre-product failures retained. Scoped catalogue renewal keeps rework, lastVerified and all historical execution fields.",
-    "Final archive manifest JSON required formatting after packing; lint-final rejected one format error. Original rejection retained; formatted candidate receives separate lint-clean and sealed static checks."
+    "Final archive manifest JSON required formatting after packing; lint-final rejected one format error. Original rejection retained; formatted candidate receives separate lint-clean and sealed static checks.",
+    "A final B-axis check found the inherited SDLPal link resolved to nonexistent packages/reference. Only one ../ added. Original frozen source/policy/raw archives retained; byte-exact replacement proof and same-report protected/static replay bind the follow-up. Original candidate CI is separate from final candidate CI.",
+    "Initial comment archive duplicated the unchanged capture.mjs entry from original archive. Readonly verifier refused duplicate namespace; rejected archive and exact failed replay retained. Assembly excludes only that byte-identical duplicate helper; native/raw evidence and verifier duplicate rule unchanged."
   ],
   "integration": "Local gates accepted; branch commit/push/protected PR and remote full logs pending, tracked by subsequent Git receipt.",
   "quantitativeScreen": {
@@ -443,7 +445,7 @@
     },
     {
       "path": "scripts/coverage/approved-baseline-adjustments.mjs",
-      "sha256": "1b31253dd724441ee1c5b6074937b96708e7804162c5bf59ff42b6d7f700fd9b"
+      "sha256": "d53f6d4b599b2b43979f0497d9b215e5a89c51defc9cd1f822b58777306c6f0c"
     },
     {
       "path": "scripts/coverage/baseline.fast.json",
@@ -495,6 +497,12 @@
       "sha256": "7c99452ea335ac0e3031c40a02eafc44d52a88896a0f4d6f78e58e0015670c73",
       "entries": 21,
       "bytes": 791855
+    },
+    {
+      "path": "comment-delta.json.gz",
+      "sha256": "efd14a26d5553331949bd1f1464de9236697ac4d87e9e06e5d47c5eff2348ea1",
+      "entries": 26,
+      "bytes": 8486
     }
   ],
   "gateReceiptParts": [
@@ -504,5 +512,14 @@
       "entries": 26,
       "bytes": 225954
     }
-  ]
+  ],
+  "commentDelta": {
+    "path": "packages/game/src/present/draw-number.ts",
+    "beforeCandidate": "f2d4ba3b998667e6a3a46222c2849a411ecdfe2f",
+    "beforeSha256": "adc1249981c6a8c32d06dd40fcffaef47e0ba8860b1b51eea0d526975d387497",
+    "afterSha256": "148ad2df307b8b9aa316662d71440153762714fdc0027a5c3486e3f7af8e3684",
+    "oldUrl": "../../../reference/sdlpal/ui.c",
+    "newUrl": "../../../../reference/sdlpal/ui.c",
+    "proof": "Current bytes equal complete beforeCandidate source with exactly one comment URL replacement; executable bytes unchanged."
+  }
 }

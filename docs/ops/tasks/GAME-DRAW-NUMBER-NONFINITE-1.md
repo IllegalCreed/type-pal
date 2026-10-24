@@ -64,3 +64,5 @@ Codex有限范围accept/done allowed。2026-10-24 CODE3k数字质量收口：2�
 ## 下一位 Agent 提示词
 
 本卡有限收口。仅从其余16张pre94 partial核Owner与最新main，不扩94–102。
+
+2026-10-24封存补核：纠正原SDLPal注释链接的一级目录错误，完整源码仅该URL字节不同；不重跑本地全仓/覆盖率，原冻结与失败证据保留，同报告protected及最终静态/远端CI另记。关闭数不变。

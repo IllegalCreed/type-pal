@@ -1,7 +1,7 @@
 /**
  * sdlpal `PAL_DrawNumber` 的数字精灵布局；TS 资源表缺帧时跳过该位，仍保留位间距。
  *
- * sdlpal 真值锚:[`reference/sdlpal/ui.c:640-732`](../../../reference/sdlpal/ui.c#L640-L732)
+ * sdlpal 真值锚:[`reference/sdlpal/ui.c:640-732`](../../../../reference/sdlpal/ui.c#L640-L732)
  *
  * Digit sprite 来源 = SPRITEUI(DATA.MKF chunk 9)— M4 P2.T3 已 dump 进
  * `images/ui/frame-NN.png`,通过 LoadedAssets.uiSpriteFrames 暴露。

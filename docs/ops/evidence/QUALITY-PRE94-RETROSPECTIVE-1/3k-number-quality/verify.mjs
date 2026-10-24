@@ -134,8 +134,26 @@ if (stale.length) {
       hash(fs.readFileSync(path.join(root, restoration[key]))),
       restoration[`${key}Sha256`],
     )
-  for (const pin of json('freeze.json').files)
-    assert.equal(hash(fs.readFileSync(path.join(root, pin.path))), pin.sha256)
+  for (const pin of json('freeze.json').files) {
+    const current = fs.readFileSync(path.join(root, pin.path))
+    if (pin.path === report.commentDelta?.path) {
+      const delta = report.commentDelta
+      assert.equal(delta.path, 'packages/game/src/present/draw-number.ts')
+      assert.equal(delta.beforeCandidate, 'f2d4ba3b998667e6a3a46222c2849a411ecdfe2f')
+      assert.equal(delta.oldUrl, '../../../reference/sdlpal/ui.c')
+      assert.equal(delta.newUrl, '../../../../reference/sdlpal/ui.c')
+      const before = execFileSync('git', ['show', `${delta.beforeCandidate}:${pin.path}`], {
+        cwd: root,
+        encoding: 'utf8',
+      })
+      assert.equal(hash(before), pin.sha256)
+      assert.equal(pin.sha256, delta.beforeSha256)
+      assert.equal(before.split(delta.oldUrl).length, 2)
+      assert.equal(current.toString(), before.replace(delta.oldUrl, delta.newUrl))
+      assert.equal(hash(current), delta.afterSha256)
+      assert(fs.existsSync(path.resolve(root, path.dirname(pin.path), delta.newUrl)))
+    } else assert.equal(hash(current), pin.sha256)
+  }
   assert.equal(json('refactor-proof.stdout.raw').equal, true)
   for (const id of ['main-docs-log', 'main-coverage-log']) {
     const audit = json(`${id}.audit.json`)
