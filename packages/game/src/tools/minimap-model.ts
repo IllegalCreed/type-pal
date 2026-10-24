@@ -3,29 +3,15 @@ import type { Command } from '@type-pal/shared'
 import type { GameState, NpcState } from '../core/game-state.js'
 import { OP_ADD_CASH, OP_ADD_ITEM, OP_ADD_MAGIC } from '../core/script-opcode-ids.js'
 
-// ── 世界像素 → 底图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────────
-//   地图恒 64×128 tile(map.c 硬编码),tile 32×16 → 世界 2048×2048;缩略图 framebuffer
-//   bufW=(64+1)*32=2080,camera=(-16,-16),输出 BASE_PX 宽;开发picker另用96px。
-//   场景tab/widget的显示尺寸、DPR与视野裁剪共同决定最终缩放,不保证每档都是降采样。
+// 标准64×128地图的缩略图坐标合同：32×16tile，世界2048²，framebuffer宽2080。
+// bootstrap使用camera=(-16,-16)并输出640宽；picker的96宽是另一个消费合同。
 const TILE_W = 32
-
 const TILE_H = 16
-
 const BUF_W = (64 + 1) * TILE_W
-
-// 2080
-export const BASE_PX = 640
-
-// 底图坐标基准(px),与bootstrap getMapThumbnail的输出宽度一致
-export const SCALE = BASE_PX / BUF_W
-
-// 底图像素 / 世界像素
-const CAM_OFF_X = TILE_W / 2
-
-// 16(缩略图 camera.x = -16)
-const CAM_OFF_Y = TILE_H
-
-// viewport 世界像素高(SCREEN_H)
+export const BASE_PX = 640 // 底图坐标基准(px)，不是CSS尺寸或DPR backing尺寸。
+export const SCALE = BASE_PX / BUF_W // 底图像素/世界像素；仅内部绘制叶另行复用。
+const CAM_OFF_X = TILE_W / 2 // camera.x=-16。
+const CAM_OFF_Y = TILE_H // camera.y=-16。
 
 /** 世界像素按缩略图相机偏移/比例映射;出界输入不钳到图内。 */
 export function worldToThumb(wx: number, wy: number): [number, number] {
@@ -74,8 +60,8 @@ function resolveLabelIp(
 
 /**
  * 线性扫 label 起的 trigger 脚本到 'end' 判类别:
- *   含「给予」opcode → 'item'(宝物):giveItem/0x1F 道具、0x1E 加钱(正额)、0x55 学法术(都是地图可拾宝物,
- *   sdlpal script.c:952/970/1816);否则含 loadScene(0x59 传送) → 'teleport'(不标);否则 'other'。
+ *   潜在奖励指令→'item'：giveItem/0x1F、正额0x1E、0x55；否则含loadScene→'teleport'，再否则'other'。
+ *   这是可开关的工具标记，不证明指令可达或对象一定可拾；也不执行库存/法术逻辑。
  * item 优先(先命中即返回)。仅线性扫最多400条,不跟 goto/call;是工具标记启发式,没有覆盖率保证。
  */
 export function classifyTrigger(

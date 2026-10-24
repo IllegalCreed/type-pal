@@ -35,20 +35,12 @@ export {
   ZOOM_WORLD_WIDTHS,
 } from './minimap-model.js'
 
-// ── 控制器(底图缓存 + 类别缓存 + rAF 自更新 + 右下 widget 缩放) ─────────────────
-const LS_WIDGET = 'tp-minimap-widget'
-
-// '1' = 右下角常驻显示(默认关)
-const LS_NPC = 'tp-minimap-npc'
-
-// '0' = 隐藏 NPC 点(默认显)
-const LS_ITEMS = 'tp-minimap-items'
-
-// '0' = 隐藏宝物点(默认显)
-const LS_ZOOM = 'tp-minimap-zoom'
-
-// widget 缩放档 index(默认 DEFAULT_ZOOM_INDEX)
-const WIDGET_PX = 180
+// 控制器随页面存活；tab移除只停止对应surface重绘，不拆页面的键盘/布局监听。
+const LS_WIDGET = 'tp-minimap-widget' // '1'为显示；此项按布局分键，默认关。
+const LS_NPC = 'tp-minimap-npc' // '0'为隐藏；定位点与缩放偏好在两布局间共用。
+const LS_ITEMS = 'tp-minimap-items' // '0'为隐藏，默认显示。
+const LS_ZOOM = 'tp-minimap-zoom' // widget缩放档index，缺省DEFAULT_ZOOM_INDEX。
+const WIDGET_PX = 180 // CSS尺寸；backing另按DPR配置。
 
 export interface MinimapDeps {
   getGs: () => GameState
@@ -182,7 +174,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2)
     widgetCanvas.width = Math.round(WIDGET_PX * dpr)
     widgetCanvas.height = Math.round(WIDGET_PX * dpr)
-    // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`。
+    // CSS尺寸与DPR backing分开，布局样式可覆盖--tp-minimap-size。
     widgetCanvas.style.width = `var(--tp-minimap-size, ${WIDGET_PX}px)`
     widgetCanvas.style.height = `var(--tp-minimap-size, ${WIDGET_PX}px)`
     const zoomBox = document.createElement('div')
@@ -271,7 +263,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       canvas.width = Math.round(sizePx * dpr)
       canvas.height = Math.round(sizePx * dpr)
       canvas.className = 'tp-minimap-canvas'
-      // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`(否则被拉伸变形)。
+      // 保持调用方指定的CSS尺寸，不把DPR backing尺寸当成布局尺寸。
       canvas.style.width = `${sizePx}px`
       canvas.style.height = `${sizePx}px`
       container.appendChild(canvas)

@@ -7,10 +7,8 @@ import {
   worldToThumb,
 } from './minimap-model.js'
 
-// 16(缩略图 camera.y = -16)
+// viewport世界像素尺寸，与游戏framebuffer的320×200合同一致。
 const VIEW_W = 320
-
-// viewport 世界像素宽(framebuffer.ts SCREEN_W)
 const VIEW_H = 200
 
 // ── 定位点配色(draw + 图例共用) ──────────────────────────────────────────────
