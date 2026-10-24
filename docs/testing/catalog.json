@@ -2043,10 +2043,10 @@
         },
         {
           "path": "packages/pal-extract/src/cli.ts",
-          "lines": "233",
+          "lines": "211",
           "anchor": "const corrected = faithful",
           "role": "caller",
-          "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+          "sha256": "1c7a00699e8c8889e7b516babfdb6f9d3c271ea43c1f8d0eb59de04f57513efa"
         },
         {
           "path": "packages/game/src/core/object-script-state.ts",
@@ -2146,6 +2146,22 @@
             },
             "maintenanceEvidence": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
             "newRuntimeClaim": false
+          },
+          {
+            "date": "2026-10-24",
+            "base": "90506b7594265547422dcc42c952fcd72934a528",
+            "action": "world-stage-pure-move-caller-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "233",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+              }
+            ],
+            "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md"
           }
         ]
       }

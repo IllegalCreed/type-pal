@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 74,
+  "currentAccepted": 75,
   "cards": [
     {
       "id": "1",
@@ -185,8 +185,8 @@
       "sha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4",
       "lines": 95,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 23,
@@ -213,18 +213,20 @@
           "text": "- 修改白名单：`slice.ts`、`annotate.ts`、同域测试、此卡、看板/索引、必要 baseline。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
-      "findings": "Merged latest main and passed whole check 20430, official ratchet/protected same sample 20032/757 sources;0diagnostics. Six bounded IO files accepted,355→361closed, CODE3/3g stillpartial. P3 raw7 returns await user decision; prior2asset fixes and301added collected instructions evidenced, no94-102.",
+      "findings": "Original slice/annotate code scope accepted from per-file A-H, approved control-flow red/green, current oracle identities and exact3f reuse. Final pre94 unified gates deferred; no broad CLI/bytecode/game/E2E credit.",
       "additionalEvidence": [
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
-        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json"
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json"
       ],
       "currentReviewer": "Codex",
-      "currentReviewDate": "2026-10-22",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+      "currentReviewDate": "2026-10-24",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json"
     },
     {
       "id": "3b",
@@ -451,14 +453,15 @@
       "scopeConfirmed": true,
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md",
       "currentReviewer": "Codex",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
-      "findings": "Merged latest main and passed whole check 20430, official ratchet/protected same sample 20032/757 sources;0diagnostics. Six bounded IO files accepted,355→361closed, CODE3/3g stillpartial. P3 raw7 returns await user decision; prior2asset fixes and301added collected instructions evidenced, no94-102.",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+      "findings": "P3 approved and fixed; world-assets phase now independently accepted from exact stage/helper/import proof and39 CLI cases. Whole CLI binary/data/fallback orchestration still rework, not card acceptance.",
       "additionalEvidence": [
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
-        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json"
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json"
       ],
-      "currentReviewDate": "2026-10-22"
+      "currentReviewDate": "2026-10-24"
     },
     {
       "id": "3h",
@@ -4264,46 +4267,34 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 11,
-    "accept": 72
+    "partial": 8,
+    "accept": 75
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE3n/3q/3r original code acceptance; approved scene interface cleanup and real replay oracle",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
-    "newlyAcceptedCards": ["3n", "3q", "3r"],
+    "scope": "CODE3 original code acceptance and world phase extraction; CODE3g stays partial",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md",
+    "newlyAcceptedCards": ["3"],
     "newlyClosedFiles": [
-      "packages/game/src/core/palette-fade.ts",
-      "packages/game/src/core/palette-fade.test.ts",
-      "packages/game/src/core/cross-module-boundaries.test.ts",
-      "packages/game/src/core/scene-system.ts",
-      "packages/game/src/core/scene-context.ts",
-      "packages/game/src/core/scene-collision.ts",
-      "packages/game/src/core/scene-loading.ts",
-      "packages/game/src/core/scene-system.test.ts",
-      "packages/game/src/core/scene-collision.test.ts",
-      "packages/game/src/core/scene-loading.test.ts",
-      "packages/game/src/core/scene.test-fixtures.ts",
-      "packages/game/src/core/event-system.ts",
-      "packages/game/src/core/event-object-scope.ts",
-      "packages/game/src/core/npc-walk-frame.ts",
-      "packages/game/src/core/event-system.test.ts",
-      "scripts/e2e/meal-item-dispatch.test.mjs",
-      "packages/game/src/e2e.test.ts"
+      "packages/pal-extract/src/events/slice.ts",
+      "packages/pal-extract/src/events/slice.test.ts",
+      "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "packages/pal-extract/src/resources/world-assets.ts"
     ],
     "fixed83": {
       "pending": 0,
-      "partial": 11,
-      "accept": 72
+      "partial": 8,
+      "accept": 75
     },
     "counts": {
-      "total": 3424,
-      "verified": 438,
-      "review": 97,
-      "pending": 2889,
-      "unclosed": 2986
+      "total": 3425,
+      "verified": 452,
+      "review": 85,
+      "pending": 2888,
+      "unclosed": 2973
     },
-    "limits": "Code acceptance only; final unified check/official/protected/PR pending. No broad bootstrap/loop/browser/save/94–102 credit."
+    "limits": "Code review only; final whole-pre94 unified gates still deferred. No94–102."
   },
   "incrementalReviewHistory": [
     {
@@ -4560,6 +4551,74 @@
         "unclosed": 3003
       },
       "limits": "Code acceptance only; final check/official/ratchet/protected/PR pending. No94–102 or broad event-system/save/visual acceptance."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3n/3q/3r original code acceptance; approved scene interface cleanup and real replay oracle",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "newlyAcceptedCards": ["3n", "3q", "3r"],
+      "newlyClosedFiles": [
+        "packages/game/src/core/palette-fade.ts",
+        "packages/game/src/core/palette-fade.test.ts",
+        "packages/game/src/core/cross-module-boundaries.test.ts",
+        "packages/game/src/core/scene-system.ts",
+        "packages/game/src/core/scene-context.ts",
+        "packages/game/src/core/scene-collision.ts",
+        "packages/game/src/core/scene-loading.ts",
+        "packages/game/src/core/scene-system.test.ts",
+        "packages/game/src/core/scene-collision.test.ts",
+        "packages/game/src/core/scene-loading.test.ts",
+        "packages/game/src/core/scene.test-fixtures.ts",
+        "packages/game/src/core/event-system.ts",
+        "packages/game/src/core/event-object-scope.ts",
+        "packages/game/src/core/npc-walk-frame.ts",
+        "packages/game/src/core/event-system.test.ts",
+        "scripts/e2e/meal-item-dispatch.test.mjs",
+        "packages/game/src/e2e.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 11,
+        "accept": 72
+      },
+      "counts": {
+        "total": 3424,
+        "verified": 438,
+        "review": 97,
+        "pending": 2889,
+        "unclosed": 2986
+      },
+      "limits": "Code acceptance only; final unified check/official/protected/PR pending. No broad bootstrap/loop/browser/save/94–102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3o/3p previously accepted code; delayed derivative header synchronization",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md",
+      "newlyAcceptedCards": ["3o", "3p"],
+      "newlyClosedFiles": [
+        "packages/game/src/core/scene-system-search.ts",
+        "packages/game/src/core/player-poison-state.ts",
+        "packages/game/src/core/dialog-history.test.ts",
+        "packages/game/src/core/scene-system-search.test.ts",
+        "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+        "packages/game/src/core/equip-effect.test.ts",
+        "packages/game/src/core/event-opcode-player.test-fixtures.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 9,
+        "accept": 74
+      },
+      "counts": {
+        "total": 3424,
+        "verified": 447,
+        "review": 89,
+        "pending": 2888,
+        "unclosed": 2977
+      },
+      "limits": "Retrospective derivative metadata repair only; prior actual74/9 preserved, not new progress."
     }
   ]
 }

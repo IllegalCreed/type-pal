@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Scoped D1 source/API binding",
+      "readMethod": "Scoped script-correction caller binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Approved poison entry delta only; old publication credit retained.",
+      "coreConclusion": "World move preserves correction caller; publication retained.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -101,7 +101,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "6c752dc0a696342727f3ed91831dac512f4a2375ae1384eabd2bacb0bf89388a",
+      "afterSha256": "22491b7eb14f5d2eaa1106e8f1da45eaff29591d1598296822cc276ebc81b06e",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -129,7 +129,7 @@
       },
       "revision": {
         "currentSha": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
-        "implementationSha": "6c752dc0a696342727f3ed91831dac512f4a2375ae1384eabd2bacb0bf89388a",
+        "implementationSha": "22491b7eb14f5d2eaa1106e8f1da45eaff29591d1598296822cc276ebc81b06e",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -194,12 +194,12 @@
         ]
       },
       "evidence": {
-        "kind": "d1-scoped-api-source-binding",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
-        "afterSha256": "6c752dc0a696342727f3ed91831dac512f4a2375ae1384eabd2bacb0bf89388a",
-        "lineCount": 2331,
-        "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
+        "kind": "cli-scoped-caller-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+        "afterSha256": "22491b7eb14f5d2eaa1106e8f1da45eaff29591d1598296822cc276ebc81b06e",
+        "lineCount": 2347,
+        "scope": "CODE3/world; CLI3g partial owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "90506b7594265547422dcc42c952fcd72934a528",
         "workingTreeDelta": true
       },
       "history": [
@@ -450,7 +450,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "Three sourceRefs; exact paired metadata and scope delta",
+      "reviewedLines": "One CLI sourceRef; paired metadata delta",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",

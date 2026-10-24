@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3o/3p scoped delta",
+      "readMethod": "OwnedCODE3/world; CLI3g partial scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3o/3p code accepted; unified gates deferred.",
+      "coreConclusion": "CODE3/world; CLI3g partial code accepted; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "5a4f0b078967912a792eddc2c6a61036ebef73313229b9126fe1a888d9e3f991",
+      "afterSha256": "a660a4bcadff915607a2a99efce08c2ad672451838960a94abd52768899d64fc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "5a4f0b078967912a792eddc2c6a61036ebef73313229b9126fe1a888d9e3f991",
+        "implementationSha": "a660a4bcadff915607a2a99efce08c2ad672451838960a94abd52768899d64fc",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1791,11 +1791,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+        "kind": "codex-owned-pre94-extract-code-acceptance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "5a4f0b078967912a792eddc2c6a61036ebef73313229b9126fe1a888d9e3f991",
+        "afterSha256": "a660a4bcadff915607a2a99efce08c2ad672451838960a94abd52768899d64fc",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1811,12 +1811,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-battle-code-acceptance-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
-          "afterSha256": "5a4f0b078967912a792eddc2c6a61036ebef73313229b9126fe1a888d9e3f991",
+          "kind": "pre94-extract-code-acceptance-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+          "afterSha256": "a660a4bcadff915607a2a99efce08c2ad672451838960a94abd52768899d64fc",
           "lineCount": 5498,
-          "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
+          "scope": "CODE3/world; CLI3g partial owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "90506b7594265547422dcc42c952fcd72934a528",
           "workingTreeDelta": true
         }
       },
@@ -5284,9 +5284,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3o/3p scoped delta",
+      "readMethod": "OwnedCODE3/world; CLI3g partial scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3o/3p code accepted; unified gates deferred.",
+      "coreConclusion": "CODE3/world; CLI3g partial code accepted; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -5307,7 +5307,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "ba4db647577eeac8bcf80e6d51da4afd6fbfb8f864c5eefbb97325f85b3146dd",
+      "afterSha256": "d204cfe9517dddef8b369a06bdc9adbf996635a1ab5f34c23aa3206fcab4fe22",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5331,7 +5331,7 @@
       },
       "revision": {
         "currentSha": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "implementationSha": "ba4db647577eeac8bcf80e6d51da4afd6fbfb8f864c5eefbb97325f85b3146dd",
+        "implementationSha": "d204cfe9517dddef8b369a06bdc9adbf996635a1ab5f34c23aa3206fcab4fe22",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -5379,11 +5379,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+        "kind": "codex-owned-pre94-extract-code-acceptance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
         "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
         "candidateSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "afterSha256": "ba4db647577eeac8bcf80e6d51da4afd6fbfb8f864c5eefbb97325f85b3146dd",
+        "afterSha256": "d204cfe9517dddef8b369a06bdc9adbf996635a1ab5f34c23aa3206fcab4fe22",
         "lineCount": 3476,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5399,12 +5399,12 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-battle-code-acceptance-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
-          "afterSha256": "ba4db647577eeac8bcf80e6d51da4afd6fbfb8f864c5eefbb97325f85b3146dd",
+          "kind": "pre94-extract-code-acceptance-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+          "afterSha256": "d204cfe9517dddef8b369a06bdc9adbf996635a1ab5f34c23aa3206fcab4fe22",
           "lineCount": 3476,
-          "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
+          "scope": "CODE3/world; CLI3g partial owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "90506b7594265547422dcc42c952fcd72934a528",
           "workingTreeDelta": true
         }
       },
@@ -7826,9 +7826,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3o/3p scoped delta",
+      "readMethod": "OwnedCODE3/world; CLI3g partial scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "3o/3p code accepted; unified gates deferred.",
+      "coreConclusion": "CODE3/world; CLI3g partial code accepted; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "644c414e2a7d02fc351b4c6bde5f60acaa2d191c8b9f9f64bd273a664ea71717",
+      "afterSha256": "5618c492a1d20504af69f2ded3ea6dd66198294772e573a728d9e984af3ef125",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "644c414e2a7d02fc351b4c6bde5f60acaa2d191c8b9f9f64bd273a664ea71717",
+        "implementationSha": "5618c492a1d20504af69f2ded3ea6dd66198294772e573a728d9e984af3ef125",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8537,11 +8537,11 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+        "kind": "codex-owned-pre94-extract-code-acceptance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "644c414e2a7d02fc351b4c6bde5f60acaa2d191c8b9f9f64bd273a664ea71717",
+        "afterSha256": "5618c492a1d20504af69f2ded3ea6dd66198294772e573a728d9e984af3ef125",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8557,13 +8557,13 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "kind": "pre94-battle-code-acceptance-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
-          "afterSha256": "644c414e2a7d02fc351b4c6bde5f60acaa2d191c8b9f9f64bd273a664ea71717",
+          "kind": "pre94-extract-code-acceptance-maintenance",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+          "afterSha256": "5618c492a1d20504af69f2ded3ea6dd66198294772e573a728d9e984af3ef125",
           "lineCount": 7071,
-          "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-          "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
-          "synchronizedMain": "3609b4d23339bae1f23e6492d9c11cd4a955351e",
+          "scope": "CODE3/world; CLI3g partial owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+          "candidateBaseRevision": "90506b7594265547422dcc42c952fcd72934a528",
+          "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
           "workingTreeDelta": true
         }
       },

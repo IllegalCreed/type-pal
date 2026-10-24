@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前CODE3原slice/annotate范围accept、world写出阶段独立接受：75accept／8partial／0pending；3425tracked／452closed／85review／2888pending，五新关闭。35切分、39真实CLI相邻、TC/局部静态0；CLI/3g仍rework，统一门与单PR待全部pre94。[当前裁定与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)。
+
 > 当前3o／3p原代码范围accept：74accept／9partial／0pending；3424tracked／447closed／89review／2888pending，九新关闭。获批毒入口四正式业务红后修，P3两分支窄修另有两红；491游戏/83提取相邻与两包TC0，统一门/单PR待全部pre94。[八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。
 
 > 当前3n／3q／3r原代码范围accept：72accept／11partial／0pending；3424tracked／438closed／97review／2889pending，17新关闭。用户批准清接口，真实headless回放误绿已修；509相邻／69Node与TC/lint0，最终统一门与PR仍待全部pre94。[逐文件八维与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md)。
@@ -1739,3 +1741,27 @@ Seven adjacent files253cases, gameTC and scopedBiome passed; two mutations each 
 P3原盘43503条只读对比，union38765→38780新增15/删0，334已收战斗点610条非零接回边目的均入union；原始recompile字节一致，三输入SHA前后同。只证明内存切片归属，不说普通剧情或浏览器已验收。CODE3/3g主编排及测试域余项仍partial，下一批沿该范围和3m既有未决域继续。最终静态/推送以本窗后续真实回执为准。
 
 本窗最终局部静态：六实际文档消费者、ledger、lint-zero均通过（6003文件，error/warning/info=0/0/0），[原始双流与明确未运行项](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/static.json)完整。125未变docs工具测试复用前窗，不冒称本次重跑wrapper。网络TLS临时失败后已fetch成功，origin/main仍3609b4d233；工作分支代码三笔已本地提交，后续文档提交/推送以真实refs为准。
+
+## 2026-10-24 CODE3／3g切分质量与world写出编排准入
+
+当前base90506b759、同一3y，fetch最新origin/main仍3609b4d233、0behind；单一Coding Owner Codex。CODE3原slice/annotate范围已完整核定，P3另获批修复和前两控制流修复证据复用；本片只补Kimi/runtime两原专测的指令身份oracle及范围注释，不增减测试身份，不改算法/生成物/规则。
+
+build allowed另含CLI地图／场景／全局事件对象写出阶段提取到内部resources/world-assets.ts及必要CLI导入/私有路径helper移交；目录和模块拆分已获用户一般授权。本次严格纯结构、原raw读取／写入／告警／跳过／抛错顺序与metadata传递保持。先保存真实隔离CLI基线，再用全语法树和导入绑定证明精确搬移，必要相邻与TC；不把main行数下降当验收。输出清理、回滚策略、bytes/schema/all.json、已核codec与未来兼容均不改。出现实际输出/失败顺序分叉时停线归因，不借此批准新资产行为。
+
+原3g其余资源编排／fallback质量债仍待闭合，不因本片将整CLI提前accept；只将本片明确文件与claim按证据裁定。全部剩余pre94冻结前不新开PR、不跑全仓/官方coverage/protected，继续累计相关切片。
+
+## 2026-10-24 CODE3原范围接受／3g world阶段结果
+
+94a76e785补强Kimi/runtime原专测，测试身份35不增减；固定脚本标签区分全end的入口/目标身份。将global入口错误映射0号的单点反控仅指定一个case：旧绿新一AssertionError红，其它case双方同筛选，不报成旧全套误绿；临时副本已清理，正式源/测试原字节保留。既有metadata/计数/P3等原件复用，八维/生产线性输入域与schema防御域分别核定。
+
+3a1335e9a将原97行地图/逐场景/全局EO阶段及四私有helper精确移到world-assets.ts；五参传目录/场景/对象/metadata，caller仍拥有输出guard/预检/清理。真实CLI基线6、后继六文件39例，extract TC与局部静态零诊断。实际阶段与根替换/四helper/全CLI还原/进口绑定证明通过；两次校验器失败和六条证据工具info均保留并纠正，不计通过或产品红。未写raw/生成物，无新行为/资源格式策略。
+
+[九整文件A–H与CLI有限增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)支持CODE3原scope接受与world阶段独立接受；slice四review和新world五新关闭，annotation三项/原boundaries四旧关闭刷新。当前机器3425/452closed/85review/2888pending，固定75accept/8partial/0pending；CODE3g其它表/图像/动画/精灵/声音规则和IO仍rework，不把CC66→55作为完成。剩余1/3g/3m/42/53/56/57/58继续，不扩94–102。
+
+另记上轮簿记遗漏：逐卡与currentAccepted实际74/9正确，派生currentReviewCounts/lastIncrementalReview仍72/11；本轮补齐3o/3p历史，再按真实对象推导75/8，新快检强制核一致性。旧快照保留，修此缓存不算新增两卡信用。全仓check/official coverage/ratchet/protected和PR/main合并继续等全部剩余pre94，最终文档/静态/推送另按真实回执。
+
+本窗同步：origin/main已更新到b3d35be6172f8a4f5ff8b27b360df3b159fd5773（仅README中英文与4张截图），已无冲突合入当前3y候选树；全部产品/测试blob不变，前述35/39与TC结果复用，不因README变动重跑产品测试。正式提交后ahead/behind以refs复核，未将治理分支合main。
+
+本窗候选最终静态：六文档消费者、ledger/diff/lint-zero全部通过，实际lint6009文件，error/warning/info=0/0/0；初轮master JSON一格式错误与证据工具6info均留原件、修正后通过。详细[原始执行与未跑项](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/static.json)。最终同分支推送/合并父与ahead/behind按Git refs核，不把main同步说成治理已合main。
+
+最终delivery lint已覆盖新增manifest/快检器，6010文件、error/warning/info=0/0/0；只读快检MATCH。六文档消费者均已核合入README/截图的候选树，所有原先失败继续保留。

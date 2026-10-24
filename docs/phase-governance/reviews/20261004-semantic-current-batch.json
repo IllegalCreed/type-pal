@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3o/3p scoped delta",
+      "readMethod": "OwnedCODE3/world; CLI3g partial scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3o/3p code accepted; unified gates deferred.",
+      "coreConclusion": "CODE3/world; CLI3g partial code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "4d6ff4ee4d461c32bd5f1fed4de93cb2ddeb11347aa1f57a44054efde9dd42f5",
+      "afterSha256": "bb0542c4a5410e4853619194c4061ad5ffc66f9a6a78a9a29a8d6f8af728be5d",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "4d6ff4ee4d461c32bd5f1fed4de93cb2ddeb11347aa1f57a44054efde9dd42f5",
+        "implementationSha": "bb0542c4a5410e4853619194c4061ad5ffc66f9a6a78a9a29a8d6f8af728be5d",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,12 +1713,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-battle-code-acceptance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
-        "afterSha256": "4d6ff4ee4d461c32bd5f1fed4de93cb2ddeb11347aa1f57a44054efde9dd42f5",
+        "kind": "codex-owned-pre94-extract-code-acceptance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+        "afterSha256": "bb0542c4a5410e4853619194c4061ad5ffc66f9a6a78a9a29a8d6f8af728be5d",
         "lineCount": 90,
-        "scope": "3o/3p owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "c483a9ca470389b19f49d12566075e56592dcd17",
+        "scope": "CODE3/world; CLI3g partial owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "90506b7594265547422dcc42c952fcd72934a528",
         "workingTreeDelta": true
       },
       "history": [
