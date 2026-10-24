@@ -1,5 +1,7 @@
 # CODE3p event player/equipment/poison opcode 当前复审切片
 
+2026-10-24 当前增量：[模式／玩家生命周期质量及获批毒整理](../mode-player-quality/README.md)。旧全文/primary证据按其版本复用，具体旧误绿与Wear偏差已在新片修复或收窄，整卡仍partial，统一门等全部pre94收尾。
+
 基点：`6110cc585`；分支：`codex/code-quality-3y`。本片重新复审 `event-opcode-player.ts` 及其公开/相邻测试 caller；不把历史 done、旧全仓门或原批数字当作当前整卡验收。3p 当前复审提升为 `partial`，未标 accept/done。
 
 完整读取：

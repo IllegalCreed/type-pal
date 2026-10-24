@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前CODE3o／3p局部返工：3414 tracked／415 closed／108 review／2891 pending；固定83卡仍67accept／16partial。两旧误绿测试撤review，0新关闭；用户批准的毒整理已修。全部pre94解决前不开PR、不跑全仓或官方覆盖率；[当前逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
+
 > 2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。 [本窗只读复验及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)。
 
 > 2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。 [本窗只读复验及原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md)。
@@ -1617,3 +1619,9 @@ build allowed：3m队列/status/伤害直接测试的typed夹具、独立oracle�
 [20文件A–H、指纹、合同去向与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)。用户已批准FLOAT/中间赋值与目录内部签名清理；最终精确5例对仅旧formulas源4业务红/1既有增长绿，修复后5绿。原C有限36向量+5151抗性矩阵O0/O2与TS一致，不冒充全数值域/完整SDL或原盘实跑。23实际相邻文件897例、E2E源码插桩31、game TC0；typed工厂/精确oracle及两重复合同迁移完成。初版AoE算术、四不存在路径选择器、退役旧计数、回放器缺失字段、style info和元数据批脚本解析错误均不当产品红，原件与纠正分别保留。
 
 当前不启动本片全check/coverage/protected或新PR。三旧残缺夹具测试关闭撤review，新数值专测review；0新closed，83卡仍67accept/16partial。3n技术轴补齐，集成信用待最终窗口；3m极端dex输入域/原近似与整battle不凭局部绿关闭。main3609两CI全日志/annotations已核成功，不能当本候选门。下一同线先核3m余域，再续3o等pre94；94–102不扩展。
+
+## 2026-10-24 CODE3o／3p 质量与获批毒列表返工
+
+同一3y连续完成模式/历史/搜索质量、玩家指令目标规则与测试判别力，以及用户批准的Wear稳定压缩。纯重构、行为修复、装备测试隔离分提交；16文件的完整/有限增量读域分别标明。7/10/12及61旧身份槽位保持，只新增2个真实业务反例；13文件610、毒相邻11文件486与装备36不相加成独立总数，game typecheck通过。原红、旧绿新红、探针错误及旧oracle失败保留在[八维与只读原件入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
+
+0新关闭，两个旧弱测试信用撤review；新夹具/新毒测试及既有residual登记review。固定83卡仍67accept/16partial/0pending，未完成pre94；3m数值扩展与后续大模块继续。当前仅必要局部/静态，全部pre94冻结前不跑全仓check/official coverage/protected，不开PR；没有用旧main绿灯替当前候选。

@@ -939,7 +939,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3o-mode-history-poison-search/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md",
+      "findings": "Current scoped A-H and precise test oracles repaired; approved Wear stable compaction preserves poisons after holes/global dedup. Technical evidence recorded, unified gates deferred. No automatic whole-card acceptance."
     },
     {
       "id": "3p",
@@ -998,7 +999,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3p-event-opcode-player/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md",
+      "findings": "Current scoped A-H and precise test oracles repaired; approved Wear stable compaction preserves poisons after holes/global dedup. Technical evidence recorded, unified gates deferred. No automatic whole-card acceptance."
     },
     {
       "id": "3q",
@@ -2222,7 +2224,7 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-      "findings": "runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
+      "findings": "runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear稳定压缩已获批技术修复；任意入口重入/广域状态机仍review，视觉未新跑。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
       "currentReviewSha256": "720b2303c89e5426f14839ff7aefb7e79c107e08eff0dd0f2e6f9ee22053e1da"
     },
     {

@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3m/3n scoped delta",
+      "readMethod": "Owned3o/3p scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3m/3n scoped review; unified gates deferred.",
+      "coreConclusion": "3o/3p scoped review; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "527a945be70f913e4d63ac9b382d4224cd66a8d0d9f7c40630c28c357eb06d4e",
+      "afterSha256": "2617c7da916237994ae45de820d127ef0e7a7ca78525bb365877d2e5273524da",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "527a945be70f913e4d63ac9b382d4224cd66a8d0d9f7c40630c28c357eb06d4e",
+        "implementationSha": "2617c7da916237994ae45de820d127ef0e7a7ca78525bb365877d2e5273524da",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,9 +1713,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-core-fade-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
-        "afterSha256": "527a945be70f913e4d63ac9b382d4224cd66a8d0d9f7c40630c28c357eb06d4e",
+        "kind": "codex-owned-pre94-mode-player-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "afterSha256": "2617c7da916237994ae45de820d127ef0e7a7ca78525bb365877d2e5273524da",
         "lineCount": 90,
         "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
@@ -3333,9 +3333,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3m/3n scoped delta",
+      "readMethod": "Owned3o/3p scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3m/3n scoped review; unified gates deferred.",
+      "coreConclusion": "3o/3p scoped review; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3352,7 +3352,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "1051dbabf29f7e42a9d790e39034c555c3a9c6a8be12c0132fd8bb28333706b6",
+      "afterSha256": "b8c91bd5f9bd8738206a46fddaf4b621daf36a38ec49c027ef9e48df0bff8a31",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3373,7 +3373,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "1051dbabf29f7e42a9d790e39034c555c3a9c6a8be12c0132fd8bb28333706b6",
+        "implementationSha": "b8c91bd5f9bd8738206a46fddaf4b621daf36a38ec49c027ef9e48df0bff8a31",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3730,9 +3730,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-core-fade-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
-        "afterSha256": "1051dbabf29f7e42a9d790e39034c555c3a9c6a8be12c0132fd8bb28333706b6",
+        "kind": "codex-owned-pre94-mode-player-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "afterSha256": "b8c91bd5f9bd8738206a46fddaf4b621daf36a38ec49c027ef9e48df0bff8a31",
         "lineCount": 527,
         "scope": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",

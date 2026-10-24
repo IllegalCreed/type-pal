@@ -1792,14 +1792,14 @@
           "lines": "6-13",
           "anchor": "export const MAX_PLAYER_EQUIPMENTS",
           "role": "owner",
-          "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+          "sha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad"
         },
         {
           "path": "packages/game/src/core/player-poison-state.ts",
           "lines": "12-19",
           "anchor": "export function setObjectPoisons",
           "role": "owner",
-          "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+          "sha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756"
         },
         {
           "path": "packages/game/src/core/scene-identity.ts",
@@ -1820,7 +1820,7 @@
           "lines": "26",
           "anchor": "describe('D1 shared-state ownership",
           "role": "oracle",
-          "sha256": "231f97b5936451ddc703629a38f076d1c88b1e5159225c1dbcf5f290c7209f99"
+          "sha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f"
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
@@ -1957,6 +1957,36 @@
             ],
             "scope": "Only unused GameState parameter/obsolete return types and six real callsites removed under user approval. Scene identity comments only. Typed fixtures and exact ownership assertions replace invalid casts; G07-01 duplicate transfers to retained D1 two-entry history case. Other emitted product JS and single-owner storage unchanged. Existing31 E2E instrumentation cases ran; historical D1 SCC/161-token/needles/browser claims and all publication status/dates/versions remain unchanged. Whole-pre94 unified gates deferred.",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "016b6b8f5d58d91f9a1fe04f292cfa310220d4fd",
+            "action": "approved-wear-lifecycle-source-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/equipment-state.ts",
+                "lines": "6-13",
+                "anchor": "export const MAX_PLAYER_EQUIPMENTS",
+                "role": "owner",
+                "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+              },
+              {
+                "path": "packages/game/src/core/player-poison-state.ts",
+                "lines": "12-19",
+                "anchor": "export function setObjectPoisons",
+                "role": "owner",
+                "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+              },
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "231f97b5936451ddc703629a38f076d1c88b1e5159225c1dbcf5f290c7209f99"
+              }
+            ],
+            "scope": "Only three current sourceRefs and the Wear slot oracle change. User approved stable16-slot compaction, preserve poison continuation/after-hole survivors/global dedup. Historical D1 candidate/version/status/publication dates/SCC/token/browser credit unchanged; whole-pre94 gates deferred.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md"
           }
         ]
       },

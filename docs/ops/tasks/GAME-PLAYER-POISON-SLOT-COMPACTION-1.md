@@ -1,6 +1,6 @@
 # GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异
 
-Status: draft
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3o / equipment poison lifecycle
 Coding Owner: Codex
@@ -10,6 +10,18 @@ Contributor: Codex
 Reviewer: Codex（源码/原生C片段核证；不冒充第三方）
 Branch: codex/code-quality-3y
 Visual Verification Timing: e2e-deferred
+
+## 2026-10-24 当前批准与技术结果
+
+用户call_4069993f441d4cc0ad23d731139664f3批准“整理毒列表，保留不丢毒和不重复”。Codex为唯一Owner，build allowed仅覆盖Wear稳定压缩及相应测试/注释，不改变role→party-slot、schema/save、生成物或装备永久buff。
+
+原盘寿葫芦39163与普通毒552/553的真实同步入口复现：卸Wear后再施同级毒，旧TS颜色64，原C为33。另用原C完整函数确认首空槽会丢掉后面的有效毒，首空槽后再加同毒可重复；这两项**不复制**，用户已选保留TS安全边界。现在扫描全部16槽，按原顺序复制幸存ID和脚本续点，尾槽清零；不重跑毒入口、不写资产。
+
+正式2例先发生业务AssertionError，再最小修复转绿；相邻11文件486例通过，旧3处位置oracle迁移为完整packet，game typecheck通过。原盘0x29实际12种毒的初次同步段分别保存，任意mod/回调重入不授信用。保存读取仍按既有正式流程清毒并重建装备，未加旧档兼容或upgrader。
+
+[逐文件八维／C与TS探针／红绿／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。Status review表示技术结果已记录，未跑本候选的全仓/official coverage/protected，等待全部剩余pre94最终窗口；无新PR、未合main。下方2026-10-18的“无build allowed/待裁决”均是当时冻结记录，不能覆盖本节批准。
+
+## 2026-10-18 历史发现记录
 
 ## 发现与停止线
 

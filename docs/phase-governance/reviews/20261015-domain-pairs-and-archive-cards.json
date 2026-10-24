@@ -4607,7 +4607,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Scoped D1 source/API binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Source/API delta only; publication dates/history scope retained.",
+      "coreConclusion": "Approved Wear delta only; old publication credit retained.",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -4696,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "43709bbb59508de016e605f1702e83f242c31e94b46f26fd65e4422290c79d20",
+      "afterSha256": "e2b0b08ad1d3ba5aa2ced3b5e16d20537bc74c516604740cdc3f0e5006e86c34",
       "revision": {
         "currentSha": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
-        "implementationSha": "43709bbb59508de016e605f1702e83f242c31e94b46f26fd65e4422290c79d20",
+        "implementationSha": "e2b0b08ad1d3ba5aa2ced3b5e16d20537bc74c516604740cdc3f0e5006e86c34",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4772,9 +4772,9 @@
       },
       "evidence": {
         "kind": "d1-scoped-api-source-binding",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/review.json",
-        "afterSha256": "43709bbb59508de016e605f1702e83f242c31e94b46f26fd65e4422290c79d20",
-        "lineCount": 290,
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "afterSha256": "e2b0b08ad1d3ba5aa2ced3b5e16d20537bc74c516604740cdc3f0e5006e86c34",
+        "lineCount": 320,
         "scope": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
         "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
         "workingTreeDelta": true
@@ -4920,7 +4920,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
-      "reviewedLines": "Four sourceRefs; exact paired metadata and scope delta",
+      "reviewedLines": "Three sourceRefs; exact paired metadata and scope delta",
       "phase": "testing",
       "module": "phase1-dependency-ownership",
       "templateConformity": {
