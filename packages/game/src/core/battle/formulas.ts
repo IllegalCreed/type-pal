@@ -16,7 +16,7 @@
  * M3 不实现,源码处用注释标 `// non-classic: M3 不实现`。
  */
 
-/** SHORT cast:把任意整数 cast 成 -32768..32767 范围。 */
+/** 用JS位运算截取有符号16位；不据此承诺C越界浮点转换的行为。 */
 function asShort(n: number): number {
   return (n << 16) >> 16
 }
@@ -199,7 +199,8 @@ export interface EnemyDexInput {
  * from `reference/sdlpal/fight.c:289-332` —— PAL_GetEnemyDexterity(PAL_CLASSIC 路径)。
  *
  * 公式(PAL_CLASSIC):
- *   s = (level + 6) * 3 + (SHORT)dexterity
+ *   C先将(level+6)*3赋回SHORT，再累加(SHORT)dexterity。
+ *   TS当前仅截取输入dexterity，极端等级的中间回绕差异已取证、待3m裁决。
  *
  * 非 classic 分支额外做(M3 不实现):
  *   - s < 20 → s = 20  lowerbound
@@ -225,8 +226,8 @@ export interface PlayerStatusFlags {
  * TS battle-system 从 projectRuntimeToBattleRoles 的 role.dexterity 传入;本函数只应用 status / 上限。
  *
  * PAL_CLASSIC 路径:
- *   - haste     → dex *= 3
- *   - 上限 999
+ *   - C先将haste三倍速度赋回WORD，再限999；TS当前直接三倍后限999。
+ *   - 极端身法可能因此分叉；3m已取证，未擅自新增回绕。
  *
  * 非 classic 分支(M3 不实现):
  *   - haste     → dex *= 6/5

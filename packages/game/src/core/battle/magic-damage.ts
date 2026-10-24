@@ -1,9 +1,9 @@
 /**
- * 法术伤害共享核心 —— E 类 keystone。
+ * 玩家攻击法术与模拟法术的对敌伤害核心。
  *
- * `applyMagicDamage` 是两条 sdlpal 法术伤害路径的**唯一共享核心**:
+ * `applyMagicDamage` 共用两条SDLPal对敌伤害路径的计算与扣血步骤:
  *   1. inline 攻击法术  —— `reference/sdlpal/fight.c:4270-4318`
- *      (PAL_BattleCommitAction kBattleActionMagic offensive 分支)
+ *      (PAL_BattlePlayerPerformAction 的攻击法术分支)
  *   2. 0x42 SimulateMagic —— `reference/sdlpal/fight.c:5300-5400`
  *      (PAL_BattleSimulateMagic,投掷物 scriptOnThrow 用)
  *
@@ -181,11 +181,12 @@ export function rollAutoDefend(
  * 敌方攻击魔法伤害结算(enemy→player)—— 对照 sdlpal `fight.c:4772-4853`
  * PAL_BattleEnemyPerformAction 魔法分支。镜像 player→enemy(applyMagicDamage)但有关键差异:
  *   - magStr = (SHORT)enemy.wMagicStrength + (wLevel+6)*6,clamp >=0(fight.c:4673-4678)
- *   - PAL_CalcMagicDamage 用**玩家** def = PAL_GetPlayerDefense(global.c:1800-1828:role.defense + Σ装备,
+ *   - PAL_CalcMagicDamage 用**玩家** def = PAL_GetPlayerDefense(global.c:role.defense + Σ装备,
  *     **无 level 项**;role.defense 已投影含装备)+ 元素抗(`100+mod`)
  *     + 毒抗(`100+mod`),**wResistanceMultiplier=20**(fight.c:4798/4833;player→enemy 是 1)
  *   - 除因子 `((fDefending?2:1)*(Protect?2:1)) + (autoDefend?1:0)`(fight.c:4801-4803/4836-4838):
- *       · autoDefend:该队员**活着 + 非 sleep/paralyzed/confused** 时 RandomLong(0,2)==0(fight.c:4727-4757)
+ *       · autoDefend:先按sleep/paralyzed/confused短路，再掷RandomLong(0,2)。
+ *         AoE在掷骰后检查HP；单体预掷无HP条件。实际扣血循环另跳过死亡队员。
  *       · Protect status 已按 `slot.status.protect` 参与除因子
  *   - clamp `if (sDamage>hp) sDamage=hp`(fight.c:4805/4840)——**不钳最小 1**(与 player inline 不同)
  *   - 跳过已死队员(fight.c:4782)
@@ -213,9 +214,9 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     const role = slot ? playerRoles.roles[slot.roleId] : undefined
     if (!slot || !role || role.hp <= 0) continue // 跳过越界 / 已死队员(sdlpal 4782)
 
-    // def = PAL_GetPlayerDefense(global.c:1800-1828)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
+    // def = PAL_GetPlayerDefense(global.c)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
     //   fight.c:4012)。role.defense 已由 projectRuntimeToBattleRoles 合入 runtime 基础防御 + 装备→ 直接用,
-    //   绝不再加 (level+6)*4(那是 M3 把敌方公式误套玩家的 bug,2026-06-02 审计核源订正)。
+    //   此处不可再加敌方受击路径才有的(level+6)*4。
     let def = asShort(role.defense)
     if (def < 0) def = 0 // 兜底(getter 返 WORD 不为负;防投影负值)
 

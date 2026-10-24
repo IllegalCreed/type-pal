@@ -1,17 +1,14 @@
 /**
- * M5.B-w1.a / B1:Status tick(回合末 turn++ 前调)。
- *
- * sdlpal 真值(fight.c:1632-1638 player / 1655-1661 enemy):回合末对**全部** kStatusAll
- * 逐项 `if (rgwStatus[j] > 0) rgwStatus[j]--`。**所有** status 都是 WORD 计数器,统一递减
- * —— 含 boolean 类 haste/slow/bravery/protect/dualAttack(B1 修:此前只减 sleep/paralyzed/
- * confused/silence/puppet,boolean 类不衰减是 bug)。>999 = 装备永久效果(战末 ClearAll≤999 保留)。
+ * 回合末在turn推进前递减全部玩家/敌人槽的正状态计数器，含已死敌槽。
+ * SDLPal PAL_BattleStartFrame遍历kStatusAll；当前TS另保留slow计数器。
+ * 装备授予的>999计数也参与tick；复活/战后按<=999清除由各自owner负责。
  */
 
 import type { BattleEnemy, BattlePlayer, BattleState, BattleStatus } from './battle-state.js'
 
 type StatusOwner = BattlePlayer | BattleEnemy
 
-/** BattleStatus 全部计数器字段(对齐 sdlpal kStatusAll = 9 项 + Slow 兼容)。 */
+/** BattleStatus当前十个字段：SDLPal Classic九项及TS的slow计数器。 */
 const STATUS_KEYS = [
   'sleep',
   'paralyzed',
