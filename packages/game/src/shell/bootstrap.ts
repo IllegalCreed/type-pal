@@ -392,6 +392,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   tileImagesBySceneId.set(SCENE_ID, tileImages)
   let currentSceneId = SCENE_ID
   let mapReloadRevision = 0
+  let currentSceneAssets: SceneAssets | undefined
 
   const presentCtx: PresentContext = {
     tilemap,
@@ -599,9 +600,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         onTeleportLabel?: string
       }>
     })
+    const mapNum = gs.sceneMapNumOverride?.[sceneId + 1] ?? sceneJson.mapNum
     const [tilemapJson, eventsJson] = await Promise.all([
-      fetch(`${BASE}/data/tilemap/${sceneJson.mapNum}.json`).then((r) => {
-        if (!r.ok) throw new Error(`tilemap-${sceneJson.mapNum}.json fetch failed (${r.status})`)
+      fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
+        if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
         return r.json() as Promise<Tilemap>
       }),
       // P3.T1: per-scene events(lazy load,修 M3.5 ⚠️ a9 #8)
@@ -632,7 +634,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // npcSprites map。此处空 map 仅满足现有接口,不承担精灵缓存的所有权。
     return {
       sceneId,
-      mapNum: sceneJson.mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum
+      mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum
       tilemap: tilemapJson,
       palette,
       eventObjects: sceneJson.eventObjects,
@@ -673,6 +675,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    */
   function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {
     mapReloadRevision++ // Any scene activation retires earlier map-only publications, including same-scene reloads.
+    currentSceneAssets = sceneAssets
     presentCtx.tilemap = sceneAssets.tilemap
     currentSceneId = sceneAssets.sceneId
     // 资源就绪后同步探索地图；脚本目录不在此重复保存。
@@ -718,6 +721,13 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // loadGame 路径)→ present 保留旧帧(供 fadeScreen backup)。冻到 onEnter 第一个可渲染 yield 才清。
     gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
+    const requestedMap = gs.sceneMapNumOverride?.[newWNumScene]
+    if (requestedMap !== undefined && requestedMap !== sceneAssets.mapNum) {
+      const replacement = await fetchMapResources(requestedMap)
+      sceneAssets.mapNum = requestedMap
+      sceneAssets.tilemap = replacement.tilemap
+      tileImagesBySceneId.set(dumpFileIndex, replacement.tiles)
+    }
     gs.wNumScene = newWNumScene
     setCurrentMapNum(sceneAssets.mapNum) // 同步当前 mapNum:小地图底图 / 地图名 / 历史对话按 map 分组都读它(此前仅 scene-system.loadScene 设,opcode/读档路径漏设→停 0 梦境)
     // DM25:res.c:236-240 `if (fEnteringScene) { wScreenWave = 0; sWaveProgression = 0; }` ——
@@ -813,22 +823,32 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     await loadSceneCommon(newWNumScene, { fromSavedGame: false })
   })
 
+  // Map-only replacement and a cached scene override share the same complete IO bundle.
+  // Ownership/publication stays in their callers; rejection cannot mutate the live resources.
+  async function fetchMapResources(mapNum: number) {
+    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
+      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
+      return r.json() as Promise<Tilemap>
+    })
+    const tiles = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
+    return { tilemap: tilemapJson, tiles }
+  }
+
   // opcode 0x99(changeMap)op0==0xFFFF:map-only 重载当前场景 tilemap(不重跑 onEnter / 不重置 npcs)。
   // 完整加载后同步发布；失败保留活资源。新请求或场景重装会撤销旧请求的发布权。
   setMapReloader(async (mapNum: number) => {
     const requestRevision = ++mapReloadRevision
     const sceneId = currentSceneId
-    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
-      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
-      return r.json() as Promise<Tilemap>
-    })
-    const nextTiles = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
+    const replacement = await fetchMapResources(mapNum)
     if (requestRevision !== mapReloadRevision) return
-    tileImagesBySceneId.set(sceneId, nextTiles)
-    presentCtx.tilemap = tilemapJson
-    setSceneContext({
-      tilemap: tilemapJson,
-    })
+    if (currentSceneAssets) {
+      currentSceneAssets.mapNum = mapNum
+      currentSceneAssets.tilemap = replacement.tilemap
+    }
+    tileImagesBySceneId.set(sceneId, replacement.tiles)
+    presentCtx.tilemap = replacement.tilemap
+    setSceneContext({ tilemap: replacement.tilemap })
+    setCurrentMapNum(mapNum)
   })
 
   // opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal PAL_CheckObstacle)。
