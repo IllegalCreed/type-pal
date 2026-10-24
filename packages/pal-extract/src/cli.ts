@@ -48,7 +48,6 @@ import { englishRevisions } from './localization/english-revisions.js'
 import { assertOwnedOutputRoot } from './output-boundary.js'
 import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
 import { parseEnemyPos } from './resources/enemy-pos.js'
-import { parseMap } from './resources/map.js'
 import { writeMusicAssets } from './resources/music.js'
 import { decodePalette } from './resources/palette.js'
 import { decodeBallIcon } from './resources/parsers/ball.js'
@@ -59,7 +58,6 @@ import {
 } from './resources/parsers/data-misc.js'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
-import { dumpAllEventObjects, dumpScene } from './resources/scene.js'
 import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './resources/sprite.js'
 import {
   buildEnemyObjectNameMap,
@@ -77,6 +75,7 @@ import {
   parseSpells,
   parseStores,
 } from './resources/tables.js'
+import { writeWorldAssets } from './resources/world-assets.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = resolve(HERE, '../../..')
@@ -98,24 +97,6 @@ export function prepareOutputRoot(dataRoot: string = DATA_ROOT, outputRoot: stri
  */
 function spriteBlobPath(spriteId: number): string {
   return resolve(OUT, 'data', 'sprite', `${spriteId}.rle`)
-}
-
-/**
- * tileset 资源管线优化(2026-06-22):每地图存一个 gzip 压缩的原始 RLE 数据块,
- * 取代旧的 per-tile RGBA PNG。blob = gzipSync(gopChunk 原始字节),
- * runtime 用 DecompressionStream + parseSpriteChunk 解码。
- *
- * **后缀用 `.rle`(不是 `.rle.gz`)**:Vite/静态服务器见 `.gz` 会自动加
- * `Content-Encoding: gzip` → 浏览器 fetch 自动解压一次 → 我们的 DecompressionStream
- * 再解一次就报 "incorrect header check"。用 `.rle` 后缀服务器不加 content-encoding,
- * 浏览器拿到原始 gzip 字节,DecompressionStream 正常工作。SW 缓存的也是 gzip 字节(体积最优)。
- */
-function tilesetBlobRelPath(mapNum: number): string {
-  return `tileset/${mapNum}.rle`
-}
-
-function tilesetBlobPath(mapNum: number): string {
-  return resolve(OUT, 'data', tilesetBlobRelPath(mapNum))
 }
 
 function imageBattleBgPath(bgId: number): string {
@@ -142,10 +123,7 @@ function magicFireBlobPath(chunkIdx: number): string {
 }
 
 /** Internal JSON destinations used by this entrypoint; writeJson owns directory creation. */
-function dataSubdirPath(
-  subdir: 'tilemap' | 'scene' | 'palette' | 'ui-sprite',
-  name: string,
-): string {
+function dataSubdirPath(subdir: 'palette' | 'ui-sprite', name: string): string {
   return resolve(OUT, 'data', subdir, `${name}.json`)
 }
 
@@ -613,102 +591,7 @@ async function main(): Promise<void> {
 
   console.log('[pal-extract] data tables written')
 
-  // ── 资源(tileset + tilemap:全 295 scene,按 mapNum dedup) ─────────────────────
-  // M4 P3.T3:全 295 scene → unique mapNum 集合,每个 mapNum dump 一次 tileset + tilemap。
-  // tilemap JSON 按 mapNum keyed(data/tilemap/{mapNum}.json),loader 通过 scene→mapNum→tilemap 链查找。
-
-  const mapMkf = openMkf(loadFile('MAP.MKF'))
-  const mapChunkCount = chunkCount(mapMkf)
-  const gopMkf = openMkf(loadFile('GOP.MKF'))
-
-  {
-    const allSceneCount = sss.scenes.length
-    const uniqueMapNums = new Set<number>()
-    for (let sliceId = 1; sliceId < allSceneCount; sliceId++) {
-      const scene = sss.scenes[sliceId]
-      if (!scene) continue
-      if (scene.mapNum >= mapChunkCount) {
-        console.warn(
-          `[pal-extract] scene ${sliceId} mapNum=${scene.mapNum} >= MAP chunks ${mapChunkCount}, skip`,
-        )
-        continue
-      }
-      uniqueMapNums.add(scene.mapNum)
-    }
-    const sceneRefCount = uniqueMapNums.size
-    // 2026-05-29 user 要求"全部资源提取":未被任何 scene 引用但 chunk 非空的 map(实测 #104/#164)
-    // 也提取(sdlpal 运行时不加载它们,但保留供资源浏览 / 未来使用)。空 chunk(0/168/171)仍 skip。
-    for (let m = 0; m < mapChunkCount; m++) {
-      if (uniqueMapNums.has(m)) continue
-      if (readChunk(mapMkf, m).byteLength > 0) uniqueMapNums.add(m)
-    }
-    console.log(
-      `[pal-extract] full scope: ${allSceneCount} scenes, ${sceneRefCount} scene-ref mapNums + ${uniqueMapNums.size - sceneRefCount} unreferenced non-empty = ${uniqueMapNums.size} total`,
-    )
-
-    let tilesetsWritten = 0
-    for (const mapNum of uniqueMapNums) {
-      const rawMapChunk = readChunk(mapMkf, mapNum)
-      if (rawMapChunk.byteLength === 0) {
-        console.warn(`[pal-extract] mapNum=${mapNum}: MAP.MKF chunk 为空,skip`)
-        continue
-      }
-      let mapBytes: Uint8Array
-      try {
-        mapBytes = decompressYj2(rawMapChunk)
-      } catch (err) {
-        console.warn(`[pal-extract] mapNum=${mapNum}: YJ2 解压失败,skip —— ${err}`)
-        continue
-      }
-      const gopBytes = readChunk(gopMkf, mapNum)
-      const mapResult = parseMap(mapBytes, gopBytes)
-
-      // tileset 资源管线优化:存 gzip 原始 RLE blob(字节级忠实原版 GOP chunk),
-      // 取代旧的 per-tile RGBA PNG(67k 张 / 265MB)。runtime 用 DecompressionStream +
-      // parseSpriteChunk 解码,不经 canvas/createImageBitmap。
-      writeBinary(tilesetBlobPath(mapNum), gzipSync(gopBytes))
-      writeJson(dataSubdirPath('tilemap', String(mapNum)), {
-        ...mapResult.tilemap,
-        tileset: tilesetBlobRelPath(mapNum),
-      })
-      tilesetsWritten++
-    }
-    console.log(
-      `[pal-extract] tilesets written: ${tilesetsWritten} / ${uniqueMapNums.size} unique mapNums`,
-    )
-  }
-
-  // Scene objects are written independently; MGO extraction below scans the complete archive.
-  {
-    let sceneWritten = 0
-    // 从 0 起:scene 文件是 0-based(见 CLAUDE.md「scene/N.json 0-based」),scene 0 = 开场梦境
-    // (sss.scenes[0] mapNum=20 scriptOnEnter=4),正常启动 bootstrap 走 SCENE_ID=0 加载它。
-    // events 切片本就 0-based(scene-000.json 存在),此处历史上误用 1-based 漏写 scene/0.json,
-    // 长期靠旧 extract 的 stale 残留文件续命;extract 改为开头清空 OUT 后暴露 → 修正起始为 0。
-    for (let allSceneId = 0; allSceneId < sss.scenes.length; allSceneId++) {
-      const s = sss.scenes[allSceneId]
-      if (!s) continue
-      const sceneObjs = dumpScene(
-        allSceneId,
-        sss.scenes,
-        sss.eventObjects,
-        corrected?.eventMetadata,
-      )
-      writeJson(dataSubdirPath('scene', String(allSceneId)), sceneObjs)
-      sceneWritten++
-    }
-    console.log(`[pal-extract] scenes written: ${sceneWritten}`)
-  }
-
-  // 忠实 sdlpal lprgEventObject:全局 event object 表(全部 + 各 scene 区间),运行时一次性加载。
-  {
-    const allEvtObjs = dumpAllEventObjects(sss.scenes, sss.eventObjects, corrected?.eventMetadata)
-    writeJson(resolve(OUT, 'data', 'event-objects.json'), allEvtObjs)
-    console.log(
-      `[pal-extract] event-objects.json written: ${allEvtObjs.eventObjects.length} objects, ` +
-        `${Object.keys(allEvtObjs.sceneRanges).length} scene ranges`,
-    )
-  }
+  writeWorldAssets(RAW, OUT, sss.scenes, sss.eventObjects, corrected?.eventMetadata)
 
   // 调色板:PAT.MKF 全量 dump
   const patMkf = openMkf(loadFile('PAT.MKF'))
