@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 67,
+  "currentAccepted": 69,
   "cards": [
     {
       "id": "1",
@@ -1132,8 +1132,8 @@
       "sha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
       "lines": 131,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 21,
@@ -1185,7 +1185,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3s-battle-system/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
+      "findings": "Original scoped code review accepted, with explicit eight-axis/caller/oracle and verified current-input bridges; source/test quality debts individually repaired. Final whole-repository integration gates/PR still DEFERRED until all pre94; not integration acceptance."
     },
     {
       "id": "3t",
@@ -1195,12 +1196,13 @@
       "sha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
       "lines": 245,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
-      "scopeLimitation": "Implementation and main test fully read for current three counters; other dedicated tests/full card acceptance still pending.",
-      "priorUnverifiedDiscoveryRecord": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/3t-discovery-before.json.gz"
+      "currentReview": "accept",
+      "currentAcceptance": true,
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
+      "scopeLimitation": "Original3t dispatcher/main/dedicated contracts accepted only; no whole event-system, other actions, save/API/asset/visual acceptance. Final integration gates pending.",
+      "priorUnverifiedDiscoveryRecord": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/3t-discovery-before.json.gz",
+      "findings": "Original scoped code review accepted, with explicit eight-axis/caller/oracle and verified current-input bridges; source/test quality debts individually repaired. Final whole-repository integration gates/PR still DEFERRED until all pre94; not integration acceptance."
     },
     {
       "id": "3u",
@@ -4259,31 +4261,36 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 16,
-    "accept": 67
+    "partial": 14,
+    "accept": 69
   },
   "lastIncrementalReview": {
     "date": "2026-10-24",
-    "scope": "CODE3k number boundary, shared blit and test discrimination; five other primitives reused",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
-    "newlyAcceptedCards": ["3k"],
+    "scope": "CODE3s/3t original code scopes accepted; code review separated from deferred unified integration",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
+    "newlyAcceptedCards": ["3s", "3t"],
     "newlyClosedFiles": [
-      "packages/game/src/present/draw-number.ts",
-      "packages/game/src/present/draw-number-nonfinite.test.ts"
+      "packages/game/src/core/battle/battle-system.ts",
+      "packages/game/src/core/battle/battle-dialog.ts",
+      "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+      "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "packages/game/src/core/battle/battle-opcodes.cov85.test.ts"
     ],
     "fixed83": {
       "pending": 0,
-      "partial": 16,
-      "accept": 67
+      "partial": 14,
+      "accept": 69
     },
     "counts": {
-      "total": 3411,
-      "verified": 420,
-      "review": 99,
-      "pending": 2892,
-      "unclosed": 2991
+      "total": 3424,
+      "verified": 421,
+      "review": 113,
+      "pending": 2890,
+      "unclosed": 3003
     },
-    "limits": "No broad core/save acceptance, natural-story E2E or94–102 credit."
+    "limits": "Code acceptance only; final check/official/ratchet/protected/PR pending. No94–102 or broad event-system/save/visual acceptance."
   },
   "incrementalReviewHistory": [
     {
@@ -4489,6 +4496,29 @@
         "unclosed": 2992
       },
       "limits": "P13 and three broad production files retain prior whole-file state. No94–102 or natural-story E2E credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3k number boundary, shared blit and test discrimination; five other primitives reused",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
+      "newlyAcceptedCards": ["3k"],
+      "newlyClosedFiles": [
+        "packages/game/src/present/draw-number.ts",
+        "packages/game/src/present/draw-number-nonfinite.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 16,
+        "accept": 67
+      },
+      "counts": {
+        "total": 3411,
+        "verified": 420,
+        "review": 99,
+        "pending": 2892,
+        "unclosed": 2991
+      },
+      "limits": "No broad core/save acceptance, natural-story E2E or94–102 credit."
     }
   ]
 }

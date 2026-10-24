@@ -435,3 +435,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 ## 2026-10-24 CODE3t专测执行质量
 
 [两专测八维、62身份／7准确标题映射、两有效反控与完整原件](opcode-test-quality/README.md)。真实嵌套脚本与非零裸武术项，241相邻、TC0；0新closed，主测及dispatcher余项继续。
+
+## 2026-10-24 CODE3s／3t代码验收
+
+[七文件当前代码接受、两旧关闭刷新、八维设计裁定与六反控完整原件](battle-host-opcode-closeout/README.md)。上面两卡局部记录中的余项已由本次逐项补齐，固定83卡69accept／14partial。仅接受原代码范围，最终全仓check／official／protected与单PR仍等所有剩余pre94；旧原件和时点计数保留，94–102不扩展。

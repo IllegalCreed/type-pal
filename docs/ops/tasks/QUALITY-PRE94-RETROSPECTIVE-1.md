@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前3s／3t代码复审接受：固定83卡69accept／14partial／0pending；3424tracked／421closed／113review／2890pending，七新关闭、两旧关闭刷新。八维/真实caller/原始反控/版本桥逐项裁定；统一门与PR待所有剩余pre94，不因延后大门强留partial，也不把代码接受写成集成通过。[当前验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md)。
+
 > Current CODE3t dedicated-test slice: 3424 tracked / 414 closed / 120 review / 2890 pending; fixed83 remains67accept/16partial. Two dedicated files62cases retained;241adjacent andTC0. No new closed; main opcode test debt continues. [Evidence](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/README.md).
 
 > Prior snapshot: 当前CODE3r技术返工：3423tracked／414closed／118review／2891pending；固定83卡67accept／16partial／0pending。对象职责与主测/E2E工具整改已验证局部合同，0新closed；全部剩余pre94完成前不开PR、不跑全仓/official/protected。[八维、完整原件与快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/README.md)。
@@ -47,6 +49,26 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 - 全部pre94代码与证据冻结后集中执行统一门；合理结构变化可以给精确基准调整或有效测试，不能恢复死代码、堆弱例或降规则。失败先归因，以同一次官方报告重放比较策略，不无理由重采。
 - 全部必要门零诊断后一个PR，经最新main和远端保护检查后普通合并；不直接推main或绕过保护。94–102持续不扩展。
 - 阶段内区分逐文件审查/整改与统一集成信用；未跑的全仓/coverage门明确为待最终窗口，不以旧绿数代替，不强行把未知项关闭。
+
+## 2026-10-24 CODE3s／3t代码验收（最终集成待统一门）
+
+Codex逐项裁定原3s宿主与3t dispatcher范围代码accept；固定83从67／16变为69／14。3s主测夹具/资源/收尾/动作oracle、canonical字段与对话职责已整改；3t主测160＋召唤4例合法typed场景、真实毒入口、精确状态/槽位与六业务反控已核。新关闭七文件、两个旧专测关闭刷新，全部八维与未外推范围见[唯一证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md)。
+
+此前“所有16partial等最终门”的宽泛执行口径撤销：只对具体代码/evidence缺口保留partial，代码审查、统一门与合并分栏。3s/3t分支复杂度线索已作职责/依赖面裁定，保留同一phase/opcode入口不是漏看设计；不按文件长度强拆。旧原件/时点计数不改写。
+
+当前必要相邻5文件241及game TC零诊断，三源完整JS守恒，3s同版186身份/266相邻与实际3合击沿用。未运行新全仓check、official、ratchet、protected或PR；剩余14卡逐项核定，不扩94–102。静态/账本、分提交推送和0behind依据最终回执与Git，不预报合并。
+
+## 2026-10-24 CODE3t主测与ctx注释（build allowed）
+
+Codex单Owner，同一3y，基点96d68809b；fetch两次TLS失败后已成功，同步main3609b4d23，0behind/24ahead，主树不动。完整读取当前2428行/160例主测试、BattleState构造/Player/Enemy/ctx类型和实际辅助工厂；3t实现/A维primary与已获批0x66/目标/毒状态修复证据复用。
+
+准入限主测试typed工厂、真实callee、合法场景和必要精确oracle；既有可复用stats/coverage工厂优先，不造产品API或修改公共签名。保留160身份，标题纠错另映射；召唤hiding/睡眠负控须先给空槽，避免“房间不足”掩盖条件；L27施毒调用真实runScript，保存原红绿与恢复。相邻ctx接口/dispatcher已证过时说明仅注释纠正，不改功能/规则/Save/管线。实现结构若有明确改益再独立准入；全部pre94前不全仓/coverage/protected/PR。
+
+CODE3t相邻专测增量：完整读取battle-summon-slot-reuse的四例和构造，真实makeBattle替代手写空队伍/零RNG；死亡槽显式保留原maxHealth100。按实际索引核只复用首空槽及原第二槽身份，第三例改补room1<count2不得部分复用；其旧room0/live不改写合同由主测已有room0例加精确id/HP断言接住。四例数量保留，标题映射和新增单点反控另存，不把相邻包绿当整文件信用。
+
+CODE3t私有依赖面补齐：四个helper分别收窄为敌槽+位置、damage buffer/bus、OffMagic五项资源+两个state字段、poison三项选择输入；敌槽函数直接用BattleEnemy领域类型。仅类型签名/导入，不改私有实现正文或公开入口；完整三源JS AST守恒及TC约束。召唤首例补非零坏/好状态残留，保留原四例数，实证resetEnemySlot清理而非全零自比。
+
+CODE3t准入增量：完整重读1533行dispatcher的当前C–H，核真实fallback、HP视图/收尾、物品target与四项属性映射。除注释纠错外，只将私有STAT_ROW_BUFF改为显式partial数字索引类型并删除数字→key断言，具体JS须完全一致；不改导出、表值或行为。throw-item相邻两行错误ctx说明同步，完整文件不因此新授信用。
 
 ## 2026-10-24 CODE3t opcode 专测质量（build allowed）
 

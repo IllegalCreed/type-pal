@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-24当前代码验收：69accept／14partial／0pending，仅3s与3t新接受。七文件逐项八维与必要返工完成，完整原件/六反控及当前指纹见[本次裁定](battle-host-opcode-closeout/README.md)。全仓集成门与PR继续待全部pre94冻结；下面旧计数保留历史。
+
 2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。
 
 2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。
@@ -30,8 +32,8 @@
 | [CODE-QUALITY-3p](../../archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md) | done | partial | [event-opcode-player 复审切片](3p-event-opcode-player/README.md)：helper、四份直接测试、owner callers/SDL primary 已重读；直接61例/相邻471例通过，预期诊断仍待统一收口 |
 | [CODE-QUALITY-3q](../../archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md) | done | partial | [scene-system 复审切片](3q-scene-system/README.md)：662行实现/2064行主测试、scene/mode/event/bootstrap caller 与 SDL primary 已重读；467例通过、预期诊断仍待统一收口 |
 | [CODE-QUALITY-3r](../../archive/tasks/done/CODE-QUALITY-3r-game-event-system.md) | done | partial | [既有复审切片](3r-event-system/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
-| [CODE-QUALITY-3s](../../archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md) | done | partial | [既有复审切片](3s-battle-system/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
-| [CODE-QUALITY-3t](../../archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md) | done | partial | [机制counter返工](../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)：0x66裸武术/选靶已先红后修；主实现/主测已读，其他专测和统一门仍待 |
+| [CODE-QUALITY-3s](../../archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md) | done | accept | [当前3s代码验收](battle-host-opcode-closeout/README.md)：八维与原始证据/版本桥成立，具体范围见report；最终全仓门待全部pre94，不冒称集成完成 |
+| [CODE-QUALITY-3t](../../archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md) | done | accept | [当前3t代码验收](battle-host-opcode-closeout/README.md)：八维与原始证据/版本桥成立，具体范围见report；最终全仓门待全部pre94，不冒称集成完成 |
 | [CODE-QUALITY-3u](../../archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md) | done | accept | [当前正式裁定](3u-state-factory/README.md)：原状态/资源/位置合同已接受，广域状态机不附带接受 |
 | [CODE-QUALITY-3v](../../archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md) | done | accept | [当前正式裁定](game-actions-mobile/review.json)：原四动作/两专测已接受，宿主大文件不附带接受 |
 | [CODE-QUALITY-3w](../../archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md) | done | accept | [当前正式裁定](3w-post-scripts/module-closeout.json)：原战后脚本/状态/清理合同已接受，广域战斗状态机不附带接受 |

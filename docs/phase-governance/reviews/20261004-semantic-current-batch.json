@@ -503,7 +503,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Owned3t scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3t scoped review; unified gates deferred.",
+      "coreConclusion": "3s/3t code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "f36ae906da3d7351a8d3d7b087632021bebbcab3fca1e017b52348a0dd82e24b",
+      "afterSha256": "8331a904e442ea97965527a2e5ee211efac2b3eb56b3962ed79adf04c800ae8f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "f36ae906da3d7351a8d3d7b087632021bebbcab3fca1e017b52348a0dd82e24b",
+        "implementationSha": "8331a904e442ea97965527a2e5ee211efac2b3eb56b3962ed79adf04c800ae8f",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,12 +1713,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-opcode-tests-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/review.json",
-        "afterSha256": "f36ae906da3d7351a8d3d7b087632021bebbcab3fca1e017b52348a0dd82e24b",
+        "kind": "codex-owned-pre94-battle-code-acceptance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/review.json",
+        "afterSha256": "8331a904e442ea97965527a2e5ee211efac2b3eb56b3962ed79adf04c800ae8f",
         "lineCount": 90,
-        "scope": "3t owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
-        "candidateBaseRevision": "457cfe0b80e1d8b44023a0446c6d91e1ae916155",
+        "scope": "3s/3t owned projection delta; original artifact/history retained; unified pre94 gates deferred.",
+        "candidateBaseRevision": "96d68809b87e7f1d653d55d1ee8330d63f6fc76f",
         "workingTreeDelta": true
       },
       "history": [
