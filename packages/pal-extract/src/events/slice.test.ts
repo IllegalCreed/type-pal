@@ -92,6 +92,53 @@ describe('sliceByScene', () => {
     expect(result.shared.segments[0]!.commands).toEqual(owner === 'global' ? expected : [])
   })
 
+  it.each([
+    'scene',
+    'global',
+  ] as const)('%s 的战斗收胜利续行与非零战败/逃跑分支，零目标和敌队编号不制造入口', (owner) => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x0007, operands: [3, 4, 6], label: 'L_1' },
+      { op: 'end', label: 'L_2' }, // 胜利续行，阻断顺序抵达后两个分支。
+      { op: 'end', label: 'L_3' }, // 敌队编号不是脚本入口。
+      { op: 'goto', to: 'L_6', label: 'L_4' }, // 战败分支再接逃跑分支。
+      { op: 'end', label: 'L_5' }, // 无计数goto不收续行。
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_6' },
+      { op: 'end', label: 'L_7' },
+    ]
+    const scenes = [makeScene(owner === 'scene' ? 1 : 0, 0)]
+    const entries = owner === 'global' ? [1] : []
+    const result = sliceByScene(commands, scenes, [], entries)
+    const expected: Command[] = [
+      { op: 'raw', opcode: 0x0007, operands: [3, 4, 6], label: 'L_1' },
+      { op: 'end', label: 'L_2' },
+      { op: 'goto', to: owner === 'scene' ? 'L_6' : 'shared#L_6', label: 'L_4' },
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_6' },
+      { op: 'end', label: 'L_7' },
+    ]
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? expected : [])
+    expect(result.shared.segments[0]!.commands).toEqual(owner === 'global' ? expected : [])
+    expect(commands[4]).toEqual({ op: 'goto', to: 'L_6', label: 'L_4' })
+
+    const noBranch = sliceByScene(
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'raw', opcode: 0x0007, operands: [3, 0, 0], label: 'L_1' },
+        { op: 'end', label: 'L_2' },
+        { op: 'end', label: 'L_3' },
+      ],
+      scenes,
+      [],
+      entries,
+    )
+    const onlyVictory: Command[] = [
+      { op: 'raw', opcode: 0x0007, operands: [3, 0, 0], label: 'L_1' },
+      { op: 'end', label: 'L_2' },
+    ]
+    expect(noBranch.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? onlyVictory : [])
+    expect(noBranch.shared.segments[0]!.commands).toEqual(owner === 'global' ? onlyVictory : [])
+  })
+
   it('goto 目标在同一场景内不改写', () => {
     // commands: [padding, goto L_2, end] — all reachable only by scene 0
     const result = sliceByScene(
