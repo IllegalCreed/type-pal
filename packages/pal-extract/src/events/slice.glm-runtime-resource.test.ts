@@ -1,6 +1,6 @@
 /**
  * sliceByScene的合成防御输入观察：外部标签死端、越界跳转、非正global入口。
- * 这些不是原盘资源回放；外部标签和负入口的生产输入合同仍待核，不授完整算法信用。
+ * 跨文件goto是Command schema合法值；负global入口只核helper拒绝边界，不冒称原盘资源回放。
  * scene/global共用遍历器；本片固定scene外部标签，Kimi对应例另核global归属。
  */
 import type { Command } from '@type-pal/shared'
@@ -38,9 +38,12 @@ describe('R06 sliceByScene 外部标签与越界', () => {
   })
 
   test('globalEntries 过滤非正入口（0 / 负数不参与 BFS）', () => {
-    const commands: Command[] = [{ op: 'end' }, { op: 'end' }]
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'end', label: 'L_1' },
+    ]
     const result = sliceByScene(commands, [scene(1)], [], [0, -3])
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }]) // 仅 scene 入口 1
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_1' }]) // 仅 scene 入口 1
     expect(result.shared.segments[0]!.commands).toEqual([]) // 非法全局入口没有产生 shared 归属
   })
 })
