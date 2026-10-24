@@ -105,23 +105,49 @@ describe('tools-panel 框架', () => {
     expect(txt).toContain('#1') // 场景号
   })
 
-  it('快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键', () => {
+  it('快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键', () => {
     setupToolsPanel(mkDeps())
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
-    ;[...document.querySelectorAll('.tp-tab')]
-      .find((b) => b.textContent === '快捷键')!
-      .dispatchEvent(new MouseEvent('click', { bubbles: true }))
-    const txt = document.getElementById('tp-tools-panel')!.textContent ?? ''
-    for (const s of ['通用', '大世界', '战斗', '工具', '快速存档 / 读档']) expect(txt).toContain(s)
-    // W/F 在战斗与大世界含义不同,两套都列出(原版真值)
-    expect(txt).toContain('投掷物品') // 战斗 W
-    expect(txt).toContain('装备') // 大世界 W
-    expect(txt).toContain('强行攻击(整队)') // 战斗 F
-    expect(txt).toContain('法术') // 大世界 F
-    const caps = [...document.querySelectorAll('.tp-kbd')].map((e) => e.textContent)
-    expect(caps).toContain('`') // 工具面板开关
-    expect(caps).toContain('F5') // 快存
-    expect(caps).toContain('F9') // 快读
+    document.querySelector<HTMLButtonElement>('.tp-tab[data-key="keys"]')!.click()
+    const body = document.querySelector('.tp-body')!
+    expect([...body.querySelectorAll('.tp-section-title')].map((e) => e.textContent)).toEqual([
+      '通用',
+      '大世界',
+      '战斗',
+      '工具',
+      '快速存档 / 读档',
+      '速通计时器',
+    ])
+    const sections = new Map<string, { keys: (string | null)[]; description: string | null }[]>()
+    let current = ''
+    for (const child of body.children) {
+      if (child.classList.contains('tp-section-title')) {
+        current = child.textContent ?? ''
+        sections.set(current, [])
+      } else if (child.classList.contains('tp-key-row')) {
+        sections.get(current)!.push({
+          keys: [...child.querySelectorAll('.tp-kbd')].map((e) => e.textContent),
+          description: child.querySelector('.tp-key-desc')!.textContent,
+        })
+      }
+    }
+    // Caller约定见输入映射/scene/menu/battle dispatcher；同屏出现两段文字不足以证明接线正确。
+    for (const [section, key, description] of [
+      ['大世界', 'W', '装备'],
+      ['大世界', 'F', '法术'],
+      ['战斗', 'W', '投掷物品'],
+      ['战斗', 'F', '强行攻击(整队)'],
+      ['工具', '`', '打开 / 关闭工具面板'],
+      ['快速存档 / 读档', 'F5', '快速存档 → 存档位 1'],
+      ['快速存档 / 读档', 'F9', '快速读档 ← 存档位 1'],
+      ['速通计时器', 'F8', '暂停 / 恢复(恢复有 3 秒倒计时)'],
+      ['速通计时器', 'F4', '重置计时器本局'],
+      ['速通计时器', 'F2', '显示 / 隐藏计时器覆盖层'],
+    ] as const) {
+      expect(sections.get(section)?.find((row) => row.keys.includes(key))?.description).toBe(
+        description,
+      )
+    }
   })
 
   it('对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤', () => {
