@@ -501,6 +501,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序](GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属](GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期](GAME-BATTLE-PRESENT-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制](GAME-DRAW-NUMBER-NONFINITE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ENGLISH-1 - 第一阶段英文语言包与界面](GAME-ENGLISH-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算](GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界](GAME-MAGIC-PLAYERINFO-STATUS-1.md) | done | 完成证据、历史签字与交接见原卡。 |

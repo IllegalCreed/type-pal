@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-23T15:31:34.907Z",
+  "generatedAt": "2026-10-24T01:30:36.760Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 777,
-  "testCount": 20143,
+  "testCount": 20147,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4796,8 +4796,8 @@
       ],
       "scopeDigest": "e22360d193e55b3e1d5dddf2cb55191d747301ae8fbda51564bbcee53010eea9",
       "fastTests": {
-        "testCount": 3727,
-        "testFileCount": 341,
+        "testCount": 3731,
+        "testFileCount": 342,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -5008,6 +5008,7 @@
           "packages/game/src/present/dialog-box.test.ts",
           "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
           "packages/game/src/present/dither-fade.test.ts",
+          "packages/game/src/present/draw-number-nonfinite.test.ts",
           "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
           "packages/game/src/present/draw-number.test.ts",
           "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
@@ -6188,6 +6189,11 @@
             "identityDigest": "4396f245ed7ec446bd7ec5c39f67045caa7de076d01c9e36ae5fe14b8acdbecf"
           },
           {
+            "file": "packages/game/src/present/draw-number-nonfinite.test.ts",
+            "testCount": 4,
+            "identityDigest": "7cfe9493380c189a3074610aa13d73cb31fa4f53a92ff31d1be34a24447b26e2"
+          },
+          {
             "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
             "testCount": 5,
             "identityDigest": "8dfacc63ae5c0893203516514562d6aefaab40762ffb402d76f8d0e1e8669d3d"
@@ -6848,26 +6854,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "4f3dad2081b8dc8896eea470a1c6596279fd9bc258fae49843db18d69f48ba72",
+        "identityDigest": "13481cb5848676fbdfa36eb48ee130dc4073251fe4e756b0fd886873229b9d5b",
         "duplicateIdentityCount": 0,
-        "executionDigest": "323a788b789629a955cc1f375150b06abfab571930772f5955102038c8b4e7c6"
+        "executionDigest": "cbc814ddc4e6a9cb3bb7d7fb33f42f791bf13b02b568171d8a5fae1f27ed5f07"
       },
       "metrics": {
         "statements": {
-          "covered": 15272,
-          "total": 17039
+          "covered": 15267,
+          "total": 17034
         },
         "branches": {
           "covered": 9880,
           "total": 12220
         },
         "functions": {
-          "covered": 1829,
-          "total": 2127
+          "covered": 1828,
+          "total": 2126
         },
         "lines": {
-          "covered": 13618,
-          "total": 14940
+          "covered": 13614,
+          "total": 14936
         }
       }
     },
@@ -10886,20 +10892,20 @@
   },
   "total": {
     "statements": {
-      "covered": 72657,
-      "total": 80430
+      "covered": 72652,
+      "total": 80425
     },
     "branches": {
       "covered": 52581,
       "total": 62644
     },
     "functions": {
-      "covered": 13724,
-      "total": 15283
+      "covered": 13723,
+      "total": 15282
     },
     "lines": {
-      "covered": 64891,
-      "total": 70389
+      "covered": 64887,
+      "total": 70385
     }
   }
 }

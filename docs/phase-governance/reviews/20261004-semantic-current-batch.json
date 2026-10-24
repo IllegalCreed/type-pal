@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3l lifecycle delta",
+      "readMethod": "Owned3k number delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3l lifecycle; gates passed.",
+      "coreConclusion": "3k number; gates passed.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "c8208abf16a35674e3e244f7ccaf4e83f3138d68aeb048749e4b5237ff087803",
+      "afterSha256": "520cb758236232e5c92aaf5780957b07601b2d771da32ce5d1823a7de002f786",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "c8208abf16a35674e3e244f7ccaf4e83f3138d68aeb048749e4b5237ff087803",
+        "implementationSha": "520cb758236232e5c92aaf5780957b07601b2d771da32ce5d1823a7de002f786",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1713,10 +1713,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-lifecycle-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/review.json",
-        "afterSha256": "c8208abf16a35674e3e244f7ccaf4e83f3138d68aeb048749e4b5237ff087803",
-        "lineCount": 89,
+        "kind": "codex-owned-pre94-number-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json",
+        "afterSha256": "520cb758236232e5c92aaf5780957b07601b2d771da32ce5d1823a7de002f786",
+        "lineCount": 90,
         "scope": "Retire only GAME-ENGLISH-1 active row after user acceptance, successful PR11 required CI/merge and actual Alibaba release smoke. All unrelated task rows retained; branch cleanup and documentation closeout PR remain pending.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true
@@ -3333,9 +3333,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3l lifecycle delta",
+      "readMethod": "Owned3k number delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3l lifecycle; gates passed.",
+      "coreConclusion": "3k number; gates passed.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3352,7 +3352,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "09c41bffa6335e950b5ac83bbf6e6a30636dd82256cbc989b1b3bd2627a83a2a",
+      "afterSha256": "33eac6ed18257929063aa8d47e109445dc2c25d6392925a8edc6370b8bf737f2",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3373,7 +3373,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "09c41bffa6335e950b5ac83bbf6e6a30636dd82256cbc989b1b3bd2627a83a2a",
+        "implementationSha": "33eac6ed18257929063aa8d47e109445dc2c25d6392925a8edc6370b8bf737f2",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3730,10 +3730,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-lifecycle-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/review.json",
-        "afterSha256": "09c41bffa6335e950b5ac83bbf6e6a30636dd82256cbc989b1b3bd2627a83a2a",
-        "lineCount": 526,
+        "kind": "codex-owned-pre94-number-quality",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json",
+        "afterSha256": "33eac6ed18257929063aa8d47e109445dc2c25d6392925a8edc6370b8bf737f2",
+        "lineCount": 527,
         "scope": "Official generated task projection moves only GAME-ENGLISH-1 review to done after actual feature/release acceptance; unrelated statuses unchanged. Finite smoke stays distinct from full-story E2E and pending branch cleanup.",
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true

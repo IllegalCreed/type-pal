@@ -1,6 +1,6 @@
 # E2E-006 · 求药与出海
 
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-24
 Template: test-e2e-stage-v1 / 1.0.0
 
 ```yaml
@@ -10,7 +10,7 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-10-03
-reviewBy: 2026-10-23
+reviewBy: 2026-10-31
 dependsOn: [e2e-005]
 tags: [story, npc, boat, visual, rework]
 canonicalReport: report.md
@@ -39,4 +39,6 @@ canonicalReport: report.md
 
 [活动 006 卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)保存原 rework；[连续批次卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)顶部的后继 done 有自己的冻结候选、日期和证据范围。本轮只直接读其前 160 行，不能据此宣布整卡深审或把该批次结论移植为本页当前实跑。
 
-本次文档迁移已由非作者receipt_review独立accept、根Codex接收；下一次publication复核为10-23。对应E2E任务仍按实际证据处理动态缺口，本页不重新授权产品实现或为续期重录剧情。
+本次文档迁移已由非作者receipt_review独立accept、根Codex接收；上次publication复核期限为10-23。对应E2E任务仍按实际证据处理动态缺口，本页不重新授权产品实现或为续期重录剧情。
+
+2026-10-24发布/状态复核：全文核当前阶段入口、正式报告、配对JSON与活动卡，三个既有sourceRefs指纹均仍匹配；state2/state3、历史偏移口径和未确认视觉继续作为rework边界。lastVerified10-03、原revision/版本/runtimeExecution及状态均未变，未运行路线/E2E/视觉。本次只将下一次发布/状态复核安排到2026-10-31，期限不是新的执行通过。原到期拒绝保留在[本窗回执](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)。

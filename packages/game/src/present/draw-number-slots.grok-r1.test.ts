@@ -30,10 +30,14 @@ describe('G05-C draw-number 空位与掩码', () => {
       opaque[0] = 0
       indices[1] = 44
       opaque[1] = 1
+      indices[2] = 0
+      opaque[2] = 1
     })
     drawNumber(fb, 0, 1, { x: 20, y: 10 }, 'yellow', 'left', frames)
-    expect(fb.indices[10 * 320 + 20]).toBe(7)
-    expect(fb.indices[10 * 320 + 21]).toBe(44)
+    const expected = Buffer.alloc(320 * 200, 7)
+    expected[10 * 320 + 21] = 44
+    expected[10 * 320 + 22] = 0 // 不透明黑色不能被当成透明孔。
+    expect(Buffer.compare(fb.indices, expected)).toBe(0)
   })
 
   it('G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色', () => {
@@ -44,8 +48,9 @@ describe('G05-C draw-number 空位与掩码', () => {
       opaque[7 * 6] = 1
     })
     drawNumber(fb, 0, 1, { x: 30, y: 12 }, 'yellow', 'left', frames)
-    expect(fb.indices[12 * 320 + 30]).toBe(7)
-    expect(fb.indices[19 * 320 + 30]).toBe(44)
+    const expected = Buffer.alloc(320 * 200, 7)
+    expected[19 * 320 + 30] = 44
+    expect(Buffer.compare(fb.indices, expected)).toBe(0)
   })
 
   it('G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置', () => {
@@ -53,23 +58,23 @@ describe('G05-C draw-number 空位与掩码', () => {
     const frames = createDigitFrames()
     delete frames[19]
     drawNumber(fb, 10, 2, { x: 49, y: 14 }, 'yellow', 'left', frames)
-    expect(fb.indices[14 * 320 + 49]).toBe(20)
-    expect(fb.indices[14 * 320 + 55]).toBe(0)
+    const expected = Buffer.alloc(320 * 200)
+    for (let row = 14; row < 22; row++) expected.fill(20, row * 320 + 49, row * 320 + 55)
+    expect(Buffer.compare(fb.indices, expected)).toBe(0)
   })
 
   it('G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写', () => {
     const fb = createFramebuffer()
     fb.indices.fill(7)
     drawNumber(fb, 5, 0, { x: 49, y: 14 }, 'yellow', 'left', createDigitFrames())
-    let ink = 0
-    for (const value of fb.indices) if (value !== 7) ink += 1
-    expect(ink).toBe(0)
+    expect(Buffer.compare(fb.indices, Buffer.alloc(320 * 200, 7))).toBe(0)
   })
 
   it('G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6', () => {
     const fb = createFramebuffer()
     drawNumber(fb, 0, 0, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())
-    expect(fb.indices[14 * 320 + 43]).toBe(19)
-    expect(fb.indices[14 * 320 + 49]).toBe(0)
+    const expected = Buffer.alloc(320 * 200)
+    for (let row = 14; row < 22; row++) expected.fill(19, row * 320 + 43, row * 320 + 49)
+    expect(Buffer.compare(fb.indices, expected)).toBe(0)
   })
 })
