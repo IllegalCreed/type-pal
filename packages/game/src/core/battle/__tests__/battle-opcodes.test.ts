@@ -6,9 +6,20 @@ import type {
   Magic,
   ObjectMagicView,
   ObjectPoisonView,
+  PlayerRole,
 } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
-import { makeBattle, makeRole } from '../../../__tests__/coverage85-glm-game/harness.js'
+import {
+  makeBattle,
+  makeEnemy as makeEnemyStats,
+  makeRole,
+  seqRng,
+} from '../../../__tests__/coverage85-glm-game/harness.js'
+import {
+  makeBattleEnemy,
+  makeBattlePlayer,
+  makeItem,
+} from '../../__tests__/stats/stats-test-fixtures.js'
 import { createCommandBus, type PresentCommand } from '../../command-bus.js'
 import {
   getPlayerAttackStrength,
@@ -19,23 +30,36 @@ import {
 } from '../../equip-effect.js'
 import { type BattleCtx, runScript, setObjectPoisons } from '../../event-system.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
+import type { SeedableRng } from '../../rng.js'
 import { dispatchBattleOpcode } from '../battle-opcodes.js'
-import type { BattleEnemy, BattleState } from '../battle-state.js'
+import type { BattleEnemy, BattleState, BattleStatus } from '../battle-state.js'
+
+/** Direct-dispatch view: real constructor defaults plus typed case-specific axes, not a full startBattle. */
+function stateView(overrides: Partial<BattleState> = {}): BattleState {
+  return { ...makeBattle().state, ...overrides }
+}
+
+/** Keep scripted rolls inside the requested legal domain; other methods use the shared deterministic fixture. */
+function constantRoll(value = 0): SeedableRng {
+  return { ...seqRng(), rangeInclusive: (lo, hi) => Math.min(hi, Math.max(lo, value)) }
+}
+
+/** Canonical cleared slot, so a negative summon probe has room to succeed if its guard is lost. */
+function emptyEnemySlot(): BattleEnemy {
+  return makeBattle({ enemies: [null] }).state.enemies[0]!
+}
 
 function makeEnemy(health: number, magic = 0, magicRate = 0): BattleEnemy {
-  return {
-    e: { id: 1, health, magic, magicRate } as any,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+  return makeBattleEnemy({
+    e: makeEnemyStats({ id: 1, health, magic, magicRate }),
     prevHp: 100,
-    scriptOnTurnStart: 0,
-    scriptOnBattleEnd: 0,
-    scriptOnReady: 0,
-  }
+    maxHealth: 100,
+  })
 }
 
 function makeCtx(enemy: BattleEnemy): BattleCtx {
   return {
-    state: { enemies: [enemy], players: [] } as any as BattleState,
+    state: stateView({ enemies: [enemy] }),
     caster: { type: 'enemy', idx: 0 },
   }
 }
@@ -50,7 +74,7 @@ afterEach(() => setObjectPoisons([]))
 
 describe('B-w2.a battle-opcodes dispatch', () => {
   it('0x0064 jump if enemy hp > N%:hp 满 100/100 + operand[0]=50 → jump operand[1]', () => {
-    const enemy = makeEnemy(100) // prevHp 100, cur 100 → 100% > 50%
+    const enemy = makeEnemy(100) // maxHealth 100, cur 100 → 100% > 50%
     const ctx = makeCtx(enemy)
     const r = dispatchBattleOpcode(0x0064, [50, 200, 0], ctx)
     expect(r.consumed).toBe(true)
@@ -77,12 +101,12 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   //   非 caster(player)。此前 handler 只认 caster==='enemy' → 玩家施法直接 return 不查 HP → 必跳过失败分支 →
   //   每次必秒杀(user 2026-06-05 报"灵葫咒每次必成功,没血量限制")。修:同 0x60,target(enemy)优先,其次 caster。
   it('0x0064 玩家施法(灵葫咒)→ 用 ctx.target 目标敌查 HP;满血敌 > 25% → jump 失败分支', () => {
-    const enemy = makeEnemy(100) // cur100 / max(prevHp)100 = 100% > 25%
+    const enemy = makeEnemy(100) // cur100 / maxHealth100 = 100% > 25%
     const ctx = {
-      state: { enemies: [enemy], players: [{ roleId: 0 }] } as any as BattleState,
+      state: stateView({ enemies: [enemy], players: [makeBattlePlayer({ roleId: 0 })] }),
       caster: { type: 'player', idx: 0 },
       target: { type: 'enemy', idx: 0 },
-    } as BattleCtx
+    } satisfies BattleCtx
     const r = dispatchBattleOpcode(0x0064, [25, 43072, 0], ctx)
     expect(r.newIp).toBe(43072) // 满血敌 → 跳失败(灵葫咒只对 ≤25% 血敌生效)
   })
@@ -90,10 +114,10 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   it('0x0064 玩家施法 + 目标敌残血(≤25%)→ 不 jump(灵葫咒可秒杀)', () => {
     const enemy = makeEnemy(20) // cur20 / max100 = 20% ≤ 25%
     const ctx = {
-      state: { enemies: [enemy], players: [{ roleId: 0 }] } as any as BattleState,
+      state: stateView({ enemies: [enemy], players: [makeBattlePlayer({ roleId: 0 })] }),
       caster: { type: 'player', idx: 0 },
       target: { type: 'enemy', idx: 0 },
-    } as BattleCtx
+    } satisfies BattleCtx
     const r = dispatchBattleOpcode(0x0064, [25, 43072, 0], ctx)
     expect(r.newIp).toBeUndefined() // 残血 → 不跳 → 继续秒杀
   })
@@ -116,26 +140,28 @@ describe('B-w2.a battle-opcodes dispatch', () => {
 
   it('0x0061 jump if player not poisoned:未中毒 → jump operand[0](2026-05-31 修:此前误用 op[1]+恒跳)', () => {
     const ctx = {
-      state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState,
+      state: stateView({ enemies: [], players: [makeBattlePlayer({ roleId: 0 })] }),
       target: { type: 'player', idx: 0 },
       gs: poisonGameState(),
-    } as BattleCtx
+    } satisfies BattleCtx
     const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
     expect(r.consumed).toBe(true)
     expect(r.newIp).toBe(300) // 跳转目标 = operand[0]
   })
 
   it('0x0061:已中毒 → 不 jump(ip++)', () => {
+    setObjectPoisons([{ id: 552, level: 2, color: 0, playerScript: 0, enemyScript: 0 }])
     const ctx = {
-      state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState,
+      state: stateView({ enemies: [], players: [makeBattlePlayer({ roleId: 0 })] }),
       target: { type: 'player', idx: 0 },
       gs: { ...poisonGameState(), rgPoisonStatus: { '0_0': { wPoisonID: 552, wPoisonScript: 0 } } },
-    } as BattleCtx
+    } satisfies BattleCtx
     const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
     expect(r.newIp).toBeUndefined() // 已中毒不跳
   })
 
   it('0x0061:非顺序队伍按当前 party slot 读毒,role4 不会误读 roleId=4 槽', () => {
+    setObjectPoisons([{ id: 552, level: 2, color: 0, playerScript: 0, enemyScript: 0 }])
     const { gs, state } = makeBattle({
       roles: Array.from({ length: 5 }, (_, id) => makeRole(id)),
       party: [4, 1],
@@ -153,22 +179,22 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     // 死员 currentFrame=2(死帧);复活后 hp>0 但旧实现不刷 currentFrame → 后续动画期仍画倒下帧,
     //   直到该队员轮到行动才被 resetFightersAfterAction 复位 → "起来一帧又倒下,轮到他才起来"。
     const ctx = {
-      state: {
+      state: stateView({
         enemies: [],
         players: [
-          {
+          makeBattlePlayer({
             roleId: 0,
             prevHp: 0,
             defending: false,
             currentFrame: 2,
             status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-          },
+          }),
         ],
-      } as any as BattleState,
+      }),
       target: { type: 'player', idx: 0 },
-      playerRoles: { roles: [{ id: 0, hp: 0, maxHP: 100 } as any] },
+      playerRoles: { roles: [makeRole(0, { hp: 0, maxHP: 100 })] },
       gs: poisonGameState(),
-    } as BattleCtx
+    } satisfies BattleCtx
     // operand[0]=0(单体),operand[1]=5 → hp = 100*5/10 = 50
     dispatchBattleOpcode(0x0022, [0, 5], ctx)
     expect(ctx.playerRoles!.roles[0]!.hp).toBe(50) // 真复活
@@ -197,10 +223,10 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     const e0 = makeEnemy(100)
     const e1 = makeEnemy(100)
     const ctx = {
-      state: { enemies: [e0, e1], players: [{ roleId: 0 }] } as any as BattleState,
+      state: stateView({ enemies: [e0, e1], players: [makeBattlePlayer({ roleId: 0 })] }),
       caster: { type: 'player', idx: 0 },
       target: { type: 'enemy', idx: 1 },
-    } as BattleCtx
+    } satisfies BattleCtx
     dispatchBattleOpcode(0x0060, [0, 0, 0], ctx) // 真实数据 operand 恒 [0,0,0]
     expect(e0.e.health).toBe(100) // 非目标不死(此前 bug:恒 KO enemy[0])
     expect(e1.e.health).toBe(0) // 目标 KO
@@ -219,11 +245,10 @@ describe('B-w2.a battle-opcodes dispatch', () => {
 describe('敌逃 0x69 置 terminatedByEnemyEscape 标记(turn-start 循环据此 break,避免退下对白重复)', () => {
   it('回合脚本 [对白×3,0x69,...]:0x69 延后入队 + 置 terminatedByEnemyEscape=true', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const state = {
+    const state = stateView({
       enemies: [makeEnemy(50)],
-      players: [],
       battleDialogQueue: [],
-    } as any as BattleState
+    })
     const bus = createCommandBus()
     const script = [
       { op: 'showDialog', text: 'A', messageIndex: 0 },
@@ -232,13 +257,13 @@ describe('敌逃 0x69 置 terminatedByEnemyEscape 标记(turn-start 循环据此
       { op: 'raw', opcode: 0x69, operands: [1, 0, 0] },
       { op: 'showDialog', text: 'D', messageIndex: 0 },
       { op: 'end' },
-    ] as any as Command[]
+    ] satisfies Command[]
     runScript({
       commands: script,
       ip: 0,
       bus,
       runtimeMode: 'battle',
-      battleCtx: { state, caster: { type: 'enemy', idx: 0 }, gs } as BattleCtx,
+      battleCtx: { state, caster: { type: 'enemy', idx: 0 }, gs } satisfies BattleCtx,
     })
     // 0x69 延后入队为 effect 标记(夹在对白后,非最前)+ 置终止标记
     expect(state.battleDialogQueue!.map((e) => (e.effect ? 'FX' : e.text))).toEqual([
@@ -259,21 +284,12 @@ describe('敌逃 0x69 置 terminatedByEnemyEscape 标记(turn-start 循环据此
 // ============================================================================
 
 function richEnemy(opts: Partial<Enemy>): BattleEnemy {
-  return {
-    e: {
-      health: 200,
-      defense: 30,
-      level: 5,
-      poisonResistance: 0,
-      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      ...opts,
-    } as any as Enemy,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-    prevHp: opts.health ?? 200,
-    scriptOnTurnStart: 0,
-    scriptOnBattleEnd: 0,
-    scriptOnReady: 0,
-  }
+  const health = opts.health ?? 200
+  return makeBattleEnemy({
+    e: makeEnemyStats({ health: 200, defense: 30, level: 5, ...opts }),
+    prevHp: health,
+    maxHealth: health,
+  })
 }
 
 function simulateCtx(
@@ -283,17 +299,16 @@ function simulateCtx(
   magics: Magic[],
 ): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies,
-      players: [],
       field: {
         id: 0,
         screenWave: 0,
         magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
       },
       // rngFactor 固定 1.0
-      rng: { next: () => 0, range: () => 0, rangeInclusive: () => 0, getState: () => 0 },
-    } as any as BattleState,
+      rng: constantRoll(0),
+    }),
     caster: { type: 'player', idx: 0 },
     target: targetIdx === undefined ? undefined : { type: 'enemy', idx: targetIdx },
     magicTables: { magics, objectMagics },
@@ -312,7 +327,25 @@ function objMagic(id: number, magicNumber: number, applyToAll = false): ObjectMa
 }
 
 function magicStat(id: number, baseDamage: number, elemental: number, sound = 0): Magic {
-  return { id, baseDamage, elemental, type: 'normal', sound } as any as Magic
+  return {
+    id,
+    baseDamage,
+    elemental,
+    type: 'normal',
+    sound,
+    effect: 0,
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 0,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    costMP: 0,
+  }
 }
 
 describe('0x42 SimulateMagic (E2)', () => {
@@ -335,7 +368,7 @@ describe('0x42 SimulateMagic (E2)', () => {
     ctx.bus = bus
     dispatchBattleOpcode(0x42, [349, 0, 0], ctx)
     expect(enemies[0]!.e.health).toBe(0) // 140 > 50 → 击杀
-    const dmgCmd = bus.drain().find((c) => c.cmd.op === 'showDamageNum')!.cmd as { value: number }
+    const dmgCmd = damageNums(bus)[0]!
     expect(dmgCmd.value).toBe(140) // 完整伤害 140,非剩余血 50
   })
 
@@ -427,16 +460,16 @@ function throwWeaponCtx(
   gs.PlayerRolesRuntime.rgwAttackStrength[0] = attackStrength
   return {
     gs,
-    state: {
+    state: stateView({
       enemies,
       players: [
-        {
+        makeBattlePlayer({
           roleId: 0,
           prevHp: 0,
           prevMp: 0,
           defending: false,
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        },
+        }),
       ],
       field: {
         id: 0,
@@ -444,17 +477,12 @@ function throwWeaponCtx(
         magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
       },
       // next()=0 → rngFactor 1.0;rangeInclusive 固定 = RandomLong(0,3) 项
-      rng: {
-        next: () => 0,
-        range: () => 0,
-        rangeInclusive: () => rangeInclusiveVal,
-        getState: () => 0,
-      },
-    } as any as BattleState,
+      rng: constantRoll(rangeInclusiveVal),
+    }),
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: targetIdx },
     magicTables: { magics, objectMagics },
-    playerRoles: { roles: [{ id: 0, attackStrength } as any] },
+    playerRoles: { roles: [makeRole(0, { attackStrength })] },
   }
 }
 
@@ -465,17 +493,16 @@ function throwWeaponCtx(
 /** 多敌 + caster idx 可控的 ctx(0x91 同类计数用);e.id = 敌人种类。 */
 function kindCtx(kindIds: number[], casterIdx: number): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies: kindIds.map((id) => ({
-        e: { id, health: 100 } as any,
+        e: makeEnemyStats({ id, health: 100 }),
         status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
         prevHp: 100,
         scriptOnTurnStart: 0,
         scriptOnBattleEnd: 0,
         scriptOnReady: 0,
       })),
-      players: [],
-    } as any as BattleState,
+    }),
     caster: { type: 'enemy', idx: casterIdx },
   }
 }
@@ -486,9 +513,9 @@ function kindCtxObj(
   casterIdx: number,
 ): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies: enemies.map(({ id, objectId }) => ({
-        e: { id, health: 100 } as any,
+        e: makeEnemyStats({ id, health: 100 }),
         objectId,
         status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
         prevHp: 100,
@@ -496,8 +523,7 @@ function kindCtxObj(
         scriptOnBattleEnd: 0,
         scriptOnReady: 0,
       })),
-      players: [],
-    } as any as BattleState,
+    }),
     caster: { type: 'enemy', idx: casterIdx },
   }
 }
@@ -513,21 +539,21 @@ function drainCtx(
   roleMaxHP: number,
 ): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies: [richEnemy({ health: enemyHealth }), richEnemy({ health: enemyHealth })],
       players: [
-        {
+        makeBattlePlayer({
           roleId: 0,
           prevHp: 0,
           prevMp: 0,
           defending: false,
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        },
+        }),
       ],
-    } as any as BattleState,
+    }),
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: targetIdx },
-    playerRoles: { roles: [{ id: 0, hp: roleHp, maxHP: roleMaxHP } as any] },
+    playerRoles: { roles: [makeRole(0, { hp: roleHp, maxHP: roleMaxHP })] },
   }
 }
 
@@ -536,23 +562,9 @@ function drainCtx(
 // ============================================================================
 
 function poisonEnemy(resist: number, health = 100): BattleEnemy {
-  return {
-    e: {
-      id: 100,
-      health,
-      defense: 30,
-      level: 5,
-      poisonResistance: 0,
-      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    } as any as Enemy,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-    prevHp: health,
-    scriptOnTurnStart: 0,
-    scriptOnBattleEnd: 0,
-    scriptOnReady: 0,
-    resistanceToSorcery: resist,
-    poisons: [],
-  }
+  const enemy = richEnemy({ id: 100, health })
+  enemy.resistanceToSorcery = resist
+  return enemy
 }
 
 /** 稀疏 objectPoisons 数组(index = poison id)。 */
@@ -570,11 +582,10 @@ function poisonCtx(
   objectPoisons: ObjectPoisonView[],
 ): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies,
-      players: [],
-      rng: { next: () => 0, range: () => 0, rangeInclusive: () => rangeVal, getState: () => 0 },
-    } as any as BattleState,
+      rng: constantRoll(rangeVal),
+    }),
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: targetIdx },
     objectPoisons,
@@ -638,17 +649,19 @@ describe('0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw)', () => {
 describe('0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修)', () => {
   function playerPoisonCtx(gs: GameState, players = [{ roleId: 0 }]): BattleCtx {
     return {
-      state: {
+      state: stateView({
         enemies: [],
-        players: players.map((p) => ({
-          roleId: p.roleId,
-          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        })),
-        rng: { next: () => 0, range: () => 0, rangeInclusive: () => 50, getState: () => 0 },
-      } as any as BattleState,
+        players: players.map((p) =>
+          makeBattlePlayer({
+            roleId: p.roleId,
+            status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+          }),
+        ),
+        rng: constantRoll(50),
+      }),
       target: { type: 'player', idx: 0 },
       gs,
-    } as BattleCtx
+    } satisfies BattleCtx
   }
 
   it('0x2B 治毒 by kind 单目标:清目标队员该种毒(此前 eventObjectId=undefined → no-op)', () => {
@@ -707,18 +720,21 @@ describe('0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 
 describe('0x31 change battle sprite (script.c:0031 — 梦蛇295 临时换战斗精灵)', () => {
   it('用物品队员(caster)→ spriteNumOverride = op0(present 优先用)', () => {
     const players = [
-      { roleId: 0, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } },
+      makeBattlePlayer({
+        roleId: 0,
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+      }),
     ]
     const ctx = {
-      state: {
+      state: stateView({
         enemies: [],
         players,
-        rng: { next: () => 0, range: () => 0, rangeInclusive: () => 0, getState: () => 0 },
-      } as any as BattleState,
+        rng: constantRoll(0),
+      }),
       caster: { type: 'player', idx: 0 },
-    } as BattleCtx
+    } satisfies BattleCtx
     dispatchBattleOpcode(0x31, [5, 0, 0], ctx)
-    expect((players[0] as { spriteNumOverride?: number }).spriteNumOverride).toBe(5)
+    expect(players[0]!.spriteNumOverride).toBe(5)
   })
 })
 
@@ -745,31 +761,31 @@ describe('0x2A cure enemy poison by kind (script.c:1287-1329)', () => {
 })
 
 describe('0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击)', () => {
-  const playerCtx = (hp: number, status: Partial<Record<string, number>> = {}): BattleCtx =>
+  const playerCtx = (hp: number, status: Partial<BattleStatus> = {}): BattleCtx =>
     ({
-      state: {
+      state: stateView({
         players: [
-          {
+          makeBattlePlayer({
             roleId: 0,
             status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, ...status },
-          },
+          }),
         ],
         enemies: [],
-      } as any as BattleState,
+      }),
       target: { type: 'player', idx: 0 },
-      playerRoles: { roles: [{ hp }] } as any,
-      gs: { fScriptSuccess: true } as any,
-    }) as BattleCtx
+      playerRoles: { roles: [makeRole(0, { hp })] },
+      gs: Object.assign(poisonGameState(), { fScriptSuccess: true } satisfies Partial<GameState>),
+    }) satisfies BattleCtx
 
-  it('0x2E set enemy status:RandomLong(0,9)>resist → 设状态(op0=2 sleep)', () => {
+  it('0x2E set enemy status:RandomLong等于resist时仍命中(op0=2 sleep)', () => {
     const e = poisonEnemy(3) // resistanceToSorcery=3
-    dispatchBattleOpcode(0x2e, [2, 4, 300], poisonCtx([e], 0, 5, [])) // rng=5>3 → 设
+    dispatchBattleOpcode(0x2e, [2, 4, 300], poisonCtx([e], 0, 3, [])) // 既定>=合同：3等于3仍命中
     expect(e.status.sleep).toBe(4)
   })
 
-  it('0x2E:抵抗(RandomLong<=resist)→ jump op2', () => {
+  it('0x2E:抵抗(RandomLong<resist)→ jump op2', () => {
     const e = poisonEnemy(8)
-    const r = dispatchBattleOpcode(0x2e, [2, 4, 300], poisonCtx([e], 0, 5, [])) // 5<=8 → 抵抗
+    const r = dispatchBattleOpcode(0x2e, [2, 4, 300], poisonCtx([e], 0, 5, [])) // 5<8 → 抵抗
     expect(e.status.sleep).toBe(0)
     expect(r.newIp).toBe(300)
   })
@@ -840,22 +856,22 @@ function setDmgCtx(
   magics: Magic[],
 ): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies: [],
       players: [
-        {
+        makeBattlePlayer({
           roleId: 0,
           prevHp: 0,
           prevMp: 0,
           defending: false,
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        },
+        }),
       ],
-    } as any as BattleState,
+    }),
     caster: { type: 'player', idx: 0 },
     magicTables: { magics, objectMagics },
-    playerRoles: { roles: [{ id: 0, mp: roleMp } as any] },
-    gs: { dwCash: cash } as any,
+    playerRoles: { roles: [makeRole(0, { mp: roleMp, maxMP: roleMp })] },
+    gs: Object.assign(poisonGameState(), { dwCash: cash } satisfies Partial<GameState>),
   }
 }
 
@@ -867,15 +883,14 @@ describe('Batch A 状态/数据 opcode', () => {
     gs?: BattleCtx['gs'],
   ): BattleCtx {
     return {
-      state: {
+      state: stateView({
         enemies: [],
-        players: [],
         phase: 'performAction',
         iHidingTime: 0,
         iBlow: 0,
         isBoss: false,
         ...over,
-      } as any as BattleState,
+      }),
       caster,
       target,
       gs,
@@ -886,19 +901,19 @@ describe('Batch A 状态/数据 opcode', () => {
     const ctx = stateCtx(
       {
         players: [
-          {
+          makeBattlePlayer({
             roleId: 0,
             prevHp: 0,
             prevMp: 0,
             defending: false,
             status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-          },
+          }),
         ],
       },
       undefined,
       { type: 'player', idx: 0 },
     )
-    ctx.playerRoles = { roles: [{ id: 0, hp: 100 } as any] }
+    ctx.playerRoles = { roles: [makeRole(0, { hp: 100 })] }
     const r = dispatchBattleOpcode(0x5f, [0, 0, 0], ctx)
     expect(r.consumed).toBe(true)
     expect(ctx.playerRoles.roles[0]!.hp).toBe(0)
@@ -941,26 +956,26 @@ describe('Batch A 状态/数据 opcode', () => {
   })
 
   it('0x8A enable auto-battle:gs.fAutoBattle=true', () => {
-    const gs = { fAutoBattle: false } as any
+    const gs = Object.assign(poisonGameState(), { fAutoBattle: false } satisfies Partial<GameState>)
     dispatchBattleOpcode(0x8a, [0, 0, 0], stateCtx({}, undefined, undefined, gs))
     expect(gs.fAutoBattle).toBe(true)
   })
 
   it('0x33 collect:有 collectValue → gs.wCollectValue 累加;无 → jump op0', () => {
-    const gs = { wCollectValue: 5 } as any
+    const gs = Object.assign(poisonGameState(), { wCollectValue: 5 } satisfies Partial<GameState>)
     const ctx = stateCtx({ enemies: [richEnemy({})] }, undefined, { type: 'enemy', idx: 0 }, gs)
     ctx.state.enemies[0]!.e.collectValue = 10
     dispatchBattleOpcode(0x33, [200, 0, 0], ctx)
     expect(gs.wCollectValue).toBe(15) // 5+10
     // collectValue 0 → jump op0
-    const gs2 = { wCollectValue: 0 } as any
+    const gs2 = Object.assign(poisonGameState(), { wCollectValue: 0 } satisfies Partial<GameState>)
     const ctx2 = stateCtx({ enemies: [richEnemy({})] }, undefined, { type: 'enemy', idx: 0 }, gs2)
     ctx2.state.enemies[0]!.e.collectValue = 0
     expect(dispatchBattleOpcode(0x33, [200, 0, 0], ctx2).newIp).toBe(200)
   })
 
   it('0x3A player flee:非 boss → 触发逃跑动画+音效;boss → jump op0', () => {
-    const gs = { pendingSounds: [] } as any
+    const gs = Object.assign(poisonGameState(), { pendingSounds: [] } satisfies Partial<GameState>)
     const ctx = stateCtx({ isBoss: false }, undefined, undefined, gs)
     dispatchBattleOpcode(0x3a, [200, 0, 0], ctx)
     expect(ctx.state.phase).toBe('performAction') // 动画结束后才 fleed
@@ -974,21 +989,21 @@ describe('Batch A 状态/数据 opcode', () => {
 describe('0x5A halve player HP (script.c:005A,无影毒 use)', () => {
   function playerCtx(hp: number): BattleCtx {
     return {
-      state: {
+      state: stateView({
         enemies: [],
         players: [
-          {
+          makeBattlePlayer({
             roleId: 0,
             prevHp: 0,
             prevMp: 0,
             defending: false,
             status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-          },
+          }),
         ],
-      } as any as BattleState,
+      }),
       caster: { type: 'player', idx: 0 },
       target: { type: 'player', idx: 0 },
-      playerRoles: { roles: [{ id: 0, hp } as any] },
+      playerRoles: { roles: [makeRole(0, { hp })] },
     }
   }
   it('目标队员 HP 减半(floor)', () => {
@@ -1107,23 +1122,24 @@ function healCtx(
   bus?: ReturnType<typeof createCommandBus>,
 ): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies: [],
       // status 全置非 0 → 0x22 复活清状态可验证
-      players: roles.map((_, i) => ({
-        roleId: i,
-        prevHp: 0,
-        prevMp: 0,
-        defending: false,
-        status: { sleep: 2, paralyzed: 2, confused: 2, haste: 1, slow: 1 },
-      })),
-    } as any as BattleState,
+      players: roles.map((_, i) =>
+        makeBattlePlayer({
+          roleId: i,
+          prevHp: 0,
+          prevMp: 0,
+          defending: false,
+          status: { sleep: 2, paralyzed: 2, confused: 2, haste: 1, slow: 1 },
+        }),
+      ),
+    }),
     caster: { type: 'player', idx: 0 },
     target,
     playerRoles: {
-      roles: roles.map(
-        (r, i) =>
-          ({ id: i, hp: r.hp, mp: r.mp ?? 0, maxHP: r.maxHP ?? 100, maxMP: r.maxMP ?? 50 }) as any,
+      roles: roles.map((r, i) =>
+        makeRole(i, { hp: r.hp, mp: r.mp ?? 0, maxHP: r.maxHP ?? 100, maxMP: r.maxMP ?? 50 }),
       ),
     },
     bus,
@@ -1330,6 +1346,7 @@ describe('0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境)', ()
   })
 
   it('复活清毒(gs.rgPoisonStatus 该 role 槽)', () => {
+    setObjectPoisons([{ id: 5, level: 2, color: 0, playerScript: 0, enemyScript: 0 }])
     const ctx = healCtx([{ hp: 0, maxHP: 200 }], { type: 'player', idx: 0 })
     ctx.gs!.rgPoisonStatus['0_0'] = { wPoisonID: 5, wPoisonScript: 100 }
     dispatchBattleOpcode(0x22, [0, 10, 0], ctx)
@@ -1377,7 +1394,7 @@ function summonCtx(
   enemyPos: EnemyPosTable | undefined = ENEMY_POS,
 ): BattleCtx {
   return {
-    state: { enemies: roster, players: [] } as any as BattleState,
+    state: stateView({ enemies: roster }),
     caster: { type: 'enemy', idx: casterIdx },
     summonTables: { enemies: allEnemies, enemyObjects },
     enemyPos,
@@ -1394,7 +1411,7 @@ const ENEMY_OBJ = (objectIndex: number, enemyId: number): EnemyObject => ({
   scriptOnReady: 22,
 })
 const ENEMY = (id: number, health: number): Enemy =>
-  ({ id, health, defense: 0, level: 1 }) as any as Enemy
+  makeEnemyStats({ id, health, defense: 0, level: 1 })
 
 describe('0x9C enemy division (script.c:009C)', () => {
   it('恰 1 活敌 + health>1 → 分裂 op0+1 份(各 floor((h+w)/(w+1)))', () => {
@@ -1550,6 +1567,7 @@ describe('0x9E enemy summon (script.c:009E)', () => {
       summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]),
     )
     expect(roster).toHaveLength(1)
+    expect(roster[0]!.e).toMatchObject({ id: 100, health: 200 })
     expect(r.newIp).toBe(300)
   })
 
@@ -1586,11 +1604,12 @@ describe('0x9E enemy summon (script.c:009E)', () => {
   })
 
   it('我方隐身中(iHidingTime>0)→ 不召唤,jump op2(审计 bug:此前漏 iHidingTime 检查)', () => {
-    const roster = [richEnemy({ health: 200 })]
+    const roster = [richEnemy({ health: 200 }), emptyEnemySlot()]
     const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
-    ;(ctx.state as any).iHidingTime = 1
+    ctx.state.iHidingTime = 1
     const r = dispatchBattleOpcode(0x9e, [419, 1, 300], ctx)
-    expect(roster).toHaveLength(1) // 未召唤(隐身保护)
+    expect(roster).toHaveLength(2)
+    expect(roster[1]!.defeated).toBe(true) // 有空槽，失败只能由隐身保护决定
     expect(r.newIp).toBe(300) // jump op2 失败分支
     expect(ctx.gs!.pendingSounds ?? []).toEqual([]) // 失败不播 212
   })
@@ -1609,13 +1628,14 @@ describe('0x9E enemy summon (script.c:009E)', () => {
   it('自身睡眠 → fail → jump op2', () => {
     const self = richEnemy({ health: 200 })
     self.status.sleep = 3
-    const roster = [self]
+    const roster = [self, emptyEnemySlot()]
     const r = dispatchBattleOpcode(
       0x9e,
       [419, 1, 300],
       summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]),
     )
-    expect(roster).toHaveLength(1)
+    expect(roster).toHaveLength(2)
+    expect(roster[1]!.defeated).toBe(true) // 空槽仍未使用，检验睡眠gate而非房间不足
     expect(r.newIp).toBe(300)
   })
 
@@ -1762,20 +1782,22 @@ describe('0x66 throw weapon (E2)', () => {
 // Batch C battle-context:0x30 stat-buff% / 0x31 sprite-swap / 0x92 magic-anim
 // ============================================================================
 
-function statBuffCtx(roles: any[], casterIdx = 0): BattleCtx {
+function statBuffCtx(roles: PlayerRole[], casterIdx = 0): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies: [],
-      players: roles.map((r, i) => ({
-        roleId: r.id ?? i,
-        prevHp: 0,
-        prevMp: 0,
-        defending: false,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-      })),
-    } as any as BattleState,
+      players: roles.map((r, i) =>
+        makeBattlePlayer({
+          roleId: r.id ?? i,
+          prevHp: 0,
+          prevMp: 0,
+          defending: false,
+          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+        }),
+      ),
+    }),
     caster: { type: 'player', idx: casterIdx },
-    playerRoles: { roles } as any,
+    playerRoles: { roles },
   }
 }
 
@@ -1799,27 +1821,30 @@ function statBuffCtxReal(
   rt.rgwDefense[roleId] = base.def ?? 0
   rt.rgwDexterity[roleId] = base.dex ?? 0
   const n = opts.snapshotRoles ?? roleId + 1
-  // snapshot 初值随便填(handler 会经 getter recompute 受影响 stat)。
-  const roles = Array.from({ length: n }, (_, i) => ({
-    id: i,
-    attackStrength: rt.rgwAttackStrength[i] ?? 0,
-    magicStrength: rt.rgwMagicStrength[i] ?? 0,
-    defense: rt.rgwDefense[i] ?? 0,
-    dexterity: rt.rgwDexterity[i] ?? 0,
-  }))
+  // 完整角色fixture的四项输入取当前裸runtime；handler只重投影命中的stat。
+  const roles = Array.from({ length: n }, (_, i) =>
+    makeRole(i, {
+      attackStrength: rt.rgwAttackStrength[i] ?? 0,
+      magicStrength: rt.rgwMagicStrength[i] ?? 0,
+      defense: rt.rgwDefense[i] ?? 0,
+      dexterity: rt.rgwDexterity[i] ?? 0,
+    }),
+  )
   return {
-    state: {
+    state: stateView({
       enemies: [],
-      players: roles.map((r, i) => ({
-        roleId: r.id ?? i,
-        prevHp: 0,
-        prevMp: 0,
-        defending: false,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-      })),
-    } as any as BattleState,
+      players: roles.map((r, i) =>
+        makeBattlePlayer({
+          roleId: r.id ?? i,
+          prevHp: 0,
+          prevMp: 0,
+          defending: false,
+          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+        }),
+      ),
+    }),
     caster: { type: 'player', idx: casterIdx },
-    playerRoles: { roles } as any,
+    playerRoles: { roles },
     gs,
   }
 }
@@ -1855,7 +1880,7 @@ describe('0x30 buff player stat % (script.c:1406-1427,梦蛇 等)', () => {
     const ctx = statBuffCtxReal(gs, { atk: 100 })
     dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
     expect(getPlayerAttackStrength(gs, 0)).toBe(200)
-    // 战末 finalizeBattleCleanup 对每 party 成员调此(battle-system.ts:2046)
+    // 战末 finalizeBattleCleanup 对所有角色清理此槽；本例直接核清理helper(battle-finalization.ts finalizeBattleCleanup)
     removeEquipmentEffect(gs, 0, 6)
     expect(gs.rgEquipmentEffect[6]!.rgwAttackStrength[0]).toBe(0)
     expect(getPlayerAttackStrength(gs, 0)).toBe(100) // 回 base
@@ -1906,18 +1931,24 @@ describe('0x30 buff player stat % (script.c:1406-1427,梦蛇 等)', () => {
     ctx.gs = undefined
     const r = dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
     expect(r.consumed).toBe(true)
+    expect(ctx.playerRoles!.roles[0]!.attackStrength).toBe(60)
   })
 })
 
 describe('0x31 / 0x92 battle presentation opcodes', () => {
-  it('0x31 change battle sprite → consumed,不崩', () => {
-    const r = dispatchBattleOpcode(0x31, [200, 0, 0], statBuffCtx([{ id: 0, attackStrength: 30 }]))
+  it('0x31 change battle sprite → caster覆盖号200', () => {
+    const ctx = statBuffCtx([makeRole(0, { attackStrength: 30 })])
+    const r = dispatchBattleOpcode(0x31, [200, 0, 0], ctx)
     expect(r.consumed).toBe(true)
+    expect(ctx.state.players[0]!.spriteNumOverride).toBe(200)
   })
 
-  it('0x92 show magic anim → consumed,不崩', () => {
-    const r = dispatchBattleOpcode(0x92, [1, 0, 0], statBuffCtx([{ id: 0, attackStrength: 30 }]))
+  it('0x92无bus → consumed且不安装动画', () => {
+    const ctx = statBuffCtx([makeRole(0, { attackStrength: 30 })])
+    expect(ctx.state.battleAnim).toBeUndefined()
+    const r = dispatchBattleOpcode(0x92, [1, 0, 0], ctx)
     expect(r.consumed).toBe(true)
+    expect(ctx.state.battleAnim).toBeUndefined()
   })
 })
 
@@ -1926,10 +1957,9 @@ describe('0x31 / 0x92 battle presentation opcodes', () => {
 // ============================================================================
 
 // rangeInclusive(0,10)=roll010;rangeInclusive(2,3)=div23。其余 lo。
-function fakeRng(roll010: number, div23 = 2): any {
+function fakeRng(roll010: number, div23 = 2): SeedableRng {
   return {
-    next: () => 0,
-    range: () => 0,
+    ...seqRng(),
     rangeInclusive: (lo: number, hi: number) => {
       if (lo === 0 && hi === 10) return roll010
       if (lo === 2 && hi === 3) return div23
@@ -1941,27 +1971,27 @@ function fakeRng(roll010: number, div23 = 2): any {
 
 function stealCtx(
   enemy: BattleEnemy,
-  rng: any,
+  rng: SeedableRng,
   cash = 0,
   inventory: Array<{ itemId: number; count: number }> = [],
 ): BattleCtx {
   return {
-    state: {
+    state: stateView({
       enemies: [enemy],
       players: [
-        {
+        makeBattlePlayer({
           roleId: 0,
           prevHp: 0,
           prevMp: 0,
           defending: false,
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        },
+        }),
       ],
       rng,
-    } as any as BattleState,
+    }),
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: 0 },
-    gs: { dwCash: cash, inventory } as any,
+    gs: Object.assign(poisonGameState(), { dwCash: cash, inventory } satisfies Partial<GameState>),
   }
 }
 
@@ -2010,7 +2040,7 @@ describe('0x6A steal from enemy (fight.c:5193)', () => {
 
   it('偷物成功 + items → battleDialogQueue 居中框"获得 物品名"', () => {
     const enemy = richEnemy({ stealItem: 42, stealItemCount: 2 })
-    const ctx = { ...stealCtx(enemy, fakeRng(3)), items: [{ id: 42, _name: '金创药' }] as any }
+    const ctx = { ...stealCtx(enemy, fakeRng(3)), items: [makeItem({ id: 42, _name: '金创药' })] }
     dispatchBattleOpcode(0x6a, [5, 0, 0], ctx)
     expect(ctx.state.battleDialogQueue?.[0]).toMatchObject({
       text: '获得@金创药@',
@@ -2047,6 +2077,11 @@ describe('0x6A steal from enemy (fight.c:5193)', () => {
     const ctx = stealCtx(enemy, fakeRng(0), 0, [{ itemId: 42, count: 5 }])
     dispatchBattleOpcode(0x6a, [5, 0, 0], ctx)
     expect(ctx.gs!.inventory).toEqual([{ itemId: 42, count: 6 }])
+    const cappedEnemy = richEnemy({ stealItem: 42, stealItemCount: 1 })
+    const capped = stealCtx(cappedEnemy, fakeRng(0), 0, [{ itemId: 42, count: 99 }])
+    dispatchBattleOpcode(0x6a, [5, 0, 0], capped)
+    expect(capped.gs!.inventory).toEqual([{ itemId: 42, count: 99 }])
+    expect(cappedEnemy.e.stealItemCount).toBe(0)
   })
 })
 
@@ -2066,11 +2101,11 @@ function damageNums(
 }
 
 describe('D17b showDamageNum emit', () => {
-  it('0x21 单体扣血 → emit blue,target enemy,value=钳后 delta', () => {
+  it('0x21 单体扣血 → emit blue,target enemy,value=30', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 100 })]
     const ctx: BattleCtx = {
-      state: { enemies, players: [] } as any as BattleState,
+      state: stateView({ enemies }),
       target: { type: 'enemy', idx: 0 },
       bus,
     }
@@ -2093,7 +2128,7 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 20 })]
     const ctx: BattleCtx = {
-      state: { enemies, players: [] } as any as BattleState,
+      state: stateView({ enemies }),
       target: { type: 'enemy', idx: 0 },
       bus,
     }
@@ -2107,7 +2142,7 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 100 }), richEnemy({ health: 80 })]
     const ctx: BattleCtx = {
-      state: { enemies, players: [] } as any as BattleState,
+      state: stateView({ enemies }),
       bus,
     }
     dispatchBattleOpcode(0x21, [1, 30], ctx) // op0!=0 全体
@@ -2120,14 +2155,14 @@ describe('D17b showDamageNum emit', () => {
   it('0x21 不传 bus → 不 emit 不抛(防御)', () => {
     const enemies = [richEnemy({ health: 100 })]
     const ctx: BattleCtx = {
-      state: { enemies, players: [] } as any as BattleState,
+      state: stateView({ enemies }),
       target: { type: 'enemy', idx: 0 },
     }
     expect(() => dispatchBattleOpcode(0x21, [0, 30], ctx)).not.toThrow()
     expect(enemies[0]!.e.health).toBe(70)
   })
 
-  it('0x42 SimulateMagic → emit blue per 命中敌人(钳后 delta)', () => {
+  it('0x42 SimulateMagic → emit blue per 命中敌人(本例完整伤害140)', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 200, defense: 30, level: 5 })]
     const ctx = simulateCtx(enemies, 0, [objMagic(349, 54)], [magicStat(54, 140, 0)])
@@ -2148,7 +2183,7 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 100 })]
     const ctx: BattleCtx = {
-      state: { enemies, players: [] } as any as BattleState,
+      state: stateView({ enemies }),
       target: { type: 'enemy', idx: 0 },
       bus,
     }
@@ -2178,20 +2213,20 @@ describe('D17b showDamageNum emit', () => {
   it('0x5A halve player HP → emit blue,target player', () => {
     const bus = createCommandBus()
     const ctx: BattleCtx = {
-      state: {
+      state: stateView({
         enemies: [],
         players: [
-          {
+          makeBattlePlayer({
             roleId: 0,
             prevHp: 0,
             prevMp: 0,
             defending: false,
             status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-          },
+          }),
         ],
-      } as any as BattleState,
+      }),
       target: { type: 'player', idx: 0 },
-      playerRoles: { roles: [{ id: 0, hp: 80 } as any] },
+      playerRoles: { roles: [makeRole(0, { hp: 80 })] },
       bus,
     }
     dispatchBattleOpcode(0x5a, [0], ctx)
@@ -2203,20 +2238,20 @@ describe('D17b showDamageNum emit', () => {
   it('0x5F kill player → emit blue value=full HP', () => {
     const bus = createCommandBus()
     const ctx: BattleCtx = {
-      state: {
+      state: stateView({
         enemies: [],
         players: [
-          {
+          makeBattlePlayer({
             roleId: 0,
             prevHp: 0,
             prevMp: 0,
             defending: false,
             status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-          },
+          }),
         ],
-      } as any as BattleState,
+      }),
       target: { type: 'player', idx: 0 },
-      playerRoles: { roles: [{ id: 0, hp: 123 } as any] },
+      playerRoles: { roles: [makeRole(0, { hp: 123 })] },
       bus,
     }
     dispatchBattleOpcode(0x5f, [0], ctx)
@@ -2229,7 +2264,7 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 77 })]
     const ctx: BattleCtx = {
-      state: { enemies, players: [] } as any as BattleState,
+      state: stateView({ enemies }),
       caster: { type: 'enemy', idx: 0 },
       bus,
     }
@@ -2245,17 +2280,13 @@ describe('D17b showDamageNum emit', () => {
   it('0x60 KO + ctx.pendingDamageNums 存在 → push 进缓冲(延迟),不即时 emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 77 })]
-    const pendingDamageNums: Array<{
-      target: { kind: string; idx: number }
-      value: number
-      color: string
-    }> = []
+    const pendingDamageNums: NonNullable<BattleCtx['pendingDamageNums']> = []
     const ctx = {
-      state: { enemies, players: [] } as any as BattleState,
+      state: stateView({ enemies }),
       caster: { type: 'enemy', idx: 0 },
       bus,
       pendingDamageNums,
-    } as any as BattleCtx
+    } satisfies BattleCtx
     dispatchBattleOpcode(0x60, [0xffff], ctx)
     expect(damageNums(bus)).toHaveLength(0) // 不即时 emit
     expect(pendingDamageNums).toEqual([
@@ -2267,24 +2298,21 @@ describe('D17b showDamageNum emit', () => {
 describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', () => {
   it('op0!=0 + bus → state.battleAnim 设(preMagic + 全队 5 步 iColorShift + 复位 = 24 帧)', () => {
     const bus = createCommandBus()
-    const state = {
+    const state = stateView({
       enemies: [],
       players: [
-        { roleId: 0, posOriginal: { x: 240, y: 170 } },
-        { roleId: 1, posOriginal: { x: 280, y: 150 } },
+        makeBattlePlayer({ roleId: 0, posOriginal: { x: 240, y: 170 } }),
+        makeBattlePlayer({ roleId: 1, posOriginal: { x: 280, y: 150 } }),
       ],
-    } as any as BattleState
+    })
     const ctx = {
       state,
       bus,
       playerRoles: {
-        roles: [
-          { id: 0, spriteNumInBattle: 1 },
-          { id: 1, spriteNumInBattle: 2 },
-        ],
+        roles: [makeRole(0, { spriteNumInBattle: 1 }), makeRole(1, { spriteNumInBattle: 2 })],
       },
       battleEffectIndex: [2, 0, 3, 0], // sprite1 → [1*2]=idx2=3 → castBase=3*10+15=45
-    } as any as BattleCtx
+    } satisfies BattleCtx
     dispatchBattleOpcode(0x0092, [1, 0, 0], ctx) // op0=1 → casterIdx 0
     expect(state.battleAnim).toBeDefined()
     expect(state.battleAnim!.frames).toHaveLength(24) // 17 preMagic + 1 frame6 + 5 cycle + 1 reset
@@ -2297,11 +2325,11 @@ describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', (
 
   it('op0==0 → 不播动画(consumed no-op,sdlpal `if (operand[0]!=0)` 守卫)', () => {
     const bus = createCommandBus()
-    const state = {
+    const state = stateView({
       enemies: [],
-      players: [{ roleId: 0, posOriginal: { x: 240, y: 170 } }],
-    } as any as BattleState
-    const ctx = { state, bus } as any as BattleCtx
+      players: [makeBattlePlayer({ roleId: 0, posOriginal: { x: 240, y: 170 } })],
+    })
+    const ctx = { state, bus } satisfies BattleCtx
     const r = dispatchBattleOpcode(0x0092, [0, 0, 0], ctx)
     expect(r.consumed).toBe(true)
     expect(state.battleAnim).toBeUndefined()
@@ -2315,15 +2343,14 @@ describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', (
     enemy.e.stealItemCount = 1
     const ctx = {
       // roll=rangeInclusive(0,10)→0(<=rate 必偷);除数=rangeInclusive(2,3)→2 → c=trunc(1/2)=0
-      state: {
+      state: stateView({
         enemies: [enemy],
-        players: [],
-        rng: { rangeInclusive: (lo: number) => (lo === 0 ? 0 : 2) },
-      } as any as BattleState,
+        rng: fakeRng(0, 2),
+      }),
       target: { type: 'enemy', idx: 0 },
       caster: { type: 'enemy', idx: 0 }, // 非 player → 跳偷窃冲刺动画
-      gs: { dwCash: 0 } as any,
-    } as BattleCtx
+      gs: Object.assign(poisonGameState(), { dwCash: 0 } satisfies Partial<GameState>),
+    } satisfies BattleCtx
     dispatchBattleOpcode(0x6a, [0, 0, 0], ctx) // stealRate=0 → roll<=0||rate==0 必偷
     expect(ctx.state.battleDialogQueue ?? []).toHaveLength(0) // c==0 → 不 push 提示
     expect(ctx.gs!.dwCash).toBe(0) // c=0 → cash 不变
@@ -2334,22 +2361,30 @@ describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', (
   //   故入口首条 0x21 即时伤害集中砸投掷目标。TS 此前 per-enemy 用各自 idx 跑入口 → 伤害分散到各敌。
   it('L27:全体上毒入口脚本 self 恒为投掷目标,非循环 i(script.c:1213)', () => {
     const enemies = [makeEnemy(100), makeEnemy(100), makeEnemy(100)]
-    const capturedSelfIdx: number[] = []
-    const ctx = {
-      state: { enemies, players: [], rng: { rangeInclusive: () => 0 } } as any as BattleState,
-      target: { type: 'enemy', idx: 1 }, // 投掷目标 = enemy 1(玩家选定 sTarget)
-      objectPoisons: { 553: { id: 553, enemyScript: 999 } },
-      commands: [{ op: 'end' }],
+    const ctx: BattleCtx = {
+      state: stateView({ enemies, rng: constantRoll(0) }),
+      target: { type: 'enemy', idx: 1 },
+      objectPoisons: makeObjectPoisons({ 553: 1 }),
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x21, operands: [0, 5, 0] },
+        { op: 'end', advance: true },
+      ],
       bus: createCommandBus(),
-      // mock runScript 捕获入口脚本 self(battleCtx.target.idx)
-      runScript: (args: { battleCtx: { target: { idx: number } } }) => {
-        capturedSelfIdx.push(args.battleCtx.target.idx)
-        return 0
-      },
-    } as unknown as BattleCtx
-    dispatchBattleOpcode(0x28, [1, 553, 0], ctx) // op0=1 全体, op1=553 毒
-    // 3 敌全落槽,但入口脚本 self 恒为投掷目标 idx 1(C),非各敌 0/1/2(旧 TS)
-    expect(capturedSelfIdx).toEqual([1, 1, 1])
+      runScript,
+    }
+    dispatchBattleOpcode(0x28, [1, 553, 0], ctx)
+    expect(enemies.map((enemy) => enemy.e.health)).toEqual([100, 85, 100])
+    expect(enemies.map((enemy) => enemy.poisons)).toEqual([
+      [{ poisonId: 553, scriptEntry: 3 }],
+      [{ poisonId: 553, scriptEntry: 3 }],
+      [{ poisonId: 553, scriptEntry: 3 }],
+    ])
+    expect(damageNums(ctx.bus!)).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 5, color: 'blue' },
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 5, color: 'blue' },
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 5, color: 'blue' },
+    ])
   })
 })
 
