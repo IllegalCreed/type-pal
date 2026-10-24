@@ -27,7 +27,6 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync 
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
-import { decodeRngFrames } from '@type-pal/shared'
 import type { Symbols } from './events/annotate.js'
 import { annotate, parseSymbols } from './events/annotate.js'
 import { disasm } from './events/disasm.js'
@@ -47,14 +46,19 @@ import { decompressYj2 } from './io/yj2.js'
 import { buildLanguagePack } from './localization/build-language-pack.js'
 import { englishRevisions } from './localization/english-revisions.js'
 import { assertOwnedOutputRoot } from './output-boundary.js'
+import { writeFireAssets, writeRngAssets } from './resources/animation-assets.js'
 import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
+import {
+  writeBattleBackgroundAssets,
+  writeItemIconAssets,
+  writePaletteAssets,
+  writePortraitAssets,
+  writeSplashAssets,
+} from './resources/bitmap-assets.js'
 import { writeDataAssets } from './resources/data-assets.js'
 import { writeMusicAssets } from './resources/music.js'
-import { decodePalette } from './resources/palette.js'
-import { decodeBallIcon } from './resources/parsers/ball.js'
-import { decodeRgmPortrait } from './resources/parsers/rgm.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
-import { encodeIndexedPng, parseSpriteChunk } from './resources/sprite.js'
+import { parseSpriteChunk } from './resources/sprite.js'
 import {
   parseEnemyObjects,
   parseItems,
@@ -85,23 +89,9 @@ function spriteBlobPath(spriteId: number): string {
   return resolve(OUT, 'data', 'sprite', `${spriteId}.rle`)
 }
 
-function imageBattleBgPath(bgId: number): string {
-  return resolve(OUT, 'images', 'battle', 'bg', `${bgId.toString().padStart(3, '0')}.png`)
-}
-
 // 资源管线优化(2026-06-22):battle / magic sprite 同 tileset/npc 改 gzip RLE blob,后缀 `.rle`。
 function battleSpriteBlobPath(kind: 'enemy' | 'player', id: number): string {
   return resolve(OUT, 'data', 'battle-sprite', kind, `${id}.rle`)
-}
-
-/** FIRE.MKF 每 chunk(法术特效)blob。 */
-function magicFireBlobPath(chunkIdx: number): string {
-  return resolve(OUT, 'data', 'magic', `fire-${chunkIdx.toString().padStart(2, '0')}.rle`)
-}
-
-/** Internal JSON destinations used by this entrypoint; writeJson owns directory creation. */
-function dataSubdirPath(subdir: 'palette', name: string): string {
-  return resolve(OUT, 'data', subdir, `${name}.json`)
 }
 
 function loadFile(name: string): Uint8Array {
@@ -266,134 +256,13 @@ async function main(): Promise<void> {
 
   writeDataAssets(RAW, OUT, sssObjBuf, words, { items, spells, enemyObjects, objectPlayers })
 
-  // RNG/FIRE保留压缩blob与帧清单；RGM/BALL解码为索引PNG。
-  // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。
+  writeRngAssets(RAW, OUT)
 
-  // RNG.MKF: 12 chunks, 每 chunk 是 sub-MKF + RLE delta 动画帧(rngplay.c)
-  // 资源管线优化(2026-06-22):从「逐帧 320×200 PNG(92MB)」改为「每 chunk 一个 gzip 的
-  // 原始 RNG chunk(.rle,~MB)」。runtime decodeRngFrames(@type-pal/shared)解。manifest
-  // 仍写(frameCount 供 player startFrame/endFrame),由 decodeRngFrames 计数(无 PNG 编码)。
-  // 后缀 `.rle` 避开 .gz 触发的 Content-Encoding 双解压(同 tileset)。
-  {
-    const rngMkf = openMkf(loadFile('RNG.MKF'))
-    const n = chunkCount(rngMkf)
-    const manifest: Array<{
-      chunkIndex: number
-      frameCount: number
-      frames: Array<{ index: number }>
-    }> = []
-    let totalRngFrames = 0
-    for (let i = 0; i < n; i++) {
-      const chunk = readChunk(rngMkf, i)
-      let frames: ReturnType<typeof decodeRngFrames>
-      try {
-        frames = decodeRngFrames(chunk)
-      } catch (err) {
-        console.warn(`[pal-extract] RNG chunk ${i} decode fail, skip:`, err)
-        continue
-      }
-      writeBinary(
-        resolve(OUT, 'data', 'animation', `rng-${i.toString().padStart(2, '0')}.rle`),
-        gzipSync(chunk),
-      )
-      manifest.push({
-        chunkIndex: i,
-        frameCount: frames.length,
-        frames: frames.map((f) => ({ index: f.index })),
-      })
-      totalRngFrames += frames.length
-    }
-    writeJson(resolve(OUT, 'data', 'rng-frames.json'), { chunks: manifest })
-    console.log(`[pal-extract] RNG.MKF blobs written (${n} chunks, ${totalRngFrames} frames total)`)
-  }
+  writePortraitAssets(RAW, OUT)
 
-  // RGM.MKF: 92 chunks, 每 chunk 是单帧 RLE bitmap 角色头像(sdlpal global.h fpRGM)。
-  // M5.6 audit 第 2 真漏洞修(2026-05-27 T10d):decodeRle → encodeIndexedPng → PNG。
-  // 输出 images/portraits/{NN}.png + data/portraits.json manifest。
-  // 索引方式 = `PlayerRoles.rgwAvatar[roleId]`(sdlpal uigame.c:1132 真值)→ ts
-  // PlayerStatus / DialogBox portrait blit 用。
-  {
-    const rgmMkf = openMkf(loadFile('RGM.MKF'))
-    const n = chunkCount(rgmMkf)
-    const manifest: Array<{ chunkIndex: number; width: number; height: number }> = []
-    let written = 0
-    for (let i = 0; i < n; i++) {
-      const portrait = decodeRgmPortrait(i, readChunk(rgmMkf, i))
-      if (!portrait) continue
-      writeBinary(
-        resolve(OUT, 'images', 'portraits', `${i.toString().padStart(2, '0')}.png`),
-        portrait.pngBytes,
-      )
-      manifest.push({
-        chunkIndex: portrait.chunkIndex,
-        width: portrait.width,
-        height: portrait.height,
-      })
-      written++
-    }
-    writeJson(resolve(OUT, 'data', 'portraits.json'), { count: n, portraits: manifest })
-    console.log(
-      `[pal-extract] RGM.MKF written: ${written} / ${n} portraits → images/portraits/{NN}.png`,
-    )
-  }
+  writeItemIconAssets(RAW, OUT)
 
-  // BALL.MKF: 252 chunks, 每 chunk 是单帧 RLE bitmap 物品图标(sdlpal global.h fpBALL)。
-  // M5.6 audit 第 1 真漏洞修(2026-05-27):decodeRle → encodeIndexedPng → PNG。
-  // 输出 images/items/{NNN}.png + data/items-icons.json manifest。
-  // 索引方式 = `OBJECT.item.wBitmap`(sdlpal itemmenu.c:201 真值)→ ts InventoryMenu fullscreen 用。
-  {
-    const ballMkf = openMkf(loadFile('BALL.MKF'))
-    const n = chunkCount(ballMkf)
-    const manifest: Array<{ chunkIndex: number; width: number; height: number }> = []
-    let written = 0
-    for (let i = 0; i < n; i++) {
-      const icon = decodeBallIcon(i, readChunk(ballMkf, i))
-      if (!icon) continue
-      writeBinary(
-        resolve(OUT, 'images', 'items', `${i.toString().padStart(3, '0')}.png`),
-        icon.pngBytes,
-      )
-      manifest.push({ chunkIndex: icon.chunkIndex, width: icon.width, height: icon.height })
-      written++
-    }
-    writeJson(resolve(OUT, 'data', 'items-icons.json'), { count: n, icons: manifest })
-    console.log(`[pal-extract] BALL.MKF written: ${written} / ${n} icons → images/items/{NNN}.png`)
-  }
-
-  // FIRE.MKF: 55 chunks, 每 chunk 是 YJ2 sprite group(fight.c PAL_MKFDecompressChunk)
-  // 资源管线优化:每 chunk 存 gzip 的 YJ2-解压后 sprite chunk(去 per-frame PNG)。
-  // runtime loadSpriteFramesBlob 解;fire-sprites.json manifest 仍写(frameCount 供 anim-timeline)。
-  {
-    const fireMkf = openMkf(loadFile('FIRE.MKF'))
-    const n = chunkCount(fireMkf)
-    let totalFireFrames = 0
-    const fireManifest: Array<{
-      chunkIndex: number
-      frameCount: number
-      frames: Array<{ index: number; width: number; height: number }>
-    }> = []
-    for (let i = 0; i < n; i++) {
-      const buf = readChunk(fireMkf, i)
-      let decompressed: Uint8Array
-      try {
-        decompressed = decompressYj2(buf)
-      } catch {
-        decompressed = buf
-      }
-      const frames = decompressed.byteLength < 2 ? [] : parseSpriteChunk(decompressed)
-      if (frames.length > 0) writeBinary(magicFireBlobPath(i), gzipSync(decompressed))
-      fireManifest.push({
-        chunkIndex: i,
-        frameCount: frames.length,
-        frames: frames.map((f, idx) => ({ index: idx, width: f.width, height: f.height })),
-      })
-      totalFireFrames += frames.length
-    }
-    writeJson(resolve(OUT, 'data', 'fire-sprites.json'), { chunkCount: n, chunks: fireManifest })
-    console.log(
-      `[pal-extract] FIRE.MKF blobs written (${n} chunks, ${totalFireFrames} frames total)`,
-    )
-  }
+  writeFireAssets(RAW, OUT)
 
   // SOUNDS.MKF 完整提取(2026-05-29 user 要求):每个非空 chunk 本身就是一个完整 RIFF/WAVE 文件
   // (WIN95 build,实测 505 chunk = 363 RIFF/WAVE + 142 空),sdlpal sound.c SDL_LoadWAV_RW 直接读。
@@ -416,58 +285,13 @@ async function main(): Promise<void> {
   // 文件名归一化、原始音乐字节和manifest由音乐阶段统一写出；不负责输出清理。
   writeMusicAssets(RAW, OUT)
 
-  // splash 素材:FBP.MKF chunk 3(BITMAPNUM_SPLASH_UP WIN95=0x03) +
-  //             chunk 4(BITMAPNUM_SPLASH_DOWN WIN95=0x04)。
-  // sdlpal main.c:42-43:  #define BITMAPNUM_SPLASH_UP (gConfig.fIsWIN95 ? 0x03 : 0x26)
-  //                       #define BITMAPNUM_SPLASH_DOWN (gConfig.fIsWIN95 ? 0x04 : 0x27)
-  // 读取方式:PAL_MKFReadChunk(raw) → Decompress(=YJ2 for WIN95) → 320×200 raw indexed。
-  // 注:后面的battle bg循环也会把chunk 3/4写到images/battle/bg/003.png + 004.png;
-  //     这里单独写到 images/splash/ 便于 M5/M6 直接消费标题画面。
-  {
-    const splashFbpMkf = openMkf(loadFile('FBP.MKF'))
-    const splashIds = [
-      { id: 0x03, name: 'splash-up-win95' },
-      { id: 0x04, name: 'splash-down-win95' },
-    ] as const
-    for (const { id, name } of splashIds) {
-      const raw = readChunk(splashFbpMkf, id)
-      if (raw.byteLength === 0) continue
-      let pixels: Uint8Array
-      try {
-        pixels = decompressYj2(raw)
-      } catch {
-        continue
-      }
-      if (pixels.byteLength !== 320 * 200) {
-        console.warn(
-          `[pal-extract] splash FBP chunk ${id}: 解压后 ${pixels.byteLength} bytes ≠ 64000, skip`,
-        )
-        continue
-      }
-      writeBinary(
-        resolve(OUT, 'images', 'splash', `${name}.png`),
-        encodeIndexedPng(320, 200, pixels),
-      )
-    }
-    console.log('[pal-extract] splash written → images/splash/')
-  }
+  writeSplashAssets(RAW, OUT)
 
   console.log('[pal-extract] data tables written')
 
   writeWorldAssets(RAW, OUT, sss.scenes, sss.eventObjects, corrected?.eventMetadata)
 
-  // 调色板:PAT.MKF 全量 dump
-  const patMkf = openMkf(loadFile('PAT.MKF'))
-  const patChunkCount = chunkCount(patMkf)
-  let palWritten = 0
-  for (let i = 0; i < patChunkCount; i++) {
-    const palBuf = readChunk(patMkf, i)
-    if (palBuf.byteLength < 768) continue // 跳过非调色板 chunk
-    // 传**整块**(不再 subarray(0,768))→ decodePalette 自动抽夜间半(1536B chunk,实测 #0/#5)。
-    writeJson(dataSubdirPath('palette', String(i)), decodePalette(palBuf))
-    palWritten++
-  }
-  console.log(`[pal-extract] palette written (${palWritten} chunks)`)
+  writePaletteAssets(RAW, OUT)
 
   // 角色 / NPC 精灵切片
   // M5.Sync.2 修:**dump 全 MGO.MKF 0..chunkCount-1**,不再 filter scene EO + player role 引用。
@@ -562,36 +386,7 @@ async function main(): Promise<void> {
     `[pal-extract] battle sprite blobs written: ${battleSpriteIds.length} sprites, ${battleFramesTotal} frames total`,
   )
 
-  // ── 战斗背景(M3 T25) ──────────────────────────────────────────
-  // FBP.MKF chunk[wNumBattleField] —— sdlpal `battle.c:982`
-  // `PAL_MKFDecompressChunk(buf, 320*200, wNumBattleField, fpFBP)`。
-  // 每 chunk YJ2 压缩,解后恰好 64000 字节 = 320×200 raw 8-bit indexed。
-  // M3 全量 dump 与 battle-fields.json 对齐(58 条);多出来的 chunk(实测 78)
-  // 也一并 dump,运行时按 BattleField.id 查表。
-  console.log('[pal-extract] battle backgrounds from FBP.MKF …')
-  const fbpMkf = openMkf(loadFile('FBP.MKF'))
-  const fbpChunkCount = chunkCount(fbpMkf)
-  const bgIds: number[] = []
-  for (let i = 0; i < fbpChunkCount; i++) {
-    const raw = readChunk(fbpMkf, i)
-    if (raw.byteLength === 0) continue // 空 chunk 跳过
-    let pixels: Uint8Array
-    try {
-      pixels = decompressYj2(raw)
-    } catch (err) {
-      console.warn(`[pal-extract] FBP chunk ${i} YJ2 fail, skip:`, err)
-      continue
-    }
-    if (pixels.byteLength !== 320 * 200) {
-      console.warn(`[pal-extract] FBP chunk ${i}: 解压后 ${pixels.byteLength} bytes ≠ 64000,skip`)
-      continue
-    }
-    writeBinary(imageBattleBgPath(i), encodeIndexedPng(320, 200, pixels))
-    bgIds.push(i)
-  }
-  // M3 T25:battle-bgs.json 直接列出所有有效 bg id —— loader 按列表加载,免 404。
-  writeJson(resolve(OUT, 'data', 'battle-bgs.json'), { count: fbpChunkCount, ids: bgIds })
-  console.log(`[pal-extract] battle backgrounds written: ${bgIds.length} / ${fbpChunkCount} chunks`)
+  writeBattleBackgroundAssets(RAW, OUT)
 
   // ── 战斗精灵 manifest(M3 T25 loader 用) ─────────────────────────
   // 列出 battle sprite 的 (kind, id) — loader 按 manifest 加载,避免 404 / 列目录。
