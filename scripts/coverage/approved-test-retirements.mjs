@@ -26,6 +26,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '73601accd59f22cd7ee6bb3396a29c0da3bb3173f35058bba71bdcd75712ebb1',
       fileSha256: '18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4',
     },
+    // User2026-10-24 pre94 test quality / standing precise-dedup authority.
+    // 32 cases move to collision/loading files; 4 redundant cases merge into stronger oracles.
+    // Native all-111 mapping and business counters: pre94/scene-quality/review.json.
+    {
+      file: 'packages/game/src/core/scene-system.test.ts',
+      previous: 111,
+      current: 75,
+      previousIdentityDigest: '83990a58b44244ed68b06125a966cc2dbae7ddcfab70c32eb4b3de8f2b891e18',
+      currentIdentityDigest: '2f450b9636dcd731c5fb1445ce2147aae9829a21783375cd170ed8c7102a1a77',
+      fileSha256: '7b7d17b3125860363be550b261c900733049d9229c146f89eae6473188182615',
+    },
     // CODE3l: standing user authority for proven dead-code and duplicate-test retirement.
     // Exact old-to-new contracts and native originals: pre94/battle-present-quality/review.json.
     {
