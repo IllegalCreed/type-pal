@@ -88,7 +88,6 @@ import { setEnglishMessages } from '../localization/messages.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
 import { toSpriteImages } from '../present/draw-sprite.js'
-import { drawTilemap } from '../present/draw-tilemap.js'
 import { renderText } from '../present/font.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import {
@@ -116,13 +115,8 @@ import { createAudioVolumeController } from './audio-volume.js'
 import { playAvi, setVideoVolume } from './avi-player.js'
 import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
 import { startBootstrapResourceLoad } from './bootstrap-resources.js'
-import {
-  colorFadeBlocking,
-  fadeInBlocking,
-  fadeOutBlocking,
-  playEndingAnimation,
-  waitForKey,
-} from './ending-player.js'
+import { createDosCutscenes } from './dos-cutscenes.js'
+import { playEndingAnimation } from './ending-player.js'
 import { scrollFbp, showFbp } from './fbp-player.js'
 import type { GameShell } from './game-shell.js'
 import { KeyboardInputSource } from './input.js'
@@ -130,8 +124,7 @@ import { type LoopContext, startRafLoop } from './main-loop.js'
 import { createMusicSourceController, readMusicSource } from './music-source.js'
 import { pausePrecache, resumePrecache } from './precache-client.js'
 import { playRng } from './rng-player.js'
-import { playSplashFallback } from './splash-fallback.js'
-import { playTrademarkFallback } from './trademark-fallback.js'
+import { createSceneThumbnailRenderer } from './scene-thumbnail.js'
 
 // JSON 静态 import 的 TS 类型推断会把每条 fixture 推成具体 key 集合(eg. fixture-zh1
 // 没 "1" → 推 "1": undefined),与 BattleFixturesData 的 Record<string, ...> 不严格匹配。
@@ -493,6 +486,22 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     initialMusicSource,
   )
   audio.setMusicBackend(musicSource)
+  const fetchMgoSprite = (id: number): Promise<IndexedImage[]> =>
+    loadSpriteFramesBlob(`${BASE}/data/sprite/${id}.rle`)
+  const { playDosOpening, playDosEnding } = createDosCutscenes({
+    fb,
+    canvasCtx,
+    palette,
+    battleBgs,
+    characterSprites,
+    fetchMgoSprite,
+    getScreenPalette: () => gs.palette ?? palette,
+    setMusic: (track) => {
+      gs.wNumMusic = track
+      syncShellAudio(audio, gs, [], playerRoles)
+    },
+  })
+
   // autoplay 解锁:浏览器要求 AudioContext 在用户手势后 resume。**不能用 { once:true } 只听首个
   //   keydown** —— 若首个手势是鼠标点击(如点 devpanel 触发战斗/BGM)keydown 不触发,ctx 永久挂起
   //   → BGM/SFX 全哑(user 2026-06-03 实测控制台 "AudioContext was not allowed to start")。改:
@@ -670,106 +679,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     })
   }
 
-  // ── dev picker与生产小地图共用的离屏缩略图──────────────────────────────────
-  // 标准64×128地图先画2080×2080 framebuffer;picker默认输出宽96,小地图caller传640。
-  // 按mapNum/outW缓存和dedup,并发上限2;本地解码tileset blob,成功后只留dataURL。
-  // 不写gameplay的tileImagesBySceneId/sceneAssetsCache,不在此接入seam repair。
-  const THUMB_TILE_W = 32
-  const THUMB_TILE_H = 16
-  const THUMB_OUT_W = 96
-  const thumbCache = new Map<string, string>() // `${mapNum}_${outW}` → dataURL(仅缓存成功)
-  const thumbInflight = new Map<string, Promise<string | null>>()
-  let thumbActive = 0
-  const thumbWaiters: (() => void)[] = []
-  const THUMB_CONCURRENCY = 2
-  const acquireThumb = async (): Promise<void> => {
-    if (thumbActive < THUMB_CONCURRENCY) {
-      thumbActive++
-      return
-    }
-    await new Promise<void>((res) => thumbWaiters.push(res)) // 槽位由 release 转移,不再自增
-  }
-  const releaseThumb = (): void => {
-    const w = thumbWaiters.shift()
-    if (w) w()
-    else thumbActive--
-  }
-
-  async function renderMapThumbnail(
-    mapNum: number,
-    paletteOverride?: Palette,
-    outW: number = THUMB_OUT_W,
-  ): Promise<string | null> {
-    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
-      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
-      return r.json() as Promise<Tilemap>
-    })
-    // tileset blob 解码 → 本地 transient Map(渲染后即弃)。
-    const tileImgs = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
-    // 整张 map 渲染:留小边距(fence/sub-row 落在 -16/-8),camera 偏移让左上 tile 进画。
-    const bufW = (tilemapJson.width + 1) * THUMB_TILE_W
-    const bufH = (tilemapJson.height + 2) * THUMB_TILE_H
-    const tfb = createFramebuffer(bufW, bufH)
-    const camera = { x: -THUMB_TILE_W / 2, y: -THUMB_TILE_H }
-    const tiles = { get: (i: number): IndexedImage | undefined => tileImgs.get(i) }
-    drawTilemap(tfb, tilemapJson, tiles, camera, 0)
-    drawTilemap(tfb, tilemapJson, tiles, camera, 1)
-    // full canvas→按outW等比缩放→dataURL。显式override优先,否则用启动palette,不读取实时gs.palette。
-    const full = document.createElement('canvas')
-    full.width = bufW
-    full.height = bufH
-    const fctx = full.getContext('2d')
-    if (!fctx) return null
-    fctx.putImageData(tfb.toImageData(paletteOverride ?? palette), 0, 0)
-    const scale = outW / bufW
-    const thumb = document.createElement('canvas')
-    thumb.width = outW
-    thumb.height = Math.max(1, Math.round(bufH * scale))
-    const tctx = thumb.getContext('2d')
-    if (!tctx) return null
-    tctx.imageSmoothingEnabled = true
-    tctx.imageSmoothingQuality = 'high'
-    tctx.drawImage(full, 0, 0, thumb.width, thumb.height)
-    return thumb.toDataURL('image/png')
-  }
-
-  const renderSceneThumbnail = async (
-    sceneId: number,
-    mapNum?: number,
-    outW: number = THUMB_OUT_W, // dev picker默认96;生产小地图caller传640
-  ): Promise<string | null> => {
-    let map = mapNum
-    if (map === undefined) {
-      // scene-jumps 多数带 mapNum;缺则 fetch scene json 拿。
-      const sj = await fetch(`${BASE}/data/scene/${sceneId}.json`)
-        .then((r) => (r.ok ? (r.json() as Promise<{ mapNum: number }>) : null))
-        .catch(() => null)
-      map = sj?.mapNum
-    }
-    if (map === undefined) return null
-    const cacheKey = `${map}_${outW}` // 同地图按输出宽度分开缓存(picker96/小地图640)
-    const cached = thumbCache.get(cacheKey)
-    if (cached) return cached
-    const inflight = thumbInflight.get(cacheKey)
-    if (inflight) return inflight
-    const mapNumResolved = map
-    const p = (async (): Promise<string | null> => {
-      await acquireThumb()
-      try {
-        const url = await renderMapThumbnail(mapNumResolved, undefined, outW)
-        if (url) thumbCache.set(cacheKey, url)
-        return url
-      } catch (e) {
-        console.warn(`[dev-panel] 缩略图渲染失败 map ${mapNumResolved}:`, e)
-        return null
-      } finally {
-        releaseThumb()
-        thumbInflight.delete(cacheKey)
-      }
-    })()
-    thumbInflight.set(cacheKey, p)
-    return p
-  }
+  const renderSceneThumbnail = createSceneThumbnailRenderer(palette)
 
   // 扫新 scene eventCommands 的 setPlayerSprite(opcode 0x65)预 fetch cutscene sprite group。
   async function preloadCutsceneSprites(commands: Command[]): Promise<void> {
@@ -1356,8 +1266,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
 
   // 结局动画 handler(opcode 0x96 PAL_EndingAnimation)。fetch FBP 61/62(battleBgs)+ MGO 571/572 妖兽/女孩
   //   sprite(非预载,按需加载sprite/{id}.rle blob)→跑400帧cutscene。modal,suspendRaf。
-  const fetchMgoSprite = (id: number): Promise<IndexedImage[]> =>
-    loadSpriteFramesBlob(`${BASE}/data/sprite/${id}.rle`)
   setEndingAnimationHandler(({ gs }) => {
     gs.suspendRaf = true
     void (async () => {
@@ -1391,124 +1299,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    * iCurPlayingRNG=9(追真值:游戏 0xA0 结局前 ip 35576 setRNG chunk 9)。
    * 下方已接setMus配乐、effectSprite 0x27b叠加与waitForKey;这不代替完整原版演出/视觉验收。
    */
-  async function playDosEnding(): Promise<void> {
-    const ctx = canvasCtx!
-    const BLACK = new Uint8Array(320 * 200)
-    const bg = (n: number): Uint8Array => battleBgs.get(n)?.indices ?? BLACK
-    const pget = (n: number): Promise<typeof palette> => fetchPalette(n).catch(() => palette)
-    const fbp = (
-      chunk: number,
-      fade: number,
-      pal: typeof palette,
-      fx?: IndexedImage[],
-    ): Promise<void> =>
-      showFbp({
-        fbpIndices: bg(chunk),
-        fade,
-        chunkNum: chunk,
-        isWin95: false,
-        fb,
-        canvasCtx: ctx,
-        palette: pal,
-        effectSpriteFrames: fx,
-      })
-    const scroll = (chunk: number, pal: typeof palette, fx?: IndexedImage[]): Promise<void> =>
-      scrollFbp({
-        fbpIndices: bg(chunk),
-        speed: 0xf,
-        fScrollDown: true,
-        fb,
-        canvasCtx: ctx,
-        palette: pal,
-        effectSpriteFrames: fx,
-      })
-    const rng = (
-      chunkIdx: number,
-      startFrame: number,
-      endFrame: number,
-      speed: number,
-      pal: typeof palette,
-    ): Promise<void> =>
-      playRng({
-        chunkIdx,
-        startFrame,
-        endFrame,
-        frameDelayMs: 1000 / speed,
-        fb,
-        canvasCtx: ctx,
-        palette: pal,
-      })
-
-    // ── Part A(ending.c:420-483)──
-    // DL28:各段配乐(ending.c:424/430/448/496 AUDIO_PlayMusic;经 wNumMusic+sync 轮询)。
-    const setMus = (n: number): void => {
-      gs.wNumMusic = n
-      syncShellAudio(audio, gs, [], playerRoles)
-    }
-    const curPal = gs.palette ?? palette
-    setMus(0x1a) // 哭戏段(ending.c:424)
-    await rng(9, 110, 150, 7, curPal)
-    await rng(9, 151, -1, 9, curPal)
-    await fadeOutBlocking(fb, ctx, curPal, 1200) // FadeOut(2)
-    const pal5 = await pget(5)
-    setMus(0x19) // ending.c:430
-    await fbp(75, 0, pal5)
-    await fadeInBlocking(fb, ctx, pal5, 600) // FadeIn(5,1)
-    await scroll(74, pal5)
-    await fadeOutBlocking(fb, ctx, pal5, 600) // FadeOut(1)
-    const pal4 = await pget(4)
-    const [beast, girl] = await Promise.all([
-      fetchMgoSprite(571).catch(() => [] as IndexedImage[]),
-      fetchMgoSprite(572).catch(() => [] as IndexedImage[]),
-    ])
-    await playEndingAnimation({
-      upperIndices: bg(61),
-      lowerIndices: bg(62),
-      beastFrames: beast,
-      girlFrames: girl,
-      fb,
-      canvasCtx: ctx,
-      palette: pal4,
-    })
-    setMus(0) // ending.c:443 停乐(fade 2s;MIDI 后端忠实硬停)
-    await colorFadeBlocking(fb, ctx, pal4, 15, 64 * 70) // ColorFade(7,15)
-    const pal0 = await pget(0)
-    setMus(0x11) // ending.c:448
-    await rng(11, 0, -1, 7, pal0)
-    await fadeOutBlocking(fb, ctx, pal0, 1200) // FadeOut(2)
-    const pal8 = await pget(8)
-    // DL28:fNeedToFadeIn(ending.c:459)→ RNG 首帧 600ms 淡入(rng-player initialFadeInMs)。
-    await playRng({
-      chunkIdx: 10,
-      startFrame: 0,
-      endFrame: -1,
-      frameDelayMs: 1000 / 6,
-      fb,
-      canvasCtx: ctx,
-      palette: pal8,
-      initialFadeInMs: 600,
-    })
-    await fbp(77, 10, pal8) // EndingSetEffectSprite(0) → 无叠加
-    // EndingSetEffectSprite(0x27b=635):76/73/72/71/68@7 全 sticky 叠这只 21 帧 MGO 精灵(ending.c:467-475)
-    const fx635 = await fetchMgoSprite(635).catch(() => [] as IndexedImage[])
-    await fbp(76, 7, pal8, fx635)
-    const pal5b = await pget(5)
-    await fbp(73, 7, pal5b, fx635)
-    await scroll(72, pal5b, fx635)
-    await fbp(71, 7, pal5b, fx635)
-    await fbp(68, 7, pal5b, fx635)
-    await fbp(68, 6, pal5b) // EndingSetEffectSprite(0) → 无叠加(ending.c:477)
-    await waitForKey() // sdlpal PAL_WaitForKey(0):等玩家按键再放演职员表(ending.c:480)
-    setMus(0) // ending.c:481 停乐
-
-    // ── Part B(ending.c:485-511,演职员表卷动 67→59)──
-    setMus(9) // ending.c:496 演职员表曲
-    for (const c of [67, 66, 65, 64, 63, 62, 61, 60, 59]) {
-      await scroll(c, pal5b)
-    }
-    setMus(0) // ending.c:509 停乐
-    await fadeOutBlocking(fb, ctx, pal5b, 1800) // FadeOut(3)
-  }
 
   // Sync.2 fix4+:扫 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
   //   操作:operand[0]=roleId, operand[1]=spriteId;任何队员都可能被剧情换形象。
@@ -1804,58 +1594,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    *
    * suspendRaf 包 try/finally,modal 期间 canvas render 暂停。
    */
-  // DOS 开场 fallback(trademark RNG chunk 6 + splash 卷轴)抽成独立闭包 —— showTrademarkAndSplash 的
+  // 独立DOS工厂提供开场/结局有序演出；showTrademarkAndSplash 的
   // dos 分支 + devpanel "开场 DOS" 按钮共用(资产 battleBgs/characterSprites/palette 在任何 build 都已加载,
   // 故 win95 build 下 devpanel 也能跑 DOS 版)。不管 suspendRaf(caller 包)。
-  async function playDosOpening(): Promise<void> {
-    // sdlpal main.c:199-203 DOS Trademark fallback / main.c:223-456 DOS Splash fallback
-    // palette 3:trademark / palette 1:splash(sdlpal PAL_SetPalette / PAL_GetPalette 真值)
-    // DM28:splash 起手播标题曲 5(NUM_RIX_TITLE,main.c:46/:293;蝶恋),退出停乐(main.c:449-455)。
-    //   经 gs.wNumMusic + audio.sync(suspendRaf 只停 present,逻辑 tick 持续轮询)。
-    gs.wNumMusic = 5
-    syncShellAudio(audio, gs, [], playerRoles)
-    const palette3 = await fetchPalette(3).catch(() => palette)
-    await playTrademarkFallback({
-      fb,
-      canvasCtx: canvasCtx!,
-      palette: palette3,
-    })
-    const palette1 = await fetchPalette(1).catch(() => palette)
-    // M15(2026-06-07 sdlpal 审查):DOS splash 用 FBP chunk 0x26/0x27,非 WIN95 的 3/4
-    //   (sdlpal main.c:42-43 BITMAPNUM_SPLASH_UP/DOWN = fIsWIN95 ? 0x03/0x04 : 0x26/0x27)。
-    const fbpUp = assets.battleBgs.get(0x26)
-    const fbpDown = assets.battleBgs.get(0x27)
-    const craneSprite = characterSprites.get(73)
-    const titleSprite = characterSprites.get(71)
-    if (!fbpUp || !fbpDown || !craneSprite || !titleSprite || titleSprite.frames.length === 0) {
-      console.warn('[bootstrap] DOS splash 资产缺失,跳过 splash fallback')
-      return
-    }
-    await playSplashFallback({
-      fb,
-      canvasCtx: canvasCtx!,
-      palette: palette1,
-      // BattleBgAsset(无 opaque)→ wrap 成 IndexedImage(全 opaque)
-      bitmapUp: { ...fbpUp, opaque: new Uint8Array(fbpUp.width * fbpUp.height).fill(1) },
-      bitmapDown: { ...fbpDown, opaque: new Uint8Array(fbpDown.width * fbpDown.height).fill(1) },
-      craneSprite: {
-        frames: craneSprite.frames.map((f) => ({
-          width: f.width,
-          height: f.height,
-          indices: f.indices,
-          opaque: f.opaque,
-        })),
-        anchorX: craneSprite.anchorX,
-        anchorY: craneSprite.anchorY,
-      },
-      titleFrame: {
-        width: titleSprite.frames[0]!.width,
-        height: titleSprite.frames[0]!.height,
-        indices: titleSprite.frames[0]!.indices,
-        opaque: titleSprite.frames[0]!.opaque,
-      },
-    })
-  }
 
   async function showTrademarkAndSplash(): Promise<void> {
     gs.suspendRaf = true
