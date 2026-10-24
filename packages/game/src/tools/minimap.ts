@@ -1,7 +1,8 @@
 /** Page-owned minimap controller: preferences, image/cache lifecycle, DOM and animation frames. */
-import { getGlobalCommands, getGlobalLabelMap } from '../core/event-system.js'
+
 import type { GameState, NpcState } from '../core/game-state.js'
-import { getCurrentMapNum } from '../core/scene-system.js'
+import { getCurrentMapNum } from '../core/scene-identity.js'
+import { getGlobalCommands, getGlobalLabelMap } from '../core/script-catalog.js'
 import { localize } from '../localization/language.js'
 import { LAYOUT_CHANGE, presentationKey } from '../shell/presentation.js'
 import { drawMinimap, type MinimapToggles } from './minimap-draw.js'

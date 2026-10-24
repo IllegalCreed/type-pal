@@ -1,7 +1,7 @@
 /** Coordinate and event-marker rules. Callers supply state snapshots and script tables; no DOM/clock/IO calls. */
 import type { Command } from '@type-pal/shared'
-import { OP_ADD_CASH, OP_ADD_ITEM, OP_ADD_MAGIC } from '../core/event-system.js'
 import type { GameState, NpcState } from '../core/game-state.js'
+import { OP_ADD_CASH, OP_ADD_ITEM, OP_ADD_MAGIC } from '../core/script-opcode-ids.js'
 
 // ── 世界像素 → 底图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────────
 //   地图恒 64×128 tile(map.c 硬编码),tile 32×16 → 世界 2048×2048;缩略图 framebuffer
