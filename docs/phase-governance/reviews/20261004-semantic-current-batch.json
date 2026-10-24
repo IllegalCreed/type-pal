@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE53/58 Dev scoped delta",
+      "readMethod": "Owned CODE53 event-test scoped delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Dev responsibilities accepted; cards partial; gates deferred.",
+      "coreConclusion": "CODE53 code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "674a620d511b554e8da851b5a0dd5b4227d04e9eb4ee86d2f85501f33263ebb3",
+      "afterSha256": "738dcfb54418771396f5ab1a0671945fde85797287c5e99230a31611c9349645",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "674a620d511b554e8da851b5a0dd5b4227d04e9eb4ee86d2f85501f33263ebb3",
+        "implementationSha": "738dcfb54418771396f5ab1a0671945fde85797287c5e99230a31611c9349645",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,11 +1714,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-status-tools-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
-        "afterSha256": "674a620d511b554e8da851b5a0dd5b4227d04e9eb4ee86d2f85501f33263ebb3",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/review.json",
+        "afterSha256": "738dcfb54418771396f5ab1a0671945fde85797287c5e99230a31611c9349645",
         "lineCount": 91,
-        "scope": "Dev scoped owned delta; history retained; unified gates deferred.",
-        "candidateBaseRevision": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+        "scope": "CODE53 scoped delta; history retained; gates deferred.",
+        "candidateBaseRevision": "4ae01d9069c7538cf62a4c2b6bd56ed8cf2cb2e7",
         "workingTreeDelta": true
       },
       "history": [

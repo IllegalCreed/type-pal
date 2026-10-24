@@ -9,7 +9,11 @@ Phase: phase1 game
 Capability: Q3 present/menu
 Visual Verification Timing: mixed（状态数值为用户可见行为；视觉布局留集中 E2E）
 
-## 2026-10-24 当前增量：旧停止线与中文功能画面
+## 2026-10-25 事件专测代码接受
+
+2026-10-25 CODE53代码接受：事件专测21旧身份完整映射到32例，颜色/CD/镜头三项旧21绿新单红，最终9实际文件518绿、typecheck0。15个声明文件逐项有据；本文件新关闭1项，3445tracked／488closed／74review／2883pending；固定78accept／5partial／0pending。全部pre94前统一门/覆盖率/PR继续延后。 [逐例合同、八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md)。本卡代码复审accept，任务Status仍review，等全部pre94统一门后再决定done。旧毒停止线、GS与Dev广域返工分别按既有证据闭合，不删除范围，不重复旧全文。相邻StopMusic死计算/过时后端注释已在本片扩展准入后窄修；整TS仅减此无消费声明，最终回归及类型门另确认，不更改音乐行为。
+
+## 2026-10-24 历史增量：旧停止线与中文功能画面
 
 原七文件A–H证据复用、六份字节一致；状态绘制主线英文layout差异逐段核对，本轮仅纠正中英默认布局、静态/运行态ownership等注释和格式重排，非import TS完全相同。声明的DEV合法fixture由真实Chrome/资源/键盘/菜单/present验证runtime0、重复[4,5,4]首/末槽毒名差异、公开0x29真实入口HP200→188及正式0x75换队清旧毒。battle整轮机制复用旧正式测试，不冒称本轮浏览器战斗。中文截图已核，英文资源本地缺失未验；DEV debug/log完整披露。
 

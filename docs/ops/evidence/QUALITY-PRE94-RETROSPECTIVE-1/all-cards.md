@@ -1,5 +1,7 @@
 # 94前全部83卡复审队列
 
+2026-10-25 CODE53代码接受：事件专测21旧身份完整映射到32例，颜色/CD/镜头三项旧21绿新单红，最终9实际文件518绿、typecheck0。15个声明文件逐项有据；本文件新关闭1项，3445tracked／488closed／74review／2883pending；固定78accept／5partial／0pending。全部pre94前统一门/覆盖率/PR继续延后。 [本片合同与原件](event-opcodes-quality/README.md)。
+
 2026-10-24 CODE53中文功能画面与CODE58结构/专测返工，77accept／6partial／0pending不变；仅静态样式新关闭1项，3439tracked／477closed／76review／2886pending。[原件与限制](status-tools-closeout/README.md)。GS/Dev广域及导出失败等继续review，全仓/coverage/单PR待全部pre94。
 
 2026-10-24 CODE56接受，当前固定77accept／6partial／0pending；六文件新关闭，3438tracked／476closed／76review／2886pending。[逐文件与只读复验](minimap-closeout/README.md)，全仓/coverage/一个PR仍等全部pre94。
@@ -70,7 +72,7 @@
 | [CODE-QUALITY-50](../../archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-51](../../archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
-| [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | partial | [当前功能画面/版本桥](status-tools-closeout/README.md)：旧毒停止项闭合、中文runtime0/重复slot已核，GS/Dev广域仍review |
+| [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | accept | [当前15声明文件代码接受](event-opcodes-quality/README.md)：最后专测32例／518相关、三单红及逐例映射；任务review与统一门仍待 |
 | [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | accept | [当前六文件代码接受](minimap-closeout/README.md)：三职责/只读依赖、22直接+32相邻、330核心及成功缓存单红；保留明示启发式边界，57/58及最终统一门另核 |

@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "OwnedCODE53/58 Dev scoped delta",
+      "readMethod": "Owned CODE53 event-test scoped delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Dev responsibilities accepted; cards partial; gates deferred.",
+      "coreConclusion": "CODE53 code accepted; unified gates deferred.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "3cd49ccbe2736d5d8f46d60d78fdd795beb1652e56b859cd9babe22a7eca6fae",
+      "afterSha256": "cdbd6e0a2d82772023d64b0e7060d7fc524b3ea59b7bf958e0a5649b5578d82a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "3cd49ccbe2736d5d8f46d60d78fdd795beb1652e56b859cd9babe22a7eca6fae",
+        "implementationSha": "cdbd6e0a2d82772023d64b0e7060d7fc524b3ea59b7bf958e0a5649b5578d82a",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1824,10 +1824,10 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-status-tools-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "3cd49ccbe2736d5d8f46d60d78fdd795beb1652e56b859cd9babe22a7eca6fae",
+        "afterSha256": "cdbd6e0a2d82772023d64b0e7060d7fc524b3ea59b7bf958e0a5649b5578d82a",
         "lineCount": 20197,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1846,11 +1846,11 @@
         },
         "currentMaintenance": {
           "kind": "pre94-status-tools-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
-          "afterSha256": "3cd49ccbe2736d5d8f46d60d78fdd795beb1652e56b859cd9babe22a7eca6fae",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/review.json",
+          "afterSha256": "cdbd6e0a2d82772023d64b0e7060d7fc524b3ea59b7bf958e0a5649b5578d82a",
           "lineCount": 20197,
-          "scope": "Dev scoped owned delta; history retained; unified gates deferred.",
-          "candidateBaseRevision": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+          "scope": "CODE53 scoped delta; history retained; gates deferred.",
+          "candidateBaseRevision": "4ae01d9069c7538cf62a4c2b6bd56ed8cf2cb2e7",
           "workingTreeDelta": true
         }
       },

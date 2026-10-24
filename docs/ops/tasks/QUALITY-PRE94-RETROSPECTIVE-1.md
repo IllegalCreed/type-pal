@@ -1878,3 +1878,23 @@ Dev验收依赖勘误：CODE80旧两例仍期待只存两个毒record，与已�
 场景/队伍/索引图职责与page宿主分离，五个文件逐项A–H新关闭，队伍专测旧接受刷新。完整picker执行代码、原其它函数/全局/类型/出口及外部runtime依赖可逆还原，UI/状态/创建顺序保留；私有上下文和状态键类型收窄。旧party2例与已批准3o零记录合同漂移，基点同错后修完整16槽oracle；原43身份保留，10文件106绿，最终合法像素单例绿/反控单红、typecheck0。中间错误/无效反控与已知DEV合成标记/文案限制均明确留存。
 
 53不因Dev接受升整卡：原声明的419行event-opcodes.cov85.test.ts仍pending（本轮全文已读，尚未完成caller/oracle/排重/执行），75断言疑有相同旧record模型，多opcode混合用例和弱no-op仍需核。只读上下文P07不冒充范围文件关闭。固定77accept/6partial不变，统一门/coverage/protected/PR等全部pre94。原件、低成本复验及下一片见[本窗唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)。
+
+
+## 2026-10-25 CODE53事件专测准入
+
+同一3y／4ae01d906，Codex单Owner。event-opcodes.cov85.test.ts419行已完整读；runScript真实battle caller／局部cursor／raw fallback、独立装备runner、对象寻址及主测相关palette/autoScript段已核。build allowed仅该测试的合法工厂/真实bus与RNG、混合opcode原子化、实际oracle补强、失实标题/锚点与0x75完整零记录模型修复；不改生产解释器/机制/资产/API。先保留当前baseline；按真实调用层与独立断言排重，fallback接线不与事件等待或builder数学冒认同合同。只有确认重复/无判别力才精确退役并登记；未知不删。不凭绿色数关闭本文件，必须逐例caller/oracle/合法性/隔离/反控与八维；全部相关改动后一次定向/相邻/TC，不跑全仓/official/protected/PR，94–102不扩展。
+
+
+## 2026-10-25 CODE53事件专测代码接受
+
+2026-10-25 CODE53代码接受：事件专测21旧身份完整映射到32例，颜色/CD/镜头三项旧21绿新单红，最终9实际文件518绿、typecheck0。15个声明文件逐项有据；本文件新关闭1项，3445tracked／488closed／74review／2883pending；固定78accept／5partial／0pending。全部pre94前统一门/覆盖率/PR继续延后。 原0x75失败为已批准零记录合同漂移，保留完整16槽/离队角色结果；混合opcode拆开，弱0xA6退出而不授no-op新信用。生产源码未改，未扩大行为/API/资产边界。原始20/21、一次trail oracle误写、路径漏匹配与全部有效反控均保留。当前余卡1／3m／42／57／58；下一步先核58导入生命周期及1／57，3m/42现有裁决等实际答复。 [唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md)。
+
+
+## 2026-10-25 同片源码窄清理准入
+
+仍Codex单Owner／同一3y。沿本片真实音乐caller已证：StopMusic的_fadeSec全文件只有声明、无消费；shell.sync仅按track/loop驱动当前MIDI/RIX后端，不接opcode淡出秒数。build allowed扩至event-system.ts：仅删除这条无副作用死计算，纠正43/77/A3后端注释及局部cursor/跨帧等待的表述；不实现淡出、不改任何opcode状态赋值、公开接口、机制或可见行为。复用3r全文件八维与当前相同基点，整TS去注释仅白名单删除此变量声明后必须相同，全部其它函数/声明/类型/出口不变；此前控制与518回归只按该严格桥复用。纯源码清理与专测整改分提交，统一门仍延后。
+
+
+### 同片源码窄清理交付
+
+StopMusic无人读取的_fadeSec已删除；43/77/A3当前MIDI/RIX委派、fade局部cursor与跨帧等待注释已纠正。完整TS语法树仅白名单删除这条声明后与基点相同，所有其它实现/类型/import/出口保留，支持已运行518相邻信用；最终同9文件518例与typecheck另确认。0x24夹具收窄到真实两入口中的ip1，测试wrapper不再返回无人使用的entry，层级用例保留正值并加入SHORT负值。旧原件/反控原样保留；最终候选重新采有效三反控，已准入并非新增产品行为。文件新增关闭仍1，source旧接受刷新，不重复加数。

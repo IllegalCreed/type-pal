@@ -1,0 +1,626 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "base": "4ae01d9069c7538cf62a4c2b6bd56ed8cf2cb2e7",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex",
+  "candidate": "Uncommitted source snapshot pinned below; freeze with subsequent test/docs commits; not a fake candidate commit.",
+  "files": [
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "fullReads": {
+        "before": 419,
+        "after": 515,
+        "method": "Complete old/new test read; exact final trail delta rechecked against SDLPal, not claimed product failure"
+      },
+      "dimensions": {
+        "A": "Real battle constructor/hydrated six roles, mode=battle and real command bus/RNG; party75 uses actual event tick + real equipment runner. NPC scene/global arrays borrow same objects. Canonical WORD offsets and typed full256 color palettes. No new game behavior.",
+        "B": "Remove stale line ranges and false shared-runner claim; correct pixel offset/auto-label semantics, false6d coverage, local cursor versus world waiting. Comments explain ownership, not coverage totals.",
+        "C": "One fallback protocol; freshGs/paletteGs/installNpcs isolate domain fixtures; opcode families remain small cases. Explicit global service/catalog/poison owners reset in afterEach; no reverse product dependency.",
+        "D": "Reuse complete literal makeRole/makeEnemy/makeField data factories and public state constructors; do not reuse broad makeBattle that omits mode/hydrate. One helper wraps true bus; no mode boolean or fake core.",
+        "E": "All21 identities mapped to32 final identities (net11 extra after splitting/enhancement and one weak-case retirement, not a quality metric); a6 weak identity retired with rationale. Literal end states and independent cash markers; three old-green/new-single-AssertionError controls, final502+16 green. Narrow exact expected warning capture only; no runtime diagnoses hidden.",
+        "F": "Separate mixed opcodes, name actual oracle/units; remove fakebus scaffolding/nested music runner and use small typed intent helpers. Branchy world/party75 stays one real lifecycle.",
+        "G": "Remove no-business a6 assertion, false6d title, redundant await before synchronous state-set, fake bus and nonnull battle guard. No test baseline/retirement count change needed: file count21→32, complete identity mapping retained. Helpers now discard unused runScript return; old entry9 seed replaced by legal in-catalog entry1; positive layer4 retained alongside SHORT negative case.",
+        "H": "Use public constructors and deterministic real RNG; no core mocks or private exports. Exact warnings captured at console boundary, service injected only by existing production seam. No wall time assertions or fake timers."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "readMethod": "Prior full-file3r/current core-scene-event-closeout acceptance and minimap same-value-ID bridge reused; current delta+actual shell caller read, no claim of re-reading5000 lines.",
+      "dimensions": {
+        "A": "Only unconsumed numeric WORD-array arithmetic declaration removed. Whole TS printer equality after exact single-declaration deletion includes all other logic/types/imports/exports; no opcode assignment or new behavior.",
+        "B": "Four comment sites now distinguish local cursor from world waiting and current MIDI/RIX host responsibility. StopMusic does not send script fade seconds; no invented ramp/CD equivalence.",
+        "C": "State mutation stays in interpreter, audio IO stays in shell; current sync accepts only track/loop and invokes existing backend. No new IO/global/dependency layer.",
+        "D": "No new helper or shared abstraction; no duplicate calculation retained for imagined future backend.",
+        "E": "Final9 files518 (including32 direct) green; three controls at final test/source snapshot, final TC0. Raw receipts give actual names; no package acceptance by count.",
+        "F": "Remove misleading historical implementation story; remaining case directly expresses stop intent.",
+        "G": "Identifier _fadeSec occurs once before, zero after, exact declaration removed. All other declarations retained by whole-file proof; no broad deletion or compatibility revival.",
+        "H": "No test API/private export introduced; real runScript/state/bus/RNG remain directly testable."
+      },
+      "decision": "Refresh prior whole-file code acceptance by narrow exact bridge; not a new closed path"
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "sha256": "7e2f44a1f10d5e342c0e8928167e4c68c8e90dcbe1f8094068178fec2cc38998",
+      "lines": 515
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9",
+      "lines": 4969
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "lines": 2911
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288",
+      "lines": 295
+    },
+    {
+      "path": "packages/game/src/core/event-object-scope.ts",
+      "sha256": "5eb02e8921ed8d68466049408c65bb0bfb7a93269b00954a58c125e578f876df",
+      "lines": 95
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06",
+      "lines": 89
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0",
+      "lines": 158
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8",
+      "lines": 51
+    },
+    {
+      "path": "packages/game/src/core/npc-walk-frame.ts",
+      "sha256": "5fc7c0d68185ea66d105c719f6d2864a29b1a508e9ca31e50711dca61631449c",
+      "lines": 23
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c32b60762cfc573fa28e6a372a6e3dafb8710216582e5c0cf565ddfaa06ec38e",
+      "lines": 329
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "sha256": "320d06326b087a178a995150f3b1c76004e20c09bfecb1feaf1b72d7f67d0434",
+      "lines": 275
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+      "lines": 152
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256": "7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52",
+      "lines": 272
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554",
+      "lines": 148
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "lines": 25
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "lines": 20
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "lines": 2521
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    },
+    {
+      "path": "reference/sdlpal/palette.c",
+      "sha256": "88a3160fac6bddd28355a28b788b76b848b9853d06eb75b8abe2116b9ee7795d",
+      "lines": 667
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.test.ts",
+      "sha256": "521df881ac8d5429f298a9c686381aa9ed35a63210b2bd4fce92de6c34c83109",
+      "lines": 447
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "sha256": "ee3754bd43750893e9dd1f2b3c465ca97ddf645d10462a48801f60ff1aa1001c",
+      "lines": 599
+    },
+    {
+      "path": "packages/game/src/core/event-system.cov85.test.ts",
+      "sha256": "5671ec34d07dfeec532d83eae1796c780c94909c743e28abce62e7c6916e9c6a",
+      "lines": 597
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-contracts.test.ts",
+      "sha256": "2c6cf987e15c53684158c0a37091e33c6e0aa0e44fd9d30e804ae6a737ad901e",
+      "lines": 444
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "e60f8a2390114730c9e335f942f40b11e6ad1fce2720f473100c869347e20574",
+      "lines": 6018
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.test.ts",
+      "sha256": "42cdb968b4d7b8c89ce53b753d8d0a4c333a959d3289b7c7100e4302481167de",
+      "lines": 248
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+      "sha256": "3254fba36b18b39d4eabef28e8641a97173137d9fa7650cfc8a520b129922543",
+      "lines": 214
+    },
+    {
+      "path": "packages/game/src/status-poison-equip.glm-q.test.ts",
+      "sha256": "f18699682177468ad9b2c345da61ccd7b6c0974605b574d2eed3e6d19f29cac0",
+      "lines": 218
+    }
+  ],
+  "reuse": {
+    "primary": "Prior full3r/core-scene-event-closeout and subsequent exact minimap ID bridge reused. This delta only removes one unconsumed _fadeSec declaration plus comments, certified by whole TS equality; actual caller has plain numeric command arrays. Detailed runtime truth not re-derived from green tests.",
+    "priorEvidence": [
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/review.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json"
+    ],
+    "dedupe": "event-system.test.ts owns world waiting and fallback FadeOut delay2. This file retains defaultdelay0 and fallback result wiring; palette-fade.test owns interpolation math. 75 owns formal event refresh and off-party equipment, DEV lifecycle tests own button/observer lifecycle. Missing-label warning and hit/zero entry remain distinct."
+  },
+  "mapping": [
+    {
+      "oldFullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+      "newFullNames": [
+        "battle raw fallback — palette 0x51 FadeIn: 黑色到基線色表，清除待淡入旗標",
+        "battle raw fallback — palette 0x93 SceneFade: SHORT 負步長淡出，正步長淡入並清除旗標"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "51/93 split; real base/working palettes distinguish fade endpoints and SHORT direction; flags start opposite."
+    },
+    {
+      "oldFullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+      "newFullNames": [
+        "battle raw fallback — palette 0x80 PaletteFade: 翻轉日夜色組，保留兩檔時長"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "80 retains both fUpdateScene timings; real day/night palettes now distinguish the selected target."
+    },
+    {
+      "oldFullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+      "newFullNames": [
+        "battle raw fallback — palette 0x8C ColorFade: BYTE 色號、方向與零延時回退均落在實際色表"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "8c retains BYTE color/timing; colored palette now distinguishes from/to direction, not all-black existence."
+    },
+    {
+      "oldFullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+      "newFullNames": [
+        "battle raw fallback — palette 0x50 FadeOut: 零 delay 回退一檔，凍結當前畫面並標記下次淡入"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "50 retains delay=0 default; freeze/current colors/black target are distinct from main fallback delay=2 and world waiting."
+    },
+    {
+      "oldFullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+      "newFullNames": ["世界/隊伍 opcode 0x46 SetPartyPos: 半格座標同步隊首、鏡頭與 trail"],
+      "decision": "retain-split-strengthen",
+      "contract": "46 retains position, adds literal camera and directional trail; source script.c 1665-1700."
+    },
+    {
+      "oldFullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+      "newFullNames": ["世界/隊伍 opcode 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果"],
+      "decision": "retain-split-strengthen",
+      "contract": "75 retains real event tick/equipment/HP/MP/off-party ownership; complete16 poison records include zero tombstones."
+    },
+    {
+      "oldFullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+      "newFullNames": ["世界/隊伍 opcode 0x71 WaveScreen: 波幅與 SHORT 負進度分別寫入"],
+      "decision": "retain-split-strengthen",
+      "contract": "71 adds previously unasserted signed progression using canonical WORD; wave retained."
+    },
+    {
+      "oldFullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+      "newFullNames": ["世界/隊伍 opcode 0x36 SetRNG: 設定後續動畫 chunk"],
+      "decision": "retain-split-strengthen",
+      "contract": "36 retains chunk selection."
+    },
+    {
+      "oldFullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+      "newFullNames": [
+        "battle raw fallback — music 0x43 PlayMusic: 曲目與一次播放旗標交給音樂宿主",
+        "battle raw fallback — music 0x45 SetBattleMusic: 只改下一場戰鬥曲目",
+        "battle raw fallback — music 0x77 StopMusic: 停止當前曲目，保留戰鬥曲目",
+        "battle raw fallback — music 0xA3 PlayCDMusic: 使用第二操作數的回退曲目並開啟循環"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "43/45/77/a3 separated; all old state assertions retained and a3 now checks fallback track/loop, not unrelated battle music only."
+    },
+    {
+      "oldFullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+      "newFullNames": [
+        "battle raw fallback — cash/items 0x1E AddCash: SHORT 負數支出與正數收入",
+        "battle raw fallback — cash/items 0x20 RemoveItem: 按量減少，超量移除清空條目"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "1e/20 separated; signed spending/income and partial/over-removal retained; nonzero integer inventoryID61 representation (remove opcode does not consult item table)."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x12 SetObjectPosRelParty: WORD 負偏移以像素相對隊首定位"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "12 removes incorrect tile-scaling title; pixel-relative position with canonical camera."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x6F SyncObjState: 目標狀態匹配才同步 self，目標本身不變"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "6f retains mismatched/matched source state and unchanged target; self/explicit target separated by NPC identities."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x24 SetAutoScript: 全局 label 命中重置 cursor，零入口清除 label/cursor"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "24 hit retains global label/cursor/no-warning; clears both cursor and label for zero entry."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x24 SetAutoScript: 缺失全局入口保留 label，警告一次且不建立 cursor"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "24 miss retains exact message/one call plus label present/cursor absent; fixes contradictory title."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x14 SetObjectGesture: 指定姿勢並強制朝南",
+        "battle raw fallback — NPC 0x0F SetDirOrFrame: 方向與姿勢分別取兩操作數",
+        "battle raw fallback — NPC 0x6C NpcWalkOneStep: 有符號位移並推進一幀"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "14/0f/6c separated; direction starts opposite, exact frame and signed step retained."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x7D MoveObject: 有符號位移不推進動畫",
+        "battle raw fallback — NPC 0x7E SetObjectLayer: 對象層使用 SHORT",
+        "battle raw fallback — NPC 0x87 AnimateObject: 四幀循環末幀回零，坐標不變"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "7d/7e/87 separated; signed layer, no incidental animation on move, exact wrap frame/position."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x40 SetTriggerMethod: 設定指定對象的觸發方式",
+        "battle raw fallback — NPC 0x25 SetTriggerScript: 指定對象記住入口 label",
+        "battle raw fallback — NPC 0x9A SetMultiObjectState: 一基閉區間兩端均更新"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "40/25/9a separated; exact trigger/label and closed interval plus outside-object exclusion."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+      "newFullNames": [
+        "battle raw fallback — NPC 0x49 SetSceneObjectState: 指定全局對象可隱藏",
+        "battle raw fallback — NPC 0x99 ChangeMap: 當前場景記住覆寫值並通知換圖服務"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "49/99 separated; remove false 6d title (old body never executes it); map uses real scene1 override plus service result."
+    },
+    {
+      "oldFullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+      "newFullNames": [],
+      "decision": "retire-weak-no-business-observation",
+      "contract": "Retired weak a6 test: run1 plain-end=0 and unchanged undefined palette do not observe screen backup. Current TS explicit no-op remains unchanged; no new SDL/visual correctness claim."
+    },
+    {
+      "oldFullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+      "newFullNames": [
+        "battle raw fallback — conditional jumps 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "58 retains both independent cash-marker branch outcomes; real hydrated state/bus/RNG."
+    },
+    {
+      "oldFullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+      "newFullNames": [
+        "battle raw fallback — conditional jumps 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)"
+      ],
+      "decision": "retain-split-strengthen",
+      "contract": "81 retains facing/back cash markers and positive contact mode; adds negative unchanged trigger mode; real NPC hydration."
+    }
+  ],
+  "controls": {
+    "records": [
+      {
+        "id": "r2-color-direction",
+        "sourceBefore": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9",
+        "sourceMutant": "56b93fc0fb2131614120479d19c07f792826fedc9458aedb9f874d4ab9bbbbc7",
+        "oldTest": "35e9d5cf21482803eaa04b119744626872754ad635113605447074dabaa3105d",
+        "newTest": "7e2f44a1f10d5e342c0e8928167e4c68c8e90dcbe1f8094068178fec2cc38998",
+        "legacy": {
+          "execution": "r2-color-direction-old.execution.json",
+          "total": 21,
+          "passed": 21,
+          "exit": 0,
+          "failed": []
+        },
+        "current": {
+          "execution": "r2-color-direction-new.execution.json",
+          "total": 32,
+          "passed": 31,
+          "exit": 1,
+          "failed": [
+            {
+              "fullName": "battle raw fallback — palette 0x8C ColorFade: BYTE 色號、方向與零延時回退均落在實際色表",
+              "messages": [
+                "AssertionError: expected [ 16, 32, 48 ] to deeply equal [ 32, 64, 96 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/event-opcodes.cov85.test.ts:159:49\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ]
+        },
+        "restoreSha256": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9"
+      },
+      {
+        "id": "r2-cd-track",
+        "sourceBefore": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9",
+        "sourceMutant": "6a6828c12ba97ec31490caa47a8eaca7026021df0b2aec8ec0637064568aae62",
+        "oldTest": "35e9d5cf21482803eaa04b119744626872754ad635113605447074dabaa3105d",
+        "newTest": "7e2f44a1f10d5e342c0e8928167e4c68c8e90dcbe1f8094068178fec2cc38998",
+        "legacy": {
+          "execution": "r2-cd-track-old.execution.json",
+          "total": 21,
+          "passed": 21,
+          "exit": 0,
+          "failed": []
+        },
+        "current": {
+          "execution": "r2-cd-track-new.execution.json",
+          "total": 32,
+          "passed": 31,
+          "exit": 1,
+          "failed": [
+            {
+              "fullName": "battle raw fallback — music 0xA3 PlayCDMusic: 使用第二操作數的回退曲目並開啟循環",
+              "messages": [
+                "AssertionError: expected 2 to be 9 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/event-opcodes.cov85.test.ts:314:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ]
+        },
+        "restoreSha256": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9"
+      },
+      {
+        "id": "r2-party-camera",
+        "sourceBefore": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9",
+        "sourceMutant": "6833ca4f2bcfbd24aec89fa46efb7081606ccf09d0cf503dae5b1074a0060e92",
+        "oldTest": "35e9d5cf21482803eaa04b119744626872754ad635113605447074dabaa3105d",
+        "newTest": "7e2f44a1f10d5e342c0e8928167e4c68c8e90dcbe1f8094068178fec2cc38998",
+        "legacy": {
+          "execution": "r2-party-camera-old.execution.json",
+          "total": 21,
+          "passed": 21,
+          "exit": 0,
+          "failed": []
+        },
+        "current": {
+          "execution": "r2-party-camera-new.execution.json",
+          "total": 32,
+          "passed": 31,
+          "exit": 1,
+          "failed": [
+            {
+              "fullName": "世界/隊伍 opcode 0x46 SetPartyPos: 半格座標同步隊首、鏡頭與 trail",
+              "messages": [
+                "AssertionError: expected { x: -160, y: -112 } to deeply equal { x: -80, y: -56 }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/event-opcodes.cov85.test.ts:188:23\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ]
+        },
+        "restoreSha256": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9"
+      }
+    ],
+    "sourceRestored": true,
+    "testRestored": true
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "519d16e70e4db79f0bf15ec248fd61b046097db3a2920daccdffd924616cdd21",
+    "members": 105
+  },
+  "tests": {
+    "adjacent": {
+      "files": 8,
+      "passed": 502
+    },
+    "poisonAdjacent": {
+      "files": 1,
+      "passed": 16
+    },
+    "target": 32,
+    "typecheck": "current-typecheck.execution.json; exit0,stderr0",
+    "notRun": [
+      "full check",
+      "official coverage/ratchet",
+      "protected fast",
+      "browser/visual",
+      "PR/merge"
+    ],
+    "current": {
+      "files": 9,
+      "passed": 518,
+      "commandReceipt": "current-adjacent.execution.json",
+      "typecheckReceipt": "current-typecheck.execution.json"
+    }
+  },
+  "processDisclosure": [
+    "Original baseline21:20 green/1 failure from complete16 poison record oracle; repaired legacy21 green before every mutation comparison. Not a game regression.",
+    "First strengthened run31/32: newly written trail oracle incorrectly assumed overlapping positions. Rechecked script.c1665-1700 and corrected all5 literal directional offsets; original raw retained.",
+    "Adjacent command requested9 filters but one nonexistent core/status-poison path matched no file. Native8/502 is reported accurately; real root status-poison file then ran1/16. No repeat of8 and no pretend9-file single run.",
+    "No new testing catalog report: existing event-opcode suite remains; no catalog entry or canonical testing report directly references this file. This is pre94 review evidence with paired identity/native receipts.",
+    "Temporary source mutants restored byte-for-byte in finally; source tree differs from base only in the test and documentation. These are post-edit discrimination controls, not fabricated red-before-product-fix history.",
+    "Late legal-fixture review found existing autoCursor ip9 outside two installed entries; final seed uses actual ip1 and still distinguishes reset to0. Unused test-wrapper return removed; original positive layer4 retained with negative axis. Recollected all three controls at final source/test and final9-file518 plus typecheck. Earlier originals preserved.",
+    "Source cleanup admitted after the first test-only checkpoint; whole-file read not repeated. Exact frozen bridge removes only _fadeSec and all other TS is equal. Prior control mutations restored their own contemporary source; final r2 restore fingerprint equals cleaned live source."
+  ],
+  "knownLimits": [
+    "a6 screen backup remains existing TS no-op. Removed weak test gives no runtime/SDL/visual confidence; not a newly discovered product decision.",
+    "Eight-dimensional acceptance is scoped to this test and declared CODE53 file list. No ordinary-story or English-resource browser claim; prior Chinese controlled fixture visual evidence only.",
+    "StopMusic script fade seconds remain unimplemented in this state channel. Existing current backend stop behavior preserved; cleanup does not certify SDL audio-timing equivalence."
+  ],
+  "scopeAudit53": {
+    "meaning": "Exact existing declared15 file bullets, no scope removed; readonly context not promoted",
+    "files": [
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/player-poison-state.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/dev/dev-panel.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "state": "已验证"
+      }
+    ]
+  },
+  "decision": {
+    "closedFiles": ["packages/game/src/core/event-opcodes.cov85.test.ts"],
+    "cards": {
+      "accept": 78,
+      "partial": 5,
+      "pending": 0,
+      "newlyAccepted": ["53"],
+      "remaining": ["1", "3m", "42", "57", "58"]
+    },
+    "ledger": {
+      "tracked": 3445,
+      "closed": 488,
+      "review": 74,
+      "pending": 2883
+    },
+    "integration": "CODE53 code accepted; task Status review and unified gates/PR remain pending."
+  },
+  "sourceBridge": {
+    "base": "4ae01d9069c7538cf62a4c2b6bd56ed8cf2cb2e7",
+    "path": "packages/game/src/core/event-system.ts",
+    "oldSha256": "7d11e97184667016599674cfded05289bc41ed691e4125ee914b9589d8d5f9bf",
+    "currentSha256": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9",
+    "oldIdentifierCount": 1,
+    "currentIdentifierCount": 0,
+    "removedStatements": 1,
+    "normalizedSha256": "ac0b41e1740fd4fa3cb1ff6b472c0e2da3931167b03493fdc40408a56305095e",
+    "allOtherImplementationTypesImportsExportsEqual": true,
+    "note": "Only primitive WORD-array arithmetic discarded; actual callers use plain numeric command arrays. Does not certify comment truth; actual changed comments separately read against shell AudioManager."
+  },
+  "quantitativeScreen": {
+    "tool": "TypeScript 6.0.3 AST",
+    "method": "1+if/conditional/loop/catch/case/logical && || ?? per function; nested functions counted separately. Reading lead only, not a score target. Collected during final review, not retroactively claimed as initial run.",
+    "before": {
+      "functions": 54,
+      "max": 4,
+      "over10": []
+    },
+    "after": {
+      "functions": 60,
+      "max": 4,
+      "over10": []
+    }
+  }
+}

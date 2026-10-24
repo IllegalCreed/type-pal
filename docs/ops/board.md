@@ -36,7 +36,7 @@ Template: governance-index-v1 / 1.0.0
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | CODE-QUALITY-3Y-CLOSEOUT-1 | [统一治理分支与3y复审](tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | Codex / 统一3y，逐卡复审 | 既有阶段已同步main；余项沿pre94逐卡复审，未知仍review |
-| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | review | Codex / 五卡八维补审及必要返工已核 | runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 指定代码接受与余项分开，统一门/提交落点见唯一回执及Git refs。 |
+| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | review | Codex / 原15声明文件代码接受 | 最后事件专测32例／518相关及三项业务反控、逐例映射；GS/Dev/毒停止线分别有据。代码accept，任务review与统一门/合并分开。 |
 | CODE-QUALITY-57 | [game bootstrap thumbnail seam boundary](tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | Codex / 缺 thumbnail 像素 oracle 与视觉裁决，禁止实现 | bootstrap 两层直绘未调用 seam repair；与 gameplay 补偿边界待核 |
 | CODE-QUALITY-95 | [menu合法夹具](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | Codex / 等统一门 | 三份局部accept保持，不关闭文件 |
 | CODE-QUALITY-94 | [menu阶段集成](tasks/CODE-QUALITY-94-menu-integration-window.md) | rework | Codex / 已接手返工 | 两项获批行为已修；完整门带诊断，第三项法术显示未动 |
@@ -65,7 +65,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 77代码accept、6partial续核 | Dev五文件接受、106相关；53原419行事件专测仍pending，下一片核oracle/排重。1/3m/42/57/58未结，全仓/coverage及一个PR待全部pre94。 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 78代码accept、5partial续核 | 53原15文件代码接受、最后专测518相关；1/3m/42/57/58未结，全仓/coverage及一个PR待全部pre94。 |
 | GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 | [pre94工具导出失败提示](tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | Codex / 已批先红后修，等统一门 | 错误toast／URL清理／4不同IO合同及真实Chrome Save/IDB失败链通过；340相邻，未改槽位/DB；只读证据已落。 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [毒列表与入口所有权](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | review | Codex / 两项用户批准均修，待统一门 | 全16槽稳定保留、不丢毒不重复；入口先占槽／续点随record，四正式红后7绿、491相邻；普通剧情嵌套未证。 |
