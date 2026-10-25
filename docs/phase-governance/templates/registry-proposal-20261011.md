@@ -509,3 +509,22 @@ Owner提供五个具体设计种子供下一轮直接细化，均未实跑新执
 41个reporter/摘要没有真实非零pending样本、5件没有pending字段。需要非零pending判别力时，使用已接受S29边界作外部复用证据，或明确标注合成parser反例；不可新编历史运行。历史coverage-summary绝对键作为不可变原生记录保留，不要求旧worktree重建、不作当前coverage census。
 
 以上只具体化已有draft排期。新variant/version、真实model/consumer与正负pilot仍须Owner冻结并据证接受，正式registry/routing不动；选择器规范化不授权改原字段或把所有JSON套通用any-object合同。
+
+
+## 2026-10-25 S48 A/B/D首批原生pilot实施设计冻结1.0.0
+
+本节冻结以下8个实际载体、7种形状的实施合同，不将S46的53份建议整体冻结。父类型仍17类、现有父版本与historicalSourcePins不变。所有载体format=json-native、治理说明放既有唯一current review；保留原bytes、原键/数组顺序、执行与历史来源边界，不加payload/envelope/sidecar。精确carrier revision/blob/SHA、当前基底字节、独立形状表及原型见既有S22证据包的S48成员；固定83743275只认证载体，不冒充执行提交或覆盖1838旧source pin。
+
+| 首批载体 | 拟合同/必需形状与状态 | 本篇oracle与停止线 |
+|---|---|---|
+| [MenuBox K1红](../../ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json)、[同族绿](../../ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json) | 复用historical-vitest-native-v1/1.0.0的精确新增准入设计；total/passed/failed/pending/suite整数、success布尔、testResults数组，文件项name字符串/assertionResults数组，断言fullName/status字符串与failureMessages数组。本两件只观察passed/failed，未来pending/skipped/todo另核既有合同 | 各25断言；红24/1、绿25/0；5文件与12层级套件分轴。完整失败身份集合保留，换绿、截名或套件当文件均拒绝；不隐式扩大旧272准入 |
+| [缺pending短摘要](../../testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json) | test-machine-evidence父类下historical-test-summary-native-v1/1.0.0；total/passed/failed整数，files数组元素file字符串/tests整数；没有numPendingTests、testResults | 原25/25/0、files.tests合计25；pending是未报告，不补零；没有详细失败集合就不作全身份认证 |
+| [蒸馏reporter](../../ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json) | test-machine-evidence父类下historical-distilled-vitest-native-v1/1.0.0；完整reporter形状加distillation对象，两者都必需 | 31断言，coverageMap移除说明及originalFileSha256逐值保留；原SHA与载体SHA不同且不替代被移除原件认证；去掉distillation或合并两SHA拒绝 |
+| [SHARED命令摘要](../../ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json) | evidence-receipt父类下historical-command-summary-native-v1/1.0.0；argv数组/cwd字符串/exitCode整数/signal与spawnError为null/summary与sourceSha对象/identitySet数组。15项只有fullName与status字符串，原status=passed | 原exit0、15历史身份；载体没有stdout/stderr及file列，不作日志捕获或零诊断声明。sourceSha仍原声称；七别名不删除 |
+| [identity数组](../../testing/archive/legacy/batches/glm-large-wave/batch-a-directed.json) | test-machine-evidence父类下historical-test-identity-native-v1/1.0.0；根数组，每项file/fullName/status字符串，原status=passed | 50个有序且唯一file/fullName对；重复/改名/状态换值拒绝，不把行数自动当某次suite或执行数 |
+| [纯变异定义数组](../../ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json) | evidence-receipt父类下historical-mutation-definition-native-v1/1.0.0；根数组，id/file/find/replace/testFile字符串、line整数，note可选字符串；没有执行状态 | MUT-01至12唯一身份与替换定义保留；定义不是kill或原始/变异/恢复运行包，缺replace或伪称执行拒绝 |
+| [历史ops路径映射](../../ops/archive/ops-governance-layout-20261004.json) | evidence-receipt父类下historical-path-map-native-v1/1.0.0；根对象schemaVersion整数，id/generatedBy/sourceRevision/appliedRevision/policy字符串，rootWhitelist和entries数组，summary对象；entry from/to/kind/reason/sourceSha256/afterSha256字符串、evidence对象 | 43历史决议=board-history1/audit-tool39/task-evidence3。顶层entry.after与entry.evidence.after各保历史值，不合并刷新，不执行移动、不据旧目标现存判当前授权 |
+
+治理状态一律historical；当前review保留身份/范围、来源与合法输入、oracle、原始结果、限制与下一步五部分，字段含owner/coreConclusion/readDomain/primarySource/truthAnchors/legalInputs/businessOracle/fieldRoles/historyBoundary/stopLine/nextStep。runtimeExecutionPerformed与historicClaimsReexecuted双false、credit0。输入是固定原生与历史上下文，结果不作为合法输入；旧withdrawn/unknown及未读明细不能因源SHA相等消除。
+
+原型先真实Git解析+原字节保全，再严格UTF8/重复键与形状/本篇事实核验。8正例、逐件8合成反例和2非法JSON反例实跑通过；合成pending/错误字段只在内存，不冒称历史运行。生产实施还必须接入真实model与progress，使用protected reviewReader和原字节Git provider，核联合换path/variant/来源、刷新SHA洗白、双false升真与旧cohort不变；该联合门未过前不注册正式路由、不授语义/迁移信用。本节为有界实施设计冻结，不是任何历史测试/E2E/coverage已重跑。

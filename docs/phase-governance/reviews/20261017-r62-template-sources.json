@@ -3371,7 +3371,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "adcac2abbd87ad4ed0e923fa130311f9b0b6f9fb3ec77d518c1565607ac33a76",
+      "afterSha256": "3edee7bee3ff865cd1cb6e8ca592ef79078de727c2d275dc69738ae406125af8",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3598,6 +3598,18 @@
           "beforeSha256": "3ab9434994b9a5224aa58a9f814d312f5eb681906e3b6f131722bb5065a289d3",
           "afterSha256": "adcac2abbd87ad4ed0e923fa130311f9b0b6f9fb3ec77d518c1565607ac33a76",
           "scope": "Record S45 limited non-author acceptance and S46 design rework/Owner bounded refinements/pilot seeds; exact administrative after pins only, no new document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S48",
+          "revision": "af667e46a51fa491451bfd14a8d556673b4cc230",
+          "beforeSha256": "adcac2abbd87ad4ed0e923fa130311f9b0b6f9fb3ec77d518c1565607ac33a76",
+          "afterSha256": "3edee7bee3ff865cd1cb6e8ca592ef79078de727c2d275dc69738ae406125af8",
+          "scope": "Record S46 correction audit, Owner sparse repairs and eight-carrier implementation design freeze; exact administrative after pins only, no new document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

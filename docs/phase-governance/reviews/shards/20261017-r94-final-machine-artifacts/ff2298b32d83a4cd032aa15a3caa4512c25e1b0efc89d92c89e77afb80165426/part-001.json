@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "94222a5ad3f09a051906a79bfe982b567c4761e4d47744e114fa8eed18592bea",
+  "generation": "ff2298b32d83a4cd032aa15a3caa4512c25e1b0efc89d92c89e77afb80165426",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
   "entries": [
@@ -2055,7 +2055,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "1aca402388f316c388c1f549808f1b9e2dbaabee53fe42ce6f293bece30c05e6",
+      "afterSha256": "7cbf3231ddb3b84379323f58530acf3f9d58a39fd529e4b2364a42982a6808e4",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2836,6 +2836,18 @@
           "beforeSha256": "89cc30bedc664aa5c940b425da3ac1ae747e049f172cf2b1284c20f33bf94089",
           "afterSha256": "1aca402388f316c388c1f549808f1b9e2dbaabee53fe42ce6f293bece30c05e6",
           "scope": "Record S45 limited non-author acceptance and S46 design rework/Owner bounded refinements/pilot seeds; exact administrative after pins only, no new document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S48",
+          "revision": "af667e46a51fa491451bfd14a8d556673b4cc230",
+          "beforeSha256": "1aca402388f316c388c1f549808f1b9e2dbaabee53fe42ce6f293bece30c05e6",
+          "afterSha256": "7cbf3231ddb3b84379323f58530acf3f9d58a39fd529e4b2364a42982a6808e4",
+          "scope": "Record S46 correction audit, Owner sparse repairs and eight-carrier implementation design freeze; exact administrative after pins only, no new document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

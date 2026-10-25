@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s47-native-design-adjudication
+Branch: codex/docs-s48-native-pilot-freeze
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2502,3 +2502,12 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 小问题由Owner直接修74路径的稀疏字段：29 reporter实算断言/失败/文件记录/套件层级；两个distillation单列载体与声明原件SHA；14命令族按实际嵌套judge/phases/aggregate/repro分开；空entries仍是存在字段；15功能/存储合同与文档迁移合同分轴。实际三个S25路径通过真实原字节/保护review合同，保留existing；摘要与模板定义不借既有实例合同获准。修正后3 existing、23 existing-format-new-admission、626 new-contract-proposed，仅为设计分类，无状态晋升。
 - Owner关闭一项多余设计阻塞：历史coverage-summary的绝对路径键按原字节不透明保留，不要求已消失的旧worktree存在，也不认证当前coverage census。41 reporter/摘要无非零pending实物，5件缺pending；不编造历史pending运行，后续复用既有边界或明确合成反例。Native载体、原来源、source pin、1838分母均不改。
 - Codex build allowed从f0a18da7隔离后继S47：当前只写本卡/看板/既有模板提案、相应after行政级联与原单份gzip，记录S45接收/S46据证返工及5个真实pilot设计种子；不改正式registry/routing/产品/旧测试/coverage/共享规则，不授新迁移信用。Owner并行负责公共native guard/来源轴/控制127设计；GLM仅定点补合同定义、选择器与消费者锚，复用74修正，一次集中回交。不合main、不推送、不标done。
+
+
+## S48 S46返工据证接收与Owner首批原生pilot设计（2026-10-25）
+
+- GLM352稀疏delta与53计划的身份、三项只读verify实跑均通过，原652与仓库零改；接收可复用映射与诚实零信用边界，不据issues0认定设计闭合。原报告的15 functional existingSystemContract不是native准入白名单（目标交集仍3条S25）；“五种子已并入cases”实为仅r73一条且混型，四A种子未入。原报告保留，Owner勘误分开记录；S47行政/封存有限accept可复用，不涉及作者652自签。
+- 内容层C01–C03仍有缺口：A/B样本和目的错型，39计划反例泛化；HTML宿主误要求canvas。421处原required改absent中，Owner逐字段证实413数组元素实际存在+4根表达误置，覆盖155路径；直接改为真根或数组pointer+itemFields与实际计数，不改原生。消费者抽6writer/6directory共12路径，5成立/4关系错误/3kind订正；同错误文本有界展开16路径，替换17声明，保留同row另外35条。两类修订共160路径，仅fieldRoles/consumerWitnesses；其余可用内容保留，不要求重做652。
+- Owner接手上述确定修复，不再让用户转整包返工。非作者子代理独立复算417字段/652原生与16消费者，accept零counter。既有Owner74事实与五种子不倒退；本次新修复与原作者包均独立封存于既有单gzip，不造第二份全量账本。
+- 本轮build allowed限定三正文（本卡/看板/registry-proposal）、关联行政after级联、既有gzip及仓外原型。按提案冻结A/B/D首8载体、7形状的1.0.0实施设计：红/绿完整reporter、缺pending摘要、蒸馏reporter、真实命令摘要、identity数组、纯变异定义、历史path映射。原型8正例/8合成语义反例/2解析反例通过并非作者复验；生产model/progress联合合同与正式routing尚未实施，不把原型或设计冻结登记成template-compliant。C/E/F和余下设计继续draft。
+- 后继实施由Codex持有通用guard/精确准入/临时树联合反例；复用既有review位置，原生字节与旧cohort/source pin保持，不更改旧测试、产品、coverage、ignore或maxSize。当前父子卡rework，严格1750/878待迁移文档不扣，212/runtime信用0；必要门全过前不合main、不推送、不done。

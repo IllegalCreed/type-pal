@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "94222a5ad3f09a051906a79bfe982b567c4761e4d47744e114fa8eed18592bea",
+  "generation": "ff2298b32d83a4cd032aa15a3caa4512c25e1b0efc89d92c89e77afb80165426",
   "key": "part-002",
   "positions": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2198,7 +2198,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "727af667da5b190b6e1b1c95977eb10def681134b124477b072dce18bbba765f",
+      "afterSha256": "94437bae7ba579f32f3171650d2152d20a95ee7ef412b41668e02fb3f45f3dcf",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3102,6 +3102,18 @@
           "beforeSha256": "274510af74c54092484d1da74a00598b1ff3ec931d6e3a5be619c607738785c5",
           "afterSha256": "727af667da5b190b6e1b1c95977eb10def681134b124477b072dce18bbba765f",
           "scope": "Record S45 limited non-author acceptance and S46 design rework/Owner bounded refinements/pilot seeds; exact administrative after pins only, no new document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S48",
+          "revision": "af667e46a51fa491451bfd14a8d556673b4cc230",
+          "beforeSha256": "727af667da5b190b6e1b1c95977eb10def681134b124477b072dce18bbba765f",
+          "afterSha256": "94437bae7ba579f32f3171650d2152d20a95ee7ef412b41668e02fb3f45f3dcf",
+          "scope": "Record S46 correction audit, Owner sparse repairs and eight-carrier implementation design freeze; exact administrative after pins only, no new document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
