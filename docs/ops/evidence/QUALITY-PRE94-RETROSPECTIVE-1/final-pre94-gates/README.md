@@ -5,7 +5,7 @@ Owner: Codex（单Agent）
 
 固定83张pre94卡的原代码范围均accept（0partial／0pending）；这不等于全仓3452文件全部完成。当前机器账本511closed／63review／2878pending。未扩94–102，主工作树未改。逐文件八维、caller／oracle、职责与状态Owner、注释、复用、测试质量和低成本版本复验均按各片有效证据；本窗口只合并门禁信用，不重新全文审所有文件。
 
-[阶段与单文件八维](review.json)、[有限覆盖率重计与精确退役映射](recount.json)、[最终完整原件](final-receipts.json.gz)、[首跑失败原件](initial-receipts.json.gz)、[默认只读快检](verify.mjs)。最终代码冻结257c0b816；5879个包／测试／项目／配置输入已逐SHA确认未变。快检只核身份、原件与已记录门结果，不冒充重新设计审查或远端CI。
+[阶段与单文件八维](review.json)、[有限覆盖率重计与精确退役映射](recount.json)、[最终完整原件](final-receipts.json.gz)、[首跑失败原件](initial-receipts.json.gz)、[默认只读快检](verify.mjs)。最终代码冻结257c0b816；原采集时5879个包／测试／项目／配置输入逐SHA固定；后继5878保持原字节，1个worker资源控制由下述完整文件桥限定。快检只核身份、原件与已记录门结果，不冒充重新设计审查或远端CI。
 
 - `pnpm check`实际exit0：20617包内测试＋708工具测试，七包typecheck及editor author-scripts检查，lint6100文件error／warning／info均0；完整stderr0、Vitest stderr区段0。首跑exit1为G02旧入口断言，已保留并精确修正；13身份数和像素／错误合同保留。
 - 唯一`pnpm coverage:ratchet`采集完成20180 fast测试／807生产源，运行诊断0，但原命令exit1拒绝CLI拆分后的statements／functions／lines比率。这次失败明确保留，不能称原命令exit0。
@@ -20,3 +20,11 @@ Owner: Codex（单Agent）
 ## 首次PR的安装器提示与窄修
 
 首次PR文档检查实际success、注解0，但完整stdout另有1条pnpm安装WARN：固定Action内部先装11.25.0再self-update为项目10.29.2，引发旧布局提示。不能称整条日志0告警。[两工作流八维／完整差异证明](bootstrap.json)和[原始服务日志／上游固定源码／实际安装回执](bootstrap-receipts.json.gz)保留。改为独立RUNNER_TEMP直接安装既定10.29.2，原Node与全部门命令不变；store路径改变，缓存key同时包含两工作流与lockfile，防止旧路径缓存假命中。真实提取脚本、版本及路径验证和47质量工具0stderr；未重跑本地全仓或coverage。新的同PR远端结果仍按实际回执，不能由本机安装成功外推。
+
+## 新CI的5000ms宿主超时与资源预算
+
+5b94a978c的Coverage40158750359在Reforge送菜宿主单例超时，8990绿／1基础设施红，尚未到全仓比较；不能称CI通过。[完整配置八维／输入桥与失败范围](worker-budget.json)、[未裁剪服务日志、原生枚举／51相关及产生者](worker-receipts.json.gz)保存。只将Vitest maxWorkers2改1，全部8991身份／365文件、选择器、隔离和原有5s／15s／30s期限不变。pal-meal-shell全803行和全部产品源原字节保留，0新文件关闭。
+
+三个私有profile只用于定位：尺寸写入0、输入准备48ms左右、主要成本是启动和渲染；减少IO日志只小幅改善，所以未实施该原型，也未修改fixture／绘制／脚本／断言。单worker作为资源约束减少冷图与V8竞争，不宣称已证明唯一原因；新实际CI仍须通过。51相关／TC与完整官方定义枚举0stderr。原完整check／单次coverage来自2worker版本，当前以5878精确输入＋1明确资源桥增量核证，不能冒称在新worker下重跑全仓。
+
+官方枚举前后除executionDigest外deep-equal；仅依新实际枚举更新摘要的该配置字段及baseline指纹，原采集时间、全部覆盖率分子分母、来源、身份与数量均不变。由原官方严格尾段执行同报告ratchet／protected，未重采覆盖率、不降低比例。原始报告仍保留；最终以新候选真实远端覆盖率为准。

@@ -1,0 +1,161 @@
+{
+  "date": "2026-10-25",
+  "owner": "Codex, single agent, release gate repair only",
+  "state": "Local finite checks pass; actual new CI still required, previous CI failure not withdrawn",
+  "sourceProof": {
+    "date": "2026-10-25T04:13:35.540Z",
+    "path": "packages/reforge/vite.config.ts",
+    "base": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+    "beforeSha256": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa",
+    "sha256": "12ac702437df2a0f27732987edbe374997aa8809966c17cac387913045206f92",
+    "beforeSource": "worker-before.config.ts",
+    "replacements": [
+      {
+        "before": "  // Each real-host flow cold-loads the production graph after resetModules. Bound\n  // concurrent transforms across pnpm's parallel packages; keep default timeouts.",
+        "after": "  // Real-host flows cold-load the production graph after resetModules. One test\n  // worker avoids competing cold boots/V8 heaps on CI; keep every existing timeout."
+      },
+      {
+        "before": "test: { maxWorkers: 2 }",
+        "after": "test: { maxWorkers: 1 }"
+      }
+    ],
+    "matchedUnchangedInputs": 5878,
+    "unchangedTotalInputs": 5879,
+    "executionDigest": {
+      "before": "0e16646a8bfdccb56406d7988999c3ef74231640a483de232374e9d6b4a66b9c",
+      "after": "497250ddf5e4e2d41341f3e462bb1ac3cf6ec4eaea9804f4d3a1d7601fc6e6f5"
+    },
+    "testInventory": {
+      "testCount": 8991,
+      "files": 365,
+      "identityDigest": "51db0ef93c8841ac3bf3a0074543fabd0d9fa5437e826318c87520db3ca3a40f",
+      "comparison": "Complete official inventory except executionDigest deep-equal; no identities, selectors or counts changed."
+    },
+    "summary": {
+      "beforeSha256": "c7afdc560c56b93fc4155cbdf493855751a22958417001919f4ade472d8dff3d",
+      "afterSha256": "1d4dc57420d204bfaa7eda190302a616ce3f290a23715fd5482e4a2f9f29bcd9",
+      "mutation": "Only reforge.fastTests.executionDigest and identical selectedTests.executionDigest updated from actual official definition inventory. All measured coverage counters, source/test scopes, provider and original collection timestamp retained. Not a new measurement or claim of one-worker coverage success; new actual CI remains required."
+    },
+    "scope": "One test worker instead of two, with existing deadlines and all8991 contracts. No product or test-source change; static resource-budget mitigation, not proof of unique timeout cause."
+  },
+  "receipts": {
+    "path": "worker-receipts.json.gz",
+    "sha256": "adff3b4b1ca57642584fdbcebe2c2b8f082df15fbb2ac8e233e2076b7791cb67",
+    "members": 61
+  },
+  "file": {
+    "path": "packages/reforge/vite.config.ts",
+    "sha256": "12ac702437df2a0f27732987edbe374997aa8809966c17cac387913045206f92",
+    "dimensions": {
+      "A": "Complete111-line Vite config plus all803-line meal test/real driver/dom-host read. Exact whole-file replacement permits only two comment lines and maxWorkers2→1. All serveDir imports/body, validators, selectors, isolation and deadlines unchanged. CI failure is infrastructure5000ms timeout, not a gameplay counter.",
+      "B": "Resource-budget comment now describes cold production graphs/V8 competition; no assertion that concurrency is the unique timeout cause or that CI already passed.",
+      "C": "Existing Vitest config owns worker scheduling; no world/IO/test-state owner changes, no helper options or global bypass. All production/test source unchanged.",
+      "D": "Reuse standard maxWorkers option; no new fixture/cache/abstraction or transplanted legacy path.",
+      "E": "Official definition inventory freshly enumerates all8991 identities/365 files exactly unchanged except config executionDigest. Actual4-suite51-case regression andTC pass. The original nine meal bodies, all matchers and existing5s/15s/30s deadlines remain byte-identical.",
+      "F": "Literal one-worker budget and precise comment; all unrelated dev-server logic retained.",
+      "G": "No skip/exclude/timeout increase/rule reduction; speculative Canvas/IO/caching edits were not applied. Only required release-gate scope;0 new ledger closures.",
+      "H": "Standard deterministic resource bound, observed with real boot/serving/escort/restore path. Complete old failed service log, source proof, fresh inventory and same-report metadata checks available; next actual CI is decisive."
+    }
+  },
+  "baseline": {
+    "path": "scripts/coverage/baseline.fast.json",
+    "beforeSha256": "d0e978fbb5b571bce914cc2ba1285660b9fad26fed81ed1ea5b61df6b2809a70",
+    "sha256": "75a8b347a497089d3e957f5c6009937246e2d8406db174b81f60eefc2de4fdb7",
+    "onlyChange": "packages.reforge.fastTests.executionDigest, via unchanged official ratchet writer; every measured metric/source/identity/count/provider/timestamp retained. No baseline percentage reduction and no second local official coverage collection."
+  },
+  "regression": {
+    "files": 4,
+    "passed": 51,
+    "includesOriginalMeal": 9,
+    "typecheck": 0,
+    "stderrBytes": 0
+  },
+  "coverage": {
+    "collections": 1,
+    "originalCodeFreeze": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+    "metadataOnly": "Fresh official collectTestInventory with identical identities, only executionDigest changed. Existing measured counters retained as strict floor for current actual CI. Derived summary is not advertised as freshly measured one-worker coverage.",
+    "ratchet": {
+      "id": "worker-ratchet-same-report",
+      "command": "node",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/replay-current-official.mjs",
+        "fast",
+        "--ratchet"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T04:13:35.578Z",
+      "end": "2026-10-25T04:13:35.912Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+      "observerTimeout": false,
+      "stdoutBytes": 165,
+      "stderrBytes": 0
+    },
+    "protected": {
+      "id": "worker-protected-same-report",
+      "command": "node",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/replay-current-official.mjs",
+        "fast"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T04:13:35.945Z",
+      "end": "2026-10-25T04:13:36.056Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+      "observerTimeout": false,
+      "stdoutBytes": 891,
+      "stderrBytes": 0
+    }
+  },
+  "profiling": {
+    "resizeWrites": 0,
+    "oldPhase": {
+      "projectMs": 48.38275,
+      "loadMs": 62.735,
+      "bootMs": 673.015958,
+      "renderMs": 836.395961,
+      "pristineMs": 35.283917
+    },
+    "ioSinkRenderMs": 703.991711,
+    "conclusion": "Resize hypothesis ruled out; fixture construction only a small fraction; unused IO-log prototype gives modest saving, not used as a claimed fix. All three profiling copies are outside repository now. Filtered probes each1executed/8skipped, not9-case acceptance or gameplay red."
+  },
+  "processDisclosures": [
+    "First official-inventory facade call missed selectedProfile argument and failed before spawning tests/inventory; exact error retained, corrected three-argument call succeeds. All official runner statements retained except import resolution/final dispatch/exports, with28 statement hashes.",
+    "First failed-run metadata fetch received transport EOF; complete raw log succeeded; both command receipts retained, not a fake API success.",
+    "Profile and IO-sink variants were temporary evidence only; tracked pal-meal-shell file SHA equals base, no such edits were implemented.",
+    "The original whole check/coverage ran with two workers.5878 tracked inputs still exactly match; this single resource-only config bridge, fresh inventory,51case regression andTC supplement that record. New remote full coverage must independently pass; no current full execution claim is inferred from metadata replay."
+  ],
+  "counts": {
+    "total": 3452,
+    "closed": 511,
+    "review": 63,
+    "pending": 2878
+  },
+  "fixed83": {
+    "accept": 83,
+    "partial": 0,
+    "pending": 0
+  },
+  "finalStatic": {
+    "id": "worker-static",
+    "command": "bash",
+    "args": [
+      "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "start": "2026-10-25T04:19:29.797Z",
+    "end": "2026-10-25T04:19:41.289Z",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "head": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+    "observerTimeout": false,
+    "stdoutBytes": 9414,
+    "stderrBytes": 0
+  }
+}

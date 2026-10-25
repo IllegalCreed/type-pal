@@ -1069,7 +1069,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Owned final gate retry delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Local gates accepted; exact same-report recount/protection. CI/merge pending.",
+      "coreConclusion": "Pre94 code accepted; finite resource-only gate retry. CI/merge pending.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "2a7f10bae842916947893e059c641a45c23a37c7a5cf3816e5b73acda1d56f78",
+      "afterSha256": "0527aa718adb2c73ed31ffd2c82b05a82281ada931aef8792a8d3314c87977e1",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "2a7f10bae842916947893e059c641a45c23a37c7a5cf3816e5b73acda1d56f78",
+        "implementationSha": "0527aa718adb2c73ed31ffd2c82b05a82281ada931aef8792a8d3314c87977e1",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1795,7 +1795,7 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "2a7f10bae842916947893e059c641a45c23a37c7a5cf3816e5b73acda1d56f78",
+        "afterSha256": "0527aa718adb2c73ed31ffd2c82b05a82281ada931aef8792a8d3314c87977e1",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1813,7 +1813,7 @@
         "currentMaintenance": {
           "kind": "pre94-rle-test-quality-maintenance",
           "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
-          "afterSha256": "2a7f10bae842916947893e059c641a45c23a37c7a5cf3816e5b73acda1d56f78",
+          "afterSha256": "0527aa718adb2c73ed31ffd2c82b05a82281ada931aef8792a8d3314c87977e1",
           "lineCount": 5498,
           "scope": "Final local gates; history retained; CI/merge pending.",
           "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
@@ -7828,7 +7828,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Owned final gate retry delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Local gates accepted; exact same-report recount/protection. CI/merge pending.",
+      "coreConclusion": "Pre94 code accepted; finite resource-only gate retry. CI/merge pending.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "7772feeccff5f6fd6cb0778bb5000c01d15bfda1bf579d55532aabe1bd0dcfb0",
+      "afterSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "7772feeccff5f6fd6cb0778bb5000c01d15bfda1bf579d55532aabe1bd0dcfb0",
+        "implementationSha": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8541,7 +8541,7 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "7772feeccff5f6fd6cb0778bb5000c01d15bfda1bf579d55532aabe1bd0dcfb0",
+        "afterSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8559,7 +8559,7 @@
         "currentMaintenance": {
           "kind": "pre94-rle-test-quality-maintenance",
           "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
-          "afterSha256": "7772feeccff5f6fd6cb0778bb5000c01d15bfda1bf579d55532aabe1bd0dcfb0",
+          "afterSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
           "lineCount": 7071,
           "scope": "Final local gates; history retained; CI/merge pending.",
           "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",

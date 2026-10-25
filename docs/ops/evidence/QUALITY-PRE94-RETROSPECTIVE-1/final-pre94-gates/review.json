@@ -28,7 +28,7 @@
       "countChange": 0
     }
   },
-  "state": "Local gates accepted; first-PR docs/security passed, installer WARN disclosed and two-workflow bootstrap repaired; same-PR new CI pending",
+  "state": "Original83 code scopes accepted; local single-worker51-case/TC/inventory evidence and strict metadata-only scope ratchet recorded; current full remote CI pending after preserved5000ms failure.",
   "fixed83": {
     "accept": 83,
     "partial": 0,
@@ -380,7 +380,7 @@
     },
     {
       "path": "scripts/coverage/baseline.fast.json",
-      "sha256": "d0e978fbb5b571bce914cc2ba1285660b9fad26fed81ed1ea5b61df6b2809a70"
+      "sha256": "75a8b347a497089d3e957f5c6009937246e2d8406db174b81f60eefc2de4fdb7"
     },
     {
       "path": "scripts/coverage/run.mjs",
@@ -407,7 +407,8 @@
     "member": "collection-inputs.json",
     "sha256": "87d8caca04c48b185012bbc4deb7be05667b56fc4179aa88e4ad663bfadaa60e",
     "files": 5879,
-    "claim": "All package/source/test/project/runtime/config inputs matched before recount; subsequent edits only documented coverage data and docs. Verify again before relying on these gates."
+    "claim": "All package/source/test/project/runtime/config inputs matched before recount; subsequent edits only documented coverage data and docs. Verify again before relying on these gates.",
+    "currentValidation": "5878 original byte matches + one exact Vite maxWorkers2→1/comment bridge. Original whole check/coverage were2worker; no new full local run claimed."
   },
   "receipts": {
     "path": "final-receipts.json.gz",
@@ -430,9 +431,9 @@
   ],
   "evidenceTool": {
     "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs",
-    "sha256": "cbc0eb3fb2db57a6909016555b555e4738a9549fa354fd0d29ebcaa2912e86dd",
+    "sha256": "f9330373125a6e23220aba36856a0879f27c02d65846c832e40262e082a842cb",
     "dimensions": {
-      "A": "Read all verifier code; hashes complete members, frozen5879 inputs, policy pins, recorded exit0 and expected exit1 originals, official summary/committed baseline and ancestry. Missing3/stale2 are explicit; semantic judgments and remote release excluded.",
+      "A": "Complete verifier read;5878 exact original inputs plus one exact whole-file resource-only bridge, frozen reports/native IDs and strict gates validated. No semantic or new remote execution certification.",
       "B": "Success message limits MATCH to frozen identity/recorded outcomes; original failure remains failure. No unqualified all-quality certification.",
       "C": "Only local readFileSync, gzip decoding and read-only Git merge-base; no tracked/temp writes, test execution, server or network ownership.",
       "D": "Three local read/hash/member helpers reuse archive contract; no global generic validation framework.",
@@ -558,6 +559,73 @@
       "head": "b4f5465eae4325c56a293e645ef81e451751807a",
       "observerTimeout": false,
       "stdoutBytes": 9369,
+      "stderrBytes": 0
+    }
+  },
+  "workerBudget": {
+    "review": "worker-budget.json",
+    "receipts": {
+      "path": "worker-receipts.json.gz",
+      "sha256": "adff3b4b1ca57642584fdbcebe2c2b8f082df15fbb2ac8e233e2076b7791cb67",
+      "members": 61
+    },
+    "sourceProof": {
+      "date": "2026-10-25T04:13:35.540Z",
+      "path": "packages/reforge/vite.config.ts",
+      "base": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+      "beforeSha256": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa",
+      "sha256": "12ac702437df2a0f27732987edbe374997aa8809966c17cac387913045206f92",
+      "beforeSource": "worker-before.config.ts",
+      "replacements": [
+        {
+          "before": "  // Each real-host flow cold-loads the production graph after resetModules. Bound\n  // concurrent transforms across pnpm's parallel packages; keep default timeouts.",
+          "after": "  // Real-host flows cold-load the production graph after resetModules. One test\n  // worker avoids competing cold boots/V8 heaps on CI; keep every existing timeout."
+        },
+        {
+          "before": "test: { maxWorkers: 2 }",
+          "after": "test: { maxWorkers: 1 }"
+        }
+      ],
+      "matchedUnchangedInputs": 5878,
+      "unchangedTotalInputs": 5879,
+      "executionDigest": {
+        "before": "0e16646a8bfdccb56406d7988999c3ef74231640a483de232374e9d6b4a66b9c",
+        "after": "497250ddf5e4e2d41341f3e462bb1ac3cf6ec4eaea9804f4d3a1d7601fc6e6f5"
+      },
+      "testInventory": {
+        "testCount": 8991,
+        "files": 365,
+        "identityDigest": "51db0ef93c8841ac3bf3a0074543fabd0d9fa5437e826318c87520db3ca3a40f",
+        "comparison": "Complete official inventory except executionDigest deep-equal; no identities, selectors or counts changed."
+      },
+      "summary": {
+        "beforeSha256": "c7afdc560c56b93fc4155cbdf493855751a22958417001919f4ade472d8dff3d",
+        "afterSha256": "1d4dc57420d204bfaa7eda190302a616ce3f290a23715fd5482e4a2f9f29bcd9",
+        "mutation": "Only reforge.fastTests.executionDigest and identical selectedTests.executionDigest updated from actual official definition inventory. All measured coverage counters, source/test scopes, provider and original collection timestamp retained. Not a new measurement or claim of one-worker coverage success; new actual CI remains required."
+      },
+      "scope": "One test worker instead of two, with existing deadlines and all8991 contracts. No product or test-source change; static resource-budget mitigation, not proof of unique timeout cause."
+    },
+    "baseline": {
+      "path": "scripts/coverage/baseline.fast.json",
+      "beforeSha256": "d0e978fbb5b571bce914cc2ba1285660b9fad26fed81ed1ea5b61df6b2809a70",
+      "sha256": "75a8b347a497089d3e957f5c6009937246e2d8406db174b81f60eefc2de4fdb7",
+      "onlyChange": "packages.reforge.fastTests.executionDigest, via unchanged official ratchet writer; every measured metric/source/identity/count/provider/timestamp retained. No baseline percentage reduction and no second local official coverage collection."
+    },
+    "finalStatic": {
+      "id": "worker-static",
+      "command": "bash",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T04:19:29.797Z",
+      "end": "2026-10-25T04:19:41.289Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+      "observerTimeout": false,
+      "stdoutBytes": 9414,
       "stderrBytes": 0
     }
   }

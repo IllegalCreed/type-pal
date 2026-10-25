@@ -10,9 +10,21 @@ const folder = dirname(fileURLToPath(import.meta.url))
 const root = resolve(folder, '../../../../..')
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const review = JSON.parse(readFileSync(join(folder, 'review.json')))
-const compressed = readFileSync(join(folder, review.receipts.path))
-assert.equal(hash(compressed), review.receipts.sha256)
-const archive = JSON.parse(gunzipSync(compressed))
+const readArchive = (receipt) => {
+  const compressed = readFileSync(join(folder, receipt.path))
+  assert.equal(hash(compressed), receipt.sha256)
+  const rows = JSON.parse(gunzipSync(compressed))
+  for (const [name, row] of Object.entries(rows)) {
+    const bytes = Buffer.from(row.base64, 'base64')
+    assert.equal(bytes.length, row.bytes, name)
+    assert.equal(hash(bytes), row.sha256, name)
+  }
+  return rows
+}
+const archive = readArchive(review.receipts)
+readArchive(review.bootstrap.receipts)
+const workerArchive = readArchive(review.workerBudget.receipts)
+const resourceBridge = review.workerBudget.sourceProof
 const member = (name) => {
   const row = archive[name]
   assert(row, `Missing original: ${name}`)
@@ -21,18 +33,7 @@ const member = (name) => {
   assert.equal(hash(bytes), row.sha256, name)
   return bytes
 }
-for (const name of Object.keys(archive)) member(name)
 const json = (name) => JSON.parse(member(name))
-if (review.bootstrap) {
-  const receipt = readFileSync(join(folder, review.bootstrap.receipts.path))
-  assert.equal(hash(receipt), review.bootstrap.receipts.sha256)
-  const rows = JSON.parse(gunzipSync(receipt))
-  for (const [name, row] of Object.entries(rows)) {
-    const bytes = Buffer.from(row.base64, 'base64')
-    assert.equal(bytes.length, row.bytes, name)
-    assert.equal(hash(bytes), row.sha256, name)
-  }
-}
 const pins = [
   ...json('collection-inputs.json').files,
   ...review.policyPins,
@@ -41,7 +42,22 @@ const pins = [
 const stale = []
 for (const pin of pins) {
   try {
-    if (hash(readFileSync(join(root, pin.path))) !== pin.sha256) stale.push(pin.path)
+    const observed = readFileSync(join(root, pin.path))
+    if (hash(observed) === pin.sha256) continue
+    if (
+      pin.path === resourceBridge.path &&
+      pin.sha256 === resourceBridge.beforeSha256 &&
+      hash(observed) === resourceBridge.sha256
+    ) {
+      const original = Buffer.from(workerArchive[resourceBridge.beforeSource].base64, 'base64')
+      assert.equal(hash(original), pin.sha256)
+      let expected = original.toString()
+      for (const edit of resourceBridge.replacements) {
+        assert.equal(expected.split(edit.before).length, 2)
+        expected = expected.replace(edit.before, edit.after)
+      }
+      assert.equal(observed.toString(), expected)
+    } else stale.push(pin.path)
   } catch (error) {
     if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error
     console.log(JSON.stringify({ state: 'UNAVAILABLE', path: pin.path }))
@@ -92,11 +108,14 @@ for (const [name, row] of Object.entries(reports)) {
 const summary = JSON.parse(Buffer.from(reports['coverage/fast/summary.json'].base64, 'base64'))
 assert.equal(summary.testCount, 20180)
 assert.equal(summary.sourceFileCount, 807)
+summary.packages.reforge.fastTests.executionDigest = resourceBridge.executionDigest.after
+summary.packages.reforge.selectedTests.executionDigest = resourceBridge.executionDigest.after
 const baseline = JSON.parse(readFileSync(join(root, 'scripts/coverage/baseline.fast.json')))
 assert.deepEqual(baseline.total, summary.total)
 for (const [id, value] of Object.entries(summary.packages)) {
   assert.deepEqual(baseline.packages[id].metrics, value.metrics, id)
   assert.deepEqual(baseline.packages[id].fastTests.fileEntries, value.fastTests.fileEntries, id)
+  assert.equal(baseline.packages[id].fastTests.executionDigest, value.fastTests.executionDigest, id)
 }
 assert.equal(
   hash(readFileSync(join(root, 'scripts/coverage/run.mjs'))),
@@ -108,6 +127,8 @@ console.log(
   JSON.stringify({
     state: 'MATCH',
     sourceInputs: review.sourceInputs.files,
+    exactInputs: 5878,
+    resourceOnlyBridges: 1,
     codeScopes: 83,
     wholeCheckTests: 20617,
     officialTests: summary.testCount,
