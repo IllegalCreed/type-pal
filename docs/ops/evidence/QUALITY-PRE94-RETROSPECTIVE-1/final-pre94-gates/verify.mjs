@@ -23,7 +23,21 @@ const member = (name) => {
 }
 for (const name of Object.keys(archive)) member(name)
 const json = (name) => JSON.parse(member(name))
-const pins = [...json('collection-inputs.json').files, ...review.policyPins]
+if (review.bootstrap) {
+  const receipt = readFileSync(join(folder, review.bootstrap.receipts.path))
+  assert.equal(hash(receipt), review.bootstrap.receipts.sha256)
+  const rows = JSON.parse(gunzipSync(receipt))
+  for (const [name, row] of Object.entries(rows)) {
+    const bytes = Buffer.from(row.base64, 'base64')
+    assert.equal(bytes.length, row.bytes, name)
+    assert.equal(hash(bytes), row.sha256, name)
+  }
+}
+const pins = [
+  ...json('collection-inputs.json').files,
+  ...review.policyPins,
+  ...(review.bootstrap?.files ?? []),
+]
 const stale = []
 for (const pin of pins) {
   try {

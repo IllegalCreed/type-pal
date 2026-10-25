@@ -28,7 +28,7 @@
       "countChange": 0
     }
   },
-  "state": "Local unified gates accepted; branch not yet PR/merged, remote checks pending",
+  "state": "Local gates accepted; first-PR docs/security passed, installer WARN disclosed and two-workflow bootstrap repaired; same-PR new CI pending",
   "fixed83": {
     "accept": 83,
     "partial": 0,
@@ -430,7 +430,7 @@
   ],
   "evidenceTool": {
     "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs",
-    "sha256": "22c1932456ac3131a0f1718dfea1005b983dbd620ce75dd6fab55a59007d30ae",
+    "sha256": "cbc0eb3fb2db57a6909016555b555e4738a9549fa354fd0d29ebcaa2912e86dd",
     "dimensions": {
       "A": "Read all verifier code; hashes complete members, frozen5879 inputs, policy pins, recorded exit0 and expected exit1 originals, official summary/committed baseline and ancestry. Missing3/stale2 are explicit; semantic judgments and remote release excluded.",
       "B": "Success message limits MATCH to frozen identity/recorded outcomes; original failure remains failure. No unqualified all-quality certification.",
@@ -525,5 +525,40 @@
       "info": 0
     },
     "scope": "Post-policy/data/docs changes only; complete package source and test input freeze remains unchanged. Fullcheck115-tool run retained, updated coverage-tool117 run and docs125 run recorded separately, not accumulated as distinct business tests."
+  },
+  "bootstrap": {
+    "review": "bootstrap.json",
+    "receipts": {
+      "path": "bootstrap-receipts.json.gz",
+      "sha256": "c434d8bd72a90a4325d338afeaf562fea3334d6f91a7507c20ce5d6dbe17e3a6",
+      "members": 50
+    },
+    "files": [
+      {
+        "path": ".github/workflows/docs.yml",
+        "sha256": "4c8cf4be64178b9571d7e131f879dc456ef8ac64b444b8e1334cec6fb118f55b"
+      },
+      {
+        "path": ".github/workflows/coverage.yml",
+        "sha256": "2746a33f69ba9b2b6772629f8a47324ad566a3d5dc8ed2056fa0242a774bc480"
+      }
+    ],
+    "finalStatic": {
+      "id": "bootstrap-static",
+      "command": "bash",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:33:59.405Z",
+      "end": "2026-10-25T03:34:11.260Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b4f5465eae4325c56a293e645ef81e451751807a",
+      "observerTimeout": false,
+      "stdoutBytes": 9369,
+      "stderrBytes": 0
+    }
   }
 }

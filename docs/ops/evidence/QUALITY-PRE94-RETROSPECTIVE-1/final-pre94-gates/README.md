@@ -16,3 +16,7 @@ Owner: Codex（单Agent）
 默认只读复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs`。MATCH仅对已冻结输入与门禁，变化返回STALE／缺输入返回UNAVAILABLE。全量stdout／stderr／execution、采集前后汇总与逐文件报告、官方原生身份、产生者、重放与失败原件均在压缩包；未来Agent无需再通读产品来核本次交付身份和结论范围。
 
 当前待一份PR的实际远端Documentation／Coverage检查及普通merge。此前main b3d35be6两CI成功已在freeze原件；不能代替新候选或合并后main检查。原全仓与覆盖率失败、工具产生者失败均不覆盖；正常stdout进度日志不冒称为空。后续只做发布和相应证据维护，不扩其它治理范围。
+
+## 首次PR的安装器提示与窄修
+
+首次PR文档检查实际success、注解0，但完整stdout另有1条pnpm安装WARN：固定Action内部先装11.25.0再self-update为项目10.29.2，引发旧布局提示。不能称整条日志0告警。[两工作流八维／完整差异证明](bootstrap.json)和[原始服务日志／上游固定源码／实际安装回执](bootstrap-receipts.json.gz)保留。改为独立RUNNER_TEMP直接安装既定10.29.2，原Node与全部门命令不变；store路径改变，缓存key同时包含两工作流与lockfile，防止旧路径缓存假命中。真实提取脚本、版本及路径验证和47质量工具0stderr；未重跑本地全仓或coverage。新的同PR远端结果仍按实际回执，不能由本机安装成功外推。
