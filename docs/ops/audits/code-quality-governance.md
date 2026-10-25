@@ -1,5 +1,7 @@
 # 全仓代码质量治理总纲
 
+2026-10-25用户指定下一阶段收口当前52个review文件；从PR23合并的main0e14、同一治理分支接续。[固定52路径/原状态与当前阶段](../tasks/QUALITY-REVIEW-52-CLOSEOUT-1.md)分开核旧说明、证据缺口与实际返工，不重开全部103+或提升2870pending。新阶段尚未验收，历史门仅按版本/影响域复用，昂贵门留稳定阶段收尾。
+
 2026-10-25当前94–102有限模块本地收口，唯一治理分支codex/code-quality-94-102；20新关闭、34既有关闭桥接，54逐文件八维与统一门完整。唯一采集及精确结构重计原件见[当前窗口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)，远端发布由关联PR/main CI记录。全仓未全部完成，不扩103+。
 
 2026-10-25 pre94以[固定83卡队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)为唯一代码进度，原83范围已accept；[最终本地统一门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)分开记录实际check、单次覆盖率失败／精确重计／同报告保护及待远端发布。下列波次数字保持原时点，不作为当前计数或验收；全仓专项并未全部完成。

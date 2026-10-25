@@ -167,3 +167,5 @@ current（仅指导航索引）。历史交付不得外推为当前 runtime/E2E/
 >
 > - [全 docs 盘点与模板治理证据](DOCS-FULL-TEMPLATE-1/README.md)
 <!-- original-source-quote:end -->
+
+- [固定52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1/README.md)：当前准入、逐文件八维、有效旧证据版本桥接与集中门。

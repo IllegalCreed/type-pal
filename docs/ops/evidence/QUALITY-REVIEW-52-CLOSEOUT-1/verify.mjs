@@ -1,0 +1,116 @@
+/** Read-only evidence identity/result check; design judgments remain in review.json. */
+import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { gunzipSync } from 'node:zlib'
+import ts from 'typescript'
+
+const root = fileURLToPath(new URL('../../../../', import.meta.url))
+const read = (path) => readFileSync(resolve(root, path))
+const json = (path) => JSON.parse(read(path).toString('utf8'))
+const sha = (bytes) => createHash('sha256').update(bytes).digest('hex')
+const directory = 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/'
+const scope = json(`${directory}scope.json`)
+const review = json(`${directory}review.json`)
+assert.equal(scope.files.length, 52)
+assert.equal(new Set(scope.files.map((entry) => entry.path)).size, 52)
+assert.equal(review.files.length, review.resolved)
+assert.equal(review.remaining + review.resolved, 52)
+for (const entry of review.files) {
+  assert(
+    scope.files.some((item) => item.path === entry.path),
+    entry.path,
+  )
+  assert.equal(sha(read(entry.path)), entry.sha256, `stale source: ${entry.path}`)
+  assert.equal(sha(read(entry.prior.path)), entry.prior.sha256, `stale prior: ${entry.path}`)
+  for (const axis of 'ABCDEFGH')
+    assert(entry.dimensions[axis]?.length > 20, `${entry.path}:${axis}`)
+}
+for (const binding of review.bindings)
+  assert.equal(sha(read(binding.path)), binding.sha256, `stale dependency: ${binding.path}`)
+const packet = read(review.native.path)
+assert.equal(sha(packet), review.native.sha256)
+const raw = gunzipSync(packet)
+assert.equal(sha(raw), review.native.decodedSha256)
+const members = JSON.parse(raw)
+for (const member of review.native.members) {
+  const bytes = Buffer.from(members[member.name])
+  assert.equal(bytes.length, member.bytes, member.name)
+  assert.equal(sha(bytes), member.sha256, member.name)
+}
+const result = JSON.parse(members['extract-foundation-r2.native.json'])
+assert.equal(result.success, true)
+assert.equal(result.numPassedTests, 136)
+assert.equal(result.numFailedTests + result.numPendingTests, 0)
+assert.equal(result.testResults.length, 8)
+for (const id of ['extract-foundation-r2', 'shared-typecheck-r2', 'extract-typecheck']) {
+  const execution = JSON.parse(members[`${id}.execution.json`])
+  assert.equal(execution.exit, 0)
+  assert.equal(execution.signal, null)
+  assert.equal(execution.spawnError, null)
+  assert.equal(members[`${id}.stderr.raw`], '')
+}
+for (const id of ['extract-foundation', 'shared-typecheck']) {
+  assert.equal(JSON.parse(members[`${id}.execution.json`]).spawnError.code, 'ENOENT')
+}
+const body = JSON.parse(members['comment-body-proof.json'])
+assert.equal(body.allEqual, true)
+assert.equal(body.base, scope.base)
+const canonical = (source, path) =>
+  ts
+    .createPrinter({ removeComments: true })
+    .printFile(ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true))
+for (const item of body.results) {
+  const before = execFileSync('git', ['show', `${scope.base}:${item.path}`], {
+    cwd: root,
+    encoding: 'utf8',
+  })
+  const current = canonical(read(item.path).toString('utf8'), item.path)
+  assert.equal(canonical(before, item.path), current, item.path)
+  assert.equal(sha(current), item.canonicalSha256, item.path)
+}
+const oldRoot = 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/'
+const enemy = json(`${oldRoot}codex-enemy-role.json`).artifact
+assert.equal(sha(read(enemy.path)), enemy.sha256)
+const enemyRaw = gunzipSync(read(enemy.path))
+assert.equal(sha(enemyRaw), enemy.decodedSha256)
+const enemyMembers = JSON.parse(enemyRaw)
+for (const item of enemy.members) assert.equal(sha(enemyMembers[item.name]), item.sha256, item.name)
+for (const [id, count] of [
+  ['directed', 11],
+  ['adjacent', 89],
+]) {
+  const native = JSON.parse(enemyMembers[`${id}.native.json`])
+  assert.equal(native.numPassedTests, count)
+  assert.equal(native.numFailedTests + native.numPendingTests, 0)
+  assert.equal(enemyMembers[`${id}.stderr`], '')
+}
+for (const id of ['object-fields', 'zero-roles']) {
+  assert.equal(JSON.parse(enemyMembers[`${id}-old.native.json`]).numPassedTests, 1)
+  assert.equal(JSON.parse(enemyMembers[`${id}-new.native.json`]).numFailedTests, 1)
+}
+const word = json(`${oldRoot}codex-stage3-word.json`)
+assert.equal(sha(read(word.input.path)), word.input.sha256)
+for (const item of word.attachments) {
+  assert.equal(sha(read(item.path)), item.gzipSha256)
+  const bytes = gunzipSync(read(item.path))
+  assert.equal(sha(bytes), item.originalSha256)
+  const native = JSON.parse(bytes)
+  assert.deepEqual(
+    [native.numTotalTests, native.numPassedTests, native.numFailedTests, native.numPendingTests],
+    [item.total, item.passed, item.failed, item.pending],
+  )
+}
+const compiler = json(`${oldRoot}codex-stage2-rework.json`).typeCounterAndRestore
+assert.equal(sha(read(compiler.source)), compiler.sourceSha256)
+assert.equal(compiler.mutation.exitCode, 2)
+assert.equal((compiler.mutation.stdout.match(/error TS2344:/g) ?? []).length, 1)
+assert.equal(compiler.restored.exitCode, 0)
+assert.equal(compiler.restored.stdout + compiler.restored.stderr, '')
+assert.equal(compiler.temporaryFileRemoved, true)
+console.log(
+  `review52: ${review.resolved}/52 code-accepted; ${review.remaining} remain; identities/native/comment-body PASS; uniform gates/publication separate`,
+)

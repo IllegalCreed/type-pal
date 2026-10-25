@@ -147,8 +147,8 @@ export interface ChoiceCommand {
 /** 切换调色板命令 —— 对应 sdlpal opcode 0x008B(script.c:2571 "change the current palette")。
  *  字节布局:operand[0] = paletteIndex;operand[1] / [2] sdlpal 该 case 未读。
  *
- *  **运行时语义**:EventSystem handler 调 fetchPalette(paletteIndex) 后更新 gs.palette,
- *  渲染层下一帧 flushToCanvas 自动使用新调色板。
+ *  **运行时语义**:更新调色板编号并优先读取注入的同步源，未命中才异步获取。
+ *  basePalette 保存新基色；仅非 needToFadeIn 时更新当前 palette，供渲染层使用。
  */
 export interface SetPaletteCommand {
   op: 'setPalette'

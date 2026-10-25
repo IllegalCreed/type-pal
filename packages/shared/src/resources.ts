@@ -79,8 +79,8 @@ export interface SceneEventObject {
   /** Optional world-pixel trigger anchor; the sprite retains its original x/y. */
   autoTriggerAnchorX?: number
   autoTriggerAnchorY?: number
-  /** [6] sState (signed i16) —— sdlpal global.h:77-79
-   *      Hidden=0 / Normal=1 / Blocker=2 / Message=3 / Script=4 / Contact 4+;负数也算 hidden。 */
+  /** [6] sState (signed i16)：Hidden=0 / Normal=1 / Blocker=2。
+   *      触发距离由独立的 triggerMode 决定，不属于状态枚举；负数也隐藏。 */
   sState?: number
   /** [3] sLayer (signed i16) —— 渲染 z 层(scene.c:302 sort + scene.c:316 iLayer)。 */
   sLayer?: number
@@ -108,7 +108,7 @@ export interface SceneObjects {
   mapNum: number
   /** scene 进入即跑的脚本入口,作为 label 名;对应 SSS.MKF SCENE.scriptOnEnter ip。 */
   onEnterLabel?: string
-  /** scriptOnTeleport(若存在);M2 不消费。 */
+  /** scriptOnTeleport(若存在)；进入场景时缓存，供 0x38 归隐脱出查询。 */
   onTeleportLabel?: string
   eventObjects: SceneEventObject[]
 }
