@@ -105,7 +105,7 @@ export function instrumentMealTrace(source, file) {
       assert.equal(meta.length, 1, 'meal save input meta anchor changed')
       const metaIndex = statements.indexOf(meta[0])
       assert(
-        metaIndex > 0 && statements[0].getText(ast).includes('slot < 1 || slot > MAX_SAVE_SLOTS'),
+        metaIndex > 0 && statements[0].getText(ast) === 'assertValidSlot(slot)',
         'meal save slot validation moved',
       )
       const clones = []
