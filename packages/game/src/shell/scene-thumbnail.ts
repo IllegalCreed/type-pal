@@ -12,7 +12,7 @@ export function createSceneThumbnailRenderer(
   // ── dev picker与生产小地图共用的离屏缩略图──────────────────────────────────
   // 标准64×128地图先画2080×2080 framebuffer;picker默认输出宽96,小地图caller传640。
   // 按mapNum/outW缓存和dedup,并发上限2;本地解码tileset blob,成功后只留dataURL。
-  // 不写gameplay的tileImagesBySceneId/sceneAssetsCache,不在此接入seam repair。
+  // 不写gameplay的tileImagesBySceneId/sceneAssetsCache；补缝只作用于本次离屏缓冲。
   const THUMB_TILE_W = 32
   const THUMB_TILE_H = 16
   const THUMB_OUT_W = 96

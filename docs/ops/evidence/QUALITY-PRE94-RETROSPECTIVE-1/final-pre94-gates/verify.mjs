@@ -26,6 +26,11 @@ readArchive(review.bootstrap.receipts)
 readArchive(review.configContract.receipts)
 const workerArchive = readArchive(review.workerBudget.receipts)
 const resourceBridge = review.workerBudget.sourceProof
+const serialArchive = readArchive(review.serialCI.receipts)
+const bridges = [
+  { ...resourceBridge, archive: workerArchive },
+  ...review.serialCI.bridges.map((bridge) => ({ ...bridge, archive: serialArchive })),
+]
 const member = (name) => {
   const row = archive[name]
   assert(row, `Missing original: ${name}`)
@@ -45,15 +50,17 @@ for (const pin of pins) {
   try {
     const observed = readFileSync(join(root, pin.path))
     if (hash(observed) === pin.sha256) continue
-    if (
-      pin.path === resourceBridge.path &&
-      pin.sha256 === resourceBridge.beforeSha256 &&
-      hash(observed) === resourceBridge.sha256
-    ) {
-      const original = Buffer.from(workerArchive[resourceBridge.beforeSource].base64, 'base64')
+    const bridge = bridges.find(
+      (entry) =>
+        pin.path === entry.path &&
+        pin.sha256 === entry.beforeSha256 &&
+        hash(observed) === entry.sha256,
+    )
+    if (bridge) {
+      const original = Buffer.from(bridge.archive[bridge.beforeSource].base64, 'base64')
       assert.equal(hash(original), pin.sha256)
       let expected = original.toString()
-      for (const edit of resourceBridge.replacements) {
+      for (const edit of bridge.replacements) {
         assert.equal(expected.split(edit.before).length, 2)
         expected = expected.replace(edit.before, edit.after)
       }
@@ -111,6 +118,10 @@ assert.equal(summary.testCount, 20180)
 assert.equal(summary.sourceFileCount, 807)
 summary.packages.reforge.fastTests.executionDigest = resourceBridge.executionDigest.after
 summary.packages.reforge.selectedTests.executionDigest = resourceBridge.executionDigest.after
+summary.packages.game.fastTests.executionDigest =
+  review.serialCI.gameInventory.executionDigest.after
+summary.packages.game.selectedTests.executionDigest =
+  review.serialCI.gameInventory.executionDigest.after
 const baseline = JSON.parse(readFileSync(join(root, 'scripts/coverage/baseline.fast.json')))
 assert.deepEqual(baseline.total, summary.total)
 for (const [id, value] of Object.entries(summary.packages)) {
@@ -128,8 +139,8 @@ console.log(
   JSON.stringify({
     state: 'MATCH',
     sourceInputs: review.sourceInputs.files,
-    exactInputs: 5878,
-    resourceOnlyBridges: 1,
+    exactInputs: review.serialCI.matchedInputs,
+    exactWholeFileBridges: bridges.length,
     codeScopes: 83,
     wholeCheckTests: 20617,
     officialTests: summary.testCount,

@@ -5,7 +5,7 @@ Owner: Codex（单Agent）
 
 固定83张pre94卡的原代码范围均accept（0partial／0pending）；这不等于全仓3452文件全部完成。当前机器账本511closed／63review／2878pending。未扩94–102，主工作树未改。逐文件八维、caller／oracle、职责与状态Owner、注释、复用、测试质量和低成本版本复验均按各片有效证据；本窗口只合并门禁信用，不重新全文审所有文件。
 
-[阶段与单文件八维](review.json)、[有限覆盖率重计与精确退役映射](recount.json)、[最终完整原件](final-receipts.json.gz)、[首跑失败原件](initial-receipts.json.gz)、[默认只读快检](verify.mjs)。最终代码冻结257c0b816；原采集时5879个包／测试／项目／配置输入逐SHA固定；后继5878保持原字节，1个worker资源控制由下述完整文件桥限定。快检只核身份、原件与已记录门结果，不冒充重新设计审查或远端CI。
+[阶段与单文件八维](review.json)、[有限覆盖率重计与精确退役映射](recount.json)、[最终完整原件](final-receipts.json.gz)、[首跑失败原件](initial-receipts.json.gz)、[默认只读快检](verify.mjs)。最终代码冻结257c0b816；原采集时5879个包／测试／项目／配置输入逐SHA固定；当前5876保持原字节，两个worker配置及一条缩略图注释由完整文件差异限定，工作流另有精确资源桥。快检只核身份、原件与已记录门结果，不冒充重新设计审查或远端CI。
 
 - `pnpm check`实际exit0：20617包内测试＋708工具测试，七包typecheck及editor author-scripts检查，lint6100文件error／warning／info均0；完整stderr0、Vitest stderr区段0。首跑exit1为G02旧入口断言，已保留并精确修正；13身份数和像素／错误合同保留。
 - 唯一`pnpm coverage:ratchet`采集完成20180 fast测试／807生产源，运行诊断0，但原命令exit1拒绝CLI拆分后的statements／functions／lines比率。这次失败明确保留，不能称原命令exit0。
@@ -32,3 +32,11 @@ Owner: Codex（单Agent）
 ## 配置合同同步遗漏与修正
 
 81dbfaf7c的Coverage40161643493在覆盖率工具阶段116绿／1红：Codex将worker改1时漏改`config.test.mjs`的精确期望2，尚未开始覆盖率采集。这是交付遗漏，不能归因为再次宿主超时。当前只把该期望同步为1，完整对象等值断言仍拒绝新增timeout／exclude等字段，源范围与runner参数断言不变；全部117工具测试通过，stderr0。完整服务失败日志、本次绿原件及单行差异保存在[配置合同原件](config-contract-receipts.json.gz)，八维和文件指纹在[review](review.json)的`configContract`。未再跑本地全仓或覆盖率，下一次实际CI仍须独立通过。
+
+## 真实整轮结果与串行资源安排
+
+6f646aa8c的40162268435不是通过：Reforge8991全绿；game3756绿、两个完整地图缩略图用例5秒超时；editor仍输出通过用例时，整条作业到30分钟取消。完整日志、API、注解（含查询EOF失败与重试）在[串行CI原件](serial-ci-receipts.json.gz)，逐文件八维、whole-file差异和身份核对在`review.serialCI`。观察到game渲染与editor定义收集重叠，不冒称已证明唯一原因。
+
+当前保持64×128地图、全部五例和PNG像素／缓存／并发／重试断言原字节；game采用一个worker，工作流删除可选editor并行收集，沿原runner默认顺序执行七包。整条作业预算30→45分钟，所有单测5s／15s／30s期限、选择器和比较器不变。缩略图产品仅纠正“未接入补缝”的过时注释，去注释AST一致。30相关测试及game typecheck通过；新增game精确配置合同后118工具全绿，stderr0。
+
+官方重新枚举3758身份／349文件，与原报告除配置digest外完全相同；官方原比较／写盘尾段只刷新game执行指纹，不改任何原测覆盖率分子分母，未重采本地coverage。原失败和未完成editor结果保留；新的远端完整运行仍待实际通过。
