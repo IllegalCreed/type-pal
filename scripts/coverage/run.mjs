@@ -38,6 +38,7 @@ import {
   metricNames,
   normalizeMetrics,
 } from './metrics.mjs'
+import { collectPackages } from './package-collection.mjs'
 import { classifyProtectedBaseline } from './protected-baseline.mjs'
 
 const [profile = '', ...flags] = process.argv.slice(2)
@@ -487,23 +488,12 @@ async function main() {
   if (!outputRoot.startsWith(`${coverageRoot}${sep}`)) throw new Error('coverage 输出路径越界')
   await rm(outputRoot, { recursive: true, force: true })
 
-  const packages = {}
   const parallelEditor = profile === 'fast' && process.env.TYPE_PAL_COVERAGE_PARALLEL_EDITOR === '1'
-  if (parallelEditor) {
-    const editor = coveragePackages.find((packageConfig) => packageConfig.id === 'editor')
-    if (!editor) throw new Error('fast coverage parallel editor 配置缺失')
-    let editorResult
-    for (const packageConfig of coveragePackages) {
-      if (packageConfig.id === 'editor') continue
-      if (packageConfig.id === 'game') editorResult = collectPackage(editor, outputRoot)
-      packages[packageConfig.id] = await collectPackage(packageConfig, outputRoot)
-    }
-    packages[editor.id] = await editorResult
-  } else {
-    for (const packageConfig of coveragePackages) {
-      packages[packageConfig.id] = await collectPackage(packageConfig, outputRoot)
-    }
-  }
+  const packages = await collectPackages(
+    coveragePackages,
+    (packageConfig) => collectPackage(packageConfig, outputRoot),
+    parallelEditor,
+  )
   const total = aggregateMetrics(Object.values(packages).map((item) => item.metrics))
   const generatedAt = new Date().toISOString()
   const result = {

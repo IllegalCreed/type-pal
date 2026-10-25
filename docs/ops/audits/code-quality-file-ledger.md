@@ -153,8 +153,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,459。
-当前已闭合核验：578；已读但待审：12；尚未逐文件核验：2869；合计未闭合：2881。
+起始基点机器清单：2,962。当前 tracked 清单：3,461。
+当前已闭合核验：578；已读但待审：14；尚未逐文件核验：2869；合计未闭合：2883。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -338,6 +338,8 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/coverage/protected-baseline.mjs` | tool | 已验证 | protected baseline bootstrap/compare fail-closed tests | 无 baseline 不 fail-open |
 | `scripts/coverage/config.mjs` | tool | 已验证 | seven-package source/test selection and fast exclusions | E2E exclusion boundaries |
 | `scripts/coverage/run.mjs` | tool | review | [本轮精确结构baseline调整](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 新授权重算与现有scope/test保护分开；旧Q6关闭不覆盖新差异，集中门待验 |
+| `scripts/coverage/package-collection.mjs` | tool | review | [52调度提取](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/coverage-coordinator-split.json) | 原控制流迁移/三控制通过；失败生命周期待核，不升closed |
+| `scripts/coverage/package-collection.test.mjs` | test | review | [52调度提取](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/coverage-coordinator-split.json) | 原控制流迁移/三控制通过；失败生命周期待核，不升closed |
 | `scripts/script-governance/run.mjs` | tool | 已验证 | canonical install census CLI, output symlink guard, script-governance tests | 不写产品数据 |
 | `packages/pal-extract/package.json` | product | 已验证 | package scripts/dependency boundary；pal-extract check/full gates | 无运行时逻辑 |
 | `packages/pal-extract/tsconfig.json` | product | 已验证 | source/scripts include 与 typecheck | 无产品行为 |

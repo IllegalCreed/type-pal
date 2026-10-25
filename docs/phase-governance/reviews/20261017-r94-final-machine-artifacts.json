@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
-      "afterSha256": "86ea41530ad0f29631424960ee274d2023a40949e3fc5a88e673f82920a50338",
+      "afterSha256": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "86ea41530ad0f29631424960ee274d2023a40949e3fc5a88e673f82920a50338",
-        "implementationSha": "86ea41530ad0f29631424960ee274d2023a40949e3fc5a88e673f82920a50338",
+        "currentSha": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
+        "implementationSha": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1832,7 +1832,7 @@
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "86ea41530ad0f29631424960ee274d2023a40949e3fc5a88e673f82920a50338",
+        "afterSha256": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
         "lineCount": 20224,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1851,7 +1851,7 @@
         },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "86ea41530ad0f29631424960ee274d2023a40949e3fc5a88e673f82920a50338",
+          "afterSha256": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
           "scope": "Fixed52 quality stage owned metadata delta; old provenance retained."
         }
       },

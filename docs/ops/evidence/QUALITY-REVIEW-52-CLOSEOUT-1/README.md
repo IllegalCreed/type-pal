@@ -64,3 +64,5 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 法术模块静态：docs0问题、lint6128文件0error/0warning/0info；原始stdout/stderr/execution已并入magic-module-native。本窗口未跑覆盖率或全仓测试，固定40/52保持诚实。
 
 呈现层当前补核见[逐维裁定](presentation-reviewed.json)与[原始日志/正文证明](presentation-native.json.gz)：六实际文件92绿，旧时钟候选以明确的保留决议闭合；统一门仍待全52稳定。
+
+覆盖率工具结构子步骤：[调度迁移证明](coverage-coordinator-split.json)，仅提取既有控制流，失败所有权待核，非官方覆盖率回执。
