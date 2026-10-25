@@ -90,3 +90,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 game七文件八维代码接受：固定30/52、余22；新增H专测接受、item正式红spec待裁决，单列。live3456／563／23／2870由机器复核。旧poison压缩等待项已由实际批准与当前实现解除；法术pair15例及五旧counter复用，未授整个actions/magic.ts信用。game TC0及44/36/35回归见game-equipment-fixtures.json；未跑重门、未推合。
 
 - 2026-10-26 BGM资源所有权修复：两个真实公开fade路径dispose后仍各留1timer，正式2原绿/2指定业务红。当前request统一拥有一个可兑现的fade waiter，新请求/停播/关闭/释放会清timer并兑现旧等待，旧serial门保持禁止迟到提交；原正常300ms过渡/接口不变。五实际BGM文件26绿、reforge TC0；不作真硬件听感信用，无全仓/coverage。本提交与纯文案及证据收口分离。
+
+- 2026-10-26 第二阶段八文件代码接受：四editor与两个menu专测按旧全文/原件及当前未变caller验收，不重复执行；content默认进场错含具体剧情角色名已纠正且JS不变。BGM timer资源红绿独立提交后纳入八维，旧dispose专测刷新不重复加closed。固定38/52、余14；机器3456／571／15／2870。原P1 puppet选项仍原卡，不夹修、不赋该轴信用。未跑本阶段全仓/coverage/新视觉，未推合；下一game5、workbench1、migrate2、tools6。

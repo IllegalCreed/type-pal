@@ -131,6 +131,58 @@ for (const reference of review.gameModules ?? []) {
     assert.equal(summary.results[1].failedNames[0].kind, 'AssertionError')
   }
 }
+if (review.phase2) {
+  assert.equal(sha(read(review.phase2.path)), review.phase2.sha256)
+  const module = json(review.phase2.path)
+  for (const binding of [...module.bindings, ...module.priorBindings])
+    assert.equal(sha(read(binding.path)), binding.sha256, `stale phase2 binding: ${binding.path}`)
+  const compressed = read(module.native.path)
+  assert.equal(sha(compressed), module.native.sha256)
+  const decoded = gunzipSync(compressed)
+  assert.equal(sha(decoded), module.native.decodedSha256)
+  const receipts = JSON.parse(decoded)
+  for (const member of module.native.members) {
+    assert.equal(sha(receipts[member.name]), member.sha256, member.name)
+    assert.equal(Buffer.byteLength(receipts[member.name]), member.bytes, member.name)
+  }
+  const red = JSON.parse(receipts['bgm-fade-red.native.json'])
+  assert.deepEqual([red.numPassedTests, red.numFailedTests], [2, 2])
+  for (const test of red.testResults.flatMap((suite) => suite.assertionResults))
+    if (test.status === 'failed')
+      assert(test.failureMessages.some((message) => message.startsWith('AssertionError:')))
+  const green = JSON.parse(receipts['bgm-fade-green.native.json'])
+  assert.deepEqual(
+    [green.numPassedTests, green.numFailedTests, green.numPendingTests, green.testResults.length],
+    [26, 0, 0, 5],
+  )
+  for (const id of ['bgm-fade-green', 'reforge-typecheck']) {
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, 0)
+    assert.equal(receipts[`${id}.stderr.raw`], '')
+  }
+  const proof = JSON.parse(receipts['body-proof.json'])
+  assert.equal(sha(read(proof.content.path)), proof.content.currentSha256)
+  const javascript = ts.transpileModule(read(proof.content.path).toString('utf8'), {
+    compilerOptions: {
+      target: ts.ScriptTarget.ES2022,
+      module: ts.ModuleKind.ESNext,
+      removeComments: true,
+    },
+  }).outputText
+  assert.equal(sha(javascript), proof.content.javascriptSha256)
+  assert.equal(sha(read(module.adjacent.path)), proof.bgmTest.currentSha256)
+  const prior = JSON.parse(gunzipSync(read(module.reuse.uniform)))
+  const member = (name) => {
+    const entry = prior[name]
+    const bytes = Buffer.from(entry.base64, 'base64')
+    assert.equal(sha(bytes), entry.sha256, name)
+    assert.equal(bytes.length, entry.bytes, name)
+    return bytes.toString('utf8')
+  }
+  assert.equal(JSON.parse(member('whole-check-r3.execution.json')).exit, 0)
+  assert.equal(member('whole-check-r3.stderr.raw'), '')
+  const output = member(module.reuse.rawMember)
+  for (const run of module.reusedRuns) assert(output.includes(run.rawLine), run.path)
+}
 const packet = read(review.native.path)
 assert.equal(sha(packet), review.native.sha256)
 const raw = gunzipSync(packet)

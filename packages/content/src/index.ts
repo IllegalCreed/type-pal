@@ -136,7 +136,7 @@ export interface SceneDef {
   /** 额外命名落点；默认落点只存于 entry，脚本以稳定 record key 引用。 */
   entries?: Record<string, SceneEntryPoint>
   // 调色板字段已退役(W7a-3):清洁重写只留盘 0,无「调色板」概念(见 no-palette-concept 方针)。
-  /** 玩家（李逍遥）进场点 */
+  /** 玩家的默认进场点；其它命名落点由 entries 持有。 */
   entry: { pos: GridPos; facing: Facing }
   /** 场内可见实体与无外观触发区（不含玩家） */
   entities: EntityDef[]

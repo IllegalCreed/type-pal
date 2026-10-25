@@ -3,10 +3,10 @@
   "id": "QUALITY-REVIEW-52-CLOSEOUT-1",
   "base": "0e14c184eed91841ee0f48323b98c98b734a3129",
   "owner": "Codex",
-  "status": "in-progress;30fixed-cohort code-accepted, unified gates/publication pending",
+  "status": "in-progress;38fixed-cohort code-accepted, unified gates/publication pending",
   "scope": "scope.json",
-  "resolved": 30,
-  "remaining": 22,
+  "resolved": 38,
+  "remaining": 14,
   "files": [
     {
       "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
@@ -876,6 +876,238 @@
         "H formal1green6red then35green",
         "game TC0"
       ]
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+      "sha256": "438f11138ab83922f01a54b34dcdb1d59500043ad7da9656014e1f648a96e2a3",
+      "lines": 55,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "合法EntityAddress形状但gone场景悬空，经真实canonical editor打开；错误引用原值保留，重选start自动取npc，finish核完整作者命令。",
+        "B": "头注清楚区分不可达ControlCommandForm self臂与实际ScriptEditor bridge；只声明唯一残余合同，不冒称内联schema覆盖。",
+        "C": "仅公共DOM/commandForm fixture，onChange由真实editor提交；act包按钮，cleanup由既有fixture释放，无私有状态mutation。",
+        "D": "复用当前合法battle-trial loader/typed commandForm，不复制表单或解释器；单辅助selector只验证实际dialog场景控件。",
+        "E": "1例同时验证同一地址修复流：无伪造实体下拉/原值/自动重绑/完成提交；与explicit/inherit/required旧合同不同。旧全包原件中该1例绿，当前源及直接caller无漂移。",
+        "F": "动作顺序打开/观察悬空/重选/完成直观，失败消息带selector含义，非null断言前先有实际存在断言。",
+        "G": "未新增数量例，唯一残余路径有独立oracle；引用生产不可达臂仅作排重依据，不为其增加强转伪fixture。",
+        "H": "真实DOM与公开保存回调可直接观测，无核心mock，fixture管理root/portal；浏览器视觉不由jsdom授信用。"
+      },
+      "readScope": "Prior Codex full file/caller review reused; current55line target reread plus unchanged production diff and exact source bindings.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior Codex full file/caller review reused; current55line target reread plus unchanged production diff and exact source bindings.",
+      "changes": "None; existing full review/native raw reused",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+      "sha256": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+      "lines": 307,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "作者seed经真实FSA loader/sceneIndex/会话/coordinator；失效实体是loader允许而保存门拒绝的合法损坏内容域，不以非法schema越过入口。",
+        "B": "头注明确R1/R3/R5与K10/U1c/M02去重，回调层与真实保存门差异；不声称覆盖另一个puppet自动battleOnly产品选择。",
+        "C": "生产ItemTab→EditSession/script history真实接线；scenes/locale来自loader，notices独立每次重置，root/全局/spy在afterEach释放。",
+        "D": "复用blank project、memory author directory和公共reference collector；独立rig只负责本残余会话，不建万能场景模拟器。",
+        "E": "3例分别同场景修复并undo复红、跳过空场景的完整默认落库、无实体失败零history/notice；实际save gate与精确内容为oracle，不是callback次数。",
+        "F": "rig/selector/useSpec按测试职责命名；真实流程直接assert每步，长头注给排重来源而不隐藏额外执行分支。",
+        "G": "没有额外资源池/配方重复例；局部unknown作者文件由真实loader验证，shape cast只用于seed索引且被loader约束，不冒充运行态合法性。",
+        "H": "失败notice/保存红绿/undo三个公开可观察出口，act覆盖变更与卸载；没有依赖组件私有setter或屏蔽异步诊断。"
+      },
+      "readScope": "Prior full Codex+GLM evidence reused; complete current307line test reread, actual ItemTab/schema/save/history caller diff unchanged.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior full Codex+GLM evidence reused; complete current307line test reread, actual ItemTab/schema/save/history caller diff unchanged.",
+      "changes": "None; existing full review/native raw reused",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+      "sha256": "724c32814673c693b4d92149ed9b3c976d6550fbc97b92d8dfe24ef97fa20327",
+      "lines": 140,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "两合法ItemData经真实project/save validation，UI blur与收购开关写会话；undo逐步恢复且第二物品前像不变。",
+        "B": "头注限定交易/说明字段，不以旧测试全绿宣称覆盖整个ItemTab；说明保留非空行空白与真实实现一致。",
+        "C": "真实useSyncExternalStore监听当前会话，asset reader/reference index来自当前工程；每例独立root/session，act包更新/undo/unmount。",
+        "D": "共享glm-m kit只代理输入和合法loader，未复制产品逻辑；本文件item工厂小且字段显式，不增加全局fixture状态。",
+        "E": "2例为交易原子history/undo与说明空行处理；精确完整物品、120/60/三步history、原空白内容独立预期，未用调用次数冒充提交。",
+        "F": "完整UI输入到会话结果顺序清楚，history before+N可与独立字段变化对照；不存在链式难读断言或含糊数字。",
+        "G": "无重复新建/复制/删除/图标能力测试，两个残差合同足够；不删除可靠undo/无关物品守恒断言以压数量。",
+        "H": "真实UI/会话可测，host/fsa seam仅环境控制；以前22act诊断由正确事件边界解决，非console静音。"
+      },
+      "readScope": "Prior full review and before22diagnostics/after-clean raw reused; current full140line test and unchanged critical callers checked.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior full review and before22diagnostics/after-clean raw reused; current full140line test and unchanged critical callers checked.",
+      "changes": "None; existing full review/native raw reused",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+      "sha256": "e1b8237bbdadad3adc106e113840c39ca5db8f0a1aaae2f67cb7d2d1e50526f4",
+      "lines": 200,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "合法UseSpec通过保存门，真实UpdateItemCommand写EditSession；永久成长/明雷感知字段与当前canonical单位一致。",
+        "B": "头注明确只补两种链字段、与K10同构；毫秒/倍数不是一阶段回合或opcode保真假设，不冒称全部物品机制。",
+        "C": "真实组件只接typed spec和onChange adapter，不mock业务状态；每例新session/root，订阅/卸载/undo全走公开生命周期。",
+        "D": "复用kit控件驱动与生产commands，而非手写setState替身；两个有不同参数的效果不被模式helper抹平。",
+        "E": "2例精确默认maxHP5、magicAttack12、感知0到3及60000到120000；history4、undo/redo与save gate均有业务预期，重复覆盖只在工作流必要步骤。",
+        "F": "每次选择后直接查完整effect对象，类型/属性/增量分步清楚；异步驱动函数只定位第一张真实卡，不私闯内部state。",
+        "G": "不加healHp重复用例，healHp只作转类前置；没有no-throw/全mock空测，保留现有两个残余轴及全部断言。",
+        "H": "注入会话与公开callback足够控制，不需要暴露内部组件状态；act恢复诊断因果已由原before/after原件支撑。"
+      },
+      "readScope": "Prior full review reused; full current200line target reread plus exact production unchanged proof.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior full review reused; full current200line target reread plus exact production unchanged proof.",
+      "changes": "None; existing full review/native raw reused",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+      "sha256": "f390a5fcff69ce0f88104cb904bca5c532f5b039ca64b3f59b0d17ce5f287dda",
+      "lines": 450,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "原全文核typedWorld/Character、真实MenuBox.render和状态机caller；R1/R2/S1/S2/S3实际几何/相位/装备输入不漂移。",
+        "B": "沿用明确五合同与旧四文件排重，不把Canvas命令日志当真浏览器像素验收；旧相邻Promise告警事实保留而非改写。",
+        "C": "仅绘制公开出口，记录renderSpans与drawImage按资源身份观察；无私有菜单state mock，生产依赖方向保持content到renderer。",
+        "D": "复用合法typed fixture与现有状态机/资源，不重新实现菜单布局作为期望；相邻数字/毒阈值不同合同保留。",
+        "E": "5例分别层级偏移/相位、九行手算坐标、名称立绘中心、六格空槽。K1到K5原生各单指定AssertionError且恢复绿，生产源hash与冻结相同。",
+        "F": "原review已核场景fixture与逐项坐标断言；当前未改450行，按证据验收而不再通读或重复25例；限制明确记录。",
+        "G": "没有同一坐标断言的重复包装或纯mock次数例；五轴与其它四文件实际断言互补，不因旧118绿重复授信用。",
+        "H": "真实render公开Canvas端口可确定性观察，计时相位由参数给定；无需实际DOM或新增测试专用产品出口。"
+      },
+      "readScope": "Prior full Codex file/caller review and five native controls reused; current actual diff/source identity checked; no duplicate full reread.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior full Codex file/caller review and five native controls reused; current actual diff/source identity checked; no duplicate full reread.",
+      "changes": "None; existing full review/native raw reused",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
+    },
+    {
+      "path": "packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts",
+      "sha256": "ff2428d54b2de136c03ba7de6e066a13b6746173f7980d33c8005f6604cc77f1",
+      "lines": 112,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "完整当前5例/真实present与输入caller；竞争重入/advance/timeout/abort结算与active/current所有权均按队列公开结果判断。",
+        "B": "原头注列五残余轴与旧主测排重，fake timers只控时间；首case标题兼提abort由后例覆盖，不等同该case额外调用。",
+        "C": "每例new queue/controller，fake timer在finally恢复，无计时全局残留；没有mock settle/resolve内部函数或公开private状态。",
+        "D": "flush只推进Promise微任务链，不复制队列算法；不同竞争/输入场景各具必要合同，不为复用合成万能state adapter。",
+        "E": "5例拒绝重入、预取消/空、计时竞争、视图无signal、键消费及真实AbortError；原void expect空转已变await，当前原件5绿并在后21/118干净恢复。",
+        "F": "预期text/active/return/AbortError直接表达动作效果；error as Error后有真实instanceof与message断言，未用强转掩盖非法执行。",
+        "G": "无新增例数，current keys双断言表达禁止内部signal泄漏而非类型伪测；测试只对实际输入路由可消费键建表。",
+        "H": "实际clock和AbortController直接控竞态，异步expect被await；旧未等待诊断原件保留，不使用silent或放宽timeout。"
+      },
+      "readScope": "Prior full file and production lifecycle review reused; current112line target reread and unchanged production identity verified.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior full file and production lifecycle review reused; current112line target reread and unchanged production identity verified.",
+      "changes": "None; existing full review/native raw reused",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
+    },
+    {
+      "path": "packages/content/src/index.ts",
+      "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+      "lines": 202,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "当前全文202行类型/barrel，EntityRef actor/sprite/zone互斥，stable id与entries不混同实体；行为校验由validator而非接口运行时承担。",
+        "B": "模块头只说当前作者/运行时合同，玩家进场注释去具体剧情角色名以符合通用内容包；保留单位/ownership/author边界说明。",
+        "C": "仅type导入asset/grid/script叶，runtime出口集中转发；不依赖renderer/editor或复活原盘全局状态；type-only反向引用不冒称runtime循环。",
+        "D": "公共EntityBase/SceneDef复用稳定ID数据合同；不复制到engine或把SceneEntryPoint合成EntityDef，不以一阶段数字对象下标替代身份。",
+        "E": "直接验证是TypeScript消费者和validator，不造擦除类型运行时数量；旧完整主线content/editor/reforge编译已核，当前注释emitJS完全不变。",
+        "F": "SceneEntryPoint/EntityRef/HostileBehavior命名及字段职责清楚；可选与null音乐语义明确，entries和默认entry区别直接。",
+        "G": "barrel为真实公共入口，不凭某些type在当前game未用就删公开出口；无兼容upgrader、旧schema分支或未用参数。",
+        "H": "纯类型可由compiler直接验，runtime校验可单独调用；不为覆盖率注入假runtime包装，生产依赖仍从content到消费层。"
+      },
+      "readScope": "Prior GLM full A-H and Codex full202line reviewed; current file complete read; actual comment delta inspected.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior GLM full A-H and Codex full202line reviewed; current file complete read; actual comment delta inspected.",
+      "changes": "Only default player-entry comment, emitted JS equal",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.ts",
+      "sha256": "289dd3412f3446b72d90f063bb23fa1bc99f384934db2716964ccb03a3203b65",
+      "lines": 308,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+        "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+      },
+      "dimensions": {
+        "A": "当前全文及Spessa/caller/试演释放补读；serial/last/enabled守迟到读/初始化/换曲。新2正式业务红后清可兑现timer，dispose幂等；不取消外部read Promise或改同曲loop既有策略。",
+        "B": "保留AudioContext立即构造、后端懒加载区别；注释明确释放wait后仍靠serial拒绝旧提交，不把请求失效说成网络已取消。",
+        "C": "player closure拥有一个当前fade等待与序列/记账，runtime拥有ctx、adapter拥有gain；不引全局timer registry，nextRequest统一失效与释放。",
+        "D": "原两裸timeout统一私有waitForFade+nextRequest；输入/失败/生命周期相同才共享，浏览器Spessa初始化仍独立复用，不搬一阶段状态层。",
+        "E": "原24合同保留，加两个真实fade公开入口资源反例：先确有1timer，dispose必须0且迟到不load/play。正式2旧绿2红到5实际文件26绿，reforge TC0。",
+        "F": "isCurrent/nextRequest/waitForFade各表明所有权/等待职责；无影子inflight状态或难读bool模式，公共调用形状保持。",
+        "G": "原write-only inflight残留不恢复，所有adapter方法有实际使用；webkit浏览器能力不是旧内容版本兼容，不按关键词删除。",
+        "H": "runtime/resolver可控使真实状态机与timer释放可测；fake clock不替换业务，normal fade/接管/关音乐旧测试保留；未作硬件音色/听感验收。"
+      },
+      "readScope": "Prior full BGM evidence reused; current289line original+own delta full read, actual battle host/trial dispose and Spessa ownership inspected.",
+      "remaining": "No blocking file-quality gap. Whole52 uniform gates/publication pending; no unrelated product/card closure.",
+      "currentReview": "Prior full BGM evidence reused; current289line original+own delta full read, actual battle host/trial dispose and Spessa ownership inspected.",
+      "changes": "Owned fade waiter repair, two business reds first",
+      "verification": [
+        "phase2-reviewed.json exact source/caller bindings and prior full review",
+        "six unchanged file/count raw results",
+        "BGM five files26green and typecheck0"
+      ]
     }
   ],
   "adjacent": [
@@ -929,6 +1161,11 @@
       "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
       "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172",
       "status": "code-accepted;outside fixed52;A-H in game-equipment-fixtures.extraTest"
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.dispose.test.ts",
+      "sha256": "0418db0f57a0934252d837cb70bdbee4775320d9f0c767dfe7d2c9526b4de2d7",
+      "status": "Previously closed refreshed; current full A-H in phase2-reviewed.adjacent; no new close count"
     }
   ],
   "changes": [
@@ -987,6 +1224,11 @@
       ],
       "typecheck": "game-typecheck-first exit0 stdout0 stderr0",
       "notRun": "uniform gates/publication"
+    },
+    "phase2": {
+      "reused": "six unchanged UI/menu tests raw and full quality evidence",
+      "BGM": "formal2pass2AssertionError red then5files26green;TC0",
+      "uniform": "still deferred"
     }
   },
   "priorGateReuse": "PR23/main0e14 evidence only where exact source/caller/contract identity remains applicable; no blanket credit.",
@@ -1268,5 +1510,9 @@
       "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
       "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5"
     }
-  ]
+  ],
+  "phase2": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+    "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553"
+  }
 }
