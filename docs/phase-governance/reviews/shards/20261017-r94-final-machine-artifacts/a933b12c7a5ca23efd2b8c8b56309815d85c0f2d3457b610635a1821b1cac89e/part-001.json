@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "5b730f02e8a014ca2ac69de818c72d18a0f99091e2fc998b1b06dc0a990ba3f5",
+  "generation": "a933b12c7a5ca23efd2b8c8b56309815d85c0f2d3457b610635a1821b1cac89e",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
   "entries": [
@@ -1794,7 +1794,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "5c11253996abb4e9782524fb16d57bd8f1bee7ff517a99e02fcc20eb2d499357",
+      "afterSha256": "ecf1c1711cea9d10d2bdb6b5dc75d38b43c319bf373bc764dcbdbbc174d61778",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2035,6 +2035,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "5c11253996abb4e9782524fb16d57bd8f1bee7ff517a99e02fcc20eb2d499357",
+          "afterSha256": "ecf1c1711cea9d10d2bdb6b5dc75d38b43c319bf373bc764dcbdbbc174d61778",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -2067,7 +2079,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "8deefe17a131fbba688612ca7bc6302f0b9298afa2f37d2fbe387b9bd52f2643",
+      "afterSha256": "f6f082a377b7e0928e48a32bed5b26692845bc3b50b8bece329812ec18ed785c",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2884,6 +2896,18 @@
           "beforeSha256": "dc9ef6a422aac2a0e23b56ca293abe23e6527b56d85762d4c5e002478bd0829b",
           "afterSha256": "8deefe17a131fbba688612ca7bc6302f0b9298afa2f37d2fbe387b9bd52f2643",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "8deefe17a131fbba688612ca7bc6302f0b9298afa2f37d2fbe387b9bd52f2643",
+          "afterSha256": "f6f082a377b7e0928e48a32bed5b26692845bc3b50b8bece329812ec18ed785c",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

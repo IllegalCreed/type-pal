@@ -29,7 +29,7 @@ Template: governance-index-v1 / 1.0.0
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | Codex / 扩大R23–R36撤信与验收锚点补救，待非作者验收 | 机械保真不授语义信用；原回执保全 |
-| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / 贡献者据证交付 | S50首八原生内容逐篇accept；注册六变体与受控中央接入，按真实投影核减；剩余27准入仅实施，212未晋升 |
+| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / GLM据证交付 | S52裁定S51部分接收；Owner127控制/合同，GLM补505 JSON见证；先接8现成Markdown，扣减取实际投影 |
 | DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S38发布/补线/封存已非作者接受 | 269已接入；212仍零迁移信用，逐篇晋升/路由后续单独裁定 |
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |
@@ -62,3 +62,5 @@ S48：原652保全与352delta结构可复用；Owner修417字段表达及16消�
 S49：39建议实际27可复用形状，12不满足其拟合同；原数据/既有信用保持。41mutation拆两形状，100review控制保合法空账本与转移边界。Owner实施首八固定原生guard，生产registry/routing和partial/needs状态保持，1750严格项不预扣。
 
 S50：首八19字段内容获非作者逐篇接受，原生字节/历史撤信保持；Owner先镜像后真实接入并核投影。新文档接受与历史/runtime信用分开，E2E006过期和其余严格待办保持实际红；父子卡rework。
+
+S52：S51机械658/1768保全；26 MD/HTML内容候选可复用，8静态Markdown按现有合同接入，原生/旧历史不变。505 JSON具体见证需补，127当前控制件由Owner负责；硬门仍按实际红，不合main/不done。

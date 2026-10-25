@@ -5811,9 +5811,11 @@
       "phase": "ops",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r84-ops-evidence-index.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r84-ops-evidence-index.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/counterproof.json",
@@ -15122,9 +15124,10 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "templateVersion": "1.0.0",
-      "reviewStatus": "partial-review-unknown",
-      "templateCompliance": "needs-migration",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json",
@@ -15756,9 +15759,10 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
@@ -15767,8 +15771,8 @@
       "templateId": "task-card-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261004-semantic-current-batch.json"
     },
     {

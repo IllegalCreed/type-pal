@@ -1428,40 +1428,89 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewDepth": "structured-content",
-      "readMethod": "mechanical corrective registration; no full semantic or independent acceptance",
-      "coreConclusion": "记录可信度返工的控制/证据输入；仅登记所执行的撤回、修复或命令捕获，内容语义与非作者验收仍待完成。",
-      "truthAnchors": ["docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md:1"],
-      "unresolved": ["Full semantic review and non-author acceptance have not been performed."],
-      "nextStep": "Use actual captured output and correction scope; leave rework until independent semantic review.",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
+      "coreConclusion": "DOCS-RECORD-INTEGRITY-1下对15个回执变动候选的作者裁定报告：10项解释、C08/C09/C12/C13/C15执行或byte信用隔离、C13留counter、C12已证UTF-16单位缺陷；仍为作者候选（非作者复核未执行）、supersedes早前“十五项待核”状态。活跃裁定件，状态与数字逐字节保持，本轮不改不裁，仅核读；无注册路由，归属合同待Owner登记。",
+      "truthAnchors": [
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "24-24",
+          "quote": "十项可解释其记录变动；五项进入限定范围的执行信用隔离。十五项都已有裁定，不能写成十五次执行验收通过。",
+          "claim": "总体裁定：10解释+5隔离，且明示不可冒充执行验收"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "40-40",
+          "quote": "| C13 | d03cba2c23 | 既有 lint 摘要 2787 改 2791 | counter；该 lint 信用隔离，其他新增执行不替它作证 |",
+          "claim": "C13是既有摘要改写型counter，信用隔离不得由他项代偿"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "92-92",
+          "quote": "当时72个 stream SHA全匹配，但48个 `bytes` 与UTF-8字节数不同，恰等于UTF-16 code unit数。",
+          "claim": "C12已证byte单位真实缺陷：bytes=UTF-16长度，错误声明撤回"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "110-110",
+          "quote": "本报告仍为作者候选。非作者必须从Git原blob和原raw重核，不能只复制本表；完整硬门未过，本卡/全量卡不done，候选不合main。",
+          "claim": "本篇仍为作者候选，非作者复核未执行，停止线明确"
+        }
+      ],
+      "unresolved": [
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
+      ],
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "owner": "Codex",
       "provenance": [
         "corrective-maintenance",
         "same-actor-self-check",
-        "source-revision-28fd9013e09e8792decbff2fa117aae14c36b196"
+        "source-revision-28fd9013e09e8792decbff2fa117aae14c36b196",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
+        }
       ],
       "publicCallers": [
         "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
       ],
       "legalInputs": [
-        "Current correction scope and explicit Git/command evidence; no reconstructed historical stdout."
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md (SHA256 db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
       ],
       "businessOracle": {
-        "type": "mechanical-evidence-integrity",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "No status upgrade from byte/shape checks",
-          "Raw command output remains append-only",
-          "Historical source and current correction remain distinct"
+          "总体裁定：10解释+5隔离，且明示不可冒充执行验收",
+          "C13是既有摘要改写型counter，信用隔离不得由他项代偿",
+          "C12已证byte单位真实缺陷：bytes=UTF-16长度，错误声明撤回",
+          "本篇仍为作者候选，非作者复核未执行，停止线明确"
         ]
       },
       "dedupe": {
-        "result": "new-corrective-control-not-new-semantic-acceptance",
-        "against": ["DOCS-FULL-TEMPLATE-1", "DOCS-CATALOG-SPLIT-1"]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "revision": {
         "currentSha": "28fd9013e09e8792decbff2fa117aae14c36b196",
@@ -1473,20 +1522,122 @@
         ]
       },
       "evidence": {
-        "kind": "corrective-registration",
-        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md"
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
           "date": "2026-10-18",
           "action": "registered-without-completion-credit"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
+          "afterSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
+          "previousCurrentFields": {
+            "coreConclusion": "记录可信度返工的控制/证据输入；仅登记所执行的撤回、修复或命令捕获，内容语义与非作者验收仍待完成。",
+            "docType": "audit-report",
+            "templateId": "audit-report-v1",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "structured-content",
+            "readMethod": "mechanical corrective registration; no full semantic or independent acceptance",
+            "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
+            "truthAnchors": ["docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md:1"],
+            "legalInputs": [
+              "Current correction scope and explicit Git/command evidence; no reconstructed historical stdout."
+            ],
+            "businessOracle": {
+              "type": "mechanical-evidence-integrity",
+              "assertions": [
+                "No status upgrade from byte/shape checks",
+                "Raw command output remains append-only",
+                "Historical source and current correction remain distinct"
+              ]
+            },
+            "dedupe": {
+              "result": "new-corrective-control-not-new-semantic-acceptance",
+              "against": ["DOCS-FULL-TEMPLATE-1", "DOCS-CATALOG-SPLIT-1"]
+            },
+            "unresolved": [
+              "Full semantic review and non-author acceptance have not been performed."
+            ],
+            "nextStep": "Use actual captured output and correction scope; leave rework until independent semantic review.",
+            "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
+            "evidence": {
+              "kind": "corrective-registration",
+              "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md"
+            }
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
-      "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
       "sourceSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
       "afterSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
-      "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
+      "reviewedLines": "全文1–118行逐行实读(含C01–C15逐项段落)",
+      "templateVersion": "1.0.0",
+      "template": "audit-report.md",
+      "historyOverlay": false,
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual audit-report-v1/1.0.0 route; historical quote/source assertions remain attributed."
+      },
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–118行逐行实读(含C01–C15逐项段落)",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "DOCS-RECORD-INTEGRITY-1下对15个回执变动候选的作者裁定报告：10项解释、C08/C09/C12/C13/C15执行或byte信用隔离、C13留counter、C12已证UTF-16单位缺陷；仍为作者候选（非作者复核未执行）、supersedes早前“十五项待核”状态。活跃裁定件，状态与数字逐字节保持，本轮不改不裁，仅核读；无注册路由，归属合同待Owner登记。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+        "afterSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–118行逐行实读(含C01–C15逐项段落)",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json",
@@ -2762,27 +2913,68 @@
     },
     {
       "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewDepth": "structured-content",
-      "readMethod": "Explicit pending registration: Root authored full73-line design; distinct frozen design report accepted design only; pending template registration; no full semantic/template or product acceptance from registration.",
-      "coreConclusion": "固定2.0.2设计约束薄manifest/七片、原生字段缺省/全序保全、共同锁和显式映射；设计接收与实现/全量正文分开。",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
+      "coreConclusion": "document-registry存储v2设计（design-spec draft，2.0.2/storage schema 2）：1,047,444B距Biome 1MiB阈尚有1132B，继续追加将超限，因此采用manifest+七片拆分，锁协议/fail-closed/迁移oracle与consumer退役表完整；REGISTRY-WRITER-RACE与REGISTRY-NATIVE-METADATA两个当时公开counter按原设计文稿保留；当前实现与验收状态应另查现行任务和代码，不据旧段落重判。活跃设计提案：不冻结不改状态，无注册路由，合同归属待Owner；正文合格retain。",
       "truthAnchors": [
-        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+        {
+          "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "11-11",
+          "quote": "`document-registry.json` 在固定源 `3fae68aec8f448bf83d1d85e61da35c94d5200ae` 已达 1,047,444 字节",
+          "claim": "拆分动机锚定：固定源体积1,047,444B逼近Biome 1MiB门"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "25-25",
+          "quote": "初始七片为 `document-registry.{ops,lore,phase1,phase2,phase3,phase-governance,testing}.json`。",
+          "claim": "manifest+七片方案的具体分片命名"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "63-63",
+          "quote": "09ecbcbb 草案的 REGISTRY-WRITER-RACE 被非作者指出：锁外单次比较可由两个写入者同时通过",
+          "claim": "REGISTRY-WRITER-RACE counter保留且不可抹除，待新字节上决定闭合"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "65-65",
+          "quote": "REGISTRY-NATIVE-METADATA：2.0.1 的保留字段列表漏 generatedBy。",
+          "claim": "第二个公开counter：原生metadata比对曾漏generatedBy，本版已补"
+        }
       ],
       "unresolved": [
-        "This file has not earned independent full semantic/template acceptance as a document."
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
       ],
-      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "phase": "phase-governance",
       "owner": "Codex central documentation maintenance",
       "provenance": [
         "explicit central registration; no path-inferred semantic credit",
-        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained.",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
+        }
       ],
       "primarySource": [
         {
@@ -2807,19 +2999,22 @@
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
       ],
       "legalInputs": [
-        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md (SHA256 830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
       ],
       "businessOracle": {
-        "type": "explicit-native-storage-and-evidence-registration",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "Original native fields and failed reports remain unchanged.",
-          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
-          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+          "拆分动机锚定：固定源体积1,047,444B逼近Biome 1MiB门",
+          "manifest+七片方案的具体分片命名",
+          "REGISTRY-WRITER-RACE counter保留且不可抹除，待新字节上决定闭合",
+          "第二个公开counter：原生metadata比对曾漏generatedBy，本版已补"
         ]
       },
       "dedupe": {
-        "result": "explicit unique new pending registration; no new completed binding",
-        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "counterReworkBlocked": [
         {
@@ -2838,29 +3033,134 @@
         ]
       },
       "evidence": {
-        "kind": "registration-not-semantic-acceptance",
-        "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
-        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
           "date": "2026-10-18",
           "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+          "afterSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+          "previousCurrentFields": {
+            "coreConclusion": "固定2.0.2设计约束薄manifest/七片、原生字段缺省/全序保全、共同锁和显式映射；设计接收与实现/全量正文分开。",
+            "docType": "design-spec",
+            "templateId": "design-spec-v1",
+            "templateVersion": "1.0.0",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "structured-content",
+            "readMethod": "Explicit pending registration: Root authored full73-line design; distinct frozen design report accepted design only; pending template registration; no full semantic/template or product acceptance from registration.",
+            "reviewedLines": "Root authored full73-line design; distinct frozen design report accepted design only; pending template registration; registration only",
+            "truthAnchors": [
+              "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+              "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+            ],
+            "legalInputs": [
+              "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+            ],
+            "businessOracle": {
+              "type": "explicit-native-storage-and-evidence-registration",
+              "assertions": [
+                "Original native fields and failed reports remain unchanged.",
+                "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+                "Original1838 baseline and1896 withdrawals remain separate from new registration."
+              ]
+            },
+            "dedupe": {
+              "result": "explicit unique new pending registration; no new completed binding",
+              "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+            },
+            "unresolved": [
+              "This file has not earned independent full semantic/template acceptance as a document."
+            ],
+            "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+            "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+            "templateConformance": {
+              "status": "needs-migration",
+              "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+            },
+            "evidence": {
+              "kind": "registration-not-semantic-acceptance",
+              "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+              "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+            }
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
-      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
       "sourceSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
       "afterSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
-      "reviewedLines": "Root authored full73-line design; distinct frozen design report accepted design only; pending template registration; registration only",
+      "reviewedLines": "全文1–73行逐行实读",
       "beforeAfter": {
         "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
         "after": "Unique pending binding recorded; native file content and statuses not promoted."
       },
       "templateConformance": {
-        "status": "needs-migration",
-        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual design-spec-v1/1.0.0 route; historical quote/source assertions remain attributed."
+      },
+      "template": "design-spec.md",
+      "historyOverlay": false,
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–73行逐行实读",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "document-registry存储v2设计（design-spec draft，2.0.2/storage schema 2）：1,047,444B超Biome 1MiB阈触发manifest+七片拆分，锁协议/fail-closed/迁移oracle与consumer退役表完整；REGISTRY-WRITER-RACE与REGISTRY-NATIVE-METADATA两个公开counter保留待非作者在新字节上裁定。活跃设计提案：不冻结不改状态，无注册路由，合同归属待Owner；正文合格retain。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+        "afterSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–73行逐行实读",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {
@@ -2960,7 +3260,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "7bc487dcb4e7cecfd1fd5564f1e19dd9ea2b350c5f8fbfe9aedf16cdecdcbd35",
+      "afterSha256": "f900d374a1638c4d6b4395cd030fe6c6de0c850571cf4cdcf108abd1d679395b",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3203,6 +3503,18 @@
           "beforeSha256": "25e58b638e445c8ac7dfe2fdbded7dbd90d2855bd7b8c1aabedabb6b63c7c2a6",
           "afterSha256": "7bc487dcb4e7cecfd1fd5564f1e19dd9ea2b350c5f8fbfe9aedf16cdecdcbd35",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "7bc487dcb4e7cecfd1fd5564f1e19dd9ea2b350c5f8fbfe9aedf16cdecdcbd35",
+          "afterSha256": "f900d374a1638c4d6b4395cd030fe6c6de0c850571cf4cdcf108abd1d679395b",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3789,7 +4101,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
-      "afterSha256": "e583904f7e3286be9797f664119b0c4691ded3a310a6e0755d00d1af129a5670",
+      "afterSha256": "126c5e5ead4096eda0f83298ae66d181f31c163d34006010e1805206541c7dc4",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3871,6 +4183,18 @@
           "beforeSha256": "6c457f6a5f282b0f730caea43a679b6243dc88826c075657a3183a511d7864b3",
           "afterSha256": "e583904f7e3286be9797f664119b0c4691ded3a310a6e0755d00d1af129a5670",
           "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "e583904f7e3286be9797f664119b0c4691ded3a310a6e0755d00d1af129a5670",
+          "afterSha256": "126c5e5ead4096eda0f83298ae66d181f31c163d34006010e1805206541c7dc4",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3975,7 +4299,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "effd1c494aeea6a490a99d942914797748bb31ec37403473d277bedb0c1aea21",
+      "afterSha256": "5d2ab555c3a93544a81628a7053e2a2047f04d91d41e1ee3bd60453af2cb1efb",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -4103,6 +4427,18 @@
           "beforeSha256": "597e51140524f288cd030ebd070a841d761c6dfd9c4e8e47b07dac87336c58d9",
           "afterSha256": "effd1c494aeea6a490a99d942914797748bb31ec37403473d277bedb0c1aea21",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "effd1c494aeea6a490a99d942914797748bb31ec37403473d277bedb0c1aea21",
+          "afterSha256": "5d2ab555c3a93544a81628a7053e2a2047f04d91d41e1ee3bd60453af2cb1efb",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -9333,28 +9669,68 @@
     },
     {
       "path": "docs/ops/document-quality.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewDepth": "structured-content",
-      "readMethod": "Explicit pending registration: New entire guide root-authored; accepted c23 protocol core relocated byte-exact from documentation-model. New standalone file/header/wrapper identity has not received independent whole-document acceptance.; no full semantic/template or product acceptance from registration.",
-      "coreConclusion": "Standalone cross-task document quality/acceptance contract belongs at ops root; guides/documentation-model retains only routing and legacy-anchor handoff. Original protocol1.0 core bytes unchanged; new incremental candidate is pending, not newly migrated/completed.",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
+      "coreConclusion": "本页是全项目长期生效的文档交付与验收协议本体（document-delivery-acceptance/1.0.0）：贡献者全文核读/自验、Codex据证独立验收、五层按需展开交付、升级条件与滚动交接，并明确静态治理零运行信用；2026-10-18自文档模型同名章节迁入且原条款逐字节保留。它是本轮逐篇审阅的直接合同依据，当前适用、无正文缺口，按原文复用。",
       "truthAnchors": [
-        "docs/ops/document-quality.md:1",
-        "docs/ops/guides/documentation-model.md",
-        "docs/ops/README.md"
+        {
+          "path": "docs/ops/document-quality.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "21-21",
+          "quote": "协议：`document-delivery-acceptance / 1.0.0`。这是全项目长期规范",
+          "claim": "本页核心是1.0.0交付验收协议且跨阶段长期生效，行级证据直接锚定"
+        },
+        {
+          "path": "docs/ops/document-quality.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "25-25",
+          "quote": "贡献者承担获准范围内的逐篇全文核读、来源核实、具体语义判断、正文治理和自验。",
+          "claim": "贡献者全文核读与自验责任条款，是本轮逐篇审阅的合同依据"
+        },
+        {
+          "path": "docs/ops/document-quality.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "65-65",
+          "quote": "静态文档治理不授runtime/E2E/视觉/coverage信用；规则迁移和入口接入不证明存量治理完成。",
+          "claim": "完成定义明确静态治理零信用边界，复用判断不得越界"
+        },
+        {
+          "path": "docs/ops/document-quality.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "67-67",
+          "quote": "2026-10-18位置迁移：本页规范正文从文档模型的同名章节迁出，协议仍为1.0.0，原条款逐字节保留",
+          "claim": "位置迁移注记：正文为迁入件且原条款逐字节保留，历史边界清楚"
+        }
       ],
       "unresolved": [
-        "This file has not earned independent full semantic/template acceptance as a document."
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
       ],
-      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "phase": "ops",
       "owner": "Codex central documentation maintenance",
       "provenance": [
         "explicit central registration; no path-inferred semantic credit",
-        "root explicit byte-preserving section relocation under user directory correction; c23f7751 source Git and relocation-map preserved"
+        "root explicit byte-preserving section relocation under user directory correction; c23f7751 source Git and relocation-map preserved",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
+        }
       ],
       "primarySource": [
         {
@@ -9381,19 +9757,22 @@
         "docs/ops/README.md"
       ],
       "legalInputs": [
-        "Current project document tasks with authorized scope; original source/after identity kept separate."
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/ops/document-quality.md (SHA256 e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
       ],
       "businessOracle": {
-        "type": "canonical-document-quality-location-and-preserved-policy",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "Exactly one full protocol body at docs/ops/document-quality.md",
-          "Old model anchor forwards to new canonical; all active callers point to ops root",
-          "Original protocol1.0 core exactly equal to c23 Git source, no runtime or historical acceptance changed"
+          "本页核心是1.0.0交付验收协议且跨阶段长期生效，行级证据直接锚定",
+          "贡献者全文核读与自验责任条款，是本轮逐篇审阅的合同依据",
+          "完成定义明确静态治理零信用边界，复用判断不得越界",
+          "位置迁移注记：正文为迁入件且原条款逐字节保留，历史边界清楚"
         ]
       },
       "dedupe": {
-        "result": "explicit unique new pending registration; no new completed binding",
-        "against": ["docs/ops/guides/documentation-model.md"]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "counterReworkBlocked": [
         {
@@ -9412,29 +9791,135 @@
         ]
       },
       "evidence": {
-        "kind": "registration-not-semantic-acceptance",
-        "path": "docs/ops/document-quality.md",
-        "producer": "root explicit byte-preserving section relocation under user directory correction; c23f7751 source Git and relocation-map preserved"
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
           "date": "2026-10-18",
           "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+          "afterSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+          "previousCurrentFields": {
+            "coreConclusion": "Standalone cross-task document quality/acceptance contract belongs at ops root; guides/documentation-model retains only routing and legacy-anchor handoff. Original protocol1.0 core bytes unchanged; new incremental candidate is pending, not newly migrated/completed.",
+            "docType": "guide-runbook",
+            "templateId": "guide-runbook-v1",
+            "templateVersion": "1.0.0",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "structured-content",
+            "readMethod": "Explicit pending registration: New entire guide root-authored; accepted c23 protocol core relocated byte-exact from documentation-model. New standalone file/header/wrapper identity has not received independent whole-document acceptance.; no full semantic/template or product acceptance from registration.",
+            "reviewedLines": "New entire guide root-authored; accepted c23 protocol core relocated byte-exact from documentation-model. New standalone file/header/wrapper identity has not received independent whole-document acceptance.; registration only",
+            "truthAnchors": [
+              "docs/ops/document-quality.md:1",
+              "docs/ops/guides/documentation-model.md",
+              "docs/ops/README.md"
+            ],
+            "legalInputs": [
+              "Current project document tasks with authorized scope; original source/after identity kept separate."
+            ],
+            "businessOracle": {
+              "type": "canonical-document-quality-location-and-preserved-policy",
+              "assertions": [
+                "Exactly one full protocol body at docs/ops/document-quality.md",
+                "Old model anchor forwards to new canonical; all active callers point to ops root",
+                "Original protocol1.0 core exactly equal to c23 Git source, no runtime or historical acceptance changed"
+              ]
+            },
+            "dedupe": {
+              "result": "explicit unique new pending registration; no new completed binding",
+              "against": ["docs/ops/guides/documentation-model.md"]
+            },
+            "unresolved": [
+              "This file has not earned independent full semantic/template acceptance as a document."
+            ],
+            "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+            "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+            "templateConformance": {
+              "status": "needs-migration",
+              "scope": "guide-runbook1.0 structure and current native declaration will be checked mechanically; independent whole-file review remains pending, no template migration credit from relocation."
+            },
+            "evidence": {
+              "kind": "registration-not-semantic-acceptance",
+              "path": "docs/ops/document-quality.md",
+              "producer": "root explicit byte-preserving section relocation under user directory correction; c23f7751 source Git and relocation-map preserved"
+            }
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
-      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
       "sourceSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
       "afterSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
       "sourceGitRevision": "c23f7751dd9a967b2694461799c315cac688849c",
-      "reviewedLines": "New entire guide root-authored; accepted c23 protocol core relocated byte-exact from documentation-model. New standalone file/header/wrapper identity has not received independent whole-document acceptance.; registration only",
+      "reviewedLines": "全文1–67行逐行实读",
       "beforeAfter": {
         "before": "Only a long section in organization guide; no standalone cross-task normative entry.",
         "after": "Unique pending binding recorded; native file content and statuses not promoted."
       },
       "templateConformance": {
-        "status": "needs-migration",
-        "scope": "guide-runbook1.0 structure and current native declaration will be checked mechanically; independent whole-file review remains pending, no template migration credit from relocation."
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual guide-runbook-v1/1.0.0 route; historical quote/source assertions remain attributed."
+      },
+      "template": "guide-runbook.md",
+      "historyOverlay": false,
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–67行逐行实读",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "本页是全项目长期生效的文档交付与验收协议本体（document-delivery-acceptance/1.0.0）：贡献者全文核读/自验、Codex据证独立验收、五层按需展开交付、升级条件与滚动交接，并明确静态治理零运行信用；2026-10-18自文档模型同名章节迁入且原条款逐字节保留。它是本轮逐篇审阅的直接合同依据，当前适用、无正文缺口，按原文复用。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/ops/document-quality.md",
+        "afterSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–67行逐行实读",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {

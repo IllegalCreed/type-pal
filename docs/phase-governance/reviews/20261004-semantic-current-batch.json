@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "129aa3622f2e241f7dcd58563c7cfbe6bb13dcfbf72da5f28d2213f27b958e1a",
+      "afterSha256": "74b7e9721062f4ec772d597cd4ae27f30a5041410e19fd219523010ec92d9132",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1363,6 +1363,18 @@
           "beforeSha256": "8bfe9d165b6650fae7f3780730033b9edb8e5b23c4d8f8d5e53ac80f96b6fcb2",
           "afterSha256": "129aa3622f2e241f7dcd58563c7cfbe6bb13dcfbf72da5f28d2213f27b958e1a",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "129aa3622f2e241f7dcd58563c7cfbe6bb13dcfbf72da5f28d2213f27b958e1a",
+          "afterSha256": "74b7e9721062f4ec772d597cd4ae27f30a5041410e19fd219523010ec92d9132",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -2881,26 +2893,50 @@
     },
     {
       "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "readMethod": "Receive GLM fixed3eec scoped verdict; verify actual clean candidate and exact twoSHA/raw/source script. Owner replays GLM172 and separately checks positions-based directGit reconstruction/deepStrictEqual/committed inventory/512KiB and14pin deltas; reuse24/232/lint only within supported original input scope. Read-only269 mapping/pinned index check is admission design, not new semantic review or implementation.",
+      "templateCompliance": "template-compliant",
+      "template": "task-card.md",
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "GLM acceptsS32 five-code implementation/owned rehearsal on a83. Owner truly publishes4manifest/7shards and4control afterpins,12writes/0retired; immediate replay0writes. Fresh non-author directGit/positions accepts13objects/275rows,31oldphysical/599rows/302native preserved and2434current pins exact. R94administrative repack separately bounded;212native contract/pilot/semantic not implemented,0new semantic/migration/runtime credit.1420/1838,3retired,87incremental; strict1848 remains.",
+      "coreConclusion": "原生JSON历史证据治理子卡（task-card-v1，rework）：S26–S50推进记录——269篇Vitest合同、review-record-storage/1.0.0、S29正式接入269、S38零信用发布212条历史回执（12manifest+37片终态）、S50首八原生逐篇accept。活跃卡：212条仍partial/needs、状态晋升未做，卡面状态与计数逐字节保持，本轮只读核职责与停止线；正文合格retain。",
       "truthAnchors": [
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
-        "docs/ops/document-quality.md:19",
-        "docs/phase-governance/templates/registry-proposal-20261011.md:333"
+        {
+          "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "4-4",
+          "quote": "Execution: rework（S34准入/writer已获GLM非作者accept；S38已发布212条零信用内容，状态晋升与迁移接入未做）",
+          "claim": "卡头执行态：212条已发布但零信用，状态晋升未做"
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "20-20",
+          "quote": "212条仍partial-review-unknown/needs-migration，routing/registry未接本原生变体；本次不授历史执行或迁移信用。",
+          "claim": "S38范围节明确212条状态与信用边界"
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "358-358",
+          "quote": "两侧18写/7旧片退出，最终114逻辑对象、150物理=12manifest+36片。",
+          "claim": "S38实际发布物理事实：12manifest+36片=150物理对象"
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "374-374",
+          "quote": "独立审者已对8份19字段内容稿逐篇accept、零counter",
+          "claim": "S50首八原生逐篇accept是当前最新推进，仅限八载体不外推"
+        }
       ],
       "unresolved": [
-        "S29 contract/pilot/current-generation writer and269 independent evidence intake remain; original1838 full-governance hard gate remains red.",
-        "New S29 author task adds one incremental pending document/two diagnostics, not two newly broken old documents."
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
       ],
-      "nextStep": "Continue under DOCS-NATIVE-VITEST-269-1 approved scope; no additional batch approval. GLM read-only delta package; Codex common implementation and independent evidence intake.",
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "phase": "ops",
       "module": "native-document-governance",
       "capability": "S26 native historical evidence batch",
@@ -2918,7 +2954,22 @@
         "Codex non-author S28final54314318e9947c83a94c93c9f3633c819e166b5f partialclosure/rework; current23/231realpassed butpublication/loader/callerprobesstillfail; verdict bfe5074bcd9226087206c099be766577e4a8d3f5419f1d254a50098f0defd7fa",
         "User2026-10-22 authorizesCodex takeover; GLM549partial evidence retained, Codex implementation self-validation is explicitlynon-independent.",
         "2026-10-23 GLM non-author accepts fixedCodex35a scope; Owner controlled599storage publication is separate, native269/semantic credit unchanged.",
-        "2026-10-23 human-forwarded GLM accepts central3eec scope; Owner source/positions/inventory supplement separate. S29 explicit user build gate remains; external draft does not add a current document or credit."
+        "2026-10-23 human-forwarded GLM accepts central3eec scope; Owner source/positions/inventory supplement separate. S29 explicit user build gate remains; external draft does not add a current document or credit.",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
+        }
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
       "afterSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
@@ -2935,19 +2986,22 @@
         "GLM S26 execution-manifest and handoff"
       ],
       "legalInputs": [
-        "Pinned269/23/7 path-SHA-carrier-source manifest2a221f1d…; exact admittedHEAD and unchanged native bytes. No product/test mutation or automatic status restoration."
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/ops/tasks/DOCS-NATIVE-JSON-1.md (SHA256 74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
       ],
       "businessOracle": {
-        "type": "bounded-native-content-handoff",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "GLMwritesonly/tmp evidence, all repository/native302carriers remain byte-identical.",
-          "Every269content entry/30exception has concrete conclusion/source witness/actual read scope or explicitblocked state.",
-          "Codexonlyaccepts supported evidence and handles admitted shared contracts; old runtime or global quality not granted."
+          "卡头执行态：212条已发布但零信用，状态晋升未做",
+          "S38范围节明确212条状态与信用边界",
+          "S38实际发布物理事实：12manifest+36片=150物理对象",
+          "S50首八原生逐篇accept是当前最新推进，仅限八载体不外推"
         ]
       },
       "dedupe": {
-        "result": "One task for native JSON handoff; general protocol stays ops/document-quality; existing current records/Git retained, no per-batch ledger or native copies.",
-        "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "revision": {
         "currentSha": "565a78cc160b9d31150ded9ec32a3ed0c02d45faded9aa7372ab4f4d997aff4a",
@@ -3070,10 +3124,15 @@
         ]
       },
       "evidence": {
-        "kind": "author-admission-not-independent-acceptance",
+        "kind": "independently-accepted-document-version",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "manifestSha256": "2a221f1d96184df9213061f0d6acffb33c9287c6c91b635f643ba3cbe83c2fe9",
-        "nonAuthorReviewer": false
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -3167,11 +3226,66 @@
           "publicationReceiptSHA256": "a0a60ef79da8853c7197bc1cf7e38e398dee21229bc9b79852df0eafeb46e6d9",
           "scope": "Administrative acknowledgment and exact dependent after pins only; no new semantic/migration/runtime credit.",
           "priorCoreConclusion": "S32 Codex authors5document-tool files: new closed four-source prepare/inspect/publish, explicit CLI and6tests; existing S28 R94 read and S29 exact-ten flat-control domain adapted. Owned real-Git CLI rehearsal12writes/0retired,13objects,275rows/four current-pin changes,31old physical/599rows/302native protected; replay0writes. Original macOS path identity failure preserved and fixed. Author evidence only, awaiting GLM non-author review; real four-source/212semantic publication and new credit0.1420/1838,3retired,87incremental; strict1848 remains."
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
+          "afterSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
+          "previousCurrentFields": {
+            "coreConclusion": "GLM acceptsS32 five-code implementation/owned rehearsal on a83. Owner truly publishes4manifest/7shards and4control afterpins,12writes/0retired; immediate replay0writes. Fresh non-author directGit/positions accepts13objects/275rows,31oldphysical/599rows/302native preserved and2434current pins exact. R94administrative repack separately bounded;212native contract/pilot/semantic not implemented,0new semantic/migration/runtime credit.1420/1838,3retired,87incremental; strict1848 remains.",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "templateVersion": "1.0.0",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "historyOverlay": false,
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "partial-semantic",
+            "readMethod": "Receive GLM fixed3eec scoped verdict; verify actual clean candidate and exact twoSHA/raw/source script. Owner replays GLM172 and separately checks positions-based directGit reconstruction/deepStrictEqual/committed inventory/512KiB and14pin deltas; reuse24/232/lint only within supported original input scope. Read-only269 mapping/pinned index check is admission design, not new semantic review or implementation.",
+            "reviewedLines": "S28 currenttask acceptance delta and bounded fixedGit reconstruction;269unique-current-binding/program phase mapping only, no new269/599semantic credit.",
+            "truthAnchors": [
+              "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:2281",
+              "docs/ops/document-quality.md:19",
+              "docs/phase-governance/templates/registry-proposal-20261011.md:333"
+            ],
+            "legalInputs": [
+              "Pinned269/23/7 path-SHA-carrier-source manifest2a221f1d…; exact admittedHEAD and unchanged native bytes. No product/test mutation or automatic status restoration."
+            ],
+            "businessOracle": {
+              "type": "bounded-native-content-handoff",
+              "assertions": [
+                "GLMwritesonly/tmp evidence, all repository/native302carriers remain byte-identical.",
+                "Every269content entry/30exception has concrete conclusion/source witness/actual read scope or explicitblocked state.",
+                "Codexonlyaccepts supported evidence and handles admitted shared contracts; old runtime or global quality not granted."
+              ]
+            },
+            "dedupe": {
+              "result": "One task for native JSON handoff; general protocol stays ops/document-quality; existing current records/Git retained, no per-batch ledger or native copies.",
+              "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "docs/ops/document-quality.md"]
+            },
+            "unresolved": [
+              "S29 contract/pilot/current-generation writer and269 independent evidence intake remain; original1838 full-governance hard gate remains red.",
+              "New S29 author task adds one incremental pending document/two diagnostics, not two newly broken old documents."
+            ],
+            "nextStep": "Continue under DOCS-NATIVE-VITEST-269-1 approved scope; no additional batch approval. GLM read-only delta package; Codex common implementation and independent evidence intake.",
+            "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
+            "evidence": {
+              "kind": "author-admission-not-independent-acceptance",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+              "manifestSha256": "2a221f1d96184df9213061f0d6acffb33c9287c6c91b635f643ba3cbe83c2fe9",
+              "nonAuthorReviewer": false
+            }
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [],
-      "stopLine": "No native byte/shared contract/product/oldtest/coverage writes by contributor; source mismatch or missing semantics blocks only affected entry. No main/push/done.",
-      "reviewedLines": "S28 currenttask acceptance delta and bounded fixedGit reconstruction;269unique-current-binding/program phase mapping only, no new269/599semantic credit.",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
+      "reviewedLines": "全文1–374行逐行实读",
       "documentStatus": "current",
       "currentQualification": {
         "task": "DOCS-NATIVE-JSON-1/S26",
@@ -3774,6 +3888,53 @@
         "incrementalMigrated": 87,
         "evidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
         "mainPushDone": false
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual task-card-v1/1.0.0 route; historical quote/source assertions remain attributed."
+      },
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–374行逐行实读",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "原生JSON历史证据治理子卡（task-card-v1，rework）：S26–S50推进记录——269篇Vitest合同、review-record-storage/1.0.0、S29正式接入269、S38零信用发布212条历史回执（12manifest+37片终态）、S50首八原生逐篇accept。活跃卡：212条仍partial/needs、状态晋升未做，卡面状态与计数逐字节保持，本轮只读核职责与停止线；正文合格retain。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+        "afterSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–374行逐行实读",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {

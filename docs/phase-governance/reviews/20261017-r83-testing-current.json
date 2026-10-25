@@ -7,20 +7,48 @@
   "entries": [
     {
       "path": "docs/testing/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/README.md:1"],
-      "unresolved": [
-        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "template": "governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "跨阶段测试文档唯一入口（governance-index-v1，current）：治理边界声明（仅统一入口结构字段、零运行信用）+canonical导航（governance/e2e/indexes/domains/archive/catalog/模板/legacy两账）+兼容性旧平面长列表（含GLM/Kimi/Grok/Cursor各波批次回执链接，逐条带冻结SHA与验收状态）。入口职责与链接密度合格，历史条目按兼容入口语义保持；正文合格retain。",
+      "truthAnchors": [
+        {
+          "path": "docs/testing/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "8-8",
+          "quote": "本次治理只统一当前文档结构与入口字段；原始测试范围、机器字段、日期、状态和未执行边界保持，不新增 runtime/E2E/视觉/coverage 信用。",
+          "claim": "本篇治理边界：仅统一入口结构字段，零运行信用"
+        },
+        {
+          "path": "docs/testing/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "45-45",
+          "quote": "- [机器 catalog](catalog.json)：稳定 ID、canonical 路径、证据、依赖和 reviewBy 的唯一索引源。",
+          "claim": "catalog.json被钉为唯一索引源，README只作导航"
+        },
+        {
+          "path": "docs/testing/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "47-47",
+          "quote": "- [legacy 平面文件登记](legacy-flat.json)：迁移期间的兼容清单；未登记的新平面文件会被 CI 拒绝。",
+          "claim": "legacy兼容清单仍受CI拒绝门保护"
+        },
+        {
+          "path": "docs/testing/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "50-50",
+          "quote": "旧平面列表保留在下方仅为兼容入口；新报告不得继续直接放在 `docs/testing/` 根目录。",
+          "claim": "下方长列表定性=兼容入口，非新报告落点"
+        }
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
+      ],
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "docs/testing/README.md",
@@ -29,7 +57,22 @@
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
+        }
       ],
       "sourceSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
       "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
@@ -38,18 +81,23 @@
         "docs/testing/catalog.json",
         "pnpm check:testing-docs"
       ],
-      "legalInputs": ["current repository documentation", "docs/testing/README.md"],
+      "legalInputs": [
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/testing/README.md (SHA256 df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
+      ],
       "businessOracle": {
-        "type": "testing-governance-navigation",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "required template sections present",
-          "canonical links remain resolvable",
-          "no execution credit from navigation"
+          "本篇治理边界：仅统一入口结构字段，零运行信用",
+          "catalog.json被钉为唯一索引源，README只作导航",
+          "legacy兼容清单仍受CI拒绝门保护",
+          "下方长列表定性=兼容入口，非新报告落点"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/testing/README.md"]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "revision": {
         "currentSha": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
@@ -64,22 +112,15 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
-        "sourceSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
-        "candidateSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
         "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
-        "lineCount": 340,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "full current body retained under template sections",
-          "sourceBytes": 54800,
-          "sourceLines": 306,
-          "sourceFinalNewline": true,
-          "inverseSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
-          "exactRoundTrip": false
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -101,17 +142,86 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+          "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+          "previousCurrentFields": {
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "templateVersion": "1.0.0",
+            "template": "docs/phase-governance/templates/governance-index.md",
+            "historyOverlay": false,
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "structured-content",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "truthAnchors": ["docs/testing/README.md:1"],
+            "legalInputs": ["current repository documentation", "docs/testing/README.md"],
+            "businessOracle": {
+              "type": "testing-governance-navigation",
+              "assertions": [
+                "required template sections present",
+                "canonical links remain resolvable",
+                "no execution credit from navigation"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": ["docs/testing/README.md"]
+            },
+            "unresolved": [
+              "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
+              "sourceSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
+              "candidateSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+              "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+              "lineCount": 340,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "full current body retained under template sections",
+                "sourceBytes": 54800,
+                "sourceLines": 306,
+                "sourceFinalNewline": true,
+                "inverseSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
+                "exactRoundTrip": false
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            },
+            "artifactOnly": false
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [
         "unstructured current presentation; native fields and historical entries retained"
       ],
-      "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
       "userVisibleBeforeAfter": "原始 testing 当前文档保持 → 增加统一模板元数据与必填章节；原始导航/治理正文不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": "全文1–340行逐行实读(含长列表逐条)",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": false,
       "documentStatus": "current",
       "sourceGitRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
       "candidateSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
@@ -141,13 +251,52 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual governance-index-v1/1.0.0 route; historical quote/source assertions remain attributed."
+      },
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–340行逐行实读(含长列表逐条)",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "跨阶段测试文档唯一入口（governance-index-v1，current）：治理边界声明（仅统一入口结构字段、零运行信用）+canonical导航（governance/e2e/indexes/domains/archive/catalog/模板/legacy两账）+兼容性旧平面长列表（含GLM/Kimi/Grok/Cursor各波批次回执链接，逐条带冻结SHA与验收状态）。入口职责与链接密度合格，历史条目按兼容入口语义保持；正文合格retain。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/testing/README.md",
+        "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–340行逐行实读(含长列表逐条)",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {

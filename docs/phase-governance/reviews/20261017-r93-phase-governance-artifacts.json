@@ -585,7 +585,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "9a92631da5496da4dd1ebec9f8f34163d462340e6568fa859a69fd62e307a74c",
+      "afterSha256": "d074221efa0b05a270021d1ec153b2ae2bc414bc088e80a6ec7c3f060d6488ac",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1022,6 +1022,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "9a92631da5496da4dd1ebec9f8f34163d462340e6568fa859a69fd62e307a74c",
+          "afterSha256": "d074221efa0b05a270021d1ec153b2ae2bc414bc088e80a6ec7c3f060d6488ac",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -1205,7 +1217,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "67f1c79ef5fd323fdc85ae186ce79aaf0247c528b8bd5b31e97b4b77661386cc",
+      "afterSha256": "4ef4fc31f33e3376f6944be48ca58aa7aeccaad2f9154e6b2690aa4023aa8729",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1810,6 +1822,18 @@
           "beforeSha256": "db61111c09ef66890d6317e12f8ba88ad64b42332e03d6f2ac2807eff3fd0fe2",
           "afterSha256": "67f1c79ef5fd323fdc85ae186ce79aaf0247c528b8bd5b31e97b4b77661386cc",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "67f1c79ef5fd323fdc85ae186ce79aaf0247c528b8bd5b31e97b4b77661386cc",
+          "afterSha256": "4ef4fc31f33e3376f6944be48ca58aa7aeccaad2f9154e6b2690aa4023aa8729",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -14453,7 +14477,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9dee852490730da010832b1f66bcc0e203859addcfd54dce88b3eb1468b9d4b0",
-      "afterSha256": "0f23e2101ebe67384767a7942a28f66eb896a078a9128268ef9e74425e5a478e",
+      "afterSha256": "25cacd0c8fac3ab5197ae95bbf9a61dfecdd04ba958988a9ef71de436c34fc25",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14595,6 +14619,18 @@
           "afterSha256": "0f23e2101ebe67384767a7942a28f66eb896a078a9128268ef9e74425e5a478e",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "0f23e2101ebe67384767a7942a28f66eb896a078a9128268ef9e74425e5a478e",
+          "afterSha256": "25cacd0c8fac3ab5197ae95bbf9a61dfecdd04ba958988a9ef71de436c34fc25",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -14625,7 +14661,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "70f5c0aaf66d7be4b3efc875bc16812f9ff9d1c1485dfb7f688bbc0d8cdd5902",
+      "afterSha256": "8244951ac9eaf3df68ba46f0b6faa41497fc6f6b789c77cf2472b726eb774c91",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14913,6 +14949,18 @@
           "beforeSha256": "2f842d14e691ac4cdb47cf1f9acefe0b3a42138575aecf3f1b9dd59112a5a3a5",
           "afterSha256": "70f5c0aaf66d7be4b3efc875bc16812f9ff9d1c1485dfb7f688bbc0d8cdd5902",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "70f5c0aaf66d7be4b3efc875bc16812f9ff9d1c1485dfb7f688bbc0d8cdd5902",
+          "afterSha256": "8244951ac9eaf3df68ba46f0b6faa41497fc6f6b789c77cf2472b726eb774c91",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

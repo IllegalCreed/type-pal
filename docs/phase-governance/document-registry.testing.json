@@ -1632,9 +1632,11 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r61-testing-domain-history.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r61-testing-domain-history.json",
+      "templateVersion": "1.1.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/_templates/e2e-report.md",
@@ -8735,9 +8737,11 @@
       "phase": "testing",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r83-testing-current.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r83-testing-current.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/governance.md",

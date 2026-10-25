@@ -1429,20 +1429,48 @@
     },
     {
       "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/domains/ops/testing-governance/legacy-flat-audit.md:1"],
-      "unresolved": [
-        "Legacy manifest/classification and migration consumers remain source of truth; no new runtime/E2E/coverage credit.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "template": "../../testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "testing legacy-flat分类与迁移总账的当前domain report（test-domain-report-v1/1.1.0）：testing-meta v2与sourceRefs配对，正文五节+原文quote（固定源01bd0336/SHA f5ee6aa9…可逆回原始UTF-8）；359项census、209归档+122工具归位、物理删除0保持原时点，reviewed≠runtime/E2E/coverage通过。历史quote逐字节保持，本轮不改；正文合格retain。",
+      "truthAnchors": [
+        {
+          "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "18-18",
+          "quote": "本页是 testing legacy-flat 分类与迁移总账的当前 domain report。",
+          "claim": "本篇职责声明：legacy-flat总账的当前domain report"
+        },
+        {
+          "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "34-34",
+          "quote": "原 359 项 census、归档/工具迁移、物理删除 0 和待核边界保持原时点；本次不重跑分类器或旧测试。",
+          "claim": "结果保持原时点，不因迁移重跑分类器或旧测试"
+        },
+        {
+          "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "42-42",
+          "quote": "固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816`；下方 quote 可逆回原始 UTF-8 字节。",
+          "claim": "quote保全锚：固定源revision+SHA，quote可逆回原始UTF-8字节"
+        },
+        {
+          "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "67-67",
+          "quote": "| 已迁移/归档 | 359 | 28 项前批 canonical/历史迁移、209 项非工具材料归档，以及本轮 122 个工具归入 `domains/*/*/tools`",
+          "claim": "quote内原始裁决表：359全量处置的分解数字"
+        }
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
+      ],
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "phase": "testing",
       "module": "ops/testing-governance",
       "capability": "legacy-flat-audit",
@@ -1451,32 +1479,43 @@
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
+        }
       ],
       "sourceSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
       "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
       "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
       "legalInputs": [
-        "docs/testing/legacy-flat.json",
-        "docs/testing/legacy-flat-classification.json",
-        "migration manifests"
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/testing/domains/ops/testing-governance/legacy-flat-audit.md (SHA256 30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
       ],
       "businessOracle": {
-        "type": "legacy-content-governance",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "every legacy path has classification/provenance/source SHA",
-          "migrated/retained entries have explicit target or reason",
-          "no Agent name leaks into canonical targets",
-          "no runtime/E2E/visual/coverage credit"
+          "本篇职责声明：legacy-flat总账的当前domain report",
+          "结果保持原时点，不因迁移重跑分类器或旧测试",
+          "quote保全锚：固定源revision+SHA，quote可逆回原始UTF-8字节",
+          "quote内原始裁决表：359全量处置的分解数字"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
-          "docs/testing/legacy-flat.json",
-          "docs/testing/legacy-flat-classification.json"
-        ]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "revision": {
         "currentSha": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
@@ -1498,22 +1537,15 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
-        "sourceSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
-        "candidateSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
         "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
-        "lineCount": 91,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 6618,
-          "sourceLines": 46,
-          "sourceFinalNewline": true,
-          "inverseSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -1535,15 +1567,93 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+          "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+          "previousCurrentFields": {
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "docType": "test-domain-report",
+            "templateId": "test-domain-report-v1",
+            "templateVersion": "1.1.0",
+            "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
+            "historyOverlay": false,
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "structured-content",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "truthAnchors": ["docs/testing/domains/ops/testing-governance/legacy-flat-audit.md:1"],
+            "legalInputs": [
+              "docs/testing/legacy-flat.json",
+              "docs/testing/legacy-flat-classification.json",
+              "migration manifests"
+            ],
+            "businessOracle": {
+              "type": "legacy-content-governance",
+              "assertions": [
+                "every legacy path has classification/provenance/source SHA",
+                "migrated/retained entries have explicit target or reason",
+                "no Agent name leaks into canonical targets",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": [
+                "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+                "docs/testing/legacy-flat.json",
+                "docs/testing/legacy-flat-classification.json"
+              ]
+            },
+            "unresolved": [
+              "Legacy manifest/classification and migration consumers remain source of truth; no new runtime/E2E/coverage credit.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "stopLine": "do not promote legacy classification review to runtime/E2E/visual/coverage acceptance",
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+              "sourceSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
+              "candidateSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+              "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+              "lineCount": 91,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 6618,
+                "sourceLines": 46,
+                "sourceFinalNewline": true,
+                "inverseSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
+                "exactRoundTrip": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            },
+            "artifactOnly": false
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; manifest and consumer remain canonical"],
-      "stopLine": "do not promote legacy classification review to runtime/E2E/visual/coverage acceptance",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
       "userVisibleBeforeAfter": "legacy-flat audit 保持 → 接入 test-domain-report、testing-meta/catalog、source SHA 和停止线；分类与执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": "全文1–91行逐行实读(含testing-meta注释与quote区)",
       "templateVersion": "1.1.0",
       "historyOverlay": false,
-      "artifactOnly": false,
       "documentStatus": "current",
       "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
       "candidateSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
@@ -1573,13 +1683,52 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual test-domain-report-v1/1.1.0 route; historical quote/source assertions remain attributed."
+      },
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–91行逐行实读(含testing-meta注释与quote区)",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "testing legacy-flat分类与迁移总账的当前domain report（test-domain-report-v1/1.1.0）：testing-meta v2与sourceRefs配对，正文五节+原文quote（固定源01bd0336/SHA f5ee6aa9…可逆回原始UTF-8）；359项census、209归档+122工具归位、物理删除0保持原时点，reviewed≠runtime/E2E/coverage通过。历史quote逐字节保持，本轮不改；正文合格retain。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+        "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–91行逐行实读(含testing-meta注释与quote区)",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     }
   ],

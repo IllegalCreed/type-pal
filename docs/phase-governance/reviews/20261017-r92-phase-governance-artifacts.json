@@ -2846,7 +2846,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
-      "afterSha256": "7cca584efbfaf66eee2f9f5820a9d1b6110089e6fa233b78a2f2272081271c96",
+      "afterSha256": "4b8814d3cd1fcdd3e386cbf8bda09ffebe50cc2275a9bfeed1ac6986b918b7bd",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2992,7 +2992,21 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "7cca584efbfaf66eee2f9f5820a9d1b6110089e6fa233b78a2f2272081271c96",
+          "afterSha256": "4b8814d3cd1fcdd3e386cbf8bda09ffebe50cc2275a9bfeed1ac6986b918b7bd",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
@@ -3021,7 +3035,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
-      "afterSha256": "1dfff39b27f0d32f6c9c890f771441878519908d1ecb8e5128e7cc167e95985f",
+      "afterSha256": "dd20e9f0ccd16f14a996b8ff510d4b243c9325dd35e968ca9f404788a49ef57b",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3167,7 +3181,21 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "1dfff39b27f0d32f6c9c890f771441878519908d1ecb8e5128e7cc167e95985f",
+          "afterSha256": "dd20e9f0ccd16f14a996b8ff510d4b243c9325dd35e968ca9f404788a49ef57b",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",

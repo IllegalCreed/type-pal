@@ -149,10 +149,11 @@
       "phase": "phase-governance",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "artifactOnly": true
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase-governance/templates/registry.json",
@@ -1818,9 +1819,10 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase-governance/document-registry.ops.json",

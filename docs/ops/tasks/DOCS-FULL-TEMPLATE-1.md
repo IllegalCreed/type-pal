@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s50-native-pilot-admission
+Branch: codex/docs-s52-s51-partial-intake
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2528,3 +2528,10 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 先由独立贡献者对八载体按真实字段/原source/current review写具体稿，复用已核内容，非作者逐篇据证接受。历史测试失败、缺pending、截断身份、旧撤信/来源不确定保持，不重跑或重授历史/runtime。新guard只允许旧partial/needs模式，或固定报告SHA+逐路径内容指纹+Owner明确裁定支持的新文档接受；不删除原状态护栏，不用hash代替语义审。未接受篇保持partial/needs。
 - 白名单：上述授权旧测试、既有native family admission/guard及必要新文档工具测试；模板registry仅六变体、routing仅八路径、registry仅八条相应分类/状态投影、矩阵当前接受边界；本卡/原生JSON子卡/board/既有提案，以及八唯一review和真实依赖after级联、既有单份gzip。来源Git/1838/cohort/旧存储sourcePins与212/272旧合同保持，原review历史逐值保全；不新增canonical副本或sidecar。物化输出在隔离临时树先验，接入和晋升按真实结论逐条决定。
 - 旧测试适配仅授权补丁；本轮新增测试用于精确接受门、伪造/跨篇/改结论与真实model/progress联合反控，不重复旧原子。必要门在稳定树集中实跑一次，已有同输入证据据证复用；未满足全量硬门仍rework，不合main、不推送、不done。候选证据按实际结果封存，E2E006日期不自动续，1750诊断/878文档只在真实接受接入后按实扣减。
+
+## S52 S51据证裁定与八篇现成Markdown接入（2026-10-25）
+
+- S51原四SHA、658集合与1768见证实核，官方只读replay通过但明确不授semantic acceptance。632JSON由统一生成器以root形状/首标量/通用缺字段生成，无法独立支持所有旧业务结论；22JSON与3MD源已变化却全set空。当前127治理控制件继续由Owner承担内容/合同，其余505非控制JSON只补缺失claim见证和必要语义，正确旧事实不重做，原包冻结，不新造全套账本。正式裁定及逐路径清单收既有单份gzip。
+- 26篇MD/HTML具体保留候选可复用；Owner直接修两处旧结论截断与设计稿容量表述（1047444距1MiB尚1132），不改源正文、不让贡献者为小错循环返工。42条exact建议：27沿用已准入形状实施、2HTML沿用冻结pilot实施；另外13HTML仍需Owner合同，不因结构相近自动准入。两派生视图与catalog重渲染字节一致，生成格式合同由Owner处理，禁止手改视图过门。
+- Codex build allowed从c2c0e859隔离后继：接收GLM据证保留内容，先接8份未改字节且现有正文合同0issue的Markdown；具体源SHA/作者实读域在现有唯一review内。仅3新增已存在父类型的route，registry8条匹配投影、矩阵当前接受边界、本卡/board及真实after级联和既有gzip。没有新产品或代码合同，无代码/旧测试/coverage/模板规则修改。父卡C2旧体接受保留，新S52行政段不倒签为GLM已读，父卡本轮不晋升。
+- 原source/quote/history/withdrawal逐值保持；旧claimCorrection移入新历史记录，不恢复旧执行。原生全部零字节变化，212历史交付与已接收S50八原生/旧272保持；每篇新信用只属当前Markdown内容/模板，不授runtime/E2E/视觉/coverage。先镜像再真实物化，必要门与扣减按实记录；父子卡rework，硬门未满足不合main、不推送、不done。

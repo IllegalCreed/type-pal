@@ -3346,20 +3346,48 @@
     },
     {
       "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/phase-governance/templates/registry-proposal-20261011.md:1"],
-      "unresolved": [
-        "Template source changes require registry/consumer review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "template": "design-spec.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "全docs模板注册表提案（design-spec，Status:draft仅指新增原生格式）：已冻结20261011版17类合同与C1/C2/I/J/S23–S34机器变体，S44–S50段为652原生分族排期（A41+B79+C127+D28+E15+F362）、五设计种子与首八通用guard注册；E族15 HTML即本轮目标，index-b零canvas宿主与actor-v1静态mockup被列为S49设计种子。活跃提案：冻结节效力保留、新格式仍draft，不擅改；正文合格retain。",
+      "truthAnchors": [
+        {
+          "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "3-3",
+          "quote": "状态：frozen-for-pilot；版本 `content-document-template-registry-20261011` 已冻结用于 pilot 与分批迁移。",
+          "claim": "顶部冻结声明：20261011版已冻结用于pilot与迁移"
+        },
+        {
+          "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "10-10",
+          "quote": "当前 Status 只标本页持续补充的设计提案：新增原生格式仍处 draft。",
+          "claim": "Status:draft仅指新增原生格式，不撤销已冻结合同"
+        },
+        {
+          "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "459-459",
+          "quote": "剩余652=637 JSON+15 HTML，另3件DOC-IA-2复用S24、28件MD走已有合同。",
+          "claim": "S44分族基数：15 HTML即本轮E族目标，28MD走既有合同"
+        },
+        {
+          "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "543-543",
+          "quote": "| [模块宿主index-b](../../testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html) | native HTML宿主设计1.0.0：唯一div#root、唯一module script ./host-b.tsx及固定依赖，零canvas为合法正例 |",
+          "claim": "S49把index-b宿主定为原生HTML设计种子：零canvas为合法正例"
+        }
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
+      ],
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "registry-proposal-20261011.md",
@@ -3368,7 +3396,22 @@
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
+        }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
       "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
@@ -3378,24 +3421,22 @@
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
       "legalInputs": [
-        "current template registry",
-        "docs/phase-governance/templates/registry-proposal-20261011.md"
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/phase-governance/templates/registry-proposal-20261011.md (SHA256 b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
       ],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "original bytes remain unchanged",
-          "template source remains copyable/consumable",
-          "source and after SHA equal",
-          "no runtime/E2E/visual/coverage credit"
+          "顶部冻结声明：20261011版已冻结用于pilot与迁移",
+          "Status:draft仅指新增原生格式，不撤销已冻结合同",
+          "S44分族基数：15 HTML即本轮E族目标，28MD走既有合同",
+          "S49把index-b宿主定为原生HTML设计种子：零canvas为合法正例"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
-        "against": [
-          "docs/phase-governance/templates/registry-proposal-20261011.md",
-          "docs/phase-governance/templates/registry.json"
-        ]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "revision": {
         "currentSha": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
@@ -3435,23 +3476,15 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
-        "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-        "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-        "afterSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
-        "lineCount": 304,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable canonical template source",
-          "sourceBytes": 29110,
-          "sourceLines": 304,
-          "sourceFinalNewline": true,
-          "inverseSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-          "exactRoundTrip": true,
-          "topLevelShape": "markdown"
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -3473,17 +3506,94 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+          "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+          "previousCurrentFields": {
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "docType": "design-spec",
+            "templateId": "design-spec-v1",
+            "templateVersion": "1.0.0",
+            "template": "docs/phase-governance/templates/design-spec.md",
+            "historyOverlay": false,
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "structured-content",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "truthAnchors": ["docs/phase-governance/templates/registry-proposal-20261011.md:1"],
+            "legalInputs": [
+              "current template registry",
+              "docs/phase-governance/templates/registry-proposal-20261011.md"
+            ],
+            "businessOracle": {
+              "type": "canonical-template-source",
+              "assertions": [
+                "original bytes remain unchanged",
+                "template source remains copyable/consumable",
+                "source and after SHA equal",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed-and-preserved",
+              "against": [
+                "docs/phase-governance/templates/registry-proposal-20261011.md",
+                "docs/phase-governance/templates/registry.json"
+              ]
+            },
+            "unresolved": [
+              "Template source changes require registry/consumer review before reuse.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+            "evidence": {
+              "kind": "template-source-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+              "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+              "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+              "afterSha256": "9e6aa4fc7fcff1209bb61791fa32e66168e967ae8f690330ee32be0624b17b33",
+              "lineCount": 304,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable canonical template source",
+                "sourceBytes": 29110,
+                "sourceLines": 304,
+                "sourceFinalNewline": true,
+                "inverseSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+                "exactRoundTrip": true,
+                "topLevelShape": "markdown"
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            },
+            "artifactOnly": true
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": "全文1–554行逐行实读(含冻结合同JSON块与S44–S50排期表)",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": true,
       "documentStatus": "canonical-template-source",
       "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
       "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
@@ -3513,14 +3623,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "maintenanceDeltas": [
         {
           "date": "2026-10-23",
@@ -3639,7 +3741,54 @@
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
         }
-      ]
+      ],
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual design-spec-v1/1.0.0 route; historical quote/source assertions remain attributed."
+      },
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–554行逐行实读(含冻结合同JSON块与S44–S50排期表)",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "全docs模板注册表提案（design-spec，Status:draft仅指新增原生格式）：已冻结20261011版17类合同与C1/C2/I/J/S23–S34机器变体，S44–S50段为652原生分族排期（A41+B79+C127+D28+E15+F362）、五设计种子与首八通用guard注册；E族15 HTML即本轮目标，index-b零canvas宿主与actor-v1静态mockup被列为S49设计种子。活跃提案：冻结节效力保留、新格式仍draft，不擅改；正文合格retain。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+        "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–554行逐行实读(含冻结合同JSON块与S44–S50排期表)",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/templates/registry.json",
