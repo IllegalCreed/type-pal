@@ -1067,9 +1067,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 PAL source closure delta",
+      "readMethod": "Owned final gate retry delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE1 source fix; finite83 accepted, final gates open.",
+      "coreConclusion": "Final gate retry; PAL identity repaired, no pass claim.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "7f8b0b9791ea96adad280f187d42752a900cd7ec65129877a983fb2c636d87a3",
+      "afterSha256": "c2d3beda812bebb74ac74f5c7f8c3af3614b723c67bb5432fda31a75ce0c11b8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "76f7ae74c09a76a8f60458db4a29ab38a8df5f5681f2a9cf00c0c5767a152efc",
-        "implementationSha": "7f8b0b9791ea96adad280f187d42752a900cd7ec65129877a983fb2c636d87a3",
+        "implementationSha": "c2d3beda812bebb74ac74f5c7f8c3af3614b723c67bb5432fda31a75ce0c11b8",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1792,10 +1792,10 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "7f8b0b9791ea96adad280f187d42752a900cd7ec65129877a983fb2c636d87a3",
+        "afterSha256": "c2d3beda812bebb74ac74f5c7f8c3af3614b723c67bb5432fda31a75ce0c11b8",
         "lineCount": 5498,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1812,11 +1812,11 @@
         },
         "currentMaintenance": {
           "kind": "pre94-rle-test-quality-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
-          "afterSha256": "7f8b0b9791ea96adad280f187d42752a900cd7ec65129877a983fb2c636d87a3",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
+          "afterSha256": "c2d3beda812bebb74ac74f5c7f8c3af3614b723c67bb5432fda31a75ce0c11b8",
           "lineCount": 5498,
           "scope": "PAL source closure; history retained; gates deferred.",
-          "candidateBaseRevision": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
+          "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
           "workingTreeDelta": true
         }
       },
@@ -7826,9 +7826,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 PAL source closure delta",
+      "readMethod": "Owned final gate retry delta",
       "reviewDepth": "structured-content",
-      "coreConclusion": "CODE1 source fix; finite83 accepted, final gates open.",
+      "coreConclusion": "Final gate retry; PAL identity repaired, no pass claim.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -7849,7 +7849,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "e78eeceef977c0c8eb45e88c4a61f3c4b6b751dfc45e14002e8ad0816d7bf53c",
+      "afterSha256": "4f1f8671a183361439927ee6bdae5c098be855eba205705b17427a2a4fc7b5f7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7873,7 +7873,7 @@
       },
       "revision": {
         "currentSha": "1a907e2eb93852ef27fdc66dd305468dd042840e7809bb156c8f723505d403e6",
-        "implementationSha": "e78eeceef977c0c8eb45e88c4a61f3c4b6b751dfc45e14002e8ad0816d7bf53c",
+        "implementationSha": "4f1f8671a183361439927ee6bdae5c098be855eba205705b17427a2a4fc7b5f7",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8538,10 +8538,10 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "e78eeceef977c0c8eb45e88c4a61f3c4b6b751dfc45e14002e8ad0816d7bf53c",
+        "afterSha256": "4f1f8671a183361439927ee6bdae5c098be855eba205705b17427a2a4fc7b5f7",
         "lineCount": 7071,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8558,11 +8558,11 @@
         },
         "currentMaintenance": {
           "kind": "pre94-rle-test-quality-maintenance",
-          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
-          "afterSha256": "e78eeceef977c0c8eb45e88c4a61f3c4b6b751dfc45e14002e8ad0816d7bf53c",
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
+          "afterSha256": "4f1f8671a183361439927ee6bdae5c098be855eba205705b17427a2a4fc7b5f7",
           "lineCount": 7071,
           "scope": "PAL source closure; history retained; gates deferred.",
-          "candidateBaseRevision": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
+          "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
           "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
           "workingTreeDelta": true
         }

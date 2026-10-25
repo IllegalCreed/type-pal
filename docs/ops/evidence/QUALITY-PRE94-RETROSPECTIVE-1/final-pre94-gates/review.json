@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-25",
+  "scope": "Single pre94 final gate window; original83 code scopes only; no94-102",
+  "codeFreeze": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
+  "firstCheck": {
+    "id": "full-check",
+    "exit": 1,
+    "claim": "NOT PASS; one stale dialog PAL-vs-author identity assertion, all raw retained"
+  },
+  "followup": {
+    "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+    "sha256": "564e9ec506c02ac82d217a0fb4c1ed9ad09e631864aa7720d9a3a24571173f79",
+    "baseSha256": "f6c00cd4c2b182c1326e5935a7fa0969b76ccd885a03b5d2320667d48ed1a3b8",
+    "dimensions": {
+      "A": "全文13例及真实loadDialogAssets/共享PAL转发/合法host夹具核过；G02-D11由旧canonical identity改PAL，新增排除author入口。其它12个像素/编号/两路失败合同不变。",
+      "B": "头部“真实chunk”纠正为手列合法字节+真实decoder，避免把fixture说成原盘；标题明确PAL与author边界。",
+      "C": "每例拥有fetch stub/PNG/expectedWarnings；afterEach finally恢复globals/mocks，未改生产加载器或增加跨层状态。",
+      "D": "复用legal-host的有效PNG和容器；新的两源身份与shared四格式合同互补，未造万能fixture。",
+      "E": "全仓真实失败指向G02-D11精确toBe；修后13/13。保留身份数和全部像素/失败断言，新增not canonical而非删除或弱化。warn的所有参数/次数在afterEach精确排序核对，非吞日志。",
+      "F": "import按PAL/author命名，one-case two-domain boundary清楚；其余直接值+URL/map结果不改。",
+      "G": "13例无新增/skip/only，旧基础base64与loader边界保留；此次只修已失效接线及错误注释，不开展新任务。",
+      "H": "真实decoder/PNG参与，依赖仅IO stub控制；同一shared入口对象可直接观察，候选source unchanged。"
+    },
+    "result": "13/13,0stderr",
+    "identityMapping": {
+      "before": "G02-D11 对话图标的 parseSpriteChunk 入口就是 shared 的同一函数",
+      "after": "G02-D11 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口",
+      "countChange": 0
+    }
+  },
+  "state": "Full gate retry pending; official collection/protected/PR not started"
+}
