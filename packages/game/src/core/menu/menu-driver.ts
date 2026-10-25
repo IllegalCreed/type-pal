@@ -227,6 +227,14 @@ export function _resetStartGameHandlerForTest(): void {
   _startGameHandler = undefined
 }
 
+/** The shell installs the scene; this input route owns asynchronous startup failures. */
+function startNewGame(): void {
+  if (!_startGameHandler) return
+  void Promise.resolve(_startGameHandler({ kind: 'new-game' })).catch((error: unknown) => {
+    console.error('[opening] startGame failed:', error)
+  })
+}
+
 // ── SystemQuitHandler(C2-quit:系统菜单 QUIT 二次确认选「是」)─────────────────
 //
 // sdlpal PAL_QuitGame(uigame.c:2068-2074)选「是」→ PAL_Shutdown(0)(进程退出)。浏览器无进程退出语义,
@@ -431,7 +439,7 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
   const s = top.state as OpeningMenuState
   // sdlpal uigame.c:129-136:Cancel = 选新游戏(wItemSelected=0 break)
   if (input.pressed.has('Menu')) {
-    _startGameHandler?.({ kind: 'new-game' })
+    startNewGame()
     return
   }
   // DL21:PAL_ReadMenu 竖排统一 `kKeyUp|kKeyLeft` 上移、`kKeyDown|kKeyRight` 下移(ui.c:486/541)。
@@ -440,7 +448,7 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
   if (input.pressed.has('Confirm')) {
     const choice = openingMenuChoice(s)
     if (choice === 'new-game') {
-      _startGameHandler?.({ kind: 'new-game' })
+      startNewGame()
       return
     }
     if (choice === 'load-game') {

@@ -524,6 +524,31 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
     expect(ss.mode).toBe('load')
   })
 
+  it.each(['Confirm', 'Menu'] as const)('%s 启动失败由路由收束，保留标题以便重试', async (key) => {
+    const gs = mkGs()
+    const opening = createOpeningMenu()
+    openMenu(gs, { kind: 'opening', state: opening })
+    const failure = new Error('opening playback failed')
+    const rejected = Promise.reject(failure)
+    // Contain the old unowned rejection so its missing routing output is an AssertionError.
+    void rejected.catch(() => {})
+    setStartGameHandler(() => rejected)
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    tickMenu(gs, snap([key]), createCommandBus())
+    await rejected.catch(() => {})
+    expect(error).toHaveBeenCalledExactlyOnceWith('[opening] startGame failed:', failure)
+    expect(gs.mode).toBe('menu')
+    expect(gs.menuStack).toEqual([{ kind: 'opening', state: opening }])
+
+    setStartGameHandler(() => {
+      gs.menuStack = []
+    })
+    tickMenu(gs, snap([key]), createCommandBus())
+    expect(gs.mode).toBe('explore')
+    expect(gs.menuStack).toEqual([])
+  })
+
   it('未注入 handler 时 Confirm new-game 不抛错(noop)', () => {
     const gs = mkGs()
     const opening = createOpeningMenu()
