@@ -5,6 +5,7 @@ import {
   existsSync,
   mkdirSync,
   mkdtempSync,
+  readdirSync,
   readFileSync,
   realpathSync,
   rmSync,
@@ -13,7 +14,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import { basename, dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { afterEach, expect, it } from 'vitest'
 
@@ -24,7 +25,7 @@ afterEach(() => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
 })
 
-function makeTree() {
+function makeTree(options: { failConversion?: boolean } = {}) {
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'extract-entrypoints-')))
   roots.push(root)
   const pkg = join(root, 'packages/pal-extract')
@@ -46,6 +47,7 @@ const fs = require('node:fs');
 const args = process.argv.slice(2);
 fs.appendFileSync(process.env.EXTRACT_TEST_TRACE, JSON.stringify(args) + '\\n');
 if (args[0] !== '-version') fs.writeFileSync(args.at(-1), 'converted:' + fs.readFileSync(args[args.indexOf('-i') + 1], 'utf8'));
+if (args[0] !== '-version' && process.env.EXTRACT_TEST_FAIL_AFTER_WRITE === '1') process.exit(7);
 `,
     { mode: 0o755 },
   )
@@ -57,6 +59,7 @@ if (args[0] !== '-version') fs.writeFileSync(args.at(-1), 'converted:' + fs.read
         PATH: bin,
         NODE_COMPILE_CACHE: '',
         EXTRACT_TEST_TRACE: trace,
+        EXTRACT_TEST_FAIL_AFTER_WRITE: options.failConversion ? '1' : '',
       },
       encoding: 'utf8',
       timeout: 15_000,
@@ -113,6 +116,56 @@ it.each([
   expect(existsSync(f.trace)).toBe(false)
 })
 
+it.each([
+  'videos',
+  'mp4',
+] as const)('video writer refuses a shared %s child without touching the linked files', (node) => {
+  const f = makeTree()
+  f.rawVideos(join(f.data, 'raw'))
+  const shared = join(f.root, 'other-owner')
+  const output = join(f.data, 'extracted/videos')
+  mkdirSync(shared)
+  mkdirSync(dirname(output), { recursive: true })
+  if (node === 'videos') symlinkSync(shared, output, 'dir')
+  else mkdirSync(output)
+  const marker = join(shared, '1.mp4')
+  writeFileSync(marker, 'other-owner-video')
+  utimesSync(marker, 0, 0)
+  if (node === 'mp4') symlinkSync(marker, join(output, '1.mp4'), 'file')
+  const result = f.run(join(f.pkg, 'scripts/extract-videos.ts'))
+  expect(readFileSync(marker, 'utf8')).toBe('other-owner-video')
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('refuse shared output')
+  expect(existsSync(f.trace)).toBe(false)
+})
+
+it('failed video conversion preserves the previous published bytes', () => {
+  const f = makeTree({ failConversion: true })
+  f.rawVideos(join(f.data, 'raw'))
+  const output = join(f.data, 'extracted/videos')
+  mkdirSync(output, { recursive: true })
+  const published = join(output, '1.mp4')
+  writeFileSync(published, 'previous-published-video')
+  utimesSync(published, 0, 0)
+  const result = f.run(join(f.pkg, 'scripts/extract-videos.ts'))
+  expect(result.status).toBe(1)
+  expect(readFileSync(published, 'utf8')).toBe('previous-published-video')
+  expect(result.stderr).toContain('[extract-videos] FAILED:')
+  expect(readFileSync(join(f.data, 'raw/1.avi'), 'utf8')).toBe('raw-1')
+  expect(readdirSync(output)).toEqual(['1.mp4'])
+})
+
+it('missing ffmpeg reports failure before creating video output', () => {
+  const f = makeTree()
+  f.rawVideos(join(f.data, 'raw'))
+  rmSync(join(f.root, 'bin/ffmpeg'))
+  const result = f.run(join(f.pkg, 'scripts/extract-videos.ts'))
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('[extract-videos] ERROR: ffmpeg 不在 PATH。')
+  expect(existsSync(join(f.data, 'extracted'))).toBe(false)
+  expect(readFileSync(join(f.data, 'raw/1.avi'), 'utf8')).toBe('raw-1')
+})
+
 it('owned video output accepts read-only raw links, writes six outputs and then skips them', () => {
   const f = makeTree()
   const raw = join(f.root, 'owned-input')
@@ -137,6 +190,14 @@ it('owned video output accepts read-only raw links, writes six outputs and then 
     .trim()
     .split('\n')
     .map((s) => JSON.parse(s))
+  const staging = calls.slice(1, 7).map((args) => args.at(-1))
+  expect(new Set(staging.map((path) => dirname(path))).size).toBe(6)
+  for (const [index, path] of staging.entries()) {
+    expect(dirname(dirname(path))).toBe(output)
+    expect(basename(path)).toBe(`${index + 1}.mp4`)
+    expect(existsSync(dirname(path))).toBe(false)
+  }
+  expect(readdirSync(output).sort()).toEqual(['1.mp4', '2.mp4', '3.mp4', '4.mp4', '5.mp4', '6.mp4'])
   expect(calls).toEqual([
     ['-version'],
     ...Array.from({ length: 6 }, (_, i) => [
@@ -159,7 +220,7 @@ it('owned video output accepts read-only raw links, writes six outputs and then 
       '96k',
       '-movflags',
       '+faststart',
-      join(output, `${i + 1}.mp4`),
+      staging[i],
     ]),
     ['-version'],
   ])

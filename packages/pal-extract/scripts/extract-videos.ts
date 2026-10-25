@@ -22,7 +22,15 @@
  * 用法:`pnpm -F @type-pal/pal-extract extract:videos`
  */
 import { execFile } from 'node:child_process'
-import { existsSync, mkdirSync, statSync } from 'node:fs'
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  mkdtempSync,
+  renameSync,
+  rmSync,
+  statSync,
+} from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
@@ -36,6 +44,21 @@ const RAW = resolve(REPO_ROOT, 'data/raw')
 const OUT_DIR = resolve(REPO_ROOT, 'data/extracted/videos')
 
 const AVI_IDS = [1, 2, 3, 4, 5, 6] as const
+
+/** Check actual write targets before even the encoder preflight; raw input links remain allowed. */
+function assertOwnedVideoOutputs(): void {
+  assertOwnedOutputRoot(resolve(REPO_ROOT, 'data'), resolve(REPO_ROOT, 'data/extracted'))
+  for (const path of [OUT_DIR, ...AVI_IDS.map((id) => resolve(OUT_DIR, `${id}.mp4`))]) {
+    try {
+      if (lstatSync(path).isSymbolicLink()) {
+        throw new Error(`[pal-extract] refuse shared output: video output is symlink (${path})`)
+      }
+    } catch (error) {
+      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') continue
+      throw error
+    }
+  }
+}
 
 interface ConvertResult {
   id: number
@@ -64,8 +87,11 @@ async function convertOne(id: number): Promise<ConvertResult> {
 
   mkdirSync(OUT_DIR, { recursive: true })
 
-  // ffmpeg H.264 + AAC,CRF 18 preset slow
-  // -y 覆盖已存在;-loglevel error 静音冗余信息;只在出错时输出
+  // 同一输出树里的独占目录保证rename不跨卷；失败只清理本次创建的临时物。
+  // 保留.mp4后缀供ffmpeg识别容器，旧发布文件只在成功且非空时替换。
+  const temporaryRoot = mkdtempSync(resolve(OUT_DIR, `.convert-${id}-`))
+  const temporaryPath = resolve(temporaryRoot, `${id}.mp4`)
+  // ffmpeg H.264 + AAC,CRF 18 preset slow；-y只作用于本次独占临时路径。
   const args = [
     '-y',
     '-loglevel',
@@ -86,20 +112,24 @@ async function convertOne(id: number): Promise<ConvertResult> {
     '96k',
     '-movflags',
     '+faststart', // mp4 metadata 前置,允许流式开始播
-    mp4Path,
+    temporaryPath,
   ]
-  await execFileP('ffmpeg', args)
-
-  const mp4Stat = statSync(mp4Path)
-  if (mp4Stat.size === 0) {
-    throw new Error(`ffmpeg produced empty output: ${mp4Path}`)
+  try {
+    await execFileP('ffmpeg', args)
+    const mp4Stat = statSync(temporaryPath)
+    if (mp4Stat.size === 0) {
+      throw new Error(`ffmpeg produced empty output: ${mp4Path}`)
+    }
+    renameSync(temporaryPath, mp4Path)
+    return { id, rawSize: rawStat.size, mp4Size: mp4Stat.size, skipped: false }
+  } finally {
+    rmSync(temporaryRoot, { recursive: true, force: true })
   }
-  return { id, rawSize: rawStat.size, mp4Size: mp4Stat.size, skipped: false }
 }
 
 async function main(): Promise<void> {
   // 与主提取入口共用data/extracted所有权边界;检查本身不创建或清理输出。
-  assertOwnedOutputRoot(resolve(REPO_ROOT, 'data'), resolve(REPO_ROOT, 'data/extracted'))
+  assertOwnedVideoOutputs()
 
   console.log('[extract-videos] start — ffmpeg AVI → mp4(H.264 CRF 18 preset slow + AAC 96k)')
 
