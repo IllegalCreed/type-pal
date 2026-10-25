@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "ff2298b32d83a4cd032aa15a3caa4512c25e1b0efc89d92c89e77afb80165426",
+  "generation": "8c48a73ec542f06e7f10ce00a71751247f82bbf099e5b1293a5a425bfadc7f19",
   "key": "part-002",
   "positions": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2198,7 +2198,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "94437bae7ba579f32f3171650d2152d20a95ee7ef412b41668e02fb3f45f3dcf",
+      "afterSha256": "2de17ba9c82ddb6f45018e734b9ce0f663564011e525a2549184ece8cb1d5296",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3114,6 +3114,18 @@
           "beforeSha256": "727af667da5b190b6e1b1c95977eb10def681134b124477b072dce18bbba765f",
           "afterSha256": "94437bae7ba579f32f3171650d2152d20a95ee7ef412b41668e02fb3f45f3dcf",
           "scope": "Record S46 correction audit, Owner sparse repairs and eight-carrier implementation design freeze; exact administrative after pins only, no new document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S49",
+          "revision": "03b6e71355cb964c261cbfec22e953b680a83f8e",
+          "beforeSha256": "94437bae7ba579f32f3171650d2152d20a95ee7ef412b41668e02fb3f45f3dcf",
+          "afterSha256": "2de17ba9c82ddb6f45018e734b9ce0f663564011e525a2549184ece8cb1d5296",
+          "scope": "Record remaining644 bounded admission decisions and first-eight production guard with isolated joint pilots; administrative after pins only, no production document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

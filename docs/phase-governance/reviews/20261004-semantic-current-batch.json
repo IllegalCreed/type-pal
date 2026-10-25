@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "bafcc16851816d019d6556d8a116fae854e43d4c462284d580340c57c664af4f",
+      "afterSha256": "8bfe9d165b6650fae7f3780730033b9edb8e5b23c4d8f8d5e53ac80f96b6fcb2",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1339,6 +1339,18 @@
           "beforeSha256": "1491b9fcbf03879028150ef8af528e58c70f8973aaff5842a2fad8643ce65a6f",
           "afterSha256": "bafcc16851816d019d6556d8a116fae854e43d4c462284d580340c57c664af4f",
           "scope": "Record S46 correction audit, Owner sparse repairs and eight-carrier implementation design freeze; exact administrative after pins only, no new document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S49",
+          "revision": "03b6e71355cb964c261cbfec22e953b680a83f8e",
+          "beforeSha256": "bafcc16851816d019d6556d8a116fae854e43d4c462284d580340c57c664af4f",
+          "afterSha256": "8bfe9d165b6650fae7f3780730033b9edb8e5b23c4d8f8d5e53ac80f96b6fcb2",
+          "scope": "Record remaining644 bounded admission decisions and first-eight production guard with isolated joint pilots; administrative after pins only, no production document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

@@ -1193,7 +1193,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "30b0436e47657507c385ac109c5e20fb262f128dda209be474b3922bc9535b67",
+      "afterSha256": "db61111c09ef66890d6317e12f8ba88ad64b42332e03d6f2ac2807eff3fd0fe2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1774,6 +1774,18 @@
           "beforeSha256": "acb0989cad75071f7a434f9cc33f5ddd833521e15e2c8a463dec55caa368a7dc",
           "afterSha256": "30b0436e47657507c385ac109c5e20fb262f128dda209be474b3922bc9535b67",
           "scope": "Record S46 correction audit, Owner sparse repairs and eight-carrier implementation design freeze; exact administrative after pins only, no new document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S49",
+          "revision": "03b6e71355cb964c261cbfec22e953b680a83f8e",
+          "beforeSha256": "30b0436e47657507c385ac109c5e20fb262f128dda209be474b3922bc9535b67",
+          "afterSha256": "db61111c09ef66890d6317e12f8ba88ad64b42332e03d6f2ac2807eff3fd0fe2",
+          "scope": "Record remaining644 bounded admission decisions and first-eight production guard with isolated joint pilots; administrative after pins only, no production document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -14563,7 +14575,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "5839b24c1367d984d0f42ab6aa2e3928cf19f2727a1a8d6f8b05cf72526a926d",
+      "afterSha256": "2f842d14e691ac4cdb47cf1f9acefe0b3a42138575aecf3f1b9dd59112a5a3a5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14827,6 +14839,18 @@
           "beforeSha256": "4cd6e81a04cc5dd35a6cb44f8f7215ab3f21a9a095042315e7a79ad124a3b3bf",
           "afterSha256": "5839b24c1367d984d0f42ab6aa2e3928cf19f2727a1a8d6f8b05cf72526a926d",
           "scope": "Record S46 correction audit, Owner sparse repairs and eight-carrier implementation design freeze; exact administrative after pins only, no new document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S49",
+          "revision": "03b6e71355cb964c261cbfec22e953b680a83f8e",
+          "beforeSha256": "5839b24c1367d984d0f42ab6aa2e3928cf19f2727a1a8d6f8b05cf72526a926d",
+          "afterSha256": "2f842d14e691ac4cdb47cf1f9acefe0b3a42138575aecf3f1b9dd59112a5a3a5",
+          "scope": "Record remaining644 bounded admission decisions and first-eight production guard with isolated joint pilots; administrative after pins only, no production document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

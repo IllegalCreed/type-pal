@@ -528,3 +528,19 @@ Owner提供五个具体设计种子供下一轮直接细化，均未实跑新执
 治理状态一律historical；当前review保留身份/范围、来源与合法输入、oracle、原始结果、限制与下一步五部分，字段含owner/coreConclusion/readDomain/primarySource/truthAnchors/legalInputs/businessOracle/fieldRoles/historyBoundary/stopLine/nextStep。runtimeExecutionPerformed与historicClaimsReexecuted双false、credit0。输入是固定原生与历史上下文，结果不作为合法输入；旧withdrawn/unknown及未读明细不能因源SHA相等消除。
 
 原型先真实Git解析+原字节保全，再严格UTF8/重复键与形状/本篇事实核验。8正例、逐件8合成反例和2非法JSON反例实跑通过；合成pending/错误字段只在内存，不冒称历史运行。生产实施还必须接入真实model与progress，使用protected reviewReader和原字节Git provider，核联合换path/variant/来源、刷新SHA洗白、双false升真与旧cohort不变；该联合门未过前不注册正式路由、不授语义/迁移信用。本节为有界实施设计冻结，不是任何历史测试/E2E/coverage已重跑。
+
+## 2026-10-25 S49 精确准入裁定与下一批pilot边界
+
+GLM剩余644的集合有效，53合同仍为建议。完整required校验揭示33计划的跨样本字段并集错误，另两类型不符；case自身少数pointer可解析不证明整个合同可用。Owner准入实施27条精确shape建议：21完整reporter、2缺pending摘要、3identity数组、1蒸馏reporter；逐path/variant/源Git/SHA见既有S22封存的S49 admission-decisions。12不相容建议保留为分族设计，不能删字段或补缺值迁就模板；本轮27无production route。剩余644为27形状候选+614待分族设计+3已准入复用，没有新增文档分母。
+
+首八通用guard使用固定原生Buffer与Git snapshot，既有唯一review承载具体说明和原生字段语义投影；fieldRoles指向真实JSON字段与唯一review位置。临时树真实model/progress验证合同与伪晋升拒绝；现阶段强制partial/needs和执行双false，新6变体只在隔离fixture注册，原registry及父变体均不改变。正式注册不能静默放宽原frozen-binding测试的旧合同deepEqual；需要时另给最小适配补丁与授权。
+
+| 后继pilot | 冻结内容与具体判据 | 保留边界 |
+|---|---|---|
+| [c00 mutation摘要](../../testing/archive/legacy/batches/cursor-architecture-batch/c00-mutant.json) | historical-rich-mutant-summary设计1.0.0；key/id/file/testFile/fullName/sha256、布尔hashUnchanged/hit/ok、整数greenExit/greenPassed/redExit、failedTitle/failedFullName/assertion/evidence字符串；原greenPassed1、redExit1，完整失败身份与消息保留 | 只总结原历史回执，不凭ok重新认证有效kill；旧tmp evidence不是今天可读raw证据 |
+| [overflow精简摘要](../../testing/archive/legacy/editor/testing-records/grok-arch-ds-overflow-mutant.json) | historical-compact-mutant-summary设计1.0.0；id/file/sha256/hashUnchanged/greenExit/greenPassed/redExit/failedTitle/assertion/ok，原greenPassed7；没有key/testFile/fullName/failedFullName/hit/evidence，不强加完整格式 | 不从failedTitle补造fullName；与40份完整格式分开，41份不再共用必填并集 |
+| [ops-03单条review](../reviews/20261004-structured-content-ops-03.json)与[phase2-01转移空账本](../reviews/20261004-structured-content-phase2-01.json) | 只冻结两个控制pilot的精确范围；schemaVersion整数、id/reviewer/reviewDate/policy字符串、entries数组；第二件合法空entries+5 currentRecordTransfers，不能要求entries/0 | 生命周期为现行控制载体，内容含历史声明；尚须实际全局唯一membership、转移出处/去向与loader合同，未冻结成历史immutable raw、未准予退役 |
+| [模块宿主index-b](../../testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html) | native HTML宿主设计1.0.0：唯一div#root、唯一module script ./host-b.tsx及固定依赖，零canvas为合法正例 | 不执行脚本、不认证浏览器效果或测试通过；删mount或错换module为反例 |
+| [actor静态mockup](../../phase2/archive/mockups/actor-mode-v1.html) | native HTML静态设计1.0.0：title/style及actors/framegrid/inspector三区、无script；保留原布局与文案 | 历史设计不等于产品现状；注入script或删结构为反例，本轮未执行HTML负例 |
+
+以上后继设计的负例均是待执行计划，不能借首八测试结果代签。当前复用已有引用与原件，未新增envelope/sidecar、未复制652全量账本、未更改1838分母；旧原始声明、撤信和未读范围继续保留。

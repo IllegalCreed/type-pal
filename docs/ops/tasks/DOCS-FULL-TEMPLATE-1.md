@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s48-native-pilot-freeze
+Branch: codex/docs-s49-native-contracts
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2511,3 +2511,13 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - Owner接手上述确定修复，不再让用户转整包返工。非作者子代理独立复算417字段/652原生与16消费者，accept零counter。既有Owner74事实与五种子不倒退；本次新修复与原作者包均独立封存于既有单gzip，不造第二份全量账本。
 - 本轮build allowed限定三正文（本卡/看板/registry-proposal）、关联行政after级联、既有gzip及仓外原型。按提案冻结A/B/D首8载体、7形状的1.0.0实施设计：红/绿完整reporter、缺pending摘要、蒸馏reporter、真实命令摘要、identity数组、纯变异定义、历史path映射。原型8正例/8合成语义反例/2解析反例通过并非作者复验；生产model/progress联合合同与正式routing尚未实施，不把原型或设计冻结登记成template-compliant。C/E/F和余下设计继续draft。
 - 后继实施由Codex持有通用guard/精确准入/临时树联合反例；复用既有review位置，原生字节与旧cohort/source pin保持，不更改旧测试、产品、coverage、ignore或maxSize。当前父子卡rework，严格1750/878待迁移文档不扣，212/runtime信用0；必要门全过前不合main、不推送、不done。
+
+## S49 剩余644设计据证裁定与首八通用guard实施（2026-10-25）
+
+- Codex build allowed从03b6e7135隔离后继S49：实现S48八个精确载体的原生guard、source/当前review分轴与真实model/progress接线、新增文档工具反例及临时树pilot。正式registry/routing和生产review状态本轮不改；旧测试、产品、coverage、source pin、共享配置不改，不合main、不推送、不done。作者为Codex，独立复核按实际差异，不重复652全文。
+- 同时据证验收GLM剩余644包，原件冻结。39建议按实际形状逐条裁定，53计划的字段/type与代表正例必须一致；指针存在与variant名正则不代替合同验证。确定的计数/组合器小错由Owner修，不能因此撤销无关内容证据。设计不授迁移或runtime信用。
+- 本轮共享写限本卡/看板/既有模板提案、相关6条行政after级联及原单份gzip；代码限scripts/docs内新增原生family admission/guard/reading/测试及document-model、check-document-model、report-governance-progress必要接线。临时树使用真实consumer与隔离fixture，原生字节、旧cohort与17个已接受Markdown保持。1750严格项/878待迁移不预扣；E2E006日期红按事实报告。
+- GLM原五件SHA及源652/保护8/剩余644实核，Owner实际只读重放两命令均exit0。该replay只检自选case pointer/计划ID/variant名字，不检完整required/type/forbidden；未封进作者四文件manifest的work缓存不作为独立事实源。三名非作者按风险复核39提案及代表合同：39实际22完整reporter+10summary+4identity+2distilled+1command；HANDback把既有3条混入reporter25。39中27符合S48形状，12需另设计，剩余分区改为27+614+3=644；不重新计算或撤销未受影响的内容结论。
+- Owner批准27条精确path/源SHA/variant进入后续实施白名单（21reporter、2summary、3identity、1distilled），尚无正式routing或迁移信用。12条不放宽S48：缺files的summary、缺pending/suite的reporter、无status的inventory、非testResults蒸馏及非argv命令等各按原生另设计。matchAny按指定键子集匹配正确，真正组合错误是每次匹配重复追加替换；Owner以后使用保留非匹配后只追加一次的算法，一篇重复pin去重，另八篇仅顺序差异不算内容丢失，35条其他见证保全。
+- 53计划不整体冻结：122JSON代表正例的1191required检查有670缺失（33计划）及2类型冲突，50forbidden和53legalStates仍通用说明；保留case身份、原数据与未执行披露。推荐41mutation拆40完整/1精简摘要，选择两件精确pilot冻结；100review控制含37根形状及7合法空entries，先选一条实entry与一条5转移空账本，仅冻结pilot范围，现行控制生命周期/全局唯一ownership/转移保全合同未定前不套历史raw。两HTML角色按真实mount/module及静态三区冻结设计，不要求canvas。
+- 首八guard强制固定carrier Git对象/原字节、旧source字段、唯一review位置与可解析fieldRoles，完整reading对齐计数/身份/来源；无合法输入混入结果、无缺pending补0、无套件当文件。本pilot阶段强制partial-review-unknown/needs-migration及执行双false，联合换标或伪晋升必须被真实model/progress拒绝。旧272和212合同与准入不扩张；正式新variant注册另经准入和相关旧文档测试适配授权，不隐式改旧断言。

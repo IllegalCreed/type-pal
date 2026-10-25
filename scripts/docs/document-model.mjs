@@ -14,6 +14,7 @@ import {
   historicalDocumentReceiptIssues,
   historicalReceiptKind,
 } from './historical-document-receipt.mjs'
+import { historicalNativeFamilyIssues } from './historical-native-family.mjs'
 import { historicalVitestNativeIssues } from './historical-vitest-native.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 
@@ -308,6 +309,8 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
   const contract = doc.variant ? template?.variants?.[doc.variant] : template
+  const familyIssues = historicalNativeFamilyIssues(doc, template, contract, read, options)
+  if (familyIssues !== undefined) return familyIssues
   const deliveryIssues = historicalDocumentDeliveryIssues(doc, template, contract, read, options)
   if (deliveryIssues !== undefined) return deliveryIssues
   const nativeIssues = historicalVitestNativeIssues(doc, template, contract, read, options)
