@@ -31,6 +31,70 @@ for (const entry of review.files) {
 }
 for (const binding of review.bindings)
   assert.equal(sha(read(binding.path)), binding.sha256, `stale dependency: ${binding.path}`)
+for (const adjacent of review.adjacent)
+  assert.equal(sha(read(adjacent.path)), adjacent.sha256, `stale adjacent: ${adjacent.path}`)
+for (const reference of review.modules ?? []) {
+  assert.equal(sha(read(reference.path)), reference.sha256)
+  const module = json(reference.path)
+  for (const binding of module.bindings)
+    assert.equal(
+      sha(read(binding.path)),
+      binding.sha256,
+      `stale module dependency: ${binding.path}`,
+    )
+  const compressed = read(module.native.path)
+  assert.equal(sha(compressed), module.native.sha256)
+  const decoded = gunzipSync(compressed)
+  assert.equal(sha(decoded), module.native.decodedSha256)
+  const receipts = JSON.parse(decoded)
+  for (const member of module.native.members) {
+    assert.equal(sha(receipts[member.name]), member.sha256, member.name)
+    assert.equal(Buffer.byteLength(receipts[member.name]), member.bytes, member.name)
+  }
+  for (const [id, passed] of [
+    ['extract-remaining', 110],
+    ['extract-approved-green', 27],
+  ]) {
+    const native = JSON.parse(receipts[`${id}.native.json`])
+    assert.equal(native.numPassedTests, passed)
+    assert.equal(native.numFailedTests + native.numPendingTests, 0)
+    assert.equal(receipts[`${id}.stderr.raw`], '')
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, 0)
+  }
+  for (const [id, failed] of [
+    ['scene-audit-red-r2', 2],
+    ['video-ownership-red', 3],
+  ]) {
+    const native = JSON.parse(receipts[`${id}.native.json`])
+    assert.equal(native.numFailedTests, failed)
+    for (const suite of native.testResults)
+      for (const test of suite.assertionResults.filter((test) => test.status === 'failed'))
+        assert(test.failureMessages.some((message) => message.includes('AssertionError:')))
+  }
+  const emitted = JSON.parse(receipts['extract-emitted-final.json'])
+  for (const entry of emitted.results) {
+    assert.equal(entry.equal, true)
+    assert.equal(sha(read(entry.path)), entry.currentSha256, entry.path)
+    const current = ts.transpileModule(read(entry.path).toString('utf8'), {
+      fileName: entry.path,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.ESNext,
+        removeComments: true,
+      },
+    }).outputText
+    assert.equal(sha(current), entry.javascriptSha256, entry.path)
+  }
+  const retained = JSON.parse(receipts['retained-test-body-proof.json'])
+  assert.equal(
+    retained.results.reduce((n, entry) => n + entry.previous - entry.current, 0),
+    4,
+  )
+  for (const entry of retained.results) {
+    assert.equal(entry.keptBodiesEqual, true)
+    assert.equal(sha(read(entry.path)), entry.currentSha256)
+  }
+}
 const packet = read(review.native.path)
 assert.equal(sha(packet), review.native.sha256)
 const raw = gunzipSync(packet)

@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex",
+  "base": "0e14c184eed91841ee0f48323b98c98b734a3129",
+  "sourceCommits": ["ea10b3385", "0f679f80c", "e282d8b5c", "842bc2f56"],
+  "files": [
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "95e171528c60e7c06f3b82aade6e991bed39546b7cff93e62a69037334b15b9a",
+      "lines": 67,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "原盘帧解析继续转发shared PAL来源入口；PNG正整数/平面长度guard及R/G/B=index、A=mask合同不变，输入借用输出独占。CODE1已获准来源修复的真实原盘/C/Canvas证据复用，不重新认证任意巨量分配。",
+        "B": "保留alpha区分透明与不透明palette0及FBP无mask理由；删除过期无生产caller包装后文档只描述现有出口。",
+        "C": "只负责索引图→PNG和逐帧包装，没有文件IO/全局状态/时钟；shared负责格式来源，CLI负责读盘和写盘，边界清楚。",
+        "D": "生产DATA/UI与图像caller共享encode/frames；不保留仅测试调用的第二层ID→chunk查找，真实资源编排继续由调用者负责。",
+        "E": "保留PNG真解码像素、尺寸拒绝、三帧索引；三相邻测试23→19，四专属身份获用户批准退役，19保留回调去注释AST逐个相同。",
+        "F": "guard→分配→逐像素写出→返回流程直接，framesToOut短map表达一项职责；删除的批处理不再与实际发布管线造成歧义。",
+        "G": "用户批准移除extractCharacterSprites/CharacterSpriteOut；保留有生产消费的re-export、encoder、frame DTO，无新万能helper。",
+        "H": "纯字节/真实pngjs可直接测试；缺图skip不再有测试专供包装，真实发布仍由现有CLI文件合同覆盖。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "082e173074edd1184710c847169e39aef205319cc8628744e6bd0fe54c2d16af",
+      "lines": 222,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "8B对齐、u16LE、原opcode保号、label/entry范围及两遍标签传播保持；CLI原始roundtrip在任何清理前核对，不把人读文本当反编译oracle。",
+        "B": "模块头区分具名registry与专用emit；loadScene/setPalette丢弃原盘未用尾操作数的目标域假设仍明确由CLI逐字节检查，未冒称通用无损编译器。",
+        "C": "只借字节/messages并构造新Command数组，emit私有函数负责各形状；无IO、运行态推进或资源释放职责。",
+        "D": "DefLike重复字段合同改为从唯一opcodeTable推导OpcodeDefinition，registry类型私有仍可消费，不扩大公开类型。",
+        "E": "四disasm专测与registry/CLI集成在17文件110绿中；原词条/label/raw literal和77roundtrip证据复用；新更改发射JS与基点完全相同。",
+        "F": "两遍流程与专用emit保留可读命名，不为缩行把不同command拼成通用动态字段器。",
+        "G": "删除两处编译器已经能证明的Command强转；无死emit或新增fallback，公开签名不改。",
+        "H": "纯输入/输出可用字面二进制与真实recompile检验；消息数据不被写入，无需mock解释器。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "aa558814f7861c84cbc5df737ba05237f8f8b869b9854e55f5eaf1e0fd8b256c",
+      "lines": 311,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "raw补洞、最低编号reverse lookup、显式跳转operand与相对random-jump规则保持；registry是命名/目标元数据，不声称每个命名opcode均有runtime实现。",
+        "B": "逐项读当前表及控制/对话/跳转块，复用既有SDL固定source证据；0x07第一个operand是敌队，旧enemyId字段名为metadata遗留且当前无字段名运行时消费，不作为怪物ID真值。",
+        "C": "仅模块初始化fill/reverse-index写入，实际disasm/recompile/slice只读；无game反向import，固定布局定义与执行时状态分离。",
+        "D": "一个registry供解码/重编译/切分；FieldKind和OpcodeDef仅本模块使用，按用户授权私有化，disasm从表推导所需合同。",
+        "E": "lookup/end同verb最低值/raw与literal roundtrip/label专测及CLI实际落盘证据有效；发射JS不变，不凭presence测试给全部指令机制信用。",
+        "F": "表驱动字段名和独立jump表直露字节合同；现有历史数字锚只在固定SDL快照内复用，不推为随时变化行号。",
+        "G": "两死类型出口删除，其余五个值出口有真实消费者；未冻结/改写公开registry行为或引入新公共抽象。",
+        "H": "确定性纯查表/错误输出直接可测；初始化全局仅此模块一次，消费者不写表，测试不依赖时序重置。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "sha256": "8e46e879621a448028ce3ed3cbd7a4aca5da85659191ea446b395f5d9e1dce64",
+      "lines": 30,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "只输出chunkCount/index/byteLength/isEmpty，空槽保留，不认证RIFF内容；输入数组/字节不变。",
+        "B": "505/363/142明确是已观察原盘数据，不是输入限制；目前WAV真实consumer与音乐RIX边界说明准确。",
+        "C": "无IO/音频播放/状态写；writeSoundAssets负责文件，game音频层负责decodeAudioData。",
+        "D": "空槽必须保留编号，不能与跳空RIX索引压成共用业务helper；一个map不值得再拆层。",
+        "E": "实际非空100/200/空0三记录的字面DTO是独立oracle；当前定向1绿加CLI字节发布支持运输，未签音频codec。",
+        "F": "index/size/isEmpty直接表达含义；声明与函数短且职责单一，不靠噪音注释解释map。",
+        "G": "所有类型/值由真实writer消费，无无用参数或状态缓存。",
+        "H": "纯typed bytes→新DTO，可直接测试，不需要AudioContext/网络mock。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rix.ts",
+      "sha256": "8d3dfe7dfcbbc5a56a588f32aaf7d15b9bbfb1a499538de7625710a402fa64a7",
+      "lines": 16,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "MKF结构校验由shared reader负责，非空chunk只查最短16字节与AA55，空槽保持原ID，原bytes不写。",
+        "B": "头注修成minimum RIX headers，避免把header probe宣称为整个音频流验证。",
+        "C": "归档结构与头探测独立于磁盘复制/解码播放；writeMusicAssets拥有发布，函数没有隐式运行态。",
+        "D": "复用MKF reader，保留稀疏音乐ID；与必须保留空槽metadata的WAV不强行共用循环策略。",
+        "E": "四个实际合同：literal [1,87]/输入不变及三个坏头；原生参数行有重复fullName时按出现次序核，不冒称四个不同标题。",
+        "F": "track变量单位明确，单循环直露跳空/拒绝条件，无多余配置或音乐业务上下文。",
+        "G": "唯一值出口由music writer消费；没有仅测试使用的导出或遗留分支。",
+        "H": "真实二进制归档与字面索引直接测试，零时钟/网络/音频宿主依赖。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "sha256": "2c6a8cd4dd0b7d4bd2c9f8df717cdb891c302a9504dda7bbca71426c82d17897",
+      "lines": 87,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "真实caller仅读固定本地Unifont文件，输出匹配约定字形位平面；尺寸直分配、缺BITMAP抛错、有效hex前缀/短行宽容均是已知行为，未认证不可信通用BDF或修改输入域。",
+        "B": "新增模块输入来源/分配/错误传播边界，保持parseInt前缀说明；不以文案声称已有严格验证或全语料核证。",
+        "C": "parseBdf负责文本→字形，glyphsToJson只作base64投影；writeLookupAssets拥有读取/写盘和错误终止，没有渲染运行态侵入。",
+        "D": "字形解析与序列化分工真实；不与phase2资产schema按同为base64而合并，不加未来格式开关。",
+        "E": "原两完整8/16宽位图及三字体专测复用，当前LF/CRLF、默认值、codepoint门和真实base64合同实际通过；坏前缀结果按具体输入解释。",
+        "F": "单个状态扫描的cursor/bitmapStart可读；不把16行位图顺序化解析拆为无意义的小类。",
+        "G": "两个函数均有真实caller；substr当前有用，未为指标换API。对不可信任输入的额外配额/新拒绝策略是未来扩域选择，不是当前已宣称支持的合同。",
+        "H": "固定字符串可独立输入，返回新数组；无需IO/mock或公开测试接口，纯函数错误向CLI传播。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "sha256": "855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239",
+      "lines": 143,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "全文补核551×14 OBJECT、32B event、8B scene及900B角色布局；enemyId直接指向合法index1。四指令entry/hook互斥设计和真实parser/CLI相符。",
+        "B": "原同构/前波表述仅是历史来源，不冒充native验证；hook偏移与自有marker说明准确，不再称1-based ID。",
+        "C": "全部函数只构造独占字节/记录，不创建树或子进程；根、进程、清理在cli-host与测试suite拥有。",
+        "D": "复用相同输入合同的WORD/MKF/尾管线工厂，特殊OBJECT hooks与敌人记录留本fixture；不引入多模式万能函数。",
+        "E": "14真实CLI hook/alias/scene重合合同读取all/shared/scene和实际table字段，expected来自手写小程序及独立布局常量；没有拿fixture输出自比。",
+        "F": "GlobalEntryHook/objectId/fieldOff与GE_ENEMY1_FIELDS明示身份、单位和不对称取值；偏移写出可直读。",
+        "G": "每个导出均被global-entries套件或本模块原始输入组装调用；私有buildBytecode不多余，无仅为计数的测试。",
+        "H": "纯工厂确定性，测试隔离由真实cli-host承担；未把helper代码行数当测试数量。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+      "lines": 161,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "全文补核N+1头/LE偏移、565×10 WORD、完整DATA与YJ2字面流/自建sprite；WAVDATA仅运输样本，不能假称音频有效性。",
+        "B": "头注明确当前共享fixture和资源样本范围；DATA9/10组、RGM/BALL前缀、地图解压尺寸等与当前消费者吻合。",
+        "C": "只造字节，mkfArchive所有分配/偏移均局部；不拥有进程或生成物，suite负责落盘和覆盖特定资源。",
+        "D": "同一合法基线供battle/global/font/localization调用，特殊背景/敌队/语言在suite覆盖；MKF装配与YJ2编码不是同一种合同不合并。",
+        "E": "两个CLI主套件14+2实际进程通过，读取独立像素/表/脚本/manifest，不把编码器输出等于解码器输出当全部oracle；字体/语言其余已接受证据按当前稳定接口复用。",
+        "F": "布局常量具名，档案工厂按资源命名，基础整数写法明确，资源特殊数值有单位。",
+        "G": "全部公开工厂及u16有caller，u32/rleBitmap私有实用；没有新增冻结副本或无用参数。",
+        "H": "固定输入独立分配、无随机/全局缓存；真实CLI在自有树执行，未扩测试专用公共产品接口。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs",
+      "sha256": "b37f9891c45d2bbbaf248d298262243860b3fdb8996ec3f1a8e54444baa5a7da",
+      "lines": 432,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "全文路径/扫描/碰撞/BFS/报告复核；只读取本树extracted并写/tmp诊断，不回写资产。合法无落点/缺图两反例先红，null打印guard后三绿，caller坐标176/104保留。",
+        "B": "更正“最大连通区/中心/必需fallback”的过度声明：直线扫描至end不跟随jump，结果是人工候选；BFS取首个>100点区域按y/x中位。",
+        "C": "单次离线诊断由main拥有输入缓存/报告，纯局部算法无游戏import或运行态修改；未把启发式当真实剧情可达性分析器。",
+        "D": "四iso方向/BFS共享于两个起点策略；不为复用引入game运行时或TS宿主到独立Node工具；前后caller优先与BFS不同合同分开。",
+        "E": "新测试复制实际脚本到自有树，真实64×128阻挡/缺图/合法caller三合同；只重定向固定报告写路径，不mock扫描/BFS，红例恰两退出业务断言。",
+        "F": "候选/策略/来源字段显式，复杂扫描为可读的前/后/连通区阶段；报告不再对未知落点无条件解引用。",
+        "G": "私有helper都有实际调用；heuristic是该工具用途，未复活旧兼容或新force。队列shift可选性能改进非当前可证缺陷，不为指标改算法。",
+        "H": "支持独立真实CLI临时树复验；主模块IO较紧但不需新增测试专用出口，子进程4s限防失控且清理仅自有temp。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    },
+    {
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "sha256": "af09a60afc0340809c0edaa4289dffe1700ebdffe1bb1ea49c58d70791d01f20",
+      "lines": 164,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整读取真实main/convert/异常生命周期；根/后代输出links在encoder前拒绝，raw输入links允许；独占同卷临时mp4成功非空才rename，失败finally清自己目录，旧发布字节保留。",
+        "B": "头注只标已知片号入口，其余剧情用途未核且不参与转换；去无损/固定30s/最广兼容夸张，保留codec、参数和mtime说明。",
+        "C": "根准入、逐项转码/发布、main日志各有Owner；无运行时游戏状态，无并行writer；进程Promise拒绝经main.catch错误退出。",
+        "D": "复用根所有权guard，后代检查只对六个实际输出；不把root guard参数扩大或新建万能事务层，六个文件独占临时目录。",
+        "E": "用户批准前三个字节反例失败、原6绿；修复后10入口例及root/诊断相邻27绿，含旧字节/链接目标不变、临时目录清理、六转换/跳过、缺encoder。fake仅替codec，真实fs/entrypoints执行。",
+        "F": "guard→mtime→独占临时编码→非空→rename→finally流程直接，变量明确区分published与temporary路径。",
+        "G": "删从不读取的results集合，保留每次用于日志的r；不新增force/兼容/重试开关，三个被检后代并非盲目全树扫描。",
+        "H": "真实入口通过自有文件/可控encoder失败测试，未新增仅供测试导出；不宣称已验证真实codec画质或对抗同UID恶意并发TOCTOU。"
+      },
+      "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
+      "remaining": "No blocking eight-axis gap within supported caller/input contract; optional future domain/API work not silently implemented. Uniform gates/publication still deferred."
+    }
+  ],
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/extract-rework-native.json.gz",
+    "sha256": "7492120aef5487e164ec936e921dd0ab182b57cafcc4fdd06f64735a6b5363e3",
+    "decodedSha256": "eaf81fe4e70f907aae128c42c341eac51bd22ea534fbfc7561cbbebdb186ac24",
+    "members": [
+      {
+        "name": "extract-emitted-final.json",
+        "sha256": "7eda3404568eb7af630e5d394539ba664c320f4507fa7e7206b5dac63dfea3e3",
+        "bytes": 3202
+      },
+      {
+        "name": "retained-test-body-proof.json",
+        "sha256": "8eb203fa3127931d42f4681c71bb6b9a027820d0986e5edb6e4f92cd0a00f6b7",
+        "bytes": 1594
+      },
+      {
+        "name": "sprite-retirement-before.stdout.raw",
+        "sha256": "4f684daf649545b0c65f76aba5970235f119471187ba75e6e62f00ea58e9a9a9",
+        "bytes": 567
+      },
+      {
+        "name": "sprite-retirement-before.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "sprite-retirement-before.execution.json",
+        "sha256": "469a9b313ef4ad8e1b98befa4edae77be2e267aabb2be028c548c49c0794864a",
+        "bytes": 774
+      },
+      {
+        "name": "sprite-retirement-before.native.json",
+        "sha256": "a49839bf87f6e86b768ff538f7c86c2b1b701f372596a9ab8851e7355845aa9a",
+        "bytes": 8963
+      },
+      {
+        "name": "extract-remaining.stdout.raw",
+        "sha256": "fb1aec902a595b7263d78c486e3d3dad2d6cc13a7758bdf63374f759db4ecf26",
+        "bytes": 2856
+      },
+      {
+        "name": "extract-remaining.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-remaining.execution.json",
+        "sha256": "4613cacf3d2ac1543ce3d19a6c78cbe3bd1331bb8cd7e4d2291614edfe430564",
+        "bytes": 1406
+      },
+      {
+        "name": "extract-remaining.native.json",
+        "sha256": "65a1ff2b5cb23326deba8b8de0d4f2495854e39725b81ccec7111c9e7781f760",
+        "bytes": 36712
+      },
+      {
+        "name": "scene-audit-red.stdout.raw",
+        "sha256": "ae04b9079d46703b5eca2cb801c1ee403ad45753d48909546e71dda8b1809df6",
+        "bytes": 209
+      },
+      {
+        "name": "scene-audit-red.stderr.raw",
+        "sha256": "83853cf3660b0215fb7a107de839100b660de7028a894eccfbb763fbbc81fe33",
+        "bytes": 167
+      },
+      {
+        "name": "scene-audit-red.execution.json",
+        "sha256": "231010aa24c15ca3cb69ef882705184a582aecf2c7e0fd7e90ccc676a0f8e2f9",
+        "bytes": 656
+      },
+      {
+        "name": "scene-audit-red.native.json",
+        "sha256": "0d82cd070b7843240832b4d59888673afc3c056f783a32a76533282706b83975",
+        "bytes": 483
+      },
+      {
+        "name": "scene-audit-red-r2.stdout.raw",
+        "sha256": "2ca49051db8aaeed6e10ea941339a63d7b893f15c4e81faacc4b1fe1055d6c4e",
+        "bytes": 724
+      },
+      {
+        "name": "scene-audit-red-r2.stderr.raw",
+        "sha256": "148cf029f1b78cdcf3ff6ca9feda9ee388171624af9431d12aca1c34282bc494",
+        "bytes": 864
+      },
+      {
+        "name": "scene-audit-red-r2.execution.json",
+        "sha256": "8b82407fac2fc8c4376004ba1b3af7a3653455b0987640f712e3a7e08cf8778e",
+        "bytes": 662
+      },
+      {
+        "name": "scene-audit-red-r2.native.json",
+        "sha256": "9b51ffb740310d46f87374da4becf425d46104aa8366fbcd9971ca63edd63b04",
+        "bytes": 4714
+      },
+      {
+        "name": "scene-audit-green.stdout.raw",
+        "sha256": "d007eddb3a034b64a6308b2300980fa59b22eca2886fa22caca8689687d66313",
+        "bytes": 429
+      },
+      {
+        "name": "scene-audit-green.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "scene-audit-green.execution.json",
+        "sha256": "d6c467a8c7adf4188fe11f2bb771664e5979635d1670dceab85756c9842a1b02",
+        "bytes": 658
+      },
+      {
+        "name": "scene-audit-green.native.json",
+        "sha256": "a1bb11d3b1250cc04b0443822efe76c4d1c7f9f149eb3ec1e67e338d4985e330",
+        "bytes": 1760
+      },
+      {
+        "name": "video-ownership-red.stdout.raw",
+        "sha256": "7e91113d0fc68eb761a0d3f55646c4d6aff7ef3a69739ff4779e58971534fd10",
+        "bytes": 1304
+      },
+      {
+        "name": "video-ownership-red.stderr.raw",
+        "sha256": "6aeb86c8c6a5fd0fdb467063369c9cf7638ca15b331dde78a7fbeaf0d913e826",
+        "bytes": 1765
+      },
+      {
+        "name": "video-ownership-red.execution.json",
+        "sha256": "c667fb54c4f3a37ca5906ef9d3a88f3ab1a9e755512b4e2763bd41f3688ed8bb",
+        "bytes": 716
+      },
+      {
+        "name": "video-ownership-red.native.json",
+        "sha256": "d70af6647a62d881459b9652e2ea725e5cb7eb806ef5e46901d45179cbd61bf3",
+        "bytes": 7876
+      },
+      {
+        "name": "extract-approved-green.stdout.raw",
+        "sha256": "9908642af2a862c46c775785c3f88d0d639f983c116aae7fab75690f648f8d42",
+        "bytes": 2300
+      },
+      {
+        "name": "extract-approved-green.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-approved-green.execution.json",
+        "sha256": "98a7f809efe42b60b7d9a1a6a749970fdfc0b57557cc0fd3b4b236e4d31cf53b",
+        "bytes": 837
+      },
+      {
+        "name": "extract-approved-green.native.json",
+        "sha256": "eee153bc479a36b1de9acf47bad3162aee248c59f49ba1888b0efe04ee97cd37",
+        "bytes": 9330
+      },
+      {
+        "name": "extract-approved-static.stdout.raw",
+        "sha256": "c863ace2065532462fb7aece3eedbeec6280602b98e217b290c35a58d4ce35e0",
+        "bytes": 40
+      },
+      {
+        "name": "extract-approved-static.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-approved-static.execution.json",
+        "sha256": "ed9be78080964df45cf36ec37dfa8228aa56af525d43bdc1e91024263b80af29",
+        "bytes": 618
+      },
+      {
+        "name": "extract-typecheck-after.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-typecheck-after.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-typecheck-after.execution.json",
+        "sha256": "653c2e29537cad429229b1037cb735f863d34f0c99962bd72f17227cf6a1b639",
+        "bytes": 536
+      },
+      {
+        "name": "extract-typecheck-after-r2.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-typecheck-after-r2.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-typecheck-after-r2.execution.json",
+        "sha256": "fd03d8b857d6bffdb45ef0020ca180d491a6c915aacc2cd78e88a63e4c8aed76",
+        "bytes": 538
+      },
+      {
+        "name": "extract-typecheck-disasm.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-typecheck-disasm.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-typecheck-disasm.execution.json",
+        "sha256": "331cc6069f6febf2abd86847511ceb647d75804b50f7de53836f2e43cab2bea7",
+        "bytes": 536
+      },
+      {
+        "name": "extract-final-typecheck.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-final-typecheck.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "extract-final-typecheck.execution.json",
+        "sha256": "8d9202b94d8a6426846ff4620427a4953ebe43f454fe0f7a2b752cba185e6527",
+        "bytes": 479
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "path": "packages/pal-extract/src/resources/data-assets.ts",
+      "sha256": "e1e1a9cee093d57bfbcf9080b920a75087a0388c0f3f77e5b53ea17e7feeb11d",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/lookup-assets.ts",
+      "sha256": "02edaa5ba40a47fdf7a4590f5da4c4933ba9176ebd0eb9b3ce28130b8963ec28",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/music.ts",
+      "sha256": "dd488c3e3d1485de41f15d8a9fc95866a2c294d34a9fb8d9e0436b649de65926",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sound-assets.ts",
+      "sha256": "38a20ddb87e56e7c4a47fe8aeb5253a8fb6f6a9b5c4e915da9d9c2a248b3fb0b",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.ts",
+      "sha256": "2b7f92f1d5713dd9d1753c14917dca80582add06f304712be857d1cc4e6a0bdd",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "sha256": "7fd2291608c9a2581adafb86a37e868c7f16640f693b89b0dcb97d76b83fa215",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "85d0f8dc2f2c02e1fb8cf19c8faf0c9753b77d2ceeecb2a77c289421794282fb",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/package.json",
+      "sha256": "c267ca338e26c4a5e0a4b24bde218bf32f16adfcb1f122cb689b04d07f229f34",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "packages/pal-extract/vitest.config.ts",
+      "sha256": "34a27a3287b44e6986ecc51fa51b18511b677bfb9a13890447adf3bd673b2f64",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "scope": "actual named caller/layout/format/IO context; not accepting unrelated file bodies"
+    }
+  ],
+  "reuse": [
+    "codex-final29.json full A-H and primary scopes",
+    "cli-slice-closeout/review.json fixture/CLI evidence",
+    "3d/closeout/review.json PNG/tests",
+    "code1-closeout/pal-source-fix/review.json current PAL-source/C/Canvas/164adjacent and raw corpus scope"
+  ],
+  "runs": {
+    "extractRemaining": {
+      "id": "extract-remaining",
+      "files": 17,
+      "passed": 110,
+      "failed": 0,
+      "stderrBytes": 0
+    },
+    "approved": {
+      "id": "extract-approved-green",
+      "files": 4,
+      "passed": 27,
+      "failed": 0,
+      "stderrBytes": 0
+    },
+    "typecheck": "extract-final-typecheck exit0 stdout/stderr0",
+    "redScene": "scene-audit-red-r2:1pass2exactstatusAssertionErrors; initial no-test collection failure separately preserved",
+    "redVideo": "video-ownership-red:6pass3exactbyteAssertionErrors; product was unmodified before approval",
+    "static": "extract-approved-static exit0 stderr0; final phase static still pending"
+  },
+  "limits": [
+    "No new whole/official/ratchet/protected yet; exact retirement mapping will be consumed only at frozen52 closeout",
+    "No real extraction/output changed; fake encoder proves ownership/process semantics, not codec quality",
+    "Supported trusted raw/font and known original codec-source domains remain; no arbitrary capacity/untrusted format certification",
+    "Two wrong-cwd tool spawns and one empty collection preserved; first wrong-cwd Biome invocation only exists in session output (not saved raw), is not claimed as a gate pass"
+  ],
+  "executionAccounting": {
+    "first": 110,
+    "second": 27,
+    "commonFileCount": 1,
+    "commonIdentityOccurrences": 6,
+    "unionFiles": 20,
+    "unionIdentityOccurrences": 131,
+    "method": "repo-relative file×fullName; same-name parameter rows keep ordinal occurrence identities; executions are not test additions"
+  }
+}
