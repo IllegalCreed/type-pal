@@ -6,60 +6,58 @@ import { removePoisonLevel99 } from './player-poison-state.js'
 export const MAX_PLAYER_EQUIPMENTS = 6
 export const K_STATUS_DUAL_ATTACK = 8
 
-// ── 6 effective stat getter(sdlpal global.c:1736-1900 1:1)──────────────────
+type EffectiveStatField =
+  | 'rgwAttackStrength'
+  | 'rgwMagicStrength'
+  | 'rgwDefense'
+  | 'rgwDexterity'
+  | 'rgwFleeRate'
+  | 'rgwPoisonResistance'
+
+/** 同一求和合同：base加六件装备与Extra；毒抗的范围约束由其getter单独负责。 */
+function sumEffectiveStat(
+  state: Pick<GameState, 'PlayerRolesRuntime' | 'rgEquipmentEffect'>,
+  roleId: number,
+  field: EffectiveStatField,
+): number {
+  let value = state.PlayerRolesRuntime[field][roleId] ?? 0
+  for (let part = 0; part <= MAX_PLAYER_EQUIPMENTS; part++) {
+    value += state.rgEquipmentEffect[part]?.[field][roleId] ?? 0
+  }
+  return value
+}
+
+// ── effective getters：保留TS属性增长，不额外模拟WORD回绕 ────────────────
 
 /** sdlpal `PAL_GetPlayerAttackStrength`(global.c:1736-1767)。 */
 export function getPlayerAttackStrength(gs: GameState, roleId: number): number {
-  let value = gs.PlayerRolesRuntime.rgwAttackStrength[roleId] ?? 0
-  for (let i = 0; i <= MAX_PLAYER_EQUIPMENTS; i++) {
-    value += gs.rgEquipmentEffect[i]?.rgwAttackStrength[roleId] ?? 0
-  }
-  return value
+  return sumEffectiveStat(gs, roleId, 'rgwAttackStrength')
 }
 
 /** sdlpal `PAL_GetPlayerMagicStrength`(global.c:1768-1799)。 */
 export function getPlayerMagicStrength(gs: GameState, roleId: number): number {
-  let value = gs.PlayerRolesRuntime.rgwMagicStrength[roleId] ?? 0
-  for (let i = 0; i <= MAX_PLAYER_EQUIPMENTS; i++) {
-    value += gs.rgEquipmentEffect[i]?.rgwMagicStrength[roleId] ?? 0
-  }
-  return value
+  return sumEffectiveStat(gs, roleId, 'rgwMagicStrength')
 }
 
 /** sdlpal `PAL_GetPlayerDefense`(global.c:1800-1831)。 */
 export function getPlayerDefense(gs: GameState, roleId: number): number {
-  let value = gs.PlayerRolesRuntime.rgwDefense[roleId] ?? 0
-  for (let i = 0; i <= MAX_PLAYER_EQUIPMENTS; i++) {
-    value += gs.rgEquipmentEffect[i]?.rgwDefense[roleId] ?? 0
-  }
-  return value
+  return sumEffectiveStat(gs, roleId, 'rgwDefense')
 }
 
 /** sdlpal `PAL_GetPlayerDexterity`(global.c:1832-1867)— 注:不含 haste/slow 修饰,
  * 那部分在 battle formulas.ts `getPlayerActualDexterity` 处理。 */
 export function getPlayerDexterity(gs: GameState, roleId: number): number {
-  let value = gs.PlayerRolesRuntime.rgwDexterity[roleId] ?? 0
-  for (let i = 0; i <= MAX_PLAYER_EQUIPMENTS; i++) {
-    value += gs.rgEquipmentEffect[i]?.rgwDexterity[roleId] ?? 0
-  }
-  return value
+  return sumEffectiveStat(gs, roleId, 'rgwDexterity')
 }
 
 /** sdlpal `PAL_GetPlayerFleeRate`(global.c:1868-1899)。 */
 export function getPlayerFleeRate(gs: GameState, roleId: number): number {
-  let value = gs.PlayerRolesRuntime.rgwFleeRate[roleId] ?? 0
-  for (let i = 0; i <= MAX_PLAYER_EQUIPMENTS; i++) {
-    value += gs.rgEquipmentEffect[i]?.rgwFleeRate[roleId] ?? 0
-  }
-  return value
+  return sumEffectiveStat(gs, roleId, 'rgwFleeRate')
 }
 
 /** sdlpal `PAL_GetPlayerPoisonResistance`(global.c:1900-1935)。 */
 export function getPlayerPoisonResistance(gs: GameState, roleId: number): number {
-  let value = gs.PlayerRolesRuntime.rgwPoisonResistance[roleId] ?? 0
-  for (let i = 0; i <= MAX_PLAYER_EQUIPMENTS; i++) {
-    value += gs.rgEquipmentEffect[i]?.rgwPoisonResistance[roleId] ?? 0
-  }
+  const value = sumEffectiveStat(gs, roleId, 'rgwPoisonResistance')
   return Math.max(0, Math.min(100, value)) // sdlpal clamp [0, 100]
 }
 
@@ -83,7 +81,7 @@ export function resyncBattleRoleStatsFromRuntime(
   roleId: number,
 ): void {
   const rt = gs.PlayerRolesRuntime
-  // maxHP/maxMP/level 投影时不吃装备(projectRuntimeToBattleRoles game-state.ts:1539-1541)→ 直接取 runtime base
+  // maxHP/maxMP/level沿用projectRuntimeToBattleRoles的base投影合同，不吃装备。
   role.level = rt.rgwLevel[roleId] ?? role.level
   role.maxHP = rt.rgwMaxHP[roleId] ?? role.maxHP
   role.maxMP = rt.rgwMaxMP[roleId] ?? role.maxMP
@@ -342,7 +340,7 @@ export function setPlayerStatRow(
   }
 }
 
-// ── 2 mutator(sdlpal global.c:1333 / 1372 1:1)──────────────────────────────
+// ── 效果移除；Wear毒压缩的已批准TS取舍见下文 ──────────────────────────
 
 /**
  * sdlpal `PAL_RemoveEquipmentEffect`(global.c:1372-1456)。

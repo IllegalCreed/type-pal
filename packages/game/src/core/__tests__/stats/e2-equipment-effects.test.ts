@@ -1,7 +1,7 @@
 /**
  * E2: writeEquipmentEffectField / removeEquipmentEffect 效果层读写保真
  * 重点核验:
- * 1. 覆盖旧测试未测的 row (LEVEL, MAX_HP, MAX_MP, HP, MP, DEFENSE, FLEE_RATE, POISON_RESISTANCE, COVERED_BY, 五行抗性 1..4)
+ * 1. 扩展行的独立标记 (LEVEL, MAX_HP, MAX_MP, HP, MP, COVERED_BY, 五行抗性 1..4)
  * 2. Extra 格 6 的写入与卸下清空
  * 3. 越界 partIdx 与未知 row 时的无损忽略与域保真 (不破坏其他槽位与其他角色)
  */
@@ -17,6 +17,7 @@ describe('E2: 装备效果层字段写入与卸下保真', () => {
   it('E2-01 完整支持生命、真气、五行抗性与守护等扩展行', () => {
     const gs = makeFreshGameState()
     const roleId = 1 // 赵灵儿
+    gs.rgEquipmentEffect[2]!.rgwCoveredBy[roleId] = 4 // 清已有覆盖，不能让零初值使漏写通过。
 
     writeEquipmentEffectField(gs, 2 /* Body */, PLAYERROLES_ROW.LEVEL, roleId, 2)
     writeEquipmentEffectField(gs, 2, PLAYERROLES_ROW.MAX_HP, roleId, 50)
@@ -59,7 +60,7 @@ describe('E2: 装备效果层字段写入与卸下保真', () => {
     expect(gs.rgEquipmentEffect[6]!.rgwPoisonResistance[roleId]).toBe(0)
   })
 
-  it('E2-03 越界部位索引与未知行静默安全退出，无关域保持纯净', () => {
+  it('E2-03 越界部位安全退出、未知行诊断且所有无关域不变', () => {
     const gs = makeFreshGameState()
     const roleId = 0
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})

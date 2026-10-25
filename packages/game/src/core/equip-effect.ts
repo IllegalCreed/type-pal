@@ -1,18 +1,9 @@
 /**
- * C5 装备 effect 真值层 — sdlpal `global.c:1333-1900+` 1:1 port。
- *
- * 6 个 stat getter:effective = base PlayerRolesRuntime + Σ rgEquipmentEffect[i].
- * sdlpal 真值见 [global.c:1736-1900](../../../reference/sdlpal/global.c#L1736-L1900)。
- *
- * 2 个 mutator:
- *  - updateAllEquipments(gs, items):启动 / 读档时跨 role × 6 part 跑 scriptOnEquip
- *    填 rgEquipmentEffect(sdlpal global.c:1333 真值)
- *  - removeEquipmentEffect(gs, roleId, partIdx):卸下某 role 某 part 装备时清零
- *    对应 rgEquipmentEffect 行(sdlpal global.c:1372 真值)
- *
- * 1 个 sync opcode runner:
- *  - runEquipScriptSync(gs, items, scriptIp, role):同步消费 scriptOnEquip chain,
- *    只处理 0x17/0x18/0x19/0x1A/end/goto,撞到其它 log skip + 继续。
+ * 装备脚本协调层：启动/读档重算与菜单换装共用同步runner。
+ * 数值getter和效果行写入由equipment-state拥有，本模块保留原有转出口；
+ * 全局script catalog提供只读指令，inventory/poison owner负责各自状态变更。
+ * 支持的0x17/0x18/0x19/0x1A/0x2D/0x29及控制流见runner下方说明；
+ * 不推进对白/fade等异步演出，也不宣称整个实现与SDL逐边界等价。
  */
 
 import type { Item } from '@type-pal/shared'
@@ -110,7 +101,7 @@ function setPersistentPlayerStatus(
  *  - 0x2D / 0x29 → 装备授予玩家状态 / 毒状态
  *  - end → return
  *  - goto → 跳到 label
- *  - 其它 → log skip + ip++
+ *  - 其它 raw → skip + ip++；不支持的具名命令则warn后跳过
  *
  * 注:0x2D set player status / 0x29 apply poison 已实现(见下方 case:仙女剑等授
  * DualAttack=32760;寿葫芦 Wear 授 level-99 正面"毒" 563/564)。
@@ -129,7 +120,7 @@ function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number
   let ip = startIp
   let step = 0
   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)`g_iCurEquipPart = -1` — 0x18 设的 part 不泄漏到
-  // 后续脚本(否则后续无关 0x1A 误写 rgEquipmentEffect 覆盖层)。try/finally 保证各出口都 reset。
+  // 后续脚本(否则后续无关 0x1A 误写 rgEquipmentEffect 覆盖层)。进入循环后的各出口由finally reset。
   try {
     while (step++ < SCRIPT_TICK_LIMIT) {
       if (ip < 0 || ip >= commands.length) {
@@ -160,7 +151,7 @@ function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number
         continue
       }
 
-      const [a, b, c] = cmd.operands as [number, number, number]
+      const [a, b, c] = cmd.operands
 
       switch (cmd.opcode) {
         case 0x17: {
@@ -233,7 +224,7 @@ function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number
           break
         }
         default:
-        // scriptOnEquip 实测 opcode 已全覆盖(0x17/0x18/0x19/0x1A/0x2D/0x29);其它意外 op 记日志
+        // 只处理上述同步子集；其它raw沿用静默跳过，不冒充通用脚本解释器。
       }
 
       ip++
