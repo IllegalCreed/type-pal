@@ -5,8 +5,8 @@
   "owner": "Codex",
   "status": "in-progress;40fixed-cohort code-accepted, unified gates/publication pending",
   "scope": "scope.json",
-  "resolved": 40,
-  "remaining": 12,
+  "resolved": 41,
+  "remaining": 11,
   "files": [
     {
       "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
@@ -1168,6 +1168,34 @@
         "main three preserved hook bodies",
         "migrate7files42green plus5strengthenedgreen/TC0"
       ]
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "status": "code-accepted",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+      "lines": 810,
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123"
+      },
+      "dimensions": {
+        "A": "当前全文809行与实际shell呈现顺序补读；hold在palette后、清屏前，dither快照在clear前、菜单在dither后。两个palette clock reads及其event等待归属均不改；独立场景/战斗owner不混并。",
+        "B": "纠正role0镜像为旧档专用、NPC默认1/帧数推断与screen Y隐含中心四处失实注释；冻结偏移明确walking捕获和事件/场景重置，不凭空归因反序列化。",
+        "C": "碰撞调用改向scene-collision纯计算叶，断开present→scene-system→event/menu/加载依赖；真实scene-system原样reexport证明同函数。同步seam scratch每次全清、无await/外部callback，不存语义状态，保留有界复用。",
+        "D": "partyFrameIndex/follower/render/tile/seam/dither等已有真实共享；gameOver与常规remap位置不同、overlay时序不同，不因相似小循环机械抽万能渲染器。",
+        "E": "旧全文与composition112/root319原件按原域复用且不相加；当前六实际文件92绿/无stderr。补核现有时钟/hold/真实像素、只对绘制帧选择使用spy；正文证明除同函数import外零运行变化，无新增镜像测试。",
+        "F": "持序的层级编排需要显式短路，复杂度85只作线索；位置/姿态/遮挡已交窄helper。当前不为减指标把冻结与正常路径绕进布尔helper；clock调用点直接可见。",
+        "G": "去掉已为Uint8Array的冗余强转；五公开入口及context字段由shell与相邻实际调用消费，无本次死出口。旧render-clock-design是设计候选，本次实证决议保留现有平台时钟边界，无新兼容层或永久豁免。",
+        "H": "Framebuffer/Context直接可控，既有performance.now spy+afterEach restore能区分600ms终点、auto/awaited与dither0/36/72，动画时钟无需新公共注入接口。Canvas仅flush适配，真实像素与命令调用分层；不声称新视觉/E2E。"
+      },
+      "currentReview": "Full current target read; old full A/oracles retained at their exact scope, current design/clock/caller/test gaps read and adjudicated.",
+      "remaining": "No blocking eight-axis gap; render-clock-design resolved by explicit retention decision with controllable existing clock tests. Unified phase gates/publication pending.",
+      "changes": "Direct collision leaf dependency, misleading comments corrected, redundant assertion removed",
+      "verification": [
+        "6 actual files/92 identities green/0 stderr",
+        "emitted whole module equal after sole exact-reexport import normalization",
+        "existing clock/hold pixel contracts reused; no new browser/visual claim"
+      ]
     }
   ],
   "adjacent": [
@@ -1618,6 +1646,10 @@
   },
   "magicModule": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/magic-module-reviewed.json",
-    "sha256": "f2015cb23bdcd8cbe5686d0669c4302a7e609a836d705e6269052dced3248c31"
+    "sha256": "a3d3f0a57bb87f43d2526982ef73b2698d3d55d1a1d1846ce9d219e89dfa6b8d"
+  },
+  "presentation": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-reviewed.json",
+    "sha256": "3ed838e5d861ed4efa9b1368ef89e1966b7c9fda947f18c3fe57d051b6edc77d"
   }
 }

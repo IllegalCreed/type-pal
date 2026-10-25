@@ -28,6 +28,39 @@ function readNativePacket(native) {
 const directory = 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/'
 const scope = json(`${directory}scope.json`)
 const review = json(`${directory}review.json`)
+if (review.presentation) {
+  assert.equal(sha(read(review.presentation.path)), review.presentation.sha256)
+  const module = json(review.presentation.path)
+  for (const binding of module.bindings)
+    assert.equal(sha(read(binding.path)), binding.sha256, binding.path)
+  const receipts = readNativePacket(module.native)
+  const run = JSON.parse(receipts['present-current.native.json'])
+  assert.deepEqual(
+    [run.testResults.length, run.numPassedTests, run.numFailedTests, run.numPendingTests],
+    [6, 92, 0, 0],
+  )
+  assert.equal(receipts['present-current.stderr.raw'], '')
+  assert.equal(JSON.parse(receipts['present-current.execution.json']).exit, 0)
+  const proof = JSON.parse(receipts['present-body-proof.json'])
+  const before = execFileSync('git', ['show', `${proof.base}:${proof.path}`], {
+    cwd: root,
+    encoding: 'utf8',
+  })
+  const canonical = (source) =>
+    ts
+      .transpileModule(source, {
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2022,
+          module: ts.ModuleKind.ESNext,
+          removeComments: true,
+        },
+      })
+      .outputText.replace('../core/scene-system.js', '../core/scene-collision.js')
+  assert.equal(sha(before), proof.beforeSha256)
+  assert.equal(sha(read(proof.path)), proof.currentSha256)
+  assert.equal(canonical(before), canonical(read(proof.path).toString()))
+  assert.equal(sha(canonical(before)), proof.normalizedJavaScriptSha256)
+}
 assert.equal(scope.files.length, 52)
 assert.equal(new Set(scope.files.map((entry) => entry.path)).size, 52)
 assert.equal(review.files.length, review.resolved)

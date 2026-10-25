@@ -154,7 +154,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,459。
-当前已闭合核验：577；已读但待审：13；尚未逐文件核验：2869；合计未闭合：2882。
+当前已闭合核验：578；已读但待审：12；尚未逐文件核验：2869；合计未闭合：2881。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -623,7 +623,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/dev/dev-panel.ts` | product | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | page/工具段装配清晰；完整执行/类型/出口还原、私有上下文收窄及键类型；明确DEV预设/文案限制，不授剧情真值 |
 | `packages/game/src/present/draw-tilemap.ts` | product | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |
 | `packages/game/src/present/menu/draw-player-status.ts` | product | 已验证 | [CODE53既有八维/当前布局桥及画面](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) | 原文件关闭刷新，不新增计数；中英默认注释/运行态ownership更正，非import TS相同；中文runtime0/重复slot画面实核，英文包缺失不授视觉信用 |
-| `packages/game/src/present/present.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design；不升closed |
+| `packages/game/src/present/present.ts` | product | 已验证 | [52阶段呈现层](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-reviewed.json) | 八维补核；直接碰撞叶、纠错注及去冗余断言；旧时钟候选保留理由/92绿/正文证明齐；统一门待 |
 | `packages/pal-extract/src/resources/parsers/rix.ts` | product | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |
 | `packages/game/src/dev/dev-panel.pure.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
 | `scripts/coverage/approved-baseline-adjustments.mjs` | tool | review | [本窗精确数据与main重绑](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json)；旧five-cards/GLM授权历史保留 | 仅当前有限项完整旧摘要、166SHA、四计数及额外回退拒绝；旧条目/算法不变，整文件仍review |

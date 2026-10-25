@@ -7863,7 +7863,7 @@
         }
       ],
       "sourceSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
-      "afterSha256": "81575e7911011444470089678f82b21426d729b68a60815db963571650f6a0c0",
+      "afterSha256": "4a229b9b4b6d4079b7bde42363c6e490799124076e0098a40102345430f4ddf4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7886,8 +7886,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "81575e7911011444470089678f82b21426d729b68a60815db963571650f6a0c0",
-        "implementationSha": "81575e7911011444470089678f82b21426d729b68a60815db963571650f6a0c0",
+        "currentSha": "4a229b9b4b6d4079b7bde42363c6e490799124076e0098a40102345430f4ddf4",
+        "implementationSha": "4a229b9b4b6d4079b7bde42363c6e490799124076e0098a40102345430f4ddf4",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8560,7 +8560,7 @@
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "81575e7911011444470089678f82b21426d729b68a60815db963571650f6a0c0",
+        "afterSha256": "4a229b9b4b6d4079b7bde42363c6e490799124076e0098a40102345430f4ddf4",
         "lineCount": 7101,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8577,7 +8577,7 @@
         },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "81575e7911011444470089678f82b21426d729b68a60815db963571650f6a0c0",
+          "afterSha256": "4a229b9b4b6d4079b7bde42363c6e490799124076e0098a40102345430f4ddf4",
           "scope": "Fixed52 quality stage owned metadata delta; old provenance retained."
         }
       },

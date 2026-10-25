@@ -296,7 +296,13 @@
     },
     {
       "path": "packages/game/src/present/present.ts",
-      "sha256": "e9efd9d7960fd97badc1611610ac600d37abb88a4c0bee5f56135e2b15731b33"
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+      "sourceBridge": {
+        "beforeSha256": "e9efd9d7960fd97badc1611610ac600d37abb88a4c0bee5f56135e2b15731b33",
+        "afterSha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+        "proof": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-reviewed.json",
+        "reason": "Only same collision reexport import, comments and erased assertion changed; normalized whole emitted JS equal. No magic/battle owner behavior change."
+      }
     },
     {
       "path": "packages/game/src/present/battle/present-battle.ts",
