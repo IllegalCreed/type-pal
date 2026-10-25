@@ -74,7 +74,7 @@ describe('TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链)', ()
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
 
     // 关菜单走真实帧 caller tickMenu(Menu → 关 hub → 栈空 → resumeAfterMenusClosed 切 explore)
-    tickMenu(gs, snap([], ['Menu'], 0), ctx.bus)
+    tickMenu(gs, snap([], ['Menu'], 0))
     expect(gs.menuStack).toHaveLength(0)
     expect(gs.mode).toBe('explore')
 

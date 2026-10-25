@@ -82,7 +82,7 @@ describe('P05 菜单栈转发', () => {
     gs.partyMembers = [4]
     gs.inventory = [{ itemId: sword.id, count: 1 }]
     const menu = createEquipMenu(gs, items)
-    confirmEquipItem(menu, items, roles, gs.partyMembers)
+    confirmEquipItem(menu, items)
     openMenu(gs, { kind: 'equip', state: menu })
     const frames = makeUiFrames()
     const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }

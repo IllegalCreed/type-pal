@@ -2,7 +2,7 @@
  * TEST-GAME-MENU-BOUNDARIES-1 G01：primitives 空表/单项/跨页（primitives.ts）。
  * 既有 __tests__/primitives.test 已覆盖 disabled 默认位/clamp/环绕/停 disabled——不重复。
  * 本文件：空表与单项 create、moveSelection 跨 page 后的 cursor/offset 视窗语义、
- * 入参 items 数组不被改写。pageUp/pageDown 无当前生产 caller（已签排除，撤回保活）。
+ * 入参 items 数组不被改写；不为已退役的通用翻页接口保活。
  */
 import { describe, expect, it } from 'vitest'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
@@ -29,7 +29,7 @@ describe('G01 createSelectionMenu 边界', () => {
     expect(items).toEqual(snapshot)
   })
   it('跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset', () => {
-    // pageSize 3，8 项；本轴只钉 moveSelection 的视窗语义（pageUp/pageDown 无 caller 已签排除）
+    // pageSize 3，8项；跨窗口下边界推进offset，窗口内回移不主动回滚。
     const items = [0, 1, 2, 3, 4, 5, 6, 7].map((id) => ({ id, label: `i${id}` }))
     const s = createSelectionMenu(items, 3, 0)
     expect(s.pageOffset).toBe(0)

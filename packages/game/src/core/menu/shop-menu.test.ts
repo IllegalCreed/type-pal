@@ -137,12 +137,12 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
     loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])
     tickEventSystem(gs, snap(), createCommandBus())
     // list:Confirm 选 item87(价 100)→ 进 confirm(默认 No)
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     const st = gs.menuStack[0]!.state as { phase: string; confirmYes: boolean }
     expect(st.phase).toBe('confirm')
     // toggle 到 Yes 再 Confirm
-    dispatchMenuInput(gs, snap(['Down']), createCommandBus())
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+    dispatchMenuInput(gs, snap(['Down']))
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.dwCash).toBe(900) // 1000 - 100
     expect(gs.inventory.find((e) => e.itemId === 87)?.count).toBe(1)
     expect(st.phase).toBe('list') // 留在菜单可继续买(sdlpal while loop)
@@ -152,7 +152,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
     loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])
     tickEventSystem(gs, snap(), createCommandBus())
     // list 阶段 Menu → 关菜单;同一 tickMenu 的 post-dispatch 检栈空 → resume mode=event
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
     expect(gs.mode).toBe('event') // waiting='shop' → 续跑脚本(非 explore)
     expect(gs.eventCursor?.waiting).toBeUndefined()
@@ -162,7 +162,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
     gs.dwCash = 50 // 当前首项item87价格100，不能确认；目录中其它商品不参与本次选中门
     loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])
     tickEventSystem(gs, snap(), createCommandBus())
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     const st = gs.menuStack[0]!.state as { phase: string }
     expect(st.phase).toBe('list') // 没进 confirm
     expect(gs.dwCash).toBe(50) // 没扣钱
@@ -171,9 +171,9 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
   it('卖 1 个:cash += price/2 + item 出包', () => {
     gs.inventory = [{ itemId: 105, count: 2 }] // 105 可卖,价 50 → 售 25
     openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, CATALOG) })
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus()) // 选 105
-    dispatchMenuInput(gs, snap(['Down']), createCommandBus()) // toggle Yes
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus()) // 卖
+    dispatchMenuInput(gs, snap(['Confirm'])) // 选 105
+    dispatchMenuInput(gs, snap(['Down'])) // toggle Yes
+    dispatchMenuInput(gs, snap(['Confirm'])) // 卖
     expect(gs.dwCash).toBe(1025) // 1000 + 25
     expect(gs.inventory.find((e) => e.itemId === 105)?.count).toBe(1)
   })

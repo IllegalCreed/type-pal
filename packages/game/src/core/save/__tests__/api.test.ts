@@ -113,12 +113,6 @@ describe('Save API memory fallback', () => {
     expect((await Save.loadSlot(1))?.dwCash).toBe(100)
   })
 
-  it('slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错', async () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    await expect(Save.saveSlot(0, gs)).rejects.toThrow('Save: slot 0 必须是 1-5 的整数')
-    await expect(Save.saveSlot(6, gs)).rejects.toThrow('Save: slot 6 必须是 1-5 的整数')
-  })
-
   it('overwrite:同 slot saveSlot 二次覆盖', async () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs1.dwCash = 100

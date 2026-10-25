@@ -68,7 +68,7 @@ it('fits the equipment role box to English names and restores the original Chine
   const hat = makeItem(100, 'Hat', { flags: { equipable: true } })
   gs.inventory = [{ itemId: hat.id, count: 1 }]
   const state = createEquipMenu(gs, [hat])
-  confirmEquipItem(state, [hat], roles, gs.partyMembers)
+  confirmEquipItem(state, [hat])
   const frames = makeUiFrames()
   // SPRITEUI columns have widths 22,16,33. SDLPal's seven ASCII letters need
   // three content tiles: total103px; three Chinese glyphs need two: total87px.

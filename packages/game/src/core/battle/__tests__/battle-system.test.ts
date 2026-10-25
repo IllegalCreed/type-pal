@@ -1794,7 +1794,7 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     expect(gs.menuStack[gs.menuStack.length - 1]?.kind).toBe('player-status')
     // 状态屏关闭(menuStack 空)→ tickMenu 检 battleState → 回 battle(非 explore)
     gs.menuStack = []
-    tickMenu(gs, emptyInput, bus)
+    tickMenu(gs, emptyInput)
     expect(gs.mode).toBe('battle')
   })
 

@@ -1,13 +1,21 @@
 # GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入
 
-Status: draft
+Status: build
 Phase: phase1
 Capability: menu helper public API ownership
-Coding Owner: 未分配（等待准入）
+Coding Owner: Codex
 Reviewer: Codex
 Visual Verification Timing: N/A（公共出口/测试边界）
 
-## 发现与停止线（2026-10-17）
+## 当前裁决与准入（2026-10-25）
+
+用户明确批准删除零生产调用的旧菜单接口并删去或迁移相应测试。Codex单Owner，build allowed：pageUp/pageDown及私有查找、旧物品列表factory/config/display types、makeEquipMenuEntry、currentRoleId；同类不被实现读取的内部菜单参数与全部仓库调用点一并清理。matchesFilter、真实库存网格和角色导航行为保留。
+
+同文件追加核明Confirm/Triple/Switch八个helper及三类型也仅测试调用，纳入同一用户“删除未使用旧接口”的清理范围；现用确认/开关由具体菜单状态机持有。上一份current-review的G“其它出口实际消费”过宽，撤回该句；本轮以实际全仓import/caller清单代替，不继承错误信用。
+
+纯死代码清理以生产caller清单、删除影响、真实相邻回归及最终集中门验收，不伪造“失败例证明零caller”。下方旧准入第3条的该表述不作为本轮证明方法，历史原文保留。唯一分支codex/code-quality-94-102，接续已推b8b2ffaf4；不恢复旧分支。
+
+## 发现与停止线（历史，2026-10-17）
 
 CODE-QUALITY-107 对 menu helper 实现、测试、真实 caller 和 SDLPal primary 做了完整读取。
 当前 caller census 显示：

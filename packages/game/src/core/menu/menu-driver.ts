@@ -12,7 +12,7 @@
  */
 
 import type { InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
-import type { CommandBus } from '../command-bus.js'
+
 import { runEquipScript } from '../equip-effect.js'
 import { startOverworldItemScript } from '../event-system.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
@@ -275,7 +275,7 @@ export function _resetLoadGameHandlerForTest(): void {
 
 // ── dispatchMenuInput ─────────────────────────────────────────────────────────
 
-export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
+export function dispatchMenuInput(gs: GameState, input: InputSnapshot): void {
   const top = gs.menuStack[gs.menuStack.length - 1]
   if (!top) return
 
@@ -293,19 +293,19 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
       dispatchInventoryActionMenu(gs, top, input)
       break
     case 'inventory':
-      dispatchInventoryMenu(gs, top, input, bus)
+      dispatchInventoryMenu(gs, top, input)
       break
     case 'equip':
-      dispatchEquipMenu(gs, top, input, bus)
+      dispatchEquipMenu(gs, top, input)
       break
     case 'in-game-magic':
-      dispatchInGameMagicMenu(gs, top, input, bus)
+      dispatchInGameMagicMenu(gs, top, input)
       break
     case 'player-status':
       dispatchPlayerStatusMenu(gs, top, input)
       break
     case 'save-slot':
-      dispatchSaveSlotMenu(gs, top, input, bus)
+      dispatchSaveSlotMenu(gs, top, input)
       break
     case 'shop-buy':
       dispatchShopMenu(gs, top, input)
@@ -662,12 +662,7 @@ function dispatchInventoryActionMenu(
 
 // ── Inventory(物品菜单)─────────────────────────────────────────────────
 
-function dispatchInventoryMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchInventoryMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as InventoryMenuState
   if (input.pressed.has('Menu')) {
     cancelInventoryMenu(s)
@@ -768,12 +763,7 @@ function dispatchInventoryMenu(
 //    else 保持 'pick-role' 显示 swap 出来的旧装备 picker。
 //  - Menu key:pick-role → 回 'list' 选下一个 item;list → 'done' 关菜单。
 
-function dispatchEquipMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchEquipMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as EquipMenuState
   if (input.pressed.has('Menu')) {
     const wasPickRole = s.phase === 'pick-role'
@@ -807,7 +797,7 @@ function dispatchEquipMenu(
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
-      confirmEquipItem(s, catalogs.items, menuRoles(gs), gs.partyMembers)
+      confirmEquipItem(s, catalogs.items)
       // DM23:uigame.c:1820 进 PAL_EquipItemMenu 即 `wLastUnequippedItem = wItem`(每帧 :1857-1859
       //   重读)。0x18 只在"已穿不同款"时才改写它(script.c:780-810)—— 不写入口值的话,给已穿 X
       //   再装一件 X 时 :743 读到**上次换装残值**:面板跳成别的物品,残值已不在背包时再确认可
@@ -856,12 +846,7 @@ function createInventoryMenuRefresh(gs: GameState, items: Item[]) {
 
 // ── In-Game Magic(大世界法术)─────────────────────────────────────────
 
-function dispatchInGameMagicMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchInGameMagicMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as InGameMagicMenuState
   if (input.pressed.has('Menu')) {
     cancelInGameMagic(s)
@@ -953,8 +938,7 @@ function dispatchInGameMagicMenu(
 //   kKeyLeft/Up     → iCurrent-- → 上个 party 成员;< 0 关菜单
 //   kKeyRight/Down/Search → iCurrent++ → 下个 party 成员;> max 关菜单
 //
-// v1 ts 简版 Up/Down=切 page、Left/Right=切 player 是错的(用户截图打脸)— sdlpal
-// 没有"属性页 / 装备页 / 法术页"页签,4 方向 + Confirm 都是切 party 成员索引。
+// 状态屏没有属性/装备/法术子页；四方向与Confirm都按party位置切换角色。
 
 function dispatchPlayerStatusMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as PlayerStatusState
@@ -975,12 +959,7 @@ function dispatchPlayerStatusMenu(gs: GameState, top: ActiveMenuEntry, input: In
 
 // ── Save Slot(存档/读档槽位)─────────────────────────────────────────────
 
-function dispatchSaveSlotMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchSaveSlotMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as SaveSlotMenuState
   const inGameCtx = gs.menuStack.some((m) => m.kind === 'system')
   if (input.pressed.has('Menu')) {
@@ -1048,10 +1027,4 @@ function dispatchSaveSlotMenu(
       }
     }
   }
-}
-
-// ── 装备菜单 entry 工厂(当前无生产 caller) ─────────────────────────────
-
-export function makeEquipMenuEntry(gs: GameState): ActiveMenuEntry {
-  return { kind: 'equip', state: createEquipMenu(gs, requireCatalogs().items) }
 }

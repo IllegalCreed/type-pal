@@ -46,9 +46,3 @@ export function playerStatusNext(s: PlayerStatusState): void {
 export function playerStatusCancel(s: PlayerStatusState): void {
   s.done = true
 }
-
-/** 当前 cursor 对应 role id;done 状态返回 undefined。 */
-export function currentRoleId(s: PlayerStatusState): number | undefined {
-  if (s.done) return undefined
-  return s.partyMembers[s.cursor]
-}

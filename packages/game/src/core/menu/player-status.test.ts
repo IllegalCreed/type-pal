@@ -6,7 +6,6 @@
 import { describe, expect, it } from 'vitest'
 import {
   createPlayerStatus,
-  currentRoleId,
   playerStatusCancel,
   playerStatusNext,
   playerStatusPrev,
@@ -26,20 +25,20 @@ describe('PlayerStatus state machine', () => {
   it('partyMembers 空 → 立即 done(无可显示成员)', () => {
     const s = createPlayerStatus([])
     expect(s.done).toBe(true)
-    expect(currentRoleId(s)).toBeUndefined()
+    expect(s.partyMembers).toEqual([])
   })
 
   it('playerStatusNext cursor++,到末尾后 +1 越界 → done(sdlpal uigame.c:1281)', () => {
     const s = createPlayerStatus([2, 0, 4])
-    expect(currentRoleId(s)).toBe(2)
+    expect(s.partyMembers[s.cursor]).toBe(2)
     playerStatusNext(s)
     expect(s.cursor).toBe(1)
-    expect(currentRoleId(s)).toBe(0)
+    expect(s.partyMembers[s.cursor]).toBe(0)
     playerStatusNext(s)
-    expect(currentRoleId(s)).toBe(4)
+    expect(s.partyMembers[s.cursor]).toBe(4)
     playerStatusNext(s)
     expect(s.done).toBe(true)
-    expect(currentRoleId(s)).toBeUndefined()
+    expect(s.cursor).toBe(s.partyMembers.length)
   })
 
   it('playerStatusPrev cursor--,从 0 再 -- → done(sdlpal uigame.c:1276 cursor<0)', () => {
