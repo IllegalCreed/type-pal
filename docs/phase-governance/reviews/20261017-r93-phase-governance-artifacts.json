@@ -1067,14 +1067,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned94–102 delta; previous historical content preserved",
+      "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only board/index owned94–102 deltas reviewed and bound; all other entries preserved.",
+      "coreConclusion": "94–102 approved menu/save quality closeout; accepted;local-uniform-gates-passed;remote-publication-separate",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
-        "Public helper deletion and Save slot input policy await user choice; whole check/coverage/protected/remote CI not run."
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Resolve two pending interface/input choices, finish related quality repairs, freeze batch, then run all uniform gates and protected PR; no early merge.",
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261004-semantic-current-batch.json machine artifact",
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
-      "afterSha256": "f7c0d9e044984c64eaf01eadc31c31887f7b9107728fd41afe7b8459542b5562",
+      "afterSha256": "19824e9524e80c041aee67674b1a491b2adfdaeae565da230221596618b632d4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1113,8 +1113,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "f7c0d9e044984c64eaf01eadc31c31887f7b9107728fd41afe7b8459542b5562",
-        "implementationSha": "f7c0d9e044984c64eaf01eadc31c31887f7b9107728fd41afe7b8459542b5562",
+        "currentSha": "19824e9524e80c041aee67674b1a491b2adfdaeae565da230221596618b632d4",
+        "implementationSha": "19824e9524e80c041aee67674b1a491b2adfdaeae565da230221596618b632d4",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1796,12 +1796,12 @@
         ]
       },
       "evidence": {
-        "kind": "owned-94-102-maintenance",
-        "path": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json",
+        "kind": "owned-94-102-approved-closeout",
+        "path": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "f7c0d9e044984c64eaf01eadc31c31887f7b9107728fd41afe7b8459542b5562",
-        "lineCount": 5516,
+        "afterSha256": "19824e9524e80c041aee67674b1a491b2adfdaeae565da230221596618b632d4",
+        "lineCount": 5530,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1816,9 +1816,9 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json",
-          "scope": "Owned94–102 delta only; original protection fields retained.",
-          "afterSha256": "f7c0d9e044984c64eaf01eadc31c31887f7b9107728fd41afe7b8459542b5562"
+          "path": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
+          "afterSha256": "19824e9524e80c041aee67674b1a491b2adfdaeae565da230221596618b632d4",
+          "scope": "Approved menu/save delta; old provenance retained."
         }
       },
       "history": [
@@ -3822,14 +3822,15 @@
           "previousCoreConclusion": "Pre94 code accepted; finite resource-only gate retry. CI/merge pending.",
           "scope": "Owned94–102 review delta; prior full record remains in base8eb Git. No other entry refreshed.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json"
-        }
+        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" }
       ],
       "supersedes": [
         "governed-legacy phase-governance presentation; original facts remain date-scoped"
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Owned task status/index/board/ledger or exact child-review bindings only",
+      "reviewedLines": "Owned current board/index/ledger/plan or child-review binding delta",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5315,7 +5316,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "e81dacbefc350b992a628c86922b2dc5c6d313ffa0fd77d8f793741beff8f4a7",
+      "afterSha256": "e829afefa7a2181d6e3bf7ad162c426d45790d6024b44b2e72c936a1c54b6737",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5339,7 +5340,7 @@
       },
       "revision": {
         "currentSha": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "implementationSha": "e81dacbefc350b992a628c86922b2dc5c6d313ffa0fd77d8f793741beff8f4a7",
+        "implementationSha": "e829afefa7a2181d6e3bf7ad162c426d45790d6024b44b2e72c936a1c54b6737",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -5391,8 +5392,8 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
         "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
         "candidateSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "afterSha256": "e81dacbefc350b992a628c86922b2dc5c6d313ffa0fd77d8f793741beff8f4a7",
-        "lineCount": 3476,
+        "afterSha256": "e829afefa7a2181d6e3bf7ad162c426d45790d6024b44b2e72c936a1c54b6737",
+        "lineCount": 3496,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -5728,7 +5729,7 @@
         }
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "fcfbd05dbf58839ce70e80b7f53f4bd32c12670bbe095d59b744d1181e7573d1",
+      "afterSha256": "b293bc6f4066fbd7fb07034abfe0b8b5f4e1421657784f31ad4f5bfbde93f96d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5752,7 +5753,7 @@
       },
       "revision": {
         "currentSha": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "implementationSha": "fcfbd05dbf58839ce70e80b7f53f4bd32c12670bbe095d59b744d1181e7573d1",
+        "implementationSha": "b293bc6f4066fbd7fb07034abfe0b8b5f4e1421657784f31ad4f5bfbde93f96d",
         "history": [
           {
             "revision": "577e531ccd991707ef73a56426d46e915220fec6",
@@ -5835,8 +5836,8 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
         "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
         "candidateSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "afterSha256": "fcfbd05dbf58839ce70e80b7f53f4bd32c12670bbe095d59b744d1181e7573d1",
-        "lineCount": 8049,
+        "afterSha256": "b293bc6f4066fbd7fb07034abfe0b8b5f4e1421657784f31ad4f5bfbde93f96d",
+        "lineCount": 8059,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -7834,14 +7835,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned94–102 delta; previous historical content preserved",
+      "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only live code-ledger owned94–102 delta reviewed and bound; all other entries preserved.",
+      "coreConclusion": "94–102 approved menu/save quality closeout; accepted;local-uniform-gates-passed;remote-publication-separate",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
-        "Public helper deletion and Save slot input policy await user choice; whole check/coverage/protected/remote CI not run."
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Resolve two pending interface/input choices, finish related quality repairs, freeze batch, then run all uniform gates and protected PR; no early merge.",
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261016-historical-cards-d.json machine artifact",
@@ -7857,7 +7858,7 @@
         }
       ],
       "sourceSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
-      "afterSha256": "9b2b33c33e6f9c30145b706a24facceba45a164053026db1d7458a8b1df1e546",
+      "afterSha256": "4dc84e68506a96987b14bb2f86fd49bcdb769252b9c61ca75ee1be0d3a9d736f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7880,8 +7881,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "9b2b33c33e6f9c30145b706a24facceba45a164053026db1d7458a8b1df1e546",
-        "implementationSha": "9b2b33c33e6f9c30145b706a24facceba45a164053026db1d7458a8b1df1e546",
+        "currentSha": "4dc84e68506a96987b14bb2f86fd49bcdb769252b9c61ca75ee1be0d3a9d736f",
+        "implementationSha": "4dc84e68506a96987b14bb2f86fd49bcdb769252b9c61ca75ee1be0d3a9d736f",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8550,12 +8551,12 @@
         ]
       },
       "evidence": {
-        "kind": "owned-94-102-maintenance",
-        "path": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json",
+        "kind": "owned-94-102-approved-closeout",
+        "path": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "9b2b33c33e6f9c30145b706a24facceba45a164053026db1d7458a8b1df1e546",
-        "lineCount": 7079,
+        "afterSha256": "4dc84e68506a96987b14bb2f86fd49bcdb769252b9c61ca75ee1be0d3a9d736f",
+        "lineCount": 7091,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -8570,9 +8571,9 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json",
-          "scope": "Owned94–102 delta only; original protection fields retained.",
-          "afterSha256": "9b2b33c33e6f9c30145b706a24facceba45a164053026db1d7458a8b1df1e546"
+          "path": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
+          "afterSha256": "4dc84e68506a96987b14bb2f86fd49bcdb769252b9c61ca75ee1be0d3a9d736f",
+          "scope": "Approved menu/save delta; old provenance retained."
         }
       },
       "history": [
@@ -10412,14 +10413,15 @@
           "previousCoreConclusion": "Pre94 code accepted; finite resource-only gate retry. CI/merge pending.",
           "scope": "Owned94–102 review delta; prior full record remains in base8eb Git. No other entry refreshed.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json"
-        }
+        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" }
       ],
       "supersedes": [
         "governed-legacy phase-governance presentation; original facts remain date-scoped"
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Owned task status/index/board/ledger or exact child-review bindings only",
+      "reviewedLines": "Owned current board/index/ledger/plan or child-review binding delta",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

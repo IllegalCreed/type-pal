@@ -38,21 +38,12 @@ Template: governance-index-v1 / 1.0.0
 | CODE-QUALITY-3Y-CLOSEOUT-1 | [统一治理分支与3y复审](tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | Codex / pre94代码验收，PR22发布 | 原83范围accept；CI20180例／protected通过但4act诊断拒绝集成。等待边界窄修9相关／TC0，待新CI零诊断。 |
 | CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | review | Codex / 代码接受，统一集成另核 | 既有状态/毒/GS/Dev/专测证据保留；0x99失败拒绝counter修复，event-system与53整卡代码信用恢复。 |
 | CODE-QUALITY-57 | [game bootstrap thumbnail seam boundary](tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | Codex / 缺 thumbnail 像素 oracle 与视觉裁决，禁止实现 | bootstrap 两层直绘未调用 seam repair；与 gameplay 补偿边界待核 |
-| CODE-QUALITY-95 | [menu合法夹具](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | Codex / 等统一门 | 原3fixture现由pre94逐文件证据接受，保留关闭；本窗原30路径未变，统一门待集中。 |
-| CODE-QUALITY-94 | [94–102复审与集中集成](tasks/CODE-QUALITY-94-menu-integration-window.md) | build | Codex / 唯一quality-94-102分支 | main8ebcb70f0隔离，复用pre94有效证据；仅补余项，公共helper/槽号裁决待答，昂贵门留总收尾。 |
-| CODE-QUALITY-97 | [menu基础helper](tasks/CODE-QUALITY-97-menu-helper-primitives-item-select.md) | review | Codex / 已修注释 | 两混合测试合同已原子化，5文件51绿；test-only出口裁决仍待，未删接口。 |
-| CODE-QUALITY-98 | [opening/player-status](tasks/CODE-QUALITY-98-menu-opening-player-status.md) | review | Codex / 已修注释与排重 | WORD精确oracle/合法角色索引/注释已补；5文件仅review，currentRoleId删除待答。 |
-| CODE-QUALITY-99 | [menu输入路由](tasks/CODE-QUALITY-99-menu-driver-review.md) | review | Codex / 已修标题取消 | 目录夹具复用及cleanup改善；标题异步拒绝两红→绿，死出口/死参待准入。 |
-| CODE-QUALITY-100 | [存档槽菜单](tasks/CODE-QUALITY-100-save-slot-menu-review.md) | review | Codex / 排重漏迁勘误与API补证 | 纯Save元数据断言迁API已有例；菜单14例，六字段/读克隆保留，当前精确退役已核。 |
-| CODE-QUALITY-101 | [Save API/IDB](tasks/CODE-QUALITY-101-save-api-review.md) | review | Codex / 补审漏迁合同已补，输入域另卡 | 连接open/close ownership四红、meta隔离一红已修；槽号合同待答，schema/DB版本未动。 |
-| CODE-QUALITY-102 | [快存快读](tasks/CODE-QUALITY-102-quick-save-review.md) | review | Codex / 两文件已独立核验 | 两旧关闭按当前main复用；KeyboardEvent/Save反馈/解绑相邻绿，本窗统一门未跑。 |
 | CODE-QUALITY-103 | [editor残余测试逐文件复核](tasks/CODE-QUALITY-103-editor-residual-tests-review.md) | review | Codex / 相邻诊断清零后复验 | 两文件定向4/4；相邻224/224但22条React act诊断，未关闭 |
 | CODE-QUALITY-104 | [editor M02 测试 act 生命周期诊断](tasks/CODE-QUALITY-104-editor-act-diagnostics.md) | review | Codex / coverage baseline 收口后复验 | 两文件/24相邻测试零诊断；coverage ratchet/protected 仍受 shared/pal-extract baseline 阻塞 |
 | CODE-QUALITY-105 | [Reforge MenuBox 残余测试逐文件复核](tasks/CODE-QUALITY-105-reforge-menu-box-residual-review.md) | review | Codex / 先处理相邻 Vitest 未 await 诊断 | 5合同/25定向通过，K1–K5反控当前重放通过；相邻118测试仍有一条未 await 诊断，coverage门阻塞 |
 | CODE-QUALITY-106 | [Reforge reward-gain 测试 Promise 诊断](tasks/CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md) | review | Codex / 运行全仓质量门后复验 | 定向5/5、相邻21/118零 stderr；仅测试 Promise/Abort oracle 修复，coverage门仍待收口 |
 | CODE-QUALITY-107 | [Game menu primitives / item-select 逐文件复核](tasks/CODE-QUALITY-107-game-menu-primitives-item-select-review.md) | review | Codex / 先处理相邻 magic-script 诊断并跑全仓门 | 7文件/78定向通过；相邻40/377保留2条预期 labelMap stderr，E-4/E-5另卡 |
 | CODE-QUALITY-108 | [game magic-script warning ownership](tasks/CODE-QUALITY-108-game-magic-script-warning-diagnostic.md) | review | Codex / coverage baseline 收口后复验 | 缺失 label 两项 warning 已捕获；定向37/37、相邻377/377、全仓 check 零 stderr；coverage baseline 仍阻塞 |
-| GAME-MENU-HELPER-API-1 | [menu helper 公共出口删除准入](tasks/GAME-MENU-HELPER-API-1.md) | draft | Codex / 等公共接口准入裁决 | E-4/E-5 caller census 完成；只登记，不删除、不改公共接口 |
 | CODE-QUALITY-109 | [game analytics 安装器生命周期复核](tasks/CODE-QUALITY-109-game-analytics-install-review.md) | review | Codex / 完整门后复验 | 补 test teardown ownership；analytics 6/23 定向、game typecheck 通过，待全仓门 |
 | CODE-QUALITY-110 | [game present draw-sprite 逐文件复核](tasks/CODE-QUALITY-110-game-draw-sprite-review.md) | review | Codex / 完整门后复验 | 3文件/17定向、game typecheck 通过；未发现直接缺陷，待全仓门 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | Codex / 后续诊断切片待核 | 67定向0诊断；完整门仍非零诊断，未合main |
@@ -79,7 +70,6 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | review | Codex / P3另获批已修，待统一门 | 旧两获批修复保留；raw7两接回边正式2红→83相邻绿、原盘增15删0／零漏边，未写生成物，不附带关闭CLI。 |
 | QUALITY-RLE-COMMAND-TRUTH-1 | [PAL资源来源规则](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | review | Codex / 获批代码修复、待集中门 | PAL／author分域，两业务红后164相关／四TC0；1428源仅571新增一帧、809产物不变，当前只读回执已落。 |
 | GAME-SAVE-IDB-COMMIT-1 | [存档事务提交与失败传播](tasks/GAME-SAVE-IDB-COMMIT-1.md) | review | Codex / 统一门诊断未清零 | ①已修、三条真实IDB回归通过，不改版本/清档/schema |
-| GAME-SAVE-INPUT-DOMAIN-1 | [Save槽位输入域与双路径一致性](tasks/GAME-SAVE-INPUT-DOMAIN-1.md) | draft | Codex / 等用户裁决，禁止实现 | NaN/小数通过内存范围守卫，IndexedDB路径可能不同；不改API/schema |
 | GAME-OPENING-CANCEL-CURSOR-1 | [标题取消光标](tasks/GAME-OPENING-CANCEL-CURSOR-1.md) | review | Codex / 统一门诊断未清零 | ②已修、真实标题浏览器链与截图已核 |
 | GAME-OUTSIDE-MAGIC-DISABLED-1 | [大世界法术显示与禁用](tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | Codex / 核前提、Owner与白名单 | 仅①②获批；③未批准，7项可用范围与显示真值分开核 |
 

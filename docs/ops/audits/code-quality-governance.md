@@ -1,6 +1,8 @@
 # 全仓代码质量治理总纲
 
-2026-10-25当前pre94以[固定83卡队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)为唯一代码进度，原83范围已accept；[最终本地统一门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)分开记录实际check、单次覆盖率失败／精确重计／同报告保护及待远端发布。下列波次数字保持原时点，不作为当前计数或验收；全仓专项并未全部完成。
+2026-10-25当前94–102有限模块本地收口，唯一治理分支codex/code-quality-94-102；20新关闭、34既有关闭桥接，54逐文件八维与统一门完整。唯一采集及精确结构重计原件见[当前窗口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)，远端发布由关联PR/main CI记录。全仓未全部完成，不扩103+。
+
+2026-10-25 pre94以[固定83卡队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)为唯一代码进度，原83范围已accept；[最终本地统一门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)分开记录实际check、单次覆盖率失败／精确重计／同报告保护及待远端发布。下列波次数字保持原时点，不作为当前计数或验收；全仓专项并未全部完成。
 
 
 > 2026-10-18 pre-94 机制返工：三个独立审计 counter 已核实并登记[QUALITY-BATTLE-MAGIC-PARITY-1](../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)。0x42目标、0x66裸武术、非伤害敌法术自动防御按先红后绿修复；五项旧闭合记录（两实现/三测试）转review，无新增closed。旧波次门仍rework；本次定向不恢复其全仓/coverage信用。
@@ -8,13 +10,13 @@
 > 2026-10-18 当前源区间勘误：uibattle.c飘字循环1746–1767、PAL_BattleUIShowNum 1770–1808（EOF1808）；PAL_PlayerLevelUp为global.c:2347–2409（EOF2409）。旧quote/历史快照中的1810/2454仅保留原记录，不是当前有效读取范围；见[直接核对](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/anchor-corrections.json)。未重跑或重签产品/coverage门。
 
 Status: active
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-25
 Owner: Codex
 Template: plan-status-v1 / 1.0.0
 
 ## 目标与时间范围
 
-本页维护 CODE-QUALITY 专项的路线、批次边界和证据入口。原路线始于2026-10-04的 `b9ba7e0faadf56519da024c0343f5b44b9a5c447`；当前只修正文档事实权与机器账本一致性，不授权新的产品审计、修复或旧测试执行。专项仍未全仓完成。
+本页维护 CODE-QUALITY 专项的路线、批次边界和证据入口。原路线始于2026-10-04的 `b9ba7e0faadf56519da024c0343f5b44b9a5c447`；具体代码审查与改动按当前用户/任务卡准入执行；本文路线不额外授予产品范围。专项仍未全仓完成。
 
 模块地图按 shared 字节/类型、pal-extract 纯解析与IO、game 机制/生命周期/呈现、content canonical、migrate 真源/事务、reforge新架构、editor会话/命令/设计系统及 scripts 工具分域。原八行地图完整保留在历史原稿；它是入口地图，静态依赖和行数不构成缺陷证据，也不代表完整调用图。
 
