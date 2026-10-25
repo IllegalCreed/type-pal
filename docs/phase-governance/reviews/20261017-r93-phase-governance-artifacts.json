@@ -1193,7 +1193,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "0028c814a562be0b7a4108c3195744af520aae34dbe7247361a6fe922f5c99fc",
+      "afterSha256": "acb0989cad75071f7a434f9cc33f5ddd833521e15e2c8a463dec55caa368a7dc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1750,6 +1750,18 @@
           "beforeSha256": "7353f01b2ed537b1fe24c8cd2a8ac438aa7a98558fd2a6230b51d7212c4df137",
           "afterSha256": "0028c814a562be0b7a4108c3195744af520aae34dbe7247361a6fe922f5c99fc",
           "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S47",
+          "revision": "f0a18da73107a2a5844ec8c832229143afea18ab",
+          "beforeSha256": "0028c814a562be0b7a4108c3195744af520aae34dbe7247361a6fe922f5c99fc",
+          "afterSha256": "acb0989cad75071f7a434f9cc33f5ddd833521e15e2c8a463dec55caa368a7dc",
+          "scope": "Record S45 limited non-author acceptance and S46 design rework/Owner bounded refinements/pilot seeds; exact administrative after pins only, no new document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -14539,7 +14551,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "79d3a9661a2496e9331758a3e91fa2ac1ba309bd0b5f9e84f900ddf7f790db53",
+      "afterSha256": "4cd6e81a04cc5dd35a6cb44f8f7215ab3f21a9a095042315e7a79ad124a3b3bf",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14779,6 +14791,18 @@
           "beforeSha256": "a65d4f2c8dcad1ebbe37a9a52b837ea06f8a5bafbfffe27ed4c23469b7889428",
           "afterSha256": "79d3a9661a2496e9331758a3e91fa2ac1ba309bd0b5f9e84f900ddf7f790db53",
           "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S47",
+          "revision": "f0a18da73107a2a5844ec8c832229143afea18ab",
+          "beforeSha256": "79d3a9661a2496e9331758a3e91fa2ac1ba309bd0b5f9e84f900ddf7f790db53",
+          "afterSha256": "4cd6e81a04cc5dd35a6cb44f8f7215ab3f21a9a095042315e7a79ad124a3b3bf",
+          "scope": "Record S45 limited non-author acceptance and S46 design rework/Owner bounded refinements/pilot seeds; exact administrative after pins only, no new document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

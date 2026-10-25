@@ -488,3 +488,24 @@ S42 补足包的384份结论按其实际读域接收为后续设计输入：195�
 7. F混合362份：先按实际业务目的、native字段和reader拆成有界子族，禁止一个any-object变体兜底，也不为每份单造变体；复用上述成熟schema的条目转入其设计，不能重复计数。分类完成即按依赖进入对应pilot，不等最后一份。
 
 A41+B79+C127+D28+E15+F362=652，均为设计范围而非冻结合同或迁移数。GLM下一包一次交652逐路径合同字段映射、子族和代表pilot建议，复用本次384内容与已接收更正，不重新包装全文稿；Codex并行处理C类公共合同、来源冲突和最终准入。新增通用变体仍须设计/真实consumer/正负pilot/非作者验收，不改产品、旧测试、coverage、ignore或maxSize。任何旧测试适配须列实际最小补丁按原授权边界处理。
+
+
+## 2026-10-25 S46设计接收边界与S47 pilot种子（draft）
+
+652份原生映射与50计划是设计输入，未冻结新变体。Owner已订正74路径的确定事实；实际既有原生迁移合同仅三个S25路径，23完整reporter仍需精确准入，626对象仍需其对应的有界原生设计。存储loader、schema模板或同形文件reader的既有合同分别保留，不据此把JSON正文标迁移完成。
+
+现有计划须解除三类缺口：代表载体与合同字段一致；选择器有明确、可解析语法；直接reader、目录枚举、同形参照、历史引用与pin分轴。空数组不等于缺字段，缺pending不补零，numTotalTestSuites是报告层级数、testResults.length是文件记录数。distillation.originalFileSha256只保原声称与蒸馏范围，不因载体SHA匹配认证原执行。
+
+Owner提供五个具体设计种子供下一轮直接细化，均未实跑新执行或授新信用：
+
+| 种子 | 固定载体 | 必须保持与反例 |
+|---|---|---|
+| 完整reporter红 | MenuBox K1-cascade-layer-offset.red.json | 25断言/24过/1败、5文件记录/12套件层级；失败fullName集合不截断，换绿或刷新SHA不得洗白 |
+| 完整reporter绿 | 同族K1-cascade-layer-offset.green.json | 25过/0败、5文件记录/12套件层级；success不能替代零诊断，历史撤信不恢复 |
+| 缺pending短摘要 | glm-leaf-workflows/batch-a-directed.json | 原25/25/0保持，pending未报告；不能补0或伪装完整reporter/失败集合 |
+| 蒸馏reporter | BHTR directed/instrumentation-r1.json | 31断言与原coverageMap移除声明保留，声明原SHA d38e775b与载体SHA分轴；丢distillation应拒绝 |
+| review存储manifest | 20261017-r73-testing-archive.json | protected loader按原描述符重建，logicalKeys/positions/source pins保全；读回不自动授内含条目语义信用 |
+
+41个reporter/摘要没有真实非零pending样本、5件没有pending字段。需要非零pending判别力时，使用已接受S29边界作外部复用证据，或明确标注合成parser反例；不可新编历史运行。历史coverage-summary绝对键作为不可变原生记录保留，不要求旧worktree重建、不作当前coverage census。
+
+以上只具体化已有draft排期。新variant/version、真实model/consumer与正负pilot仍须Owner冻结并据证接受，正式registry/routing不动；选择器规范化不授权改原字段或把所有JSON套通用any-object合同。

@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s45-completion-intake
+Branch: codex/docs-s47-native-design-adjudication
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2492,3 +2492,13 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 本次应得投影：基线1457/1838（+13）、3retired、99incremental（+4）；current reviewed1562/compliant1556、待审872/待迁移878，严格1750=872+878（交集872、去重878）。以实际report输出核定；旧1784减少34只归17篇Markdown，不扣212或652原生。全量门仍未过：E2E006 reviewBy2026-10-23过期红不改日期，产品/runtime/E2E/视觉/coverage信用0。
 - 排期裁定见既有模板提案S45段：652=A41+B79+C127+D28+E15+F362；GLM一次完成652逐路径schema/消费者/合同字段映射与有界子族/代表pilot建议，复用384内容和原勘误，不重复包装全文、不写仓库。Owner并行处理控制127/通用格式与来源冲突；正式新变体及native发布须实际pilot与非作者验收。此处只准入外部设计稿，不准入native批量正文/状态写入。
 - 留存仍用唯一review行和既有s22-validation.log.gz：只留本次摘要、输入清单SHA、风险样本/patch正负证明、中央差异和真实门回执；不复制683稿/全native/全文quote、不新建canonical账本。下一份GLM提示词合并Owner增量复核与652映射，用户只需一次转发。
+
+
+## S46最终设计包据证裁定与S47有界后续（2026-10-25）
+
+- S45 Owner增量的GLM非作者accept接收：报告7beef12b，限定f0a18da7的17篇中央接入/设计Status/归因/保全与行政封存；不代签GLM原稿，不重做S44/257工具。报告提到的“四个registry artifact键”与“两个retention补充键”属不同对象，不是原裁定字段覆盖；原件不改。1750待办与878当前待迁保持。
+- S46本次收件为批3终版并入后的最终索引27e51a69、三片5648fbf7/30b00a2a/c668a405、plans f7a2b75e；所有652路径/源SHA、分片容量、原包7件与仓库零写入实核，双verify exit0接受为设计输入。143族与50计划仍proposed，不等于652已治理或新格式已冻结；212/native/runtime新增信用0。
+- 设计返工C01–C03：PIL-A-red-phase代表例混入无reporter字段的mutation-points/汇总回执；36/50计划以“see shard fieldRoles”代替具体必填合同。865个组合/数组/root选择器尚无可机械解析语法，不把这865项全冒称语义错误；另16路径27项字段有无矛盾已经证明。代码basename/同形reader不当直接consumer，真实运行/存储reader不自动授JSON文档格式准入。具体路径、原件SHA与解除条件见原单份日志S47/verdict.json及field-scope摘要；原652稿保留，不要求重做全文。
+- 小问题由Owner直接修74路径的稀疏字段：29 reporter实算断言/失败/文件记录/套件层级；两个distillation单列载体与声明原件SHA；14命令族按实际嵌套judge/phases/aggregate/repro分开；空entries仍是存在字段；15功能/存储合同与文档迁移合同分轴。实际三个S25路径通过真实原字节/保护review合同，保留existing；摘要与模板定义不借既有实例合同获准。修正后3 existing、23 existing-format-new-admission、626 new-contract-proposed，仅为设计分类，无状态晋升。
+- Owner关闭一项多余设计阻塞：历史coverage-summary的绝对路径键按原字节不透明保留，不要求已消失的旧worktree存在，也不认证当前coverage census。41 reporter/摘要无非零pending实物，5件缺pending；不编造历史pending运行，后续复用既有边界或明确合成反例。Native载体、原来源、source pin、1838分母均不改。
+- Codex build allowed从f0a18da7隔离后继S47：当前只写本卡/看板/既有模板提案、相应after行政级联与原单份gzip，记录S45接收/S46据证返工及5个真实pilot设计种子；不改正式registry/routing/产品/旧测试/coverage/共享规则，不授新迁移信用。Owner并行负责公共native guard/来源轴/控制127设计；GLM仅定点补合同定义、选择器与消费者锚，复用74修正，一次集中回交。不合main、不推送、不标done。

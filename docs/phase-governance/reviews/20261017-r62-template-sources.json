@@ -3371,7 +3371,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "3ab9434994b9a5224aa58a9f814d312f5eb681906e3b6f131722bb5065a289d3",
+      "afterSha256": "adcac2abbd87ad4ed0e923fa130311f9b0b6f9fb3ec77d518c1565607ac33a76",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3586,6 +3586,18 @@
           "beforeSha256": "8f57b4a7fb67df571652154040db6dccc1025e89699e63bf22b1bc55acda7e67",
           "afterSha256": "3ab9434994b9a5224aa58a9f814d312f5eb681906e3b6f131722bb5065a289d3",
           "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S47",
+          "revision": "f0a18da73107a2a5844ec8c832229143afea18ab",
+          "beforeSha256": "3ab9434994b9a5224aa58a9f814d312f5eb681906e3b6f131722bb5065a289d3",
+          "afterSha256": "adcac2abbd87ad4ed0e923fa130311f9b0b6f9fb3ec77d518c1565607ac33a76",
+          "scope": "Record S45 limited non-author acceptance and S46 design rework/Owner bounded refinements/pilot seeds; exact administrative after pins only, no new document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

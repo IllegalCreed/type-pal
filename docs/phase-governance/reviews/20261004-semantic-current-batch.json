@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "ce4219d6c399c250a1e89a8f74987220eaeac0e3e74d76311bebe7660a30bb2e",
+      "afterSha256": "1491b9fcbf03879028150ef8af528e58c70f8973aaff5842a2fad8643ce65a6f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1315,6 +1315,18 @@
           "beforeSha256": "95d7597b152d8ffe75a4e0d1008efcd7517e1e35cf573608877aaba6b4fd0eec",
           "afterSha256": "ce4219d6c399c250a1e89a8f74987220eaeac0e3e74d76311bebe7660a30bb2e",
           "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S47",
+          "revision": "f0a18da73107a2a5844ec8c832229143afea18ab",
+          "beforeSha256": "ce4219d6c399c250a1e89a8f74987220eaeac0e3e74d76311bebe7660a30bb2e",
+          "afterSha256": "1491b9fcbf03879028150ef8af528e58c70f8973aaff5842a2fad8643ce65a6f",
+          "scope": "Record S45 limited non-author acceptance and S46 design rework/Owner bounded refinements/pilot seeds; exact administrative after pins only, no new document migration or runtime credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
