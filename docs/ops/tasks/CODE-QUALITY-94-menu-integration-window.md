@@ -1,11 +1,26 @@
 # CODE-QUALITY-94 — menu 独立阶段集成窗口
 
-Status: rework
+Status: build
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 menu state contract integration
 Visual Verification Timing: N/A（无产品/UI行为修改）
+
+本轮统一证据入口：[94–102当前逐文件复审与原件](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+## 2026-10-25 94–102复审与必要返工（当前准入）
+
+用户在pre94正式合并后明确继续94–102：复用已有证据，只补质量缺口和必要返工；只保留一条治理分支，多张相关卡完成后再集中全仓与coverage，零诊断后由Codex自行提交、推送、PR合并。
+
+- 基点最新origin/main `8ebcb70f0e054038f52e6a3b3f7b35a1f6e536b8`；隔离树 `/Users/zhangxu/.codex/worktrees/quality-94-102/type-pal`，唯一分支 `codex/code-quality-94-102`。旧3y已在PR22合并、删除和可恢复归档，主树及四处未跟踪语言资源未动。
+- Coding Owner=Codex（单Agent）。build allowed限94–102原范围、实际关联测试/叶、注释/结构/合法fixture/去重与证据缺口。94原30路径按当前pre94 `menu-core-closeout`/renderer版本绑定复用，不因旧卡仍写review就重新生产整套审查；96既有精确退役及102已有闭合逐项保留，普通包绿不升级文件。
+- 接手机器基线3452tracked／511closed／63review／2878pending；八个新读域仅登记review后为511／71／2870，0新closed。安装使用现有lock的pnpm10.29.2 frozen/offline，202 reused、0 downloaded，依赖/lock零改。
+- 重点余项：97的test-only翻页/物品工厂；98角色索引和测试合同；99路由职责、死参/死出口、已登记两条坏注释；100排重漏迁已补的最终证据；101输入域、IDB open/close/失败ownership；102既有工具caller变化和八维缺项。
+- 原GAME-MENU-HELPER-API-1与GAME-SAVE-INPUT-DOMAIN-1两停止线已集中请求明确裁决，未收到前不删出口、不收紧槽号行为。新产品/格式/数据库版本/清档/资源变化不自动获准；已有批准的事务complete/标题取消和V1类型分离不重复请示。
+- 卡内只跑必要定向/相邻/TC/静态；全仓check、official ratchet/protected和单PR放在上述相关范围稳定冻结后集中。原始失败与非零诊断保留，显式default reporter核可见日志。无下一位Agent提示词，Codex持续推进。
+
+下方各“当前/最新”标题和数字属于其明示日期的历史候选，不能代替本次状态；本次代码验收、统一门与发布分别记载。
 
 ## C02诊断治理最新窗口
 

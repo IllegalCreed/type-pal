@@ -7,6 +7,12 @@ Phase: phase1
 Capability: Q3 menu state contract governance
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
 
+## 2026-10-25 当前复审增量
+
+build allowed=Codex单Owner，限原五文件注释/合法fixture/oracle整改。opening兜底非空断言改为WORD7/8精确值；错误但非空文案在隔离副本中旧8全绿、新恰一AssertionError，恢复后两文件8例绿。角色测试用0..5内非顺序索引保留6原身份；player-status删历史截图噪音与绘制1:1过宽声明，opening纠正启动职责。三个源文件正文守恒由只读AST工具验证；currentRoleId零生产caller删除待既有接口裁决。五文件只登记review，不以读取或14绿升关闭。
+
+唯一分支`codex/code-quality-94-102`，起点`8ebcb70f0`；新证据和逐文件八维见[本次入口](../evidence/CODE-QUALITY-94/current-review/README.md)。昂贵门待相关范围稳定后集中，原下方日期结论保持历史。无下一位Agent提示词，Codex继续。
+
 ## 2026-10-15 最终模块窗口（当前）
 
 稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，

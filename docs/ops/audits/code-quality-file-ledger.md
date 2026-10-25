@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-25 94–102重新推进：最新main8eb/唯一quality-94-102隔离；原30关闭复用pre94证据，八个隐式pending仅登记review，0新增closed。3452tracked／511closed／71review／2870pending。IDB连接四正式红、标题异步拒绝两正式红、元数据独立一红均已恢复；13相关147及helper51绿，game TC/局部静态0。公共helper删除/槽号合同待用户，整窗稳定后再跑全仓/official/protected，未提前合并。[本次逐文件记录与原件](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
 2026-10-25最终本地统一门：原83卡代码接受，3452tracked／511closed／63review／2878pending不变。check20617＋708工具／TC／静态0；唯一official20180例／807源的原结构比率拒绝保留，有限重计后同报告ratchet／protected通过、117工具绿；新候选远端CI／单PR／合并另核，不把其它pending改关闭。[完整回执与低成本复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
 
 2026-10-25 CODE1有限范围代码接受：明确PAL／author来源，两个正式业务红、164相关／四TC0、1428原盘记录仅571多一帧；真实Canvas及809产物两遍零diff。三明确新关闭，3452tracked／511closed／63review／2878pending；固定83原范围代码accept，广域migrate／sprite额外出口不强闭。全仓／official／protected及唯一PR仍待集中收尾。[本窗八维和原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)。
@@ -146,7 +148,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,452。
-当前已闭合核验：511；已读但待审：63；尚未逐文件核验：2878；合计未闭合：2941。
+当前已闭合核验：511；已读但待审：71；尚未逐文件核验：2870；合计未闭合：2941。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -768,6 +770,14 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/scene-thumbnail.ts` | product | 已验证 | [CODE57逐文件八维/完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) | cache/inflight/并发/临时Canvas同一Owner，死private参数删除；已批透明细缝正式像素先红后修，静态色表/实际两caller宽度保持；57相邻/TC0，统一门延后 |
 | `packages/game/src/shell/scene-thumbnail.test.ts` | test | 已验证 | [CODE57逐文件八维/完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) | 五合法GOP→PNG/独立RGBA/缓存/scene解析/并发交接/失败重试合同；4绿单红后5绿，negative warn精确一次/全参数核验；57相邻/TC0，统一门延后 |
 | `packages/game/src/core/event-system.glm-event-k04.test.ts` | test | 已验证 | [逐文件八维/正式反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) | 原2身份保留+1独立拒绝/后续声效/状态不侵入合同，真实Error与日志全参数精确一次，finally清注入；相邻391/TC0，静态和统一集成另核 |
+| `packages/game/src/core/menu/menu-driver.cov85.test.ts` | test | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
+| `packages/game/src/core/menu/menu-driver.test.ts` | test | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
+| `packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts` | test | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
+| `packages/game/src/core/menu/opening-menu.test.ts` | test | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
+| `packages/game/src/core/menu/opening-menu.ts` | product | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
+| `packages/game/src/core/menu/player-status.test.ts` | test | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
+| `packages/game/src/core/menu/player-status.ts` | product | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
+| `packages/game/src/core/save/__tests__/indexed-db.test.ts` | test | review | [94–102当前逐文件八维](../evidence/CODE-QUALITY-94/current-review/review.json) | 当前实际读域/既有证据复用、必要返工及定向原件齐；接口裁决与统一门未收，不授closed |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

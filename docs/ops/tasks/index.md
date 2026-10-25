@@ -46,7 +46,7 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成](CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-94 — menu 独立阶段集成窗口](CODE-QUALITY-94-menu-integration-window.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-94 — menu 独立阶段集成窗口](CODE-QUALITY-94-menu-integration-window.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-95 — menu 测试夹具合法性 counter](CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）](CODE-QUALITY-97-menu-helper-primitives-item-select.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）](CODE-QUALITY-98-menu-opening-player-status.md) | review | 以任务卡当前准入与看板分工为准。 |

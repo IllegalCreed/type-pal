@@ -7,6 +7,16 @@ Phase: phase1
 Capability: Q3 menu dispatch governance
 Visual Verification Timing: N/A（纯数据/路由层，无产品/UI行为修改）
 
+本轮统一证据入口：[94–102当前逐文件复审与原件](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+## 2026-10-25 质量余项与异步所有权（当前）
+
+复用GLM原全文／当前未变断言合同和pre94 menu依赖证据；Codex完整读当前1050行路由，定向读两主测实际差异与callback/fixture/清理。已纠正inventory-action取消回hub、装备空swap到done和play.c误引为uigame.c三处坏注释；确认余额按当前值再判。角色夹具由越出生产域的10/20/30改为非顺序2/0/4；两测试Magic固定字段复用已有magic-cost-fixture，角色完整字段复用已核makeRole，保持原数值；测试新增afterEach回收handler，失败时亦清理。
+
+新直接counter：StartGameHandler公开允许Promise，bootstrap安装真实async开场回调，两个新游戏输入分支均丢弃其拒绝。正式37绿／2个指定AssertionError后，build allowed仅增加统一的私有startNewGame边界，按既有save/load路由失败策略记录原因；场景安装仍归shell，失败不清标题、不自动重试或新增UI，下一次明确按键仍能重试。同步throw仍穿透；不变公共callback签名、启动视频／剧情／存档机制。单一Owner Codex，原件留CODE94当前窗口。
+
+死出口／死参清理仍等待本次集中接口裁决，不借此修改。全仓／coverage集中在94–102相关范围稳定后，本卡不提前done。
+
 ## 2026-10-15 最终模块窗口（当前）
 
 稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，

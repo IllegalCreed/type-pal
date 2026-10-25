@@ -1,5 +1,7 @@
 # CODE-QUALITY-94 evidence — menu integration
 
+- [2026-10-25当前94–102复审与返工](current-review/README.md)：复用pre94关闭，补19项八维与必要修复；接口裁决及集中门尚未收口。下文为明示日期的历史回执，旧manifest保持冻结，不批量刷新成当前结论。
+
 - [Codex最终完整模块窗口](codex-final-window.md)：两项获批修复、全部真实门、分项非零诊断、官方基线与未闭合边界；JSON机械证据含原件完整性与冻结源码核验。
 
 - [Codex 三验及接手边界](codex-r3-review.md)：候选5477af1e4，监听器泄漏/C4假正例实测、精确退役核对、当前SHA与诊断原件；0新关闭，用户授权Codex继续低风险返工。

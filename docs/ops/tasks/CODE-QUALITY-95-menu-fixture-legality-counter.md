@@ -7,6 +7,12 @@ Phase: phase1
 Capability: menu test legal typed input and isolation
 Visual Verification Timing: N/A（纯测试治理）
 
+## 2026-10-25 当前复审增量
+
+三份原fixture修正已由pre94菜单逐文件A–H、renderer版本桥和PR22统一门接受，本轮原30路径全部与最新main8eb一致；不因旧卡停在review重做相同审查。CODE95原counter的合法typed Item/Role、真实单体目标和非顺序队伍oracle均复用。卡面暂保留review以等待本次94–102统一发布回执，0重复新增closed。
+
+唯一分支`codex/code-quality-94-102`，起点`8ebcb70f0`；新证据和逐文件八维见[本次入口](../evidence/CODE-QUALITY-94/current-review/README.md)。昂贵门待相关范围稳定后集中，原下方日期结论保持历史。无下一位Agent提示词，Codex继续。
+
 ## 2026-10-15 最终模块窗口（当前）
 
 稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，

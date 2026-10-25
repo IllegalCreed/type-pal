@@ -7,6 +7,12 @@ Phase: phase1
 Capability: Q3 save-slot menu governance（存档域边界切片）
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
 
+## 2026-10-25 当前复审增量
+
+沿用已补齐的六字段往返/独立读侧克隆，不重新删这两项信用。此次仅将菜单层最后一条纯Save.savedTimes=42断言迁入API已有listSlots例，菜单15→14，源实现/leaf/真实拉取菜单IO合同保留。IO组明确隔离memory fallback并恢复global/spy，失败warning精确到消息/参数/一次。完整合同与身份映射在本次入口；现有文件特定的精确退役快照已换成当前两端digest/SHA，84工具测试通过，旧快照留Git/当前证据；coverage等稳定冻结时一次实测。当前13相邻文件147绿；全仓/coverage尚未运行。
+
+唯一分支`codex/code-quality-94-102`，起点`8ebcb70f0`；新证据和逐文件八维见[本次入口](../evidence/CODE-QUALITY-94/current-review/README.md)。昂贵门待相关范围稳定后集中，原下方日期结论保持历史。无下一位Agent提示词，Codex继续。
+
 ## Codex 当前复核与测试收紧（2026-10-17）
 
 本批在最新 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869` 的

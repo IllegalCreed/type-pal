@@ -7,6 +7,12 @@ Phase: phase1
 Capability: Q3 menu helper state/contract governance
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
 
+## 2026-10-25 当前复审增量
+
+完整核当前helper与五专测，复用CODE107/GLM29真值/否决位证据；只补质量欠账。primitives旧未来Step3注释已纠正；boundaries混合第一例拆成空表/单项/入参不变三个合同，leaf的Confirm/Switch混例一分二，原断言完整迁移，5文件51例全绿。公共page/旧物品factory仍等待GAME-MENU-HELPER-API-1裁决，未删除；item-select的混合filter/builder测试将在接口结果确定后收敛，不借当前绿关闭。
+
+唯一分支`codex/code-quality-94-102`，起点`8ebcb70f0`；新证据和逐文件八维见[本次入口](../evidence/CODE-QUALITY-94/current-review/README.md)。昂贵门待相关范围稳定后集中，原下方日期结论保持历史。无下一位Agent提示词，Codex继续。
+
 ## 2026-10-15 最终模块窗口（当前）
 
 稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，
