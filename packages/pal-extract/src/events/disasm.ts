@@ -94,7 +94,7 @@ export function disasm(
   }
   for (const target of allLabelTargets) {
     if (target >= 0 && target < commands.length) {
-      commands[target] = { ...commands[target]!, label: `L_${target}` } as Command
+      commands[target] = { ...commands[target]!, label: `L_${target}` }
     }
   }
 
@@ -103,16 +103,11 @@ export function disasm(
 
 // ── 单条指令产出 ──────────────────────────────────────────────────────────────
 
-type DefLike = {
-  name: string
-  fields: { name: string; kind: string }[]
-  endAdvance?: boolean
-  endReset?: boolean
-}
+type OpcodeDefinition = (typeof opcodeTable)[number]
 
 function emitCommand(
   opcode: number,
-  def: DefLike,
+  def: OpcodeDefinition,
   operands: number[],
   messages: string[],
 ): Command {
@@ -143,7 +138,7 @@ function emitCommand(
   }
 }
 
-function emitEnd(def: DefLike, operands: number[]): EndCommand {
+function emitEnd(def: OpcodeDefinition, operands: number[]): EndCommand {
   const c: EndCommand = { op: 'end' }
   if (def.endAdvance) c.advance = true
   if (def.endReset) {
@@ -190,7 +185,7 @@ type SetDialogStyleCommand =
  * 非 0 时 recompile 必须按原样写回,确保 round-trip 字节一致。
  */
 function emitSetDialogStyle(op: SetDialogStyleOp, operands: number[]): SetDialogStyleCommand {
-  const c: SetDialogStyleCommand = { op } as SetDialogStyleCommand
+  const c: SetDialogStyleCommand = { op }
   if (operands[0]! !== 0) c.arg0 = operands[0]!
   if (operands[1]! !== 0) c.arg1 = operands[1]!
   if (operands[2]! !== 0) c.arg2 = operands[2]!

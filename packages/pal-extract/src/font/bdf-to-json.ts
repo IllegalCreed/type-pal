@@ -2,6 +2,10 @@
  * BDF → JSON glyph 表预处理(M4 P4.T2)。
  * 输入:GNU Unifont CN BDF(16×16 CJK + 8×16 ASCII)
  * 输出:JSON 含 codepoint → bitmap mapping(base64 紧凑)
+ *
+ * 当前入口仅读取本地固定 Unifont 资源；本模块不是通用、不可信 BDF 校验器。
+ * 尺寸直接决定分配，缺 BITMAP 等结构错误也可能抛错；调用方负责资源来源，
+ * 解析/分配错误向 CLI 传播。短行/有效 hex 前缀的既有宽容策略见字节循环。
  */
 
 export interface BdfGlyph {

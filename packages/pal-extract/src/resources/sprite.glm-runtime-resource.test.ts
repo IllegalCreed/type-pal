@@ -1,17 +1,17 @@
 /**
  * TEST-GLM-RUNTIME-RESOURCE-2 R04（pal-extract/resources/sprite.ts）。
  * 当前相邻合同：sprite.boundaries.test 核尺寸及短输入拒绝；sprite.test 核
- * extractCharacterSprites 空组/缺 id warn，以及已有生成物路径的场景 union sanity。
+ * 既有生成物路径的场景引用连通性。
  * 后者没有调用 CLI，不证明实际提取或去重执行。本文件直接核：
  * encodeIndexedPng 的 opaque mask 与缺省 mask 用 pngjs 真解码逐像素核对
  * （透明 alpha 0 / opaque palette-0 alpha 255 / RGB 三通道复制）、
- * framesToOut 多帧 index/尺寸/像素、extractCharacterSprites 多 id 顺序与逐帧 PNG。
+ * framesToOut 多帧 index/尺寸/像素；已退役的无生产调用批处理不再专测。
  */
 
 import { parseSpriteChunk } from '@type-pal/shared'
 import { PNG } from 'pngjs'
 import { describe, expect, test } from 'vitest'
-import { encodeIndexedPng, extractCharacterSprites, framesToOut } from './sprite.js'
+import { encodeIndexedPng, framesToOut } from './sprite.js'
 
 describe('R04 encodeIndexedPng 真解码像素合同', () => {
   test('带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index', () => {
@@ -97,23 +97,5 @@ describe('R04 framesToOut 多帧', () => {
     expect([...px0.data]).toEqual([0x11, 0x11, 0x11, 255])
     expect([...px1.data]).toEqual([0x22, 0x22, 0x22, 255])
     expect([...px2.data]).toEqual([0, 0, 0, 0, 0x33, 0x33, 0x33, 255])
-  })
-})
-
-describe('R04 extractCharacterSprites 多 id', () => {
-  test('输入 id 顺序保留；每 sprite 帧独立解码', () => {
-    // 表长 2 WORD（首帧 offset=4、末槽=0），SDLPal 帧数也是 1。
-    const chunk1 = new Uint8Array([0x02, 0x00, 0, 0, 0x01, 0x00, 0x01, 0x00, 0x01, 0x11])
-    const chunk2 = new Uint8Array([0x02, 0x00, 0, 0, 0x01, 0x00, 0x01, 0x00, 0x01, 0x22])
-    const chunks = new Map<number, Uint8Array>([
-      [78, chunk1],
-      [14, chunk2],
-    ])
-    const result = extractCharacterSprites([78, 14], chunks)
-    expect(result.map((r) => r.spriteId)).toEqual([78, 14])
-    const png1 = PNG.sync.read(Buffer.from(result[0]!.frames[0]!.pngBytes))
-    const png2 = PNG.sync.read(Buffer.from(result[1]!.frames[0]!.pngBytes))
-    expect([...png1.data]).toEqual([0x11, 0x11, 0x11, 255])
-    expect([...png2.data]).toEqual([0x22, 0x22, 0x22, 255])
   })
 })

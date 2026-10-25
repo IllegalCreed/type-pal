@@ -1,34 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { describe, expect, it, vi } from 'vitest'
-import { extractCharacterSprites } from './sprite.js'
-
-describe('extractCharacterSprites', () => {
-  it('给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧', () => {
-    const fakeMgoChunks = new Map<number, Uint8Array>()
-    // 一个 WORD 的空索引表：SDLPal 的帧数是表项数减一，即 0。
-    const emptySpriteChunk = Uint8Array.of(1, 0)
-    fakeMgoChunks.set(78, emptySpriteChunk)
-
-    const result = extractCharacterSprites([78], fakeMgoChunks)
-    expect(result).toHaveLength(1)
-    expect(result[0]?.spriteId).toBe(78)
-    expect(result[0]?.frames).toEqual([])
-  })
-
-  it('未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)', () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    try {
-      const result = extractCharacterSprites([999], new Map())
-      expect(result).toHaveLength(0)
-      expect(warnSpy).toHaveBeenCalledTimes(1)
-      expect(warnSpy).toHaveBeenCalledWith('[pal-extract] sprite 999: MGO.MKF chunk 未找到,skip')
-    } finally {
-      warnSpy.mockRestore()
-    }
-  })
-})
+import { describe, expect, it } from 'vitest'
 
 /**
  * 既有生成物连通性：三个场景引用的非零 sprite 都有 canonical .rle 文件。

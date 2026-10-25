@@ -72,3 +72,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 无下一位Agent提示词；由Codex继续，不要求用户搬运或重复全文复审。
 
 - 2026-10-25首组：13个整文件代码接受，39个仍review。八维复用原全文与有效counter，补当前CLI→DATA编排、MSG、共享出口/类型和资源消费者；修四源码注释（AST不变），136相关与两个TC零诊断，未跑全仓/coverage。新计数3453／544／39／2870；原路径分母不变，剩余extract10→game12→phase2十一→tools6。
+
+- 2026-10-26 同一提取模块子提交：用户批准移除 extractCharacterSprites/CharacterSpriteOut 及专属测试，并将 FieldKind/OpcodeDef 私有化。保留生产帧包装/PNG和已有三场景产物连通性；三个测试文件23→19、精确四身份退役。disasm复用registry推导类型并去两处多余强转，四源码发射JS不变；17相邻文件110例及extract TC0，未跑重门。另诊断脚本两正式字节/退出红已核，下一独立行为提交处理；视频新三红继续单项停止线，不纳本纯重构提交。

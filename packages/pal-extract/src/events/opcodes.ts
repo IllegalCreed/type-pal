@@ -7,7 +7,7 @@
  * 具名注册提供字段语义；disasm有专用emit的命令才结构化，其余保号落raw。
  */
 
-export type FieldKind =
+type FieldKind =
   | 'value'
   | 'label'
   | 'message'
@@ -19,7 +19,7 @@ export type FieldKind =
   | 'person'
   | 'sprite'
 
-export interface OpcodeDef {
+interface OpcodeDef {
   /** Verb 名称。未具名为 'raw'。 */
   name: string
   /** 3 个操作数定义,顺序固定。 */
