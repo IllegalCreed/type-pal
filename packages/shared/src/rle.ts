@@ -1,14 +1,9 @@
 /**
- * RLE 精灵解码 —— 原版精灵格式。
- * 参考 reference/sdlpal/palcommon.c::PAL_RLEBlitToSurfaceWithShadow。
- *
- * 本模块是纯函数解码器,extractor 与 runtime 共用,保证两端用同一份逻辑解出像素
- * (S1 of tileset 资源管线优化:tileset 从 per-tile PNG 改为每地图 gzip RLE blob)。
- *
- * **唯一解码器**:此前 game `rle-decode.ts` 另有一份带 4 字节前缀 `02 00 00 00`
- * (u32 LE `0x00000002`;见下方 skipFilePrefix 与 palcommon.c:722-728)跳过的 decodeRle
- * (单帧整-chunk 用),与本份分叉。现已用 `decodeRle(buf, { skipFilePrefix })` 参数统一 ——
- * game `rle-decode.ts` 改为 re-export 本份;sprite-group 路径不传(默认不跳),单帧整-chunk 传 true。
+ * Shared indexed-frame codec and sprite-container parsers.
+ * Extractor/runtime share frame pixels and opaque masks; author assets also use the strict entry.
+ * Frame prefix handling belongs to the explicit bitmap option. game/rle-decode.ts exports
+ * the PAL parser under its local name and supplies a base64 adapter; it is not another codec.
+ * PAL reference rules and the author format differ; each entry below states its TS contract.
  */
 
 export interface RleFrame {
@@ -30,11 +25,11 @@ export type IndexedRleChunkProfile = 'canonical' | 'legacy-migrated'
 export type WorldSpriteChunkProfile = IndexedRleChunkProfile
 
 /**
- * 大世界精灵容器的严格解析报告。
+ * Indexed sprite-container validation report.
  *
- * PAL MGO 有少量“声明表尾多出坏 offset”的历史数据。它们的有效帧始终是连续前缀；
- * `legacy-migrated` 只允许跳过这个不可解尾后缀。普通作者/生成资源必须使用 canonical，
- * 任何坏槽都直接失败。
+ * canonical requires every registered frame to decode. legacy-migrated keeps a decodable
+ * prefix and counts nonzero trailing slots rejected by this parser. A skipped slot is not
+ * proof that the original PAL frame is corrupt; source-specific offset rules can differ.
  */
 export interface IndexedRleChunkResult {
   frames: RleFrame[]
@@ -51,6 +46,20 @@ export type WorldSpriteChunkResult = IndexedRleChunkResult
 // 通用帧 codec 也服务作者图像，不能把 sprite 的尺寸约定扩成帧格式限制。
 const SPRITE_DIM_MAX = 400
 
+/** Source domains share bounds/masks, but not PAL's command and offset interpretation. */
+type RleSourceFormat = 'canonical' | 'pal'
+
+function isTransparentRun(command: number, width: number, format: RleSourceFormat): boolean {
+  return command >= 0x80 && (format === 'canonical' || command <= 0x80 + width)
+}
+
+function spriteFrameOffset(view: DataView, index: number, format: RleSourceFormat): number {
+  const offset = view.getUint16(index * 2, true) << 1
+  // PAL_SpriteGetFrame assigns this one historical byte offset back to WORD.
+  // The same offset is legal in author chunks and must retain its full value there.
+  return format === 'pal' && offset === 0x18444 ? offset & 0xffff : offset
+}
+
 /**
  * 解码一帧 RLE 精灵数据。
  * 帧头 = 宽 u16 LE + 高 u16 LE;后接指令流。
@@ -58,12 +67,24 @@ const SPRITE_DIM_MAX = 400
  *   b >= 0x80 → 跳 b-0x80 个像素(留透明 opaque=0;pixels 默认 0)
  *   else      → 接下来 b 个字节是像素值(opaque=1,palette index 即使 0 也合法)
  *
- * `opts.skipFilePrefix`(默认 false):**单帧整-chunk** RLE bitmap(如 RGM 头像 / 标题屏,
- * 「整个 chunk = 一帧」)首部带 `0x00000002` file-header 前缀,须跳过(sdlpal palcommon.c:722-728);
- * 而 **sprite-group** chunk 的帧经 `parseSpriteChunk` 取真 offset 后喂入,首字节即真 width,**不跳**。
- * 故由调用方按数据来源决定 —— 这一个参数统一了原先 shared / game 两份分叉的 decodeRle。
+ * `opts.skipFilePrefix`默认false；它只控制`0x00000002`文件头，不决定指令格式。
+ * RGM/BALL等PAL bitmap须选择decodePalRle；PAL sprite-group选择parsePalSpriteChunk，
+ * 各帧从表中offset开始，不跳文件头。作者图像继续使用本入口的跨行游程规则。
  */
 export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }): RleFrame {
+  return decodeRleFrame(buf, opts, 'canonical')
+}
+
+/** PAL bitmap entry: the high bit denotes transparency only up to 128 + frame width. */
+export function decodePalRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }): RleFrame {
+  return decodeRleFrame(buf, opts, 'pal')
+}
+
+function decodeRleFrame(
+  buf: Uint8Array,
+  opts: { skipFilePrefix?: boolean } | undefined,
+  format: RleSourceFormat,
+): RleFrame {
   let offset = 0
 
   // 单帧整-chunk 的 0x00000002 前缀跳过(仅 skipFilePrefix 时;sprite-group 帧无此前缀)
@@ -94,7 +115,7 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
     const b = buf[offset++]!
     // Both commands consume a source byte but no pixel. Preserve that existing
     // framing; a stream that never fills the frame fails at the source boundary.
-    if (b >= 0x80) {
+    if (isTransparentRun(b, width, format)) {
       // 跳过 b-0x80 个像素(opaque 保持 0,pixels 保持 0)
       const skip = b - 0x80
       if (dst + skip > total) throw new Error('RLE: transparent run exceeds frame')
@@ -125,6 +146,7 @@ function decodeStrictSpriteFrame(
   offset: number,
   end: number,
   index: number,
+  format: RleSourceFormat,
 ): RleFrame {
   if (offset + 4 > end || end > buf.byteLength)
     throw new Error(`sprite chunk frame ${index} offset 越界`)
@@ -142,7 +164,7 @@ function decodeStrictSpriteFrame(
     const command = buf[source++]!
     if (command === 0 || command === 0x80)
       throw new Error(`sprite chunk frame ${index} 含零长度指令`)
-    if (command >= 0x80) {
+    if (isTransparentRun(command, width, format)) {
       target += command - 0x80
       if (target > total) throw new Error(`sprite chunk frame ${index} 透明段越界`)
       continue
@@ -160,7 +182,8 @@ function decodeStrictSpriteFrame(
 }
 
 /**
- * 宽容精灵 chunk 解析(sdlpal `palcommon.c::PAL_SpriteGetFrame` 的容器取帧真值)。
+ * Lenient author-format sprite parser. PAL transport uses parsePalSpriteChunk instead:
+ * its offset remapping and width-dependent command rule must not change author chunks.
  *
  * 精灵 chunk 头:byte 0..1 = u16 LE imagecount(同时充当 frame[0] 的 word-offset)。
  * 偏移表在 byte 0..2*imagecount-2,每条 u16 word offset(乘 2 得字节偏移)。
@@ -183,15 +206,23 @@ function decodeStrictSpriteFrame(
  *
  * **键一致性铁律**:返回数组的下标 i 是**过滤后序列**的下标(空槽/坏槽不占位,与原始
  * slot 号不保持对应),即旧 `framesToOut` 的 index;地图 cells 引用的是这个过滤后下标。
- * runtime 与 extractor 必须用同一份本函数,保证两端下标对齐。
+ * 原盘runtime与extractor共用parsePalSpriteChunk，保持相同过滤顺序。
  */
 export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
+  return parseSpriteChunkForFormat(buf, 'canonical')
+}
+
+/** PAL source container; keeps the existing bounded, lenient invalid-slot filtering policy. */
+export function parsePalSpriteChunk(buf: Uint8Array): RleFrame[] {
+  return parseSpriteChunkForFormat(buf, 'pal')
+}
+
+function parseSpriteChunkForFormat(buf: Uint8Array, format: RleSourceFormat): RleFrame[] {
   const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
   const frameCount = view.getUint16(0, true)
   const frames: RleFrame[] = []
   for (let i = 0; i < frameCount; i++) {
-    const wordOffset = view.getUint16(i * 2, true)
-    const offset = wordOffset << 1
+    const offset = spriteFrameOffset(view, i, format)
     if (offset === 0 || offset >= buf.byteLength) continue
     // sanity guard:width/height 都必须 ≤ 400(实际 sprite 在屏内 320×200)
     if (offset + 4 > buf.byteLength) continue
@@ -199,7 +230,7 @@ export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
     const h = view.getUint16(offset + 2, true)
     if (w === 0 || h === 0 || w > SPRITE_DIM_MAX || h > SPRITE_DIM_MAX) continue
     try {
-      frames.push(decodeRle(buf.subarray(offset)))
+      frames.push(decodeRleFrame(buf.subarray(offset), undefined, format))
     } catch {
       // PAL 的宽容入口已经会跳过 broken-sprite 尾帧；保持该降级策略，
       // 但让 decoder 自身先以有限边界失败，而不是把坏帧拖成死循环。
@@ -209,10 +240,19 @@ export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
 }
 
 /**
- * 工程 catalog 的 canonical tileset 使用严格解析：每个登记帧都必须可达且完整，
+ * 工程 catalog 的 canonical indexed-RLE 容器使用严格解析：每个登记帧都必须可达且完整，
  * 不能沿用旧 PAL sprite 容错解析器的“跳坏帧后压缩下标”行为。
  */
 export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
+  return parseStrictSpriteChunk(buf, 'canonical')
+}
+
+/** Strict PAL source validation; retains the container's no-hole/no-zero-command policy. */
+export function parsePalSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
+  return parseStrictSpriteChunk(buf, 'pal')
+}
+
+function parseStrictSpriteChunk(buf: Uint8Array, format: RleSourceFormat): RleFrame[] {
   if (buf.byteLength < 2) throw new Error('sprite chunk 过短')
   const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
   const declaredCount = view.getUint16(0, true)
@@ -226,7 +266,7 @@ export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
   if (frameCount <= 0) throw new Error('sprite chunk 只有 sentinel，不含有效帧')
   const offsets: number[] = []
   for (let index = 0; index < frameCount; index++) {
-    const offset = view.getUint16(index * 2, true) << 1
+    const offset = spriteFrameOffset(view, index, format)
     if (offset < tableBytes || offset + 4 > buf.byteLength)
       throw new Error(`sprite chunk frame ${index} offset 越界`)
     if (index > 0 && offset <= offsets[index - 1]!)
@@ -235,14 +275,14 @@ export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
   }
   if (offsets[0] !== tableBytes) throw new Error('sprite chunk frame 0 offset 与表长不一致')
   return offsets.map((offset, index) =>
-    decodeStrictSpriteFrame(buf, view, offset, offsets[index + 1] ?? buf.byteLength, index),
+    decodeStrictSpriteFrame(buf, view, offset, offsets[index + 1] ?? buf.byteLength, index, format),
   )
 }
 
 /**
- * 大世界精灵专用严格解析。
+ * 按来源 profile 解析 indexed-RLE 容器，供 world/battle 等资源 caller 消费。
  *
- * canonical 直接沿用完整严格容器规则。legacy-migrated 先尝试 canonical；仅失败时才
+ * canonical使用作者完整严格容器规则。legacy-migrated按PAL来源解释指令与偏移；仅失败时才
  * 逐槽验证连续有效前缀，并要求余下所有非零槽都不可严格解成帧。这样保留 PAL 的坏尾
  * 历史事实，同时拒绝中间空洞后又出现有效帧的损坏容器。
  */
@@ -259,10 +299,11 @@ export function parseIndexedRleChunk(
   const tableBytes = declaredSlots * 2
   if (tableBytes > buf.byteLength) throw new Error('sprite chunk offset table 越界')
   const trailingSentinel = view.getUint16((declaredSlots - 1) * 2, true) === 0
+  const format = profile === 'legacy-migrated' ? 'pal' : 'canonical'
 
   try {
     return {
-      frames: parseSpriteChunkStrict(buf),
+      frames: parseStrictSpriteChunk(buf, format),
       declaredSlots,
       trailingSentinel,
       skippedLegacyTailSlots: 0,
@@ -271,9 +312,8 @@ export function parseIndexedRleChunk(
     if (profile === 'canonical') throw canonicalError
   }
 
-  const offsets = Array.from(
-    { length: declaredSlots },
-    (_, index) => view.getUint16(index * 2, true) << 1,
+  const offsets = Array.from({ length: declaredSlots }, (_, index) =>
+    spriteFrameOffset(view, index, format),
   )
   const frames: RleFrame[] = []
   let previous = -1
@@ -288,7 +328,7 @@ export function parseIndexedRleChunk(
     const end =
       next !== undefined && next > offset && next <= buf.byteLength ? next : buf.byteLength
     try {
-      frames.push(decodeStrictSpriteFrame(buf, view, offset, end, index))
+      frames.push(decodeStrictSpriteFrame(buf, view, offset, end, index, format))
       previous = offset
     } catch {
       firstInvalid = index
@@ -306,7 +346,7 @@ export function parseIndexedRleChunk(
     try {
       // 这里验证“这个槽是否独立指向一帧”，不能让另一个可能损坏的后续 offset
       // 人为截短它并把本可解帧伪装成坏尾。
-      decodeStrictSpriteFrame(buf, view, offset, buf.byteLength, index)
+      decodeStrictSpriteFrame(buf, view, offset, buf.byteLength, index, format)
     } catch {
       continue
     }

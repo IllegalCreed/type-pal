@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "state": "complete",
+  "scope": "Only final scoped static consumers; unchanged docs-tool tests reused. No whole check/coverage/protected/PR.",
+  "gates": [
+    "static-links",
+    "static-model",
+    "static-testing",
+    "static-phase",
+    "static-content",
+    "static-progress",
+    "static-lint",
+    "static-ledger",
+    "static-diff"
+  ],
+  "archive": {
+    "path": "static.receipts.json.gz",
+    "sha256": "2b4d92c203c25dc51c4a39b162b5e280f3a9ccfa4ff4b4747e7dea6ed218ba33"
+  },
+  "inputs": [
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "sha256": "49c425f38a157d17bbdd4c2549931388d01c813d06b04401dbdb60ae44926f74"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "sha256": "e1604fd3d595c36e0c615cf34b6080c2cca67aee58e76449852723b8a53d8174"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
+      "sha256": "4a3bf06ce9b1ba3d7cea928f183823351924c031f226777bd274507cf2e6ebf5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md",
+      "sha256": "4056205ac30626a4262c0ff0fdd5d2e62a3421860bc2dfa8f532b5f3b69606bc"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/ending-actual.png",
+      "sha256": "6438fe640614b25d578972142f1d06acb7e5c9cc2cf90cfdfd00bbc63d6facde"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/ending-native-reference.png",
+      "sha256": "d2800a8404e79d4a318bb51c048da8365d7fb39aa4e46e6aaff4ea63e374c036"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/identity-mapping.json",
+      "sha256": "83499348c7f3af8f0feced1bf1eb7732c1f6f2a0617eb5c553fc9a070b1fcc76"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/receipts.json.gz",
+      "sha256": "305f808fb33056bff0ee70559f77c5c01de3944f513216a96865549d12a50b48"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
+      "sha256": "822194d5ab23120e2e9b49a3245682e4c4b50da395f3ef4a067a8154fce96892"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/verify.mjs",
+      "sha256": "d0bb6a60abf01ad89e3fbd87c087bf30ddd14d411d627ad8b45927f68defda66"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "sha256": "4dbf1378cb6715aa38ffa389e419d734b75a478dac24b1b381f993883225018a"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-RLE-COMMAND-TRUTH-1.md",
+      "sha256": "6d7f32e543c98faa62da75b1b91a5993d1f9850473ced8db014db571415bdadc"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "sha256": "8e0cf96a80d5f5451f2e0e21b8a5eb85eb28de368ae970b278d23f9f40038153"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "sha256": "31a98c82d3faf3b0d48c1545e8e3b3dd0ee15dd574577e7c2beb3b1eca9bb42a"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "sha256": "20374f5c1be182dd2dba0bc38511dc964f252755c6c65856b1590b16a9242020"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "sha256": "32b573d7138b8feabcc2699b6296a082ad9ac284fcb4cb3030ad5398aee20b35"
+    }
+  ]
+}

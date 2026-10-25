@@ -1,0 +1,330 @@
+{
+  "base": "f1ba65aaa17427f1c538868b899e1d97f2f3be4e",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single Agent",
+  "commits": {
+    "refactor": "ac79a3240",
+    "tests": "451ee5290"
+  },
+  "continuity": {
+    "moved": [
+      {
+        "before": "tickBattleDialog",
+        "after": "advanceBattleDialog",
+        "bodyTokensSha256": "562eb1cea23ba7391c319a9c30343e76be4c05f4dc53a482c85f2a0ed3acb2b7"
+      },
+      {
+        "before": "isVerticalDialogSwap",
+        "after": "isVerticalDialogSwap",
+        "bodyTokensSha256": "0bb77e3c7480ef9913b09fa818217d0e1543c6ab79508d31801ded83edc56e44"
+      },
+      {
+        "before": "feedNextBattleDialogLine",
+        "after": "feedNextBattleDialogLine",
+        "bodyTokensSha256": "5974155d9c6f2d7569c5f324b86764034c8e12c3f28563c984c433a24688a8e3"
+      }
+    ],
+    "publicNames": [
+      "BattleLevelUpResult",
+      "BattleResources",
+      "HiddenExpGrowthResult",
+      "INTRO_FADE_TICKS",
+      "RunScriptFn",
+      "StartBattleInput",
+      "activateHidingEffect",
+      "applyHiddenExpGrowth",
+      "battleWonLevelUp",
+      "decrementHidingEffect",
+      "emitPlayerCasualtySounds",
+      "getBattleLiveRoles",
+      "pickAutoMagic",
+      "selectAutoTargetFrom",
+      "startBattle",
+      "stepDeathFadeRender",
+      "stepSummonLoopRender",
+      "tickBattle",
+      "tickBattleDialog",
+      "tickBattleSettlement",
+      "tickEnemyIdleGestures"
+    ],
+    "facadeSignatureEqual": true,
+    "privateConstantExpansion": true,
+    "runtimeRemainderSha256": "1d24896ad237be747ec877e58b1660714dbb0fd18032a8040798fb36646720bd",
+    "runtimeRemainderEqual": true,
+    "normalization": "Only imports/reexports, three moved declarations/facade, literal dialog timeout and proven private constant helper expansion; erase types; no opcode/numeric/branch masking."
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "fa7f11de588555d609be54e5395ac81c383a3b1cb121e6b99fdb3a43a0282c92",
+      "lines": 2909,
+      "readScope": "Reuse3s/GLM29 full reading, complete current78line diff, full changed dialogue/flee functions and tickBattle caller; other domains unchanged/no fresh whole3094line credit",
+      "caller": "mode/bootstrap tickBattle; same public tickBattleDialog; event-system enqueues lines",
+      "oracle": "3s primary/GLM29 and3l exact source SHA; entire remainder runtime proof",
+      "dimensions": {
+        "A": "Three moved bodies unchanged, old public signature preserved by explicit delegating facade; all21public names same. Hold ordering unchanged. Private flee constant expansion proved+5/+4, no fan-out policy change.",
+        "B": "Dialogue lifecycle doc reattached to actual entry, narration/tick timing/return meaning made precise in new owner; stale private numeric line reference removed.",
+        "C": "Dialogue consumer no longer mixed with actor/action/phase routing; old facade preserves interface/hoisting while new entry requires only3host/5battle fields. Existing resource-owner map remains separate.",
+        "D": "Present dialog primitives reused; battle queue/tick cadence differs from event cursor, not forced into shared universal driver.",
+        "E": "Reuse same-source successful3l bounded186main baseline; current7files253passed. Other main core casts observed and remain separate debt, no full-main E reacceptance.",
+        "F": "TickBattle top-level keeps hold sequence readable; dialogue state machine has its own module, no filename-size target.",
+        "G": "Remove constant-value helper,2dead params,unused local/index and intermediate tuple; do not delete dynamic effect guards or public facade.",
+        "H": "Public real tick path retained; internal consumer has no resources/global script/RNG/time service dependency. Wrapper serves existing API, not metric-only layering."
+      },
+      "decision": "review; local technical changes only, no full-card acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-dialog.ts",
+      "sha256": "b9daf80c2af0ea3b4688c21b5e13247edf115cb203adede23d3bd74e53cff644",
+      "lines": 198,
+      "readScope": "Full new module and original functions; body token proof",
+      "caller": "tickBattle→old facade→advanceBattleDialog; shared dialog primitives and BattleState queue",
+      "oracle": "Existing3s/text primary plus local real-constructor tests; no new visual or wall-clock-equivalence claim",
+      "dimensions": {
+        "A": "Ordered queue/effect/clearPage/type/wait/key consumption and all payloads same; three bodies token-equal. Narration1400constant and40ms step unchanged.",
+        "B": "Host ownership and true return now describe queue/effect consumption even without a visible box.100ms accumulated tick fallback explicitly distinguished from world wall-clock call.",
+        "C": "Only dialogue host3fields/battle5fields; no resource stash, item/AI rules, IO, global injection or phase routing. Caller owns overall battle scheduling.",
+        "D": "Uses existing append/confirm/reset/tick primitives; intentional battle cadence/lifecycle remains distinct from world interpreter.",
+        "E": "12discriminating cases with real GS+state; exact35ticks, textA/B, kept ownership and pending sound45; existing localized/phase adjacent callers pass.",
+        "F": "Entry/queue helper/predicate names show responsibilities. Ordered branches retained as state machine; no Boolean-policy abstraction for branch metric.",
+        "G": "No unused export on public barrel; internal advance has actual facade caller. Frozen moved runtime preserved, no defensive fallback or new mode.",
+        "H": "Minimal host/state shapes let tests observe real mutations; independent deterministic input and timing state, no mock of business functions."
+      },
+      "decision": "review; local technical changes only, no full-card acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+      "sha256": "87f17696fe6e5fb649601a6fb27212f0e6d872964a9dc7c1dbc507e65b5982cd",
+      "lines": 230,
+      "readScope": "Full old13/new12 test and typed construction; every surviving case and one retired contract read",
+      "caller": "Preserved public tickBattleDialog; actual createInitialGS/loadDefaultGame/createBattleState, typed fixture constructors",
+      "oracle": "Literal35ticks/A/B/current text/kept owner/cursor effects; two old-green/new-business-red counters",
+      "dimensions": {
+        "A": "GS and its real BattleState now same battle; six core any assertions removed. Canonical Down replaces noncanonical ArrowDown. No caster/actor holes.",
+        "B": "Helper limit now explicitly fails rather than pretending condition reached; comment documents failure. Effect ordering limitation remains explicit, no whole flee animation claim.",
+        "C": "Each case owns all state/queues; constructors have no singleton setter writes or mocks. No cleanup needed for uncreated resources.",
+        "D": "Existing typed role/enemy/field factories reused instead of miniature engine or fake full-object literals.",
+        "E": "13→12; identical A/B bottom case kept-undefined assertion moves to exact append case, all other identities retained.35tick exact and textB reject36tick/textX mutants; input2effects unchanged.",
+        "F": "Context builder exposes paired gs/state and normal battle mode; assertions literal and grouped by business operation.",
+        "G": "Retire only one proved same-input/same-drive subset, no skips/timeouts/rule changes. Unknown main test cases untouched.",
+        "H": "Drive loop throws on unmet condition; real constructors and public entry directly test behavior. Native counter failures are AssertionError, not collection/runtime errors."
+      },
+      "decision": "review; local technical changes only, no full-card acceptance"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "3057ae74b528a6715a9135d7296551710eb65406b435efecb49de1eacfdc5411",
+      "lines": 657,
+      "readScope": "Incremental one exact snapshot/count update only; existing predicate/test suite reused, no whole-file reacceptance",
+      "caller": "Coverage inventory retirement consumer; existing positive/negative identity tests",
+      "oracle": "Frozen official13identity matches installed4.1.7 >-joined names, new12 and final testSHA",
+      "dimensions": {
+        "A": "Only exact file13→12 snapshot and matching aggregate65/182 updated; predicate unchanged.",
+        "B": "Entry cites current pre94/dedup user scope and explicit contract transfer; old authority head retained.",
+        "C": "Data table remains separate from inventory/policy; no new coverage-run behavior.",
+        "D": "Use existing exact snapshot mechanism; no new wildcard approval or scope exception.",
+        "E": "Existing refusal matrix retained; current83utility cases pass, separate from game253. File SHA updated after comment-only helper doc correction.",
+        "F": "One explicit record, no new helper/framework.",
+        "G": "No ignore/exclude/threshold/scope reduction; baseline file not changed and official coverage not run.",
+        "H": "Consumer predicate directly testable; only immutable data/count differ."
+      },
+      "decision": "review; local technical changes only, no full-card acceptance"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "4c9d0ef9fc04b0357ecda5042d093215b08a3698d17315d8a3016f394f38a668",
+      "lines": 86,
+      "readScope": "Incremental one exact snapshot/count update only; existing predicate/test suite reused, no whole-file reacceptance",
+      "caller": "Coverage inventory retirement consumer; existing positive/negative identity tests",
+      "oracle": "Frozen official13identity matches installed4.1.7 >-joined names, new12 and final testSHA",
+      "dimensions": {
+        "A": "Only exact file13→12 snapshot and matching aggregate65/182 updated; predicate unchanged.",
+        "B": "Entry cites current pre94/dedup user scope and explicit contract transfer; old authority head retained.",
+        "C": "Data table remains separate from inventory/policy; no new coverage-run behavior.",
+        "D": "Use existing exact snapshot mechanism; no new wildcard approval or scope exception.",
+        "E": "Existing refusal matrix retained; current83utility cases pass, separate from game253. File SHA updated after comment-only helper doc correction.",
+        "F": "One explicit record, no new helper/framework.",
+        "G": "No ignore/exclude/threshold/scope reduction; baseline file not changed and official coverage not run.",
+        "H": "Consumer predicate directly testable; only immutable data/count differ."
+      },
+      "decision": "review; local technical changes only, no full-card acceptance"
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078,
+      "scope": "affected caller/type/helper input pin; not new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919,
+      "scope": "affected caller/type/helper input pin; not new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "d326e5b04d37a4c92a31166307e551dab6c5d61dfbf790ad61b9494e8d993eec",
+      "lines": 960,
+      "scope": "affected caller/type/helper input pin; not new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/anim-timeline.ts",
+      "sha256": "6d157c643e6798a672233d03b0fc2c01a4e77def66236ee71fb43c302a647102",
+      "lines": 2067,
+      "scope": "affected caller/type/helper input pin; not new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "lines": 249,
+      "scope": "affected caller/type/helper input pin; not new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/localization/messages.test.ts",
+      "sha256": "14a04511d1bc2704c54fc31d9e6af8b75ae5dde1e70deba6341dbc2928d2bdc7",
+      "lines": 375,
+      "scope": "affected caller/type/helper input pin; not new whole-file acceptance"
+    }
+  ],
+  "identity": {
+    "before": 13,
+    "after": 12,
+    "retirement": {
+      "entry": {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "previous": 13,
+        "current": 12,
+        "previousIdentityDigest": "d9312ec7b02e005ff9672d5ee6cd7c11e635567afda9e5e72744822eb5aabafa",
+        "currentIdentityDigest": "6b709c786a9223c79b41388d0276195dd1de1fdd0031f73bb713c03ad900238f",
+        "fileSha256": "87f17696fe6e5fb649601a6fb27212f0e6d872964a9dc7c1dbc507e65b5982cd"
+      },
+      "mapping": {
+        "before": "tickBattleDialog —— 战斗内对话 hold 同位置续行(都 bottom)→ 不进 dialogBoxKept(正常翻页/append)",
+        "after": "tickBattleDialog —— 战斗内对话 hold 同风格多行 → 行间自动累积(append,不等键)",
+        "reason": "Identical A/B bottom input and same queue-empty driving; kept-undefined assertion transferred to retained exact append text case. No other identities removed."
+      },
+      "identityMethod": "InstalledVitest4.1.7 TestCase.fullName joins suites/title with >; coverage run.mjs exact algorithm; old digest matched frozen official baseline. No vitest list command or baseline update."
+    },
+    "unchangedSurvivors": 12
+  },
+  "gates": {
+    "adjacent": "7files253/253",
+    "typecheck": "game0",
+    "scopedBiome": "5files0/0/0",
+    "retirementTools": "retirement-tools-frozen83/83 after final comment-only SHA correction",
+    "unified": "DEFERRED until all remaining pre94; no PR/main merge",
+    "browser": "NOT RUN",
+    "docs": "All6actual consumers0issues; reuse unchanged125docs-tool tests from event-quality, no repeated tool suite",
+    "lint": "see final raw:0errors/0warnings/0infos"
+  },
+  "counters": {
+    "results": [
+      {
+        "id": "duration",
+        "phase": "old",
+        "exit": 0,
+        "passed": 1,
+        "failed": []
+      },
+      {
+        "id": "duration",
+        "phase": "new",
+        "exit": 1,
+        "passed": 0,
+        "failed": [
+          {
+            "ancestorTitles": ["tickBattleDialog —— 战斗内对话 hold"],
+            "fullName": "tickBattleDialog —— 战斗内对话 hold narration 风格:满 1.4s 自动消失",
+            "status": "failed",
+            "title": "narration 风格:满 1.4s 自动消失",
+            "duration": 4.3352089999999635,
+            "failureMessages": [
+              "AssertionError: expected 36 to be 35 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-dialog.test.ts:126:15\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            ],
+            "meta": {},
+            "tags": []
+          }
+        ]
+      },
+      {
+        "id": "append-corrected",
+        "phase": "old",
+        "exit": 0,
+        "passed": 1,
+        "failed": []
+      },
+      {
+        "id": "append-corrected",
+        "phase": "new",
+        "exit": 1,
+        "passed": 0,
+        "failed": [
+          {
+            "ancestorTitles": ["tickBattleDialog —— 战斗内对话 hold"],
+            "fullName": "tickBattleDialog —— 战斗内对话 hold 同风格多行 → 行间自动累积(append,不等键)",
+            "status": "failed",
+            "title": "同风格多行 → 行间自动累积(append,不等键)",
+            "duration": 4.556457999999907,
+            "failureMessages": [
+              "AssertionError: expected 'X' to be 'B' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-dialog.test.ts:107:43\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            ],
+            "meta": {},
+            "tags": []
+          }
+        ]
+      }
+    ],
+    "sourceRestored": true,
+    "testRestored": true,
+    "sourceSha256": "744731436be012290e6846320deb94d19caba34fca79d0d7a5e53660b0454abc",
+    "testSha256": "bb99f259a0180a4decb0a62668cfd3bbb1a12051f369023afd273e6cf1aae390"
+  },
+  "postCounterDelta": "Only source lifecycle and helper comments corrected after counters; executable token streams unchanged, default verifier checks snapshots.",
+  "processDisclosure": [
+    "Baseline producer first wrongly compared original task base (not final code), assertion stopped before writes/admission. Correct final source pin and exact d6fbd45source/test bytes used; reuse successful bounded log, not earlier failed full-check logs.",
+    "First append testNamePattern had unescaped parentheses, selected0tests, guard failed; not a counter. Corrected regex old1green/new1AssertionError and restoration recorded.",
+    "First retirement digest used JSON reporter space-joined name; identity guard rejected before writes. Installed4.1.7 TestCase.fullName uses >; corrected algorithm matches exact official old digest. No vitest list command run.",
+    "Readonly verifier initially produced9Biome infos despite exit0; corrected8id and1name concatenations without rule weakening. Initial count guard stopped before write; raw preserved.",
+    "Documentation producer received malformed UTF8 stdin and failed at parse stage before any writes; following missing metadata producer failed. Ordinary/testing/model/phase consumers passed but content2source hashes stale, not a clean aggregate. Corrected producer and scoped consumers recorded separately.",
+    "First stdin parse/identity/count-guard authoring failures have tool transcript only, no separately saved raw. Captured verifier9infos, missing metadata module and first content-consumer failure retain complete raw. None are business-counter evidence."
+  ],
+  "remaining": [
+    "battle-system main4251line corecasts, raw projections and casualty/selection cohesion remain in3s; this slice does not close them.",
+    "3t/battle opcode and other16partial pre94 scopes remain;94–102 excluded.",
+    "No product behavior/save/schema/asset/public facade change; retained prior player flee direction choice."
+  ],
+  "ledger": {
+    "total": 3424,
+    "verified": 414,
+    "review": 120,
+    "pending": 2890,
+    "unclosed": 3010,
+    "newClosed": 0
+  },
+  "pre94": {
+    "accept": 67,
+    "partial": 16,
+    "pending": 0
+  },
+  "staticReceipts": [
+    "dialog-typecheck",
+    "metadata-corrected",
+    "ordinary-docs-current",
+    "testing-docs-current",
+    "document-model-current",
+    "phase-docs-current",
+    "content-docs-current",
+    "progress-docs-current",
+    "lint-final",
+    "ledger-final",
+    "diff-final"
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "13730fdf3eed1a9f8431c010d528cd70501d7e771fcfe0a6ec29b6bcef963a90",
+    "bytes": 287004,
+    "entries": 113
+  }
+}

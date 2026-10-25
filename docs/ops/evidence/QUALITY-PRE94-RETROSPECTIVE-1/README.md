@@ -1,5 +1,9 @@
 # 94前全部治理成果复审
 
+当前2026-10-25：[CODE1工程／Q1b质量收口与来源边界](code1-closeout/README.md)，固定80accept／3partial（1／3m／42）。全仓／coverage／protected／PR待全部pre94；下方旧批次按原时点读取。
+
+2026-10-24 [CODE3m／3n八维与测试返工](battle-core-fade-quality/README.md)：获准FLOAT中间赋值/目录内部签名、typed夹具与两重复合同迁移；只定向/必要静态，全部剩余pre94解决后一个PR及统一门，未新关闭。
+
 2026-10-23 [CODE3l规则与生命周期](battle-lifecycle-quality/README.md)：规则单Owner提取、获准入场/跨战缓存修复、真实宿主反例与浏览器局部观测；集中门收尾中。
 
 2026-10-23 [CODE3l四切片质量返工](battle-present-quality/README.md)：结算字段、精灵排序/透明、UI门控与宿主接线五个反控；同合同UI绘制提取及26例精确退役。相邻664绿，集中门待收尾，宿主生命周期和UI规则重复仍review。
@@ -413,3 +417,65 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - [CLI IO与输出边界冻结窗口](cli-io-closeout/README.md)：两内部模块纯搬移，字节oracle与三登记缺口；统一门待，raw7战败/逃跑两接回边新停线，0提前关闭。
 
 - [CODE3k 数字布局、共享blit与非有限隔离](3k-number-quality/README.md)：复用primitive证据，仅补数值生产链、两正式红与mask专测补强，统一门及发布按本窗回执。
+
+- [CODE3o／3p模式、历史、玩家指令及获批Wear整理](mode-player-quality/README.md)：16份完整/有限记录，局部与统一门分开，原红和误绿反控完整保留。
+
+- [CODE3q场景职责与测试返工：八维、完整身份映射、旧绿新红及只读复验](scene-quality/README.md)
+
+## 2026-10-24 CODE3r作用域与主测质量
+
+[八文件A–H、324身份映射、三单点反控与只读复验](event-quality/README.md)。复用3r/GLM29全文，补最小对象上下文、帧规则、真实战斗夹具/宿主oracle与失败后清理；3q两个E2E依赖同步，meal真实分派观察器TDZ先红后修。546相邻与80Node工具通过，不授浏览器/视觉信用；0新closed、统一门和单PR等全部剩余pre94。
+
+## 2026-10-24 CODE3s对话职责与测试
+
+[五文件增量八维／正文守恒／13→12映射／两反控与只读快检](battle-dialog-quality/README.md)。对话消费独立、旧签名保留、真实typed夹具和精确时序/内容；7相邻253，主测余项仍review，0新closed。统一门/PR等全部pre94，94–102不扩展。
+
+## 2026-10-24 CODE3s主测与canonical输入
+
+[两文件八维、186身份、跨场误绿及自动攻击反控、完整原件与只读复验](battle-main-quality/README.md)。真实runtime/资源Owner、合法typed fixture与胜利79/16 oracle；8文件266及实际3合击定向，0新closed，统一门/一个PR等所有剩余pre94。
+
+## 2026-10-24 CODE3t专测执行质量
+
+[两专测八维、62身份／7准确标题映射、两有效反控与完整原件](opcode-test-quality/README.md)。真实嵌套脚本与非零裸武术项，241相邻、TC0；0新closed，主测及dispatcher余项继续。
+
+## 2026-10-24 CODE3s／3t代码验收
+
+[七文件当前代码接受、两旧关闭刷新、八维设计裁定与六反控完整原件](battle-host-opcode-closeout/README.md)。上面两卡局部记录中的余项已由本次逐项补齐，固定83卡69accept／14partial。仅接受原代码范围，最终全仓check／official／protected与单PR仍等所有剩余pre94；旧原件和时点计数保留，94–102不扩展。
+
+## 2026-10-24 CODE3n／3q／3r代码验收
+
+[三卡逐文件八维、批准接口清理、真实回放误绿与原件/只读复验](core-scene-event-closeout/README.md)。72accept／11partial，17新关闭；当前509相邻/69Node/TC/lint0，全仓/official/protected与单PR继续等全部pre94，不扩94–102。
+
+- [3o毒入口所有权新停线：有限真实TS调用与原C函数对照](poison-entry-ownership/README.md)，普通剧情可达未证明，未改产品。
+
+2026-10-24 [3o／3p当前逐文件代码验收与只读复验](mode-player-closeout/README.md)：15整文件接受、九新关闭，固定74accept/9partial；原始八维/反控与已核接口版本桥复用，统一门仍待全部pre94。[获批P3接回分支](event-battle-returns/README.md)两正式红后修，仅窄范围，不关闭CODE3/3g或写生成物。
+
+2026-10-24 [CODE3原范围代码接受／CLI world阶段](extract-scene-closeout/README.md)：九整文件与一个CLI有限增量，五新关闭，固定75accept/8partial；35切分/39真实CLI及精确搬移证明，原失败完整。3g其余编排继续rework，全仓/coverage/PR仍等全部pre94。
+
+2026-10-24 CODE3g总装代码接受、八新关闭，固定76accept／7partial；[逐文件与默认只读快检](cli-stages-closeout/README.md)。最终统一门/PR仍待全部pre94。
+
+2026-10-24 3m五新关闭、两数值停止线待答；固定76accept／7partial不变。[当前核心scope与只读快检](battle-core-closeout/README.md)。
+
+2026-10-24 [CODE42职责与测试质量](dialog-quality/README.md)：七文件明确接受、五新关闭；532不同身份与当前子集刷新，姓名速度停线，42仍partial；全仓重门继续延后。
+
+2026-10-24 [CODE56小地图代码接受](minimap-closeout/README.md)：六文件新关闭、固定77accept/6partial；纯规则/绘制/控制器分开，移除执行器依赖；54与330相邻及单红，统一门继续延后。
+
+- [CODE53功能画面与CODE58私有依赖/样式/测试返工](status-tools-closeout/README.md)：125例集中验证，原件/八维及停止线；两卡仍partial，不授整卡或统一门信用。
+
+2026-10-24 [GS模型／投影与导出错误](gamestate-save-closeout/README.md)：五文件新关闭、实际导出失败先红后修、340相邻／4最终导出、类型检查；77／6不变，全仓与覆盖率仍等全部pre94。
+
+2026-10-25 [Dev装配器／三职责与像素](dev-panel-quality/README.md)：五个整文件新关闭，party完整16槽oracle，原43身份保留；106相关／合法像素单红恢复及类型门。53原419行专测仍待，不升整卡；全仓和覆盖率仍延后。
+
+2026-10-25 [CODE53事件专测／原15文件代码接受](event-opcodes-quality/README.md)：21→32逐例映射、合法工厂、三项旧绿新单红与518相关；固定78accept／5partial；统一门/coverage/PR仍待全部pre94。
+
+2026-10-25 [CODE58工具面板代码接受](tools-panel-closeout/README.md)：原三文件与两叶完整八维、正式单红/102相关、原生Reader失败与重选、TS还原；固定79accept／4partial；统一门/PR继续等全部pre94。
+
+2026-10-25 [CODE57五文件/获批补缝与新换图counter](bootstrap-quality/README.md)：57相邻/TC0及真实像素红绿；换图失败丢活资源/未处理拒绝导致event-system及3r/53整卡credit暂撤。固定77accept/6partial，未强闭合，统一门仍延后。
+
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [本窗代码与真实回归](bootstrap-quality/README.md)。
+
+- [3m／42用户裁决后代码收口](approved-boundaries/README.md)：两业务红后131绿、逐文件八维、完整原件与只读版本桥，统一门等CODE1。
+
+- [pre94最终集中门禁](final-pre94-gates/README.md)：固定83原范围；首跑失败与必要接线返工原件保留，最终全仓／覆盖率／PR另按真实回执。
+
+2026-10-25 [pre94最终本地统一门与只读复验](final-pre94-gates/README.md)：原83代码accept、check20617＋708／TC／硬静态0；单次official20180／807源，原结构比率失败及有限重计原件保留，同报告ratchet／protected通过。新候选CI／单PR／合并待实际后继，不扩94–102。

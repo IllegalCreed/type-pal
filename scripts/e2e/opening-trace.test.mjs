@@ -397,12 +397,13 @@ test('real npcWalkTo outward/return commits in one sample window cannot disappea
   withTrace((host) => {
     const raw = source(gameFile)
     const transformed = instrumentOpeningTrace(raw, gameFile).code
+    const frameSource = source('packages/game/src/core/npc-walk-frame.ts')
     const compile = (code, targetHost) =>
       new Function(
         'globalThis',
-        `${actualFunction(code, 'walkFrameMod')}\n${actualFunction(code, 'npcWalkTo')}\nreturn npcWalkTo;`,
+        `${actualFunction(frameSource, 'walkFrameMod')}\n${actualFunction(code, 'npcWalkTo')}\nreturn npcWalkTo;`,
       )(targetHost)
-    const watched = { id: 10, x: 0, y: 0, facing: 'up', nSpriteFrames: 4, sState: 2 }
+    const watched = { id: 10, spriteNum: 1, x: 0, y: 0, facing: 'up', nSpriteFrames: 4, sState: 2 }
     const plain = structuredClone(watched)
     const gs = {
       wNumScene: 2,

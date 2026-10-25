@@ -1,0 +1,77 @@
+{
+  "base": "182332279490f224694ba6c4450b1caae6c4a951",
+  "cli": "packages/pal-extract/src/cli.ts",
+  "specs": [
+    {
+      "name": "writeSoundAssets",
+      "module": "sound-assets",
+      "anchor": "console.log('[pal-extract] SOUNDS.MKF",
+      "end": "`[pal-extract] SOUNDS.MKF: ${wavWritten}",
+      "doc": "WIN95 sound chunks are complete WAV files; retain empty slots in metadata only.",
+      "params": ["rawRoot", "outputRoot"],
+      "args": ["RAW", "OUT"],
+      "original": "console.log('[pal-extract] SOUNDS.MKF (full WAV dump) …')\nconst soundsMkf = openMkf(loadFile('SOUNDS.MKF'))\nconst soundsN = chunkCount(soundsMkf)\nconst soundsBufs: Uint8Array[] = []\nlet wavWritten = 0\nfor (let i = 0; i < soundsN; i++) {\n    const buf = readChunk(soundsMkf, i)\n    soundsBufs.push(buf)\n    if (buf.byteLength === 0) continue // 空 chunk(142 个)skip\n    writeBinary(resolve(OUT, 'sounds', `${i}.wav`), buf)\n    wavWritten++\n  }\nwriteJson(resolve(OUT, 'data', 'sounds-metadata.json'), dumpSoundsMetadata(soundsBufs))\nconsole.log(`[pal-extract] SOUNDS.MKF: ${wavWritten} WAV written + metadata (${soundsN} chunks)`)",
+      "helpers": []
+    },
+    {
+      "name": "writeCharacterSpriteAssets",
+      "module": "sprite-assets",
+      "anchor": "console.log('[pal-extract] character sprites:",
+      "end": "`[pal-extract] sprite blobs written:",
+      "helpers": [
+        {
+          "name": "spriteBlobPath",
+          "text": "function spriteBlobPath(spriteId: number): string {\n  return resolve(OUT, 'data', 'sprite', `${spriteId}.rle`)\n}"
+        }
+      ],
+      "doc": "Dump every MGO slot: scripts may request sprites absent from static scene/role fields.",
+      "params": ["rawRoot", "outputRoot"],
+      "args": ["RAW", "OUT"],
+      "original": "console.log('[pal-extract] character sprites: 全 MGO.MKF chunks (dump-all, no filter) …')\nconst mgoMkf = openMkf(loadFile('MGO.MKF'))\nconst mgoChunkCount = chunkCount(mgoMkf)\nconst spriteIds = new Set<number>()\nconst mgoChunks = new Map<number, Uint8Array>()\nfor (let id = 0; id < mgoChunkCount; id++) {\n    const raw = readChunk(mgoMkf, id)\n    if (raw.byteLength === 0) continue // 空 chunk 静默 skip(MGO 内有合法空槽)\n    // MGO.MKF chunk 是 YJ2 压缩 —— 防御性 try/catch 覆盖极少数格式异常 chunk。\n    try {\n      mgoChunks.set(id, decompressYj2(raw))\n      spriteIds.add(id)\n    } catch (err) {\n      console.warn(`[pal-extract] sprite ${id} YJ2 fail, skip:`, err)\n    }\n  }\nconsole.log(`[pal-extract] sprite scan: ${spriteIds.size} / ${mgoChunkCount} MGO chunks 可解`)\nlet spriteFramesTotal = 0\nfor (const id of spriteIds) {\n    const chunk = mgoChunks.get(id)!\n    writeBinary(spriteBlobPath(id), gzipSync(chunk))\n    spriteFramesTotal += parseSpriteChunk(chunk).length\n  }\nconsole.log(\n    `[pal-extract] sprite blobs written: ${spriteIds.size} sprites, ${spriteFramesTotal} frames total`,\n  )"
+    },
+    {
+      "name": "writeBattleSpriteAssets",
+      "module": "sprite-assets",
+      "anchor": "console.log('[pal-extract] battle sprites:",
+      "end": "`[pal-extract] battle sprite blobs written:",
+      "helpers": [
+        {
+          "name": "battleSpriteBlobPath",
+          "text": "function battleSpriteBlobPath(kind: 'enemy' | 'player', id: number): string {\n  return resolve(OUT, 'data', 'battle-sprite', kind, `${id}.rle`)\n}"
+        }
+      ],
+      "returns": "battleSpriteIds",
+      "returnType": "BattleSpriteRef[]",
+      "doc": "F/ABC use separate player/enemy ID spaces. Preserve decode-all-before-write ordering.",
+      "params": ["rawRoot", "outputRoot"],
+      "args": ["RAW", "OUT"],
+      "original": "console.log('[pal-extract] battle sprites: 全 F.MKF + ABC.MKF chunks (dump-all) …')\nconst fMkf = openMkf(loadFile('F.MKF'))\nconst fChunkCount = chunkCount(fMkf)\nconst abcMkf = openMkf(loadFile('ABC.MKF'))\nconst abcChunkCount = chunkCount(abcMkf)\nconst battleSpriteIds: Array<{ id: number; kind: 'enemy' | 'player' }> = []\nconst battleChunks = new Map<string, Uint8Array>()\nconst loadBattleMkf = (\n    kind: 'player' | 'enemy',\n    mkf: ReturnType<typeof openMkf>,\n    total: number,\n  ): void => {\n    for (let id = 0; id < total; id++) {\n      const raw = readChunk(mkf, id)\n      if (raw.byteLength === 0) continue // 空 chunk:对应 sdlpal `if (l <= 0) continue;`\n      // F.MKF / ABC.MKF chunk 通过 sdlpal `PAL_MKFDecompressChunk` 加载 → YJ2 压缩。\n      // 部分 chunk 可能 raw(未压缩)— try YJ2,失败回 raw(同 M2 sprite 防御模式)。\n      let decompressed: Uint8Array\n      try {\n        decompressed = decompressYj2(raw)\n      } catch {\n        decompressed = raw\n      }\n      battleChunks.set(`${kind}:${id}`, decompressed)\n      battleSpriteIds.push({ id, kind })\n    }\n  }\nloadBattleMkf('player', fMkf, fChunkCount)\nloadBattleMkf('enemy', abcMkf, abcChunkCount)\nlet battleFramesTotal = 0\nfor (const { id, kind } of battleSpriteIds) {\n    const chunk = battleChunks.get(`${kind}:${id}`)!\n    writeBinary(battleSpriteBlobPath(kind, id), gzipSync(chunk))\n    battleFramesTotal += parseSpriteChunk(chunk).length\n  }\nconsole.log(\n    `[pal-extract] battle sprite blobs written: ${battleSpriteIds.length} sprites, ${battleFramesTotal} frames total`,\n  )"
+    },
+    {
+      "name": "writeBattleSpriteManifest",
+      "module": "sprite-assets",
+      "anchor": "const battleSpriteManifest =",
+      "end": "writeJson(resolve(OUT, 'data', 'battle-sprites.json')",
+      "params": ["outputRoot", "battleSpriteIds"],
+      "declarations": "outputRoot: string, battleSpriteIds: readonly BattleSpriteRef[]",
+      "noLoader": true,
+      "doc": "CLI deliberately writes this manifest after backgrounds, following the original failure order.",
+      "args": ["OUT", "battleSpriteIds"],
+      "original": "const battleSpriteManifest = battleSpriteIds.map((s) => ({\n    kind: s.kind,\n    id: s.id,\n  }))\nwriteJson(resolve(OUT, 'data', 'battle-sprites.json'), { sprites: battleSpriteManifest })",
+      "helpers": []
+    },
+    {
+      "name": "writeLookupAssets",
+      "module": "lookup-assets",
+      "anchor": "writeJson(resolve(OUT, 'lookup', 'words.json')",
+      "end": "if (existsSync(BDF_PATH))",
+      "params": ["rawRoot", "outputRoot", "words", "messages", "englishPack"],
+      "declarations": "rawRoot: string, outputRoot: string, words: Words, messages: readonly string[], englishPack: PalLanguagePack | undefined",
+      "noLoader": true,
+      "doc": "Borrow preflighted lookup/language data; optional font IO errors still propagate to CLI.",
+      "args": ["RAW", "OUT", "words", "messages", "englishPack"],
+      "original": "writeJson(resolve(OUT, 'lookup', 'words.json'), words)\nwriteJson(resolve(OUT, 'lookup', 'strings.json'), messages)\nwriteJson(resolve(OUT, 'lookup', 'languages.json'), {\n    languages: englishPack ? ['zh-CN', 'en'] : ['zh-CN'],\n  })\nif (englishPack) writeJson(resolve(OUT, 'lookup', 'en.json'), englishPack)\nconst BDF_PATH = resolve(RAW, 'unifont-cn.bdf')\nif (existsSync(BDF_PATH)) {\n    console.log('[pal-extract] BDF → JSON font glyphs …')\n    const bdfText = readFileSync(BDF_PATH, 'utf8')\n    const glyphs = parseBdf(bdfText)\n    writeJson(resolve(OUT, 'data', 'font', 'glyphs.json'), glyphsToJson(glyphs))\n    console.log(`[pal-extract] font glyphs written: ${glyphs.length}`)\n  } else {\n    console.warn('[pal-extract] unifont-cn.bdf 缺,跳过 font')\n  }",
+      "helpers": []
+    }
+  ]
+}

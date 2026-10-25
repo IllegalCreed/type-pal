@@ -9,6 +9,16 @@ Phase: phase1 game
 Capability: Q3 present/menu
 Visual Verification Timing: mixed（状态数值为用户可见行为；视觉布局留集中 E2E）
 
+## 2026-10-25 事件专测代码接受
+
+2026-10-25 CODE53代码接受：事件专测21旧身份完整映射到32例，颜色/CD/镜头三项旧21绿新单红，最终9实际文件518绿、typecheck0。15个声明文件逐项有据；本文件新关闭1项，3445tracked／488closed／74review／2883pending；固定78accept／5partial／0pending。全部pre94前统一门/覆盖率/PR继续延后。 [逐例合同、八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md)。本卡代码复审accept，任务Status仍review，等全部pre94统一门后再决定done。旧毒停止线、GS与Dev广域返工分别按既有证据闭合，不删除范围，不重复旧全文。相邻StopMusic死计算/过时后端注释已在本片扩展准入后窄修；整TS仅减此无消费声明，最终回归及类型门另确认，不更改音乐行为。
+
+## 2026-10-24 历史增量：旧停止线与中文功能画面
+
+原七文件A–H证据复用、六份字节一致；状态绘制主线英文layout差异逐段核对，本轮仅纠正中英默认布局、静态/运行态ownership等注释和格式重排，非import TS完全相同。声明的DEV合法fixture由真实Chrome/资源/键盘/菜单/present验证runtime0、重复[4,5,4]首/末槽毒名差异、公开0x29真实入口HP200→188及正式0x75换队清旧毒。battle整轮机制复用旧正式测试，不冒称本轮浏览器战斗。中文截图已核，英文资源本地缺失未验；DEV debug/log完整披露。
+
+Wear/入口重入由已接收3o及用户批准修复闭合，79/80/81和battle/event各原卡有限合同已分别接收。七个旧关闭不重复计数；GameState/Dev广域质量仍review，当前本卡仍partial，不能把其范围悄悄删除。当前125相关例与typecheck、完整原件、实际读域/八维/版本桥见[本轮唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md)。统一门按用户新成本规则等全部pre94，不继承旧绿。
+
 ## 2026-10-20 当前复审
 
 runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。
@@ -183,3 +193,25 @@ runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect�
 
 
 本次最终测试输入统一后实测：两文件37 tests通过；game typecheck exit0；game全包312 files/3540 tests通过，日志无error/warning/navigation诊断。7个反控的源/测试SHA均与当前字节一致。完整命令、起止时间、退出码和日志见 `ownership-results.json` / `ownership-{targeted,typecheck,game}.txt`。这是未收口检查点；CODE80裁决仍待答复，未因game全绿把文件改为已验证。
+
+
+## 2026-10-24 GS／导出错误当前增量
+
+GS模型与纯战斗投影职责分离、四文件八维和正式codec字段迁移已完成；53仍保留Dev大装配器质量review，未删原范围。用户批准58导出失败提示后，正式红例再修，错误toast、URL清理和真实Chrome Save/IDB只读失败链均通过。11文件340例、最终导出4例与game typecheck；精确五项退役保护，baseline未动。五个文件新关闭、codec专测旧关闭刷新；固定77accept／6partial不变，未运行全仓/官方coverage/protected或PR。逐文件、过程误删恢复、全部失败/原件和只读入口见[GS／导出错误唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。下一片Dev及1／57；3m/42实际裁决仍待，不扩94–102。
+
+
+## 2026-10-25 Dev装配器代码质量接受
+
+场景/队伍/索引图职责与page宿主分离，五个文件逐项A–H新关闭，队伍专测旧接受刷新。完整picker执行代码、原其它函数/全局/类型/出口及外部runtime依赖可逆还原，UI/状态/创建顺序保留；私有上下文和状态键类型收窄。旧party2例与已批准3o零记录合同漂移，基点同错后修完整16槽oracle；原43身份保留，10文件106绿，最终合法像素单例绿/反控单红、typecheck0。中间错误/无效反控与已知DEV合成标记/文案限制均明确留存。
+
+53不因Dev接受升整卡：原声明的419行event-opcodes.cov85.test.ts仍pending（本轮全文已读，尚未完成caller/oracle/排重/执行），75断言疑有相同旧record模型，多opcode混合用例和弱no-op仍需核。只读上下文P07不冒充范围文件关闭。固定77accept/6partial不变，统一门/coverage/protected/PR等全部pre94。原件、低成本复验及下一片见[本窗唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)。
+
+
+## 2026-10-25 换图失败直接counter
+
+2026-10-25 CODE57增量：两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修、57相邻/TC0成立。另真实换图失败使活瓦片消失并未处理拒绝；event-system旧关闭撤rework，3r/53整卡accept暂停。当前3450tracked／495closed／74review／2881pending；固定77accept／6partial／0pending。统一门/coverage/PR继续等全部pre94。 [当前八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。已接收的其它文件/功能与53状态/毒/GS专测信用保留；暂停的是含event-system的整文件/整卡accept。新[失败归属风险卡](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)等用户答复，未改换图实现。57新增模块职责与获批小地图补缝有据，不代替根异常闭环。
+
+
+## 2026-10-25 当前代码接受（统一集成另核）
+
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [逐文件八维/原件/只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。前节的撤回/用户待答是修前时点；本节以正式反例、批准和当前候选恢复event-system及3r/53代码信用，并接收57原三个范围文件及两个独立叶。历史原件、其它合同和集成待门不改写为通过。

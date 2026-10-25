@@ -1,0 +1,579 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex single agent; authored review disclosed",
+  "branch": "codex/code-quality-3y",
+  "base": "c483a9ca470389b19f49d12566075e56592dcd17",
+  "codeHead": "95883a16c6b2ed51959635612ea9583c6c154d86",
+  "files": [
+    {
+      "path": "packages/game/src/core/dialog-history.ts",
+      "sha256": "885721af3ca7d0cc5ec1b2005a3e07b52e3d80e6dea14290d7d349f9dbb5df19",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "event-system提交可见文本，bootstrap从Save深拷贝结果恢复；trim/末项同地图去重/有界100/老档清空与真实caller一致。",
+        "B": "环形缓冲改为有界数组，说明借用已深拷贝的存档数组及不修改传入快照；不再靠历史日期解释实现。",
+        "C": "只拥有传入history的追加/裁剪，不推进脚本、不读存储；恢复值交给GS，存储拷贝由Save负责。",
+        "D": "push与restore共享容量合同但写入/归一语义不同，保留两函数；不额外复制或合并为模式helper。",
+        "E": "7例补trim、非连续重复、独立100条oracle和传入快照不变，容量/反转两变异旧绿新红。",
+        "F": "入口与分支短直，字段map/text与caller命名一致；无需解释算法的噪音注释已去。",
+        "G": "保留两真实调用出口与容量常量；没有未用状态，数组裁剪无需引入环形游标层。",
+        "H": "纯入参与原地更新，无时钟或全局依赖；输入与期望分别构造。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 44,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "885721af3ca7d0cc5ec1b2005a3e07b52e3d80e6dea14290d7d349f9dbb5df19",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "1e1347af85d82cf35e7da12c5258fa66cf57898807655ed3f2120f9f8d3c1282",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "main-loop→tickByMode→四模式Owner及同帧事件续跑；全局帧、sceneLoading、等待白名单/追逐同门保持。",
+        "B": "删除重复历史叙述，明确autoScript与MakeScene自动淡入不是相同白名单；event-system的对应误导句一并窄修。",
+        "C": "顶层调度拥有GS与bus，场景输入已获批删除不用bus；本模块只转发给实际consumer，不反向引入shell/present，不复制mode。",
+        "D": "不合并autoScript与自动淡入门，后者只许真实MakeScene步；两门表面相似、生命周期不同。",
+        "E": "10例保留，5个自动脚本/装载门与5个淡入/尾时序分别有业务状态断言；相邻真实菜单/事件续跑复用。",
+        "F": "w改waiting，四模式switch与同帧续跑清楚；保留必要同步时序理由而非旧版本故事。",
+        "G": "没有新增包装函数或公共出口；旧菜单注释与下游Owner说明重复部分删除。",
+        "H": "真实tick入口使用显式nowMs；mode专测每例清理全局catalog，不mock模式核心。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 63,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "4e20b9dc98a6e88218e4305e80f9d6f5accc5d220d2bc8aab6868b48f61fd17a",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      },
+      "versionBridge": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
+        "scope": "Approved scene bus/input removal; exact source/runtime proof in core-scene-event-closeout."
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.ts",
+      "sha256": "777bae3bf97dca98ee58ec8ca73a45fe784105028571a9d551c689f62ba8ea1e",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "复用core-comment-audit原C/六反控，全文核Confirm caller；near0..2/normal0..8/far0..12及格子/半格、首命中规则保持。",
+        "B": "模块头只称纯坐标/候选选择，脚本/转向/模式交scene-system；不再冒称独立helper完成PAL_Search全流程。",
+        "C": "仅接收NPC/朝向/坐标，返回原NPC；不写GS或启动事件，组织边界保持。",
+        "D": "搜索格子语义区别于碰撞像素，不与其它位置判定合并；阈值不是距离排序。",
+        "E": "12例逐例核独立坐标/边界/首命中oracle；未变测试复用既有六旧绿新单红，不为未改代码重跑全部变异。",
+        "F": "两层有限循环与面向方向偏移可读；CC是读域线索，未为降低指标拆成小包装。",
+        "G": "删除未用私有_DIR_WEST；四方向映射仍完整，无公共API变化。",
+        "H": "纯函数，可用固定合法坐标/NPC直接观察；测试不执行虚构L_X脚本，不把标签当剧情信用。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 95,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "777bae3bf97dca98ee58ec8ca73a45fe784105028571a9d551c689f62ba8ea1e",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "全文与当前生产0x29/equipment/attack callers、同步入口及C登记顺序核；全16槽去重/role映射/等级清理保留。四正式业务红后修reserve，期间自解毒不复活、Wear移动续点跟record；异常仅撤本记录并原样抛出。",
+        "B": "写明先占槽及record续点归属、缺表策略、应用定义/GS运行毒分工；去旧测试/未证原版早期bug历史和复述分支注释。",
+        "C": "毒表由装配注入，运行毒由GS持有；抗性在caller，入口由同步runner注入；不把脚本执行器/IO引入helper。以record身份跟踪在途continuation，不另设全局登记表。",
+        "D": "全等级清理/指定kind/Wear排紧合同不同，保留各自入口；不合并为模式布尔helper。重入所有权用既有record，不引入通用事务或新public API。",
+        "E": "原level99/空洞/全槽去重反证复用；本轮7例四业务红和copy-packet单红，真实同步脚本、现金/HP/packet oracle；异常例保留原空槽，随机resistance0保证边界确定。",
+        "F": "previous/pending/kept表达空槽与写owner；控制流先登记再调用，异常清理只按identity，删除旧non-null读取。未发现需要进一步拆分的独立职责。",
+        "G": "各导出有实际消费；不增加回调包装或compat分支。保留缺表默认值是当前启动/调用合同，不恢复旧upgrader。",
+        "H": "显式GS/runner可直接驱动；定义表在afterEach清空，目录也复位。无需mock核心或资源加载；成功/throw与重入可确定验证。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 158,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      },
+      "versionBridge": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/review.json",
+        "scope": "Approved entry ownership repair plus five discriminating test contracts, no unrelated changes."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aff3269c2e0a67fb63add41cd85c67532d7df1f1fe524821d4554b7ccfa690af",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "唯一真实applyRawOpcode委派在event-system；复用既有逐opcode primary/caller，复活<=999/装备态、HPMP成功门、role语义保持。",
+        "B": "给playerTargets说明缺角色时空集，与状态opcode缺角色全队的差异；未为去重改变原语义。",
+        "C": "家族dispatcher只写player/equipment/inventory/poison Owner；无IO/present/async，缺省RNG仍是phase1同步Math.random。",
+        "D": "revive/poison复用已有playerTargets，输入/失败/生命周期相同；set/remove状态的不同默认不混用。",
+        "E": "四测61身份槽位保留，typed hydrate fixture、精确告警与全队成功标志false/true补强；2个指定业务反控成立。",
+        "F": "高分支复杂度来自独立opcode协议，病例局部清楚；不为指标将dispatcher改成万能策略表。",
+        "G": "没有新产品出口/参数；少两份完全相同的目标三元表达式；现有常量保留真实re-export。",
+        "H": "毒入口可注入；Math.random按非并发专测spy/restore，精确数值同时断言，不仅数次数。未引入未经批准的RNG API。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 420,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "aff3269c2e0a67fb63add41cd85c67532d7df1f1fe524821d4554b7ccfa690af",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/dialog-history.test.ts",
+      "sha256": "dd69c86aff0bdd22a8551b010c24abb381ed4064cb8f35574713108551ec64db",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "公开push/restore的7例；输入CAP不读SUT常量，输入/期望分别构造。",
+        "B": "更正环形标题，不冒称会话/浏览器读档实跑。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "容量50旧7绿/新2红，反转快照旧7绿/新1红；完整100条顺序、trim及非连续同文本保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "7例保持，容量例一一迁移标题，未删原map/空档/去重合同。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 77,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "dd69c86aff0bdd22a8551b010c24abb381ed4064cb8f35574713108551ec64db",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "a95b54c55de4cf03891c287cccf613b5f1181fd16053f2075e91d86384ff0b15",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "10例走真实event/mode，合法wait cursor、nowMs、palette输入；两种字幕顺序和尾帧分别观察。",
+        "B": "保留必要时间单位；palette用显式tuple返回类型替代断言。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "五gate与五fade/tail的触发/等待条件不同，两个一夜过去例分别防提前淡入和尾帧被吃，保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "10例无增删；新增每例catalog teardown，无生产状态fake。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 281,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "a95b54c55de4cf03891c287cccf613b5f1181fd16053f2075e91d86384ff0b15",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "12例全文复用已修正的原C边界、13坐标与真实Confirm相邻链。",
+        "B": "未改测试，旧错误阈值说明已在既有core-comment-audit撤回。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "阈值内/外、隐藏/自动触碰排除、far末端与first-cell优先分别可判别；不声称覆盖全部朝向/同点竞争。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "不为质量计数堆例；余方向/同点缺口作为现有证据边界，未强删既有不同输入轴。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 95,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test.ts",
+      "sha256": "acdbc63a5aca4b0f88903549da86d65c864e0e1748c9b4c0a0619ccf4606d57a",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "6例公开玩家族；改用loadDefaultGame构造完整六角色基线。",
+        "B": "升级标题七随机更正为六随机/七属性；不再在此标题声称未断言的cap。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "ownership结构约束加实际HPMP/装备/毒同步/升级/法术状态，状态结果不是仅mock次数。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "6身份槽位不变；main概览与专项不同状态/入口不作全文件重复删减。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 212,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "acdbc63a5aca4b0f88903549da86d65c864e0e1748c9b4c0a0619ccf4606d57a",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "sha256": "aae6743db5317e0e395f0a3cc0b42d8183e95455f0e8b4477a46014ecf926421",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "8例具体解毒/指定槽/保留族/非法槽；构造已初始化GS。",
+        "B": "去陈旧全仓零覆盖宣称，CureByLevel不再错引ByLevel查询函数。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "非法槽精确两条消息+参数+数量及GS零变异，另外三种no-op是不同opcode成员。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "8例保持，无ignore；没有只收两次warn就当符合指定拒绝的验收。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 147,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "aae6743db5317e0e395f0a3cc0b42d8183e95455f0e8b4477a46014ecf926421",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "sha256": "ee3754bd43750893e9dd1f2b3c465ca97ddf645d10462a48801f60ff1aa1001c",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "41例全文；合法默认hydrate，两个显式损坏输入只证缺Exp/空魔法表的防御，不授原盘路径。",
+        "B": "同物重装标题限装备行/背包，随机成长改为可复现精确数值。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "缺角色拒绝核完整前后GS和具体消息；七属性cap、18抽/三次升级真实结果。错告警变异旧41绿/新1红。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "41例保持；未将有限状态测试扩成新产品行为；全仓诊断不能据mock count豁免。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 599,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "ee3754bd43750893e9dd1f2b3c465ca97ddf645d10462a48801f60ff1aa1001c",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "sha256": "e3d61119342fae5e100a7fb5a3e38b10bdb4e6050ad2d8572094076f6597e34f",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "6例公开target/效果/HPMP与毒查询；真实状态数值及合法阈值。",
+        "B": "去行号和零覆盖宣称；无装备效果fixture明确为公开0x17组合，不声称原盘剧情。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "全队MP/HPMP先false后true，强制写true变异旧6绿/新2红；生死/钳顶、全空不写标志均保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "6例保持，不增加弱例；与单体成功规则不同。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 178,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "e3d61119342fae5e100a7fb5a3e38b10bdb4e6050ad2d8572094076f6597e34f",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+      "sha256": "4264b8fe40f0c4c7b8d27644fe24eed98327cf3e2f6ac935a2aa050f920df7d9",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "全文7例：原两Wear合同+嵌套B/同A/自解毒/Wear移动/异常5合同。party[2,0]、正式hydrate、真实opcode/catalog/sync runner；合成重入不冒称原盘剧情。",
+        "B": "标明原盘指令紧凑label并非真实数组物理IP；同毒现金分支注明有限counter理由；续点/ownership与断言一致。",
+        "C": "夹具仅造GS/表/脚本；apply统一真实caller，不替代毒实现；全局表/目录在afterEach释放，无跨例缓存。",
+        "D": "旧两例分别为颜色/跨队伍与洞后顺序；新四脚本分支及直接throw没有相同输入与失败合同重复，不合并成难读全能工厂。",
+        "E": "四旧业务红/最终7绿；复制移动record变异只有Wear续点例红。独立cash0、HP99/69、毒ID/续点、inventory及空尾oracle；无mock次数/clone自比/实现常量oracle。",
+        "F": "场景标题与数值预期匹配；脚本局部可读、终止有界，apply/穿戴工厂仅服务此生命周期。",
+        "G": "7身份无删断言/skip；异常case覆盖缺槽与显式空槽，不为覆盖率新增无业务执行的case。",
+        "H": "真实同步生产接口可直接测，无sleep/网络；反控还原字节冻结；声明合成脚本域，不伪造stock可达性。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 202,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "f83938b78e5dad45bd367f132b2a7a3cf7ec24a4667f9cd8df878fd0d723bd15",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      },
+      "versionBridge": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/review.json",
+        "scope": "Approved entry ownership repair plus five discriminating test contracts, no unrelated changes."
+      }
+    },
+    {
+      "path": "packages/game/src/status-poison-equip.glm-q.test.ts",
+      "sha256": "f18699682177468ad9b2c345da61ccd7b6c0974605b574d2eed3e6d19f29cac0",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "全文读，16例现有离队/毒叶/装备getter；本轮只迁移Wear低级毒位置及续点。",
+        "B": "已有旧caller/缺定义fixture标签按原测试边界，不据其称原盘资源证明。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "现有孔洞全槽去重、runner返回、离队、满16槽等不同叶合同保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "只改2个预期packet；其余夹具和例数未借相邻通过重签。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "delta-only; no whole-file closure",
+      "lines": 218,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "f18699682177468ad9b2c345da61ccd7b6c0974605b574d2eed3e6d19f29cac0",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.test.ts",
+      "sha256": "521df881ac8d5429f298a9c686381aa9ed35a63210b2bd4fce92de6c34c83109",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "全文读，当前scope只迁移真实Wear代理的2个packet预期，补script字段。",
+        "B": "修正shared.json过时说明及直接写属性冒称完整swap；当前使用正式hydrate，各例统一清理目录/毒表/mock。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "新规则改为slot0普通毒+原script，slot1清零；不是删除失败断言。其它35例只作相邻执行。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "36例无增删；删除重复手工清理，afterEach保证失败也释放；其它未改合同不外推到完整加载/E2E。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 447,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "521df881ac8d5429f298a9c686381aa9ed35a63210b2bd4fce92de6c34c83109",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "sha256": "651558526481ad793272565a6335a50d0bb59d9d28dda62a3a8235b184d11083",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "公开createInitialGameState→loadDefaultGame→六完整typed角色，HP/MP与最大值自洽。",
+        "B": "说明共享基线而非共享GS实例；无生产兼容说明。",
+        "C": "测试端Owner，每次返回新GS，不改全局catalog或生产算法。",
+        "D": "六真实消费者输入/寿命相同，复用现有typed role工厂；不是为未来造万能fixture。",
+        "E": "由61专项、2生命周期及36装备合同调用；损坏字段仅在个别拒绝测试中显式覆写。",
+        "F": "freshPlayerOpcodeState命名揭示构造意图，十余行无模式布尔值。",
+        "G": "一个函数一个用途；没有额外产品API或参数。",
+        "H": "初始状态确定，新实例隔离；不依赖未跟踪原盘数据，CI可运行。"
+      },
+      "decision": "accept-code; final pre94 integration gates deferred",
+      "lines": 13,
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+        "reportSha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+        "sourceSha256": "651558526481ad793272565a6335a50d0bb59d9d28dda62a3a8235b184d11083",
+        "scope": "Existing full A-H and original counters reused. Only changed ownership/interface claims revalidated here."
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "readScope": "scoped dispatch3535, poisonEntry3205, autoFade693, history2139; only comment delta this window",
+      "lines": 4973,
+      "versionBridge": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
+        "previousSha256": "40171bdd3ce3617799976dba98cfe622be4bd1e9fb6f71b611d6eee99cfc125c",
+        "scope": "Pinned current scene/interface and battle-host deltas already reviewed; no blind repin."
+      }
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad",
+      "readScope": "removeEquipmentEffect full function and its delegate; full earlier owner evidence reused",
+      "lines": 393
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288",
+      "readScope": "runEquipScriptSync/updateAllEquipments/runEquipScript ownership; full source read this window",
+      "lines": 295
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f",
+      "readScope": "existing 11-case owner evidence reused; complete changed Wear case read; only2 packet expectations changed",
+      "lines": 178
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "readScope": "public ctor/hydrate; previous full proof reused",
+      "lines": 2078
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1",
+      "readScope": "full current module read",
+      "lines": 60
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98",
+      "readScope": "Confirm search actual caller; prior full source evidence reused",
+      "lines": 431,
+      "versionBridge": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
+        "previousSha256": "edd6df17ec3d86202b9a07fe1287005ae46b7b7675d1187f0a1bd8e97d7a62ae",
+        "scope": "Pinned current scene/interface and battle-host deltas already reviewed; no blind repin."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+      "readScope": "loadGameFromSlot1650-1712, global events1185-1198; prior full source evidence reused",
+      "lines": 1949,
+      "versionBridge": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
+        "previousSha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+        "scope": "Pinned current scene/interface and battle-host deltas already reviewed; no blind repin."
+      }
+    },
+    {
+      "path": "packages/game/src/present/player-info-box.ts",
+      "sha256": "13167b4e3188bda871356971ef38d9fd1ae8281f602e0ff9845b912de177c73d",
+      "readScope": "computePlayerFaceColor current function; earlier full source evidence reused",
+      "lines": 128
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+      "readScope": "makeRole factory; not whole harness quality acceptance",
+      "lines": 152
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "readScope": "player poison tick2974-3016; earlier owner evidence reused",
+      "lines": 2911,
+      "versionBridge": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
+        "previousSha256": "c1cd2ecced440507aace6a5928393e5209c7e3e7c49888dc543322b3475bb6e1",
+        "scope": "Pinned current scene/interface and battle-host deltas already reviewed; no blind repin."
+      }
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "readScope": "full API, loadSlot deep clone boundary",
+      "lines": 99
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "readScope": "full Wear/Add/Cure function fragments1372-1614 and LevelUp2347-2409"
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "readScope": "GameUpdate169-243 and search362-510; existing C counter reused"
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "readScope": "exact color selector111-141, read selected range"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "readScope": "prior3p opcode primary reused; no complete original executable claim"
+    }
+  ],
+  "externalAssets": [
+    {
+      "path": "data/extracted/events/all.json",
+      "sha256": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885",
+      "readScope": "read-only extracted catalog; never generated/modified by this batch"
+    },
+    {
+      "path": "data/extracted/data/object-poisons.json",
+      "sha256": "9a16d16817405b7a2a368bc6f36e48935a78c7d10e95ed715dcf2fff231f6722",
+      "readScope": "read-only extracted catalog; never generated/modified by this batch"
+    },
+    {
+      "path": "data/extracted/data/items.json",
+      "sha256": "01c822f956608c7fff7e73b31896a45f242f585b6a59d31e3a7fdd317a88dc51",
+      "readScope": "read-only extracted catalog; never generated/modified by this batch"
+    }
+  ],
+  "inheritedReports": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+      "sha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+      "lines": 501
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/review.json",
+      "sha256": "35fd0dba7194a7a695d143d1d4f54c81fb4e218ec2066eb06cf90d8267dd2f56",
+      "lines": 1097
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+      "sha256": "a880ca0ec432fd7a2193450c54a560c092341370c947af689270802a4ed37b59",
+      "lines": 56
+    }
+  ],
+  "poisonRepair": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/review.json",
+    "sha256": "4014261419423830bf74abdc9b003932d803794ecae82ee9c92efe090b5c6ec3",
+    "lines": 64
+  },
+  "oldRawArchive": {
+    "path": "receipts.json.gz",
+    "sha256": "490b4db5504916725df5caf203cfea738dd65b3aa1477c999db82fd46a519117",
+    "bytes": 380462,
+    "entries": 147
+  },
+  "preservedTests": "History7, mode10, search12 and four player-opcode files61 identities retained. Same original counters reused; current poison adds five direct contracts only.",
+  "limits": [
+    "No browser/pixel acceptance; face-color public calculation only. Native exact C functions use minimal structs and identity entry-script stub, not full SDLPal engine/HP simulation.",
+    "3m extreme dex domain, broader3q/3r/3s/3t and other pre94 cards remain partial; no94-102 expansion.",
+    "Arbitrary poison callback reentry/mod catalogs are not certified; current raw0x29 initial-entry domain is separately enumerated. Equip test header/hydrate/cleanup were repaired in a separate test-only commit.",
+    "No test case retired; counts7/10/12 and opcode61 retained, two new business cases only. Coverage not collected."
+  ],
+  "unifiedGates": "DEFERRED until all remaining pre94; no PR/main merge now",
+  "acceptance": {
+    "cards": ["3o", "3p"],
+    "wholeFiles": 15,
+    "deltaOnly": ["packages/game/src/status-poison-equip.glm-q.test.ts"],
+    "codeOnly": true
+  },
+  "processDisclosure": [
+    "First comment runtime check passed path instead of source to the one-argument helper, invalid result explicitly withdrawn; corrected source call plus literal1→2 sanity and existing three AST controls passes. Both records preserved.",
+    "Initial scoped lint found only slice test formatting; formatted without logic/title/oracle change. Original failure retained.",
+    "Initial formal red spec bytes were not separately frozen; current exact spec with original source replay reproduces all four business reds and final recovery, separately recorded."
+  ],
+  "commentProof": {
+    "member": "comment-runtime.json",
+    "sha256": "9b82dcd34e64e75aac205484babb126b64555a86ae6d2c304f4b421f370d100d"
+  },
+  "receipts": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/receipts.json.gz",
+    "sha256": "4f520d73549b4a5e7d6683342b786affdbb44216359b00fa553d318e40b646d6",
+    "entries": 8,
+    "bytes": 5026
+  }
+}

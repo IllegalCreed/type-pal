@@ -1,0 +1,355 @@
+{
+  "state": "Scoped publication gates passed; final unified integration deferred",
+  "runs": [
+    {
+      "id": "docs-first",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:02.418Z",
+      "end": "2026-10-24T11:41:03.157Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "docs-first.execution.json",
+          "sha256": "93a263094b5da030910b1d1a4eac81841ecb0a8b3002943e090e75ee5e9237e0"
+        },
+        "stdout.raw": {
+          "member": "docs-first.stdout.raw",
+          "sha256": "ec771306cd6d58af18443bdbf15fdadbb5e0f53a3d0f95da694627491e73152f"
+        },
+        "stderr.raw": {
+          "member": "docs-first.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "model-first",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:02.418Z",
+      "end": "2026-10-24T11:41:03.674Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "model-first.execution.json",
+          "sha256": "e59c796e32590a2152b1bf9795489414639f24b104a3502c90f91d448e97e279"
+        },
+        "stdout.raw": {
+          "member": "model-first.stdout.raw",
+          "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+        },
+        "stderr.raw": {
+          "member": "model-first.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "testing-first",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:02.418Z",
+      "end": "2026-10-24T11:41:02.554Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "testing-first.execution.json",
+          "sha256": "db7b4ebb0d6f55de09af4ae9b161c4fda685aaf765f3939ef9e2b0fde70d16b1"
+        },
+        "stdout.raw": {
+          "member": "testing-first.stdout.raw",
+          "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+        },
+        "stderr.raw": {
+          "member": "testing-first.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "phase-first",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:02.419Z",
+      "end": "2026-10-24T11:41:02.496Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "phase-first.execution.json",
+          "sha256": "7f7ae7d17692089bb1b56abe9f1643b53c9018beab30e1dd00c8ea84b6a85b53"
+        },
+        "stdout.raw": {
+          "member": "phase-first.stdout.raw",
+          "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+        },
+        "stderr.raw": {
+          "member": "phase-first.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "content-first",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:02.419Z",
+      "end": "2026-10-24T11:41:02.933Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "content-first.execution.json",
+          "sha256": "613c1a6bbc190a7ab4028811332fd0178217cb6a08900623adf69c86b9a34b88"
+        },
+        "stdout.raw": {
+          "member": "content-first.stdout.raw",
+          "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+        },
+        "stderr.raw": {
+          "member": "content-first.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "progress-first",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:02.425Z",
+      "end": "2026-10-24T11:41:05.217Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "progress-first.execution.json",
+          "sha256": "319d28601cd86eb9e13c3f8b6e0841bad34217c707dafca9163e9fa1568d6e22"
+        },
+        "stdout.raw": {
+          "member": "progress-first.stdout.raw",
+          "sha256": "55b6fdae42ef1a91055679b15e6ceef1a9231603bd9dade9b9495b160848def9"
+        },
+        "stderr.raw": {
+          "member": "progress-first.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "game-typecheck-final",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:40:49.506Z",
+      "end": "2026-10-24T11:40:53.196Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 125,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "game-typecheck-final.execution.json",
+          "sha256": "c08d7fe56b50af2b86dab1de794e494cd0bb221acfa5d7b41d19bd0b830267fc"
+        },
+        "stdout.raw": {
+          "member": "game-typecheck-final.stdout.raw",
+          "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+        },
+        "stderr.raw": {
+          "member": "game-typecheck-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:56.996Z",
+      "end": "2026-10-24T11:41:59.651Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "lint-final.execution.json",
+          "sha256": "9a056ade1c7811cdf96019bc77673a352d5ed1191e81d9a23f87b22a0a2ce397"
+        },
+        "stdout.raw": {
+          "member": "lint-final.stdout.raw",
+          "sha256": "26bff8abc088ca299616320f655f7a5c7799c60959653e315f1b353e44d7c4e0"
+        },
+        "stderr.raw": {
+          "member": "lint-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:41:59.689Z",
+      "end": "2026-10-24T11:42:00.560Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "ledger-final.execution.json",
+          "sha256": "558c4a772096704c27c69abf9560747750a29b872de209fd7d1aab5415d54c88"
+        },
+        "stdout.raw": {
+          "member": "ledger-final.stdout.raw",
+          "sha256": "1b6c86fa2628dcb4e4df29f26dae31bff3db3ac7b11ebda8cf7e1e9eb0722214"
+        },
+        "stderr.raw": {
+          "member": "ledger-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:42:00.592Z",
+      "end": "2026-10-24T11:42:00.630Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "diff-final.execution.json",
+          "sha256": "3e63b1706c985ea5a5a7bd79868e3c960eb9387be76e1ff8aa93e16398619b75"
+        },
+        "stdout.raw": {
+          "member": "diff-final.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr.raw": {
+          "member": "diff-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "delivery-static",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "biome",
+        "check",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/static.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/verify.mjs",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/prove-split.mjs",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T11:44:14.254Z",
+      "end": "2026-10-24T11:44:14.439Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+      "observerTimeout": false,
+      "stdoutBytes": 43,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "delivery-static.execution.json",
+          "sha256": "89702b14dec91576fdf0423151d0a1d685696878778ef8aae9df7b9955bdf786"
+        },
+        "stdout.raw": {
+          "member": "delivery-static.stdout.raw",
+          "sha256": "1d54cdb601813a63d54d57cd472c536e184a1762e0727c9511f77b44ad2674f5"
+        },
+        "stderr.raw": {
+          "member": "delivery-static.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  ],
+  "diagnostics": {
+    "hardStatic": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "runtime": "No visible diagnostics in explicit default-reporters; full raw and native preserved"
+  },
+  "priorFailures": [
+    "fixture-static-before:exit0,1warning",
+    "private-static:format failure",
+    "speed-observation:no tests due wrong cwd",
+    "publish-initial-reproduced:metadata producer nonexistent path",
+    "evidence-static-initial:exit0,1info"
+  ],
+  "notRun": [
+    "whole repository check",
+    "official coverage/ratchet/protected",
+    "PR/main merge",
+    "browser/E2E visual acceptance"
+  ],
+  "reused": "Unchanged docs tool tests from previous window not rerun; six direct consumers executed, no wrapper credit."
+}

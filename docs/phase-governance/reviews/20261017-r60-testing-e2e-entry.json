@@ -296,9 +296,9 @@
       "templateId": "test-domain-report-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R60 E2E entry migration; testing-meta/catalog/quote checked",
+      "readMethod": "Scoped E2E unchanged oracle binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "001–005 共性问题族：test-domain-report testing entry; current/proposal status, catalog identity, sourceRefs and execution boundary remain explicit.",
+      "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "truthAnchors": ["docs/testing/e2e/cross-stage/common-issues.md:1"],
       "unresolved": [
         "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit."
@@ -319,7 +319,7 @@
         }
       ],
       "sourceSha256": "6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082",
-      "afterSha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+      "afterSha256": "ff461cd62686909db0b7cb5f4e69027413386a04d45d68c78b7df0da32731b1f",
       "publicCallers": ["docs/testing/e2e/README.md", "docs/testing/e2e/cross-stage/README.md"],
       "legalInputs": [
         "current catalog",
@@ -345,7 +345,7 @@
       },
       "revision": {
         "currentSha": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
-        "implementationSha": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+        "implementationSha": "ff461cd62686909db0b7cb5f4e69027413386a04d45d68c78b7df0da32731b1f",
         "history": [
           {
             "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
@@ -363,11 +363,11 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
+        "kind": "e2e-scoped-oracle-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082",
         "candidateSha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
-        "afterSha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+        "afterSha256": "ff461cd62686909db0b7cb5f4e69027413386a04d45d68c78b7df0da32731b1f",
         "lineCount": 431,
         "artifactPreserved": false,
         "originalPreservation": {
@@ -398,7 +398,7 @@
       ],
       "stopLine": "do not promote E2E navigation, issue-family audit or route proposal to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing E2E 入口保持 → 接入统一模板、testing-meta/catalog/consumer 边界、可逆 quote 和 SHA；执行事实不变。",
-      "reviewedLines": "1-431",
+      "reviewedLines": "One current sourceRef per publication; referenced116line oracle body byte-identical, range shifted+1",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",

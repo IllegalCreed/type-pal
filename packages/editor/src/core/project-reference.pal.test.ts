@@ -9,7 +9,7 @@ import {
   loadCurrentProjectFrom,
   loadStampTemplates,
 } from '@type-pal/reforge'
-import { describe, expect, test } from 'vitest'
+import { beforeAll, describe, expect, test } from 'vitest'
 import { actorReferenceBlocksDeletion, collectActorReferences } from './actor-references.js'
 import { collectBattleDataReferences } from './battle-data-references.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
@@ -76,29 +76,43 @@ function oldSourceKey(locator: EntityAddressReferenceLocator): string {
   }
 }
 
-describe('ED-3 PAL project reference index', () => {
-  test('keeps blocker parity, named-entry/shop/map facts and compact worker payload', async () => {
-    const project = await loadCurrentProjectFrom(source)
-    const [scenes, stamps] = await Promise.all([
-      loadAllAuthorScenes(project),
-      loadStampTemplates(project),
-    ])
-    const state = toEditorState(project, scenes, {}, {}, stamps)
-    const canonical = {
-      scenes: structuredClone(scenes),
-      items: structuredClone(project.authorContent.items),
-      sharedScripts: structuredClone(project.authorContent.sharedScripts),
-    }
-    const diagnostics = collectEditorDiagnosticsSnapshot(state, canonical)
-    const index = createProjectReferenceIndex(diagnostics.projectReferences)
-    const edges = index.allReferences()
+async function loadReferenceContext() {
+  const project = await loadCurrentProjectFrom(source)
+  const [scenes, stamps] = await Promise.all([
+    loadAllAuthorScenes(project),
+    loadStampTemplates(project),
+  ])
+  const state = toEditorState(project, scenes, {}, {}, stamps)
+  const canonical = {
+    scenes: structuredClone(scenes),
+    items: structuredClone(project.authorContent.items),
+    sharedScripts: structuredClone(project.authorContent.sharedScripts),
+  }
+  const diagnostics = collectEditorDiagnosticsSnapshot(state, canonical)
+  const index = createProjectReferenceIndex(diagnostics.projectReferences)
+  const edges = index.allReferences()
+  return { state, canonical, diagnostics, index, edges }
+}
 
-    // SCRIPT-GOV-2 folds repeated author targets into structural loops. Pin the current census
-    // while retaining every deletion blocker and independent collector/index parity gate below.
-    // Current E2E choreography includes aunt takeover/auto, four exact motion milestones,
-    // explicit ownership and facing. The 002 zero-distance opener adds explicit facing/frame targets.
-    // Current automatic-loop compression and withdrawn island hold change the census.
-    // Recount through the production loader/projection; retain the independent blocker parity below.
+type ReferenceContext = Awaited<ReturnType<typeof loadReferenceContext>>
+let sharedContext: ReferenceContext | undefined
+
+function referenceContext(): Readonly<ReferenceContext> {
+  if (!sharedContext) throw new Error('PAL reference context must be loaded by beforeAll')
+  return sharedContext
+}
+
+describe('ED-3 PAL project reference index', () => {
+  // Load/project once; cases query this fixture and keep derived arrays local.
+  beforeAll(async () => {
+    sharedContext = await loadReferenceContext()
+  }, 30_000)
+
+  test('preserves entity address census, named cleanup targets and deletion blockers', () => {
+    const { diagnostics, edges } = referenceContext()
+
+    // Pin the authored PAL census and independent deletion-blocker parity together.
+    // Content edits must account for the changed dependency, not merely adjust this total.
     expect(diagnostics.entityAddressReferences).toHaveLength(22_668)
     // GAME-SCRIPT-CORRECTIONS-1 adds seven cross-scene cleanup targets and Anu's
     // explicit entry reveal. Pin those new dependencies as well as the total census.
@@ -180,6 +194,10 @@ describe('ED-3 PAL project reference index', () => {
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
     expect(actualEntityBlockers).toHaveLength(4_376)
+  })
+
+  test('keeps scene-entry, shop, map and environment reference facts', () => {
+    const { edges, index } = referenceContext()
 
     expect(
       edges.filter(
@@ -253,6 +271,45 @@ describe('ED-3 PAL project reference index', () => {
     // one load-scene entry and a page/behavior binding, no enemy team or sprite asset.
     expect(edges.filter((edge) => edge.relation.kind === 'enemy-team-use')).toHaveLength(1_001)
     expect(edges.filter((edge) => edge.relation.kind === 'ambience-use')).toHaveLength(42)
+    expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
+      {
+        source: {
+          owner: {
+            kind: 'script-owner',
+            owner: {
+              kind: 'scene-hook',
+              sceneId: 's230',
+              slot: 'onEnter',
+              hookId: 'default',
+            },
+          },
+        },
+        locator: {
+          kind: 'canonical-script',
+          reference: { locator: { commandPath: '7' } },
+        },
+      },
+    ])
+    expect(index.referencesTo({ kind: 'map', id: 'map-165' })).toMatchObject([
+      { source: { owner: { kind: 'scene', id: 's244' } } },
+      {
+        source: {
+          owner: {
+            kind: 'script-owner',
+            owner: { kind: 'scene-hook', sceneId: 's243' },
+          },
+        },
+        locator: {
+          kind: 'canonical-script',
+          reference: { locator: { commandPath: '3' } },
+        },
+      },
+    ])
+  })
+
+  test('matches skill, enemy and poison references against independent collectors', () => {
+    const { state, edges } = referenceContext()
+
     const battleDataEdges = edges.filter((edge) => edge.relation.kind === 'battle-data-use')
     expect(
       battleDataEdges.filter(
@@ -296,6 +353,11 @@ describe('ED-3 PAL project reference index', () => {
       })
       .sort()
     expect(unifiedBattleDataKeys).toEqual(oldBattleDataKeys)
+  })
+
+  test('preserves actor identities, structural references and deletion impact', () => {
+    const { state, edges, index } = referenceContext()
+
     const actorEdges = edges.filter((edge) => edge.relation.kind === 'actor-use')
     expect(actorEdges).toHaveLength(829)
     const oldActorReferences = collectActorReferences(state)
@@ -420,6 +482,11 @@ describe('ED-3 PAL project reference index', () => {
         },
       },
     })
+  })
+
+  test('preserves item access categories and external deletion blockers', () => {
+    const { state, canonical, edges, index } = referenceContext()
+
     const itemEdges = edges.filter((edge) => edge.relation.kind === 'item-use')
     const oldItemReferences = collectItemReferences(state, canonical)
     expect(itemEdges).toHaveLength(1_182)
@@ -464,12 +531,16 @@ describe('ED-3 PAL project reference index', () => {
         (edge) => edge.source.owner.kind === 'enemy' && edge.locator.kind === 'object',
       ),
     ).toHaveLength(161)
+  })
+
+  test('preserves world and battle sprite identities, action links and collector parity', () => {
+    const { state, canonical, edges, index } = referenceContext()
+
     const worldSpriteEdges = edges.filter((edge) => edge.relation.kind === 'world-sprite-use')
     const worldSpriteActionEdges = edges.filter(
       (edge) => edge.relation.kind === 'world-sprite-action-use',
     )
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
-    const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
     expect(worldSpriteEdges).toHaveLength(3_834)
     expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-208' })).toMatchObject([
       {
@@ -513,6 +584,134 @@ describe('ED-3 PAL project reference index', () => {
       })),
     )
     expect(battleSpriteEdges).toHaveLength(180)
+    const currentContent = { ...state, items: canonical.items }
+    const oldWorldSpriteReferences = collectSpriteDefinitionReferences(currentContent)
+    const oldWorldStructuralReferences = oldWorldSpriteReferences.filter(
+      (reference) =>
+        reference.site.startsWith('actor:') ||
+        /^scenes\[\d+\]\.entities\[\d+\](?:\.sprite|\.pages\[\d+\]\.animation\.sprite)$/.test(
+          reference.where,
+        ),
+    )
+    expect(
+      [
+        ...worldSpriteEdges
+          .filter(
+            (edge) =>
+              edge.source.owner.kind === 'actor' || edge.source.owner.kind === 'scene-entity',
+          )
+          .map((edge) => {
+            if (edge.target.kind !== 'world-sprite') throw new Error('预期世界精灵引用边')
+            return `${edge.target.id}\0${edge.where}`
+          }),
+        ...worldSpriteActionEdges
+          .filter((edge) => edge.source.owner.kind === 'scene-page')
+          .map((edge) => {
+            if (edge.target.kind !== 'world-sprite-action')
+              throw new Error('预期世界精灵动作引用边')
+            return `${edge.target.spriteId}\0${edge.where.replace(/\.action$/, '.sprite')}`
+          }),
+      ].sort(),
+    ).toEqual(
+      oldWorldStructuralReferences
+        .map((reference) => `${reference.sprite}\0${reference.where}`)
+        .sort(),
+    )
+    expect(
+      worldSpriteEdges
+        .filter((edge) => edge.source.owner.kind === 'script-owner')
+        .map((edge) => (edge.target.kind === 'world-sprite' ? edge.target.id : ''))
+        .sort(),
+    ).toEqual(
+      oldWorldSpriteReferences
+        .filter((reference) => !oldWorldStructuralReferences.includes(reference))
+        .map((reference) => reference.sprite)
+        .sort(),
+    )
+    expect(
+      worldSpriteActionEdges
+        .map((edge) => {
+          if (
+            edge.target.kind !== 'world-sprite-action' ||
+            edge.relation.kind !== 'world-sprite-action-use'
+          )
+            throw new Error('预期世界精灵动作引用边')
+          return `${edge.target.spriteId}\0${edge.target.actionId}\0${edge.where}`
+        })
+        .sort(),
+    ).toEqual(
+      collectSpriteActionReferences(currentContent)
+        .map((reference) => `${reference.sprite}\0${reference.action}\0${reference.where}`)
+        .sort(),
+    )
+    const oldBattleSpriteReferences = collectBattleSpriteDefinitionReferences(currentContent)
+    expect(
+      battleSpriteEdges
+        .filter((edge) => edge.source.owner.kind !== 'script-owner')
+        .map((edge) => {
+          if (edge.target.kind !== 'battle-sprite' || edge.relation.kind !== 'battle-sprite-use')
+            throw new Error('预期战斗精灵引用边')
+          return `${edge.target.id}\0${edge.relation.expectedProfile}\0${edge.where}`
+        })
+        .sort(),
+    ).toEqual(
+      oldBattleSpriteReferences
+        .filter((reference) => !reference.site.startsWith('scene:'))
+        .map(
+          (reference) =>
+            `${reference.battleSprite}\0${reference.expectedProfile}\0${reference.where}`,
+        )
+        .sort(),
+    )
+    expect(
+      battleSpriteEdges
+        .filter((edge) => edge.source.owner.kind === 'script-owner')
+        .map((edge) => {
+          if (edge.target.kind !== 'battle-sprite' || edge.relation.kind !== 'battle-sprite-use')
+            throw new Error('预期战斗精灵引用边')
+          return `${edge.target.id}\0${edge.relation.expectedProfile}`
+        })
+        .sort(),
+    ).toEqual(
+      oldBattleSpriteReferences
+        .filter((reference) => reference.site.startsWith('scene:'))
+        .map((reference) => `${reference.battleSprite}\0${reference.expectedProfile}`)
+        .sort(),
+    )
+    const worldSpriteIds = new Set(oldWorldSpriteReferences.map((reference) => reference.sprite))
+    expect(worldSpriteIds.size).toBe(574)
+    expect(
+      [...worldSpriteIds].reduce(
+        (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
+        0,
+      ),
+    ).toBe(4_234)
+    expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
+      171,
+    )
+    expect(
+      new Set(
+        worldSpriteActionEdges.map((edge) =>
+          edge.target.kind === 'world-sprite-action'
+            ? `${edge.target.spriteId}\0${edge.target.actionId}`
+            : '',
+        ),
+      ).size,
+    ).toBe(38)
+    expect(
+      index.referencesTo({
+        kind: 'world-sprite-action',
+        spriteId: 'sprite-486',
+        actionId: 'pal-auto-v1-2898ab1f6e18d521',
+      }),
+    ).toEqual([])
+    expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-486' })).not.toEqual([])
+  })
+
+  test('preserves asset identities, restored portrait steps and optimized collector parity', () => {
+    const { state, canonical, diagnostics, edges } = referenceContext()
+
+    const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
     expect(assetEdges).toHaveLength(5_968)
     // The restored Xiulan/Ling'er follow-ups add one portrait each, and Anu's farewell
     // adds both speakers' portraits. Preserve exact canonical ownership and command paths.
@@ -641,162 +840,10 @@ describe('ED-3 PAL project reference index', () => {
         .map((reference) => `${reference.asset}\0${reference.expectedKind}`)
         .sort(),
     )
-    const currentContent = { ...state, items: canonical.items }
-    const oldWorldSpriteReferences = collectSpriteDefinitionReferences(currentContent)
-    const oldWorldStructuralReferences = oldWorldSpriteReferences.filter(
-      (reference) =>
-        reference.site.startsWith('actor:') ||
-        /^scenes\[\d+\]\.entities\[\d+\](?:\.sprite|\.pages\[\d+\]\.animation\.sprite)$/.test(
-          reference.where,
-        ),
-    )
-    expect(
-      [
-        ...worldSpriteEdges
-          .filter(
-            (edge) =>
-              edge.source.owner.kind === 'actor' || edge.source.owner.kind === 'scene-entity',
-          )
-          .map((edge) => {
-            if (edge.target.kind !== 'world-sprite') throw new Error('预期世界精灵引用边')
-            return `${edge.target.id}\0${edge.where}`
-          }),
-        ...worldSpriteActionEdges
-          .filter((edge) => edge.source.owner.kind === 'scene-page')
-          .map((edge) => {
-            if (edge.target.kind !== 'world-sprite-action')
-              throw new Error('预期世界精灵动作引用边')
-            return `${edge.target.spriteId}\0${edge.where.replace(/\.action$/, '.sprite')}`
-          }),
-      ].sort(),
-    ).toEqual(
-      oldWorldStructuralReferences
-        .map((reference) => `${reference.sprite}\0${reference.where}`)
-        .sort(),
-    )
-    expect(
-      worldSpriteEdges
-        .filter((edge) => edge.source.owner.kind === 'script-owner')
-        .map((edge) => (edge.target.kind === 'world-sprite' ? edge.target.id : ''))
-        .sort(),
-    ).toEqual(
-      oldWorldSpriteReferences
-        .filter((reference) => !oldWorldStructuralReferences.includes(reference))
-        .map((reference) => reference.sprite)
-        .sort(),
-    )
-    expect(
-      worldSpriteActionEdges
-        .map((edge) => {
-          if (
-            edge.target.kind !== 'world-sprite-action' ||
-            edge.relation.kind !== 'world-sprite-action-use'
-          )
-            throw new Error('预期世界精灵动作引用边')
-          return `${edge.target.spriteId}\0${edge.target.actionId}\0${edge.where}`
-        })
-        .sort(),
-    ).toEqual(
-      collectSpriteActionReferences(currentContent)
-        .map((reference) => `${reference.sprite}\0${reference.action}\0${reference.where}`)
-        .sort(),
-    )
-    const oldBattleSpriteReferences = collectBattleSpriteDefinitionReferences(currentContent)
-    expect(
-      battleSpriteEdges
-        .filter((edge) => edge.source.owner.kind !== 'script-owner')
-        .map((edge) => {
-          if (edge.target.kind !== 'battle-sprite' || edge.relation.kind !== 'battle-sprite-use')
-            throw new Error('预期战斗精灵引用边')
-          return `${edge.target.id}\0${edge.relation.expectedProfile}\0${edge.where}`
-        })
-        .sort(),
-    ).toEqual(
-      oldBattleSpriteReferences
-        .filter((reference) => !reference.site.startsWith('scene:'))
-        .map(
-          (reference) =>
-            `${reference.battleSprite}\0${reference.expectedProfile}\0${reference.where}`,
-        )
-        .sort(),
-    )
-    expect(
-      battleSpriteEdges
-        .filter((edge) => edge.source.owner.kind === 'script-owner')
-        .map((edge) => {
-          if (edge.target.kind !== 'battle-sprite' || edge.relation.kind !== 'battle-sprite-use')
-            throw new Error('预期战斗精灵引用边')
-          return `${edge.target.id}\0${edge.relation.expectedProfile}`
-        })
-        .sort(),
-    ).toEqual(
-      oldBattleSpriteReferences
-        .filter((reference) => reference.site.startsWith('scene:'))
-        .map((reference) => `${reference.battleSprite}\0${reference.expectedProfile}`)
-        .sort(),
-    )
-    const worldSpriteIds = new Set(oldWorldSpriteReferences.map((reference) => reference.sprite))
-    expect(worldSpriteIds.size).toBe(574)
-    expect(
-      [...worldSpriteIds].reduce(
-        (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
-        0,
-      ),
-    ).toBe(4_234)
-    expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
-      171,
-    )
-    expect(
-      new Set(
-        worldSpriteActionEdges.map((edge) =>
-          edge.target.kind === 'world-sprite-action'
-            ? `${edge.target.spriteId}\0${edge.target.actionId}`
-            : '',
-        ),
-      ).size,
-    ).toBe(38)
-    expect(
-      index.referencesTo({
-        kind: 'world-sprite-action',
-        spriteId: 'sprite-486',
-        actionId: 'pal-auto-v1-2898ab1f6e18d521',
-      }),
-    ).toEqual([])
-    expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-486' })).not.toEqual([])
-    expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
-      {
-        source: {
-          owner: {
-            kind: 'script-owner',
-            owner: {
-              kind: 'scene-hook',
-              sceneId: 's230',
-              slot: 'onEnter',
-              hookId: 'default',
-            },
-          },
-        },
-        locator: {
-          kind: 'canonical-script',
-          reference: { locator: { commandPath: '7' } },
-        },
-      },
-    ])
-    expect(index.referencesTo({ kind: 'map', id: 'map-165' })).toMatchObject([
-      { source: { owner: { kind: 'scene', id: 's244' } } },
-      {
-        source: {
-          owner: {
-            kind: 'script-owner',
-            owner: { kind: 'scene-hook', sceneId: 's243' },
-          },
-        },
-        locator: {
-          kind: 'canonical-script',
-          reference: { locator: { commandPath: '3' } },
-        },
-      },
-    ])
+  })
+
+  test('preserves behavior, hook and parent-scene dependency locators', () => {
+    const { edges, index } = referenceContext()
 
     expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_452)
     expect(
@@ -936,6 +983,11 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
+  })
+
+  test('transports the compact reference snapshot through a fresh worker runtime', () => {
+    const { state, canonical, diagnostics } = referenceContext()
+
     expect(diagnostics.projectReferences.rows).toHaveLength(25_222)
     expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_134)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
@@ -960,5 +1012,5 @@ describe('ED-3 PAL project reference index', () => {
     expect('worldVariableReferences' in reply.data).toBe(false)
     expect('canonicalBehaviorReferences' in reply.data).toBe(false)
     expect('canonicalSceneHookReferences' in reply.data).toBe(false)
-  }, 30_000)
+  })
 })

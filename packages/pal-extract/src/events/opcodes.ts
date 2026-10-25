@@ -4,7 +4,7 @@
  * 每条指令 8 字节: u16 LE opcode + 3 × u16 LE 操作数。
  * 完整语义: reference/sdlpal/script.c 大 switch。
  *
- * 已具名 opcode 直接反编译为结构化命令;其余 raw 占位,字节层面照常透传。
+ * 具名注册提供字段语义；disasm有专用emit的命令才结构化，其余保号落raw。
  */
 
 export type FieldKind =
@@ -28,7 +28,7 @@ export interface OpcodeDef {
     { name: string; kind: FieldKind },
     { name: string; kind: FieldKind },
   ]
-  /** true = 已有真实 verb(disasm 输出具名 Command)。 */
+  /** true = 注册了verb及字段；不保证disasm有专用emit（如startBattle仍落raw）。 */
   named: boolean
   /** end 子语义: true = 推进触发器条目至下一行 (0x0001) */
   endAdvance?: boolean

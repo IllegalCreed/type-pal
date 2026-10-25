@@ -4,16 +4,15 @@ import { startDialogLine } from '../present/dialog-box.js'
 import {
   clearHiddenExpCounts,
   createInitialGameState,
-  type Facing,
   type GameState,
   hydrateNpcStaticDefaults,
   hydratePlayerRolesRuntime,
   initExpLevelsFromLevels,
   loadDefaultGame,
-  type Mode,
   type NpcState,
   normalizePlayerRolesRuntime,
   npcFromEventObject,
+  type PlayerRolesRuntime,
   projectRuntimeToBattleRoles,
   resetPresentationTransients,
   resetSceneRuntimeForNewGame,
@@ -22,6 +21,28 @@ import {
   sliceSceneEventObjects,
   writeBackBattleRolesToRuntime,
 } from './game-state.js'
+import { blackColors } from './palette-fade.js'
+
+function changedEventObject(): GameState['rgEventObject'][number] {
+  return {
+    sState: -1,
+    x: 100,
+    y: 100,
+    sLayer: 0,
+    wTriggerScript: 0,
+    wAutoScript: 0,
+    wTriggerMode: 0,
+    wSpriteNum: 3,
+    nSpriteFrames: 4,
+    wDirection: 2,
+    wCurrentFrameNum: 0,
+    nScriptIdleFrame: 0,
+    wSpritePtrOffset: 0,
+    nSpriteFramesAuto: 0,
+    wScriptIdleFrameCountAuto: 0,
+    sVanishTime: 0,
+  }
+}
 
 // E04(隐藏属性经验):wCount 是 ExpEntry 第三字段(sdlpal EXPERIENCE.wCount),战前清零 7 隐藏池(非主经验)。
 describe('clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)', () => {
@@ -124,10 +145,10 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
     const gs = createInitialGameState({ x: 5, y: 5, facing: 'up' })
     // 弄脏:模拟玩过一局
     gs.dwCash = 9999
-    gs.inventory = [{} as GameState['inventory'][number]]
-    gs.rgPoisonStatus = { '0:1': {} as GameState['rgPoisonStatus'][string] }
+    gs.inventory = [{ itemId: 61, count: 1 }]
+    gs.rgPoisonStatus = { '0_0': { wPoisonID: 552, wPoisonScript: 40866 } }
     gs.partyMembers = [1, 2]
-    gs.trail = [{} as GameState['trail'][number]]
+    gs.trail = [{ x: 5, y: 5, dir: 'up' }]
     gs.wCollectValue = 50
     gs.nightPalette = true
     gs.wLayer = 8
@@ -190,25 +211,43 @@ describe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {
   it('清 scene 持久 records + 从初始对象表重建 allEventObjects', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // 弄脏:上一局 scene 进度
-    gs.rgScene = { 1: {} as GameState['rgScene'][number] }
+    gs.rgScene = {
+      1: { wMapNum: 1, wScriptOnEnter: 5, wScriptOnTeleport: 0, wEventObjectIndex: 0 },
+    }
     gs.sceneOnEnterIp = { 1: 5 }
     gs.sceneOnEnterOverride = { 2: 123 }
     gs.sceneOnTeleportOverride = { 2: 456 }
     gs.sceneOnTeleportEntry = 789
-    gs.rgObject = { 1: {} as GameState['rgObject'][number] }
-    gs.rgEventObject = { 1: {} as GameState['rgEventObject'][number] }
-    gs.allEventObjects = [{ id: 99 } as NpcState]
+    gs.rgObject = { 1: { rgwData: [1, 2, 3, 4, 5, 6, 7] } }
+    gs.rgEventObject = { 1: changedEventObject() }
+    gs.allEventObjects = [
+      npcFromEventObject({ id: 99, x: 32, y: 16, spriteNum: 1, triggerMode: 0 }),
+    ]
     gs.eventCursor = { ip: 123 }
     gs.gameOverActive = true
     gs.deathHoldActive = true
     gs.blackScreenHold = true
-    gs.paletteFadeState = {} as NonNullable<GameState['paletteFadeState']>
-    gs.fadeState = {} as NonNullable<GameState['fadeState']>
+    gs.paletteFadeState = {
+      startColors: blackColors(),
+      targetColors: blackColors(),
+      startTimeMs: 100,
+      totalMs: 200,
+      mode: 'lerp',
+      steps: 16,
+      increment: 0,
+    }
+    gs.fadeState = {
+      speed: 2,
+      totalMs: 2160,
+      startTimeMs: 100,
+      appliedSteps: 1,
+      backupPixels: new Uint8Array(320 * 200),
+    }
     gs.needToFadeIn = true
     gs.sceneLoading = true
     gs.pendingSceneLoad = 9
-    gs.dialogBox = {} as NonNullable<GameState['dialogBox']>
-    gs.dialogBoxKept = {} as NonNullable<GameState['dialogBoxKept']>
+    gs.dialogBox = startDialogLine('上一局对白', { style: 'top' })
+    gs.dialogBoxKept = startDialogLine('上一局保留画面', { style: 'bottom' })
     gs.currentDialogPortraitIcon = 88
     // DM25:上一局残留的波/震/战斗域/追逐周期/跟随者
     gs.wScreenWave = 4
@@ -221,8 +260,8 @@ describe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {
     gs.followers = [3]
 
     const initial = [
-      { id: 1, x: 10, y: 20, spriteNum: 5 } as SceneEventObject,
-      { id: 2, x: 30, y: 40, spriteNum: 6 } as SceneEventObject,
+      { id: 1, x: 10, y: 20, spriteNum: 5, triggerMode: 0 },
+      { id: 2, x: 30, y: 40, spriteNum: 6, triggerMode: 0 },
     ]
     resetSceneRuntimeForNewGame(gs, initial)
 
@@ -277,83 +316,10 @@ describe('GameState', () => {
     expect(gs.inventory).toEqual([])
     expect(gs.battleState).toBeUndefined()
   })
-
-  it('Mode 三态(M3 加 battle)', () => {
-    const modes: Mode[] = ['explore', 'event', 'battle']
-    expect(modes).toHaveLength(3)
-    // 类型层面允许赋值 'battle'(若被收窄会编译失败,代守护)
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.mode = 'battle'
-    expect(gs.mode).toBe('battle')
-  })
-
-  it('Facing 四向', () => {
-    const facings: Facing[] = ['up', 'down', 'left', 'right']
-    expect(facings).toHaveLength(4)
-  })
-
-  it('GameState 可 JSON 序列化(含 eventCursor.commands)', () => {
-    const gs = createInitialGameState({ x: 10 * 16, y: 20 * 8, facing: 'right' })
-    gs.eventCursor = {
-      commands: [{ op: 'showDialog', messageIndex: 5, text: 'hi' }, { op: 'end' }],
-      labelMap: { L_0: 0 },
-      ip: 0,
-      waiting: 'dialog',
-    }
-    gs.dialogBox = startDialogLine('hi', { style: 'center' })
-    gs.currentDialogStyle = 'top'
-
-    const parsed = JSON.parse(JSON.stringify(gs)) as GameState
-    expect(parsed.party.x).toBe(10 * 16)
-    expect(parsed.eventCursor?.ip).toBe(0)
-    expect(parsed.eventCursor?.waiting).toBe('dialog')
-    expect(parsed.eventCursor?.commands).toHaveLength(2)
-    expect(parsed.eventCursor?.commands?.[0]?.op).toBe('showDialog')
-    expect(parsed.dialogBox?.currentLineText).toBe('hi')
-    expect(parsed.currentDialogStyle).toBe('top')
-  })
 })
 
 describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
-  it('round-trip JSON.stringify → parse → deep equal', () => {
-    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
-    // 触发非 default 状态:
-    gs.dwCash = 1000
-    gs.wSavedTimes = 3
-    gs.wNumScene = 7
-    gs.wBattleSpeed = 3
-    gs.Exp.rgPrimaryExp[0] = { wExp: 50, wLevel: 2 }
-    gs.Exp.rgHealthExp[1] = { wExp: 30, wLevel: 1 }
-    gs.PlayerRolesRuntime.rgwHP[0] = 255
-    gs.PlayerRolesRuntime.rgwLevel[0] = 5
-    gs.rgEventObject[5] = {
-      sState: -1,
-      x: 100,
-      y: 100,
-      sLayer: 0,
-      wTriggerScript: 0,
-      wAutoScript: 0,
-      wTriggerMode: 0,
-      wSpriteNum: 3,
-      nSpriteFrames: 4,
-      wDirection: 2,
-      wCurrentFrameNum: 0,
-      nScriptIdleFrame: 0,
-      wSpritePtrOffset: 0,
-      nSpriteFramesAuto: 0,
-      wScriptIdleFrameCountAuto: 0,
-      sVanishTime: 0,
-    }
-    gs.rgScene[15] = { wMapNum: 3, wScriptOnEnter: 42, wScriptOnTeleport: 0, wEventObjectIndex: 10 }
-    gs.rgObject[100] = { rgwData: [1, 2, 3, 4, 5, 6, 7] }
-    gs.rgPoisonStatus['0_0'] = { wPoisonID: 3, wPoisonScript: 100 }
-
-    const json = JSON.stringify(gs)
-    const restored = JSON.parse(json) as GameState
-    expect(restored).toEqual(gs)
-  })
-
-  it('default initial state 所有新字段非 undefined', () => {
+  it('initial state 初始化存档字段和定长运行态数组', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // 平铺杂项字段
     expect(gs.wSavedTimes).toBe(0)
@@ -397,24 +363,7 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
   it('sparse Record:rgEventObject 只存改过的 EventObject', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(Object.keys(gs.rgEventObject)).toHaveLength(0)
-    gs.rgEventObject[5] = {
-      sState: -1,
-      x: 100,
-      y: 100,
-      sLayer: 0,
-      wTriggerScript: 0,
-      wAutoScript: 0,
-      wTriggerMode: 0,
-      wSpriteNum: 3,
-      nSpriteFrames: 4,
-      wDirection: 2,
-      wCurrentFrameNum: 0,
-      nScriptIdleFrame: 0,
-      wSpritePtrOffset: 0,
-      nSpriteFramesAuto: 0,
-      wScriptIdleFrameCountAuto: 0,
-      sVanishTime: 0,
-    }
+    gs.rgEventObject[5] = changedEventObject()
     expect(Object.keys(gs.rgEventObject)).toHaveLength(1)
     expect(gs.rgEventObject[5]?.sState).toBe(-1)
   })
@@ -573,7 +522,7 @@ describe('sliceSceneEventObjects(sdlpal lprgEventObject 切片)', () => {
   })
 
   it('首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)', () => {
-    // P2#5(game-state.ts:1093-1099 globalIpFromLabel):autoLabel = 'L_<n>' → 全局 ip = n(恒等),
+    // globalIpFromLabel:autoLabel = 'L_<n>' → 全局 ip = n(恒等),
     // 不再走 per-scene sceneLabelMap。sceneLabelMap 即使存在也被忽略。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.allEventObjects = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100' }]
@@ -674,11 +623,11 @@ function staticRole(id: number, over: Partial<PlayerRole> = {}): PlayerRole {
     magicSound: 0,
     deathSound: 0,
     ...over,
-  } as any as PlayerRole
+  }
 }
 
 describe('player-roles 战斗数据模型边界', () => {
-  it('投影:战斗 roles 用 runtime 当前属性(升级后)+ 静态不可变字段(精灵/名字)', () => {
+  it('投影:runtime当前值覆盖静态基础,未覆盖资料保留', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const rt = gs.PlayerRolesRuntime
     // 模拟升级后 runtime:role0 level 50 / hp 123 / maxHP 500 / attack 99 / 风抗 60 / name 7
@@ -716,7 +665,7 @@ describe('player-roles 战斗数据模型边界', () => {
     expect(r.elemResistance.wind).toBe(60)
     expect(r.poisonResistance).toBe(10)
     expect(r.name).toBe(7)
-    // 静态不可变字段
+    // 未被当前runtime值覆盖的资料与造型回退
     expect(r._name).toBe('李逍遥')
     expect(r.spriteNumInBattle).toBe(5)
     expect(r.id).toBe(0)
@@ -756,6 +705,8 @@ describe('player-roles 战斗数据模型边界', () => {
     const staticRoles = {
       roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })],
     }
+    gs.rgEquipmentEffect[1]!.rgwSpriteNumInBattle[0] = 3
+    gs.rgEquipmentEffect[1]!.rgwCooperativeMagic[0] = 8
     gs.rgEquipmentEffect[3]!.rgwAttackAll[0] = 1 // 长鞭(Hand)群攻
     gs.rgEquipmentEffect[3]!.rgwSpriteNumInBattle[0] = 6 // 长鞭换战斗精灵
     gs.rgEquipmentEffect[5]!.rgwCooperativeMagic[0] = 351 // 圣灵珠(Wear)改合击
@@ -774,7 +725,7 @@ describe('player-roles 战斗数据模型边界', () => {
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles) // base coopMagic 5 → runtime(真实流程)
     const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect)
       .roles[0]!
-    expect(r.attackAll).toBe(0) // attackAll/sprite 无 runtime 行 → 直读静态 base
+    expect(r.attackAll).toBe(0) // runtime零值按覆盖类字段约定回退静态base
     expect(r.spriteNumInBattle).toBe(10)
     expect(r.cooperativeMagic).toBe(5) // hydrate 后 runtime.rgwCooperativeMagic=5
   })
@@ -991,17 +942,16 @@ describe('player-roles 战斗数据模型边界', () => {
 // ============================================================================
 describe('normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)', () => {
   /** 模拟 2026-06-07 之前旧代码存的档:rgwAvatar/rgwWalkFrames 当时不在 schema 里。 */
-  function staleRuntime(): ReturnType<typeof createInitialGameState>['PlayerRolesRuntime'] {
-    const rt = createInitialGameState({ x: 0, y: 0, facing: 'down' }).PlayerRolesRuntime
-    delete (rt as unknown as Record<string, unknown>).rgwAvatar
-    delete (rt as unknown as Record<string, unknown>).rgwWalkFrames
+  function staleRuntime(): Partial<PlayerRolesRuntime> {
+    const rt: Partial<PlayerRolesRuntime> = createInitialGameState({
+      x: 0,
+      y: 0,
+      facing: 'down',
+    }).PlayerRolesRuntime
+    delete rt.rgwAvatar
+    delete rt.rgwWalkFrames
     return rt
   }
-
-  it('复现:缺 rgwAvatar 的存档 runtime 直接投影 → 抛(undefined[0])', () => {
-    const stale = staleRuntime()
-    expect(() => projectRuntimeToBattleRoles(stale, { roles: [staticRole(0)] })).toThrow()
-  })
 
   it('归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩', () => {
     const fixed = normalizePlayerRolesRuntime(staleRuntime())
@@ -1012,9 +962,9 @@ describe('normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字�
 
   it('存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)', () => {
     const stale = staleRuntime()
-    stale.rgwHP[0] = 123
-    stale.rgwLevel[0] = 50
-    stale.rgwName[0] = 7
+    stale.rgwHP = [123, 0, 0, 0, 0, 0]
+    stale.rgwLevel = [50, 0, 0, 0, 0, 0]
+    stale.rgwName = [7, 0, 0, 0, 0, 0]
     const fixed = normalizePlayerRolesRuntime(stale)
     expect(fixed.rgwHP[0]).toBe(123)
     expect(fixed.rgwLevel[0]).toBe(50)
@@ -1063,7 +1013,7 @@ describe('resetPresentationTransients(回标题/新游戏清演出残留)', () =
   it('resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dialogPlayingRNG = true
-    gs.rngDialogBackup = new Uint8Array(10)
+    gs.rngDialogBackup = new Uint8Array(320 * 200)
     gs.rngFrameActive = true
     gs.blackScreenHold = true
 

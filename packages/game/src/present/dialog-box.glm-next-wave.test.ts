@@ -1,17 +1,6 @@
-/** GLM Wave I / I03 — dialog-box.ts 姓名 title / 正文清屏未证公开合同(生产冻结 ced193f4)。
- *
- * 旧证去重:dialog-box.test.ts 已证 parseDialogText / startDialogLine / appendDialogLine /
- * tickDialog(wall-clock)/ confirmDialog / getDialogBoxRect / getDialogTextPos /
- * drawDialogBox / portrait / key icon / MAX_LINES_PER_PAGE;present.test.ts +
- * event-dialogue-pagination.test.ts 已证 setWaitingPageKey / shouldWaitPageKey /
- * setWaitingEndKey / presentFrame / presentBattleFrame / applyDialogIconPaletteShift。
- * present.ts 侧无新增合法缺口:flushToCanvas 是 framebuffer.toImageData 的 2 行包装,
- * toImageData 索引→RGBA 已由 framebuffer.test.ts 直证、putImageData 消费由全部 shell
- * 播放器测试直证 → 登记 existing-proof。
- * 本文件补齐零覆盖导出:
- *  - getDialogTitlePos(sdlpal text.c:1316/1340 姓名 title 位置,4 style × 有无头像)
- *  - isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号真值)
- *  - resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文、留 title/portrait/style)
+/** 姓名位置/识别、正文清理与narration尾时序合同。
+ * 位置表含style类型域的返回值；不把未进入实际绘制路径的占位坐标当作像素证明。
+ * 正文像素、分页和真实事件/战斗接线由相邻专测各自验证。
  */
 
 import type { DialogBoxStyle } from '@type-pal/shared'
@@ -25,6 +14,7 @@ import {
   resetDialogBody,
   startDialogLine,
   type TextPos,
+  tickDialog,
 } from './dialog-box.js'
 
 describe('parseDialogText narration tail delay(text.c:1551-1554)', () => {
@@ -70,7 +60,12 @@ describe('resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/po
     expect(state.titleText).toBe('李逍遥:') // 前提:姓名行走 title 路径
 
     appendDialogLine(state, '正文第一句')
-    appendDialogLine(state, '正文第二句')
+    tickDialog(state, 120) // 五字各24ms，首行已自然完成；不用跳字改变后续userSkip。
+    appendDialogLine(state, '正文第二句', 120)
+    tickDialog(state, 144)
+    expect(state.phase).toBe('typing')
+    expect(state.typingFrames).toBe(1)
+    expect(state.charsRevealed).toBe(2)
     expect(state.shownLines).toEqual(['正文第一句'])
     expect(state.dialogLineCount).toBe(2)
 
@@ -91,6 +86,6 @@ describe('resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/po
     expect(state.titleText).toBe('李逍遥:')
     expect(state.portraitIcon).toBe(7)
     expect(state.style).toBe('top')
-    expect(state.fontColor).toBeDefined()
+    expect(state.fontColor).toBe(FONT_COLOR_DEFAULT)
   })
 })

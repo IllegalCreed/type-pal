@@ -148,8 +148,8 @@ describe('Q06 cure / remove', () => {
     seed(g, 0, 0, 90, 44)
     seed(g, 0, 1, 5, 55)
     removePoisonLevel99(g, 0)
-    expect(g.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
-    expect(g.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 5, wPoisonScript: 55 })
+    expect(g.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 5, wPoisonScript: 55 })
+    expect(g.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
   })
 
   test('curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清', () => {

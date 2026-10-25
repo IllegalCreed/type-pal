@@ -36,8 +36,6 @@ function mkCtx(input: ReplayInputSource): {
     bus: createCommandBus(),
     input,
     tilemap: flat(20, 20),
-    eventCommands: [],
-    labelMap: {},
     onPresent: () => {},
   }
   return { ctx, gs }

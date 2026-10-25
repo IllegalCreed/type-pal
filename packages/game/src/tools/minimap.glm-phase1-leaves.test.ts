@@ -2,7 +2,7 @@
  * L18 minimap:与minimap.test的纯几何/分类合同分层,本文件核真实canvas与控制器IO。
  * 像素坐标/颜色为独立手算;裁剪用自有图像。不借被测变换或DOT_COLORS生成oracle。
  * 原六例加两例真实widget快捷键:用实际canvas绘制调用核缩放/两端钳制与输入焦点/关闭守卫。
- * getter仍只证开关读写;不冒充完整可见性/坏持久zoom验收。每例释放自有rAF/监听/DOM/全局与偏好。
+ * getter只证开关读写；非法zoom字符串经真实快捷键核默认档，不外推任意外部输入。每例释放自有宿主。
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
@@ -148,10 +148,24 @@ describe('L18 setupMinimap 控制器持久化', () => {
   it("持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关", () => {
     localStorage.setItem('tp-minimap-npc', 'yes')
     localStorage.setItem('tp-minimap-widget', 'true')
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    localStorage.setItem('tp-minimap-zoom', 'not-a-number')
+    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })
     const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })
     expect(ctl.isShowNpc()).toBe(true)
     expect(ctl.isWidgetEnabled()).toBe(false)
+    setCurrentMapNum(1)
+    ctl.setWidgetEnabled(true)
+    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!
+    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')
+    try {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Minus' }))
+      // 非数值持久项恢复默认档2，再缩小一次到档1；180px画布的白框宽为320*180/1280。
+      expect(localStorage.getItem('tp-minimap-zoom')).toBe('1')
+      expect(rect).toHaveBeenCalledTimes(1)
+      expect(rect.mock.calls[0]![2]).toBeCloseTo(45, 6)
+    } finally {
+      rect.mockRestore()
+    }
   })
 
   it('widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档', () => {
@@ -209,15 +223,17 @@ describe('L18 setupMinimap 控制器持久化', () => {
   })
 
   it('底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map', async () => {
-    class PendingImage {
-      static last: PendingImage | undefined
-      onload: (() => void) | null = null
-      onerror: (() => void) | null = null
-      constructor() {
-        PendingImage.last = this
-      }
-      set src(_value: string) {} // 本例只暂停宿主decode,不替换控制器缓存
-    }
+    let pendingSurface: HTMLCanvasElement | undefined
+    const PendingImage = vi.fn(function decodeImage() {
+      // Image解码是IO端口；返回真实CanvasImageSource，保留drawImage像素路径。
+      const surface = document.createElement('canvas')
+      surface.width = surface.height = 640
+      const context = surface.getContext('2d')!
+      context.fillStyle = '#123abc'
+      context.fillRect(0, 0, 640, 640)
+      pendingSurface = surface
+      return surface
+    })
     vi.stubGlobal('Image', PendingImage)
     setCurrentMapNum(1)
     const url = document.createElement('canvas').toDataURL('image/png')
@@ -225,9 +241,15 @@ describe('L18 setupMinimap 控制器持久化', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const ctl = createController({ getGs: () => gs, getMapThumbnail })
     ctl.mountSceneView(document.createElement('div'), 64)
-    await vi.waitFor(() => expect(PendingImage.last).toBeDefined())
+    await vi.waitFor(() => expect(pendingSurface).toBeDefined())
     ctl.mountSceneView(document.createElement('div'), 64)
     expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    pendingSurface!.dispatchEvent(new Event('load'))
+    const afterLoad = document.createElement('div')
+    ctl.mountSceneView(afterLoad, 64)
+    expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    const canvas = afterLoad.querySelector('canvas')!
+    expect(pixel(canvas.getContext('2d')!, 30, 30)).toEqual([18, 58, 188, 255])
   })
 
   it('Image 解码失败后标记 map failed，不在后续帧反复请求', async () => {

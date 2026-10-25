@@ -56,7 +56,7 @@ Codex单一Owner，build allowed仅两测试、共用测试宿主和治理证据
 
 已改用正式GameState/BattleState构造器与显式runtime hydrate，复用typed角色/敌人；共用宿主清监听器、timer/rAF、音源订阅/controller、DOM/style、偏好和单例。敌HP/turn分轴观察且HP精确到目标单元；全屏/FPS拆职责，正式19例。生产源/UI/API/save未改，未扩大高风险边界。逐文件读取、19例oracle/排重、raw/native/hash/清理和34文件199例相邻、typecheck见 [58夹具勘误证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)。静态门另记，本批无新全仓check/ratchet/protected；旧53波次不认证本候选。当前partial不变，不把相邻全绿当整卡accept。
 
-## 下一位 Agent 提示词
+## 历史下一位 Agent 提示词（不作当前准入）
 
 ```text
 接手任务：CODE-QUALITY-58 game tools panel audit
@@ -64,5 +64,17 @@ Codex单一Owner，build allowed仅两测试、共用测试宿主和治理证据
 当前状态：done，已归档；不得修改 save/schema
 先读：本卡、AGENTS.md、CLAUDE.md、tools-panel.ts 及两份测试、bootstrap.ts setupToolsPanel caller、save-io.ts、quick-save.ts
 请做：若重开审计，重新复核 DOM/键盘/委托/定时器/输入隔离；不得直接重用本卡作为新 build 授权
-输出：caller/oracle 证据；当前结论为 accept/done
+输出：caller/oracle 证据；历史结论为 accept/done，现行增量结论见下节
 ```
+
+
+2026-10-24当前增量：导出失败提示用户批准并先红后修，URL所有权、四项不同IO合同与真实Save/IDB浏览器失败链已核；尚不授整卡/Dev广域关闭。GS及工具专测有限接受与原件见[当前回执](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)，统一门仍等全部pre94。
+
+2026-10-25：Dev广域组织已在[独立质量回执](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)接受，非本卡工具面板/导入FileReader的接受；58仍partial，不承接其余原件未证范围。
+
+
+## 2026-10-25 CODE58代码接受
+
+2026-10-25 CODE58代码接受：原三文件与文件IO/共用DOM两叶逐文件八维闭合；用户批准导入读取错误提示，正式单红后7绿，11相邻文件102绿与typecheck0；原生Chrome真NotFoundError、0写/槽不变、同名重选成功。三新关闭，3447tracked／491closed／73review／2883pending；固定79accept／4partial／0pending。统一门/coverage/PR仍等全部pre94。 [当前唯一证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)。原三文件、既有宿主/样式/导出证据复用；新叶完整TS还原。问题与Owner边界逐项说明，不用102绿替代整文件质量。导入错误已按本次用户批准先红后修；存档格式/数据库/槽位合同不改。主面板page寿命与独立动作跨tab完成为原行为；Reader新实例无LOADING重入、无生产abort调用，不制造未知停止线。本轮代码accept；父卡与本轮风险卡等全部pre94统一门/PR，历史归档done不认证本轮集成，历史通过不继承。
+
+无下一位Agent提示词：Codex继续同一3y的1／3m／42／57；新裁决只暂停受影响范围。

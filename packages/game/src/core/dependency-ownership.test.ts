@@ -65,13 +65,13 @@ describe('D1 shared-state ownership after dependency split', () => {
     expect(catalog.resolveLabelIp(cursor, 'shared#L_7')).toBe(0)
     expect(catalog.resolveLabelIp(cursor, 'L_8')).toBeUndefined()
     expect(eventEntry.getCmds({})).toBe(global)
-    expect(eventEntry.resolveScriptLabel(fresh(), 'L_8')).toEqual({ ip: 0 })
+    expect(eventEntry.resolveScriptLabel('L_8')).toEqual({ ip: 0 })
   })
 
   it('unknown global labels cannot resolve inherited object members as script IPs', () => {
     catalog.setGlobalEvents([{ op: 'end', label: 'L_1' }])
     for (const label of ['toString', 'constructor', '__proto__']) {
-      expect(catalog.resolveScriptLabel(fresh(), label)).toBeNull()
+      expect(catalog.resolveScriptLabel(label)).toBeNull()
       expect(catalog.resolveLabelIp({}, label)).toBeUndefined()
     }
   })
@@ -91,7 +91,7 @@ describe('D1 shared-state ownership after dependency split', () => {
       { op: 'end', label: '__proto__' },
     ]
     catalog.setGlobalEvents(commands)
-    expect(catalog.resolveScriptLabel(fresh(), '__proto__')).toEqual({ ip: 2 })
+    expect(catalog.resolveScriptLabel('__proto__')).toEqual({ ip: 2 })
     expect(catalog.resolveLabelIp({}, 'shared#toString')).toBe(1)
     expect(Object.getPrototypeOf(catalog.getGlobalLabelMap())).toBeNull()
   })
@@ -137,8 +137,8 @@ describe('D1 shared-state ownership after dependency split', () => {
     poison.addPoisonForPlayer(gs, 0, 101)
     poison.addPoisonForPlayer(gs, 1, 100)
     equipment.removeEquipmentEffect(gs, 0, 5)
-    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
-    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 101, wPoisonScript: 0 })
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 101, wPoisonScript: 0 })
+    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
     expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 100, wPoisonScript: 0 })
     expect(poison.isPlayerPoisoned(gs, 1)).toBe(false)
     expect(poison.isPlayerPoisoned(gs, 0)).toBe(true)

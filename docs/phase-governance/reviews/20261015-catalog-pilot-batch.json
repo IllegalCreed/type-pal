@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3k number delta",
+      "readMethod": "Scene identity comment binding only",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3k number; gates pending.",
+      "coreConclusion": "Getter/setter AST unchanged; approved root writer is separate evidence; historical publication retained.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -101,7 +101,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "dae8483fcd9ee6982665f4b0df9284911f50af5aabc13830433dbde92631edb1",
+      "afterSha256": "e1ddfc241c2e66e929e97e242455a6e68b331961903d11a078dd51696436693a",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -129,7 +129,7 @@
       },
       "revision": {
         "currentSha": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
-        "implementationSha": "dae8483fcd9ee6982665f4b0df9284911f50af5aabc13830433dbde92631edb1",
+        "implementationSha": "e1ddfc241c2e66e929e97e242455a6e68b331961903d11a078dd51696436693a",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -194,12 +194,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-number-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json",
-        "afterSha256": "dae8483fcd9ee6982665f4b0df9284911f50af5aabc13830433dbde92631edb1",
-        "lineCount": 2248,
-        "scope": "Only game-script-corrections current CLI caller sourceRef is rebound from line230/previous hash to unchanged correction call at233/current English-capable CLI hash; append exact old sourceRef in revision history. Catalog statuses, other entries, historical runtime and artifact hashes unchanged; no new English test report or execution credit.",
-        "candidateBaseRevision": "05e1cfcff",
+        "kind": "scene-identity-comment-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+        "afterSha256": "e1ddfc241c2e66e929e97e242455a6e68b331961903d11a078dd51696436693a",
+        "lineCount": 2379,
+        "scope": "CODE57 scoped delta; history retained; gates deferred.",
+        "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
         "workingTreeDelta": true
       },
       "history": [
@@ -450,7 +450,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "Board/ledger and owned projections only",
+      "reviewedLines": "One sourceRef and paired comment-history delta",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",
@@ -3218,9 +3218,9 @@
       "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "readMethod": "Scene identity comment binding only",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
+      "coreConclusion": "Getter/setter AST unchanged; approved root writer is separate evidence; historical publication retained.",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -3269,7 +3269,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "d5c6d11d11a5b5e19974b7e695c18cf6067f857165452bb971b107d0ea4e5d7b",
+      "afterSha256": "2498d08c84e037726204178631913cfbd68dab0f788866b4361429dd091b9137",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",
@@ -3300,7 +3300,7 @@
       },
       "revision": {
         "currentSha": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
-        "implementationSha": "d5c6d11d11a5b5e19974b7e695c18cf6067f857165452bb971b107d0ea4e5d7b",
+        "implementationSha": "2498d08c84e037726204178631913cfbd68dab0f788866b4361429dd091b9137",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "contentVersion": 22,
@@ -3360,12 +3360,12 @@
         ]
       },
       "evidence": {
-        "kind": "script-corrections-scoped-document-maintenance",
-        "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
-        "afterSha256": "d5c6d11d11a5b5e19974b7e695c18cf6067f857165452bb971b107d0ea4e5d7b",
-        "lineCount": 99,
-        "scope": "Only current script-catalog owner/test source anchors and explicit correction-layer ownership delta changed. Prior D1 SCC/token/needle/browser evidence and versions remain historical; this report gains no renewed runtime credit.",
-        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "kind": "scene-identity-comment-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+        "afterSha256": "2498d08c84e037726204178631913cfbd68dab0f788866b4361429dd091b9137",
+        "lineCount": 174,
+        "scope": "CODE57 scoped delta; history retained; gates deferred.",
+        "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
         "workingTreeDelta": true
       },
       "history": [
@@ -3447,7 +3447,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution.",
-      "reviewedLines": "1-91",
+      "reviewedLines": "One sourceRef and paired comment-history delta",
       "templateConformity": {
         "result": "template-compliant",
         "templateVersion": "1.0.0",

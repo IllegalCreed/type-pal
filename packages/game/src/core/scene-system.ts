@@ -1,55 +1,31 @@
 /**
  * SceneSystem —— explore 模式 tick 主体(02 架构 + D6 + D14)。
- * 职责:读 input → 走路 / 撞墙 / 转向 → 自动 trigger / blocker 推离 → Confirm Search → 切 mode。
+ * 顺序：自动trigger/脚本/blocker推离 → 走路与镜头 → 菜单或Confirm Search。
  *
  * 当前碰撞/触发已按 SDLPal 关键路径对齐:tile bit13 菱形判定、sState>=2 NPC 阻挡、
  * 方向键 last-press priority、triggerMode 4..8 自动触发距离。
  */
 
-import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
-import type { SceneAssetsCache } from '../assets/loader.js'
-import type { CommandBus } from './command-bus.js'
-import {
-  resolveScriptLabel,
-  runEnterScript,
-  tickAutoScripts,
-  tickChaseTimer,
-} from './event-system.js'
+import type { InputSnapshot, Tilemap } from '@type-pal/shared'
+import { resolveScriptLabel, tickAutoScripts, tickChaseTimer } from './event-system.js'
 import {
   type Facing,
   type GameState,
-  hydrateNpcStaticDefaults,
   type NpcState,
-  npcFromEventObject,
   PARTYOFFSET_X,
   PARTYOFFSET_Y,
-  sliceSceneEventObjects,
 } from './game-state.js'
 import { createInGameMenu } from './menu/in-game-menu.js'
 import { openOverworldShortcutMenu } from './menu/menu-driver.js'
 import { openMenu } from './menu/menu-mode.js'
-import { setCurrentMapNum } from './scene-identity.js'
+import { isWalkable } from './scene-collision.js'
+import { requireSceneContext, type SceneContext } from './scene-context.js'
 import { findSearchableNpc } from './scene-system-search.js'
 
+export { isWalkable } from './scene-collision.js'
+export { type SceneContext, setSceneContext } from './scene-context.js'
 export { getCurrentMapNum, setCurrentMapNum } from './scene-identity.js'
-
-export interface SceneContext {
-  tilemap: Tilemap
-  eventCommands: Command[]
-  labelMap: Record<string, number>
-}
-
-let _ctx: SceneContext | null = null
-
-export function setSceneContext(ctx: SceneContext): void {
-  _ctx = ctx
-}
-
-function requireSceneContext(ctxOverride?: SceneContext): SceneContext {
-  const ctx = ctxOverride ?? _ctx
-  if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')
-  return ctx
-}
+export { type LoadSceneInput, loadScene } from './scene-loading.js'
 
 /** sdlpal scene.c:807:xOffset=±16 / yOffset=±8(sdlpal pixel),每按一次方向键走半 tile。
  *  System A:OUR unit = sdlpal pixel,tile=32×16 sdlpal px。 */
@@ -57,12 +33,6 @@ const X_STEP = 16
 const Y_STEP = 8
 const TILE_W = 32
 const TILE_H = 16
-// M5:走路碰撞下边界(sdlpal scene.c:551 `blockX=PAL_X(partyoffset)/32, blockY=PAL_Y(partyoffset)/16`)。
-//   partyoffset=(160,112)(res.c:301)→ blockX=5, blockY=7。队首 tile 列<5/行<7 一律阻挡,
-//   保证队首恒居屏幕中心、viewport 不为负(C 不 clamp viewport,靠这条走路阻挡)。
-const BLOCK_X = PARTYOFFSET_X / TILE_W // 5
-const BLOCK_Y = PARTYOFFSET_Y / TILE_H // 7
-
 // sdlpal scene.c:804-805 真值 + palcommon.h enum(kDirSouth=0,kDirWest=1,kDirNorth=2,kDirEast=3):
 //   xOffset = (West||South ? -16 : +16);  yOffset = (West||North ? -8 : +8)
 // 展开:
@@ -78,27 +48,19 @@ const DIR_DELTA: Record<Facing, { dx: number; dy: number }> = {
   right: { dx: X_STEP, dy: Y_STEP },
 }
 
-const KEY_TO_FACING: Record<'Up' | 'Down' | 'Left' | 'Right', Facing> = {
-  Up: 'up',
-  Down: 'down',
-  Left: 'left',
-  Right: 'right',
-}
-const DIR_KEY_SET = new Set<'Up' | 'Down' | 'Left' | 'Right'>(['Up', 'Down', 'Left', 'Right'])
-
-/**
- * sdlpal input.c:180-189 PAL_GetCurrDirection:选最后按的方向键(dwKeyOrder 最大者)。
- * 我们的实现:KeyboardInputSource handleDown delete-then-add 让最新键在 held Set 末尾,
- * 反向迭代取第一个方向键。
- *
- * 之前 M2 era 用硬编码 Up>Down>Left>Right 固定优先级,不符合原版 "最后按的赢" 语义。
- */
+/** held按按下顺序排列，从末尾取最后按下的方向键，忽略其它键。 */
 function pickFacing(input: InputSnapshot): Facing | null {
   const held = Array.from(input.held)
   for (let i = held.length - 1; i >= 0; i--) {
-    const k = held[i]
-    if (k !== undefined && DIR_KEY_SET.has(k as 'Up' | 'Down' | 'Left' | 'Right')) {
-      return KEY_TO_FACING[k as 'Up' | 'Down' | 'Left' | 'Right']
+    switch (held[i]) {
+      case 'Up':
+        return 'up'
+      case 'Down':
+        return 'down'
+      case 'Left':
+        return 'left'
+      case 'Right':
+        return 'right'
     }
   }
   return null
@@ -161,7 +123,7 @@ const SCREEN_W = 320
  * 遍历 EventObjects:vanish-time / 复活 / 转向 + 触发 trigger zone。
  * 内联 trigger zone 距离 + Manhattan 公式(W1.b 的 findTriggerZoneNpc 等价但带 in-place 转向 + state 修)。
  */
-function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
+function updateEventObjectsAndTrigger(gs: GameState): void {
   // sdlpal `viewport + partyoffset = party world pos`(viewport 是屏幕左上 world 坐标,
   // partyoffset (160,112) 是 party 在屏幕上的固定位置,相加 = party world)。
   // ts 端 gs.party.x/y 直接就是 party world,无需再算 — 但 viewport 仍单独用于 sState<0 复活检测。
@@ -223,8 +185,7 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
     }
 
     // 跑 trigger script + 切 event mode(sdlpal play.c:153 PAL_RunTriggerScript)
-    loadEventFromNpc(gs, ctx, npc)
-    if ((gs.mode as string) === 'event') {
+    if (loadEventFromNpc(gs, npc)) {
       // DLc:真正起了脚本且 owner 有 sprite 帧 → PAL_UpdatePartyGestures(FALSE)(play.c:120-148):
       //   全队切站立帧 + 相位复位,主角不再整段 cutscene 冻在迈步帧(stepFrame 奇相位)。
       if (npc.nSpriteFrames !== 0) {
@@ -277,8 +238,7 @@ function pushPartyAwayFromBlockingNpcs(gs: GameState, ctx: SceneContext): void {
  * 用 NPC 的 triggerLabel 装载 eventCursor + 切到 event 模式。
  * Confirm-search 路径 / contact 明雷路径共享。
  */
-function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void {
-  void ctx // P2#5:不再用 per-scene 切片解析 trigger — 全部走单一全局数组(全局 ip)。
+function loadEventFromNpc(gs: GameState, npc: NpcState): boolean {
   let ip: number
 
   // 优先 triggerResume(上次 0x01 advance / 0x02 reset 推进后的续跑位置 = sdlpal wTriggerScript
@@ -286,15 +246,15 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
   if (npc.triggerResume) {
     ip = npc.triggerResume.ip // 全局 ip
   } else {
-    if (!npc.triggerLabel) return
+    if (!npc.triggerLabel) return false
     // P2#5:triggerLabel(L_<globalIndex>,来自 event-objects.json)→ 全局 ip(identity)。
     // sdlpal wTriggerScript 本是单一全局 offset(events.bin unified),与此一致。
-    const r = resolveScriptLabel(gs, npc.triggerLabel)
+    const r = resolveScriptLabel(npc.triggerLabel)
     if (!r) {
       console.warn(
         `scene-system: triggerLabel ${npc.triggerLabel} 不在全局 labelMap(NPC id=${npc.id})`,
       )
-      return
+      return false
     }
     ip = r.ip
   }
@@ -313,92 +273,6 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
     triggerOwnerId: npc.id,
   }
   gs.mode = 'event'
-}
-
-/**
- * 读 TileCell obstacle bit。
- *
- * sdlpal map.c:298  `return (lpMap->Tiles[y][x][h] & 0x2000) >> 13;`
- * → bit 13 (0-indexed) of the u16 tile value = obstacle flag。
- * h=0 → cell.lower;h=1 → cell.upper。
- */
-function tilemapIsBlocked(tilemap: Tilemap, col: number, row: number, h: 0 | 1): boolean {
-  if (col < 0 || col >= tilemap.width || row < 0 || row >= tilemap.height) return true
-  const cell = tilemap.cells[row]?.[col]
-  if (!cell) return true
-  const tileWord = h === 0 ? cell.lower : cell.upper
-  // obstacle bit = bit 13 of u16 tile word (sdlpal map.c:298 `& 0x2000`)
-  return (tileWord & 0x2000) !== 0
-}
-
-/**
- * 菱形 isometric 碰撞判定(P0.a,port sdlpal scene.c:512-633 PAL_CheckObstacleWithRange)。
- *
- * 1. 把像素坐标用菱形四分法映射到 (col, row, h=0/1) tile — 直接 port sdlpal scene.c:556-591。
- * 2. 查 tilemap obstacle bit(bit 13 of lower/upper u16)。
- * 3. 查 NPC 菱形曼哈顿距离(sdlpal scene.c:624:abs(dx)+abs(dy)*2 < 16)。
- *    contact 怪(triggerMode >= 4)走进触发战斗,不阻挡走路。
- *
- * @param tilemap  当前场景 tilemap
- * @param posX     目标像素 X
- * @param posY     目标像素 Y
- * @param npcs     当前场景 NPC 列表(可选,默认空数组)
- * @param selfNpcId 跳过自身(party=0,NPC 移动时传自己 id)
- */
-export function isWalkable(
-  tilemap: Tilemap,
-  posX: number,
-  posY: number,
-  npcs: ReadonlyArray<NpcState> = [],
-  selfNpcId: number = 0,
-  /**
-   * M5:sdlpal `fCheckRange`(scene.c:818 PAL_UpdateParty 走路 / 712-713 follower 避障传 TRUE;
-   * scene.c:512 PAL_CheckObstacle 怪物追击默认 FALSE)。TRUE 时加 blockX/blockY 下边界。
-   */
-  fCheckRange: boolean = false,
-): boolean {
-  // ── Step 1: 菱形四分法 → (col, row, h) ──────────────────────────────────
-  // 直接 port sdlpal scene.c:556-591
-  let col = Math.floor(posX / TILE_W)
-  let row = Math.floor(posY / TILE_H)
-  let h: 0 | 1 = 0
-  const xr = posX % TILE_W // 0..31
-  const yr = posY % TILE_H // 0..15
-
-  // M5:fCheckRange 下边界(sdlpal scene.c:563-567)—— 用菱形调整**前**的 col/row(C 在 569+ 菱形之前
-  //   就 `if(x<blockX||y<blockY) return TRUE`)。队首走不进左上 5 列 / 上 7 行边缘带,镜头恒居中。
-  if (fCheckRange && (col < BLOCK_X || row < BLOCK_Y)) return false
-
-  if (xr + yr * 2 >= 16) {
-    if (xr + yr * 2 >= 48) {
-      col++
-      row++
-    } else if (32 - xr + yr * 2 < 16) {
-      col++
-    } else if (32 - xr + yr * 2 < 48) {
-      h = 1
-    } else {
-      row++
-    }
-  }
-
-  // ── Step 2: tilemap obstacle bit (sdlpal map.c:298 bit 13) ──────────────
-  if (tilemapIsBlocked(tilemap, col, row, h)) return false
-
-  // ── Step 3: NPC 菱形曼哈顿距离 (sdlpal scene.c:619-628) ────────────────
-  // sdlpal 真值:**只有 sState >= kObjStateBlocker(2)才阻挡**,无任何 triggerMode 条件;
-  //   sState=0 (Hidden):不渲染不阻挡
-  //   sState=1 (Normal):渲染但**不阻挡**(地板/桌椅等装饰 sprite event object)
-  //   sState>=2 (Blocker):渲染且阻挡(墙、家具阻挡部分、挡路门卫)
-  // DH5:旧码豁免 triggerMode>=4 的对象("contact 怪不挡路"的误解)→ 744 个 sState>=2 且
-  //   mode 5-8 的门卫/守卫可被穿行(sequence break)。数据实测 mode==4 明雷怪全部 sState<=1,
-  //   本就不过 blocker 关 —— 该豁免对踩怪触发完全多余,删除不影响触发战斗。
-  for (const npc of npcs) {
-    if (npc.id === selfNpcId) continue
-    if ((npc.sState ?? 1) < 2) continue
-    if (Math.abs(npc.x - posX) + Math.abs(npc.y - posY) * 2 < 16) return false
-  }
-
   return true
 }
 
@@ -428,7 +302,7 @@ export function tickScenePreInput(gs: GameState, ctxOverride?: SceneContext): vo
   if (gs.suppressAutoTriggerOnce) {
     gs.suppressAutoTriggerOnce = false
   } else {
-    updateEventObjectsAndTrigger(gs, ctx)
+    updateEventObjectsAndTrigger(gs)
     if (gs.mode !== 'explore') return
   }
 
@@ -445,7 +319,6 @@ export function tickScenePreInput(gs: GameState, ctxOverride?: SceneContext): vo
 export function tickSceneInput(
   gs: GameState,
   input: InputSnapshot,
-  bus: CommandBus,
   ctxOverride?: SceneContext,
 ): void {
   const ctx = requireSceneContext(ctxOverride)
@@ -460,7 +333,7 @@ export function tickSceneInput(
 
   // 1) 走路 + 转向
   //    P0.a:isWalkable 内部统一处理 tilemap obstacle bit + NPC 菱形碰撞。
-  //    contact monster(triggerMode >= 4)走进触发战斗 → isWalkable 不阻挡。
+  //    自动触发与阻挡分开判断；isWalkable只按tile和NPC的sState判断阻挡。
   //    party 自身 selfNpcId=0(party 不是 NPC,无需排除自己)。
   const facing = pickFacing(input)
   if (facing) {
@@ -538,102 +411,21 @@ export function tickSceneInput(
     const npc = findSearchableNpc(gs.npcs, gs.party.facing, gs.party.x, gs.party.y)
     if (npc?.triggerLabel) {
       applySearchVisualEffect(gs, npc)
-      loadEventFromNpc(gs, ctx, npc)
+      loadEventFromNpc(gs, npc)
     }
   }
-
-  // 注:gs.frameNum++ 由 tickByMode 统一推进(所有模式都计),不在此处做。
-
-  void bus
 }
 
 /**
- * 兼容旧单测/工具的整帧探索 tick。生产主循环调用本函数;内部按 SDLPal 顺序执行
+ * 生产主循环的整帧探索tick；内部按SDLPal顺序执行
  * `tickScenePreInput` + `tickSceneInput`。
  */
 export function tickSceneSystem(
   gs: GameState,
   input: InputSnapshot,
-  bus: CommandBus,
   ctxOverride?: SceneContext,
 ): void {
   tickScenePreInput(gs, ctxOverride)
   if (gs.mode !== 'explore') return
-  tickSceneInput(gs, input, bus, ctxOverride)
-}
-
-// ── M3.5 T9: loadScene(D33 lazy 切场景)─────────────────────────────────────
-
-export interface LoadSceneInput {
-  gs: GameState
-  sceneId: number
-  assets: SceneAssetsCache
-  /** 可选 party 起点(像素坐标)—— 不传则 party 位置 / facing 都不动(facing 单字段也可选)。 */
-  partyStart?: { x: number; y: number; facing?: Facing }
-}
-
-/**
- * Scene 切换(D33 lazy + D34 dev shortcut)。
- *
- * 1. SceneAssetsCache lazy fetch 新 scene 资源(同 scene 重复切不重复 fetch)
- * 2. 重置 gs.npcs(走 npcFromEventObject)
- * 3. 跑 scene onEnter 脚本,接入 setBattlefield / music / object state 等进场副作用
- * 4. 可选 partyStart 覆写 party 起点(并把 camera 跟到 party,用于 dev shortcut / manual jump)
- *
- * sceneId 是资源 dump 下标(0-based);sdlpal `wNumScene` 是 1-based,因此写入 sceneId+1。
- * tilemap 等渲染所需资源由调用方自行从 SceneAssetsCache 取(M3.5 T16+ dev panel 串接)。
- */
-export async function loadScene(input: LoadSceneInput): Promise<void> {
-  const { gs, sceneId, assets, partyStart } = input
-  const sceneAssets = await assets.loadScene(sceneId)
-  const wNumScene = sceneId + 1
-
-  // 传 labelMap → autoLabel 解 ip 写入 autoCursor;sceneCommands/sceneLabelMap 写 gs
-  gs.wNumScene = wNumScene
-  gs.sceneCommands = sceneAssets.eventCommands
-  gs.sceneLabelMap = sceneAssets.labelMap
-  gs.gameOverActive = false // 死亡读档 → 新场景 → 清 game-over 演出标记
-  gs.deathHoldActive = false // 同清过渡帧 hold(残留会冻住新场景渲染);死亡演出退出点
-  // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
-  gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
-    ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)
-    : 0
-  gs.npcs =
-    sliceSceneEventObjects(gs, wNumScene) ??
-    sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
-  hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
-
-  // P3.T1: 切 scene 时同步更新 SceneContext 的 events + labelMap,
-  // 修 M3.5 ⚠️ a9 #8:旧 scene 的 labelMap 留在内存导致 triggerLabel 查不到。
-  setSceneContext({
-    tilemap: sceneAssets.tilemap,
-    eventCommands: sceneAssets.eventCommands,
-    labelMap: sceneAssets.labelMap,
-  })
-  setCurrentMapNum(sceneAssets.mapNum) // 场景名按 map 命名:历史对话捕获用 getCurrentMapNum 读它
-
-  // P0.e: party 起点 + enter script 副作用顺序:
-  //   1. 先跑 wScriptOnEnter(若有)— 设 wNumBattleField / wNumMusic / setSceneObjectState 等
-  //      非位置类副作用(opcode 0x4A / 0x43 等)
-  //   2. 若调用方传 partyStart(dev panel manual override),其后覆写 party.x/y/facing + camera
-  //      — 这让 enter script 的 setBattlefield 真生效,即便 dev fallback partyStart 也不丢
-  //   3. 无 partyStart + 无 onEnterLabel → party 留在原坐标(不报错)
-  //
-  // 注:之前版本 partyStart 短路 enter script,导致 scene-jumps.json dev fallback partyStart
-  // 直跳的 scene 永远不跑 setBattlefield → 战斗背景永远 default。本 fix 让两者并存:
-  // enter script 跑全(含 setPartyPos),partyStart 之后覆写位置。
-  if (sceneAssets.onEnterLabel) {
-    const ip = resolveScriptLabel(gs, sceneAssets.onEnterLabel)?.ip // P2#5:onEnterLabel = L_<global> → 全局 ip
-    if (ip !== undefined) {
-      runEnterScript(gs, undefined, undefined, ip) // P2#5:默认全局数组
-    }
-  }
-  if (partyStart) {
-    gs.party = {
-      x: partyStart.x,
-      y: partyStart.y,
-      facing: partyStart.facing ?? gs.party.facing,
-    }
-    gs.camera = { x: partyStart.x - PARTYOFFSET_X, y: partyStart.y - PARTYOFFSET_Y }
-  }
+  tickSceneInput(gs, input, ctxOverride)
 }

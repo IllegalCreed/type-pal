@@ -4,7 +4,12 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gunzipSync } from 'node:zlib'
 import { type AssetCatalogV1, palBattleSpriteAssetId, palSpriteAssetId } from '@type-pal/content'
-import { parseIndexedRleChunk, parseSpriteChunk, parseWorldSpriteChunk } from '@type-pal/shared'
+import {
+  parseIndexedRleChunk,
+  parsePalSpriteChunk,
+  parsePalSpriteChunkStrict,
+  parseWorldSpriteChunk,
+} from '@type-pal/shared'
 import { afterEach, describe, expect, test } from 'vitest'
 import { sha256 } from './migration-baseline.js'
 import {
@@ -407,7 +412,7 @@ describe('PAL 静态图小头像真值', () => {
 })
 
 describe('PAL 大世界精灵全源门禁', () => {
-  test('真实 606 个 canonical 与 30 个坏尾源逐帧对齐宽松真值', () => {
+  test('真实607个PAL严格源与29个坏尾源的解析策略一致（非独立真值）', () => {
     const loaded = loadPalWorldSprites(repo)
     const anomalies = new Set<number>(
       PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES.map(({ sprite }) => sprite),
@@ -418,7 +423,7 @@ describe('PAL 大世界精灵全源门禁', () => {
       const number = Number(source.id.slice(source.id.lastIndexOf('.') + 1))
       if (!source.sourcePath) throw new Error(`${source.id} 缺文件来源`)
       const raw = gunzipSync(readFileSync(source.sourcePath))
-      const looseTruth = parseSpriteChunk(raw)
+      const looseTruth = parsePalSpriteChunk(raw)
       const legacy = parseWorldSpriteChunk(raw, 'legacy-migrated')
       if (legacy.frames.length !== looseTruth.length)
         throw new Error(`${source.id}: legacy/loose 帧数不一致`)
@@ -436,16 +441,16 @@ describe('PAL 大世界精灵全源门禁', () => {
       if (anomalies.has(number)) {
         legacyTail++
         expect(legacy.skippedLegacyTailSlots, source.id).toBeGreaterThan(0)
-        expect(() => parseWorldSpriteChunk(raw, 'canonical'), source.id).toThrow()
+        expect(() => parsePalSpriteChunkStrict(raw), source.id).toThrow()
       } else {
         canonical++
         expect(legacy.skippedLegacyTailSlots, source.id).toBe(0)
-        const strict = parseWorldSpriteChunk(raw, 'canonical').frames
+        const strict = parsePalSpriteChunkStrict(raw)
         if (strict.length !== looseTruth.length)
           throw new Error(`${source.id}: canonical/loose 帧数不一致`)
       }
     }
-    expect({ canonical, legacyTail }).toEqual({ canonical: 606, legacyTail: 30 })
+    expect({ canonical, legacyTail }).toEqual({ canonical: 607, legacyTail: 29 })
   }, 20_000)
 
   test('636 tuple/字节/帧/坏尾清单与 CLI 证据精确冻结', () => {
@@ -453,14 +458,14 @@ describe('PAL 大世界精灵全源门禁', () => {
     expect(loaded.report).toEqual({
       sprites: 636,
       spriteBytes: 1_332_725,
-      spriteFrames: 4_133,
-      spriteMalformedTailSlots: 30,
+      spriteFrames: 4_134,
+      spriteMalformedTailSlots: 29,
       spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
       spriteLegacyTailAnomalies: [...PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES],
     })
     expect(formatPalWorldSpriteReport(loaded.report)).toBe(
-      `[大世界精灵资源] sprites=636 bytes=1332725 frames=4133 ` +
-        `malformed-tail-slots=30 tuple-digest=${PAL_WORLD_SPRITE_TUPLE_DIGEST}`,
+      `[大世界精灵资源] sprites=636 bytes=1332725 frames=4134 ` +
+        `malformed-tail-slots=29 tuple-digest=${PAL_WORLD_SPRITE_TUPLE_DIGEST}`,
     )
   })
 

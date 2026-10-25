@@ -4,14 +4,14 @@
  *  - startRafLoop(ctx):浏览器,rAF + accumulator 节流;按 gs.mode 切 fps
  *    (explore/event 10fps,battle 25fps),返回 cancel。
  *
- * setSceneContext 在 loop 启动前调用一次:ctx_singleton 在 loop 生命期内有效。
- * 不在每 tick 重设,避免和 EventSystem 装载的 cursor.commands 错位。
+ * loop启动时发布初始探索地图，后续由资源装载Owner替换。
+ * 不在每tick覆写，避免用启动时的tilemap盖回新场景。
  *
  * 每个rAF按当前mode决定interval，至多推进一次逻辑；正常溢出余量结转，
  * tick后仍超过一个interval的积压丢弃。tickN不参与wall-clock节流。
  */
 
-import type { Command, InputSource, Tilemap } from '@type-pal/shared'
+import type { InputSource, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
@@ -26,8 +26,6 @@ export interface LoopContext {
   bus: CommandBus
   input: InputSource
   tilemap: Tilemap
-  eventCommands: Command[]
-  labelMap: Record<string, number>
   /** DM32:ticked=false 表示 fade-only present(palette/dither fade 进行中的补帧)——
    *  特效计数器(wave 累加/相位 index/shakeTime 自减)**不推进**,只用当前值扭曲。 */
   onPresent: (drained: BusEntry[], ticked: boolean) => void
@@ -144,8 +142,6 @@ function singleTick(ctx: LoopContext): void {
 function applySceneContext(ctx: LoopContext): void {
   setSceneContext({
     tilemap: ctx.tilemap,
-    eventCommands: ctx.eventCommands,
-    labelMap: ctx.labelMap,
   })
 }
 

@@ -1,5 +1,7 @@
 # CODE3o mode / history / poison / search 当前复审切片
 
+2026-10-24 当前增量：[模式／玩家生命周期质量及获批毒整理](../mode-player-quality/README.md)。旧全文/primary证据按其版本复用，具体旧误绿与Wear偏差已在新片修复或收窄，整卡仍partial，统一门等全部pre94收尾。
+
 2026-10-18 当前勘误：Search阈值是最大检查点，mode1=0..2、mode2=0..8、mode3=0..12；原“反直觉/没有改成越远越容易”定性错误，现修源码/测试注释与精确边界oracle。旧test没有真正钉normal边界/最远far或first-hit优先级，不能沿用为已证。毒Wear非压缩对照已另开高风险卡；下方原报告按历史保留，当前[源/测试/原生片段证据](../core-comment-audit/README.md)不重签3o整卡。
 
 基点：`c3a45d137`；分支：`codex/code-quality-3y`。本片重新复审 3o 四个 core helper及真实 caller/oracle，不把历史 done、旧 package green 或旧统一门记录当作当前整卡验收。3o 当前复审提升为 `partial`，未标 accept/done。

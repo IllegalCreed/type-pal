@@ -1,9 +1,9 @@
 /**
  * G02-D。核对图标像素/遮罩、资源编号和解码元数据边界。
- * 本组解真实 icon chunk，并核对头像尺寸来自 PNG 而不是 manifest。
+ * 手列合法 icon 字节经实际解码器核对像素；头像尺寸来自 PNG 而不是 manifest。
  */
 
-import { parseSpriteChunk as sharedParseSpriteChunk } from '@type-pal/shared'
+import { parseSpriteChunk as parseAuthorSpriteChunk, parsePalSpriteChunk } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { indexedPng, twoFrameChunk } from '../__tests__/grok-render-r1/legal-host.js'
 import { loadDialogAssets } from './dialog-assets.js'
@@ -329,7 +329,8 @@ describe('G02-D 对话图标与 base64', () => {
     expect(Array.from(base64ToBytes('/w=='))).toEqual([255])
   })
 
-  it('G02-D11 对话图标的 parseSpriteChunk 入口就是 shared 的同一函数', () => {
-    expect(parseSpriteChunk).toBe(sharedParseSpriteChunk)
+  it('G02-D11 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口', () => {
+    expect(parseSpriteChunk).toBe(parsePalSpriteChunk)
+    expect(parseSpriteChunk).not.toBe(parseAuthorSpriteChunk)
   })
 })

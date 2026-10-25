@@ -199,7 +199,12 @@ test.each([
     card.click()
     expect(deps.gs.partyMembers).toEqual([0, 2])
     expect(deps.gs.PlayerRolesRuntime.rgwEquipment[5]?.[2]).toBe(269)
+    // 已接收的压紧合同显式保留该队伍位置的16槽，空槽为零记录；不能过滤空值逃避所有权断言。
+    const emptyPoisonSlots = Object.fromEntries(
+      Array.from({ length: 16 }, (_, slot) => [`${slot}_1`, { wPoisonID: 0, wPoisonScript: 0 }]),
+    )
     expect(deps.gs.rgPoisonStatus).toEqual({
+      ...emptyPoisonSlots,
       '0_1': { wPoisonID: 563, wPoisonScript: 5 },
       '1_1': { wPoisonID: 564, wPoisonScript: 7 },
     })

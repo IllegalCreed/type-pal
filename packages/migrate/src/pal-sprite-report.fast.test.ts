@@ -16,13 +16,13 @@ test('world sprite report preserves the complete field order without asset IO', 
     formatPalWorldSpriteReport({
       sprites: 636,
       spriteBytes: 1_332_725,
-      spriteFrames: 4_133,
-      spriteMalformedTailSlots: 30,
+      spriteFrames: 4_134,
+      spriteMalformedTailSlots: 29,
       spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
     }),
   ).toBe(
-    `[大世界精灵资源] sprites=636 bytes=1332725 frames=4133 ` +
-      `malformed-tail-slots=30 tuple-digest=${PAL_WORLD_SPRITE_TUPLE_DIGEST}`,
+    `[大世界精灵资源] sprites=636 bytes=1332725 frames=4134 ` +
+      `malformed-tail-slots=29 tuple-digest=${PAL_WORLD_SPRITE_TUPLE_DIGEST}`,
   )
 })
 

@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 67,
+  "currentAccepted": 83,
   "cards": [
     {
       "id": "1",
@@ -21,8 +21,8 @@
       "sha256": "3893c7855c67c0135815bafb3dbf004b7126d659ee1879f2c6c91738ad74f98f",
       "lines": 179,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 18,
@@ -81,9 +81,12 @@
           "text": "- 2026-10-04 Codex：复核 raw/primary source 后修正 Q1 前提：generic `decodeRle` 的 0/0x80 no-op 只要后续 source 能填满帧就属于合法 framing；严格 sprite container 仍拒绝 zero-length command。Q1 收紧范围为截断/越界失败，避免把 sprite 上限或 strict 合同错误扩到通用 codec。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
-      "findings": "RLE four-file slice; existing catch oracle strengthened with valid counter; native SDL format discrepancy stopped in draft; three old file closures reopened; Q1b/engineering scope still incomplete"
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md",
+      "findings": "Original finite CODE1 engineering/Q1b/RLE scope code accepted; approved PAL-source rules have two formal business reds,164direct/adjacent,4TC0,1428raw records one added MGO571 frame,realChrome native-plane match and809production-stage outputs unchanged/twice-zero-diff. Author canonical stable; broad migrate/sprite wrapper pending or review explicitly not promoted. Unified gates/PR/merge remain open.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json"
     },
     {
       "id": "2",
@@ -185,8 +188,8 @@
       "sha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4",
       "lines": 95,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 23,
@@ -213,18 +216,20 @@
           "text": "- 修改白名单：`slice.ts`、`annotate.ts`、同域测试、此卡、看板/索引、必要 baseline。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
-      "findings": "Merged latest main and passed whole check 20430, official ratchet/protected same sample 20032/757 sources;0diagnostics. Six bounded IO files accepted,355→361closed, CODE3/3g stillpartial. P3 raw7 returns await user decision; prior2asset fixes and301added collected instructions evidenced, no94-102.",
+      "findings": "Original slice/annotate code scope accepted from per-file A-H, approved control-flow red/green, current oracle identities and exact3f reuse. Final pre94 unified gates deferred; no broad CLI/bytecode/game/E2E credit.",
       "additionalEvidence": [
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
-        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json"
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json"
       ],
       "currentReviewer": "Codex",
-      "currentReviewDate": "2026-10-22",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json"
+      "currentReviewDate": "2026-10-24",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json"
     },
     {
       "id": "3b",
@@ -420,8 +425,8 @@
       "sha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
       "lines": 55,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -451,14 +456,16 @@
       "scopeConfirmed": true,
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md",
       "currentReviewer": "Codex",
-      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
-      "findings": "Merged latest main and passed whole check 20430, official ratchet/protected same sample 20032/757 sources;0diagnostics. Six bounded IO files accepted,355→361closed, CODE3/3g stillpartial. P3 raw7 returns await user decision; prior2asset fixes and301added collected instructions evidenced, no94-102.",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/review.json",
+      "findings": "Complete CLI A-H closes remaining resource/IO orchestration debt: explicit-root stages, shared owned read, dead private mode and mirror containers removed, precise failure/output order retained;3frozen full-runtime/import proofs,39real CLI cases,809actual sprite output equality. Original nonatomic partial-output policy disclosed;final whole-pre94 unified gates deferred.",
       "additionalEvidence": [
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
         "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
-        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json"
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/review.json"
       ],
-      "currentReviewDate": "2026-10-22"
+      "currentReviewDate": "2026-10-24"
     },
     {
       "id": "3h",
@@ -784,8 +791,8 @@
       "sha256": "9585f35717d4194979749d688a13b960c48b5b4c7e407328c85ee81daa75acf7",
       "lines": 68,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -829,7 +836,11 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-battle-positions/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+      "currentReviewDate": "2026-10-25",
+      "currentReviewer": "Codex",
+      "findings": "User decisions explicit; exact formal business reds then131green/TC0; eight-axis prior evidence reused with scoped source/caller bridge. Code accepted; unified gates deferred."
     },
     {
       "id": "3n",
@@ -839,8 +850,8 @@
       "sha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
       "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -884,7 +895,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3n-fade-identity-catalog/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "findings": "Original scoped code accepted after explicit eight-axis review/evidence reuse and necessary rework.3q approved dead interfaces removed; real replay false-green fixed. Current509game/69Node/TC/lint0 support, not substitute, file decisions. Unified integration gates/PR deferred until all pre94."
     },
     {
       "id": "3o",
@@ -894,8 +906,8 @@
       "sha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
       "lines": 67,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 15,
@@ -939,7 +951,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3o-mode-history-poison-search/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md",
+      "findings": "Original code scope accepted from per-file A-H, preserved effective counters, current dependency bridges and approved poison-entry repair. Whole pre94 integration gates remain deferred."
     },
     {
       "id": "3p",
@@ -949,8 +962,8 @@
       "sha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
       "lines": 130,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 18,
@@ -998,7 +1011,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3p-event-opcode-player/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md",
+      "findings": "Original code scope accepted from per-file A-H, preserved effective counters, current dependency bridges and approved poison-entry repair. Whole pre94 integration gates remain deferred."
     },
     {
       "id": "3q",
@@ -1008,8 +1022,8 @@
       "sha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
       "lines": 129,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 18,
@@ -1049,7 +1063,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3q-scene-system/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "findings": "Original scoped code accepted after explicit eight-axis review/evidence reuse and necessary rework.3q approved dead interfaces removed; real replay false-green fixed. Current509game/69Node/TC/lint0 support, not substitute, file decisions. Unified integration gates/PR deferred until all pre94."
     },
     {
       "id": "3r",
@@ -1059,8 +1074,8 @@
       "sha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
       "lines": 132,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 20,
@@ -1120,7 +1135,12 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3r-event-system/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "findings": "Map-only rejection counter repaired and independently observable; prior whole-file/card code acceptance restored, unrelated claims retained. Unified integration still deferred.",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "currentReviewSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25"
     },
     {
       "id": "3s",
@@ -1130,8 +1150,8 @@
       "sha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
       "lines": 131,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 21,
@@ -1183,7 +1203,8 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3s-battle-system/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
+      "findings": "Original scoped code review accepted, with explicit eight-axis/caller/oracle and verified current-input bridges; source/test quality debts individually repaired. Final whole-repository integration gates/PR still DEFERRED until all pre94; not integration acceptance."
     },
     {
       "id": "3t",
@@ -1193,12 +1214,13 @@
       "sha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
       "lines": 245,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
-      "scopeLimitation": "Implementation and main test fully read for current three counters; other dedicated tests/full card acceptance still pending.",
-      "priorUnverifiedDiscoveryRecord": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/3t-discovery-before.json.gz"
+      "currentReview": "accept",
+      "currentAcceptance": true,
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
+      "scopeLimitation": "Original3t dispatcher/main/dedicated contracts accepted only; no whole event-system, other actions, save/API/asset/visual acceptance. Final integration gates pending.",
+      "priorUnverifiedDiscoveryRecord": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/3t-discovery-before.json.gz",
+      "findings": "Original scoped code review accepted, with explicit eight-axis/caller/oracle and verified current-input bridges; source/test quality debts individually repaired. Final whole-repository integration gates/PR still DEFERRED until all pre94; not integration acceptance."
     },
     {
       "id": "3u",
@@ -1700,8 +1722,8 @@
       "sha256": "b9d0c1080023240c5c372f39094347e351bc24b8ee95be1743178ecfb4c44bf8",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1721,7 +1743,12 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/42-dialog-box/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md",
+      "currentReviewNote": "Seven named file scopes accepted, title-speed state source review; no whole42 or unified pre94 acceptance.",
+      "currentReviewDate": "2026-10-25",
+      "currentReviewer": "Codex",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+      "findings": "User decisions explicit; exact formal business reds then131green/TC0; eight-axis prior evidence reused with scoped source/caller bridge. Code accepted; unified gates deferred."
     },
     {
       "id": "43",
@@ -2148,8 +2175,8 @@
       "sha256": "675f192bbb974f8a61fde21f5b917a63b63d9ffc0c5c91a2936352902a4b3d80",
       "lines": 175,
       "historicalStatus": "build",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -2220,10 +2247,12 @@
           "text": "- 本轮没有关闭文件。ledger机器结果仍3267 /338 closed /10 review /2919 pending。player-poison-state、battle-opcodes继续review；两份测试及dev-panel/状态页/battle-system/inspect等未完成整文件证据的文件继续pending。待CODE80裁决后先写失败反例再修改，集中运行全部质量门；CODE79另行推进。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-      "findings": "runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
-      "currentReviewSha256": "720b2303c89e5426f14839ff7aefb7e79c107e08eff0dd0f2e6f9ee22053e1da"
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "findings": "Map-only rejection counter repaired and independently observable; prior whole-file/card code acceptance restored, unrelated claims retained. Unified integration still deferred.",
+      "currentReviewSha256": "83abdc7f23f3ba4daacac7487727c7e9fbed72c9506d0f5d2463bc631ca56caf",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25"
     },
     {
       "id": "54",
@@ -2313,8 +2342,8 @@
       "sha256": "3d760c42ad5c52570e7458a0c41c15cd095c98c8b575f8fa626a21340bdc30ce",
       "lines": 80,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2337,7 +2366,9 @@
           "text": "- build 准入: Codex build allowed（先写失败反例；只改本卡白名单）"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md",
+      "currentReviewNote": "Original controller/model/draw and tests accepted with six named file closures; CODE57/58 and final unified gates separate."
     },
     {
       "id": "57",
@@ -2347,8 +2378,8 @@
       "sha256": "f27f2d45832a0d84efb36c0d279425099143e4e19c7435a21a9c729daab724e9",
       "lines": 64,
       "historicalStatus": "review",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2371,8 +2402,13 @@
           "text": "- Codex 范围/前提核验: counter（已证主 gameplay seam repair 与 bootstrap thumbnail 直绘存在边界，但缺真实 thumbnail 像素 oracle，不能安全改行为）"
         }
       ],
-      "scopeConfirmed": false,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md"
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "findings": "Original whole root/two tests and extracted leaves code accepted after eight-axis review, valid controls, approved seam and map IO/identity/cache repair. Seven new closures in window; unified gates deferred.",
+      "currentReviewSha256": "58c3cae3814a64b8fc313a046ee88748de450a318a9b05d3f4830fff5b19eed5",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25"
     },
     {
       "id": "58",
@@ -2382,8 +2418,8 @@
       "sha256": "848a2428e5bcb8a5168477ee6c706df167a47ef69cb435e6e76ed9294d3f16f8",
       "lines": 68,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2406,7 +2442,12 @@
           "text": "- 定向范围与相邻：`tools-panel.test.ts`、`tools-panel.glm-phase1-leaves.test.ts`，18 tests；minimap/dev-panel caller 已在 CODE-QUALITY-56 与本轮读取中核验。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/review.json",
+      "findings": "原三范围文件、IO/DOM新叶八维闭合；导入读错用户批准先单红后7绿，11/102相关、TC0与原生Chrome0写/同名重选。代码accept，当前父卡/风险卡待统一门；归档done只记历史；统一门延后。",
+      "currentReviewSha256": "4c9ef604606556d013e2227f3b39140c9205d0b76c567737cdcea4b98cbd7610",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25"
     },
     {
       "id": "59",
@@ -4257,31 +4298,19 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 16,
-    "accept": 67
+    "partial": 0,
+    "accept": 83
   },
   "lastIncrementalReview": {
-    "date": "2026-10-24",
-    "scope": "CODE3k number boundary, shared blit and test discrimination; five other primitives reused",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
-    "newlyAcceptedCards": ["3k"],
-    "newlyClosedFiles": [
-      "packages/game/src/present/draw-number.ts",
-      "packages/game/src/present/draw-number-nonfinite.test.ts"
-    ],
-    "fixed83": {
-      "pending": 0,
-      "partial": 16,
-      "accept": 67
-    },
+    "date": "2026-10-25",
+    "base": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
+    "scope": "Approved PAL reading repair; original finite83card code scopes accepted, final unified gates deferred",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
     "counts": {
-      "total": 3411,
-      "verified": 420,
-      "review": 99,
-      "pending": 2892,
-      "unclosed": 2991
-    },
-    "limits": "No broad core/save acceptance, natural-story E2E or94–102 credit."
+      "pending": 0,
+      "partial": 0,
+      "accept": 83
+    }
   },
   "incrementalReviewHistory": [
     {
@@ -4487,6 +4516,356 @@
         "unclosed": 2992
       },
       "limits": "P13 and three broad production files retain prior whole-file state. No94–102 or natural-story E2E credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3k number boundary, shared blit and test discrimination; five other primitives reused",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
+      "newlyAcceptedCards": ["3k"],
+      "newlyClosedFiles": [
+        "packages/game/src/present/draw-number.ts",
+        "packages/game/src/present/draw-number-nonfinite.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 16,
+        "accept": 67
+      },
+      "counts": {
+        "total": 3411,
+        "verified": 420,
+        "review": 99,
+        "pending": 2892,
+        "unclosed": 2991
+      },
+      "limits": "No broad core/save acceptance, natural-story E2E or94–102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3s/3t original code scopes accepted; code review separated from deferred unified integration",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md",
+      "newlyAcceptedCards": ["3s", "3t"],
+      "newlyClosedFiles": [
+        "packages/game/src/core/battle/battle-system.ts",
+        "packages/game/src/core/battle/battle-dialog.ts",
+        "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "packages/game/src/core/battle/battle-opcodes.ts",
+        "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+        "packages/game/src/core/battle/battle-opcodes.cov85.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 14,
+        "accept": 69
+      },
+      "counts": {
+        "total": 3424,
+        "verified": 421,
+        "review": 113,
+        "pending": 2890,
+        "unclosed": 3003
+      },
+      "limits": "Code acceptance only; final check/official/ratchet/protected/PR pending. No94–102 or broad event-system/save/visual acceptance."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3n/3q/3r original code acceptance; approved scene interface cleanup and real replay oracle",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md",
+      "newlyAcceptedCards": ["3n", "3q", "3r"],
+      "newlyClosedFiles": [
+        "packages/game/src/core/palette-fade.ts",
+        "packages/game/src/core/palette-fade.test.ts",
+        "packages/game/src/core/cross-module-boundaries.test.ts",
+        "packages/game/src/core/scene-system.ts",
+        "packages/game/src/core/scene-context.ts",
+        "packages/game/src/core/scene-collision.ts",
+        "packages/game/src/core/scene-loading.ts",
+        "packages/game/src/core/scene-system.test.ts",
+        "packages/game/src/core/scene-collision.test.ts",
+        "packages/game/src/core/scene-loading.test.ts",
+        "packages/game/src/core/scene.test-fixtures.ts",
+        "packages/game/src/core/event-system.ts",
+        "packages/game/src/core/event-object-scope.ts",
+        "packages/game/src/core/npc-walk-frame.ts",
+        "packages/game/src/core/event-system.test.ts",
+        "scripts/e2e/meal-item-dispatch.test.mjs",
+        "packages/game/src/e2e.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 11,
+        "accept": 72
+      },
+      "counts": {
+        "total": 3424,
+        "verified": 438,
+        "review": 97,
+        "pending": 2889,
+        "unclosed": 2986
+      },
+      "limits": "Code acceptance only; final unified check/official/protected/PR pending. No broad bootstrap/loop/browser/save/94–102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3o/3p previously accepted code; delayed derivative header synchronization",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md",
+      "newlyAcceptedCards": ["3o", "3p"],
+      "newlyClosedFiles": [
+        "packages/game/src/core/scene-system-search.ts",
+        "packages/game/src/core/player-poison-state.ts",
+        "packages/game/src/core/dialog-history.test.ts",
+        "packages/game/src/core/scene-system-search.test.ts",
+        "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+        "packages/game/src/core/equip-effect.test.ts",
+        "packages/game/src/core/event-opcode-player.test-fixtures.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 9,
+        "accept": 74
+      },
+      "counts": {
+        "total": 3424,
+        "verified": 447,
+        "review": 89,
+        "pending": 2888,
+        "unclosed": 2977
+      },
+      "limits": "Retrospective derivative metadata repair only; prior actual74/9 preserved, not new progress."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3 original code acceptance and world phase extraction; CODE3g stays partial",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md",
+      "newlyAcceptedCards": ["3"],
+      "newlyClosedFiles": [
+        "packages/pal-extract/src/events/slice.ts",
+        "packages/pal-extract/src/events/slice.test.ts",
+        "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/world-assets.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 8,
+        "accept": 75
+      },
+      "counts": {
+        "total": 3425,
+        "verified": 452,
+        "review": 85,
+        "pending": 2888,
+        "unclosed": 2973
+      },
+      "limits": "Code review only; final whole-pre94 unified gates still deferred. No94–102."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3g complete CLI orchestration code acceptance; final unified pre94 gates deferred",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md",
+      "newlyAcceptedCards": ["3g"],
+      "newlyClosedFiles": [
+        "packages/pal-extract/src/cli.ts",
+        "packages/pal-extract/src/io/read.ts",
+        "packages/pal-extract/src/resources/data-assets.ts",
+        "packages/pal-extract/src/resources/animation-assets.ts",
+        "packages/pal-extract/src/resources/bitmap-assets.ts",
+        "packages/pal-extract/src/resources/sprite-assets.ts",
+        "packages/pal-extract/src/resources/sound-assets.ts",
+        "packages/pal-extract/src/resources/lookup-assets.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 7,
+        "accept": 76
+      },
+      "counts": {
+        "total": 3432,
+        "verified": 460,
+        "review": 84,
+        "pending": 2888,
+        "unclosed": 2972
+      },
+      "limits": "Code review acceptance only; no wholecheck/official/protected/PR until remaining seven pre94 partial resolved. No94–102."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE3m nine scoped code acceptances and two concrete numerical stoplines; whole card partial",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md",
+      "newlyAcceptedCards": [],
+      "newlyClosedFiles": [
+        "packages/game/src/core/battle/turn-queue.ts",
+        "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+        "packages/game/src/core/battle/__tests__/status.test.ts",
+        "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+        "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 7,
+        "accept": 76
+      },
+      "counts": {
+        "total": 3432,
+        "verified": 465,
+        "review": 79,
+        "pending": 2888,
+        "unclosed": 2967
+      },
+      "limits": "Two actual product answers pending; no entire3m/fullpre94/unified gate or94-102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE42 quality separation, five new file closures; state/title-speed review",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md",
+      "newlyAcceptedCards": [],
+      "newlyClosedFiles": [
+        "packages/game/src/present/dialog-text.ts",
+        "packages/game/src/present/dialog-draw.ts",
+        "packages/game/src/__tests__/dialog-fixtures.ts",
+        "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 7,
+        "accept": 76
+      },
+      "counts": {
+        "total": 3435,
+        "verified": 470,
+        "review": 79,
+        "pending": 2886,
+        "unclosed": 2965
+      },
+      "limits": "State speed question pending; no whole42/fullpre94/unified gates or94-102 credit."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE56 original scope and six named files accepted; read-only interpreter dependency removed without value/API change",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md",
+      "newlyAcceptedCards": ["56"],
+      "newlyClosedFiles": [
+        "packages/game/src/tools/minimap.ts",
+        "packages/game/src/tools/minimap-model.ts",
+        "packages/game/src/tools/minimap-draw.ts",
+        "packages/game/src/tools/minimap.test.ts",
+        "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/script-opcode-ids.ts"
+      ],
+      "fixed83": {
+        "pending": 0,
+        "partial": 6,
+        "accept": 77
+      },
+      "counts": {
+        "total": 3438,
+        "verified": 476,
+        "review": 76,
+        "pending": 2886,
+        "unclosed": 2962
+      },
+      "limits": "No CODE57/58, broad core reacceptance, fullpre94 or unified gate credit. 3m/42 product answers pending."
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "CODE53 declared functional browser fixture evidence and CODE58 pure ownership/test strengthening; no whole-card promotion",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md",
+      "newlyAcceptedCards": [],
+      "newlyClosedFiles": ["packages/game/src/tools/tools-panel-style.ts"],
+      "fixed83": {
+        "pending": 0,
+        "partial": 6,
+        "accept": 77
+      },
+      "counts": {
+        "total": 3439,
+        "verified": 477,
+        "review": 76,
+        "pending": 2886,
+        "unclosed": 2962
+      },
+      "limits": "53/58 remain partial for broad GS/Dev and actual export failure decision. Browser debug/log disclosed; no English/ordinary-story or unified-gate credit."
+    },
+    {
+      "date": "2026-10-24",
+      "base": "3bf94a63955156046c6615df663e405917f5813b",
+      "scope": "GS model/test and approved58 export error; no whole-card promotion",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 6,
+        "accept": 77
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "scope": "Dev responsibility/lifecycle/type/pixel audit; no whole-card promotion",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 6,
+        "accept": 77
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "4ae01d9069c7538cf62a4c2b6bd56ed8cf2cb2e7",
+      "scope": "CODE53 final declared test quality; code accept with unified gates deferred",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 5,
+        "accept": 78
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "47b14abc282ecf08a9795263936475519a104269",
+      "scope": "CODE58 original three files and save/DOM extraction; code accepted, unified gates deferred",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 4,
+        "accept": 79
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "624478c9ff3554d51142214d4d7aef78d67922fb",
+      "scope": "CODE57 finite quality/seam work, map IO direct counter suspends3r/53 aggregate acceptance",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 6,
+        "accept": 77
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "d1cadb32ea1f6a427cf0257e174bed4b5e23b045",
+      "scope": "CODE1 two-source comment quality completed; AST-identical runtime reuse,format/3m/42 decisions still pending",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 3,
+        "accept": 80
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "7d7246dce968760cded0de5093d1b4d9b0f5ddb5",
+      "scope": "Approved3m/42 boundary repair, CODE1 remains",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 1,
+        "accept": 82
+      }
     }
   ]
 }

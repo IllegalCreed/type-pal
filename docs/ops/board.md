@@ -35,8 +35,8 @@ Template: governance-index-v1 / 1.0.0
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
-| CODE-QUALITY-3Y-CLOSEOUT-1 | [统一治理分支与3y复审](tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | Codex / 统一3y，逐卡复审 | 既有阶段已同步main；余项沿pre94逐卡复审，未知仍review |
-| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | review | Codex / 五卡八维补审及必要返工已核 | runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 指定代码接受与余项分开，统一门/提交落点见唯一回执及Git refs。 |
+| CODE-QUALITY-3Y-CLOSEOUT-1 | [统一治理分支与3y复审](tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | Codex / pre94代码验收，PR22发布 | 原83范围accept；CI20180例／protected通过但4act诊断拒绝集成。等待边界窄修9相关／TC0，待新CI零诊断。 |
+| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | review | Codex / 代码接受，统一集成另核 | 既有状态/毒/GS/Dev/专测证据保留；0x99失败拒绝counter修复，event-system与53整卡代码信用恢复。 |
 | CODE-QUALITY-57 | [game bootstrap thumbnail seam boundary](tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | Codex / 缺 thumbnail 像素 oracle 与视觉裁决，禁止实现 | bootstrap 两层直绘未调用 seam repair；与 gameplay 补偿边界待核 |
 | CODE-QUALITY-95 | [menu合法夹具](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | Codex / 等统一门 | 三份局部accept保持，不关闭文件 |
 | CODE-QUALITY-94 | [menu阶段集成](tasks/CODE-QUALITY-94-menu-integration-window.md) | rework | Codex / 已接手返工 | 两项获批行为已修；完整门带诊断，第三项法术显示未动 |
@@ -65,17 +65,19 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / CODE3k本窗完成 | 原六源合同接受，67accept/16partial；本窗2新关闭，完整门零诊断；远端CI按Git回执，94–102不扩展。 |
+| GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 | [pre94导入读取失败提示](tasks/GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | Codex / 已批单红后修，等统一门 | 原生NotFoundError反馈、0写/槽不变/同路径重选；102相关/TC0、IO叶精确搬移；不改格式/DB。 |
+| GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 | [pre94换图失败资源/拒绝归属](tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | Codex / 已批修复、代码验收 | 失败保留/完整发布/迟到归属/地图身份与重访均有正式红绿；7native/391相邻/TC0，统一集成待父卡。 |
+| GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 | [pre94工具导出失败提示](tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | Codex / 已批先红后修，等统一门 | 错误toast／URL清理／4不同IO合同及真实Chrome Save/IDB失败链通过；340相邻，未改槽位/DB；只读证据已落。 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
-| GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
-| GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |
+| GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [毒列表与入口所有权](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | review | Codex / 两项用户批准均修，待统一门 | 全16槽稳定保留、不丢毒不重复；入口先占槽／续点随record，四正式红后7绿、491相邻；普通剧情嵌套未证。 |
+| GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | Codex / 已批正式红后窄修 | FLOAT/中间赋值与抗性已修；扩展域不加回绕，统一门等全部pre94收尾 |
 | QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制counter](tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | Codex / 新增复活装备状态窄修已测 | 原三项保留；0x22两红后修、284game相邻0stderr；统一门/视觉仍待，不关闭整文件 |
 | QUALITY-FETCH-ABORT-LIFECYCLE-1 | [重试等待与Request取消](tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | Codex / 同步main后复跑并收口 | 取消反例旧23/3红、控制26绿、变异3枚各单红；当前修复26例绿，统一门未清 |
 | QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 | [game运行时诊断核清](tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | Codex / 逐file归因后选有限包 | C2 两装备负输入测试已逐文件核验；8/8 绿、0 stderr，game typecheck 与相邻6文件66 tests通过；两行保留review，其余15块stderr仍未全文验收 |
 | QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 | [提取器共享输出清理边界](tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | Codex / 原三缺口已补并过集中门 | guard/两测试明确合同接受；整体视频/其它输出策略不附带关闭 |
 | QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 | [extract原盘执行完整性](tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | Codex / C2证据已落，回编号卡复审 | 完整extract431零stderr、七有效反控；两个测试review，0关闭 |
-| QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | build | Codex / 两批准项已修且全门过；P3停线 | 6红→53/452绿及原盘301新增收录；raw7两return新问题待裁决，不改P3 |
-| QUALITY-RLE-COMMAND-TRUTH-1 | [RLE高位literal格式真值](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | Codex / 只读取证，算法冻结 | SDL native与TS分歧已证；GOP未见分类差异，canonical域/其它资源待核 |
+| QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | review | Codex / P3另获批已修，待统一门 | 旧两获批修复保留；raw7两接回边正式2红→83相邻绿、原盘增15删0／零漏边，未写生成物，不附带关闭CLI。 |
+| QUALITY-RLE-COMMAND-TRUTH-1 | [PAL资源来源规则](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | review | Codex / 获批代码修复、待集中门 | PAL／author分域，两业务红后164相关／四TC0；1428源仅571新增一帧、809产物不变，当前只读回执已落。 |
 | GAME-SAVE-IDB-COMMIT-1 | [存档事务提交与失败传播](tasks/GAME-SAVE-IDB-COMMIT-1.md) | review | Codex / 统一门诊断未清零 | ①已修、三条真实IDB回归通过，不改版本/清档/schema |
 | GAME-SAVE-INPUT-DOMAIN-1 | [Save槽位输入域与双路径一致性](tasks/GAME-SAVE-INPUT-DOMAIN-1.md) | draft | Codex / 等用户裁决，禁止实现 | NaN/小数通过内存范围守卫，IndexedDB路径可能不同；不改API/schema |
 | GAME-OPENING-CANCEL-CURSOR-1 | [标题取消光标](tasks/GAME-OPENING-CANCEL-CURSOR-1.md) | review | Codex / 统一门诊断未清零 | ②已修、真实标题浏览器链与截图已核 |

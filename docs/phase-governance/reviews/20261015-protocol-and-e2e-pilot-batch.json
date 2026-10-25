@@ -392,9 +392,9 @@
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-run-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
+      "readMethod": "Scoped E2E unchanged oracle binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "按 Scope、执行断言、结果、证据、历史重排；原 10-07/10-08 录制和 09-28 历史结果分别保留，原 metadata/content22/SAVE11 不升级当前执行，全部原段落可回读。",
+      "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "truthAnchors": [
         "docs/testing/e2e/evidence/e2e-001.json:1",
         "scripts/docs/check-testing.mjs:187"
@@ -413,7 +413,7 @@
       "reviewedSourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "2ddf67a7b11c317cb6f1cab6001efd0eb97f15b145c2a7c7826b972e48954107",
+      "afterSha256": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -443,7 +443,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "2ddf67a7b11c317cb6f1cab6001efd0eb97f15b145c2a7c7826b972e48954107",
+        "implementationSha": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -457,10 +457,10 @@
         ]
       },
       "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/e2e-report-preservation-20261015.json",
+        "kind": "e2e-scoped-oracle-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
-        "afterSha256": "2ddf67a7b11c317cb6f1cab6001efd0eb97f15b145c2a7c7826b972e48954107",
+        "afterSha256": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
         "lineCount": 265
       },
       "history": [
@@ -475,7 +475,7 @@
       "supersedes": [],
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "混合日期的顺序追加报告 -> 按角色/结果/证据/历史分组，原标题锚与正文保留。",
-      "reviewedLines": "1-265",
+      "reviewedLines": "One current sourceRef per publication; referenced116line oracle body byte-identical, range shifted+1",
       "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。"
     },
     {
@@ -486,9 +486,9 @@
       "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
+      "readMethod": "Scoped E2E unchanged oracle binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "这是 source publication 的 document-audit，非 runtime-execution；所有原顶层字段/值原样，增添非覆盖治理 envelope；真实 consumer 验证零问题，performed 仍 false。",
+      "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "truthAnchors": [
         "scripts/docs/check-testing.mjs:187",
         "docs/testing/e2e/stages/001-opening/report.md:1"
@@ -507,7 +507,7 @@
       "reviewedSourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+      "afterSha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -537,7 +537,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+        "implementationSha": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -558,10 +558,10 @@
         ]
       },
       "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/machine-pilot-consumer-20261015.json",
+        "kind": "e2e-scoped-oracle-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
-        "afterSha256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+        "afterSha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
         "lineCount": 129
       },
       "history": [
@@ -614,7 +614,7 @@
       "supersedes": [],
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "原 paired JSON -> 原顶层对象 + governance envelope，未搬 payload、未制造 exit/steps。",
-      "reviewedLines": "1-129",
+      "reviewedLines": "One current sourceRef per publication; referenced116line oracle body byte-identical, range shifted+1",
       "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
       "templateVariant": "document-audit-v2",
       "statusContractReview": {

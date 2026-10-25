@@ -33,14 +33,10 @@ function ctxOf(
     bus: createCommandBus(),
     input: { nextSnapshot: (frameNum) => ({ held: new Set(), pressed: new Set(), frameNum }) },
     tilemap: flat(8, 8),
-    eventCommands: [],
-    labelMap: {},
     onPresent,
   }
   setSceneContext({
     tilemap: ctx.tilemap,
-    eventCommands: ctx.eventCommands,
-    labelMap: ctx.labelMap,
   })
   return ctx
 }

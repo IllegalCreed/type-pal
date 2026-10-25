@@ -56,13 +56,16 @@ Template: governance-index-v1 / 1.0.0
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入](GAME-MENU-HELPER-API-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异](GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异](GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性](GAME-SAVE-INPUT-DOMAIN-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示](GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -73,14 +76,13 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线](QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性](QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线](QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清](QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
@@ -513,6 +515,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）
 

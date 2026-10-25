@@ -1,0 +1,466 @@
+{
+  "state": "Scoped static validation accepted; unified gates deferred allpre94",
+  "lint": {
+    "files": 6055,
+    "error": 0,
+    "warning": 0,
+    "info": 0,
+    "complete": true
+  },
+  "ledger": {
+    "tracked": 3441,
+    "closed": 482,
+    "review": 75,
+    "pending": 2884
+  },
+  "cards": {
+    "accept": 77,
+    "partial": 6,
+    "pending": 0
+  },
+  "gates": [
+    {
+      "id": "docs-first",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:31:41.949Z",
+      "end": "2026-10-24T14:31:42.541Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-final",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.519Z",
+      "end": "2026-10-24T14:32:39.117Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-model",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.528Z",
+      "end": "2026-10-24T14:32:40.113Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-testing",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.546Z",
+      "end": "2026-10-24T14:32:37.722Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-lore",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.527Z",
+      "end": "2026-10-24T14:32:37.650Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-content",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.521Z",
+      "end": "2026-10-24T14:32:38.277Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-progress",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.569Z",
+      "end": "2026-10-24T14:32:42.118Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.534Z",
+      "end": "2026-10-24T14:32:40.927Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.527Z",
+      "end": "2026-10-24T14:32:37.592Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "fetch-final",
+      "command": "git",
+      "args": ["-c", "http.version=HTTP/2", "fetch", "--ipv4", "origin", "--prune"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:37.530Z",
+      "end": "2026-10-24T14:32:43.241Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "ledger-first",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:31:33.617Z",
+      "end": "2026-10-24T14:31:34.887Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 154
+    },
+    {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:32:25.479Z",
+      "end": "2026-10-24T14:32:26.619Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "3bf94a63955156046c6615df663e405917f5813b",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-staged",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:36:12.484Z",
+      "end": "2026-10-24T14:36:13.167Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "c8708cdbe5e48365c9e7a6a23ea2921c23dc44b4",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0
+    },
+    {
+      "id": "model-staged",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T14:36:13.202Z",
+      "end": "2026-10-24T14:36:14.336Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "c8708cdbe5e48365c9e7a6a23ea2921c23dc44b4",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0
+    }
+  ],
+  "sourceReview": "review.json",
+  "disclosure": [
+    "ledger-first actual3441/482/75/2884 refused old summary header; header corrected and ledger-final passed, no parser rule change.",
+    "Metadata producer failed with ReferenceError(base) after owned docs writes, before all-cards write; tool output only, not separately captured raw. Only unwritten remainder resumed, no duplicate sections.",
+    "Readonly verifier initially refused formatter-changed own proof SHA; manually verified unchanged parser/body logic then bound formatted proof. Not a blanket hash refresh.",
+    "Docs migration-progress integrity0 still reports1842currentcandidates pending and not full acceptance; those are documentation project status, not converted to completed governance."
+  ],
+  "archive": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/static-receipts.json.gz",
+    "sha256": "2825624939f39101e65d64de75949dff154e3dae8457616a14e8596e7eebfdd0",
+    "members": [
+      {
+        "name": "docs-first.execution.json",
+        "bytes": 417,
+        "sha256": "f5156a75e2c8801001eb6b9e335d6344b4310776087a271a8ab1ba9ae64ecacf"
+      },
+      {
+        "name": "docs-first.stdout.raw",
+        "bytes": 93,
+        "sha256": "5ec7c4930dd131a848768762410a48624a5fe65af307c65f0b4408425e0e8ebe"
+      },
+      {
+        "name": "docs-first.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-final.execution.json",
+        "bytes": 417,
+        "sha256": "c1101c8a694e8430cab9a2f63925e9f3211deeefdc3e85f742a765a7a1eaaf4c"
+      },
+      {
+        "name": "docs-final.stdout.raw",
+        "bytes": 93,
+        "sha256": "5ec7c4930dd131a848768762410a48624a5fe65af307c65f0b4408425e0e8ebe"
+      },
+      {
+        "name": "docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-model.execution.json",
+        "bytes": 432,
+        "sha256": "0d8c6833f706ace357bcd620d0e50a4ca271d018c341210937dd176cb7d74bdb"
+      },
+      {
+        "name": "docs-model.stdout.raw",
+        "bytes": 79,
+        "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+      },
+      {
+        "name": "docs-model.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-testing.execution.json",
+        "bytes": 427,
+        "sha256": "5a0bba1f6c6ff65e253f135e76caac622e1f735c2d8c709096f0793d71953c59"
+      },
+      {
+        "name": "docs-testing.stdout.raw",
+        "bytes": 30,
+        "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+      },
+      {
+        "name": "docs-testing.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-lore.execution.json",
+        "bytes": 438,
+        "sha256": "21746fa624c61d3f965282bc835b26475d96202e3cd646ddd44981c9493905ff"
+      },
+      {
+        "name": "docs-lore.stdout.raw",
+        "bytes": 44,
+        "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+      },
+      {
+        "name": "docs-lore.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-content.execution.json",
+        "bytes": 450,
+        "sha256": "2cf33dd1f958a4f51293c827d281cb6a16a1e8e71357da90f35607842b644f38"
+      },
+      {
+        "name": "docs-content.stdout.raw",
+        "bytes": 65,
+        "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+      },
+      {
+        "name": "docs-content.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-progress.execution.json",
+        "bytes": 442,
+        "sha256": "dcc4e01710973fa24b82829d4cc6b295d560e3cae70d8f1498eca9f4c06383bf"
+      },
+      {
+        "name": "docs-progress.stdout.raw",
+        "bytes": 158,
+        "sha256": "e12f6ffe9726b42fb72cc9b7757200822320501e062793cb730c15a23d964f1b"
+      },
+      {
+        "name": "docs-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint-final.execution.json",
+        "bytes": 400,
+        "sha256": "98e538c6062b7f4bdb2f6f275aaac6900ae6772d76d026f17fe095a03d8be60c"
+      },
+      {
+        "name": "lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "0d5cdb267e9c0659f7174eee180422c3a0efcba0b86a4e6aeb7830504d689e44"
+      },
+      {
+        "name": "lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff-final.execution.json",
+        "bytes": 412,
+        "sha256": "3355a138b157ed3e11086ac6c54c13827785d93d95fd907c401be96c6288547b"
+      },
+      {
+        "name": "diff-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "fetch-final.execution.json",
+        "bytes": 479,
+        "sha256": "e0dd44c3b6568095c3088ed9103e0a74df4fe22a50ec31e64e92e3d52feaa68b"
+      },
+      {
+        "name": "fetch-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "fetch-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger-first.execution.json",
+        "bytes": 437,
+        "sha256": "b2d7877a48d40e4fdafdce88ef7cde51737a838fb4e53d9e65734c8cd4d33360"
+      },
+      {
+        "name": "ledger-first.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger-first.stderr.raw",
+        "bytes": 154,
+        "sha256": "530ee9efb502d3f331dda8aca07142460affeb838995f2c9a11c82f16963b451"
+      },
+      {
+        "name": "ledger-final.execution.json",
+        "bytes": 437,
+        "sha256": "913ffce3714986bb8e90e9be823f891c5a686a4084ccd781a74607eb22dc1060"
+      },
+      {
+        "name": "ledger-final.stdout.raw",
+        "bytes": 112,
+        "sha256": "6bbc8469f01f21ae4a9e4c5fe15b849261a2a9f53b26c47c47decd77949917c6"
+      },
+      {
+        "name": "ledger-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "projections.cjs",
+        "bytes": 4483,
+        "sha256": "2986ee05b80da85603b68378fcb78aa79dfd79df745391e530afe61c8b55a055"
+      },
+      {
+        "name": "metadata.cjs",
+        "bytes": 7551,
+        "sha256": "8e0d5dcf94ccc8e081dba7213bd9a36bbf218fd9fb75d7877819f366062d8fb5"
+      },
+      {
+        "name": "docs-staged.execution.json",
+        "bytes": 418,
+        "sha256": "6944ba2609be66ee4a4c3b2e2c82daa84e6f028948f0e7af684547b589542715"
+      },
+      {
+        "name": "docs-staged.stdout.raw",
+        "bytes": 93,
+        "sha256": "5ec7c4930dd131a848768762410a48624a5fe65af307c65f0b4408425e0e8ebe"
+      },
+      {
+        "name": "docs-staged.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "model-staged.execution.json",
+        "bytes": 434,
+        "sha256": "5ff5c7cfcc2497774e3b5ded37bfc1494ac122cff7594946cf54a7691dea713a"
+      },
+      {
+        "name": "model-staged.stdout.raw",
+        "bytes": 79,
+        "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+      },
+      {
+        "name": "model-staged.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  }
+}

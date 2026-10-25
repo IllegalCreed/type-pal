@@ -24,6 +24,12 @@ Template: reference-canon-v1 / 1.0.0
 
 - 阶段、版本、受众和使用场景：phase1 historical；仅用于原版真值/工程知识的日期化回顾。
 
+### 2026-10-25 第一阶段极值速度的当前偏离
+
+用户选择保留TS速度。玩家加速直接乘3后封顶999，不复制SDLPal的WORD中间回绕；敌人有效身法保留当前等级加法，不复制C在等级计算中的SHORT中间回绕。例如玩家身法21846加速后TS999、C2；敌level11000／dex20时TS33038、C−32498。154条当前提取敌数据在这两个getter的适用输入上未见输出差异，普通剧情自然达到上述极值尚未证实。本取舍不扩展到其它伤害转换或二阶段，也不改存档格式。
+
+同次批准的正防御修复是另一合同：敌方法术的玩家防御0..65535整数保持正值，不能把32768误读为负再清零；域外沿用现有TS结果。具体授权、真实caller与原件见[数值任务](../ops/tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md)。
+
 ## 一手来源
 
 - source/primary refs：`docs/phase1/game-mechanics.md` 原始全文及其列出的 file:line / sdlpal / 数据来源。

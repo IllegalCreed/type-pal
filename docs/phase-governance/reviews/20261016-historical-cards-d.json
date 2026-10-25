@@ -2870,8 +2870,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
-      "coreConclusion": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
+      "readMethod": "Owned final gate retry delta",
+      "coreConclusion": "Local gates accepted; exact same-report recount/protection. CI/merge pending.",
       "documentStatus": "active",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -2974,10 +2974,10 @@
       "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
-      "afterSha256": "9e77d3cc9e59ae4d53b13e9af17bd41067b5935b0463b2d096159133bb6d613e",
+      "afterSha256": "e454f4b3f1677c3754409d427bcf7c81f787a8e8f25d3451eca583e1f901d9ee",
       "revision": {
         "currentSha": "b6f1fc7a26d20b67f6c7dffb04d7f5fff164b8e9161ba36ef3d1f75c8d4a40a2",
-        "implementationSha": "9e77d3cc9e59ae4d53b13e9af17bd41067b5935b0463b2d096159133bb6d613e",
+        "implementationSha": "e454f4b3f1677c3754409d427bcf7c81f787a8e8f25d3451eca583e1f901d9ee",
         "history": [
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
@@ -3032,10 +3032,10 @@
         ]
       },
       "evidence": {
-        "kind": "independent-full-source-and-real-record-consumer-review",
-        "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+        "kind": "codex-owned-pre94-code1-quality-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
         "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
-        "afterSha256": "9e77d3cc9e59ae4d53b13e9af17bd41067b5935b0463b2d096159133bb6d613e",
+        "afterSha256": "e454f4b3f1677c3754409d427bcf7c81f787a8e8f25d3451eca583e1f901d9ee",
         "lineCount": 363,
         "originalPreservation": {
           "originalPreserved": true,
@@ -3117,7 +3117,7 @@
         "after": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
         "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
       },
-      "reviewedLines": "1-360",
+      "reviewedLines": "Board/ledger and owned projections only",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned3k number delta",
-      "coreConclusion": "3k number; gates passed.",
+      "readMethod": "Owned final gate retry delta",
+      "coreConclusion": "Pre94 code accepted; finite resource-only gate retry. CI/merge pending.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "54c9e1a32069a3f7d3bdb992f3c2afd220ec9b672364f5564196608da4407f30",
+      "afterSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "54c9e1a32069a3f7d3bdb992f3c2afd220ec9b672364f5564196608da4407f30",
+        "implementationSha": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4148,13 +4148,13 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-number-quality",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json",
-        "afterSha256": "54c9e1a32069a3f7d3bdb992f3c2afd220ec9b672364f5564196608da4407f30",
-        "lineCount": 1031,
-        "scope": "Combined3402tracked/388closed/111review/2903pending/3014unclosed; retain incoming blob/host/dialog decisions and RLE source withdrawal plus English28 pending. No new closure.",
-        "candidateBaseRevision": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
-        "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
+        "kind": "codex-owned-pre94-code1-quality-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
+        "afterSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
+        "lineCount": 1132,
+        "scope": "Final local gates; history retained; CI/merge pending.",
+        "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
+        "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
         "workingTreeDelta": true
       },
       "history": [

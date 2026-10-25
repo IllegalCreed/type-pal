@@ -1,37 +1,13 @@
 /**
  * TEST-RESOURCE-TOOLS-COVERAGE-1 R01：严格 RLE 容器边界（shared/rle.ts）。
- * 与 rle.test / rle.glm-o 在 sentinel、坏尾等轴存在相邻重叠（入口、oracle、错误
- * 合同不全相同；跨文件排重映射另核，不在此声称互斥）。
+ * 本文件拥有 strict sentinel 与 indexed canonical/legacy 坏尾+sentinel 的完整 oracle；
+ * rle.test 保留宽容入口，rle.glm-o 保留结构/坏 offset 等不同合同。
  * 本文件：手列严格容器字节核完整 pixels/opaque/report、有界零长度指令单轴、
  * 段越界/尺寸/offset 单轴与相邻正控、canonical 与 legacy-migrated 精确区分。
  */
 import { describe, expect, test } from 'vitest'
+import { frameBytes, strictChunk } from './__tests__/rle-bytes.js'
 import { parseIndexedRleChunk, parseSpriteChunkStrict } from './rle.js'
-
-/** 帧字节：u16LE 宽/高 + 指令流。 */
-function frameBytes(width: number, height: number, commands: number[]): Uint8Array {
-  return new Uint8Array([width & 0xff, width >> 8, height & 0xff, height >> 8, ...commands])
-}
-
-/** 偶对齐帧 + 严格容器（offset 表 word 偏移递增、frame0=表长）。 */
-function strictChunk(frames: readonly Uint8Array[], sentinel = false): Uint8Array {
-  const padded = frames.map((f) => (f.byteLength % 2 === 0 ? f : new Uint8Array([...f, 0x00])))
-  const declared = padded.length + (sentinel ? 1 : 0)
-  const tableBytes = declared * 2
-  const offsets: number[] = []
-  let at = tableBytes
-  for (const f of padded) {
-    offsets.push(at)
-    at += f.byteLength
-  }
-  const out = new Uint8Array(at + (sentinel ? 2 : 0))
-  const view = new DataView(out.buffer)
-  view.setUint16(0, declared, true)
-  padded.forEach((_f, i) => view.setUint16(i * 2, offsets[i]! / 2, true))
-  // sentinel 槽在表尾（word 0）
-  padded.forEach((f, i) => out.set(f, offsets[i]!))
-  return out
-}
 
 describe('R01 parseSpriteChunkStrict 手列字节完整核', () => {
   test('两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）', () => {
@@ -56,12 +32,18 @@ describe('R01 parseSpriteChunkStrict 手列字节完整核', () => {
   })
   test('末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0', () => {
     const f0 = frameBytes(1, 1, [0x01, 0x07])
-    const report = parseIndexedRleChunk(strictChunk([f0], true), 'canonical')
-    expect(report.frames).toHaveLength(1)
-    expect(report.declaredSlots).toBe(2)
-    expect(report.trailingSentinel).toBe(true)
-    expect(report.skippedLegacyTailSlots).toBe(0)
-    expect(report.frames[0]!.pixels).toEqual(new Uint8Array([0x07]))
+    const bytes = strictChunk([f0], true)
+    const expected = [
+      { width: 1, height: 1, pixels: new Uint8Array([7]), opaque: new Uint8Array([1]) },
+    ]
+    expect(parseSpriteChunkStrict(bytes)).toEqual(expected)
+    const report = parseIndexedRleChunk(bytes, 'canonical')
+    expect(report).toEqual({
+      frames: expected,
+      declaredSlots: 2,
+      trailingSentinel: true,
+      skippedLegacyTailSlots: 0,
+    })
   })
 })
 
@@ -80,18 +62,13 @@ describe('R01 严格拒绝单轴与相邻正控', () => {
       'sprite chunk frame 0 含零长度指令',
     )
   })
-  test('像素段越界 / 透明段越界 / 指令流截断 / 尺寸非法各单轴', () => {
-    expect(
-      () => parseSpriteChunkStrict(strictChunk([frameBytes(2, 2, [0x04, 0x01, 0x02])])), // 声明 4 字节只给 3
-    ).toThrow('像素段越界')
-    expect(
-      () => parseSpriteChunkStrict(strictChunk([frameBytes(2, 2, [0x88])])), // 跳 8 > total 4
-    ).toThrow('透明段越界')
-    expect(
-      () => parseSpriteChunkStrict(strictChunk([frameBytes(2, 2, [0x81, 0x02, 0xaa, 0xbb])])), // 3 px 后流恰尽，target<total
-    ).toThrow('指令流截断')
-    // w=h=0 → 走尺寸非法轴（header 边界轴由「相邻 offset 截断帧头」例覆盖）
-    expect(() => parseSpriteChunkStrict(strictChunk([new Uint8Array(4)]))).toThrow('尺寸非法')
+  test.each([
+    ['像素段越界', frameBytes(2, 2, [0x04, 0x01, 0x02])],
+    ['透明段越界', frameBytes(2, 2, [0x88])],
+    ['指令流截断', frameBytes(2, 2, [0x81, 0x02, 0xaa, 0xbb])],
+    ['尺寸非法', new Uint8Array(4)],
+  ])('%s：单一坏帧明确拒绝', (message, frame) => {
+    expect(() => parseSpriteChunkStrict(strictChunk([frame]))).toThrow(message)
   })
   test('相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容', () => {
     const bytes = new Uint8Array(10)
@@ -119,11 +96,13 @@ describe('R01 严格拒绝单轴与相邻正控', () => {
     view.setUint16(2, (tableBytes + goodLen) / 2, true)
     chunk.set(good, tableBytes)
     chunk.set(badTail, tableBytes + goodLen)
-    expect(() => parseIndexedRleChunk(chunk, 'canonical')).toThrow()
+    expect(() => parseIndexedRleChunk(chunk, 'canonical')).toThrow('sprite chunk frame 1 尺寸非法')
     const legacy = parseIndexedRleChunk(chunk, 'legacy-migrated')
-    expect(legacy.frames).toHaveLength(1)
-    expect(legacy.declaredSlots).toBe(3)
-    expect(legacy.skippedLegacyTailSlots).toBe(1)
-    expect(legacy.trailingSentinel).toBe(true) // 末槽仍是唯一 0 sentinel；坏尾在其前
+    expect(legacy).toEqual({
+      frames: [{ width: 1, height: 1, pixels: new Uint8Array([7]), opaque: new Uint8Array([1]) }],
+      declaredSlots: 3,
+      skippedLegacyTailSlots: 1,
+      trailingSentinel: true,
+    })
   })
 })

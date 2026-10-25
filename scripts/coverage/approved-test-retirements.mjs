@@ -7,6 +7,64 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User standing exact-dedup/dead-code authority; CODE42 getDialogBoxRect had no production/E2E caller.
+    // Two exact placeholder-only identities removed; mapping and official/native snapshots: final-pre94-gates/recount.json.
+    {
+      file: 'packages/game/src/present/dialog-box-chrome.grok-r1.test.ts',
+      previous: 13,
+      current: 12,
+      previousIdentityDigest: '16800c9fcd0d82decff30d83e1b96334e318c89618fe216c66e5f810a7fa6480',
+      currentIdentityDigest: 'ac2379ec430460fc1ab5b6f2c13672192b3ef5930ac12a7c4bb1adf3c1a4a97b',
+      fileSha256: 'a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c',
+    },
+    {
+      file: 'packages/game/src/present/dialog-box.test.ts',
+      previous: 69,
+      current: 68,
+      previousIdentityDigest: 'f6d9ffd17c974be20f3ec3f3582735926eac4be082e46ee0c61dcdc3a394fe2d',
+      currentIdentityDigest: 'b4234ba5b207bef23640e8280bd55b65bef884176645266f9b0e3bf0868d2470',
+      fileSha256: 'bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe',
+    },
+    // User2026-10-24 pre94 quality scope and standing exact-dedup authority.
+    // Same-position keep assertion transfers to exact append content case; see battle-dialog-quality.
+    {
+      file: 'packages/game/src/core/battle/__tests__/battle-dialog.test.ts',
+      previous: 13,
+      current: 12,
+      previousIdentityDigest: 'd9312ec7b02e005ff9672d5ee6cd7c11e635567afda9e5e72744822eb5aabafa',
+      currentIdentityDigest: '6b709c786a9223c79b41388d0276195dd1de1fdd0031f73bb713c03ad900238f',
+      fileSha256: '87f17696fe6e5fb649601a6fb27212f0e6d872964a9dc7c1dbc507e65b5982cd',
+    },
+    // User2026-10-24 current pre94 test-quality instruction and standing exact-dedup authority.
+    // Two overlapping contracts retained in full-status tick and dependency-ownership history.
+    // Native identities/old-to-new assertions: pre94/battle-core-fade-quality/review.json.
+    {
+      file: 'packages/game/src/core/battle/__tests__/status.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: '1f95c2cb88e3d8c93e43de80d5147f78689862c5f1617119c3aa48d6ed515ca8',
+      currentIdentityDigest: '45304ac5e9e9f9e2585e43044c735be396fbb6c9ee41395ebca6939f787a8026',
+      fileSha256: 'c6db00a9d1c3963487abda7a03d7bc49e90065eee560029062050ee8a8d6aca3',
+    },
+    {
+      file: 'packages/game/src/core/cross-module-boundaries.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'a37e666648b00c40c4a54d437302c013d4beb32cf977edd8173cfd48f49848d6',
+      currentIdentityDigest: 'e2a7fe63737fff4194259ab6816da594b10219ae9dcd5649e30e88e9baf9cb4f',
+      fileSha256: '18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4',
+    },
+    // User2026-10-24 pre94 test quality / standing precise-dedup authority.
+    // 32 cases move to collision/loading files; 4 redundant cases merge into stronger oracles.
+    // Native all-111 mapping and business counters: pre94/scene-quality/review.json.
+    {
+      file: 'packages/game/src/core/scene-system.test.ts',
+      previous: 111,
+      current: 75,
+      previousIdentityDigest: '83990a58b44244ed68b06125a966cc2dbae7ddcfab70c32eb4b3de8f2b891e18',
+      currentIdentityDigest: '2f450b9636dcd731c5fb1445ce2147aae9829a21783375cd170ed8c7102a1a77',
+      fileSha256: '5be484c2c918aca6514b86eb638dd224638e6f22322725274e0f866f37b4633e',
+    },
     // CODE3l: standing user authority for proven dead-code and duplicate-test retirement.
     // Exact old-to-new contracts and native originals: pre94/battle-present-quality/review.json.
     {
@@ -520,8 +578,19 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2',
       fileSha256: '5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a',
     },
-    // Codex 2026-10-16 CODE2b: four YJ2 cases move from this mixed file to the
-    // stronger canonical byte/negative/determinism oracles; RLE bodies stay unchanged.
+    // User2026-10-03/18 precise-dedup + current complete-pre94 instruction.
+    // CODE1 2026-10-25: seven main-suite duplicates transfer to retained full oracles.
+    // All59 old identities/contract destinations and controls: pre94/rle/quality-closeout.
+    {
+      file: 'packages/shared/src/rle.test.ts',
+      previous: 26,
+      current: 19,
+      previousIdentityDigest: '77d4afa83ab7f7792f5dc0bc5b87c06ee945e1869ecae9cd2091dc7841ffb72b',
+      currentIdentityDigest: 'b4afaa74c82e91c72f3475ea86524a129114386269256f5f0c684c02cabe7975',
+      fileSha256: 'ed84d346193a2001b271c65206d791405047e49841a4b191f81cdfbe241579b1',
+    },
+    // Historical CODE2b13->9 YJ2 move; current CODE1 GLM-o input-axis split has
+    // twelve cases, so this old snapshot does not apply to the current candidate.
     // Human authority: standing-test-quality and warehouse-governance;
     // plus all-pre94-review-scope. Codex decision 2026-10-16.
     // Exact human source IDs: receipt-audit/retirement-authorizations.json.
@@ -595,6 +664,17 @@ export const approvedTestRetirements = Object.freeze(
       previousIdentityDigest: '820efc27ef15c3c737fb37250049bcc193e09461862305b53dd1cd415ad22d24',
       currentIdentityDigest: 'a9f2fee19cf165466ec949abbcb3cb5a56d1edae92d106402365d34e495b96e9',
       fileSha256: '4ae59bab77937826270a8f005dd6ad4bd64a5f75668365ac09a1a697b8e1d47b',
+    },
+    // User2026-10-03/18/24 pre94 test-quality authority: two type-only cases, one
+    // illegal caller and two JSON-self oracles retire; required fields migrate to
+    // real save-io codec. Exact identities/proof: gamestate-save-closeout/review.json.
+    {
+      file: 'packages/game/src/core/game-state.test.ts',
+      previous: 61,
+      current: 56,
+      previousIdentityDigest: '5c2929f5339eeef64004a6c7cb40a34c552cdd2b4f3c7d5fdddbcb690d500812',
+      currentIdentityDigest: '0620f5871091791b7eeca26a9cdcdf4f77d446f9e019bc4d64912d7a26cb77a6',
+      fileSha256: '59fa4eda5dc5f088df79d4e6c8e8bc0bb8c3d89c7b832967470cd714bb2b664c',
     },
   ].map((entry) => Object.freeze(entry)),
 )

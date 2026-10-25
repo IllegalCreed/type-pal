@@ -1,0 +1,1063 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex single agent",
+  "branch": "codex/code-quality-3y",
+  "base": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+  "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+  "files": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+      "lines": 399,
+      "reusedFullReview": {
+        "path": "packages/game/src/core/inspect/battle-inspect.ts",
+        "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+        "lines": 399,
+        "read": "Full399line source;both direct tests full;tools-panel444-452/dev-panel collect caller;prior53 slot controls retained",
+        "dimensions": {
+          "A": "Pure readout:role-index HP/MP/status vs direct slot-index poison;duplicate roles use actual display slot. Battle source follows slot role;nonbattle uses persistent status.",
+          "B": "Comments distinguish structured tags/detail strings and >999 permanence. No new claim SDL has a DEV panel;synthetic fixtures below prove projection only.",
+          "C": "One module owns read-only projection for two consumers;equipment getters own derived stats. No state write,IO,timer or callback lifecycle. Full GameState input is broad but actually reads runtime/status/exp/party/battle.",
+          "D": "Two poison outputs have distinct detail/tag contracts;private definition arrays centralize status names. Rebuilding tiny per-role maps is optional bounded optimization,not a measured blocker or universal formatter justification.",
+          "E": "Main6 cases repaired to public factory/hydration;leaf9 directly verifies persistent/battle/poison/steal/field/nonmutation. Duplicate-slot case retained,not replaced by first-role helper tests.",
+          "F": "Role/slot/source named explicitly;small collectors separate field/enemy/party outputs. Definition tables make name/index mapping visible.",
+          "G": "No dead public export:both panel consumers call these collectors. No speculative abstraction;per-row formatting remains necessary for actual UI.",
+          "H": "Explicit state/tables and pure return arrays allow independent literal oracles;no DOM/RNG/core mock. Input-preservation assertions guard accidental writes."
+        },
+        "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+      },
+      "currentRead": "Exact old file SHA matched; no repeat full audit or mutation run.",
+      "disposition": "refresh prior per-file acceptance only; not whole CODE53/GS/Dev credit"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "sha256": "4ea35bf6d7faad7c189760cbdaacadf34ba542503785ada3f9728a7df4134842",
+      "lines": 173,
+      "reusedFullReview": {
+        "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "sha256": "4ea35bf6d7faad7c189760cbdaacadf34ba542503785ada3f9728a7df4134842",
+        "lines": 173,
+        "read": "Full old218line + full rewritten current file and real factory/hydration;6 runtime cases",
+        "dimensions": {
+          "A": "All fixtures now satisfy real GameState/BattleState/Enemy/PlayerRole contracts. Explore guard uses real initial state;party[4,5,4] is raw-proven legal.",
+          "B": "Removed false license for as never;collectValue title now says zero/nonzero,not missing mandatory field;hidden exp levels initialized explicitly.",
+          "C": "Factory owns state shape;test only sets observable fields. Replaced Record<string,unknown> subtree replacement with one Partial<Enemy> seam.",
+          "D": "Reuses existing typed makeBattle/makeRole/makeEnemy;no new generic state builder. Same6 business cases retained.",
+          "E": "HP/name/negative field effect/status rounds/attribute/EXP/poison-slot oracles preserved;strong casts removed. Missing-name fallback and both zero gates remain explicit. One corrected identity mapped below.",
+          "F": "Explicit hydrated fixture makes role and equipment source visible;removed long duplicated partial BattleState literals.",
+          "G": "No case dropped or runtime type-only checks added;old unsupported absent-field claim withdrawn,zero contract retained.",
+          "H": "No mocks/singletons/time;real collectors and factories. Typed setup catches missing runtime matrices before execution."
+        },
+        "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+      },
+      "currentRead": "Exact old file SHA matched; no repeat full audit or mutation run.",
+      "disposition": "refresh prior per-file acceptance only; not whole CODE53/GS/Dev credit"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+      "lines": 393,
+      "reusedFullReview": {
+        "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+        "lines": 393,
+        "read": "Full393line file read in two ranges;producer-only synthetic typed catalog cases distinguished from actual ROM",
+        "dimensions": {
+          "A": "Typed shape complete;world state hydrated explicitly. Mismatched battle/party and missing battle slot are explicit defensive-input tests,not normal startBattle fixtures. Synthetic named poison fixture is not claimed original ROM.",
+          "B": "Head accurately limits to projection,not damage. Unknown poison name/level and fallback branches are explicit;maxHp test proves prevHp fallback,not missing required prevHp.",
+          "C": "Local fixture builders,explicit inputs,no global setters. Each collector only reads;final case snapshots consumed subtrees and catches mutations.",
+          "D": "Nine leaf cases exclude main HP/name/field facts and add persistent statuses,hidden exp,poison details,steal and read preservation.",
+          "E": "Literal names/counts/IDs/thresholds are independent oracles;structured clones only check nonmutation after real calls. Does not claim raw script execution or battle sorting.",
+          "F": "Describes data-source and fallback intent;helper names mkBattleState/oneEnemy reveal setup. No test copies collector algorithms.",
+          "G": "9 identities unchanged;no weak coverage-only additions. Valid synthetic API domain is explicit rather than extending it into ROM truth.",
+          "H": "Pure functions with supplied arrays;no fake core implementations,listener lifecycle or nondeterministic clock."
+        },
+        "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+      },
+      "currentRead": "Exact old file SHA matched; no repeat full audit or mutation run.",
+      "disposition": "refresh prior per-file acceptance only; not whole CODE53/GS/Dev credit"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "8ec3e60ee883c1fb4ed74109b3b2498f59a637d6a1b396e603da3b8d06bcc4c9",
+      "lines": 455,
+      "reusedFullReview": {
+        "path": "packages/game/src/present/menu/draw-player-status.ts",
+        "sha256": "2cd9d0bffe7f280be166efcdff2cb3dcc244774c127b095375c1e70cfdcc491a",
+        "lines": 376,
+        "read": "Reuse full GLM/Codex A-H codex-final29 file record/current exact SHA and prior53 full source/caller;current delta none",
+        "dimensions": {
+          "A": "Hydrated runtime0 remains0;poison address is displayed cursor,not role ID. Runtime/status/menu caller and formal load normalization rechecked in scoped current code.",
+          "B": "Existing canonical constants/source layout retained;prior B correction valid. Current mechanics erratum clarifies slot domain and two separate risk-item effects.",
+          "C": "Renderer only reads gs/menu/catalog,draws framebuffer;bootstrap owns hydration/assets,menu driver owns snapshot/cursor/close. No fetch or state mutation.",
+          "D": "Shares number/font/equipment getters;poison filtering <=3 differs from battle avatar highest-poison color,so no shared mode boolean helper.",
+          "E": "Main5 emission/slot oracles,leaf4 zero/catalog/early return,pixel15 coordinate/color cases have separate observations. Updated main fixtures hydrate;leaf guard now checks both named defensive inputs and whole framebuffer.",
+          "F": "Numbered screen sections and layout constants expose fixed screen.30-branch scout is mainly asset/row guards,not a requirement to split by number.",
+          "G": "All passed inputs have actual drawing consumers;no runtimeReady guessed from zero. Existing static role/catalog input retained as public dependency.",
+          "H": "Framebuffer/palette-independent glyph fixtures permit direct pixels and no-write checks. Not a browser screenshot or full story-E2E claim."
+        },
+        "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+      },
+      "currentRead": "Full current source plus complete b9bf→base English delta, localization language/layout/background and actual menu/present caller; comment/format delta whole non-import TS equality.",
+      "disposition": "refresh prior per-file acceptance only; not whole CODE53/GS/Dev credit",
+      "deltaDimensions": {
+        "A": "Runtime getters and direct cursor poison read unchanged. English layout/font/shadow/background upstream delta read; optional English pack absent locally, no English browser pass claimed.",
+        "B": "Correct whole-page 1:1 claim, missing-word fallback, runtime/static input ownership, default Chinese versus English positions/shadows. Import order is formatter-only, same bindings.",
+        "C": "Read-only present leaf, menu owns cursor and runtime owns values; broad GS argument is existing public interface, no new writes/IO or API.",
+        "D": "Use existing layout/font/background/drawNumber/getter owners; no universal sprite helper created for opaque blit without matching contracts.",
+        "E": "Existing 5+4+15 direct status cases and 6+9 inspect cases exact source retained; current combined run16files125 cases. Old direct-slot controls remain frozen, not red-first invented.",
+        "F": "Role/cursor/default names distinguish ownership; misleading comments fixed without algorithm changes.",
+        "G": "No unused optional resource deleted: early guards/optional portrait/icon/poison tables each have legitimate production inputs. No new fallback or compatibility.",
+        "H": "Direct framebuffer/canvas and existing DEV state probe enough for deterministic frame tests; no production debug API/core mock/normal-plot claim."
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "sha256": "ef5974c4d5c5953832b43f5e8d32b452d07779509480f4993d819b4883d84211",
+      "lines": 166,
+      "reusedFullReview": {
+        "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "sha256": "ef5974c4d5c5953832b43f5e8d32b452d07779509480f4993d819b4883d84211",
+        "lines": 166,
+        "read": "Full main5 cases/current hydrate helper;prior raw negative controls retained within poison-selection contract",
+        "dimensions": {
+          "A": "Explicit hydration replaces cold runtime fixtures;full typed roles6. Nonordered/duplicate party domains agree with raw0x75 and actual cursor contract.",
+          "B": "Header describes font call coordinates/color/shadow;no claim text spy proves all framebuffer rendering.",
+          "C": "Test sets word lookup only locally and restores it and spies in afterEach. Source runner leaves GameState untouched.",
+          "D": "Main covers exact renderText shadow/name and slot isolation;pixel suite checks geometry/color output. These are distinct layer contracts,not five copies of one package-green claim.",
+          "E": "Positive exact font args and negative absence assertions genuinely execute renderer. Zero-ID/catalog and duplicate-slot decisions remain distinguishable;current main5 green.",
+          "F": "Small statusGs helper names required hydration once rather than five partial state literals.",
+          "G": "5 identities unchanged;no new cases or assertion removals. Minimal roles are complete declared PlayerRole,not any/never.",
+          "H": "Only text output is spied;business renderer and runtime remain real. Resettable lookup prevents inter-test name leakage."
+        },
+        "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+      },
+      "currentRead": "Exact old file SHA matched; no repeat full audit or mutation run.",
+      "disposition": "refresh prior per-file acceptance only; not whole CODE53/GS/Dev credit"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+      "lines": 116,
+      "reusedFullReview": {
+        "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+        "lines": 116,
+        "read": "Full4cases plus current strengthening;current native status-leaf-sealed",
+        "dimensions": {
+          "A": "Hydrate then set five numeric fields to0;oracle tests real0 rather than uninitialized fallback. Missing item/catalog and cursor/missing-role are explicit failure domains.",
+          "B": "Original missing-role title now actually executes missing-role input. Unknown-equipment icon/title claim now also checks icon coordinate with supplied sentinel icon.",
+          "C": "Each case owns framebuffer/state;no global mutation or fixture borrowing. Source field/runtime ownership comes from public status call.",
+          "D": "Zero and nonzero/base divergence differ;unknown-item vs missing-role early return differ. No new duplicate cases.",
+          "E": "All4 identities retained;early return checks whole byte buffer for both inputs instead of one incidental blank pixel. Existing numeric pixel assertions remain.",
+          "F": "Two named invalid-input records in one early-return case explain why result must remain unchanged.",
+          "G": "No added runtime type assertions;unsupported input guard cases remain bounded,not counted as production story coverage.",
+          "H": "No mock renderer;actual framebuffer and glyph frames. Fake icon is only output resource input and would reveal a fallback bitmap0 draw."
+        },
+        "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+      },
+      "currentRead": "Exact old file SHA matched; no repeat full audit or mutation run.",
+      "disposition": "refresh prior per-file acceptance only; not whole CODE53/GS/Dev credit"
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+      "lines": 385,
+      "reusedFullReview": {
+        "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+        "lines": 385,
+        "read": "Full15cases/current file;shared world/font/image fixtures as already reviewed by pre94 present evidence",
+        "dimensions": {
+          "A": "Independent indexed-image/glyph resources;explicit runtime digits,element/equipment arithmetic,poison<=3 filtering/cap10 and fallback resource inputs.",
+          "B": "Corrected stale header claiming glm runtime0 fallback. Titles match15 concrete visible pixel axes;no whole-screen/browser equivalence claim.",
+          "C": "Each owns framebuffer/menu/gs;afterEach resets host singleton tables. No core mock or state write by renderer accepted.",
+          "D": "Primary purpose is color/coordinate/filter geometry;main font spy adds shadow call contract,leaf adds true0/invalid input boundaries.",
+          "E": "Exact digit/color/blank positions contrast expected alternatives. Snapshot only guards input nonmutation after real draw;not clone-as-business-oracle.",
+          "F": "Helpers name digit/font coordinate rules;synthetic resource palettes deliberately make wrong colors discriminate.",
+          "G": "15 identities and assertions unchanged;only obsolete prose corrected. No coverage-driven expansion.",
+          "H": "Explicit byte framebuffer is deterministic and independent of browser timing;no timers,network or GC proof."
+        },
+        "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+      },
+      "currentRead": "Exact old file SHA matched; no repeat full audit or mutation run.",
+      "disposition": "refresh prior per-file acceptance only; not whole CODE53/GS/Dev credit"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "3d4859473b98e5c460067ee3582f0acbbca830481e493f1adc137b70817129f2",
+      "lines": 1165,
+      "dimensions": {
+        "A": "Complete emitted-JS reconstruction after only explicit style/argument projection reversals equals base AST; IO unchanged. Verified Save.loadSlot→IndexedDbSave rejection reaches uncaught export task; new draft stopline, no repair claim.",
+        "B": "MIDI/OGG corrected to MIDI/RIX; six keys groups named. Signature documented as partial fields, not checksum.",
+        "C": "Static idempotent style owner separated; three private English helpers receive battle/objects only; BattleStatus replaces two double casts. DOM tab orchestration/IO remain review, no hide-the-file closure.",
+        "D": "Original UI row/tab helpers preserved; style single caller plus root reexport. No mode flag/universal helper or fake disposer.",
+        "E": "Main16/leaves3 typed host evidence reused, literal section/key/description strengthened. W/F swap old16green vs new15green1AssertionError. Combined English/mobile/minimap/quickSave adjacent run retains actual counters.",
+        "F": "Static CSS removed from dynamic tab source; helper names retained, explicit input reflects read dependency.",
+        "G": "No dead handler resurrected; page-owned listeners/poll remain because actual bootstrap singleinstall GS identity stable. Unused-API cleanup not guessed.",
+        "H": "Existing deps ports/real DOM permit IO fault injection; no production test API. Whole module still requires export error decision, FileReader error not proven."
+      },
+      "disposition": "review: pure quality repair accepted as bounded delta; export failure stops whole module/card"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-style.ts",
+      "sha256": "455ba8122e3cc24412992a66ac29798a89fcad6d66735d2f82132faf24f34cae",
+      "lines": 174,
+      "dimensions": {
+        "A": "Exact extracted STYLE_ID+inject function reconstructed into original complete JS AST; style literal unchanged. Guard DOM absence/existing ID preserved.",
+        "B": "Module comment states call-time DOM ownership; liveRow comment remains attached to liveRow after extraction.",
+        "C": "Only static CSS installation owns style DOM; root controls whether/when called, page lifetime unchanged.",
+        "D": "One existing public installer reexport maintained; no generalized style registry.",
+        "E": "Original setup style/idempotence cases exercise reexport through real DOM; no mirror-of-implementation new tests.",
+        "F": "File purpose readable directly: idempotent static style installation, no tab/IO state.",
+        "G": "Both ID and installer used; no extra layer apart from static/dynamic responsibility boundary.",
+        "H": "No top-level DOM side effect; normal jsdom setup can inspect actual style node. No core/global mock."
+      },
+      "disposition": "accept:new whole-file eight-axis source closure; unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "sha256": "bbac9fdd4793b7a805fc470f6bfef240e181a817bcd011a5e845c013b08207c1",
+      "lines": 336,
+      "dimensions": {
+        "A": "Typed real state/factories retained, no fixture or production behavior changed.",
+        "B": "Six groups corrected; says input/dispatch contract and does not claim all help text or save IO tested.",
+        "C": "One existing case observes section-key-description DOM relation, no new generic harness or core access.",
+        "D": "19 direct source contracts kept disjoint with leaves; old fixture isolation controls reused. Separate mobile/English adjacent paths not duplicate same scope.",
+        "E": "16 case identities,15 byte-for-byte names retained and one5→6 title mapping. Literal independent expected W/F and Fkeys; old source mutant remains green, new exactly1 business AssertionError.",
+        "F": "Rows decoded by actual class/section names, constant tuples avoid unjustified nonnull key casts.",
+        "G": "No test added/retired; original global-text checks replaced by paired assertions, not weakening.",
+        "H": "Existing host restores controllers/listeners/timers/DOM/storage, fake timer poll deterministic; no unrelated mock reset."
+      },
+      "disposition": "refresh accepted test file; exact one title mapping and stronger oracle"
+    }
+  ],
+  "inheritance": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "sha256": "a05861edda475819ddc4b8ec3cfa20f3b9e9d0fd308da96932d4703686050de5",
+      "lines": 2852,
+      "scope": "Seven full A-H records/native and frozen primary/caller/controls; six exact sources/tests. Status English upstream delta explicitly reviewed, current comments/import order separately proven."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/case-review.json",
+      "sha256": "a82f12d484d5f05debc0323a799f35c858fd0e7e52cc8928715866b6ba960677",
+      "lines": 111
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/review.json",
+      "sha256": "7fbff7ee2906bbeffd577540f51201b4d4d09ca14669c1b411925f88b742f24a",
+      "lines": 418,
+      "scope": "next58Review full1332 source and tests310/70/89 full-read receipt; actual delta reviewed, not entire repeated audit."
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "lines": 53
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c",
+      "lines": 24
+    },
+    {
+      "path": "packages/game/src/present/menu/localized-background.ts",
+      "sha256": "b879073cd9631bd3b3e2e0342f8771862fbc6812bda65a39f64893f46fe506bc",
+      "lines": 63
+    },
+    {
+      "path": "packages/game/src/present/menu/localized-background.test.ts",
+      "sha256": "68eb977f4f2d21b870b40c23dfd25226c4da981ec0c478bdb3b320ca92251548",
+      "lines": 34
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "lines": 99
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97",
+      "lines": 111
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89
+    }
+  ],
+  "browser": {
+    "scope": "Explicit legal DEV functional fixture; existing skip-intro/dev-party bootstrap + existing __game/__tpgs; real Chrome, keyboard/menu/present/assets. Direct PlayerOpcode and event tick only for declared fixture effects. Not ordinary plot/formal save/001–006 E2E/art acceptance.",
+    "url": "http://127.0.0.1:5329/?skip-intro=1&dev-party=4,1",
+    "pixelComparison": {
+      "sameRole4AtCursors": [0, 2],
+      "changedPixels": 262,
+      "changedOutsidePoisonRow": 0,
+      "region": {
+        "x": 185,
+        "y": 58,
+        "width": 135,
+        "height": 18
+      }
+    },
+    "poisonEntry": {
+      "before": 200,
+      "after": 188,
+      "resistance": 0,
+      "handled": true,
+      "poison": {
+        "0_0": {
+          "wPoisonID": 552,
+          "wPoisonScript": 40866
+        }
+      }
+    },
+    "partyReset": {
+      "party": [1, 2],
+      "poison": {
+        "0_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "1_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "2_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "3_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "4_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "5_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "6_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "7_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "8_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "9_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "10_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "11_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "12_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "13_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "14_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "15_0": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "0_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "1_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "2_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "3_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "4_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "5_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "6_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "7_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "8_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "9_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "10_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "11_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "12_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "13_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "14_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        },
+        "15_1": {
+          "wPoisonID": 0,
+          "wPoisonScript": 0
+        }
+      },
+      "mode": "explore"
+    },
+    "screenshots": [
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/runtime-zero.png",
+        "sha256": "af24afa47a38811f32d97887a4f034ed0fd7a835d019dbe4da58cf991d6bef55",
+        "lines": 93
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/duplicate-first-slot.png",
+        "sha256": "3a235dc4e63c3597f9a6ff168bb3707d5eba3a2f583be5986646e442c4470ed3",
+        "lines": 108
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/duplicate-third-slot.png",
+        "sha256": "22528cab3d416806b0cf1e5d97e88e139b16c0521fd0977c0bd154aa55b004f9",
+        "lines": 113
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/after-party-reset.png",
+        "sha256": "2cc96b0b3f6354cfe3a7a5c34f116a033068756c96c1dc4e6beeab1726dca15e",
+        "lines": 107
+      }
+    ],
+    "observed": "Runtime4 HP/MP0 shown despite nonzero static base. Poison552 entry actual script HP200→188; cursor0/2 same role screens differ exactly262pixels in poison row; formal0x75 sets[1,2] and removes552. Battle tick mechanism reused old actual startBattle/whole-turn formal test, not rerun as browser combat.",
+    "levels": {
+      "debug": 57,
+      "log": 4
+    },
+    "errorWarningPageRequest": 0,
+    "limit": "57 DEV skip-intro debug lines and4 normal logs fully retained; producer diagnostics filter covers error/warn/assert/pageerror/request failure only, not a claim all console empty/whole runtime zero diagnostics. Optional English language pack absent; attempted English selector observation timed out, English screenshot NOT executed. No assets generated to bypass this.",
+    "externalInputs": [
+      {
+        "path": "data/extracted/data/player-roles.json",
+        "sha256": "0ef739309404aaffdedd9b7baf0cbb40bd7e4efb5f36161aece21357f077dade",
+        "lines": 513
+      },
+      {
+        "path": "data/extracted/data/font/glyphs.json",
+        "sha256": "067b9e0ddcc329a377173492fcc022a93ec25712ff5d6d48ea24bb49c908f8e2",
+        "lines": 342502
+      },
+      {
+        "path": "data/extracted/data/ui-sprite/spriteui.json",
+        "sha256": "888ab4d623ee83c5cc7d9d66a4529c0953d4225be56738a84fe7b4da578f1033",
+        "lines": 361
+      },
+      {
+        "path": "data/extracted/data/object-poisons.json",
+        "sha256": "9a16d16817405b7a2a368bc6f36e48935a78c7d10e95ed715dcf2fff231f6722",
+        "lines": 3956
+      }
+    ],
+    "ownership": "Own Chrome servers/contexts closed in finally; owned Vite5329 interrupted, port no listener. Primary/user persistent slots untouched. Startup terminal output not saved as raw file; browser raw/source+reports are complete."
+  },
+  "testMapping": {
+    "main": {
+      "before16": 16,
+      "after16": 16,
+      "unchangedNames": 15,
+      "renamed": {
+        "from": "快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+        "to": "快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键"
+      }
+    },
+    "control": {
+      "results": [
+        {
+          "id": "keys-old",
+          "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+          "args": [
+            "run",
+            "src/tools/tools-panel.test.ts",
+            "--reporter=default",
+            "--reporter=json",
+            "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-status-panel-pOR2ZG/keys-old.native.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+          "start": "2026-10-24T13:04:24.163Z",
+          "end": "2026-10-24T13:04:25.562Z",
+          "exit": 0,
+          "signal": null,
+          "sourceSha256": "9bfe12488d84debf28b2fd513ebef9e93554de642ecc5136c0bb07b4e400ce53",
+          "testSha256": "f4b33eca5a33fc65676334d7fef3cdc8b1c80716dcb65ac825af9131ef82a6b8",
+          "passed": 16,
+          "failed": 0,
+          "failedTests": []
+        },
+        {
+          "id": "keys-new",
+          "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+          "args": [
+            "run",
+            "src/tools/tools-panel.test.ts",
+            "--reporter=default",
+            "--reporter=json",
+            "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-status-panel-pOR2ZG/keys-new.native.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+          "start": "2026-10-24T13:04:25.563Z",
+          "end": "2026-10-24T13:04:26.656Z",
+          "exit": 1,
+          "signal": null,
+          "sourceSha256": "9bfe12488d84debf28b2fd513ebef9e93554de642ecc5136c0bb07b4e400ce53",
+          "testSha256": "bbac9fdd4793b7a805fc470f6bfef240e181a817bcd011a5e845c013b08207c1",
+          "passed": 15,
+          "failed": 1,
+          "failedTests": [
+            {
+              "fullName": "tools-panel 框架 快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+              "failureMessages": [
+                "AssertionError: expected '法术' to be '装备' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/tools-panel.test.ts:147:89\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ]
+        }
+      ],
+      "restored": {
+        "source": true,
+        "test": true
+      }
+    },
+    "directed": {
+      "files": 16,
+      "cases": 125,
+      "passed": 125,
+      "stderrBytes": 0,
+      "raw": "directed.stdout.raw",
+      "native": "directed.native.json"
+    },
+    "exportFailure": "One literal missing-error-toast AssertionError plus raw unhandled SecurityError; IO port fault injection supported by real production DB rejection path. Draft only. execution.unhandledErrors field was suite difference, NOT diagnostic count."
+  },
+  "processDisclosure": [
+    "Initial browser probe used wrong menu kind playerStatus (actual player-status) and timed out; state/console retained, not product failure.",
+    "First functional canvas getImageData observation triggered one Chrome performance warning. Corrected producer decodes PNG outside Chrome; second whole browser run succeeds with no error/warning, all debug/log retained.",
+    "English attempt assumed optional en pack loaded; local languages.json absent, bootstrap intentionally disables selector. English visual not passed.",
+    "First proof used printed-JS whitespace; failed. Second naive scanner mishandled template rescans; third AST getChildren retained trailing-comma formatting. Final forEachChild AST includes semantic nodes/operators/leaves and compares complete JS after explicit reversible scope transforms; all failed raw/programs retained.",
+    "Wrong-path/discovery command errors were not treated as runtime evidence. No claimed red-first for pure comment/refactor or test enhancement.",
+    "Initial scoped Biome write returned exit0 with1warning/3infos in new proof script (unused printer/template style); not a pass, terminal tool output was not saved as a raw file. Removed dead printer and corrected code syntax, no underscore/ignore/rule weakening; final static receipt recorded separately.",
+    "First docs static run rejected the new draft missing board link; fixed actual navigation. Ledger first declared header lagged the tracked style addition; actual477/76/2886 verified after header correction. Original failed outputs retained in static receipts."
+  ],
+  "decision": {
+    "newlyClosed": ["packages/game/src/tools/tools-panel-style.ts"],
+    "refreshed": [
+      "packages/game/src/core/inspect/battle-inspect.ts",
+      "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "packages/game/src/present/menu/draw-player-status.ts",
+      "packages/game/src/present/menu/draw-player-status.test.ts",
+      "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "packages/game/src/tools/tools-panel.test.ts"
+    ],
+    "cards": {
+      "53": "partial: named visual/old poison stops resolved; broad GameState and Dev quality boundaries remain review, not silently dropped from old scope.",
+      "58": "partial: source structure/test repair finite acceptance; proven export failure awaits product decision; FileReader error unknown. Whole Dev/GS acceptance not claimed."
+    },
+    "fixed83": {
+      "accept": 77,
+      "partial": 6,
+      "pending": 0
+    },
+    "remaining": ["1", "3m", "42", "53", "57", "58"],
+    "unifiedGates": "not run; full check/official coverage/protected/PR all deferred until all remaining pre94 resolved; no94–102"
+  },
+  "receipts": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/receipts.json.gz",
+    "sha256": "0b8a7eb36988a9a69fd0f551e07b70c286989eed2add9258a9145f276c12723e",
+    "members": [
+      {
+        "name": "after-party-reset.png",
+        "bytes": 47211,
+        "sha256": "2cc96b0b3f6354cfe3a7a5c34f116a033068756c96c1dc4e6beeab1726dca15e"
+      },
+      {
+        "name": "browser-english/browser-english.json",
+        "bytes": 8389,
+        "sha256": "50b76c4a1580adf5b3384a03f5c83b82ed782e1ec14206ca74510d849f09f7ae"
+      },
+      {
+        "name": "browser-english.execution.json",
+        "bytes": 504,
+        "sha256": "77a3699ba9087ef82d1c4b6ecf0c6d3cd72271a623e093728251669d3bd01377"
+      },
+      {
+        "name": "browser-english.mjs",
+        "bytes": 3810,
+        "sha256": "ac3c9ca79e91f91807bf11debc30e35d0fb9b92d3f7103c893ec6468a5d74070"
+      },
+      {
+        "name": "browser-english.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "browser-english.stdout.raw",
+        "bytes": 330,
+        "sha256": "2a9f893780203c7f825446c0fba99c02e7b9c006bc09c8d8206fd17d94a5efcc"
+      },
+      {
+        "name": "browser-functional-r2.execution.json",
+        "bytes": 517,
+        "sha256": "7088a2afd009f13e29022b3641720bdfbc11c77e2e372583600343624f051b8b"
+      },
+      {
+        "name": "browser-functional-r2.mjs",
+        "bytes": 7656,
+        "sha256": "345ced27963ead9539b9a527eea0079bd05411954bf94632978b1b1d418158c9"
+      },
+      {
+        "name": "browser-functional-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "browser-functional-r2.stdout.raw",
+        "bytes": 1646,
+        "sha256": "d8f240135066ce33d3f315ca4c2ee1c66b8600af87ebe80fd261a41c59759f64"
+      },
+      {
+        "name": "browser-functional.execution.json",
+        "bytes": 511,
+        "sha256": "64310b09f5410428dd7e3ac5c3692bb9846b1653b91c76bf388b98ea820eb5cc"
+      },
+      {
+        "name": "browser-functional.json",
+        "bytes": 26021,
+        "sha256": "f8f6ef8fb06b801d6c7db2d2410ba6aef145fb52a7c46d6fef3a884f54cef902"
+      },
+      {
+        "name": "browser-functional.mjs",
+        "bytes": 7442,
+        "sha256": "652d580611e07363ff35d3fc93406da20821f05a8937638ac263cd4b136df7a2"
+      },
+      {
+        "name": "browser-functional.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "browser-functional.stdout.raw",
+        "bytes": 2608,
+        "sha256": "395d103665316eec73aaa878ff0aaaf3740d0a38aff6928f9a195d178199d935"
+      },
+      {
+        "name": "browser-probe.execution.json",
+        "bytes": 501,
+        "sha256": "347762b7a544282cba736c689c94060416998d121e4806ebe0b68cefba158d7a"
+      },
+      {
+        "name": "browser-probe.json",
+        "bytes": 12846,
+        "sha256": "6b28ffa8aeeb90cc3d7c8a634de05590cd690eb3fdb98e256789494431e38397"
+      },
+      {
+        "name": "browser-probe.mjs",
+        "bytes": 3099,
+        "sha256": "a5b7b5fa8582df16cdbff77a07b04093aefe305e487e6d1b5445f44dc6ebc444"
+      },
+      {
+        "name": "browser-probe.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "browser-probe.stdout.raw",
+        "bytes": 3029,
+        "sha256": "16bd4178015060908e3ad19aa727657a7d4461cc731369a5d90ba4ec84e80f20"
+      },
+      {
+        "name": "browser-r2/after-party-reset.png",
+        "bytes": 47211,
+        "sha256": "2cc96b0b3f6354cfe3a7a5c34f116a033068756c96c1dc4e6beeab1726dca15e"
+      },
+      {
+        "name": "browser-r2/browser-functional.json",
+        "bytes": 24647,
+        "sha256": "b9ab29c8852ce253133d432b0b318f9888d66637a06b2e7db7b0f6f4493ac9fb"
+      },
+      {
+        "name": "browser-r2/duplicate-first-slot.png",
+        "bytes": 53429,
+        "sha256": "3a235dc4e63c3597f9a6ff168bb3707d5eba3a2f583be5986646e442c4470ed3"
+      },
+      {
+        "name": "browser-r2/duplicate-third-slot.png",
+        "bytes": 52872,
+        "sha256": "22528cab3d416806b0cf1e5d97e88e139b16c0521fd0977c0bd154aa55b004f9"
+      },
+      {
+        "name": "browser-r2/runtime-zero.png",
+        "bytes": 52894,
+        "sha256": "af24afa47a38811f32d97887a4f034ed0fd7a835d019dbe4da58cf991d6bef55"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 1147,
+        "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5"
+      },
+      {
+        "name": "directed.execution.json",
+        "bytes": 1393,
+        "sha256": "aaf8d1eb183192f51c41d66a2f258a8c132949706506c366defb83e300039bdc"
+      },
+      {
+        "name": "directed.native.json",
+        "bytes": 44172,
+        "sha256": "bfb4cffae59a3416d458cdc0c67d1f0be2fe43a9ab2c8451469d21a836b239ee"
+      },
+      {
+        "name": "directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "directed.stdout.raw",
+        "bytes": 1900,
+        "sha256": "ba33660c6cbc3d1bfb573a958beb0d587e091bb96f35ea950157121fb3264238"
+      },
+      {
+        "name": "draw-player-status.before.ts",
+        "bytes": 16322,
+        "sha256": "9fcd4810b9675a0840d29d1d7a1040e7cfbe883ebbdfebe0b74e501d04f2aff6"
+      },
+      {
+        "name": "duplicate-first-slot.png",
+        "bytes": 53429,
+        "sha256": "3a235dc4e63c3597f9a6ff168bb3707d5eba3a2f583be5986646e442c4470ed3"
+      },
+      {
+        "name": "duplicate-third-slot.png",
+        "bytes": 52872,
+        "sha256": "22528cab3d416806b0cf1e5d97e88e139b16c0521fd0977c0bd154aa55b004f9"
+      },
+      {
+        "name": "export-failure.execution.json",
+        "bytes": 1745,
+        "sha256": "533f9d1552a1c7bd8c2319058df0dda80823e1e21004318d05591349a108d6dc"
+      },
+      {
+        "name": "export-failure.native.json",
+        "bytes": 2098,
+        "sha256": "a92bd99c525272fde44ee1d119028df456bbbf3d52f079554721f169fe4fc1a1"
+      },
+      {
+        "name": "export-failure.specimen.ts",
+        "bytes": 840,
+        "sha256": "a60f351fe8332be38a67378661bc8e251e16fffcff1755b830c1cfe21922cb65"
+      },
+      {
+        "name": "export-failure.stderr.raw",
+        "bytes": 3727,
+        "sha256": "51cb3848f5777d0105c6f07368b5e70e561b7ecf2ea606c7f94dac5673c55c74"
+      },
+      {
+        "name": "export-failure.stdout.raw",
+        "bytes": 576,
+        "sha256": "3a266c4d1dd6385588905950f2f135bcfd9fa568edf70719851d75e7cedc25cd"
+      },
+      {
+        "name": "export-probe.execution.json",
+        "bytes": 499,
+        "sha256": "6941336d9ea3cc92ca83ba98ff411b345f0dba0369b09bc1e11779924b670aba"
+      },
+      {
+        "name": "export-probe.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "export-probe.stdout.raw",
+        "bytes": 1607,
+        "sha256": "91ff4942409fd118fcd6fb64a4203fe575f3a06b9de58f9843b74e2c2c48e8ae"
+      },
+      {
+        "name": "game-typecheck.execution.json",
+        "bytes": 447,
+        "sha256": "da2845b7c34920c16b4f3044138860a8a69d60829e9c855c4ad8d647bf6eeaba"
+      },
+      {
+        "name": "game-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "game-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "keys-control.execution.json",
+        "bytes": 499,
+        "sha256": "345fe9083fc9dee8c447af52531bca47571d2bb971b38eb04e6970ed5734bbf3"
+      },
+      {
+        "name": "keys-control.json",
+        "bytes": 3571,
+        "sha256": "402cfd4ea3bdfd8791a1adbb626849b3c356f13ef2302761cde4b9c1e3ac35dd"
+      },
+      {
+        "name": "keys-control.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "keys-control.stdout.raw",
+        "bytes": 102,
+        "sha256": "579d8793002a51ec77b5a29199bffe62e0a0a204cf95e05972e7e4d2e976aee9"
+      },
+      {
+        "name": "keys-new.native.json",
+        "bytes": 7069,
+        "sha256": "9dd7200225b091e335c575db47cafc989262e1bf7136c703fc2feec6ffe24d93"
+      },
+      {
+        "name": "keys-new.stderr.raw",
+        "bytes": 785,
+        "sha256": "020c86114a8e1f26ae7c1ccd7de1413b075040502c503cbae3031a8122648890"
+      },
+      {
+        "name": "keys-new.stdout.raw",
+        "bytes": 1731,
+        "sha256": "be6481e1229f23eaa8fc16f8823f53c1a4177707cbc0bd7579a34043cb397c65"
+      },
+      {
+        "name": "keys-old.native.json",
+        "bytes": 5550,
+        "sha256": "4e1b0a486dc6546de9598a6f7a3862e59fbccb1376468217068115e74470ea19"
+      },
+      {
+        "name": "keys-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "keys-old.stdout.raw",
+        "bytes": 451,
+        "sha256": "661ddf0b68147719d10e725717c1ce2200bd1aa9832ed383d1bb77e9cec18dcb"
+      },
+      {
+        "name": "mutation-keys.cjs",
+        "bytes": 2573,
+        "sha256": "8e0dc7dbecf9246070d1bef9bd86eea05bc35397738134d56fd977737e34d589"
+      },
+      {
+        "name": "mutation-keys.patch",
+        "bytes": 20559,
+        "sha256": "4b4684f84e0f4c4b37a424886319f1ed65faa8706882707d478ab43ebc2bbc51"
+      },
+      {
+        "name": "probe-export.cjs",
+        "bytes": 1562,
+        "sha256": "01d9742b2ece2ad650cc39afc5226fc9d0f759d84fc67ac7d4f7751a23f51908"
+      },
+      {
+        "name": "prove-refactor-r2.cjs",
+        "bytes": 3747,
+        "sha256": "20b1dc38ddcbdcfa4db8bdf6a6f31dd0f7d6f5d9f931f04e651c97bdf7ae6953"
+      },
+      {
+        "name": "prove-refactor-r3.cjs",
+        "bytes": 3894,
+        "sha256": "269e2a300f539a5a30d0f23f7c62ecab823023ca77e13c7fc6cd743cb8524907"
+      },
+      {
+        "name": "prove-refactor-r4.cjs",
+        "bytes": 3923,
+        "sha256": "872d1c5bd90177a227e3617e14d3158b958f780c24033cffeaa59fa1d9732b0b"
+      },
+      {
+        "name": "prove-refactor.cjs",
+        "bytes": 3486,
+        "sha256": "766317eb1eb5e18b64b4d94d67bf043eb3109125fd8b585a487674447b2c2ed8"
+      },
+      {
+        "name": "refactor-proof-r2.execution.json",
+        "bytes": 510,
+        "sha256": "15a86310566c91c53fafb1a53fe951208f39f0a867dce2afadc11b4d3828c7fd"
+      },
+      {
+        "name": "refactor-proof-r2.stderr.raw",
+        "bytes": 41867,
+        "sha256": "c4bd8c28f16c077244d6d658332a77e5bf8e16c703afba6039c9b7339e2a605f"
+      },
+      {
+        "name": "refactor-proof-r2.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "refactor-proof-r3.execution.json",
+        "bytes": 510,
+        "sha256": "4402c2d5f8df6bd4d941e4cf1d1637b7c9ebfd21a6b537973f7b7abe11771599"
+      },
+      {
+        "name": "refactor-proof-r3.stderr.raw",
+        "bytes": 41815,
+        "sha256": "af272502f689b229dd04e73e0dbe5d2869708057ff31a878fd2cf5d45bd555ba"
+      },
+      {
+        "name": "refactor-proof-r3.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "refactor-proof-r4.execution.json",
+        "bytes": 508,
+        "sha256": "9d7f38b40a0f74bccfb3b71776e7f23d456610f0b2a121f6708c3991af0711d1"
+      },
+      {
+        "name": "refactor-proof-r4.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "refactor-proof-r4.stdout.raw",
+        "bytes": 916,
+        "sha256": "1460bfafd9e7b1282d2474d976a08d37a3147f2e64ddbcb6273312bb6d1f3d51"
+      },
+      {
+        "name": "refactor-proof.execution.json",
+        "bytes": 504,
+        "sha256": "22653688eeefa774a635067602c62a8486e6c22895d34acbd3cec943dac0bd16"
+      },
+      {
+        "name": "refactor-proof.stderr.raw",
+        "bytes": 24562,
+        "sha256": "dba0adec084b844d69f9f40c852d108886e5e69332526c479dc284df4f898e23"
+      },
+      {
+        "name": "refactor-proof.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "runtime-zero.png",
+        "bytes": 52894,
+        "sha256": "af24afa47a38811f32d97887a4f034ed0fd7a835d019dbe4da58cf991d6bef55"
+      },
+      {
+        "name": "tools-panel.before.ts",
+        "bytes": 56931,
+        "sha256": "df6083ef6eeaf958db857a728a7a661185d2975e300bfba28a47c32a75f911de"
+      },
+      {
+        "name": "tools-panel.test.before.ts",
+        "bytes": 14275,
+        "sha256": "f4b33eca5a33fc65676334d7fef3cdc8b1c80716dcb65ac825af9131ef82a6b8"
+      }
+    ]
+  },
+  "proof": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/prove-refactor.cjs",
+    "sha256": "04b20ce06153cd9aa3673515d73bb613d057930ee5c7d71da54f78e8dc353bc1",
+    "lines": 116
+  },
+  "quantitativeClues": {
+    "method": "AST branch clue per function, excludes nested function bodies; +1/if/loop/case/catch/ternary/logical. Does not count default parameter edges; diagnostic reading pointer, not acceptance metric or full standardized McCabe.",
+    "flagged": [
+      {
+        "file": "packages/game/src/present/menu/draw-player-status.ts",
+        "name": "drawPlayerStatus",
+        "line": 161,
+        "branchClue": 31,
+        "flag": true
+      },
+      {
+        "file": "packages/game/src/tools/tools-panel.ts",
+        "name": "renderBattleTab",
+        "line": 366,
+        "branchClue": 16,
+        "flag": true
+      },
+      {
+        "file": "packages/game/src/tools/tools-panel.ts",
+        "name": "setupToolsPanel",
+        "line": 992,
+        "branchClue": 11,
+        "flag": true
+      },
+      {
+        "file": "packages/game/src/tools/tools-panel.ts",
+        "name": "callback",
+        "line": 1037,
+        "branchClue": 12,
+        "flag": true
+      }
+    ],
+    "style": [
+      {
+        "file": "packages/game/src/tools/tools-panel-style.ts",
+        "name": "injectToolsPanelStyles",
+        "line": 5,
+        "branchClue": 3,
+        "flag": false
+      }
+    ],
+    "totalFunctions": 112
+  },
+  "codeCommits": {
+    "pureRefactor": "f2806fc8fd00a592e642a56866bbce7e7d643e90",
+    "testOracle": "d93b0dac96a0210bd5745f2971d94042876d4369"
+  },
+  "branchBeforeDocumentationCommit": {
+    "originMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+    "behind": 0,
+    "ahead": 63,
+    "scope": "Code commits only; later documentation commit/push must be checked from actual Git, not inferred as merged."
+  }
+}

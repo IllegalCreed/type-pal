@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { makeHBattle, makeHEnemy, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
 import type { BattleState } from '../battle-state.js'
 import { canAct, canCastMagic, tickStatusEffects } from '../status.js'
 
@@ -21,27 +22,16 @@ function makeBattleState(opts: {
   enemyHealth?: number
   enemySilence?: number
 }): BattleState {
-  return {
-    players: [
-      {
-        roleId: 0,
-        prevHp: 100,
-        prevMp: 30,
-        defending: false,
-        status: makePlayerStatus({ sleep: opts.sleep ?? 0, paralyzed: opts.paralyzed ?? 0 }),
-      } as any,
-    ],
-    enemies: [
-      {
-        e: { health: opts.enemyHealth ?? 50 } as any,
-        status: makePlayerStatus({ silence: opts.enemySilence ?? 0 }),
-        prevHp: 50,
-        scriptOnTurnStart: 0,
-        scriptOnBattleEnd: 0,
-        scriptOnReady: 0,
-      } as any,
-    ],
-  } as unknown as BattleState
+  const { state } = makeHBattle({
+    roles: [makeHRole(0)],
+    enemies: [makeHEnemy({ health: opts.enemyHealth ?? 50 })],
+  })
+  state.players[0]!.status = makePlayerStatus({
+    sleep: opts.sleep ?? 0,
+    paralyzed: opts.paralyzed ?? 0,
+  })
+  state.enemies[0]!.status = makePlayerStatus({ silence: opts.enemySilence ?? 0 })
+  return state
 }
 
 describe('B-w1.a status tick', () => {
@@ -59,6 +49,7 @@ describe('B-w1.a status tick', () => {
 
   it('全部 9 种 status 逐回合 -1(含 boolean 类 haste/protect/bravery/dualAttack,对齐 fight.c:1632-1638)', () => {
     const state = makeBattleState({})
+    // 九项Classic计数器之外，当前TS还显式验证slow。
     state.players[0]!.status = makePlayerStatus({
       confused: 2,
       paralyzed: 1,
@@ -68,8 +59,8 @@ describe('B-w1.a status tick', () => {
       bravery: 5,
       protect: 5,
       haste: 5,
-      slow: 0,
-      dualAttack: 5,
+      slow: 4,
+      dualAttack: 1000,
     })
     tickStatusEffects(state)
     const s = state.players[0]!.status
@@ -82,16 +73,8 @@ describe('B-w1.a status tick', () => {
     expect(s.bravery).toBe(4)
     expect(s.protect).toBe(4)
     expect(s.haste).toBe(4)
-    expect(s.slow).toBe(0) // 0 不变负
-    expect(s.dualAttack).toBe(4)
-  })
-
-  it('paralyzed 同 sleep 同样衰减', () => {
-    const state = makeBattleState({ paralyzed: 2 })
-    tickStatusEffects(state)
-    expect(state.players[0]?.status.paralyzed).toBe(1)
-    tickStatusEffects(state)
-    expect(state.players[0]?.status.paralyzed).toBe(0)
+    expect(s.slow).toBe(3)
+    expect(s.dualAttack).toBe(999) // 装备状态也参与回合递减;战后清理另按 >999 判断
   })
 
   it('enemy silence 衰减(B-w0.3 扩字段)', () => {
@@ -107,18 +90,19 @@ describe('B-w1.a status tick', () => {
   })
 
   it('canAct:sleep>0 或 paralyzed>0 → false', () => {
-    const owner1 = { status: makePlayerStatus({ sleep: 2 }) }
-    const owner2 = { status: makePlayerStatus({ paralyzed: 1 }) }
-    const owner3 = { status: makePlayerStatus({}) }
-    expect(canAct(owner1 as any)).toBe(false)
-    expect(canAct(owner2 as any)).toBe(false)
-    expect(canAct(owner3 as any)).toBe(true)
+    const owner = makeBattleState({ sleep: 2 }).players[0]!
+    expect(canAct(owner)).toBe(false)
+    owner.status = makePlayerStatus({ paralyzed: 1 })
+    expect(canAct(owner)).toBe(false)
+    owner.status = makePlayerStatus({ confused: 1 })
+    expect(canAct(owner)).toBe(true) // 混乱由上层改派攻击,不属跳过行动
   })
 
   it('canCastMagic:silence>0 → false', () => {
-    const owner1 = { status: makePlayerStatus({ silence: 2 }) }
-    const owner2 = { status: makePlayerStatus({}) }
-    expect(canCastMagic(owner1 as any)).toBe(false)
-    expect(canCastMagic(owner2 as any)).toBe(true)
+    const owner = makeBattleState({}).players[0]!
+    owner.status.silence = 2
+    expect(canCastMagic(owner)).toBe(false)
+    owner.status.silence = 0
+    expect(canCastMagic(owner)).toBe(true)
   })
 })

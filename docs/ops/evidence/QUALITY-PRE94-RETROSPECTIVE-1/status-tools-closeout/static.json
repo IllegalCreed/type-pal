@@ -1,0 +1,392 @@
+{
+  "state": "scoped static gates passed; unified pre94 gates deferred",
+  "runs": [
+    {
+      "id": "docs-final",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:23:38.673Z",
+      "end": "2026-10-24T13:23:39.916Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-model",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:21:59.377Z",
+      "end": "2026-10-24T13:22:00.461Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-testing",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:22:08.454Z",
+      "end": "2026-10-24T13:22:08.543Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-lore",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:22:33.134Z",
+      "end": "2026-10-24T13:22:33.187Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-content",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:22:33.134Z",
+      "end": "2026-10-24T13:22:33.529Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-progress",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:22:33.135Z",
+      "end": "2026-10-24T13:22:35.699Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0
+    },
+    {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:23:38.675Z",
+      "end": "2026-10-24T13:23:40.569Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:23:38.673Z",
+      "end": "2026-10-24T13:23:41.575Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:23:38.673Z",
+      "end": "2026-10-24T13:23:38.737Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "game-typecheck",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T13:11:19.654Z",
+      "end": "2026-10-24T13:11:24.731Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "7f9f42b6c8b419364406e02480104fbb1c7b49b0",
+      "observerTimeout": false,
+      "stdoutBytes": 125,
+      "stderrBytes": 0
+    }
+  ],
+  "lint": {
+    "files": 6049,
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "raw": "lint-final.stdout.raw"
+  },
+  "ledger": {
+    "total": 3439,
+    "closed": 477,
+    "review": 76,
+    "pending": 2886
+  },
+  "failedPriorRuns": [
+    {
+      "id": "docs",
+      "reason": "new draft task missing direct board link; added link, docs-final passed"
+    },
+    {
+      "id": "ledger-before-header",
+      "reason": "new style row tracked before updating declared header; current count corrected, ledger-final passed"
+    }
+  ],
+  "notRun": ["pnpm check", "official coverage ratchet", "protected fast", "PR/merge"],
+  "receipts": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/static-receipts.json.gz",
+    "sha256": "67f29c55e9834114e67e77d330a441e3ee61812685cbbb4d8bc4a40c600f9dc7",
+    "members": [
+      {
+        "name": "diff-final.execution.json",
+        "bytes": 412,
+        "sha256": "853bec0355e701193cf3d616e14884afefd97e64e437befbc23740a7b4c9aeeb"
+      },
+      {
+        "name": "diff-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-content.execution.json",
+        "bytes": 450,
+        "sha256": "bcc3bdc4d906fef0af6bfd64d368dcacd55db4bccbabdf0a4fdc4864307e9679"
+      },
+      {
+        "name": "docs-content.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-content.stdout.raw",
+        "bytes": 65,
+        "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+      },
+      {
+        "name": "docs-final.execution.json",
+        "bytes": 417,
+        "sha256": "db93ff0ba2dba4532ba236c0f4cc9cddfd24bf3bb634de26fd388ec995527c70"
+      },
+      {
+        "name": "docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-final.stdout.raw",
+        "bytes": 93,
+        "sha256": "f4ee6b6b509dee902640cfbd853188c392fdb799396090f8672d945ca32d7c74"
+      },
+      {
+        "name": "docs-lore.execution.json",
+        "bytes": 438,
+        "sha256": "b539c575e24fd25161bd40bfb6b9b66e885e25e82c284942cdee6f57a7ef6798"
+      },
+      {
+        "name": "docs-lore.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-lore.stdout.raw",
+        "bytes": 44,
+        "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+      },
+      {
+        "name": "docs-model.execution.json",
+        "bytes": 432,
+        "sha256": "4a8513581431dd8af71d7680ac9fc43eba157ec566a7cab06622bf3460c10c43"
+      },
+      {
+        "name": "docs-model.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-model.stdout.raw",
+        "bytes": 79,
+        "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+      },
+      {
+        "name": "docs-progress.execution.json",
+        "bytes": 442,
+        "sha256": "d4ccc64a43f844b35b6da324830555d51c3a0e0c224245545a61cb4e452c7cf8"
+      },
+      {
+        "name": "docs-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-progress.stdout.raw",
+        "bytes": 158,
+        "sha256": "c823e8eaa12264132d2aa44479ffa29cda630fdf798060b63b15dd11a17b9334"
+      },
+      {
+        "name": "docs-testing.execution.json",
+        "bytes": 427,
+        "sha256": "49261b7d040695656fa0bb71432a29ec71ce1ee38d033fa0333a9cdaa0734685"
+      },
+      {
+        "name": "docs-testing.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-testing.stdout.raw",
+        "bytes": 30,
+        "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+      },
+      {
+        "name": "docs.execution.json",
+        "bytes": 412,
+        "sha256": "29607944281f16cfcd0266be3de538d6d4b3e6907e829dc0031f23b1887bbde4"
+      },
+      {
+        "name": "docs.stderr.raw",
+        "bytes": 99,
+        "sha256": "47d637561f39000ac1069b17cb1881cf340c492b863999b1b96419683c3731e9"
+      },
+      {
+        "name": "docs.stdout.raw",
+        "bytes": 93,
+        "sha256": "3604c847292b9d26bc6c683a10be574f2e5e94a1e0fbb8057f118032cb4dd3a9"
+      },
+      {
+        "name": "game-typecheck.execution.json",
+        "bytes": 447,
+        "sha256": "da2845b7c34920c16b4f3044138860a8a69d60829e9c855c4ad8d647bf6eeaba"
+      },
+      {
+        "name": "game-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "game-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "ledger-before-header.execution.json",
+        "bytes": 445,
+        "sha256": "9c6c905a924d89a55d0a5d943b4e48cbe8b60e5238ca65b48fc670a129d7a969"
+      },
+      {
+        "name": "ledger-before-header.stderr.raw",
+        "bytes": 154,
+        "sha256": "2c8cc74742d445ac1d407e192efa0f5c767bd19c8e6adc7141edafcb5ff18bf8"
+      },
+      {
+        "name": "ledger-before-header.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger-final.execution.json",
+        "bytes": 437,
+        "sha256": "9ba16b1fd1179d2199eeedac4b49ebd70bcef8e65c146957e27e75e893a48da3"
+      },
+      {
+        "name": "ledger-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger-final.stdout.raw",
+        "bytes": 112,
+        "sha256": "2b5c9083fdce65f8626142ecc96c4c720f44f934bd1328eaf2fefd8d17d04eb3"
+      },
+      {
+        "name": "lint-final.execution.json",
+        "bytes": 400,
+        "sha256": "c7f3be71d0733b8d8781035677cf4308ba70a44dd79f08df57b293ceaa1737cd"
+      },
+      {
+        "name": "lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "730d8a6ad2cb9229272190b9bf63c5610be24805e5520afa411495e83a44cf19"
+      },
+      {
+        "name": "projections.cjs",
+        "bytes": 4680,
+        "sha256": "dd072615d5a3dc8b77c3415fbadfc759017b1457854f743f07e8d6117fe9c1fb"
+      },
+      {
+        "name": "quant-clues.cjs",
+        "bytes": 1495,
+        "sha256": "c6ed87c4634e00845f7cecfb8d447ed41e5df860a7e77808845a714a2b5ad51e"
+      },
+      {
+        "name": "quant-clues.execution.json",
+        "bytes": 497,
+        "sha256": "cfed81685628ad16301b1fe98f53b5b63d23456f0b6efa9b7fabeac0602c34e3"
+      },
+      {
+        "name": "quant-clues.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "quant-clues.stdout.raw",
+        "bytes": 1140,
+        "sha256": "357cfcd5b1b2b8d46ff414db9358a52ec8f5415d1d68507e866314a44a5809f3"
+      }
+    ]
+  }
+}

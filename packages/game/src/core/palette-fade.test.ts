@@ -136,6 +136,8 @@ describe('buildPaletteFade(0x80)', () => {
     const cur = fill([0, 0, 0])
     const target = fill([80, 80, 80])
     const pf = buildPaletteFade(cur, target, 3200, 0)
+    cur[0]![0] = 99
+    target[0]![1] = 99
     const colors = fill([0, 0, 0])
     stepPaletteFade(colors, pf, 1600)
     // SDLPal step 16 uses 16/31, so 80*16/31 truncates to 41.

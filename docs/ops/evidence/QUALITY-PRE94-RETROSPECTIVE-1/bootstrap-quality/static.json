@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "scope": "Current documentation consumers and full lint/ledger only; no whole product check/coverage/protected",
+  "head": "fdbb909f5389ef6a4c4f0a72ccf1b6652d4b4d15",
+  "gates": [
+    "docs-final",
+    "model-final",
+    "testing-final",
+    "lore",
+    "content-final",
+    "progress-final",
+    "lint-final",
+    "ledger",
+    "diff-final",
+    "diff-staged"
+  ],
+  "archive": {
+    "path": "static-receipts.json.gz",
+    "sha256": "a893e793c42cc9646fb009c52bd908d1bea806f5cf8ee92e04aa436e41e897cf",
+    "members": 69
+  },
+  "inputs": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "sha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "sha256": "9d0cef95556b4f158036490fdd5aa148bea7e1d50c8e11dfe2bdf24c6400177a"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "sha256": "64fbac974005c9b3adfed432844c67abb73f11e44d6e05dce1ebdde15f296299"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "sha256": "cd447fa2587e3fa7bbe0dd3e01bc5eeb67d2310474cec891d61befd233fa6bb7"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+      "sha256": "4a8caee5474a3653c3a2bf120fc42090523fd75fdfbe069c82edf37c78feb87b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+      "sha256": "ff05cf91a2630ccdbc6ea34585f5e0437c3c2ca931c1a82d60d92320f28741a8"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md",
+      "sha256": "c2b933024406bc64ef173f7a87348a97686ed11f6d1e7ed1470d79e1024dc27f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/approved-map-consistency-delta.json",
+      "sha256": "78d3c612ba5e8c1ddbafdd4a37245adefbb043ed8778bfbe2c01e15523d9f7c3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-after-failure.png",
+      "sha256": "826c6db4fbbae754a9bedfc8509951437a433985f9bf24338ba0b1beeecbb4bc"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-before-failure.png",
+      "sha256": "fed05b3fa211b62196ac83d32426c31959bb48c03580611defa41249d17d0494"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-fixed-after.png",
+      "sha256": "e8b7c309c01e57cc13ddf49528c0977d55ea376743a82fce67c687c992c96e83"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-fixed-before.png",
+      "sha256": "22eb9a03c93b4685703526909dff557ce07a92e114f26806bfa8bc640e7975a8"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-reload.browser.mjs",
+      "sha256": "7517c9d286ad727b025b18963fbc2cf4466e4d8504f3ba6363e6f8a8f79863a5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/minimap-seam-after.png",
+      "sha256": "79ab6e8d582b697fcda8f63990fa969006c0c4e70dcc5be320e2392f38ac862b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/prove-refactor.cjs",
+      "sha256": "651ca55d5b88d7e0a6739b69960cdca2626a19ad135f866ce877a0b79b54f3e3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/receipts.json.gz",
+      "sha256": "82e677bb15a22896d73c4b2c79ef0232effc1f0de3225b34818eaaa340c0116e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "sha256": "189f13fefca9a3a1a6c0342ed65e903b242aeda10ce6c8fdc777a34a56dea2ed"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/verify.mjs",
+      "sha256": "97db3100a75dcd8590bcd1f3dce7f77f58de4d4a99811da8a5ee31f990b2e6d2"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+      "sha256": "83abdc7f23f3ba4daacac7487727c7e9fbed72c9506d0f5d2463bc631ca56caf"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md",
+      "sha256": "58c3cae3814a64b8fc313a046ee88748de450a318a9b05d3f4830fff5b19eed5"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md",
+      "sha256": "e51c6f158280f844e9b99e28042e2c166ce3b88b974b15726377ac6e903a7f03"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "sha256": "0b10b159ddcc3cf093114312eabc23ac0ed6ce09c83b84baaf3cb2ee4843f516"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "sha256": "877059f67118e9df50cdd811249fa64acc6800dfa6a81f957ac322081a6a8df0"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "sha256": "9fff3b7aca5f530ac67dd2c82a7261cd4ec77b1d6bbe92d72519846d14b404c2"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+      "sha256": "e81dacbefc350b992a628c86922b2dc5c6d313ffa0fd77d8f793741beff8f4a7"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+      "sha256": "fcfbd05dbf58839ce70e80b7f53f4bd32c12670bbe095d59b744d1181e7573d1"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "sha256": "00d6364012e44081f0fe9e90885e741b2135abc52a55da5a58f6d3599693fcfe"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+      "sha256": "9406349846406e165d06d73e2f8bf6b434c1130246cc90f7aa5936f01a146dab"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "sha256": "800cc46fdff95626e5b9f43d3b97bcbe29e38fd92be57bc94bd5b1ab05c98e6c"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "sha256": "50b14cb06b9b9bfc2003a7097ae39fb462527a7e6d03dab823596f51bb61a4b9"
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "sha256": "e1ddfc241c2e66e929e97e242455a6e68b331961903d11a078dd51696436693a"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "sha256": "c3409da84838b612f369d9d12082b609c1742dbc9aa869354d134104e033e5a0"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "sha256": "2498d08c84e037726204178631913cfbd68dab0f788866b4361429dd091b9137"
+    }
+  ],
+  "ledger": {
+    "inventory": 3450,
+    "closed": 498,
+    "review": 72,
+    "pending": 2880
+  },
+  "cards": {
+    "accept": 80,
+    "partial": 3,
+    "pending": 0
+  },
+  "diagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0
+  },
+  "history": "First sourceRef/archived3r drift failures and incomplete catalog binding round remain in archive. Only current exact owned refs/paired history and catalog entry were fixed; no global hash refresh or publication upgrade. A first direct verifier run correctly rejected the later lint-receipt filename edit as STALE; that single known input was rebound after scoped Biome0/0/0. This direct failure was tool-visible but not retained as a raw attachment.",
+  "reusedToolTests": "Unchanged documentation-tool125 suite was not rerun. Only six current doc consumers ran; no command is mislabeled pnpm check:docs. Tests of unmodified tools retain their earlier limited receipts.",
+  "limits": "Inputs bind owned deltas at this recorded HEAD; future unrelated repository changes require applicable consumers again. No unified pre94 integration or full-doc1838 semantic completion is claimed."
+}

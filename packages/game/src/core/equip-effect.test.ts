@@ -1,16 +1,11 @@
 /**
- * C5(2026-05-28):equip-effect.ts 单测 — sdlpal global.c:1333-1900+ 真值校验。
- *
- * 覆盖:
- *  - writeEquipmentEffectField(opcode 0x17 真值)
- *  - removeEquipmentEffect(sdlpal global.c:1372 清零)
- *  - 6 effective stat getter(base + Σ rgEquipmentEffect)
- *
- * updateAllEquipments 依赖 shared.json runtime,留 e2e。
+ * 装备数据层的公开getter/mutator与同步装备脚本合同。
+ * 每例显式安装需要的全局目录/毒定义，结束时恢复；运行态通过正式hydrate构造。
+ * updateAllEquipments全量重建由独立测试核验，本文件不以直接写字段冒称完整加载或E2E。
  */
 
 import type { Command } from '@type-pal/shared'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   getPlayerAttackStrength,
   getPlayerDefense,
@@ -24,11 +19,11 @@ import {
   setPlayerStatRow,
   writeEquipmentEffectField,
 } from './equip-effect.js'
+import { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'
 import { addPoisonForPlayer, setGlobalEvents, setObjectPoisons } from './event-system.js'
-import { createInitialGameState } from './game-state.js'
 
 function freshGs() {
-  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  const gs = freshPlayerOpcodeState()
   // 给 role 0 base attack 50
   gs.PlayerRolesRuntime.rgwAttackStrength[0] = 50
   gs.PlayerRolesRuntime.rgwMagicStrength[0] = 30
@@ -38,6 +33,12 @@ function freshGs() {
   gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 5
   return gs
 }
+
+afterEach(() => {
+  vi.restoreAllMocks()
+  setGlobalEvents([])
+  setObjectPoisons([])
+})
 
 describe('equip-effect', () => {
   describe('writeEquipmentEffectField', () => {
@@ -99,7 +100,6 @@ describe('equip-effect', () => {
       writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.ATTACK_ALL, 0, 1)
       writeEquipmentEffectField(gs, 5, PLAYERROLES_ROW.COOPERATIVE_MAGIC, 0, 351)
       expect(warn).not.toHaveBeenCalled()
-      warn.mockRestore()
     })
   })
 
@@ -192,7 +192,7 @@ describe('equip-effect', () => {
     })
   })
 
-  describe('完整 swap 模拟(sdlpal 木剑 39011 真值 chain)', () => {
+  describe('属性效果装卸：公开写入/清除后的有效值', () => {
     it('装备木剑 → AttackStrength +2 / Dexterity +3;卸下后清零', () => {
       const gs = freshGs()
       // 装备:opcode 0x18 入口 removeEquipmentEffect + opcode 0x17 写
@@ -225,7 +225,7 @@ describe('equip-effect', () => {
 
     it('空槽装新装备:rgwEquipment 写入 + 背包移除新装备 + wLastUnequippedItem=0', () => {
       setupEquipScript()
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 0 // role 2 林月如 手持槽空
       gs.inventory = [{ itemId: 163, count: 1 }] // 背包有长鞭
       runEquipScript(gs, 500, 2)
@@ -236,7 +236,7 @@ describe('equip-effect', () => {
 
     it('换下旧装备:新装上 + 旧装备入包 + wLastUnequippedItem=旧', () => {
       setupEquipScript()
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 100 // 已装旧武器 100
       gs.inventory = [{ itemId: 163, count: 1 }]
       runEquipScript(gs, 500, 2)
@@ -248,7 +248,7 @@ describe('equip-effect', () => {
 
     it('已装着自己(update 上下文):条件相等 → 不 swap,背包不动', () => {
       setupEquipScript()
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 163 // 已装 163(=op1)
       gs.inventory = [{ itemId: 163, count: 1 }]
       runEquipScript(gs, 500, 2)
@@ -265,7 +265,7 @@ describe('equip-effect', () => {
         { op: 'end' },
       ]
       setGlobalEvents(cmds)
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.PlayerRolesRuntime.rgwHP[1] = 100 // good 状态需 HP!=0(global.c:2264)
       runEquipScript(gs, 510, 1)
       expect(gs.rgPlayerStatus[1]![8]).toBe(32760)
@@ -277,7 +277,7 @@ describe('equip-effect', () => {
         { op: 'end' },
       ]
       setGlobalEvents(cmds)
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.PlayerRolesRuntime.rgwHP[1] = 100
       gs.rgPlayerStatus[1]![8] = 100 // 已有 100 回合
       runEquipScript(gs, 511, 1)
@@ -290,7 +290,7 @@ describe('equip-effect', () => {
         { op: 'end' },
       ]
       setGlobalEvents(cmds)
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.PlayerRolesRuntime.rgwHP[1] = 0 // 死
       runEquipScript(gs, 512, 1)
       expect(gs.rgPlayerStatus[1]![8]).toBe(0)
@@ -300,7 +300,7 @@ describe('equip-effect', () => {
   // M2(2026-06-07 sdlpal 审查):0x1A 非装备上下文写造型 row,原先落 default no-op → 变身造型不更新
   describe('M2:setPlayerStatRow 造型 row 路由(script.c:862)', () => {
     it('SPRITE_NUM/SPRITE_NUM_IN_BATTLE/AVATAR/WALK_FRAMES/ATTACK_ALL/COOP → runtime 字段', () => {
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.iCurEquipPart = -1 // 非装备上下文(剧情脚本)
       setPlayerStatRow(gs, PLAYERROLES_ROW.SPRITE_NUM, 1, 512) // 赵灵儿变镇狱明王 大世界精灵
       setPlayerStatRow(gs, PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE, 1, 5)
@@ -326,7 +326,7 @@ describe('equip-effect', () => {
         { op: 'end' },
       ]
       setGlobalEvents(cmds)
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.partyMembers = [1]
       // poisonResistance 默认 0 → RandomLong(1,100) > 0 必 true → 中
       runEquipScript(gs, 520, 1)
@@ -336,7 +336,7 @@ describe('equip-effect', () => {
 
     it('M12:落槽时跑一次入口 playerScript,存返回 next(C global.c:1515)', () => {
       setObjectPoisons([{ id: 100, level: 2, color: 0, playerScript: 555, enemyScript: 0 }])
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.partyMembers = [0]
       let ranIp = -1
       addPoisonForPlayer(gs, 0, 100, (ip) => {
@@ -346,7 +346,6 @@ describe('equip-effect', () => {
       expect(ranIp).toBe(555) // 施毒当下跑了入口 playerScript
       expect(gs.rgPoisonStatus['0_0']?.wPoisonScript).toBe(600) // 存返回的 next entry
       expect(gs.rgPoisonStatus['0_0']?.wPoisonID).toBe(100)
-      setObjectPoisons([])
     })
 
     it('M12:runEquipScript 0x29 落槽当下跑 playerScript,存返回 next entry', () => {
@@ -358,7 +357,7 @@ describe('equip-effect', () => {
         { op: 'end', advance: true },
       ]
       setGlobalEvents(cmds)
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.partyMembers = [1]
       gs.PlayerRolesRuntime.rgwPoisonResistance[1] = 0
       gs.PlayerRolesRuntime.rgwMaxHP[1] = 100
@@ -366,29 +365,27 @@ describe('equip-effect', () => {
       runEquipScript(gs, 520, 1)
       expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(70)
       expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 100, wPoisonScript: 4 })
-      setObjectPoisons([])
     })
 
     it('M12:无 runner(旧 caller)→ fallback 存入口 ip(差一拍但不崩)', () => {
       setObjectPoisons([{ id: 100, level: 2, color: 0, playerScript: 555, enemyScript: 0 }])
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.partyMembers = [0]
       addPoisonForPlayer(gs, 0, 100) // 不传 runner
       expect(gs.rgPoisonStatus['0_0']?.wPoisonScript).toBe(555) // 存入口 ip(向后兼容)
-      setObjectPoisons([])
     })
   })
 
   describe('D14:removeEquipmentEffect 卸装副作用(global.c:1406-1454)', () => {
     it('卸 Hand(part3)→ reset DualAttack(global.c:1411)', () => {
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.rgPlayerStatus[1]![8] = 32760
       removeEquipmentEffect(gs, 1, 3) // Hand
       expect(gs.rgPlayerStatus[1]![8]).toBe(0)
     })
 
     it('卸非 Hand(part0 Head)→ DualAttack 不动', () => {
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.rgPlayerStatus[1]![8] = 32760
       removeEquipmentEffect(gs, 1, 0) // Head
       expect(gs.rgPlayerStatus[1]![8]).toBe(32760)
@@ -399,13 +396,13 @@ describe('equip-effect', () => {
         { id: 563, level: 99, color: 0, playerScript: 40860, enemyScript: 0 }, // 寿葫芦正面毒
         { id: 552, level: 1, color: 64, playerScript: 40866, enemyScript: 40868 }, // 低级伤害毒
       ])
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.partyMembers = [1]
       gs.rgPoisonStatus['0_0'] = { wPoisonID: 563, wPoisonScript: 40860 }
       gs.rgPoisonStatus['1_0'] = { wPoisonID: 552, wPoisonScript: 40866 }
       removeEquipmentEffect(gs, 1, 5) // Wear
-      expect(gs.rgPoisonStatus['0_0']!.wPoisonID).toBe(0) // level99 清
-      expect(gs.rgPoisonStatus['1_0']!.wPoisonID).toBe(552) // 低级保留
+      expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 552, wPoisonScript: 40866 })
+      expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
     })
   })
 
@@ -435,7 +432,7 @@ describe('equip-effect', () => {
         { op: 'end' },
       ]
       setGlobalEvents(cmds)
-      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const gs = freshPlayerOpcodeState()
       gs.PlayerRolesRuntime.rgwAttackStrength[2] = 50
       gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 163
       gs.inventory = [{ itemId: 163, count: 1 }]

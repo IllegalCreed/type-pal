@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createBattleLifecycleFixture } from '../core/battle/battle-lifecycle.test-fixtures.js'
 import { createInitialGameState, type GameState } from '../core/game-state.js'
 import { Save } from '../core/save/api.js'
+import { startDialogLine } from '../present/dialog-box.js'
 import legacyV1 from './__fixtures__/save-v1-store-v2.json' with { type: 'json' }
 import legacyNested from './__fixtures__/save-v1-store-v2-nested.json' with { type: 'json' }
 import { parseImportedSave, serializeSave } from './save-io.js'
@@ -27,12 +28,39 @@ describe('save-io', () => {
     expect(obj.version).toBe(1)
     expect(obj.gs.wNumScene).toBe(5)
   })
-  it('parseImportedSave:合法 → 返回 gs;格式错 → 抛', () => {
-    const json = serializeSave(saveState(9))
-    expect(parseImportedSave(json).wNumScene).toBe(9)
-    expect(() => parseImportedSave('{}')).toThrow(/格式/)
-    expect(() => parseImportedSave('not json')).toThrow()
-    expect(() => parseImportedSave(JSON.stringify({ format: 'x' }))).toThrow(/格式/)
+  it('V1往返保留事件游标和对话数据', () => {
+    const gs = saveState(9)
+    gs.party.x = 160
+    gs.party.y = 160
+    gs.mode = 'event'
+    gs.eventCursor = {
+      commands: [{ op: 'showDialog', messageIndex: 5, text: 'hi' }, { op: 'end' }],
+      labelMap: { L_0: 0 },
+      ip: 0,
+      waiting: 'dialog',
+    }
+    gs.dialogBox = startDialogLine('hi', { style: 'center' })
+    gs.currentDialogStyle = 'top'
+    const decoded = parseImportedSave(serializeSave(gs))
+    expect(decoded.wNumScene).toBe(9)
+    expect(decoded.party.x).toBe(160)
+    expect(decoded.eventCursor).toEqual({
+      commands: [{ op: 'showDialog', messageIndex: 5, text: 'hi' }, { op: 'end' }],
+      labelMap: { L_0: 0 },
+      ip: 0,
+      waiting: 'dialog',
+    })
+    expect(decoded.dialogBox?.currentLineText).toBe('hi')
+    expect(decoded.currentDialogStyle).toBe('top')
+  })
+  it('parseImportedSave:格式头缺失或不支持时拒绝', () => {
+    const legal = JSON.parse(serializeSave(saveState(9)))
+    for (const raw of [{}, { ...legal, format: 'x' }]) {
+      expect(() => parseImportedSave(JSON.stringify(raw))).toThrow(/格式/)
+    }
+  })
+  it('parseImportedSave:非JSON文本给出解析错误', () => {
+    expect(() => parseImportedSave('not json')).toThrow(/不是合法 JSON/)
   })
   it('parseImportedSave:缺必要字段(partyMembers)→ 抛', () => {
     const gs: Partial<GameState> = saveState(1)

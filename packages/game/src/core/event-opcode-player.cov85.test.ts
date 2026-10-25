@@ -1,14 +1,13 @@
 /**
  * TEST-COVERAGE85-GLM-GAME-1 — event-opcode-player.ts 事件侧玩家族 opcode 分支合同。
  *
- * 公开 caller:applyPlayerOpcode(生产由 event-system applyRawOpcode 逐 case 调用)。
+ * 公开 caller:applyPlayerOpcode(生产由 event-system 的 applyRawOpcode 委派玩家家族)。
  * 全部输入由 createInitialGameState 公开字段构造,不 mock 业务核心、不强转。
  * 旧证去重:不重复 event-opcode-player.test.ts / .glm-next-wave.test.ts 已证的
  * 0x18 原位换装 / 0x18 非法槽 / 0x1b·0x1d 单体加血管线 / 0x23 单槽有物卸下 /
  * 0x2b·0x2c 解毒 / 0x29 单体抗性 / 0x8d 正常升级 / 0x55·0x56 单占槽。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { freshGs } from '../__tests__/coverage85-glm-game/harness.js'
 import {
   applyPlayerOpcode,
   OP_ADD_MAGIC,
@@ -28,6 +27,7 @@ import {
   OP_SET_PLAYER_STATUS,
   type PlayerOpcodeInput,
 } from './event-opcode-player.js'
+import { freshPlayerOpcodeState as freshGs } from './event-opcode-player.test-fixtures.js'
 import { addPoisonForPlayer, isPlayerPoisoned, setObjectPoisons } from './player-poison-state.js'
 
 const poisonRunner = vi.fn(() => 7)
@@ -65,14 +65,20 @@ describe('cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶', () => {
     expect(apply(gs, OP_INCREASE_PLAYER_LEVEL, [1, 0, 0], 0xffff)).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(5)
     expect(gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(5)
-    expect(warn).toHaveBeenCalledTimes(2)
+    expect(warn.mock.calls).toEqual([
+      ['event-system: increasePlayerLevel 无 role 上下文,跳过'],
+      ['event-system: increasePlayerLevel 无 role 上下文,跳过'],
+    ])
   })
 
   it('未知 role(数组外下标)→ 警告跳过不炸', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const gs = freshGs()
+    const before = structuredClone(gs)
     expect(apply(gs, OP_INCREASE_PLAYER_LEVEL, [1, 0, 0], 9)).toBe(true)
+    expect(gs).toEqual(before)
     expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn).toHaveBeenCalledWith('event-system: playerLevelUp role=9 不在 PlayerRoles,跳过')
   })
 
   it('level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级', () => {
@@ -82,11 +88,26 @@ describe('cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶', () => {
     rt.rgwLevel[1] = 98
     rt.rgwMaxHP[1] = 998
     rt.rgwMaxMP[1] = 999
+    for (const values of [
+      rt.rgwAttackStrength,
+      rt.rgwMagicStrength,
+      rt.rgwDefense,
+      rt.rgwDexterity,
+      rt.rgwFleeRate,
+    ])
+      values[1] = 998
     gs.Exp.rgPrimaryExp[1]!.wExp = 1234
     expect(apply(gs, OP_INCREASE_PLAYER_LEVEL, [5, 0, 0], 1)).toBe(true)
     expect(rt.rgwLevel[1]).toBe(99)
     expect(rt.rgwMaxHP[1]).toBe(999)
     expect(rt.rgwMaxMP[1]).toBe(999)
+    expect([
+      rt.rgwAttackStrength[1],
+      rt.rgwMagicStrength[1],
+      rt.rgwDefense[1],
+      rt.rgwDexterity[1],
+      rt.rgwFleeRate[1],
+    ]).toEqual([999, 999, 999, 999, 999])
     expect(gs.Exp.rgPrimaryExp[1]!.wExp).toBe(0)
     expect(gs.Exp.rgPrimaryExp[1]!.wLevel).toBe(99)
   })
@@ -96,11 +117,11 @@ describe('cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写', () => {
   it('无 role 上下文 → 警告且装备效果层零变异', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const gs = freshGs()
+    const before = structuredClone(gs)
     expect(apply(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0c, 6, 3], undefined)).toBe(true)
-    expect(gs.rgEquipmentEffect.map((e) => e.rgwLevel[1])).toEqual(
-      gs.rgEquipmentEffect.map(() => 0),
-    )
+    expect(gs).toEqual(before)
     expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn).toHaveBeenCalledWith('event-system: setPlayerExtraAttr no role context')
   })
 
   it('合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展', () => {
@@ -122,6 +143,7 @@ describe('cov85 0x18 OP_EQUIP_ITEM 装备交换分支', () => {
     expect(gs.PlayerRolesRuntime.rgwEquipment[0]![0]).toBe(0)
     expect(gs.inventory).toEqual([{ itemId: 30, count: 2 }])
     expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn).toHaveBeenCalledWith('event-system: equipItem no role context')
   })
 
   it('首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物', () => {
@@ -149,7 +171,7 @@ describe('cov85 0x18 OP_EQUIP_ITEM 装备交换分支', () => {
     expect(gs.wLastUnequippedItem).toBe(20)
   })
 
-  it('同物重装(oldItem===newItem)→ 装备层与背包均不变', () => {
+  it('同物重装(oldItem===newItem)不交换装备行与背包', () => {
     const gs = freshGs()
     gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 30
     gs.inventory = [{ itemId: 30, count: 1 }]
@@ -173,8 +195,11 @@ describe('cov85 0x19/0x1a 显式 role 操作数', () => {
   it('0x19 op2=0 且无上下文 → 警告跳过', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const gs = freshGs()
+    const before = structuredClone(gs)
     expect(apply(gs, OP_INCREASE_PLAYER_ATTR, [7, 15, 0], undefined)).toBe(true)
+    expect(gs).toEqual(before)
     expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn).toHaveBeenCalledWith('event-system: increasePlayerAttr no role context')
   })
 
   it('0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)', () => {
@@ -190,6 +215,7 @@ describe('cov85 0x19/0x1a 显式 role 操作数', () => {
     expect(apply(gs, OP_SET_PLAYER_STAT, [6, 12, 0], 0xffff)).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(1)
     expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn).toHaveBeenCalledWith('event-system: setPlayerStat no role context')
   })
 })
 
@@ -450,6 +476,7 @@ describe('cov85r3 玩家 opcode 补臂', () => {
     expect(apply(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0b, 6, 3], 0xffff)).toBe(true)
     expect(gs.rgEquipmentEffect[0]!.rgwLevel[0]).toBe(0)
     expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn).toHaveBeenCalledWith('event-system: setPlayerExtraAttr no role context')
     // partIdx=1(op0=0x0c)写第二槽;row 7=MAX_HP(PLAYERROLES_ROW 真值)
     expect(apply(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0c, 7, 9], 0)).toBe(true)
     expect(gs.rgEquipmentEffect[1]!.rgwMaxHP[0]).toBe(9)
@@ -463,6 +490,7 @@ describe('cov85r3 玩家 opcode 补臂', () => {
     expect(gs.PlayerRolesRuntime.rgwEquipment[0]![0]).toBe(0)
     expect(gs.inventory).toEqual([{ itemId: 30, count: 1 }])
     expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn).toHaveBeenCalledWith('event-system: equipItem no role context')
   })
 
   it('0x19/0x1a op2=0 且有上下文 → 作用 currentEventObjectId(119,131 cond 另一侧)', () => {
@@ -528,25 +556,31 @@ describe('cov85r3 玩家 opcode 补臂', () => {
 
   it('0x55 空 rgwMagic 表(roleCount=0)→ no-op 不炸(408-409)', () => {
     const gs = freshGs()
+    // 显式空表防御输入；正常hydrate会产生32个法术槽。
     gs.PlayerRolesRuntime.rgwMagic = []
     expect(apply(gs, OP_ADD_MAGIC, [349, 0, 0], 0)).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwMagic).toEqual([])
   })
 
-  it('0x8d 多级升级:固定字段精确(等级/逃跑率),随机字段区间;Exp 行缺失不炸(378-403)', () => {
+  it('0x8d 多级升级:保留六抽/级与精确成长;缺Exp行时仍能执行', () => {
     const gs = freshGs()
     gs.partyMembers = [0]
     const rt = gs.PlayerRolesRuntime
     rt.rgwLevel[0] = 1
     rt.rgwFleeRate[0] = 5
-    gs.Exp.rgPrimaryExp = [] // Exp 行缺失臂(400-402)
+    gs.Exp.rgPrimaryExp = [] // 显式损坏输入：只验证缺行防御，不冒称正常存档/剧情。
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0)
     expect(apply(gs, OP_INCREASE_PLAYER_LEVEL, [3, 0, 0], 0)).toBe(true)
     expect(rt.rgwLevel[0]).toBe(4)
     expect(rt.rgwFleeRate[0]).toBe(11) // +2/级,无随机
-    expect(rt.rgwMaxHP[0]).toBeGreaterThanOrEqual(30) // 3 级 × [10,17]
-    expect(rt.rgwMaxHP[0]).toBeLessThanOrEqual(51)
-    expect(rt.rgwMaxMP[0]).toBeGreaterThanOrEqual(24) // 3 级 × [8,13]
-    expect(rt.rgwMaxMP[0]).toBeLessThanOrEqual(39)
+    expect([rt.rgwMaxHP[0], rt.rgwMaxMP[0]]).toEqual([130, 74])
+    expect([
+      rt.rgwAttackStrength[0],
+      rt.rgwMagicStrength[0],
+      rt.rgwDefense[0],
+      rt.rgwDexterity[0],
+    ]).toEqual([72, 52, 36, 36])
+    expect(random).toHaveBeenCalledTimes(18)
   })
 
   it('0x1d HP/MP 各自钳 max 双向(341-361 clamp 臂)', () => {

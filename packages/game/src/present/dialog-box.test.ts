@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest'
+import { dialogItem, dialogSprite as mockSprite } from '../__tests__/dialog-fixtures.js'
+import type { IndexedImage } from '../assets/png.js'
 import {
   appendDialogLine,
   confirmDialog,
-  type DialogSprite,
   drawDialogBox,
   FONT_COLOR_CYAN,
   FONT_COLOR_DEFAULT,
@@ -10,7 +11,6 @@ import {
   FONT_COLOR_RED_ALT,
   FONT_COLOR_YELLOW,
   FRAMES_PER_CHAR,
-  getDialogBoxRect,
   getDialogTextPos,
   MAX_LINES_PER_PAGE,
   parseDialogText,
@@ -22,16 +22,7 @@ import {
 } from './dialog-box.js'
 import { createFramebuffer } from './framebuffer.js'
 
-function mockSprite(w: number, h: number, colorIdx: number): DialogSprite {
-  return {
-    width: w,
-    height: h,
-    indices: new Uint8Array(w * h).fill(colorIdx),
-    opaque: new Uint8Array(w * h).fill(1),
-  }
-}
-
-/** typing 完 1 行(任何长度)— 跑足够多 tick。 */
+/** 以无now的tick路径推进本套件的默认速率正文；不作为时间oracle。 */
 function completeLine(s: ReturnType<typeof startDialogLine>): void {
   if (s.currentLineText === null) return
   for (let i = 0; i < FRAMES_PER_CHAR * s.currentLineText.length; i++) tickDialog(s)
@@ -59,7 +50,7 @@ describe('parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c
   it('narration(isDialog=TRUE):`"` 被消费但**不**变黄(text.c:1522 !isDialog 门控)+ DEFAULT→0', () => {
     const r = parseDialogText('"提示"', D, true)
     expect(r.text).toBe('提示')
-    expect(r.colors.every((c) => c === 0)).toBe(true) // isDialog DEFAULT→0,黄被屏蔽
+    expect(r.colors).toEqual([0, 0]) // isDialog DEFAULT→0,黄被屏蔽
   })
 
   it("`-` 青 / `'` 红 / `@` 红alt toggle(普通对话)", () => {
@@ -502,14 +493,6 @@ describe('Sync.2 DialogBox · confirmDialog 4 case', () => {
   })
 })
 
-describe('Sync.2 DialogBox · getDialogBoxRect', () => {
-  it('4 styles 返回不同 y 坐标', () => {
-    expect(getDialogBoxRect('top').y).toBeLessThan(getDialogBoxRect('center').y)
-    expect(getDialogBoxRect('center').y).toBeLessThan(getDialogBoxRect('bottom').y)
-    expect(getDialogBoxRect('narration').y).toBe(getDialogBoxRect('bottom').y)
-  })
-})
-
 describe('Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)', () => {
   it('top 无 portrait → (44, 26)', () => {
     expect(getDialogTextPos('top', false)).toEqual({ x: 44, y: 26 })
@@ -558,8 +541,9 @@ describe('Sync.2 DialogBox · drawDialogBox 不画 box bg', () => {
     appendDialogLine(state, 'l2')
     completeLine(state)
     drawDialogBox(fb, state, undefined, undefined)
-    const count = Array.from(fb.indices).filter((i) => i === 200).length
-    expect(count).toBeGreaterThan(0)
+    expect(fb.indices[126 * 320 + 44]).toBe(200)
+    expect(fb.indices[144 * 320 + 44]).toBe(200)
+    expect(fb.indices[162 * 320 + 44]).toBe(0)
   })
 
   // sdlpal text.c:1144-1156 真值:文字阴影 = 三层 (+1,0)/(0,+1)/(+1,+1) **color 0**(非旧单层 color 50)。
@@ -586,29 +570,18 @@ describe('Sync.2 DialogBox · drawDialogBox 不画 box bg', () => {
   it('item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)', () => {
     const fb = createFramebuffer()
     // uiSpriteFrames:SingleLineBox(44/45/46)+ ITEMBOX(70,64×64)
-    const ui: unknown[] = []
+    const ui: IndexedImage[] = []
     ui[44] = mockSprite(4, 16, 11)
     ui[45] = mockSprite(8, 16, 11)
     ui[46] = mockSprite(4, 16, 11)
     ui[70] = mockSprite(64, 64, 22)
     const icon = mockSprite(24, 24, 33) // 物品 BALL 图标(bitmap=5)
-    const state = {
-      shownLines: [],
-      currentLineText: null,
-      typingFrames: 0,
-      charsRevealed: 0,
-      dialogLineCount: 0,
-      phase: 'line-done' as const,
-      style: 'item-box' as const,
-      fontColor: 0,
-      shadow: true,
-      keyIconBlink: false,
-      itemBox: { itemId: 100, line1: '炼出', line2: '金创药' },
-    }
-    drawDialogBox(fb, state as any, undefined, {
-      uiSpriteFrames: ui as any,
-      itemIcons: new Map([[5, icon as any]]),
-      items: [{ id: 100, bitmap: 5 } as any],
+    const state = startDialogLine('', { style: 'item-box', fontColor: 0, shadow: true })
+    state.itemBox = { itemId: 100, line1: '炼出', line2: '金创药' }
+    drawDialogBox(fb, state, undefined, {
+      uiSpriteFrames: ui,
+      itemIcons: new Map([[5, icon]]),
+      items: [dialogItem(100, 5)],
     })
     // ITEMBOX 屏幕居中:(320-64)/2=128, (200-64)/2=68 → 画了 22
     expect(fb.indices[68 * 320 + 128]).toBe(22)

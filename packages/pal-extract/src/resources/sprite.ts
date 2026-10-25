@@ -4,11 +4,10 @@
  * 解码复用 shared，PNG 的 R/A 传输合同由 game/assets/png.ts 消费。
  */
 
-import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { parsePalSpriteChunk as parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 import { PNG } from 'pngjs'
 
-// `parseSpriteChunk` 已搬到 @type-pal/shared(extractor 与 runtime 共用,见
-// tileset 资源管线优化 S1)。本文件 re-export,保持 extractor 内部调用点不变。
+// 原盘extractor/runtime共用PAL来源规则；保留extractor内部出口名。
 export { parseSpriteChunk }
 
 /**

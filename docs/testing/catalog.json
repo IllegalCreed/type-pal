@@ -215,10 +215,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "515-630",
+          "lines": "516-631",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
+          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
         }
       ],
       "publicCallers": [
@@ -325,10 +325,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "515-630",
+          "lines": "516-631",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
+          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -1775,10 +1775,10 @@
       "sourceRefs": [
         {
           "path": "packages/game/src/core/script-catalog.ts",
-          "lines": "17",
+          "lines": "16",
           "anchor": "export function setGlobalEvents",
           "role": "owner",
-          "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
+          "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1"
         },
         {
           "path": "packages/game/src/core/inventory-state.ts",
@@ -1792,21 +1792,21 @@
           "lines": "6-13",
           "anchor": "export const MAX_PLAYER_EQUIPMENTS",
           "role": "owner",
-          "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+          "sha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad"
         },
         {
           "path": "packages/game/src/core/player-poison-state.ts",
-          "lines": "12-19",
+          "lines": "11",
           "anchor": "export function setObjectPoisons",
           "role": "owner",
-          "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+          "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0"
         },
         {
           "path": "packages/game/src/core/scene-identity.ts",
-          "lines": "6-13",
+          "lines": "6",
           "anchor": "export function getCurrentMapNum",
           "role": "owner",
-          "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+          "sha256": "7a3b6d9d9b1686b14e684175f8f54c14ead752c4a110eb67c336ec01ba03c44e"
         },
         {
           "path": "packages/game/src/core/menu/menu-stack.ts",
@@ -1820,14 +1820,14 @@
           "lines": "26",
           "anchor": "describe('D1 shared-state ownership",
           "role": "oracle",
-          "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a"
+          "sha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f"
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
-          "lines": "45-64",
+          "lines": "25",
           "anchor": "describe('G07",
           "role": "oracle",
-          "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+          "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1920,6 +1920,105 @@
               }
             ],
             "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "3609b4d23339bae1f23e6492d9c11cd4a955351e",
+            "action": "approved catalog internal API and typed test delta",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/script-catalog.ts",
+                "lines": "17",
+                "anchor": "export function setGlobalEvents",
+                "role": "owner",
+                "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
+              },
+              {
+                "path": "packages/game/src/core/scene-identity.ts",
+                "lines": "6-13",
+                "anchor": "export function getCurrentMapNum",
+                "role": "owner",
+                "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+              },
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a"
+              },
+              {
+                "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+                "lines": "45-64",
+                "anchor": "describe('G07",
+                "role": "oracle",
+                "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+              }
+            ],
+            "scope": "Only unused GameState parameter/obsolete return types and six real callsites removed under user approval. Scene identity comments only. Typed fixtures and exact ownership assertions replace invalid casts; G07-01 duplicate transfers to retained D1 two-entry history case. Other emitted product JS and single-owner storage unchanged. Existing31 E2E instrumentation cases ran; historical D1 SCC/161-token/needles/browser claims and all publication status/dates/versions remain unchanged. Whole-pre94 unified gates deferred.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "016b6b8f5d58d91f9a1fe04f292cfa310220d4fd",
+            "action": "approved-wear-lifecycle-source-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/equipment-state.ts",
+                "lines": "6-13",
+                "anchor": "export const MAX_PLAYER_EQUIPMENTS",
+                "role": "owner",
+                "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+              },
+              {
+                "path": "packages/game/src/core/player-poison-state.ts",
+                "lines": "12-19",
+                "anchor": "export function setObjectPoisons",
+                "role": "owner",
+                "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+              },
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "231f97b5936451ddc703629a38f076d1c88b1e5159225c1dbcf5f290c7209f99"
+              }
+            ],
+            "scope": "Only three current sourceRefs and the Wear slot oracle change. User approved stable16-slot compaction, preserve poison continuation/after-hole survivors/global dedup. Historical D1 candidate/version/status/publication dates/SCC/token/browser credit unchanged; whole-pre94 gates deferred.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "c483a9ca470389b19f49d12566075e56592dcd17",
+            "action": "approved-poison-entry-ownership-source-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/player-poison-state.ts",
+                "lines": "12-19",
+                "anchor": "export function setObjectPoisons",
+                "role": "owner",
+                "sha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756"
+              }
+            ],
+            "scope": "Only poison sourceRef and its anchor range updated. User-approved entry reservation and same-record Wear movement; owner export/definition Map unchanged. Current11-file491 regression includes D1. Historical D1 SCC/token/needles/browser/publication/status/versions unchanged; whole-pre94 gates deferred.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md"
+          },
+          {
+            "date": "2026-10-25",
+            "revision": "fdbb909f5389ef6a4c4f0a72ccf1b6652d4b4d15",
+            "action": "scene identity comment and successful map-only caller binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/scene-identity.ts",
+                "lines": "6",
+                "anchor": "export function getCurrentMapNum",
+                "role": "owner",
+                "sha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0"
+              }
+            ],
+            "scope": "Only scene-identity comments change; getter/setter typed AST identical. Approved bootstrap map-only publication uses existing setter. Current seven root browser cases are separate evidence; historical D1 SCC/token/needles/browser, catalog dates/status/versions and execution credit remain unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md"
           }
         ]
       },
@@ -1960,10 +2059,10 @@
         },
         {
           "path": "packages/pal-extract/src/cli.ts",
-          "lines": "233",
+          "lines": "138",
           "anchor": "const corrected = faithful",
           "role": "caller",
-          "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+          "sha256": "1e467403d0bce8f169b0d4be83dd8dfdb02c22831ed2929374a711002eb54387"
         },
         {
           "path": "packages/game/src/core/object-script-state.ts",
@@ -2063,6 +2162,38 @@
             },
             "maintenanceEvidence": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
             "newRuntimeClaim": false
+          },
+          {
+            "date": "2026-10-24",
+            "base": "90506b7594265547422dcc42c952fcd72934a528",
+            "action": "world-stage-pure-move-caller-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "233",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+              }
+            ],
+            "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "4c684dfd2f307e221f983837958d671f734f6132",
+            "action": "resource-stages-pure-refactor-caller-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "211",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "1c7a00699e8c8889e7b516babfdb6f9d3c271ea43c1f8d0eb59de04f57513efa"
+              }
+            ],
+            "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md"
           }
         ]
       }

@@ -1,13 +1,13 @@
 /**
- * WORD.DAT 词表查询 —— sdlpal `PAL_GetWord(wNumWord)`(text.c)的 ts 等价。
+ * WORD.DAT 身份查询与当前语言的显示覆盖。
  *
  * sdlpal 运行时按真 WORD id 从 WORD.DAT 取词(菜单文案、状态标签、物品/法术名前缀等全程用)。
- * ts 侧词表来自 extracted/lookup/words.json 的 `flat[]`(565 条全 dump,**index = 真 WORD id**,
+ * ts 侧词表来自 extracted/lookup/words.json 的 `flat[]`(**index = 真 WORD id**,
  * 由 pal-extract io/word.ts 产出)。bootstrap 启动 loadAll 后 setWordTable(words.flat) 注入。
  *
- * 模块级单例:菜单/UI 在 getWord(id) 处按真 id 取文案,**WORD.DAT 成为唯一文案源**(替代各处硬编码)。
+ * 模块级只读借用表:bootstrap 启动时注入;菜单/UI 按真 id 查询,英文只覆盖显示文字。
  * fallback 入参 = resilience:words.json 加载失败 / 表未就绪时退化到调用方的默认串(同 bootstrap glyphs→tofu
- * 容错模式),保证菜单不致空白;表一旦载入即以 flat[id] 为准。
+ * 容错模式)。英文缺项或空串先回到原词表,原表也缺项或空串才用 fallback。
  */
 
 import { getLanguage } from '../localization/language.js'
@@ -26,8 +26,7 @@ export function setWordTable(flat: readonly string[]): void {
 }
 
 /**
- * 取第 id 个 WORD（sdlpal PAL_GetWord(id)）。表已载且该项非空 → 返回 flat[id];
- * 否则返回 fallback（缺省空串）。
+ * 按当前语言先查非空英文覆盖,再查原词表;两者均缺项/空串才返回 fallback（缺省空串）。
  */
 export function getWord(id: number, fallback = ''): string {
   if (getLanguage() === 'en') {

@@ -4605,9 +4605,9 @@
       "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta, paired canonical/source anchors and generated projection; preserve previous full review/evidence in history. No blanket refresh or unrelated content reacceptance.",
+      "readMethod": "Scene identity comment binding only",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
+      "coreConclusion": "Getter/setter AST unchanged; approved root writer is separate evidence; historical publication retained.",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -4696,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "89ff4b32035cd0b6e9614612856e491d4ec42a157ec6dd78e5ce10c3a779dea2",
+      "afterSha256": "c3409da84838b612f369d9d12082b609c1742dbc9aa869354d134104e033e5a0",
       "revision": {
         "currentSha": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
-        "implementationSha": "89ff4b32035cd0b6e9614612856e491d4ec42a157ec6dd78e5ce10c3a779dea2",
+        "implementationSha": "c3409da84838b612f369d9d12082b609c1742dbc9aa869354d134104e033e5a0",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4771,12 +4771,12 @@
         ]
       },
       "evidence": {
-        "kind": "script-corrections-scoped-document-maintenance",
-        "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
-        "afterSha256": "89ff4b32035cd0b6e9614612856e491d4ec42a157ec6dd78e5ce10c3a779dea2",
-        "lineCount": 252,
-        "scope": "Current D1 sourceRefs and claim owner anchors now point to setGlobalEvents and the corrected-input ownership oracle; previous refs remain in history. Original performed=false, candidate/version fields and prior D1 missing-raw boundaries retained.",
-        "candidateBaseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+        "kind": "scene-identity-comment-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+        "afterSha256": "c3409da84838b612f369d9d12082b609c1742dbc9aa869354d134104e033e5a0",
+        "lineCount": 352,
+        "scope": "CODE57 scoped delta; history retained; gates deferred.",
+        "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
         "workingTreeDelta": true
       },
       "history": [
@@ -4920,7 +4920,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
-      "reviewedLines": "1-208",
+      "reviewedLines": "One sourceRef and paired comment-history delta",
       "phase": "testing",
       "module": "phase1-dependency-ownership",
       "templateConformity": {
@@ -7090,9 +7090,9 @@
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "readMethod": "Scoped E2E unchanged oracle binding",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+      "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "documentStatus": "current / catalog-publication only",
       "owner": "Codex（文档治理，未重签原动态证据）",
       "provenance": [
@@ -7177,10 +7177,10 @@
       "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
-      "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+      "afterSha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+        "implementationSha": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
         "history": [
           {
             "date": "2026-10-15",
@@ -7197,10 +7197,10 @@
         ]
       },
       "evidence": {
-        "kind": "inverse-JSON-object-and-actual-paired-consumer",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "kind": "e2e-scoped-oracle-source-binding",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
-        "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+        "afterSha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
         "lineCount": 156
       },
       "history": [
@@ -7242,7 +7242,7 @@
       "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
       "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
       "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
-      "reviewedLines": "1-156",
+      "reviewedLines": "One current sourceRef per publication; referenced116line oracle body byte-identical, range shifted+1",
       "phase": "testing",
       "module": "publication-machine-audits",
       "templateConformity": {

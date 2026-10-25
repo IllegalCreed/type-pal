@@ -55,11 +55,13 @@ export function withParserWarnings<T>(expected: readonly ExpectedWarning[], acti
       stack.push(line)
       cursor++
     }
-    expect(stack.length).toBeGreaterThanOrEqual(2)
-    expect(stack[0]).toContain('decodeRle (')
+    expect(stack.length).toBeGreaterThanOrEqual(3)
+    expect(stack[0]).toContain('decodeRleFrame (')
     expect(stack[0]).toContain('/packages/shared/src/rle.ts:')
-    expect(stack[1]).toContain(`${warning.errorFrom.functionName} (`)
-    expect(stack[1]).toContain(fileURLToPath(warning.errorFrom.moduleUrl))
+    expect(stack[1]).toContain('decodePalRle (')
+    expect(stack[1]).toContain('/packages/shared/src/rle.ts:')
+    expect(stack[2]).toContain(`${warning.errorFrom.functionName} (`)
+    expect(stack[2]).toContain(fileURLToPath(warning.errorFrom.moduleUrl))
   }
   expect(cursor).toBe(lines.length)
   if (!outcome.ok) throw outcome.error

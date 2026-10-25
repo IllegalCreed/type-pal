@@ -4,8 +4,9 @@
  * 公开 caller:dispatchBattleOpcode(生产由 runScript runtimeMode='battle' 逐 case 调用)。
  * 输入一律由 createBattleState 公开工厂构造真实 typed BattleState;表(objectMagics/magics/
  * summonTables/poisons)是公开注入的 ctx 依赖,按注入 API 传值,不 mock 业务核心。
- * 旧证去重:不重复 battle-opcodes.test.ts 已证的 0x64 三态 / 0x67 默认 10 / 0x61 两态,
- * glm-next-wave 已证的 0x05/0x8E/0x6B,actions.test / throw-item.test 已证的 0x42 主链。
+ * 本文件核直接dispatch的分支/依赖缺失/状态结果；跨层action专测另证完整接线。
+ * 0x64/0x67/0x61主要入口在主测，0x05/0x8E/0x6B在glm-next-wave；
+ * 0x42与action专测有入口交集，不能把不同层次的例数当独立机制数量。
  */
 import type {
   Command,
@@ -41,7 +42,8 @@ import {
   makeRole,
   seqRng,
 } from '../../__tests__/coverage85-glm-game/harness.js'
-import type { BattleCtx } from '../event-system.js'
+import { type BattleCtx, runScript } from '../event-system.js'
+import { hydratePlayerRolesRuntime } from '../game-state.js'
 import { addPoisonForPlayer, setObjectPoisons } from '../player-poison-state.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 
@@ -202,9 +204,10 @@ describe('cov85 0x42 SimulateMagic 目标解析与特效音', () => {
 })
 
 describe('cov85 0x66 ThrowWeapon 攻击力系数', () => {
-  it('caster=player + playerRoles → w=op1*5+attackStrength*roll(0),模拟 magic 落到目标敌', () => {
-    const rng = seqRng([0, 3, 3, 3, 3, 3, 3, 3])
+  it('player caster 使用已hydrate的裸武术60与roll2，精确造成313伤害', () => {
+    const rng = seqRng([2])
     const { gs, state, playerRoles, bus } = makeBattle({ rng })
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
     const ctx: BattleCtx = {
       state,
       gs,
@@ -218,13 +221,17 @@ describe('cov85 0x66 ThrowWeapon 攻击力系数', () => {
       },
     }
     const h = state.enemies[0]!.e.health
-    // attackStrength=60, roll=0 → w = 30*5+60*0 = 150
+    // w=30*5+60*2=270；敌防御10+(5+6)*4=54。
+    // 无元素、倍率1：trunc(trunc(270*2-54*1.6+0.5)/4)+200=313。
     expect(dispatchBattleOpcode(0x66, [24, 30, 0], ctx).consumed).toBe(true)
-    expect(state.enemies[0]!.e.health).toBeLessThan(h)
+    expect(state.enemies[0]!.e.health).toBe(h - 313)
+    expect(damageNums(bus.drain())).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 313, color: 'blue' },
+    ])
     expect(rng.calls[0]).toBe('rangeInclusive(0,3)')
   })
 
-  it('无 playerRoles / 非 player caster → attackStr=0 仍结算', () => {
+  it('enemy caster 无玩家武术项，操作数150仍造成53伤害', () => {
     const { gs, state, bus } = makeBattle({ rng: seqRng([1, 3, 3, 3, 3, 3, 3, 3]) })
     const ctx: BattleCtx = {
       state,
@@ -240,7 +247,7 @@ describe('cov85 0x66 ThrowWeapon 攻击力系数', () => {
     const h = state.enemies[0]!.e.health
     // w = 30*5 + 0*roll = 150
     expect(dispatchBattleOpcode(0x66, [24, 30, 0], ctx).consumed).toBe(true)
-    expect(state.enemies[0]!.e.health).toBeLessThan(h)
+    expect(state.enemies[0]!.e.health).toBe(h - 53)
   })
 })
 
@@ -282,14 +289,17 @@ describe('cov85 0x21 InflictDamage 全体/单体/超杀钳零', () => {
 })
 
 describe('cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
-  it('抗性 9(rng=0 抵抗)→ 不落毒;抗性 0 → 落毒且带入口脚本返回值', () => {
+  it('单体只毒target1：真实入口立即扣5血并保存续点3，非目标不受影响', () => {
     const { state, gs, bus } = makeBattle({
       enemies: [makeEnemy(), makeEnemy({ id: 101 })],
       rng: seqRng([0, 0]),
     })
     state.enemies[0]!.resistanceToSorcery = 9
-    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x21, operands: [0, 5, 0] }]
-    const runScriptCalls: number[] = []
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x21, operands: [0, 5, 0] },
+      { op: 'end', advance: true },
+    ]
     const ctx: BattleCtx = {
       state,
       gs,
@@ -297,17 +307,17 @@ describe('cov85 0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
       target: { type: 'enemy', idx: 1 },
       objectPoisons: densePoisons([poison(77, 1)]),
       commands: [...commands],
-      runScript: (opts) => {
-        runScriptCalls.push(opts.ip)
-        return opts.ip + 1
-      },
+      runScript,
     }
     expect(dispatchBattleOpcode(0x28, [0, 77, 0], ctx).consumed).toBe(true)
     expect(state.enemies[0]!.poisons).toEqual([]) // 非 target 不落
     const p1 = state.enemies[1]!.poisons
     expect(p1).toHaveLength(1)
-    expect(p1![0]).toMatchObject({ poisonId: 77, scriptEntry: 2 }) // runScript 返回 ip+1
-    expect(runScriptCalls).toEqual([1])
+    expect(p1![0]).toEqual({ poisonId: 77, scriptEntry: 3 })
+    expect(state.enemies.map((enemy) => enemy.e.health)).toEqual([9000, 8995])
+    expect(damageNums(bus.drain())).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 5, color: 'blue' },
+    ])
   })
 
   it('rng < 抗性 → 抵抗不落毒;同毒去重;缺 commands → fallback 存原始 enemyScript', () => {
@@ -796,8 +806,8 @@ describe('cov85 0x6A StealFromEnemy', () => {
       target: { type: 'enemy', idx: 0 },
       caster: { type: 'player', idx: 0 },
     }
-    // roll=11 > 10 → 失败
-    dispatchBattleOpcode(0x6a, [3, 0, 0], ctx) // roll=10 > 3 → 失败
+    // seq的11在合法范围[0,10]被夹为10；10>rate3，所以失败。
+    dispatchBattleOpcode(0x6a, [3, 0, 0], ctx)
     expect(gs.inventory[0]!.count).toBe(98)
     // roll=0 → 成功偷物
     dispatchBattleOpcode(0x6a, [3, 0, 0], ctx)
@@ -897,7 +907,9 @@ describe('cov85 0x22 战内 RevivePlayer', () => {
     state.players[0]!.status.protect = 1000
     state.players[0]!.status.dualAttack = 32760
     state.players[0]!.currentFrame = 2
-    gs.rgPoisonStatus[`0_0`] = { wPoisonID: 77, wPoisonScript: 0 }
+    setObjectPoisons([poison(77, 0), { ...poison(78, 0), level: 4 }])
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 0 }
+    gs.rgPoisonStatus['1_0'] = { wPoisonID: 78, wPoisonScript: 0 }
     const ctx: BattleCtx = { state, gs, playerRoles }
     dispatchBattleOpcode(0x22, [1, 5, 0], ctx)
     expect(playerRoles.roles[0]!.hp).toBe(250)
@@ -908,6 +920,7 @@ describe('cov85 0x22 战内 RevivePlayer', () => {
     expect(playerRoles.roles[1]!.hp).toBe(80)
     expect(gs.fScriptSuccess).toBe(true)
     expect(gs.rgPoisonStatus['0_0']!.wPoisonID).toBe(0)
+    expect(gs.rgPoisonStatus['1_0']!.wPoisonID).toBe(78) // level4保留
     // 全员活着再跑 → false
     dispatchBattleOpcode(0x22, [1, 5, 0], ctx)
     expect(gs.fScriptSuccess).toBe(false)
@@ -1126,7 +1139,7 @@ describe('cov85 0x9E EnemySummon', () => {
     ).toEqual({ consumed: true, newIp: 44 })
   })
 
-  it('hiding / 自身睡眠 → failJump;count≤0 → 1', () => {
+  it('hiding / 自身定身 → failJump;count=0 → 1', () => {
     const hiding = makeBattle({ enemies: [makeEnemy({}), null] })
     hiding.state.iHidingTime = 3
     hiding.state.enemies[1]!.defeated = true

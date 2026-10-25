@@ -1,0 +1,83 @@
+{
+  "base": "7f5946aa3053f484b2eabb32004ff99aac2e2f37",
+  "cli": "packages/pal-extract/src/cli.ts",
+  "specs": [
+    {
+      "name": "writeRngAssets",
+      "module": "animation-assets",
+      "anchor": "const rngMkf =",
+      "block": true,
+      "doc": "Store original RNG chunks as gzip blobs; decoding supplies frame metadata only.",
+      "original": "{\n    const rngMkf = openMkf(loadFile('RNG.MKF'))\n    const n = chunkCount(rngMkf)\n    const manifest: Array<{\n      chunkIndex: number\n      frameCount: number\n      frames: Array<{ index: number }>\n    }> = []\n    let totalRngFrames = 0\n    for (let i = 0; i < n; i++) {\n      const chunk = readChunk(rngMkf, i)\n      let frames: ReturnType<typeof decodeRngFrames>\n      try {\n        frames = decodeRngFrames(chunk)\n      } catch (err) {\n        console.warn(`[pal-extract] RNG chunk ${i} decode fail, skip:`, err)\n        continue\n      }\n      writeBinary(\n        resolve(OUT, 'data', 'animation', `rng-${i.toString().padStart(2, '0')}.rle`),\n        gzipSync(chunk),\n      )\n      manifest.push({\n        chunkIndex: i,\n        frameCount: frames.length,\n        frames: frames.map((f) => ({ index: f.index })),\n      })\n      totalRngFrames += frames.length\n    }\n    writeJson(resolve(OUT, 'data', 'rng-frames.json'), { chunks: manifest })\n    console.log(`[pal-extract] RNG.MKF blobs written (${n} chunks, ${totalRngFrames} frames total)`)\n  }",
+      "helpers": []
+    },
+    {
+      "name": "writeFireAssets",
+      "module": "animation-assets",
+      "anchor": "const fireMkf =",
+      "block": true,
+      "helpers": [
+        {
+          "name": "magicFireBlobPath",
+          "text": "function magicFireBlobPath(chunkIdx: number): string {\n  return resolve(OUT, 'data', 'magic', `fire-${chunkIdx.toString().padStart(2, '0')}.rle`)\n}"
+        }
+      ],
+      "doc": "FIRE permits raw chunks when YJ2 fails; keep that policy separate from RNG rejection.",
+      "original": "{\n    const fireMkf = openMkf(loadFile('FIRE.MKF'))\n    const n = chunkCount(fireMkf)\n    let totalFireFrames = 0\n    const fireManifest: Array<{\n      chunkIndex: number\n      frameCount: number\n      frames: Array<{ index: number; width: number; height: number }>\n    }> = []\n    for (let i = 0; i < n; i++) {\n      const buf = readChunk(fireMkf, i)\n      let decompressed: Uint8Array\n      try {\n        decompressed = decompressYj2(buf)\n      } catch {\n        decompressed = buf\n      }\n      const frames = decompressed.byteLength < 2 ? [] : parseSpriteChunk(decompressed)\n      if (frames.length > 0) writeBinary(magicFireBlobPath(i), gzipSync(decompressed))\n      fireManifest.push({\n        chunkIndex: i,\n        frameCount: frames.length,\n        frames: frames.map((f, idx) => ({ index: idx, width: f.width, height: f.height })),\n      })\n      totalFireFrames += frames.length\n    }\n    writeJson(resolve(OUT, 'data', 'fire-sprites.json'), { chunkCount: n, chunks: fireManifest })\n    console.log(\n      `[pal-extract] FIRE.MKF blobs written (${n} chunks, ${totalFireFrames} frames total)`,\n    )\n  }"
+    },
+    {
+      "name": "writePortraitAssets",
+      "module": "bitmap-assets",
+      "anchor": "const rgmMkf =",
+      "block": true,
+      "doc": "Portrait and item parsers own empty/invalid-frame admission; keep source chunk IDs.",
+      "original": "{\n    const rgmMkf = openMkf(loadFile('RGM.MKF'))\n    const n = chunkCount(rgmMkf)\n    const manifest: Array<{ chunkIndex: number; width: number; height: number }> = []\n    let written = 0\n    for (let i = 0; i < n; i++) {\n      const portrait = decodeRgmPortrait(i, readChunk(rgmMkf, i))\n      if (!portrait) continue\n      writeBinary(\n        resolve(OUT, 'images', 'portraits', `${i.toString().padStart(2, '0')}.png`),\n        portrait.pngBytes,\n      )\n      manifest.push({\n        chunkIndex: portrait.chunkIndex,\n        width: portrait.width,\n        height: portrait.height,\n      })\n      written++\n    }\n    writeJson(resolve(OUT, 'data', 'portraits.json'), { count: n, portraits: manifest })\n    console.log(\n      `[pal-extract] RGM.MKF written: ${written} / ${n} portraits → images/portraits/{NN}.png`,\n    )\n  }",
+      "helpers": []
+    },
+    {
+      "name": "writeItemIconAssets",
+      "module": "bitmap-assets",
+      "anchor": "const ballMkf =",
+      "block": true,
+      "original": "{\n    const ballMkf = openMkf(loadFile('BALL.MKF'))\n    const n = chunkCount(ballMkf)\n    const manifest: Array<{ chunkIndex: number; width: number; height: number }> = []\n    let written = 0\n    for (let i = 0; i < n; i++) {\n      const icon = decodeBallIcon(i, readChunk(ballMkf, i))\n      if (!icon) continue\n      writeBinary(\n        resolve(OUT, 'images', 'items', `${i.toString().padStart(3, '0')}.png`),\n        icon.pngBytes,\n      )\n      manifest.push({ chunkIndex: icon.chunkIndex, width: icon.width, height: icon.height })\n      written++\n    }\n    writeJson(resolve(OUT, 'data', 'items-icons.json'), { count: n, icons: manifest })\n    console.log(`[pal-extract] BALL.MKF written: ${written} / ${n} icons → images/items/{NNN}.png`)\n  }",
+      "helpers": []
+    },
+    {
+      "name": "writeSplashAssets",
+      "module": "bitmap-assets",
+      "anchor": "const splashFbpMkf =",
+      "block": true,
+      "doc": "WIN95 splash uses FBP chunks 3/4. Unlike battle backgrounds, YJ2 failure is skipped silently.",
+      "original": "{\n    const splashFbpMkf = openMkf(loadFile('FBP.MKF'))\n    const splashIds = [\n      { id: 0x03, name: 'splash-up-win95' },\n      { id: 0x04, name: 'splash-down-win95' },\n    ] as const\n    for (const { id, name } of splashIds) {\n      const raw = readChunk(splashFbpMkf, id)\n      if (raw.byteLength === 0) continue\n      let pixels: Uint8Array\n      try {\n        pixels = decompressYj2(raw)\n      } catch {\n        continue\n      }\n      if (pixels.byteLength !== 320 * 200) {\n        console.warn(\n          `[pal-extract] splash FBP chunk ${id}: 解压后 ${pixels.byteLength} bytes ≠ 64000, skip`,\n        )\n        continue\n      }\n      writeBinary(\n        resolve(OUT, 'images', 'splash', `${name}.png`),\n        encodeIndexedPng(320, 200, pixels),\n      )\n    }\n    console.log('[pal-extract] splash written → images/splash/')\n  }",
+      "helpers": []
+    },
+    {
+      "name": "writePaletteAssets",
+      "module": "bitmap-assets",
+      "anchor": "const patMkf =",
+      "end": "`[pal-extract] palette written",
+      "helpers": [
+        {
+          "name": "dataSubdirPath",
+          "text": "function dataSubdirPath(subdir: 'palette', name: string): string {\n  return resolve(OUT, 'data', subdir, `${name}.json`)\n}"
+        }
+      ],
+      "doc": "Pass whole PAT chunks so decodePalette retains the optional night palette.",
+      "original": "const patMkf = openMkf(loadFile('PAT.MKF'))\nconst patChunkCount = chunkCount(patMkf)\nlet palWritten = 0\nfor (let i = 0; i < patChunkCount; i++) {\n    const palBuf = readChunk(patMkf, i)\n    if (palBuf.byteLength < 768) continue // 跳过非调色板 chunk\n    // 传**整块**(不再 subarray(0,768))→ decodePalette 自动抽夜间半(1536B chunk,实测 #0/#5)。\n    writeJson(dataSubdirPath('palette', String(i)), decodePalette(palBuf))\n    palWritten++\n  }\nconsole.log(`[pal-extract] palette written (${palWritten} chunks)`)"
+    },
+    {
+      "name": "writeBattleBackgroundAssets",
+      "module": "bitmap-assets",
+      "anchor": "console.log('[pal-extract] battle backgrounds from FBP.MKF",
+      "end": "`[pal-extract] battle backgrounds written",
+      "helpers": [
+        {
+          "name": "imageBattleBgPath",
+          "text": "function imageBattleBgPath(bgId: number): string {\n  return resolve(OUT, 'images', 'battle', 'bg', `${bgId.toString().padStart(3, '0')}.png`)\n}"
+        }
+      ],
+      "doc": "Dump all valid FBP backgrounds, including IDs not referenced by the battle-field table.",
+      "original": "console.log('[pal-extract] battle backgrounds from FBP.MKF …')\nconst fbpMkf = openMkf(loadFile('FBP.MKF'))\nconst fbpChunkCount = chunkCount(fbpMkf)\nconst bgIds: number[] = []\nfor (let i = 0; i < fbpChunkCount; i++) {\n    const raw = readChunk(fbpMkf, i)\n    if (raw.byteLength === 0) continue // 空 chunk 跳过\n    let pixels: Uint8Array\n    try {\n      pixels = decompressYj2(raw)\n    } catch (err) {\n      console.warn(`[pal-extract] FBP chunk ${i} YJ2 fail, skip:`, err)\n      continue\n    }\n    if (pixels.byteLength !== 320 * 200) {\n      console.warn(`[pal-extract] FBP chunk ${i}: 解压后 ${pixels.byteLength} bytes ≠ 64000,skip`)\n      continue\n    }\n    writeBinary(imageBattleBgPath(i), encodeIndexedPng(320, 200, pixels))\n    bgIds.push(i)\n  }\nwriteJson(resolve(OUT, 'data', 'battle-bgs.json'), { count: fbpChunkCount, ids: bgIds })\nconsole.log(`[pal-extract] battle backgrounds written: ${bgIds.length} / ${fbpChunkCount} chunks`)"
+    }
+  ]
+}

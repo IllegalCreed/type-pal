@@ -1,6 +1,6 @@
 # QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（事实核验，不冒充第三方）
 Phase: phase1 asset/event pipeline
@@ -67,3 +67,13 @@ Visual Verification Timing: N/A（提取器纯收集；无游戏/E2E或原版运
 相关CLI IO/事件/输出边界统一窗口已实跑整合后check20430，official ratchet/protected同报告20032，全部0诊断；原两次拒绝保留，最新主线移动端统计未覆盖。仅本窗六明确IO路径接受，卡内其它余项与P3停止线保持，详见父卡与cli-io-closeout/review.json。推送/合main以实际Git refs为准。
 
 另记可定位的B维待改项：opcodes.ts模块头及OpcodeDef.named注释将“已具名”概括为disasm必输出结构化Command，而当前startBattle(named)明确经raw fallback，已有两专测也固定该合同。它不是上面已撤回的“跳转表旧注”归因；后续可用纯文案批收窄为注册表命名与实际emit分开，不改字段、字节或行为。opcodes原review状态保持，本窗六IO接受不覆盖它。
+
+## 2026-10-24 P3两条收集分支批准
+
+用户call_331f12c139684e7b9b17c3e28ec9b529明确批准“补齐两条分支”。Codex单Owner，同一3y；build allowed仅slice对raw7非零op1/op2的收集及直接scene/global正式反例、零地址/共享归属和必要说明。保留获胜fall-through、原始bytes、disasm输出、全局all.json与Save/机制，仓库生成物不写；普通剧情故障未证明。先红后最小修复，与CLI纯结构返工分提交；只必要定向/静态，多卡后且全部剩余pre94完成才统一全仓/coverage/一个PR。上面的P3“未批准”是历史状态，不覆盖本次批准，也不扩大其它管线产品范围。
+
+## 2026-10-24 P3窄修复审结果
+
+b285b5a5b先正式scene/global反例14绿2业务红，再7行产品修复；9相邻文件83绿、extract TC0。非零op1/op2收集与胜利续行、零地址、敌队号不当脚本目标、shared goto及输入不变逐项核；disasm保号raw7和原始bytes/all.json不改。原盘只读union38765→38780，新增15/删除0、610条非零接回边目的均入union，三输入SHA稳定；不是完整游戏/E2E通过。
+
+[两文件八维／完整原件与真实输入边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md)。Status review：本卡获准行为均已有代码/局部证据，统一全仓/coverage/protected等全部pre94集中；CODE3/3g其它主编排与测试质量余项不随本修复关闭。上方初始draft/P3未批准语句均保留当时状态，不作为当前执行指令。

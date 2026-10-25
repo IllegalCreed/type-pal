@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { decodeRle, parseSpriteChunk, type RleFrame } from './rle.js'
+import { decodeRle, parseSpriteChunk, parseSpriteChunkStrict, type RleFrame } from './rle.js'
 import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
 
 /** 帧语义等价:w/h/opaque 全等;pixels 仅比 opaque=1 位(透明位是占位)。 */
@@ -54,7 +54,7 @@ describe('encodeRleFrame ↔ decodeRle roundtrip', () => {
     }
     const f = mkFrame(33, 17, () => {
       const o = rnd() % 4 === 0 ? 0 : 1
-      return [rnd() % 256, o as 0 | 1]
+      return [rnd() % 256, o]
     })
     expectFrameEqual(decodeRle(encodeRleFrame(f)), f)
   })
@@ -64,22 +64,29 @@ describe('encodeSpriteChunk ↔ parseSpriteChunk roundtrip', () => {
   test('多帧(变尺寸,含奇数长帧数据触发对齐 pad)→ 帧序与内容恒等', () => {
     const frames = [
       mkFrame(32, 15, (i) => [(i % 200) + 1, i % 5 === 0 ? 0 : 1]),
-      mkFrame(3, 3, (i) => [i + 1, 1]), // 9 px 全实 → 帧数据 4+1+9=14 偶;换 5 px 造奇数
-      mkFrame(5, 1, (i) => [i + 1, 1]), // 4+1+5=10 偶…再来一帧混合
-      mkFrame(7, 2, (i) => (i % 2 === 0 ? [i, 1] : [0, 0])),
+      mkFrame(3, 3, (i) => [i + 1, 1]), // Literal frame: 4+1+9=14 bytes, already aligned.
+      mkFrame(5, 1, (i) => [i + 1, 1]), // 4+1+5=10 bytes.
+      mkFrame(7, 2, (i) => (i % 2 === 0 ? [i, 1] : [0, 0])), // 4+7*(2+1)=25 bytes: requires padding.
     ]
-    const parsed = parseSpriteChunk(encodeSpriteChunk(frames))
+    const chunk = encodeSpriteChunk(frames)
+    const parsed = parseSpriteChunk(chunk)
+    const strict = parseSpriteChunkStrict(chunk)
+    expect(strict).toHaveLength(frames.length)
     expect(parsed.length).toBe(frames.length)
     frames.forEach((f, i) => {
       expectFrameEqual(parsed[i]!, f)
+      expectFrameEqual(strict[i]!, f)
     })
   })
 
-  test('单帧与空 chunk 边界', () => {
+  test('单帧 chunk 保留完整输入帧', () => {
     const one = [mkFrame(2, 2, (i) => [i + 1, 1])]
     const parsedOne = parseSpriteChunk(encodeSpriteChunk(one))
     expect(parsedOne.length).toBe(1)
     expectFrameEqual(parsedOne[0]!, one[0]!)
+  })
+
+  test('空 chunk 在宽容入口返回空帧列表', () => {
     expect(parseSpriteChunk(encodeSpriteChunk([]))).toEqual([])
   })
 

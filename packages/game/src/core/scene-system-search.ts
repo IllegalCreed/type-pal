@@ -1,5 +1,5 @@
 /**
- * M5.6 W1.c:Confirm-key Search 完整 port — sdlpal `play.c:362-510`。
+ * Confirm 搜索的纯坐标和候选选择；参考 SDLPal PAL_GetSearchTriggerRange / PAL_Search。
  *
  * 真值机制:
  *   1. PAL_GetSearchTriggerRange:计算 party 朝向前 13 个 grid cell(party 像素 → 13 偏移点);
@@ -10,11 +10,9 @@
  *      - i <= triggerMode * 6 - 4:mode 1 检查 i=0..2,mode 2 检查 i=0..8,
  *        mode 3 检查全部 i=0..12;模式越大,允许的最远检查点越远,近处仍可触发
  *      - 同 grid cell(转为 col=x/32, row=y/16, h=x%32?1:0)
- *      - 命中 → 跑 wTriggerScript + return(只触发第一个)
+ *      - 返回第一个命中的 NPC；scene-system 负责转向、装载脚本和切换模式
  *
- * 替换 M3.5 简版"facing 前 1 步 + npcAt 严格 ==" 的不足:
- *   - 步长 parity 让 party.x/y 经常无法精确等于 npc.x/y → npcAt 失效
- *   - 不区分 SearchNear/Normal/Far(全按 1 步处理)
+ * 判等使用格子坐标和半格标志，NPC 像素坐标不必与检查点逐像素相等。
  */
 
 import type { NpcState } from './game-state.js'
@@ -25,7 +23,6 @@ export type Facing = 'up' | 'down' | 'left' | 'right'
 const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
 
 const DIR_SOUTH = 0
-const _DIR_WEST = 1
 const DIR_NORTH = 2
 const DIR_EAST = 3
 

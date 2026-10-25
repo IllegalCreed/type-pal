@@ -16,20 +16,24 @@ concurrency:
 jobs:
   fast-coverage:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    env:
-      TYPE_PAL_COVERAGE_PARALLEL_EDITOR: '1'
+    # Serialize package collection on this runner; individual test deadlines stay fixed.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
-        with:
-          version: 10.29.2
+      - name: Install the pinned pnpm without a bootstrap version switch
+        run: |
+          npm install --prefix "$RUNNER_TEMP/type-pal-pnpm" pnpm@10.29.2
+          echo "$RUNNER_TEMP/type-pal-pnpm/node_modules/.bin" >> "$GITHUB_PATH"
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
           cache: pnpm
+          # The bootstrap determines the store location as well as its version.
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            .github/workflows/*.yml
       - run: pnpm install --frozen-lockfile
       - name: Check types and lint before coverage
         run: pnpm test:quality-tools && pnpm typecheck && pnpm lint

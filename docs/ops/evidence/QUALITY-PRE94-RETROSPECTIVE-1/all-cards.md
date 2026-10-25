@@ -1,5 +1,31 @@
 # 94前全部83卡复审队列
 
+2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [当前裁定](bootstrap-quality/README.md)。
+
+2026-10-25 CODE57增量：两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修、57相邻/TC0成立。另真实换图失败使活瓦片消失并未处理拒绝；event-system旧关闭撤rework，3r/53整卡accept暂停。当前3450tracked／495closed／74review／2881pending；固定77accept／6partial／0pending。统一门/coverage/PR继续等全部pre94。 [当前裁定](bootstrap-quality/README.md)。
+
+2026-10-25 CODE58代码接受：原三文件与文件IO/共用DOM两叶逐文件八维闭合；用户批准导入读取错误提示，正式单红后7绿，11相邻文件102绿与typecheck0；原生Chrome真NotFoundError、0写/槽不变、同名重选成功。三新关闭，3447tracked／491closed／73review／2883pending；固定79accept／4partial／0pending。统一门/coverage/PR仍等全部pre94。 [当前回执](tools-panel-closeout/README.md)。
+
+2026-10-25 CODE53代码接受：事件专测21旧身份完整映射到32例，颜色/CD/镜头三项旧21绿新单红，最终9实际文件518绿、typecheck0。15个声明文件逐项有据；本文件新关闭1项，3445tracked／488closed／74review／2883pending；固定78accept／5partial／0pending。全部pre94前统一门/覆盖率/PR继续延后。 [本片合同与原件](event-opcodes-quality/README.md)。
+
+2026-10-24 CODE53中文功能画面与CODE58结构/专测返工，77accept／6partial／0pending不变；仅静态样式新关闭1项，3439tracked／477closed／76review／2886pending。[原件与限制](status-tools-closeout/README.md)。GS/Dev广域及导出失败等继续review，全仓/coverage/单PR待全部pre94。
+
+2026-10-24 CODE56接受，当前固定77accept／6partial／0pending；六文件新关闭，3438tracked／476closed／76review／2886pending。[逐文件与只读复验](minimap-closeout/README.md)，全仓/coverage/一个PR仍等全部pre94。
+
+2026-10-24 CODE42五文件新关闭，固定76accept／7partial／0pending不变；[职责、typed夹具与精确oracle](dialog-quality/README.md)。姓名速度已具体复现待裁决；统一门/单PR仍等全部pre94。
+
+2026-10-24当前3m：五文件新关闭，四数值source/test范围继续review等两项实际回答；固定76accept／7partial／0pending。[当前核心证据](battle-core-closeout/README.md)。
+
+2026-10-24当前：76代码accept／7partial／0pending；CODE3g总装八维及必要结构整改闭合、八文件新关闭，最终统一门等全部pre94。[本批原件](cli-stages-closeout/README.md)。
+
+2026-10-24当前：75代码accept／8partial／0pending；CODE3原slice/annotate接受、world阶段独立接受，五文件新关闭。CLI/3g仍partial；派生汇总72/11滞后于上轮实际74/9的勘误已保存，不算新进度。[逐文件/原件](extract-scene-closeout/README.md)。
+
+2026-10-24当前：74代码accept／9partial／0pending；本窗3o／3p接受，九文件新关闭，获批毒入口及P3窄修有正式红绿。最终集成门仍待全部pre94；[逐文件验收](mode-player-closeout/README.md)。
+
+2026-10-24当前：72代码accept／11partial／0pending，本窗3n／3q／3r新接受，17文件新关闭；[逐文件八维、批准接口清理、509相邻与误绿反控](core-scene-event-closeout/README.md)。最终集成门仍待全部pre94，以下计数保留历史。
+
+2026-10-24当前代码验收：69accept／14partial／0pending，仅3s与3t新接受。七文件逐项八维与必要返工完成，完整原件/六反控及当前指纹见[本次裁定](battle-host-opcode-closeout/README.md)。全仓集成门与PR继续待全部pre94冻结；下面旧计数保留历史。
+
 2026-10-24 CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测），5身份槽位专测刷新接受，原8例/共享叶及其它五primitive复用指纹证据。固定67accept/16partial/0pending；3411tracked/420closed/99review/2892pending。定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。纯blit复用与用户批准异常数值guard分提交，保存原红/反控/门禁失败原件，不扩94–102。
 
 2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。
@@ -13,25 +39,25 @@
 | [CODE-QUALITY-1](../../archive/tasks/done/CODE-QUALITY-1-governance.md) | done | partial | [RLE四文件](rle/README.md)：catch补证、格式风险draft；Q1b/其它范围未复验 |
 | [CODE-QUALITY-2](../../archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md) | done | accept | [shared当前逐文件与全门](shared-codecs/evidence.json)：既有native适用性、归约单红/重复精简成立；20386check、ratchet/protected各19988零诊断；O-5限定域保留 |
 | [CODE-QUALITY-2b](../../archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md) | done | accept | [shared当前逐文件与全门](shared-codecs/evidence.json)：既有native适用性、归约单红/重复精简成立；20386check、ratchet/protected各19988零诊断；O-5限定域保留 |
-| [CODE-QUALITY-3](../../archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md) | done | partial | [切分](3/README.md)与[标注](3-annotate/README.md)：九有效反控，控制流风险draft；raw假绿/统一门待续 |
+| [CODE-QUALITY-3](../../archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md) | done | accept | [当前代码验收](extract-scene-closeout/README.md)：slice/annotate原合同八维/批准修复/身份oracle及版本桥完成；统一门待全部pre94 |
 | [CODE-QUALITY-3b](../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md) | done | accept | [当前逐文件八维](3b/closeout/evidence.json)：原卡有限合同/必要返工与四卡零诊断门成立，不授相邻广域文件信用 |
 | [CODE-QUALITY-3c](../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md) | done | accept | [当前正式裁定](3c/closeout.json)：原专属动画/确定性合同已接受，大Workbench不附带接受 |
 | [CODE-QUALITY-3d](../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md) | done | accept | [当前逐文件八维](3d/closeout/review.json)：原卡有限合同/必要返工与四卡零诊断门成立，不授相邻广域文件信用 |
 | [CODE-QUALITY-3f](../../archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md) | done | accept | [当前逐文件八维](3f/closeout/review.json)：原卡有限合同/必要返工与四卡零诊断门成立，不授相邻广域文件信用 |
-| [CODE-QUALITY-3g](../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) | done | partial | [当前逐文件八维](3g/closeout/review.json)：五测试/宿主文件接受，CLI主编排仍待，不整卡关闭 |
+| [CODE-QUALITY-3g](../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) | done | accept | [总装代码接受](cli-stages-closeout/README.md)：显式root/归属、错误顺序、39真实CLI与809产物等价；统一门延后 |
 | [CODE-QUALITY-3h](../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) | done | accept | [当前正式裁定](3h/rle-boot-quality/README.md)：六生产源逐项八维与当前门闭合，shared格式/大bootstrap不附带接受 |
 | [CODE-QUALITY-3i](../../archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md) | done | accept | [五源逐文件A–H及测试/lifecycle收口](3i-dialog-precache/quality-closeout/README.md)；原72失败终态桥、当前门成立，不附带广域入口/离线/视觉信用 |
 | [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | accept | [既有七源与局部路标校准](3j-route-calibration/README.md)；仅修本表滞后，JSON原已接受，不新增信用 |
 | [CODE-QUALITY-3k](../../archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md) | done | accept | [原六源与当前数字质量收口](3k-number-quality/README.md)；有限极值caller与像素，不外推广域Save/公式或自然剧情 |
 | [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | accept | [七源历次证据与当前装配/UI收口](battle-lifecycle-quality/README.md)；有限浏览器入口，广域core与自然剧情不外推 |
-| [CODE-QUALITY-3m](../../archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md) | done | partial | [battle positions](3m-battle-positions/README.md)、[turn-queue](3m-turn-queue/README.md)、[status](3m-status/README.md)、[formulas/magic-damage](3m-formulas-magic/README.md)、[RNG](3m-rng/README.md) 已形成局部证据；状态切片修复死敌槽位误跳过，公式/伤害222例、RNG边界与相邻638例通过；统一门仍待，整卡不关闭 |
-| [CODE-QUALITY-3n](../../archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md) | done | partial | [fade / identity / catalog 复审切片](3n-fade-identity-catalog/README.md)：四个 core helper 与直接/跨模块 oracle 已重读；修复 PaletteFade `/31` 截断差异，直接34例通过；相邻诊断仍待统一收口 |
-| [CODE-QUALITY-3o](../../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | partial | [mode / history / poison / search 复审切片](3o-mode-history-poison-search/README.md)：四个 core helper 与真实 caller/primary 已重读；直接45例、相邻667例通过但预期 warning 仍待统一诊断收口 |
-| [CODE-QUALITY-3p](../../archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md) | done | partial | [event-opcode-player 复审切片](3p-event-opcode-player/README.md)：helper、四份直接测试、owner callers/SDL primary 已重读；直接61例/相邻471例通过，预期诊断仍待统一收口 |
-| [CODE-QUALITY-3q](../../archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md) | done | partial | [scene-system 复审切片](3q-scene-system/README.md)：662行实现/2064行主测试、scene/mode/event/bootstrap caller 与 SDL primary 已重读；467例通过、预期诊断仍待统一收口 |
-| [CODE-QUALITY-3r](../../archive/tasks/done/CODE-QUALITY-3r-game-event-system.md) | done | partial | [既有复审切片](3r-event-system/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
-| [CODE-QUALITY-3s](../../archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md) | done | partial | [既有复审切片](3s-battle-system/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
-| [CODE-QUALITY-3t](../../archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md) | done | partial | [机制counter返工](../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)：0x66裸武术/选靶已先红后修；主实现/主测已读，其他专测和统一门仍待 |
+| [CODE-QUALITY-3m](../../archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md) | done | partial | [核心技术片](battle-core-closeout/README.md)：九文件范围接受/五新关闭；速度回绕与正防御误读两边界待裁决，整卡不关闭 |
+| [CODE-QUALITY-3n](../../archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md) | done | accept | [当前代码验收](core-scene-event-closeout/README.md)：原卡八维/必要返工及当前输入桥成立；最终全仓门/PR待全部pre94 |
+| [CODE-QUALITY-3o](../../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | accept | [当前代码验收](mode-player-closeout/README.md)：八维/原反控及版本桥成立；获批毒入口已修，最终统一门待全部pre94 |
+| [CODE-QUALITY-3p](../../archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md) | done | accept | [当前代码验收](mode-player-closeout/README.md)：八维/原反控及版本桥成立；获批毒入口已修，最终统一门待全部pre94 |
+| [CODE-QUALITY-3q](../../archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md) | done | accept | [当前代码验收](core-scene-event-closeout/README.md)：原卡八维/必要返工及当前输入桥成立；最终全仓门/PR待全部pre94 |
+| [CODE-QUALITY-3r](../../archive/tasks/done/CODE-QUALITY-3r-game-event-system.md) | done | accept | [当前代码验收](bootstrap-quality/README.md)：获批seam/map资源与拒绝/身份缓存counter闭合；原其它合同保持，统一集成待全部pre94 |
+| [CODE-QUALITY-3s](../../archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md) | done | accept | [当前3s代码验收](battle-host-opcode-closeout/README.md)：八维与原始证据/版本桥成立，具体范围见report；最终全仓门待全部pre94，不冒称集成完成 |
+| [CODE-QUALITY-3t](../../archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md) | done | accept | [当前3t代码验收](battle-host-opcode-closeout/README.md)：八维与原始证据/版本桥成立，具体范围见report；最终全仓门待全部pre94，不冒称集成完成 |
 | [CODE-QUALITY-3u](../../archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md) | done | accept | [当前正式裁定](3u-state-factory/README.md)：原状态/资源/位置合同已接受，广域状态机不附带接受 |
 | [CODE-QUALITY-3v](../../archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md) | done | accept | [当前正式裁定](game-actions-mobile/review.json)：原四动作/两专测已接受，宿主大文件不附带接受 |
 | [CODE-QUALITY-3w](../../archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md) | done | accept | [当前正式裁定](3w-post-scripts/module-closeout.json)：原战后脚本/状态/清理合同已接受，广域战斗状态机不附带接受 |
@@ -41,7 +67,7 @@
 | [CODE-QUALITY-6a](../../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | accept | [本次正式验收](completion.json)：逐文件账本与清单工具的真实记录、输出和CLI合同（4文件）；6a-C1是可选的私有函数拆分建议；6a-O1涉及完整Markdown语法、特殊Git环境及符号级调用图，均超出当前声明合同，不冒称已验证，也不是现有canonical账本的未修缺陷。 |
 | [CODE-QUALITY-40](../../archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；2个原范围/明确支持文件；不授实网/广域信用。 |
 | [CODE-QUALITY-41](../../archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md) | done | accept | [当前八维/原件/集中门](analytics-closeout.json)；2个原范围/明确支持文件；不授实网/广域信用。 |
-| [CODE-QUALITY-42](../../archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md) | done | partial | [既有复审切片](42-dialog-box/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
+| [CODE-QUALITY-42](../../archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md) | done | partial | [当前职责/测试质量返工](dialog-quality/README.md)：七明确文件接受、五新关闭；姓名速度重置待实际裁决，state源review，不授整卡信用 |
 | [CODE-QUALITY-43](../../archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md) | done | accept | [Current original scope](present-leaves-gates.json): 3 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-44](../../archive/tasks/done/CODE-QUALITY-44-game-font.md) | done | accept | [Current original scope](present-leaves-gates.json): 4 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-45](../../archive/tasks/done/CODE-QUALITY-45-game-follower-render.md) | done | accept | [Current original scope](present-leaves-gates.json): 3 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
@@ -52,12 +78,12 @@
 | [CODE-QUALITY-50](../../archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-51](../../archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
-| [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | partial | [五卡八维/返工](five-cards/README.md)：runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 |
+| [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | accept | [当前代码验收](bootstrap-quality/README.md)：获批seam/map资源与拒绝/身份缓存counter闭合；原其它合同保持，统一集成待全部pre94 |
 | [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
-| [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | partial | [minimap lifecycle 复审](56-minimap/README.md)：2 文件/20 直接，tools/dev 51 + picker 5 相邻；loading ownership 变异1红5绿，seam repair 留 CODE-QUALITY-57 |
-| [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | partial | [工具/thumbnail有限切片](core-comment-audit/tools-thumbnail-hotkeys/README.md)：1944行宿主与两helper测试全文，注释/接线已核；未驱动thumbnail，seam/色板/视觉仍review |
-| [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [夹具/隔离勘误](58-tools-panel-fixtures/README.md)：更正核心强转/窗口监听跨例，正式19绿/相邻199绿；无新统一门，save边界不认证 |
+| [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | accept | [当前六文件代码接受](minimap-closeout/README.md)：三职责/只读依赖、22直接+32相邻、330核心及成功缓存单红；保留明示启发式边界，57/58及最终统一门另核 |
+| [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | accept | [当前代码验收](bootstrap-quality/README.md)：获批seam/map资源与拒绝/身份缓存counter闭合；原其它合同保持，统一集成待全部pre94 |
+| [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | accept | [原三文件与两叶代码接受](tools-panel-closeout/README.md)：导入正式单红/7绿、102相关、原生Chrome读错+重选及TS还原；任务review，统一门延后 |
 | [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | accept | [九文件及quick-save补强](save-v1-local.json)：52相邻/20386check/19988official ratchet与protected，全部零诊断；5次真实文件/IDB验证，既有反控复用 |
 | [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | accept | [九文件及quick-save补强](save-v1-local.json)：52相邻/20386check/19988official ratchet与protected，全部零诊断；5次真实文件/IDB验证，既有反控复用 |
 | [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
@@ -95,3 +121,7 @@
 | [CODE-QUALITY-93](../../archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
 
 字节SHA、行数和待人工核定的范围原文见[结构原件](all-cards.json)。范围片段不是已验证文件清单；不会因正则命中自动关闭任何文件。
+
+2026-10-24 GS／导出错误当前增量：五文件新关闭、340相关例；53/58仍partial，77/6不变，[有限逐文件证据](gamestate-save-closeout/README.md)。
+
+2026-10-25 [Dev广域质量](dev-panel-quality/README.md)五文件新关闭；53原419行专测仍pending，固定77accept/6partial不变，统一门延后。

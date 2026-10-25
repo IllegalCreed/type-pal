@@ -3,7 +3,7 @@
  *
  * 测试覆盖:
  *  - startBattle:正常构 BattleState + 切 mode='battle' + 资源缓存
- *  - startBattle:enemyTeam / battleField 找不到抛错;空槽位过滤
+ *  - startBattle:enemyTeam / battleField 找不到抛错;0xFFFF过滤/0空槽保留
  *  - tickBattle:preBattle 一 tick 转 selectAction
  *  - tickBattle:selectAction 等 pendingActions 填好 → 进 performAction
  *  - tickBattle:performAction → postAction → 回 selectAction 推下一轮
@@ -34,6 +34,7 @@ import type {
 } from '@type-pal/shared'
 import { FPS_BATTLE } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { parseImportedSave, serializeSave } from '../../../tools/save-io.js'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { runPlayerPoisonEntrySync, setGlobalEvents, setObjectPoisons } from '../../event-system.js'
 import {
@@ -46,6 +47,7 @@ import { tickMenu } from '../../menu/menu-mode.js'
 import { tickByMode } from '../../mode.js'
 import { createSeedableRng } from '../../rng.js'
 import { dispatchBattleOpcode } from '../battle-opcodes.js'
+import { getBattleResources, setBattleResources } from '../battle-runtime-context.js'
 import type { BattleEnemy } from '../battle-state.js'
 import {
   activateHidingEffect,
@@ -273,13 +275,9 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
     // 玩家 dex 50 > 敌 getEnemyDex{1,1}≈19 → 先手攻击;驱动到 wCount 累积即停
     let guard = 40
-    const confirm = { held: new Set<never>(), pressed: new Set(['Confirm'] as const), frameNum: 0 }
+    const confirm: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
     while (gs.mode === 'battle' && (gs.Exp.rgAttackExp[0]!.wCount ?? 0) === 0 && guard-- > 0)
-      tickBattle(
-        gs,
-        gs.battleState?.settlement ? (confirm as unknown as typeof emptyInput) : emptyInput,
-        bus,
-      )
+      tickBattle(gs, gs.battleState?.settlement ? confirm : emptyInput, bus)
     expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(1) // 攻击 1 次 → +1
     expect(gs.Exp.rgHealthExp[0]!.wCount ?? 0).toBeGreaterThanOrEqual(2) // RandomLong(2,3)
   })
@@ -309,6 +307,7 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
 afterEach(() => {
   setGlobalEvents([])
   setObjectPoisons([])
+  vi.restoreAllMocks()
 })
 
 // ============================================================================
@@ -423,15 +422,17 @@ function bootstrap(opts: BootstrapOpts = {}): {
   emptyInput: InputSnapshot
 } {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-  gs.partyMembers = opts.partyMembers ?? [0]
+  const partyMembers = opts.partyMembers ?? [0]
 
-  const roles: PlayerRole[] = opts.roles ?? gs.partyMembers.map((id) => makeRole({ id }))
+  const roles: PlayerRole[] = opts.roles ?? partyMembers.map((id) => makeRole({ id }))
   const playerRoles: PlayerRoles = { roles }
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+  gs.partyMembers = [...partyMembers]
 
   const enemies: Enemy[] = opts.enemies ?? [makeEnemy({ id: 100 })]
-  const teamSlots =
-    opts.teamSlots ??
-    ([100, 0xffff, 0xffff, 0xffff, 0xffff] as [number, number, number, number, number])
+  const teamSlots: [number, number, number, number, number] = opts.teamSlots ?? [
+    100, 0xffff, 0xffff, 0xffff, 0xffff,
+  ]
   const enemyTeams: EnemyTeam[] = [{ id: 0, enemies: teamSlots }]
   const field: BattleField = {
     id: 0,
@@ -475,22 +476,12 @@ function bootstrap(opts: BootstrapOpts = {}): {
     introFadeTicks: opts.introFadeTicks,
   })
 
+  const resources = getBattleResources(gs)
+  if (!resources) throw new Error('battle test setup: startBattle did not install resources')
   return {
     gs,
     bus,
-    resources: {
-      items,
-      spells,
-      magics,
-      objectMagics,
-      objectPoisons,
-      objectPlayers,
-      enemies,
-      enemyObjects: [],
-      enemyPos: opts.enemyPos,
-      playerRoles,
-      commands,
-    },
+    resources,
     emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
   }
 }
@@ -505,6 +496,18 @@ function driveBattleToExplore(gs: GameState, bus: CommandBus, max = 400): void {
   let safety = max
   while (gs.mode === 'battle' && safety-- > 0)
     tickBattle(gs, gs.battleState?.settlement ? advance : empty, bus)
+  if (gs.mode === 'battle')
+    throw new Error(`battle test did not finish: phase=${gs.battleState?.phase}`)
+}
+
+/** Seed a real terminal boundary; repeat tests isolate persistence, not the flee roll. */
+function finishAtFledBoundary(gs: GameState, bus: CommandBus): void {
+  const state = gs.battleState
+  if (!state) throw new Error('battle test setup: state missing before finalization')
+  state.phase = 'fleed'
+  driveBattleToExplore(gs, bus)
+  expect(gs.mode).toBe('explore')
+  expect(gs.battleState).toBeUndefined()
 }
 
 // ============================================================================
@@ -519,13 +522,11 @@ describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', 
     //   此前漏调 → 战斗里无双攻。归队(0x75)在战后、来不及,故必须在开战这步补。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0, 1]
-    const WEAPON = 170 // 仙女剑(scriptOnEquip 授 DualAttack=32760)
+    const playerRoles = { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+    const WEAPON = 170 // Synthetic weapon script grants DualAttack=32760; not a stock-item identity claim.
     gs.PlayerRolesRuntime.rgwEquipment[3]![1] = WEAPON // Hand 槽(part 3)
-    gs.PlayerRolesRuntime.rgwMaxHP[1] = 100
-    gs.PlayerRolesRuntime.rgwHP[1] = 0 // 倒地进场
-    gs.rgPlayerStatus[1] = gs.rgPlayerStatus[1] ?? []
-    gs.rgPlayerStatus[1]![8] = 0 // 双攻未建立(死时未授)
-    // 全局脚本:仙女剑 scriptOnEquip=1 → runEquipScriptSync 按标签 L_1 查(equip-effect.ts:368),
+    // 本例合成装备 scriptOnEquip=1 → runEquipScriptSync 按标签 L_1 查(equip-effect.ts:368),
     //   该处 0x2D 设 DualAttack(status 8)=32760。ip0 占位(scriptOnEquip=0 视为无脚本)。
     setGlobalEvents([
       { op: 'end' },
@@ -542,8 +543,18 @@ describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', 
       battleFields: [
         { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
       ],
-      playerRoles: { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] },
-      items: [{ id: WEAPON, scriptOnEquip: 1 } as unknown as Item],
+      playerRoles,
+      items: [
+        {
+          ...mkItem(WEAPON, {
+            usable: false,
+            equipable: true,
+            consuming: false,
+            equipableBy: [false, true, false, false, false, false],
+          }),
+          scriptOnEquip: 1,
+        },
+      ],
       spells: [],
       magics: [],
       commands: [{ op: 'end' }],
@@ -559,8 +570,8 @@ describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', 
     // 边界:开战重建只对真装着授双攻武器的队员生效,不是给全员发双攻。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0, 1]
-    gs.PlayerRolesRuntime.rgwMaxHP[1] = 100
-    gs.PlayerRolesRuntime.rgwHP[1] = 0 // 同样倒地进场
+    const playerRoles = { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
     setGlobalEvents([{ op: 'end' }])
     startBattle({
       gs,
@@ -572,7 +583,7 @@ describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', 
       battleFields: [
         { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
       ],
-      playerRoles: { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] },
+      playerRoles,
       items: [],
       spells: [],
       magics: [],
@@ -834,12 +845,15 @@ describe('startBattle', () => {
     //   `persisted.get is not a function` 崩(user 2026-06-16:读 JSON 存档碰怪即崩)。reviveNumberKeyedMap 兜底。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
-    const loose = gs as unknown as {
-      prevBattleActions: unknown
-      prevBattleActionTargetRoles: unknown
-    }
-    loose.prevBattleActions = {} // JSON 读档后的塌陷形态(本应是 Map)
-    loose.prevBattleActionTargetRoles = {}
+    const playerRoles = { roles: [makeRole({ id: 0 })] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+    gs.prevBattleActions = new Map([[0, { type: 'attack', target: 0, targetSide: 'enemy' }]])
+    gs.prevBattleActionTargetRoles = new Map([[0, 0]])
+    const imported = parseImportedSave(serializeSave(gs))
+    expect(imported.prevBattleActions).toEqual({})
+    expect(imported.prevBattleActionTargetRoles).toEqual({})
+    // bootstrap.loadGameFromSlot uses this same restore boundary after Save.loadSlot.
+    Object.assign(gs, imported)
     expect(() =>
       startBattle({
         gs,
@@ -861,7 +875,7 @@ describe('startBattle', () => {
             magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
           },
         ],
-        playerRoles: { roles: [makeRole({ id: 0 })] },
+        playerRoles,
         items: [],
         spells: [],
         magics: [],
@@ -869,7 +883,8 @@ describe('startBattle', () => {
         rngSeed: 1,
       }),
     ).not.toThrow()
-    expect(gs.battleState).toBeDefined()
+    expect(gs.battleState?.prevActions).toBeInstanceOf(Map)
+    expect(gs.battleState?.prevActions?.size).toBe(0)
   })
 
   it('enemyTeam 找不到 → 抛错', () => {
@@ -1071,7 +1086,7 @@ describe('tickBattle phase transitions', () => {
   it('B2 c8:dualMove>=2 敌 → 必二动(actionQueue 含 2 条该敌 entry,fight.c:1239)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, dualMove: 2, health: 99999 })],
-      roles: [makeRole({ id: 0, hp: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })],
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
@@ -1084,7 +1099,7 @@ describe('tickBattle phase transitions', () => {
   it('B2 c8:dualMove=0 敌 → 单动(actionQueue 仅 1 条该敌 entry)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, dualMove: 0, health: 99999 })],
-      roles: [makeRole({ id: 0, hp: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })],
     })
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
@@ -1097,7 +1112,7 @@ describe('tickBattle phase transitions', () => {
     const { gs, bus, emptyInput } = bootstrap({
       // enemy dex base = getEnemyDexterity({level:5,dexterity:30}) = (5+6)*3+30 = 63
       enemies: [makeEnemy({ id: 100, level: 5, dexterity: 30, dualMove: 0, health: 99999 })],
-      roles: [makeRole({ id: 0, hp: 99999, dexterity: 0, level: 0 })], // player dex 低,不抢戏
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999, dexterity: 0, level: 0 })], // player dex 低,不抢戏
     })
     tickBattle(gs, emptyInput, bus) // → selectAction
     gs.battleState!.rng.rangeFloat = () => 0.9 // 固定抖动因子 0.9
@@ -1112,7 +1127,7 @@ describe('tickBattle phase transitions', () => {
   it('B4(3):gs.fAutoBattle → 队员**无输入**自动 commit(攻击/法术)→ 自动进 performAction', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999, attackStrength: 0 })],
-      roles: [makeRole({ id: 0, hp: 99999, attackStrength: 100 })],
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999, attackStrength: 100 })],
       fAutoBattle: true, // 0x8A 设的持久 flag
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -1120,7 +1135,13 @@ describe('tickBattle phase transitions', () => {
     tickBattle(gs, emptyInput, bus)
     expect(gs.battleState?.players[0]).toBeDefined()
     // 自动 commit 了一个动作(无 magic 时 = 物理攻击全体活敌)→ phase 推进出 selectAction
-    expect(gs.battleState?.phase).not.toBe('selectAction')
+    expect(gs.battleState?.phase).toBe('performAction')
+    expect(gs.battleState?.pendingActions.get(0)).toEqual({
+      type: 'attack',
+      target: 0,
+      targetSide: 'enemy',
+      autoAttack: true,
+    })
   })
 
   it('B4(3):战斗结束 → gs.fAutoBattle 清 false(sdlpal script.c:3332 单场有效)', () => {
@@ -1138,16 +1159,14 @@ describe('tickBattle phase transitions', () => {
   // ── pickAutoMagic baseDamage 须按 SHORT(i16)解读(sdlpal uibattle.c:766/770 `(SHORT)wBaseDamage`)──
   describe('pickAutoMagic(F键 / 自动战斗选法术)', () => {
     function autoState() {
-      return {
-        selectingPlayerIdx: 0,
-        players: [{ roleId: 0, status: {} }],
-        rng: createSeedableRng(1),
-      } as unknown as Parameters<typeof pickAutoMagic>[0]
+      const { gs } = bootstrap({ rngSeed: 1 })
+      const state = gs.battleState
+      if (!state) throw new Error('battle test setup: auto magic state missing')
+      state.selectingPlayerIdx = 0
+      return state
     }
-    function rolesWith(magic: number[], mp = 99) {
-      const role = makeRole({ id: 0, mp })
-      ;(role as unknown as { magic: number[] }).magic = magic
-      return { roles: [role] } as unknown as Parameters<typeof pickAutoMagic>[1]
+    function rolesWith(magic: number[], mp = 99): PlayerRoles {
+      return { roles: [makeRole({ id: 0, mp, maxMP: mp, magic })] }
     }
 
     it('回归(石长老vs盖罗娇自动战 / F键乱放法术):跳过负 baseDamage(SHORT)的特殊法术,选正常法术', () => {
@@ -1181,7 +1200,7 @@ describe('tickBattle phase transitions', () => {
   it('performAction → postAction(queue 跑完)→ 下一轮 selectAction(双方都活)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })], // 不会被一击秒,保证不进 won
-      roles: [makeRole({ id: 0, hp: 99999 })], // 不会被秒,保证不进 lost
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })], // 不会被秒,保证不进 lost
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
@@ -1201,7 +1220,7 @@ describe('tickBattle phase transitions', () => {
     const { gs, bus, emptyInput } = bootstrap({
       // scriptOnReady ip=1 → showDialog '哼哼';ip=2 end。敌/我都不会被秒,保证留在战斗内。
       enemies: [makeEnemy({ id: 100, health: 99999 })],
-      roles: [makeRole({ id: 0, hp: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })],
       commands: [{ op: 'end' }, { op: 'showDialog', messageIndex: 0, text: '哼哼' }, { op: 'end' }],
     })
     gs.battleState!.enemies[0]!.scriptOnReady = 1 // 挂 AI 脚本(bootstrap 默认 enemyObjects=[] → 0)
@@ -1238,7 +1257,7 @@ describe('tickBattle phase transitions', () => {
   it('敌 scriptOnTurnStart 含 showDialog → 进战斗/每轮起手即显示(玩家选动作之前,user 实测顺序修复)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })],
-      roles: [makeRole({ id: 0, hp: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })],
       // scriptOnTurnStart ip=1 → showDialog '不自量力的家伙!';ip=2 end(蜘蛛精/林月如式嘲讽)
       commands: [
         { op: 'end' },
@@ -1268,7 +1287,7 @@ describe('tickBattle phase transitions', () => {
   it('B2 c7:scriptOnTurnStart 0x01(advance)收尾 → show-once(返回值推进过本段,对照 0x00 每轮重显)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })],
-      roles: [makeRole({ id: 0, hp: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })],
       // ip1 showDialog;ip2 = 0x01 advance end → sdlpal 返回 ip2+1=3(指针前移 = show-once,fight.c:1186)
       commands: [
         { op: 'end' },
@@ -1489,23 +1508,26 @@ describe('tickBattle finalize', () => {
   })
 
   it('finalizeBattle 回写战斗 HP/MP → gs.PlayerRolesRuntime(边界同步:战果持久化)', () => {
-    const { gs, bus, emptyInput } = bootstrap({
-      enemies: [makeEnemy({ id: 100, health: 1, exp: 0, cash: 0 })], // 必秒 → won,队员无伤
-      roles: [makeRole({ id: 0, hp: 88, mp: 22, attackStrength: 999 })], // 进战斗 hp 88 / mp 22
+    const { gs, bus, emptyInput, resources } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1, exp: 0, cash: 0 })],
+      roles: [makeRole({ id: 0, hp: 88, maxHP: 88, mp: 22, maxMP: 22, attackStrength: 999 })],
     })
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(0) // 测试 gs 初始 runtime 全 0(证明回写真发生)
-    // 满血基线 maxHP=88/maxMP=22(= 入战值)→ Phase F 半血恢复对满血 noop,回写值不被改。
-    // (真游戏 runtime 始终 hydrate;此测试只验回写,故显式设 maxHP 等于 hp 以隔离 Phase F。)
-    gs.PlayerRolesRuntime.rgwMaxHP[0] = 88
-    gs.PlayerRolesRuntime.rgwMaxMP[0] = 22
-    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(88)
+    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(22)
+    const live = resources.playerRoles.roles[0]
+    if (!live) throw new Error('battle test setup: live role missing')
+    // Battle actions own this live view; persistent rows stay at the entry values until finalize.
+    live.hp = 70
+    live.mp = 10
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(88)
+    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(22)
+    tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
     driveBattleToExplore(gs, bus)
     expect(gs.mode).toBe('explore')
-    // 战斗 HP/MP 战果回写 runtime(原 finalizeBattle 只回写 exp/cash → rgwHP 仍 0,打完复原的 bug)
-    // 注:exp/cash=0 → 无升级、无 exp-cash 屏 → 结算 screens 空 → 立即收尾;Phase F 半血恢复对满血 noop。
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(88)
-    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(22)
+    // Winner recovery:70+(88-70)/2=79;10+(22-10)/2=16; then persist that actual outcome.
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(79)
+    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(16)
   })
 
   it('D11 整合:打赢 + exp 进阈值 → finalizeBattle 触发升级(rt.rgwLevel 1→2 + 满血)', () => {
@@ -1513,16 +1535,12 @@ describe('tickBattle finalize', () => {
     lvExp[1] = 100 // 1 级升 2 级需 100 exp
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 1, exp: 100, cash: 0 })], // 必秒,给 100 exp
-      roles: [makeRole({ id: 0, hp: 50, maxHP: 100, attackStrength: 999 })],
+      roles: [
+        makeRole({ id: 0, level: 1, hp: 50, maxHP: 100, mp: 10, maxMP: 30, attackStrength: 999 }),
+      ],
       levelUpExp: lvExp,
     })
-    // 手设 runtime 基线(测试 gs 默认 runtime 全 0;升级读 runtime,需有 level/maxHP 基线)
     const rt = gs.PlayerRolesRuntime
-    rt.rgwLevel[0] = 1
-    rt.rgwHP[0] = 50
-    rt.rgwMaxHP[0] = 100
-    rt.rgwMP[0] = 10
-    rt.rgwMaxMP[0] = 30
     gs.Exp.rgPrimaryExp[0] = { wExp: 0, wLevel: 1 }
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
@@ -1875,7 +1893,7 @@ describe('defending flag 单轮失效', () => {
   it('postAction 清 defending,下一轮回到 false', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })],
-      roles: [makeRole({ id: 0, hp: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })],
     })
     tickBattle(gs, emptyInput, bus) // → selectAction
     gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
@@ -2032,9 +2050,7 @@ describe('finalize 清状态', () => {
     driveBattleToExplore(gs, bus)
 
     expect(gs.battleState).toBeUndefined()
-    expect(
-      (gs as unknown as { __battleResources?: BattleResources }).__battleResources,
-    ).toBeUndefined()
+    expect(getBattleResources(gs)).toBeUndefined()
   })
 
   it('tickBattle 无 battleState → no-op', () => {
@@ -2048,13 +2064,18 @@ describe('finalize 清状态', () => {
   it('tickBattle 有 battleState 但无 resources → 强制退出 explore + error log', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const { gs, bus, emptyInput } = bootstrap()
-    // 手动清 resources 模拟生命周期错乱
-    delete (gs as unknown as Record<string, unknown>).__battleResources
-    tickBattle(gs, emptyInput, bus)
-    expect(gs.mode).toBe('explore')
-    expect(gs.battleState).toBeUndefined()
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('without resources'))
-    errorSpy.mockRestore()
+    try {
+      expect(getBattleResources(gs)).toBeDefined()
+      setBattleResources(gs, undefined)
+      tickBattle(gs, emptyInput, bus)
+      expect(gs.mode).toBe('explore')
+      expect(gs.battleState).toBeUndefined()
+      expect(errorSpy.mock.calls).toEqual([
+        ['[battle] tickBattle without resources — state lifecycle 错乱,强制退出'],
+      ])
+    } finally {
+      errorSpy.mockRestore()
+    }
   })
 })
 
@@ -2112,7 +2133,7 @@ function mkMagic(id: number, opts: Partial<Magic> = {}): Magic {
   return {
     id,
     effect: 0,
-    type: 'normal' as Magic['type'],
+    type: 'normal',
     xOffset: 0,
     yOffset: 0,
     special: 0,
@@ -2242,8 +2263,10 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
   it('R 跨战斗:gs.prevBattleActions 按 roleId 持久 + 下一场 startBattle 带入', () => {
     const ctx = bootstrap({ partyMembers: [0], roles: [makeRole({ id: 0 })] })
     // 模拟战斗1最后一回合已在填 actionQueue 前持久到 gs。
-    ctx.gs.prevBattleActions = new Map([[0, { type: 'magic', actionId: 296, target: 0 } as any]])
-    driveBattleToExplore(ctx.gs, ctx.bus) // 结束战斗1
+    ctx.gs.prevBattleActions = new Map([
+      [0, { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' }],
+    ])
+    finishAtFledBoundary(ctx.gs, ctx.bus)
     expect(ctx.gs.prevBattleActions?.get(0)?.actionId).toBe(296) // 战斗结束不清(持久跨场)
     // 开战斗2(同 gs):带入"上一场最后一回合"的 prevActions
     startBattle({
@@ -2264,7 +2287,12 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
       objectPoisons: [],
       commands: [{ op: 'end' }],
     })
-    expect(ctx.gs.battleState?.prevActions?.get(0)?.actionId).toBe(296) // 带入上场
+    expect(ctx.gs.battleState?.prevActions?.get(0)).toEqual({
+      type: 'magic',
+      actionId: 296,
+      target: 0,
+      targetSide: 'enemy',
+    })
   })
 
   it('R 跨战斗:队伍缩编且角色换槽后仍重复该角色自己的动作', () => {
@@ -2275,6 +2303,7 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
       [0, { type: 'attack', target: 0, targetSide: 'enemy' }],
       [1, { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' }],
     ])
+    finishAtFledBoundary(ctx.gs, ctx.bus)
     ctx.gs.partyMembers = [1] // role1 从 slot1 移到 slot0
 
     startBattle({
@@ -2332,6 +2361,7 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
       [1, { type: 'item', actionId: 1, target: 0, targetSide: 'player' }],
     ])
     ctx.gs.prevBattleActionTargetRoles = new Map([[1, 0]])
+    finishAtFledBoundary(ctx.gs, ctx.bus)
     ctx.gs.partyMembers = [1]
 
     startBattle({
@@ -2452,8 +2482,7 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
   })
 
   it('Confirm 法术(selectedAction=1)→ menuState=magicSelect + magicSelect 建表', () => {
-    const role = makeRole({ id: 0 }) as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = [296, 297]
+    const role = makeRole({ id: 0, magic: [296, 297] })
     const ctx = bootstrap({
       roles: [role],
       spells: [mkSpell(296), mkSpell(297)],
@@ -2654,8 +2683,7 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
     roleOpts: Partial<PlayerRole> = {},
     extra: { objectMagics?: ObjectMagicView[]; items?: Item[] } = {},
   ) {
-    const role = makeRole({ id: 0, ...roleOpts }) as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = learned
+    const role = makeRole({ id: 0, ...roleOpts, magic: learned })
     const ctx = bootstrap({
       roles: [role],
       spells,
@@ -2988,9 +3016,7 @@ describe('敌方 target picker(uibattle.c:1431-1543,PAL_CLASSIC)', () => {
 describe('友方 target picker(uibattle.c:1545-1609,PAL_CLASSIC)', () => {
   function enterPlayerTarget(party: number[]) {
     const roles = party.map((id) => {
-      const r = makeRole({ id }) as PlayerRole & { learnedSpells: number[] }
-      r.learnedSpells = [296]
-      return r
+      return makeRole({ id, magic: [296] })
     })
     const ctx = bootstrap({
       partyMembers: party,
@@ -3053,10 +3079,11 @@ describe('友方 target picker(uibattle.c:1545-1609,PAL_CLASSIC)', () => {
 describe('多轮战斗集成', () => {
   let consoleWarn: ReturnType<typeof vi.spyOn>
   beforeEach(() => {
-    // 战斗中 magic / item warn 不污染输出
+    // 精确核零告警；不能静音后只看退出码。
     consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
   afterEach(() => {
+    expect(consoleWarn.mock.calls).toEqual([])
     consoleWarn.mockRestore()
   })
 
@@ -3235,7 +3262,7 @@ describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () 
           baseDamage: 30,
           elemental: 0,
           sound: 0,
-        } as Magic,
+        },
       ],
     })
     tickBattle(gs, emptyInput, bus)
@@ -3372,6 +3399,7 @@ describe('throw-item action 派发(E2)', () => {
     consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
   afterEach(() => {
+    expect(consoleWarn.mock.calls).toEqual([])
     consoleWarn.mockRestore()
   })
 
@@ -3403,9 +3431,9 @@ describe('throw-item action 派发(E2)', () => {
     ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, defense: 30, level: 5 })],
-      roles: [makeRole({ id: 0, hp: 300, level: 5 })],
+      roles: [makeRole({ id: 0, hp: 300, maxHP: 300, level: 5 })],
       items: [throwItem],
-      magics: [{ id: 54, baseDamage: 140, elemental: 0, type: 'normal' } as any as Magic],
+      magics: [mkMagic(54, { baseDamage: 140, costMP: 0 })],
       objectMagics: [
         {
           id: 349,
@@ -3464,9 +3492,9 @@ describe('throw-item action 派发(E2)', () => {
     ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 300, defense: 30, level: 5 })],
-      roles: [makeRole({ id: 0, hp: 300, level: 5, attackStrength: 30 })],
+      roles: [makeRole({ id: 0, hp: 300, maxHP: 300, level: 5, attackStrength: 30 })],
       items: [weapon],
-      magics: [{ id: 53, baseDamage: 198, elemental: 0, type: 'normal' } as any as Magic],
+      magics: [mkMagic(53, { baseDamage: 198, costMP: 0 })],
       objectMagics: [
         {
           id: 344,
@@ -3484,9 +3512,6 @@ describe('throw-item action 派发(E2)', () => {
       commands,
       inventory: [{ itemId: 163, count: 1 }],
     })
-
-    // 这条公式读运行时裸武术；静态/投影 roles 不能代替尚未 hydrate 的 runtime。
-    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 30
 
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     // 固定 rng:rangeInclusive→2(RandomLong 项)、next→0(rngFactor 1.0)
@@ -3591,7 +3616,7 @@ describe('throw-item action 派发(E2)', () => {
     ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, attackStrength: 0 })],
-      roles: [makeRole({ id: 0, hp: 500 })],
+      roles: [makeRole({ id: 0, hp: 500, maxHP: 500 })],
       enemyPos: {
         layouts: [
           [{ x: 160, y: 80 }],
@@ -3626,7 +3651,7 @@ describe('throw-item action 派发(E2)', () => {
     ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, defense: 999, level: 99 })], // 高防免普攻干扰
-      roles: [makeRole({ id: 0, hp: 300, attackStrength: 0 })],
+      roles: [makeRole({ id: 0, hp: 300, maxHP: 300, attackStrength: 0 })],
       commands,
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -3658,7 +3683,7 @@ describe('throw-item action 派发(E2)', () => {
     commands.push({ op: 'end', advance: true }) // 17
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, defense: 999, level: 99 })],
-      roles: [makeRole({ id: 0, hp: 9999, attackStrength: 0 })],
+      roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, attackStrength: 0 })],
       commands,
       inventory: [],
     })
@@ -3694,7 +3719,12 @@ describe('throw-item action 派发(E2)', () => {
 // ============================================================================
 
 describe('selectAutoTargetFrom (fight.c:86-128)', () => {
-  const en = (health: number): BattleEnemy => ({ e: { health } as any }) as BattleEnemy
+  const en = (health: number): BattleEnemy => {
+    const { gs } = bootstrap({ enemies: [makeEnemy({ health })] })
+    const enemy = gs.battleState?.enemies[0]
+    if (!enemy) throw new Error('battle test setup: target enemy missing')
+    return enemy
+  }
 
   it('目标敌人已死 → 从 begin 起找下一个活敌(环绕)', () => {
     const enemies = [en(0), en(50), en(30)] // 敌 0 死
@@ -3730,19 +3760,28 @@ describe('selectAutoTargetFrom (fight.c:86-128)', () => {
 // ── B2 c5 / D24:隐身回合 iHidingTime(fight.c:3529-3548 + 1670-1725)──────────────
 describe('iHidingTime 隐身(D24)', () => {
   it('activateHidingEffect:负值取反激活(CLASSIC 纯取反,无 *20/缩放)', () => {
-    const s = { iHidingTime: -5 } as unknown as Parameters<typeof activateHidingEffect>[0]
+    const { gs } = bootstrap()
+    const s = gs.battleState
+    if (!s) throw new Error('battle test setup: hiding state missing')
+    s.iHidingTime = -5
     activateHidingEffect(s)
     expect(s.iHidingTime).toBe(5) // 不是 -5*20=100
   })
 
   it('activateHidingEffect:正值不动(已激活)', () => {
-    const s = { iHidingTime: 3 } as unknown as Parameters<typeof activateHidingEffect>[0]
+    const { gs } = bootstrap()
+    const s = gs.battleState
+    if (!s) throw new Error('battle test setup: hiding state missing')
+    s.iHidingTime = 3
     activateHidingEffect(s)
     expect(s.iHidingTime).toBe(3)
   })
 
   it('decrementHidingEffect:正值每次 -1,到 0 停', () => {
-    const s = { iHidingTime: 2 } as unknown as Parameters<typeof decrementHidingEffect>[0]
+    const { gs } = bootstrap()
+    const s = gs.battleState
+    if (!s) throw new Error('battle test setup: hiding state missing')
+    s.iHidingTime = 2
     decrementHidingEffect(s)
     expect(s.iHidingTime).toBe(1)
     decrementHidingEffect(s)

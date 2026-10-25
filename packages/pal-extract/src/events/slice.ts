@@ -17,6 +17,13 @@ import { JUMP_TARGET_OPERAND, RANDOM_JUMP_OPCODE } from './opcodes.js'
  */
 function pushRawJumpTargets(c: Command, i: number, queue: number[]): void {
   if (c.op !== 'raw') return
+  // PAL_RunTriggerScript 的战斗返回有两条非零地址边；0 表示继续胜利续行。
+  if (c.opcode === 0x0007) {
+    const [, onLost, onFled] = c.operands
+    if (onLost !== 0) queue.push(onLost)
+    if (onFled !== 0) queue.push(onFled)
+    return
+  }
   const tgtIdx = JUMP_TARGET_OPERAND[c.opcode]
   if (tgtIdx !== undefined) {
     queue.push(c.operands[tgtIdx]!)

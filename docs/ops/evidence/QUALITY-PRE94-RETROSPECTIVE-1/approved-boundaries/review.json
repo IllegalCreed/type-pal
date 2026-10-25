@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-25",
+  "owner": "Codex single agent, own review disclosed",
+  "base": "7d7246dce968760cded0de5093d1b4d9b0f5ddb5",
+  "branch": "codex/code-quality-3y",
+  "scope": "CODE3m and CODE42 code closeout only; CODE1 and unified integration remain open",
+  "decisions": {
+    "call_400efa7c97674487ba183635ba343d7f": {
+      "0": "retain TS extreme dex, document deviation",
+      "1": "fix positive WORD defense, red first",
+      "2": "name does not reset script delay, red first"
+    }
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "b8573c525311edf9081e7a177b97f8fe99d5eed7797d97b5f2bc36fee6f4b02f",
+      "baseSha256": "252ad9227b16f06b16dd70ae2f39edf15dd7bdd71c597326bf8c662bb6ffdda0",
+      "inheritedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/review.json",
+      "inheritedReviewSha256": "ac27f276702249b1244673f864b5de7a553b706cfca1dead42f580eb2e3091ce",
+      "inheritedSourceSha256": "252ad9227b16f06b16dd70ae2f39edf15dd7bdd71c597326bf8c662bb6ffdda0",
+      "dimensions": {
+        "A": "复用36/5151 FLOAT矩阵与159条dex原生证据；用户明确保留TS速度扩展域，合法C域不受更改，不再等待极值回绕裁决。",
+        "B": "注释明示用户选定的极值不回绕；未把TS999与C2说成等价。",
+        "C": "纯计算、无GS/IO/RNG；两个私有转换函数分别拥有灵力和抗性中间赋值，主函数按业务步骤推进。",
+        "D": "isWord复用两条已证同域判定；两个asShort短私函暂保留，避免为两行引入跨模块API与依赖；不是通用数值框架。",
+        "E": "28旧公式合同复用；新5例含真实hydrate/projection/伤害caller与C常数、极大输入旧结果。先2红、再2红，最终精确spec对旧源4业务红/1绿。",
+        "F": "randomizeMagicStrength/applyElementResistance命名揭示赋值边界；随机倍率恢复10标度与除10分别表达。",
+        "G": "原*10/10只在未批准改变的扩展域保留既有字节算式；定义域内替换为有实际语义的FLOAT乘法/整数赋值，不冒称死代码清理。",
+        "H": "纯输入、显式随机倍率；可由原C原函数和真实生产入口独立观察，无核心mock或新公共测试出口。"
+      },
+      "decision": "code-accept; unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "sha256": "1535c33f36472377a5c3da1f3c604dec8f0aaed8ff7ff925dd7c275332751279",
+      "baseSha256": "a4e3a87d547d32311f55c8680d99a1f36a2f8215e0f96bb14877f9cf4e9cc8f5",
+      "inheritedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/review.json",
+      "inheritedReviewSha256": "ac27f276702249b1244673f864b5de7a553b706cfca1dead42f580eb2e3091ce",
+      "inheritedSourceSha256": "a4e3a87d547d32311f55c8680d99a1f36a2f8215e0f96bb14877f9cf4e9cc8f5",
+      "dimensions": {
+        "A": "真实GS hydrate/project→SeedableRng→伤害；32767/32768/65535均50，65536仍68，精确HP/自动防御/RNG终态；正式业务红后修，未改敌方防御。",
+        "B": "玩家WORD与敌方SHORT分开解释；扩展域保留理由明确，原负值守卫未扩大为全域SDL等价。",
+        "C": "伤害只改变敌槽/玩家投影HP；caller拥有演出与脚本；不读IO或反向依赖present。",
+        "D": "inline与simulate共享applyMagicDamage是同合同不同minDamage；敌方防御/抗性/预掷不同，保留独立函数，避免模式bool万能helper。",
+        "E": "23例原身份保留；去残缺PlayerRole/State强转，复用typed公开工厂；两AoE从不相等补成独立手算的精确伤害+HP。",
+        "F": "预掷资格与伤害计算分别命名；高CC来自目标遍历/资格/HP防御，具体分支对应C不同生命周期，不为数字拆零散策略。",
+        "G": "现有可选预掷是直接计算入口的实用合同；未删与真实caller/专项回归有关出口。",
+        "H": "真实SeedableRng用于新反例；已有受控next只用于数值与顺序分离，实际结果另断言，未以次数替代业务结果。"
+      },
+      "decision": "code-accept; unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+      "baseSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+      "inheritedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/review.json",
+      "inheritedReviewSha256": "ac27f276702249b1244673f864b5de7a553b706cfca1dead42f580eb2e3091ce",
+      "inheritedSourceSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+      "dimensions": {
+        "A": "原28叶合同源码未变；极值策略按本次用户决定而非默许SDL回绕。",
+        "B": "未改原28身份/断言；不借本轮finite矩阵授全dex域信用",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "28个base/physical/magic/dex原子例；独立手算/C原件；越界例明确仅TS截取合同；原生file×fullName/结果及红绿原件在receipts，不以mock次数单独判业务正确。",
+        "F": "命名对应输入和结果，工厂复用现有typed域，不为短代码引入万能选项上下文。",
+        "G": "未改原28身份/断言；不借本轮finite矩阵授全dex域信用；没有skip/only/弱化断言或新增无业务执行占位。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "code-accept; unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+      "sha256": "b86ca00b808df07427d45ce936b6e16300b8c8efd0e6509fa0a25771885a0a52",
+      "baseSha256": "dcef615c601dc44c8ea0689ee7d8d11819787d529f092a5364e76c7154ee663b",
+      "inheritedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/review.json",
+      "inheritedReviewSha256": "ac27f276702249b1244673f864b5de7a553b706cfca1dead42f580eb2e3091ce",
+      "inheritedSourceSha256": "dcef615c601dc44c8ea0689ee7d8d11819787d529f092a5364e76c7154ee663b",
+      "dimensions": {
+        "A": "原23身份保留；新1合同经过真实运行态hydrate/project，不用残缺角色强转或stub随机，跨32768的错误真实导致断言失败。",
+        "B": "首版740/798手算误写752/810的失败保留，重新按def74推导更正，不当作产品红",
+        "C": "仅测试当前文件命名合同；状态/目录清理回到所属owner，测试不改产品实现或全局规则。",
+        "D": "已与直接/相邻合同逐例排重；删除仅本报告两条精确迁移，不以相似fixture或数量定重复。",
+        "E": "固定C分支得50、扩展域旧值68及HP字面量，RNG3663131668是独立既有probe值；并非调用SUT计算期望。前后35例仅两项新增红，其余33绿。",
+        "F": "真实状态构造显式分步，边界结果表仅表达同一输入轴；其它独立伤害合同原样保留。",
+        "G": "只增一个边界合同，四个相邻数值含域外不变约束；不为覆盖率铺抽样或复制已有一般伤害case。",
+        "H": "时钟/随机/单例由公开输入或现有可控接口隔离；无核心any/私有状态访问的新依赖。"
+      },
+      "decision": "code-accept; unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "2340ef89b4173b22c11908f814a8d69a91a2dbd3eb699bd045f6294fe444a212",
+      "baseSha256": "56c21ea55fa5c1da541dd6b9564be34bcd81b145c948cd7e8b312099831b5fe1",
+      "inheritedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/review.json",
+      "inheritedReviewSha256": "b444a1f0cdecdf94c5bdcac467463d3a7dc844d6ba37d01034e22479185c8652",
+      "inheritedSourceSha256": "56c21ea55fa5c1da541dd6b9564be34bcd81b145c948cd7e8b312099831b5fe1",
+      "dimensions": {
+        "A": "真实事件入口$10慢~00→样式→姓名→正文；新回归先[0,24]业务红后[0,112]绿，默认3原专测保持。",
+        "B": "明确姓名直接绘制不改脚本delay；非默认继承与默认起始职责分开。",
+        "C": "State owner mutates caller DialogBoxState only; pure parser and framebuffer writer separated. Explicit root reexports preserve actual callers except separately proven dead rectangle API.",
+        "D": "Event and battle use same state engine but retain distinct timing; no universal clock/service adapter. Private renderer no longer needs whole state just for font color.",
+        "E": "新增caller级反例位于事件专测；原68主例/已接受像素证据复用，不重复旧532整套。",
+        "F": "独立状态模块替代混合960行模块；named state transitions和literal phase results保持。",
+        "G": "getDialogBoxRect/STYLE_RECTS/BoxRect removed after zero production/E2E callers; keep real layout exports, keyIconBlink persisted field and both timing paths.",
+        "H": "Explicit clock and borrowed state permit direct transition tests; event/battle caller integration tests remain. No test-only exports or new injected context."
+      },
+      "decision": "code-accept; unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.test.ts",
+      "sha256": "b2608dde61eda5a2b029b328703b94d58e3531b164fbb0204cfe07c758f2138d",
+      "baseSha256": "e46ae518cae2f7b7967835d5d7d9808ee10b2fb85bb3ed2a682dc9d7db835f0c",
+      "dimensions": {
+        "A": "全文现有分页driver与新增真实speed/style/name/body合同；合法Command/InputSnapshot、确定时钟，无产品/RNG mock。",
+        "B": "既有原盘开场来源注明messageIndex；新增只说脚本入口，不冒称普通剧情已遇到。",
+        "C": "测试只拥有本例GameState/bus/时钟，run helper仍负责遍历/分页观察，不把状态推进规则复制到fixture。",
+        "D": "保留原生产driver的run helper用于多页合同；新的早期正文观测生命周期不同，不给run增加模式布尔值。",
+        "E": "原10身份保留，新1精确body时间表/脚本速度断言；正式旧源AssertionError后绿，失败不是collection/runtime问题。",
+        "F": "样式、姓名与正文顺序直写，有限20tick界限只让不可达目标失败；不靠内部私有字段patch制造输入。",
+        "G": "未删旧分页/副作用合同，11例分别约束原页推进与新增跨样式delay，不扩到字体/布局。",
+        "H": "依赖真实纯event tick和注入now，无定时器/全局监听资源；每例新建GS/bus，spy有finally恢复。"
+      },
+      "decision": "code-accept; unified gates deferred"
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5"
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386"
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8"
+    },
+    {
+      "path": "packages/game/src/present/dialog-text.ts",
+      "sha256": "6e7bb20e1e0e651b9cf89445dd7587c7eaa025b0dadb2fe7d162db8f0cbd7bff"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+      "sha256": "3e2bf24b8e665d2e6c5ed01008ff6407ebf6d587d823164b178210d9cdc02359"
+    }
+  ],
+  "changedPaths": [
+    "packages/game/src/core/battle/formulas.ts",
+    "packages/game/src/core/battle/magic-damage.ts",
+    "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+    "packages/game/src/present/dialog-box.ts",
+    "packages/game/src/core/event-dialogue-pagination.test.ts"
+  ],
+  "patchSha256": "8010e4f2f443e6848405fbd1e84b3575b145b6b2b899c5bb648806ec1be63e49",
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "b2e6340c0f7c77dc428203247193d57f5c7b5f543d3567bccb45c78bf4819728"
+  },
+  "runs": {
+    "red": {
+      "id": "approved-red",
+      "passed": 33,
+      "failed": 2,
+      "pending": 0
+    },
+    "green": {
+      "id": "approved-green",
+      "passed": 131,
+      "failed": 0,
+      "pending": 0,
+      "files": 4
+    },
+    "typecheck": "game-typecheck"
+  },
+  "invalidation": "Source/caller/format/runtime/RNG/input changes invalidate affected claims; old archives remain historical. No schema/save/interface/asset bytes changed; not EXE/ordinary-story/visual certification.",
+  "remaining": "CODE1 original PAL source format repair; final whole check, official coverage/protected, remote CI and one PR/merge."
+}

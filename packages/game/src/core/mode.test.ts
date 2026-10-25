@@ -9,7 +9,7 @@
  */
 
 import type { InputSnapshot, Palette } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from './command-bus.js'
 import {
   OP_FADE_IN,
@@ -20,6 +20,8 @@ import {
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 import { tickByMode } from './mode.js'
+
+afterEach(() => setGlobalEvents([]))
 
 function snap(): InputSnapshot {
   return { held: new Set(), pressed: new Set(), frameNum: 0 }
@@ -37,7 +39,7 @@ function tickWithTime(gs: GameState, ms = 100): void {
 
 function palette(c: [number, number, number]): Palette {
   return {
-    colors: Array.from({ length: 256 }, () => [...c] as [number, number, number]),
+    colors: Array.from({ length: 256 }, (): [number, number, number] => [...c]),
     cycles: [],
   }
 }

@@ -1,7 +1,7 @@
 /**
- * GameState —— 探索 / 事件 / 战斗模式下的单一真相源(02 架构 + D6)。
- * M2 覆盖 explore / event;M3 (T14) 加 battle option(tickBattle 真实现 T22)。
- * M5 Sync.1:全字段冻结(SAVEDGAME_WIN 倒推 typed)。
+ * 第一阶段探索、事件、战斗与菜单的可变状态模型及创建/重置入口。
+ * 各子系统负责对应字段的推进；战斗角色投影/回写归 battle-role-projection，
+ * 存档数据形状与恢复边界见 save/data 和 bootstrap。
  */
 
 import type { Command, DialogBoxStyle, Palette, SceneEventObject } from '@type-pal/shared'
@@ -10,18 +10,15 @@ import type { BattleState } from './battle/battle-state.js'
 import type { DialogHistoryEntry } from './dialog-history.js'
 import type { PaletteFadeState } from './palette-fade.js'
 
+export {
+  projectRuntimeToBattleRoles,
+  writeBackBattleRolesToRuntime,
+} from './battle-role-projection.js'
+
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
-/**
- * sdlpal `gpGlobals->partyoffset` 真值(res.c:301):party 永远 anchor 在 screen
- * (160, 112);viewport 是 "屏幕左上对应的 world 坐标" = party.world - partyoffset。
- *
- * gs.camera 语义 = sdlpal viewport。所有 camera write 点统一:
- *   gs.camera.x = gs.party.x - PARTYOFFSET_X
- *   gs.camera.y = gs.party.y - PARTYOFFSET_Y
- *
- * 后续 sdlpal script.c:2306/2354 改 partyoffset 的 opcode 真做时,此常量改 mutable
- * gs.partyoffset 字段;M5.Sync.2 阶段固定 (160,112) 满足开场 cutscene 对齐。
+/** 默认屏幕队伍锚点(160,112)，参考 SDLPal partyoffset。
+ * 普通探索按 party-anchor 计算相机并做地图边界钳制；脚本相机可独立平移。
  */
 export const PARTYOFFSET_X = 160
 export const PARTYOFFSET_Y = 112
@@ -175,15 +172,9 @@ export interface NpcState {
    */
   scriptedFrame?: number
   /**
-   * port sdlpal `EventObject.wAutoScript` + `PAL_RunAutoScript`(script.c:3482-3651)。
-   *
-   * sdlpal `PAL_GameUpdate` 内对每个 `sState != 0 && wAutoScript != 0` 的 NPC 调
-   * `PAL_RunAutoScript(wAutoScript, id)`,返回新 wAutoScript ip — **不阻塞** trigger script。
-   *
-   * 我们 port:对 sState != 0 && autoCursor 设置的 NPC 每 tick 跑 1 op。autoLabel(scene
-   * dump 字段)在 npcFromEventObject 时按 labelMap 解 ip 写入 autoCursor。
-   *
-   * undefined = NPC 无 autoScript(wAutoScript=0)。
+   * NPC自动脚本的可变游标，runOneAutoOp 每次推进其当前指令。
+   * 入口来自 autoLabel 的全局数字IP；commands/labelMap 缺省时读 script-catalog 的全局目录。
+   * 显式覆盖和call栈由解释器维护；与trigger游标独立，等待/可运行条件归mode与event-system。
    */
   autoCursor?: {
     /** scene 全局 ip(等同 sdlpal `wAutoScript`)。每跑一 op 由 autoScript handler 改写。 */
@@ -216,9 +207,8 @@ export interface NpcState {
     currentEventObjectId?: number
   }
   /**
-   * autoScript 入口 label(`L_<global ip>`)。全局 event object 数组里保留它,供进 scene 切片时
-   * 按**当前 scene labelMap** 延迟解析 autoCursor(每 scene labelMap 不同,不能全局预解析)。
-   * autoCursor 一旦解析/推进过就不再重解(保留 autoscript 进度,sdlpal wScriptOnAutoTrigger 持久)。
+   * 生成目录中的自动脚本标签 L_<global ip>。npcFromEventObject 或首次场景切片解析其数字IP；
+   * 已有 autoCursor 时保留已推进位置，不用场景局部 labelMap 重解。
    */
   autoLabel?: string
 }
@@ -306,9 +296,8 @@ export interface EventCursor {
    */
   reloadSlotAfterFade?: number
   /**
-   * 当前执行 trigger 的 event object id(sdlpal `wEventObjectID` / `pCurrent`)。
-   * setObjectPosition / walkOneStep 等 opcode 默认 operate on this 当 operand[0]==0 时。
-   * tickSceneSystem 触发 NPC trigger 时设;此后所有 opcode 内 self = npcs[id-1]。
+   * 当前脚本作用上下文。NPC触发传0-based全局对象id，self解析按id查对象引用；
+   * 物品等玩家指令入口可传roleId。具体opcode按各自合同解释该值。
    */
   currentEventObjectId?: number
   /**
@@ -424,7 +413,9 @@ export interface DialogBoxState {
   iconKind?: number
   /** 当前行已经过的 frame 数。 */
   typingFrames: number
-  /** 当前行已显字符数 = min(floor(typingFrames / FRAMES_PER_CHAR), currentLineText.length)。 */
+  /**
+   * 当前行已显示的字符数；tickDialog 使用开行时钟推进，无开行时钟的driver按tick回退。
+   */
   charsRevealed: number
   /**
    * port sdlpal `g_TextLib.nCurrentDialogLine`(text.c)。当前页已显示的**正文**行数,决定段末/清屏/end
@@ -458,7 +449,9 @@ export interface DialogBoxState {
    * 兼容旧存档 / 战斗对话。
    */
   portraitLayout?: boolean
-  /** 字体前景色(palette 下标;默认 255 白) */
+  /**
+   * 字体前景调色板索引；startDialogLine 缺省使用 FONT_COLOR_DEFAULT(0x4F)。
+   */
   fontColor: number
   /** 字阴影(iDialogShadow > 0 时 true) */
   shadow: boolean
@@ -653,7 +646,7 @@ export interface EventObjectStateMutable {
 
 /**
  * sdlpal global.h `SCENE`(tagSCENE)运行时可变部分。
- * 稀疏存:只存 wScriptOnEnter 被 script 改过的 scene。
+ * V1保留此记录形状；当前运行覆盖入口见GameState各sceneOn*字段。
  */
 export interface SceneStateMutable {
   wMapNum: number
@@ -677,9 +670,8 @@ export interface GameState {
   /** 队长像素坐标(M5 P0.0:sdlpal scene.c:807 xOffset=±16 / yOffset=±8 等价)。 */
   party: { x: number; y: number; facing: Facing }
   /**
-   * 旧兼容字段:role0 当前 sprite id(sdlpal `PlayerRoles.rgwSpriteNum[0]` runtime 镜像)。
-   * 新渲染路径读取 PlayerRolesRuntime.rgwSpriteNum[roleId];本字段只服务旧存档/旧 dev dump 兼容。
-   * undefined = 用 bootstrap 默认(player-roles.json roles[0].spriteNum)。
+   * role0的精灵镜像；0x65与开发编辑入口可写，getOverworldSpriteNum 优先读取。
+   * 缺省时继续读取runtime精灵号和静态资料；保留现行V1字段与入口规则。
    */
   partyLeaderSpriteId?: number
   /**
@@ -691,10 +683,15 @@ export interface GameState {
    * M5 简版:用 Record(sparse)而非数组,避免初始化空槽。
    */
   partyScriptedFrame: Record<number, number>
-  /** 相机像素坐标;SceneSystem 每 tick 跟随 party,带地图边界 clamp。 */
+  /**
+   * 相机左上角的世界像素坐标。普通探索跟随队伍并按地图边界钳制，脚本相机另行推进。
+   */
   camera: { x: number; y: number }
   npcs: NpcState[]
-  /** 队伍成员 role id 列表(T14 占位,M3 dev fixture 决定默认填充)。 */
+  /**
+   * 当前队伍的roleId顺序。新游戏/读档与队伍脚本维护；菜单按显示位置读取，
+   * 角色入口另作role→party-slot映射。开发面板仅在探索期间允许改队伍。
+   */
   partyMembers: number[]
   /** 持有物品(T21 item action 用),数量为 0 不剔除由 add/sub 命令决定。 */
   inventory: InventoryEntry[]
@@ -707,13 +704,8 @@ export interface GameState {
    */
   menuStack: ActiveMenuEntry[]
   /**
-   * scene-level event commands + labelMap(autoScript runner 用)。
-   *
-   * `eventCursor` 是 trigger script 临时 cursor(event mode 进入时设,退出清);
-   * `sceneCommands`/`sceneLabelMap` 是 scene 持有 events 文件全文 — autoScript 在 explore
-   * mode 也要跑(sdlpal `PAL_GameUpdate` 不分 mode 都调),所以读这里。
-   *
-   * 由 bootstrap / sceneLoader 在 scene 加载完成后写入。
+   * 场景装配保存的命令/标签快照，由bootstrap与scene loader更新。
+   * 生产解释器通过script-catalog读取全局目录；游标可显式覆盖命令/标签。
    */
   sceneCommands?: Command[]
   sceneLabelMap?: Record<string, number>
@@ -728,7 +720,9 @@ export interface GameState {
    * 再画当前活动框。
    */
   dialogBoxKept?: DialogBoxState
-  /** 由 setDialogStyle* 命令累积。默认 'center'。 */
+  /**
+   * setDialogStyle指令维护的对话位置；创建初态为'top'。
+   */
   currentDialogStyle: DialogBoxStyle
   /**
    * 当前对话头像 RGM.MKF chunk(由 setDialogStyleTop/Bottom 的 operand[0] = iNumCharFace 累积)。
@@ -748,7 +742,9 @@ export interface GameState {
    * sdlpal text.c:29 #define FONT_COLOR_DEFAULT 0x4F。默认 0x4F = 79(palette idx 亮黄)。
    */
   currentDialogFontColor: number
-  /** 战斗状态;T16 给真类型(BattleState),T14 已用 unknown 占位避免污染 explore/event。 */
+  /**
+   * 战斗宿主创建并推进的局部working state，结算/退出边界负责回写和清理；菜单/绘制借用。
+   */
   battleState?: BattleState
   frameNum: number
   /**
@@ -838,16 +834,14 @@ export interface GameState {
   sWaveProgression: number
 
   /**
-   * G9(2026-05-30):屏幕摇晃剩余帧数(sdlpal `static g_wShakeTime`,video.c:59)。
-   * **瞬态,非存档字段**(sdlpal 是 video.c 文件级 static,不在 SAVEDGAME_WIN)。
-   * opcode 0x0035 shakeScreen 写入 operand[0]。present 层每帧 applyScreenShake 消费:
-   *   奇偶帧整幅 ±shakeLevel 垂直跳动 + 黑条,末尾自减,到 0 停。默认 0。
+   * 屏幕摇晃剩余帧数；0x35写入，present逐帧消费并递减。
+   * SDLPal对应video.c文件级static；TS V1可保存该数值，恢复策略归loader。
    */
   shakeTime: number
 
   /**
-   * G9(2026-05-30):屏幕摇晃等级 = 每帧垂直偏移行数(sdlpal `static g_wShakeLevel`,video.c:60)。
-   * **瞬态,非存档字段**。opcode 0x0035 写入 operand[1](==0 时 sdlpal script.c:1527 取默认 4)。默认 0。
+   * 屏幕摇晃的垂直偏移行数；0x35写入，0操作数按脚本规则取默认4。
+   * 与wScreenWave波形幅度分开；TS V1可保存该值。
    */
   shakeLevel: number
 
@@ -915,8 +909,7 @@ export interface GameState {
   // ── SAVEDGAME_WIN 倒推: 平铺全局杂项 ───────────────────────────────────────
 
   /**
-   * 存档次数(sdlpal SAVEDGAME_WIN.wSavedTimes)。
-   * 每次调用 PAL_SaveGame 递增。
+   * 存档次数。保存菜单按各槽metadata的最大次数加1写入；Save API保存调用方提供的快照。
    */
   wSavedTimes: number
 
@@ -943,16 +936,12 @@ export interface GameState {
   dialogHistory?: DialogHistoryEntry[]
 
   /**
-   * palette cycle 偏移(sdlpal SAVEDGAME_WIN.wPaletteOffset)。
-   * 控制调色板循环动画相位。
+   * V1保留的调色板循环偏移字段，来自SDLPal SAVEDGAME_WIN；当前渲染未消费此偏移。
    */
   wPaletteOffset: number
 
   /**
-   * 当前 BGM id(sdlpal global.h:534 `wNumMusic`)。0 = 停乐。
-   *
-   * M6:opcode 0x43/0x45/0x73 + 战斗起手写入;shell AudioManager 每帧轮询此值,变化即切 BGM
-   * (Musics/{NNN}.mid,looped)/ 0 停。
+   * 当前BGM编号，0为停止。脚本与战斗入口写入，shell音频控制器按编号和音乐源选择MIDI/RIX。
    */
   wNumMusic: number
   /**
@@ -961,8 +950,8 @@ export interface GameState {
    */
   musicLoop?: boolean
   /**
-   * M6 SFX 一次性播放队列(sdlpal `AUDIO_PlaySound(num)`)。opcode 0x47 / 战斗攻击受击 / 菜单 push
-   * SOUNDS.MKF chunk 号;shell AudioManager 每帧 drain → Web Audio 播 → 清空。**transient,不存档**。
+   * 一次性音效意图队列；脚本/战斗/菜单入队，shell音频控制器消费并清空。
+   * SDLPal对应即时AUDIO_PlaySound；当前TS V1原样序列化已存在的队列，不以“瞬态”推定字段被过滤。
    */
   pendingSounds?: number[]
   /**
@@ -990,8 +979,7 @@ export interface GameState {
   wNumBattleField: number
 
   /**
-   * 屏幕摇晃等级(sdlpal SAVEDGAME_WIN.wScreenWave)。
-   * 0 = 不摇晃;数值越大摇晃越强。
+   * 场景波形幅度，配合sWaveProgression推进；像素位移归present/screen-wave。
    */
   wScreenWave: number
 
@@ -1020,14 +1008,12 @@ export interface GameState {
   iCurInvActionMenuItem: number
 
   /**
-   * 采集物品总价值(sdlpal SAVEDGAME_WIN.wCollectValue)。
-   * 击败可采集敌人时累积。
+   * 收妖采集值：0x33成功时累加敌人的collectValue，0x34按价值换物品；战斗胜利不自动累加。
    */
   wCollectValue: number
 
   /**
-   * 当前 party 层(sdlpal SAVEDGAME_WIN.wLayer)。
-   * 0 = 地上,非 0 = 地下层。
+   * 队伍的绘制层偏移(0x6E写入operand×8)，影响排序和遮挡；不直接表示地上/地下布尔状态。
    */
   wLayer: number
 
@@ -1072,8 +1058,8 @@ export interface GameState {
   PlayerRolesRuntime: PlayerRolesRuntime
 
   /**
-   * 毒状态(sdlpal SAVEDGAME_WIN.rgPoisonStatus[MAX_POISONS][MAX_PLAYABLE_PLAYER_ROLES])。
-   * 稀疏存:key = `${poisonSlot}_${playerIdx}`,只存非空毒状态。
+   * 毒槽记录，key为`${poisonSlot}_${partySlot}`。ID0表示空槽，记录可含清除后的空值；
+   * 角色入口映射、去重、压缩和即时入口执行由player-poison-state维护。
    */
   rgPoisonStatus: Record<string, PoisonStatus>
 
@@ -1089,8 +1075,8 @@ export interface GameState {
   rgPlayerStatus: number[][]
 
   /**
-   * Scene 运行时可变状态(sdlpal SAVEDGAME_WIN.rgScene[MAX_SCENES])。
-   * 稀疏存:sceneId → state,只存被 script 改过的 scene。
+   * V1保留的scene记录；当前运行入口、传送和地图覆盖分别由sceneOnEnterIp/Override、
+   * sceneOnTeleportOverride和sceneMapNumOverride维护。
    */
   rgScene: Record<number, SceneStateMutable>
 
@@ -1106,10 +1092,8 @@ export interface GameState {
   sceneOnEnterIp: Record<number, number>
 
   /**
-   * opcode 0x6D 设的 scene onEnter 脚本覆盖(键 = wNumScene,值 = **全局 script entry**,
-   * 0 = 清除/无 onEnter)。sdlpal script.c:2065 `rgScene[op0-1].wScriptOnEnter = op1`。
-   * loadScene 时消耗:全局 entry → 该 scene labelMap 解 local ip → 写 sceneOnEnterIp(0 → -1 哨兵)。
-   * 跟 sceneOnEnterIp(local,跑完持久)分开存,因 0x6D 设的是全局 entry 且常作用于未加载的 scene。
+   * 0x6D设定的onEnter全局script entry覆盖，键为1-based wNumScene，0表示清除。
+   * 场景加载把它转换为sceneOnEnterIp的全局IP或-1哨兵，与已经推进的入口分开保存。
    */
   sceneOnEnterOverride?: Record<number, number>
 
@@ -1208,8 +1192,7 @@ export interface GameState {
   rgObject: Record<number, ObjectStateMutable>
 
   /**
-   * EventObject 运行时可变状态(sdlpal SAVEDGAME_WIN.rgEventObject[MAX_EVENT_OBJECTS])。
-   * 稀疏存:eventObjectId → state。chest 已开 / 机关已触发 / NPC 移动等全在这。
+   * V1保留的事件对象记录；当前脚本修改与场景引用切片以allEventObjects/NpcState为工作状态。
    */
   rgEventObject: Record<number, EventObjectStateMutable>
 
@@ -1244,11 +1227,8 @@ export interface GameState {
   wLastUnequippedItem: number
 
   /**
-   * sdlpal `g_iCurEquipPart` — opcode 0x18 设当前 bodypart slot,后续 0x17 写入
-   * `rgEquipmentEffect[i]` 时使用(script.c:773 真值)。我们 ts 不真用 — opcode 0x17
-   * 直接取 operand[0]-0xB 算 part,iCurEquipPart 只为同 sdlpal SAVEDGAME 对齐保留。
-   *
-   * -1 = no equip in progress(sdlpal 默认 0 但 ts 用 -1 区分 "未装备"和"part 0=Head")。
+   * 0x18记录的当前装备部位，-1表示未装备。0x17按自身操作数选择部位，
+   * 当前不读取此字段；保留既有V1数据和公开模型，清理需另核存档/接口影响。
    */
   iCurEquipPart: number
 
@@ -1277,15 +1257,10 @@ export interface GameState {
   itemUseApplyToAll?: boolean
 
   /**
-   * Sync.2 fix9:屏幕淡入状态(sdlpal video.c::VIDEO_FadeScreen,opcode 0x73 触发)。
-   *
-   * sdlpal 真值(video.c:1130-1280):
-   *   - 12 outer × 6 inner = 72 步 palette-bit blending
-   *   - 每步 SDL_Delay(wSpeed*10 ms),speed=2 → 30ms × 72 ≈ 2.16s
-   *   - blocking event loop:VIDEO_BackupScreen → PAL_MakeScene → VIDEO_FadeScreen(speed) 三步同步
-   * 我们真做:framesTotal = 72(对应 sdlpal 72 inner ticks),每 raf tick 推 1。
-   * present.ts 见此字段时在最上层画黑色 alpha overlay:
-   *   alpha = 1.0 - framesElapsed/framesTotal(0→全黑,1→全透明)
+   * 场景像素索引渐变状态：参考 SDLPal VIDEO_FadeScreen 的72步 nibble-dither。
+   * 脚本入口设总时长和起点；present 捕获上一帧到 backupPixels，并按 elapsedMs
+   * 补跑尚未应用的步骤。backupPixels 是累积工作缓冲，每帧显示其当前结果。
+   * 此处不是黑色 alpha 覆盖，也不保证每次 rAF 只推进一步；色表 ramp 另归 paletteFadeState。
    *
    * undefined = 无 fade(常态)
    */
@@ -1389,7 +1364,7 @@ export function initExpLevelsFromLevels(exp: AllExperience, rgwLevel: number[]):
  *
  * sdlpal `global.c PAL_NewGame` → `PAL_LoadDefaultGame` 真值:把 DATA.MKF chunk 3 解出的
  * 整张 PLAYERROLES 表整体拷给 `gpGlobals->g.PlayerRoles`(runtime 副本)。我们 ts 拆静态字段
- * 留在 [player-roles.json](../../../packages/game/public/extracted/data/player-roles.json),
+ * 留在资源表 `data/extracted/data/player-roles.json`,
  * runtime mutable 字段在 `PlayerRolesRuntime` — 新游戏时需要复制基线值,否则 rgwHP/MaxHP/全 stat
  * 都是 0,所有 HP/MP 加减 opcode(0x1B/1C/1D 等)clamp 后无效果(user 反馈"用观音符没反应"
  * 的根因)。
@@ -1490,14 +1465,6 @@ export function loadDefaultGame(
 }
 
 /**
- * 新游戏:复位 scene 运行时持久状态(通关 / 退出回标题后再开新游戏时 gs 是脏的)。
- * 清事件/死亡/fade/dialog 瞬态与 rgScene / sceneOnEnterIp / rgObject / rgEventObject
- *(scene flag、对象状态、onEnter 停点 —— 不清的话
- * 上一局跑过的 primary onEnter 停点残留会让开场不重播),并从初始 event object 表重建 gs.allEventObjects
- *(否则上一局"李大娘走了 / 宝箱开了"等改动残留)。调用方(bootstrap)随后另设 wNumScene / sceneCommands、
- * 重 slice npcs、applySceneAssetsToPresent。
- */
-/**
  * 清「只属于上一画面/脚本」的演出瞬态 —— present 短路相关标志(blackScreenHold / dialogPlayingRNG /
  * sceneLoading / paletteFadeState 等)+ 对话框 / fade / RNG 帧备份 / 死亡演出残留。
  *
@@ -1526,6 +1493,14 @@ export function resetPresentationTransients(gs: GameState): void {
   gs.currentDialogPortraitLayout = false
 }
 
+/**
+ * 新游戏:复位 scene 运行时持久状态(通关 / 退出回标题后再开新游戏时 gs 是脏的)。
+ * 清事件/死亡/fade/dialog 瞬态与 rgScene / sceneOnEnterIp / rgObject / rgEventObject
+ *(scene flag、对象状态、onEnter 停点 —— 不清的话
+ * 上一局跑过的 primary onEnter 停点残留会让开场不重播),并从初始 event object 表重建 gs.allEventObjects
+ *(否则上一局"李大娘走了 / 宝箱开了"等改动残留)。调用方(bootstrap)随后另设 wNumScene / sceneCommands、
+ * 重 slice npcs、applySceneAssetsToPresent。
+ */
 export function resetSceneRuntimeForNewGame(
   gs: GameState,
   initialEventObjects: SceneEventObject[],
@@ -1553,129 +1528,6 @@ export function resetSceneRuntimeForNewGame(
   gs.rgEventObject = {}
   // 从初始 event object 表重建(每个元素是新 NpcState,断开与上一局被脚本改过的引用)
   gs.allEventObjects = initialEventObjects.map((eo) => npcFromEventObject(eo))
-}
-
-/**
- * PlayerRolesRuntime(SoA)→ PlayerRoles 对象快照,供战斗和菜单消费,不是 hydrate 的严格逆操作。
- * 角色全集和未覆盖字段(如音效)取 staticRoles;属性、装备、法术与造型从 runtime 投影,
- * 具体缺值/零值回退见各字段。返回新角色对象,不与静态角色表共用可变 HP/MP。
- *
- * bootstrap 开战时传 equipmentEffect:攻/防/魔/速/逃/抗性合入 0..6 槽(含 Extra),
- * 战斗精灵/合击取末个非零覆盖、群攻取任一非零效果。参考 SDLPal global.c 的
- * PAL_GetPlayer* / PAL_PlayerCanAttackAll;这里的数值是快照,不是 C 每次读取全局表。
- * 战内 0x30 写 Extra 后重新算受影响属性,0x19/0x1A 通过 resyncBattleRoleStatsFromRuntime 刷新。
- * 不传 equipmentEffect 的 caller(如 menuRoles)只读 runtime 基础值;不得假定所有调用都含装备。
- * maxHP/maxMP/level 直接取 runtime 基础值,不累加装备效果;抗性在本投影钳到 [0,100]。
- *
- * @param runtime gs.PlayerRolesRuntime —— 可变属性源
- * @param staticRoles assets.playerRoles —— 静态回退值与未覆盖字段 + 角色全集
- * @param equipmentEffect gs.rgEquipmentEffect —— 装备 + Extra effect 槽(0..6);省略 → 纯 base 投影
- */
-export function projectRuntimeToBattleRoles(
-  runtime: PlayerRolesRuntime,
-  staticRoles: import('@type-pal/shared').PlayerRoles,
-  equipmentEffect?: EquipmentEffectRoles[],
-): import('@type-pal/shared').PlayerRoles {
-  // sdlpal getter:base + Σ_{slot=0..MAX_PLAYER_EQUIPMENTS(=6,含 Extra)} rgEquipmentEffect[slot].field[role]
-  const sumEff = (
-    field: keyof Omit<EquipmentEffectRoles, 'rgwElementalResistance'>,
-    i: number,
-  ): number => {
-    if (!equipmentEffect) return 0
-    let s = 0
-    for (let slot = 0; slot <= 6; slot++) {
-      s += equipmentEffect[slot]?.[field][i] ?? 0
-    }
-    return s
-  }
-  const sumElemEff = (elem: number, i: number): number => {
-    if (!equipmentEffect) return 0
-    let s = 0
-    for (let slot = 0; slot <= 6; slot++) {
-      s += equipmentEffect[slot]?.rgwElementalResistance[elem]?.[i] ?? 0
-    }
-    return s
-  }
-  const clamp100 = (v: number): number => Math.max(0, Math.min(100, v)) // 本投影的抗性上下界
-  // sdlpal override 类 getter:某槽非 0 即覆盖(非累加)。
-  //   PAL_PlayerCanAttackAll(global.c:2047):任一槽 rgwAttackAll!=0 → 群攻。
-  //   PAL_GetPlayerBattleSprite(2009)/ PAL_GetPlayerCooperativeMagic(2044):末个非 0 槽 override base。
-  const anyEquip = (field: 'rgwAttackAll', i: number): boolean => {
-    if (!equipmentEffect) return false
-    for (let slot = 0; slot <= 6; slot++)
-      if ((equipmentEffect[slot]?.[field][i] ?? 0) !== 0) return true
-    return false
-  }
-  const lastNonzeroEquip = (
-    field: 'rgwSpriteNumInBattle' | 'rgwCooperativeMagic',
-    i: number,
-  ): number => {
-    if (!equipmentEffect) return 0
-    let w = 0
-    for (let slot = 0; slot <= 6; slot++) {
-      const v = equipmentEffect[slot]?.[field][i] ?? 0
-      if (v !== 0) w = v
-    }
-    return w
-  }
-  const roles = staticRoles.roles.map((base) => {
-    const i = base.id
-    const baseElem = {
-      wind: runtime.rgwElementalResistance[0]?.[i] ?? base.elemResistance.wind,
-      thunder: runtime.rgwElementalResistance[1]?.[i] ?? base.elemResistance.thunder,
-      water: runtime.rgwElementalResistance[2]?.[i] ?? base.elemResistance.water,
-      fire: runtime.rgwElementalResistance[3]?.[i] ?? base.elemResistance.fire,
-      earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
-    }
-    return {
-      ...base, // 先取静态角色;下方覆盖 runtime/effect 字段,音效等未覆盖字段保留
-      spriteNum: runtime.rgwSpriteNum[i] || base.spriteNum,
-      name: runtime.rgwName[i] ?? base.name,
-      level: runtime.rgwLevel[i] ?? base.level,
-      maxHP: runtime.rgwMaxHP[i] ?? base.maxHP,
-      maxMP: runtime.rgwMaxMP[i] ?? base.maxMP,
-      hp: runtime.rgwHP[i] ?? base.hp,
-      mp: runtime.rgwMP[i] ?? base.mp,
-      // M2(2026-06-07 sdlpal 审查):造型 row 读 runtime base(0x1A 剧情变身写入,如灵儿变镇狱明王)。
-      avatar: runtime.rgwAvatar[i] || base.avatar,
-      walkFrames: runtime.rgwWalkFrames[i] || base.walkFrames,
-      // 装备 override(sdlpal getter):长鞭 attackAll/sprite、圣灵珠 coopMagic。装备授群攻 → role.attackAll=1
-      //   (battle-system 读此判全体攻);sprite/coopMagic 末非 0 槽 override base,合击交 performCoopMagic。
-      attackAll: anyEquip('rgwAttackAll', i) ? 1 : runtime.rgwAttackAll[i] || base.attackAll,
-      spriteNumInBattle:
-        lastNonzeroEquip('rgwSpriteNumInBattle', i) ||
-        runtime.rgwSpriteNumInBattle[i] ||
-        base.spriteNumInBattle,
-      cooperativeMagic:
-        lastNonzeroEquip('rgwCooperativeMagic', i) ||
-        (runtime.rgwCooperativeMagic[i] ?? base.cooperativeMagic ?? 0),
-      // effective = base + Σ 装备 effect(含 Extra),mirror sdlpal PAL_GetPlayerXxx getter
-      attackStrength:
-        (runtime.rgwAttackStrength[i] ?? base.attackStrength) + sumEff('rgwAttackStrength', i),
-      magicStrength:
-        (runtime.rgwMagicStrength[i] ?? base.magicStrength) + sumEff('rgwMagicStrength', i),
-      defense: (runtime.rgwDefense[i] ?? base.defense) + sumEff('rgwDefense', i),
-      dexterity: (runtime.rgwDexterity[i] ?? base.dexterity) + sumEff('rgwDexterity', i),
-      fleeRate: (runtime.rgwFleeRate[i] ?? base.fleeRate) + sumEff('rgwFleeRate', i),
-      poisonResistance: clamp100(
-        (runtime.rgwPoisonResistance[i] ?? base.poisonResistance) +
-          sumEff('rgwPoisonResistance', i),
-      ),
-      coveredBy: runtime.rgwCoveredBy[i] ?? base.coveredBy,
-      // 装备 6 槽 / 法术 32 槽:runtime[slot][i] → role 数组(完整 hydrate 逆;battle magic 菜单已接此 role.magic 真值,见 buildBattleMagicSelect)
-      equipment: runtime.rgwEquipment.map((slot) => slot[i] ?? 0),
-      magic: runtime.rgwMagic.map((slot) => slot[i] ?? 0),
-      // 元素抗 5 维(0 风/1 雷/2 水/3 火/4 土,同 hydrate)+ 装备 effect,clamp [0,100]
-      elemResistance: {
-        wind: clamp100(baseElem.wind + sumElemEff(0, i)),
-        thunder: clamp100(baseElem.thunder + sumElemEff(1, i)),
-        water: clamp100(baseElem.water + sumElemEff(2, i)),
-        fire: clamp100(baseElem.fire + sumElemEff(3, i)),
-        earth: clamp100(baseElem.earth + sumElemEff(4, i)),
-      },
-    }
-  })
-  return { roles }
 }
 
 /** 战斗结局(0x07 战后接回分支用)。 */
@@ -1753,30 +1605,6 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
   //   不预置,结局红屏仍由 0x4F handler 点亮(见上 scriptRunHits0x4F 注)。详 docs/phase1/plans/2026-06-01-gameoveractive-refactor.md。
   if (outcome === 'lost' && r.lostIp !== undefined && scriptRunHits0x4F(r.commands, ip)) {
     gs.deathHoldActive = true
-  }
-}
-
-/**
- * 战斗边界仅将 roles 的 HP/MP 回写 PlayerRolesRuntime,不是完整逆投影,使伤害/治疗**持久化**
- * 进大世界 + 存档对齐(原 finalizeBattle 只回写 exp/cash,hp/mp 战果丢失,打完血量复原)。
- *
- * 本函数仅回写 HP/MP;脚本与升级各有 runtime 写入路径,升级 loop 在回写后直接更新等级/属性。
- * 临时增益(0x30 Extra slot)不回写(sdlpal 战末清 Extra)。仅回写在场 party 成员。
- *
- * @param battleRoles res.playerRoles —— 战斗结束态(hp/mp 已被伤害/治疗改)
- * @param runtime gs.PlayerRolesRuntime —— 回写目标
- * @param partyMembers 在场 party 的 roleId 列表(只回写这些)
- */
-export function writeBackBattleRolesToRuntime(
-  battleRoles: import('@type-pal/shared').PlayerRoles,
-  runtime: PlayerRolesRuntime,
-  partyMembers: number[],
-): void {
-  for (const roleId of partyMembers) {
-    const role = battleRoles.roles[roleId]
-    if (!role) continue
-    runtime.rgwHP[roleId] = role.hp
-    runtime.rgwMP[roleId] = role.mp
   }
 }
 
@@ -1927,7 +1755,7 @@ export function createInitialGameState(partyStart: {
     nightPalette: false, // 特效 A:昼夜 flag(sdlpal fNightPalette,默认白天)
     iCurPlayingRNG: 0, // 特效 C:当前 RNG 动画编号(sdlpal iCurPlayingRNG)
     sWaveProgression: 0, // 特效 B:屏幕波动每帧增量(sdlpal sWaveProgression)
-    shakeTime: 0, // G9:屏幕摇晃剩余帧(sdlpal static g_wShakeTime,video.c:59,瞬态非存档)
+    shakeTime: 0, // G9:屏幕摇晃剩余帧(sdlpal static g_wShakeTime,video.c:59,运行态剩余帧)
     shakeLevel: 0, // G9:屏幕摇晃等级=垂直偏移行数(sdlpal static g_wShakeLevel,video.c:60,瞬态)
     blackScreenHold: false, // 0x76 ShowFBP(0xFFFF) 后黑屏保持,直到下一次 PAL_MakeScene(loadScene 自动淡入/0x05/0x73/0x9B);0x51 FadeIn **不**清(只 ramp 调色板,内容仍黑)
 
@@ -2046,7 +1874,7 @@ export function hydrateNpcStaticDefaults(npcs: NpcState[], eventObjects: SceneEv
   }
 }
 
-/** P2#5:`L_<n>` → 全局下标 n(all.json 标签 = 数组下标恒等,0 违例)。非法 → undefined。 */
+/** 读取L_后的非负整数IP；canonical目录使用十进制标签。这里按Number解析，不验证标签字面语法或目录范围。 */
 function globalIpFromLabel(label: string): number | undefined {
   if (!label.startsWith('L_')) return undefined
   const n = Number(label.slice(2))
@@ -2057,9 +1885,8 @@ function globalIpFromLabel(label: string): number | undefined {
  * 当前 scene 的 event object 切片(忠实 sdlpal lprgEventObject[scene.eventObjectIndex..])。
  *
  * 元素是 `gs.allEventObjects` 的**引用** → 脚本(0x49/移动/0x9A 等)改动自动持久、重进保留
- *(李大娘走了/宝箱开了 都在)。首访时按**当前 scene labelMap**(gs.sceneLabelMap,loadSceneCommon
- * 已先设)延迟解析 autoCursor;已解析或已推进过的不重解(保留 autoscript 进度,sdlpal
- * wScriptOnAutoTrigger 持久)。
+ *(李大娘走了/宝箱开了 都在)。首访按autoLabel中的全局数字IP解析autoCursor；
+ * 已解析或已推进过的不重解，保留自动脚本进度。
  *
  * 返回 undefined = 全局数组未加载(旧档 / 加载失败)→ 调用方兜底从 scene dump 重建(退化为非持久)。
  */

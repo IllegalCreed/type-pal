@@ -1,5 +1,5 @@
 /**
- * Seedable PRNG —— mulberry32(经典 8 行实现,通过 standard PRNG 测试)。
+ * Seedable PRNG —— mulberry32。
  *
  * 战斗 / 暗雷 / 任何确定性需求都走这条;D29 数值对拍要求同 seed 同结果(同 seed 反复跑产同序列)。
  * 注:与 sdlpal RNG 算法不同 —— sdlpal 用 LCG (`util.c::lsrand`),本 TS 战斗系统用 mulberry32。
@@ -13,7 +13,7 @@ export interface SeedableRng {
   range(lo: number, hi: number): number
   /** 返回 [lo, hi](含两端)的整数。 */
   rangeInclusive(lo: number, hi: number): number
-  /** 返回 [lo, hi) 的浮点数(对齐 sdlpal `RandomFloat`,util.c:250)。 */
+  /** 返回 [lo, hi) 的浮点数;SDLPal RandomFloat 可取上端点,分布不等同。 */
   rangeFloat(lo: number, hi: number): number
   /** dump 当前 seed state(便于 save / restore)。 */
   getState(): number

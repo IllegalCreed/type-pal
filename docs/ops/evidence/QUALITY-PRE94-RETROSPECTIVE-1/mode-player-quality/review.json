@@ -1,0 +1,501 @@
+{
+  "schemaVersion": 1,
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "base": "f15209943efdb25ec774a097f0796d64e3fa9af3",
+  "pureCommit": "5927c66ccef19a64eef417206ba4a50b53b1597c",
+  "candidate": "016b6b8f5d58d91f9a1fe04f292cfa310220d4fd",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single agent; own authored review, no invented third party",
+  "state": "3o/3p scoped quality and approved Wear fix; whole pre94 NOT complete; no PR/unified gates",
+  "approvals": [
+    {
+      "call": "call_4069993f441d4cc0ad23d731139664f3",
+      "answer": "批准整理毒列表，保留不丢毒和不重复（推荐）",
+      "scope": "Wear stable compaction over16 slots, preserve ordinary poisons after holes and existing global dedup; no schema/role key/asset writes"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/core/dialog-history.ts",
+      "sha256": "885721af3ca7d0cc5ec1b2005a3e07b52e3d80e6dea14290d7d349f9dbb5df19",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "event-system提交可见文本，bootstrap从Save深拷贝结果恢复；trim/末项同地图去重/有界100/老档清空与真实caller一致。",
+        "B": "环形缓冲改为有界数组，说明借用已深拷贝的存档数组及不修改传入快照；不再靠历史日期解释实现。",
+        "C": "只拥有传入history的追加/裁剪，不推进脚本、不读存储；恢复值交给GS，存储拷贝由Save负责。",
+        "D": "push与restore共享容量合同但写入/归一语义不同，保留两函数；不额外复制或合并为模式helper。",
+        "E": "7例补trim、非连续重复、独立100条oracle和传入快照不变，容量/反转两变异旧绿新红。",
+        "F": "入口与分支短直，字段map/text与caller命名一致；无需解释算法的噪音注释已去。",
+        "G": "保留两真实调用出口与容量常量；没有未用状态，数组裁剪无需引入环形游标层。",
+        "H": "纯入参与原地更新，无时钟或全局依赖；输入与期望分别构造。"
+      },
+      "decision": "technical review recorded; integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4e20b9dc98a6e88218e4305e80f9d6f5accc5d220d2bc8aab6868b48f61fd17a",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "main-loop→tickByMode→四模式Owner及同帧事件续跑；全局帧、sceneLoading、等待白名单/追逐同门保持。",
+        "B": "删除重复历史叙述，明确autoScript与MakeScene自动淡入不是相同白名单；event-system的对应误导句一并窄修。",
+        "C": "作为顶层编排需要GS与bus；规则/等待Owner仍在各模块，不反向引入shell或present，不另存镜像mode。",
+        "D": "不合并autoScript与自动淡入门，后者只许真实MakeScene步；两门表面相似、生命周期不同。",
+        "E": "10例保留，5个自动脚本/装载门与5个淡入/尾时序分别有业务状态断言；相邻真实菜单/事件续跑复用。",
+        "F": "w改waiting，四模式switch与同帧续跑清楚；保留必要同步时序理由而非旧版本故事。",
+        "G": "没有新增包装函数或公共出口；旧菜单注释与下游Owner说明重复部分删除。",
+        "H": "真实tick入口使用显式nowMs；mode专测每例清理全局catalog，不mock模式核心。"
+      },
+      "decision": "technical review recorded; integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.ts",
+      "sha256": "777bae3bf97dca98ee58ec8ca73a45fe784105028571a9d551c689f62ba8ea1e",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "复用core-comment-audit原C/六反控，全文核Confirm caller；near0..2/normal0..8/far0..12及格子/半格、首命中规则保持。",
+        "B": "模块头只称纯坐标/候选选择，脚本/转向/模式交scene-system；不再冒称独立helper完成PAL_Search全流程。",
+        "C": "仅接收NPC/朝向/坐标，返回原NPC；不写GS或启动事件，组织边界保持。",
+        "D": "搜索格子语义区别于碰撞像素，不与其它位置判定合并；阈值不是距离排序。",
+        "E": "12例逐例核独立坐标/边界/首命中oracle；未变测试复用既有六旧绿新单红，不为未改代码重跑全部变异。",
+        "F": "两层有限循环与面向方向偏移可读；CC是读域线索，未为降低指标拆成小包装。",
+        "G": "删除未用私有_DIR_WEST；四方向映射仍完整，无公共API变化。",
+        "H": "纯函数，可用固定合法坐标/NPC直接观察；测试不执行虚构L_X脚本，不把标签当剧情信用。"
+      },
+      "decision": "technical review recorded; integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "role→party slot保持；Wear现在顺序保留全部低级毒/脚本续点并清尾。原盘真实指令、原C函数片段、正式两红后绿支持获批边界。",
+        "B": "明确TS扫16槽与全槽去重的有意偏离，不再把首空槽行为或等价性说成待实现/已完全对齐。",
+        "C": "本模块独占毒定义及毒槽；装备Owner只委派清理，不把排序状态复制到event或battle；同步无await。",
+        "D": "Wear过滤整理与按种类/等级治疗职责不同，不把三种清毒策略塞入布尔模式。",
+        "E": "新2例用真实装备/指令/毒入口与颜色consumer；Q06既有孔洞去重/离队/全满合同复用，三个旧slot断言精确迁移。",
+        "F": "kept明确写入前缀，单向扫描后清尾；保留清理条件，不新增回绕或共享数字框架。",
+        "G": "所有函数有真实caller；未扩展兼容层/upgrader，也没有改role键。",
+        "H": "已有同步runner是生产seam，新反例走真实runner而非次数mock；定义表/目录在专测前后清理。"
+      },
+      "decision": "review; approved Wear lifecycle fixed. Current original-catalog first-entry domain recorded; arbitrary reentrant callbacks/mod catalogs are not certified."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aff3269c2e0a67fb63add41cd85c67532d7df1f1fe524821d4554b7ccfa690af",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "唯一真实applyRawOpcode委派在event-system；复用既有逐opcode primary/caller，复活<=999/装备态、HPMP成功门、role语义保持。",
+        "B": "给playerTargets说明缺角色时空集，与状态opcode缺角色全队的差异；未为去重改变原语义。",
+        "C": "家族dispatcher只写player/equipment/inventory/poison Owner；无IO/present/async，缺省RNG仍是phase1同步Math.random。",
+        "D": "revive/poison复用已有playerTargets，输入/失败/生命周期相同；set/remove状态的不同默认不混用。",
+        "E": "四测61身份槽位保留，typed hydrate fixture、精确告警与全队成功标志false/true补强；2个指定业务反控成立。",
+        "F": "高分支复杂度来自独立opcode协议，病例局部清楚；不为指标将dispatcher改成万能策略表。",
+        "G": "没有新产品出口/参数；少两份完全相同的目标三元表达式；现有常量保留真实re-export。",
+        "H": "毒入口可注入；Math.random按非并发专测spy/restore，精确数值同时断言，不仅数次数。未引入未经批准的RNG API。"
+      },
+      "decision": "technical review recorded; integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/dialog-history.test.ts",
+      "sha256": "dd69c86aff0bdd22a8551b010c24abb381ed4064cb8f35574713108551ec64db",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "公开push/restore的7例；输入CAP不读SUT常量，输入/期望分别构造。",
+        "B": "更正环形标题，不冒称会话/浏览器读档实跑。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "容量50旧7绿/新2红，反转快照旧7绿/新1红；完整100条顺序、trim及非连续同文本保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "7例保持，容量例一一迁移标题，未删原map/空档/去重合同。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "a95b54c55de4cf03891c287cccf613b5f1181fd16053f2075e91d86384ff0b15",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "10例走真实event/mode，合法wait cursor、nowMs、palette输入；两种字幕顺序和尾帧分别观察。",
+        "B": "保留必要时间单位；palette用显式tuple返回类型替代断言。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "五gate与五fade/tail的触发/等待条件不同，两个一夜过去例分别防提前淡入和尾帧被吃，保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "10例无增删；新增每例catalog teardown，无生产状态fake。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "12例全文复用已修正的原C边界、13坐标与真实Confirm相邻链。",
+        "B": "未改测试，旧错误阈值说明已在既有core-comment-audit撤回。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "阈值内/外、隐藏/自动触碰排除、far末端与first-cell优先分别可判别；不声称覆盖全部朝向/同点竞争。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "不为质量计数堆例；余方向/同点缺口作为现有证据边界，未强删既有不同输入轴。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test.ts",
+      "sha256": "acdbc63a5aca4b0f88903549da86d65c864e0e1748c9b4c0a0619ccf4606d57a",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "6例公开玩家族；改用loadDefaultGame构造完整六角色基线。",
+        "B": "升级标题七随机更正为六随机/七属性；不再在此标题声称未断言的cap。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "ownership结构约束加实际HPMP/装备/毒同步/升级/法术状态，状态结果不是仅mock次数。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "6身份槽位不变；main概览与专项不同状态/入口不作全文件重复删减。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "sha256": "aae6743db5317e0e395f0a3cc0b42d8183e95455f0e8b4477a46014ecf926421",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "8例具体解毒/指定槽/保留族/非法槽；构造已初始化GS。",
+        "B": "去陈旧全仓零覆盖宣称，CureByLevel不再错引ByLevel查询函数。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "非法槽精确两条消息+参数+数量及GS零变异，另外三种no-op是不同opcode成员。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "8例保持，无ignore；没有只收两次warn就当符合指定拒绝的验收。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "sha256": "ee3754bd43750893e9dd1f2b3c465ca97ddf645d10462a48801f60ff1aa1001c",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "41例全文；合法默认hydrate，两个显式损坏输入只证缺Exp/空魔法表的防御，不授原盘路径。",
+        "B": "同物重装标题限装备行/背包，随机成长改为可复现精确数值。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "缺角色拒绝核完整前后GS和具体消息；七属性cap、18抽/三次升级真实结果。错告警变异旧41绿/新1红。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "41例保持；未将有限状态测试扩成新产品行为；全仓诊断不能据mock count豁免。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "sha256": "e3d61119342fae5e100a7fb5a3e38b10bdb4e6050ad2d8572094076f6597e34f",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "6例公开target/效果/HPMP与毒查询；真实状态数值及合法阈值。",
+        "B": "去行号和零覆盖宣称；无装备效果fixture明确为公开0x17组合，不声称原盘剧情。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "全队MP/HPMP先false后true，强制写true变异旧6绿/新2红；生死/钳顶、全空不写标志均保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "6例保持，不增加弱例；与单体成功规则不同。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+      "sha256": "f83938b78e5dad45bd367f132b2a7a3cf7ec24a4667f9cd8df878fd0d723bd15",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "2个正式反例，原盘入口紧凑投影+真实runEquipScript/applyPlayerOpcode/entry/face-color，party=[2,0]。",
+        "B": "明确compact label→ip非原盘物理下标，未声称画面像素/浏览器已验。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "修前颜色64≠33和孔洞后有效毒未前移两条AssertionError；修后保留次序、脚本续点、另一队伍槽、HPMP与回包。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "仅新2例；去重/离队/full-cap复用Q06，不新增第三条重复dedup测试。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; scoped evidence recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/status-poison-equip.glm-q.test.ts",
+      "sha256": "f18699682177468ad9b2c345da61ccd7b6c0974605b574d2eed3e6d19f29cac0",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "全文读，16例现有离队/毒叶/装备getter；本轮只迁移Wear低级毒位置及续点。",
+        "B": "已有旧caller/缺定义fixture标签按原测试边界，不据其称原盘资源证明。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "现有孔洞全槽去重、runner返回、离队、满16槽等不同叶合同保留。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "只改2个预期packet；其余夹具和例数未借相邻通过重签。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review delta only; no new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.test.ts",
+      "sha256": "521df881ac8d5429f298a9c686381aa9ed35a63210b2bd4fce92de6c34c83109",
+      "readScope": "full file; cases and fixture/caller/oracle reviewed",
+      "dimensions": {
+        "A": "全文读，当前scope只迁移真实Wear代理的2个packet预期，补script字段。",
+        "B": "修正shared.json过时说明及直接写属性冒称完整swap；当前使用正式hydrate，各例统一清理目录/毒表/mock。",
+        "C": "测试端构造/变更自己持有的GS或数组；无生产Owner镜像回写，跨入口作用以公开状态观察。",
+        "D": "同主题先比较实际输入、目标、失败与生命周期；本轮未按文件名/覆盖率强删未知用例；具体重叠取舍见E。",
+        "E": "新规则改为slot0普通毒+原script，slot1清零；不是删除失败断言。其它35例只作相邻执行。",
+        "F": "用例名/夹具表达正在验证的合同，错误的数量/范围宣称已在本轮改动范围纠正。",
+        "G": "36例无增删；删除重复手工清理，afterEach保证失败也释放；其它未改合同不外推到完整加载/E2E。",
+        "H": "不mock业务核心；必要环境spy/全局注入可恢复，缺陷/反控必须由业务断言失败，未新增skip或放宽类型。"
+      },
+      "decision": "review; full test read and lifecycle cleanup recorded, unified gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "sha256": "651558526481ad793272565a6335a50d0bb59d9d28dda62a3a8235b184d11083",
+      "readScope": "full implementation; caller ranges and reused primary evidence below",
+      "dimensions": {
+        "A": "公开createInitialGameState→loadDefaultGame→六完整typed角色，HP/MP与最大值自洽。",
+        "B": "说明共享基线而非共享GS实例；无生产兼容说明。",
+        "C": "测试端Owner，每次返回新GS，不改全局catalog或生产算法。",
+        "D": "六真实消费者输入/寿命相同，复用现有typed role工厂；不是为未来造万能fixture。",
+        "E": "由61专项、2生命周期及36装备合同调用；损坏字段仅在个别拒绝测试中显式覆写。",
+        "F": "freshPlayerOpcodeState命名揭示构造意图，十余行无模式布尔值。",
+        "G": "一个函数一个用途；没有额外产品API或参数。",
+        "H": "初始状态确定，新实例隔离；不依赖未跟踪原盘数据，CI可运行。"
+      },
+      "decision": "technical review recorded; integration gates deferred"
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "40171bdd3ce3617799976dba98cfe622be4bd1e9fb6f71b611d6eee99cfc125c",
+      "readScope": "scoped dispatch3535, poisonEntry3205, autoFade693, history2139; only comment delta this window"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad",
+      "readScope": "removeEquipmentEffect full function and its delegate; full earlier owner evidence reused"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288",
+      "readScope": "runEquipScriptSync/updateAllEquipments/runEquipScript ownership; full source read this window"
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f",
+      "readScope": "existing 11-case owner evidence reused; complete changed Wear case read; only2 packet expectations changed"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "readScope": "public ctor/hydrate; previous full proof reused"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1",
+      "readScope": "full current module read"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "edd6df17ec3d86202b9a07fe1287005ae46b7b7675d1187f0a1bd8e97d7a62ae",
+      "readScope": "Confirm search actual caller; prior full source evidence reused"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "readScope": "loadGameFromSlot1650-1712, global events1185-1198; prior full source evidence reused"
+    },
+    {
+      "path": "packages/game/src/present/player-info-box.ts",
+      "sha256": "13167b4e3188bda871356971ef38d9fd1ae8281f602e0ff9845b912de177c73d",
+      "readScope": "computePlayerFaceColor current function; earlier full source evidence reused"
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+      "readScope": "makeRole factory; not whole harness quality acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c1cd2ecced440507aace6a5928393e5209c7e3e7c49888dc543322b3475bb6e1",
+      "readScope": "player poison tick2974-3016; earlier owner evidence reused"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "readScope": "full API, loadSlot deep clone boundary"
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "readScope": "full Wear/Add/Cure function fragments1372-1614 and LevelUp2347-2409"
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "readScope": "GameUpdate169-243 and search362-510; existing C counter reused"
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "readScope": "exact color selector111-141, read selected range"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "readScope": "prior3p opcode primary reused; no complete original executable claim"
+    }
+  ],
+  "externalAssets": [
+    {
+      "path": "data/extracted/events/all.json",
+      "sha256": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885",
+      "readScope": "read-only extracted catalog; never generated/modified by this batch"
+    },
+    {
+      "path": "data/extracted/data/object-poisons.json",
+      "sha256": "9a16d16817405b7a2a368bc6f36e48935a78c7d10e95ed715dcf2fff231f6722",
+      "readScope": "read-only extracted catalog; never generated/modified by this batch"
+    },
+    {
+      "path": "data/extracted/data/items.json",
+      "sha256": "01c822f956608c7fff7e73b31896a45f242f585b6a59d31e3a7fdd317a88dc51",
+      "readScope": "read-only extracted catalog; never generated/modified by this batch"
+    }
+  ],
+  "reuse": [
+    "3o-mode-history-poison-search/README.md",
+    "core-comment-audit/README.md",
+    "3p-event-opcode-player/README.md",
+    "battle-core-fade-quality/README.md"
+  ],
+  "rawArchive": {
+    "path": "receipts.json.gz",
+    "sha256": "490b4db5504916725df5caf203cfea738dd65b3aa1477c999db82fd46a519117",
+    "bytes": 380462,
+    "entries": 147
+  },
+  "unifiedGates": "DEFERRED until ALL remaining pre94 technically resolved; no whole check/coverage/protected/PR run",
+  "knownLimits": [
+    "No browser/pixel acceptance; face-color public calculation only. Native exact C functions use minimal structs and identity entry-script stub, not full SDLPal engine/HP simulation.",
+    "3m extreme dex domain, broader3q/3r/3s/3t and other pre94 cards remain partial; no94-102 expansion.",
+    "Arbitrary poison callback reentry/mod catalogs are not certified; current raw0x29 initial-entry domain is separately enumerated. Equip test header/hydrate/cleanup were repaired in a separate test-only commit.",
+    "No test case retired; counts7/10/12 and opcode61 retained, two new business cases only. Coverage not collected."
+  ],
+  "processDisclosures": [
+    "Initial baseline id is first current history-green, not the old test baseline; old history byte-oracle is f152 test in each counter old run.",
+    "First raw catalog inspection assumed commands root rather than segments; corrected before any product action. OBJECT poison-view173 nonzero-script rows are not all player poisons: actual literal0x29 ids are12 and their initial raw segments are frozen separately.",
+    "Initial TS probe attempted to import private applyRawOpcode and TypeErrored; corrected to public applyPlayerOpcode seam. This infrastructure failure is not a product red.",
+    "First poison adjacent485/486 with one obsolete Wear oracle in equip-effect.test; full file read, exact packet expectations migrated under approval, raw retained.",
+    "First continuity verifier compared TypeScript printer formatting, so a harmless line-wrap caused failure. The final verifier compares printed/reparsed concrete token trees, preserving string/template content; first raw retained. Missing parent navigation was fixed separately. Neither was a product red.",
+    "Final static receipt arrays initially used Python multiline JSON formatting, which scoped Biome rejected. The formatting failure is retained; formatting only was repaired, without changing business tests or rules."
+  ],
+  "behaviorCommit": "b51af7ea25b038259c6f55c7a4f720a349ecaadf",
+  "testCleanupCommit": "016b6b8f5d58d91f9a1fe04f292cfa310220d4fd",
+  "quantitativeScreen": {
+    "scope": "Current selected implementations only; exact printed blocks >=3 statements/150chars; syntactic estimate counts if/ternary/loops/case/catch/logical operators, NOT an acceptance metric. No threshold-driven rewriting.",
+    "hotspots": [
+      {
+        "path": "packages/game/src/core/mode.ts",
+        "function": "tickByMode",
+        "line": 19,
+        "syntacticDecisionEstimate": 14
+      },
+      {
+        "path": "packages/game/src/core/scene-system-search.ts",
+        "function": "findSearchableNpc",
+        "line": 68,
+        "syntacticDecisionEstimate": 14
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.ts",
+        "function": "applyPlayerOpcode",
+        "line": 57,
+        "syntacticDecisionEstimate": 130
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.ts",
+        "function": "applyHPMPDelta",
+        "line": 327,
+        "syntacticDecisionEstimate": 14
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.ts",
+        "function": "playerLevelUp",
+        "line": 365,
+        "syntacticDecisionEstimate": 16
+      }
+    ],
+    "duplicateCandidates": [],
+    "interpretation": "Dispatcher/search/mode branches were read against their protocol; target duplication refactored, distinct status defaults and fade gates intentionally retained."
+  },
+  "versions": {
+    "node": "v22.23.2",
+    "pnpm": "10.29.2",
+    "typescript": "6.0.3",
+    "vitest": "4.1.7"
+  },
+  "staticGates": [
+    {
+      "id": "docs-final",
+      "command": ["pnpm", "check:docs"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "completeRawStdoutAndStderr": true
+    },
+    {
+      "id": "lint-final",
+      "command": ["pnpm", "lint"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "completeRawStdoutAndStderr": true
+    },
+    {
+      "id": "typecheck-final",
+      "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "completeRawStdoutAndStderr": true
+    },
+    {
+      "id": "ledger-final",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "completeRawStdoutAndStderr": true
+    }
+  ],
+  "diagnostics": {
+    "lint": {
+      "files": 5970,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "docsIssues": 0,
+    "gameTypecheck": 0,
+    "successfulSelectedVitestVisibleConsoleBlocks": 0,
+    "note": "Explicit default reporter; expected rejection diagnostics are asserted messages, not claimed as uncaptured raw diagnostics."
+  },
+  "ledger": {
+    "tracked": 3414,
+    "closed": 415,
+    "review": 108,
+    "pending": 2891,
+    "newClosed": 0,
+    "withdrawnWeakClosures": 2,
+    "pre94Accept": 67,
+    "pre94Partial": 16,
+    "pre94Pending": 0
+  }
+}

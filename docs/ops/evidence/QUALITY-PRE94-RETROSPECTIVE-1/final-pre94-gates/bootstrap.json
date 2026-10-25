@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-25",
+  "owner": "Codex single owner; publication cleanup in existing pre94/3y scope",
+  "base": "b4f5465eae4325c56a293e645ef81e451751807a",
+  "initialRun": {
+    "docs": 40157784902,
+    "head": "b4f5465eae4325c56a293e645ef81e451751807a",
+    "projectAnnotations": 0,
+    "runnerBootstrapWarnings": 1,
+    "claim": "Original Actions success with one real pnpm installer WARN, not zero-diagnostic whole log."
+  },
+  "cause": {
+    "source": "https://github.com/pnpm/action-setup/blob/ea17c68df8912ef543352723c149a84f56e3d413/src/install-pnpm/run.ts",
+    "bootstrapVersion": "11.25.0",
+    "targetVersion": "10.29.2",
+    "fact": "Pinned Action npm-ci installs pnpm11.25.0, then self-update installs target10.29.2 into an old-style PNPM_HOME and emits the layout warning. Changing only dest cannot fix that sequence; no speculative dest patch applied."
+  },
+  "files": [
+    {
+      "path": ".github/workflows/docs.yml",
+      "beforeSha256": "d3fc5b917d0bd7ca3c6e053e539c6cc1e3f823cab8ee51f3e0411bbdc320b668",
+      "sha256": "4c8cf4be64178b9571d7e131f879dc456ef8ac64b444b8e1334cec6fb118f55b",
+      "proof": "Exact whole-file replacement of one installer step and setup-node cache-key inputs only. All existing versions, permissions, test/type/lint/docs/protected commands, conditions, timeout and artifacts unchanged.",
+      "dimensions": {
+        "A": "Both complete workflows read. Exact whole-file proof allows only installer substitution and cache-key inputs; all versions/protected/static/test commands, permissions, conditions, timeouts and artifacts retained. Official Action source and actual runner log establish bootstrap11→target10 warning.",
+        "B": "One cache comment explains why workflow bytes join lockfile key; initial runner warning explicitly recorded, no zero-log claim for old CI.",
+        "C": "Pinned pnpm installed only in owned RUNNER_TEMP; PATH published through existing runner protocol. Store remains owned by pnpm, cache by setup-node, runner tears down tool directory; no product/global install.",
+        "D": "Three existing Node24 Actions remain pinned. Direct identical two-command install is kept in two independent workflows; no unnecessary composite layer or version-manager fallback.",
+        "E": "Executed exact script extracted from YAML, verified GITHUB_PATH and real10.29.2 binary; store/v10 observed, no stderr. Whole-file literal comparison proves remaining gate text unchanged.47 quality-tool tests pass; remote runner is final oracle for cache/platform execution.",
+        "F": "Step names actual pinned-install intent; two commands and explicit cache inputs expose path/version ownership.",
+        "G": "Remove pnpm11 bootstrap and version switch rather than suppress warning; no ignore/exclude/log filter, no product code/tests/predicate change. No local full or coverage rerun.",
+        "H": "Input script, package-lock integrity, raw execution, old service log and pinned upstream source all available. New remote CI remains pending until actual result."
+      }
+    },
+    {
+      "path": ".github/workflows/coverage.yml",
+      "beforeSha256": "1d1f3e4cf81fbce839a4c7b7c7536497daff82eaa7a8052150f78cee376aa05f",
+      "sha256": "2746a33f69ba9b2b6772629f8a47324ad566a3d5dc8ed2056fa0242a774bc480",
+      "proof": "Exact whole-file replacement of one installer step and setup-node cache-key inputs only. All existing versions, permissions, test/type/lint/docs/protected commands, conditions, timeout and artifacts unchanged.",
+      "dimensions": {
+        "A": "Both complete workflows read. Exact whole-file proof allows only installer substitution and cache-key inputs; all versions/protected/static/test commands, permissions, conditions, timeouts and artifacts retained. Official Action source and actual runner log establish bootstrap11→target10 warning.",
+        "B": "One cache comment explains why workflow bytes join lockfile key; initial runner warning explicitly recorded, no zero-log claim for old CI.",
+        "C": "Pinned pnpm installed only in owned RUNNER_TEMP; PATH published through existing runner protocol. Store remains owned by pnpm, cache by setup-node, runner tears down tool directory; no product/global install.",
+        "D": "Three existing Node24 Actions remain pinned. Direct identical two-command install is kept in two independent workflows; no unnecessary composite layer or version-manager fallback.",
+        "E": "Executed exact script extracted from YAML, verified GITHUB_PATH and real10.29.2 binary; store/v10 observed, no stderr. Whole-file literal comparison proves remaining gate text unchanged.47 quality-tool tests pass; remote runner is final oracle for cache/platform execution.",
+        "F": "Step names actual pinned-install intent; two commands and explicit cache inputs expose path/version ownership.",
+        "G": "Remove pnpm11 bootstrap and version switch rather than suppress warning; no ignore/exclude/log filter, no product code/tests/predicate change. No local full or coverage rerun.",
+        "H": "Input script, package-lock integrity, raw execution, old service log and pinned upstream source all available. New remote CI remains pending until actual result."
+      }
+    }
+  ],
+  "wholeFileProof": {
+    "base": "b4f5465eae4325c56a293e645ef81e451751807a",
+    "files": [
+      {
+        "path": ".github/workflows/docs.yml",
+        "beforeSha256": "d3fc5b917d0bd7ca3c6e053e539c6cc1e3f823cab8ee51f3e0411bbdc320b668",
+        "sha256": "4c8cf4be64178b9571d7e131f879dc456ef8ac64b444b8e1334cec6fb118f55b",
+        "proof": "Exact whole-file replacement of one installer step and setup-node cache-key inputs only. All existing versions, permissions, test/type/lint/docs/protected commands, conditions, timeout and artifacts unchanged."
+      },
+      {
+        "path": ".github/workflows/coverage.yml",
+        "beforeSha256": "1d1f3e4cf81fbce839a4c7b7c7536497daff82eaa7a8052150f78cee376aa05f",
+        "sha256": "2746a33f69ba9b2b6772629f8a47324ad566a3d5dc8ed2056fa0242a774bc480",
+        "proof": "Exact whole-file replacement of one installer step and setup-node cache-key inputs only. All existing versions, permissions, test/type/lint/docs/protected commands, conditions, timeout and artifacts unchanged."
+      }
+    ],
+    "scriptSha256": "ec8960d2dafe91d54b3ac9e7ff45b5392565cc4891ddbe84e28f63d0a64e9d6e",
+    "cacheReason": "Old Action PNPM_HOME placed store at ~/setup-pnpm/node_modules/.bin/store/v10. Direct target installation uses normal default store. Include both workflows with lockfile in shared cache key so old absolute-path cache cannot masquerade as the new store. Cache changes do not alter test/coverage scope."
+  },
+  "receipts": {
+    "path": "bootstrap-receipts.json.gz",
+    "sha256": "c434d8bd72a90a4325d338afeaf562fea3334d6f91a7507c20ce5d6dbe17e3a6",
+    "members": 50
+  },
+  "tests": {
+    "actualScript": "workflow-bootstrap-r2",
+    "version": "10.29.2",
+    "store": "v10",
+    "stderrBytes": 0,
+    "qualityTools": 47,
+    "notRun": ["local full check", "second local official coverage"],
+    "remote": "New same-PR CI required; not yet claimed warning-free."
+  },
+  "failureDisclosure": "First extracted-script command mistakenly invoked a nonexistent local run-script.cjs instead of bash; exit1 before bootstrap/product execution, no failure-test credit. Exact corrected bash execution exit0 preserved; initial missing-helper raw retained.",
+  "preserved": "All product/test/config5879 frozen inputs unchanged; only CI bootstrap/cache paths and publication evidence changed. Initial project check/official results remain version-bound, not rebranded.",
+  "finalStatic": {
+    "id": "bootstrap-static",
+    "command": "bash",
+    "args": [
+      "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "start": "2026-10-25T03:33:59.405Z",
+    "end": "2026-10-25T03:34:11.260Z",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "head": "b4f5465eae4325c56a293e645ef81e451751807a",
+    "observerTimeout": false,
+    "stdoutBytes": 9369,
+    "stderrBytes": 0
+  }
+}

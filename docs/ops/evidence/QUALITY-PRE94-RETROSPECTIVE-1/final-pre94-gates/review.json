@@ -1,0 +1,939 @@
+{
+  "date": "2026-10-25",
+  "scope": "Single pre94 final gate window; original83 code scopes only; no94-102",
+  "codeFreeze": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+  "firstCheck": {
+    "id": "full-check",
+    "exit": 1,
+    "claim": "NOT PASS; one stale dialog PAL-vs-author identity assertion, all raw retained"
+  },
+  "followup": {
+    "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+    "sha256": "564e9ec506c02ac82d217a0fb4c1ed9ad09e631864aa7720d9a3a24571173f79",
+    "baseSha256": "f6c00cd4c2b182c1326e5935a7fa0969b76ccd885a03b5d2320667d48ed1a3b8",
+    "dimensions": {
+      "A": "全文13例及真实loadDialogAssets/共享PAL转发/合法host夹具核过；G02-D11由旧canonical identity改PAL，新增排除author入口。其它12个像素/编号/两路失败合同不变。",
+      "B": "头部“真实chunk”纠正为手列合法字节+真实decoder，避免把fixture说成原盘；标题明确PAL与author边界。",
+      "C": "每例拥有fetch stub/PNG/expectedWarnings；afterEach finally恢复globals/mocks，未改生产加载器或增加跨层状态。",
+      "D": "复用legal-host的有效PNG和容器；新的两源身份与shared四格式合同互补，未造万能fixture。",
+      "E": "全仓真实失败指向G02-D11精确toBe；修后13/13。保留身份数和全部像素/失败断言，新增not canonical而非删除或弱化。warn的所有参数/次数在afterEach精确排序核对，非吞日志。",
+      "F": "import按PAL/author命名，one-case two-domain boundary清楚；其余直接值+URL/map结果不改。",
+      "G": "13例无新增/skip/only，旧基础base64与loader边界保留；此次只修已失效接线及错误注释，不开展新任务。",
+      "H": "真实decoder/PNG参与，依赖仅IO stub控制；同一shared入口对象可直接观察，候选source unchanged。"
+    },
+    "result": "13/13,0stderr",
+    "identityMapping": {
+      "before": "G02-D11 对话图标的 parseSpriteChunk 入口就是 shared 的同一函数",
+      "after": "G02-D11 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口",
+      "countChange": 0
+    }
+  },
+  "state": "Original83 code scopes accepted; local single-worker51-case/TC/inventory evidence and strict metadata-only scope ratchet recorded; current full remote CI pending after preserved5000ms failure.",
+  "fixed83": {
+    "accept": 83,
+    "partial": 0,
+    "pending": 0
+  },
+  "counts": {
+    "total": 3452,
+    "closed": 511,
+    "review": 63,
+    "pending": 2878
+  },
+  "wholeCheck": {
+    "receipt": "full-check-r2",
+    "execution": {
+      "id": "full-check-r2",
+      "command": "pnpm",
+      "args": ["check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T02:24:07.258Z",
+      "end": "2026-10-25T02:39:50.084Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 380445,
+      "stderrBytes": 0
+    },
+    "packageTests": {
+      "content": 1498,
+      "shared": 118,
+      "game": 3808,
+      "pal-extract": 512,
+      "reforge": 8991,
+      "editor": 4951,
+      "migrate": 739
+    },
+    "totalPackageTests": 20617,
+    "toolSuiteCounts": [125, 115, 47, 399, 22],
+    "totalToolTests": 708,
+    "typechecks": "all seven packages plus editor author-scripts",
+    "runtimeStderrSections": 0,
+    "stderrBytes": 0,
+    "lint": {
+      "files": 6100,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "claim": "Actual pnpm check exit0. First failure preserved; not rebranded."
+  },
+  "officialCoverage": {
+    "execution": {
+      "id": "official-coverage",
+      "command": "pnpm",
+      "args": ["coverage:ratchet"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T02:43:42.894Z",
+      "end": "2026-10-25T02:53:25.612Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 210824,
+      "stderrBytes": 296
+    },
+    "collections": 1,
+    "sourceFiles": 807,
+    "tests": 20180,
+    "byPackage": {
+      "shared": {
+        "tests": 118,
+        "sources": 12,
+        "metrics": {
+          "statements": {
+            "covered": 468,
+            "total": 475
+          },
+          "branches": {
+            "covered": 218,
+            "total": 227
+          },
+          "functions": {
+            "covered": 31,
+            "total": 31
+          },
+          "lines": {
+            "covered": 419,
+            "total": 421
+          }
+        }
+      },
+      "content": {
+        "tests": 1498,
+        "sources": 56,
+        "metrics": {
+          "statements": {
+            "covered": 5668,
+            "total": 5878
+          },
+          "branches": {
+            "covered": 4827,
+            "total": 5129
+          },
+          "functions": {
+            "covered": 811,
+            "total": 827
+          },
+          "lines": {
+            "covered": 5061,
+            "total": 5199
+          }
+        }
+      },
+      "pal-extract": {
+        "tests": 363,
+        "sources": 55,
+        "metrics": {
+          "statements": {
+            "covered": 1350,
+            "total": 1782
+          },
+          "branches": {
+            "covered": 648,
+            "total": 761
+          },
+          "functions": {
+            "covered": 133,
+            "total": 190
+          },
+          "lines": {
+            "covered": 1186,
+            "total": 1567
+          }
+        }
+      },
+      "migrate": {
+        "tests": 671,
+        "sources": 38,
+        "metrics": {
+          "statements": {
+            "covered": 2345,
+            "total": 2592
+          },
+          "branches": {
+            "covered": 1622,
+            "total": 1787
+          },
+          "functions": {
+            "covered": 385,
+            "total": 410
+          },
+          "lines": {
+            "covered": 2057,
+            "total": 2266
+          }
+        }
+      },
+      "reforge": {
+        "tests": 8991,
+        "sources": 158,
+        "metrics": {
+          "statements": {
+            "covered": 17027,
+            "total": 18878
+          },
+          "branches": {
+            "covered": 10821,
+            "total": 13095
+          },
+          "functions": {
+            "covered": 2774,
+            "total": 3073
+          },
+          "lines": {
+            "covered": 15237,
+            "total": 16471
+          }
+        }
+      },
+      "game": {
+        "tests": 3758,
+        "sources": 194,
+        "metrics": {
+          "statements": {
+            "covered": 15432,
+            "total": 17106
+          },
+          "branches": {
+            "covered": 9914,
+            "total": 12247
+          },
+          "functions": {
+            "covered": 1869,
+            "total": 2153
+          },
+          "lines": {
+            "covered": 13766,
+            "total": 15000
+          }
+        }
+      },
+      "editor": {
+        "tests": 4781,
+        "sources": 294,
+        "metrics": {
+          "statements": {
+            "covered": 30525,
+            "total": 33836
+          },
+          "branches": {
+            "covered": 24579,
+            "total": 29437
+          },
+          "functions": {
+            "covered": 7769,
+            "total": 8662
+          },
+          "lines": {
+            "covered": 27309,
+            "total": 29561
+          }
+        }
+      }
+    },
+    "runtimeStderrSections": 0,
+    "stderrClassification": "296 exact bytes are coverage-policy rejection only; no hidden act/environment/runtime diagnostics. Original pnpm coverage:ratchet exit1 is NOT reported as exit0.",
+    "sameReport": {
+      "ratchet": {
+        "id": "ratchet-same-report",
+        "command": "node",
+        "args": [
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/replay-current-official.mjs",
+          "fast",
+          "--ratchet",
+          "--allow-scope-removal"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T03:10:01.372Z",
+        "end": "2026-10-25T03:10:01.662Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+        "observerTimeout": false,
+        "stdoutBytes": 243,
+        "stderrBytes": 0
+      },
+      "protected": {
+        "id": "protected-same-report",
+        "command": "node",
+        "args": [
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/replay-current-official.mjs",
+          "fast"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T03:10:06.821Z",
+        "end": "2026-10-25T03:10:06.938Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+        "observerTimeout": false,
+        "stdoutBytes": 891,
+        "stderrBytes": 0
+      },
+      "protectedBase": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+      "strategy": "Exact final main comparison/write tail and13 helpers of unchanged official run.mjs; only collection substituted with reading the single completed official summary. Full helper/tail/generated hashes in replay-proof.json; no comparator, scope or threshold weakened."
+    }
+  },
+  "coverageToolRetest": {
+    "execution": {
+      "id": "coverage-tools-final",
+      "command": "pnpm",
+      "args": ["test:coverage-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:09:55.131Z",
+      "end": "2026-10-25T03:09:58.232Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 26522,
+      "stderrBytes": 0
+    },
+    "tests": 117,
+    "reason": "Two exact retirement data entries add two generated registry checks; original115 full-check tooling remains historical. Predicate code unchanged."
+  },
+  "policyFileReview": {
+    "files": [
+      {
+        "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+        "sha256": "5431f75699e1c2997fcb30ea1ef567e13d5a284e7b31f298b94183d80e6e6c4c",
+        "dimensions": {
+          "A": "Only finite approval data/count expectations; exact old baseline/source/identity guards retained; same-report ratchet/protected executed.",
+          "B": "Per-entry authority/evidence stated; no blanket authorization or clean-pass claim for original failure.",
+          "C": "Data held in existing registries, ownership/comparison stays with unchanged official runner.",
+          "D": "Existing strict migration/retirement mechanism reused; no tolerance flag or second policy.",
+          "E": "Strong generic rejection/immutability tests retained; actual117 tooling tests pass; two rows receive generated exact snapshot tests.",
+          "F": "Named finite adjustment and explicit before/after counts; nine-file matrix explains numerator/denominator changes.",
+          "G": "No dead source/test restored, no new runtime product code, scope/predicates unchanged.",
+          "H": "Existing injected-source generic tests and frozen official/native evidence directly verify exact data; no hidden IO."
+        }
+      },
+      {
+        "path": "scripts/coverage/approved-test-retirements.mjs",
+        "sha256": "1fba6c83a9867a411fc674ae304bf623bd9cee5ad91a893cee6fa4f2941fbb31",
+        "dimensions": {
+          "A": "Only finite approval data/count expectations; exact old baseline/source/identity guards retained; same-report ratchet/protected executed.",
+          "B": "Per-entry authority/evidence stated; no blanket authorization or clean-pass claim for original failure.",
+          "C": "Data held in existing registries, ownership/comparison stays with unchanged official runner.",
+          "D": "Existing strict migration/retirement mechanism reused; no tolerance flag or second policy.",
+          "E": "Strong generic rejection/immutability tests retained; actual117 tooling tests pass; two rows receive generated exact snapshot tests.",
+          "F": "Named finite adjustment and explicit before/after counts; nine-file matrix explains numerator/denominator changes.",
+          "G": "No dead source/test restored, no new runtime product code, scope/predicates unchanged.",
+          "H": "Existing injected-source generic tests and frozen official/native evidence directly verify exact data; no hidden IO."
+        }
+      },
+      {
+        "path": "scripts/coverage/approved-test-retirements.test.mjs",
+        "sha256": "64de9aaf6a336a731c4478ce471fd085725d933608c1954197d1048726293582",
+        "dimensions": {
+          "A": "Only finite approval data/count expectations; exact old baseline/source/identity guards retained; same-report ratchet/protected executed.",
+          "B": "Per-entry authority/evidence stated; no blanket authorization or clean-pass claim for original failure.",
+          "C": "Data held in existing registries, ownership/comparison stays with unchanged official runner.",
+          "D": "Existing strict migration/retirement mechanism reused; no tolerance flag or second policy.",
+          "E": "Strong generic rejection/immutability tests retained; actual117 tooling tests pass; two rows receive generated exact snapshot tests.",
+          "F": "Named finite adjustment and explicit before/after counts; nine-file matrix explains numerator/denominator changes.",
+          "G": "No dead source/test restored, no new runtime product code, scope/predicates unchanged.",
+          "H": "Existing injected-source generic tests and frozen official/native evidence directly verify exact data; no hidden IO."
+        }
+      }
+    ]
+  },
+  "policyPins": [
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "5431f75699e1c2997fcb30ea1ef567e13d5a284e7b31f298b94183d80e6e6c4c"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "1fba6c83a9867a411fc674ae304bf623bd9cee5ad91a893cee6fa4f2941fbb31"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "64de9aaf6a336a731c4478ce471fd085725d933608c1954197d1048726293582"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "b7f329c01ddcfcf96c1067c69f8dd478c885e6f06e58a5c4e4ebb953ad222e95"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+    },
+    {
+      "path": "scripts/coverage/protected-baseline.mjs",
+      "sha256": "a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2"
+    },
+    {
+      "path": "scripts/coverage/config.test.mjs",
+      "sha256": "6f8f6b084ebe37406aba30610b0edb68bbee13c2149fdd0e7b6f4a59419dad82"
+    }
+  ],
+  "sourceInputs": {
+    "member": "collection-inputs.json",
+    "sha256": "87d8caca04c48b185012bbc4deb7be05667b56fc4179aa88e4ad663bfadaa60e",
+    "files": 5879,
+    "claim": "Original frozen input snapshot. Current differences are limited by workerBudget/serialCI exact whole-file bridges; real remote results require their own receipts.",
+    "currentValidation": "5878 original byte matches + one exact Vite maxWorkers2→1/comment bridge. Original whole check/coverage were2worker; no new full local run claimed."
+  },
+  "receipts": {
+    "path": "final-receipts.json.gz",
+    "sha256": "2846af013663363c1e68d5e332472d154450afa58ef2a733350c07a899876f98",
+    "members": 64
+  },
+  "remaining": {
+    "integration": "Create one PR, validate remote Documentation/Coverage on exact candidate, merge normally only on clean required checks; no direct main push.",
+    "repository": "63 review and2878 pending outside closed original83 finite scopes remain; migrate broad files and sprite extra public wrapper are not force-closed.",
+    "productBoundaries": "TS extreme dex/haste retained as explicit deviation; other source/per-format policies in approved-boundaries and PAL-source evidence. No94-102."
+  },
+  "processDisclosures": [
+    "First full check exit1 was stale PAL-versus-author test identity; exact13-test repair committed, complete rerun exit0 retained.",
+    "First official coverage collection completed all20180 tests but exit1 rejected exact structural ratios; untouched original stderr retained. Finite approved recount plus exact same-report comparison/protection passed; no recollection.",
+    "Historical status/cross-module retirement digests used JSON-reporter space-separated fullName instead of official list ancestor > leaf. Old native assertion components equal current official identities; status byte drift is one comment only. Prior mistakes remain in Git/old evidence, replaced only current exact fields.",
+    "Recount producer first asserted native and list fullName byte equality and correctly failed on their separator difference before registry writes. Initial failure reproduced as recount-producer-initial raw; final producer builds names from exact ancestorTitles/title fields and succeeds. Initial tool-call-only stream not separately saved; retained reproduction is labelled.",
+    "Initial read-only scope audit used nonexistent audit.removed rather than actual removals and failed before writes; corrected against actual API. No test failure or product credit.",
+    "Normal stdout includes progress logs; zero diagnostic claim is checked diagnostic categories and full stderr, not empty stdout.",
+    "Post-publication docs-first static check found one current governance-audit after-SHA drift. Original exit1/stdout/stderr retained as docs-final; only owned governance row plus its parent projections updated, docs-final-r2 actualexit0/0stderr. No indiscriminate SHA refresh."
+  ],
+  "evidenceTool": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs",
+    "sha256": "f9330373125a6e23220aba36856a0879f27c02d65846c832e40262e082a842cb",
+    "dimensions": {
+      "A": "Complete verifier and incremental bridge dispatch read;5876 exact frozen inputs, two worker configuration bridges and one comment-only source bridge, plus exact workflow resource changes. No semantic or new remote execution certification.",
+      "B": "Success message limits MATCH to frozen identity/recorded outcomes; original failure remains failure. No unqualified all-quality certification.",
+      "C": "Only local readFileSync, gzip decoding and read-only Git merge-base; no tracked/temp writes, test execution, server or network ownership.",
+      "D": "Three local read/hash/member helpers reuse archive contract; no global generic validation framework.",
+      "E": "Executed against actual frozen report and current input set; exact assertion guards are evidence consistency checks, not product business tests. No new weak runtime test or coverage gain claimed.",
+      "F": "Names describe input/report/identity checks; linear validation order and distinct stale/unavailable outputs.",
+      "G": "No source re-reading as semantic reviewer, no hidden whole-test invocation or automatic hash refresh.",
+      "H": "All expected values and input hashes exposed in review/archive; deterministic read-only exit and stdout; source/CI interpretation remains human review."
+    }
+  },
+  "finalStatic": {
+    "docs": {
+      "id": "docs-final-r2",
+      "command": "pnpm",
+      "args": ["check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:16:34.389Z",
+      "end": "2026-10-25T03:17:22.246Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 30772,
+      "stderrBytes": 0
+    },
+    "lint": {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.557Z",
+      "end": "2026-10-25T03:15:03.386Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    "ledger": {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.560Z",
+      "end": "2026-10-25T03:15:01.742Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0
+    },
+    "diff": {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.562Z",
+      "end": "2026-10-25T03:14:59.602Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    "verifier": {
+      "id": "verify-final",
+      "command": "node",
+      "args": ["docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.555Z",
+      "end": "2026-10-25T03:15:00.904Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 299,
+      "stderrBytes": 0
+    },
+    "lintFiles": 6102,
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "scope": "Post-policy/data/docs changes only; complete package source and test input freeze remains unchanged. Fullcheck115-tool run retained, updated coverage-tool117 run and docs125 run recorded separately, not accumulated as distinct business tests."
+  },
+  "bootstrap": {
+    "review": "bootstrap.json",
+    "receipts": {
+      "path": "bootstrap-receipts.json.gz",
+      "sha256": "c434d8bd72a90a4325d338afeaf562fea3334d6f91a7507c20ce5d6dbe17e3a6",
+      "members": 50
+    },
+    "files": [
+      {
+        "path": ".github/workflows/docs.yml",
+        "sha256": "4c8cf4be64178b9571d7e131f879dc456ef8ac64b444b8e1334cec6fb118f55b"
+      },
+      {
+        "path": ".github/workflows/coverage.yml",
+        "sha256": "2746a33f69ba9b2b6772629f8a47324ad566a3d5dc8ed2056fa0242a774bc480"
+      }
+    ],
+    "finalStatic": {
+      "id": "bootstrap-static",
+      "command": "bash",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:33:59.405Z",
+      "end": "2026-10-25T03:34:11.260Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b4f5465eae4325c56a293e645ef81e451751807a",
+      "observerTimeout": false,
+      "stdoutBytes": 9369,
+      "stderrBytes": 0
+    }
+  },
+  "workerBudget": {
+    "review": "worker-budget.json",
+    "receipts": {
+      "path": "worker-receipts.json.gz",
+      "sha256": "adff3b4b1ca57642584fdbcebe2c2b8f082df15fbb2ac8e233e2076b7791cb67",
+      "members": 61
+    },
+    "sourceProof": {
+      "date": "2026-10-25T04:13:35.540Z",
+      "path": "packages/reforge/vite.config.ts",
+      "base": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+      "beforeSha256": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa",
+      "sha256": "12ac702437df2a0f27732987edbe374997aa8809966c17cac387913045206f92",
+      "beforeSource": "worker-before.config.ts",
+      "replacements": [
+        {
+          "before": "  // Each real-host flow cold-loads the production graph after resetModules. Bound\n  // concurrent transforms across pnpm's parallel packages; keep default timeouts.",
+          "after": "  // Real-host flows cold-load the production graph after resetModules. One test\n  // worker avoids competing cold boots/V8 heaps on CI; keep every existing timeout."
+        },
+        {
+          "before": "test: { maxWorkers: 2 }",
+          "after": "test: { maxWorkers: 1 }"
+        }
+      ],
+      "matchedUnchangedInputs": 5878,
+      "unchangedTotalInputs": 5879,
+      "executionDigest": {
+        "before": "0e16646a8bfdccb56406d7988999c3ef74231640a483de232374e9d6b4a66b9c",
+        "after": "497250ddf5e4e2d41341f3e462bb1ac3cf6ec4eaea9804f4d3a1d7601fc6e6f5"
+      },
+      "testInventory": {
+        "testCount": 8991,
+        "files": 365,
+        "identityDigest": "51db0ef93c8841ac3bf3a0074543fabd0d9fa5437e826318c87520db3ca3a40f",
+        "comparison": "Complete official inventory except executionDigest deep-equal; no identities, selectors or counts changed."
+      },
+      "summary": {
+        "beforeSha256": "c7afdc560c56b93fc4155cbdf493855751a22958417001919f4ade472d8dff3d",
+        "afterSha256": "1d4dc57420d204bfaa7eda190302a616ce3f290a23715fd5482e4a2f9f29bcd9",
+        "mutation": "Only reforge.fastTests.executionDigest and identical selectedTests.executionDigest updated from actual official definition inventory. All measured coverage counters, source/test scopes, provider and original collection timestamp retained. Not a new measurement or claim of one-worker coverage success; new actual CI remains required."
+      },
+      "scope": "One test worker instead of two, with existing deadlines and all8991 contracts. No product or test-source change; static resource-budget mitigation, not proof of unique timeout cause."
+    },
+    "baseline": {
+      "path": "scripts/coverage/baseline.fast.json",
+      "beforeSha256": "d0e978fbb5b571bce914cc2ba1285660b9fad26fed81ed1ea5b61df6b2809a70",
+      "sha256": "75a8b347a497089d3e957f5c6009937246e2d8406db174b81f60eefc2de4fdb7",
+      "onlyChange": "packages.reforge.fastTests.executionDigest, via unchanged official ratchet writer; every measured metric/source/identity/count/provider/timestamp retained. No baseline percentage reduction and no second local official coverage collection."
+    },
+    "finalStatic": {
+      "id": "worker-static",
+      "command": "bash",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T04:19:29.797Z",
+      "end": "2026-10-25T04:19:41.289Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "5b94a978c54e5a208047ab784a22b9d6dcd32c9f",
+      "observerTimeout": false,
+      "stdoutBytes": 9414,
+      "stderrBytes": 0
+    }
+  },
+  "configContract": {
+    "base": "81dbfaf7c538828a21f4816f6c3b493ca48b3498",
+    "path": "scripts/coverage/config.test.mjs",
+    "beforeSha256": "3556b7d21b5d4a36d1a775c3fae5dbfc4ef9efc66d4748b00e9576266f723bfd",
+    "sha256": "7bab62df851c26706497aa582605ba36f678b1267d660b3e9f322adb69531cf1",
+    "receipts": {
+      "path": "config-contract-receipts.json.gz",
+      "sha256": "10bdb5df010fdc363398e00787dded2729e3c560e79f8f8152b4fcc44ffcbe7a",
+      "members": 11
+    },
+    "dimensions": {
+      "A": "Read complete config.test.mjs, config.mjs, Reforge vite.config.ts and real package.json caller. CI40161643493 rejected stale literal2, not a timeout; only expectation2→1 follows implemented worker budget.",
+      "B": "Existing test title accurately describes bounded resources without widened timeout/exclusion; no comment change.",
+      "C": "Test imports real configuration and selection function; scheduling remains owned by Reforge config.",
+      "D": "Existing strict assertion reused, no helper or shared-mode abstraction.",
+      "E": "Exact whole-object deepEqual retained; any extra timeout/exclusion still fails. Source include and runner args assertions unchanged. All4 config identities and117 tool identities retained; real CI116pass/1AssertionError followed by local117pass/0stderr.",
+      "F": "One literal follows the explicit resource budget; title remains readable.",
+      "G": "No matcher removal, weakening, exclusion, new test, product edit or coverage collection. Prior missing verification disclosed.",
+      "H": "Deterministic module imports, Node test runner, complete raw command/streams and before/after bytes retained."
+    },
+    "scope": "Only configuration expectation repair; no new file closure or remote-success claim. Product/package source freeze and baseline remain unchanged.",
+    "static": {
+      "exit": 0,
+      "stderrBytes": 0,
+      "docsTools": 125,
+      "docsIssues": 0,
+      "lintFiles": 6104,
+      "error": 0,
+      "warning": 0,
+      "info": 0,
+      "ledger": "3452/511closed/63review/2878pending",
+      "receipt": "worker-contract-static.execution.json"
+    }
+  },
+  "serialCI": {
+    "base": "6f646aa8c9e4262acca74fe1552d6d5a50a5297e",
+    "bridges": [
+      {
+        "path": "packages/game/vitest.config.ts",
+        "beforeSha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+        "sha256": "e56a03b609ee6177c3e27f99521d6f142a5bd8c4c0d7ad865b2ce2b9e84d7a92",
+        "beforeSource": "game-config-before.ts",
+        "replacements": [
+          {
+            "before": "  test: {\n",
+            "after": "  test: {\n    // Full-map raster tests keep the real 64×128 input and default deadlines.\n    // Bound concurrent coverage heaps instead of competing with another worker.\n    maxWorkers: 1,\n"
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/shell/scene-thumbnail.ts",
+        "beforeSha256": "38f39fc61162cc9044f4739388d9d4742385764ee85ded1d8adea72d79a6c461",
+        "sha256": "2eb15d46f4fb08c60fc8ebd679edf635f3b1fb523d874226f1c2ec4411830c5f",
+        "beforeSource": "thumbnail-before.ts",
+        "replacements": [
+          {
+            "before": "  // 不写gameplay的tileImagesBySceneId/sceneAssetsCache,不在此接入seam repair。",
+            "after": "  // 不写gameplay的tileImagesBySceneId/sceneAssetsCache；补缝只作用于本次离屏缓冲。"
+          }
+        ]
+      },
+      {
+        "path": ".github/workflows/coverage.yml",
+        "beforeSha256": "2746a33f69ba9b2b6772629f8a47324ad566a3d5dc8ed2056fa0242a774bc480",
+        "sha256": "57c90518509ce5705ab1b8a650d91ee17c4f6c4b9ea93ec486aa8f1bfc700099",
+        "beforeSource": "coverage-workflow-before.yml",
+        "replacements": [
+          {
+            "before": "    timeout-minutes: 30\n    env:\n      TYPE_PAL_COVERAGE_PARALLEL_EDITOR: '1'",
+            "after": "    # Serialize package collection on this runner; individual test deadlines stay fixed.\n    timeout-minutes: 45"
+          }
+        ]
+      }
+    ],
+    "matchedInputs": 5876,
+    "changedInputs": [
+      "packages/game/src/shell/scene-thumbnail.ts",
+      "packages/game/vitest.config.ts",
+      "packages/reforge/vite.config.ts"
+    ],
+    "totalInputs": 5879,
+    "gameInventory": {
+      "testCount": 3758,
+      "testFileCount": 349,
+      "identityDigest": "a9364f5ba1fbef463972a444f3620794f87d0e2963d9c23a2d5dba04f58313f1",
+      "executionDigest": {
+        "before": "6cd3530c1010ec0a5bc6db79757f2453d48a9e923997daf1e927aac15c66b19e",
+        "after": "ed4bc02f9418e2165aa1a9caf0b65bc320d98b20c19c61fdb50d93d103e3b04c"
+      }
+    },
+    "thumbnailTest": {
+      "path": "packages/game/src/shell/scene-thumbnail.test.ts",
+      "sha256": "f4e177bccb473672c63f32e3aea5020c556ca8c54a79dae53bee003e3468fe4f",
+      "claim": "Entire test source, 64x128 map, five identities, pixels, cache/concurrency/retry oracles and deadlines unchanged."
+    },
+    "thumbnailBodyInvariant": true,
+    "summary": "Only game fastTests/selectedTests executionDigest changes; all original measured counters, timestamp and identities retained. This is a metadata bridge, not a new coverage measurement.",
+    "receipts": {
+      "path": "serial-ci-receipts.json.gz",
+      "sha256": "f21e497b60c90ba9944c79df6eef155087a65e6f6ffcf40ebf7dcdcc77b1d1bd",
+      "members": 46
+    },
+    "state": "Finite local checks pass; new actual remote full run required. Previous cancelled CI retained, not passed.",
+    "failure": {
+      "runId": 40162268435,
+      "conclusion": "cancelled at workflow30m",
+      "reforgePassed": 8991,
+      "gamePassed": 3756,
+      "gameTimeouts": 2,
+      "editor": "incomplete at cancellation; still emitting passing tests",
+      "rootCauseBoundary": "Concurrent game rendering and editor definition collection observed. Serial package collection and one game worker are resource mitigations; no claim that a unique cause was proved."
+    },
+    "dimensions": {
+      "packages/game/vitest.config.ts": {
+        "A": "Full config and original 64x128 thumbnail source/fixture read. One-worker bound only; original environment, setup, exclusions and all5s deadlines unchanged.",
+        "B": "Comment describes real-input/default-deadline constraint and resource competition; does not promise new CI success.",
+        "C": "Vitest owns scheduling; no renderer or gameplay state change.",
+        "D": "Standard maxWorkers reused; no mock core or helper.",
+        "E": "New exact whole-object config assertion rejects extra timeout/exclusion; actual5-suite30-case real-pixel regression and typecheck pass, stderr0. Official3758-case/349-file inventory unchanged except config digest.",
+        "F": "Single explicit resource bound.",
+        "G": "No tests/fixtures/oracles removed, narrowed or rewritten.",
+        "H": "Native runner inventory and real raster path remain reproducible."
+      },
+      ".github/workflows/coverage.yml": {
+        "A": "Whole workflow and real run.mjs owner path read. Disable optional editor overlap; all7 packages still required. Overall runner budget30→45min because original cancelled while editor was progressing; individual test deadlines unchanged.",
+        "B": "Job comment distinguishes scheduling budget from per-test timeout.",
+        "C": "Workflow owns available time and package concurrency; comparison/collector code untouched.",
+        "D": "Use existing default sequential path, no new runner/backend.",
+        "E": "Full-file exact replacement proof; real old CI log has8991 Reforge passes and2 game timeouts, followed by job cancellation. No claim of new full success.",
+        "F": "Remove optional overlap env instead of adding another mode.",
+        "G": "No skip/ignore/exclude, threshold change, test selection change or extra workflow job.",
+        "H": "Same runner, Node/pnpm/provider versions, steps and strict protected comparison."
+      },
+      "scripts/coverage/config.test.mjs": {
+        "A": "Complete candidate read; tests import actual game/Reforge configs and actual coverage selection.",
+        "B": "New title names environment/scope/deadline contract.",
+        "C": "Configuration assertions stay in coverage config suite.",
+        "D": "Reuse Node test/assert; no helper.",
+        "E": "118 real coverage-tool tests pass; game exact object rejects deadlines/exclusions while preserving existing Reforge and scope guards. No existing identity/assertion retired.",
+        "F": "Literal expected configuration is readable and finite.",
+        "G": "One additional config contract, no weakened matcher.",
+        "H": "Pure imported configuration, independent deterministic assertion."
+      },
+      "packages/game/src/shell/scene-thumbnail.ts": {
+        "A": "Entire function and actual bootstrap96/640 callers read; one stale comment corrected; TypeScript parse+print(removeComments) identical.",
+        "B": "Old no-seam claim contradicted actual repairTilemapSeams call; now says repair owns only this offscreen framebuffer.",
+        "C": "No ownership or implementation change.",
+        "D": "No abstraction change.",
+        "E": "All5 real thumbnail tests byte-identical, plus adjacent25 drawing/framebuffer tests pass. Full64x128 input, native canvas/pixel oracles and5s timeout retained.",
+        "F": "Comment names actual scope.",
+        "G": "Only misleading comment corrected.",
+        "H": "No new dependency or test seam."
+      }
+    },
+    "validation": {
+      "tools": 118,
+      "rasterFiles": 5,
+      "rasterPassed": 30,
+      "gameTypecheck": 0,
+      "stderrBytes": 0,
+      "localCoverageCollections": 1,
+      "remoteResult": "pending",
+      "static": {
+        "id": "serialized-static",
+        "command": "bash",
+        "args": [
+          "-c",
+          "set -e; node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs; pnpm check:docs; pnpm lint; node scripts/quality/code-quality-ledger.mjs; git diff --check"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T05:10:56.081Z",
+        "end": "2026-10-25T05:12:14.806Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "6f646aa8c9e4262acca74fe1552d6d5a50a5297e",
+        "observerTimeout": false,
+        "stdoutBytes": 31414,
+        "stderrBytes": 0
+      }
+    },
+    "limits": "No new product behavior, fixture shrink, deadline weakening or file closure. Baseline only game executionDigest updated through unchanged official writer; original measured counters retained as required CI floor."
+  },
+  "actCI": {
+    "state": "Previous remote Coverage exit0 with four act warnings, rejected for integration. Finite test wait repair accepted locally; next actual remote run required.",
+    "candidate": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+    "receipts": {
+      "path": "act-ci-receipts.json.gz",
+      "sha256": "3494ff85aec2b836d956aa9904a6e570dbec4a66745d4078eadc04fa7dc96501",
+      "members": 45
+    },
+    "remote": {
+      "documentation": {
+        "id": 40164761305,
+        "conclusion": "success",
+        "diagnostics": 0
+      },
+      "coverage": {
+        "id": 40164761191,
+        "conclusion": "success",
+        "testCount": 20180,
+        "sourceFileCount": 807,
+        "stderrSections": 1,
+        "actWarnings": 4,
+        "components": {
+          "Harness": 1,
+          "CutsceneTab": 3
+        },
+        "accepted": false
+      },
+      "correction": "Initial chat summary said two diagnostics; full raw log counts four messages in two components. Original log unchanged."
+    },
+    "bridge": {
+      "path": "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
+      "beforeSource": "act-before.tsx",
+      "beforeSha256": "157fe9cfad6f6264dce5ccab2b3dcb2e1f7c02a8f22c92383261e5df8515aed8",
+      "sha256": "09ef8830518e28694cc5b79b43bbc0b87c5ef7831b3eec47cb3cde7e69d71db6",
+      "replacements": [
+        {
+          "before": "    await loadFilesIntoInput(input, [mp4File()])\n    await vi.waitFor(() => {\n      expect(\n        Object.keys(session.getState().assetCatalog.assets).filter((id) =>\n          id.startsWith('video.authored.'),\n        ),\n      ).toHaveLength(1)\n    })",
+          "after": "    await act(async () => {\n      await loadFilesIntoInput(input, [mp4File()])\n      // WebCrypto completes after the change event; keep its session/UI updates inside act.\n      await vi.waitFor(() => {\n        expect(\n          Object.keys(session.getState().assetCatalog.assets).filter((id) =>\n            id.startsWith('video.authored.'),\n          ),\n        ).toHaveLength(1)\n      })\n    })"
+        }
+      ]
+    },
+    "matchedInputs": 5875,
+    "dimensions": {
+      "A": "Read entire changed 3-case test and adjacent 6-case CutsceneTab.test.tsx, file-input helper and real importVideo/sha256Hex/session/UI owner path. Awaited file-input act returns before real WebCrypto digest resolves; wrapping dispatch plus existing session commit wait owns the late updates.",
+      "B": "One comment explains the asynchronous ownership boundary, without claiming event dispatch awaits hashing.",
+      "C": "Test owns act; production state/session/import functions unchanged.",
+      "D": "Reuse React act and original waitFor helper. No new abstraction or fake crypto.",
+      "E": "All three original identities, fixtures, record/path/blob/history/focus/error/cancel assertions retained. Two files9 pass, stderr0; CI diagnostic is the failing zero-diagnostic gate, no fabricated business-red claim. Await predicate reads session state, avoiding DOM-flush deadlock inside act.",
+      "F": "A single lexical act boundary covers event and commit.",
+      "G": "No removed test/assertion, no console mute, no added timeout, ignore or skipped path.",
+      "H": "Real hash and production command still execute. Exact whole-file replacement can be verified cheaply; no all-file hash refresh."
+    },
+    "validation": {
+      "directed": {
+        "id": "act-directed",
+        "command": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/editor",
+          "exec",
+          "vitest",
+          "run",
+          "src/ui/CutsceneTab.glm-ui-wave.test.tsx",
+          "src/ui/CutsceneTab.test.tsx"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T05:46:00.464Z",
+        "end": "2026-10-25T05:46:03.239Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+        "observerTimeout": false,
+        "stdoutBytes": 262,
+        "stderrBytes": 0
+      },
+      "typecheck": {
+        "id": "act-typecheck",
+        "command": "pnpm",
+        "args": ["--filter", "@type-pal/editor", "typecheck"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T05:46:30.397Z",
+        "end": "2026-10-25T05:46:45.948Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+        "observerTimeout": false,
+        "stdoutBytes": 183,
+        "stderrBytes": 0
+      },
+      "localCoverageCollections": 1,
+      "baselineChanged": false,
+      "remote": "pending",
+      "static": {
+        "id": "act-static",
+        "command": "bash",
+        "args": [
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T05:47:31.664Z",
+        "end": "2026-10-25T05:47:43.116Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+        "observerTimeout": false,
+        "stdoutBytes": 9413,
+        "stderrBytes": 0
+      },
+      "initialScopedLint": {
+        "errors": 1,
+        "rule": "noControlCharactersInRegex",
+        "resolution": "Use Node stripVTControlCharacters instead of a control-character regex; rule unchanged. Full final static pass retained.",
+        "original": "Tool output only; no separate byte-original was saved for this formatting invocation."
+      }
+    },
+    "limits": "No new file closure; original83 code scopes and whole-file ledger counts unchanged. Full local gates are reused with a single explicit test bridge; new remote CI must be clean."
+  }
+}

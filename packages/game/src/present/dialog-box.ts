@@ -1,244 +1,45 @@
-/**
- * DialogBox 真实实现 — port sdlpal text.c:1208-1815
- * PAL_StartDialogWithOffset + PAL_ShowDialogText + PAL_DialogWaitForKey + PAL_ClearDialog + PAL_EndDialog
- *
- * **sdlpal 真实交互(text.c:1616 PAL_ShowDialogText 真值)**:
- *  - 每条 showDialog opcode = 1 行;**单行 typing 完不等键**,opcode 直接推进
- *  - 累计 4 行后再来 showDialog → PAL_DialogWaitForKey(等 Confirm)+ 清屏 + 行号归零 + 画新行
- *  - dialog 整段结束(script 跑到 end / 退出 event mode)→ PAL_EndDialog → PAL_ClearDialog(TRUE)
- *    → 若有过任何行 → 等 1 次 Confirm 才真清屏
- *  - typing 进行中按 Confirm → fUserSkip = TRUE,当前行剩字瞬现(g_TextLib.fUserSkip 读后不重置 cursor)
- *
- * **状态机 phase**:
- *  - 'typing':       当前行 typing 中,Confirm = 跳行末
- *  - 'line-done':    当前行 typing 完,**event-system 自动推进 cursor.ip 到下一 opcode**,无需 Confirm
- *  - 'waiting-page-key':  shownLines==4 + 来了新 showDialog → 等 Confirm 清屏
- *  - 'waiting-end-key':   dialog 整段结束(撞 end opcode)+ 有行 → 等 Confirm 关 dialog
- *
- * **行间不停**:典型 NPC 对话 3-4 行 = 玩家按 0-1 次 Confirm(只在第 5 行 / 整段末)。
- *
- * 真值表(sdlpal text.c:1289-1346):
- *   portrait/text 位置 同前(不变,fix1 已对)。
- *   typing FRAMES_PER_CHAR = 1(每帧 1 字,@10fps = 100ms/字)。
- *   LINE_HEIGHT_PX = 18(sdlpal text.c:1661 `y + nCurrentDialogLine * 18`)。
- *   MAX_LINES_PER_PAGE = 4(text.c:1649 `nCurrentDialogLine > 3` 触发等键)。
- */
-
+/** Dialogue state transitions. Event and battle drivers own sequencing and supply the clock. */
 import { type DialogBoxStyle, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { DialogBoxState } from '../core/game-state.js'
-import { drawNumber } from './draw-number.js'
-import { type GlyphTable, measureText, renderColoredText, renderText } from './font.js'
-import type { Framebuffer } from './framebuffer.js'
-import { drawSingleLineBox } from './menu/draw-box.js'
+import {
+  DIALOG_IDELAY_DEFAULT,
+  FONT_COLOR_DEFAULT,
+  isCharacterNameLine,
+  parseDialogText,
+} from './dialog-text.js'
+
+export {
+  type DialogBoxDrawCtx,
+  type DialogSprite,
+  drawDialogBox,
+  getDialogTextPos,
+  getDialogTitlePos,
+  LINE_HEIGHT_PX,
+  type TextPos,
+} from './dialog-draw.js'
+export {
+  DIALOG_IDELAY_DEFAULT,
+  FONT_COLOR_CYAN,
+  FONT_COLOR_CYAN_ALT,
+  FONT_COLOR_DEFAULT,
+  FONT_COLOR_RED,
+  FONT_COLOR_RED_ALT,
+  FONT_COLOR_YELLOW,
+  isCharacterNameLine,
+  type ParsedDialogLine,
+  parseDialogText,
+} from './dialog-text.js'
 
 // ── 常量 ──────────────────────────────────────────────────────────────────────
 
 export const FRAMES_PER_CHAR = 1
 
-// ── sdlpal text.c:29-34 FONT_COLOR_* 真值(palette index)──────────────────────
-/** 默认对话字体色 0x4F(palette idx 79)。普通对话(isDialog=FALSE)DEFAULT 即此;narration DEFAULT→0。 */
-export const FONT_COLOR_DEFAULT = 0x4f
-/** `"` toggle 黄(text.c:30)。普通对话生效;narration(isDialog=TRUE)被 `!isDialog` 屏蔽。 */
-export const FONT_COLOR_YELLOW = 0x2d
-/** `'` toggle 红(text.c:31)。 */
-export const FONT_COLOR_RED = 0x1a
-/** `-` toggle 青(text.c:32)。 */
-export const FONT_COLOR_CYAN = 0x8d
-/** `@` toggle 红 alt(text.c:34)。 */
-export const FONT_COLOR_RED_ALT = 0x17
-
 /** sdlpal text.c:1649 `nCurrentDialogLine > 3`:超过 3 (即 4) 触发等键 */
 export const MAX_LINES_PER_PAGE = 4
 
-/** sdlpal text.c:885 `g_TextLib.iDelayTime = 3` 默认打字延时基数(每字 iDelayTime*8 ms)。 */
-export const DIALOG_IDELAY_DEFAULT = 3
-
-/** parseDialogText 输出:可见文本 + 逐字符色 + 时间驱动打字数据 + 行末状态(跨行持续)+ 等键图标。 */
-export interface ParsedDialogLine {
-  /** 可见文本(控制符已消费/剥离)。 */
-  text: string
-  /** 每个可见字符的调色板色(与 [...text] 等长,按 code point)。 */
-  colors: number[]
-  /**
-   * 每个可见字符的出现时刻(ms,相对行起)。sdlpal text.c:1600 每字后 UTIL_Delay(iDelayTime*8);
-   * `$NN` 改 iDelayTime=NN*10/7(text.c:1538)。revealAt[i] = 前 i 字延时累加。
-   */
-  revealAt: number[]
-  /** 本行完全打完时刻(ms):最后一字延时 + `~NN` 尾暂停(text.c:1551 NN*80/7)。 */
-  doneAt: number
-  /** 行末 bCurrentFontColor 状态 —— toggle 跨行持续(下一行的起始色)。 */
-  endColor: number
-  /** 行末 iDelayTime 状态 —— `$NN` 跨行持续(下一行打字速度基数,sdlpal g_TextLib.iDelayTime 不自动重置)。 */
-  endIDelay: number
-  /** `(`/`)` 设的等键图标(sdlpal bIcon:0=默认,1=`)`,2=`(`)。 */
-  icon: number
-  /**
-   * 本行是否以 `~` 控制码收尾(sdlpal text.c:1542-1554 `case '~'`:`nCurrentDialogLine = -1; return`)。
-   * 回到 PAL_ShowDialogText 后 `nCurrentDialogLine++`(text.c:1746)→ 0,即 `~` 收尾的行**行计数复位 0**:
-   * 之后的 PAL_ClearDialog(TRUE) 见 `nCurrentDialogLine == 0` → **不等键、不画黄色箭头**(text.c:1770)。
-   * 这是"开场梦境三句(均 `~NN` 收尾)原版无结尾光标 + 自动推进"的真值根因。
-   */
-  endedWithTilde: boolean
-}
-
 /**
- * port sdlpal `TEXT_DisplayText` 控制符 state machine(text.c:1458-1613)。把原始对话文本解析成
- * {可见文本 + 逐字符色},消费控制符(原本被我们字面显示出来 = bug):
- *   `-` toggle CYAN(0x8D)/ `'` toggle RED(0x1A)/ `@` toggle RED_ALT(0x17)
- *   `"` toggle YELLOW(0x2D)—— **仅 !isDialog**(text.c:1522 `if(!isDialog)`,但 `"` 总被消费)
- *   `$NN` typing 速度(text.c:1539 `lpszText+=3` 消费 3 字符,不显;我们暂不改 typing 速度)
- *   `~` 本行提前结束(text.c:1554 return —— 其后丢弃)
- *   `)` icon=1(text.c:1560)/ `(` icon=2(text.c:1568)/ `\` 转义下一字符(text.c:1572)
- * 默认色映射(text.c:1580-1582):isDialog 且当前色 == DEFAULT → 0;否则 = 当前色。
- *
- * @param raw        原始文本(events 数据,含控制符)
- * @param startColor 起始 bCurrentFontColor(跨行持续:首行 = dialog bFontColor,续行 = 上行 endColor)
- * @param isDialog   sdlpal isDialog 参数 —— **普通对话(top/bottom/center)= FALSE**;narration(居中小窗)= TRUE
- */
-export function parseDialogText(
-  raw: string,
-  startColor: number,
-  isDialog: boolean,
-  startIDelay: number = DIALOG_IDELAY_DEFAULT,
-): ParsedDialogLine {
-  let color = startColor
-  let iDelay = startIDelay // sdlpal g_TextLib.iDelayTime(跨行持续)
-  let cum = 0 // 累计 ms(下一字出现时刻)
-  let icon = 0
-  const out: string[] = []
-  const colors: number[] = []
-  const revealAt: number[] = []
-  const emit = (ch: string): void => {
-    out.push(ch)
-    colors.push(isDialog && color === FONT_COLOR_DEFAULT ? 0 : color) // text.c:1581-1582
-    revealAt.push(cum) // 本字在 cum 时刻出现
-    cum += iDelay * 8 // text.c:1600 每字后 UTIL_Delay(iDelayTime*8)
-  }
-  const chars = [...raw] // 按 code point 拆(中文 BMP 单点;控制符是 ASCII 单点)
-  for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i]!
-    switch (ch) {
-      case '-':
-        color = color === FONT_COLOR_CYAN ? FONT_COLOR_DEFAULT : FONT_COLOR_CYAN
-        break
-      case "'":
-        color = color === FONT_COLOR_RED ? FONT_COLOR_DEFAULT : FONT_COLOR_RED
-        break
-      case '@':
-        color = color === FONT_COLOR_RED_ALT ? FONT_COLOR_DEFAULT : FONT_COLOR_RED_ALT
-        break
-      case '"':
-        if (!isDialog) color = color === FONT_COLOR_YELLOW ? FONT_COLOR_DEFAULT : FONT_COLOR_YELLOW
-        break // `"` 总消费(text.c:1531 lpszText++ 在 if 外)
-      case '$': {
-        // text.c:1538-1539 iDelayTime = NN*10/7;lpszText+=3(消费 $ + 2 位)
-        const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
-        if (!Number.isNaN(nn)) iDelay = Math.floor((nn * 10) / 7)
-        i += 2
-        break
-      }
-      case '~': {
-        // text.c:1551-1554 UTIL_Delay(NN*80/7) + return(本行止,尾暂停)
-        const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
-        // `TEXT_DisplayText` only waits for `~NN` on ordinary dialog
-        // (`!isDialog`); narration/center-window text is already a one-shot
-        // display and skips the blocking delay (text.c:1551-1554).
-        const endDelay = !isDialog && !Number.isNaN(nn) ? Math.floor((nn * 80) / 7) : 0
-        return {
-          text: out.join(''),
-          colors,
-          revealAt,
-          doneAt: cum + endDelay,
-          endColor: color,
-          endIDelay: iDelay,
-          icon,
-          endedWithTilde: true,
-        }
-      }
-      case ')':
-        icon = 1
-        break
-      case '(':
-        icon = 2
-        break
-      case '\\': {
-        const nx = chars[++i]
-        if (nx !== undefined) emit(nx)
-        break
-      } // 转义:画下一字符字面
-      default:
-        emit(ch)
-    }
-  }
-  return {
-    text: out.join(''),
-    colors,
-    revealAt,
-    doneAt: cum,
-    endColor: color,
-    endIDelay: iDelay,
-    icon,
-    endedWithTilde: false,
-  }
-}
-
-/** sdlpal text.c:1661 `y + nCurrentDialogLine * 18`:行间距 18 px */
-export const LINE_HEIGHT_PX = 18
-
-// ── 文本位置(sdlpal text.c:1313-1346 真值) ───────────────────────────────────
-
-export interface TextPos {
-  x: number
-  y: number
-}
-
-export function getDialogTextPos(style: DialogBoxStyle, hasPortrait: boolean): TextPos {
-  switch (style) {
-    case 'top':
-      return { x: hasPortrait ? 96 : 44, y: 26 }
-    case 'center':
-      return { x: 80, y: 40 }
-    case 'bottom':
-    case 'narration':
-      return { x: hasPortrait ? 20 : 44, y: 126 }
-    case 'item-box':
-      return { x: 160, y: 30 } // kDialogCenterWindow posDialogText(160,40)+offset -10;实际走 drawItemBoxDialog
-  }
-}
-
-/**
- * sdlpal text.c:1316/1340 真值 — title(姓名)位置,跟 dialog text 独立。
- * top:    (iNumCharFace > 0 ? 80 : 12, 8)
- * bottom: (iNumCharFace > 0 ? 4 : 12, 108)
- * 姓名以 `:` 结尾,画在此处,**不**计入 nCurrentDialogLine。
- */
-export function getDialogTitlePos(style: DialogBoxStyle, hasPortrait: boolean): TextPos {
-  switch (style) {
-    case 'top':
-      return { x: hasPortrait ? 80 : 12, y: 8 }
-    case 'center':
-      return { x: 12, y: 8 } // sdlpal default,center 一般不用 title
-    case 'bottom':
-    case 'narration':
-      return { x: hasPortrait ? 4 : 12, y: 108 }
-    case 'item-box':
-      return { x: 160, y: 30 } // 物品框无 title;走 drawItemBoxDialog,此返回不被用
-  }
-}
-
-/**
- * sdlpal text.c:1717-1719 真值 — 姓名识别:全角 `：` (0xff1a) / `∶` (0x2236) / 半角 `:` 结尾。
- */
-export function isCharacterNameLine(text: string): boolean {
-  if (text.length === 0) return false
-  const last = text.charCodeAt(text.length - 1)
-  return last === 0xff1a || last === 0x2236 || last === 0x3a /* ':' */
-}
-
-/**
- * sdlpal text.c:1715-1720 姓名 title 判定 —— 三条件 AND:首行(nCurrentDialogLine==0)+ 非居中框
- *(bDialogPosition != kDialogCenter ⇔ style != 'center')+ 末字冒号。M1/L1(2026-06-07 审查):
- * 原先只判末字 → 段中续行冒号句被误当姓名牌(从正文丢失)、center 独白被错画成左上角姓名牌。
+ * 姓名判定使用段首、非center风格和末字冒号三条件(text.c:1715-1720)。
+ * 行间冒号句保留在正文；绘制层另拥有narration/item-box布局。
  */
 function shouldRenderAsTitle(
   text: string,
@@ -246,50 +47,6 @@ function shouldRenderAsTitle(
   style: DialogBoxStyle,
 ): boolean {
   return dialogLineCount === 0 && style !== 'center' && isCharacterNameLine(text)
-}
-
-/** sdlpal text.c:33 真值 `#define FONT_COLOR_CYAN_ALT 0x8C` — 姓名 title 渲染色。 */
-export const FONT_COLOR_CYAN_ALT = 0x8c
-
-// ── 头像位置(sdlpal text.c:1289-1310 真值) ───────────────────────────────────
-
-interface PortraitPos {
-  x: number
-  y: number
-}
-
-function getPortraitPos(style: DialogBoxStyle, width: number, height: number): PortraitPos | null {
-  switch (style) {
-    case 'top':
-      return { x: 48 - Math.floor(width / 2), y: 55 - Math.floor(height / 2) }
-    case 'bottom':
-    case 'narration':
-      return { x: 270 - Math.floor(width / 2), y: 144 - Math.floor(height / 2) }
-    case 'center':
-    case 'item-box':
-      return null // 物品框无头像(走 drawItemBoxDialog)
-  }
-}
-
-// ── 4 styles 矩形(仅供测试 / e2e 引用;实际不画 box) ─────────────────────────
-
-export interface BoxRect {
-  x: number
-  y: number
-  w: number
-  h: number
-}
-
-const STYLE_RECTS: Record<DialogBoxStyle, BoxRect> = {
-  top: { x: 8, y: 8, w: 304, h: 48 },
-  center: { x: 8, y: 80, w: 304, h: 48 },
-  bottom: { x: 8, y: 144, w: 304, h: 48 },
-  narration: { x: 8, y: 144, w: 304, h: 48 },
-  'item-box': { x: 8, y: 80, w: 304, h: 48 }, // 物品框实际居中动态画(drawItemBoxDialog),此 rect 仅占位/测试
-}
-
-export function getDialogBoxRect(style: DialogBoxStyle): BoxRect {
-  return STYLE_RECTS[style]
 }
 
 // ── startDialogLine ───────────────────────────────────────────────────────────
@@ -314,8 +71,8 @@ export function startDialogLine(
      */
     iDelayFrames?: number
     /**
-     * Bug1 fix(2026-06-26):当前行开始 typing 的墙钟(ms)。打字进度用 (now - lineStartMs) 驱动,
-     * 不再依赖 tick 帧数(旧实现 100ms/tick 把 24ms/字打成成块蹦字)。缺省 0 兼容旧测试/手搭 state。
+     * 当前行开始的时间戳(ms)，须与tickDialog传入的now使用同一时基。
+     * 无now的战斗driver使用tick计时；不能把缺省0当作真实开行时刻。
      */
     now?: number
   },
@@ -344,7 +101,8 @@ export function startDialogLine(
     currentLineEndedWithTilde: isTitle ? false : parsed.endedWithTilde,
     lineDoneRenderPending: false,
     fontColorState: isTitle ? startColor : parsed.endColor, // title 不改色态
-    iDelayState: isTitle ? DIALOG_IDELAY_DEFAULT : parsed.endIDelay, // title 不改打字速度态
+    // PAL_ShowDialogText draws names directly; the script's delay survives the name line.
+    iDelayState: isTitle ? (opts.iDelayFrames ?? DIALOG_IDELAY_DEFAULT) : parsed.endIDelay,
     iconKind: parsed.icon,
     typingFrames: 0,
     charsRevealed: 0,
@@ -392,7 +150,7 @@ export function appendDialogLine(state: DialogBoxState, rawText: string, now?: n
   state.currentLineText = parsed.text
   state.currentLineColors = parsed.colors
   state.currentLineRevealAt = parsed.revealAt
-  // Bug1 fix:续行重置 lineStartMs 为新行的 now(缺省 0 兼容旧测试/手搭 state)。
+  // 新行重建时间锚点；与tickDialog的now保持同一时基。
   state.lineStartMs = now ?? 0
   state.currentLineDoneAt = parsed.doneAt
   state.currentLineEndedWithTilde = parsed.endedWithTilde
@@ -497,15 +255,10 @@ export function resetDialogBody(state: DialogBoxState): void {
 // ── tickDialog ────────────────────────────────────────────────────────────────
 
 /**
- * 每逻辑帧调一次:
- *  - typing 中 → 推 charsRevealed,完后 phase → 'line-done'
- *  - line-done / wait 状态 → blink key icon
- *
- * Bug1 fix(2026-06-26):打字进度改 wall-clock 驱动。
- *  - 传 `now`(墙钟 ms):elapsed = now - lineStartMs。精度由调用频率(rAF 60fps)保证,
- *    不受 10fps tick 限制 → 24ms/字 流畅逐字,不再"每 100ms 蹦 4 字成块"。
- *  - 不传 now(旧测试/手搭 state):回退 elapsed = typingFrames*FRAME_MS_EXPLORE(旧行为,100ms/tick)。
- *    兼容现有不传 now 的测试;新测试 & event-system 都传 now。
+ * 推进typing，不拥有driver时钟或输入消费。
+ * 大世界传now，elapsed=now-lineStartMs；战斗每40ms累加，满100ms后无now调用，
+ * elapsed=typingFrames*FRAME_MS_EXPLORE。无revealAt的旧状态仍走恒速路径。
+ * 等键箭头由绘制层常显，闪烁由present调色板轮转；本函数不切换keyIconBlink。
  */
 export function tickDialog(state: DialogBoxState, now?: number): void {
   state.typingFrames++
@@ -514,7 +267,7 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
     const len = state.currentLineText.length
     const revealAt = state.currentLineRevealAt
     if (revealAt) {
-      // Bug1 fix:wall-clock 优先;缺省 now 时回退 tick 驱动(旧行为)。
+      // 两种driver共用reveal时间表，单位均为ms。
       const elapsed =
         now !== undefined && state.lineStartMs !== undefined
           ? now - state.lineStartMs
@@ -543,11 +296,11 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
 // ── confirmDialog ─────────────────────────────────────────────────────────────
 
 /**
- * Confirm 按键时调,返回值告诉 event-system 接下来做什么:
+ * Confirm按键时调；event与battle driver按返回值推进自己的游标或队列：
  *  - 'skip-typing':  当前行 typing 中 → 跳行末(fUserSkip)。caller 不动 cursor。
  *  - 'page-advance': 之前 waiting-page-key → 清屏 + line=0。普通分页保留当前未消费showDialog，
  *                    caller重入并append本行；只有已完成的样式/显式清屏指令才推进ip。
- *  - 'dialog-end':   之前 waiting-end-key → 关 dialog。caller 清 gs.dialogBox + cursor.ip++。
+ *  - 'dialog-end':   waiting-end-key结束；caller负责清框，并推进游标或战斗队列。
  *  - 'noop':         其他状态(line-done 等),Confirm 无效(等自动推进)。
  */
 export type ConfirmResult = 'skip-typing' | 'page-advance' | 'dialog-end' | 'noop'
@@ -602,359 +355,4 @@ export function confirmDialog(state: DialogBoxState, now?: number): ConfirmResul
     return 'dialog-end'
   }
   return 'noop'
-}
-
-// ── drawDialogBox ─────────────────────────────────────────────────────────────
-
-/** sprite 资产接口(与 dialog-assets.DialogSprite / draw-sprite.SpriteImage 同结构)。 */
-export interface DialogSprite {
-  width: number
-  height: number
-  indices: Uint8Array
-  opaque: Uint8Array
-}
-
-export interface DialogBoxDrawCtx {
-  /** RGM.MKF chunk index → 角色头像 sprite */
-  portraitFrames?: Map<number, DialogSprite>
-  /** DATA.MKF chunk 12 dialog icon sprite group(frame index → sprite)。 */
-  iconFrames?: Map<number, DialogSprite>
-  /** T14:narration style(kDialogCenterWindow)画 SingleLineBox 背景,需 SPRITEUI frame 44/45/46。 */
-  uiSpriteFrames?: import('../assets/png.js').IndexedImage[]
-  /** L1 物品框(style='item-box'):物品 BALL 图标 Map<bitmap, icon>(SPRITENUM_ITEMBOX 也在 uiSpriteFrames[70])。 */
-  itemIcons?: Map<number, import('../assets/png.js').IndexedImage>
-  /** L1 物品框:物品 catalog(itemId → bitmap),解析图标用。 */
-  items?: import('@type-pal/shared').Item[]
-}
-
-const KEY_ICON_FRAME = 0
-
-/**
- * 绘一帧 dialog:画所有 shownLines(完整)+ currentLineText 的 charsRevealed 截断。
- * 行布局:`pos.y + lineIdx * LINE_HEIGHT_PX`。
- *
- * key icon 仅 waiting-page-key / waiting-end-key 显示(shouldShowKeyIcon;center 排除,
- * line-done 行间自动推进不显)。"闪烁"由 present 层 palette 0xF9-0xFE 轮转产生,icon 常显。
- */
-export function drawDialogBox(
-  fb: Framebuffer,
-  state: DialogBoxState,
-  glyphs: GlyphTable | undefined,
-  ctx?: DialogBoxDrawCtx,
-): void {
-  // L1 紫金葫芦炼丹物品框(style='item-box')— sdlpal script.c:1479-1513。**在 hasActiveContent 守卫前**
-  //   short-circuit:物品框无 shownLines/currentLineText(内容是 itemBox 字段),否则被守卫误判空而不画。
-  if (state.style === 'item-box') {
-    drawItemBoxDialog(fb, state, glyphs, ctx)
-    return
-  }
-
-  // Sync.2 fix10:dialog 无活跃内容(shownLines=[]+currentLineText=null)时 整个 dialog 不画 —
-  //   包括 portrait + key icon。对应 sdlpal `nCurrentDialogLine=0` 后 PAL_ShowDialogText 不被
-  //   调,自然 portrait 不再 blit。我们 retainstate 但渲染层 short-circuit。
-  //   场景:0x05 ClearDialog 翻页 + cutscene NPC opcode 期间,portrait 不再 overlay。
-  //
-  // 注:currentLineText 非 null 但 charsRevealed=0(startDialogLine 后第 0 tick)
-  //    仍 draw — portrait + text 框已"准备好显示",玩家会看到 portrait 先于文字。
-  const hasActiveContent =
-    state.shownLines.length > 0 || state.currentLineText !== null || state.titleText !== undefined
-  if (!hasActiveContent) return
-
-  // T14:narration style(kDialogCenterWindow)— sdlpal text.c:1663-1710 真值。
-  // 居中 SingleLineBox + 一行文字 居中显示(eg. "获得 XX × N" 物品提示)。
-  // 跟其他 style(透明 typing 多行)逻辑完全不同,short-circuit。
-  if (state.style === 'narration') {
-    drawNarrationDialog(fb, state, glyphs, ctx)
-    return
-  }
-
-  // 1. portrait 图(sdlpal text.c:1289-1310):由 portraitIcon 决定画哪张 / 是否画。
-  if (state.portraitIcon !== undefined && ctx?.portraitFrames) {
-    const portrait = ctx.portraitFrames.get(state.portraitIcon)
-    if (portrait) {
-      const pos = getPortraitPos(state.style, portrait.width, portrait.height)
-      if (pos) {
-        blitSprite(fb, portrait, pos.x, pos.y)
-      }
-    }
-  }
-
-  // 文本/标题缩进布局 — 与"是否画立绘图"解耦。sdlpal posDialogText/posDialogTitle 是 PAL_StartDialog
-  //   (iNumCharFace>0)设的持久 metrics;立绘图被 PAL_MakeScene(0x05 redraw)擦掉后位置仍缩进 →
-  //   其后无 PAL_StartDialog 的 showDialog 文本缩进但无图(扬州师爷"大人息怒")。portraitLayout 缺省
-  //   回退 (portraitIcon !== undefined) 兼容旧存档 / 战斗对话(不带 layout)。
-  const hasPortrait = state.portraitLayout ?? state.portraitIcon !== undefined
-
-  // 2a. title(姓名,以 `:` 结尾 — sdlpal text.c:1725 真值 FONT_COLOR_CYAN_ALT,独立位置)
-  if (state.titleText !== undefined) {
-    const titlePos = getDialogTitlePos(state.style, hasPortrait)
-    drawTextLine(fb, state.titleText, titlePos.x, titlePos.y, state, glyphs, FONT_COLOR_CYAN_ALT)
-  }
-
-  // 2b. text:所有已完成行 + 当前行(截 charsRevealed)
-  const basePos = getDialogTextPos(state.style, hasPortrait)
-
-  for (let i = 0; i < state.shownLines.length; i++) {
-    const line = state.shownLines[i]!
-    drawTextLine(
-      fb,
-      line,
-      basePos.x,
-      basePos.y + i * LINE_HEIGHT_PX,
-      state,
-      glyphs,
-      undefined,
-      state.shownLineColors?.[i],
-    )
-  }
-
-  // 当前行(typing 或 line-done):画在 shownLines 之后第 N 行
-  if (state.currentLineText !== null && state.charsRevealed > 0) {
-    const lineIdx = state.shownLines.length
-    const visible = state.currentLineText.slice(0, state.charsRevealed)
-    drawTextLine(
-      fb,
-      visible,
-      basePos.x,
-      basePos.y + lineIdx * LINE_HEIGHT_PX,
-      state,
-      glyphs,
-      undefined,
-      state.currentLineColors?.slice(0, state.charsRevealed),
-    )
-  }
-
-  // 3. key icon(等键时显示在最后一行文字末尾)。
-  //    sdlpal text.c:1745 `posIcon = PAL_XY(x, y)`:x = 本行 TEXT_DisplayText 画完返回的末尾 x,
-  //    y = 本行 y(posDialogText.y + nCurrentDialogLine*18,自增前)。**不是**固定右下角。
-  //    "闪烁"由 present 层 palette 索引 0xF9-0xFE 每 100ms 轮转产生(text.c:1408-1426),
-  //    箭头本身**常显**(不再 show/hide gate keyIconBlink)。
-  if (shouldShowKeyIcon(state)) {
-    // sdlpal text.c:1391 `PAL_SpriteGetFrame(bufDialogIcons, bIcon)` —— bIcon 即帧号:
-    //   默认 0;`)` → 1,`(` → 2(parseDialogText 的 iconKind)。
-    const iconSprite = ctx?.iconFrames?.get(state.iconKind ?? KEY_ICON_FRAME)
-    if (iconSprite) {
-      // 最后一行:正在显示的 currentLineText(若有)或最后一条 shownLine。
-      const lineIdx =
-        state.currentLineText !== null
-          ? state.shownLines.length
-          : Math.max(0, state.shownLines.length - 1)
-      const lastLineText =
-        state.currentLineText !== null
-          ? state.currentLineText
-          : (state.shownLines[state.shownLines.length - 1] ?? '')
-      const iconX = basePos.x + measureText(lastLineText, glyphs)
-      const iconY = basePos.y + lineIdx * LINE_HEIGHT_PX
-      blitSprite(fb, iconSprite, iconX, iconY)
-    }
-  }
-}
-
-// sdlpal:icon 只在真正等键处显示 —— PAL_DialogWaitForKey 由 page-break(text.c:1654)
-// 与 dialog 结束(text.c:1772)触发。line-done 是行间自动推进,不显 icon。
-//
-// sdlpal text.c:1385-1386 真值守卫:`if (bDialogPosition != kDialogCenterWindow && != kDialogCenter)` 才画 icon。
-//   → center(kDialogCenter)即便等键也**不画**黄色箭头(也不做 0xF9-0xFE palette 闪烁,见 present.ts)。
-//   narration(kDialogCenterWindow)已在 drawDialogBox short-circuit(走 drawNarrationDialog 不画 icon),
-//   故此处只需补 center 排除。
-function shouldShowKeyIcon(state: DialogBoxState): boolean {
-  if (state.style === 'center') return false
-  return state.phase === 'waiting-page-key' || state.phase === 'waiting-end-key'
-}
-
-function drawTextLine(
-  fb: Framebuffer,
-  text: string,
-  x: number,
-  y: number,
-  state: DialogBoxState,
-  glyphs: GlyphTable | undefined,
-  colorOverride?: number,
-  colors?: number[],
-): void {
-  if (text.length === 0) return
-  // sdlpal 真值:对话正文 TEXT_DisplayText(..., isDialog=FALSE)(text.c:1737)→ fShadow=!isDialog=TRUE;
-  //   姓名 title PAL_DrawText(..., fShadow=TRUE)(text.c:1725)。两者都带阴影。
-  // 阴影算法 = 三层 (+1,0)/(0,+1)/(+1,+1) **color 0**(text.c:1144-1156,DOS triple,sdlpal 统一 triple)。
-  // 旧实现手搓**单层** (+1,+1) color 50 是错的 —— 改用 renderText 内建 fShadow=true(正确三层 color0)。
-  // colorOverride(姓名 title CYAN_ALT)优先;否则 colors(parseDialogText 逐字符色,`"`黄/`-`青/`'``@`红)
-  //   逐字符上色;再否则 fallback 单色(state.fontColor)。
-  if (colorOverride !== undefined) {
-    renderText(fb, text, x, y, colorOverride, glyphs, true)
-  } else if (colors) {
-    renderColoredText(fb, text, colors, x, y, glyphs, true)
-  } else {
-    renderText(fb, text, x, y, state.fontColor, glyphs, true)
-  }
-}
-
-// ── 内部 blit ─────────────────────────────────────────────────────────────────
-
-function blitSprite(fb: Framebuffer, sprite: DialogSprite, x: number, y: number): void {
-  const { width, height, indices, opaque } = sprite
-  for (let dy = 0; dy < height; dy++) {
-    for (let dx = 0; dx < width; dx++) {
-      const i = dy * width + dx
-      if (opaque[i] === 1) {
-        fb.writePixel(x + dx, y + dy, indices[i]!)
-      }
-    }
-  }
-}
-
-/**
- * T14:narration style(kDialogCenterWindow)1:1 port — sdlpal text.c:1663-1710 真值。
- *
- * 视觉:屏幕中央(160, 40)居中 SingleLineBox + 一行文字。box 宽度根据文字长度计算。
- * 用于"获得 XX × N" / "钱不够" / item info 等 1-shot 1.4s 自动关闭提示。
- *
- * sdlpal 真值算法:
- *   posDialogText = PAL_XY(160, 40)               (text.c:1345)
- *   len = sum(PAL_CharWidth(ch) >> 3) for ch in lpszText   (text.c:1681)
- *   pos = PAL_XY(posDialogText.x - len * 4, posDialogText.y)
- *   PAL_CreateSingleLineBoxWithShadow(pos, (len + 1) / 2, ...)
- *   TEXT_DisplayText(lpszText, pos.x + 8 + ((len & 1) << 2), pos.y + 10, ...)
- *
- * `PAL_CharWidth(ch) >> 3`:半角 8>>3=1 / 全角 16>>3=2。
- */
-function drawNarrationDialog(
-  fb: Framebuffer,
-  state: DialogBoxState,
-  glyphs: GlyphTable | undefined,
-  ctx?: DialogBoxDrawCtx,
-): void {
-  // narration 是 1-shot 1 行 — 取 currentLineText(若有)或 shownLines[0]
-  const text = state.currentLineText ?? state.shownLines[0] ?? ''
-  if (text.length === 0) return
-  // 逐字符色(parseDialogText with isDialog=TRUE:DEFAULT→0;`-`青/`'``@`红;`"`黄被屏蔽)
-  const colors = state.currentLineColors ?? state.shownLineColors?.[0]
-
-  // sdlpal len:半角 1 / 全角 2
-  let len = 0
-  for (const ch of text) {
-    const cp = ch.codePointAt(0)!
-    len += cp < 0x80 ? 1 : 2
-  }
-
-  // sdlpal text.c:1345 posDialogText = PAL_XY(160, 40)
-  const POS_X = 160
-  const POS_Y = 40
-  const boxX = POS_X - len * 4
-  const boxY = POS_Y
-  const boxLen = Math.floor((len + 1) / 2)
-
-  // 画 box(若 uiSpriteFrames 缺失则只画文字,debug 防御)
-  if (ctx?.uiSpriteFrames) {
-    drawSingleLineBox({
-      fb,
-      x: boxX,
-      y: boxY,
-      len: boxLen,
-      uiSpriteFrames: ctx.uiSpriteFrames,
-      // M13(2026-06-07 sdlpal 审查):narration 框 iDialogShadow 默认 0(无阴影,text.c:1687)——
-      //   g_TextLib BSS 零初始化、PAL_InitText 不设;仅紫金葫芦炼丹临时置 5。原默认 6px 投影与原版
-      //   不符(拾取 / 购买 / 施法等高频提示框右下角多出灰影)。
-      shadowOffset: 0,
-    })
-  }
-
-  // 文字 pos(sdlpal text.c:1698)— PAL_X(pos) + 8 + ((len & 1) << 2), PAL_Y(pos) + 10
-  const textX = boxX + 8 + ((len & 1) << 2)
-  const textY = boxY + 10
-
-  // sdlpal TEXT_DisplayText(text.c:1459-1613) narration path(isDialog=TRUE)真值:
-  //   - 整 text 一次性 display(text.c:1597 typing delay 仅 !isDialog 走)
-  //   - 逐字符 switch case(text.c:1474)— '0'-'9' 数字字符走 PAL_DrawNumber sprite digit,
-  //     其余走 PAL_DrawTextUnescape
-  //   - text.c:1581-1582 真值:isDialog + bCurrentFontColor==FONT_COLOR_DEFAULT → color=**0(黑)**
-  //   - text.c:1594 fShadow=!isDialog(narration isDialog=TRUE → fShadow=FALSE)
-  //   - text.c:1592 PAL_DrawNumber(ch-'0', 1, PAL_XY(x, y+4), kNumColorYellow, kNumAlignLeft)
-  //   - text.c:1595 x += PAL_CharWidth(ch)
-  let cursorX = textX
-  let ci = 0
-  for (const ch of text) {
-    if (ch >= '0' && ch <= '9' && ctx?.uiSpriteFrames) {
-      // sdlpal text.c:1583-1592 真值:数字字符 yellow sprite digit blit at (x, y+4) left-align
-      const digit = ch.charCodeAt(0) - 0x30
-      drawNumber(fb, digit, 1, { x: cursorX, y: textY + 4 }, 'yellow', 'left', ctx.uiSpriteFrames)
-      cursorX += 8 // L33:游标步进用 PAL_CharWidth=8(font_width>>1,text.c:1595/font.c:628);digit sprite 仍 6px(上行)→ 数字间留 2px 间隙
-    } else {
-      // sdlpal text.c:1594 PAL_DrawTextUnescape(text, ..., color, fShadow=FALSE);color 由 parseDialogText
-      //   逐字符给(narration DEFAULT→0;`-`青/`'``@`红)。text.c:1595 x += PAL_CharWidth:半角 8 / 全角 16。
-      const color = colors?.[ci] ?? 0
-      const advance = renderText(fb, ch, cursorX, textY, color, glyphs, false)
-      cursorX += advance
-    }
-    ci++
-  }
-}
-
-/** sdlpal ui.h:110 SPRITENUM_ITEMBOX = 70(物品框背景 sprite,在 SPRITEUI 组)。 */
-const SPRITENUM_ITEMBOX = 70
-
-/**
- * L1 紫金葫芦炼丹物品框(style='item-box')— sdlpal script.c:1479-1513 1:1 port。
- *
- * 视觉:屏幕居中 ITEMBOX 精灵(UI 70)+ 物品 BALL 图标@box+(8,7) + 2 行居中文字
- *   (line1="炼出"=getWord(42) / line2=物品名=getWord(itemId))。
- *
- * sdlpal 真值:
- *   - PAL_StartDialogWithOffset(kDialogCenterWindow, 0, 0, FALSE, 0, -10)
- *     → posDialogText = (160,40) + (0,-10) = (160,30)(text.c:1345/1350)
- *   - iDialogShadow = 5(script.c:1479)→ 每行 SingleLineBox shadow=5
- *   - ITEMBOX: iBG_X=(320-w)/2, iBG_Y=(200-h)/2(script.c:1485);图标@(iBG_X+8, iBG_Y+7)(:1507)
- *   - 文字行 y = posDialogText.y + nLine*18(text.c:1661):line0=30, line1=48
- */
-function drawItemBoxDialog(
-  fb: Framebuffer,
-  state: DialogBoxState,
-  glyphs: GlyphTable | undefined,
-  ctx?: DialogBoxDrawCtx,
-): void {
-  const ib = state.itemBox
-  if (!ib) return
-
-  // ITEMBOX 精灵 + 物品图标(屏幕居中,script.c:1483-1508)
-  const box = ctx?.uiSpriteFrames?.[SPRITENUM_ITEMBOX]
-  if (box) {
-    const bx = Math.floor((320 - box.width) / 2)
-    const by = Math.floor((200 - box.height) / 2)
-    blitSprite(fb, box, bx, by)
-    const item = ctx?.items?.find((it) => it.id === ib.itemId)
-    const icon = item ? ctx?.itemIcons?.get(item.bitmap) : undefined
-    if (icon) blitSprite(fb, icon, bx + 8, by + 7) // script.c:1507 (pos.x+8, pos.y+7)
-  }
-
-  // 2 行居中文字(kDialogCenterWindow posDialogText=(160,30),行距 18;每行各自一个 SingleLineBox)
-  drawItemBoxLine(fb, ib.line1, 160, 30, glyphs, ctx)
-  drawItemBoxLine(fb, ib.line2, 160, 30 + 18, glyphs, ctx)
-}
-
-/** 物品框单行:居中 SingleLineBox(shadow=5)+ 居中文字(sdlpal text.c:1681-1698 kDialogCenterWindow 路径)。 */
-function drawItemBoxLine(
-  fb: Framebuffer,
-  text: string,
-  posX: number,
-  posY: number,
-  glyphs: GlyphTable | undefined,
-  ctx?: DialogBoxDrawCtx,
-): void {
-  if (!text) return
-  // sdlpal len:半角 1 / 全角 2(text.c:1681)
-  let len = 0
-  for (const ch of text) len += ch.codePointAt(0)! < 0x80 ? 1 : 2
-  const boxX = posX - len * 4 // text.c:1685 pos.x = posDialogText.x - len*4
-  if (ctx?.uiSpriteFrames) {
-    drawSingleLineBox({
-      fb,
-      x: boxX,
-      y: posY,
-      len: Math.floor((len + 1) / 2),
-      uiSpriteFrames: ctx.uiSpriteFrames,
-      shadowOffset: 5, // iDialogShadow=5(script.c:1479)
-    })
-  }
-  // 文字 pos(text.c:1698):x = boxX + 8 + ((len&1)<<2), y = posY + 10;isDialog DEFAULT 色=0(text.c:1581),fShadow=FALSE
-  const textX = boxX + 8 + ((len & 1) << 2)
-  renderText(fb, text, textX, posY + 10, 0, glyphs, false)
 }

@@ -28,9 +28,9 @@ export interface EnemySlot {
   dex: number
   dualMove: boolean
   /**
-   * D7(W1):dualMove 第二行动的**独立**dex 二抽(sdlpal fight.c:1483-1489 第二 entry 也
+   * dualMove第二行动的独立dex二抽(sdlpal fight.c:1483-1489 第二 entry 也
    *   GetEnemyDexterity*RandomFloat 再摇一次)。提供时按两抽比较标记fIsSecond,相等时标第二条;
-   *   省略时回退旧 `dex-1` 近似(兼容未传 dex2 的调用方)。
+   *   可省略参数的既有近似为dex-1；生产caller始终提供dualMove二抽。
    */
   dex2?: number
 }
@@ -76,8 +76,7 @@ export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[
     const first: ActionQueueItem = { isEnemy: true, idx: e.idx, dex: e.dex, fIsSecond: false }
     items.push(first)
     if (e.dualMove) {
-      // D7(W1):dualMove 第二行动 — sdlpal fight.c:1483-1489 第二 entry 独立二抽 dex(GetEnemyDexterity*RandomFloat),
-      //   然后 `if (second.dex <= first.dex) second.fIsSecond=TRUE; else first.fIsSecond=TRUE`(小 dex 者当第二动)。
+      // 第二行动独立抖动后，按两抽比较设置fIsSecond；标记与最终排序位置不同。
       //   dex2提供则按两抽比较;省略保留既有dex-1近似,仅标记第二条,不保证其排序后位置。
       if (e.dex2 !== undefined) {
         const second: ActionQueueItem = { isEnemy: true, idx: e.idx, dex: e.dex2, fIsSecond: false }

@@ -36,8 +36,6 @@ describe('tickN', () => {
       bus,
       input: new ReplayInputSource([]),
       tilemap: flat(10, 10),
-      eventCommands: [],
-      labelMap: {},
       onPresent: presentFn,
     }
     tickN(3, ctx)
@@ -54,8 +52,6 @@ describe('tickN', () => {
       bus,
       input: new ReplayInputSource([snap(['Right'], 0), snap(['Right'], 1), snap(['Right'], 2)]),
       tilemap: flat(20, 20),
-      eventCommands: [],
-      labelMap: {},
       onPresent: () => {},
     }
     tickN(3, ctx)
@@ -75,8 +71,6 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
       bus: createCommandBus(),
       input: new ReplayInputSource([]),
       tilemap: flat(10, 10),
-      eventCommands: [],
-      labelMap: {},
       onPresent,
     }
   }
@@ -192,8 +186,6 @@ describe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {
       bus: createCommandBus(),
       input: { nextSnapshot: () => snap(), suppressHeldForFade: suppress },
       tilemap: flat(10, 10),
-      eventCommands: [],
-      labelMap: {},
       onPresent: () => {},
     }
     advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, ctx)
