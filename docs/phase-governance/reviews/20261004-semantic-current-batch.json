@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "9c1720fde2724c0daa8086cebfdfa05c4c6352736e7d7e6501f8c3e13721815d",
+      "afterSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "9c1720fde2724c0daa8086cebfdfa05c4c6352736e7d7e6501f8c3e13721815d",
+        "implementationSha": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1715,7 +1715,7 @@
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
-        "afterSha256": "9c1720fde2724c0daa8086cebfdfa05c4c6352736e7d7e6501f8c3e13721815d",
+        "afterSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
         "lineCount": 92,
         "scope": "Final local gates; history retained; CI/merge pending.",
         "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",

@@ -5,7 +5,7 @@ Owner: Codex（单Agent）
 
 固定83张pre94卡的原代码范围均accept（0partial／0pending）；这不等于全仓3452文件全部完成。当前机器账本511closed／63review／2878pending。未扩94–102，主工作树未改。逐文件八维、caller／oracle、职责与状态Owner、注释、复用、测试质量和低成本版本复验均按各片有效证据；本窗口只合并门禁信用，不重新全文审所有文件。
 
-[阶段与单文件八维](review.json)、[有限覆盖率重计与精确退役映射](recount.json)、[最终完整原件](final-receipts.json.gz)、[首跑失败原件](initial-receipts.json.gz)、[默认只读快检](verify.mjs)。最终代码冻结257c0b816；原采集时5879个包／测试／项目／配置输入逐SHA固定；当前5876保持原字节，两个worker配置及一条缩略图注释由完整文件差异限定，工作流另有精确资源桥。快检只核身份、原件与已记录门结果，不冒充重新设计审查或远端CI。
+[阶段与单文件八维](review.json)、[有限覆盖率重计与精确退役映射](recount.json)、[最终完整原件](final-receipts.json.gz)、[首跑失败原件](initial-receipts.json.gz)、[默认只读快检](verify.mjs)。最终代码冻结257c0b816；原采集时5879个包／测试／项目／配置输入逐SHA固定；当前5875保持原字节，两个worker配置、一条缩略图注释及一处测试act边界由完整文件差异限定，工作流另有精确资源桥。快检只核身份、原件与已记录门结果，不冒充重新设计审查或远端CI。
 
 - `pnpm check`实际exit0：20617包内测试＋708工具测试，七包typecheck及editor author-scripts检查，lint6100文件error／warning／info均0；完整stderr0、Vitest stderr区段0。首跑exit1为G02旧入口断言，已保留并精确修正；13身份数和像素／错误合同保留。
 - 唯一`pnpm coverage:ratchet`采集完成20180 fast测试／807生产源，运行诊断0，但原命令exit1拒绝CLI拆分后的statements／functions／lines比率。这次失败明确保留，不能称原命令exit0。
@@ -40,3 +40,9 @@ Owner: Codex（单Agent）
 当前保持64×128地图、全部五例和PNG像素／缓存／并发／重试断言原字节；game采用一个worker，工作流删除可选editor并行收集，沿原runner默认顺序执行七包。整条作业预算30→45分钟，所有单测5s／15s／30s期限、选择器和比较器不变。缩略图产品仅纠正“未接入补缝”的过时注释，去注释AST一致。30相关测试及game typecheck通过；新增game精确配置合同后118工具全绿，stderr0。
 
 官方重新枚举3758身份／349文件，与原报告除配置digest外完全相同；官方原比较／写盘尾段只刷新game执行指纹，不改任何原测覆盖率分子分母，未重采本地coverage。原失败和未完成editor结果保留；新的远端完整运行仍待实际通过。
+
+## 全部远端覆盖率通过但运行诊断拒绝，测试等待边界窄修
+
+a76881ec的Documentation40164761305完整日志0诊断；Coverage40164761191七包20180例／807源及protected比较通过，但完整日志有1个stderr区段、4条React act告警（Harness1、CutsceneTab3），因此集成验收拒绝，尚未合并。初始聊天摘要误记两条，当前以未裁剪原件逐条计数为准；不把exit0说成零诊断。完整远端日志／API／注解、本次局部原件与冻结测试正文见[act原件](act-ci-receipts.json.gz)，八维与精确文件变换见`review.actCI`。
+
+真实视频导入需等待WebCrypto；旧文件输入helper的act只覆盖事件，随后真实hash完成时session和选择状态在act之外提交。当前只把原事件调用和原session提交等待包进同一异步act；三个身份、全部fixture与业务断言、真实hash、产品实现及超时设置不变。2文件9例通过、stderr0，editor typecheck0。无需调整baseline或再次本地全仓／覆盖率；旧完整check按精确单文件变换增量复用，新的实际远端CI必须零诊断才合并。0新增关闭，83卡范围及511／63／2878账本保持不变。

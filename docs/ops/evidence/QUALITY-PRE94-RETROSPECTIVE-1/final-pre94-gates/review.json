@@ -815,5 +815,125 @@
       }
     },
     "limits": "No new product behavior, fixture shrink, deadline weakening or file closure. Baseline only game executionDigest updated through unchanged official writer; original measured counters retained as required CI floor."
+  },
+  "actCI": {
+    "state": "Previous remote Coverage exit0 with four act warnings, rejected for integration. Finite test wait repair accepted locally; next actual remote run required.",
+    "candidate": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+    "receipts": {
+      "path": "act-ci-receipts.json.gz",
+      "sha256": "3494ff85aec2b836d956aa9904a6e570dbec4a66745d4078eadc04fa7dc96501",
+      "members": 45
+    },
+    "remote": {
+      "documentation": {
+        "id": 40164761305,
+        "conclusion": "success",
+        "diagnostics": 0
+      },
+      "coverage": {
+        "id": 40164761191,
+        "conclusion": "success",
+        "testCount": 20180,
+        "sourceFileCount": 807,
+        "stderrSections": 1,
+        "actWarnings": 4,
+        "components": {
+          "Harness": 1,
+          "CutsceneTab": 3
+        },
+        "accepted": false
+      },
+      "correction": "Initial chat summary said two diagnostics; full raw log counts four messages in two components. Original log unchanged."
+    },
+    "bridge": {
+      "path": "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
+      "beforeSource": "act-before.tsx",
+      "beforeSha256": "157fe9cfad6f6264dce5ccab2b3dcb2e1f7c02a8f22c92383261e5df8515aed8",
+      "sha256": "09ef8830518e28694cc5b79b43bbc0b87c5ef7831b3eec47cb3cde7e69d71db6",
+      "replacements": [
+        {
+          "before": "    await loadFilesIntoInput(input, [mp4File()])\n    await vi.waitFor(() => {\n      expect(\n        Object.keys(session.getState().assetCatalog.assets).filter((id) =>\n          id.startsWith('video.authored.'),\n        ),\n      ).toHaveLength(1)\n    })",
+          "after": "    await act(async () => {\n      await loadFilesIntoInput(input, [mp4File()])\n      // WebCrypto completes after the change event; keep its session/UI updates inside act.\n      await vi.waitFor(() => {\n        expect(\n          Object.keys(session.getState().assetCatalog.assets).filter((id) =>\n            id.startsWith('video.authored.'),\n          ),\n        ).toHaveLength(1)\n      })\n    })"
+        }
+      ]
+    },
+    "matchedInputs": 5875,
+    "dimensions": {
+      "A": "Read entire changed 3-case test and adjacent 6-case CutsceneTab.test.tsx, file-input helper and real importVideo/sha256Hex/session/UI owner path. Awaited file-input act returns before real WebCrypto digest resolves; wrapping dispatch plus existing session commit wait owns the late updates.",
+      "B": "One comment explains the asynchronous ownership boundary, without claiming event dispatch awaits hashing.",
+      "C": "Test owns act; production state/session/import functions unchanged.",
+      "D": "Reuse React act and original waitFor helper. No new abstraction or fake crypto.",
+      "E": "All three original identities, fixtures, record/path/blob/history/focus/error/cancel assertions retained. Two files9 pass, stderr0; CI diagnostic is the failing zero-diagnostic gate, no fabricated business-red claim. Await predicate reads session state, avoiding DOM-flush deadlock inside act.",
+      "F": "A single lexical act boundary covers event and commit.",
+      "G": "No removed test/assertion, no console mute, no added timeout, ignore or skipped path.",
+      "H": "Real hash and production command still execute. Exact whole-file replacement can be verified cheaply; no all-file hash refresh."
+    },
+    "validation": {
+      "directed": {
+        "id": "act-directed",
+        "command": "pnpm",
+        "args": [
+          "--filter",
+          "@type-pal/editor",
+          "exec",
+          "vitest",
+          "run",
+          "src/ui/CutsceneTab.glm-ui-wave.test.tsx",
+          "src/ui/CutsceneTab.test.tsx"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T05:46:00.464Z",
+        "end": "2026-10-25T05:46:03.239Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+        "observerTimeout": false,
+        "stdoutBytes": 262,
+        "stderrBytes": 0
+      },
+      "typecheck": {
+        "id": "act-typecheck",
+        "command": "pnpm",
+        "args": ["--filter", "@type-pal/editor", "typecheck"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T05:46:30.397Z",
+        "end": "2026-10-25T05:46:45.948Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+        "observerTimeout": false,
+        "stdoutBytes": 183,
+        "stderrBytes": 0
+      },
+      "localCoverageCollections": 1,
+      "baselineChanged": false,
+      "remote": "pending",
+      "static": {
+        "id": "act-static",
+        "command": "bash",
+        "args": [
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/bootstrap-static.sh"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T05:47:31.664Z",
+        "end": "2026-10-25T05:47:43.116Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "a76881ec01b493e94ca88941bd8fc078999c1fb7",
+        "observerTimeout": false,
+        "stdoutBytes": 9413,
+        "stderrBytes": 0
+      },
+      "initialScopedLint": {
+        "errors": 1,
+        "rule": "noControlCharactersInRegex",
+        "resolution": "Use Node stripVTControlCharacters instead of a control-character regex; rule unchanged. Full final static pass retained.",
+        "original": "Tool output only; no separate byte-original was saved for this formatting invocation."
+      }
+    },
+    "limits": "No new file closure; original83 code scopes and whole-file ledger counts unchanged. Full local gates are reused with a single explicit test bridge; new remote CI must be clean."
   }
 }

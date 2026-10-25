@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { stripVTControlCharacters } from 'node:util'
 import { gunzipSync } from 'node:zlib'
 
 const folder = dirname(fileURLToPath(import.meta.url))
@@ -27,9 +28,28 @@ readArchive(review.configContract.receipts)
 const workerArchive = readArchive(review.workerBudget.receipts)
 const resourceBridge = review.workerBudget.sourceProof
 const serialArchive = readArchive(review.serialCI.receipts)
+const actArchive = readArchive(review.actCI.receipts)
+for (const id of ['act-directed', 'act-typecheck']) {
+  const execution = JSON.parse(Buffer.from(actArchive[`${id}.execution.json`].base64, 'base64'))
+  assert.equal(execution.exit, 0, id)
+  assert.equal(actArchive[`${id}.stderr.raw`].bytes, 0, id)
+}
+assert.match(
+  Buffer.from(actArchive['act-directed.stdout.raw'].base64, 'base64').toString(),
+  /Tests\s+9 passed \(9\)/,
+)
+const priorActLog = stripVTControlCharacters(
+  Buffer.from(actArchive['pr-coverage-log.stdout.raw'].base64, 'base64').toString(),
+)
+assert.equal((priorActLog.match(/stderr \|/g) ?? []).length, 1)
+assert.equal(
+  (priorActLog.match(/An update to .* inside a test was not wrapped in act/g) ?? []).length,
+  4,
+)
 const bridges = [
   { ...resourceBridge, archive: workerArchive },
   ...review.serialCI.bridges.map((bridge) => ({ ...bridge, archive: serialArchive })),
+  { ...review.actCI.bridge, archive: actArchive },
 ]
 const member = (name) => {
   const row = archive[name]
@@ -139,7 +159,7 @@ console.log(
   JSON.stringify({
     state: 'MATCH',
     sourceInputs: review.sourceInputs.files,
-    exactInputs: review.serialCI.matchedInputs,
+    exactInputs: review.actCI.matchedInputs,
     exactWholeFileBridges: bridges.length,
     codeScopes: 83,
     wholeCheckTests: 20617,

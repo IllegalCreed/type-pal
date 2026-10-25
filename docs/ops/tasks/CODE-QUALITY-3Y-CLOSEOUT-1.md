@@ -1,6 +1,6 @@
 # CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成
 
-> 2026-10-25发布：pre94原83范围代码accept；同一3y／PR22尚待完整CI。6f646的Reforge8991全绿，game3756绿／2缩略图超时，editor未完即达30分钟作业上限，不能称通过。当前保持真实64×128及全部断言，game单worker、七包串行，作业预算45分钟，单测期限与比较门不变。30相关／118工具／gameTC绿；缩略图只改过时注释。完整失败、差异和元数据桥见[最终回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)，不提前称合并或清分支。
+> 2026-10-25发布：固定pre94原83范围代码accept；同一3y／PR22未合并。a76881ec的Docs完整日志0诊断，Coverage20180例及protected通过，但实际4条act告警导致集成拒绝。只修CutsceneTab专测等待边界，2文件9例／editorTC0、断言与生产不变；完整原件和当前差异见[最终回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。不重跑本地全仓coverage，新远端CI零诊断后合并。
 
 Status: build
 Owner: Codex
