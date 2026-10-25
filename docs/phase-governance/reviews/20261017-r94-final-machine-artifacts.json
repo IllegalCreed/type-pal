@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "ae01d44e3565d4b5fd1b02c6ff5776b291bd21a9f661b8930cea5c88bc995ec9",
+      "afterSha256": "f8146503d18625ae19ff705e00536d69c80c4dcc4da8dcc98ef18b6198283791",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "8272bd9feb8f6f5739aae835e7135e8c1c7ebb4178b0975eb10c748609491ca6",
-        "implementationSha": "ae01d44e3565d4b5fd1b02c6ff5776b291bd21a9f661b8930cea5c88bc995ec9",
+        "implementationSha": "f8146503d18625ae19ff705e00536d69c80c4dcc4da8dcc98ef18b6198283791",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1827,7 +1827,7 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "ae01d44e3565d4b5fd1b02c6ff5776b291bd21a9f661b8930cea5c88bc995ec9",
+        "afterSha256": "f8146503d18625ae19ff705e00536d69c80c4dcc4da8dcc98ef18b6198283791",
         "lineCount": 20197,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1847,7 +1847,7 @@
         "currentMaintenance": {
           "kind": "pre94-rle-test-quality-maintenance",
           "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
-          "afterSha256": "ae01d44e3565d4b5fd1b02c6ff5776b291bd21a9f661b8930cea5c88bc995ec9",
+          "afterSha256": "f8146503d18625ae19ff705e00536d69c80c4dcc4da8dcc98ef18b6198283791",
           "lineCount": 20197,
           "scope": "Final local gates; history retained; CI/merge pending.",
           "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",

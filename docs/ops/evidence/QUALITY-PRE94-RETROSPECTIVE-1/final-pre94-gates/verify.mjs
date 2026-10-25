@@ -23,6 +23,7 @@ const readArchive = (receipt) => {
 }
 const archive = readArchive(review.receipts)
 readArchive(review.bootstrap.receipts)
+readArchive(review.configContract.receipts)
 const workerArchive = readArchive(review.workerBudget.receipts)
 const resourceBridge = review.workerBudget.sourceProof
 const member = (name) => {

@@ -6,7 +6,7 @@ import { coveragePackages, testSelection } from './config.mjs'
 const editor = coveragePackages.find((entry) => entry.id === 'editor')
 
 test('Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests', () => {
-  assert.deepEqual(reforgeConfig.test, { maxWorkers: 2 })
+  assert.deepEqual(reforgeConfig.test, { maxWorkers: 1 })
   const reforge = coveragePackages.find((entry) => entry.id === 'reforge')
   assert.deepEqual(reforge.include, ['src/**/*.{ts,tsx}'])
   assert.deepEqual(testSelection(reforge, 'fast').args, ['--passWithNoTests'])

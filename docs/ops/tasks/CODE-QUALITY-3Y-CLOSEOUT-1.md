@@ -1,6 +1,6 @@
 # CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成
 
-> 2026-10-25发布：pre94原83有限范围均代码accept；同一3y／单PR22尚待新实际CI。安装器11→10警告已消除；Reforge8990绿／1默认5000ms超时保留原件，只改worker2→1，51相关／TC／8991官方身份核对及严格同报告元数据门通过，未动测试或产品正文、期限和覆盖率计数。当前发布以[最终回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)及PR实际记录为准，不提前称合并或清分支。
+> 2026-10-25发布：pre94原83有限范围均代码accept；同一3y／单PR22尚待新实际CI。安装器警告已消除；Reforge宿主超时后worker2→1，51相关／TC通过。随后81db的工具门116绿／1红，原因是Codex漏同步配置合同期望；现仅将精确期望2改1，117工具绿且stderr0。期限、选择器、产品正文与覆盖率计数未改；两次失败原件均保留。当前发布以[最终回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)及PR实际记录为准，不提前称合并或清分支。
 
 Status: build
 Owner: Codex

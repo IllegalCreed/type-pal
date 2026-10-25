@@ -401,6 +401,10 @@
     {
       "path": "scripts/coverage/protected-baseline.mjs",
       "sha256": "a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2"
+    },
+    {
+      "path": "scripts/coverage/config.test.mjs",
+      "sha256": "7bab62df851c26706497aa582605ba36f678b1267d660b3e9f322adb69531cf1"
     }
   ],
   "sourceInputs": {
@@ -627,6 +631,40 @@
       "observerTimeout": false,
       "stdoutBytes": 9414,
       "stderrBytes": 0
+    }
+  },
+  "configContract": {
+    "base": "81dbfaf7c538828a21f4816f6c3b493ca48b3498",
+    "path": "scripts/coverage/config.test.mjs",
+    "beforeSha256": "3556b7d21b5d4a36d1a775c3fae5dbfc4ef9efc66d4748b00e9576266f723bfd",
+    "sha256": "7bab62df851c26706497aa582605ba36f678b1267d660b3e9f322adb69531cf1",
+    "receipts": {
+      "path": "config-contract-receipts.json.gz",
+      "sha256": "10bdb5df010fdc363398e00787dded2729e3c560e79f8f8152b4fcc44ffcbe7a",
+      "members": 11
+    },
+    "dimensions": {
+      "A": "Read complete config.test.mjs, config.mjs, Reforge vite.config.ts and real package.json caller. CI40161643493 rejected stale literal2, not a timeout; only expectation2→1 follows implemented worker budget.",
+      "B": "Existing test title accurately describes bounded resources without widened timeout/exclusion; no comment change.",
+      "C": "Test imports real configuration and selection function; scheduling remains owned by Reforge config.",
+      "D": "Existing strict assertion reused, no helper or shared-mode abstraction.",
+      "E": "Exact whole-object deepEqual retained; any extra timeout/exclusion still fails. Source include and runner args assertions unchanged. All4 config identities and117 tool identities retained; real CI116pass/1AssertionError followed by local117pass/0stderr.",
+      "F": "One literal follows the explicit resource budget; title remains readable.",
+      "G": "No matcher removal, weakening, exclusion, new test, product edit or coverage collection. Prior missing verification disclosed.",
+      "H": "Deterministic module imports, Node test runner, complete raw command/streams and before/after bytes retained."
+    },
+    "scope": "Only configuration expectation repair; no new file closure or remote-success claim. Product/package source freeze and baseline remain unchanged.",
+    "static": {
+      "exit": 0,
+      "stderrBytes": 0,
+      "docsTools": 125,
+      "docsIssues": 0,
+      "lintFiles": 6104,
+      "error": 0,
+      "warning": 0,
+      "info": 0,
+      "ledger": "3452/511closed/63review/2878pending",
+      "receipt": "worker-contract-static.execution.json"
     }
   }
 }

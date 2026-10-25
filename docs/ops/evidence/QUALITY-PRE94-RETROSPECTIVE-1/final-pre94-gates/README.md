@@ -28,3 +28,7 @@ Owner: Codex（单Agent）
 三个私有profile只用于定位：尺寸写入0、输入准备48ms左右、主要成本是启动和渲染；减少IO日志只小幅改善，所以未实施该原型，也未修改fixture／绘制／脚本／断言。单worker作为资源约束减少冷图与V8竞争，不宣称已证明唯一原因；新实际CI仍须通过。51相关／TC与完整官方定义枚举0stderr。原完整check／单次coverage来自2worker版本，当前以5878精确输入＋1明确资源桥增量核证，不能冒称在新worker下重跑全仓。
 
 官方枚举前后除executionDigest外deep-equal；仅依新实际枚举更新摘要的该配置字段及baseline指纹，原采集时间、全部覆盖率分子分母、来源、身份与数量均不变。由原官方严格尾段执行同报告ratchet／protected，未重采覆盖率、不降低比例。原始报告仍保留；最终以新候选真实远端覆盖率为准。
+
+## 配置合同同步遗漏与修正
+
+81dbfaf7c的Coverage40161643493在覆盖率工具阶段116绿／1红：Codex将worker改1时漏改`config.test.mjs`的精确期望2，尚未开始覆盖率采集。这是交付遗漏，不能归因为再次宿主超时。当前只把该期望同步为1，完整对象等值断言仍拒绝新增timeout／exclude等字段，源范围与runner参数断言不变；全部117工具测试通过，stderr0。完整服务失败日志、本次绿原件及单行差异保存在[配置合同原件](config-contract-receipts.json.gz)，八维和文件指纹在[review](review.json)的`configContract`。未再跑本地全仓或覆盖率，下一次实际CI仍须独立通过。
