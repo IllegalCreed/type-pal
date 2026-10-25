@@ -679,7 +679,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -710,7 +710,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -741,7 +741,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -772,7 +772,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -803,7 +803,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -834,7 +834,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -865,7 +865,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -1236,6 +1236,21 @@
       "path": "packages/migrate/src/pal-content-supply-io.ts",
       "sha256": "be9bf70e885fa0f7adbdea54b72cbb7ee233d386fb76c1927d59f9ab070fa39f",
       "status": "Comment-only supply boundary clarification; no new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic-animation.ts",
+      "sha256": "d5b95724ba30305e901e7fb9248148ff7fc7b6b340613186f3bba751c50506c6",
+      "status": "New whole internal module/compile-only contract accepted, outsidefixed52;A-H in magic-module-reviewed"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic-action-contract.ts",
+      "sha256": "4e82e062b8fe6db63f9150537eb1de716321a5314591b0be4dc9c772e8983e79",
+      "status": "New whole internal module/compile-only contract accepted, outsidefixed52;A-H in magic-module-reviewed"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-animation-contracts.ts",
+      "sha256": "8ba9ddbef5808aaf574ea79fe34f9a33dfb4ca93cdfb2c1d2220777182fd60d3",
+      "status": "New whole internal module/compile-only contract accepted, outsidefixed52;A-H in magic-module-reviewed"
     }
   ],
   "changes": [
@@ -1304,6 +1319,13 @@
       "migration": "7actual files42green; strengthened existing5green;TC0",
       "boot": "preserved3hooks and valid old true-host proof, current shell/language actual caller read",
       "uniform": "deferred"
+    },
+    "magicStructure": {
+      "beforeAfter": "14files226identical identities,stderr0",
+      "body": "7 moved bodies+remaining action+dispatch+public input",
+      "typeBoundary": "oneTS2344 counter in ownedtemp/restored0",
+      "originalDisposition": "magic.ts remains review for pending bus API choice",
+      "coverage": "deferred"
     }
   },
   "priorGateReuse": "PR23/main0e14 evidence only where exact source/caller/contract identity remains applicable; no blanket credit.",
@@ -1583,7 +1605,7 @@
   "gameModules": [
     {
       "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-      "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5"
+      "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09"
     }
   ],
   "phase2": {
@@ -1593,5 +1615,9 @@
   "entrySource": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/entry-source-reviewed.json",
     "sha256": "55bd40c306bc19aaf568720af3e9f8b5b3307f990f368a6acfe1723081ef04db"
+  },
+  "magicModule": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/magic-module-reviewed.json",
+    "sha256": "f2015cb23bdcd8cbe5686d0669c4302a7e609a836d705e6269052dced3248c31"
   }
 }

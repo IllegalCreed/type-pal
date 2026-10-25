@@ -172,6 +172,95 @@ if (review.phase2) {
   const output = member(module.reuse.rawMember)
   for (const run of module.reusedRuns) assert(output.includes(run.rawLine), run.path)
 }
+if (review.magicModule) {
+  assert.equal(sha(read(review.magicModule.path)), review.magicModule.sha256)
+  const module = json(review.magicModule.path)
+  for (const binding of [...module.bindings, ...module.priorBindings, ...module.files])
+    assert.equal(sha(read(binding.path)), binding.sha256, `stale magic binding: ${binding.path}`)
+  const receipts = readNativePacket(module.native)
+  const identities = (id) => {
+    const native = JSON.parse(receipts[`${id}.native.json`])
+    assert.deepEqual(
+      [
+        native.testResults.length,
+        native.numPassedTests,
+        native.numFailedTests,
+        native.numPendingTests,
+      ],
+      [14, 226, 0, 0],
+    )
+    assert.equal(receipts[`${id}.stderr.raw`], '')
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, 0)
+    return native.testResults
+      .flatMap((suite) => suite.assertionResults.map((test) => `${suite.name} :: ${test.fullName}`))
+      .sort()
+  }
+  assert.deepEqual(identities('magic-module-baseline'), identities('magic-module-after'))
+  const proof = JSON.parse(receipts['magic-split-proof.json'])
+  const original = execFileSync(
+    'git',
+    ['show', `${proof.permanentOriginalSourceBase}:${module.originalFixedPath}`],
+    { cwd: root, encoding: 'utf8' },
+  )
+  assert.equal(sha(original), proof.beforeSha256)
+  const canonical = (source) => {
+    const javascript = ts.transpileModule(source, {
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.ESNext,
+        removeComments: true,
+      },
+    }).outputText
+    return execFileSync(
+      resolve(root, 'node_modules/.bin/biome'),
+      ['format', '--stdin-file-path=proof.js'],
+      {
+        cwd: root,
+        input: javascript,
+        encoding: 'utf8',
+      },
+    )
+  }
+  const before = ts.createSourceFile('magic.ts', original, ts.ScriptTarget.Latest, true)
+  const functionText = (source, name) =>
+    source.statements
+      .find((node) => ts.isFunctionDeclaration(node) && node.name?.text === name)
+      .getText(source)
+  assert.equal(proof.movedFunctions.length, 7)
+  for (const moved of proof.movedFunctions) {
+    const current = ts.createSourceFile(
+      moved.afterPath,
+      read(moved.afterPath).toString('utf8'),
+      ts.ScriptTarget.Latest,
+      true,
+    )
+    const oldText = functionText(before, moved.name).replaceAll(
+      'OFF_MAGIC_TYPES.has(',
+      'isOffensiveMagicType(',
+    )
+    const currentText = functionText(current, moved.name)
+    assert.equal(sha(canonical(oldText)), moved.canonicalJavaScriptSha256, moved.name)
+    assert.equal(sha(canonical(currentText)), moved.canonicalJavaScriptSha256, moved.name)
+  }
+  const counter = JSON.parse(receipts['magic-type-counter.json'])
+  assert.equal(counter.temporaryRemoved, true)
+  assert.equal(counter.rootStatusEqual, true)
+  assert.equal(counter.results[0].exit, 2)
+  assert.equal(counter.results[1].exit, 0)
+  const diagnostic = receipts['magic-owner-types-red.stdout.raw']
+  assert.equal((diagnostic.match(/error TS2344:/g) ?? []).length, 1)
+  assert.equal((diagnostic.match(/error TS\d+:/g) ?? []).length, 1)
+  assert.equal(
+    receipts['magic-owner-types-restored.stdout.raw'] +
+      receipts['magic-owner-types-restored.stderr.raw'],
+    '',
+  )
+  assert.equal(JSON.parse(receipts['magic-contract-types.execution.json']).exit, 0)
+  assert.equal(
+    receipts['magic-contract-types.stdout.raw'] + receipts['magic-contract-types.stderr.raw'],
+    '',
+  )
+}
 if (review.entrySource) {
   assert.equal(sha(read(review.entrySource.path)), review.entrySource.sha256)
   const module = json(review.entrySource.path)

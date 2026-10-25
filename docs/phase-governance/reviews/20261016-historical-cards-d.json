@@ -3302,10 +3302,10 @@
       "sourceSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "b467498c56e7038c1a0629d4513070afa404d2b3dc4b9e8bdb3bfc518b92f1b1",
+      "afterSha256": "7153c54f9d9267a6295cf725e9f492795d89c1724184490f846485b9e4e48618",
       "revision": {
-        "currentSha": "b467498c56e7038c1a0629d4513070afa404d2b3dc4b9e8bdb3bfc518b92f1b1",
-        "implementationSha": "b467498c56e7038c1a0629d4513070afa404d2b3dc4b9e8bdb3bfc518b92f1b1",
+        "currentSha": "7153c54f9d9267a6295cf725e9f492795d89c1724184490f846485b9e4e48618",
+        "implementationSha": "7153c54f9d9267a6295cf725e9f492795d89c1724184490f846485b9e4e48618",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4165,12 +4165,12 @@
       "evidence": {
         "kind": "owned-review52-closeout",
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-        "afterSha256": "b467498c56e7038c1a0629d4513070afa404d2b3dc4b9e8bdb3bfc518b92f1b1",
+        "afterSha256": "7153c54f9d9267a6295cf725e9f492795d89c1724184490f846485b9e4e48618",
         "scope": "Finite actual delta only; 0 new whole-file closure.",
-        "lineCount": 1153,
+        "lineCount": 1156,
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "b467498c56e7038c1a0629d4513070afa404d2b3dc4b9e8bdb3bfc518b92f1b1",
+          "afterSha256": "7153c54f9d9267a6295cf725e9f492795d89c1724184490f846485b9e4e48618",
           "scope": "Fixed52 quality stage owned metadata delta; old provenance retained."
         }
       },

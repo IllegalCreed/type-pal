@@ -94,3 +94,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 第二阶段八文件代码接受：四editor与两个menu专测按旧全文/原件及当前未变caller验收，不重复执行；content默认进场错含具体剧情角色名已纠正且JS不变。BGM timer资源红绿独立提交后纳入八维，旧dispose专测刷新不重复加closed。固定38/52、余14；机器3456／571／15／2870。原P1 puppet选项仍原卡，不夹修、不赋该轴信用。未跑本阶段全仓/coverage/新视觉，未推合；下一game5、workbench1、migrate2、tools6。
 
 - 2026-10-26 启动/来源两固定文件代码接受：main99行及新语言/mobile shell owner补核；旧boot真实入口证据限仍相同的两catch/onPlayable，未泛化新视觉。pal-source IO的输入边界核为当前本仓提取器固定文件、发布前validator独立；复用private读取，未增类型强转/格式/写入。五guard末例从任意错误补为精确soundfont ENOENT，整文件八维另记额外pending关闭1。固定40/52、余12；3456／574／13／2869。7实际文件42绿、补强5绿/TC0；旧script-index发现待有限裁决，未跑统一门/coverage/未推合。
+
+- 2026-10-26 magic职责重组：旧1079行拆为动作433行左右、动画约675行与纯共享合同26行；原公开接口/MP/脚本/RNG/反馈序保持。14实际文件226身份前后相同、七迁移函数正文/剩余动作/dispatch证明齐，TC0；新增编译合同真实加GS会唯一TS2344，独占temp恢复0并删除。三新内部代码/合同各完整八维接受，计数3459／577／13／2869；固定仍40/52，magic本身G空通知API未获裁决不关闭。原7文件旧证据仅桥接受影响magic源binding，不改历史raw。未跑重门、未推/合main。

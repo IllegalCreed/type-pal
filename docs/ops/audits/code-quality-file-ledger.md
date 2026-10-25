@@ -153,8 +153,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,456。
-当前已闭合核验：574；已读但待审：13；尚未逐文件核验：2869；合计未闭合：2882。
+起始基点机器清单：2,962。当前 tracked 清单：3,459。
+当前已闭合核验：577；已读但待审：13；尚未逐文件核验：2869；合计未闭合：2882。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -496,7 +496,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/event-dialogue-pagination.test.ts` | test | 已验证 | [全文八维与姓名速度正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 原10身份保留，真实event caller新增1独立慢速合同；无核心mock，确定时钟/逐例GS隔离 |
 | `packages/game/src/core/battle/formulas.ts` | product | 已验证 | [获批数值／姓名窄修八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 继承完整八维，正式两红后131绿／TC0；极值速度按用户选择保留TS；不授统一门信用 |
 | `packages/game/src/core/battle/magic-damage.ts` | product | 已验证 | [获批数值／姓名窄修八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 继承完整八维，正式两红后131绿／TC0；极值速度按用户选择保留TS；不授统一门信用 |
-| `packages/game/src/core/battle/actions/magic.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: bus-contract-cleanup、large-action-design；不升closed |
+| `packages/game/src/core/battle/actions/magic.ts` | product | review | QUALITY-REVIEW-52-CLOSEOUT-1 / GAME-COMMAND-BUS-API-CLEANUP-1 | 动作/动画窄上下文重组、B/C/D/F/H已补；空通知退役待用户，仍review；magic-module-reviewed。 |
 | `packages/game/src/core/battle/simulated-magic-target.ts` | product | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 装备/工厂/法术pair八维及原件闭合；统一门待全52，见game-equipment-fixtures.json。 |
 | `packages/game/src/core/battle/__tests__/magic-parity.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 装备/工厂/法术pair八维及原件闭合；统一门待全52，见game-equipment-fixtures.json。 |
 | `packages/game/src/core/battle/status.ts` | product | 已验证 | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 具体八维/真实caller与有效旧反控复用；当前86核心+14状态构造及TC0；最终统一门延后 |
@@ -789,6 +789,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/__tests__/glm-next-wave/H/harness.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 7例fixture域合同1绿6业务红到7绿；A-H见game-equipment-fixtures.extraTest。 |
 | `packages/game/src/core/battle/actions/item-inventory-lifecycle.test.ts` | test | review | GAME-BATTLE-ITEM-LIVE-INVENTORY-1 | 3例1绿2指定业务红，机制裁决待，不关闭。 |
 | `packages/migrate/src/pal-source-io.guards.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 五负例精确前置guard/音色库ENOENT；真实PAL正控另据；A-H见entry-source-reviewed.extra。 |
+| `packages/game/src/core/battle/actions/magic-animation.ts` | product | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 新内部模块/编译合同A-H及226前后同集、7函数正文与TC反控，见magic-module-reviewed；原magic不代签。 |
+| `packages/game/src/core/battle/actions/magic-action-contract.ts` | product | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 新内部模块/编译合同A-H及226前后同集、7函数正文与TC反控，见magic-module-reviewed；原magic不代签。 |
+| `packages/game/src/core/battle/__tests__/magic-animation-contracts.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 新内部模块/编译合同A-H及226前后同集、7函数正文与TC反控，见magic-module-reviewed；原magic不代签。 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

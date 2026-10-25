@@ -23,3 +23,9 @@ Branch: codex/code-quality-94-102
 ## 交接
 
 2026-10-26：Codex只读核验真实Core→shell caller与静态30清单；产品未改，无新统一门。未知外部反射调用不冒称不存在；由用户裁决是否退役当前内部接口。
+
+## 追加消费端核验（2026-10-26）
+
+上文“有生产emit所以保留”仅为最初有限提案，不足以证明通知有业务用途。当前已补核真实main-loop→bootstrap.onPresent→syncShellAudio/sfxForBattleEvent及presentBattleFrame→BattlePresent.draw：showDialogBox/playMagicAnim均无音画消费，实际对白走gs.dialogBox，法术走动画帧链。攻击/阵亡三种通知仍有实际SFX消费，不能混删。
+
+已追加请求用户裁决这两个空通知是否也退役；答复前保留发送与类型。若批准，需同步event-system/magic两发送点和专属测试断言，保留实际对白状态、MP/HP、音效和帧序判别力。当前magic仅做动作/动画职责重组，接口和空通知尚未删除；原八维G欠账仍显式review，不由226绿代签。

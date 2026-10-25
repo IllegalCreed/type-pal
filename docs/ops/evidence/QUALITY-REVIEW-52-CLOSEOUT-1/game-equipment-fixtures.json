@@ -570,7 +570,7 @@
     },
     {
       "path": "packages/game/src/core/battle/actions/magic.ts",
-      "sha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09"
+      "sha256": "d0e77bd6701cd4c7fc7bb93f42c109941672d4e2efc098c5e8c8aa556f104ad8"
     },
     {
       "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
@@ -705,5 +705,12 @@
     "Game item and bus still awaiting user product/API decisions; no code acceptance for them.",
     "No browser/visual/full-repo/coverage/protected run in this checkpoint.",
     "Raw diagnostics stay visible with default reporter; known original failures are not relabeled clean."
-  ]
+  ],
+  "sourceBridge": {
+    "path": "packages/game/src/core/battle/actions/magic.ts",
+    "beforeSha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09",
+    "afterSha256": "d0e77bd6701cd4c7fc7bb93f42c109941672d4e2efc098c5e8c8aa556f104ad8",
+    "reason": "Pure action/animation split;7moved bodies,remaining action,dispatch and public input retained;226same identities;only dependent binding refreshed",
+    "proof": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/magic-module-reviewed.json -> native.magic-split-proof.json"
+  }
 }

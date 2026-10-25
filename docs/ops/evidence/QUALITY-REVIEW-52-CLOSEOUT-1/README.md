@@ -15,7 +15,7 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 
 ## 结果
 
-当前固定40/52代码接受：首组13、提取器余10、game8、phase2九个；game余4、phase2余2、工具6共12仍review。额外诊断/fixture/源guard专测3接受、物品红例1待裁决，单列不换分母。机器3456tracked／574closed／13review／2869pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
+当前固定40/52代码接受：首组13、提取器余10、game8、phase2九个；game余4、phase2余2、工具6共12仍review。额外诊断/测试及新内部模块6接受、物品红例1待裁决，单列不换分母。机器3459tracked／577closed／13review／2869pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
 
 ## 限制与退出条件
 
@@ -56,3 +56,9 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 [两固定文件与相邻guard的八维](entry-source-reviewed.json)、[执行原件及三保留hook正文证明](entry-source-native.json.gz)。main完整99行与新增语言/移动端shell接线补核；旧真实PROD现场只复用仍相同的两catch/onPlayable，未授新UI视觉。固定源JSON读取只承诺当前提取器输入，不伪称外部导入schema校验；真正current publication写盘前仍独立校验。当前7文件42绿及补强后5绿/TC0；未写PAL工程或启动会先recover的CLI。原迁移旧脚本发现仍review，见[有限裁决卡](../../tasks/MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md)。
 
 本窗口docs 0 issues，lint6124文件0/0/0，完整原件并入entry-source-native。快速核验器仅把三个相同字节完整性检查块抽为同一private helper，所有原结果/反控判据保留；默认仍只读、不联网、不重跑产品测试。
+
+## 法术动作与动画职责整改
+
+[四文件逐维及剩余G边界](magic-module-reviewed.json)、[226前后身份/七函数正文/编译反控原件](magic-module-native.json.gz)。新增两个内部叶与一个编译合同已接受，固定magic.ts仍等空通知API裁决，故固定40/52不变；不以重组或14文件绿提升原文件。原公开输入/出口保持，动画不能接GS/脚本上下文，真实加入gs字段会触发唯一TS2344，恢复0。新源自动属于既有coverage include，未增排除，覆盖率/全仓仍到全52收尾。
+
+法术模块静态：docs0问题、lint6128文件0error/0warning/0info；原始stdout/stderr/execution已并入magic-module-native。本窗口未跑覆盖率或全仓测试，固定40/52保持诚实。

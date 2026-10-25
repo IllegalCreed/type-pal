@@ -11,7 +11,7 @@
  *     shell 解析(bootstrap → audio.sfxForBattleEvent 映射 per-单位声),画面由动画
  *     时间线(battleAnim frames)驱动。
  *   - `playMagicAnim`:通知性 op,无消费方(声音解析为 0;真实法术动画由
- *     actions/magic.ts 的 buildAndStart* 时间线链驱动)。
+ *     actions/magic-animation.ts 的帧链驱动)。
  *   - `flashEnemy` / `flashPlayer` / `showBattleUI` / `clearDialogBox`:无 emit 方 ——
  *     受击色闪实际走动画帧 iColorShift(draw-battle-sprites),uiState 由 battle-system 直写。
  *   - `showDialogBox`:战斗内对话框不经 bus —— tickBattleDialog 写 gs.dialogBox,

@@ -18,7 +18,7 @@ Branch: codex/code-quality-94-102
 
 待用户：删除仅该旧索引读取分支；保留scene/map当前发现、显式seed、原始字节快照、TOCTOU、非托管保护。主测将额外场景/地图发现保留为当前合同，移除chunk专属片段，额外目标TOCTOU改用当前地图路径。不改导出签名、当前格式、作者脚本或工程产物，不运行含recover写入的真实migrate:content命令。
 
-该项会改变旧文件是否被自动纳入托管，属于AGENTS资产管线ownership停止线。原52中的migration-project-io.ts继续review；用户答复前不实施。其它13个文件继续，统一门仍留全52收尾。
+该项会改变旧文件是否被自动纳入托管，属于AGENTS资产管线ownership停止线。原52中的migration-project-io.ts继续review；用户答复前不实施。父52其它未闭合范围继续，统一门仍留全52收尾。
 
 ## 交接
 
