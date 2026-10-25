@@ -5,8 +5,8 @@
   "owner": "Codex",
   "status": "in-progress;40fixed-cohort code-accepted, unified gates/publication pending",
   "scope": "scope.json",
-  "resolved": 41,
-  "remaining": 11,
+  "resolved": 47,
+  "remaining": 5,
   "files": [
     {
       "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
@@ -1196,6 +1196,180 @@
         "emitted whole module equal after sole exact-reexport import normalization",
         "existing clock/hold pixel contracts reused; no new browser/visual claim"
       ]
+    },
+    {
+      "path": "scripts/docs/check.mjs",
+      "sha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407",
+      "lines": 383,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
+        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+      },
+      "dimensions": {
+        "A": "完整383行：真实git NUL清单/物理存在性→namespace→链接/导航/卡顶/index/board→canonical版本，错误保持exit1，非法CLI exit throw；index只写stdout。旧>1MiB真实git反例与恢复证据按同字节复用。",
+        "B": "现行/历史分段与版本拒绝说明对应实现；固定Last reviewed是生成模板版本，不冒称每次执行重新审阅全部任务。16MiB完整枚举与独立4MiB namespace界限说明保留。",
+        "C": "auditDocuments为纯注入documents/exists/rules，CLI唯一拥有Git/FS；markdown解析、例外配置与终态namespace各有叶owner，不把历史任务签名当当前准入。",
+        "D": "localTarget/taskInfo/renderTaskIndex被真实审计/索引路径使用，测试导出用于直接验证同实现；版本和任务状态事实不另复制第二生成器。",
+        "E": "当前docs两个实际测试文件18合同在118原件中通过，核合法有限Map和独立坏链接/顶部状态/边界；旧3个真实Git容量/尾路径oracle复用，不把默认scope门当所有历史内容正确。",
+        "F": "多数函数短而单责，auditDocuments长在按不同合同顺序收集issues；add与linked局部表达意图，CLI列举→读取→验收→输出直接，不为指标拆散有序审计。",
+        "G": "无生成文件替代源码、无忽略/排除新增。历史中文状态仅显式名单终态；路径及父目录Set是真实checkout证明，不退化为exists宽松放行。",
+        "H": "纯审计可注入最小树，真实CLI由独占Git夹具验证；模块导入guard用realpath且不启动main。CLI无可取消长异步资源，不引入依赖容器。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45",
+      "lines": 576,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
+        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+      },
+      "dimensions": {
+        "A": "原586行全文与所有阶段caller补读；profile/flag、版本、full输入、完整test census、provider/scope/protected比较及原子baseline写回保持。只提取既有调度；并行生命周期两正式反例后修，非指标规则变化。",
+        "B": "明确默认reporter保留通过用例诊断、scope和provider不等于内容验收；注释无全绿替代逐文件声明。report collector与新调度owner职责在入口可见。",
+        "C": "实际collectPackage仍唯一拥有子进程/目录/报告，collectPackages仅顺序与在途任务；前台失败先等已启动editor兑现再返回，不再留下写报告后台任务或未处理拒绝。",
+        "D": "metrics/inventory/full-inputs/provider/env/两个精确批准表继续复用；只抽有独立生命周期和直接测试需求的调度，不引入万能runner或双份覆盖率算法。",
+        "E": "旧官方/保护门只作历史有效管线证据；本窗105工具正控包括调度5/四指标/范围和批准拒绝。当前真实官方采集仍按用户要求留全52稳定后，未伪称新protected成功。",
+        "F": "主流程缩成检查→收集→汇总→比较→ratchet；错误与保护分支显式，较长的census和保护比较保留单一合同，不为行数拆碎。",
+        "G": "fast/full/可选parallel确有配置合同；不删保护旧baseline必要历史，不添scope排除或容差。新helper参数仅实际配置/报告job/现有并行开关，没有预留业务模式。",
+        "H": "调度新叶可直接用可兑现job测等待/错误归属，不跑真实覆盖率来测调度。CLI/计数/写盘仍在原实际边界，MJS无TS类型门；冻结前会集中执行真实全门。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "Existing scheduling extracted; owned async failure fix in new helper",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e",
+      "lines": 2655,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
+        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+      },
+      "dimensions": {
+        "A": "全文算法/全部注释及20条有限数据解码补核；完整旧JSON摘要命中才读逐源SHA，逐包before必须精确、after normalize后重聚合total。未知baseline不读源不调整、失败不修改原对象。",
+        "B": "授权说明均限定具体重构/合法fixture/计数迁移及原件，不将用户允许合理rebase写成百分比豁免；历史策略在相应原件保留。",
+        "C": "私有数据表拥有有限迁移知识；算法无FS/进程，readSource由真实runner提供，指标定义唯一依赖metrics，不写baseline也不改scope。",
+        "D": "复用normalize/aggregate与完整SHA，测试通过第三参注入有限表是可测配置端口，生产runner不开放任意批准文件/CLI开关；不复制比较算法。",
+        "E": "三个现有测试全文核：精确单包迁移与raw不变、源码/旧计数错误及未知快照、额外两包退步拒绝。合成metrics只证算法，不冒充20项原产品授权/覆盖率原件。",
+        "F": "长文件为20条有限数据而非巨大控制流；id/authority/evidence/sources/packages明确可查，算法直线且无模式布尔开关。",
+        "G": "旧精确快照仍用于受保护历史ref比较，非过时产品fallback；20个baseline摘要唯一。当前5文件与main全字节相同，未借本次收口新加宽批准。",
+        "H": "纯reader可注入拒绝/错SHA，无全局环境或计时依赖；数据形状/授权链接/指标数域机械核，历史source不要求等于未来当前源，运行时仅精确快照才适用。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+      "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab",
+      "lines": 85,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
+        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+      },
+      "dimensions": {
+        "A": "三例完整输入为四个safe非负covered≤total指标、两包及唯一有限批准；原始baseline深拷贝仅作不变性oracle，不是clone自比功能正确性。",
+        "B": "标题准确区分raw原件、未知不应用与额外回退，没有宣称校验产品覆盖率或全部批准来源。",
+        "C": "每例全新baseline/approval、无真实FS/全局mutant；readSource失败只有本例，生产源码不被改写。",
+        "D": "metrics/fixture/proof只用于生成合法输入；actual.after计数独立写出，不调用adjust函数产生预期值；比较使用真实指标算法。",
+        "E": "8个原退步→精确迁移后零退步为实际业务oracle；两类拒绝和unknown must-not-read可判别，调整包/未调整包额外减一都保留退步，无弱化断言。",
+        "F": "三个合同原子：迁移成功、错误/未知域、额外退步；对照数值小且差异明确，不堆随机大型计数。",
+        "G": "无skip/only/恒真类型例或重复覆盖产品，类型合同不计runtime；数量不作为质量证明。",
+        "H": "真实纯函数直接执行，reader seam隔离来源；无需coverage collector/子进程或大任务来重验三个计数合同。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+      "lines": 725,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
+        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+      },
+      "dimensions": {
+        "A": "全部72条有限tuple及predicate补核：file/kind/old-new数量/两个identity摘要/当前源码摘要全部相等才允许；空前后snapshot与其它scope类型拒绝，无glob/模糊前缀。",
+        "B": "头部已明确2026-10-03只原五项；后续按entry旁实际standing或明确裁决与证据，不把旧授权头覆盖后来条目。六项审计追认指针保留，不伪造逐条用户签名。",
+        "C": "冻结数组和逐对象避免运行期扩张；算法无IO。protected runner只在发生现存文件计数删除时读取当前SHA并调用，本表不自行删除测试或改范围。",
+        "D": "只有一个精确lookup判据、无第二退役宽松路线；历史tuple保留供不同protected ref比对，新的测试正常编辑可令旧snapshot失配，不要求回退旧文件。",
+        "E": "72精确成功与14独立拒绝轴在原生100coverage工具部分执行；数据授权复用原逐项合同/审计，不将由表生成的正控冒充独立产品oracle。",
+        "F": "每行old/current/digest/file清晰，长表对应审计事实，不为缩行混入哈希压缩编码；predicate直接列完整约束。",
+        "G": "72文件唯一、净222，旧快照不能随新文件自动恢复信用；本窗sprite四项的未来精确表增量留最终冻结，不提前改baseline/默认批准规则。",
+        "H": "纯predicate任意坏tuple可直接运行；冻结性质和拒绝矩阵无需Vitest/正式覆盖率。实际当前文件SHA的适用性由runner独立读磁盘，不拿表自身证明磁盘。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+      "lines": 88,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
+        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+      },
+      "dimensions": {
+        "A": "完整88行：72个精确tuple成功、两个冻结拒绝、14种拒绝值均对应真实matcher合同；declared72/222只证数据规模，不给产品质量授信。",
+        "B": "注释明确当前真实文件bytes只在适用删除时由runner核，历史固定快照不禁止未来正常修改；后续条目授权逐批而非整账旧日期。",
+        "C": "每次proof新对象，负例只改独立一个域，冻结写反例不能污染表；无FS/时钟或共享工程，Node测试隔离。",
+        "D": "proof复用合法tuple装配，refusals显式独立写坏输入；generated正控是匹配合同而非数据授权oracle，区分两种证明范围。",
+        "E": "所有14false断言真实执行；额外删一例/同数换身份/旧新file不匹配/源SHA漂移/缺snapshot等可分辨。无mock次数冒充业务、无新增跳过。",
+        "F": "矩阵每行说明唯一反证域，不把14断言折叠成一个无差别throws；正控逐文件失败能定位tuple。",
+        "G": "正控72虽共享装配但输入tuple彼此不同且无真实IO成本，不为提覆盖率堆case。无再次执行业已退役产品测试或恢复旧fallback。",
+        "H": "真实matcher直接接受可控输入，无核心mock；TAP完整原件可低成本确认合同身份/结果，当前盘SHA另由protected集成门证实。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
     }
   ],
   "adjacent": [
@@ -1279,6 +1453,36 @@
       "path": "packages/game/src/core/battle/__tests__/magic-animation-contracts.ts",
       "sha256": "8ba9ddbef5808aaf574ea79fe34f9a33dfb4ca93cdfb2c1d2220777182fd60d3",
       "status": "New whole internal module/compile-only contract accepted, outsidefixed52;A-H in magic-module-reviewed"
+    },
+    {
+      "path": "scripts/coverage/package-collection.mjs",
+      "sha256": "7f791d607bb50e404e3739313515b1f9aad9e033c86915043e01aec062e070de",
+      "status": "code-accepted;new scheduling leaf/contract, outside fixed52",
+      "dimensions": {
+        "A": "实际当前配置含game/editor；串行/并行success顺序不变；并行失败立即观察editor拒绝并等待已启动job，primary前台错误不被finally掩盖。",
+        "B": "注释明确顺序owner与报告IO分工及两失败原因，不声称取消尚未完成子进程或改变指标。",
+        "C": "唯一owner只持editor兑现状态，无FS/env/coverage算法；runner传真实收集器，完成或失败都回收在途Promise。",
+        "D": "只抽有独立生命周期的调度；未把指标或其它工具job塞入万能调度框架，无反向import。",
+        "E": "三既有正控+两正式业务红（未等job/拒绝逸出）→五绿；子Node监听真实unhandled事件，断言原错误/归还时刻/零stderr。",
+        "F": "按实际配置顺序直接for-await，success/failure显式标签避免错误truthy掩盖throw undefined；finally只等已处理结果。",
+        "G": "单真实入口被run.mjs使用，测试只验证job lifetime；无新flag/默认并发/规则放宽/空export。",
+        "H": "依赖收集回调是实际IO端口，测试不跑覆盖率；子进程同步回收且有限5s测试超时，未放宽任何原门。"
+      }
+    },
+    {
+      "path": "scripts/coverage/package-collection.test.mjs",
+      "sha256": "4bafa8e77304296f194bcf019660ae92fa23843ea1e0494546edf768534afe76",
+      "status": "code-accepted;new scheduling leaf/contract, outside fixed52",
+      "dimensions": {
+        "A": "实际当前配置含game/editor；串行/并行success顺序不变；并行失败立即观察editor拒绝并等待已启动job，primary前台错误不被finally掩盖。",
+        "B": "注释明确顺序owner与报告IO分工及两失败原因，不声称取消尚未完成子进程或改变指标。",
+        "C": "唯一owner只持editor兑现状态，无FS/env/coverage算法；runner传真实收集器，完成或失败都回收在途Promise。",
+        "D": "只抽有独立生命周期的调度；未把指标或其它工具job塞入万能调度框架，无反向import。",
+        "E": "三既有正控+两正式业务红（未等job/拒绝逸出）→五绿；子Node监听真实unhandled事件，断言原错误/归还时刻/零stderr。",
+        "F": "按实际配置顺序直接for-await，success/failure显式标签避免错误truthy掩盖throw undefined；finally只等已处理结果。",
+        "G": "单真实入口被run.mjs使用，测试只验证job lifetime；无新flag/默认并发/规则放宽/空export。",
+        "H": "依赖收集回调是实际IO端口，测试不跑覆盖率；子进程同步回收且有限5s测试超时，未放宽任何原门。"
+      }
     }
   ],
   "changes": [
@@ -1651,5 +1855,9 @@
   "presentation": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-reviewed.json",
     "sha256": "3ed838e5d861ed4efa9b1368ef89e1966b7c9fda947f18c3fe57d051b6edc77d"
+  },
+  "tooling": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
+    "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
   }
 }

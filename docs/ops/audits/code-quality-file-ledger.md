@@ -154,7 +154,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,461。
-当前已闭合核验：578；已读但待审：14；尚未逐文件核验：2869；合计未闭合：2883。
+当前已闭合核验：586；已读但待审：6；尚未逐文件核验：2869；合计未闭合：2875。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -329,7 +329,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/battle-progression.ts` | product | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 原合同逐文件接受；已批准WORD输入与TS属性偏离区分，真实红绿/旧反控/原盘表及集中门零诊断；不扩大相邻系统/存档整体信用 |
 | `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 既有关闭按当前变更刷新；保留原合同与身份，无退役/弱化，具体限制与原件见回执 |
 | `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 原合同逐文件接受；已批准WORD输入与TS属性偏离区分，真实红绿/旧反控/原盘表及集中门零诊断；不扩大相邻系统/存档整体信用 |
-| `scripts/docs/check.mjs` | tool | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；全文/真实CLI，>1MiB合法路径先红后绿 | 完整NUL枚举有限16MiB；独立4MiB namespace不改，原检查策略保留，0新关闭 |
+| `scripts/docs/check.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
 | `scripts/docs/check-testing.mjs` | tool | 已验证 | testing catalog/index/legacy flat verifier；testing docs runs | 独立测试文档门 |
 | `scripts/docs/config.mjs` | tool | 已验证 | current docs versions/sections/exceptions source | 不改历史格式 |
 | `scripts/coverage/metrics.mjs` | tool | 已验证 | exact integer ratio/aggregate comparison tests | 不用 pct 四舍五入 |
@@ -337,9 +337,9 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/coverage/environment.mjs` | tool | 已验证 | compile-cache disabled child environment contract | 保留无关环境 |
 | `scripts/coverage/protected-baseline.mjs` | tool | 已验证 | protected baseline bootstrap/compare fail-closed tests | 无 baseline 不 fail-open |
 | `scripts/coverage/config.mjs` | tool | 已验证 | seven-package source/test selection and fast exclusions | E2E exclusion boundaries |
-| `scripts/coverage/run.mjs` | tool | review | [本轮精确结构baseline调整](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 新授权重算与现有scope/test保护分开；旧Q6关闭不覆盖新差异，集中门待验 |
-| `scripts/coverage/package-collection.mjs` | tool | review | [52调度提取](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/coverage-coordinator-split.json) | 原控制流迁移/三控制通过；失败生命周期待核，不升closed |
-| `scripts/coverage/package-collection.test.mjs` | test | review | [52调度提取](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/coverage-coordinator-split.json) | 原控制流迁移/三控制通过；失败生命周期待核，不升closed |
+| `scripts/coverage/run.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
+| `scripts/coverage/package-collection.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
+| `scripts/coverage/package-collection.test.mjs` | test | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
 | `scripts/script-governance/run.mjs` | tool | 已验证 | canonical install census CLI, output symlink guard, script-governance tests | 不写产品数据 |
 | `packages/pal-extract/package.json` | product | 已验证 | package scripts/dependency boundary；pal-extract check/full gates | 无运行时逻辑 |
 | `packages/pal-extract/tsconfig.json` | product | 已验证 | source/scripts include 与 typecheck | 无产品行为 |
@@ -628,10 +628,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/present.ts` | product | 已验证 | [52阶段呈现层](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-reviewed.json) | 八维补核；直接碰撞叶、纠错注及去冗余断言；旧时钟候选保留理由/92绿/正文证明齐；统一门待 |
 | `packages/pal-extract/src/resources/parsers/rix.ts` | product | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |
 | `packages/game/src/dev/dev-panel.pure.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |
-| `scripts/coverage/approved-baseline-adjustments.mjs` | tool | review | [本窗精确数据与main重绑](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json)；旧five-cards/GLM授权历史保留 | 仅当前有限项完整旧摘要、166SHA、四计数及额外回退拒绝；旧条目/算法不变，整文件仍review |
-| `scripts/coverage/approved-baseline-adjustments.test.mjs` | test | review | [本轮三个合同测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 精确迁移、错误/未知输入及额外回退；不计产品覆盖信用 |
-| `scripts/coverage/approved-test-retirements.mjs` | tool | review | [五卡精确退役门增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 只核本次2快照/33条73净额和14拒绝轴，旧31授权不继承整文件信用 |
-| `scripts/coverage/approved-test-retirements.test.mjs` | test | review | [五卡精确退役门增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 只核本次2快照/33条73净额和14拒绝轴，旧31授权不继承整文件信用 |
+| `scripts/coverage/approved-baseline-adjustments.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
+| `scripts/coverage/approved-baseline-adjustments.test.mjs` | test | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
+| `scripts/coverage/approved-test-retirements.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
+| `scripts/coverage/approved-test-retirements.test.mjs` | test | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
 | `packages/game/src/shell/input.ts` | product | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |
 | `packages/game/src/shell/main-loop.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |
 | `packages/game/src/shell/audio.ts` | product | 已验证 | [input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) | CODE74原合同；用户批准缺口已处理，旧有效caller/oracle/反控按版本复用；不授广域上下文或听觉全流程信用 |

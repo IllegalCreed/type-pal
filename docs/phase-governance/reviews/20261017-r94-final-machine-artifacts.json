@@ -1027,10 +1027,8 @@
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
-      "unresolved": [
-        "File reviews, pending user decisions and uniform gates/publication remain; see current task."
-      ],
-      "nextStep": "Complete uniform gates then protected PR; no early integration claim.",
+      "unresolved": ["Five decisions/gates/publication pending; see task."],
+      "nextStep": "Finish52 and gates before protected PR.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1046,7 +1044,7 @@
         }
       ],
       "sourceSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
-      "afterSha256": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
+      "afterSha256": "81a4656dec1fac11c1168a72cd5849049e636c60784278a207968a91c7257d3c",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1063,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
-        "implementationSha": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
+        "currentSha": "81a4656dec1fac11c1168a72cd5849049e636c60784278a207968a91c7257d3c",
+        "implementationSha": "81a4656dec1fac11c1168a72cd5849049e636c60784278a207968a91c7257d3c",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1832,8 +1830,8 @@
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
-        "lineCount": 20224,
+        "afterSha256": "81a4656dec1fac11c1168a72cd5849049e636c60784278a207968a91c7257d3c",
+        "lineCount": 20231,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1851,9 +1849,10 @@
         },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "05e7cc27371e1966272805a752508ecf76f86aabf6bd76fbbb67fc7934d64c3f",
-          "scope": "Fixed52 quality stage owned metadata delta; old provenance retained."
-        }
+          "afterSha256": "81a4656dec1fac11c1168a72cd5849049e636c60784278a207968a91c7257d3c",
+          "scope": "Owned52 delta; history retained."
+        },
+        "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
       "history": [
         {
@@ -4853,7 +4852,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Owned current board/index/ledger/plan or child-review binding delta",
+      "reviewedLines": "Owned current source/binding delta",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

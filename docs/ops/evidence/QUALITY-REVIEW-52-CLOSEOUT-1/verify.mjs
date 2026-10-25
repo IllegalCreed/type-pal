@@ -28,6 +28,40 @@ function readNativePacket(native) {
 const directory = 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/'
 const scope = json(`${directory}scope.json`)
 const review = json(`${directory}review.json`)
+if (review.tooling) {
+  assert.equal(sha(read(review.tooling.path)), review.tooling.sha256)
+  const module = json(review.tooling.path)
+  for (const binding of module.bindings)
+    assert.equal(sha(read(binding.path)), binding.sha256, binding.path)
+  const receipts = readNativePacket(module.native)
+  for (const [id, passed, failed] of [
+    ['governance-tools', 118, 0],
+    ['coverage-coordinator-baseline', 3, 0],
+    ['coordinator-failure-red', 3, 2],
+    ['coordinator-failure-green', 105, 0],
+  ]) {
+    const raw = receipts[`${id}.stdout.raw`]
+    assert(raw.includes(`# pass ${passed}\n`))
+    assert(raw.includes(`# fail ${failed}\n`))
+    for (const label of ['cancelled', 'skipped', 'todo']) assert(raw.includes(`# ${label} 0\n`))
+    assert.equal(receipts[`${id}.stderr.raw`], '')
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, failed ? 1 : 0)
+  }
+  assert.equal(
+    (receipts['coordinator-failure-red.stdout.raw'].match(/code: 'ERR_ASSERTION'/g) ?? []).length,
+    2,
+  )
+  const audit = JSON.parse(receipts['tools-data-audit.json'])
+  assert.equal(audit.adjustmentCount, 20)
+  assert.equal(audit.distinctOldBaselines, 20)
+  for (const file of audit.unchanged) {
+    assert.equal(sha(read(file.path)), file.sha256)
+    assert.equal(
+      sha(execFileSync('git', ['show', `0e14c184e:${file.path}`], { cwd: root })),
+      file.sha256,
+    )
+  }
+}
 if (review.presentation) {
   assert.equal(sha(read(review.presentation.path)), review.presentation.sha256)
   const module = json(review.presentation.path)

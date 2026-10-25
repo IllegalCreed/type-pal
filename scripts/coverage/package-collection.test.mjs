@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
 import test from 'node:test'
 import { collectPackages } from './package-collection.mjs'
 
@@ -58,3 +59,45 @@ test('parallel mode rejects a missing editor before running any job', async () =
   )
   assert.deepEqual(order, [])
 })
+
+for (const failure of ['game', 'editor']) {
+  test(`parallel ${failure} failure retains error ownership and joins the editor job`, () => {
+    // Isolate rejection notifications in a real child. No coverage collector or
+    // report is faked: this seam tests only the coordinator's own job lifetime.
+    const program = `
+      import { collectPackages } from ${JSON.stringify(new URL('./package-collection.mjs', import.meta.url).href)}
+      const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
+      const unhandled = []
+      process.on('unhandledRejection', error => unhandled.push(error.message))
+      let editorFinished = false
+      let caught
+      try {
+        await collectPackages([{id: 'game'}, {id: 'editor'}], async ({id}) => {
+          if (id === 'editor') {
+            await pause(10)
+            editorFinished = true
+            if (${JSON.stringify(failure)} === 'editor') throw new Error('editor failed')
+          } else {
+            if (${JSON.stringify(failure)} === 'game') throw new Error('game failed')
+            await pause(30)
+          }
+          return id
+        }, true)
+      } catch (error) { caught = error.message }
+      const finishedBeforeReturn = editorFinished
+      await pause(30)
+      console.log(JSON.stringify({caught, finishedBeforeReturn, unhandled}))
+    `
+    const run = spawnSync(process.execPath, ['--input-type=module', '-e', program], {
+      encoding: 'utf8',
+      timeout: 5000,
+    })
+    assert.ifError(run.error)
+    assert.equal(run.status, 0, run.stderr)
+    const observed = JSON.parse(run.stdout)
+    assert.equal(observed.caught, `${failure} failed`)
+    assert.equal(observed.finishedBeforeReturn, true, 'collector returned before its owned job')
+    assert.deepEqual(observed.unhandled, [], 'editor rejection escaped the coordinator')
+    assert.equal(run.stderr, '')
+  })
+}

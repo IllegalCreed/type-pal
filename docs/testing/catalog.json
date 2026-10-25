@@ -1792,7 +1792,7 @@
           "lines": "6-13",
           "anchor": "export const MAX_PLAYER_EQUIPMENTS",
           "role": "owner",
-          "sha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad"
+          "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205"
         },
         {
           "path": "packages/game/src/core/player-poison-state.ts",
@@ -2028,6 +2028,16 @@
             "sourceSha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502",
             "scope": "Only unused third bus argument removed at the existing D1 caller; expect AST unchanged. Current 50-file407 regression includes this test; historical D1 SCC/token/needles/browser and publication/version/date fields retained.",
             "evidence": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json"
+          },
+          {
+            "date": "2026-10-26",
+            "revision": "fa3fe8d79",
+            "action": "review52 equipment pure stat-sharing source binding",
+            "sourceRef": "packages/game/src/core/equipment-state.ts",
+            "previousSourceSha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad",
+            "sourceSha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
+            "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+            "scope": "Six effective-stat sums now share a private narrow helper; owner exports/inputs/storage and numeric results retained. Actual44 equipment and36 adjacent tests are finite regression only. No new historical D1 SCC/161-token/needles/browser or E2E claim; catalog dates/status/versions retained."
           }
         ]
       },

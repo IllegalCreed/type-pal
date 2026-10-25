@@ -511,17 +511,15 @@
         "docs/ops/tasks/GAME-ENGLISH-1.md",
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
-      "unresolved": [
-        "File reviews, pending user decisions and uniform gates/publication remain; see current task."
-      ],
-      "nextStep": "Complete uniform gates then protected PR; no early integration claim.",
+      "unresolved": ["Five decisions/gates/publication pending; see task."],
+      "nextStep": "Finish52 and gates before protected PR.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
-      "afterSha256": "d5db6e9b24ca4dc0454c310f4a17b3dc74e9c77fd3fb02a51b9f6e95c7388f3c",
+      "afterSha256": "0366ce0760e3921a198f569af00d2260fa64a8b6c2ed1c4987ec4a62df5a6bbd",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -549,8 +547,8 @@
         "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
-        "currentSha": "d5db6e9b24ca4dc0454c310f4a17b3dc74e9c77fd3fb02a51b9f6e95c7388f3c",
-        "implementationSha": "d5db6e9b24ca4dc0454c310f4a17b3dc74e9c77fd3fb02a51b9f6e95c7388f3c",
+        "currentSha": "0366ce0760e3921a198f569af00d2260fa64a8b6c2ed1c4987ec4a62df5a6bbd",
+        "implementationSha": "0366ce0760e3921a198f569af00d2260fa64a8b6c2ed1c4987ec4a62df5a6bbd",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1720,13 +1718,13 @@
       "evidence": {
         "kind": "owned-review52-closeout",
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-        "afterSha256": "d5db6e9b24ca4dc0454c310f4a17b3dc74e9c77fd3fb02a51b9f6e95c7388f3c",
-        "scope": "Finite actual delta only; 0 new whole-file closure.",
+        "afterSha256": "0366ce0760e3921a198f569af00d2260fa64a8b6c2ed1c4987ec4a62df5a6bbd",
+        "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "lineCount": 87,
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "d5db6e9b24ca4dc0454c310f4a17b3dc74e9c77fd3fb02a51b9f6e95c7388f3c",
-          "scope": "Fixed52 quality stage owned metadata delta; old provenance retained."
+          "afterSha256": "0366ce0760e3921a198f569af00d2260fa64a8b6c2ed1c4987ec4a62df5a6bbd",
+          "scope": "Owned52 delta; history retained."
         }
       },
       "history": [
@@ -3060,7 +3058,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Owned current board/index/ledger/plan or child-review binding delta",
+      "reviewedLines": "Owned current source/binding delta",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -3363,10 +3361,8 @@
         "docs/ops/tasks/GAME-ENGLISH-1.md",
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
-      "unresolved": [
-        "File reviews, pending user decisions and uniform gates/publication remain; see current task."
-      ],
-      "nextStep": "Complete uniform gates then protected PR; no early integration claim.",
+      "unresolved": ["Five decisions/gates/publication pending; see task."],
+      "nextStep": "Finish52 and gates before protected PR.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
@@ -3759,12 +3755,12 @@
         "kind": "owned-review52-closeout",
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
         "afterSha256": "5a4abf26780ee29f2a51759f904bd7081b41ac771bfa3f0950cbfcbf31764386",
-        "scope": "Finite actual delta only; 0 new whole-file closure.",
+        "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "lineCount": 535,
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
           "afterSha256": "5a4abf26780ee29f2a51759f904bd7081b41ac771bfa3f0950cbfcbf31764386",
-          "scope": "Fixed52 quality stage owned metadata delta; old provenance retained."
+          "scope": "Owned52 delta; history retained."
         }
       },
       "history": [
@@ -4760,7 +4756,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "Owned current board/index/ledger/plan or child-review binding delta",
+      "reviewedLines": "Owned current source/binding delta",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
