@@ -54,10 +54,15 @@ function idbAvailable(): boolean {
   return typeof indexedDB !== 'undefined'
 }
 
+function assertValidSlot(slot: number): void {
+  if (!Number.isInteger(slot) || slot < 1 || slot > MAX_SAVE_SLOTS) {
+    throw new Error(`Save: slot ${slot} 必须是 1-${MAX_SAVE_SLOTS} 的整数`)
+  }
+}
+
 export const Save = {
   async saveSlot(slot: number, gs: SaveSnapshot): Promise<void> {
-    if (slot < 1 || slot > MAX_SAVE_SLOTS)
-      throw new Error(`Save.saveSlot: slot ${slot} 超 1-${MAX_SAVE_SLOTS}`)
+    assertValidSlot(slot)
     const meta = extractMeta(gs)
     if (idbAvailable()) {
       await IndexedDbSave.saveSlot(slot, deepClone(gs), meta)
@@ -67,6 +72,7 @@ export const Save = {
   },
 
   async loadSlot(slot: number): Promise<SaveSnapshot | null> {
+    assertValidSlot(slot)
     if (idbAvailable()) {
       const r = await IndexedDbSave.loadSlot(slot)
       return r ? deepClone(r.gs) : null
@@ -85,6 +91,7 @@ export const Save = {
   },
 
   async deleteSlot(slot: number): Promise<void> {
+    assertValidSlot(slot)
     if (idbAvailable()) {
       await IndexedDbSave.deleteSlot(slot)
       return
