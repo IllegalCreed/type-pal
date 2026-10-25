@@ -9,7 +9,7 @@
 //   (save-slot-menu.test.ts「dispatcher 模拟」);已有他槽更高 savedTimes 的真 dispatcher 聚合未证明。
 import type { AbstractKey, InputSnapshot } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createCommandBus } from '../command-bus.js'
+
 import { createInitialGameState } from '../game-state.js'
 import { Save } from '../save/api.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
@@ -30,7 +30,7 @@ describe('TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真�
       openMenu(gs, { kind: 'in-game', state: createInGameMenu() }) // cursor 0 = 状态
       expect(gs.mode).toBe('menu')
 
-      tickMenu(gs, snap(['Menu', 'Confirm']), createCommandBus())
+      tickMenu(gs, snap(['Menu', 'Confirm']))
 
       // 取消优先:Menu 分支 closeTopMenu + return,Confirm 未被处理 → 无 player-status 入栈,
       // 栈空 → tickMenu 同帧 resume explore。若 Confirm 先行:状态屏先入栈再被 pop → 终态栈长 1、
@@ -61,7 +61,7 @@ describe('TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真�
       openMenu(gs, { kind: 'system', state: createSystemMenu() })
       openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
 
-      dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+      dispatchMenuInput(gs, snap(['Confirm']))
 
       // 同步相位:DH9 存档确认关整栈 + bCurrentSaveSlot 记槽(uigame.c:718)
       expect(gs.menuStack).toHaveLength(0)

@@ -108,7 +108,7 @@ describe('P03 装备绘制', () => {
     gs.PlayerRolesRuntime.rgwAttackStrength[1] = 5
     const items = [...worn, other, sword]
     const menu = createEquipMenu(gs, items)
-    confirmEquipItem(menu, items, roles, gs.partyMembers)
+    confirmEquipItem(menu, items)
     expect(menu.phase).toBe('pick-role')
     const frames = makeUiFrames()
     const icons = new Map([[6, iconImage(0x86)]])

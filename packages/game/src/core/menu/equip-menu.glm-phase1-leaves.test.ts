@@ -55,7 +55,7 @@ describe('L04 equip-menu 剩余合同', () => {
     gs.inventory = [{ itemId: 777, count: 1 }] // 目录外
     const state = createEquipMenu(gs, ITEMS)
     state.list.cursor = 0
-    confirmEquipItem(state, ITEMS, { roles: [] }, [0])
+    confirmEquipItem(state, ITEMS)
     expect(state.phase).toBe('list')
     expect(state.selectedItemId).toBeUndefined()
   })
@@ -63,7 +63,7 @@ describe('L04 equip-menu 剩余合同', () => {
   it('done 相：equipMoveUp/Down 与 cancelEquipMenu 零触达', () => {
     const state = createEquipMenu(gsOne(), ITEMS)
     state.list.cursor = 0
-    confirmEquipItem(state, ITEMS, { roles: [] }, [0])
+    confirmEquipItem(state, ITEMS)
     cancelEquipMenu(state) // pick-role → list
     expect(state.phase).toBe('list')
     cancelEquipMenu(state) // list → done
@@ -78,7 +78,7 @@ describe('L04 equip-menu 剩余合同', () => {
   it('单人队 pick-role：Down/Up 环绕自返（wMaxPartyMemberIndex=0）', () => {
     const state = createEquipMenu(gsOne(), ITEMS)
     state.list.cursor = 0
-    confirmEquipItem(state, ITEMS, { roles: [] }, [0])
+    confirmEquipItem(state, ITEMS)
     expect(state.phase).toBe('pick-role')
     equipMoveDown(state)
     expect(state.playerCursor).toBe(0)

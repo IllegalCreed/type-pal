@@ -6,16 +6,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   createPlayerStatus,
-  currentRoleId,
   playerStatusCancel,
   playerStatusNext,
   playerStatusPrev,
 } from './player-status.js'
 
 describe('PlayerStatus state machine', () => {
-  // C5 限定(2026-10-15)：本组 roleId 10/20/30 是任意非连续合法 id，只证明 cursor/party
-  // 索引遍历与防御的通用性，不声明是生产 PlayerRoles 域真值（生产队伍是 0..5 的
-  // PlayerRoles 角色索引，见 rgParty[].wPlayerRole；不是物品/法术使用的 wObjectID）。
+  // 生产队伍使用0..5的角色索引；非顺序队伍让cursor与roleId不能混淆。
   it('createPlayerStatus 拷贝 partyMembers 数组(不共享引用)', () => {
     const src = [0, 1, 2]
     const s = createPlayerStatus(src)
@@ -28,24 +25,24 @@ describe('PlayerStatus state machine', () => {
   it('partyMembers 空 → 立即 done(无可显示成员)', () => {
     const s = createPlayerStatus([])
     expect(s.done).toBe(true)
-    expect(currentRoleId(s)).toBeUndefined()
+    expect(s.partyMembers).toEqual([])
   })
 
   it('playerStatusNext cursor++,到末尾后 +1 越界 → done(sdlpal uigame.c:1281)', () => {
-    const s = createPlayerStatus([10, 20, 30])
-    expect(currentRoleId(s)).toBe(10)
+    const s = createPlayerStatus([2, 0, 4])
+    expect(s.partyMembers[s.cursor]).toBe(2)
     playerStatusNext(s)
     expect(s.cursor).toBe(1)
-    expect(currentRoleId(s)).toBe(20)
+    expect(s.partyMembers[s.cursor]).toBe(0)
     playerStatusNext(s)
-    expect(currentRoleId(s)).toBe(30)
+    expect(s.partyMembers[s.cursor]).toBe(4)
     playerStatusNext(s)
     expect(s.done).toBe(true)
-    expect(currentRoleId(s)).toBeUndefined()
+    expect(s.cursor).toBe(s.partyMembers.length)
   })
 
   it('playerStatusPrev cursor--,从 0 再 -- → done(sdlpal uigame.c:1276 cursor<0)', () => {
-    const s = createPlayerStatus([10, 20])
+    const s = createPlayerStatus([4, 1])
     playerStatusNext(s) // cursor=1
     playerStatusPrev(s) // cursor=0
     expect(s.cursor).toBe(0)
@@ -55,7 +52,7 @@ describe('PlayerStatus state machine', () => {
   })
 
   it('playerStatusCancel(Menu)直接关 — sdlpal uigame.c:1271 iCurrent=-1', () => {
-    const s = createPlayerStatus([5, 6, 7])
+    const s = createPlayerStatus([4, 2, 0])
     playerStatusCancel(s)
     expect(s.done).toBe(true)
   })

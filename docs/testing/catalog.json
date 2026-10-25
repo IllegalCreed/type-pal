@@ -1820,7 +1820,7 @@
           "lines": "26",
           "anchor": "describe('D1 shared-state ownership",
           "role": "oracle",
-          "sha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f"
+          "sha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502"
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
@@ -2019,6 +2019,15 @@
             ],
             "scope": "Only scene-identity comments change; getter/setter typed AST identical. Approved bootstrap map-only publication uses existing setter. Current seven root browser cases are separate evidence; historical D1 SCC/token/needles/browser, catalog dates/status/versions and execution credit remain unchanged.",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md"
+          },
+          {
+            "date": "2026-10-25",
+            "revision": "9c95ab64db974c76ff1e811b581fdd75b28048a3",
+            "action": "approved unused tickMenu argument removal",
+            "previousSourceSha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f",
+            "sourceSha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502",
+            "scope": "Only unused third bus argument removed at the existing D1 caller; expect AST unchanged. Current 50-file407 regression includes this test; historical D1 SCC/token/needles/browser and publication/version/date fields retained.",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json"
           }
         ]
       },

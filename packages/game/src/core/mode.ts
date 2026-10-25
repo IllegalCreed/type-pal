@@ -50,7 +50,7 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickBattle(gs, input, bus)
       break
     case 'menu':
-      tickMenu(gs, input, bus)
+      tickMenu(gs, input)
       break
   }
 

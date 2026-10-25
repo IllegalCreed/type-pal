@@ -621,18 +621,25 @@ test('004 actual Save.saveSlot preserves input/write semantics and emits no succ
     source = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8')
   const transformed = instrumentMealTrace(source, file)
   assert.equal(transformed.anchors.actualGameSaveInput, 1)
-  const execute = async (code, gs, idb, failureAt) => {
+  const execute = async (code, gs, idb, failureAt, slot = 1) => {
     const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true),
-      methods = []
+      methods = [],
+      validators = []
     const find = (node) => {
       if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'saveSlot') methods.push(node)
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'assertValidSlot')
+        validators.push(node)
       ts.forEachChild(node, find)
     }
     find(ast)
     assert.equal(methods.length, 1)
-    const body = ts.transpileModule(`const ActualSave={${methods[0].getText(ast)}}`, {
-      compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
-    }).outputText
+    assert.equal(validators.length, 1)
+    const body = ts.transpileModule(
+      `${validators[0].getText(ast)}\nconst ActualSave={${methods[0].getText(ast)}}`,
+      {
+        compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+      },
+    ).outputText
     const host = {}
     let ms = 0
     new Function('globalThis', 'performance', evidenceObserverScript(installMealObserver))(host, {
@@ -655,6 +662,7 @@ test('004 actual Save.saveSlot preserves input/write semantics and emits no succ
       'gs',
       'idb',
       'failureAt',
+      'slot',
       'log',
       `
       const failure=new Error('actual save failed'), MAX_SAVE_SLOTS=5, _slots=new Map();let stored;
@@ -662,10 +670,10 @@ test('004 actual Save.saveSlot preserves input/write semantics and emits no succ
         deepClone=input=>{log.push('clone');if(failureAt==='clone')throw failure;return structuredClone(input)},
         IndexedDbSave={async saveSlot(slot,copy){log.push('write');if(failureAt==='write')throw failure;stored=copy}};
       ${body}
-      return (async()=>{let caught;try{await ActualSave.saveSlot(1,gs)}catch(error){caught=error}
-        return {stored:stored??_slots.get(1)?.gs,sameThrow:caught===failure};})();
+      return (async()=>{let caught;try{await ActualSave.saveSlot(slot,gs)}catch(error){caught=error}
+        return {stored:stored??_slots.get(slot)?.gs,sameThrow:caught===failure,errorMessage:caught?.message};})();
     `,
-    )(host, gs, idb, failureAt, log)
+    )(host, gs, idb, failureAt, slot, log)
     return { ...result, log, trace: host.__readMealEvidence() }
   }
   for (const idb of [false, true])
@@ -695,6 +703,21 @@ test('004 actual Save.saveSlot preserves input/write semantics and emits no succ
       assert.equal(observed.log[1], 'meta')
       assert.equal(observed.log[2], 'clone')
     }
+  for (const idb of [false, true]) {
+    const { payload } = donor()
+    const original = await execute(source, payload.gs, idb, null, NaN),
+      observed = await execute(transformed.code, payload.gs, idb, null, NaN)
+    assert.deepEqual(observed, original, 'observation must preserve invalid-slot rejection')
+    assert.equal(observed.errorMessage, 'Save: slot NaN 必须是 1-5 的整数')
+    assert.equal(observed.stored, undefined)
+    assert.deepEqual(observed.log, [])
+    assert.deepEqual(observed.trace.saveCaptures, [])
+    assert.deepEqual(observed.trace.saveCompletions, [])
+  }
+  assert.throws(
+    () => instrumentMealTrace(source.replace('assertValidSlot(slot)', 'validateOther(slot)'), file),
+    /slot validation moved/,
+  )
   assert.throws(
     () =>
       instrumentMealTrace(

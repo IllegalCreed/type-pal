@@ -11,21 +11,21 @@
  */
 
 import type { InputSnapshot } from '@type-pal/shared'
-import type { CommandBus } from '../command-bus.js'
+
 import type { GameState } from '../game-state.js'
 import { dispatchMenuInput } from './menu-driver.js'
 import { resumeAfterMenusClosed } from './menu-stack.js'
 
 export { closeTopMenu, openMenu } from './menu-stack.js'
 
-export function tickMenu(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
+export function tickMenu(gs: GameState, input: InputSnapshot): void {
   // 栈空(可能由前一帧 closeTopMenu 清空)→ 立即切回(脚本开的商店关闭 → resume 脚本)
   if (gs.menuStack.length === 0) {
     resumeAfterMenusClosed(gs)
     return
   }
   // dispatch 输入到当前栈顶 menu;dispatcher 可能调 closeTopMenu / openMenu 改栈
-  dispatchMenuInput(gs, input, bus)
+  dispatchMenuInput(gs, input)
   // dispatch 后再次 sync mode(若 dispatcher 关掉了所有菜单)
   if (gs.menuStack.length === 0) {
     resumeAfterMenusClosed(gs)

@@ -1,13 +1,29 @@
 # GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入
 
-Status: draft
+Status: done
 Phase: phase1
 Capability: menu helper public API ownership
-Coding Owner: 未分配（等待准入）
+Coding Owner: Codex
 Reviewer: Codex
 Visual Verification Timing: N/A（公共出口/测试边界）
 
-## 发现与停止线（2026-10-17）
+## 2026-10-25 本地统一门收口（当前）
+
+单一Owner Codex；同一codex/code-quality-94-102，main基点8ebcb70f0。用户两项裁决已落实，原范围54路径中20个新关闭、34既有关闭按版本桥接保留；12个相邻路径只验实际delta，不另授整文件信用。逐文件A–H、精确合同去向与完整失败/恢复原件见[当前收口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+全仓20605产品＋714工具、七包TC与lint6111文件0/0/0；唯一official20168例／807源完成，原四条比率拒绝保留，仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0；五项精确退役全部匹配。收尾docs/lint/ledger/diff原件提交前补齐，未齐不发布。状态done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录，不能从本节预告继承。
+
+旧日期或下方“当前/待裁决/rework”属于其明示候选，历史原件保留；不扩103+或重开pre94。
+
+## 当前裁决与准入（2026-10-25）
+
+用户明确批准删除零生产调用的旧菜单接口并删去或迁移相应测试。Codex单Owner，build allowed：pageUp/pageDown及私有查找、旧物品列表factory/config/display types、makeEquipMenuEntry、currentRoleId；同类不被实现读取的内部菜单参数与全部仓库调用点一并清理。matchesFilter、真实库存网格和角色导航行为保留。
+
+同文件追加核明Confirm/Triple/Switch八个helper及三类型也仅测试调用，纳入同一用户“删除未使用旧接口”的清理范围；现用确认/开关由具体菜单状态机持有。上一份current-review的G“其它出口实际消费”过宽，撤回该句；本轮以实际全仓import/caller清单代替，不继承错误信用。
+
+纯死代码清理以生产caller清单、删除影响、真实相邻回归及最终集中门验收，不伪造“失败例证明零caller”。下方旧准入第3条的该表述不作为本轮证明方法，历史原文保留。唯一分支codex/code-quality-94-102，接续已推b8b2ffaf4；不恢复旧分支。
+
+## 发现与停止线（历史，2026-10-17）
 
 CODE-QUALITY-107 对 menu helper 实现、测试、真实 caller 和 SDLPal primary 做了完整读取。
 当前 caller census 显示：

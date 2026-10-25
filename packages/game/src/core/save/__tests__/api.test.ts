@@ -69,6 +69,7 @@ describe('Save API memory fallback', () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs1.dwCash = 100
     gs1.wNumScene = 5
+    gs1.wSavedTimes = 42
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs2.dwCash = 200
     gs2.wNumScene = 10
@@ -81,6 +82,7 @@ describe('Save API memory fallback', () => {
     expect(list[0]?.id).toBe(1)
     expect(list[0]?.meta.cash).toBe(100)
     expect(list[0]?.meta.sceneId).toBe(5)
+    expect(list[0]?.meta.savedTimes).toBe(42)
     expect(list[1]?.id).toBe(3)
     expect(list[1]?.meta.cash).toBe(200)
   })
@@ -95,10 +97,20 @@ describe('Save API memory fallback', () => {
     expect(list.find((s) => s.id === 2)).toBeUndefined()
   })
 
-  it('slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错', async () => {
+  it('listSlots returns independent metadata values', async () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    await expect(Save.saveSlot(0, gs)).rejects.toThrow(/超 1-5/)
-    await expect(Save.saveSlot(6, gs)).rejects.toThrow(/超 1-5/)
+    gs.dwCash = 100
+    gs.wSavedTimes = 7
+    await Save.saveSlot(1, gs)
+    const first = await Save.listSlots()
+    expect(first.map(({ id }) => id)).toEqual([1])
+    first[0]!.meta.cash = 999
+    first[0]!.meta.savedTimes = 999
+
+    const second = await Save.listSlots()
+    expect(second[0]?.meta.cash).toBe(100)
+    expect(second[0]?.meta.savedTimes).toBe(7)
+    expect((await Save.loadSlot(1))?.dwCash).toBe(100)
   })
 
   it('overwrite:同 slot saveSlot 二次覆盖', async () => {

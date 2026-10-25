@@ -1,7 +1,8 @@
-import type { AbstractKey, InputSnapshot, Item, Magic, Spell } from '@type-pal/shared'
-import { beforeEach, describe, expect, it } from 'vitest'
+import type { AbstractKey, InputSnapshot, Item, Spell } from '@type-pal/shared'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
+import { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
 import {
   _resetStartGameHandlerForTest,
@@ -24,10 +25,10 @@ function mkGs(): GameState {
   return gs
 }
 
-const MOCK_CATALOGS = {
-  items: [] as Item[],
-  spells: [] as Spell[],
-  magics: [] as Magic[],
+const MOCK_CATALOGS: Parameters<typeof setMenuCatalogs>[0] = {
+  items: [],
+  spells: [],
+  magics: [],
   playerRoles: { roles: [] },
 }
 
@@ -77,28 +78,6 @@ function mkSpell(id: number, magicNumber: number, name: string): Spell {
   }
 }
 
-function mkMagic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
-
 /** 确定性安排：按 choice 映射定位 cursor（纯安排，不 dispatch），找不到即抛错。 */
 function inGameCursorFor(choice: InGameMenuChoice): number {
   const s = createInGameMenu()
@@ -113,20 +92,26 @@ beforeEach(() => {
   setMenuCatalogs(MOCK_CATALOGS)
 })
 
+afterEach(() => {
+  _resetStartGameHandlerForTest()
+  _resetSystemQuitHandlerForTest()
+  vi.restoreAllMocks()
+})
+
 describe('M5.6 W0.b dispatchInGameMenu hub', () => {
   it('Up/Down 移动 selection cursor', () => {
     const gs = mkGs()
     const inGame = createInGameMenu()
     openMenu(gs, { kind: 'in-game', state: inGame })
     const before = inGame.selection.cursor
-    tickMenu(gs, snap(['Down']), createCommandBus())
+    tickMenu(gs, snap(['Down']))
     expect(inGame.selection.cursor).not.toBe(before)
   })
 
   it('Menu 键 → 关 hub + 切回 explore', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
     expect(gs.mode).toBe('explore')
   })
@@ -138,7 +123,7 @@ describe('M5.6 W0.b dispatchInGameMenu hub', () => {
     const inGame = createInGameMenu()
     inGame.selection.cursor = inGameCursorFor('system')
     openMenu(gs, { kind: 'in-game', state: inGame })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(2)
     expect(gs.menuStack[1]?.kind).toBe('system')
   })
@@ -148,7 +133,7 @@ describe('M5.6 W0.b dispatchInGameMenu hub', () => {
     const inGame = createInGameMenu()
     inGame.selection.cursor = inGameCursorFor('inventory')
     openMenu(gs, { kind: 'in-game', state: inGame })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(2)
     expect(gs.menuStack[1]?.kind).toBe('inventory-action')
   })
@@ -158,7 +143,7 @@ describe('M5.6 W0.b dispatchInGameMenu hub', () => {
     const inGame = createInGameMenu()
     inGame.selection.cursor = inGameCursorFor('status')
     openMenu(gs, { kind: 'in-game', state: inGame })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(2)
     expect(gs.menuStack[1]?.kind).toBe('player-status')
   })
@@ -169,9 +154,9 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const gs = mkGs()
     const sys = createSystemMenu()
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Down']), createCommandBus())
+    tickMenu(gs, snap(['Down']))
     expect(sys.selection.cursor).not.toBe(0)
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
   })
 
@@ -182,7 +167,7 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1 // quit 在最后
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(sys.phase).toBe('confirm') // 进确认阶段
     expect(sys.confirmYes).toBe(false) // 默认高亮 No(PAL_ConfirmMenu nDefault=0)
     expect(gs.menuStack.length).toBe(1) // 未清栈
@@ -193,10 +178,10 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm
-    tickMenu(gs, snap(['Right']), createCommandBus())
+    tickMenu(gs, snap(['Confirm'])) // 进 confirm
+    tickMenu(gs, snap(['Right']))
     expect(sys.confirmYes).toBe(true)
-    tickMenu(gs, snap(['Left']), createCommandBus())
+    tickMenu(gs, snap(['Left']))
     expect(sys.confirmYes).toBe(false)
   })
 
@@ -207,8 +192,8 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm(No)
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 选 No → 关整个菜单
+    tickMenu(gs, snap(['Confirm'])) // 进 confirm(No)
+    tickMenu(gs, snap(['Confirm'])) // 选 No → 关整个菜单
     expect(gs.menuStack.length).toBe(0)
     expect(gs.mode).toBe('explore')
   })
@@ -218,8 +203,8 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
     expect(gs.mode).toBe('explore')
   })
@@ -232,14 +217,14 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const sys = createSystemMenu()
     sys.selection.cursor = 2 // save/load/music/sound/quit → music
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(sys.phase).toBe('switch')
     expect(sys.switchTarget).toBe('music')
     expect(sys.confirmYes).toBe(true) // 默认高亮当前态(开)
     expect(gs.menuStack.length).toBe(1) // 未清栈
-    tickMenu(gs, snap(['Left']), createCommandBus()) // toggle → 关
+    tickMenu(gs, snap(['Left'])) // toggle → 关
     expect(sys.confirmYes).toBe(false)
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 确认关
+    tickMenu(gs, snap(['Confirm'])) // 确认关
     expect(gs.fMusicEnabled).toBe(false) // 写入
     // DH9:切换完 → PAL_SystemMenu return TRUE → goto out 关整个菜单(uigame.c:633/650)
     expect(gs.menuStack.length).toBe(0)
@@ -251,10 +236,10 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const sys = createSystemMenu()
     sys.selection.cursor = 3 // sound
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(sys.switchTarget).toBe('sound')
-    tickMenu(gs, snap(['Left']), createCommandBus()) // 切到关
-    tickMenu(gs, snap(['Menu']), createCommandBus()) // 取消
+    tickMenu(gs, snap(['Left'])) // 切到关
+    tickMenu(gs, snap(['Menu'])) // 取消
     expect(gs.fSoundEnabled).toBe(true) // 取消不写,保持当前态
     // DH9:取消后 case 仍走完 → return TRUE → goto out 关整个菜单(uigame.c:650)
     expect(gs.menuStack.length).toBe(0)
@@ -269,9 +254,9 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1
     openMenu(gs, { kind: 'system', state: sys })
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm
-    tickMenu(gs, snap(['Right']), createCommandBus()) // → Yes
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 选 Yes
+    tickMenu(gs, snap(['Confirm'])) // 进 confirm
+    tickMenu(gs, snap(['Right'])) // → Yes
+    tickMenu(gs, snap(['Confirm'])) // 选 Yes
     expect(quitCalled).toBe(1)
     _resetSystemQuitHandlerForTest()
   })
@@ -294,7 +279,7 @@ describe('M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 
   it('Menu 键 → close', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu() })
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
   })
 
@@ -303,7 +288,7 @@ describe('M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 
     const action = createInventoryActionMenu()
     openMenu(gs, { kind: 'inventory-action', state: action })
     expect(action.selection.cursor).toBe(0) // equip
-    tickMenu(gs, snap(['Down']), createCommandBus())
+    tickMenu(gs, snap(['Down']))
     expect(action.selection.cursor).toBe(1) // use
     expect(gs.iCurInvActionMenuItem).toBe(1)
   })
@@ -311,7 +296,7 @@ describe('M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 
   it('Confirm "装备"(cursor=0)→ close action + open equip menu(sdlpal play.c:328-359 PAL_GameEquipItem)', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu(0) })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(1)
     expect(gs.menuStack[0]!.kind).toBe('equip')
   })
@@ -319,7 +304,7 @@ describe('M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 
   it('Confirm "使用"(cursor=1)→ close action + open inventory(filter=usable,sdlpal play.c:266)', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu(1) })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(1)
     expect(gs.menuStack[0]!.kind).toBe('inventory')
   })
@@ -329,7 +314,7 @@ describe('M5.6 T9 dispatchInventoryMenu', () => {
   it('Menu 键 → close 菜单', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, []) })
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
   })
 
@@ -345,7 +330,7 @@ describe('M5.6 T9 dispatchInventoryMenu', () => {
     setMenuCatalogs({ ...MOCK_CATALOGS, items })
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
-    tickMenu(gs, snap(['Down']), createCommandBus())
+    tickMenu(gs, snap(['Down']))
     expect(inv.cursor).toBeGreaterThan(0)
     expect(gs.iCurInvMenuItem).toBe(inv.cursor)
   })
@@ -358,7 +343,7 @@ describe('M5.6 T9 dispatchInventoryMenu', () => {
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
     const before = inv.cursor
-    tickMenu(gs, snap(['PgDn']), createCommandBus())
+    tickMenu(gs, snap(['PgDn']))
     expect(inv.cursor).toBeGreaterThan(before)
   })
 })
@@ -367,7 +352,7 @@ describe('M5.6 T9 dispatchEquipMenu', () => {
   it('Menu 键 → close', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, []) })
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
   })
 
@@ -400,11 +385,11 @@ describe('M5.6 T9 dispatchEquipMenu', () => {
     openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, items) })
     const st = gs.menuStack[gs.menuStack.length - 1]!.state as ReturnType<typeof createEquipMenu>
     // list 选中新装备(163)→ Confirm 进 pick-role
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(st.phase).toBe('pick-role')
     expect(st.selectedItemId).toBe(163)
     // Confirm role 0 → 跑 scriptOnEquip(0x18 swap)
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.PlayerRolesRuntime.rgwEquipment[3]![0]).toBe(163) // 新装备装上
     expect(gs.wLastUnequippedItem).toBe(100) // 0x18 写旧装备
     expect(st.selectedItemId).toBe(100) // 选中物品显示刷新为换下的旧装备(状态层已对)
@@ -412,7 +397,7 @@ describe('M5.6 T9 dispatchEquipMenu', () => {
     //   回到 list 时 grid 应反映当前背包 —— 含 100、不含 163。
     expect(gs.inventory.map((e) => e.itemId).sort()).toEqual([100])
     // 取消回 list(Menu)→ 列表应是当前背包(旧装备 100),而非装备前的旧快照(新装备 163)
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(st.phase).toBe('list')
     expect(st.list.inventory.map((s) => s.itemId)).toEqual([100]) // 旧装备入列、新装备出列
   })
@@ -425,7 +410,7 @@ describe('M5.6 T9 dispatchInGameMagicMenu', () => {
       kind: 'in-game-magic',
       state: createInGameMagicMenu(MOCK_CATALOGS.playerRoles, gs.partyMembers, []),
     })
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
   })
 
@@ -447,7 +432,7 @@ describe('M5.6 T9 dispatchInGameMagicMenu', () => {
     expect(state.phase).toBe('pick-spell')
     expect(state.spellMenu!.cursor).toBe(0)
 
-    tickMenu(gs, snap(['Right']), createCommandBus())
+    tickMenu(gs, snap(['Right']))
     expect(state.spellMenu!.cursor).toBe(1)
   })
 })
@@ -455,36 +440,36 @@ describe('M5.6 T9 dispatchInGameMagicMenu', () => {
 describe('M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值', () => {
   it('Right/Down/Confirm 都 cursor++(sdlpal kKeyRight|kKeyDown|kKeySearch)', () => {
     const gs = mkGs()
-    gs.partyMembers = [10, 20, 30]
+    gs.partyMembers = [2, 0, 4]
     const ps = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: ps })
-    tickMenu(gs, snap(['Right']), createCommandBus())
+    tickMenu(gs, snap(['Right']))
     expect(ps.cursor).toBe(1)
-    tickMenu(gs, snap(['Down']), createCommandBus())
+    tickMenu(gs, snap(['Down']))
     expect(ps.cursor).toBe(2)
     // 第三次 next 越界 → done → closeTopMenu
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(0)
   })
 
   it('Left/Up cursor--,从 0 再 -- → done 关菜单', () => {
     const gs = mkGs()
-    gs.partyMembers = [10, 20, 30]
+    gs.partyMembers = [2, 0, 4]
     const ps = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: ps })
-    tickMenu(gs, snap(['Right']), createCommandBus())
+    tickMenu(gs, snap(['Right']))
     expect(ps.cursor).toBe(1)
-    tickMenu(gs, snap(['Up']), createCommandBus())
+    tickMenu(gs, snap(['Up']))
     expect(ps.cursor).toBe(0)
-    tickMenu(gs, snap(['Left']), createCommandBus())
+    tickMenu(gs, snap(['Left']))
     expect(gs.menuStack.length).toBe(0)
   })
 
   it('Menu 键 → 直接 close(sdlpal iCurrent=-1)', () => {
     const gs = mkGs()
-    gs.partyMembers = [10]
+    gs.partyMembers = [4]
     openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
   })
 })
@@ -495,7 +480,7 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
     const opening = createOpeningMenu()
     openMenu(gs, { kind: 'opening', state: opening })
     expect(opening.selection.cursor).toBe(0) // new-game
-    tickMenu(gs, snap(['Down']), createCommandBus())
+    tickMenu(gs, snap(['Down']))
     expect(opening.selection.cursor).toBe(1) // load-game
   })
 
@@ -507,7 +492,7 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
       received = c
     })
     openMenu(gs, { kind: 'opening', state: opening })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(received).toEqual({ kind: 'new-game' })
     _resetStartGameHandlerForTest()
   })
@@ -522,7 +507,7 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
       received = c
     })
     openMenu(gs, { kind: 'opening', state: opening })
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(received).toEqual({ kind: 'new-game' })
     _resetStartGameHandlerForTest()
   })
@@ -532,11 +517,36 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
     const opening = createOpeningMenu()
     opening.selection.cursor = 1 // load-game
     openMenu(gs, { kind: 'opening', state: opening })
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(2)
     expect(gs.menuStack[1]?.kind).toBe('save-slot')
     const ss = gs.menuStack[1]!.state as { mode: 'save' | 'load' }
     expect(ss.mode).toBe('load')
+  })
+
+  it.each(['Confirm', 'Menu'] as const)('%s 启动失败由路由收束，保留标题以便重试', async (key) => {
+    const gs = mkGs()
+    const opening = createOpeningMenu()
+    openMenu(gs, { kind: 'opening', state: opening })
+    const failure = new Error('opening playback failed')
+    const rejected = Promise.reject(failure)
+    // Contain the old unowned rejection so its missing routing output is an AssertionError.
+    void rejected.catch(() => {})
+    setStartGameHandler(() => rejected)
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    tickMenu(gs, snap([key]))
+    await rejected.catch(() => {})
+    expect(error).toHaveBeenCalledExactlyOnceWith('[opening] startGame failed:', failure)
+    expect(gs.mode).toBe('menu')
+    expect(gs.menuStack).toEqual([{ kind: 'opening', state: opening }])
+
+    setStartGameHandler(() => {
+      gs.menuStack = []
+    })
+    tickMenu(gs, snap([key]))
+    expect(gs.mode).toBe('explore')
+    expect(gs.menuStack).toEqual([])
   })
 
   it('未注入 handler 时 Confirm new-game 不抛错(noop)', () => {
@@ -544,7 +554,7 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
     const opening = createOpeningMenu()
     _resetStartGameHandlerForTest()
     openMenu(gs, { kind: 'opening', state: opening })
-    expect(() => tickMenu(gs, snap(['Confirm']), createCommandBus())).not.toThrow()
+    expect(() => tickMenu(gs, snap(['Confirm']))).not.toThrow()
   })
 })
 
@@ -553,7 +563,7 @@ describe('M5.6 T9 dispatchSaveSlotMenu', () => {
     const gs = mkGs()
     const ss = createSaveSlotMenu('save')
     openMenu(gs, { kind: 'save-slot', state: ss })
-    tickMenu(gs, snap(['Down']), createCommandBus())
+    tickMenu(gs, snap(['Down']))
     expect(ss.selection.cursor).toBe(1)
   })
 
@@ -561,7 +571,7 @@ describe('M5.6 T9 dispatchSaveSlotMenu', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
     expect(gs.menuStack.length).toBe(1)
-    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Confirm']))
     expect(gs.menuStack.length).toBe(0) // 已 pop save-slot
   })
 })
@@ -590,9 +600,9 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
     ])
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // list → 非 applyToAll → use-target
+    tickMenu(gs, snap(['Confirm'])) // list → 非 applyToAll → use-target
     expect(inv.phase).toBe('use-target')
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // use-target Confirm → startScript ok → revert use-target
+    tickMenu(gs, snap(['Confirm'])) // use-target Confirm → startScript ok → revert use-target
     expect(inv.phase).toBe('use-target') // 非 'done'(INNER loop 继续)
     expect(gs.mode).toBe('event') // 必须真的启动脚本，空 targetMenu 的 no-op 不能算用后恢复
     expect(gs.eventCursor?.currentEventObjectId).toBe(0)
@@ -642,7 +652,7 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
     inv.phase = 'use-target'
     inv.selectedItemId = 10
     openMenu(gs, { kind: 'inventory', state: inv })
-    tickMenu(gs, snap([]), createCommandBus()) // 顶部 count<=0 检查 → cancel 回 list
+    tickMenu(gs, snap([])) // 顶部 count<=0 检查 → cancel 回 list
     expect(inv.phase).toBe('list')
   })
 })

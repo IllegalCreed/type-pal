@@ -1,11 +1,29 @@
 # CODE-QUALITY-95 — menu 测试夹具合法性 counter
 
-Status: review
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: menu test legal typed input and isolation
 Visual Verification Timing: N/A（纯测试治理）
+
+## 2026-10-25 本地统一门收口（当前）
+
+单一Owner Codex；同一codex/code-quality-94-102，main基点8ebcb70f0。用户两项裁决已落实，原范围54路径中20个新关闭、34既有关闭按版本桥接保留；12个相邻路径只验实际delta，不另授整文件信用。逐文件A–H、精确合同去向与完整失败/恢复原件见[当前收口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+全仓20605产品＋714工具、七包TC与lint6111文件0/0/0；唯一official20168例／807源完成，原四条比率拒绝保留，仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0；五项精确退役全部匹配。收尾docs/lint/ledger/diff原件提交前补齐，未齐不发布。状态done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录，不能从本节预告继承。
+
+旧日期或下方“当前/待裁决/rework”属于其明示候选，历史原件保留；不扩103+或重开pre94。
+
+## 批准后收尾窗口（2026-10-25，接续b8）
+
+两项用户裁决已收到并实施，原待答停止线解除。54主范围的八维/复用/修正与结构证明见[当前模块窗口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)；下方同日b8或更早记录按其revision保留。当前代码review完整，20个新关闭候选仍等集中全仓/coverage/protected；未提前done。
+
+## 2026-10-25 当前复审增量
+
+三份原fixture修正已由pre94菜单逐文件A–H、renderer版本桥和PR22统一门接受，本轮原30路径全部与最新main8eb一致；不因旧卡停在review重做相同审查。CODE95原counter的合法typed Item/Role、真实单体目标和非顺序队伍oracle均复用。卡面暂保留review以等待本次94–102统一发布回执，0重复新增closed。
+
+唯一分支`codex/code-quality-94-102`，起点`8ebcb70f0`；新证据和逐文件八维见[本次入口](../evidence/CODE-QUALITY-94/current-review/README.md)。昂贵门待相关范围稳定后集中，原下方日期结论保持历史。无下一位Agent提示词，Codex继续。
 
 ## 2026-10-15 最终模块窗口（当前）
 

@@ -5,6 +5,123 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'quality94-102-unused-menu-api-removal-20261025',
+    authority:
+      'User explicitly approved unused old-menu API deletion and the corresponding test retirement; standing authority permits justified exact structural rebaselining. Only the three unchanged-active-body helpers are recounted from old/current per-file official data. No uncovered-count increase in those files. Driver, Save API and IDB gains are excluded from the adjustment and retained; all other packages/scope/threshold algorithms unchanged. One official collection, original rejection retained, no recollection.',
+    evidence: 'docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json',
+    baselineSha256: '3bc57dac8baa099e65b84b43becfc25c4edba186a21e6e97659bf70989873ff8',
+    sources: [
+      {
+        path: 'packages/game/src/core/menu/item-select.ts',
+        sha256: '869e931e9fa5b0ccde9655514920e146ad3b827aa4be23fbbf614f7d90a0591d',
+      },
+      {
+        path: 'packages/game/src/core/menu/player-status.ts',
+        sha256: '55f0108d2f4ddfa0a45f8f00a83fe25bdd87230a51a1bc0448f2f0b414a87d2a',
+      },
+      {
+        path: 'packages/game/src/core/menu/primitives.ts',
+        sha256: '16dcc14b8a072542614f6456b4649f086c07059d06dd3df993ff522cab81d6e1',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/primitives.test.ts',
+        sha256: 'f2a43473509d2a9fd6ea9bba334b027e6398f4c6fdb2ffd971944e00ff0031c3',
+      },
+      {
+        path: 'packages/game/src/core/menu/primitives.boundaries.test.ts',
+        sha256: '78bfaff615553f6dcb1d0e1645969958a64691ffb61a0135c99d762885a17a9f',
+      },
+      {
+        path: 'packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts',
+        sha256: '3deb623f2073ddf3b08aa8f459cf177f0bf9aec9a4c62f6cfe0e021944f4b0f9',
+      },
+      {
+        path: 'packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts',
+        sha256: '767dc6720228343197421a3e4e2a80237ca87a30fa3c8f1cff0fb77cf72276fa',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/item-magic-select.test.ts',
+        sha256: '8bdf986b89edbc5f7b74cd28ae1eccea91854ea00861d5037e736d92cbfcc702',
+      },
+      {
+        path: 'packages/game/src/core/menu/player-status.test.ts',
+        sha256: '5c731ad6ff6766895e26c2d4551fb75881b6d8a00c83f517299eb4b98840ec1c',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-driver.ts',
+        sha256: '81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5',
+      },
+      {
+        path: 'packages/game/src/core/save/api.ts',
+        sha256: '385f8df40e4e2b804dbb86ecd23e49c10f4a46f4f7e6f742b56bbed4cf5e7cd8',
+      },
+      {
+        path: 'packages/game/src/core/save/indexed-db.ts',
+        sha256: '87f3f66db9595314df1756609dd73f8f00d355b4f34c0c002ff6dbf849a3ebb1',
+      },
+      {
+        path: 'packages/game/src/core/save/__tests__/slot-domain.test.ts',
+        sha256: 'e4d6d2a47f71d236e62337a1cc029ebeb56db2639c82369cdf88eb238279ebd0',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/metrics.mjs',
+        sha256: '5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: 'f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15432,
+            total: 17106,
+          },
+          branches: {
+            covered: 9914,
+            total: 12247,
+          },
+          functions: {
+            covered: 1869,
+            total: 2153,
+          },
+          lines: {
+            covered: 13766,
+            total: 15000,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15384,
+            total: 17057,
+          },
+          branches: {
+            covered: 9884,
+            total: 12216,
+          },
+          functions: {
+            covered: 1850,
+            total: 2134,
+          },
+          lines: {
+            covered: 13726,
+            total: 14960,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-cli-stage-structural-recount-20261025',
     authority:
       'User standing authority: justified structural refactoring may update exact baseline; no dead-code restoration, weak tests or metric tolerance. Nine-file CLI stage split has whole-body reconstruction proofs, unchanged 39 real CLI contracts/child execution and byte-identical 809 output files. Parent V8 does not instrument CLI child processes. Only structural statement/function/line deltas rebased; events/slice behavioral gains and branch floor are preserved. One original official collection retained, no recollection.',

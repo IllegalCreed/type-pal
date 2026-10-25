@@ -7,6 +7,32 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-25 approved old-menu API removal; exact per-file mappings
+    // and native originals are in CODE94 approved-closeout. Predicate unchanged.
+    {
+      file: 'packages/game/src/core/menu/__tests__/primitives.test.ts',
+      previous: 18,
+      current: 7,
+      previousIdentityDigest: '02f0e03fcd5d9af00f5b6b64d1f576581ca42e8a7ed07476c613834e68d8424a',
+      currentIdentityDigest: '53e74497733cfa8a25fe094f17a8b901cea1d00388db38073602a7fc73867df0',
+      fileSha256: 'f2a43473509d2a9fd6ea9bba334b027e6398f4c6fdb2ffd971944e00ff0031c3',
+    },
+    {
+      file: 'packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts',
+      previous: 10,
+      current: 3,
+      previousIdentityDigest: '4eb15ca39810af7ebf75ce75bc07cc15795205e3558d5344d09ff856825174ea',
+      currentIdentityDigest: '7abcb86c340744e419d790ba59860e9fd5444cac3e3b2aaa3c3bf597ada34b1f',
+      fileSha256: '3deb623f2073ddf3b08aa8f459cf177f0bf9aec9a4c62f6cfe0e021944f4b0f9',
+    },
+    {
+      file: 'packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts',
+      previous: 8,
+      current: 5,
+      previousIdentityDigest: '3693e9e4c0a653f71743386441f80365952db3433f2bef9e24d57bf010a36779',
+      currentIdentityDigest: 'edc458e8a07d95e035a9c4394f10e2d297ff1db3d19af78caf395584e1a8a236',
+      fileSha256: '767dc6720228343197421a3e4e2a80237ca87a30fa3c8f1cff0fb77cf72276fa',
+    },
     // User standing exact-dedup/dead-code authority; CODE42 getDialogBoxRect had no production/E2E caller.
     // Two exact placeholder-only identities removed; mapping and official/native snapshots: final-pre94-gates/recount.json.
     {
@@ -314,16 +340,15 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'cf5817d2ba128fa2454d2414c2e3ce7996ed3198339a9fc1f7099ff606061248',
       fileSha256: 'c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc',
     },
-    // User2026-10-20 complete pre94 + standing dedup authority. CODE88: identical
-    // input as retained MP-sufficient case; exact label list already implies length=2.
-    // No lost zero-slot contract. Proof: pre94 menu-core-closeout.json.
+    // User2026-10-25: six old item-factory cases retire;four real magic contracts remain.
+    // Previous exact snapshot retained in Git and CODE94 approved-closeout mapping.
     {
       file: 'packages/game/src/core/menu/__tests__/item-magic-select.test.ts',
-      previous: 11,
-      current: 10,
-      previousIdentityDigest: 'f7eb8ac2da235ba950efe122d8c30cd1f7303ad5c0711b42f30624bc8c4145da',
-      currentIdentityDigest: '6cfcd76b318d44b6db25ca39e8e2ba51e4ac4ad070be5ce8d15899d85e2c91a5',
-      fileSha256: 'ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6',
+      previous: 10,
+      current: 4,
+      previousIdentityDigest: '6cfcd76b318d44b6db25ca39e8e2ba51e4ac4ad070be5ce8d15899d85e2c91a5',
+      currentIdentityDigest: 'eff142c43507abf695d43361ef954cdc5fceb8da6750103eea868dc900311a30',
+      fileSha256: '8bdf986b89edbc5f7b74cd28ae1eccea91854ea00861d5037e736d92cbfcc702',
     },
     // User2026-10-20 five-card necessary rework + standing test-quality/dedup authority.
     // CODE90 seven weaker/invalid cases map to stronger retained tests;three names corrected.
@@ -431,13 +456,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112',
       fileSha256: '28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46',
     },
+    // User2026-10-25 94–102 quality repair and standing proven-dedup authority.
+    // savedTimes=42 moves to the existing API list case; old approval snapshot
+    // remains in Git and CODE94/current-review/review.json. Predicate unchanged.
     {
       file: 'packages/game/src/core/menu/save-slot-menu.test.ts',
       previous: 15,
       current: 14,
-      previousIdentityDigest: 'f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581',
-      currentIdentityDigest: '6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda',
-      fileSha256: 'e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174',
+      previousIdentityDigest: '4338d808cd9f5745822ba6621d8a53a07ed8306eda97dd13d8d63e21ea808f63',
+      currentIdentityDigest: 'f6a16d9a1cc984e5883367385e63e5417fae61b51a39366aac5c47eda15a582c',
+      fileSha256: '5a5dbbf360731197f763bd93921e968db9b6602d64ba681597d935942636ff41',
     },
     // User-approved 2026-10-03 audit baseline reconciliation. These six files
     // were already stale relative to main 8efe0486; pin exact identities so

@@ -4,7 +4,6 @@
  * 不重复 P03 的攻击预览与六槽名，也不重复 glm 的未知已装备 `?id`。
  */
 
-import type { PlayerRoles } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { GameState } from '../../core/game-state.js'
 import {
@@ -55,12 +54,12 @@ function sword() {
   })
 }
 
-function openPick(gs: GameState, party: number[], roles: PlayerRoles): EquipMenuState {
+function openPick(gs: GameState, party: number[]): EquipMenuState {
   gs.partyMembers = party
   gs.inventory = [{ itemId: 60, count: 3 }]
   const items = [sword()]
   const menu = createEquipMenu(gs, items)
-  confirmEquipItem(menu, items, roles, gs.partyMembers)
+  confirmEquipItem(menu, items)
   return menu
 }
 
@@ -68,7 +67,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C01 一人队伍不加空白内容行，底边在 y=103', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0], roles)
+    const menu = openPick(gs, [0])
     const frames = makeUiFrames()
     const fb = createFramebuffer()
     fillSentinel(fb)
@@ -177,7 +176,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C05 角色光标越过队伍时图标已画，攻击数字不画', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0, 1], roles)
+    const menu = openPick(gs, [0, 1])
     menu.playerCursor = 5
     gs.PlayerRolesRuntime.rgwAttackStrength[0] = 23
     const frames = makeUiFrames()
@@ -207,7 +206,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0, 1], roles)
+    const menu = openPick(gs, [0, 1])
     const entry = gs.inventory[0]
     if (!entry) throw new Error('inventory entry missing')
     entry.count = 0
@@ -237,7 +236,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0, 1], roles)
+    const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20
     gs.PlayerRolesRuntime.rgwMagicStrength[0] = 11
     gs.rgEquipmentEffect[1]!.rgwMagicStrength[0] = 6
@@ -267,7 +266,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C08 防御预览在 y=58，取防御基础值', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0, 1], roles)
+    const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwDefense[0] = 31
     const frames = makeUiFrames()
     const fb = createFramebuffer()
@@ -288,7 +287,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C09 身法为一位数时只画个位，高位保持底色', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0, 1], roles)
+    const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwDexterity[0] = 8
     const frames = makeUiFrames()
     const fb = createFramebuffer()
@@ -309,7 +308,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C10 吉运预览在 y=102', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0, 1], roles)
+    const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwFleeRate[0] = 46
     const frames = makeUiFrames()
     const fb = createFramebuffer()
@@ -330,7 +329,7 @@ describe('G06-C 装备选人像素', () => {
   it('G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3', () => {
     const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const menu = openPick(gs, [0, 1], roles)
+    const menu = openPick(gs, [0, 1])
     const entry = gs.inventory[0]
     const snap = menu.list.inventory[0]
     if (!entry || !snap) throw new Error('inventory entry missing')

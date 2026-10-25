@@ -1,13 +1,29 @@
 # GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性
 
-Status: draft
+Status: done
 Phase: phase1
 Capability: save input-domain correctness
-Coding Owner: 未分配（等待用户裁决）
+Coding Owner: Codex
 Reviewer: Codex
 Visual Verification Timing: N/A（IO/公共 API 高风险边界）
 
-## 发现与停止线（2026-10-17）
+## 2026-10-25 本地统一门收口（当前）
+
+单一Owner Codex；同一codex/code-quality-94-102，main基点8ebcb70f0。用户两项裁决已落实，原范围54路径中20个新关闭、34既有关闭按版本桥接保留；12个相邻路径只验实际delta，不另授整文件信用。逐文件A–H、精确合同去向与完整失败/恢复原件见[当前收口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+全仓20605产品＋714工具、七包TC与lint6111文件0/0/0；唯一official20168例／807源完成，原四条比率拒绝保留，仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0；五项精确退役全部匹配。收尾docs/lint/ledger/diff原件提交前补齐，未齐不发布。状态done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录，不能从本节预告继承。
+
+旧日期或下方“当前/待裁决/rework”属于其明示候选，历史原件保留；不扩103+或重开pre94。
+
+## 当前裁决与准入（2026-10-25）
+
+用户明确批准保存、读取、删除统一只接受整数1–5，非法槽号报错。Codex单Owner，build allowed限api.ts私有守卫和独立memory/fake-IDB专测，先保存正式红例再修。NaN、正负Infinity、小数、0、6在两路径逐项验证；合法边界及已有事务complete/abort合同保留。listSlots、存档JSON、DB_VERSION、store/schema、迁移和清档不变。
+
+唯一分支codex/code-quality-94-102，最新main8eb；相关94–102返工稳定后集中全仓/coverage/protected。下方等待裁决与禁止实现语句为旧日期历史，本轮已获准，不重复请示。
+
+已实施统一私有整数边界守卫，三个入口在存储前验证；共同错误明确1–5整数合同。新专测8例覆盖两backend×三非法操作与合法1/5往返；正式基线2绿/6个指定AssertionError后，Save/IDB相邻3文件25例全绿、stderr0。首版Promise matcher在原生JSON中被Vitest包装为Error，原件保留，不用该包装结果冒充指定AssertionError。全仓/coverage和文件关闭仍等94–102整体冻结。
+
+## 发现与停止线（历史，2026-10-17）
 
 CODE-QUALITY-101 逐文件复核发现 `packages/game/src/core/save/api.ts` 的公开
 `Save.saveSlot(slot, state)` 只做 `slot < 1 || slot > MAX_SAVE_SLOTS` 检查。因而

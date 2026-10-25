@@ -33,7 +33,7 @@ function openDb(): Promise<IDBDatabase> {
   if (typeof indexedDB === 'undefined') {
     return Promise.reject(new Error('IndexedDB 不可用(测试环境 / SSR);走 in-memory api.ts'))
   }
-  _dbPromise = new Promise((resolve, reject) => {
+  const pending = new Promise<IDBDatabase>((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION)
     req.onupgradeneeded = () => {
       const db = req.result
@@ -43,10 +43,26 @@ function openDb(): Promise<IDBDatabase> {
       }
       db.createObjectStore(STORE, { keyPath: 'id' })
     }
-    req.onsuccess = () => resolve(req.result)
+    req.onsuccess = () => {
+      const db = req.result
+      db.onversionchange = () => {
+        // Other clients cannot upgrade/delete until this connection is released.
+        db.close()
+        invalidate()
+      }
+      db.onclose = invalidate
+      resolve(db)
+    }
     req.onerror = () => reject(req.error)
   })
-  return _dbPromise
+  // An old open/close completion must not retire a newer cached connection.
+  const invalidate = (): void => {
+    if (_dbPromise === pending) _dbPromise = null
+  }
+  _dbPromise = pending
+  // Callers still receive the original rejection; the next operation may open afresh.
+  void pending.catch(invalidate)
+  return pending
 }
 
 function txStore(db: IDBDatabase, mode: IDBTransactionMode): IDBObjectStore {
@@ -105,7 +121,15 @@ export const IndexedDbSave = {
   },
 }
 
-/** 测试 / hot-reload 时重置 db 连接句柄(单例缓存清理)。 */
+/** 测试收尾释放当前连接；尚未完成的open也由本次清理负责关闭。 */
 export function _resetDbConnectionForTest(): void {
+  const pending = _dbPromise
   _dbPromise = null
+  if (pending) {
+    // A failed open is already reported to its caller; cleanup only owns a possible connection.
+    void pending.then(
+      (db) => db.close(),
+      () => {},
+    )
+  }
 }

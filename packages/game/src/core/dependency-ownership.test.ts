@@ -170,7 +170,7 @@ describe('D1 shared-state ownership after dependency split', () => {
     menuStack.closeTopMenu(gs)
     expect(gs.mode).toBe('menu')
     expect(gs.eventCursor).toEqual({ ip: 3, waiting: 'shop' })
-    menuEntry.tickMenu(gs, input(), createCommandBus())
+    menuEntry.tickMenu(gs, input())
     expect(gs.mode).toBe('event')
     expect(gs.eventCursor).toEqual({ ip: 3, waiting: undefined })
     expect(gs.menuStack).toEqual([])

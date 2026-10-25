@@ -1,11 +1,33 @@
 # CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）
 
-Status: review
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 menu dispatch governance
 Visual Verification Timing: N/A（纯数据/路由层，无产品/UI行为修改）
+
+本轮统一证据入口：[94–102当前逐文件复审与原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 2026-10-25 本地统一门收口（当前）
+
+单一Owner Codex；同一codex/code-quality-94-102，main基点8ebcb70f0。用户两项裁决已落实，原范围54路径中20个新关闭、34既有关闭按版本桥接保留；12个相邻路径只验实际delta，不另授整文件信用。逐文件A–H、精确合同去向与完整失败/恢复原件见[当前收口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+全仓20605产品＋714工具、七包TC与lint6111文件0/0/0；唯一official20168例／807源完成，原四条比率拒绝保留，仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0；五项精确退役全部匹配。收尾docs/lint/ledger/diff原件提交前补齐，未齐不发布。状态done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录，不能从本节预告继承。
+
+旧日期或下方“当前/待裁决/rework”属于其明示候选，历史原件保留；不扩103+或重开pre94。
+
+## 批准后收尾窗口（2026-10-25，接续b8）
+
+两项用户裁决已收到并实施，原待答停止线解除。54主范围的八维/复用/修正与结构证明见[当前模块窗口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)；下方同日b8或更早记录按其revision保留。当前代码review完整，20个新关闭候选仍等集中全仓/coverage/protected；未提前done。
+
+## 2026-10-25 质量余项与异步所有权（当前）
+
+复用GLM原全文／当前未变断言合同和pre94 menu依赖证据；Codex完整读当前1050行路由，定向读两主测实际差异与callback/fixture/清理。已纠正inventory-action取消回hub、装备空swap到done和play.c误引为uigame.c三处坏注释；确认余额按当前值再判。角色夹具由越出生产域的10/20/30改为非顺序2/0/4；两测试Magic固定字段复用已有magic-cost-fixture，角色完整字段复用已核makeRole，保持原数值；测试新增afterEach回收handler，失败时亦清理。
+
+新直接counter：StartGameHandler公开允许Promise，bootstrap安装真实async开场回调，两个新游戏输入分支均丢弃其拒绝。正式37绿／2个指定AssertionError后，build allowed仅增加统一的私有startNewGame边界，按既有save/load路由失败策略记录原因；场景安装仍归shell，失败不清标题、不自动重试或新增UI，下一次明确按键仍能重试。同步throw仍穿透；不变公共callback签名、启动视频／剧情／存档机制。单一Owner Codex，原件留CODE94当前窗口。
+
+死出口／死参清理仍等待本次集中接口裁决，不借此修改。全仓／coverage集中在94–102相关范围稳定后，本卡不提前done。
 
 ## 2026-10-15 最终模块窗口（当前）
 

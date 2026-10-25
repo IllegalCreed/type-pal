@@ -1,11 +1,37 @@
 # CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）
 
-Status: review
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 save domain governance（schema/IndexedDB 高风险域）
 Visual Verification Timing: N/A（纯 IO/数据层，无产品/UI行为修改）
+
+本轮统一证据入口：[94–102当前逐文件复审与原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 2026-10-25 本地统一门收口（当前）
+
+单一Owner Codex；同一codex/code-quality-94-102，main基点8ebcb70f0。用户两项裁决已落实，原范围54路径中20个新关闭、34既有关闭按版本桥接保留；12个相邻路径只验实际delta，不另授整文件信用。逐文件A–H、精确合同去向与完整失败/恢复原件见[当前收口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+全仓20605产品＋714工具、七包TC与lint6111文件0/0/0；唯一official20168例／807源完成，原四条比率拒绝保留，仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0；五项精确退役全部匹配。收尾docs/lint/ledger/diff原件提交前补齐，未齐不发布。状态done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录，不能从本节预告继承。
+
+旧日期或下方“当前/待裁决/rework”属于其明示候选，历史原件保留；不扩103+或重开pre94。
+
+## 批准后收尾窗口（2026-10-25，接续b8）
+
+两项用户裁决已收到并实施，原待答停止线解除。54主范围的八维/复用/修正与结构证明见[当前模块窗口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)；下方同日b8或更早记录按其revision保留。当前代码review完整，20个新关闭候选仍等集中全仓/coverage/protected；未提前done。
+
+集中门发现Save校验提取后的真实E2E工具接线漂移：meal插桩仍查旧内联条件，三条工具合同以AssertionError失败，尚未进入产品包测试。Codex接手窄修`meal-trace-plugin.mjs`及配对`meal-contract.test.mjs`，锚定首条真实`assertValidSlot(slot)`；隔离执行同时提取实际校验函数，验证非法槽号在观察/clone/write前拒绝。D1相邻测试仅移除无用bus实参，当前catalog/report/evidence三方sourceRef和增量history同步，原SCC/token/浏览器/版本/出版状态不升级。完整失败及恢复记录随本轮统一门保存，不改生产机制或规则。
+
+## 2026-10-25 连接所有权返工准入（当前）
+
+当前用户继续94–102复审及必要返工，单一Owner Codex，隔离 `codex/code-quality-94-102`／main8ebcb70f0。完整读取api/indexed-db及两专测，复用事务旧红绿；对原连接未知项补真实Save→独立IDBFactory反例。现已证首次open abort后失败Promise常驻、reset不关闭句柄、另一个真实客户端升级被旧连接阻塞。W3C IndexedDB 3.0 §2.1.1/§4.4/§5.2规定close与versionchange生命周期；原生产DB_VERSION=2、store/schema和commitWrite保持。
+
+build allowed仅修连接promise缓存/失败释放、close/versionchange失效和现有测试reset的资源收支；不重试已开始的写事务，不新增清档/迁移/兼容路径或自动刷新页面。原槽号输入卡仍等用户裁决，不借本准入改输入域。新增故障测试使用真实驱动/请求/连接，旧事务三例不变；首跑close信号造法被模拟器拒绝，属测试驱动失败，不获业务counter信用，保留原件后改用库自带真实强关注入。fake-indexeddb6.2.5参数声明误为构造器，实际官方API接收连接实例；Reflect.apply仅作这一个已核故障工具调用，不改声明/规则，不替换产品实现。
+
+另直接复现内存listSlots泄漏可写meta引用：修改返回的cash/savedTimes会污染后续读取，与IDB原生值复制不同。正式9绿／1业务红后，仅复制当前全为数值字段的SlotMeta返回值；不改GS、槽号输入、存档内容或schema。同步纠正partyLevel注释：实现取角色0，不冒称非顺序队伍的队长。
+
+全仓与coverage仍留94–102集中收尾，不因本连接切片提前运行。当前不关闭文件，不宣称全部门完成。
 
 ## 2026-10-17 Codex 当前逐文件复核
 

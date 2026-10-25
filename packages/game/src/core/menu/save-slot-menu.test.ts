@@ -86,12 +86,14 @@ describe('saveSlotMenuUp/Down + Current', () => {
 
 describe('fetchSlotMetas + Save IO', () => {
   beforeEach(async () => {
+    vi.stubGlobal('indexedDB', undefined)
     await Save._clearAllForTest()
   })
 
   afterEach(async () => {
     await Save._clearAllForTest()
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
   it('fetchSlotMetas 空 slots → slotMetas 仍空', async () => {
@@ -188,31 +190,7 @@ describe('fetchSlotMetas + Save IO', () => {
 
     await expect(fetchSlotMetas(s)).resolves.toBeUndefined()
     expect(listSlots).toHaveBeenCalledOnce()
-    expect(warn).toHaveBeenCalledWith('[save-slot-menu] fetchSlotMetas failed:', failure)
+    expect(warn).toHaveBeenCalledExactlyOnceWith('[save-slot-menu] fetchSlotMetas failed:', failure)
     expect(s.slotMetas.get(1)).toEqual(existing)
   })
-})
-
-// ── C8 SlotMeta.savedTimes 真值(sdlpal cross-slot counter)──────────────────
-
-describe('SlotMeta.savedTimes — sdlpal uigame.c:589-597 真值', () => {
-  beforeEach(async () => {
-    await Save._clearAllForTest()
-  })
-
-  afterEach(async () => {
-    await Save._clearAllForTest()
-  })
-
-  it('savedTimes 从 gs.wSavedTimes 取(extractMeta 真值)', async () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.wSavedTimes = 42
-    await Save.saveSlot(1, gs)
-    const slots = await Save.listSlots()
-    expect(slots[0]?.meta.savedTimes).toBe(42)
-  })
-
-  // C5 排重(2026-10-15)：原"cross-slot max+1 算法验证(dispatcher 模拟)"自写聚合模型
-  // 重复实现 dispatcher 逻辑，不算真实 caller 证据 —— 真正触发 driver 聚合的合同由
-  // menu-save-chain.glm-msio.test.ts 承担（跨槽 7→8、原槽不变），删除本模拟。
 })

@@ -35,7 +35,7 @@ describe('L11 drawEquipMenu 剩余分支', () => {
     const { gs, roles } = sceneForEquip()
     const state = createEquipMenu(gs, [SWORD])
     state.list.cursor = 0
-    confirmEquipItem(state, [SWORD], roles, gs.partyMembers)
+    confirmEquipItem(state, [SWORD])
     expect(state.phase).toBe('pick-role')
     expect(state.selectedItemId).toBe(500)
     const fb = newFb()
@@ -66,7 +66,7 @@ describe('L11 drawEquipMenu 剩余分支', () => {
     // slot 1..5 保持 0
     const state = createEquipMenu(gs, [SWORD])
     state.list.cursor = 0
-    confirmEquipItem(state, [SWORD], roles, gs.partyMembers)
+    confirmEquipItem(state, [SWORD])
     const fb = newFb()
     const restore = freezeNow(0)
     try {
@@ -96,7 +96,7 @@ describe('L11 drawEquipMenu 剩余分支', () => {
     roles.roles[3] = base[3]!
     const state = createEquipMenu(gs, [SWORD])
     state.list.cursor = 0
-    confirmEquipItem(state, [SWORD], roles, gs.partyMembers)
+    confirmEquipItem(state, [SWORD])
     const fb = newFb()
     const restore = freezeNow(0)
     try {
