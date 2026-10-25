@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-25最终本地统一门：原83卡代码接受，3452tracked／511closed／63review／2878pending不变。check20617＋708工具／TC／静态0；唯一official20180例／807源的原结构比率拒绝保留，有限重计后同报告ratchet／protected通过、117工具绿；新候选远端CI／单PR／合并另核，不把其它pending改关闭。[完整回执与低成本复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
+
 2026-10-25 CODE1有限范围代码接受：明确PAL／author来源，两个正式业务红、164相关／四TC0、1428原盘记录仅571多一帧；真实Canvas及809产物两遍零diff。三明确新关闭，3452tracked／511closed／63review／2878pending；固定83原范围代码accept，广域migrate／sprite额外出口不强闭。全仓／official／protected及唯一PR仍待集中收尾。[本窗八维和原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)。
 
 2026-10-25 3m／42代码接受：用户保留TS极值速度、批准正防御与姓名速度窄修；两业务红后131绿／TC0，六新关闭。3451tracked／508closed／64review／2879pending，固定82accept／1partial（CODE1）；统一门和单PR等全部pre94。[当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)。

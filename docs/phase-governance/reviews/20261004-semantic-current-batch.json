@@ -503,7 +503,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Owned final gate retry delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Final gate retry; PAL identity repaired, no pass claim.",
+      "coreConclusion": "Local gates accepted; exact same-report recount/protection. CI/merge pending.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "168ff37fc2e9d0d79e5ede5e2fe095fd76ca471f06c5fb06e34df3532e2ebdb0",
+      "afterSha256": "8c00993c4ef7d5af335dcc3680d8e2eed01ea9257e205babd4e0d387c35685fe",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "168ff37fc2e9d0d79e5ede5e2fe095fd76ca471f06c5fb06e34df3532e2ebdb0",
+        "implementationSha": "8c00993c4ef7d5af335dcc3680d8e2eed01ea9257e205babd4e0d387c35685fe",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1715,9 +1715,9 @@
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
-        "afterSha256": "168ff37fc2e9d0d79e5ede5e2fe095fd76ca471f06c5fb06e34df3532e2ebdb0",
-        "lineCount": 93,
-        "scope": "PAL source closure; history retained; gates deferred.",
+        "afterSha256": "8c00993c4ef7d5af335dcc3680d8e2eed01ea9257e205babd4e0d387c35685fe",
+        "lineCount": 92,
+        "scope": "Final local gates; history retained; CI/merge pending.",
         "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
         "workingTreeDelta": true
       },
@@ -3333,9 +3333,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 PAL source closure delta",
+      "readMethod": "Owned final gate retry delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE1 source fix; finite83 accepted, final gates open.",
+      "coreConclusion": "Local gates accepted; exact same-report recount/protection. CI/merge pending.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3352,7 +3352,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "63aa8a037ce871d7d410ebba5a8fbbd35343d672863f5616accce5dfb39bb1e3",
+      "afterSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3373,7 +3373,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "63aa8a037ce871d7d410ebba5a8fbbd35343d672863f5616accce5dfb39bb1e3",
+        "implementationSha": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3731,11 +3731,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
-        "afterSha256": "63aa8a037ce871d7d410ebba5a8fbbd35343d672863f5616accce5dfb39bb1e3",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json",
+        "afterSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
         "lineCount": 530,
-        "scope": "PAL source closure; history retained; gates deferred.",
-        "candidateBaseRevision": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
+        "scope": "Final local gates; history retained; CI/merge pending.",
+        "candidateBaseRevision": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
         "workingTreeDelta": true
       },
       "history": [

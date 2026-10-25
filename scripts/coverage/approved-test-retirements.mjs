@@ -7,6 +7,24 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User standing exact-dedup/dead-code authority; CODE42 getDialogBoxRect had no production/E2E caller.
+    // Two exact placeholder-only identities removed; mapping and official/native snapshots: final-pre94-gates/recount.json.
+    {
+      file: 'packages/game/src/present/dialog-box-chrome.grok-r1.test.ts',
+      previous: 13,
+      current: 12,
+      previousIdentityDigest: '16800c9fcd0d82decff30d83e1b96334e318c89618fe216c66e5f810a7fa6480',
+      currentIdentityDigest: 'ac2379ec430460fc1ab5b6f2c13672192b3ef5930ac12a7c4bb1adf3c1a4a97b',
+      fileSha256: 'a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c',
+    },
+    {
+      file: 'packages/game/src/present/dialog-box.test.ts',
+      previous: 69,
+      current: 68,
+      previousIdentityDigest: 'f6d9ffd17c974be20f3ec3f3582735926eac4be082e46ee0c61dcdc3a394fe2d',
+      currentIdentityDigest: 'b4234ba5b207bef23640e8280bd55b65bef884176645266f9b0e3bf0868d2470',
+      fileSha256: 'bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe',
+    },
     // User2026-10-24 pre94 quality scope and standing exact-dedup authority.
     // Same-position keep assertion transfers to exact append content case; see battle-dialog-quality.
     {
@@ -25,15 +43,15 @@ export const approvedTestRetirements = Object.freeze(
       previous: 7,
       current: 6,
       previousIdentityDigest: '1f95c2cb88e3d8c93e43de80d5147f78689862c5f1617119c3aa48d6ed515ca8',
-      currentIdentityDigest: '3969cfad224c5c270d5e1e504721ea2f0ec82e54fec58deca4146ad90d6236d1',
-      fileSha256: 'c32e47925d130c69912c81fafb7bd705ee1930bd5f967ca449d1986826441332',
+      currentIdentityDigest: '45304ac5e9e9f9e2585e43044c735be396fbb6c9ee41395ebca6939f787a8026',
+      fileSha256: 'c6db00a9d1c3963487abda7a03d7bc49e90065eee560029062050ee8a8d6aca3',
     },
     {
       file: 'packages/game/src/core/cross-module-boundaries.test.ts',
       previous: 4,
       current: 3,
       previousIdentityDigest: 'a37e666648b00c40c4a54d437302c013d4beb32cf977edd8173cfd48f49848d6',
-      currentIdentityDigest: '73601accd59f22cd7ee6bb3396a29c0da3bb3173f35058bba71bdcd75712ebb1',
+      currentIdentityDigest: 'e2a7fe63737fff4194259ab6816da594b10219ae9dcd5649e30e88e9baf9cb4f',
       fileSha256: '18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4',
     },
     // User2026-10-24 pre94 test quality / standing precise-dedup authority.

@@ -1,5 +1,7 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 当前2026-10-25集中门：固定83原范围83accept／0partial／0pending；实际check20617包例＋708工具例、七包TC及硬静态0。单次official采集20180例／807源，原CLI结构比率拒绝已留存，精确重计后同报告ratchet／protected通过；117工具复验0。3452tracked／511closed／63review／2878pending。单PR／新远端CI／合并尚待执行，不扩94–102。[完整门禁、重计与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
+
 > 当前2026-10-25：固定83卡原范围83代码accept／0partial；RLE获批来源分域后两红、164相关／四TC0，真实原盘／Chrome／809双次产物闭包成立。只增加3明确文件关闭，广域migrate仍pending、sprite额外包装仍review；全仓／official／protected、远端CI及单PR／合并尚未执行。[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)。不扩94–102。
 
 > 2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
@@ -44,7 +46,7 @@
 
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
-Status: build
+Status: done
 Owner: Codex
 Reviewer: Codex（当前源码与证据复核；不冒充第三方）
 Phase: engineering first; phase1/phase2按真实路径分别准入
@@ -1972,3 +1974,11 @@ CODE1同轮B维交付：两源只修可直接证伪的过时／过宽描述，�
 当前等待条件核定：CODE1原盘解码来源修复、3m极值身法策略／正WORD防御修复、42姓名保留正文速度，四项已提具体裁决连续三轮仍无实际回答；goal自动“继续”不视为批准。独立工程／Q1b／RLE专测及两源B维欠账均已处理，三卡仍partial。后续只能在明确回答后实施相应正式红例和修复，不重复采集已有效测试或提前执行全仓／官方覆盖率。原完整目标保持，未宣布专项完成。
 
 2026-10-25集中门首跑：d36448a68的pnpm check exit1，唯一game失败为G02-D11旧canonical入口身份断言。正文/其余像素合同保留，按已批PAL来源改精确正反接线，13绿/0stderr；不记全仓通过。[完整失败与当前有限返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。下一次完整check后才进入唯一official采集，暂未新PR。
+
+
+### 2026-10-25 复审交付验收与发布交接
+
+全部原83卡代码范围冻结后执行集中门；首轮G02旧接线断言失败原件保留，13例正反PAL身份窄修后完整check真实exit0。唯一官方覆盖率采集的CLI结构比率拒绝保留；依用户合理重构授权，九文件S/F/L精确重计，保留branch旧floor和事件真实新增覆盖。同一次报告的原官方比较尾段／保护均通过，未重采或降规则。两新精确退役与两旧摘要勘误均由官方list＋旧native字段映射核定，117工具回归和0stderr。见本窗只读回执，原历史状态／counter不回写成0；发布仍由实际PR、远端CI和main合并事实裁定。
+
+
+原83卡有限代码范围与本地统一门已由Codex验收，本卡复审交付done；发布仍由CODE-QUALITY-3Y-CLOSEOUT-1承接，同一3y的单PR须以远端实际CI通过后合main。本卡done不声称PR已建立或main已合入；发布事实追加到本窗回执／GitHub PR，不扩大为全仓审查完成。

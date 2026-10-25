@@ -1,7 +1,7 @@
 {
   "date": "2026-10-25",
   "scope": "Single pre94 final gate window; original83 code scopes only; no94-102",
-  "codeFreeze": "d36448a688a1ad89a3400cb81b13ecb85f30fc40",
+  "codeFreeze": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
   "firstCheck": {
     "id": "full-check",
     "exit": 1,
@@ -28,5 +28,502 @@
       "countChange": 0
     }
   },
-  "state": "Full gate retry pending; official collection/protected/PR not started"
+  "state": "Local unified gates accepted; branch not yet PR/merged, remote checks pending",
+  "fixed83": {
+    "accept": 83,
+    "partial": 0,
+    "pending": 0
+  },
+  "counts": {
+    "total": 3452,
+    "closed": 511,
+    "review": 63,
+    "pending": 2878
+  },
+  "wholeCheck": {
+    "receipt": "full-check-r2",
+    "execution": {
+      "id": "full-check-r2",
+      "command": "pnpm",
+      "args": ["check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T02:24:07.258Z",
+      "end": "2026-10-25T02:39:50.084Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 380445,
+      "stderrBytes": 0
+    },
+    "packageTests": {
+      "content": 1498,
+      "shared": 118,
+      "game": 3808,
+      "pal-extract": 512,
+      "reforge": 8991,
+      "editor": 4951,
+      "migrate": 739
+    },
+    "totalPackageTests": 20617,
+    "toolSuiteCounts": [125, 115, 47, 399, 22],
+    "totalToolTests": 708,
+    "typechecks": "all seven packages plus editor author-scripts",
+    "runtimeStderrSections": 0,
+    "stderrBytes": 0,
+    "lint": {
+      "files": 6100,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "claim": "Actual pnpm check exit0. First failure preserved; not rebranded."
+  },
+  "officialCoverage": {
+    "execution": {
+      "id": "official-coverage",
+      "command": "pnpm",
+      "args": ["coverage:ratchet"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T02:43:42.894Z",
+      "end": "2026-10-25T02:53:25.612Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 210824,
+      "stderrBytes": 296
+    },
+    "collections": 1,
+    "sourceFiles": 807,
+    "tests": 20180,
+    "byPackage": {
+      "shared": {
+        "tests": 118,
+        "sources": 12,
+        "metrics": {
+          "statements": {
+            "covered": 468,
+            "total": 475
+          },
+          "branches": {
+            "covered": 218,
+            "total": 227
+          },
+          "functions": {
+            "covered": 31,
+            "total": 31
+          },
+          "lines": {
+            "covered": 419,
+            "total": 421
+          }
+        }
+      },
+      "content": {
+        "tests": 1498,
+        "sources": 56,
+        "metrics": {
+          "statements": {
+            "covered": 5668,
+            "total": 5878
+          },
+          "branches": {
+            "covered": 4827,
+            "total": 5129
+          },
+          "functions": {
+            "covered": 811,
+            "total": 827
+          },
+          "lines": {
+            "covered": 5061,
+            "total": 5199
+          }
+        }
+      },
+      "pal-extract": {
+        "tests": 363,
+        "sources": 55,
+        "metrics": {
+          "statements": {
+            "covered": 1350,
+            "total": 1782
+          },
+          "branches": {
+            "covered": 648,
+            "total": 761
+          },
+          "functions": {
+            "covered": 133,
+            "total": 190
+          },
+          "lines": {
+            "covered": 1186,
+            "total": 1567
+          }
+        }
+      },
+      "migrate": {
+        "tests": 671,
+        "sources": 38,
+        "metrics": {
+          "statements": {
+            "covered": 2345,
+            "total": 2592
+          },
+          "branches": {
+            "covered": 1622,
+            "total": 1787
+          },
+          "functions": {
+            "covered": 385,
+            "total": 410
+          },
+          "lines": {
+            "covered": 2057,
+            "total": 2266
+          }
+        }
+      },
+      "reforge": {
+        "tests": 8991,
+        "sources": 158,
+        "metrics": {
+          "statements": {
+            "covered": 17027,
+            "total": 18878
+          },
+          "branches": {
+            "covered": 10821,
+            "total": 13095
+          },
+          "functions": {
+            "covered": 2774,
+            "total": 3073
+          },
+          "lines": {
+            "covered": 15237,
+            "total": 16471
+          }
+        }
+      },
+      "game": {
+        "tests": 3758,
+        "sources": 194,
+        "metrics": {
+          "statements": {
+            "covered": 15432,
+            "total": 17106
+          },
+          "branches": {
+            "covered": 9914,
+            "total": 12247
+          },
+          "functions": {
+            "covered": 1869,
+            "total": 2153
+          },
+          "lines": {
+            "covered": 13766,
+            "total": 15000
+          }
+        }
+      },
+      "editor": {
+        "tests": 4781,
+        "sources": 294,
+        "metrics": {
+          "statements": {
+            "covered": 30525,
+            "total": 33836
+          },
+          "branches": {
+            "covered": 24579,
+            "total": 29437
+          },
+          "functions": {
+            "covered": 7769,
+            "total": 8662
+          },
+          "lines": {
+            "covered": 27309,
+            "total": 29561
+          }
+        }
+      }
+    },
+    "runtimeStderrSections": 0,
+    "stderrClassification": "296 exact bytes are coverage-policy rejection only; no hidden act/environment/runtime diagnostics. Original pnpm coverage:ratchet exit1 is NOT reported as exit0.",
+    "sameReport": {
+      "ratchet": {
+        "id": "ratchet-same-report",
+        "command": "node",
+        "args": [
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/replay-current-official.mjs",
+          "fast",
+          "--ratchet",
+          "--allow-scope-removal"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T03:10:01.372Z",
+        "end": "2026-10-25T03:10:01.662Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+        "observerTimeout": false,
+        "stdoutBytes": 243,
+        "stderrBytes": 0
+      },
+      "protected": {
+        "id": "protected-same-report",
+        "command": "node",
+        "args": [
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-final-wave-m1y5cvi8/replay-current-official.mjs",
+          "fast"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "start": "2026-10-25T03:10:06.821Z",
+        "end": "2026-10-25T03:10:06.938Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+        "observerTimeout": false,
+        "stdoutBytes": 891,
+        "stderrBytes": 0
+      },
+      "protectedBase": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+      "strategy": "Exact final main comparison/write tail and13 helpers of unchanged official run.mjs; only collection substituted with reading the single completed official summary. Full helper/tail/generated hashes in replay-proof.json; no comparator, scope or threshold weakened."
+    }
+  },
+  "coverageToolRetest": {
+    "execution": {
+      "id": "coverage-tools-final",
+      "command": "pnpm",
+      "args": ["test:coverage-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:09:55.131Z",
+      "end": "2026-10-25T03:09:58.232Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 26522,
+      "stderrBytes": 0
+    },
+    "tests": 117,
+    "reason": "Two exact retirement data entries add two generated registry checks; original115 full-check tooling remains historical. Predicate code unchanged."
+  },
+  "policyFileReview": {
+    "files": [
+      {
+        "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+        "sha256": "5431f75699e1c2997fcb30ea1ef567e13d5a284e7b31f298b94183d80e6e6c4c",
+        "dimensions": {
+          "A": "Only finite approval data/count expectations; exact old baseline/source/identity guards retained; same-report ratchet/protected executed.",
+          "B": "Per-entry authority/evidence stated; no blanket authorization or clean-pass claim for original failure.",
+          "C": "Data held in existing registries, ownership/comparison stays with unchanged official runner.",
+          "D": "Existing strict migration/retirement mechanism reused; no tolerance flag or second policy.",
+          "E": "Strong generic rejection/immutability tests retained; actual117 tooling tests pass; two rows receive generated exact snapshot tests.",
+          "F": "Named finite adjustment and explicit before/after counts; nine-file matrix explains numerator/denominator changes.",
+          "G": "No dead source/test restored, no new runtime product code, scope/predicates unchanged.",
+          "H": "Existing injected-source generic tests and frozen official/native evidence directly verify exact data; no hidden IO."
+        }
+      },
+      {
+        "path": "scripts/coverage/approved-test-retirements.mjs",
+        "sha256": "1fba6c83a9867a411fc674ae304bf623bd9cee5ad91a893cee6fa4f2941fbb31",
+        "dimensions": {
+          "A": "Only finite approval data/count expectations; exact old baseline/source/identity guards retained; same-report ratchet/protected executed.",
+          "B": "Per-entry authority/evidence stated; no blanket authorization or clean-pass claim for original failure.",
+          "C": "Data held in existing registries, ownership/comparison stays with unchanged official runner.",
+          "D": "Existing strict migration/retirement mechanism reused; no tolerance flag or second policy.",
+          "E": "Strong generic rejection/immutability tests retained; actual117 tooling tests pass; two rows receive generated exact snapshot tests.",
+          "F": "Named finite adjustment and explicit before/after counts; nine-file matrix explains numerator/denominator changes.",
+          "G": "No dead source/test restored, no new runtime product code, scope/predicates unchanged.",
+          "H": "Existing injected-source generic tests and frozen official/native evidence directly verify exact data; no hidden IO."
+        }
+      },
+      {
+        "path": "scripts/coverage/approved-test-retirements.test.mjs",
+        "sha256": "64de9aaf6a336a731c4478ce471fd085725d933608c1954197d1048726293582",
+        "dimensions": {
+          "A": "Only finite approval data/count expectations; exact old baseline/source/identity guards retained; same-report ratchet/protected executed.",
+          "B": "Per-entry authority/evidence stated; no blanket authorization or clean-pass claim for original failure.",
+          "C": "Data held in existing registries, ownership/comparison stays with unchanged official runner.",
+          "D": "Existing strict migration/retirement mechanism reused; no tolerance flag or second policy.",
+          "E": "Strong generic rejection/immutability tests retained; actual117 tooling tests pass; two rows receive generated exact snapshot tests.",
+          "F": "Named finite adjustment and explicit before/after counts; nine-file matrix explains numerator/denominator changes.",
+          "G": "No dead source/test restored, no new runtime product code, scope/predicates unchanged.",
+          "H": "Existing injected-source generic tests and frozen official/native evidence directly verify exact data; no hidden IO."
+        }
+      }
+    ]
+  },
+  "policyPins": [
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "5431f75699e1c2997fcb30ea1ef567e13d5a284e7b31f298b94183d80e6e6c4c"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "1fba6c83a9867a411fc674ae304bf623bd9cee5ad91a893cee6fa4f2941fbb31"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "64de9aaf6a336a731c4478ce471fd085725d933608c1954197d1048726293582"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "d0e978fbb5b571bce914cc2ba1285660b9fad26fed81ed1ea5b61df6b2809a70"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+    },
+    {
+      "path": "scripts/coverage/protected-baseline.mjs",
+      "sha256": "a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2"
+    }
+  ],
+  "sourceInputs": {
+    "member": "collection-inputs.json",
+    "sha256": "87d8caca04c48b185012bbc4deb7be05667b56fc4179aa88e4ad663bfadaa60e",
+    "files": 5879,
+    "claim": "All package/source/test/project/runtime/config inputs matched before recount; subsequent edits only documented coverage data and docs. Verify again before relying on these gates."
+  },
+  "receipts": {
+    "path": "final-receipts.json.gz",
+    "sha256": "2846af013663363c1e68d5e332472d154450afa58ef2a733350c07a899876f98",
+    "members": 64
+  },
+  "remaining": {
+    "integration": "Create one PR, validate remote Documentation/Coverage on exact candidate, merge normally only on clean required checks; no direct main push.",
+    "repository": "63 review and2878 pending outside closed original83 finite scopes remain; migrate broad files and sprite extra public wrapper are not force-closed.",
+    "productBoundaries": "TS extreme dex/haste retained as explicit deviation; other source/per-format policies in approved-boundaries and PAL-source evidence. No94-102."
+  },
+  "processDisclosures": [
+    "First full check exit1 was stale PAL-versus-author test identity; exact13-test repair committed, complete rerun exit0 retained.",
+    "First official coverage collection completed all20180 tests but exit1 rejected exact structural ratios; untouched original stderr retained. Finite approved recount plus exact same-report comparison/protection passed; no recollection.",
+    "Historical status/cross-module retirement digests used JSON-reporter space-separated fullName instead of official list ancestor > leaf. Old native assertion components equal current official identities; status byte drift is one comment only. Prior mistakes remain in Git/old evidence, replaced only current exact fields.",
+    "Recount producer first asserted native and list fullName byte equality and correctly failed on their separator difference before registry writes. Initial failure reproduced as recount-producer-initial raw; final producer builds names from exact ancestorTitles/title fields and succeeds. Initial tool-call-only stream not separately saved; retained reproduction is labelled.",
+    "Initial read-only scope audit used nonexistent audit.removed rather than actual removals and failed before writes; corrected against actual API. No test failure or product credit.",
+    "Normal stdout includes progress logs; zero diagnostic claim is checked diagnostic categories and full stderr, not empty stdout.",
+    "Post-publication docs-first static check found one current governance-audit after-SHA drift. Original exit1/stdout/stderr retained as docs-final; only owned governance row plus its parent projections updated, docs-final-r2 actualexit0/0stderr. No indiscriminate SHA refresh."
+  ],
+  "evidenceTool": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs",
+    "sha256": "22c1932456ac3131a0f1718dfea1005b983dbd620ce75dd6fab55a59007d30ae",
+    "dimensions": {
+      "A": "Read all verifier code; hashes complete members, frozen5879 inputs, policy pins, recorded exit0 and expected exit1 originals, official summary/committed baseline and ancestry. Missing3/stale2 are explicit; semantic judgments and remote release excluded.",
+      "B": "Success message limits MATCH to frozen identity/recorded outcomes; original failure remains failure. No unqualified all-quality certification.",
+      "C": "Only local readFileSync, gzip decoding and read-only Git merge-base; no tracked/temp writes, test execution, server or network ownership.",
+      "D": "Three local read/hash/member helpers reuse archive contract; no global generic validation framework.",
+      "E": "Executed against actual frozen report and current input set; exact assertion guards are evidence consistency checks, not product business tests. No new weak runtime test or coverage gain claimed.",
+      "F": "Names describe input/report/identity checks; linear validation order and distinct stale/unavailable outputs.",
+      "G": "No source re-reading as semantic reviewer, no hidden whole-test invocation or automatic hash refresh.",
+      "H": "All expected values and input hashes exposed in review/archive; deterministic read-only exit and stdout; source/CI interpretation remains human review."
+    }
+  },
+  "finalStatic": {
+    "docs": {
+      "id": "docs-final-r2",
+      "command": "pnpm",
+      "args": ["check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:16:34.389Z",
+      "end": "2026-10-25T03:17:22.246Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 30772,
+      "stderrBytes": 0
+    },
+    "lint": {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.557Z",
+      "end": "2026-10-25T03:15:03.386Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    "ledger": {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.560Z",
+      "end": "2026-10-25T03:15:01.742Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0
+    },
+    "diff": {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.562Z",
+      "end": "2026-10-25T03:14:59.602Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    "verifier": {
+      "id": "verify-final",
+      "command": "node",
+      "args": ["docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-25T03:14:59.555Z",
+      "end": "2026-10-25T03:15:00.904Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "257c0b816c03c8df51a2a02fb8c0349c9fde7fbd",
+      "observerTimeout": false,
+      "stdoutBytes": 299,
+      "stderrBytes": 0
+    },
+    "lintFiles": 6102,
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "scope": "Post-policy/data/docs changes only; complete package source and test input freeze remains unchanged. Fullcheck115-tool run retained, updated coverage-tool117 run and docs125 run recorded separately, not accumulated as distinct business tests."
+  }
 }

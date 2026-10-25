@@ -39,11 +39,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE3m/3n: two exact overlapping contracts, each retaining its stronger oracle.
   // CODE3q: 32 cases relocate; 4 redundant cases transfer to stronger literal/matrix oracles.
   // CODE1: main26->19; GLM-o input-axis splits increase its current count.
-  assert.equal(approvedTestRetirements.length, 67)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 67)
+  // CODE42: two test-only rectangle placeholders removed; native full identities pinned.
+  assert.equal(approvedTestRetirements.length, 69)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 69)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    194,
+    196,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

@@ -5,6 +5,135 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'pre94-cli-stage-structural-recount-20261025',
+    authority:
+      'User standing authority: justified structural refactoring may update exact baseline; no dead-code restoration, weak tests or metric tolerance. Nine-file CLI stage split has whole-body reconstruction proofs, unchanged 39 real CLI contracts/child execution and byte-identical 809 output files. Parent V8 does not instrument CLI child processes. Only structural statement/function/line deltas rebased; events/slice behavioral gains and branch floor are preserved. One original official collection retained, no recollection.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/recount.json',
+    baselineSha256: '251bd24327f3fd792aaa706e49a8325dea990e4b50f1d4d78def03a48dc3394a',
+    sources: [
+      {
+        path: 'packages/pal-extract/src/cli.ts',
+        sha256: '1e467403d0bce8f169b0d4be83dd8dfdb02c22831ed2929374a711002eb54387',
+      },
+      {
+        path: 'packages/pal-extract/src/io/read.ts',
+        sha256: '2dcd57f6a51469b9ce5b50d50a817e0922295e3281ef895c8a03e66a42ce75e2',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/data-assets.ts',
+        sha256: 'e1e1a9cee093d57bfbcf9080b920a75087a0388c0f3f77e5b53ea17e7feeb11d',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/animation-assets.ts',
+        sha256: 'ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/bitmap-assets.ts',
+        sha256: 'd468feacaf206d7f053d1fec47d23579009678104206bfdcfcfdf0126a6f80d5',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite-assets.ts',
+        sha256: '1769334589117d87db9bf82e2c589a5f5c0897bbb7d090d390bb1f97a84e97af',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sound-assets.ts',
+        sha256: '38a20ddb87e56e7c4a47fe8aeb5253a8fb6f6a9b5c4e915da9d9c2a248b3fb0b',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/lookup-assets.ts',
+        sha256: '02edaa5ba40a47fdf7a4590f5da4c4933ba9176ebd0eb9b3ce28130b8963ec28',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/world-assets.ts',
+        sha256: '6618ee3e1129036411230c215e7cfffeb77ab99b00d5b189f1655e615d9d62c7',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-battle-assets.glm-q.test.ts',
+        sha256: 'acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-entrypoint-paths.test.ts',
+        sha256: '77d75e081d309cde9a917308ac2407fa136690ce42e71b7bf015c9f4fdbf5519',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts',
+        sha256: '586c8987a642a1212d3d690da8775d3df2851c2b736afa3db0a7757ad117b16f',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-font-lookup.glm-q.test.ts',
+        sha256: '724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-global-entries.glm-q.test.ts',
+        sha256: 'f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-isolated.glm-q.test.ts',
+        sha256: '1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c',
+      },
+      {
+        path: 'packages/pal-extract/src/events/slice.ts',
+        sha256: '5f1640541831116b78bf4fb1c701dd0f70d47b90981599b7bb6a6a5e747b3c8d',
+      },
+      {
+        path: 'packages/pal-extract/vitest.config.ts',
+        sha256: '34a27a3287b44e6986ecc51fa51b18511b677bfb9a13890447adf3bd673b2f64',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: '1fba6c83a9867a411fc674ae304bf623bd9cee5ad91a893cee6fa4f2941fbb31',
+      },
+    ],
+    packages: {
+      'pal-extract': {
+        before: {
+          statements: {
+            covered: 1361,
+            total: 1741,
+          },
+          branches: {
+            covered: 643,
+            total: 758,
+          },
+          functions: {
+            covered: 133,
+            total: 161,
+          },
+          lines: {
+            covered: 1199,
+            total: 1540,
+          },
+        },
+        after: {
+          statements: {
+            covered: 1343,
+            total: 1775,
+          },
+          branches: {
+            covered: 643,
+            total: 758,
+          },
+          functions: {
+            covered: 133,
+            total: 190,
+          },
+          lines: {
+            covered: 1181,
+            total: 1562,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'pre94-number-shared-blit-recount-20261024',
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring. Only draw-number source coverage changes: shared existing blit replaces byte-equivalent private body; approved nonfinite guard offsets part of removed covered code. Source remains100% (statements37→32, branches11 unchanged, functions2→1, lines33→29). No tests retired; all13 existing identities retained and4 meaningful cases added. Only game statements/functions/lines rebased to measured counts; all other metrics/packages/scopes/rules unchanged. Full original policy rejection and same single official collection retained.',

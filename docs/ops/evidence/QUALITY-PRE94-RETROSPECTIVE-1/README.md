@@ -477,3 +477,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - [3m／42用户裁决后代码收口](approved-boundaries/README.md)：两业务红后131绿、逐文件八维、完整原件与只读版本桥，统一门等CODE1。
 
 - [pre94最终集中门禁](final-pre94-gates/README.md)：固定83原范围；首跑失败与必要接线返工原件保留，最终全仓／覆盖率／PR另按真实回执。
+
+2026-10-25 [pre94最终本地统一门与只读复验](final-pre94-gates/README.md)：原83代码accept、check20617＋708／TC／硬静态0；单次official20180／807源，原结构比率失败及有限重计原件保留，同报告ratchet／protected通过。新候选CI／单PR／合并待实际后继，不扩94–102。

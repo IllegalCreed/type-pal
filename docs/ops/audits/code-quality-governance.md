@@ -1,6 +1,6 @@
 # 全仓代码质量治理总纲
 
-2026-10-20当前pre94以[固定83卡队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)为唯一进度；[菜单模块](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)记录最新逐文件接受与质量门。以下波次数字按原时点保留，不作为当前计数或门通过依据。
+2026-10-25当前pre94以[固定83卡队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)为唯一代码进度，原83范围已accept；[最终本地统一门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)分开记录实际check、单次覆盖率失败／精确重计／同报告保护及待远端发布。下列波次数字保持原时点，不作为当前计数或验收；全仓专项并未全部完成。
 
 
 > 2026-10-18 pre-94 机制返工：三个独立审计 counter 已核实并登记[QUALITY-BATTLE-MAGIC-PARITY-1](../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)。0x42目标、0x66裸武术、非伤害敌法术自动防御按先红后绿修复；五项旧闭合记录（两实现/三测试）转review，无新增closed。旧波次门仍rework；本次定向不恢复其全仓/coverage信用。
