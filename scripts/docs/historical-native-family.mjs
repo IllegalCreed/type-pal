@@ -5,6 +5,7 @@ import {
   nativeFamilyCarrierRevision,
   nativeFamilyContracts,
 } from './historical-native-family-admission.mjs'
+import { nativeFamilyQualificationIssues } from './historical-native-family-qualification.mjs'
 import { nativeFamilyReading } from './historical-native-family-reading.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
@@ -154,12 +155,11 @@ export function historicalNativeFamilyIssues(doc, template, contract, read, opti
   )
     issues.push('native family oracle or complete native semantic reading mismatch')
   if (
-    row.contentReviewStatus !== 'partial-review-unknown' ||
-    row.templateCompliance !== 'needs-migration' ||
     row.evidence?.runtimeExecutionPerformed !== false ||
     row.evidence?.historicClaimsReexecuted !== false ||
     row.evidence?.creditGranted !== 0
   )
-    issues.push('native family pilot cannot grant review, migration or execution credit')
+    issues.push('native family evidence cannot grant execution or completion credit')
+  issues.push(...nativeFamilyQualificationIssues(row, pilot))
   return issues
 }

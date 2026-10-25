@@ -585,7 +585,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "92bc762e12cf841921dad74c9bd19bac7372c3c28f1aa69f1799a1b4d194c3dc",
+      "afterSha256": "9a92631da5496da4dd1ebec9f8f34163d462340e6568fa859a69fd62e307a74c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1010,6 +1010,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "92bc762e12cf841921dad74c9bd19bac7372c3c28f1aa69f1799a1b4d194c3dc",
+          "afterSha256": "9a92631da5496da4dd1ebec9f8f34163d462340e6568fa859a69fd62e307a74c",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -1193,7 +1205,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "db61111c09ef66890d6317e12f8ba88ad64b42332e03d6f2ac2807eff3fd0fe2",
+      "afterSha256": "67f1c79ef5fd323fdc85ae186ce79aaf0247c528b8bd5b31e97b4b77661386cc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1786,6 +1798,18 @@
           "beforeSha256": "30b0436e47657507c385ac109c5e20fb262f128dda209be474b3922bc9535b67",
           "afterSha256": "db61111c09ef66890d6317e12f8ba88ad64b42332e03d6f2ac2807eff3fd0fe2",
           "scope": "Record remaining644 bounded admission decisions and first-eight production guard with isolated joint pilots; administrative after pins only, no production document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "db61111c09ef66890d6317e12f8ba88ad64b42332e03d6f2ac2807eff3fd0fe2",
+          "afterSha256": "67f1c79ef5fd323fdc85ae186ce79aaf0247c528b8bd5b31e97b4b77661386cc",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -10548,7 +10572,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b8c1f5685137c99c6863ad12de658fa39f354f0d9cbd7cd1df9a72f759cdb94f",
-      "afterSha256": "ed001a4c7e41808e86fc95295705bd2271cf56072454820c05139242255f0970",
+      "afterSha256": "da2dea73072838d75b0d75878ae2a5c6975c7426682ff7e23fdbd0dbc196a7f3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10680,7 +10704,21 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "ed001a4c7e41808e86fc95295705bd2271cf56072454820c05139242255f0970",
+          "afterSha256": "da2dea73072838d75b0d75878ae2a5c6975c7426682ff7e23fdbd0dbc196a7f3",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
@@ -13065,7 +13103,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f5861c171503534434d0d935b45a9e5c8a8b0132e77109b305b4acda58dc0297",
-      "afterSha256": "2ca8bd46d6ebefed423426cee8dca6656739fdc1b5019ec974e5a2c4744e63bb",
+      "afterSha256": "622354ec29f266f2ef3699a89dff53b91019fae5988239decba0f0b203c9ed86",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13230,6 +13268,18 @@
           "beforeSha256": "c5ce446af9618959af7ba465407f699e3cf1c7aa458d16c388a45eeff1af5f5a",
           "afterSha256": "2ca8bd46d6ebefed423426cee8dca6656739fdc1b5019ec974e5a2c4744e63bb",
           "scope": "Receive original GLM accepts, connect two actual routes and qualify ten accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "2ca8bd46d6ebefed423426cee8dca6656739fdc1b5019ec974e5a2c4744e63bb",
+          "afterSha256": "622354ec29f266f2ef3699a89dff53b91019fae5988239decba0f0b203c9ed86",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -14575,7 +14625,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "2f842d14e691ac4cdb47cf1f9acefe0b3a42138575aecf3f1b9dd59112a5a3a5",
+      "afterSha256": "70f5c0aaf66d7be4b3efc875bc16812f9ff9d1c1485dfb7f688bbc0d8cdd5902",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14851,6 +14901,18 @@
           "beforeSha256": "5839b24c1367d984d0f42ab6aa2e3928cf19f2727a1a8d6f8b05cf72526a926d",
           "afterSha256": "2f842d14e691ac4cdb47cf1f9acefe0b3a42138575aecf3f1b9dd59112a5a3a5",
           "scope": "Record remaining644 bounded admission decisions and first-eight production guard with isolated joint pilots; administrative after pins only, no production document migration or runtime credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "2f842d14e691ac4cdb47cf1f9acefe0b3a42138575aecf3f1b9dd59112a5a3a5",
+          "afterSha256": "70f5c0aaf66d7be4b3efc875bc16812f9ff9d1c1485dfb7f688bbc0d8cdd5902",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

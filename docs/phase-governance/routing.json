@@ -8031,6 +8031,54 @@
       "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
       "templateId": "task-card-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-summary-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-distilled-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-command-summary-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-a-directed.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-identity-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-mutation-definition-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-path-map-native-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

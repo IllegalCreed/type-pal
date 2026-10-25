@@ -544,3 +544,11 @@ GLM剩余644的集合有效，53合同仍为建议。完整required校验揭示3
 | [actor静态mockup](../../phase2/archive/mockups/actor-mode-v1.html) | native HTML静态设计1.0.0：title/style及actors/framegrid/inspector三区、无script；保留原布局与文案 | 历史设计不等于产品现状；注入script或删结构为反例，本轮未执行HTML负例 |
 
 以上后继设计的负例均是待执行计划，不能借首八测试结果代签。当前复用已有引用与原件，未新增envelope/sidecar、未复制652全量账本、未更改1838分母；旧原始声明、撤信和未读范围继续保留。
+
+## S50 首八原生合同正式注册与接受门
+
+S49七形状的实际model/progress联合pilot与非作者代码/封存复核已接受。现将六个新variant以各自1.0.0注册到既有test-machine-evidence/evidence-receipt父类，原raw沿用historical-vitest-native-v1但路径仅首二精确增加；17父类型、原父版本/历史sourcePins/原变体不变。生产读域为固定原生载体加现有唯一review，无payload包裹、无sidecar。
+
+八个精确路径见现有historical-native-family-admission；其carrier/source/review轴不改。partial/needs合法pilot继续保留；仅经独立逐篇接受和Owner裁定的内容指纹可转新文档reviewed/compliant。接受内容固定绑定报告SHA、path、native afterSHA及具体语义字段，换报告/跨篇/改结论/联合改状态不得绕过；双false和历史执行零信用继续强制。旧撤信逐值进入history而不恢复，新增文档接受不证明原执行通过。
+
+下一批两mutation/两HTML设计保持S49范围；两review控制仍待空账本与转移/唯一归属合同，27形状建议仍仅实施准入。首八实际接入、测试/进度与非作者验收按本轮真实回执记录，不把注册本身算作八篇完成。

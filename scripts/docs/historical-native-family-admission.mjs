@@ -173,3 +173,27 @@ export const nativeFamilyCarrierRevision = '83743275bb560a4ea4bbbd2a15baf7f138f9
 export function nativeFamilyAdmission(path) {
   return pilots.find((pilot) => pilot.path === path)
 }
+
+// Exact independently accepted S50 content; source/runtime claims remain separate.
+export const nativeFamilyContentAcceptance = freeze({
+  reviewer: 'Codex independent reviewer /root/s50_admission_review',
+  reportSha256: '4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2',
+  contentByPath: {
+    'docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json':
+      '07f309d99f4b5a1b49ade1bdf31dcc24e4b4a32c0605a7dc63ce8a865c18e0c9',
+    'docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json':
+      '9597b285912aaeb4f1d2c0d1d97280f0e5e38b6dfc23669ff581dc8ef71168b1',
+    'docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json':
+      '065ab9fd437533c9c6a561b69f2cf7df86335d1e4fa32d2082662ee2d26294c2',
+    'docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json':
+      'b709d8b10a08d9884bfc55d8b4e4328ea5d850305d56cb75ebf1dbc19a6b9f12',
+    'docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json':
+      '07dac08ce00f5df3ec673624761c81c96e40794910406bf7aeddd6d1053271fb',
+    'docs/testing/archive/legacy/batches/glm-large-wave/batch-a-directed.json':
+      '28c65cd13de0289dfa0d94b55f87d830289d3601a50335205df4a8a997fde877',
+    'docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json':
+      '986062ff8cc52e7e1a94c887fe031ae416346fa177138d26726f2a5d709c3717',
+    'docs/ops/archive/ops-governance-layout-20261004.json':
+      '5980c28cd4ba70623c32f913aa9386c8b36604dcef5c38e78b136ed4ba45119e',
+  },
+})

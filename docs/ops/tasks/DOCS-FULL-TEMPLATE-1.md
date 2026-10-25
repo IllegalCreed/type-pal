@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s49-native-contracts
+Branch: codex/docs-s50-native-pilot-admission
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2521,3 +2521,10 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - Owner批准27条精确path/源SHA/variant进入后续实施白名单（21reporter、2summary、3identity、1distilled），尚无正式routing或迁移信用。12条不放宽S48：缺files的summary、缺pending/suite的reporter、无status的inventory、非testResults蒸馏及非argv命令等各按原生另设计。matchAny按指定键子集匹配正确，真正组合错误是每次匹配重复追加替换；Owner以后使用保留非匹配后只追加一次的算法，一篇重复pin去重，另八篇仅顺序差异不算内容丢失，35条其他见证保全。
 - 53计划不整体冻结：122JSON代表正例的1191required检查有670缺失（33计划）及2类型冲突，50forbidden和53legalStates仍通用说明；保留case身份、原数据与未执行披露。推荐41mutation拆40完整/1精简摘要，选择两件精确pilot冻结；100review控制含37根形状及7合法空entries，先选一条实entry与一条5转移空账本，仅冻结pilot范围，现行控制生命周期/全局唯一ownership/转移保全合同未定前不套历史raw。两HTML角色按真实mount/module及静态三区冻结设计，不要求canvas。
 - 首八guard强制固定carrier Git对象/原字节、旧source字段、唯一review位置与可解析fieldRoles，完整reading对齐计数/身份/来源；无合法输入混入结果、无缺pending补0、无套件当文件。本pilot阶段强制partial-review-unknown/needs-migration及执行双false，联合换标或伪晋升必须被真实model/progress拒绝。旧272和212合同与准入不扩张；正式新variant注册另经准入和相关旧文档测试适配授权，不隐式改旧断言。
+
+## S50 首八原生合同注册与逐篇接受接入（2026-10-25）
+
+- 用户已明确授权frozen-binding-baseline.test.mjs单处补丁（SHA36c9e66c）：新增一个import及三个新machine变体逐项deepEqual后从局部比较副本移除；原父/六旧变体、source pin与所有旧断言继续锁定。Codex build allowed从S49固定52cc1bd53隔离后继，正式注册已验六个新原生variant并接首八精确route/现有唯一review；不扩到另27路径或剩余644，不改其原生字节。
+- 先由独立贡献者对八载体按真实字段/原source/current review写具体稿，复用已核内容，非作者逐篇据证接受。历史测试失败、缺pending、截断身份、旧撤信/来源不确定保持，不重跑或重授历史/runtime。新guard只允许旧partial/needs模式，或固定报告SHA+逐路径内容指纹+Owner明确裁定支持的新文档接受；不删除原状态护栏，不用hash代替语义审。未接受篇保持partial/needs。
+- 白名单：上述授权旧测试、既有native family admission/guard及必要新文档工具测试；模板registry仅六变体、routing仅八路径、registry仅八条相应分类/状态投影、矩阵当前接受边界；本卡/原生JSON子卡/board/既有提案，以及八唯一review和真实依赖after级联、既有单份gzip。来源Git/1838/cohort/旧存储sourcePins与212/272旧合同保持，原review历史逐值保全；不新增canonical副本或sidecar。物化输出在隔离临时树先验，接入和晋升按真实结论逐条决定。
+- 旧测试适配仅授权补丁；本轮新增测试用于精确接受门、伪造/跨篇/改结论与真实model/progress联合反控，不重复旧原子。必要门在稳定树集中实跑一次，已有同输入证据据证复用；未满足全量硬门仍rework，不合main、不推送、不done。候选证据按实际结果封存，E2E006日期不自动续，1750诊断/878文档只在真实接受接入后按实扣减。

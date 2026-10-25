@@ -1,10 +1,695 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
-  "generation": "7be2d5ce1041dbdb0ea800b16b1fbb6fa8decc6ae4dfb722140b7680a61a992e",
+  "generation": "c76add2b447d485f448064a89cc9c50cae973db6b78366a280ffbfa84abf56e2",
   "key": "part-002",
-  "positions": [43, 44, 45, 46, 47, 48, 49],
+  "positions": [40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
   "entries": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "原生载体字段逐项语义核读+固定Git字节复算+已有内容稿/历史边界对照；非关联产品源码全文重审",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "glm-leaf-workflows 的 batch-a-directed 是短汇总：25 total、25 passed、0 failed；5 个设计系统文件分别记录 list-header 3、media 3、multi-select 7、number-inputs 7、select 5，合计 25。原对象没有 numPendingTests、success 或逐断言身份；pending 只能记 unreported，不能补成 0，也不能凭文件级总数重建逐条通过集。这是历史批次摘要，不是完整 Vitest reporter。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/numTotalTests",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/numPassedTests",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/numFailedTests",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/files/0",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/files/1",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/files/2",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/files/3",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json#/files/4"
+      ],
+      "unresolved": ["缺少逐断言身份、pending 与命令执行字段属于载体局限，本轮不补造。"],
+      "nextStep": "由未参与本稿的审者按固定载体与19键内容摘要独立复核；由Owner受控合成与状态裁定，本作者不发布、不自签接受。",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json machine artifact",
+      "owner": "Codex（S50 原生文档内容稿；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex contributor /root/s50_native_review_author",
+          "scope": "native carrier content proposal and declared reused evidence",
+          "contentSha256": "065ab9fd437533c9c6a561b69f2cf7df86335d1e4fa32d2082662ee2d26294c2"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex independent reviewer /root/s50_admission_review",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "contentSha256": "065ab9fd437533c9c6a561b69f2cf7df86335d1e4fa32d2082662ee2d26294c2"
+        }
+      ],
+      "sourceSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+      "afterSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+      "publicCallers": [
+        "scripts/docs/historical-native-family.mjs#historicalNativeFamilyIssues（当前受控文档合同reader；固定路径准入，不是产品runtime caller）",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md（已读目录/父任务历史导航上下文；仅 D-map 为该 JSON 显式实链，其余不声称直接机器消费）"
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "807139bbf24602108536986151258db248058c3d",
+          "sha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "三个已报告计数为 25/25/0，五文件 tests 求和=25。",
+          "numPendingTests 不存在，因此 nativeReading.pending 必须为 unreported。",
+          "不生成不存在的 fullName/status/argv/exitCode 或 success。"
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-carrier-only-no-global-dedupe-claim",
+        "against": [],
+        "notes": "已核本载体内身份/字段结构；未全仓搜索等价证据，不声称全局无重复。"
+      },
+      "revision": {
+        "currentSha": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+        "implementationSha": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+        "history": [
+          {
+            "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-family",
+        "family": "totals-summary",
+        "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+        "nativeReading": {
+          "family": "totals-summary",
+          "counts": {
+            "total": 25,
+            "passed": 25,
+            "failed": 0
+          },
+          "pending": "unreported",
+          "files": [
+            {
+              "file": "src/ui/design-system/list-header.glm-leaf-wave.test.tsx",
+              "tests": 3
+            },
+            {
+              "file": "src/ui/design-system/media.glm-leaf-wave.test.tsx",
+              "tests": 3
+            },
+            {
+              "file": "src/ui/design-system/multi-select.glm-leaf-wave.test.tsx",
+              "tests": 7
+            },
+            {
+              "file": "src/ui/design-system/number-inputs.glm-leaf-wave.test.tsx",
+              "tests": 7
+            },
+            {
+              "file": "src/ui/design-system/select.glm-leaf-wave.test.tsx",
+              "tests": 5
+            }
+          ]
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R74 testing archive governance",
+          "reviewer": "r74_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "action": "new native-document content acceptance; old withdrawn claims remain historical",
+          "sourceRevision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "previousCurrentFields": {
+            "owner": "Codex（文档治理；不代签原执行）",
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "truthAnchors": [
+              "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json:1"
+            ],
+            "primarySource": [
+              {
+                "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+                "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+                "sha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+                "scope": "full JSON UTF-8 artifact bytes"
+              }
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+              "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+              "docs/testing/archive/legacy/batches/glm-leaf-workflows/receipt.md"
+            ],
+            "businessOracle": {
+              "type": "historical-machine-artifact",
+              "assertions": [
+                "original content remains traceable",
+                "historical status remains date-scoped",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "evidence": {
+              "kind": "machine-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r74-testing-archive-20261017.json",
+              "sourceSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+              "candidateSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+              "afterSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+              "lineCount": 27,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 597,
+                "sourceLines": 27,
+                "sourceFinalNewline": true,
+                "inverseSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": ["numTotalTests", "numPassedTests", "numFailedTests", "files"],
+                "entryCount": null,
+                "byteStable": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "versionScope": {
+              "sourceRevision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+              "date": "2026-10-17",
+              "validity": "historical"
+            },
+            "publicCallers": [
+              "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+              "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+            ],
+            "dedupe": {
+              "result": "reviewed-and-retained",
+              "against": [
+                "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+                "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md"
+              ]
+            },
+            "unresolved": [
+              "Historical material requires current catalog/contract and fresh receipt before reuse.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "docType": "archive-record",
+            "templateId": "archive-record-v1",
+            "template": "docs/phase-governance/templates/archive-record.md",
+            "templateVersion": "1.0.0",
+            "historyOverlay": true,
+            "artifactOnly": true,
+            "documentStatus": "historical",
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            }
+          },
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定载体/Git来源/受保护review位置有任何漂移即停；不得改原生机器字段、补造缺失值、刷新历史SHA洗白或据本稿授runtime/迁移信用。",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 27,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+      "candidateSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+          "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+          "sha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+          "scope": "full JSON UTF-8 artifact bytes"
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "807139bbf24602108536986151258db248058c3d",
+          "sha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": {
+        "contract": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-test-summary-native-v1",
+          "templateVersion": "1.0.0"
+        },
+        "carrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "scope": "仅上述固定原生载体与既有current review内容稿；准入/晋升由Owner另判；非当前运行结论"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R74-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R74-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "readDomain": {
+        "actual": "完整读取 27 行原生短对象的三个计数与五文件明细，核对 3+3+7+7+5=25，并核缺失键；全字节与 Git 固定源比较。目录 README 只作归档导航上下文，不冒充该 JSON 的直接链接。",
+        "reusedFrom": [
+          "S42 completion: /tmp/s42-glm-remaining-683-completion/shard-02.json#/entries/67; shardSHA256=9889bb99f4a2ec6446d37de2ec7a76d0843e2941a9dcf7f8ff5d71c78c19b4e0; entryCanonicalSHA256=c7c45cb9fb95493c69dfafdc17782b9331759ddae26f53865ad2fb7df63dc2c8; reused as draft/design only, facts rechecked on fixed carrier",
+          "S46 design: /tmp/s46-glm-native-family-design/shard-01.json#/entries/123; shardSHA256=5648fbf775e60e5dc5639a091f326265df8ea37e1d0989e529dc19c26f7e6dfc; entryCanonicalSHA256=9d106bf62d6c97e183b591c1839ccb7757ebf38346ec77f5a9092de49b5e4fb5; reused as draft/design only, facts rechecked on fixed carrier",
+          "S49冻结准入与纯投影定义@52cc1bd530998990dbfeff18b347b854a37796ae: scripts/docs/historical-native-family-admission.mjs、historical-native-family-reading.mjs；当前protected review docs/phase-governance/reviews/20261017-r74-testing-archive.json#entries/40 的撤信/历史字段已核读"
+        ],
+        "notRead": [
+          "未逐篇重读关联产品源码、旧测试或历史 raw stdout/stderr；未重新执行历史测试/变异/coverage/E2E。",
+          "旧S42/S46稿仅为线索，不能由其旧全文/consumer声明推定本轮读域。"
+        ]
+      },
+      "fieldRoles": {
+        "identity": ["/files/0/file", "/files/4/file"],
+        "results": ["/numTotalTests", "/numPassedTests", "/numFailedTests", "/files"],
+        "governance": ["docs/phase-governance/reviews/20261017-r74-testing-archive.json#entries/40"]
+      },
+      "historyBoundary": "保留汇总所能表达的粒度；无法用本页认证该目录其余批次或当前设计系统运行。 既有2026-10-18撤信、source/sourceGitRevision、claimCorrection与历史记录保持，不以本稿复活原deep-semantic或独立验收声明。",
+      "templateVariant": "historical-test-summary-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex independent reviewer /root/s50_admission_review",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+        "afterSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+        "contentSha256": "065ab9fd437533c9c6a561b69f2cf7df86335d1e4fa32d2082662ee2d26294c2",
+        "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact native variant plus accepted existing-review companion; original native bytes unchanged; no historical execution reauthentication."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json:1"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+      "afterSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/receipt.md"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+        "implementationSha": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+        "history": [
+          {
+            "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r74-testing-archive-20261017.json",
+        "sourceSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+        "candidateSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+        "afterSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+        "lineCount": 118,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 3962,
+          "sourceLines": 118,
+          "sourceFinalNewline": true,
+          "inverseSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["batch", "hashes", "selfTest", "evidence"],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R74 testing archive governance",
+          "reviewer": "r74_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+      "candidateSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",
+          "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+          "sha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R74-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R74-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json:1"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+      "afterSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/receipt.md"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+        "implementationSha": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+        "history": [
+          {
+            "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r74-testing-archive-20261017.json",
+        "sourceSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+        "candidateSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+        "afterSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+        "lineCount": 23,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 496,
+          "sourceLines": 23,
+          "sourceFinalNewline": true,
+          "inverseSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["numTotalTests", "numPassedTests", "numFailedTests", "files"],
+          "entryCount": null,
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R74 testing archive governance",
+          "reviewer": "r74_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+      "candidateSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
+          "revision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+          "sha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R74-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R74-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-mutant-summary.json",
       "contentReviewStatus": "partial-review-unknown",

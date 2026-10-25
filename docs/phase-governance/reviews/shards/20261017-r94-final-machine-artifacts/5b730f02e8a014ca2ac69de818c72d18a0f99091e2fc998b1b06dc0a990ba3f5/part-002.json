@@ -1,10 +1,171 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "8c48a73ec542f06e7f10ce00a71751247f82bbf099e5b1293a5a425bfadc7f19",
+  "generation": "5b730f02e8a014ca2ac69de818c72d18a0f99091e2fc998b1b06dc0a990ba3f5",
   "key": "part-002",
-  "positions": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+  "positions": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json:1"
+      ],
+      "unresolved": [
+        "Historical machine artifact requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "ops",
+      "module": "task-evidence",
+      "capability": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+      "afterSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+      "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json"
+      ],
+      "businessOracle": {
+        "type": "machine-artifact-envelope",
+        "assertions": [
+          "native fields remain traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json"]
+      },
+      "revision": {
+        "currentSha": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+        "implementationSha": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable final machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+        "sourceSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+        "candidateSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+        "afterSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+        "lineCount": 1903,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 82281,
+          "sourceLines": 1903,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "numTotalTestSuites",
+            "numPassedTestSuites",
+            "numFailedTestSuites",
+            "numPendingTestSuites",
+            "numTotalTests",
+            "numPassedTests",
+            "numFailedTests",
+            "numPendingTests",
+            "numTodoTests",
+            "snapshot",
+            "startTime",
+            "success",
+            "testResults"
+          ],
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [
+        "governed-legacy machine artifact presentation; native facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "task-evidence",
+        "currentBoundary": "current task card, consumer and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R94-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/counterproof.json",
       "contentReviewStatus": "partial-review-unknown",
@@ -2198,7 +2359,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "2de17ba9c82ddb6f45018e734b9ce0f663564011e525a2549184ece8cb1d5296",
+      "afterSha256": "f54b466da3da468689d677d0a6e987a39f26615683ad27924297bb2eda124525",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3130,6 +3291,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "2de17ba9c82ddb6f45018e734b9ce0f663564011e525a2549184ece8cb1d5296",
+          "afterSha256": "f54b466da3da468689d677d0a6e987a39f26615683ad27924297bb2eda124525",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3411,7 +3584,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "d454252aff36c8bc86954952be31d256e44fd2d30ac2ae1ef83234435d0d7ea5",
+      "afterSha256": "2bc9c0e68c398893af2456bcae5658ba599a449cf59ea2d8f84fb40a065dee89",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -3842,6 +4015,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "d454252aff36c8bc86954952be31d256e44fd2d30ac2ae1ef83234435d0d7ea5",
+          "afterSha256": "2bc9c0e68c398893af2456bcae5658ba599a449cf59ea2d8f84fb40a065dee89",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3872,7 +4057,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "c22ea516fb6056405a1edbb670f215df77838d3a6ed2131a35cd9beb08ace3a5",
+      "afterSha256": "90be037452cbaa1518c0ce569f1f61f6318e2d8f02482989a1a25ee93aeef70e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -4130,6 +4315,18 @@
           "beforeSha256": "bb115b829f5d324b29be9ab1017a4e00db4495e14bd4cb198a7db64e1831f0a5",
           "afterSha256": "c22ea516fb6056405a1edbb670f215df77838d3a6ed2131a35cd9beb08ace3a5",
           "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "c22ea516fb6056405a1edbb670f215df77838d3a6ed2131a35cd9beb08ace3a5",
+          "afterSha256": "90be037452cbaa1518c0ce569f1f61f6318e2d8f02482989a1a25ee93aeef70e",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

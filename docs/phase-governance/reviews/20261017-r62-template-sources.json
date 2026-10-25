@@ -3371,7 +3371,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "7164c897af0a4b9acd8f219bf445bec2bd4d76a7c2f16d7ddbc0844bd9e3e0bf",
+      "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3626,6 +3626,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "7164c897af0a4b9acd8f219bf445bec2bd4d76a7c2f16d7ddbc0844bd9e3e0bf",
+          "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3656,7 +3668,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-      "afterSha256": "78e44e66a02860120c5b861ecc3f8120f54475ce708e6c3fd4da0084e39b4f8d",
+      "afterSha256": "1d5408a3de72bf2e48229f1c57038cd40da822e55c1d740b0cd74c33d534f356",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3797,6 +3809,18 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "108f9ba4b1ee7202a8827e08785ef5ae9fc6aed8d4725fb2c82cb89713d27ccd",
           "afterSha256": "78e44e66a02860120c5b861ecc3f8120f54475ce708e6c3fd4da0084e39b4f8d"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "78e44e66a02860120c5b861ecc3f8120f54475ce708e6c3fd4da0084e39b4f8d",
+          "afterSha256": "1d5408a3de72bf2e48229f1c57038cd40da822e55c1d740b0cd74c33d534f356",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

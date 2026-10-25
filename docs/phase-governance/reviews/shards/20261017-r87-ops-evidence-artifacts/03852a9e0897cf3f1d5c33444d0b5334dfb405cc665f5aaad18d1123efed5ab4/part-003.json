@@ -1,13 +1,574 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
-  "generation": "b87a9dc0ecbf32b233e1d3d1690da19f4069c77ebf850e012eaa76a1a00ed9e7",
+  "generation": "03852a9e0897cf3f1d5c33444d0b5334dfb405cc665f5aaad18d1123efed5ab4",
   "key": "part-003",
   "positions": [
-    56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
-    80, 81, 82
+    55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78,
+    79, 80, 81
   ],
   "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "原生载体字段逐项语义核读+固定Git字节复算+已有内容稿/历史边界对照；非关联产品源码全文重审",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Battle Host instrumentation-r1 蒸馏 reporter 保留 31 条 passed、0 failed/pending、success=true，三个文件的断言数为 7/8/16：world-result、host-finalization 与 host 生命周期合同。八条 host-finalization 中含 BF-H1 至 H4 关闭/异常/取消路径。distillation.note 声明移除 coverageMap；originalFileSha256=d38e775bc490def851d979af8951d6df458a3b481aff734688e54d7c2ff6fb91 是被蒸馏原件声明，当前载体 SHA 为 dca9f35f…，两者不混写；未取得已移除覆盖明细，不能认证 coverage 或本地复现 CI 红。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/numTotalTests",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/numPassedTests",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/numFailedTests",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/numPendingTests",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/numTotalTestSuites",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/testResults/1/assertionResults",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/distillation/note",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json#/distillation/originalFileSha256"
+      ],
+      "unresolved": [
+        "蒸馏前完整文件和已移除 coverageMap 未在本轮重建或核验，原件 hash 仅保留载体声明。"
+      ],
+      "nextStep": "由未参与本稿的审者按固定载体与19键内容摘要独立复核；由Owner受控合成与状态裁定，本作者不发布、不自签接受。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json machine artifact",
+      "owner": "Codex（S50 原生文档内容稿；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex contributor /root/s50_native_review_author",
+          "scope": "native carrier content proposal and declared reused evidence",
+          "contentSha256": "b709d8b10a08d9884bfc55d8b4e4328ea5d850305d56cb75ebf1dbc19a6b9f12"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex independent reviewer /root/s50_admission_review",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "contentSha256": "b709d8b10a08d9884bfc55d8b4e4328ea5d850305d56cb75ebf1dbc19a6b9f12"
+        }
+      ],
+      "sourceSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+      "afterSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+      "publicCallers": [
+        "scripts/docs/historical-native-family.mjs#historicalNativeFamilyIssues（当前受控文档合同reader；固定路径准入，不是产品runtime caller）",
+        "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md（已读目录/父任务历史导航上下文；仅 D-map 为该 JSON 显式实链，其余不声称直接机器消费）"
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "3838233e807baa5a1bd181326d73fc39523d133b",
+          "sha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "31 个断言全 passed，3 文件分布 7+8+16；pending=0 是明确字段。",
+          "当前蒸馏载体与 originalFileSha256 及 note 内 coverageMap key hash 三轴区分。",
+          "BF-H1..H4 身份存在不意味着本轮运行过四条关闭路径或验证过覆盖率。"
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-carrier-only-no-global-dedupe-claim",
+        "against": [],
+        "notes": "已核本载体内身份/字段结构；未全仓搜索等价证据，不声称全局无重复。"
+      },
+      "revision": {
+        "currentSha": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+        "implementationSha": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+        "history": [
+          {
+            "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-family",
+        "family": "distilled-reporter",
+        "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+        "nativeReading": {
+          "family": "distilled-reporter",
+          "counts": {
+            "total": 31,
+            "passed": 31,
+            "failed": 0,
+            "pending": 0
+          },
+          "suiteHierarchy": 3,
+          "fileRecords": 3,
+          "success": true,
+          "assertions": [
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+              "fullName": "BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+              "fullName": "BF-02 零经验胜利：经验门关、金钱照入账、无结算屏",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+              "fullName": "BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+              "fullName": "BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+              "fullName": "BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+              "fullName": "BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+              "fullName": "BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.finalization.test.ts",
+              "fullName": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "commit consumes live inventory after preparation settles without losing intervening changes",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "battle host commits real victory once, then hooks, scene sounds and music in order",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "session release and real world writeback are atomic to queued observers",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "battle host refuses delayed preparation after cancel invalidation with zero music or writeback",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "battle host refuses delayed preparation after runner invalidation with zero music or writeback",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "battle host refuses delayed preparation after world invalidation with zero music or writeback",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "battle host refuses delayed preparation after script invalidation with zero music or writeback",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "pre-aborted battle request changes neither frame mode nor resource IO",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "new launch invalidates older preparation while preserving the new live session",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "old session finally cannot clear a new session published in the same turn",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "running cancellation consumes the real session and never restores or writes old world state",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "fatal session failure restores scene resources and retains original failure even if restoration fails",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "stale fatal recovery cannot play music or clear the replacement session",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "defeated script failure propagates after world writeback and scene recovery",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "world replacement after session completion blocks final writeback",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/battle/battle-host.test.ts",
+              "fullName": "readiness diagnostics deduplicate by error identity text across launches, not by stage",
+              "status": "passed",
+              "failureMessages": []
+            }
+          ],
+          "distillation": {
+            "note": "coverageMap(vitest json reporter 内嵌覆盖明细)按 1MiB 仓库上限蒸馏移除;key-sha256=9816e472374dff022f4e9b3383f9f940cc0df41cc583bb76f39f951d576d2173",
+            "originalFileSha256": "d38e775bc490def851d979af8951d6df458a3b481aff734688e54d7c2ff6fb91"
+          }
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R87 ops evidence historical artifact governance",
+          "reviewer": "r87_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "action": "new native-document content acceptance; old withdrawn claims remain historical",
+          "sourceRevision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "previousCurrentFields": {
+            "owner": "Codex（文档治理；不代签原执行）",
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "truthAnchors": [
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json:1"
+            ],
+            "primarySource": [
+              {
+                "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+                "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+                "sha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+                "scope": "full JSON UTF-8 artifact bytes"
+              }
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/adjacent-r1.json",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/adjacent-r1.raw.txt",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.raw.txt",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-2.json",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-2.raw.txt",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-3.json",
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-3.raw.txt"
+            ],
+            "businessOracle": {
+              "type": "historical-machine-artifact",
+              "assertions": [
+                "original content remains traceable",
+                "historical status remains date-scoped",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "evidence": {
+              "kind": "machine-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r87-ops-evidence-artifacts-20261017.json",
+              "sourceSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+              "candidateSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+              "afterSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+              "lineCount": 372,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 15103,
+                "sourceLines": 372,
+                "sourceFinalNewline": true,
+                "inverseSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": [
+                  "numTotalTestSuites",
+                  "numPassedTestSuites",
+                  "numFailedTestSuites",
+                  "numPendingTestSuites",
+                  "numTotalTests",
+                  "numPassedTests",
+                  "numFailedTests",
+                  "numPendingTests",
+                  "numTodoTests",
+                  "snapshot",
+                  "startTime",
+                  "success",
+                  "testResults",
+                  "distillation"
+                ],
+                "entryCount": null,
+                "byteStable": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "versionScope": {
+              "sourceRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+              "date": "2026-10-17",
+              "validity": "historical"
+            },
+            "publicCallers": [
+              "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/README.md",
+              "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+            ],
+            "dedupe": {
+              "result": "reviewed-and-retained",
+              "against": [
+                "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+                "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/README.md"
+              ]
+            },
+            "unresolved": [
+              "Historical material requires current catalog/contract and fresh receipt before reuse.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "docType": "archive-record",
+            "templateId": "archive-record-v1",
+            "template": "docs/phase-governance/templates/archive-record.md",
+            "templateVersion": "1.0.0",
+            "historyOverlay": true,
+            "artifactOnly": true,
+            "documentStatus": "historical",
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            }
+          },
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定载体/Git来源/受保护review位置有任何漂移即停；不得改原生机器字段、补造缺失值、刷新历史SHA洗白或据本稿授runtime/迁移信用。",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 372,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+      "candidateSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+          "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+          "sha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+          "scope": "full JSON UTF-8 artifact bytes"
+        },
+        {
+          "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "3838233e807baa5a1bd181326d73fc39523d133b",
+          "sha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "contract": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-distilled-vitest-native-v1",
+          "templateVersion": "1.0.0"
+        },
+        "carrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "scope": "仅上述固定原生载体与既有current review内容稿；准入/晋升由Owner另判；非当前运行结论"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R87-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R87-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "readDomain": {
+        "actual": "逐项阅读三个文件全部 31 条 fullName/status/failureMessages、计数、distillation 两字段及快照/时间形状；复算 7/8/16。读取父 README 开头的“本地未复现”与历史边界用于防止误授 CI 根因信用；不重新审阅该 README 的整套根因证据。",
+        "reusedFrom": [
+          "S42 completion: /tmp/s42-glm-remaining-683-completion/shard-05.json#/entries/64; shardSHA256=5d9591137acdb649859df253a8bcef8d59b8fef0292079dcd9c3316dc9e2998c; entryCanonicalSHA256=6cb17c818e6ae133c110d07882a30d5401602a9b2a3068922288f9173f9f72e1; reused as draft/design only, facts rechecked on fixed carrier",
+          "S46 design: /tmp/s46-glm-native-family-design/shard-02.json#/entries/101; shardSHA256=30b00a2ab4b33553d7eb4b0c56867941689d61852a87f8e8cd44fb425724cca9; entryCanonicalSHA256=447b640609772064b0a4253a2ea75d03c6a001940782aaf533099427243d7ed8; reused as draft/design only, facts rechecked on fixed carrier",
+          "S49冻结准入与纯投影定义@52cc1bd530998990dbfeff18b347b854a37796ae: scripts/docs/historical-native-family-admission.mjs、historical-native-family-reading.mjs；当前protected review docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json#entries/55 的撤信/历史字段已核读"
+        ],
+        "notRead": [
+          "未逐篇重读关联产品源码、旧测试或历史 raw stdout/stderr；未重新执行历史测试/变异/coverage/E2E。",
+          "旧S42/S46稿仅为线索，不能由其旧全文/consumer声明推定本轮读域。"
+        ]
+      },
+      "fieldRoles": {
+        "identity": [
+          "/startTime",
+          "/testResults/0/name",
+          "/testResults/1/name",
+          "/testResults/2/name"
+        ],
+        "results": [
+          "/numTotalTests",
+          "/numPassedTests",
+          "/numFailedTests",
+          "/numPendingTests",
+          "/success",
+          "/testResults",
+          "/distillation"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json#entries/55"
+        ]
+      },
+      "historyBoundary": "原 README 明示本地未复现 CI 真红；本绿载体不改写该边界，也不单独证明 vi.waitFor 修复因果。 既有2026-10-18撤信、source/sourceGitRevision、claimCorrection与历史记录保持，不以本稿复活原deep-semantic或独立验收声明。",
+      "templateVariant": "historical-distilled-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex independent reviewer /root/s50_admission_review",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+        "afterSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+        "contentSha256": "b709d8b10a08d9884bfc55d8b4e4328ea5d850305d56cb75ebf1dbc19a6b9f12",
+        "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact native variant plus accepted existing-review companion; original native bytes unchanged; no historical execution reauthentication."
+      }
+    },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-2.json",
       "contentReviewStatus": "content-reviewed",
@@ -6345,281 +6906,6 @@
         "decision": "accept",
         "grantsNewSemanticAcceptance": true,
         "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR2-appearance-spriteid-wiring.json",
-        "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
-        "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
-        "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",
-        "scope": "New historical-document review only; not oldR-wave credit restoration, not publication self-acceptance or runtime credit."
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR3-appearance-battlesprite-wiring.json",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "test-machine-evidence",
-      "templateId": "test-machine-evidence-v1",
-      "template": "docs/phase-governance/templates/test-machine-evidence.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Accepted S26 reused: 本篇原生字节逐字段+逐断言程序核读（1 文件/64 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行; S29 additional domain: none; declared program/family composition only; Codex independent evidence/risk acceptance plus GLM-accepted Owner corrections. Qualified document review; no manual269deep review or historical rerun.",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "current-save 结构精度 r1→r3（GLM 新对话 B；r3 固定候选 1d09128fe 已 Codex 独立 accept、S1–S9 有限收口 done）；producer：generate-before-after.mjs 与各轮 run-counterproof 判据（判据库为后续多卡只读复用的 save-precision r2 定稿库）；继任/裁决：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）；81 次执行/80 唯一标题口径；17 针全 VALID；counterproof-r2-runs 对应 r2 归还三原合同、r3-runs 对应 r3 轮。本篇为 counterexample-red 相位：numFailedTests=1（逐断言失败集见 oracle/witness，完整身份）。本篇差异：1 文件/64 断言中恰 1 失败（完整身份见 oracle 集合）；分轴：passed=63/failed=1/pending+skipped+todo=0；numTotalTestSuites=5 为 Vitest 层级计数非文件数。本稿仅治理该历史文档的内容与适用范围：固定原生字节零改写、不重跑原执行、不认证原针/产品质量。\nS29逐篇补充（已接受Owner勘误后）：NR3-appearance-battlesprite-wiring.json 的独有观察：1 文件/64 断言中恰 1 失败，首条失败身份「current-structure · CharacterInstance（party 与 reserve 同型） 实例」（完整集合逐条列于本行 nativeResults.failedAssertions 与 seed oracle）；相位差异：counterexample-red——counterexample-red表示本篇原生报告有失败断言；精确身份与消息取nativeResults及既有oracle。它可属于业务针、判据探针、污染拒收或旧oracle相位，分类不自动证明真实变异、判据接受、未破坏面或产品缺陷；具体边界沿用该篇seed及本族裁决。；本篇 counter 特异：numTotalTestSuites=5 为 Vitest 套件层级计数，≠文件数 1，不得互替。\n历史边界：族边界：current-save 结构精度 r1→r3 三审有限收口（17 针全 VALID、81 次执行/80 唯一标题口径）；判据库为 save-precision r2 定稿库只读复用；codex-review-r3/r2/r1.md 为继任裁决全文。旧结论适用面：仅按本篇冻结相位和本族实际裁决解释历史记录；不恢复现行合同或授当前runtime/E2E/coverage/迁移信用。B5/B10撤回仅适用于TEST-EDITOR-ALCHEMY-BOUNDARIES-1，不能归到其他卡族；本篇精确相位见runPhase。排重边界：同目录载体计数比较不证明执行互斥或测试排重，跨目录未审=unknown（Owner 补丁后的 dedupe.result 已按此口径）。字段复用：S26 修正稿（含 Owner 207 项计数补丁与 B5/B10 两项 README:29 裁决锚追加）的 coreConclusion/readDomain/nativeWitnesses/businessOracle/dedupe/contextReferences/phaseBasis 原样复用；本轮新增：nativeResults 机器集合按固定算法重取、fieldRoles.governance 由硬编码 r85 改为本篇实际 review 行显式绑定、本条 assessment；无新增人工读域（supplementedReadDomain 为空）。",
-      "truthAnchors": [
-        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR3-appearance-battlesprite-wiring.json (33cc frozen native bytes)",
-        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md:12-12"
-      ],
-      "unresolved": [
-        "Historical runtime and original producer execution are not rerun/authenticated; product/counterproof validity follows cited family decisions. Cross-family unknown dedupe remains unknown."
-      ],
-      "nextStep": "Controlled central publication; non-author result review remains required. Keep native bytes, withdrawal boundaries and existing current review location; subsequent content/context changes invalidate affected claims.",
-      "phase": "ops",
-      "module": "evidence-artifact",
-      "capability": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR3-appearance-battlesprite-wiring.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018",
-        "S29 accepted S26/S29 GLM source/delta reused; Codex independently risk-reviewed content and GLM independently accepted Codex bounded corrections; publication authored by Codex awaiting result review."
-      ],
-      "sourceSha256": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6",
-      "afterSha256": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6",
-      "publicCallers": [
-        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/README.md",
-        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json",
-        "scripts/docs/check-document-model.mjs",
-        "scripts/docs/check-content-review.mjs",
-        "scripts/docs/report-governance-progress.mjs"
-      ],
-      "legalInputs": [
-        "固定原生字节（清单 pin）",
-        "原始测试合法输入未载于报告=未载/未重验，不作本轮 oracle"
-      ],
-      "businessOracle": {
-        "type": "historical-vitest-native-preservation",
-        "assertions": [
-          "分轴：passed=63/failed=1/pending+skipped+todo=0；逐断言重算与 num* 一致",
-          "失败断言完整集合（全部成员、不截断）：#/testResults/0/assertionResults/61=current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝",
-          "numTotalTestSuites=5 层级计数原值保留（≠文件数 1）",
-          "before=after=清单 SHA：原生字节零改写"
-        ]
-      },
-      "dedupe": {
-        "result": "同目录载体计数比较：NR1-gridpos-height-wiring.json（64断言/1红/0pending）；NR2-appearance-spriteid-wiring.json（64断言/1红/0pending）；NR4-skillusecounts-inner-wiring.json（64断言/1红/0pending）。这些计数不证明重复或执行互斥；跨目录比较未审，排重结论unknown。",
-        "against": [
-          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR1-gridpos-height-wiring.json",
-          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR2-appearance-spriteid-wiring.json",
-          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR4-skillusecounts-inner-wiring.json"
-        ]
-      },
-      "revision": {
-        "currentSha": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6",
-        "implementationSha": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6",
-        "history": [
-          {
-            "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
-            "date": "2026-10-17",
-            "action": "byte-stable historical machine artifact review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "date": "2026-10-23",
-            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
-            "record": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
-            "index": 82,
-            "beforeEntrySha256": "96a7d717a86daa48d9043af6a2763873c59268ae4be8a033beb588fb4207dde5",
-            "previousCurrentSha": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6",
-            "previousSourceGitRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
-            "action": "Qualified S29 native document migration; original source/current pins explicitly reconciled to fixed33cc bytes. Old record remains in fixedGit."
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "historical-native-vitest-cohort",
-        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR3-appearance-battlesprite-wiring.json",
-        "byteStable": true,
-        "nativeResults": {
-          "files": 1,
-          "counters": {
-            "numTotalTestSuites": 5,
-            "numPassedTestSuites": 3,
-            "numFailedTestSuites": 2,
-            "numPendingTestSuites": 0,
-            "numTotalTests": 64,
-            "numPassedTests": 63,
-            "numFailedTests": 1,
-            "numPendingTests": 0,
-            "numTodoTests": 0
-          },
-          "assertionStatuses": {
-            "failed": 1,
-            "passed": 63
-          },
-          "failedAssertions": [
-            {
-              "pointer": "#/testResults/0/assertionResults/61",
-              "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝",
-              "status": "failed"
-            }
-          ],
-          "pendingAssertions": []
-        },
-        "currentAudit": {
-          "runtimeExecutionPerformed": false,
-          "historicClaimsReexecuted": false
-        },
-        "qualification": "Qualified historical-document acceptance; no historical/current execution authentication.",
-        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
-        "ownerCorrectionsSha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f"
-      },
-      "history": [
-        {
-          "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R87 ops evidence historical artifact governance",
-          "reviewer": "r87_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        },
-        {
-          "date": "2026-10-23",
-          "task": "DOCS-NATIVE-VITEST-269-1",
-          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
-          "action": "New per-document S29 evidence acceptance, not restoration of unsupported oldreview.",
-          "priorClaimCorrection": {
-            "date": "2026-10-18",
-            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-            "priorRecordPath": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
-            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-          },
-          "priorEvidenceKind": "machine-artifact-envelope",
-          "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
-          "contentReviewStatus": "content-reviewed",
-          "templateCompliance": "template-compliant",
-          "notRun": ["historical tests", "runtime", "E2E", "visual", "coverage"]
-        }
-      ],
-      "supersedes": [
-        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
-      ],
-      "stopLine": "本次仅授历史文档内容审阅与原生模板迁移；不认证原测试/反控/fixture/候选执行，不恢复B5/B10或其它后继撤回信用，不授runtime/E2E/视觉/coverage。来源稿停止线（S26时点）：不把历史运行结果当合法输入；不重跑原测试/原针；不授当前 runtime/E2E/视觉/coverage 或迁移完成信用；撤回针的历史边界不因本稿恢复。",
-      "userVisibleBeforeAfter": "原生JSON字节保持；旧机械撤信条目改为既有唯一review内的具体字段/结果全集/相位/来源/限制；新增文档信用不恢复历史执行信用。",
-      "reviewedLines": "本篇原生字节逐字段+逐断言程序核读（1 文件/64 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "artifactOnly": false,
-      "artifactFormat": "json-native",
-      "documentStatus": "historical",
-      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
-      "candidateSha256": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6",
-      "primarySource": [
-        {
-          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
-          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR3-appearance-battlesprite-wiring.json",
-          "gitObject": "5af28a8e750fee672bfcebaf5b8e4c9888796a38",
-          "sha256": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "module": "evidence-artifact",
-        "currentBoundary": "current catalog/contract and fresh receipt own truth"
-      },
-      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
-        "date": "2026-10-17",
-        "validity": "historical",
-        "runPhase": "counterexample-red",
-        "documentReviewDate": "2026-10-23",
-        "historicalExecutionReexecuted": false
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R87-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "R87-DELETE-GUARD",
-          "status": "open-for-cleanup-audit",
-          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
-        }
-      ],
-      "templateVariant": "historical-vitest-native-v1",
-      "readDomain": {
-        "actual": "本篇原生字节逐字段+逐断言程序核读（1 文件/64 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
-        "reusedFrom": [
-          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md（卡族共享上下文：producer 链/裁决/撤回行，实读一次）"
-        ],
-        "s29Supplement": [],
-        "ownerAcceptance": "Evidence/risk review of accepted seed and family-specific delta; not repeat full manual reading."
-      },
-      "nativeWitnesses": [
-        {
-          "pointer": "#/testResults/0/assertionResults/0/fullName",
-          "quote": "current-structure · 合法载荷（正边界） 现行保存器产物通过；分数坐标/负坐标原样放行",
-          "meaning": "首断言身份锚（套件：current-structure · 合法载荷（正边界））——锚定实际断言集"
-        },
-        {
-          "pointer": "#/numTotalTests",
-          "quote": "64",
-          "meaning": "总断言计数 64 与逐断言枚举 64 交叉"
-        },
-        {
-          "pointer": "#/testResults/0/assertionResults/61/failureMessages/0",
-          "quote": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (",
-          "meaning": "失败诊断原文（current-structure · CharacterInstance（party 与 rese…；失败集共 1 项完整列于 oracle）"
-        }
-      ],
-      "contextReferences": [
-        {
-          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
-          "sha256": "94c6a967da71a197523b6a7a412b1c271d0f135f9170b73ae132bd20043b5978",
-          "role": "卡族上下文锚（TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1）：支撑本篇相位/producer/边界判断的 README 实文行",
-          "quote": "- 沿革：贡献者 GLM 新对话 B、基点 d84b3db23（产品冻结 ce808b42e）、分支 codex/glm-reforge-save-test-precision-r1；r2 按一审 counter（B-R1-01 四条独立接线合同归还+容器缺席拆身份、B-R1-02 共享文档恢复派发值）；r3 按二审 counter（B-R2-01 归还 maxMP/extraStatuses 空洞/poisons 空洞三原合同并对齐反控入口）。",
-          "lines": [12, 12]
-        }
-      ],
-      "fieldRoles": {
-        "identity": [
-          "snapshot：运行快照身份",
-          "startTime：启动时间",
-          "success：聚合布尔（≠exit0/零诊断）"
-        ],
-        "inputs": [
-          "testResults[].name：1 个受测文件（该次运行输入域）",
-          "assertionResults[].fullName/ancestorTitles：断言/套件身份"
-        ],
-        "results": [
-          "num* 八计数（分轴：p63/f1/pend0/todo0）",
-          "assertionResults[].status：逐断言结果"
-        ],
-        "diagnostics": ["failureMessages：1 条失败诊断（完整集合指针见 oracle）"],
-        "governance": [
-          "current-review: docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json, index=82; no payload/sidecar or native byte changes.",
-          "卡族裁决/撤回边界：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）"
-        ]
-      },
-      "currentQualification": {
-        "date": "2026-10-23",
-        "reviewer": "Codex (independent GLM document evidence); GLM (independent Codex corrections)",
-        "nonAuthorReviewer": true,
-        "decision": "accept",
-        "grantsNewSemanticAcceptance": true,
-        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR3-appearance-battlesprite-wiring.json",
         "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
         "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
         "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",

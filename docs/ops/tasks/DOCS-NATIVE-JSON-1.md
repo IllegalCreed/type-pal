@@ -7,8 +7,8 @@ Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
 Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（贡献者据证验收）/ 未参与者（Owner勘误与发布复核；作者不自签）
-Branch: codex/docs-s39-markdown-intake
-Last reviewed: 2026-10-24
+Branch: codex/docs-s50-native-pilot-admission
+Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -368,3 +368,7 @@ S34 作者实施事实：212候选逐条新合同检查通过、全部历史Git�
 GLM对c1e457f9的发布/行政/补线/封存分别accept，零counter。Owner核对HANDBACK `54b828ebd18181e6d4a55c9191dc4e3791f14f2c204cb2a90d636fd566d1ea2f`、verdict `05e0d2ca7d10f4700a5bd0dd4782bc3437cf94c37927b8a95d8fb40d174b8f2e`。真实终态151物理=12manifest+37片，212原内容只补通用evidence.path；9来源勘误、2434pin/12source/302原生保全，原2272首红与151对150期望失败原件留痕。accept只关闭该发布/补线证据项，212仍partial/needs、0迁移/runtime信用，不接新routing。
 
 S39仅接收十篇Markdown和S38报告并维护三份卡/看板；212及其四源内容保持c1原样，后续212逐篇信用/原生路由另行裁定。本卡保持rework，整仓E2E006过期及剩余严格待办不豁免，不合main、不推送、不done。
+
+## S50 首八原生格式逐篇接受与受控接入（2026-10-25）
+
+本轮按[父卡S50](DOCS-FULL-TEMPLATE-1.md#s50-首八原生合同注册与逐篇接受接入2026-10-25)执行：用户已授权frozen-binding-baseline.test.mjs精确适配；六个新variant与首八载体的现有唯一review逐篇接入，原JSON字节保全。独立审者已对8份19字段内容稿逐篇accept、零counter，报告SHA4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2；本accept限当前原生文档语义，不重授旧执行或旧R波信用。状态/registry/pin接入由Owner先镜像验证，最终计数取实跑。212历史交付回执仍partial/needs；旧272合同与source pin保持。父子卡继续rework，硬门未过不合main、不推送、不done；本卡仅当前职责/分支与范围写回，不重复维护第二份明细。

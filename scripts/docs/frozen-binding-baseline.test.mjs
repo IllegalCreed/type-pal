@@ -16,6 +16,7 @@ import {
   readFrozenBaselineRoot,
 } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { nativeFamilyContracts } from './historical-native-family-admission.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const beforeRevision = 'ec2a87735435b409ff2c5b5e01bfb681af1e5c35'
@@ -198,6 +199,13 @@ test('catalog default1.2 preserves actual complete18-entry old contract and both
   // machine fields and variants remain locked to the original F1 contract.
   assert(Object.hasOwn(currentMachine.variants, 'historical-vitest-native-v1'))
   delete currentMachine.variants['historical-vitest-native-v1']
+  // S50 adds only these separately tested native formats; the original parent
+  // and all preexisting variants must still match the fixed F1 contract below.
+  for (const family of ['distilled-reporter', 'totals-summary', 'test-identity-array']) {
+    const definition = nativeFamilyContracts[family]
+    assert.deepEqual(currentMachine.variants[definition.variant], definition)
+    delete currentMachine.variants[definition.variant]
+  }
   assert.deepEqual(
     currentMachine,
     beforeRegistry.types.find((entry) => entry.templateId === 'test-machine-evidence-v1'),

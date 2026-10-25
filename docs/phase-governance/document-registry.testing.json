@@ -3887,15 +3887,15 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-a-directed.json",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-identity-native-v1",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-b-directed.json",
@@ -4149,15 +4149,15 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-summary-native-v1",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",

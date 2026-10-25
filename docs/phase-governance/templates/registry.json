@@ -209,6 +209,30 @@
             "historicalBoundary"
           ],
           "historyRule": "Preserve raw bytes, old source/after axes, original contradictions and withdrawal corrections; no current execution credit. S33 admission is six pilots only."
+        },
+        "historical-command-summary-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-command-summary-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-mutation-definition-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-mutation-definition-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-path-map-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-path-map-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
         }
       }
     },
@@ -838,6 +862,30 @@
           "templateVersion": "1.0.0",
           "metadataLocation": "current-review",
           "sourceBaseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+        },
+        "historical-distilled-vitest-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-distilled-vitest-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-test-summary-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-test-summary-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-test-identity-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-test-identity-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
         }
       },
       "statusPolicy": {

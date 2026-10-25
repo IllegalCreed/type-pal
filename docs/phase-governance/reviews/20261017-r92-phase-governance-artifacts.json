@@ -998,7 +998,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "deee28fc61417592ed56fe9467e3d1c6254e60b108db6712ed11b409469ef028",
+      "afterSha256": "d1d0c721a60228989d938bbffc6c474c17b367239eec0d00527248b0b0c0127c",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1172,6 +1172,18 @@
           "afterSha256": "9c3611d18a8f9665083b533059ffefe03ecdc3387126ef44bbbe6da3eeadf199",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "deee28fc61417592ed56fe9467e3d1c6254e60b108db6712ed11b409469ef028",
+          "afterSha256": "d1d0c721a60228989d938bbffc6c474c17b367239eec0d00527248b0b0c0127c",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3359,7 +3371,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
-      "afterSha256": "e2433a937018a57d072c4de855715105f631aa956620917e80e486447a919987",
+      "afterSha256": "4d70a0fb68963d5356450ea4bf5440050cb527951c0d88e3ece31dd9eb2835ae",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3505,7 +3517,21 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "e2433a937018a57d072c4de855715105f631aa956620917e80e486447a919987",
+          "afterSha256": "4d70a0fb68963d5356450ea4bf5440050cb527951c0d88e3ece31dd9eb2835ae",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
@@ -3534,7 +3560,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
-      "afterSha256": "271f45b24b0fb4728a665ca359efd5c13fcab1ecb32d827bcfcc796148f3a903",
+      "afterSha256": "c90e5600874542f34e715265715df3a4f27068400482c5b1c8947400f25392c8",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3680,7 +3706,21 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "271f45b24b0fb4728a665ca359efd5c13fcab1ecb32d827bcfcc796148f3a903",
+          "afterSha256": "c90e5600874542f34e715265715df3a4f27068400482c5b1c8947400f25392c8",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",

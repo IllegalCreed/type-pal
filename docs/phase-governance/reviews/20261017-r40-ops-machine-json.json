@@ -334,52 +334,78 @@
     },
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "test-machine-evidence",
-      "templateId": "test-machine-evidence-v1",
-      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json:1"],
-      "unresolved": [
-        "Prior execution metadata is historical; current acceptance requires a fresh receipt and consumer verification.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "原生载体字段逐项语义核读+固定Git字节复算+已有内容稿/历史边界对照；非关联产品源码全文重审",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "mutation-points 是 MUT-01..MUT-12 的十二项注入定义，字段为 file/line/find/replace/testFile，跨战斗HP/复活、玩家数值、商店扣价、事件推进/恢复、菜单模式及逃跑；没有逐针执行结果或击杀计数。MUT-07 note 明说旧 frame-wait 强变异不红，后移到 fade-screen 完成点以现金 fall-through 观察；MUT-09 与 MUT-11 note 声明复用旧测试行段。定义条数=12 不等于 kill=12，本轮不改写这些失败与排重历史。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json#/0",
+        "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json#/6/note",
+        "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json#/8/note",
+        "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json#/10/note",
+        "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json#/11"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "未核 find 在当前源码的命中数、旧测试实际判别力或各针运行结果；历史行号不升级为当前锚。"
+      ],
+      "nextStep": "由未参与本稿的审者按固定载体与19键内容摘要独立复核；由Owner受控合成与状态裁定，本作者不发布、不自签接受。",
       "phase": "ops",
       "module": "evidence",
       "capability": "ops-machine-evidence-mutation-points",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S50 原生文档内容稿；不代签历史执行）",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex contributor /root/s50_native_review_author",
+          "scope": "native carrier content proposal and declared reused evidence",
+          "contentSha256": "986062ff8cc52e7e1a94c887fe031ae416346fa177138d26726f2a5d709c3717"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex independent reviewer /root/s50_admission_review",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "contentSha256": "986062ff8cc52e7e1a94c887fe031ae416346fa177138d26726f2a5d709c3717"
+        }
       ],
       "sourceSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
       "afterSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
       "publicCallers": [
-        "paired evidence consumer / task card references",
-        "ops evidence artifact: docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json"
+        "scripts/docs/historical-native-family.mjs#historicalNativeFamilyIssues（当前受控文档合同reader；固定路径准入，不是产品runtime caller）"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "b6045c26948a5a2bbba73519c3af8b4caea166d4",
+          "sha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original JSON parses",
-          "all original top-level fields remain",
-          "source and after bytes are identical",
-          "no runtime/E2E/visual/coverage credit"
+          "12 个 id 为 MUT-01..MUT-12 且唯一，每项保留原 find/replace 与定位。",
+          "本族 results 角色只表示文档所定义的变更和附注，不是执行 outcome；不得生成 kill 状态。",
+          "MUT-07旧针不红/移针与MUT09/MUT11旧测试承载声明原样保留。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": ["docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json"]
+        "result": "bounded-carrier-only-no-global-dedupe-claim",
+        "against": [],
+        "notes": "已核本载体内身份/字段结构；未全仓搜索等价证据，不声称全局无重复。"
       },
       "revision": {
         "currentSha": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
@@ -400,24 +426,116 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r40-ops-machine-json-20261017.json",
-        "sourceSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
-        "candidateSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
-        "afterSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
-        "lineCount": 101,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 4146,
-          "sourceLines": 101,
-          "sourceFinalNewline": true,
-          "inverseSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
-          "exactRoundTrip": true,
-          "topLevelShape": "array",
-          "topLevelFields": []
+        "kind": "historical-native-family",
+        "family": "mutation-definition-array",
+        "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
+        "nativeReading": {
+          "family": "mutation-definition-array",
+          "definitions": [
+            {
+              "id": "MUT-01",
+              "file": "src/core/battle/battle-opcodes.ts",
+              "line": 478,
+              "find": "enemy.e.health = Math.max(0, enemy.e.health - dmg)",
+              "replace": "enemy.e.health = Math.max(1, enemy.e.health - dmg)",
+              "testFile": "src/core/battle/battle-opcodes.cov85.test.ts"
+            },
+            {
+              "id": "MUT-02",
+              "file": "src/core/battle/battle-system.ts",
+              "line": 273,
+              "find": "      r.hp = 1\n      input.gs.PlayerRolesRuntime.rgwHP[roleId] = 1",
+              "replace": "      r.hp = 2\n      input.gs.PlayerRolesRuntime.rgwHP[roleId] = 2",
+              "testFile": "src/core/battle/battle-system.cov85.test.ts"
+            },
+            {
+              "id": "MUT-03",
+              "file": "src/core/event-opcode-player.ts",
+              "line": 197,
+              "find": "gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10)",
+              "replace": "gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 11)",
+              "testFile": "src/core/event-opcode-player.cov85.test.ts"
+            },
+            {
+              "id": "MUT-04",
+              "file": "src/core/menu/menu-driver.ts",
+              "line": 358,
+              "find": "gs.dwCash -= item.price",
+              "replace": "gs.dwCash -= item.price - 1",
+              "testFile": "src/core/menu/menu-driver.cov85.test.ts"
+            },
+            {
+              "id": "MUT-05",
+              "file": "src/core/event-system.ts",
+              "line": 1227,
+              "find": "npc.id === gs.eventCursor.triggerOwnerId &&",
+              "replace": "npc.id !== gs.eventCursor.triggerOwnerId &&",
+              "testFile": "src/core/event-system.cov85.test.ts"
+            },
+            {
+              "id": "MUT-06",
+              "file": "src/core/event-system.ts",
+              "line": 3549,
+              "find": "const px = (col ?? 0) * 32 + (h ?? 0) * 16",
+              "replace": "const px = (col ?? 0) * 33 + (h ?? 0) * 16",
+              "testFile": "src/core/event-opcodes.cov85.test.ts"
+            },
+            {
+              "id": "MUT-07",
+              "file": "src/core/event-system.ts",
+              "line": 1528,
+              "find": "      gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip++",
+              "replace": "      gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip += 2",
+              "testFile": "src/core/event-system.cov85.test.ts",
+              "note": "r5: frame-wait 完成语义在旧承载(k02 explore 落点/当帧跑完)下无可判别强变异(ip 偏移与 waiting 残留均不红,已记录);针移至同族保留新轴 fade-screen 完成推进(现金 fall-through oracle)"
+            },
+            {
+              "id": "MUT-08",
+              "file": "src/core/event-system.ts",
+              "line": 1911,
+              "find": "owner.triggerResume = { ip: cursor.ip + 1 } // P2#5:全局 ip,默认读全局数组",
+              "replace": "owner.triggerResume = { ip: cursor.ip + 2 } // P2#5:全局 ip,默认读全局数组",
+              "testFile": "src/core/event-system.cov85.test.ts"
+            },
+            {
+              "id": "MUT-09",
+              "file": "src/core/event-system.ts",
+              "line": 1555,
+              "find": "if (_loadLastSaveHandler) _loadLastSaveHandler(slot)",
+              "replace": "if (_loadLastSaveHandler) _loadLastSaveHandler(slot + 1)",
+              "testFile": "src/core/event-system.test.ts",
+              "note": "dedup: 0x4E reload 合同由旧 event-system.test.ts(4820-4845)承载,针随合同走"
+            },
+            {
+              "id": "MUT-10",
+              "file": "src/core/menu/menu-stack.ts",
+              "line": 23,
+              "find": "    gs.eventCursor.waiting = undefined\n    gs.mode = 'event'",
+              "replace": "    gs.eventCursor.waiting = undefined\n    gs.mode = 'explore'",
+              "testFile": "src/core/menu/menu-driver.cov85.test.ts"
+            },
+            {
+              "id": "MUT-11",
+              "file": "src/core/battle/actions/flee.ts",
+              "line": 59,
+              "find": "const roll = state.rng.rangeInclusive(0, def)",
+              "replace": "const roll = state.rng.rangeInclusive(0, def) + 9999",
+              "testFile": "src/core/battle/__tests__/battle-system.test.ts",
+              "note": "dedup: flee 成功合同由旧 battle-system.test.ts(1495-1575)承载,针随合同走"
+            },
+            {
+              "id": "MUT-12",
+              "file": "src/core/event-opcode-player.ts",
+              "line": 218,
+              "find": "          if (itemId !== 0) {\n            addItemToInventory(gs, itemId, 1)\n            equipment[slot]![roleId] = 0",
+              "replace": "          if (itemId !== 0) {\n            addItemToInventory(gs, itemId, 2)\n            equipment[slot]![roleId] = 0",
+              "testFile": "src/core/event-opcode-player.cov85.test.ts"
+            }
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -439,15 +557,108 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "action": "new native-document content acceptance; old withdrawn claims remain historical",
+          "sourceRevision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "previousCurrentFields": {
+            "owner": "Codex（文档治理；不代签原执行）",
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "truthAnchors": ["docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json:1"],
+            "primarySource": [
+              {
+                "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
+                "revision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
+                "sha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
+                "scope": "full JSON artifact"
+              }
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json"
+            ],
+            "businessOracle": {
+              "type": "json-artifact-envelope",
+              "assertions": [
+                "original JSON parses",
+                "all original top-level fields remain",
+                "source and after bytes are identical",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "evidence": {
+              "kind": "json-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r40-ops-machine-json-20261017.json",
+              "sourceSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
+              "candidateSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
+              "afterSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
+              "lineCount": 101,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 4146,
+                "sourceLines": 101,
+                "sourceFinalNewline": true,
+                "inverseSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
+                "exactRoundTrip": true,
+                "topLevelShape": "array",
+                "topLevelFields": []
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "versionScope": {
+              "sourceRevision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
+              "date": "2026-10-17",
+              "validity": "historical-artifact"
+            },
+            "publicCallers": [
+              "paired evidence consumer / task card references",
+              "ops evidence artifact: docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json"
+            ],
+            "dedupe": {
+              "result": "reviewed-and-enveloped",
+              "against": ["docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json"]
+            },
+            "unresolved": [
+              "Prior execution metadata is historical; current acceptance requires a fresh receipt and consumer verification.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "stopLine": "do not promote historical machine receipt to current runtime/E2E/visual/coverage acceptance",
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "docType": "test-machine-evidence",
+            "templateId": "test-machine-evidence-v1",
+            "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+            "templateVersion": "1.5.0",
+            "historyOverlay": false,
+            "documentStatus": "historical-artifact",
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            }
+          },
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": ["governed-legacy machine JSON presentation; original fields retained"],
-      "stopLine": "do not promote historical machine receipt to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "固定载体/Git来源/受保护review位置有任何漂移即停；不得改原生机器字段、补造缺失值、刷新历史SHA洗白或据本稿授runtime/迁移信用。",
       "userVisibleBeforeAfter": "原始 machine JSON 字段和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、SHA、字段清单和 consumer 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 101,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
       "candidateSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
       "primarySource": [
@@ -456,6 +667,12 @@
           "revision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
           "sha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
           "scope": "full JSON artifact"
+        },
+        {
+          "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "b6045c26948a5a2bbba73519c3af8b4caea166d4",
+          "sha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a"
         }
       ],
       "phaseAnchors": {
@@ -465,9 +682,13 @@
       },
       "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
       "versionScope": {
-        "sourceRevision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
+        "contract": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-mutation-definition-native-v1",
+          "templateVersion": "1.0.0"
+        },
+        "carrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "scope": "仅上述固定原生载体与既有current review内容稿；准入/晋升由Owner另判；非当前运行结论"
       },
       "counterReworkBlocked": [
         {
@@ -476,13 +697,47 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      "readDomain": {
+        "actual": "完整读取101行十二定义的file/line/find/replace/testFile及全部三个note，逐项理解原到变异关系。未执行变异脚本，未读旧产品测试被引用行段，故note维持原文时点声明。",
+        "reusedFrom": [
+          "S42 completion: /tmp/s42-glm-remaining-683-completion/shard-01.json#/entries/28; shardSHA256=a8e959dd076fe8bfe7518dffc976bc416c4590da946b29ec3292df4762e11d02; entryCanonicalSHA256=c5beb8e3e12e9ab4910de2d6d4bbd232fa6ee664eb7972a5604418012980ca1d; reused as draft/design only, facts rechecked on fixed carrier",
+          "S46 design: /tmp/s46-glm-native-family-design/shard-01.json#/entries/12; shardSHA256=5648fbf775e60e5dc5639a091f326265df8ea37e1d0989e529dc19c26f7e6dfc; entryCanonicalSHA256=ad4d3fb64936391f3a2b0ca4d9721994420876fcf9b9c8af4666f5de9b78026e; reused as draft/design only, facts rechecked on fixed carrier",
+          "S49冻结准入与纯投影定义@52cc1bd530998990dbfeff18b347b854a37796ae: scripts/docs/historical-native-family-admission.mjs、historical-native-family-reading.mjs；当前protected review docs/phase-governance/reviews/20261017-r40-ops-machine-json.json#entries/2 的撤信/历史字段已核读"
+        ],
+        "notRead": [
+          "未逐篇重读关联产品源码、旧测试或历史 raw stdout/stderr；未重新执行历史测试/变异/coverage/E2E。",
+          "旧S42/S46稿仅为线索，不能由其旧全文/consumer声明推定本轮读域。"
+        ]
+      },
+      "fieldRoles": {
+        "identity": ["/0/id", "/0/file", "/0/line", "/6/testFile", "/11/id"],
+        "results": ["/0/find", "/0/replace", "/6/note", "/8/note", "/10/note"],
+        "governance": ["docs/phase-governance/reviews/20261017-r40-ops-machine-json.json#entries/2"]
+      },
+      "historyBoundary": "定义合同与执行结果分离；原note提到的旧针失败不能被“12项定义”掩盖，旧测试排重仍限历史声明。 既有2026-10-18撤信、source/sourceGitRevision、claimCorrection与历史记录保持，不以本稿复活原deep-semantic或独立验收声明。",
+      "templateVariant": "historical-mutation-definition-native-v1",
+      "artifactOnly": false,
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex independent reviewer /root/s50_admission_review",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
+        "afterSha256": "d0bf114205b1762738283a18b59cd8f20667222cb6db85e6dfabc5d58864383a",
+        "contentSha256": "986062ff8cc52e7e1a94c887fe031ae416346fa177138d26726f2a5d709c3717",
+        "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact native variant plus accepted existing-review companion; original native bytes unchanged; no historical execution reauthentication."
       }
     },
     {
@@ -1753,56 +2008,80 @@
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "test-machine-evidence",
-      "templateId": "test-machine-evidence-v1",
-      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "原生载体字段逐项语义核读+固定Git字节复算+已有内容稿/历史边界对照；非关联产品源码全文重审",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "SHARED-original 记录 turn-boundaries 单文件的共享原始绿命令：argv 为 pnpm exec vitest run …battle-turn-boundaries.glm-turn.test.ts，cwd 指历史隔离树 packages/game，exitCode=0、signal/spawnError=null、summary 15/success=true，15 个 fullName/status 全 passed。身份覆盖 forced/lost 收尾、逃跑与死亡槽、毒回写/跳毒、合击/围攻粘性及隐身门。sourceSha 仅给 sys/fin 两个历史源码摘要；载体无 stdout/stderr，因此不能从 exit 0 推零诊断，更不能把共享基线当某一针的变异红。",
       "truthAnchors": [
-        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json:1"
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/argv",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/cwd",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/exitCode",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/signal",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/spawnError",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/summary",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/identitySet",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json#/sourceSha"
       ],
-      "unresolved": [
-        "Prior execution metadata is historical; current acceptance requires a fresh receipt and consumer verification.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": ["两源码摘要与当时命令执行环境未在本轮重建；没有 stdout/stderr 不能核诊断数。"],
+      "nextStep": "由未参与本稿的审者按固定载体与19键内容摘要独立复核；由Owner受控合成与状态裁定，本作者不发布、不自签接受。",
       "phase": "ops",
       "module": "evidence",
       "capability": "ops-machine-evidence-SHARED-original",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S50 原生文档内容稿；不代签历史执行）",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex contributor /root/s50_native_review_author",
+          "scope": "native carrier content proposal and declared reused evidence",
+          "contentSha256": "07dac08ce00f5df3ec673624761c81c96e40794910406bf7aeddd6d1053271fb"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex independent reviewer /root/s50_admission_review",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "contentSha256": "07dac08ce00f5df3ec673624761c81c96e40794910406bf7aeddd6d1053271fb"
+        }
       ],
       "sourceSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
       "afterSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
       "publicCallers": [
-        "paired evidence consumer / task card references",
-        "ops evidence artifact: docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json"
+        "scripts/docs/historical-native-family.mjs#historicalNativeFamilyIssues（当前受控文档合同reader；固定路径准入，不是产品runtime caller）",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md（已读目录/父任务历史导航上下文；仅 D-map 为该 JSON 显式实链，其余不声称直接机器消费）"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "ac0c5910c0cd919a90b1a78513143d5720fa23f7",
+          "sha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original JSON parses",
-          "all original top-level fields remain",
-          "source and after bytes are identical",
-          "no runtime/E2E/visual/coverage credit"
+          "summary.numTotalTests=15 与 identitySet 长度及唯一 fullName 集合相等，15 passed。",
+          "argv/cwd/sourceSha 是所记执行身份；exitCode/summary/identitySet.status 是历史结果，均不作本轮合法输入。",
+          "stdout/stderr 不存在；exitCode=0 不代表零 warning/info；共享 baseline 不计单针 kill。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json"
-        ]
+        "result": "bounded-carrier-only-no-global-dedupe-claim",
+        "against": [],
+        "notes": "已核本载体内身份/字段结构；未全仓搜索等价证据，不声称全局无重复。"
       },
       "revision": {
         "currentSha": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
@@ -1823,33 +2102,98 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r40-ops-machine-json-20261017.json",
-        "sourceSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
-        "candidateSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
-        "afterSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
-        "lineCount": 85,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 3372,
-          "sourceLines": 85,
-          "sourceFinalNewline": true,
-          "inverseSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
-          "exactRoundTrip": true,
-          "topLevelShape": "object",
-          "topLevelFields": [
-            "argv",
-            "cwd",
-            "exitCode",
-            "signal",
-            "spawnError",
-            "summary",
-            "identitySet",
-            "sourceSha"
-          ]
+        "kind": "historical-native-family",
+        "family": "command-summary",
+        "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+        "nativeReading": {
+          "family": "command-summary",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
+            "--reporter=json",
+            "--outputFile=/tmp/turn-mutations/SHARED-original.json"
+          ],
+          "cwd": "/private/tmp/type-pal-glm-turn-r1/packages/game",
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "summary": {
+            "numTotalTests": 15,
+            "success": true
+          },
+          "identitySet": [
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DL1 prevPlayerAutoAtk 粘性:围攻后手动防御被强制改普攻(防御经验 0/攻击经验 1)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DL3 fThisTurnCoop:合击后同回合后续玩家动作吞为 pass(无攻击伤害、无攻击隐藏经验)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DM12:毒改 HP → 回合末 8 tick 停顿后才开下轮菜单(fight.c:1664-1668)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 enemyEscapeAnim 死敌槽不位移:0x69 触发后仅活敌左移(battle.c:1408 死敌跳过)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 finalizeBattle forced(看门狗)归类 won:非终态 phase 强制收场也接回 wonIp",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 finalizeBattle lost 归类:resume 接回 lostIp + 战斗 MP 回写 runtime(战败不伪复活)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 flee 成功即中止剩余队列:后续队员的 flee 不再掷骰(逃跑音 45 恰一次)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 fleeAnim 逐步位移只挪活队员:战内阵亡者保持原位(battle.c:1469 只挪活人)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 战斗已分胜负的回合跳过回合末毒结算(普攻终结后毒不多扣一次,fight.c:1116-1150)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 濒死 ÷2(fight.c:1558):濒死队员行动序降到健康低 dex 队员之后",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 玩家毒 tick:回合末每毒槽跑 wPoisonScript 扣血 + 返回值回写推进毒链(fight.c:1624)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动倍率 flee ×0.5 floor(L10,fight.c:1547):奇数 dex 逃跑者降到攻击者与敌人之后",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动倍率 item ×3(fight.c:1549):物品动作压过基础 dex 更高的攻击者",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动项死亡敌人跳过:被先手击杀的敌人轮到时不行动(存活敌照常轮转)",
+              "status": "passed"
+            },
+            {
+              "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 隐身期(iHidingTime>0)敌整轮跳过包括 turnStart 脚本(不排嘲讽对话,fight.c:1680)",
+              "status": "passed"
+            }
+          ],
+          "sourceSha": {
+            "sys": "0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+            "fin": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c"
+          }
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -1871,15 +2215,121 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "action": "new native-document content acceptance; old withdrawn claims remain historical",
+          "sourceRevision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "previousCurrentFields": {
+            "owner": "Codex（文档治理；不代签原执行）",
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "truthAnchors": [
+              "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json:1"
+            ],
+            "primarySource": [
+              {
+                "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+                "revision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
+                "sha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+                "scope": "full JSON artifact"
+              }
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json"
+            ],
+            "businessOracle": {
+              "type": "json-artifact-envelope",
+              "assertions": [
+                "original JSON parses",
+                "all original top-level fields remain",
+                "source and after bytes are identical",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "evidence": {
+              "kind": "json-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r40-ops-machine-json-20261017.json",
+              "sourceSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+              "candidateSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+              "afterSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+              "lineCount": 85,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 3372,
+                "sourceLines": 85,
+                "sourceFinalNewline": true,
+                "inverseSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+                "exactRoundTrip": true,
+                "topLevelShape": "object",
+                "topLevelFields": [
+                  "argv",
+                  "cwd",
+                  "exitCode",
+                  "signal",
+                  "spawnError",
+                  "summary",
+                  "identitySet",
+                  "sourceSha"
+                ]
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "versionScope": {
+              "sourceRevision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
+              "date": "2026-10-17",
+              "validity": "historical-artifact"
+            },
+            "publicCallers": [
+              "paired evidence consumer / task card references",
+              "ops evidence artifact: docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json"
+            ],
+            "dedupe": {
+              "result": "reviewed-and-enveloped",
+              "against": [
+                "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json"
+              ]
+            },
+            "unresolved": [
+              "Prior execution metadata is historical; current acceptance requires a fresh receipt and consumer verification.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "stopLine": "do not promote historical machine receipt to current runtime/E2E/visual/coverage acceptance",
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "docType": "test-machine-evidence",
+            "templateId": "test-machine-evidence-v1",
+            "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+            "templateVersion": "1.5.0",
+            "historyOverlay": false,
+            "documentStatus": "historical-artifact",
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            }
+          },
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": ["governed-legacy machine JSON presentation; original fields retained"],
-      "stopLine": "do not promote historical machine receipt to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "固定载体/Git来源/受保护review位置有任何漂移即停；不得改原生机器字段、补造缺失值、刷新历史SHA洗白或据本稿授runtime/迁移信用。",
       "userVisibleBeforeAfter": "原始 machine JSON 字段和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、SHA、字段清单和 consumer 边界。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 85,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
       "candidateSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
       "primarySource": [
@@ -1888,6 +2338,12 @@
           "revision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
           "sha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
           "scope": "full JSON artifact"
+        },
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "ac0c5910c0cd919a90b1a78513143d5720fa23f7",
+          "sha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3"
         }
       ],
       "phaseAnchors": {
@@ -1897,9 +2353,13 @@
       },
       "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
       "versionScope": {
-        "sourceRevision": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
+        "contract": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-command-summary-native-v1",
+          "templateVersion": "1.0.0"
+        },
+        "carrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "scope": "仅上述固定原生载体与既有current review内容稿；准入/晋升由Owner另判；非当前运行结论"
       },
       "counterReworkBlocked": [
         {
@@ -1908,13 +2368,49 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      "readDomain": {
+        "actual": "完整读取 85 行命令摘要、全部 15 个身份/状态与 sys/fin 摘要；核 argv/cwd 的历史执行身份与结果字段分工。父 README 读取共享原始绿/红/恢复目录解释片段；未读同目录 15 针日志全体。",
+        "reusedFrom": [
+          "S42 completion: /tmp/s42-glm-remaining-683-completion/shard-01.json#/entries/37; shardSHA256=a8e959dd076fe8bfe7518dffc976bc416c4590da946b29ec3292df4762e11d02; entryCanonicalSHA256=dc00434563c74120cfe52f180cf798da181006afdd64414897c3b4c529071dde; reused as draft/design only, facts rechecked on fixed carrier",
+          "S46 design: /tmp/s46-glm-native-family-design/shard-01.json#/entries/21; shardSHA256=5648fbf775e60e5dc5639a091f326265df8ea37e1d0989e529dc19c26f7e6dfc; entryCanonicalSHA256=a46ae7547a713a951afa190ea2b9e9017bd95da37897779668ca290304432be6; reused as draft/design only, facts rechecked on fixed carrier",
+          "S49冻结准入与纯投影定义@52cc1bd530998990dbfeff18b347b854a37796ae: scripts/docs/historical-native-family-admission.mjs、historical-native-family-reading.mjs；当前protected review docs/phase-governance/reviews/20261017-r40-ops-machine-json.json#entries/11 的撤信/历史字段已核读"
+        ],
+        "notRead": [
+          "未逐篇重读关联产品源码、旧测试或历史 raw stdout/stderr；未重新执行历史测试/变异/coverage/E2E。",
+          "旧S42/S46稿仅为线索，不能由其旧全文/consumer声明推定本轮读域。"
+        ]
+      },
+      "fieldRoles": {
+        "identity": ["/argv", "/cwd", "/sourceSha"],
+        "results": ["/exitCode", "/signal", "/spawnError", "/summary", "/identitySet"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json#entries/11"
+        ]
+      },
+      "historyBoundary": "仅 SHARED-original 的15项历史绿结果；README 所记15针 VALID与其他相位的实际运行不由本载体重新证明。 既有2026-10-18撤信、source/sourceGitRevision、claimCorrection与历史记录保持，不以本稿复活原deep-semantic或独立验收声明。",
+      "templateVariant": "historical-command-summary-native-v1",
+      "artifactOnly": false,
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex independent reviewer /root/s50_admission_review",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+        "afterSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+        "contentSha256": "07dac08ce00f5df3ec673624761c81c96e40794910406bf7aeddd6d1053271fb",
+        "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact native variant plus accepted existing-review companion; original native bytes unchanged; no historical execution reauthentication."
       }
     },
     {

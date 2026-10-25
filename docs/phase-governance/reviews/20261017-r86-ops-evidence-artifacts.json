@@ -35,28 +35,28 @@
       "gitObject": "459bf05a94c8b2b71d57d7c6a83b906bfd44b3b6",
       "sha256": "31d980ff2dec1b95e7149d305f2da12bdedb560fc74ed4829cca9c073234e840"
     },
-    "logicalSha256": "6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c",
+    "logicalSha256": "1891cc84ba793f44a65b1008aab311cdab3962435297033cdf36ef6f4534f7ee",
     "totalEntries": 100,
     "entryOrderSha256": "e8f6411738f253ab08b4a12599141fca1f37b7928c59d9ed634b78eff779df36",
-    "orderedEntriesSha256": "dbcb3998d11f8f8d60b2dfd6d90190afb1720ad5e15f15a9f1329225f7ed0bba",
+    "orderedEntriesSha256": "edc0316396a702893be319c6697f590e94ccae9b79e3cd05fe8ba6f625c4fd0e",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c/part-001.json",
+        "path": "shards/20261017-r86-ops-evidence-artifacts/1891cc84ba793f44a65b1008aab311cdab3962435297033cdf36ef6f4534f7ee/part-001.json",
         "total": 38,
-        "sha256": "74cae8a9b45bce40167db4b51076bde704e69fe0060d56940ed8dc33f5ad8377"
+        "sha256": "1706fba0b5a934083d3b92d48c312c6ef880b8e00360437806661f568dcb7f50"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c/part-002.json",
+        "path": "shards/20261017-r86-ops-evidence-artifacts/1891cc84ba793f44a65b1008aab311cdab3962435297033cdf36ef6f4534f7ee/part-002.json",
         "total": 30,
-        "sha256": "22ffac8266d46be012877774e41b5a5162638d3e25a2292c6a07818b159b4552"
+        "sha256": "22659da0f9f1be5d29a565406dc449c460e0ec86041a66910f6275b619992d46"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/6b10abef94963df89162729dfcbe464f87d7376c6d4c9fe06a336d160de4233c/part-003.json",
+        "path": "shards/20261017-r86-ops-evidence-artifacts/1891cc84ba793f44a65b1008aab311cdab3962435297033cdf36ef6f4534f7ee/part-003.json",
         "total": 32,
-        "sha256": "41ac79c30e344aee58961cd8aa7a173544c7e560b787d9b635f216b459444ba6"
+        "sha256": "415157db3f5961e0d03c142e53e8346f11b24388c87ce935bc1f53793177e629"
       }
     ]
   }

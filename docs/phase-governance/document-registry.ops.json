@@ -426,12 +426,14 @@
     {
       "path": "docs/ops/archive/ops-governance-layout-20261004.json",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r54-ops-audits-layout.json",
-      "artifactOnly": true
+      "templateVariant": "historical-path-map-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/README.md",
@@ -1847,15 +1849,15 @@
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
       "phase": "ops",
-      "docType": "test-machine-evidence",
-      "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactFormat": "json",
+      "templateVariant": "historical-mutation-definition-native-v1",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-results.json",
@@ -1964,15 +1966,15 @@
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
       "phase": "ops",
-      "docType": "test-machine-evidence",
-      "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactFormat": "json",
+      "templateVariant": "historical-command-summary-native-v1",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json",
@@ -8281,28 +8283,28 @@
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-vitest-native-v1",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-vitest-native-v1",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json",
@@ -8986,15 +8988,15 @@
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-distilled-vitest-native-v1",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-2.json",
