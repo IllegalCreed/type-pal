@@ -101,7 +101,8 @@ export function startDialogLine(
     currentLineEndedWithTilde: isTitle ? false : parsed.endedWithTilde,
     lineDoneRenderPending: false,
     fontColorState: isTitle ? startColor : parsed.endColor, // title 不改色态
-    iDelayState: isTitle ? DIALOG_IDELAY_DEFAULT : parsed.endIDelay, // 首行姓名当前使用默认速度态
+    // PAL_ShowDialogText draws names directly; the script's delay survives the name line.
+    iDelayState: isTitle ? (opts.iDelayFrames ?? DIALOG_IDELAY_DEFAULT) : parsed.endIDelay,
     iconKind: parsed.icon,
     typingFrames: 0,
     charsRevealed: 0,

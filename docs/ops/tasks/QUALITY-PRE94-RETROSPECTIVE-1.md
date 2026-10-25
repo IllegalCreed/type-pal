@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 当前2026-10-25：固定83卡80代码accept／3partial（1／3m／42）。CODE1工程清单四范围复用、Q1b当前全文八维接受；原119语句／84断言保留，1→9合同、乱序及78相邻通过，0新关闭。RLE六测试范围依上窗，格式／数值／对话裁决仍待。[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)。全仓／official／protected及一个PR等全部pre94，不扩94–102。
+> 当前2026-10-25：固定83卡82代码accept／1partial（CODE1）。3m／42裁决均收到，正防御／姓名速度先两业务红后131绿、TC0；极值速度保留TS。六文件新关闭，统一门／coverage／一个PR等CODE1完成。[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)。不扩94–102。
 
 > 2026-10-24 CODE56代码接受：3438tracked／476closed／76review／2886pending，六文件新关闭；固定83卡77accept／6partial／0pending。几何/分类、Canvas与page控制器职责及只读目录/常量依赖已分清；22直接+32相邻、330核心，缓存成功旧绿新单红。原数量/同数组启发式限制保留有据，不改UI/机制；CODE57/58不授信用。全仓/official/protected/单PR仍待全部pre94。[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)。
 

@@ -15,6 +15,37 @@ const openingLines = [
 ]
 
 describe('event dialogue page continuation', () => {
+  test('脚本慢速跨样式与姓名保持到下一正文，姓名不改速', () => {
+    const commands: Command[] = [
+      { op: 'showDialog', text: '$10慢~00', messageIndex: 0 },
+      { op: 'setDialogStyleTop', arg0: 0, arg1: 0, arg2: 0 },
+      { op: 'showDialog', text: '李逍遥：', messageIndex: 1 },
+      { op: 'showDialog', text: '天地', messageIndex: 2 },
+      { op: 'end' },
+    ]
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'event'
+    gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
+    const bus = createCommandBus()
+    for (let frame = 0; frame < 20; frame++) {
+      gs.nowMs = 1000 + frame * 200
+      tickEventSystem(
+        gs,
+        {
+          held: new Set(),
+          pressed: new Set(gs.dialogBox?.phase === 'waiting-page-key' ? ['Confirm'] : []),
+          frameNum: frame,
+        },
+        bus,
+      )
+      if (gs.dialogBox?.currentLineText === '天地') break
+    }
+    expect(gs.dialogBox?.titleText).toBe('李逍遥：')
+    expect(gs.dialogBox?.currentLineText).toBe('天地')
+    expect(gs.dialogBox?.currentLineRevealAt).toEqual([0, 112])
+    expect(gs.dialogIDelayFrames).toBe(14)
+  })
+
   function run(commands: Command[], fast = false) {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'

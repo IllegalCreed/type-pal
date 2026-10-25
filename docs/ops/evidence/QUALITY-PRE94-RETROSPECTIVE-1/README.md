@@ -473,3 +473,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-25 [CODE57五文件/获批补缝与新换图counter](bootstrap-quality/README.md)：57相邻/TC0及真实像素红绿；换图失败丢活资源/未处理拒绝导致event-system及3r/53整卡credit暂撤。固定77accept/6partial，未强闭合，统一门仍延后。
 
 2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [本窗代码与真实回归](bootstrap-quality/README.md)。
+
+- [3m／42用户裁决后代码收口](approved-boundaries/README.md)：两业务红后131绿、逐文件八维、完整原件与只读版本桥，统一门等CODE1。

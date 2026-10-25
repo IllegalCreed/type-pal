@@ -217,7 +217,12 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     // def = PAL_GetPlayerDefense(global.c)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
     //   fight.c:4012)。role.defense 已由 projectRuntimeToBattleRoles 合入 runtime 基础防御 + 装备→ 直接用,
     //   此处不可再加敌方受击路径才有的(level+6)*4。
-    let def = asShort(role.defense)
+    // C getter returns WORD, not SHORT: 32768..65535 are positive defense.
+    // Outside that integer domain retain the existing TS conversion; no new growth/wrap policy.
+    let def =
+      Number.isInteger(role.defense) && role.defense >= 0 && role.defense <= 0xffff
+        ? role.defense
+        : asShort(role.defense)
     if (def < 0) def = 0 // 兜底(getter 返 WORD 不为负;防投影负值)
 
     // 玩家元素抗 / 毒抗使用 100 + min(100, mod)(sdlpal 4794/4830 调 PAL_GetPlayer*Resistance)。

@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE1 comment-only ledger delta",
+      "readMethod": "Owned 3m/42 closure delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE1 comments only; format and final gates open.",
+      "coreConclusion": "3m/42 accepted; CODE1 and final gates open.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "a5cda736cdb8ab158a3ade7659222ec22423a534dd9c5f04a670b222e7c7fe08",
+      "afterSha256": "8c79d037d6cfac4b1707af717ec1c34b442650fb4941144616554cc3e2c2fa9b",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "a5cda736cdb8ab158a3ade7659222ec22423a534dd9c5f04a670b222e7c7fe08",
+        "implementationSha": "8c79d037d6cfac4b1707af717ec1c34b442650fb4941144616554cc3e2c2fa9b",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,11 +1714,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
-        "afterSha256": "a5cda736cdb8ab158a3ade7659222ec22423a534dd9c5f04a670b222e7c7fe08",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+        "afterSha256": "8c79d037d6cfac4b1707af717ec1c34b442650fb4941144616554cc3e2c2fa9b",
         "lineCount": 93,
-        "scope": "CODE1 scoped delta; history retained; gates deferred.",
-        "candidateBaseRevision": "d1cadb32ea1f6a427cf0257e174bed4b5e23b045",
+        "scope": "3m/42 delta; CODE1 and gates open.",
+        "candidateBaseRevision": "7d7246dce968760cded0de5093d1b4d9b0f5ddb5",
         "workingTreeDelta": true
       },
       "history": [

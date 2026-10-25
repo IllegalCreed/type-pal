@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-25 3m／42代码接受：用户保留TS极值速度、批准正防御与姓名速度窄修；两业务红后131绿／TC0，六新关闭。3451tracked／508closed／64review／2879pending，固定82accept／1partial（CODE1）；统一门和单PR等全部pre94。[当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)。
+
 2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
 
 2026-10-25 CODE57增量：两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修、57相邻/TC0成立。另真实换图失败使活瓦片消失并未处理拒绝；event-system旧关闭撤rework，3r/53整卡accept暂停。当前3450tracked／495closed／74review／2881pending；固定77accept／6partial／0pending。统一门/coverage/PR继续等全部pre94。 [当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
@@ -140,7 +142,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,451。
-当前已闭合核验：502；已读但待审：69；尚未逐文件核验：2880；合计未闭合：2949。
+当前已闭合核验：508；已读但待审：64；尚未逐文件核验：2879；合计未闭合：2943。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -477,8 +479,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
 | `packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
 | `packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |
-| `packages/game/src/core/battle/formulas.ts` | product | review | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 已证速度中间回绕取舍或正防御误归零待用户答复；不以100局部绿关闭未决数值域 |
-| `packages/game/src/core/battle/magic-damage.ts` | product | review | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 已证速度中间回绕取舍或正防御误归零待用户答复；不以100局部绿关闭未决数值域 |
+| `packages/game/src/core/event-dialogue-pagination.test.ts` | test | 已验证 | [全文八维与姓名速度正式红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 原10身份保留，真实event caller新增1独立慢速合同；无核心mock，确定时钟/逐例GS隔离 |
+| `packages/game/src/core/battle/formulas.ts` | product | 已验证 | [获批数值／姓名窄修八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 继承完整八维，正式两红后131绿／TC0；极值速度按用户选择保留TS；不授统一门信用 |
+| `packages/game/src/core/battle/magic-damage.ts` | product | 已验证 | [获批数值／姓名窄修八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 继承完整八维，正式两红后131绿／TC0；极值速度按用户选择保留TS；不授统一门信用 |
 | `packages/game/src/core/battle/actions/magic.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: bus-contract-cleanup、large-action-design；不升closed |
 | `packages/game/src/core/battle/simulated-magic-target.ts` | product | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md) | 内部模拟选靶共用helper；显式/全体/上次活敌/全灭分支定向已测；统一门仍待 |
 | `packages/game/src/core/battle/__tests__/magic-parity.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md) | 真实runScript/throw/performMagic及动画driver；合法typed输入、手算伤害、15定向与五精确反控；统一门仍待 |
@@ -489,8 +492,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/battle-positions.ts` | product | 已验证 | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 具体八维/真实caller与有效旧反控复用；当前86核心+14状态构造及TC0；最终统一门延后 |
 | `packages/game/src/core/rng.ts` | product | 已验证 | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 具体八维/真实caller与有效旧反控复用；当前86核心+14状态构造及TC0；最终统一门延后 |
 | `packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts` | test | 已验证 | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 具体八维/真实caller与有效旧反控复用；当前86核心+14状态构造及TC0；最终统一门延后 |
-| `packages/game/src/core/battle/__tests__/formulas.test.ts` | test | review | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 已证速度中间回绕取舍或正防御误归零待用户答复；不以100局部绿关闭未决数值域 |
-| `packages/game/src/core/battle/__tests__/magic-damage.test.ts` | test | review | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 已证速度中间回绕取舍或正防御误归零待用户答复；不以100局部绿关闭未决数值域 |
+| `packages/game/src/core/battle/__tests__/formulas.test.ts` | test | 已验证 | [获批数值／姓名窄修八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 继承完整八维，正式两红后131绿／TC0；极值速度按用户选择保留TS；不授统一门信用 |
+| `packages/game/src/core/battle/__tests__/magic-damage.test.ts` | test | 已验证 | [获批数值／姓名窄修八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 继承完整八维，正式两红后131绿／TC0；极值速度按用户选择保留TS；不授统一门信用 |
 | `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 具体八维/真实caller与有效旧反控复用；当前86核心+14状态构造及TC0；最终统一门延后 |
 | `packages/game/src/core/battle/__tests__/turn-queue.test.ts` | test | 已验证 | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 具体八维/真实caller与有效旧反控复用；当前86核心+14状态构造及TC0；最终统一门延后 |
 | `packages/game/src/core/rng.test.ts` | test | 已验证 | [当前核心八维/反控与停止线](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md) | 八身份保留；17000弱抽样改精确向量，两旧8绿→两新各7绿1指定业务红；旧弱信用不自动继承 |
@@ -514,7 +517,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/scene-collision.test.ts` | test | 已验证 | [3n／3q／3r代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md) | 原范围逐文件八维与当前输入/具体设计裁定接受；获准清两脚本字段/未用bus，保留GS真实脚本及目录；107身份及既有合同迁移/反控复用；509联合相邻/69Node、TC/lint0；代码accept，最终统一门待全部pre94 |
 | `packages/game/src/core/scene-loading.test.ts` | test | 已验证 | [3n／3q／3r代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md) | 原范围逐文件八维与当前输入/具体设计裁定接受；获准清两脚本字段/未用bus，保留GS真实脚本及目录；107身份及既有合同迁移/反控复用；509联合相邻/69Node、TC/lint0；代码accept，最终统一门待全部pre94 |
 | `packages/game/src/core/scene.test-fixtures.ts` | fixture | 已验证 | [3n／3q／3r代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md) | 原范围逐文件八维与当前输入/具体设计裁定接受；获准清两脚本字段/未用bus，保留GS真实脚本及目录；107身份及既有合同迁移/反控复用；509联合相邻/69Node、TC/lint0；代码accept，最终统一门待全部pre94 |
-| `packages/game/src/present/dialog-box.ts` | product | review | [对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md) | 解析/状态/绘制已拆分与正文守恒；姓名重置非默认速度已复现，等实际裁决，未改行为 |
+| `packages/game/src/present/dialog-box.ts` | product | 已验证 | [获批数值／姓名窄修八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) | 继承完整八维，正式两红后131绿／TC0；极值速度按用户选择保留TS；不授统一门信用 |
 | `packages/game/src/present/dialog-box.test.ts` | test | 已验证 | [对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md) | 逐文件A–H与实际caller/typed输入/oracle/排重；105直接+427相邻，重叠刷新不相加；全仓/coverage/PR待全部pre94 |
 | `packages/game/src/present/dialog-box.glm-next-wave.test.ts` | test | 已验证 | [对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md) | 逐文件A–H与实际caller/typed输入/oracle/排重；105直接+427相邻，重叠刷新不相加；全仓/coverage/PR待全部pre94 |
 | `packages/game/src/core/event-system.ts` | product | 已验证 | [当前逐文件八维与地图红绿](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) | 实际0x99拒绝由caller精确记录，原Error保留，不改游标/NPC/调度；正式业务红后391相邻/真实平台故障绿，原整文件关闭恢复 |

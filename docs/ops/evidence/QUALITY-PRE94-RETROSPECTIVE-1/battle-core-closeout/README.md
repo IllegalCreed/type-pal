@@ -14,3 +14,5 @@ RNG三个range测试用少量精确word映射替代17000次抽样，原8身份�
 原RNG／status／queue／positions及FLOAT反例的完整可信证据按report具体pin复用。测试验收与数值范围裁定分开；全仓check、official coverage／protected、PR继续等全部pre94冻结，94–102未扩展。
 
 [发布静态门与完整原件索引](static.json)在本窗实际终态后写入，不借旧统一门授当前集成信用。
+
+2026-10-25更新：用户裁决已收到；原数值／姓名停线由[获批窄修与当前版本桥](../approved-boundaries/README.md)解除。旧原件和当时状态保留，本目录固定旧版本快检可显示STALE，不据此重做未变合同。整卡代码接受，统一门仍待全部pre94。

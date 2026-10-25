@@ -65,7 +65,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 80代码accept、3partial续核 | CODE1工程／Q1b接受，格式counter及3m/42待裁决，80/3不变。统一门/coverage/一个PR等全部pre94，不扩94–102。 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 82代码accept、1partial续核 | 3m／42获批窄修两红后131绿／TC0，余CODE1原盘格式已获批待修；全仓／coverage／单PR等全部pre94，不扩94–102。 |
 | GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 | [pre94导入读取失败提示](tasks/GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | Codex / 已批单红后修，等统一门 | 原生NotFoundError反馈、0写/槽不变/同路径重选；102相关/TC0、IO叶精确搬移；不改格式/DB。 |
 | GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 | [pre94换图失败资源/拒绝归属](tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | Codex / 已批修复、代码验收 | 失败保留/完整发布/迟到归属/地图身份与重访均有正式红绿；7native/391相邻/TC0，统一集成待父卡。 |
 | GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 | [pre94工具导出失败提示](tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | Codex / 已批先红后修，等统一门 | 错误toast／URL清理／4不同IO合同及真实Chrome Save/IDB失败链通过；340相邻，未改槽位/DB；只读证据已落。 |

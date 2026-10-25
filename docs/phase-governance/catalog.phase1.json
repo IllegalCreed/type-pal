@@ -549,7 +549,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+      "afterSha256": "bd6a6cafe5ebee23bebe66d7ac6ad1ded1f2b3ea254c8dd33e90e1e1b3c9806c",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -763,6 +763,14 @@
           "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
           "scope": "Read only added current policy; historical quote/source/status/other contracts unchanged. No new runtime, E2E or visual acceptance."
+        },
+        {
+          "date": "2026-10-25",
+          "action": "User-approved extreme dex policy and positive defense boundary erratum",
+          "previousAfterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+          "afterSha256": "bd6a6cafe5ebee23bebe66d7ac6ad1ded1f2b3ea254c8dd33e90e1e1b3c9806c",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+          "scope": "Only new dated erratum; preserved historical quote/sourceRefs and prior execution limits. No whole mechanics re-review."
         }
       ],
       "supersedes": [],

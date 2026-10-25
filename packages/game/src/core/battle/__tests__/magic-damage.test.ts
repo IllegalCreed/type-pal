@@ -13,9 +13,19 @@
 
 import type { BattleField, Enemy, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { makeHBattle, makeHEnemy, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import {
+  makeHBattle,
+  makeHEnemy,
+  makeHField,
+  makeHRole,
+} from '../../../__tests__/glm-next-wave/H/harness.js'
+import {
+  createInitialGameState,
+  hydratePlayerRolesRuntime,
+  projectRuntimeToBattleRoles,
+} from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
-import type { BattleState } from '../battle-state.js'
+import { type BattleState, createBattleState } from '../battle-state.js'
 import { applyEnemyMagicDamage, applyMagicDamage, resolveObjectMagic } from '../magic-damage.js'
 
 function makeState(
@@ -257,6 +267,54 @@ function makeEnemyMagicState(
 }
 
 describe('applyEnemyMagicDamage', () => {
+  it('正防御跨过 SHORT 边界仍抵挡基础伤害，保留扩展域旧结果及 RNG 序', () => {
+    const results = [32767, 32768, 65535, 65536].map((defense) => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.partyMembers = [0]
+      const baseline = { roles: [makeHRole(0, { hp: 500, defense })] }
+      hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, baseline)
+      const playerRoles = projectRuntimeToBattleRoles(
+        gs.PlayerRolesRuntime,
+        baseline,
+        gs.rgEquipmentEffect,
+      )
+      const rng = createSeedableRng(42)
+      const state = createBattleState({
+        gs,
+        playerRoles,
+        enemies: [makeHEnemy({ magicStrength: 0, level: 0 })],
+        field: makeHField(),
+        isBoss: false,
+        rng,
+      })
+      const damage = applyEnemyMagicDamage({
+        state,
+        casterEnemyIdx: 0,
+        target: 0,
+        magicData: { baseDamage: 50, elemental: 0 },
+        playerRoles,
+      })
+      return { defense: playerRoles.roles[0]!.defense, damage, rngState: rng.getState() }
+    })
+    // SDLPal uses positive WORD defense: strength < defense*0.6, so only baseDamage50 remains.
+    // 65536 is outside that domain; this repair deliberately retains its existing TS result.
+    expect(results).toEqual(
+      [32767, 32768, 65535, 65536].map((defense) => ({
+        defense,
+        damage: [
+          {
+            playerIdx: 0,
+            damage: defense === 65536 ? 68 : 50,
+            hpBefore: 500,
+            hpAfter: defense === 65536 ? 432 : 450,
+            autoDefend: false,
+          },
+        ],
+        rngState: 3663131668,
+      })),
+    )
+  })
+
   // P0#3(2026-06-02 审计核源):玩家 def = PAL_GetPlayerDefense(global.c:1800-1828)= rgwDefense + Σ装备,
   //   **无 level 项**(等级项是敌方被打才有,fight.c:4012)。此前 ts 误加 (level+6)*4(M3 简化把敌方公式套玩家)。
   //   role.defense 已是 projectRuntimeToBattleRoles 的投影值(base+装备)→ 直接用,改后玩家 def 不随 level 变。

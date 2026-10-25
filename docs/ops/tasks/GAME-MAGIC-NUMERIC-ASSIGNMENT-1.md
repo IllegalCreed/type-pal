@@ -76,6 +76,10 @@ Codex单Agent、同一3y。用户已回复“同意按 SDLPal 步骤修复（推
 
 无，Codex单Agent继续父任务；本卡获准窄修已实现，统一门遵守父卡当前节奏，未准入溢出策略不得顺带实现。
 
+## 2026-10-25 用户裁决与本次准入
+
+call_400efa7c97674487ba183635ba343d7f 第0项批准保留TS极值速度并记录偏离；第1项批准保留有效正防御、先红后修。下方10-24的“尚未答复”仅描述历史时点，不再是当前停线。Coding Owner仍为Codex，build allowed限定玩家0..65535整数防御的SHORT误读修复、真实hydrate/project→伤害入口回归及极值速度偏离说明；扩展属性结果、PRNG/抽样次数、存档及敌方防御路径保持。本卡统一门待全部pre94收尾。
+
 ## 2026-10-24 原延期dex边界：具体取证，等待产品取舍
 
 未改任何数值实现。原PAL_CLASSIC两helper函数体与STATUS枚举自动按边界提取，在最小WORD/SHORT globals下clang O0/O2执行159行一致；TS通过真实createInitialGameState→hydratePlayerRolesRuntime→projectRuntimeToBattleRoles→getPlayerActualDexterity读取同一玩家值。身法21846、haste有效时，原C WORD乘法回绕为2再限999，当前TS为999；敌level11000/dex20时C为-32498、TS为33038。154条当前原盘提取敌人数据在本getter输出上全部相等，输入SHA保持；不冒称普通剧情、完整队列/原EXE或浏览器已复现。
@@ -87,3 +91,5 @@ Codex单Agent、同一3y。用户已回复“同意按 SDLPal 步骤修复（推
 公开GS hydrate/project→createBattleState→真实SeedableRng/rollAutoDefend→applyEnemyMagicDamage：防御32767时扣50，防御32768时扣68，两侧RNG终态均3663131668、自动防御false。原C PAL_BattleEnemyPerformAction将PAL_GetPlayerDefense结果保留在int def，再传WORD参数；这里32768是有效正值。按原PAL_CalcBaseDamage的分支，敌灵力远小于def×0.6，基础伤害为0，仅留下50法术基伤。当前TS先asShort把32768转负再钳0，故额外受损。这里50是primary分支推导，不冒称已运行完整C敌方行动函数。
 
 已请求仅对0..65535整数防御去掉错误有符号解释，扩展域处理保持原状、正式红例后修；用户尚未答复，未改实现。该范围独立于前面的速度回绕取舍，magic-damage及其直接专测继续review。当前原件将与本轮RNG判别力/八维版本桥同存battle-core-closeout，不新建编号任务。
+
+2026-10-25实施：正防御正式旧源红后修，域外65536结果及RNG序保留；速度按用户选择不改算法。131相关例／game TC通过，见[当前八维和完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)。仅代码接受，统一门未跑。
