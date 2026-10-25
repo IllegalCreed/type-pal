@@ -1,0 +1,709 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex single agent",
+  "base": "0e14c184eed91841ee0f48323b98c98b734a3129",
+  "sourceCommits": ["fa3fe8d79", "c4867dd95", "340dc46af"],
+  "files": [
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "6bc011bfde5ca4f2714392f774fa770d5ab32716bfc38669c983503352b0abdc",
+      "lines": 286,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "复用旧全文/primary，当前完整读同步runner、重算与菜单入口；0x17/18/19/1A/2D/29写入及256步finally所有权保持，零/坏入口原返回策略未改。",
+        "B": "修错签名、缺失opcode清单、raw静默与具名warn之别，finally说明限定于进入循环之后；不再全称1:1或冒称穷尽原盘。",
+        "C": "装备runner持有临时part上下文；catalog只读，库存/poison由各自owner写；保留full gs因确需多状态域，不搬入呈现或异步调度。",
+        "D": "复用equipment-state行写入与inventory/poison入口；不把同步设备脚本合进等待式世界/战斗解释器，生命周期不同。",
+        "E": "E4合法稠密全局地址，goto/end/负数/坏入口与256步结果共5例；少两步变异旧5绿新E4-05单业务红恢复5绿。相邻装备/毒owner实际复跑。",
+        "F": "支持opcode与控制流明确分支；删除冗余tuple强转，operand原类型已是三元组；长switch按真实语义保留而非数字驱动拆散。",
+        "G": "所有public reexports有真实消费者，sync runner有效；不删装备/Extra状态或异步别层能力，仅纠错注及冗余cast。",
+        "H": "实际catalog setter+真实GameState可直接测试；afterEach复位catalog、warn finally恢复；无需核心mock，原tick上限和错误策略保留。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending."
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
+      "lines": 391,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整当前读，复用global.c真实getter/row布局及已获批TS持续增长、Wear压缩不丢毒取舍；base与六件+Extra顺序不变，毒抗独立clamp。",
+        "B": "去过时投影行号及全称1:1；清楚区分base投影、战斗hp/mp ownership、装备层与已批准不复制C丢毒边界。",
+        "C": "本模块是派生值/字段写入owner；私有sum仅收Pick的runtime/effect两域，不触脚本/IO；resync只改派生snapshot，不回灌live hp/mp。",
+        "D": "六getter完全同输入/求和/失败策略，抽单一private helper且保留毒抗后置约束；add/set/override行集合不同，不建万能模式表。",
+        "E": "E1六getter与现有equip-effect/E2/E5/poison owner测试；CoveredBy非零前像写零有指定漏写单红，Wear真实身份/洞压缩证据复用。",
+        "F": "field联合型明确仅六属性，part上界MAX6含Extra；显式row分支保持布局可查，名字不把裸值与派生值混淆。",
+        "G": "六重复循环减少到一处维护点；所有字段写/卸装/hand状态分支都有caller，不删除有效防御或已批准机制。",
+        "H": "纯可变typed state输入，结果数组可直接观测，无隐式时间/网络；poison catalog由测试安装和复位，不为测试扩公开状态。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+      "sha256": "1d641972636803afb9832e841994d1ab0042faa3ef2bae6f8dde7277db969b30",
+      "lines": 94,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整3例、共享fresh state与实际row owner已读；合法role/part/row覆盖，未知row仅该负例有意输入并核完整前像。",
+        "B": "标题不再称未知row静默；头部只声明实际扩展行轴，无包级覆盖率/未读测试排重承诺。",
+        "C": "仅测试field owner与卸载，真实构造fresh state；warn spy局部finally恢复，无全局console改动或跨例共享mutable state。",
+        "D": "复用现有typed fresh state，扩展行用独立常量标记；不再造全套GameState或合并有不同失败策略的用例。",
+        "E": "3例身份仅E2-03更名：核心写入由0初值弱断言改非零→0，真实漏CoveredBy旧3绿新恰1业务红恢复3绿；完整前像是保守性oracle非自比输出。",
+        "F": "按扩展row/Extra/非法part三合同组织；直接断言字段，注释说明非零前像目的，无隐蔽cast/布尔模式。",
+        "G": "3例分别为写扩展字段、Extra清除、拒绝不污染，未增例数；与基础六getter覆盖不同，不为了覆盖率增加平凡零值测试。",
+        "H": "直接生产getter/mutator、typed初态和指定变异即可验证；不mock row逻辑或只核调用次数，诊断模板与次数属附加结果。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+      "sha256": "175c89862a07c6ec077dd5b1b5d928faae63185918cd8e1a6ad69a4c172d76d6",
+      "lines": 136,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整5例+真实catalog caller，L600等现在是实际数组IP；end/goto/缺入口/有符号数和上限符合当前同步合同，afterEach清catalog。",
+        "B": "移除把紧凑数组冒作原始地址的fixture隐患；上限注释明确两指令一轮128次+1，不把warn当工作已完成。",
+        "C": "programAt只补稠密end前缀，真实labelMap/runner执行；测试不接管实现IP推进/统计器，warning finally释放。",
+        "D": "局部前缀helper输入为entry+commands，只有此文件地址前提复用；不建立可配置假解释器或任意fixture框架。",
+        "E": "5例不增删；坏入口追加精确返回值，上限由手算138判别；少两步变异旧5绿、新E4-05恰1业务红、恢复5绿，无collection/runtime失效信用。",
+        "F": "每例单合同，地址与跳过写入均显式，负数0xfff6来源说明有效；loop结果和context复位分别断言。",
+        "G": "未拿日志contains作为上限oracle；只保留真实五种行为，不加恒真/类型运行时测试，不删当前生产路径。",
+        "H": "真实catalog/state可控，上限有限可快跑；精确变异在独占temp副本执行并finally删除，生产工作树porcelain前后同值。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending."
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "c28d66e9ea3785174362dfd1f64277313d60c64088b9ce81efc95e902da3df8c",
+      "lines": 208,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整当前工厂与生产rng/interface、battle构造caller；默认复用seed7生产RNG，空/倒区间不吃队列；scripted域外值拒绝，next/getState固定0明示stub限制。",
+        "B": "不把方法调用trace当内部抽样；明确不hydrate/不完整startBattle、party默认从roles顺序，消除旧默认[0]和随机域误述。",
+        "C": "每次fresh gs/state/bus，state挂gs建立真实owner；没有网络/时钟/共享fixture；完整开战前提由生命周期fixture负责，不暗中回灌runtime。",
+        "D": "移除漂移的复制mulberry32，默认走生产factory；recordingRng有独立脚本/即时顺序职责，不冒充seed replay，必要defaults在各自合法域中。",
+        "E": "新增专测7例正式1绿6业务红→7绿；与五实际战斗文件共35绿，原15法术专测保持。未用mock绕过脚本/动画，合法caller不需改断言。",
+        "F": "小工厂按role/enemy/field/battle/rng/spell职责分离，方法域检查就地可见；finiteBounds仅防同一非有限输入，不引泛型万能helper。",
+        "G": "去四个无caller出口：asHEnemy/hPlayers/hEnemies三个视图及复制seededRng；typed test-only非产品API。实际工厂/记录型RNG仍有调用保留。",
+        "H": "依赖显式opts和即时trace，生产随机源可注入，队列拒绝非法fixture使失败定位输入；不扩产品接口，不作runtime机制修复。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending."
+    },
+    {
+      "path": "packages/game/src/core/battle/simulated-magic-target.ts",
+      "sha256": "db7bc7ed824786ea2b6faf2450b77682b2e45ff5e2dba0205fc7fa16d5d065a6",
+      "lines": 23,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "全文23行，旧primary/Cred/control与当前caller差异复核；全体→显式→上次活敌→首活敌→all优先级保持，零伤和击杀特效共享一次解析。",
+        "B": "注释限定simulateMagic目标合同及C失败-1映射all；原5405越界标题已在专测修到5400，不冒称normal全灭合法。",
+        "C": "纯规则仅借BattleState只读，没有叶→battle-system反向依赖、IO或跨层写；damage/FIRE共用此策略，ownership清楚。",
+        "D": "真实magic-damage与battle-opcodes两caller复用目标解析；避免击杀后重选落点，未把普通玩家/敌人施法策略强行统一。",
+        "E": "当前15法术parity与旧五指定业务mutant复用；专测合法全灭为attackWhole，原非法normal输入不取信用；判别落点/伤害而非只看调用次数。",
+        "F": "分支顺序直接呈现优先级，previous/first意义清楚；number|all区分槽与全体，无层层adapter或冗余可选上下文。",
+        "G": "单出口真实被两个生产caller消费；没有dead分支或为测试新公开状态，保留当前no-target全槽合同不擅改。",
+        "H": "只需typed battle/object输入可直接测，集成专测真实脚本/动画也可观测；无随机/时钟/异步资源，既有controls可独立复验。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "sha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+      "lines": 303,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "全文303行及fixture helper补读；真实hydrate/project后走runScript/throw/magic/advance，party[2,0]合法区分role/slot。normal全灭不用作合法oracle。",
+        "B": "来源标题已修实际fightEOF5400，手算伤害与RNG序理由保留；不把旧935绿或作者结论写为本轮整actions验收。",
+        "C": "三组分别自动选靶、裸武术投掷、敌法术预掷；使用typed工厂+显式runtime hydrate，隔离状态和队列，无游戏模块全局mock。",
+        "D": "复用真实H工厂/RNG/公开constructor与actual execute；有完整start前提的动作自己明确hydrate，不扩万能factory掩盖差异。",
+        "E": "15身份保持；263/213独立手算，最后/死/清空/显式/全体/零伤/致死落点及sleep/pose序反例；五历史单业务红native已核，当前15绿。",
+        "F": "helper只组装真实ctx和可推进帧，单case保留清晰输入与业务断言；不从复制公式生成期望，不把mock次数等同HP正确。",
+        "G": "参数化用例为不同目标可达/优先级轴，三组非重复同合同；未删断言、未加skip/only，类型合同不混充运行时数量。",
+        "H": "RNG注入与同步trace允许独立判脚本前预掷；真实timeline可推进观测frame3，未暴露私有实现或依赖浏览器canvas。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending."
+    }
+  ],
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-native.json.gz",
+    "sha256": "e9ce25535f18189a98ec2936f745b6609ebcb6e47d55589d339df5939269a88e",
+    "decodedSha256": "5dc7200263d497b622d703c0aceb5d0439891b47f41fe07f07c1bc5b4572c8f8",
+    "members": [
+      {
+        "name": "game-equipment-directed.execution.json",
+        "sha256": "1f3d81987c1dada68aa73232d2422f296cc5ea65943fa694fe1266dd008d1e4d",
+        "bytes": 1006
+      },
+      {
+        "name": "game-equipment-directed.native.json",
+        "sha256": "7e3567e538acb5d132d950e640d019f493d7692c9a7733386b18f0eaf77b9c48",
+        "bytes": 17842
+      },
+      {
+        "name": "game-equipment-directed.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-equipment-directed.stdout.raw",
+        "sha256": "aa4fd748046708d8f2353860af57cc9586e5a2a559e5e4d78f8d812b051ca0e8",
+        "bytes": 577
+      },
+      {
+        "name": "game-equipment-r2.execution.json",
+        "sha256": "4efd95f50bb1133c41252d602eb243a52bcb34f0e9f6097b2ca97bd024409ff8",
+        "bytes": 950
+      },
+      {
+        "name": "game-equipment-r2.native.json",
+        "sha256": "d48ebb6680fc9a36a42874313cdc871a8e5d0d3b105c5bde2622da596e2228cb",
+        "bytes": 17836
+      },
+      {
+        "name": "game-equipment-r2.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-equipment-r2.stdout.raw",
+        "sha256": "340dd036994111170a6a06e6b272d023ab2ae2b705157ad5195f2ba858c8b293",
+        "bytes": 571
+      },
+      {
+        "name": "equipment-current-owners.execution.json",
+        "sha256": "bf886a0950a8f9d1953e5a73d2d261db3e367f66878f201a898a3b2a61743723",
+        "bytes": 1093
+      },
+      {
+        "name": "equipment-current-owners.native.json",
+        "sha256": "9ed7c0476300db5ea6b26d8b6dce9ce22434cfb568c719c22817109011d3ffe6",
+        "bytes": 14704
+      },
+      {
+        "name": "equipment-current-owners.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "equipment-current-owners.stdout.raw",
+        "sha256": "c9e7c91b11fe3970a3c4e0b9e9a85310090814c805315fbaef8be5c66ec0bdc8",
+        "bytes": 732
+      },
+      {
+        "name": "harness-rng-red.execution.json",
+        "sha256": "577dd9c81776560e2b8efdb8303f812f912cdbf12531a04e3c54b4f27b9206d6",
+        "bytes": 845
+      },
+      {
+        "name": "harness-rng-red.native.json",
+        "sha256": "822f5f066db9a9757f548cee3f82caac85ead98b09a6583a84f031a0fe363011",
+        "bytes": 12117
+      },
+      {
+        "name": "harness-rng-red.stderr.raw",
+        "sha256": "70c1a1bc6d0f8010387e2bff6cb83b4cec3fefc6a39a361266f94bb7fe77a250",
+        "bytes": 2530
+      },
+      {
+        "name": "harness-rng-red.stdout.raw",
+        "sha256": "813a397d767df69ae4701a2601c47624fafcce15d056819de3042a0f9004d728",
+        "bytes": 1108
+      },
+      {
+        "name": "harness-rng-green.execution.json",
+        "sha256": "7a553c67e6a7164cde023a3da0a37f57983a3553dec8110b35602d50362e262f",
+        "bytes": 1146
+      },
+      {
+        "name": "harness-rng-green.native.json",
+        "sha256": "1ec61d79b87dc2d73fa09bf37735fc46c68dee2b09c7605eff85e445a2203167",
+        "bytes": 16109
+      },
+      {
+        "name": "harness-rng-green.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "harness-rng-green.stdout.raw",
+        "sha256": "c4d58dc68f273e3d5fba29aca19e94ccf4ab41fd476ee1b5038d98365a0e1735",
+        "bytes": 803
+      },
+      {
+        "name": "game-typecheck-first.execution.json",
+        "sha256": "086e551e6e8a3fa79a37f6f46dfb35c831ce33866b56f33d023b3271bf1fa5ac",
+        "bytes": 469
+      },
+      {
+        "name": "game-typecheck-first.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-typecheck-first.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-scoped-static.execution.json",
+        "sha256": "4bdca124edc890c9c843e9e31047bfa7114d859eda43941db2e77c034d2154e1",
+        "bytes": 876
+      },
+      {
+        "name": "game-scoped-static.stderr.raw",
+        "sha256": "d5e49d7df22d7f353767032b43628720319fc44ff94b4091941d69e2875313fb",
+        "bytes": 3991
+      },
+      {
+        "name": "game-scoped-static.stdout.raw",
+        "sha256": "915ea63061f564a3475c7ae5a9110278610873e386892eeb23e018a0eb8eb9a0",
+        "bytes": 58
+      },
+      {
+        "name": "game-scoped-static-r2.execution.json",
+        "sha256": "185c2cd29f4e8188822e26f63ebbe467b05a2e8f915e5cdb771a3c1ee187c5de",
+        "bytes": 876
+      },
+      {
+        "name": "game-scoped-static-r2.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-scoped-static-r2.stdout.raw",
+        "sha256": "54d5852365156ce3a6dd782d0091a48b00ef481ace07c1d5e3cdd0691480f23b",
+        "bytes": 43
+      },
+      {
+        "name": "game-docs-first.execution.json",
+        "sha256": "eaf436f825104a647807c9ae1eeb1efbb7db6fb2fefe0443b9e91d4bc5cece64",
+        "bytes": 417
+      },
+      {
+        "name": "game-docs-first.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-docs-first.stdout.raw",
+        "sha256": "581715243fee5d12315415f6aecf4793c20be7adcb623771f1bad0d02b0c5786",
+        "bytes": 93
+      },
+      {
+        "name": "game-docs-final.execution.json",
+        "sha256": "b171160d782f8f01f0e37eed5a1a1d36cd79904429da0673d1c8305b204bd32f",
+        "bytes": 417
+      },
+      {
+        "name": "game-docs-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-docs-final.stdout.raw",
+        "sha256": "581715243fee5d12315415f6aecf4793c20be7adcb623771f1bad0d02b0c5786",
+        "bytes": 93
+      },
+      {
+        "name": "game-lint-zero.execution.json",
+        "sha256": "f482a3725fd9e71857f46178ab2fed4b99c4c9f59ec981b1eecf975d6b2f3146",
+        "bytes": 423
+      },
+      {
+        "name": "game-lint-zero.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "game-lint-zero.stdout.raw",
+        "sha256": "0e67f4b6150b90a44d4f8288845ad58e0b2445393db58b7972b7eca3602cd635",
+        "bytes": 76
+      },
+      {
+        "name": "equipment-counter-run.execution.json",
+        "sha256": "3588c4858ef72f790341b52f21b4c74094e68c0aafeea153072cbc59a8cc8a67",
+        "bytes": 488
+      },
+      {
+        "name": "equipment-counter-run.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "equipment-counter-run.stdout.raw",
+        "sha256": "2ffcd86b464702b7c955e01ccea0c41753bd0654c9afcacf61a275e3c67bc2f8",
+        "bytes": 84
+      },
+      {
+        "name": "equipment-budget-counter-run.execution.json",
+        "sha256": "954128fdc080e6770a0b3037ac39805ae156e324e8e3b425d7311e4a2ced25da",
+        "bytes": 502
+      },
+      {
+        "name": "equipment-budget-counter-run.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "equipment-budget-counter-run.stdout.raw",
+        "sha256": "0a5cbc6124cc230f35a0752bd509b7da3fad484cabfad60ad08adba4aa0b1f89",
+        "bytes": 84
+      },
+      {
+        "name": "equipment-counter-new.execution.json",
+        "sha256": "f87c2377f80362d0d6175d786b9f60cc24acf8e801d013dd17b9857f61b7d80d",
+        "bytes": 1261
+      },
+      {
+        "name": "equipment-counter-new.native.json",
+        "sha256": "f95c42f540c7d74400934687b15ae0c950034114c250e1f0047052b2397d8f39",
+        "bytes": 3394
+      },
+      {
+        "name": "equipment-counter-new.stderr.raw",
+        "sha256": "8a8cccc865492149415b81a4309fb7343abd8dd0be16452426817628daf5f889",
+        "bytes": 818
+      },
+      {
+        "name": "equipment-counter-new.stdout.raw",
+        "sha256": "8625a4b7969d727632634146f1025e632bfa03ec58b662ee048e41113b9fd6fa",
+        "bytes": 763
+      },
+      {
+        "name": "equipment-counter-old.execution.json",
+        "sha256": "b02c89bcc369cadc937b5ae466386bc1251110e243926dbb3c16c69db298fe9d",
+        "bytes": 1081
+      },
+      {
+        "name": "equipment-counter-old.native.json",
+        "sha256": "9f70a5119baca67dee8d271ff70a429d928b1786830c3c185fea7198b4e64128",
+        "bytes": 1894
+      },
+      {
+        "name": "equipment-counter-old.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "equipment-counter-old.stdout.raw",
+        "sha256": "306ad953e6372b426647182cd87c9ea82ea198998fd6df77560f075a08802f31",
+        "bytes": 485
+      },
+      {
+        "name": "equipment-counter-restored.execution.json",
+        "sha256": "d9eb0a0f710b6a8ce42af61e3439fdd80a25650340d67665d7c1e807654df086",
+        "bytes": 1086
+      },
+      {
+        "name": "equipment-counter-restored.native.json",
+        "sha256": "cbf94e920e6cf917bbc0af9b029566774eb565b1f2ab13ff095a776e265f0053",
+        "bytes": 1882
+      },
+      {
+        "name": "equipment-counter-restored.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "equipment-counter-restored.stdout.raw",
+        "sha256": "015da84c76bc751de5eaf7241f019c9876631bd3d6d94fe6bfb9fd2489f90c83",
+        "bytes": 490
+      },
+      {
+        "name": "equipment-counter-summary.json",
+        "sha256": "4645d7e5b83ab04e1f2ca0075704b31b84e840f5a055d63200f9ca1641ec2c01",
+        "bytes": 4356
+      },
+      {
+        "name": "equipment-budget-counter-new.execution.json",
+        "sha256": "068df33829721bc68de6f682b7a8367288d21d98aad4a91e766b2402628e57c2",
+        "bytes": 1298
+      },
+      {
+        "name": "equipment-budget-counter-new.native.json",
+        "sha256": "f1babfe1d1692cadf59c0ffe78f6cca79fba43d6db6dfce6a68e62e0bdf6168b",
+        "bytes": 4061
+      },
+      {
+        "name": "equipment-budget-counter-new.stderr.raw",
+        "sha256": "e7cc9b2449f32b4299c0f3834f7fe6f2a7c512ff584a17258933cd16c34cf027",
+        "bytes": 926
+      },
+      {
+        "name": "equipment-budget-counter-new.stdout.raw",
+        "sha256": "6c492117f7de57fdc80e3b55b29a0389750eea7f0ad82bf66bf2ee045628c127",
+        "bytes": 924
+      },
+      {
+        "name": "equipment-budget-counter-old.execution.json",
+        "sha256": "ed7dfc838bbcdca2dc1e18c9835b5e44b9c3ccc8bb72e573c1028d0f0198d432",
+        "bytes": 1108
+      },
+      {
+        "name": "equipment-budget-counter-old.native.json",
+        "sha256": "33767d3d0afb9378028b8eeca0779131081286ca6257fb376bb8fe084ca2ff8c",
+        "bytes": 2529
+      },
+      {
+        "name": "equipment-budget-counter-old.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "equipment-budget-counter-old.stdout.raw",
+        "sha256": "6e6f48db9800defccaaa12d64b9993d6ad1df6782633844d652991467ab45579",
+        "bytes": 498
+      },
+      {
+        "name": "equipment-budget-counter-restored.execution.json",
+        "sha256": "9b2fde098b2df7c4d1bf4b14374429d5f33d43b6672509549d167261e388ff3c",
+        "bytes": 1113
+      },
+      {
+        "name": "equipment-budget-counter-restored.native.json",
+        "sha256": "14deef7321de3d2d932bf9de0e0b8bd14199e0e1a0adc5a89df6e0e1aa81b829",
+        "bytes": 2530
+      },
+      {
+        "name": "equipment-budget-counter-restored.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "equipment-budget-counter-restored.stdout.raw",
+        "sha256": "5cf4e950edac368c9d19571b46a27f49c9f930f90bbfcd4f4f471781db3d36a0",
+        "bytes": 503
+      },
+      {
+        "name": "equipment-budget-counter-summary.json",
+        "sha256": "60f2b299037397291968797c1301edb430cefc81379e121fbbe1ac7f16c3b48c",
+        "bytes": 4417
+      },
+      {
+        "name": "equipment-counter.mjs",
+        "sha256": "96e1bf164c8d759223ce1dbfc3ea83d1a3e8afd2fe4816fd7e5c582f03787ace",
+        "bytes": 4654
+      },
+      {
+        "name": "equipment-budget-counter.mjs",
+        "sha256": "7ba44abe7daa2e6210b216060b1e4471ee84c987937424972d450b9aad1ce3ba",
+        "bytes": 4631
+      },
+      {
+        "name": "harness-rng-red.test.ts",
+        "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172",
+        "bytes": 2050
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "6bc011bfde5ca4f2714392f774fa770d5ab32716bfc38669c983503352b0abdc"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+      "sha256": "ebfea33072dcc9679f38aa635b20c9d6bb17594fdcf3a9b80408a728d71aa944"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+      "sha256": "0ddbd96a3aca515146ed78638453940bec1cfb06c4771c3c2f8d5541aa028f8d"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+      "sha256": "4264b8fe40f0c4c7b8d27644fe24eed98327cf3e2f6ac935a2aa050f920df7d9"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "84580af1ab2a5f5ff9a331aa2494eef7d6a54e86e2808a21d691c7496065014e"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386"
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "sha256": "1535c33f36472377a5c3da1f3c604dec8f0aaed8ff7ff925dd7c275332751279"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "b9574dbbaf3527d6f48211e70e18f7004e2174c902548a593921645dc2f14539"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "52a7e16669cecf84179ed85d317adc979615c8af3d93833f6e6444bae3c2bbf0"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "sha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "sha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4"
+    },
+    {
+      "path": "packages/game/src/core/battle/anim-timeline.ts",
+      "sha256": "6d157c643e6798a672233d03b0fc2c01a4e77def66236ee71fb43c302a647102"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+      "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc"
+    }
+  ],
+  "priorBindings": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+      "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+      "sha256": "f556dbcd97245815a77f47dde6419e9b412854d9634c87aadfaaef8767d11ee7"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/read-boundaries.json",
+      "sha256": "50ac60fff6af83a33a82cb34f42cbbbbcae4300bfabecf97b2f477529a7f448f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/controls.json",
+      "sha256": "e8d0c18f89abb7baf1cfeeafdfe46d9be87ad7c6ba9f57e310b99ff7a40d5611"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/prefer-previous.raw.gz",
+      "sha256": "9c4dff93ff764eed477318e89f5e8885f12e36108968ab2d0503a97d4ab75b00"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/prefer-previous.vitest.json.gz",
+      "sha256": "ee7f58e98652b5f9c65346e728d28c2e65bf154a30ae42e694b361590bb881c4"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/raw-runtime.raw.gz",
+      "sha256": "1e66a26dca8442efcf1dc6dd47fac22549bc4d77463b2a9d4de9d7b29869085a"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/raw-runtime.vitest.json.gz",
+      "sha256": "31758f05530386e5828e0df4eda5c61b99985b2cbbe13e287a848e12db69e910"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/non-damage-preroll.raw.gz",
+      "sha256": "fd3c1d7f4262b666e862eff970817aaf809ba17e08d63a8d387aa3fb495eff7f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/non-damage-preroll.vitest.json.gz",
+      "sha256": "a63c13cf6bb237ac9838d9e352c3fb1ad0cb048888eb6566a2495c10b961c09a"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/pose-independent-of-damage.raw.gz",
+      "sha256": "7ad7f9ac4a6665a0ccd7d75355d773699bc5fd40ad628e6dff236e37e6fb65cf"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/pose-independent-of-damage.vitest.json.gz",
+      "sha256": "fdc5461bcc417fd9bbd591ec5eb785f1e011cd2e49e08309053017ef3ff38c46"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/freeze-lethal-target.raw.gz",
+      "sha256": "0fd3d98be3905d5c8887be092f0342c32892520f4f786e0ab7fdea8bbeb73a06"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/freeze-lethal-target.vitest.json.gz",
+      "sha256": "cb85541005d766be2bd40633f37a3fac69e08486805cdada9b10aceb2b00195c"
+    }
+  ],
+  "runs": [
+    {
+      "id": "game-equipment-r2",
+      "passed": 44,
+      "fileCount": 3,
+      "failed": 0,
+      "pending": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "equipment-current-owners",
+      "passed": 36,
+      "fileCount": 5,
+      "failed": 0,
+      "pending": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "harness-rng-green",
+      "passed": 35,
+      "fileCount": 6,
+      "failed": 0,
+      "pending": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "accounting": {
+    "equipment": "First command included nonexistent player-poison-state.test.ts; only3 actual files44 count, not4. Current owners run uses5 verified paths, counted from native.",
+    "rng": "Formal7 red:1pass6AssertionError; final6files35green. Source exactly final after removing temporarily re-added unused views; no test count deletion.",
+    "static": "First scoped check failed only item red-spec formatting. Original raw retained; formatted spec is comment/whitespace AST bridge only, not a new red claim.",
+    "controls": "Old native5 one-business-red controls revalidated by stored raw hash and native failures; current15 included in35, not rerun935."
+  },
+  "extraTest": {
+    "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+    "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172",
+    "dimensions": {
+      "A": "7合法/负例只验测试stub数域/队列/默认seed，不改变产品RNG。",
+      "B": "头注限定fixture RNG合同，无产品机制或全包覆盖宣称。",
+      "C": "每例新stub/state/trace，无共享队列/全局console改动。",
+      "D": "参数化4独立非法输入轴，复用真实工厂且不复制PRNG。",
+      "E": "正式1绿6指定业务红，恢复7绿，合法值精确序列与即时事件顺序独立oracle。",
+      "F": "输入端点和期望直接可读，返回/状态/trace按各合同断言。",
+      "G": "7例覆盖独立端点/整数/空域/seed轴，不加恒真数量例。",
+      "H": "纯stub/真实createBattleState直接可测，无mock生产数学/脚本。"
+    }
+  },
+  "limitations": [
+    "Game item and bus still awaiting user product/API decisions; no code acceptance for them.",
+    "No browser/visual/full-repo/coverage/protected run in this checkpoint.",
+    "Raw diagnostics stay visible with default reporter; known original failures are not relabeled clean."
+  ]
+}

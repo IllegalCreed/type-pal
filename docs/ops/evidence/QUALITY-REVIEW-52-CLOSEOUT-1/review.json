@@ -3,10 +3,10 @@
   "id": "QUALITY-REVIEW-52-CLOSEOUT-1",
   "base": "0e14c184eed91841ee0f48323b98c98b734a3129",
   "owner": "Codex",
-  "status": "in-progress;23fixed-cohort code-accepted, unified gates/publication pending",
+  "status": "in-progress;30fixed-cohort code-accepted, unified gates/publication pending",
   "scope": "scope.json",
-  "resolved": 23,
-  "remaining": 29,
+  "resolved": 30,
+  "remaining": 22,
   "files": [
     {
       "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
@@ -659,6 +659,223 @@
         "sha256": "e1d7d9215800a1c9b224dc1337e659876a88d33c9c6099449fb13f1e809e6cd5",
         "readScope": "current full source and module judgments"
       }
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "6bc011bfde5ca4f2714392f774fa770d5ab32716bfc38669c983503352b0abdc",
+      "lines": 286,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "复用旧全文/primary，当前完整读同步runner、重算与菜单入口；0x17/18/19/1A/2D/29写入及256步finally所有权保持，零/坏入口原返回策略未改。",
+        "B": "修错签名、缺失opcode清单、raw静默与具名warn之别，finally说明限定于进入循环之后；不再全称1:1或冒称穷尽原盘。",
+        "C": "装备runner持有临时part上下文；catalog只读，库存/poison由各自owner写；保留full gs因确需多状态域，不搬入呈现或异步调度。",
+        "D": "复用equipment-state行写入与inventory/poison入口；不把同步设备脚本合进等待式世界/战斗解释器，生命周期不同。",
+        "E": "E4合法稠密全局地址，goto/end/负数/坏入口与256步结果共5例；少两步变异旧5绿新E4-05单业务红恢复5绿。相邻装备/毒owner实际复跑。",
+        "F": "支持opcode与控制流明确分支；删除冗余tuple强转，operand原类型已是三元组；长switch按真实语义保留而非数字驱动拆散。",
+        "G": "所有public reexports有真实消费者，sync runner有效；不删装备/Extra状态或异步别层能力，仅纠错注及冗余cast。",
+        "H": "实际catalog setter+真实GameState可直接测试；afterEach复位catalog、warn finally恢复；无需核心mock，原tick上限和错误策略保留。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
+      },
+      "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
+      "changes": "Equipment pure refactor and test strengthening; fixture RNG behavior correction; magic pair unchanged.",
+      "verification": [
+        "exact native result sets",
+        "old-green/new-single-business-red equipment controls",
+        "H formal1green6red then35green",
+        "game TC0"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
+      "lines": 391,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整当前读，复用global.c真实getter/row布局及已获批TS持续增长、Wear压缩不丢毒取舍；base与六件+Extra顺序不变，毒抗独立clamp。",
+        "B": "去过时投影行号及全称1:1；清楚区分base投影、战斗hp/mp ownership、装备层与已批准不复制C丢毒边界。",
+        "C": "本模块是派生值/字段写入owner；私有sum仅收Pick的runtime/effect两域，不触脚本/IO；resync只改派生snapshot，不回灌live hp/mp。",
+        "D": "六getter完全同输入/求和/失败策略，抽单一private helper且保留毒抗后置约束；add/set/override行集合不同，不建万能模式表。",
+        "E": "E1六getter与现有equip-effect/E2/E5/poison owner测试；CoveredBy非零前像写零有指定漏写单红，Wear真实身份/洞压缩证据复用。",
+        "F": "field联合型明确仅六属性，part上界MAX6含Extra；显式row分支保持布局可查，名字不把裸值与派生值混淆。",
+        "G": "六重复循环减少到一处维护点；所有字段写/卸装/hand状态分支都有caller，不删除有效防御或已批准机制。",
+        "H": "纯可变typed state输入，结果数组可直接观测，无隐式时间/网络；poison catalog由测试安装和复位，不为测试扩公开状态。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
+      },
+      "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
+      "changes": "Equipment pure refactor and test strengthening; fixture RNG behavior correction; magic pair unchanged.",
+      "verification": [
+        "exact native result sets",
+        "old-green/new-single-business-red equipment controls",
+        "H formal1green6red then35green",
+        "game TC0"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+      "sha256": "1d641972636803afb9832e841994d1ab0042faa3ef2bae6f8dde7277db969b30",
+      "lines": 94,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整3例、共享fresh state与实际row owner已读；合法role/part/row覆盖，未知row仅该负例有意输入并核完整前像。",
+        "B": "标题不再称未知row静默；头部只声明实际扩展行轴，无包级覆盖率/未读测试排重承诺。",
+        "C": "仅测试field owner与卸载，真实构造fresh state；warn spy局部finally恢复，无全局console改动或跨例共享mutable state。",
+        "D": "复用现有typed fresh state，扩展行用独立常量标记；不再造全套GameState或合并有不同失败策略的用例。",
+        "E": "3例身份仅E2-03更名：核心写入由0初值弱断言改非零→0，真实漏CoveredBy旧3绿新恰1业务红恢复3绿；完整前像是保守性oracle非自比输出。",
+        "F": "按扩展row/Extra/非法part三合同组织；直接断言字段，注释说明非零前像目的，无隐蔽cast/布尔模式。",
+        "G": "3例分别为写扩展字段、Extra清除、拒绝不污染，未增例数；与基础六getter覆盖不同，不为了覆盖率增加平凡零值测试。",
+        "H": "直接生产getter/mutator、typed初态和指定变异即可验证；不mock row逻辑或只核调用次数，诊断模板与次数属附加结果。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
+      },
+      "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
+      "changes": "Equipment pure refactor and test strengthening; fixture RNG behavior correction; magic pair unchanged.",
+      "verification": [
+        "exact native result sets",
+        "old-green/new-single-business-red equipment controls",
+        "H formal1green6red then35green",
+        "game TC0"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+      "sha256": "175c89862a07c6ec077dd5b1b5d928faae63185918cd8e1a6ad69a4c172d76d6",
+      "lines": 136,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整5例+真实catalog caller，L600等现在是实际数组IP；end/goto/缺入口/有符号数和上限符合当前同步合同，afterEach清catalog。",
+        "B": "移除把紧凑数组冒作原始地址的fixture隐患；上限注释明确两指令一轮128次+1，不把warn当工作已完成。",
+        "C": "programAt只补稠密end前缀，真实labelMap/runner执行；测试不接管实现IP推进/统计器，warning finally释放。",
+        "D": "局部前缀helper输入为entry+commands，只有此文件地址前提复用；不建立可配置假解释器或任意fixture框架。",
+        "E": "5例不增删；坏入口追加精确返回值，上限由手算138判别；少两步变异旧5绿、新E4-05恰1业务红、恢复5绿，无collection/runtime失效信用。",
+        "F": "每例单合同，地址与跳过写入均显式，负数0xfff6来源说明有效；loop结果和context复位分别断言。",
+        "G": "未拿日志contains作为上限oracle；只保留真实五种行为，不加恒真/类型运行时测试，不删当前生产路径。",
+        "H": "真实catalog/state可控，上限有限可快跑；精确变异在独占temp副本执行并finally删除，生产工作树porcelain前后同值。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
+      },
+      "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
+      "changes": "Equipment pure refactor and test strengthening; fixture RNG behavior correction; magic pair unchanged.",
+      "verification": [
+        "exact native result sets",
+        "old-green/new-single-business-red equipment controls",
+        "H formal1green6red then35green",
+        "game TC0"
+      ]
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "c28d66e9ea3785174362dfd1f64277313d60c64088b9ce81efc95e902da3df8c",
+      "lines": 208,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整当前工厂与生产rng/interface、battle构造caller；默认复用seed7生产RNG，空/倒区间不吃队列；scripted域外值拒绝，next/getState固定0明示stub限制。",
+        "B": "不把方法调用trace当内部抽样；明确不hydrate/不完整startBattle、party默认从roles顺序，消除旧默认[0]和随机域误述。",
+        "C": "每次fresh gs/state/bus，state挂gs建立真实owner；没有网络/时钟/共享fixture；完整开战前提由生命周期fixture负责，不暗中回灌runtime。",
+        "D": "移除漂移的复制mulberry32，默认走生产factory；recordingRng有独立脚本/即时顺序职责，不冒充seed replay，必要defaults在各自合法域中。",
+        "E": "新增专测7例正式1绿6业务红→7绿；与五实际战斗文件共35绿，原15法术专测保持。未用mock绕过脚本/动画，合法caller不需改断言。",
+        "F": "小工厂按role/enemy/field/battle/rng/spell职责分离，方法域检查就地可见；finiteBounds仅防同一非有限输入，不引泛型万能helper。",
+        "G": "去四个无caller出口：asHEnemy/hPlayers/hEnemies三个视图及复制seededRng；typed test-only非产品API。实际工厂/记录型RNG仍有调用保留。",
+        "H": "依赖显式opts和即时trace，生产随机源可注入，队列拒绝非法fixture使失败定位输入；不扩产品接口，不作runtime机制修复。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
+      },
+      "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
+      "changes": "Equipment pure refactor and test strengthening; fixture RNG behavior correction; magic pair unchanged.",
+      "verification": [
+        "exact native result sets",
+        "old-green/new-single-business-red equipment controls",
+        "H formal1green6red then35green",
+        "game TC0"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/simulated-magic-target.ts",
+      "sha256": "db7bc7ed824786ea2b6faf2450b77682b2e45ff5e2dba0205fc7fa16d5d065a6",
+      "lines": 23,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "全文23行，旧primary/Cred/control与当前caller差异复核；全体→显式→上次活敌→首活敌→all优先级保持，零伤和击杀特效共享一次解析。",
+        "B": "注释限定simulateMagic目标合同及C失败-1映射all；原5405越界标题已在专测修到5400，不冒称normal全灭合法。",
+        "C": "纯规则仅借BattleState只读，没有叶→battle-system反向依赖、IO或跨层写；damage/FIRE共用此策略，ownership清楚。",
+        "D": "真实magic-damage与battle-opcodes两caller复用目标解析；避免击杀后重选落点，未把普通玩家/敌人施法策略强行统一。",
+        "E": "当前15法术parity与旧五指定业务mutant复用；专测合法全灭为attackWhole，原非法normal输入不取信用；判别落点/伤害而非只看调用次数。",
+        "F": "分支顺序直接呈现优先级，previous/first意义清楚；number|all区分槽与全体，无层层adapter或冗余可选上下文。",
+        "G": "单出口真实被两个生产caller消费；没有dead分支或为测试新公开状态，保留当前no-target全槽合同不擅改。",
+        "H": "只需typed battle/object输入可直接测，集成专测真实脚本/动画也可观测；无随机/时钟/异步资源，既有controls可独立复验。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
+      },
+      "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
+      "changes": "Equipment pure refactor and test strengthening; fixture RNG behavior correction; magic pair unchanged.",
+      "verification": [
+        "exact native result sets",
+        "old-green/new-single-business-red equipment controls",
+        "H formal1green6red then35green",
+        "game TC0"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "sha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+      "lines": 303,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "全文303行及fixture helper补读；真实hydrate/project后走runScript/throw/magic/advance，party[2,0]合法区分role/slot。normal全灭不用作合法oracle。",
+        "B": "来源标题已修实际fightEOF5400，手算伤害与RNG序理由保留；不把旧935绿或作者结论写为本轮整actions验收。",
+        "C": "三组分别自动选靶、裸武术投掷、敌法术预掷；使用typed工厂+显式runtime hydrate，隔离状态和队列，无游戏模块全局mock。",
+        "D": "复用真实H工厂/RNG/公开constructor与actual execute；有完整start前提的动作自己明确hydrate，不扩万能factory掩盖差异。",
+        "E": "15身份保持；263/213独立手算，最后/死/清空/显式/全体/零伤/致死落点及sleep/pose序反例；五历史单业务红native已核，当前15绿。",
+        "F": "helper只组装真实ctx和可推进帧，单case保留清晰输入与业务断言；不从复制公式生成期望，不把mock次数等同HP正确。",
+        "G": "参数化用例为不同目标可达/优先级轴，三组非重复同合同；未删断言、未加skip/only，类型合同不混充运行时数量。",
+        "H": "RNG注入与同步trace允许独立判脚本前预掷；真实timeline可推进观测frame3，未暴露私有实现或依赖浏览器canvas。"
+      },
+      "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit.",
+      "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+        "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5",
+        "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
+      },
+      "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
+      "changes": "Equipment pure refactor and test strengthening; fixture RNG behavior correction; magic pair unchanged.",
+      "verification": [
+        "exact native result sets",
+        "old-green/new-single-business-red equipment controls",
+        "H formal1green6red then35green",
+        "game TC0"
+      ]
     }
   ],
   "adjacent": [
@@ -707,6 +924,11 @@
       "path": "packages/pal-extract/src/resources/parsers/_utils.ts",
       "sha256": "576549caabe28bf69bccc132b2ecc2ea36ee7019b6d2574457ef02e43ae4250b",
       "status": "comment-only direct index correction; no new whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+      "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172",
+      "status": "code-accepted;outside fixed52;A-H in game-equipment-fixtures.extraTest"
     }
   ],
   "changes": [
@@ -734,7 +956,38 @@
     "coverage": "deferred until stable phase closeout",
     "protected": "deferred until stable phase closeout",
     "typecheck": "shared+extract exit0 stdout/stderr0",
-    "extractModule": "17files110 +4files27;1overlap file/6overlap identity occurrences;20files131union identities (not137);TC0;4approved retirements;whole/official deferred"
+    "extractModule": "17files110 +4files27;1overlap file/6overlap identity occurrences;20files131union identities (not137);TC0;4approved retirements;whole/official deferred",
+    "gameEquipment": {
+      "module": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+      "runs": [
+        {
+          "id": "game-equipment-r2",
+          "passed": 44,
+          "fileCount": 3,
+          "failed": 0,
+          "pending": 0,
+          "stderrBytes": 0
+        },
+        {
+          "id": "equipment-current-owners",
+          "passed": 36,
+          "fileCount": 5,
+          "failed": 0,
+          "pending": 0,
+          "stderrBytes": 0
+        },
+        {
+          "id": "harness-rng-green",
+          "passed": 35,
+          "fileCount": 6,
+          "failed": 0,
+          "pending": 0,
+          "stderrBytes": 0
+        }
+      ],
+      "typecheck": "game-typecheck-first exit0 stdout0 stderr0",
+      "notRun": "uniform gates/publication"
+    }
   },
   "priorGateReuse": "PR23/main0e14 evidence only where exact source/caller/contract identity remains applicable; no blanket credit.",
   "limitations": [
@@ -1009,5 +1262,11 @@
   "finalizationNotes": [
     "New extract module JSON normalized before first evidence publication; its owning references updated after formatter. Historical packets unchanged.",
     "Execution union mechanically computed from raw native identity occurrences; previous draft3file-overlap wording corrected to1file/6identities before publication."
+  ],
+  "gameModules": [
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+      "sha256": "3c773137b0de9bd8352186b54313b5fb0623b3e91dbf532f4c07428cdd9ffee5"
+    }
   ]
 }

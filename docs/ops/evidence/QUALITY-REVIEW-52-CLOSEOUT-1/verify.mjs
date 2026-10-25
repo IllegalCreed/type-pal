@@ -95,6 +95,42 @@ for (const reference of review.modules ?? []) {
     assert.equal(sha(read(entry.path)), entry.currentSha256)
   }
 }
+for (const reference of review.gameModules ?? []) {
+  assert.equal(sha(read(reference.path)), reference.sha256)
+  const module = json(reference.path)
+  for (const binding of [...module.bindings, ...module.priorBindings])
+    assert.equal(sha(read(binding.path)), binding.sha256, `stale game binding: ${binding.path}`)
+  const compressed = read(module.native.path)
+  assert.equal(sha(compressed), module.native.sha256)
+  const decoded = gunzipSync(compressed)
+  assert.equal(sha(decoded), module.native.decodedSha256)
+  const receipts = JSON.parse(decoded)
+  for (const member of module.native.members) {
+    assert.equal(sha(receipts[member.name]), member.sha256, member.name)
+    assert.equal(Buffer.byteLength(receipts[member.name]), member.bytes, member.name)
+  }
+  for (const run of module.runs) {
+    const native = JSON.parse(receipts[`${run.id}.native.json`])
+    assert.equal(native.numPassedTests, run.passed)
+    assert.equal(native.testResults.length, run.fileCount)
+    assert.equal(native.numFailedTests + native.numPendingTests, 0)
+    assert.equal(receipts[`${run.id}.stderr.raw`], '')
+    assert.equal(JSON.parse(receipts[`${run.id}.execution.json`]).exit, 0)
+  }
+  const red = JSON.parse(receipts['harness-rng-red.native.json'])
+  assert.equal(red.numPassedTests, 1)
+  assert.equal(red.numFailedTests, 6)
+  for (const prefix of ['equipment-counter', 'equipment-budget-counter']) {
+    const summary = JSON.parse(receipts[`${prefix}-summary.json`])
+    assert.equal(summary.temporaryRemoved, true)
+    assert.equal(summary.rootStatusEqual, true)
+    assert.deepEqual(
+      summary.results.map((result) => result.failed),
+      [0, 1, 0],
+    )
+    assert.equal(summary.results[1].failedNames[0].kind, 'AssertionError')
+  }
+}
 const packet = read(review.native.path)
 assert.equal(sha(packet), review.native.sha256)
 const raw = gunzipSync(packet)

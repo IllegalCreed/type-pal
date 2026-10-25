@@ -15,7 +15,7 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 
 ## 结果
 
-当前固定23/52代码接受：首组13，加提取器余10；game12、第二阶段11、治理工具6共29个仍review。新增相邻诊断专测1单列，不更换固定分母。机器3454tracked／555closed／29review／2870pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
+当前固定30/52代码接受：首组13、提取器余10、game7；game余5、第二阶段11、工具6共22个仍review。新增诊断/fixture专测2接受、物品红例1待裁决，单列不换分母。机器3456tracked／563closed／23review／2870pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
 
 ## 限制与退出条件
 
@@ -36,3 +36,11 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 [十文件A–H及caller绑定](extract-rework.json)、[完整红/绿/native、保留测试正文与七源码发射JS证明](extract-rework-native.json.gz)、[四专属用例精确退役映射](sprite-retirement.json)。17文件110例、输出/诊断4文件27例，两组有1个文件/6个身份重叠，合计20文件131个身份出现项，不合称137个不同合同。必要TC与局部静态0；编码参数、正常六编号/增量跳过保持。真实codec画质和任意不可信BDF不在本窗信用范围。
 
 实际源子提交依次：ea10b3385纯死出口/type去重、0f679f80c诊断无落点、e282d8b5c获批视频发布、842bc2f56纯死存储/错注清理；原红、错误路径未启动和首次无测试采集均保留。首次错误cwd的Biome命令没有保存独立raw，已披露为会话输出，不冒充必要门成功原件；后续执行统一用root/绝对binary并由capture保全。
+
+## game准入候选
+
+[bus与item具体方案](game-boundary-candidates.json)、[源码绑定/30处caller清单及两正式红完整原件](game-boundary-native.json.gz)，分别见[通道接口卡](../../tasks/GAME-COMMAND-BUS-API-CLEANUP-1.md)和[物品生命周期卡](../../tasks/GAME-BATTLE-ITEM-LIVE-INVENTORY-1.md)。产品尚未改，待对应接口/机制裁决；其余范围继续。
+
+## game装备、工厂与法术pair增量
+
+[七文件逐维及旧证桥接](game-equipment-fixtures.json)、[完整执行/反控原件](game-equipment-native.json.gz)。3实际文件44与5个装备/毒owner文件36分开计数；6战斗文件35含15法术parity。两装备变异分别旧3/5绿、新指定单业务红、恢复3/5绿；测试RNG正式1绿6业务红到7绿，不把副本当生产机制。game TC0，首次scoped静态仅物品红spec格式失败，原件保留，修后0诊断；重门继续未跑。bus/item两候选待用户，固定余22不提前关闭。
