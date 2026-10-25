@@ -11,7 +11,7 @@
  */
 
 import type { TileCell, Tilemap } from '@type-pal/shared'
-import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { parsePalSpriteChunk, type RleFrame } from '@type-pal/shared'
 
 const MAP_WIDTH_TILES = 64 // sdlpal map.c: Tiles[128][64][2]
 const MAP_HEIGHT_TILES = 128
@@ -56,7 +56,7 @@ export function parseMap(mapBytes: Uint8Array, gopBytes: Uint8Array): MapResult 
 
   // GOP.MKF chunk = raw sprite chunk (frame array), no YJ2 decompression needed.
   // 只解帧(便宜),不再 framesToOut 编 PNG —— tileset 改存 gzip 原始 chunk(见 cli.ts)。
-  const tiles = parseSpriteChunk(gopBytes)
+  const tiles = parsePalSpriteChunk(gopBytes)
 
   return {
     tilemap: {

@@ -3138,8 +3138,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned 3m/42 closure delta",
-      "coreConclusion": "3m/42 accepted; CODE1 and final gates open.",
+      "readMethod": "Owned CODE1 PAL source closure delta",
+      "coreConclusion": "CODE1 source fix; finite83 accepted, final gates open.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3292,10 +3292,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "0a0e93abe2d3bc443b995670f71685149fd37b9a028c051c9c67314e96966366",
+      "afterSha256": "097504a74128325f6e588e8e1ed4411f1df0ded73e42bbc75071c6725fc585c1",
       "revision": {
         "currentSha": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
-        "implementationSha": "0a0e93abe2d3bc443b995670f71685149fd37b9a028c051c9c67314e96966366",
+        "implementationSha": "097504a74128325f6e588e8e1ed4411f1df0ded73e42bbc75071c6725fc585c1",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4149,11 +4149,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
-        "afterSha256": "0a0e93abe2d3bc443b995670f71685149fd37b9a028c051c9c67314e96966366",
-        "lineCount": 1126,
-        "scope": "3m/42 delta; CODE1 and gates open.",
-        "candidateBaseRevision": "7d7246dce968760cded0de5093d1b4d9b0f5ddb5",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
+        "afterSha256": "097504a74128325f6e588e8e1ed4411f1df0ded73e42bbc75071c6725fc585c1",
+        "lineCount": 1130,
+        "scope": "PAL source closure; history retained; gates deferred.",
+        "candidateBaseRevision": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
         "synchronizedMain": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
         "workingTreeDelta": true
       },

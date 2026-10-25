@@ -1,5 +1,7 @@
 # 逐文件代码治理账本
 
+2026-10-25 CODE1有限范围代码接受：明确PAL／author来源，两个正式业务红、164相关／四TC0、1428原盘记录仅571多一帧；真实Canvas及809产物两遍零diff。三明确新关闭，3452tracked／511closed／63review／2878pending；固定83原范围代码accept，广域migrate／sprite额外出口不强闭。全仓／official／protected及唯一PR仍待集中收尾。[本窗八维和原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)。
+
 2026-10-25 3m／42代码接受：用户保留TS极值速度、批准正防御与姓名速度窄修；两业务红后131绿／TC0，六新关闭。3451tracked／508closed／64review／2879pending，固定82accept／1partial（CODE1）；统一门和单PR等全部pre94。[当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)。
 
 2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
@@ -141,8 +143,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,451。
-当前已闭合核验：508；已读但待审：64；尚未逐文件核验：2879；合计未闭合：2943。
+起始基点机器清单：2,962。当前 tracked 清单：3,452。
+当前已闭合核验：511；已读但待审：63；尚未逐文件核验：2878；合计未闭合：2941。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -209,7 +211,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/__tests__/magic-cost-fixture.ts` | fixture | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |
 | `packages/game/src/core/menu/__tests__/inventory-menu.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |
 | `packages/shared/src/__tests__/rle-bytes.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | test-only字节夹具，两真实consumer；新叶按A–H接受，不含生产codec |
-| `packages/shared/src/rle.ts` | product | review | [CODE1当前注释版本桥](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) | 两源B维窄修及完整AST版本桥；已证PAL来源差异待裁，产品算法未改，不授整文件新关闭 |
+| `packages/shared/src/rle.ts` | product | 已验证 | [PAL来源与canonical分域八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md) | 用户批准原盘规则，两业务红后164相关绿／四TC0，1428源仅571多一帧、Chrome对原C相同；作者与资源字节不变 |
+| `packages/shared/src/pal-rle.test.ts` | test | 已验证 | [四来源合同与精确旧源反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md) | 两PAL反例与两author正控，完整pixels/mask/metadata；最终同spec旧源加名字alias两业务红，清理并恢复63绿 |
+| `packages/pal-extract/src/__tests__/parser-diagnostics.ts` | test | 已验证 | [同步诊断helper全文八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md) | 原消息/完整记录精确校验，真实三层栈core→PAL→parser；finally恢复Console/清流，未静音或放宽 |
 | `packages/shared/src/rle.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |
 | `packages/shared/src/rle.boundaries.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |
 | `packages/shared/src/rle.glm-runtime-resource.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |

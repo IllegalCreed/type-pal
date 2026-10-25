@@ -1,5 +1,7 @@
 # CODE1 RLE测试质量与真实资源影响域收口
 
+> 2026-10-25当前：原盘格式停止线已获批准并修复，见[PAL来源修复及当前只读复验](../../code1-closeout/pal-source-fix/README.md)。本文测试质量原件保持；格式冻结措辞为历史时点，统一门另记。
+
 Status: current evidence receipt
 Owner: Codex
 Date: 2026-10-25

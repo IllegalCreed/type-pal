@@ -1,5 +1,7 @@
 # CODE1 工程／Q1b质量收口与格式边界补证
 
+> 当前代码结论与来源修复见[PAL来源修复](pal-source-fix/README.md)。下方Q1b/格式停线记录保留原时点；原生与工程证据按新版本桥复用，统一门尚未完成。
+
 Status: current scoped receipt
 Owner: Codex
 Date: 2026-10-25
@@ -55,3 +57,5 @@ node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs
 只改shared/rle.ts及rle-encode.ts注释：真实game重导出、indexed容器通用职责、legacy跳尾的校验策略与原盘真值分开、作者格式与PAL规则区别、编码器131070整体上限不冒称u16格式必然限制。没有临时待裁状态塞入产品文案。完整[两源前后指纹](rle-comments.json)及[只读AST证明](prove-rle-comments.cjs)确认imports／类型／所有执行体逐字打印一致；59个RLE／52相邻及原类型结果复用，不重跑。
 
 默认快检只对这两份已证明的注释delta采用新SHA，且必须先匹配原验收SHA并执行完整AST等价证明；其它旧context继续逐字节校验。原raw不改、不盲刷旧source hash，不继承格式正确或整文件新接受信用。rle.ts仍review，encoder历史代码接受只刷新本注释增量，0新关闭。
+
+2026-10-25当前：用户原盘读取裁决已收到，[PAL来源修复与CODE1代码收口](pal-source-fix/README.md)取代本页旧format停止线；原工程／Q1b及539fixture证据有效复用，旧原件不重写。整批统一门另记。

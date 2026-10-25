@@ -2,21 +2,21 @@
  * gzip sprite/RLE blob 加载(资源管线优化:去图片容器)。
  *
  * 通用 sprite-chunk codec —— tileset / npc / battle / magic 共用:每个逻辑单元(地图 /
- * sprite id / ...)存一个 `.rle` blob(= gzip 后的「喂给 parseSpriteChunk 的 chunk 字节」:
+ * sprite id / ...)存一个 `.rle` blob(= gzip 后的「喂给 parsePalSpriteChunk 的 chunk 字节」:
  * tileset = 原始 GOP chunk;npc/battle/magic = YJ2 解压后的 sprite chunk)。
  * 本模块负责:fetch blob → 浏览器原生 DecompressionStream('gzip') 解压 →
- * parseSpriteChunk 解出 RleFrame[] → IndexedImage[](或 tileset 的 Map<tileIndex>)。
+ * parsePalSpriteChunk 解出 RleFrame[] → IndexedImage[](或 tileset 的 Map<tileIndex>)。
  *
  * 相比旧链路(fetch per-tile PNG → createImageBitmap → canvas getImageData):
  *   - 每个资源单元请求一个 blob，不再逐帧请求 PNG
  *   - 不经 createImageBitmap / canvas
- *   - blob 保留提取器输出的 GOP chunk 字节；runtime 与 extractor 使用同一份 parseSpriteChunk
+ *   - blob 保留提取器输出的 GOP chunk 字节；runtime 与 extractor 使用同一份 parsePalSpriteChunk
  *
- * 键一致性铁律:Map 的 key = parseSpriteChunk 返回数组的下标 i,
+ * 键一致性铁律:Map 的 key = parsePalSpriteChunk 返回数组的下标 i,
  * 与旧 `framesToOut` 的 `index` 字段(同一过滤后序列)一致。地图 cells 引用此下标。
  */
 
-import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { parsePalSpriteChunk, type RleFrame } from '@type-pal/shared'
 import type { IndexedImage } from './png.js'
 
 /**
@@ -37,7 +37,7 @@ export function rleFrameToIndexedImage(frame: RleFrame): IndexedImage {
  * 把已解压的 GOP chunk 字节解析成 Map<tileIndex, IndexedImage>。
  *
  * @param gopBytes - 解压后的原始 GOP.MKF chunk 字节(= extractor 写盘前的 readChunk(gopMkf, mapNum))
- * @returns key = parseSpriteChunk 返回数组的下标(= 旧 framesToOut 的 index)
+ * @returns key = parsePalSpriteChunk 返回数组的下标(= 旧 framesToOut 的 index)
  */
 export function decodeTilesetBlob(gopBytes: Uint8Array): Map<number, IndexedImage> {
   const frames = decodeSpriteFrames(gopBytes)
@@ -49,11 +49,11 @@ export function decodeTilesetBlob(gopBytes: Uint8Array): Map<number, IndexedImag
 }
 
 /**
- * 解压后的 sprite chunk → IndexedImage[](帧序 = parseSpriteChunk 下标,即原 tile-/frame-{index})。
+ * 解压后的 sprite chunk → IndexedImage[](帧序 = parsePalSpriteChunk 下标,即原 tile-/frame-{index})。
  * npc / battle / magic 共用此核心:它们的 chunk 都是 RLE sprite-group。
  */
 export function decodeSpriteFrames(chunkBytes: Uint8Array): IndexedImage[] {
-  return parseSpriteChunk(chunkBytes).map(rleFrameToIndexedImage)
+  return parsePalSpriteChunk(chunkBytes).map(rleFrameToIndexedImage)
 }
 
 /** fetch sprite blob → 解压 → IndexedImage[]。 */

@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 82,
+  "currentAccepted": 83,
   "cards": [
     {
       "id": "1",
@@ -21,8 +21,8 @@
       "sha256": "3893c7855c67c0135815bafb3dbf004b7126d659ee1879f2c6c91738ad74f98f",
       "lines": 179,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 18,
@@ -82,8 +82,11 @@
         }
       ],
       "scopeConfirmed": true,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md",
-      "findings": "Original engineering4file scope reused unchanged from accepted CODE6a; current Q1b whole-test A-H accepted after1→9 contract split,119 statements/84 assertions preserved. Six RLE test scopes accepted separately; source-format stop remains product review, including real MGO571 and authored-offset collision. No whole-repository/EXE acceptance. Two source-comment deltas now have exact base/current/whole-AST bridge;no algorithm change or new closure."
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md",
+      "findings": "Original finite CODE1 engineering/Q1b/RLE scope code accepted; approved PAL-source rules have two formal business reds,164direct/adjacent,4TC0,1428raw records one added MGO571 frame,realChrome native-plane match and809production-stage outputs unchanged/twice-zero-diff. Author canonical stable; broad migrate/sprite wrapper pending or review explicitly not promoted. Unified gates/PR/merge remain open.",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-25",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json"
     },
     {
       "id": "2",
@@ -4295,18 +4298,18 @@
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
     "pending": 0,
-    "partial": 1,
-    "accept": 82
+    "partial": 0,
+    "accept": 83
   },
   "lastIncrementalReview": {
     "date": "2026-10-25",
-    "base": "7d7246dce968760cded0de5093d1b4d9b0f5ddb5",
-    "scope": "Approved3m/42 boundary repair, CODE1 remains",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+    "base": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
+    "scope": "Approved PAL reading repair; original finite83card code scopes accepted, final unified gates deferred",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
     "counts": {
       "pending": 0,
-      "partial": 1,
-      "accept": 82
+      "partial": 0,
+      "accept": 83
     }
   },
   "incrementalReviewHistory": [
@@ -4851,6 +4854,17 @@
         "pending": 0,
         "partial": 3,
         "accept": 80
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "base": "7d7246dce968760cded0de5093d1b4d9b0f5ddb5",
+      "scope": "Approved3m/42 boundary repair, CODE1 remains",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+      "counts": {
+        "pending": 0,
+        "partial": 1,
+        "accept": 82
       }
     }
   ]

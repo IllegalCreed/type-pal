@@ -501,9 +501,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned 3m/42 closure delta",
+      "readMethod": "Owned CODE1 PAL source closure delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "3m/42 accepted; CODE1 and final gates open.",
+      "coreConclusion": "CODE1 source fix; finite83 accepted, final gates open.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "8c79d037d6cfac4b1707af717ec1c34b442650fb4941144616554cc3e2c2fa9b",
+      "afterSha256": "065f113b96b84ccf7dfd09f230c38adf8551bf177c4e3425f09a379ed9ccbb8e",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -550,7 +550,7 @@
       },
       "revision": {
         "currentSha": "3b9b5c93767d3c7872735814ce2707f57d0e20d81bd276938c91c592821656c5",
-        "implementationSha": "8c79d037d6cfac4b1707af717ec1c34b442650fb4941144616554cc3e2c2fa9b",
+        "implementationSha": "065f113b96b84ccf7dfd09f230c38adf8551bf177c4e3425f09a379ed9ccbb8e",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1714,11 +1714,11 @@
       },
       "evidence": {
         "kind": "codex-owned-pre94-code1-quality-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
-        "afterSha256": "8c79d037d6cfac4b1707af717ec1c34b442650fb4941144616554cc3e2c2fa9b",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
+        "afterSha256": "065f113b96b84ccf7dfd09f230c38adf8551bf177c4e3425f09a379ed9ccbb8e",
         "lineCount": 93,
-        "scope": "3m/42 delta; CODE1 and gates open.",
-        "candidateBaseRevision": "7d7246dce968760cded0de5093d1b4d9b0f5ddb5",
+        "scope": "PAL source closure; history retained; gates deferred.",
+        "candidateBaseRevision": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
         "workingTreeDelta": true
       },
       "history": [
@@ -3333,9 +3333,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned CODE57 map ownership scoped delta",
+      "readMethod": "Owned CODE1 PAL source closure delta",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE57 code accepted; unified gates deferred.",
+      "coreConclusion": "CODE1 source fix; finite83 accepted, final gates open.",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
@@ -3352,7 +3352,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "877059f67118e9df50cdd811249fa64acc6800dfa6a81f957ac322081a6a8df0",
+      "afterSha256": "63aa8a037ce871d7d410ebba5a8fbbd35343d672863f5616accce5dfb39bb1e3",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3373,7 +3373,7 @@
       },
       "revision": {
         "currentSha": "743c6a9600b8a45da13cadfb1d9ed66ab28cf3c61578df67ab14f834a3183cff",
-        "implementationSha": "877059f67118e9df50cdd811249fa64acc6800dfa6a81f957ac322081a6a8df0",
+        "implementationSha": "63aa8a037ce871d7d410ebba5a8fbbd35343d672863f5616accce5dfb39bb1e3",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3730,12 +3730,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-map-ownership-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
-        "afterSha256": "877059f67118e9df50cdd811249fa64acc6800dfa6a81f957ac322081a6a8df0",
+        "kind": "codex-owned-pre94-code1-quality-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/review.json",
+        "afterSha256": "63aa8a037ce871d7d410ebba5a8fbbd35343d672863f5616accce5dfb39bb1e3",
         "lineCount": 530,
-        "scope": "CODE57 scoped delta; history retained; gates deferred.",
-        "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
+        "scope": "PAL source closure; history retained; gates deferred.",
+        "candidateBaseRevision": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
         "workingTreeDelta": true
       },
       "history": [

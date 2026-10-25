@@ -1,10 +1,14 @@
 # QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验
 
-Status: draft
+Status: review
 Owner: Codex
 Phase: shared cross-phase resource decoding
 Capability: RLE resource format truth
 Visual Verification Timing: 纯字节前提核验N/A，若实际像素行为受影响另登记
+
+## 2026-10-25 当前用户批准与build准入
+
+用户call_50e2479c6c88464ebe4893166d0c08e1明确“批准修复原盘精灵读取（推荐）”。上方当前准入优先于下方历史draft／未批准记录。Coding Owner为Codex，继续同一3y隔离树；build allowed仅原盘／明确legacy-migrated来源的读取规则及真实game／extract／migrate消费接线、直接回归与必要源事实计数。canonical作者编码字节、公共既有入口语义、存档、原盘／extracted／projects字节保持；不按571资源ID特判。先对现有legacy公共入口补两条正式业务红，再实现明确PAL来源入口；高位literal规则和特殊偏移不得扩到canonical。统一门／official coverage／单PR仍待全部pre94。此前原始探针、author偏移碰撞与真实Canvas证据继续复用，只补实际失效域。
 
 ## 停线与范围
 
@@ -53,3 +57,5 @@ SDLPal `PAL_SpriteGetFrame`（palcommon.c:803–852）先将u16 word offset乘2�
 
 
 2026-10-25 来源边界补证：[真实公开编码器／原生取帧／当前Reforge入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)证明WORD49698不是全域坏值：合法285×346＋1×1作者帧第二偏移99396，当前canonical／lenient均2帧，全局PAL特殊值规则会丢帧／严格拒绝。MGO571仅在内存修表则完整两平面匹配前窗native，当前真实legacy-origin公共入口1帧、内存候选2帧；迁移器571和4133／30源计数相应受影响。原盘／extracted／projects零写入，product仍draft无build；后续方案必须显式按来源隔离并核上游／catalog／迁移域，不借此盲改canonical或生成物。工程／Q1b接受不消除此停止线。
+
+2026-10-25实施：原有legacy入口两正式业务红后修；显式PAL入口与canonical作者入口分域，未修改任何资源字节。63定向／18迁移全源与636+172双次物化零二次写、42提取／16game／Reforge相邻及四包TC通过；真实Canvas结局第200步与原生C第二帧SHA相同、0诊断。完整当前八维／新旧原件／版本桥见[PAL来源修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)。仅代码接受，统一门与最终合并待父任务集中窗口。

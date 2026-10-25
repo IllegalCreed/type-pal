@@ -41,7 +41,7 @@ import {
   decodeRngFrames,
   type Palette,
   parseIndexedRleChunk,
-  parseSpriteChunkStrict,
+  parsePalSpriteChunkStrict,
   parseWorldSpriteChunk,
   RNG_HEIGHT,
   RNG_WIDTH,
@@ -131,7 +131,7 @@ export interface PalBattleSpriteLegacyTailAnomaly {
 
 /**
  * PAL 源数据的历史坏尾事实只冻结在迁移门禁；运行时不得按这些资源 id 特判。
- * 571 的正常零 sentinel 不计入 malformedTailSlots。
+ * 571使用PAL特殊offset后有两幅完整帧；正常零sentinel不属于坏尾。
  */
 export const PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES = [
   { sprite: 23, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
@@ -159,7 +159,6 @@ export const PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES = [
   { sprite: 510, frames: 4, malformedTailSlots: 1, trailingSentinel: false },
   { sprite: 538, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
   { sprite: 552, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
-  { sprite: 571, frames: 1, malformedTailSlots: 1, trailingSentinel: true },
   { sprite: 575, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
   { sprite: 579, frames: 6, malformedTailSlots: 1, trailingSentinel: false },
   { sprite: 609, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
@@ -529,7 +528,7 @@ function loadPalEffectSprites(repo: string): {
     const compressed = readFileSync(sourcePath)
     if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)
       throw new Error(`${spec.label}: 期望 gzip RLE`)
-    const frames = parseSpriteChunkStrict(gunzipSync(compressed))
+    const frames = parsePalSpriteChunkStrict(gunzipSync(compressed))
     if (frames.length === 0) throw new Error(`${spec.label}: 不含帧`)
     effectSpriteBytes += compressed.byteLength
     effectSpriteFrames += frames.length
@@ -818,9 +817,9 @@ export function loadPalWorldSprites(repo: string): {
 
   if (spriteBytes !== 1_332_725)
     throw new Error(`PAL 大世界精灵字节期望 1332725，收到 ${spriteBytes}`)
-  if (spriteFrames !== 4_133) throw new Error(`PAL 大世界精灵帧数期望 4133，收到 ${spriteFrames}`)
-  if (spriteMalformedTailSlots !== 30)
-    throw new Error(`PAL 大世界精灵坏尾槽期望 30，收到 ${spriteMalformedTailSlots}`)
+  if (spriteFrames !== 4_134) throw new Error(`PAL 大世界精灵帧数期望 4134，收到 ${spriteFrames}`)
+  if (spriteMalformedTailSlots !== 29)
+    throw new Error(`PAL 大世界精灵坏尾槽期望 29，收到 ${spriteMalformedTailSlots}`)
   const spriteTupleDigest = sha256(spriteTuples.join('\n'))
   if (spriteTupleDigest !== PAL_WORLD_SPRITE_TUPLE_DIGEST)
     throw new Error(
@@ -1055,7 +1054,7 @@ export function loadPalAssets(
     const compressed = readFileSync(sourcePath)
     if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)
       throw new Error(`PAL tileset ${mapNum} 必须是 gzip RLE`)
-    const frames = parseSpriteChunkStrict(gunzipSync(compressed))
+    const frames = parsePalSpriteChunkStrict(gunzipSync(compressed))
     if (frames.length === 0) throw new Error(`PAL tileset ${mapNum} 不含帧`)
     tilesetBytes += compressed.byteLength
     tilesetFrames += frames.length

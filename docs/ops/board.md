@@ -65,7 +65,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 82代码accept、1partial续核 | 3m／42获批窄修两红后131绿／TC0，余CODE1原盘格式已获批待修；全仓／coverage／单PR等全部pre94，不扩94–102。 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 原83范围代码接受，待集中门 | 原盘来源两红后164相关／四TC0、真实Canvas与809产物闭包成立；宽域pending/review未强闭。下一次集中check／coverage／protected，单PR零诊断后合并，不扩94–102。 |
 | GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 | [pre94导入读取失败提示](tasks/GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | Codex / 已批单红后修，等统一门 | 原生NotFoundError反馈、0写/槽不变/同路径重选；102相关/TC0、IO叶精确搬移；不改格式/DB。 |
 | GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 | [pre94换图失败资源/拒绝归属](tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | Codex / 已批修复、代码验收 | 失败保留/完整发布/迟到归属/地图身份与重访均有正式红绿；7native/391相邻/TC0，统一集成待父卡。 |
 | GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 | [pre94工具导出失败提示](tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | Codex / 已批先红后修，等统一门 | 错误toast／URL清理／4不同IO合同及真实Chrome Save/IDB失败链通过；340相邻，未改槽位/DB；只读证据已落。 |
@@ -78,7 +78,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 | [提取器共享输出清理边界](tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | Codex / 原三缺口已补并过集中门 | guard/两测试明确合同接受；整体视频/其它输出策略不附带关闭 |
 | QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 | [extract原盘执行完整性](tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | Codex / C2证据已落，回编号卡复审 | 完整extract431零stderr、七有效反控；两个测试review，0关闭 |
 | QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | review | Codex / P3另获批已修，待统一门 | 旧两获批修复保留；raw7两接回边正式2红→83相邻绿、原盘增15删0／零漏边，未写生成物，不附带关闭CLI。 |
-| QUALITY-RLE-COMMAND-TRUTH-1 | [RLE高位literal格式真值](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | Codex / 只读取证，算法冻结 | SDL native与TS分歧已证；GOP未见分类差异，canonical域/其它资源待核 |
+| QUALITY-RLE-COMMAND-TRUTH-1 | [PAL资源来源规则](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | review | Codex / 获批代码修复、待集中门 | PAL／author分域，两业务红后164相关／四TC0；1428源仅571新增一帧、809产物不变，当前只读回执已落。 |
 | GAME-SAVE-IDB-COMMIT-1 | [存档事务提交与失败传播](tasks/GAME-SAVE-IDB-COMMIT-1.md) | review | Codex / 统一门诊断未清零 | ①已修、三条真实IDB回归通过，不改版本/清档/schema |
 | GAME-SAVE-INPUT-DOMAIN-1 | [Save槽位输入域与双路径一致性](tasks/GAME-SAVE-INPUT-DOMAIN-1.md) | draft | Codex / 等用户裁决，禁止实现 | NaN/小数通过内存范围守卫，IndexedDB路径可能不同；不改API/schema |
 | GAME-OPENING-CANCEL-CURSOR-1 | [标题取消光标](tasks/GAME-OPENING-CANCEL-CURSOR-1.md) | review | Codex / 统一门诊断未清零 | ②已修、真实标题浏览器链与截图已核 |
