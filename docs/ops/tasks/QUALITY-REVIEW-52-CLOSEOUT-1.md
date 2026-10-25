@@ -84,3 +84,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 装备四文件有限整改：六getter相同base+七槽求和抽为私有窄输入helper，毒抗clamp仍由独立getter所有；同步runner仅纠错注/去冗余tuple强转。E2用非零前像验证写0；E4使用真实全局地址并以10+128=138核256步。两枚精确变异均旧绿、新恰一条业务红、恢复绿，临时树已移除；当前3实际文件44绿、game TC0，原件暂存阶段external/equipment-*，待同一game证据包桥接。纯重构/测试补强，本提交不改产品行为、接口、存档或账本状态；重门未跑。
 
 - 2026-10-26 测试工厂独立修复：脚本化RNG原来把非法值钳制并错误消费空区间，默认复制RNG也已漂移。正式7例先1绿6业务红，再复用生产createSeedableRng并拒绝坏fixture，6实际文件35绿、game TC0；只改测试工厂，不改产品RNG/分布/抽样次数。源码与原生红绿将在game模块证据冻结。三个无caller视图helper留至下一纯清理提交。
+
+- 2026-10-26 测试工厂纯清理：移除仅定义、全仓无引用的asHEnemy/hPlayers/hEnemies三个测试视图helper和相应type imports；不属于生产公开接口。makeHBattle/default/recordingRng正文保持上一修复候选；当前最终字节正是35绿/TC0采集版本，不为删除无caller代码重跑相同测试。

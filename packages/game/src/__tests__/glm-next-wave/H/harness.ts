@@ -3,12 +3,7 @@
  * 一律走现行公开构造器(createInitialGameState / createBattleState),不用 any / 双强转。
  */
 import type { BattleField, Enemy, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
-import {
-  type BattleEnemy,
-  type BattlePlayer,
-  type BattleState,
-  createBattleState,
-} from '../../../core/battle/battle-state.js'
+import { type BattleState, createBattleState } from '../../../core/battle/battle-state.js'
 import { type BusEntry, type CommandBus, createCommandBus } from '../../../core/command-bus.js'
 import { createInitialGameState, type GameState } from '../../../core/game-state.js'
 import { createSeedableRng, type SeedableRng } from '../../../core/rng.js'
@@ -130,19 +125,6 @@ export function makeHBattle(opts: MakeHBattleOpts = {}): HBattle {
   gs.battleState = state // 生产不变量:开战后 state 挂 gs(battle-system.ts:322-323)
   const bus = createCommandBus()
   return { gs, state, playerRoles, bus, drain: () => bus.drain() }
-}
-
-/** 空闲敌槽视图(BattleEnemy 零脚本/零状态,health 可调)。 */
-export function asHEnemy(slot: BattleEnemy): Enemy {
-  return slot.e
-}
-
-export function hPlayers(state: BattleState): BattlePlayer[] {
-  return state.players
-}
-
-export function hEnemies(state: BattleState): BattleEnemy[] {
-  return state.enemies
 }
 
 /**
