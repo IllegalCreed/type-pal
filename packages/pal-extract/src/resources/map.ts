@@ -6,8 +6,8 @@
  *
  * 参考 reference/sdlpal/map.c::PAL_LoadMap。
  * 布局:map->Tiles[128][64][2]。
- *   - [row][col][0] = lower layer u32
- *   - [row][col][1] = upper layer u32
+ *   - [row][col][0] = h=0 半格的完整 u32
+ *   - [row][col][1] = h=1 半格的完整 u32；每个 u32 各自包含底层/覆盖层信息
  */
 
 import type { TileCell, Tilemap } from '@type-pal/shared'

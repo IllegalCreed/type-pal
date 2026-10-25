@@ -8,16 +8,16 @@
  * memory 锚:[avi-offline-ffmpeg-to-mp4] —— aviplay.c 不 runtime port;
  *           走 ffmpeg 转 mp4 + game runtime <video> 播放。
  *
- * 用途映射(sdlpal 真值):
- *   1.avi — PAL_TrademarkScreen (main.c:197)
- *   2.avi — PAL_SplashScreen (main.c:237)
- *   3.avi — PAL_OpeningMenu new-game (uigame.c:162)
+ * 已知入口(main.c / uigame.c；其它剧情用途未核，不参与转码逻辑):
+ *   1.avi — PAL_TrademarkScreen
+ *   2.avi — PAL_SplashScreen
+ *   3.avi — PAL_OpeningMenu new-game
  *   4.avi — cutscene(具体场景待 audit)
  *   5.avi — cutscene
  *   6.avi — cutscene / 结局
  *
- * 转码参数:H.264 (libx264) + AAC,CRF 18(高质量,接近 lossless)+ preset slow
- *           (一次性 build 可接受 ~30s/AVI 转码代价);跨平台兼容性最广。
+ * 转码参数:H.264 (libx264) + AAC,CRF 18 + preset slow，采用常见浏览器兼容格式。
+ * 编码耗时取决于素材与机器，不以此处注释承诺固定时长或无损质量。
  *
  * 用法:`pnpm -F @type-pal/pal-extract extract:videos`
  */
@@ -143,10 +143,8 @@ async function main(): Promise<void> {
     process.exit(1)
   }
 
-  const results: ConvertResult[] = []
   for (const id of AVI_IDS) {
     const r = await convertOne(id)
-    results.push(r)
     if (r.skipped) {
       console.log(`[extract-videos] ${id}.avi → ${id}.mp4 (skipped, ${r.mp4Size}B 已最新)`)
     } else {
