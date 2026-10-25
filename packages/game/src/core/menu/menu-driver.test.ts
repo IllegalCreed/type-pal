@@ -1,7 +1,8 @@
-import type { AbstractKey, InputSnapshot, Item, Magic, Spell } from '@type-pal/shared'
-import { beforeEach, describe, expect, it } from 'vitest'
+import type { AbstractKey, InputSnapshot, Item, Spell } from '@type-pal/shared'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
+import { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
 import {
   _resetStartGameHandlerForTest,
@@ -24,10 +25,10 @@ function mkGs(): GameState {
   return gs
 }
 
-const MOCK_CATALOGS = {
-  items: [] as Item[],
-  spells: [] as Spell[],
-  magics: [] as Magic[],
+const MOCK_CATALOGS: Parameters<typeof setMenuCatalogs>[0] = {
+  items: [],
+  spells: [],
+  magics: [],
   playerRoles: { roles: [] },
 }
 
@@ -77,28 +78,6 @@ function mkSpell(id: number, magicNumber: number, name: string): Spell {
   }
 }
 
-function mkMagic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
-
 /** 确定性安排：按 choice 映射定位 cursor（纯安排，不 dispatch），找不到即抛错。 */
 function inGameCursorFor(choice: InGameMenuChoice): number {
   const s = createInGameMenu()
@@ -111,6 +90,12 @@ function inGameCursorFor(choice: InGameMenuChoice): number {
 
 beforeEach(() => {
   setMenuCatalogs(MOCK_CATALOGS)
+})
+
+afterEach(() => {
+  _resetStartGameHandlerForTest()
+  _resetSystemQuitHandlerForTest()
+  vi.restoreAllMocks()
 })
 
 describe('M5.6 W0.b dispatchInGameMenu hub', () => {
@@ -455,7 +440,7 @@ describe('M5.6 T9 dispatchInGameMagicMenu', () => {
 describe('M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值', () => {
   it('Right/Down/Confirm 都 cursor++(sdlpal kKeyRight|kKeyDown|kKeySearch)', () => {
     const gs = mkGs()
-    gs.partyMembers = [10, 20, 30]
+    gs.partyMembers = [2, 0, 4]
     const ps = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: ps })
     tickMenu(gs, snap(['Right']), createCommandBus())
@@ -469,7 +454,7 @@ describe('M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真�
 
   it('Left/Up cursor--,从 0 再 -- → done 关菜单', () => {
     const gs = mkGs()
-    gs.partyMembers = [10, 20, 30]
+    gs.partyMembers = [2, 0, 4]
     const ps = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: ps })
     tickMenu(gs, snap(['Right']), createCommandBus())
@@ -482,7 +467,7 @@ describe('M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真�
 
   it('Menu 键 → 直接 close(sdlpal iCurrent=-1)', () => {
     const gs = mkGs()
-    gs.partyMembers = [10]
+    gs.partyMembers = [4]
     openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(0)

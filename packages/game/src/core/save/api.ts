@@ -17,7 +17,7 @@ import { IndexedDbSave } from './indexed-db.js'
 export const MAX_SAVE_SLOTS = 5
 
 export interface SlotMeta {
-  /** 队长 level(从 PlayerRolesRuntime 取,占位用 0)。 */
+  /** 角色0等级预览值（当前生产角色表索引；缺失时为0）。 */
   partyLevel: number
   /** 当前钱。 */
   cash: number

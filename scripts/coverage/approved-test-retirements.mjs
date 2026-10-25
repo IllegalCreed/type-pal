@@ -431,13 +431,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112',
       fileSha256: '28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46',
     },
+    // User2026-10-25 94–102 quality repair and standing proven-dedup authority.
+    // savedTimes=42 moves to the existing API list case; old approval snapshot
+    // remains in Git and CODE94/current-review/review.json. Predicate unchanged.
     {
       file: 'packages/game/src/core/menu/save-slot-menu.test.ts',
       previous: 15,
       current: 14,
-      previousIdentityDigest: 'f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581',
-      currentIdentityDigest: '6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda',
-      fileSha256: 'e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174',
+      previousIdentityDigest: '4338d808cd9f5745822ba6621d8a53a07ed8306eda97dd13d8d63e21ea808f63',
+      currentIdentityDigest: 'f6a16d9a1cc984e5883367385e63e5417fae61b51a39366aac5c47eda15a582c',
+      fileSha256: '5a5dbbf360731197f763bd93921e968db9b6602d64ba681597d935942636ff41',
     },
     // User-approved 2026-10-03 audit baseline reconciliation. These six files
     // were already stale relative to main 8efe0486; pin exact identities so

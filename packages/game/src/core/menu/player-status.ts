@@ -1,19 +1,15 @@
 /**
- * M5.6 T10d:PlayerStatus state machine — sdlpal `uigame.c:1051-1286` PAL_PlayerStatus 真值。
+ * PlayerStatus state machine — sdlpal `uigame.c:1051-1286` PAL_PlayerStatus。
  *
- * sdlpal 真值(1:1):
+ * 状态只持有队伍位置；头像、装备和属性的全屏布局由 draw-player-status 负责。
  *  - `iCurrent = 0` → 0..gpGlobals->wMaxPartyMemberIndex 循环遍历 party 成员
- *  - 每次循环 fullscreen 渲染对应 player(`gpGlobals->rgParty[iCurrent].wPlayerRole`)
- *    的:FBP chunk 0 背景 + RGM 头像(`rgwAvatar[role]`)+ 6 装备槽 + 4 EXP/Lv/HP/MP 标签
- *    + 5 stat 标签(Atk/Mag/Res/Dex/Flee)+ 数字 + 毒素 row + roleName
  *  - 输入循环(uigame.c:1265-1284):
  *      kKeyMenu        → iCurrent = -1 → break 外循环(关菜单)
  *      kKeyLeft/Up     → iCurrent-- → 上个 party 成员
  *      kKeyRight/Down/Search → iCurrent++ → 下个 party 成员
  *    cursor 越界(<0 或 > wMaxPartyMemberIndex)外循环 while 条件 false → break 关菜单。
  *
- * sdlpal **没有**"属性页 / 装备页 / 法术页"切换的概念 — 一屏整布局 9 stat + 6 装备 + 头像
- * 同时显示。v1 ts 简版 `page='attribute'|'equipment'|'magic'` 是错的(用户截图打脸已删)。
+ * SDLPal 在同一屏显示全部信息，没有属性／装备／法术子页。
  */
 
 export interface PlayerStatusState {

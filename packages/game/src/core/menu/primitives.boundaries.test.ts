@@ -10,17 +10,23 @@ import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primi
 const entry = (id: number, disabled = false) => ({ id, label: `i${id}`, disabled })
 
 describe('G01 createSelectionMenu 边界', () => {
-  it('空表 cursor/pageOffset 均 0；单项 defaultCursor 越界 clamp 到 0；入参 items 不被改写', () => {
+  it('空表 cursor/pageOffset 均 0', () => {
     const empty = createSelectionMenu([], 8, 5)
     expect(empty).toEqual({ items: [], cursor: 0, pageSize: 8, pageOffset: 0 })
+  })
+
+  it('单项 defaultCursor 越界 clamp 到 0', () => {
     const single = createSelectionMenu([entry(7)], 8, 5)
     expect(single.cursor).toBe(0)
     expect(single.pageOffset).toBe(0)
+  })
+
+  it('建表和移动不改写借用的 items 数组', () => {
     const items = [entry(1), entry(2)]
     const snapshot = structuredClone(items)
-    createSelectionMenu(items, 8, 1)
-    moveSelectionDown(createSelectionMenu(items, 8, 1))
-    expect(structuredClone(items)).toEqual(snapshot)
+    const s = createSelectionMenu(items, 8, 1)
+    moveSelectionDown(s)
+    expect(items).toEqual(snapshot)
   })
   it('跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset', () => {
     // pageSize 3，8 项；本轴只钉 moveSelection 的视窗语义（pageUp/pageDown 无 caller 已签排除）

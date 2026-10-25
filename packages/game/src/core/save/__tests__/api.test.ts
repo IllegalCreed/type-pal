@@ -69,6 +69,7 @@ describe('Save API memory fallback', () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs1.dwCash = 100
     gs1.wNumScene = 5
+    gs1.wSavedTimes = 42
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs2.dwCash = 200
     gs2.wNumScene = 10
@@ -81,6 +82,7 @@ describe('Save API memory fallback', () => {
     expect(list[0]?.id).toBe(1)
     expect(list[0]?.meta.cash).toBe(100)
     expect(list[0]?.meta.sceneId).toBe(5)
+    expect(list[0]?.meta.savedTimes).toBe(42)
     expect(list[1]?.id).toBe(3)
     expect(list[1]?.meta.cash).toBe(200)
   })

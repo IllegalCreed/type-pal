@@ -17,6 +17,7 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
 import { createCommandBus } from '../command-bus.js'
 import { setGlobalEvents, tickEventSystem } from '../event-system.js'
 import {
@@ -25,6 +26,7 @@ import {
   projectRuntimeToBattleRoles,
 } from '../game-state.js'
 import { Save } from '../save/api.js'
+import { magicWithCost } from './__tests__/magic-cost-fixture.js'
 import { createEquipMenu } from './equip-menu.js'
 import { createInGameMagicMenu } from './in-game-magic-menu.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
@@ -112,85 +114,23 @@ function mkSpell(id: number, magicNumber: number, over: Partial<Spell> = {}): Sp
 }
 
 function mkMagic(id: number, costMP = 0): Magic {
-  return {
-    id,
-    effect: 1,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 5,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 1,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
+  return { ...magicWithCost(id, costMP), effect: 1, speed: 5, effectTimes: 1 }
 }
 
 function typedRoles(): PlayerRoles {
   return {
-    roles: [
-      {
-        id: 0,
-        _name: '甲',
-        avatar: 0,
-        spriteNumInBattle: 0,
-        spriteNum: 0,
-        name: 0,
-        attackAll: 0,
+    roles: ['甲', '乙'].map((_name, id) =>
+      makeRole(id, {
+        _name,
         level: 5,
         maxHP: 100,
-        maxMP: 40,
         hp: 50,
-        mp: 40,
         attackStrength: 10,
         magicStrength: 10,
         defense: 10,
         dexterity: 10,
-        fleeRate: 5,
-        poisonResistance: 0,
-        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        walkFrames: 0,
-        attackSound: 0,
-        weaponSound: 0,
-        criticalSound: 0,
-        magicSound: 0,
-        deathSound: 0,
-      },
-      {
-        id: 1,
-        _name: '乙',
-        avatar: 0,
-        spriteNumInBattle: 0,
-        spriteNum: 0,
-        name: 0,
-        attackAll: 0,
-        level: 5,
-        maxHP: 100,
-        maxMP: 40,
-        hp: 50,
-        mp: 40,
-        attackStrength: 10,
-        magicStrength: 10,
-        defense: 10,
-        dexterity: 10,
-        fleeRate: 5,
-        poisonResistance: 0,
-        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        walkFrames: 0,
-        attackSound: 0,
-        weaponSound: 0,
-        criticalSound: 0,
-        magicSound: 0,
-        deathSound: 0,
-      },
-    ],
+      }),
+    ),
   }
 }
 
@@ -206,10 +146,10 @@ function installGlobalScripts(): void {
   setGlobalEvents(commands)
 }
 
-const DEFAULT_CATALOGS = () => ({
+const DEFAULT_CATALOGS = (): Parameters<typeof setMenuCatalogs>[0] => ({
   items: [mkItem(10), mkItem(11)],
-  spells: [] as Spell[],
-  magics: [] as Magic[],
+  spells: [],
+  magics: [],
   playerRoles: typedRoles(),
 })
 

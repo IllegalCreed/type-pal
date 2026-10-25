@@ -354,7 +354,7 @@ function applyShopTransaction(
   const item = items.find((it) => it.id === r.itemId)
   if (!item) return
   if (r.mode === 'buy') {
-    // 再判 price<=cash(confirm 期间 cash 不会变,但对齐 sdlpal 真值显式判)。
+    // 确认时按当前现金再判，避免使用弹确认框时的旧余额。
     if (item.price <= gs.dwCash) {
       gs.dwCash -= item.price
       addItemToInventory(gs, item.id, 1)
@@ -612,9 +612,8 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
 //   INVMENU_LABEL_USE=23   → PAL_GameUseItem (play.c:244-325)
 //                               → PAL_ItemSelectMenu(usable) → PAL_ItemUseMenu(wObject)
 //
-// 简版降级:ts equip menu 已嵌内部 ItemSelectMenu(equipable);use 路径走 'inventory' kind
-// (filter='usable')。sdlpal while loop"用完一个继续选下一个"留 follow-up — 当前 ts
-// 选完一次 + cancel 即关菜单回 InGame。
+// 装备列表与使用列表都由 InventoryMenu 建表。单体物品在目标层继续使用；
+// 物品耗尽回列表，列表取消时清整个菜单栈回大世界。
 
 function dispatchInventoryActionMenu(
   gs: GameState,
@@ -757,7 +756,7 @@ function dispatchInventoryMenu(
 //  - phase='pick-role'(sdlpal `PAL_EquipItemMenu`):Up/Down 切 playerCursor;
 //    Confirm 检 item.equipableBy[role] → 跑 scriptOnEquip(opcode 0x18 真做 swap +
 //    写 gs.wLastUnequippedItem)→ state.selectedItemId = gs.wLastUnequippedItem。
-//    if newSelectedItem == 0 → phase='done'(无旧装备可继续 swap,sdlpal uigame.c:2016 真值)。
+//    if newSelectedItem == 0 → phase='list'(回外层再选装备,uigame.c:2016-2019)。
 //    else 保持 'pick-role' 显示 swap 出来的旧装备 picker。
 //  - Menu key:pick-role → 回 'list' 选下一个 item;list → 'done' 关菜单。
 
@@ -829,7 +828,7 @@ function dispatchEquipMenu(
         // user 2026-06-01 报根因:换装后 0x18 swap 改了背包(新装备出包 / 旧装备入包),
         //   list grid 必须用**当前背包**重建,否则回 list 仍显示装备前旧快照(新装备还在/旧装备没出现)。
         //   sdlpal PAL_GameEquipItem 外层 while 每次回 PAL_ItemSelectMenu(equipable) 都按当前背包重建
-        //   (uigame.c:328-359)→ 无论换没换下东西都刷新。原 ts 只在 selectedItemId===0(空槽)分支刷,漏了真换装。
+        //   (play.c:328-359)→ 无论换没换下东西都刷新。原 ts 只在 selectedItemId===0(空槽)分支刷,漏了真换装。
         s.list = createInventoryMenuRefresh(gs, catalogs.items)
         // sdlpal uigame.c:2016-2019 真值:wItem == 0 → return EquipItemMenu → 回 PAL_GameEquipItem
         //   outer while 再 PAL_ItemSelectMenu;ts 等价:回 phase='list'

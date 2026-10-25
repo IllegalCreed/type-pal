@@ -7,8 +7,8 @@
  *  - TripleMenu:3 选 1(常见于"上 / 下 / 取消")
  *  - SwitchMenu:多选项循环切换(战斗 主菜单 5 项类似)
  *
- * 渲染层(draw-menu.ts)由 M-w0.1 Step 3 实现;本文件不持任何 DOM / canvas
- * 引用。原版对应关系由具体菜单的 caller 核定，不将所有 helper 都称为 SDLPal 机制。
+ * 渲染层消费这些状态；本文件不持任何 DOM / canvas 引用。
+ * 原版对应关系由具体菜单的 caller 核定，不将所有 helper 都称为 SDLPal 机制。
  */
 
 export interface SelectionMenuItem {

@@ -113,11 +113,14 @@ describe('L01 primitives 零散边界', () => {
     expect(s.current).toBe(1)
   })
 
-  it('ConfirmMenu 保存原文 message；SwitchMenu 保留非零初始 current', () => {
+  it('ConfirmMenu 保存原文 message', () => {
     expect(createConfirmMenu('要存档吗？', false)).toEqual({
       message: '要存档吗？',
       selection: 'no',
     })
+  })
+
+  it('SwitchMenu 保留非零初始 current', () => {
     expect(createSwitchMenu(['关', '开'], 1).current).toBe(1)
   })
 
