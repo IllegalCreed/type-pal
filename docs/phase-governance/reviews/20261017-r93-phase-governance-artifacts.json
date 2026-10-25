@@ -7860,7 +7860,7 @@
         }
       ],
       "sourceSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
-      "afterSha256": "fb86038d6347f79623bd5d632cecffff5662f51e6eeb9fe0593e659d087df622",
+      "afterSha256": "fd754f05a65ba14e362773a9b55fefb2a9fb097d5687b80b0ee31e21701d8ab3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7883,8 +7883,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "fb86038d6347f79623bd5d632cecffff5662f51e6eeb9fe0593e659d087df622",
-        "implementationSha": "fb86038d6347f79623bd5d632cecffff5662f51e6eeb9fe0593e659d087df622",
+        "currentSha": "fd754f05a65ba14e362773a9b55fefb2a9fb097d5687b80b0ee31e21701d8ab3",
+        "implementationSha": "fd754f05a65ba14e362773a9b55fefb2a9fb097d5687b80b0ee31e21701d8ab3",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8557,7 +8557,7 @@
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "fb86038d6347f79623bd5d632cecffff5662f51e6eeb9fe0593e659d087df622",
+        "afterSha256": "fd754f05a65ba14e362773a9b55fefb2a9fb097d5687b80b0ee31e21701d8ab3",
         "lineCount": 7098,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8574,7 +8574,7 @@
         },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "fb86038d6347f79623bd5d632cecffff5662f51e6eeb9fe0593e659d087df622",
+          "afterSha256": "fd754f05a65ba14e362773a9b55fefb2a9fb097d5687b80b0ee31e21701d8ab3",
           "scope": "Owned52 delta; history retained."
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."

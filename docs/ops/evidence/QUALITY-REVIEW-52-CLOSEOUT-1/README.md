@@ -15,7 +15,7 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 
 ## 结果
 
-当前固定47/52代码接受：首组13、提取器余10、game9、phase2九个、工具6；game余3、phase2余2共5仍review。额外诊断/测试及新内部模块8接受、物品红例1待裁决，单列不换分母。机器3461tracked／586closed／6review／2869pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
+当前固定47/52代码接受：首组13、提取器余10、game9、phase2九个、工具6；game余3、phase2余2共5仍review。额外诊断/测试及新内部模块10接受、物品红例1待裁决，单列不换分母。机器3462tracked／588closed／6review／2868pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
 
 ## 限制与退出条件
 
@@ -68,3 +68,5 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 覆盖率工具结构子步骤：[调度迁移证明](coverage-coordinator-split.json)，仅提取既有控制流，失败所有权待核，非官方覆盖率回执。
 
 [六工具整文件裁定](tools-reviewed.json)与[完整原始TAP、命令和数据审计](tools-native.json.gz)：规则/基线数据保持，只有可选调度错误所有权修复。原118与新105保留各自身份，不当作223独立测试。
+
+工作台[当前八维与保留停止线](workbench-reviewed.json)、[正式资源红绿及启动错误披露原件](workbench-native.json.gz)：两类焦点队列释放，21相邻与最终7例绿；旧reader出口裁决仍待，不关闭工作台。

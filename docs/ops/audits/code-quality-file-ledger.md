@@ -153,8 +153,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,461。
-当前已闭合核验：586；已读但待审：6；尚未逐文件核验：2869；合计未闭合：2875。
+起始基点机器清单：2,962。当前 tracked 清单：3,462。
+当前已闭合核验：588；已读但待审：6；尚未逐文件核验：2868；合计未闭合：2874。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -265,7 +265,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
-| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | review | [3c明确撤回与当前复核](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | 605585752已撤回整文件关闭；89bf84e16合并恢复旧行形成漂移。仅动画切片核过，整组件仍review |
+| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | review | [52工作台补核](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json) | 焦点资源两红后修、21相邻绿/TC0；G仅测试reader出口待裁决，不由动画/定向绿关闭 |
+| `packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx` | test | 已验证 | [52工作台测试](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json) | 全文八维；合法RAF排队/原型与时钟隔离、卸载资源反例；完整原件可复验 |
+| `packages/editor/src/ui/SpriteFrameWorkbench.test.tsx` | test | 已验证 | [52工作台测试](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json) | 全文八维；合法RAF排队/原型与时钟隔离、卸载资源反例；完整原件可复验 |
 | `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | 已验证 | [3c当前逐文件A–H与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout.json) | 原1身份/三有效反控及当前两完整门单例执行成立；精确同版复用，不附带整个Workbench或runner关闭 |
 | `packages/pal-extract/src/resources/parsers/_utils.ts` | product | 已验证 | 直接读取 layout 常量与 u16/s16 helper；所有 parser callers、typecheck | 纯布局 helper |
 | `packages/pal-extract/src/resources/parsers/ball.ts` | product | 已验证 | RLE header/坏帧 skip、BALL caller 与 parser tests；全包通过 | 保留空 chunk skip |

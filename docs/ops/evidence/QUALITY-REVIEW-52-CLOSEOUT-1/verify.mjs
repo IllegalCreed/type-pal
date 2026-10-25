@@ -28,6 +28,39 @@ function readNativePacket(native) {
 const directory = 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/'
 const scope = json(`${directory}scope.json`)
 const review = json(`${directory}review.json`)
+if (review.workbench) {
+  assert.equal(sha(read(review.workbench.path)), review.workbench.sha256)
+  const module = json(review.workbench.path)
+  for (const binding of module.bindings)
+    assert.equal(sha(read(binding.path)), binding.sha256, binding.path)
+  const receipts = readNativePacket(module.native)
+  for (const [id, files, passed, failed] of [
+    ['workbench-focus-red-r2', 1, 0, 2],
+    ['workbench-focus-green', 5, 21, 0],
+    ['workbench-focus-final', 2, 7, 0],
+  ]) {
+    const result = JSON.parse(receipts[`${id}.native.json`])
+    assert.deepEqual(
+      [
+        result.testResults.length,
+        result.numPassedTests,
+        result.numFailedTests,
+        result.numPendingTests,
+      ],
+      [files, passed, failed, 0],
+    )
+    for (const test of result.testResults.flatMap((suite) => suite.assertionResults))
+      if (test.status === 'failed')
+        assert(test.failureMessages.some((message) => message.startsWith('AssertionError:')))
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, failed ? 1 : 0)
+    if (!failed) assert.equal(receipts[`${id}.stderr.raw`], '')
+  }
+  assert.equal(JSON.parse(receipts['workbench-editor-types.execution.json']).exit, 0)
+  assert.equal(
+    receipts['workbench-editor-types.stdout.raw'] + receipts['workbench-editor-types.stderr.raw'],
+    '',
+  )
+}
 if (review.tooling) {
   assert.equal(sha(read(review.tooling.path)), review.tooling.sha256)
   const module = json(review.tooling.path)

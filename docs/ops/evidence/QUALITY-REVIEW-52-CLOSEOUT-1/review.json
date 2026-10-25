@@ -1483,6 +1483,38 @@
         "G": "单真实入口被run.mjs使用，测试只验证job lifetime；无新flag/默认并发/规则放宽/空export。",
         "H": "依赖收集回调是实际IO端口，测试不跑覆盖率；子进程同步回收且有限5s测试超时，未放宽任何原门。"
       }
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "sha256": "60759aa487a211d640da215cba3e9d0e9855f6071abfa2d34c0ff0dc45c70d71",
+      "lines": 303,
+      "status": "code-accepted; previously pending adjacent test, outside fixed52",
+      "dimensions": {
+        "A": "五既有合法装配/实例计数/picker合同保留；同步RAF替身改合法排队，最终5绿；不把Canvas mock当像素oracle。",
+        "B": "frame/playbackSteps/loopFrom注释符合作者语义与实际播放；不把接口暴露推导成未知旧档兼容，不以动画专测覆盖拖拽或保存。当前C05像素标题“至少2色”而断言>=1的邻接旧偏差登记，未授该整测试文件新信用。",
+        "C": "上层session/command拥有资产写入与undo，工作台只显示与回调；同一picker拥有全部待执行focus，回调完成删除记录、卸载逐项cancel。动画timer与reduced-motion订阅仍各由自己的effect对称释放。",
+        "D": "RawInspector/动作弹窗复用SourceFramePicker，semantic/instance复用FrameRowView；动画位置复用reforge入口，不复制循环和时长算法。不因共享外观合并语义与实例计数ownership。",
+        "E": "五文件21绿：原19合同加2资源反例；修改两个文件在最终7身份回归。旧同步RAF替身改成下一帧才执行，并断言实际焦点；prototype scrollIntoView恢复原descriptor，fake clocks/globals全部回收。",
+        "F": "职责按Canvas→Cell→Picker→Inspector→Row/Shelves分函数；684行多为明确JSX装配，未为缩行强拆微组件。pendingFocus名字直接说明资源owner，单次调度按现行RAF优先顺序保留。",
+        "G": "无新增skip/only/弱断言；新2例是不同资源回收分支，旧5例不删，原函数布局与拖拽协议未被测试改写。",
+        "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
+      "sha256": "69d296b7d58e220e49bab521969d11d3fb232580a64f087c52d620edf4fcfed2",
+      "lines": 49,
+      "status": "code-accepted;new focus resource contract, outside fixed52",
+      "dimensions": {
+        "A": "两合法2帧picker输入，分别走真实RAF与timeout，点击后卸载，实际队列应归零；正式两红后同两身份通过。",
+        "B": "frame/playbackSteps/loopFrom注释符合作者语义与实际播放；不把接口暴露推导成未知旧档兼容，不以动画专测覆盖拖拽或保存。当前C05像素标题“至少2色”而断言>=1的邻接旧偏差登记，未授该整测试文件新信用。",
+        "C": "上层session/command拥有资产写入与undo，工作台只显示与回调；同一picker拥有全部待执行focus，回调完成删除记录、卸载逐项cancel。动画timer与reduced-motion订阅仍各由自己的effect对称释放。",
+        "D": "RawInspector/动作弹窗复用SourceFramePicker，semantic/instance复用FrameRowView；动画位置复用reforge入口，不复制循环和时长算法。不因共享外观合并语义与实例计数ownership。",
+        "E": "五文件21绿：原19合同加2资源反例；修改两个文件在最终7身份回归。旧同步RAF替身改成下一帧才执行，并断言实际焦点；prototype scrollIntoView恢复原descriptor，fake clocks/globals全部回收。",
+        "F": "职责按Canvas→Cell→Picker→Inspector→Row/Shelves分函数；684行多为明确JSX装配，未为缩行强拆微组件。pendingFocus名字直接说明资源owner，单次调度按现行RAF优先顺序保留。",
+        "G": "无新增skip/only/弱断言；新2例是不同资源回收分支，旧5例不删，原函数布局与拖拽协议未被测试改写。",
+        "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
+      }
     }
   ],
   "changes": [
@@ -1859,5 +1891,9 @@
   "tooling": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
     "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+  },
+  "workbench": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json",
+    "sha256": "95aaf40941970ac065230216c1ee776b2f070ac23a404e9e99d403e434b5194e"
   }
 }

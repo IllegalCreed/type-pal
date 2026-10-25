@@ -102,3 +102,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 coverage工具结构子提交：run.mjs只提取原有包调度至窄collectPackages，实际报告/子进程仍由原runner持有；if/else正文仅绑定outputRoot后完全相同，三条顺序/等待/缺editor反例控制通过。可选并行失败所有权继续核查，不关闭runner/新helper/新专测，不启动覆盖率采集。工作台焦点资源修复仍在同树独立WIP，不混入本纯重构。
 
 - 2026-10-26 治理工具六个整文件代码接受：docs checker、coverage runner、两个精确批准表及两专测补齐八维；五未改文件与main逐字节同一，20完整旧baseline/全部有限源pin与72退役tuple按实际reader/保护caller核定，历史产品证据复用而非逐例重跑。调度纯提取先独立提交，随后两正式业务红修拒绝与在途报告所有权，105相邻工具绿/0stderr；先前118门保留独立身份不相加。新调度叶/专测2另计已接受，固定47/52、余5；机器3461／586／6／2869。批准表/官方baseline未更改，sprite四项精确退役与可能结构重计留最终冻结，未跑全仓/official/ratchet/protected或推合。
+
+- 2026-10-26 工作台生命周期独立修复：真实picker点击后卸载，RAF/timeout各一资源红（应0实际1）；当前Set由同一effect回收，已执行项即删除。旧测试同步RAF改为真实下一帧排队，并恢复prototype descriptor/时钟/全局。五相邻文件21绿、最终修改两文件7绿、editor TC0；首跑配置路径错误完整披露，不作反例。新增focus2例文件与此前未登整文件的主测5例各八维接受，两个额外路径单列，固定仍47/52，3462／588／6／2868。工作台G的readSpriteFrameDragPayload退役/保留尚待用户，main impl仍review；不新增视觉/保存/ED实体状态或资产格式信用。本阶段全仓/coverage/protected未跑、未推合。
