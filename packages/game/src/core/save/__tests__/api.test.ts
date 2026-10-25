@@ -97,6 +97,22 @@ describe('Save API memory fallback', () => {
     expect(list.find((s) => s.id === 2)).toBeUndefined()
   })
 
+  it('listSlots returns independent metadata values', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 100
+    gs.wSavedTimes = 7
+    await Save.saveSlot(1, gs)
+    const first = await Save.listSlots()
+    expect(first.map(({ id }) => id)).toEqual([1])
+    first[0]!.meta.cash = 999
+    first[0]!.meta.savedTimes = 999
+
+    const second = await Save.listSlots()
+    expect(second[0]?.meta.cash).toBe(100)
+    expect(second[0]?.meta.savedTimes).toBe(7)
+    expect((await Save.loadSlot(1))?.dwCash).toBe(100)
+  })
+
   it('slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错', async () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     await expect(Save.saveSlot(0, gs)).rejects.toThrow(/超 1-5/)

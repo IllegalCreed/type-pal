@@ -80,7 +80,7 @@ export const Save = {
       return IndexedDbSave.listSlots()
     }
     return Array.from(_slots.entries())
-      .map(([id, entry]) => ({ id, meta: entry.meta }))
+      .map(([id, entry]) => ({ id, meta: { ...entry.meta } }))
       .sort((a, b) => a.id - b.id)
   },
 
