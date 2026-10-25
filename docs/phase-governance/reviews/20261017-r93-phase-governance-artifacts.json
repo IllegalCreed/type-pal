@@ -585,7 +585,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "228dd970277ba0b1a1e2ee0ced66cda4bf97d7dfb161d37105ddb4baedca3d94",
+      "afterSha256": "92bc762e12cf841921dad74c9bd19bac7372c3c28f1aa69f1799a1b4d194c3dc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -998,6 +998,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "228dd970277ba0b1a1e2ee0ced66cda4bf97d7dfb161d37105ddb4baedca3d94",
+          "afterSha256": "92bc762e12cf841921dad74c9bd19bac7372c3c28f1aa69f1799a1b4d194c3dc",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -1181,7 +1193,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "7353f01b2ed537b1fe24c8cd2a8ac438aa7a98558fd2a6230b51d7212c4df137",
+      "afterSha256": "0028c814a562be0b7a4108c3195744af520aae34dbe7247361a6fe922f5c99fc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1726,6 +1738,18 @@
           "beforeSha256": "a92cbba6b54a0e4e8facd9d772610f7c351ee7c770ee099e648f9f513a7c6e81",
           "afterSha256": "7353f01b2ed537b1fe24c8cd2a8ac438aa7a98558fd2a6230b51d7212c4df137",
           "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "7353f01b2ed537b1fe24c8cd2a8ac438aa7a98558fd2a6230b51d7212c4df137",
+          "afterSha256": "0028c814a562be0b7a4108c3195744af520aae34dbe7247361a6fe922f5c99fc",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -9320,7 +9344,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "4d64639ee9a613addb41e2802836e7e953e4d767fdec0bd18d5d770880ecb888",
+      "afterSha256": "ed6d51ea9859842d80470bd26db54c8c50f1a57e8ab576cccb0e5a5cfe845b92",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9518,6 +9542,18 @@
           "beforeSha256": "783488be5f33ced097621a8957aaa084a31f88d4ad796acaf2fa7b7f18d838f7",
           "afterSha256": "4d64639ee9a613addb41e2802836e7e953e4d767fdec0bd18d5d770880ecb888",
           "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "4d64639ee9a613addb41e2802836e7e953e4d767fdec0bd18d5d770880ecb888",
+          "afterSha256": "ed6d51ea9859842d80470bd26db54c8c50f1a57e8ab576cccb0e5a5cfe845b92",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -13525,7 +13561,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-      "afterSha256": "650bdffbca5fa43fcedca72c4a683ab698002115a75bda821d165ac88cada5c4",
+      "afterSha256": "4c1e63a2ff133364b56857103a7c098704340601ac215085e4dac70c95e7d04d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13666,6 +13702,18 @@
           "beforeSha256": "9be294887423079627b8f3606ce46183a538a9f716ea399f26b744114ab17c9a",
           "afterSha256": "650bdffbca5fa43fcedca72c4a683ab698002115a75bda821d165ac88cada5c4",
           "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "650bdffbca5fa43fcedca72c4a683ab698002115a75bda821d165ac88cada5c4",
+          "afterSha256": "4c1e63a2ff133364b56857103a7c098704340601ac215085e4dac70c95e7d04d",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -14491,7 +14539,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "a65d4f2c8dcad1ebbe37a9a52b837ea06f8a5bafbfffe27ed4c23469b7889428",
+      "afterSha256": "79d3a9661a2496e9331758a3e91fa2ac1ba309bd0b5f9e84f900ddf7f790db53",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14719,6 +14767,18 @@
           "beforeSha256": "391ac1aa9d5865e6ad33a8f41441798268ac0ce26220cf312293868b5c8fde0f",
           "afterSha256": "a65d4f2c8dcad1ebbe37a9a52b837ea06f8a5bafbfffe27ed4c23469b7889428",
           "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "a65d4f2c8dcad1ebbe37a9a52b837ea06f8a5bafbfffe27ed4c23469b7889428",
+          "afterSha256": "79d3a9661a2496e9331758a3e91fa2ac1ba309bd0b5f9e84f900ddf7f790db53",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

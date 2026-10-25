@@ -208,22 +208,22 @@
       "gitObject": "848c95762b95102e62b72a781566f5762cbc2bb4",
       "sha256": "74f0d95c6a34cd8fc43ddc8cedc95c42e16dea88ba3550b3b9f6cc29f8d1dd58"
     },
-    "logicalSha256": "63d4425d684b4dc05636a745b6f5187af7e850d755374eb8f901cb41884150e4",
+    "logicalSha256": "ba69e70c6437c2bb2b6a0f009effb64ac73555f0c0bdc325561cbf24721b5373",
     "totalEntries": 37,
     "entryOrderSha256": "0174f70af24dfd959daf3be38d49dfd5fc55d32a977d2c211f338e6eefbbf9e7",
-    "orderedEntriesSha256": "c21639d3b726404f93168cb680c4bc32733c61184652fcb263b5954ca2850ea3",
+    "orderedEntriesSha256": "2d1056f1d1199ccd0f57d35687eacddab19df20588ec52f91c94d6b138675e9f",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r94-final-machine-artifacts/63d4425d684b4dc05636a745b6f5187af7e850d755374eb8f901cb41884150e4/part-001.json",
+        "path": "shards/20261017-r94-final-machine-artifacts/ba69e70c6437c2bb2b6a0f009effb64ac73555f0c0bdc325561cbf24721b5373/part-001.json",
         "total": 22,
-        "sha256": "6e1eb629ec0d09bb894ba5310d423291fe53c77943f7c403e7df35e77f004bd9"
+        "sha256": "8596e3f1a244d2dfaf2a61208aab34856d8cbe3abcf06037def40d39d3ed73c2"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r94-final-machine-artifacts/63d4425d684b4dc05636a745b6f5187af7e850d755374eb8f901cb41884150e4/part-002.json",
+        "path": "shards/20261017-r94-final-machine-artifacts/ba69e70c6437c2bb2b6a0f009effb64ac73555f0c0bdc325561cbf24721b5373/part-002.json",
         "total": 15,
-        "sha256": "dba95899da8a1d3cf521662c0a2a0660e99f663463e26e14c2efb7d46474f7a1"
+        "sha256": "4b05fde57336e8c58249725e56baf1a327aa12016d1f2df4127d3726af0058bf"
       }
     ]
   }

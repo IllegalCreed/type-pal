@@ -8,6 +8,12 @@ Reviewer: state_plan_review（本批独立取证与代码复核）/ Codex
 Visual Verification Owner: Codex
 Visual Verification Timing: functional
 Branch: `main`（首批集成 `39499783c`；集成基线 `origin/main d3cb0c149`）
+Last reviewed: 2026-10-17
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+为编辑器预览建立场景统一的初始状态库与具体步骤默认引用：每份初始状态包含一个或多个实体的起始配置，具体步骤按稳定入口地址记住默认状态、选中即自动带入；所有配置均为编辑器辅助资料，不改正式脚本语义、游戏内容或存档。静态首批（scene 三 tab/entity 两 tab、方案卡-实体列表-右侧属性栏、`editor/script-preview.json` 侧车、投影不改 canonical）已按用户 2026-10-11 授权实现并经 2026-10-12 用户验收；完整现场恢复、E2E 批量采集与隔离宿主仍留卡，不以首批授权冒称全卡完成。
 
 ## 当前状态与本轮交付
 
@@ -98,7 +104,7 @@ Codex核定首批为可直接操作的真实编辑器UI：scene三tab/entity两t
 如果以后要让具名实体状态成为游戏剧情指令可引用的产品模型，另行明确需求与开卡；
 本卡不以预览需求代替那项授权。现在正常游戏的站位由已有脚本设置，本轮未确认其存在模型缺陷。
 
-## 前提真值门与一手证据
+## 前提与证据
 
 一句话前提：预览缺少演出前的现场输入，不等于实际游戏缺少正确的状态演进。
 
@@ -129,7 +135,7 @@ Codex核定首批为可直接操作的真实编辑器UI：scene三tab/entity两t
   `script-world.ts:509`、`:578` 的barrier等待活动进入可保存状态；不能在持有前台lease的断点
   同时等它结束，制造死锁或捕到演出结束后的错误现场。
 
-## 上下文与范围
+## 范围
 
 先读[READ-FIRST](../../phase2/READ-FIRST.md)、[脚本合同](../../phase2/specs/script-system.md)、
 [编辑器合同](../../phase2/specs/editor-architecture.md)、[存档合同](../../phase2/specs/save-system.md)和
@@ -406,7 +412,7 @@ PreviewCanvas仅负责呈现适配，不另造运动公式或用log-only接管�
 仍须在实施前核定实体种子的合法输入/权威恢复路径，验证其它auto的显式启动与真实caller，
 不在draft里把未实现的宿主能力标为已验证。全部在途快照恢复的复杂度不压入首版基本流程。
 
-## 实施顺序与验收
+## 验收
 
 | 包 | 交付 | 验收 |
 |---|---|---|
@@ -644,7 +650,7 @@ run 38156367291的19815项测试全绿，但Reforge比本地少5条语句/5行�
 全仓typecheck、完整文档门再次通过，lint/格式3994文件零error/warning/info，日志为
 `integration/typecheck/lint/docs-clock-fix.log`。本次只修现有测试同步条件，托管结果以后续最终提交为准。
 
-## 交接日志
+## 状态与交接
 
 - 2026-10-11 Codex：恢复E2E原始需求，建draft卡；前版设计包含运行时状态改造和人工参与者配置。
 - 2026-10-11 Codex：按用户澄清收回上述范围扩张，改为编辑器起点预设/演出现场两入口，

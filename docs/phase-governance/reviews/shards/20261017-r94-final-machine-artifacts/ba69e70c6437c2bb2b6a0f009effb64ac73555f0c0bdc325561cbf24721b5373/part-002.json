@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "63d4425d684b4dc05636a745b6f5187af7e850d755374eb8f901cb41884150e4",
+  "generation": "ba69e70c6437c2bb2b6a0f009effb64ac73555f0c0bdc325561cbf24721b5373",
   "key": "part-002",
   "positions": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2198,7 +2198,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "4d3a6aca5174693efed77b76f66fd4be58173b9d16a4ca0011773e8086849b00",
+      "afterSha256": "274510af74c54092484d1da74a00598b1ff3ec931d6e3a5be619c607738785c5",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3082,25 +3082,36 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "4d3a6aca5174693efed77b76f66fd4be58173b9d16a4ca0011773e8086849b00",
+          "afterSha256": "274510af74c54092484d1da74a00598b1ff3ec931d6e3a5be619c607738785c5",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "templateCompliance": "template-compliant",
+      "readMethod": "GLM S42 completion author documented source read domain and precise patch; Codex independently inspects patch/content record, applies fixed Git blobs and actual positive/negative contracts. No repeated full source or runtime review.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "coreConclusion": "编辑器实体状态方案卡(用户2026-10-11授权静态首批、2026-10-12验收『功能实现的非常棒』,集成39499783c/62c0aea4e,卡顶review,完整现场/E2E采集未做)。核读确认双重缺口:①头部无Last reviewed与Template行;②五个task-card必填章节仅可映射无一在册——无『目标』,『前提真值门与一手证据/上下文与范围/实施顺序与验收/交接日志』四节名不符。patch:①Branch行后补两行Last reviewed: 2026-10-17(基底reviewRecord 20261017-r94实日期)/Template: task-card-v1 / 1.0.0;②头部后新增『## 目标』一小节(内容全为卡内事实:统一初始状态库+步骤默认引用、静态首批范围与验收时点、完整宿主留卡);③四处H2标题保值重命名(前提真值门与一手证据→前提与证据、上下文与范围→范围、实施顺序与验收→验收、交接日志→状态与交接),正文零改动,不改Status/授权记录/验收原话/反控。",
       "truthAnchors": ["docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md:1"],
       "unresolved": [
-        "Protected main-worktree delta must be re-read after integration before accepting final SHA.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "Product implementation, original runtime/E2E/visual/coverage evidence and preserved historical conflicts remain outside this document-version acceptance."
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Use this accepted document version and actual template route; changed body/source/dependency invalidates affected acceptance. Continue652native contract design and Owner control-content review.",
       "phase": "phase2",
       "module": "editor/entity-authoring",
       "capability": "entity state plan task card",
@@ -3112,7 +3123,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
-      "afterSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+      "afterSha256": "f27f6ed4c351dcc2d4fdbb118d921e52800cf2f96fdb83b098356a05423c4f4e",
       "publicCallers": ["docs/ops/board.md", "docs/ops/tasks/index.md"],
       "legalInputs": [
         "current repository documentation",
@@ -3143,22 +3154,15 @@
         ]
       },
       "evidence": {
-        "kind": "protected-task-card-review",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
-        "candidateSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
-        "afterSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
-        "lineCount": 697,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "protected source bytes read-only",
-          "sourceBytes": 67856,
-          "sourceLines": 697,
-          "sourceFinalNewline": true,
-          "inverseSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S45/verdict.json",
+        "reportSha256": "60de39981c8b0d80f7868636e3c24dc15d38b65329da2ee059a0adfe2229440a",
+        "candidate": "frozen source83743275 + exact delivered unified patch",
+        "afterSha256": "f27f6ed4c351dcc2d4fdbb118d921e52800cf2f96fdb83b098356a05423c4f4e",
+        "scope": "Specific current document body and contract; not original execution credit",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -3174,15 +3178,69 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "action": "S45 qualifies a newly accepted body version; historical claims and implementation status not restored",
+          "sourceRevision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+          "afterSha256": "f27f6ed4c351dcc2d4fdbb118d921e52800cf2f96fdb83b098356a05423c4f4e",
+          "previousCurrentFields": {
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "unresolved": [
+              "Protected main-worktree delta must be re-read after integration before accepting final SHA.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "stopLine": "do not promote static task-card review to product/runtime/E2E/visual completion",
+            "counterReworkBlocked": [
+              {
+                "id": "R95-PROTECTED-SHA",
+                "status": "open-until-main-reconciliation",
+                "statement": "Re-read protected main content after integration before final acceptance."
+              }
+            ],
+            "evidence": {
+              "kind": "protected-task-card-review",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+              "sourceSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+              "candidateSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+              "afterSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+              "lineCount": 697,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "protected source bytes read-only",
+                "sourceBytes": 67856,
+                "sourceLines": 697,
+                "sourceFinalNewline": true,
+                "inverseSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+                "exactRoundTrip": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            }
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalArtifactOnly": true,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": ["none; protected active task card"],
-      "stopLine": "do not promote static task-card review to product/runtime/E2E/visual completion",
+      "stopLine": "Document semantics/template only; not task done, product implementation passed, historical R-wave trust restoration, native212 migration, runtime/E2E/visual/coverage.",
       "userVisibleBeforeAfter": "保护的主工作树任务卡保持 → 只登记只读 SHA 与边界；不写回、不推进任务状态。",
       "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": true,
       "artifactFormat": "markdown",
       "documentStatus": "current",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -3213,14 +3271,82 @@
           "statement": "Re-read protected main content after integration before final acceptance."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact current body and actual task-card-v1 route; preserved history is not accepted current implementation."
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "GLM completion immutable patch identity in targets.json",
+        "afterSha256": "f27f6ed4c351dcc2d4fdbb118d921e52800cf2f96fdb83b098356a05423c4f4e",
+        "reportSha256": "60de39981c8b0d80f7868636e3c24dc15d38b65329da2ee059a0adfe2229440a",
+        "readDomain": {
+          "authorRecord": {
+            "method": "MD全文人工读+公共检查器虚拟候选验证",
+            "manual": ["1-697行@83743275全读(Read工具逐行)"],
+            "mechanical": [
+              "sha256核对=基底322ee8a2…",
+              "r94 review记录reviewDate=2026-10-17实取(条目在_reviewStorage分片)",
+              "plan-status-v1/design-spec-v1合同实取并按内容排除",
+              "锚点核查无外链指向被改四节",
+              "checkMigratedDocument虚拟候选零issue+原文红7项",
+              "git apply与patch(1)双OK,applied字节相等"
+            ],
+            "unread": []
+          },
+          "reviewScope": "Codex reads delivered content record and complete patch for five task cards, applies all six against fixed source; six patched zero/original red actual contracts, risk sampled native summaries separately."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "date": "2026-10-25",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "beforeSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+        "afterSha256": "f27f6ed4c351dcc2d4fdbb118d921e52800cf2f96fdb83b098356a05423c4f4e",
+        "readDomain": {
+          "method": "MD全文人工读+公共检查器虚拟候选验证",
+          "manual": ["1-697行@83743275全读(Read工具逐行)"],
+          "mechanical": [
+            "sha256核对=基底322ee8a2…",
+            "r94 review记录reviewDate=2026-10-17实取(条目在_reviewStorage分片)",
+            "plan-status-v1/design-spec-v1合同实取并按内容排除",
+            "锚点核查无外链指向被改四节",
+            "checkMigratedDocument虚拟候选零issue+原文红7项",
+            "git apply与patch(1)双OK,applied字节相等"
+          ],
+          "unread": []
+        },
+        "deliveryManifestSha256": "9b3f0d830f6c1c26191169337e2aa3f852f6419c20cef49c5ef91c69ab352106",
+        "scope": "Exact task-card headings/body supplied in completion package; not task implementation acceptance"
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+          "afterSha256": "f27f6ed4c351dcc2d4fdbb118d921e52800cf2f96fdb83b098356a05423c4f4e",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/document-registry.json",
@@ -3249,7 +3375,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "1b6554abd96121198068cd030f77ebccc0d3bc83ff264175f2640420ff7026de",
+      "afterSha256": "d454252aff36c8bc86954952be31d256e44fd2d30ac2ae1ef83234435d0d7ea5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -3668,6 +3794,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "1b6554abd96121198068cd030f77ebccc0d3bc83ff264175f2640420ff7026de",
+          "afterSha256": "d454252aff36c8bc86954952be31d256e44fd2d30ac2ae1ef83234435d0d7ea5",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3698,7 +3836,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "bb115b829f5d324b29be9ab1017a4e00db4495e14bd4cb198a7db64e1831f0a5",
+      "afterSha256": "c22ea516fb6056405a1edbb670f215df77838d3a6ed2131a35cd9beb08ace3a5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -3944,6 +4082,18 @@
           "beforeSha256": "fa39cb107892a678e71645e0b814f89ba089dd7b81631e399d7b6a4bb51bc3d3",
           "afterSha256": "bb115b829f5d324b29be9ab1017a4e00db4495e14bd4cb198a7db64e1831f0a5",
           "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "bb115b829f5d324b29be9ab1017a4e00db4495e14bd4cb198a7db64e1831f0a5",
+          "afterSha256": "c22ea516fb6056405a1edbb670f215df77838d3a6ed2131a35cd9beb08ace3a5",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

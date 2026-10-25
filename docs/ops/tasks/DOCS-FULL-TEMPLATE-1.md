@@ -6,8 +6,8 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s42-large-admission
-Last reviewed: 2026-10-24
+Branch: codex/docs-s45-completion-intake
+Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -2479,3 +2479,16 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 生成投影核对：现有render与catalog两索引字节全等，无生成器错误。现行READ-FIRST范围与铁律9仍指定roadmap/capability-map/decisions/harvest为方向、决策与知识先行入口，因此修R33过宽historical前缀：四篇current仅限入口/参考职责，原表日期/实现数字/旧复核/冲突和quote仍为历史，不恢复旧R33信用、不借此改产品排期。不手改生成索引或将canonical入口静默归档。harvest的2026-10-11脚本集成注记保留但明确固定原源quote不含此句、不认证其当前适用性。
 - 原417 needs-design纠正为652原生准入待设计：637 JSON（除S24三件）+15 HTML；多235是旧197路径和38回流误标，不是新增235文档。精确分族/先后依赖与pilot前提写回既有模板提案S44段，17父类型/现行版本不改，未冻结实现不伪报model通过。28MD另按现行合同处理；Owner12前缀通过真实合同后也不自行授独立接受，六个retain-compliant仍须正文/头部适配。
 - 本批仅候选正文/设计整改；895当前待迁移与1784严格诊断不预扣，212/runtime信用0。必要门取实跑，E2E006过期不续；父子卡rework，不合main、不推送、不done。后续合并还须核另分支延期与最新HEAD，不借其日期或质量绿。
+
+
+## S45 S42补足据证接收与十七篇正文接入（2026-10-25）
+
+- Codex build allowed：从c6518d9d隔离后继接收GLM补足包（file-manifest 9b3f0d83、review-index ffe22710）与S44非作者增量accept（报告c784859c）。只改五张任务卡的精确模板适配、本提案Status/有界pilot排期、本卡/看板、17条唯一review及实际routing/registry/matrix和必要pin级联/原单份gzip；不改代码、旧测试、coverage、共享规则。不合main、不推送、不标父子卡done。
+- 补足范围：683稿保留，384份新语义=Testing195+Ops189。Codex按实际读域接收为设计输入，抽L/E各6篇逐值核模板/消息反控/19204审计数/38与40差额/真实测试fixture/331计划/419保全/R22与R25范围/350撤回绑定/7针判据/15条历史VALID。作者未读明细继续未读，不把程序parse或本次12抽核写成384全文深审完成。
+- Owner360条delta逐字段递归复算全保；7清册仅多两个补充说明键，旧裁定值没有覆盖。它们均在固定1838，仍不删除，不重写旧binding-baseline/历史回执。原包、修正包、补足包均冻结；官方verify683/683、witness683通过但不授语义信用。
+- 小问题由Owner补充限定：C04击杀回执实际是重复id错误消息差异，不独立证明广义业务正确；successor-repairs.json有真实pal-script-successor-governance.test.ts fixture入口，须retain-native-evidence；TURN15个VALID只转录原回执，后继撤信与raw/native缺口保留。原文件/旧stdout不改，不退回整包。
+- 六份MD patch从固定83743275独立应用并核after SHA；实际公共合同六候选零issue、六原文均红。五张任务卡按GLM具体原文/精确patch获Codex非作者据证接受并接五条task-card路由；任务顶部rework/build不变。registry-proposal组合保留S44增量，Status:draft仅指新增格式设计；不改design-spec词表，不解冻已有合同，本页新Owner状态/排期差异留后续非作者验收。
+- S44十二篇：Codex已接受GLM原事实；GLM本次仅接受Codex章节/范围/四入口职责与R33勘误。两作者范围交叉独立验收后，只对c6518d9d对应12个after SHA授新文档版本信用，不由GLM代签自己原稿，不恢复旧R波信用。加本次五卡共17条content-reviewed/template-compliant，primary/source/quote与旧撤回史保持。
+- 本次应得投影：基线1457/1838（+13）、3retired、99incremental（+4）；current reviewed1562/compliant1556、待审872/待迁移878，严格1750=872+878（交集872、去重878）。以实际report输出核定；旧1784减少34只归17篇Markdown，不扣212或652原生。全量门仍未过：E2E006 reviewBy2026-10-23过期红不改日期，产品/runtime/E2E/视觉/coverage信用0。
+- 排期裁定见既有模板提案S45段：652=A41+B79+C127+D28+E15+F362；GLM一次完成652逐路径schema/消费者/合同字段映射与有界子族/代表pilot建议，复用384内容和原勘误，不重复包装全文、不写仓库。Owner并行处理控制127/通用格式与来源冲突；正式新变体及native发布须实际pilot与非作者验收。此处只准入外部设计稿，不准入native批量正文/状态写入。
+- 留存仍用唯一review行和既有s22-validation.log.gz：只留本次摘要、输入清单SHA、风险样本/patch正负证明、中央差异和真实门回执；不复制683稿/全native/全文quote、不新建canonical账本。下一份GLM提示词合并Owner增量复核与652映射，用户只需一次转发。

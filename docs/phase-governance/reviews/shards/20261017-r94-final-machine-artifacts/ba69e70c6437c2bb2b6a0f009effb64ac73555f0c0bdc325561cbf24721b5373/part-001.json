@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "63d4425d684b4dc05636a745b6f5187af7e850d755374eb8f901cb41884150e4",
+  "generation": "ba69e70c6437c2bb2b6a0f009effb64ac73555f0c0bdc325561cbf24721b5373",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
   "entries": [
@@ -2055,7 +2055,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "f12c0abe422b70ac8b2b8953240f07900546d1d1818befc1954d2697450fe120",
+      "afterSha256": "89cc30bedc664aa5c940b425da3ac1ae747e049f172cf2b1284c20f33bf94089",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2812,6 +2812,18 @@
           "beforeSha256": "4584af59b5da7e70145298dc4a7563b74529d1f2558a84eb2933f41d7bd80350",
           "afterSha256": "f12c0abe422b70ac8b2b8953240f07900546d1d1818befc1954d2697450fe120",
           "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S45",
+          "revision": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+          "beforeSha256": "f12c0abe422b70ac8b2b8953240f07900546d1d1818befc1954d2697450fe120",
+          "afterSha256": "89cc30bedc664aa5c940b425da3ac1ae747e049f172cf2b1284c20f33bf94089",
+          "scope": "Seventeen current document versions accepted and five task routes connected; proposal draft and native pilot sequencing only; administrative after cascade has zero extra credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

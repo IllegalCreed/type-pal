@@ -952,8 +952,8 @@
       "phase": "phase2",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
@@ -963,8 +963,8 @@
       "phase": "phase2",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
@@ -974,8 +974,8 @@
       "phase": "phase2",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
@@ -1087,8 +1087,8 @@
       "phase": "phase2",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
@@ -1108,8 +1108,8 @@
       "phase": "phase2",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
@@ -1141,8 +1141,8 @@
       "phase": "phase2",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
@@ -1194,12 +1194,11 @@
       "phase": "phase2",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r94-final-machine-artifacts.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "markdown"
+      "artifactFormat": "markdown",
+      "templateVersion": "1.0.0"
     }
   ]
 }

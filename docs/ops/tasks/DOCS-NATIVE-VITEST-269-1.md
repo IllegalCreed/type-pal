@@ -27,7 +27,7 @@ Template: task-card-v1 / 1.0.0
 - 599条中其余330条（含原三pilot）、302原生对象、30例外、原1838绑定与所有原source pin只读。原生JSON不加payload/envelope/sidecar，不删历史字段，不恢复撤回B5/B10等旧信用。
 - 代码仅必要scripts/docs原生合同/dispatch、受控review存储更新及新文档工具测试；中央只改精确269的review/registry/routing、必要版本提案/派生artifact与pin、原任务/看板/索引/既有单份日志。产品、旧测试、coverage、共享配置不在授权建议内；若实际证明旧测试必改，列具体最小补丁另行授权。
 
-## 前提真值门
+## 前提与证据
 
 | 维度 | 当前事实 | 直接依据 |
 |---|---|---|
@@ -45,7 +45,7 @@ Template: task-card-v1 / 1.0.0
 - S26修正稿四分片及Owner amendments（207项计数/2项裁决锚）只按已核差异复用，不能遗失Owner补充或照搬旧撤回结论。
 - historical-vitest-native.mjs 当前只有3固定path/phase且current-review固定R85；prepareReviewStorageGroup只接受冻结flat原字节。因此S29需显式的cohort合同/跨8review受控delta写入，不得通过伪造原source、刷新SHA、把薄manifest变回flat或运行旧enrich/refresh救急。
 
-## 验收条件
+## 验收
 
 - 先冻结269准入tuple（path/source/phase/review）与变体版本；原3pilot及父合同不滚动改版。新合同共享原生校验能力，拒未准入路径/联合换标/source drift/重复键/坏UTF8/虚构当前执行。
 - 首先pilot覆盖真实红（含多失败完整集合）、green-with-pending、timing-probe及常规绿/恢复/重放不同边界；可复用原三pilot的已核合同，但不能用它们替代新增相位验收。pilot不过，不推进其同类正式批量接入。
@@ -136,7 +136,7 @@ Owner已创建隔离候选分支并冻结准入包；通用合同和受控writer
 
 用户产品判断N/A（不改可感知行为）。本卡build allowed已获明确批准；不包含新产品取舍、不可逆main操作或未授权旧测试改动。
 
-## 交接日志
+## 状态与交接
 
 - 2026-10-23 Codex：用户批准已展示S29草案，Owner创建新分支、注册本卡、冻结269 tuple与330/302保全、差异交付及受控generation设计。S26四分片和Owner209项补丁直接复用，不复制原生或重写历史信用。GLM只读一次269包与Codex通用实现分工，源码/合同发布不由GLM越界代做。
 - 已知准入工具首红：prepare-v1将相对manifest的shard路径误作相对仓库，ENOENT发生在只读取样；按loader既有相对路径规则修正后27个物理输入均实取。原工具/说明保留在同次日志，无仓库载体写入或语义事故。

@@ -86,8 +86,8 @@
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261004-semantic-current-batch.json",
       "templateVersion": "1.0.0"
     },
@@ -1192,27 +1192,30 @@
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r57-current-task-cards.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r57-current-task-cards.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r57-current-task-cards.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
@@ -1303,27 +1306,30 @@
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r57-current-task-cards.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r57-current-task-cards.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r57-current-task-cards.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/templates/README.md",
@@ -15056,8 +15062,8 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "templateVersion": "1.0.0",
-      "reviewStatus": "partial-review-unknown",
-      "templateCompliance": "needs-migration",
+      "reviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
       "reviewRecord": "20261018-record-integrity-rework.json"
     },
     {
@@ -15268,8 +15274,8 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261018-record-integrity-rework.json"
     },
     {
@@ -15770,8 +15776,8 @@
       "templateId": "task-card-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261004-semantic-current-batch.json"
     }
   ]

@@ -20,7 +20,7 @@ Template: task-card-v1 / 1.0.0
 - 原回执和历史结论保留；勘误单独记录，不能修改旧 stdout 或伪造当时重跑。
 - 本卡是流程回退与修复卡，不追认 a1ac53bbe 的放宽，不代替 1838 逐篇重审。
 
-## 前提真值门
+## 前提与证据
 
 ### 一句话行为 / 工程前提
 
@@ -52,7 +52,7 @@ Template: task-card-v1 / 1.0.0
 - docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md；R22/R24/R26/R27/R65/R66 历史回执。
 - 不得重新引入：手改命令输出、wrapper=语义、artifactOnly=完成、同主体自验=独立审、未实跑=PASS。
 
-## 验收条件
+## 验收
 
 - R39–R93 与后续收口的受影响路径逐篇列出，registry 与 review 同步降档，1838 cohort 与增量单列；未重读不重授。
 - R65 旧记录被明确撤回；Git receipt mutation 全量筛查给出候选和限制；R65/R66 新命令结果完整落盘，包括失败。
@@ -88,7 +88,7 @@ Template: task-card-v1 / 1.0.0
 
 用户审计已否决原全量收口；本卡不得覆盖该 counter。
 
-## 交接日志
+## 状态与交接
 
 - 2026-10-18 Codex：保全 main@28fd9013e，核 Git 原始 diff，建立隔离纠错分支。下一步完成降档、损坏修复、证据扫描与真实重跑。
 

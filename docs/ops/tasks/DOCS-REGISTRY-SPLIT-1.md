@@ -17,7 +17,7 @@ Template: task-card-v1 / 1.0.0
 
 唯一设计见[storage v2 设计](../../phase-governance/reviews/20261018-document-registry-storage-v2-design.md)。允许修改 registry 存储、公开 loader/writer、三个在用 consumer、三项危险旧生成入口及文档工具的 schema fixture/专项反例；根 Owner 维护本卡、看板、索引、显式迁移映射及 review pin。禁止改产品、旧产品测试、coverage、Biome 上限或 ignore。
 
-## 前提真值门
+## 前提与证据
 
 冻结源为 `3fae68aec8f448bf83d1d85e61da35c94d5200ae` 的 `document-registry.json`：1,047,444 字节，SHA256 `921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33`，2374 条，剩余 1132 字节。main 仍为 `28fd9013e09e8792decbff2fa117aae14c36b196`，本任务只在候选 worktree 推进。
 
@@ -29,7 +29,7 @@ Template: task-card-v1 / 1.0.0
 - [纠错卡](DOCS-RECORD-INTEGRITY-1.md)：五项历史回执隔离、原失败保留；不得恢复 artifactOnly 完成捷径。
 - [全量卡](DOCS-FULL-TEMPLATE-1.md)：真实逐篇重审、非作者验收与全量硬门仍未满足。
 
-## 验收条件
+## 验收
 
 - 2374 个源 entry 对象和值逐一相等、原顺序可重建，迁移映射逐条记原索引与目标索引；新增项另列，状态不升档。
 - loader 拒绝缺片、hash/count/summary/phase 漂移、重复或越界位置、丢失条目及越界/符号链接路径；writer 先格式化后 hash，manifest 最后发布，并检测输入变化。
@@ -83,3 +83,7 @@ Codex build allowed，仅隔离文档存储候选。`receipt_integrity_independe
 ## 用户验收
 
 用户已授权持续完成全量治理、纠错和结构方案，不逐批申请。新的产品取舍、不可逆清理仍超出本卡。
+
+## 状态与交接
+
+当前 build：设计 2.0.2 与固定 95def601、c4d00d3e、65ee30ad 三笔存储增量已获非作者限定接收，全量 strict/require-complete 仍真实失败，不将存储验收误称正文或全量验收。实现 Owner 为隔离 worktree 中的 `/root/registry_storage_author`；root 维护本卡、看板、索引、中央 review/pin 与显式迁移映射。下一步：确认写回与新增变化另验，非作者复核实现与迁移产物后接入 S03 中央记录；未满足全量硬验收前不合 main、不标 done。

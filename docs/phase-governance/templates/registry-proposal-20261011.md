@@ -2,6 +2,33 @@
 
 状态：frozen-for-pilot；版本 `content-document-template-registry-20261011` 已冻结用于 pilot 与分批迁移。正文迁移仍需逐批 review record。
 
+Status: draft
+Owner: Codex
+Last reviewed: 2026-10-25
+Template: design-spec-v1 / 1.0.0
+
+当前 Status 只标本页持续补充的设计提案：新增原生格式仍处 draft。上方冻结声明及各已冻结变体保留原版本/效力，不能将本页 draft 解释为撤销已冻结合同，也不能把旧 frozen-for-pilot 当作新格式获准。原生载体可扩展时使用 envelope；immutable 输出按已准入 json-native 合同复用唯一 review，禁止为套格式改原字段。
+
+## 问题与目标
+
+为全 docs 建立统一模板注册表：通用 10 类与 Testing 专用 7 类（共 17 类）各自钉定用途大纲、状态词与证据字段；1838 候选逐篇全文读后绑定唯一 `docType/templateId/templateVersion`，不能按目录自动完成。版本 `content-document-template-registry-20261011` 已冻结用于 pilot 与分批迁移。
+
+## 真值与约束
+
+正文迁移仍需逐批 review record；`before→after` SHA 必填且与 review record 一一配对；artifact（脚本、日志、截图、raw、压缩包等）不做 prose 改写，必须记录 owner、产生者、caller、关联文档、SHA、保留/清理规则和当前有效性；JSON/机器证据按已冻结格式保留字段；可扩展载体使用 envelope，不可扩展的原生输出复用唯一 review，不改名、不删除原字段；在用户确认 registry、统计分母与 pilot 后任务才从 blocked/draft 进入 build，此前不批量改写正文。
+
+## 方案
+
+分类合同见下方「通用模板（保留 10 类）」与「Testing 专用模板（拟新增并注册）」两张表；绑定与迁移规则共 6 条；2026-10-15 起逐轮增量冻结节（机器证据变体、test-catalog 1.1.0、C1/C2、I/J、S23–S34）在同一 17 类框架内以自有版本变体承载新机器合同，不新增第 18 类模板。
+
+## 边界与风险
+
+结构通过不授语义/执行信用；每类 pilot 未过不得批量接入；变体合同以真实 model/progress consumer 与固定 Git 源为准，禁止联合换标、刷新 SHA 洗白或以 payload/散文化替代原对象；历史文档按 archive 规则保留原日期、结论与继任，不升格 current。
+
+## 验收
+
+每类至少一篇 pilot，记录原文语义保真、链接影响、机器字段回读和历史范围；迁移前后分别保存 source/after SHA；各增量节给出现实反例清单（envelope 覆盖原字段、performed 改 true、catalog 漂移、坏 UTF8/重复键、pointer 伪引、source/after 串轴、双 false 升真等）并由真实 consumer 拒绝，反例不过即 rework。
+
 ## 通用模板（保留 10 类）
 
 | templateId | 用途与必填大纲 | 状态词 | 证据字段与历史规则 |
@@ -444,3 +471,20 @@ S42作者417个needs-design低估了准入缺口：197个Testing路径不在旧V
 A–F精确合计652；所有父类型仍17类，旧父版本/历史source pin与已接受cohort保持。拟格式/变体在真实consumer/pilot及新反例接受前均draft，不新增ignore/maxSize、宽泛any-object或状态豁免。Writer复用现有source snapshot/lock/staging/不可变世代/原子组/公开读回守卫；新准入只改限定字段，原生bytes保持。旧测试若实际必改，先给具体最小补丁按既有授权流程，不能默认扩大许可。
 
 治理控制与通用合同/pilot由Codex负责；GLM继续384非控制语义与六个MD适配，一次集中回交。当前集合已有可靠事实直接复用，四指针轴/历史撤信不从头重做。通用合同冻结、内容接受、模板符合、中央发布及待办扣减分别记账；无执行/迁移信用，不合main、不推送、不done。
+
+
+## 2026-10-25 S45 补足接收与原生 pilot 顺序（draft，非格式准入）
+
+S42 补足包的384份结论按其实际读域接收为后续设计输入：195份 Testing 与189份 Ops，包含程序全量解析、关键字段人工核读及明确未读的明细。它们不是384次全文深审或384份迁移完成。六份 Markdown patch 独立从固定83743275原件应用、正负合同各六件；本页组合保留S44增量，Status采用design-spec既有draft，不新增词表。七重复清册的Owner处置字段全部保留，新增两个说明字段不构成覆盖；不删除，固定1838不变。
+
+执行顺序冻结为先复用、后低耦合原生、最后控制DAG：
+
+1. 既有合同：3份DOC-IA-2复用S24原生合同；28份Markdown先完成实际正文与当前路由，不归入652新格式设计分母。本轮五张任务卡仅关闭文档正文/模板缺口，卡顶rework/build等实施状态不变。
+2. A结果41份：至少选实际红、绿、pending和无pending字段的短摘要各一篇；原生Vitest与删减摘要不能共用未经证明的必填字段，suite≠文件数，缺字段不能补零。冻结逐schema字段和当前唯一review入口后才开pilot。
+3. B命令49份与变异30份：先做普通命令、指定业务AssertionError、额外hook错误拒绝、自测判据四类pilot。以实际argv/cwd/exit/signal及fullName集合区分业务结果、判据、执行来源；旧VALID/accept不恢复，原始红相位不洗绿。
+4. D数组/映射28份：先identity清册、变异定义与path映射三类；保留root数组/键序/稳定键和真实caller。7个SHARED字节别名的删除仍需独立退役loader/反例，不借pilot删除。
+5. E HTML15份：3个mockup与12个宿主分开合同，至少静态样机、脚本宿主各一篇；核DOM、脚本和资源引用不变。静态解析不授浏览器交互/视觉执行信用。
+6. C控制127份：111个review与16个治理控制分别核flat/manifest/shard、positions、source pin、入边DAG、锁和实际consumer，先各一pilot及读回反例。不得用其包含的599/275条旧记录自动扩大新信用；Owner负责控制合同与发布。
+7. F混合362份：先按实际业务目的、native字段和reader拆成有界子族，禁止一个any-object变体兜底，也不为每份单造变体；复用上述成熟schema的条目转入其设计，不能重复计数。分类完成即按依赖进入对应pilot，不等最后一份。
+
+A41+B79+C127+D28+E15+F362=652，均为设计范围而非冻结合同或迁移数。GLM下一包一次交652逐路径合同字段映射、子族和代表pilot建议，复用本次384内容与已接收更正，不重新包装全文稿；Codex并行处理C类公共合同、来源冲突和最终准入。新增通用变体仍须设计/真实consumer/正负pilot/非作者验收，不改产品、旧测试、coverage、ignore或maxSize。任何旧测试适配须列实际最小补丁按原授权边界处理。
