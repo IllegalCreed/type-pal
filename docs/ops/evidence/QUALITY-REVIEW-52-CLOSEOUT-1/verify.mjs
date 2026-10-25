@@ -12,6 +12,19 @@ const root = fileURLToPath(new URL('../../../../', import.meta.url))
 const read = (path) => readFileSync(resolve(root, path))
 const json = (path) => JSON.parse(read(path).toString('utf8'))
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex')
+// All current native packets use UTF-8 string members with the same byte contract.
+function readNativePacket(native) {
+  const compressed = read(native.path)
+  assert.equal(sha(compressed), native.sha256)
+  const decoded = gunzipSync(compressed)
+  assert.equal(sha(decoded), native.decodedSha256)
+  const receipts = JSON.parse(decoded)
+  for (const member of native.members) {
+    assert.equal(sha(receipts[member.name]), member.sha256, member.name)
+    assert.equal(Buffer.byteLength(receipts[member.name]), member.bytes, member.name)
+  }
+  return receipts
+}
 const directory = 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/'
 const scope = json(`${directory}scope.json`)
 const review = json(`${directory}review.json`)
@@ -42,15 +55,7 @@ for (const reference of review.modules ?? []) {
       binding.sha256,
       `stale module dependency: ${binding.path}`,
     )
-  const compressed = read(module.native.path)
-  assert.equal(sha(compressed), module.native.sha256)
-  const decoded = gunzipSync(compressed)
-  assert.equal(sha(decoded), module.native.decodedSha256)
-  const receipts = JSON.parse(decoded)
-  for (const member of module.native.members) {
-    assert.equal(sha(receipts[member.name]), member.sha256, member.name)
-    assert.equal(Buffer.byteLength(receipts[member.name]), member.bytes, member.name)
-  }
+  const receipts = readNativePacket(module.native)
   for (const [id, passed] of [
     ['extract-remaining', 110],
     ['extract-approved-green', 27],
@@ -100,15 +105,7 @@ for (const reference of review.gameModules ?? []) {
   const module = json(reference.path)
   for (const binding of [...module.bindings, ...module.priorBindings])
     assert.equal(sha(read(binding.path)), binding.sha256, `stale game binding: ${binding.path}`)
-  const compressed = read(module.native.path)
-  assert.equal(sha(compressed), module.native.sha256)
-  const decoded = gunzipSync(compressed)
-  assert.equal(sha(decoded), module.native.decodedSha256)
-  const receipts = JSON.parse(decoded)
-  for (const member of module.native.members) {
-    assert.equal(sha(receipts[member.name]), member.sha256, member.name)
-    assert.equal(Buffer.byteLength(receipts[member.name]), member.bytes, member.name)
-  }
+  const receipts = readNativePacket(module.native)
   for (const run of module.runs) {
     const native = JSON.parse(receipts[`${run.id}.native.json`])
     assert.equal(native.numPassedTests, run.passed)
@@ -136,15 +133,7 @@ if (review.phase2) {
   const module = json(review.phase2.path)
   for (const binding of [...module.bindings, ...module.priorBindings])
     assert.equal(sha(read(binding.path)), binding.sha256, `stale phase2 binding: ${binding.path}`)
-  const compressed = read(module.native.path)
-  assert.equal(sha(compressed), module.native.sha256)
-  const decoded = gunzipSync(compressed)
-  assert.equal(sha(decoded), module.native.decodedSha256)
-  const receipts = JSON.parse(decoded)
-  for (const member of module.native.members) {
-    assert.equal(sha(receipts[member.name]), member.sha256, member.name)
-    assert.equal(Buffer.byteLength(receipts[member.name]), member.bytes, member.name)
-  }
+  const receipts = readNativePacket(module.native)
   const red = JSON.parse(receipts['bgm-fade-red.native.json'])
   assert.deepEqual([red.numPassedTests, red.numFailedTests], [2, 2])
   for (const test of red.testResults.flatMap((suite) => suite.assertionResults))
@@ -182,6 +171,37 @@ if (review.phase2) {
   assert.equal(member('whole-check-r3.stderr.raw'), '')
   const output = member(module.reuse.rawMember)
   for (const run of module.reusedRuns) assert(output.includes(run.rawLine), run.path)
+}
+if (review.entrySource) {
+  assert.equal(sha(read(review.entrySource.path)), review.entrySource.sha256)
+  const module = json(review.entrySource.path)
+  for (const binding of [...module.bindings, ...module.priorBindings])
+    assert.equal(sha(read(binding.path)), binding.sha256, `stale entry binding: ${binding.path}`)
+  const receipts = readNativePacket(module.native)
+  for (const run of module.runs) {
+    const native = JSON.parse(receipts[`${run.id}.native.json`])
+    assert.deepEqual(
+      [
+        native.testResults.length,
+        native.numPassedTests,
+        native.numFailedTests,
+        native.numPendingTests,
+      ],
+      [run.files, run.passed, 0, 0],
+    )
+    assert.equal(JSON.parse(receipts[`${run.id}.execution.json`]).exit, 0)
+    assert.equal(receipts[`${run.id}.stderr.raw`], '')
+  }
+  const types = JSON.parse(receipts['migrate-typecheck.execution.json'])
+  assert.equal(types.exit, 0)
+  assert.equal(
+    receipts['migrate-typecheck.stdout.raw'] + receipts['migrate-typecheck.stderr.raw'],
+    '',
+  )
+  const hooks = JSON.parse(receipts['main-hooks-proof.json'])
+  assert.equal(hooks.rows.length, 3)
+  assert(hooks.rows.every((hook) => hook.equal))
+  assert.equal(sha(read(module.extra.path)), module.extra.sha256)
 }
 const packet = read(review.native.path)
 assert.equal(sha(packet), review.native.sha256)

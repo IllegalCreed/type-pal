@@ -15,7 +15,7 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 
 ## 结果
 
-当前固定38/52代码接受：首组13、提取器余10、game7、phase2八个；game余5、phase2余3、工具6共14仍review。新增诊断/fixture专测2接受、物品红例1待裁决，单列不换分母。机器3456tracked／571closed／15review／2870pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
+当前固定40/52代码接受：首组13、提取器余10、game8、phase2九个；game余4、phase2余2、工具6共12仍review。额外诊断/fixture/源guard专测3接受、物品红例1待裁决，单列不换分母。机器3456tracked／574closed／13review／2869pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
 
 ## 限制与退出条件
 
@@ -50,3 +50,9 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 [八文件A–H、caller版本与原件复用](phase2-reviewed.json)、[BGM正式红绿及发射正文证明](phase2-native.json.gz)。四个editor及两个menu专测沿用原全文审查与未变生产caller，核到原完整whole-check-r3的各实际file/count结果；未重复这些测试。BGM独立修复timer所有权，原24身份保持加2正式反例；5实际文件26绿/TC0。content只修默认进场注释、emit JS不变。原CODE103的puppet产品取舍不授信用，仍在原卡；不阻塞不覆盖该轴的这四个专测。统一门未运行。
 
 本窗口静态：docs 0 issues，lint6123文件0error/0warning/0info；完整raw/execution已并入phase2-native，不把本地门当本阶段统一门。复取origin/main仍0e14，提交前0behind。
+
+## 启动宿主和窄提取来源
+
+[两固定文件与相邻guard的八维](entry-source-reviewed.json)、[执行原件及三保留hook正文证明](entry-source-native.json.gz)。main完整99行与新增语言/移动端shell接线补核；旧真实PROD现场只复用仍相同的两catch/onPlayable，未授新UI视觉。固定源JSON读取只承诺当前提取器输入，不伪称外部导入schema校验；真正current publication写盘前仍独立校验。当前7文件42绿及补强后5绿/TC0；未写PAL工程或启动会先recover的CLI。原迁移旧脚本发现仍review，见[有限裁决卡](../../tasks/MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md)。
+
+本窗口docs 0 issues，lint6124文件0/0/0，完整原件并入entry-source-native。快速核验器仅把三个相同字节完整性检查块抽为同一private helper，所有原结果/反控判据保留；默认仍只读、不联网、不重跑产品测试。

@@ -59,6 +59,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示](GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布](GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |

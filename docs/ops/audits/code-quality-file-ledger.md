@@ -154,7 +154,7 @@ Template: governance-index-v1 / 1.0.0
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
 起始基点机器清单：2,962。当前 tracked 清单：3,456。
-当前已闭合核验：571；已读但待审：15；尚未逐文件核验：2870；合计未闭合：2885。
+当前已闭合核验：574；已读但待审：13；尚未逐文件核验：2869；合计未闭合：2882。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -320,7 +320,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/enemy-team.ts` | product | 已验证 | 直接读取 stable enemy-team id/slot/reference validators 与 content tests | 不用数组位置当身份 |
 | `packages/content/src/enemy-ai-condition-guard.ts` | product | 已验证 | 直接读取 AI condition recursive guard 与 content tests | 条件联合边界明确 |
 | `packages/migrate/src/migration-transaction.ts` | product | 已验证 | 直接读取 journal v2/path/scope/precondition/atomic rename/recovery；migrate 95/723 与 transaction boundary suites | 事务写盘 ownership 已有反控 |
-| `packages/migrate/src/pal-source-io.ts` | product | review | 直接读取 extracted source partitions/scene and asset callers；发现 generic JSON casts 需后续 schema/source-contract 批次 | 不改 generated source |
+| `packages/migrate/src/pal-source-io.ts` | product | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 当前入口/来源合同八维闭合，旧boot证据限三保留callback；见entry-source-reviewed；统一门待全52。 |
 | `packages/migrate/src/migration-project-io.ts` | product | review | 直接读取 managed-file discovery/TOCTOU hash ownership；JSON shape validation 与 content validators 的边界留 Q4 | 不改 project output |
 | `scripts/quality/lint-zero.mjs` | tool | 已验证 | whole-repository Biome JSON report/fail-closed wrapper；3198-file zero-diagnostic runs | 不接受过滤参数 |
 | `scripts/quality/code-quality-inventory.mjs` | tool | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
@@ -367,7 +367,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/assets/dialog-assets.ts` | product | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |
 | `packages/game/src/shell/precache-client.ts` | product | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |
 | `packages/game/src/shell/precache-ui.ts` | product | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |
-| `packages/game/src/main.ts` | product | review | [CODE72真实入口修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文、实际PROD404/迟到200与正常按钮/进场 | catch释放计数已实证；其它analytics/noSW/正常intro入口合同仍待，未把短路径升格全main关闭 |
+| `packages/game/src/main.ts` | product | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 当前入口/来源合同八维闭合，旧boot证据限三保留callback；见entry-source-reviewed；统一门待全52。 |
 | `packages/game/src/shell/boot-loading.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |
 | `packages/game/src/shell/boot-loading.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |
 | `packages/game/src/shell/boot-loading-host.grok-r1.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |
@@ -788,6 +788,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/scene-position-audit.test.ts` | test | 已验证 | [真实CLI三合同与双正式红](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 新增相邻库存1；真实脚本/文件IO、完整orphan/caller字面oracle与独占资源清理，不计入固定52分母 |
 | `packages/game/src/__tests__/glm-next-wave/H/harness.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 7例fixture域合同1绿6业务红到7绿；A-H见game-equipment-fixtures.extraTest。 |
 | `packages/game/src/core/battle/actions/item-inventory-lifecycle.test.ts` | test | review | GAME-BATTLE-ITEM-LIVE-INVENTORY-1 | 3例1绿2指定业务红，机制裁决待，不关闭。 |
+| `packages/migrate/src/pal-source-io.guards.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 五负例精确前置guard/音色库ENOENT；真实PAL正控另据；A-H见entry-source-reviewed.extra。 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |
