@@ -88,3 +88,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 测试工厂纯清理：移除仅定义、全仓无引用的asHEnemy/hPlayers/hEnemies三个测试视图helper和相应type imports；不属于生产公开接口。makeHBattle/default/recordingRng正文保持上一修复候选；当前最终字节正是35绿/TC0采集版本，不为删除无caller代码重跑相同测试。
 
 - 2026-10-26 game七文件八维代码接受：固定30/52、余22；新增H专测接受、item正式红spec待裁决，单列。live3456／563／23／2870由机器复核。旧poison压缩等待项已由实际批准与当前实现解除；法术pair15例及五旧counter复用，未授整个actions/magic.ts信用。game TC0及44/36/35回归见game-equipment-fixtures.json；未跑重门、未推合。
+
+- 2026-10-26 BGM资源所有权修复：两个真实公开fade路径dispose后仍各留1timer，正式2原绿/2指定业务红。当前request统一拥有一个可兑现的fade waiter，新请求/停播/关闭/释放会清timer并兑现旧等待，旧serial门保持禁止迟到提交；原正常300ms过渡/接口不变。五实际BGM文件26绿、reforge TC0；不作真硬件听感信用，无全仓/coverage。本提交与纯文案及证据收口分离。

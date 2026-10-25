@@ -134,6 +134,25 @@ export function createBgmPlayerWithRuntime(
   let requestSerial = 0
   let disposed = false
   let disposal: Promise<void> | undefined
+  let finishFadeWait: (() => void) | undefined
+
+  // A superseded/disposed request releases its timer and settles its waiter;
+  // the existing serial guard then prevents that continuation from committing.
+  const nextRequest = (): number => {
+    const serial = ++requestSerial
+    finishFadeWait?.()
+    return serial
+  }
+  const waitForFade = (ms: number): Promise<void> =>
+    new Promise((resolve) => {
+      const finish = (): void => {
+        clearTimeout(timer)
+        finishFadeWait = undefined
+        resolve()
+      }
+      const timer = setTimeout(finish, ms)
+      finishFadeWait = finish
+    })
 
   const isCurrent = (serial: number, asset: AssetId, loop: boolean): boolean =>
     serial === requestSerial && enabled && last?.asset === asset && last.loop === loop
@@ -173,7 +192,7 @@ export function createBgmPlayerWithRuntime(
       return
     }
     seq.fadeTo(0, fadeInMs)
-    await new Promise<void>((resolve) => setTimeout(resolve, fadeInMs))
+    await waitForFade(fadeInMs)
     if (!isCurrent(serial, asset, loop)) return // 被新请求接管:放弃换曲(新请求自行处理)
     swap()
   }
@@ -181,7 +200,7 @@ export function createBgmPlayerWithRuntime(
   function playCurrent(): void {
     if (!seq || !enabled || !last) return
     const current = last
-    const serial = ++requestSerial
+    const serial = nextRequest()
     void doPlay(current.asset, current.loop, serial, current.fadeInMs)
   }
 
@@ -213,7 +232,7 @@ export function createBgmPlayerWithRuntime(
         last = { asset, loop, fadeInMs }
         // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
         // 恢复全增益，但绝不 reload/restart 当前 MIDI。
-        requestSerial++
+        nextRequest()
         seq?.cancelFade()
         seq?.fadeTo(1, 0)
         return // 同曲不重启(场景间共曲不打断)
@@ -225,7 +244,7 @@ export function createBgmPlayerWithRuntime(
     },
     stop(fadeOutMs = 0) {
       if (disposed) return
-      const serial = ++requestSerial
+      const serial = nextRequest()
       last = undefined
       if (!seq || playing === undefined || fadeOutMs <= 0) {
         if (seq) seq.pause()
@@ -234,7 +253,7 @@ export function createBgmPlayerWithRuntime(
       }
       // 淡出后停;完成回调过 serial 门(K2a)——期间新 play 接管则不停旧曲。
       seq.fadeTo(0, fadeOutMs)
-      void new Promise<void>((resolve) => setTimeout(resolve, fadeOutMs)).then(() => {
+      void waitForFade(fadeOutMs).then(() => {
         if (serial === requestSerial && seq && playing !== undefined) {
           seq.pause()
           playing = undefined
@@ -246,7 +265,7 @@ export function createBgmPlayerWithRuntime(
       if (on === enabled) return // 幂等:无变化不重启/不重停(一阶段同款守卫)
       enabled = on
       if (!on) {
-        requestSerial++
+        nextRequest()
         seq?.cancelFade() // G2:fade 期间关音乐不残留 ramp
         seq?.fadeTo(0, 0)
         seq?.pause()
@@ -273,7 +292,7 @@ export function createBgmPlayerWithRuntime(
       if (disposal) return disposal
       disposed = true
       enabled = false
-      requestSerial++
+      nextRequest()
       last = undefined
       playing = undefined
       seq?.cancelFade()

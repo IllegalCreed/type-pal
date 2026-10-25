@@ -80,3 +80,40 @@ test('dispose during an actual song read prevents late playback, with a same-inp
     expect(dispose).toHaveBeenCalledTimes(1)
   }
 })
+
+test.each([
+  'change track',
+  'stop',
+] as const)('dispose releases the owned fade timer during %s', async (action) => {
+  vi.useFakeTimers()
+  const { seq, dispose, read } = fixture()
+  const player = createBgmPlayerWithRuntime(
+    { readBytes: read, readRoleBytes: read },
+    {
+      context: { state: 'running', resume: async () => {} },
+      initialize: async () => seq,
+      dispose,
+    },
+  )
+  try {
+    player.play('first')
+    await vi.advanceTimersByTimeAsync(0)
+    expect(seq.loadNewSongList).toHaveBeenCalledWith([
+      { binary: expect.any(ArrayBuffer), fileName: 'first' },
+    ])
+    if (action === 'change track') player.play('second', true, 300)
+    else player.stop(300)
+    await vi.advanceTimersByTimeAsync(0)
+    expect(vi.getTimerCount()).toBe(1) // Both real fade paths must be entered.
+
+    await player.dispose()
+    expect(vi.getTimerCount()).toBe(0)
+    await vi.advanceTimersByTimeAsync(300)
+    expect(seq.loadNewSongList).toHaveBeenCalledTimes(1)
+    expect(seq.play).toHaveBeenCalledTimes(1)
+    expect(dispose).toHaveBeenCalledTimes(1)
+  } finally {
+    await player.dispose()
+    vi.useRealTimers()
+  }
+})
