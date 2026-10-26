@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+      "afterSha256": "486a69d6b752823f6cff9d606ce36c42ea0079e6aa1219ded62b0b926160c07f",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3736,6 +3736,18 @@
           "beforeSha256": "7164c897af0a4b9acd8f219bf445bec2bd4d76a7c2f16d7ddbc0844bd9e3e0bf",
           "afterSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S54",
+          "revision": "10bf07a2fec9cf39857e852c93084b0745a5935e",
+          "beforeSha256": "b0dcdd042b7fefc6a9f23eb350a3e9823e6cf98a3454231facb9950397c781db",
+          "afterSha256": "486a69d6b752823f6cff9d606ce36c42ea0079e6aa1219ded62b0b926160c07f",
+          "scope": "Receive S53 scoped non-author accept and S54 exact27 native admission implementation/rehearsal; administrative after pins only. No live semantic/template/state publication.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

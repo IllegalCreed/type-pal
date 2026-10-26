@@ -552,3 +552,7 @@ S49七形状的实际model/progress联合pilot与非作者代码/封存复核已
 八个精确路径见现有historical-native-family-admission；其carrier/source/review轴不改。partial/needs合法pilot继续保留；仅经独立逐篇接受和Owner裁定的内容指纹可转新文档reviewed/compliant。接受内容固定绑定报告SHA、path、native afterSHA及具体语义字段，换报告/跨篇/改结论/联合改状态不得绕过；双false和历史执行零信用继续强制。旧撤信逐值进入history而不恢复，新增文档接受不证明原执行通过。
 
 下一批两mutation/两HTML设计保持S49范围；两review控制仍待空账本与转移/唯一归属合同，27形状建议仍仅实施准入。首八实际接入、测试/进度与非作者验收按本轮真实回执记录，不把注册本身算作八篇完成。
+
+## S54 现有四变体的27精确路径实现（2026-10-26）
+
+S49/S52已准入的21 raw reporter、1 distilled、2 summary及3 identity数组复用原1.0.0合同，无新variant或父版本变化。精确carrier、历史来源及唯一review位置由historical-native-family-expansion-admission.mjs锁定；原S48八pilot和S50内容接受清单不扩张；真实model/progress按合并后的精确准入全集预加载review，partial条目同样要通过保护reader。结构试接入仅允许partial-review-unknown/needs-migration，27不继承S50报告，不能借S53组合accept直接晋升。临时树中逐篇归一字段并通过真实model/progress后交非作者集中复核，正式路由/registry/语义状态另行受控发布。原生字段、缺pending与distillation来源、历史撤信均保留，不复制原生到新账本。

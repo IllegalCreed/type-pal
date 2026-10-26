@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0ede4e2d39099ce4199d2dfd9801ebe8747803a58714c138db05f2e55cb84ea8",
+      "afterSha256": "cf49719b8c3a6f81bd754c8c6565c0b8187e7c46c9364c43a2a3722ed211ae26",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1387,6 +1387,18 @@
           "beforeSha256": "74b7e9721062f4ec772d597cd4ae27f30a5041410e19fd219523010ec92d9132",
           "afterSha256": "0ede4e2d39099ce4199d2dfd9801ebe8747803a58714c138db05f2e55cb84ea8",
           "scope": "Receive fixed S52 non-author intake acceptance and S51 partial evidence/Owner23 draft corrections; parent/board administrative after pins only. No semantic/template/state credit.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S54",
+          "revision": "10bf07a2fec9cf39857e852c93084b0745a5935e",
+          "beforeSha256": "0ede4e2d39099ce4199d2dfd9801ebe8747803a58714c138db05f2e55cb84ea8",
+          "afterSha256": "cf49719b8c3a6f81bd754c8c6565c0b8187e7c46c9364c43a2a3722ed211ae26",
+          "scope": "Receive S53 scoped non-author accept and S54 exact27 native admission implementation/rehearsal; administrative after pins only. No live semantic/template/state publication.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

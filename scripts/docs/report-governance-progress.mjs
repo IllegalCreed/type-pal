@@ -13,7 +13,7 @@ import {
   historicalDeliveryContract,
   historicalDeliveryPilots,
 } from './historical-document-delivery-native.mjs'
-import { nativeFamilyPilots } from './historical-native-family-admission.mjs'
+import { nativeFamilyAdmissions } from './historical-native-family-admission.mjs'
 import { historicalVitestContract } from './historical-vitest-native.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
@@ -61,7 +61,7 @@ const requiredReviews = new Set(
 )
 if (routing.migratedDocuments.some((doc) => doc.variant === historicalVitestContract.variant))
   requiredReviews.add(historicalVitestContract.reviewRecord)
-for (const pilot of nativeFamilyPilots)
+for (const pilot of nativeFamilyAdmissions)
   if (routing.migratedDocuments.some((doc) => doc.path === pilot.path))
     requiredReviews.add(pilot.reviewRecord)
 for (const pilot of historicalDeliveryPilots)

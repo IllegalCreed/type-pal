@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s53-json-content-reconciliation
+Branch: codex/docs-s54-native-expansion
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2546,3 +2546,14 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 127当前控制件与其通用合同由Owner继续，652分族设计不因505新witness自动注册。必要门按真实日期/输入记录，E2E006不自动续，父子卡rework，不合main、不推送、不done。
 
 - 本轮Owner原生对照37件totals/11个完整单失败集合、五数组/五命令件成立；保留482份旧具体稿并不冒称重新全文。新增23路径稀疏Owner稿=20角色/具体结论扩展+此前PLB/BF两勘误+ScriptEditor摘要真实exit0补正，均待GLM只审Owner新增范围；499旧core引用从无该字段的S46设计行改为S42精确locator，六原生pilot仍取当前r37/r85。498暂留不等于已证不可替代。旧脚本按形状取值的663见证保留，但不以包绿宣布505全量语义已完成。
+
+## S54 S53限定accept与二十七篇既有原生合同扩展（2026-10-26）
+
+- 接收S53固定10bf07a2的GLM只读非作者accept，HANDBACK SHA975ac5b3/verdict SHA319613c5，五轴零counter。范围为Owner23增量、499来源locator、纯505组合及行政保全；482旧具体稿复用，不解释为505新全文重审或正式状态发布。1718诊断/862文档维持实数，七别名退役及127当前控制件仍由Owner处理。
+- Codex build allowed从10bf07a2隔离后继，单一Owner为Codex。先实现S49/S52既已裁定的27精确路径（21 raw reporter、1 distilled、2未报告pending的summary、3 identity数组），复用原四变体及固定83743275 carrier；不新增模板或通配准入。carrier Git OID/SHA、历史source Git/SHA和当前唯一review位置全部实取，保持两个来源轴独立。
+- 白名单仅既有historical-native-family-admission.mjs、一个精确扩展数据模块、两个真实CLI的已准入review预加载枚举、一个必要新文档工具测试；本卡/board/既有提案与真实after行政级联、既有单份gzip。旧测试、父合同/variant/sourcePins、产品/coverage及原生字节不改。新27正文19字段由S53已验内容组合并明确原生角色/读域，在仓外生成，不新增canonical副本或sidecar。
+- 本轮先在隔离临时树通过真实model/progress连接27的partial/needs候选，证明结构可用、无自动状态扣减；伪造或借用S50验收的晋升必须拒绝。真实routing/registry/current语义条目不写，27正式接受和扣减在新实现/字段归一化获非作者据证接受后另行受控接入。必要门集中一次实跑，未跑和红门如实披露；不合main、不推送、不done。
+
+- 临时树实际consumer演练：27逐篇合同0issue；public model/progress为0issue、目标27全部pending、completed=0，另有11临时控制JSON单列。联合伪晋升使两个public门均exit1且完成仍0。CLI预加载由首八扩为精确35准入集合，首八接受清单保持8；27内容19字段复用S53具体稿并显式原生角色、两来源轴和未读域，归一化新稿待非作者集中复核。准备期读域类型与临时树分母误断言均由现有门拒绝后修正，未改规则，原失败原件保留。
+
+- Owner内容对照补正五稿：n2/n3失败身份不再抄n1，n1/replay-n1采用原值完整fullName；adjacent的counterproof旧totals.files=38与fileCount=18明确分轴，不再互证文件数。旧S53来源与修正前稿均保留，代码/原生未改。必要门实跑270工具测试全过、4589文件lint零诊断；全仓门仍因E2E006日期过期exit1，严格1718/862未扣。末段写回后按当前输入重新实跑集中门，最终身份取封存回执。

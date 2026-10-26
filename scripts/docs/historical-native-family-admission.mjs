@@ -1,3 +1,5 @@
+import { nativeFamilyExpansion } from './historical-native-family-expansion-admission.mjs'
+
 // Exact S48 pilot identities. Carrier provenance and historical source remain separate.
 const pilots = [
   {
@@ -168,10 +170,14 @@ function freeze(value) {
   return Object.freeze(value)
 }
 export const nativeFamilyPilots = freeze(pilots)
+export const nativeFamilyAdmissions = Object.freeze([
+  ...nativeFamilyPilots,
+  ...nativeFamilyExpansion,
+])
 export const nativeFamilyContracts = freeze(contracts)
 export const nativeFamilyCarrierRevision = '83743275bb560a4ea4bbbd2a15baf7f138f9145b'
 export function nativeFamilyAdmission(path) {
-  return pilots.find((pilot) => pilot.path === path)
+  return nativeFamilyAdmissions.find((entry) => entry.path === path)
 }
 
 // Exact independently accepted S50 content; source/runtime claims remain separate.
