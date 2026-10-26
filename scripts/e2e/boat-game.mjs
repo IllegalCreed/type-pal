@@ -9,6 +9,7 @@ import {
   ISLAND_ARRIVAL_ROWS,
   readBoatContract,
 } from './boat-contract.mjs'
+import { boatMediaEnabled, deliverBoatCheckpoint } from './boat-delivery.mjs'
 import { boatMotionEvidence } from './boat-motion-evidence.mjs'
 import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { installCommittedRoutePlayback, recordFacingInput } from './committed-route.mjs'
@@ -20,11 +21,7 @@ import { guardedEvidenceReader } from './evidence-diagnostics.mjs'
 import { executeFixedRoute } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
-import {
-  encodeLongEvidence,
-  readLongEvidenceArchive,
-  writeLongEvidenceArtifact,
-} from './long-evidence.mjs'
+import { encodeLongEvidence, readLongEvidenceArchive } from './long-evidence.mjs'
 import { assertMealDialogue } from './meal-contract.mjs'
 import { npcStoryBoundary } from './npc-story-scope.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
@@ -55,6 +52,7 @@ function assertRenderedRows(trace, dialogue, ids) {
 export async function runBoatGame() {
   const options = boatArguments(process.argv.slice(2)),
     mode = options.headless ? '--headless' : '--headed'
+  const visualReviewVideo = boatMediaEnabled(process.env.TYPE_PAL_BOAT_MEDIA)
   const predecessorPath = options.from,
     predecessor = await readErrandReceipt(predecessorPath, await readErrandContract())
   assert.equal(predecessor.fragment, '005')
@@ -153,8 +151,12 @@ export async function runBoatGame() {
           phase = label
           phaseOrder = (await drive()).order
         }
-      const bootstrap = async () => {
-        page = await newPage('006-real-005-saves')
+      const bootstrap = async (
+        bytes = checkpointBytes.toString('utf8'),
+        label = '006-real-005-saves',
+        expectedScene = 's004',
+      ) => {
+        page = await newPage(label, { visualReviewVideo })
         await page.goto(baseURL)
         await until(
           async () => {
@@ -190,8 +192,8 @@ export async function runBoatGame() {
           if ((await Save.listSlots()).length) throw new Error('nonempty test slots')
           await Save.saveSlot(1, parseImportedSave(bytes))
           return serializeSave(await Save.loadSlot(1))
-        }, checkpointBytes.toString('utf8'))
-        assert.equal(sha256(staged), sha256(checkpointBytes), 'staged predecessor bytes changed')
+        }, bytes)
+        assert.equal(sha256(staged), sha256(bytes), 'staged predecessor bytes changed')
         await press('ArrowDown', '旧的回忆')
         await until(
           snapshot,
@@ -207,8 +209,8 @@ export async function runBoatGame() {
         await press('Enter', 'formal slot1 restore')
         await until(
           snapshot,
-          (state) => ready(state) && gameScene(state, 's004'),
-          '005 predecessor restored',
+          (state) => ready(state) && gameScene(state, expectedScene),
+          'formal checkpoint restored',
           60000,
         )
       }
@@ -402,7 +404,7 @@ export async function runBoatGame() {
           startOrder: boarding.startOrder,
           endOrder: report.storyScope.end.afterOrder,
         }
-        report.contextTraces = [await writeLongEvidenceArtifact(out, '006-trace.json', npcTrace)]
+        report.contextTraces = []
         await writeFile(
           resolve(out, '006-end.json'),
           `${JSON.stringify(report.endWorld, null, 2)}\n`,
@@ -413,6 +415,26 @@ export async function runBoatGame() {
         assertBoatReport(report)
         report.sourceHashesStable = true
         report.endFrame = await waitForOpeningFrame(page, until)
+        const storyActions = report.actions
+        report.actions = []
+        try {
+          await deliverBoatCheckpoint({
+            engine: 'game',
+            getPage: () => page,
+            out,
+            report,
+            snapshot,
+            ready,
+            press,
+            until,
+            evidence,
+            begin,
+            restore: (bytes) => bootstrap(bytes, '006-fresh-formal-end-restore', 's014'),
+          })
+        } finally {
+          report.persistenceActions = report.actions
+          report.actions = storyActions
+        }
       } catch (error) {
         await archive.diagnoseStatus(async () => {
           report.collectorFailure = await page.evaluate(() => window.__readErrandStatus())

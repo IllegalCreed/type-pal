@@ -1190,7 +1190,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "婶婶病重：洪大夫诊断与离开",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1484,13 +1484,15 @@
                         "entity": "e36"
                       }
                     }
-                  ]
+                  ],
+                  "label": "诊断病情，交代抓药并开启出海后继"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "洪大夫（客栈诊病）"
     },
     {
       "id": "e36",
@@ -1874,7 +1876,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-003"
+                  "next": "legacy-003",
+                  "label": "复问出海：提醒风浪危险"
                 },
                 {
                   "id": "legacy-003",
@@ -1916,7 +1919,8 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "再问病情：盼李大娘平安"
                 }
               ]
             }

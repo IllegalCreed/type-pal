@@ -3,7 +3,7 @@ import { execFileSync, spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { once } from 'node:events'
 import { createWriteStream } from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
 import { relative, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
@@ -110,6 +110,7 @@ export async function runBrowserJourney({
     browser,
     page
   const contexts = []
+  const reviewVideos = []
   const deadline = Date.now() + (args.has('--capture') ? CAPTURE_BUDGET_MS : journeyTimeoutMs)
   server.on('error', (error) => {
     serverError = error
@@ -178,15 +179,22 @@ export async function runBrowserJourney({
       chromium.connect(browserServer.wsEndpoint(), { timeout: 30_000 }),
     )
     report.browser = browser.version()
-    const newPage = async (label) => {
+    const newPage = async (label, { visualReviewVideo = false } = {}) => {
+      assert.equal(typeof visualReviewVideo, 'boolean', 'visual review recording needs a boolean')
       const context = await watchdog.run('owned browser newContext', () =>
-        browser.newContext({ viewport }),
+        browser.newContext({
+          viewport,
+          ...(visualReviewVideo
+            ? { recordVideo: { dir: resolve(out, 'visual-review-video'), size: viewport } }
+            : {}),
+        }),
       )
       contexts.push(context)
       await capture.install(context)
       await context.addInitScript(installVideoObserver)
       for (const script of initScripts) await context.addInitScript(script)
       page = await context.newPage()
+      if (visualReviewVideo) reviewVideos.push({ label, video: page.video() })
       capture.observe(page)
       page.on('pageerror', (e) => error(e.message))
       page.on('console', (m) => {
@@ -220,6 +228,8 @@ export async function runBrowserJourney({
       report.contexts.push({ label, initialDatabases: databases })
       return page
     }
+    // Page videos are silent, actual browser pixels for visual review. They do
+    // not invoke capture profile, readable narration or an audio acceptance.
     await watchdog.run(
       `journey ${name}`,
       () => journey({ newPage, baseURL, out, report, until, health, capture }),
@@ -267,6 +277,24 @@ export async function runBrowserJourney({
       )
     await cleanup('capture cleanup', () => capture.cleanup(report.status !== 'passed'))
     for (const context of contexts) await cleanup('context close', () => context.close())
+    if (reviewVideos.length) {
+      report.visualReviewVideoFiles = []
+      for (const { label, video } of reviewVideos) {
+        await cleanup('visual review video finalization', async () => {
+          const path = await video.path()
+          const bytes = await readFile(path)
+          assert(bytes.length > 0, 'empty visual review video')
+          report.visualReviewVideoFiles.push({
+            label,
+            path: relative(out, path),
+            sha256: sha256(bytes),
+            byteLength: bytes.length,
+            silent: true,
+            purpose: 'actual browser pixels for visual review; not audio acceptance',
+          })
+        })
+      }
+    }
     if (browser) await cleanup('browser connection close', () => browser.close())
     if (browserServer) {
       await cleanup('owned browser server close', () => browserServer.close())

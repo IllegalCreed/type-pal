@@ -542,7 +542,8 @@
             }
           }
         }
-      }
+      },
+      "label": "张四（岛口候船）"
     },
     {
       "id": "e202",
@@ -615,7 +616,8 @@
           }
         }
       ],
-      "initialPage": "default"
+      "initialPage": "default",
+      "label": "靠岸木船"
     }
   ],
   "battleMusic": "music.pal.037",
@@ -634,7 +636,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "渡海抵达：仙灵岛码头叮嘱",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -708,7 +710,8 @@
                 ],
                 "next": {
                   "kind": "complete"
-                }
+                },
+                "label": "靠岸道谢，张四留船并交还控制"
               }
             ]
           }
