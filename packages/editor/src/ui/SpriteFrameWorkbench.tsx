@@ -38,13 +38,6 @@ export function inspectSpriteFrameDragPayload(
   }
 }
 
-export function readSpriteFrameDragPayload(
-  dataTransfer: Pick<DataTransfer, 'getData'>,
-): SpriteFrameDragPayload | undefined {
-  const result = inspectSpriteFrameDragPayload(dataTransfer)
-  return result.kind === 'payload' ? result.value : undefined
-}
-
 export interface SpriteFrameView {
   canvas: HTMLCanvasElement | undefined
   width: number
