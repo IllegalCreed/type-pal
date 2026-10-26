@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned sourceRef/history binding delta only; original D1 execution and full-reading claims remain historical.",
+      "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Getter/setter AST unchanged; approved root writer is separate evidence; historical publication retained.",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -41,10 +41,9 @@
         "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit."
       },
       "unresolved": [
-        "006仍rework，lastVerified10-03与原执行边界不变；10-15原过期失败保留，实质发布复核后明确续10-23，只安排下次publication review；e2e-route10-18未改。",
-        "目录只登记18份published材料，不涵盖全部testing文件，也不单独证明全部配对报告模板迁移或动态通过。"
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Continue individual document migration/artifact ownership; preserve006 rework/lastVerified10-03, publication review10-23 and route10-18 obligations without silent renewal. F1 exact164 independent reception accepted; later metadata is a separate scoped writeback.",
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -101,7 +100,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "0e7b42d48b440cd8a2353026d4c4b2e41e782b1c97e71d0a5f33a3612231b1ed",
+      "afterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -128,8 +127,8 @@
         "notes": "Existing unique current record; original pilotCandidate remains immutable historical authored snapshot. New baseline current entry in F1 control is a different nonmember document, eligible incremental1 only."
       },
       "revision": {
-        "currentSha": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
-        "implementationSha": "0e7b42d48b440cd8a2353026d4c4b2e41e782b1c97e71d0a5f33a3612231b1ed",
+        "currentSha": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+        "implementationSha": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -194,17 +193,17 @@
         ]
       },
       "evidence": {
-        "kind": "scene-identity-comment-source-binding",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
-        "afterSha256": "0e7b42d48b440cd8a2353026d4c4b2e41e782b1c97e71d0a5f33a3612231b1ed",
-        "lineCount": 2388,
-        "scope": "CODE57 scoped delta; history retained; gates deferred.",
+        "kind": "owned-review52-closeout",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+        "afterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+        "lineCount": 2435,
+        "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
         "workingTreeDelta": true,
         "currentMaintenance": {
-          "path": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
-          "afterSha256": "0e7b42d48b440cd8a2353026d4c4b2e41e782b1c97e71d0a5f33a3612231b1ed",
-          "scope": "One unused menu bus argument removed; sourceRef/history binding only. Prior full entry remains in Git9c95ab64d; no historical D1 credit promoted."
+          "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+          "afterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+          "scope": "Owned52 delta; history retained."
         }
       },
       "history": [
@@ -451,6 +450,11 @@
           "date": "2026-10-25",
           "action": "94–102 menu caller binding",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json"
+        },
+        {
+          "date": "2026-10-25",
+          "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
+          "action": "review52 closeout"
         }
       ],
       "supersedes": [],
@@ -460,7 +464,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "Only current D1 caller sourceRef and appended binding history; original full-read ranges remain tied to their Git revision.",
+      "reviewedLines": "Owned current source/binding delta",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",
@@ -3228,9 +3232,9 @@
       "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned sourceRef/history binding delta only; original D1 execution and full-reading claims remain historical.",
+      "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Getter/setter AST unchanged; approved root writer is separate evidence; historical publication retained.",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -3263,10 +3267,9 @@
         ]
       },
       "unresolved": [
-        "161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。",
-        "原工具位置/清理状态按原审计日期保留；实际工具生命周期仍须后续逐文件核。"
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "按本域原合同运行需要的新动态任务，不以文档迁移升级旧结果；继续迁移 paired machine evidence/history 与artifact归属。",
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "testing",
       "module": "phase1-dependency-ownership",
       "owner": "Codex",
@@ -3279,7 +3282,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "3300f6ce529aca01743534b3edf590e1a186a49422b28a1823682a409f1022cc",
+      "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",
@@ -3309,8 +3312,8 @@
         "notes": "保留原phase1-dependency-ownership scope，与phase/engine、相邻owner和历史refactor报告分开；不加runtime测试数或覆盖率。"
       },
       "revision": {
-        "currentSha": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
-        "implementationSha": "3300f6ce529aca01743534b3edf590e1a186a49422b28a1823682a409f1022cc",
+        "currentSha": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+        "implementationSha": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "contentVersion": 22,
@@ -3370,17 +3373,17 @@
         ]
       },
       "evidence": {
-        "kind": "scene-identity-comment-source-binding",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
-        "afterSha256": "3300f6ce529aca01743534b3edf590e1a186a49422b28a1823682a409f1022cc",
-        "lineCount": 114,
-        "scope": "CODE57 scoped delta; history retained; gates deferred.",
+        "kind": "owned-review52-closeout",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+        "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+        "lineCount": 116,
+        "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
         "workingTreeDelta": true,
         "currentMaintenance": {
-          "path": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
-          "afterSha256": "3300f6ce529aca01743534b3edf590e1a186a49422b28a1823682a409f1022cc",
-          "scope": "One unused menu bus argument removed; sourceRef/history binding only. Prior full entry remains in Git9c95ab64d; no historical D1 credit promoted."
+          "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+          "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+          "scope": "Owned52 delta; history retained."
         }
       },
       "history": [
@@ -3462,12 +3465,17 @@
           "date": "2026-10-25",
           "action": "94–102 menu caller binding",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json"
+        },
+        {
+          "date": "2026-10-25",
+          "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
+          "action": "review52 closeout"
         }
       ],
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution.",
-      "reviewedLines": "Only current D1 caller sourceRef and appended binding history; original full-read ranges remain tied to their Git revision.",
+      "reviewedLines": "Owned current source/binding delta",
       "templateConformity": {
         "result": "template-compliant",
         "templateVersion": "1.0.0",

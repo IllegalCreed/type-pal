@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex single agent",
+  "status": "pure extraction only; failure ownership not yet accepted",
+  "base": "9c2e95a1f",
+  "path": "scripts/coverage/run.mjs",
+  "helper": "scripts/coverage/package-collection.mjs",
+  "originalSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+  "currentRunnerSha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45",
+  "helperSha256": "e25fc4e87fca7ce313ac1df14f629b5f088e0bd7f71c239e43e307c3724a3a88",
+  "bodyEqual": true,
+  "normalization": "Only bind outputRoot in the runner callback; identical if/else statements and collection order.",
+  "runs": [
+    {
+      "id": "coverage-coordinator-baseline",
+      "cases": 3,
+      "pass": 3,
+      "fail": 0,
+      "rawRoot": "/Users/zhangxu/.codex/quality-evidence/type-pal/review52-20261025/"
+    }
+  ],
+  "limits": [
+    "No coverage collection or metric/schema/scope/rule changes.",
+    "The optional parallel failure lifecycle remains under targeted verification; no whole-runner acceptance."
+  ]
+}

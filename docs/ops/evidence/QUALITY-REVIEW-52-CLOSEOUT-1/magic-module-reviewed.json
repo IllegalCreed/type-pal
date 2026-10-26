@@ -1,0 +1,389 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex single agent",
+  "status": "Structure accepted;fixed original magic.ts remains review only for pending empty notification/API decision",
+  "originalFixedPath": "packages/game/src/core/battle/actions/magic.ts",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "status": "review; C/D/F/H repaired, G unconsumed bus notification decision pending",
+      "dimensions": {
+        "A": "MP/use/success/autoDefend/RNG/数字/声音和脚本入口writeback顺序保留；实际battle-system传GS，独立无GS域的flag/入口/声音限制已明示，未扩大输入。",
+        "B": "删掉延期实现/API草稿/enum不含效果等过时头注，当前编排/动画职责准确；修全局commands非events.bin、资源id及缺艺术资源即时反馈描述。",
+        "C": "动作协调持脚本与持久状态；动画新私有输入仅battle projection、资源、已解effects，无GS/runScript/库存表；脚本owner仍是原端口。",
+        "D": "四攻击类型判定、SHORT与待显示数字类型只由两个真实消费者共享；施法音/效果音的trance差别不机械合并，不复制新fallback。",
+        "E": "14实际文件226身份前后完全同集且全绿；七迁移函数/剩余动作/dispatch顺序及公开input经正文证明保持；旧机制控制仍按原scope复用。",
+        "F": "1079行拆为433行动与约675动画、26行公共纯合同；动作保留成本→脚本→结算→反馈单一有序编排，复杂度不是指标性关闭依据。",
+        "G": "新内部类型均私有，公开performMagic/PerformMagicInput/RunScriptFn不变；playMagicAnim空通知仍保留待用户，重要G项未被代码重组或226绿抹掉。",
+        "H": "真实执行/帧序可控，compile-only边界禁止动画入参反扩；临时副本加gs触发唯一TS2344，恢复0且根状态未变。"
+      },
+      "sha256": "2dd0856ddc6b2460a422efe6e318f98ca76c8b19414f6ba4371796fafe5ec891",
+      "lines": 430,
+      "readScope": "Full original1079line source read; own exact routing/type/comment diff inspected; seven moved implementations reused with per-function body equality, not a second line-by-line reread claim.",
+      "approvedDeltaBridge": {
+        "previousSha256": "d0e77bd6701cd4c7fc7bb93f42c109941672d4e2efc098c5e8c8aa556f104ad8",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic-animation.ts",
+      "status": "code-accepted;new internal animation owner",
+      "dimensions": {
+        "A": "旧7函数与分发语句原样迁移；唯一谓词替换由同一四项Set及精确wrapper证明，资源缺失返回false/挂数字/变身切图/召唤淡入出保持。",
+        "B": "纠正上方inline/敌方无动画/AI负责伤害与过时present行号；明确本层拼装帧、数值已由action结算，不再把测试fixture当生产guard理由。",
+        "C": "只拥有帧链与battle动画投影的写入；无GameState、commands或script runner；timeline/driver依赖向下，绝不反导入magic.ts或battle-system。",
+        "D": "Pre/Off/Post/Def/Enemy/Summon builders仍复用，依类型差异保持五私有组装函数；共用数值/类别在窄contract叶，无模式万能helper。",
+        "E": "原14文件226实际caller覆盖正反路径不增测试；七函数发射JS逐体匹配（只规范化已证谓词别名），normal/全体/防御/变身/召唤链均保留。",
+        "F": "单入口startMagicAnimation接已结算effects，名字表达生命周期；长分支独立私有函数方便定位，不把每种帧类型碎拆独立模块。",
+        "G": "MagicAnimationInput/Effects只在本文件使用，已设private；七helper均有真实调用，无新增出口、兼容版路由或test-only产品状态。",
+        "H": "通过既有performMagic/driver直接测实际帧与HP/MP；类型边界可编译验证，无新增时间/随机全局或核心mock。"
+      },
+      "sha256": "d5b95724ba30305e901e7fb9248148ff7fc7b6b340613186f3bba751c50506c6",
+      "lines": 680,
+      "readScope": "Full original1079line source read; own exact routing/type/comment diff inspected; seven moved implementations reused with per-function body equality, not a second line-by-line reread claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic-action-contract.ts",
+      "status": "code-accepted;new shared phase1 magic value contract",
+      "dimensions": {
+        "A": "SHORT位操作与旧私函正文一致；四攻击type列表逐项一致，predicate只转发私有Set.has，不改数值/随机/取整。",
+        "B": "明确SHORT只作用临时计算、不写回或限制角色基础成长，分类用于当前伤害/动画/声音owner而非未来任意enum。",
+        "C": "零IO/运行态写入，唯一私有静态Set；仅类型导入BattleState，既不反导入action/animation也不持全局GS。",
+        "D": "两个真实模块消费同样的SHORT/类别/数字类型，避免拆分引入第二份知识；不推广成全仓数值或任意状态工具。",
+        "E": "226回归与原数字精度专测保持；旧新SHORT body、Set literal和wrapper精确证明，不为这一3行值函数堆镜像运行测试。",
+        "F": "asMagicShort/isOffensiveMagicType语义明确，OffMagicType私有，字段类型仅表达真实pending数字结构。",
+        "G": "三个实际使用的exports保留，Set与type别名私有；没有未来预留参数/多余adapter/不使用的interface出口。",
+        "H": "纯函数和确定Set可直接测/检查；无对象mock、时钟、清理或注入框架需求。"
+      },
+      "sha256": "4e82e062b8fe6db63f9150537eb1de716321a5314591b0be4dc9c772e8983e79",
+      "lines": 25,
+      "readScope": "Full original1079line source read; own exact routing/type/comment diff inspected; seven moved implementations reused with per-function body equality, not a second line-by-line reread claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-animation-contracts.ts",
+      "status": "code-accepted;new compile-only architecture contract",
+      "dimensions": {
+        "A": "编译而非运行时合同：动画输入不得拥有7种action-only字段，既有PerformMagicInput仍能结构化供给资源。",
+        "B": "明确无运行测试身份，不伪造Vitest例数或宣称阻止所有间接import，只约束声明的入参ownership。",
+        "C": "只import type函数/接口，运行时为空；不修改产品state、catalog、配置或测试环境。",
+        "D": "借Parameters和Extract直接表达真实边界，不复制Input接口或字段DTO；禁止列表是明确所有权合同。",
+        "E": "当前TC0，临时副本仅加gs?:unknown得到唯一TS2344，恢复TC0；这是真编译判别力，不计业务runtime反控。",
+        "F": "类型名解释禁止哪类context及action能否供给资源，未用短缩写隐藏错误域。",
+        "G": "仅两个有效断言类型，exports为tsc必须实例化的fixture合同，不供产品使用；无恒真运行例。",
+        "H": "标准tsc即可低成本复验，类型变异在独占temp副本、finally删除；根源码hash与porcelain前后相等。"
+      },
+      "sha256": "8ba9ddbef5808aaf574ea79fe34f9a33dfb4ca93cdfb2c1d2220777182fd60d3",
+      "lines": 21,
+      "readScope": "Full original1079line source read; own exact routing/type/comment diff inspected; seven moved implementations reused with per-function body equality, not a second line-by-line reread claim."
+    }
+  ],
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/magic-module-native.json.gz",
+    "sha256": "5692e0ed3a4c860355b80463a8a8fbb1cb2b1198b6359df716815b4c75e88fa6",
+    "decodedSha256": "522bf0465e9837c7023e28e52fdfc7d0aa786d881454def0b6fb1ecf83ec626b",
+    "members": [
+      {
+        "name": "magic-module-baseline.execution.json",
+        "sha256": "8947ad4d911f2e10c088c47cbcaa3691403c13d5495e1dff500696f8711ae991",
+        "bytes": 1597
+      },
+      {
+        "name": "magic-module-baseline.native.json",
+        "sha256": "dc6bbc78b941b267634f056fbeedde7372b0ea3593856423333aad7be0664d45",
+        "bytes": 85544
+      },
+      {
+        "name": "magic-module-baseline.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-module-baseline.stdout.raw",
+        "sha256": "2795d61dd3d03ecf7fba9d5c555f69035b2427f29a3147d4340d862b28851fd1",
+        "bytes": 1358
+      },
+      {
+        "name": "magic-module-after.execution.json",
+        "sha256": "a927d189a1696c95ca437f5e7920e52d0000ea58257d7e2e91bbc6f279a64dfa",
+        "bytes": 1591
+      },
+      {
+        "name": "magic-module-after.native.json",
+        "sha256": "ed18cd083b393bd55efbe02f2d5902ae42a726e04ac62efd310df6517f5dd599",
+        "bytes": 85558
+      },
+      {
+        "name": "magic-module-after.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-module-after.stdout.raw",
+        "sha256": "2be0c31b85c1dab48a1715c62c89649a039048c8829c3b7bc2ca21f4cddc31a2",
+        "bytes": 1355
+      },
+      {
+        "name": "magic-split-types.execution.json",
+        "sha256": "084d83fac0d2d803d7ac34113038d490a3a713260f48877d52a7eee4dada73f6",
+        "bytes": 466
+      },
+      {
+        "name": "magic-split-types.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-split-types.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-contract-types.execution.json",
+        "sha256": "267d2047becc938cd7f1e22ca606fb87b5d9a4ea3ab4df7a2947687feac71f05",
+        "bytes": 469
+      },
+      {
+        "name": "magic-contract-types.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-contract-types.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-type-counter-run.execution.json",
+        "sha256": "17702abd4ff745c736bd83aabbe7ca579ec726e8ba81ce948480be7f3a1a2090",
+        "bytes": 490
+      },
+      {
+        "name": "magic-type-counter-run.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-type-counter-run.stdout.raw",
+        "sha256": "6f8a63d6c43ffc6923243dcacc1bf82df854cc69ce5e65e281b188eb4d3b591c",
+        "bytes": 98
+      },
+      {
+        "name": "magic-owner-types-red.execution.json",
+        "sha256": "ea5e3d4386cb01038666e94d74a80298f3956a604b95e2a20a6090b3668a977a",
+        "bytes": 565
+      },
+      {
+        "name": "magic-owner-types-red.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-owner-types-red.stdout.raw",
+        "sha256": "4c2605bdda73a7db3839ab8ed854d15537763f45a1acaa2f010b1a896dbf187b",
+        "bytes": 143
+      },
+      {
+        "name": "magic-owner-types-restored.execution.json",
+        "sha256": "1fa297ac91882bcfe0dddb9afca280088e4c5c9a540f6db55af958d2b356d637",
+        "bytes": 565
+      },
+      {
+        "name": "magic-owner-types-restored.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-owner-types-restored.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-module-docs.execution.json",
+        "sha256": "c5d7356c792f0c9c002a53d9a6181c5ccedd9bd4aad7056fdc9219f194b46312",
+        "bytes": 419
+      },
+      {
+        "name": "magic-module-docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-module-docs.stdout.raw",
+        "sha256": "28bda2e3c20c0e900e4f23c88578cef941cdcd8d593e91030b32823947cf83ba",
+        "bytes": 93
+      },
+      {
+        "name": "magic-module-lint.execution.json",
+        "sha256": "15380c18f40dac983e7a3c6b44cb6b138564a3b3dbcf04484a59dc431676fe29",
+        "bytes": 426
+      },
+      {
+        "name": "magic-module-lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-module-lint.stdout.raw",
+        "sha256": "d646f654f240e5ea321c588afea03b33f00ea90c1c067c4afdf8ca4db307bc67",
+        "bytes": 76
+      },
+      {
+        "name": "prove-magic-split.cjs",
+        "sha256": "05e133beeddea9acc01fe1e592019c140c63f3fa91bc70ea0d098a90dd1020c2",
+        "bytes": 5656
+      },
+      {
+        "name": "magic-type-counter.cjs",
+        "sha256": "3f8e0dc05bbbf9595a9cc157305cce2cca57beff865fdc2757d3a7658f8ff007",
+        "bytes": 3143
+      },
+      {
+        "name": "magic-type-counter.json",
+        "sha256": "a0d2077af0df710e41109f547a23a19f14af63d757019184f2e440e94803df3c",
+        "bytes": 1608
+      },
+      {
+        "name": "magic-split-proof.json",
+        "sha256": "9c840752ec07b8ff39bd6668ec21bab6c6102f202032b510baec51bd90885d68",
+        "bytes": 4305
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-anim-driver.ts",
+      "sha256": "430b37a2be25289f0faf0a497a846502acb46b3f5cd492b083b0a124b8063fd2"
+    },
+    {
+      "path": "packages/game/src/core/battle/anim-timeline.ts",
+      "sha256": "6d157c643e6798a672233d03b0fc2c01a4e77def66236ee71fb43c302a647102"
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "sha256": "1535c33f36472377a5c3da1f3c604dec8f0aaed8ff7ff925dd7c275332751279"
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-object.ts",
+      "sha256": "d85dc3c798bb8c3a0e2e06f15c846a2b2d8c5284e0732808a3e737f708e384f8"
+    },
+    {
+      "path": "packages/game/src/core/object-script-state.ts",
+      "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "202fa50fcefecdb5cab5e2da6ff4dfc5fa7e8dfbdfcdec1c27e2adb4dff5b1b8",
+      "approvedDeltaBridge": {
+        "previousSha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+      "approvedDeltaBridge": {
+        "previousSha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d"
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256": "7feba4baae97b20fd367c097f8c6aed2d5a62ced1d2f5ed17c993a7b92bb6f52"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+      "sourceBridge": {
+        "beforeSha256": "e9efd9d7960fd97badc1611610ac600d37abb88a4c0bee5f56135e2b15731b33",
+        "afterSha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+        "proof": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-reviewed.json",
+        "reason": "Only same collision reexport import, comments and erased assertion changed; normalized whole emitted JS equal. No magic/battle owner behavior change."
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453",
+      "approvedDeltaBridge": {
+        "previousSha256": "f47dc971302485060c4d70db88b0c91108610d3f7865c2821e530b08d0b7e8cb",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    }
+  ],
+  "priorBindings": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+      "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/controls.json",
+      "sha256": "e8d0c18f89abb7baf1cfeeafdfe46d9be87ad7c6ba9f57e310b99ff7a40d5611"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/read-boundaries.json",
+      "sha256": "50ac60fff6af83a33a82cb34f42cbbbbcae4300bfabecf97b2f477529a7f448f"
+    }
+  ],
+  "classification": {
+    "fixed": [
+      "wide animation context",
+      "mixed action/frame composition ownership",
+      "misleading and obsolete comments",
+      "three OffMagic type assertions replaced by actual predicate narrowing"
+    ],
+    "retained": [
+      "Existing optionalGS independent calculations, limitations now explicit;production always passesGS",
+      "Different caster/effect sound predicates and supported no-art immediate feedback"
+    ],
+    "pending": [
+      "GAME-COMMAND-BUS-API-CLEANUP-1 first proposal + extension deleting unconsumed showDialogBox/playMagicAnim;nothing deleted before decision"
+    ]
+  },
+  "api": {
+    "existing": ["performMagic", "PerformMagicInput", "RunScriptFn"],
+    "unchanged": true,
+    "newInternal": "No barrel changes;animation context interfaces private;shared3exports used by two modules"
+  },
+  "coverage": {
+    "sourceIncludeUnchanged": true,
+    "newProductionFiles": 2,
+    "newCompileFixture": 1,
+    "notRun": "No coverage/check/protected/PR. Source census/report and authorized exact structural baseline review only at52phase freeze."
+  },
+  "adjacent": [
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "f47dc971302485060c4d70db88b0c91108610d3f7865c2821e530b08d0b7e8cb",
+      "scope": "one source-symbol comment updated;no new whole-file credit"
+    }
+  ],
+  "limits": [
+    "Original magic fixed-cohort closure count unchanged;public empty notification decision stays open.",
+    "No tests/fixtures/expected values/identities changed among226;no syntheticred needed for pure restructuring.",
+    "Producer scripts archive how receipts were collected;default quick entry is read-only verify.mjs, not those writing producers.",
+    "New ownership type counter is not a runtime business failure or additional test count."
+  ]
+}

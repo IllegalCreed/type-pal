@@ -62,9 +62,9 @@ export interface Item {
   scriptOnUse: number
   /** 装备时跑的脚本。0 = 不可装备。 */
   scriptOnEquip: number
-  /** 投掷时跑的脚本(M3 不消费,留作 schema 完整)。 */
+  /** 战斗投掷时执行的脚本入口，由 performThrowItem 消费。 */
   scriptOnThrow: number
-  /** 描述脚本(M3 不消费;原 wScriptDesc)。 */
+  /** 物品说明脚本入口，菜单经 getScriptDescLines 读取；原 wScriptDesc。 */
   scriptDesc: number
   /** 拆 bit 的 flags。 */
   flags: ItemFlags
@@ -249,7 +249,7 @@ export interface Magic {
   /** SHORT(signed) —— 特效速度。 */
   speed: number
   keepEffect: number
-  /** 火属性 fire 阶段起始帧。 */
+  /** 特效循环段的起始帧；CLASSIC 施法者也在该帧切换出手姿势。 */
   fireDelay: number
   /** 特效总次数。 */
   effectTimes: number
@@ -337,8 +337,8 @@ export interface Enemy {
 
 /**
  * sdlpal `global.h tagOBJECT_ENEMY`(M5.B-w2.a):SSS.MKF chunk 2 OBJECT 表
- * ENEMY_OBJ_START(398)起 153 条 wrapper,每条把 chunk 1 ENEMY 真值 + 4 个
- * AI 脚本 hook 关联。EnemyTeam.enemyObjectIndexes[i] 保留 OBJECT 表绝对 index,
+ * ENEMY_OBJ_START(398)起 153 条 wrapper，每条关联 chunk 1 ENEMY 的 ID、
+ * 妖术/毒抗性及三个脚本入口。EnemyTeam.enemyObjectIndexes[i] 保留 OBJECT 表绝对 index,
  * 运行时通过此表精确反查 scriptOnReady 等 AI hook。
  */
 export interface EnemyObject {
@@ -460,10 +460,10 @@ export interface Store {
  * cooperativeMagic / 6 个 sdlpal 注释 FIXME unknown / coverSound / dyingSound
  * 均已 dump;下列字段的可选标记仅为兼容可不填的旧 fixture。
  *
- * **signed 字段**(同 Enemy D28,对照 sdlpal `fight.c` SHORT cast):
- * `attackStrength / magicStrength / defense / dexterity` 是 stat modifier,可负。
- * 5 个 sound 字段在 sdlpal `tagPLAYERROLES` 中也是 PLAYERS = WORD,但 `fight.c` /
- * `sound.c` 实际播放时按 SHORT 处理(-1 = 无声音),与 Enemy 5 个 sound 行为一致。
+ * 当前 parsePlayerRoles 将武术/灵力/防御/身法四行按 signed i16 读取；
+ * 这是提取边界的表示，不能据此把角色基础属性当成敌人的 stat modifier，
+ * 也不约束运行时成长或导入后的属性范围。七个声音字段同样按 signed i16 读取，
+ * 包含 coverSound/dyingSound，-1 表示无声音。
  */
 export interface PlayerRole {
   /** 在 player-roles.json 数组里的索引(0..MAX_PLAYER_ROLES-1 = 0..5)。 */
@@ -493,13 +493,13 @@ export interface PlayerRole {
   /** rgwMP —— 当前 MP。 */
   mp: number
 
-  /** rgwAttackStrength —— **signed** stat modifier。 */
+  /** rgwAttackStrength —— 基础武术；提取器按 signed i16 读取。 */
   attackStrength: number
-  /** rgwMagicStrength —— **signed** stat modifier。 */
+  /** rgwMagicStrength —— 基础灵力；提取器按 signed i16 读取。 */
   magicStrength: number
-  /** rgwDefense —— **signed** stat modifier。 */
+  /** rgwDefense —— 基础防御；提取器按 signed i16 读取。 */
   defense: number
-  /** rgwDexterity —— **signed** stat modifier。 */
+  /** rgwDexterity —— 基础身法；提取器按 signed i16 读取。 */
   dexterity: number
 
   /** rgwFleeRate —— 逃跑成功率。 */

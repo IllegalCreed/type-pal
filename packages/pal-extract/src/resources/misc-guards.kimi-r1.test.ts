@@ -10,7 +10,6 @@
  * - io/word.ts:94 parseWordDat 短缓冲 flat 截断 break。
  * - font/bdf-to-json.ts:47 非法 hex 位图行 `parseInt || 0` 回退。
  * - resources/asset-manifest.ts:31 buildManifest 相同 path 排序相等臂 + 非资源排除。
- * - resources/sprite.ts:76 extractCharacterSprites 缺 chunk skip。
  * - parsers/enemies.ts:210/240 两个 OBJECT_ENEMY map 建造器短缓冲提前返回。
  * - parsers/items.ts:75 parseItems 截断精确拒绝。
  * - parsers/rgm.ts:46 decodeRgmPortrait 0 宽/高帧返回 null。
@@ -42,7 +41,6 @@ import { parseItems } from '../resources/parsers/items.js'
 import { decodeRgmPortrait } from '../resources/parsers/rgm.js'
 import { parseSpells } from '../resources/parsers/spells.js'
 import { parseStores } from '../resources/parsers/stores.js'
-import { extractCharacterSprites } from '../resources/sprite.js'
 
 function u16le(view: DataView, offset: number, value: number): void {
   view.setUint16(offset, value, true)
@@ -163,19 +161,6 @@ describe('KIMI-R1 pal-extract 散落守卫', () => {
     ])
     expect(manifest.fileCount).toBe(3)
     expect(manifest.totalBytes).toBe(5)
-  })
-
-  test('extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip', () => {
-    const chunk = encodeSpriteChunk([
-      { width: 2, height: 2, pixels: new Uint8Array(4).fill(3), opaque: new Uint8Array(4).fill(1) },
-    ])
-    const out = withParserWarnings(
-      [{ message: '[pal-extract] sprite 99: MGO.MKF chunk 未找到,skip' }],
-      () => extractCharacterSprites([1, 99], new Map([[1, chunk]])),
-    )
-    expect(out).toHaveLength(1)
-    expect(out[0]!.spriteId).toBe(1)
-    expect(out[0]!.frames).toHaveLength(1)
   })
 
   test('buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map', () => {

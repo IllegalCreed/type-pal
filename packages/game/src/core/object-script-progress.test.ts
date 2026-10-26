@@ -6,7 +6,7 @@ import {
   makeItem,
   makeItemFlags,
 } from './__tests__/stats/stats-test-fixtures.js'
-import { createCommandBus } from './command-bus.js'
+
 import { updateAllEquipments } from './equip-effect.js'
 import { setGlobalEvents, startOverworldItemScript, tickEventSystem } from './event-system.js'
 import { resetPresentationTransients } from './game-state.js'
@@ -103,9 +103,9 @@ describe('overworld object script ownership', () => {
       { op: 'end' },
       { op: 'end', advance: true },
     ])
-    const bus = createCommandBus()
+
     expect(startOverworldItemScript(gs, item, 0)).toBe(true)
-    tickEventSystem(gs, emptyInput, bus)
+    tickEventSystem(gs, emptyInput)
     expect(gs.eventCursor?.waiting).toBe('frame-wait')
     expect(gs.rgObject[61]?.rgwData[2]).toBe(1) // child's advance did not commit the item root
     await Save.saveSlot(1, parseImportedSave(serializeSave(gs)))
@@ -113,12 +113,12 @@ describe('overworld object script ownership', () => {
     expect(loaded).not.toBeNull()
     const restored = makeFreshGameState()
     Object.assign(restored, loaded)
-    for (let i = 0; i < 3 && restored.eventCursor; i++) tickEventSystem(restored, emptyInput, bus)
+    for (let i = 0; i < 3 && restored.eventCursor; i++) tickEventSystem(restored, emptyInput)
     expect(restored.eventCursor).toBeUndefined()
     expect(restored.inventory).toEqual([{ itemId: 61, count: 1 }])
     expect(restored.rgObject[61]?.rgwData[2]).toBe(4)
     expect(startOverworldItemScript(restored, item, 0)).toBe(true)
-    tickEventSystem(restored, emptyInput, bus)
+    tickEventSystem(restored, emptyInput)
     expect(restored.inventory.find((entry) => entry.itemId === 80)?.count).toBe(1)
     expect(restored.rgObject[61]?.rgwData.slice(2, 5)).toEqual([1, 6, 9])
     expect(item.scriptOnUse).toBe(1)
@@ -137,12 +137,12 @@ describe('overworld object script ownership', () => {
       { op: 'raw', opcode: 8, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    const bus = createCommandBus()
+
     expect(startOverworldItemScript(gs, item, 0)).toBe(true)
-    tickEventSystem(gs, emptyInput, bus)
+    tickEventSystem(gs, emptyInput)
     expect(gs.rgObject[61]?.rgwData[2]).toBe(3)
     expect(startOverworldItemScript(gs, item, 0)).toBe(true)
-    tickEventSystem(gs, emptyInput, bus)
+    tickEventSystem(gs, emptyInput)
     expect(gs.inventory.find((entry) => entry.itemId === 80)?.count).toBe(1)
   })
 
@@ -156,7 +156,7 @@ describe('overworld object script ownership', () => {
       { op: 'end', advance: true },
     ])
     expect(startOverworldItemScript(gs, item, 0)).toBe(true)
-    tickEventSystem(gs, emptyInput, createCommandBus())
+    tickEventSystem(gs, emptyInput)
     expect(gs.eventCursor?.waiting).toBe('frame-wait')
     expect(gs.eventCursor?.itemScript?.entry).toBe(2)
     resetPresentationTransients(gs)

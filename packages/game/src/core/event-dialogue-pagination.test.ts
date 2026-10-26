@@ -1,6 +1,6 @@
 import type { Command, InputSnapshot } from '@type-pal/shared'
 import { describe, expect, test, vi } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import { buildLabelMap, tickEventSystem } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 
@@ -26,18 +26,14 @@ describe('event dialogue page continuation', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'
     gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
-    const bus = createCommandBus()
+
     for (let frame = 0; frame < 20; frame++) {
       gs.nowMs = 1000 + frame * 200
-      tickEventSystem(
-        gs,
-        {
-          held: new Set(),
-          pressed: new Set(gs.dialogBox?.phase === 'waiting-page-key' ? ['Confirm'] : []),
-          frameNum: frame,
-        },
-        bus,
-      )
+      tickEventSystem(gs, {
+        held: new Set(),
+        pressed: new Set(gs.dialogBox?.phase === 'waiting-page-key' ? ['Confirm'] : []),
+        frameNum: frame,
+      })
       if (gs.dialogBox?.currentLineText === '天地') break
     }
     expect(gs.dialogBox?.titleText).toBe('李逍遥：')
@@ -51,7 +47,7 @@ describe('event dialogue page continuation', () => {
     gs.mode = 'event'
     gs.nowMs = 1000
     gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
-    const bus = createCommandBus()
+
     const visible: string[] = []
     for (let tick = 0; tick < 1000 && gs.eventCursor; tick++) {
       const confirm =
@@ -64,7 +60,7 @@ describe('event dialogue page continuation', () => {
         frameNum: tick,
       }
       gs.nowMs += 100
-      tickEventSystem(gs, input, bus)
+      tickEventSystem(gs, input)
       const dialog = gs.dialogBox
       const complete = [
         ...(dialog?.shownLines ?? []),

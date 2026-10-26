@@ -1398,7 +1398,7 @@ function translatedDialogWidth(style: DialogBoxStyle, hasPortrait: boolean): num
   return right - getDialogTextPos(style, hasPortrait).x - 8
 }
 
-export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
+export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
   const cursor = gs.eventCursor
   if (!cursor) {
     gs.mode = 'explore'
@@ -2071,12 +2071,6 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
             gs.needToFadeIn = false
           }
         }
-        // 通知用解析后可见文本(剥控制符);showDialogBox 仅通知,实际渲染走 gs.dialogBox。
-        bus.emit({
-          op: 'showDialogBox',
-          text: gs.dialogBox?.currentLineText ?? gs.dialogBox?.titleText ?? text,
-          style: gs.currentDialogStyle,
-        })
         // ip 停在 showDialog 上,waiting 释放(typing 完后自动 ip++)才推进
         return
       }

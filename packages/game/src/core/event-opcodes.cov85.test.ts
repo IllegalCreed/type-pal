@@ -250,7 +250,7 @@ describe('世界/隊伍 opcode', () => {
     setRefreshEquipmentsHandler((state) => updateAllEquipments(state, [gourd]))
     gs.eventCursor = { ip: 0 }
     gs.mode = 'event'
-    tickEventSystem(gs, { held: new Set(), pressed: new Set(), frameNum: 0 }, createCommandBus())
+    tickEventSystem(gs, { held: new Set(), pressed: new Set(), frameNum: 0 })
 
     expect(gs.partyMembers).toEqual([1, 2])
     expect(gs.rgPoisonStatus).toEqual({

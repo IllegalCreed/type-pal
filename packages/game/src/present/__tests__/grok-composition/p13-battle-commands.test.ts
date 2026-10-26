@@ -56,7 +56,6 @@ describe('P13 战斗命令与提示寿命', () => {
     gs.dialogBox.charsRevealed = 1
     const commands = [
       {
-        cmdId: 1,
         cmd: {
           op: 'showDamageNum' as const,
           target: { kind: 'enemy' as const, idx: 0 },
@@ -65,11 +64,9 @@ describe('P13 战斗命令与提示寿命', () => {
         },
       },
       {
-        cmdId: 2,
         cmd: { op: 'showBattleMessage' as const, text: '甲', durationMs: 80, pos: { x: 8, y: 30 } },
       },
       {
-        cmdId: 3,
         cmd: {
           op: 'showBattleMessage' as const,
           text: '乙',
@@ -131,7 +128,6 @@ describe('P13 战斗命令与提示寿命', () => {
     }
     const commands = [
       {
-        cmdId: 1,
         cmd: {
           op: 'showBattleMessage' as const,
           text: '乙',

@@ -15,6 +15,12 @@ import { makeFreshGameState } from './stats-test-fixtures.js'
 
 afterEach(() => setGlobalEvents([]))
 
+/** 全局指令地址保持数组下标；不用紧凑数组伪装L_600等原始地址。 */
+function programAt(entry: number, commands: Command[]): Command[] {
+  const prefix: Command[] = Array.from({ length: entry }, () => ({ op: 'end' }))
+  return [...prefix, ...commands]
+}
+
 describe('E4: 装备脚本执行器 runEquipScript', () => {
   it('E4-01 goto 跳转跳过中间指令，只执行跳转目标的写入', () => {
     const cmds: Command[] = [
@@ -33,7 +39,7 @@ describe('E4: 装备脚本执行器 runEquipScript', () => {
       },
       { op: 'end' },
     ]
-    setGlobalEvents(cmds)
+    setGlobalEvents(programAt(600, cmds))
 
     const gs = makeFreshGameState()
     const roleId = 0
@@ -50,7 +56,7 @@ describe('E4: 装备脚本执行器 runEquipScript', () => {
       { op: 'end' },
       { op: 'raw', opcode: 0x17, operands: [14, PLAYERROLES_ROW.DEFENSE, 88] },
     ]
-    setGlobalEvents(cmds)
+    setGlobalEvents(programAt(610, cmds))
 
     const gs = makeFreshGameState()
     const roleId = 0
@@ -64,10 +70,10 @@ describe('E4: 装备脚本执行器 runEquipScript', () => {
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     try {
-      runEquipScript(gs, 0, 0)
+      expect(runEquipScript(gs, 0, 0)).toBe(0)
       expect(gs.iCurEquipPart).toBe(-1)
 
-      runEquipScript(gs, 99999, 0)
+      expect(runEquipScript(gs, 99999, 0)).toBe(99999)
       expect(gs.iCurEquipPart).toBe(-1)
       expect(warning).toHaveBeenCalledWith('runEquipScriptSync: L_99999 不在全局 labelMap')
       expect(warning).toHaveBeenCalledTimes(1)
@@ -87,7 +93,7 @@ describe('E4: 装备脚本执行器 runEquipScript', () => {
       },
       { op: 'end' },
     ]
-    setGlobalEvents(cmds)
+    setGlobalEvents(programAt(620, cmds))
 
     const gs = makeFreshGameState()
     const roleId = 0
@@ -97,15 +103,29 @@ describe('E4: 装备脚本执行器 runEquipScript', () => {
   })
 
   it('E4-05 循环跳转触发 SCRIPT_TICK_LIMIT 256 保护且 finally 重置 iCurEquipPart', () => {
-    const cmds: Command[] = [{ op: 'goto', to: 'L_630', label: 'L_630' }]
-    setGlobalEvents(cmds)
+    const cmds: Command[] = [
+      {
+        op: 'raw',
+        opcode: 0x19,
+        operands: [PLAYERROLES_ROW.ATTACK_STRENGTH, 1, 0],
+        label: 'L_630',
+      },
+      { op: 'goto', to: 'L_630' },
+    ]
+    setGlobalEvents(programAt(630, cmds))
 
     const gs = makeFreshGameState()
     gs.iCurEquipPart = 3
+    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 10
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     try {
       runEquipScript(gs, 630, 0)
-      expect(warning).toHaveBeenCalledWith(expect.stringContaining('SCRIPT_TICK_LIMIT 256'))
+      // 两指令一轮：256步恰128次+1，不能只凭日志出现就认定限制正确。
+      expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(138)
+      expect(warning).toHaveBeenCalledWith(
+        'runEquipScriptSync: SCRIPT_TICK_LIMIT 256 超出 — 死循环?',
+      )
+      expect(warning).toHaveBeenCalledTimes(1)
     } finally {
       warning.mockRestore()
     }

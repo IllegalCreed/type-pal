@@ -3,7 +3,8 @@
  * find-scenes-without-setpartypos.mjs
  *
  * 扫 295 个 scene 的 wScriptOnEnter:
- *   - 若 onEnterLabel 指向的段不含 opcode 70(setPartyPos),该 scene 需要 dev-only partyStart。
+ *   - 若从 onEnterLabel 顺序扫描至 end 未见 opcode 70(setPartyPos)，列为 dev-only partyStart 候选。
+ *     这是人工排查的启发式报告，不跟随跳转，不能证明所有可达脚本都没有定位。
  *
  * 对需要 fallback 的 scene,按下列优先级找 partyStart:
  *   1. **caller-trace**:扫所有 scene 的 events,找到 `loadScene(targetId)` 调用位置:
@@ -11,8 +12,8 @@
  *      - 若 loadScene 后没有,取 loadScene **前**紧邻的 setPartyPos(caller 自身位置作近似)
  *      - 多 caller 时:优先选有"后置 setPartyPos"的,其次 distance 升序取最紧邻
  *   2. **NPC-anchored BFS**:scene 含 eventObjects 时,以第一个 NPC 的可走邻居为 BFS 起点,
- *      取该连通区中心。保证 NPC 所在的可走区被 partyStart 覆盖(对孤儿 scene 如草妖 15 关键)。
- *   3. **bare BFS**:无 NPC 时,扫网格找种子,取最大连通区中心(古早兜底)。
+ *      取该连通区按 y/x 排序的中位点(对孤儿 scene 如草妖 15 关键)。
+ *   3. **bare BFS**:无可用 NPC 邻居时，取首个超过 100 点的连通区中位点。
  *
  * setPartyPos 操作数: [col, row, h]
  *   pixel x = col * 32 + h * 16
@@ -418,7 +419,7 @@ console.log(`\n=== Scene 15 (草妖) ===`)
 const s15 = results.find((r) => r.sceneNum === 15)
 if (s15) {
   console.log(`  scene-15(map-${s15.mapNum}) [${s15.strategyKind}]`)
-  console.log(`  pixel(${s15.partyStart.x}, ${s15.partyStart.y})`)
+  if (s15.partyStart) console.log(`  pixel(${s15.partyStart.x}, ${s15.partyStart.y})`)
   console.log(`  strategy: ${s15.strategy}`)
 }
 

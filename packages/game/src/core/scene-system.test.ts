@@ -1192,11 +1192,10 @@ describe('TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回
   function runFrame(
     gs: ReturnType<typeof createInitialGameState>,
     input: InputSnapshot,
-    bus: ReturnType<typeof createCommandBus>,
     ctx: SceneContext,
   ): void {
     if (gs.mode === 'explore') tickSceneSystem(gs, input, ctx)
-    else if (gs.mode === 'event') tickEventSystem(gs, input, bus)
+    else if (gs.mode === 'event') tickEventSystem(gs, input)
   }
 
   function makeDeadlockFixture() {
@@ -1229,12 +1228,12 @@ describe('TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回
   }
 
   it('按住方向键 + 连按 Confirm:有限帧内逃出 TouchFar 半径,不死锁', () => {
-    const { gs, ctx, bus } = makeDeadlockFixture()
+    const { gs, ctx } = makeDeadlockFixture()
     const startX = gs.party.x
     // 每帧按住 Right + 点按 Confirm(关对话)。死锁版:explore 帧永远先触发,party.x 恒不变。
     // 每步加权距离 |dx|+|dy|*2 = 16+8*2 = 32,3 步 ≥ 80 逃出;60 帧裕量(每轮对话耗 2-3 帧)。
     for (let f = 0; f < 60; f++) {
-      runFrame(gs, snap(['Right'], ['Confirm'], f), bus, ctx)
+      runFrame(gs, snap(['Right'], ['Confirm'], f), ctx)
     }
     expect(gs.party.x).toBeGreaterThan(startX) // 死锁版恒等于 startX
     expect(gs.mode).toBe('explore') // 逃出半径后稳定 explore,无新触发
@@ -1242,21 +1241,21 @@ describe('TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回
   })
 
   it("脚本 'end' 切回 explore 的首帧:移动先于触发扫描(sdlpal 同帧 UpdateParty 语义)", () => {
-    const { gs, ctx, bus } = makeDeadlockFixture()
+    const { gs, ctx } = makeDeadlockFixture()
     // 帧1 explore:扫描命中 → 切 event(本帧无移动)
-    runFrame(gs, snap(['Right']), bus, ctx)
+    runFrame(gs, snap(['Right']), ctx)
     expect(gs.mode).toBe('event')
     const startX = gs.party.x
     // event 帧:连按 Confirm 直至脚本 'end' 切回 explore(单句对话 ≤4 帧:展示/等键/end等键/收尾)
     for (let f = 0; f < 8 && gs.mode === 'event'; f++) {
-      runFrame(gs, snap(['Right'], ['Confirm'], f), bus, ctx)
+      runFrame(gs, snap(['Right'], ['Confirm'], f), ctx)
     }
     expect(gs.mode).toBe('explore')
     // 切回 explore 后首帧:held Right 必须生效走一步(修复前此帧先扫描 → 再次切 event,x 不变)
-    runFrame(gs, snap(['Right']), bus, ctx)
+    runFrame(gs, snap(['Right']), ctx)
     expect(gs.party.x).toBe(startX + 16)
     // 第二帧起恢复正常扫描:位置仍在半径内(32 < 80)→ 再次触发,与原版"反复弹但能走"一致
-    runFrame(gs, snap(['Right']), bus, ctx)
+    runFrame(gs, snap(['Right']), ctx)
     expect(gs.mode).toBe('event')
   })
 })
@@ -1295,7 +1294,7 @@ describe('扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)', 
     gs.allEventObjects[npc.id] = npc
     gs.sceneEventRanges = { 81: [1518, 1519] }
     gs.wNumScene = 82
-    const bus = createCommandBus()
+
     const map = makeFlatMap(200, 200)
     const commands: Command[] = [
       { op: 'end' as const },
@@ -1312,7 +1311,7 @@ describe('扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)', 
     expect(npc.triggerMode).toBe(0) // 一次性 guard:触发即消费
 
     // cutscene 跑完回到 explore,party 仍在原触发区内 → 不能再触发(否则刷后续段对白)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(5500)
     await Save.saveSlot(1, parseImportedSave(serializeSave(gs)))
     const loaded = await Save.loadSlot(1)

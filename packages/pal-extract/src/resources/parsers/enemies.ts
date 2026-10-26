@@ -58,7 +58,9 @@ const ENEMY_SIZE = 70
  * 若没找到映射 → 留 undefined,引擎不读 `_name`,只是注释用。
  *
  * @param enemyBuf DATA.MKF chunk 1 原始字节(未压缩,实测 10780B / 70 = 154 条)
- * @param objBuf   可选;SSS.MKF chunk 2 原始字节,用于反向填 `_name`
+ * @param objBuf   可选;SSS.MKF chunk 2 原始字节,用于反向填 `_name`。
+ *                与 words 同传时须包含完整敌人段；截断会由 DataView 抛错。
+ *                两个 build*Map 出口则保留短输入返回空 Map 的既有合同。
  * @param words    可选;parseWordDat 解出的名称表
  */
 export function parseEnemies(enemyBuf: Uint8Array, objBuf?: Uint8Array, words?: Words): Enemy[] {

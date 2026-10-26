@@ -13,7 +13,7 @@ export interface ProjectMigrationSnapshot extends MigrationSnapshot {
 }
 
 /**
- * 以 base/theirs 为种子，再纳入当前 scene/script/map index 显式引用的文件。
+ * 以 base/theirs 为种子，再纳入当前 scene/map index 显式引用的文件。
  * 未被 index 引用的额外文件依然是非托管文件。
  */
 export function discoverProjectManagedFiles(repo: string, seed: ReadonlySet<string>): Set<string> {
@@ -31,16 +31,6 @@ export function discoverProjectManagedFiles(repo: string, seed: ReadonlySet<stri
   const sceneIndex = readOptional('content/scenes/index.json')
   if (sceneIndex !== undefined)
     for (const entry of validateSceneIndex(sceneIndex).scenes) managed.add(entry.path)
-  const scriptIndex = readOptional('content/scripts/index.json') as
-    | { chunks?: Record<string, { path?: unknown }> }
-    | undefined
-  if (scriptIndex?.chunks && typeof scriptIndex.chunks === 'object') {
-    for (const meta of Object.values(scriptIndex.chunks)) {
-      if (typeof meta?.path !== 'string')
-        throw new Error('content/scripts/index.json: chunk path 无效')
-      managed.add(`content/scripts/${meta.path}`)
-    }
-  }
   const mapIndex = readOptional('content/maps/index.json') as
     | { maps?: Array<{ path?: unknown }> }
     | undefined

@@ -181,7 +181,7 @@ describe('contracts runPlayerPoisonEntrySync 毒入口同步(3156-3225)', () => 
     const commands: Command[] = [{ op: 'raw', opcode: 0x29, operands: [0, 6, 0] }, { op: 'end' }]
     gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0, currentEventObjectId: 1 }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(50) // 入口脚本在施毒当场同步执行(global.c:1515 真值)
     expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 6, wPoisonScript: 2 }) // advance end@ip1 → 下轮 entry = 1+1
     expect(gs.mode).toBe('explore') // trigger 跑完收尾

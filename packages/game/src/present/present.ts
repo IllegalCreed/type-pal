@@ -4,7 +4,7 @@ import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { getOverworldSpriteNum, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { finalizePaletteFade, stepPaletteFade } from '../core/palette-fade.js'
-import { isWalkable } from '../core/scene-system.js'
+import { isWalkable } from '../core/scene-collision.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { BattleAssets, BattlePresent } from './battle/present-battle.js'
 import {
@@ -345,7 +345,7 @@ export function presentFrame(
     }
   }
   // 队长也按当前 roleId 查 `PlayerRoles.rgwSpriteNum[role]`(runtime mirror)。
-  // 旧字段 partyLeaderSpriteId 只作为旧存档兼容回退。
+  // role0 先读 partyLeaderSpriteId 镜像；0x65 和开发编辑入口仍可写它。
   let activePartyFrames: SpriteImage[] = ctx.partyFrames
   const leaderSpriteNum = getOverworldSpriteNum(gs, leaderRoleId, ctx.playerRoles)
   if (leaderSpriteNum !== undefined && ctx.npcSpriteFrames) {
@@ -402,7 +402,8 @@ export function presentFrame(
   if (gs.trail.length > 1) {
     // 位置+朝向(port PAL_UpdatePartyGestures fWalking 闸门,scene.c:658/745):走路 trail+偏移+避障、朝向 trail[2].dir;
     //   静止位置借用 frozenOffset，默认朝向仍取当前 trail；下方脚本帧可覆盖最终朝向。
-    gs.followerFrozenOffset ??= [] // 防御:旧存档/反序列化路径可能无此字段(present-only 缓存)
+    // 本缓存由 walking 绘制捕获，静止时借用；轨迹重填时由事件/场景 Owner 清空。
+    gs.followerFrozenOffset ??= []
     const followerState = {
       party: gs.party,
       trail: gs.trail,
@@ -524,7 +525,7 @@ export function presentFrame(
     // 负 vanishTime 仍可见,但在 play.c 中暂停 trigger/autoScript 直到回到 0。
     // sState == kObjStateHidden(=0)或 sState < 0 都隐(scene 1 cutscene 后
     //   setSceneObjectState[12,0,0] 把 npc id=11 sprite 628 拿锅李大娘隐起来,让 sprite 55 走的李大娘 take over)。
-    //   注:bootstrap 把 npc.sState 从 eo.state 真值初始化为 1(kObjStateNormal),所以默认 sState=1 显示。
+    // sState 未提供时视为可见；明确的隐藏/负状态仍按来源或脚本写入值判断。
     if ((npc.sState !== undefined && npc.sState <= 0) || (npc.sVanishTime ?? 0) > 0) continue
     // port sdlpal scene.c:262-280 真值 NPC 帧渲染:
     //   iFrame = wCurrentFrameNum (= scriptedFrame, 0..3 cycle)
@@ -536,7 +537,7 @@ export function presentFrame(
     // 之前 bug:直接 `frames[scriptedFrame]`,frame=3 时索引到 `frames[3]` = 下一方向
     // 的 stand 帧 → 视觉看像"转身"。
     //
-    // nSpriteFrames 推断:frames.length / 4(4 方向):12→3 walking, 4→1 single-pose, 1→0 static
+    // nSpriteFrames 优先读对象字段；缺省才由帧数推断，见下方取值规则。
     // sdlpal scene.c:262-280 真值:spriteIdx = wDirection * nSpriteFrames + iFrame,
     //   iFrame = wCurrentFrameNum(站立时 = 0)。scriptedFrame 或 facing 任一有值就按方向算帧:
     //   - scriptedFrame 有(走动/pose):iFrame = scriptedFrame
@@ -572,7 +573,7 @@ export function presentFrame(
     //   iLayer = sLayer*8 + 2
     //   blit_y = pos.y - height - iLayer
     //          = eo.y - vp.y + 7 - height       (sLayer*8 项相消)
-    // → blit anchor (cy) = npc.y - vp.y + 7;screen sy = npc.y - vp.y + SCREEN_CENTER_Y,
+    // → blit anchor (cy) = npc.y - vp.y + 7;screen sy = npc.y - vp.y，
     //   故 drawSprite cy = sy + 7(sLayer 不进 blit,只进 sort key 和 cover sy)。
     const sLayer = npc.sLayer ?? 0
     // 屏外剔除 — port sdlpal scene.c:286-314(血池审查 2026-06-12):**剔除发生在
@@ -657,7 +658,7 @@ export function presentFrame(
   //    (palette nibble 渐变,不会突然消失)。
   if (gs.fadeState?.backupPixels) {
     const { totalMs, startTimeMs, appliedSteps, backupPixels } = gs.fadeState
-    const current = fb.indices as Uint8Array
+    const current = fb.indices
 
     // time-based:elapsedMs / totalMs * 72 = target step。raf 慢就一帧多跑几步追上。
     const elapsedMs = performance.now() - startTimeMs

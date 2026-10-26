@@ -2,7 +2,7 @@ import type { Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createBattleLifecycleFixture } from '../core/battle/battle-lifecycle.test-fixtures.js'
 import { tickBattleDialog } from '../core/battle/battle-system.js'
-import { createCommandBus } from '../core/command-bus.js'
+
 import { buildLabelMap, runScript, setGlobalEvents, tickEventSystem } from '../core/event-system.js'
 import { createInitialGameState, type GameState } from '../core/game-state.js'
 import { getScriptDescLines } from '../core/menu/script-desc.js'
@@ -40,7 +40,6 @@ function explore(commands: Command[], ip = 0): GameState {
 }
 
 function finish(gs: GameState, fast = false): number {
-  const bus = createCommandBus()
   let pages = 0
   for (let frame = 0; frame < 500 && gs.eventCursor; frame++) {
     if (gs.dialogBox?.phase === 'waiting-page-key') pages++
@@ -49,7 +48,7 @@ function finish(gs: GameState, fast = false): number {
       gs.dialogBox?.phase === 'waiting-page-key' ||
       gs.dialogBox?.phase === 'waiting-end-key'
     gs.nowMs += 100
-    tickEventSystem(gs, input(confirm, frame), bus)
+    tickEventSystem(gs, input(confirm, frame))
   }
   expect(gs.eventCursor).toBeUndefined()
   return pages
@@ -116,11 +115,11 @@ describe('translated message groups', () => {
       { start: 200, end: 200, lines: ['Next group.'] },
     ])
     const gs = explore(commands)
-    tickEventSystem(gs, input(), createCommandBus())
+    tickEventSystem(gs, input())
     expect(gs.dialogBox?.currentLineText).toBe('First.')
     for (let frame = 0; frame < 50 && gs.dialogBox?.currentLineText !== 'Third.'; frame++) {
       gs.nowMs += 100
-      tickEventSystem(gs, input(false, frame), createCommandBus())
+      tickEventSystem(gs, input(false, frame))
     }
     expect(gs.eventCursor?.localizedDialog?.lineIndex).toBe(2)
     setLanguage('zh-CN')
@@ -149,7 +148,7 @@ describe('translated message groups', () => {
       { op: 'showDialog', messageIndex: 200, text: '中文后段' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, input(), createCommandBus())
+    tickEventSystem(gs, input())
     setLanguage('en')
     finish(gs, true)
     expect(gs.dialogHistory?.map((line) => line.text)).toEqual([
@@ -162,10 +161,10 @@ describe('translated message groups', () => {
 
   it('narration advances translated rows on both timeout and key completion', () => {
     const gs = explore([{ op: 'setDialogStyleNarration' }, ...sourceLines, { op: 'end' }])
-    tickEventSystem(gs, input(), createCommandBus())
+    tickEventSystem(gs, input())
     for (let frame = 0; frame < 15; frame++) {
       gs.nowMs += 100
-      tickEventSystem(gs, input(), createCommandBus())
+      tickEventSystem(gs, input())
     }
     expect(gs.dialogBox?.currentLineText).toBe('Second.')
     finish(gs, true)
@@ -218,14 +217,14 @@ describe('translated message groups', () => {
       { op: 'end' },
     ]
     const gs = explore(commands)
-    const bus = createCommandBus()
+
     for (let frame = 0; frame < 100 && gs.dialogBox?.phase !== 'waiting-page-key'; frame++) {
       gs.nowMs += 100
-      tickEventSystem(gs, input(false, frame), bus)
+      tickEventSystem(gs, input(false, frame))
     }
     expect(gs.dialogBox?.titleText).toBe('Hero:')
     expect(gs.dialogBox?.portraitIcon).toBe(8)
-    tickEventSystem(gs, input(true), bus)
+    tickEventSystem(gs, input(true))
     expect(gs.dialogBox?.currentLineText).toBe('After.')
     expect(gs.dialogBox?.titleText).toBe('Hero:')
     expect(gs.dialogBox?.portraitIcon).toBe(8)

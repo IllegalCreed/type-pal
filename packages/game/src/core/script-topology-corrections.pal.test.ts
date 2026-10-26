@@ -62,11 +62,7 @@ function portal(env: ReturnType<typeof environment>, ip: number, owner: number) 
   for (let frame = 0; frame < 50 && env.gs.mode === 'event'; frame++) {
     now += 1000
     env.gs.nowMs = now
-    tickEventSystem(
-      env.gs,
-      { held: new Set(), pressed: new Set(['Confirm']), frameNum: frame },
-      env.bus,
-    )
+    tickEventSystem(env.gs, { held: new Set(), pressed: new Set(['Confirm']), frameNum: frame })
     env.bus.drain()
   }
   expect(env.gs.mode).toBe('explore')

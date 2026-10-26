@@ -40,6 +40,47 @@ function installTransport(bytes = tileset()): string[] {
   })
   return requests
 }
+
+/** Hold each map response independently, including duplicate requests from a faulty renderer. */
+function holdMapRequests(): {
+  started: number[]
+  complete: (id: number) => void
+  stop: () => void
+} {
+  const started: number[] = []
+  const pending: { id: number; resolve: (response: Response) => void; settled: boolean }[] = []
+  let stopping = false
+  vi.stubGlobal('fetch', async (input: RequestInfo | URL): Promise<Response> => {
+    const url = String(input)
+    const match = /\/tilemap\/(\d+)\.json$/.exec(url)
+    if (match) {
+      const id = Number(match[1])
+      started.push(id)
+      if (stopping) return new Response('', { status: 500 })
+      return new Promise<Response>((resolve) => pending.push({ id, resolve, settled: false }))
+    }
+    if (url.endsWith('/tileset/test.rle')) return new Response(Uint8Array.from(tileset()))
+    throw new Error(`Unexpected thumbnail request: ${url}`)
+  })
+  return {
+    started,
+    complete(id) {
+      const request = pending.find((entry) => entry.id === id && !entry.settled)
+      expect(request, `map ${id} must already be waiting for a response`).toBeDefined()
+      request!.settled = true
+      request!.resolve(Response.json(map))
+    },
+    stop() {
+      stopping = true
+      // Cleanup releases held transport without another unrelated full-map raster.
+      for (const request of pending) {
+        if (request.settled) continue
+        request.settled = true
+        request.resolve(new Response('', { status: 500 }))
+      }
+    },
+  }
+}
 async function pixels(url: string | null): Promise<{
   width: number
   height: number
@@ -92,36 +133,59 @@ describe('shared scene thumbnail renderer', () => {
     ])
   })
 
-  it('deduplicates inflight map/width jobs and hands one of two slots to queued work', async () => {
-    const pending = new Map<number, (response: Response) => void>()
-    const started: number[] = []
-    let releasing = false
-    vi.stubGlobal('fetch', async (input: RequestInfo | URL): Promise<Response> => {
-      const url = String(input)
-      const match = /\/tilemap\/(\d+)\.json$/.exec(url)
-      if (match) {
-        const id = Number(match[1])
-        started.push(id)
-        if (releasing) return Response.json(map)
-        return new Promise<Response>((resolve) => pending.set(id, resolve))
-      }
-      if (url.endsWith('/tileset/test.rle')) return new Response(Uint8Array.from(tileset()))
-      throw new Error(`Unexpected thumbnail request: ${url}`)
-    })
+  it('deduplicates inflight requests for the same map and width', async () => {
+    const transport = holdMapRequests()
     const render = createSceneThumbnailRenderer(palette())
-    const jobs = [render(0, 1), render(0, 1), render(0, 2), render(0, 3)]
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const jobs = [render(0, 1), render(0, 1)]
     try {
-      await vi.waitFor(() => expect(started).toEqual([1, 2]))
-      pending.get(1)!(Response.json(map))
+      await Promise.resolve()
+      expect(transport.started).toEqual([1])
+      transport.complete(1)
       expect(await jobs[1]).toBe(await jobs[0])
-      await vi.waitFor(() => expect(started).toEqual([1, 2, 3]))
-      pending.get(3)!(Response.json(map))
-      expect(await jobs[3]).toMatch(/^data:image\/png;base64,/)
-      expect(pending.has(2)).toBe(true)
+      expect(await jobs[0]).toMatch(/^data:image\/png;base64,/)
+      expect(warn).not.toHaveBeenCalled()
     } finally {
-      releasing = true
-      for (const resolve of pending.values()) resolve(Response.json(map))
+      try {
+        transport.stop()
+        await Promise.allSettled(jobs)
+      } finally {
+        warn.mockRestore()
+      }
+    }
+  })
+
+  it('hands one of two occupied slots to queued work while the other request stays held', async () => {
+    const transport = holdMapRequests()
+    const render = createSceneThumbnailRenderer(palette())
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const jobs = [render(0, 1), render(0, 2), render(0, 3)]
+    let secondSettled = false
+    void jobs[1]!.then(() => {
+      secondSettled = true
+    })
+    try {
+      await Promise.resolve()
+      expect(transport.started).toEqual([1, 2])
+      transport.complete(1)
+      expect(await jobs[0]).toMatch(/^data:image\/png;base64,/)
+      expect(transport.started).toEqual([1, 2, 3])
+      transport.complete(3)
+      expect(await jobs[2]).toMatch(/^data:image\/png;base64,/)
+      expect(secondSettled).toBe(false)
+      transport.stop()
       await Promise.allSettled(jobs)
+      expect(warn).toHaveBeenCalledExactlyOnceWith(
+        '[dev-panel] 缩略图渲染失败 map 2:',
+        expect.objectContaining({ message: 'tilemap-2.json fetch failed (500)' }),
+      )
+    } finally {
+      try {
+        transport.stop()
+        await Promise.allSettled(jobs)
+      } finally {
+        warn.mockRestore()
+      }
     }
   })
 

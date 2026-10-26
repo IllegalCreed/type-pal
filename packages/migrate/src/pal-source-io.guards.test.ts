@@ -93,11 +93,10 @@ describe('loadPalContentSupplySources source-tree guards', () => {
 
   test('场景与地图守卫全部通过后才进入资产装载（守卫先于资产 IO）', () => {
     buildTree()
-    const message = loadError().message
-    expect(message).not.toContain('期望 295')
-    expect(message).not.toContain('精确空 stub')
-    expect(message).not.toContain('非正 mapNum')
-    expect(message).not.toContain('期望 223 张')
-    expect(message.length).toBeGreaterThan(0)
+    // 本fixture无MIDI，loadPalAssets随后读取音色库；任意非空错误不能冒充已到达资产IO。
+    expect(loadError()).toMatchObject({
+      code: 'ENOENT',
+      path: join(repo, 'packages/reforge/public/soundfont.sf3'),
+    })
   })
 })

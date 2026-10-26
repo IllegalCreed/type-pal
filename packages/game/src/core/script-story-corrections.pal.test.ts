@@ -56,7 +56,7 @@ function play(
       if (answers >= denyCount && !gs.eventCursor?.confirmYes) pressed.add('Right')
       answers++
     }
-    tickEventSystem(gs, { held: new Set(), pressed, frameNum: frame }, bus)
+    tickEventSystem(gs, { held: new Set(), pressed, frameNum: frame })
     const line = gs.dialogBox?.currentLineText
     if (line && line !== previousLine) {
       lines.push(line)
@@ -147,7 +147,7 @@ it('hides the Peach Forest Anu instance until its entrance preparation reveals h
   for (let frame = 0; frame < 10; frame++) {
     now += 1000
     env.gs.nowMs = now
-    tickEventSystem(env.gs, { held: new Set(), pressed: new Set(), frameNum: frame }, env.bus)
+    tickEventSystem(env.gs, { held: new Set(), pressed: new Set(), frameNum: frame })
     const ip = env.gs.eventCursor?.ip
     if (ip !== undefined && ip >= 27449 && ip < 27460) break
   }

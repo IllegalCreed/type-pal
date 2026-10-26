@@ -19,7 +19,7 @@
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import { buildLabelMap, OP_PLAY_SOUND, setGlobalEvents, tickEventSystem } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 
@@ -61,7 +61,7 @@ describe('K01 trigger 0x02 reset 收尾 → owner.triggerResume 重臂到 resetT
     try {
       setGlobalEvents([]) // 本组用自带 commands/labelMap,不依赖全局数组
       loadTrigger(gs, commands, 3, 0)
-      tickEventSystem(gs, snap(), createCommandBus())
+      tickEventSystem(gs, snap())
       // 0x02 收尾 → 脚本结束回 explore;resume 重臂到 resetTo=4(不是 advance 的 ip+1=2、
       // 也不是 plain 的原地 1 —— 单值 4 同时排除三臂中另外两臂)
       expect(gs.mode).toBe('explore')
@@ -71,7 +71,7 @@ describe('K01 trigger 0x02 reset 收尾 → owner.triggerResume 重臂到 resetT
 
       // 下次触发:从 triggerResume(ip4)起跑 → 目标段执行;0x00 plain 不动 resume(旧测 :2786 已证,此处复核衔接)
       loadTrigger(gs, commands, 3, 4)
-      tickEventSystem(gs, snap(), createCommandBus())
+      tickEventSystem(gs, snap())
       expect(soundsOf(gs)).toEqual([11, 44]) // 目标段执行;ip0(11)不重播
       expect(gs.npcs[0]?.triggerResume?.ip).toBe(4) // plain 收尾不动 resume
     } finally {
@@ -92,12 +92,12 @@ describe('K01 trigger 0x02 end 带 idleFrames:计数挂 owner 跨运行累计,�
       { op: 'raw', opcode: OP_PLAY_SOUND, operands: [33, 0, 0], label: 'L_5' }, // ip5:重臂点
       { op: 'end' }, // ip6
     ]
-    const bus = createCommandBus()
+
     try {
       setGlobalEvents([]) // 本组用自带 commands/labelMap,不依赖全局数组
       // —— 触发 #1:count 1 < 2 → 以 resetTo 重臂收尾 ——
       loadTrigger(gs, commands, 4, 0)
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(soundsOf(gs)).toEqual([11])
       expect(gs.npcs[0]?.triggerResume?.ip).toBe(5)
       expect(gs.npcs[0]?.triggerEndIdleCount).toBe(1) // 计数挂 owner
@@ -107,7 +107,7 @@ describe('K01 trigger 0x02 end 带 idleFrames:计数挂 owner 跨运行累计,�
       const owner2 = gs.npcs[0]
       expect(owner2).toBeDefined()
       if (owner2) owner2.triggerResume = { ip: 5 } // 延续 #1 的重臂点,证 fall-through 不覆盖它
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       // 帧序:ip0(11)→ ip1 计数满 fall-through → ip2(22)当帧续跑 → ip3 plain 收尾
       expect(soundsOf(gs)).toEqual([11, 11, 22])
       expect(gs.npcs[0]?.triggerEndIdleCount).toBe(0) // 满次清零(下次重新计)

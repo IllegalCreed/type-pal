@@ -3,15 +3,10 @@
  * 一律走现行公开构造器(createInitialGameState / createBattleState),不用 any / 双强转。
  */
 import type { BattleField, Enemy, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
-import {
-  type BattleEnemy,
-  type BattlePlayer,
-  type BattleState,
-  createBattleState,
-} from '../../../core/battle/battle-state.js'
+import { type BattleState, createBattleState } from '../../../core/battle/battle-state.js'
 import { type BusEntry, type CommandBus, createCommandBus } from '../../../core/command-bus.js'
 import { createInitialGameState, type GameState } from '../../../core/game-state.js'
-import type { SeedableRng } from '../../../core/rng.js'
+import { createSeedableRng, type SeedableRng } from '../../../core/rng.js'
 
 export function makeHRole(id: number, overrides: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -93,7 +88,7 @@ export function makeHField(): BattleField {
 
 export interface MakeHBattleOpts {
   roles?: PlayerRole[]
-  /** party roleIds(默认 [0])。 */
+  /** party roleIds；默认按roles顺序取id，未传roles时为[0]。 */
   party?: number[]
   /** 敌槽(已展开;null = DH1 零占位槽)。默认 [makeHEnemy()]。 */
   enemies?: Array<Enemy | null>
@@ -125,31 +120,18 @@ export function makeHBattle(opts: MakeHBattleOpts = {}): HBattle {
     enemies: opts.enemies ?? [makeHEnemy()],
     field: makeHField(),
     isBoss: opts.isBoss ?? false,
-    rng: opts.rng ?? seededRng(7),
+    rng: opts.rng ?? createSeedableRng(7),
   })
   gs.battleState = state // 生产不变量:开战后 state 挂 gs(battle-system.ts:322-323)
   const bus = createCommandBus()
   return { gs, state, playerRoles, bus, drain: () => bus.drain() }
 }
 
-/** 空闲敌槽视图(BattleEnemy 零脚本/零状态,health 可调)。 */
-export function asHEnemy(slot: BattleEnemy): Enemy {
-  return slot.e
-}
-
-export function hPlayers(state: BattleState): BattlePlayer[] {
-  return state.players
-}
-
-export function hEnemies(state: BattleState): BattleEnemy[] {
-  return state.enemies
-}
-
 /**
- * 脚本化 + 记录型 rng:rangeInclusive/rangeFloat/range 依次吃 ints/floats,并把每次调用
- * (含参数)记进 calls,用于断言「RNG 抽取顺序」(DM6 / DL6 等)。队列用尽回退 1 / 1 / lo。
- * 传入 trace 时,每次 RNG 消费**实时**同步追加进该外部数组 —— 供「RNG 与脚本回调写同一条
- * 实时事件轨迹」的先后断言(两方都在事件发生瞬间 push,顺序即真实交错序)。
+ * 脚本化RNG：整数方法共用ints游标，浮点方法使用floats；拒绝域外值，不静默钳制坏fixture。
+ * 队列用尽取合法默认值：exclusive整数取lo，inclusive整数/浮点优先1，否则取lo。
+ * 空区间返回lo且不吃队列。记录的是方法调用，不是PRNG内部抽样；next固定0、getState固定0，
+ * 因此本stub不提供seed重放语义。trace在调用当时同步追加，供与脚本事件交错的顺序断言。
  */
 export function recordingRng(
   ints: number[] = [],
@@ -163,6 +145,11 @@ export function recordingRng(
     calls.push(event)
     trace?.push(`rng:${event}`)
   }
+  const finiteBounds = (lo: number, hi: number): void => {
+    if (!Number.isFinite(lo) || !Number.isFinite(hi)) {
+      throw new RangeError(`recordingRng: non-finite bounds ${lo},${hi}`)
+    }
+  }
   return {
     calls,
     next: () => {
@@ -171,39 +158,35 @@ export function recordingRng(
     },
     range: (lo: number, hi: number) => {
       emit(`range(${lo},${hi})`)
+      finiteBounds(lo, hi)
+      if (hi <= lo) return lo
       const v = ints[i++] ?? lo
-      return Math.min(hi - 1, Math.max(lo, v))
+      if (!Number.isInteger(v) || v < lo || v >= hi) {
+        throw new RangeError(`recordingRng.range: ${v} outside [${lo},${hi})`)
+      }
+      return v
     },
     rangeInclusive: (lo: number, hi: number) => {
       emit(`rangeInclusive(${lo},${hi})`)
-      const v = ints[i++] ?? 1
-      return Math.min(hi, Math.max(lo, v))
+      finiteBounds(lo, hi)
+      if (hi <= lo) return lo
+      const v = ints[i++] ?? (lo <= 1 && 1 <= hi ? 1 : lo)
+      if (!Number.isInteger(v) || v < lo || v > hi) {
+        throw new RangeError(`recordingRng.rangeInclusive: ${v} outside [${lo},${hi}]`)
+      }
+      return v
     },
     rangeFloat: (lo: number, hi: number) => {
       emit(`rangeFloat(${lo},${hi})`)
-      const v = floats[f++] ?? 1
-      return Math.min(hi, Math.max(lo, v))
+      finiteBounds(lo, hi)
+      if (hi <= lo) return lo
+      const v = floats[f++] ?? (lo <= 1 && 1 < hi ? 1 : lo)
+      if (!Number.isFinite(v) || v < lo || v >= hi) {
+        throw new RangeError(`recordingRng.rangeFloat: ${v} outside [${lo},${hi})`)
+      }
+      return v
     },
     getState: () => 0,
-  }
-}
-
-/** 固定 seq 的确定性 rng(不记录)。 */
-export function seededRng(seed: number): SeedableRng {
-  let state = seed >>> 0
-  const next = (): number => {
-    state = (state + 0x6d2b79f5) >>> 0
-    let t = state
-    t = Math.imul(t ^ (t >>> 15), t | 1)
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
-  }
-  return {
-    next,
-    range: (lo: number, hi: number) => lo + Math.floor(next() * (hi - lo)),
-    rangeInclusive: (lo: number, hi: number) => lo + Math.floor(next() * (hi - lo + 1)),
-    rangeFloat: (lo: number, hi: number) => lo + next() * (hi - lo),
-    getState: () => state,
   }
 }
 

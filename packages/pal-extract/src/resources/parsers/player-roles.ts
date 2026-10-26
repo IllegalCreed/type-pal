@@ -39,7 +39,7 @@ import { PLAYER_ROLES_NUM } from './_utils.js'
 //                  rgwCriticalSound* / rgwMagicSound*
 //   [PLAYERS × 2]  rgwCoverSound / rgwDyingSound
 //
-// * = signed 语义(同 Enemy D28 + 5 个 sound;sdlpal 内部 SHORT cast)。
+// * = 当前提取器按 signed i16 读取；角色基础属性不等同于敌人的等级 stat modifier。
 //
 // 实测 sizeof(PLAYERROLES):
 //   32 PLAYERS × (6 × 2)   = 384

@@ -56,6 +56,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示](GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布](GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -496,11 +497,13 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口](GAME-AVI-RETRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-ITEM-LIVE-INVENTORY-1 — 物品脚本后的库存与标志所有权](GAME-BATTLE-ITEM-LIVE-INVENTORY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-ITEM-ROLE-CONTEXT-1 — 战斗使用物品的脚本角色上下文](GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序](GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属](GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期](GAME-BATTLE-PRESENT-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-COMMAND-BUS-API-CLEANUP-1 — 一阶段命令通道无用回执清理](GAME-COMMAND-BUS-API-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制](GAME-DRAW-NUMBER-NONFINITE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ENGLISH-1 - 第一阶段英文语言包与界面](GAME-ENGLISH-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算](GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -513,9 +516,11 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性](GAME-SAVE-INPUT-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对](GAME-SCRIPT-CORRECTIONS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）
 

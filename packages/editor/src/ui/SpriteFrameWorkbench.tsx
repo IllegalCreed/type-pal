@@ -38,13 +38,6 @@ export function inspectSpriteFrameDragPayload(
   }
 }
 
-export function readSpriteFrameDragPayload(
-  dataTransfer: Pick<DataTransfer, 'getData'>,
-): SpriteFrameDragPayload | undefined {
-  const result = inspectSpriteFrameDragPayload(dataTransfer)
-  return result.kind === 'payload' ? result.value : undefined
-}
-
 export interface SpriteFrameView {
   canvas: HTMLCanvasElement | undefined
   width: number
@@ -259,20 +252,36 @@ export function SpriteSourceFramePicker(props: {
   presentation?: 'grid' | 'rail'
 }) {
   const rootRef = useRef<HTMLDivElement>(null)
+  const pendingFocus = useRef(new Set<() => void>())
+  useEffect(() => {
+    const owned = pendingFocus.current
+    return () => {
+      for (const cancel of owned) cancel()
+      owned.clear()
+    }
+  }, [])
   const total = props.frames.length
   const safeFrame = Math.min(Math.max(0, props.selectedFrame), Math.max(0, total - 1))
   const focusFrame = (index: number): void => {
     const next = Math.max(0, Math.min(total - 1, index))
     props.onSelect(next)
+    let cancel: () => void
     const focus = (): void => {
+      pendingFocus.current.delete(cancel)
       const button = rootRef.current?.querySelector<HTMLButtonElement>(
         `[data-source-frame-index="${next}"]`,
       )
       button?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' })
       button?.focus()
     }
-    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(focus)
-    else window.setTimeout(focus, 0)
+    if (typeof requestAnimationFrame === 'function') {
+      const id = requestAnimationFrame(focus)
+      cancel = () => cancelAnimationFrame(id)
+    } else {
+      const id = window.setTimeout(focus, 0)
+      cancel = () => window.clearTimeout(id)
+    }
+    pendingFocus.current.add(cancel)
   }
   const onKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number): void => {
     const next =

@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex single agent",
+  "status": "Lifecycle fix accepted; fixed workbench remains review for zero-caller wrapper decision",
+  "files": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "sha256": "da110be6dfa1fbe80b13d4c61858f85bb30c3377b09258a93a042b29369a3b1d",
+      "lines": 693,
+      "status": "review; G zero-caller wrapper decision pending",
+      "dimensions": {
+        "A": "完整当前工作台与真实picker/drop/action-position caller补核；MIME只查transport形状，实际drop另核同asset与帧域；动画时长由当前引擎真值计算。新增focus退出释放的两实际scheduler反例先红后绿，未改变选择/拖拽/绘制参数。",
+        "B": "frame/playbackSteps/loopFrom注释符合作者语义与实际播放；不把接口暴露推导成未知旧档兼容，不以动画专测覆盖拖拽或保存。当前C05像素标题“至少2色”而断言>=1的邻接旧偏差登记，未授该整测试文件新信用。",
+        "C": "上层session/command拥有资产写入与undo，工作台只显示与回调；同一picker拥有全部待执行focus，回调完成删除记录、卸载逐项cancel。动画timer与reduced-motion订阅仍各由自己的effect对称释放。",
+        "D": "RawInspector/动作弹窗复用SourceFramePicker，semantic/instance复用FrameRowView；动画位置复用reforge入口，不复制循环和时长算法。不因共享外观合并语义与实例计数ownership。",
+        "E": "五文件21绿：原19合同加2资源反例；修改两个文件在最终7身份回归。旧同步RAF替身改成下一帧才执行，并断言实际焦点；prototype scrollIntoView恢复原descriptor，fake clocks/globals全部回收。",
+        "F": "职责按Canvas→Cell→Picker→Inspector→Row/Shelves分函数；684行多为明确JSX装配，未为缩行强拆微组件。pendingFocus名字直接说明资源owner，单次调度按现行RAF优先顺序保留。",
+        "G": "readSpriteFrameDragPayload仅两旧测试调用，真实业务用inspect；删除/保留已向用户提交有限裁决，当前不删除、不关闭整文件。其余展示接口有实际library/dialog/inline调用，无新产品出口或模式分支。",
+        "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
+      },
+      "approvedDeltaBridge": {
+        "previousSha256": "e6267a9a0c6cc429e68447d97ae5e5690113af72599300d2964ec3f6a9f9588c",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "sha256": "60759aa487a211d640da215cba3e9d0e9855f6071abfa2d34c0ff0dc45c70d71",
+      "lines": 303,
+      "status": "code-accepted; previously pending adjacent test, outside fixed52",
+      "dimensions": {
+        "A": "五既有合法装配/实例计数/picker合同保留；同步RAF替身改合法排队，最终5绿；不把Canvas mock当像素oracle。",
+        "B": "frame/playbackSteps/loopFrom注释符合作者语义与实际播放；不把接口暴露推导成未知旧档兼容，不以动画专测覆盖拖拽或保存。当前C05像素标题“至少2色”而断言>=1的邻接旧偏差登记，未授该整测试文件新信用。",
+        "C": "上层session/command拥有资产写入与undo，工作台只显示与回调；同一picker拥有全部待执行focus，回调完成删除记录、卸载逐项cancel。动画timer与reduced-motion订阅仍各由自己的effect对称释放。",
+        "D": "RawInspector/动作弹窗复用SourceFramePicker，semantic/instance复用FrameRowView；动画位置复用reforge入口，不复制循环和时长算法。不因共享外观合并语义与实例计数ownership。",
+        "E": "五文件21绿：原19合同加2资源反例；修改两个文件在最终7身份回归。旧同步RAF替身改成下一帧才执行，并断言实际焦点；prototype scrollIntoView恢复原descriptor，fake clocks/globals全部回收。",
+        "F": "职责按Canvas→Cell→Picker→Inspector→Row/Shelves分函数；684行多为明确JSX装配，未为缩行强拆微组件。pendingFocus名字直接说明资源owner，单次调度按现行RAF优先顺序保留。",
+        "G": "无新增skip/only/弱断言；新2例是不同资源回收分支，旧5例不删，原函数布局与拖拽协议未被测试改写。",
+        "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
+      "sha256": "69d296b7d58e220e49bab521969d11d3fb232580a64f087c52d620edf4fcfed2",
+      "lines": 49,
+      "status": "code-accepted;new focus resource contract, outside fixed52",
+      "dimensions": {
+        "A": "两合法2帧picker输入，分别走真实RAF与timeout，点击后卸载，实际队列应归零；正式两红后同两身份通过。",
+        "B": "frame/playbackSteps/loopFrom注释符合作者语义与实际播放；不把接口暴露推导成未知旧档兼容，不以动画专测覆盖拖拽或保存。当前C05像素标题“至少2色”而断言>=1的邻接旧偏差登记，未授该整测试文件新信用。",
+        "C": "上层session/command拥有资产写入与undo，工作台只显示与回调；同一picker拥有全部待执行focus，回调完成删除记录、卸载逐项cancel。动画timer与reduced-motion订阅仍各由自己的effect对称释放。",
+        "D": "RawInspector/动作弹窗复用SourceFramePicker，semantic/instance复用FrameRowView；动画位置复用reforge入口，不复制循环和时长算法。不因共享外观合并语义与实例计数ownership。",
+        "E": "五文件21绿：原19合同加2资源反例；修改两个文件在最终7身份回归。旧同步RAF替身改成下一帧才执行，并断言实际焦点；prototype scrollIntoView恢复原descriptor，fake clocks/globals全部回收。",
+        "F": "职责按Canvas→Cell→Picker→Inspector→Row/Shelves分函数；684行多为明确JSX装配，未为缩行强拆微组件。pendingFocus名字直接说明资源owner，单次调度按现行RAF优先顺序保留。",
+        "G": "无新增skip/only/弱断言；新2例是不同资源回收分支，旧5例不删，原函数布局与拖拽协议未被测试改写。",
+        "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "sha256": "da110be6dfa1fbe80b13d4c61858f85bb30c3377b09258a93a042b29369a3b1d",
+      "approvedDeltaBridge": {
+        "previousSha256": "e6267a9a0c6cc429e68447d97ae5e5690113af72599300d2964ec3f6a9f9588c",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "sha256": "60759aa487a211d640da215cba3e9d0e9855f6071abfa2d34c0ff0dc45c70d71"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
+      "sha256": "69d296b7d58e220e49bab521969d11d3fb232580a64f087c52d620edf4fcfed2"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteActionEditor.tsx",
+      "sha256": "2263c9d4a990e0c91848958884b1a829e68c77cbe6dce7c8ae4581006c593cfb"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+      "sha256": "8d358a507c155cbace226361f07c013683afe6bf7ccf546ffb14c9b0b75d9236"
+    },
+    {
+      "path": "packages/reforge/src/entity-action-player.ts",
+      "sha256": "aeb4692b99b007e1d32080cf1c531825c8084e499fd162a97606aedddbbb34c7"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+      "sha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
+      "sha256": "e32e8c3fdee44d320fc4e99e3afd0ea10edbf618b6fe9dde68e7726a05923921"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "sha256": "891d143621e72fe0e4fdc13a751ab4801be13c747f207dcada73f150f3ccc453",
+      "approvedDeltaBridge": {
+        "previousSha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
+    }
+  ],
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-native.json.gz",
+    "sha256": "4cea9a9a1ddac6fedcdb691c0e9c198f00748cba39f3b928efe6a9f95e4a7960",
+    "decodedSha256": "ecb30aec28b866666e6ce534774b0d389d71106a830262f1f9c0373a3cb23fed",
+    "members": [
+      {
+        "name": "workbench-focus-red.execution.json",
+        "sha256": "bd95545b2ce6f42758fb4bb7c813eade74d0a990396efdc29ff3a2a4e6e80f77",
+        "bytes": 861
+      },
+      {
+        "name": "workbench-focus-red.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "workbench-focus-red.stderr.raw",
+        "sha256": "0c4cba5a95351cd3cd7d837ac2abdb338494edf3c4b20d6fae512d3c3b13bb59",
+        "bytes": 2610
+      },
+      {
+        "name": "workbench-focus-red-r2.execution.json",
+        "sha256": "6e887b329ea762c83659ac773550b4d5e73ca92aef85e5fc1d9daca255feb1b7",
+        "bytes": 866
+      },
+      {
+        "name": "workbench-focus-red-r2.stdout.raw",
+        "sha256": "ee6276e76870115191aefd80c170eddc02e5b824b122a30325aed0c313c5db90",
+        "bytes": 624
+      },
+      {
+        "name": "workbench-focus-red-r2.stderr.raw",
+        "sha256": "3f8396a49031134ce4f0be760164b1a1f5849ce49bdce24d17d2cfcde7c2bc7d",
+        "bytes": 860
+      },
+      {
+        "name": "workbench-focus-green.execution.json",
+        "sha256": "b732c850a04bdeb1606c0748953daee07c324e13ae3efeae9dae16a17e9ede75",
+        "bytes": 1089
+      },
+      {
+        "name": "workbench-focus-green.stdout.raw",
+        "sha256": "8e3ae4fad10c650920f109eca59d409f18f87d7a49df61157b0f738a49b566c2",
+        "bytes": 737
+      },
+      {
+        "name": "workbench-focus-green.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "workbench-focus-final.execution.json",
+        "sha256": "d9534712368053a922325378f4eb9067d8fe4e38e26c142bc9fd386e7a5fef77",
+        "bytes": 906
+      },
+      {
+        "name": "workbench-focus-final.stdout.raw",
+        "sha256": "68ef30ffb6e3d309ea59d8037f193d40402052812bb6970de9bf97102ab96d84",
+        "bytes": 511
+      },
+      {
+        "name": "workbench-focus-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "workbench-editor-types.execution.json",
+        "sha256": "6c1768857a5091da0b886b84d13edb3d04c125739a2d13e4e4e7c79ec6f2bd25",
+        "bytes": 473
+      },
+      {
+        "name": "workbench-editor-types.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "workbench-editor-types.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "workbench-focus-red-r2.native.json",
+        "sha256": "b31c51698bd7374b64c5a24129e24a58411a473c43a2b87e666624a2866e3921",
+        "bytes": 2001
+      },
+      {
+        "name": "workbench-focus-green.native.json",
+        "sha256": "2c615787c8fa92ef437c99061fe79bde275683df827da8633304e1e4405ece0f",
+        "bytes": 8538
+      },
+      {
+        "name": "workbench-focus-final.native.json",
+        "sha256": "a080fc36fc081c77603fe4f9b7fecc75326efbf5a75289e3adddedeb5a1389ea",
+        "bytes": 3095
+      },
+      {
+        "name": "workbench-full-docs.execution.json",
+        "sha256": "bd12758467f2c7ded0dfef678cf3d3823962d040ce8e5f50cdee7419250f2c90",
+        "bytes": 412
+      },
+      {
+        "name": "workbench-full-docs.stdout.raw",
+        "sha256": "a3e099c44cc7989af7b40e7702b1cffd64566e92258d67dbca5c1139302a693c",
+        "bytes": 30750
+      },
+      {
+        "name": "workbench-full-docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "workbench-final-lint.execution.json",
+        "sha256": "0d36b50fdfd307df0c71cc7576bf831f5043dfa437f33a8301a3e4c8742039c4",
+        "bytes": 429
+      },
+      {
+        "name": "workbench-final-lint.stdout.raw",
+        "sha256": "cbcfeab85917df3b23a22a42bceba57faad05c33a21ee13737a972098e4d5fa7",
+        "bytes": 76
+      },
+      {
+        "name": "workbench-final-lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  "limits": [
+    "First red id is a wrong-config startup failure, not a business counter; r2 has exactly two intended AssertionErrors.",
+    "Only display/focus/timer contracts reviewed; no new asset pipeline/save/UI shape or ED entity-state implementation changes.",
+    "Raw inspector malformed asset-data policy and the adjacent C05 color-count/title mismatch are not newly accepted product cases."
+  ]
+}

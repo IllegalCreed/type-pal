@@ -1,6 +1,6 @@
 import type { Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import * as equipEntry from './equip-effect.js'
 import * as equipment from './equipment-state.js'
 import * as eventEntry from './event-system.js'
@@ -145,8 +145,7 @@ describe('D1 shared-state ownership after dependency split', () => {
   })
 
   it('event history consumes the latest map written through either scene identity entrypoint', () => {
-    const gs = fresh(),
-      bus = createCommandBus()
+    const gs = fresh()
     for (const [setMap, map] of [
       [sceneEntry.setCurrentMapNum, 7],
       [identity.setCurrentMapNum, 9],
@@ -157,7 +156,7 @@ describe('D1 shared-state ownership after dependency split', () => {
         ip: 0,
       }
       gs.mode = 'event'
-      eventEntry.tickEventSystem(gs, input(), bus)
+      eventEntry.tickEventSystem(gs, input())
       expect(gs.dialogHistory?.at(-1)).toEqual({ map, text: '共享地图' })
       expect(sceneEntry.getCurrentMapNum()).toBe(map)
     }

@@ -1,6 +1,6 @@
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import { buildLabelMap, OP_GOTO_IF_NO, OP_SET_CAMERA, tickEventSystem } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 
@@ -38,7 +38,7 @@ describe('TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同', () => {
     // 对照:目标在 labelMap 的否分支跳转续跑已证(event-system.test.ts:1663);本合同只钉
     // 目标缺失臂的终止与清理,合法 typed 输入 = 0x0A operand[0] 指向无 L_<n> 标签的 entry。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'showDialog', messageIndex: 0, text: '要不要' },
       { op: 'raw', opcode: OP_GOTO_IF_NO, operands: [9, 0, 0] }, // L_9 不在 labelMap → fail-closed
@@ -50,7 +50,7 @@ describe('TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同', () => {
     let enteredConfirm = false
     for (let i = 0; i < 24 && gs.eventCursor !== undefined; i++) {
       gs.nowMs += 100
-      tickEventSystem(gs, snap([]), bus)
+      tickEventSystem(gs, snap([]))
       if (gs.eventCursor?.waiting === 'confirm') {
         enteredConfirm = true
         break
@@ -61,7 +61,7 @@ describe('TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同', () => {
     expect(gs.mode).toBe('event')
     // 默认 否 + Confirm 提交 → resolveConfirmGoto 解不出 L_9 → fail-closed 终止。
     gs.nowMs += 100
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']))
     expect(gs.eventCursor).toBeUndefined() // 脚本终止(不是续跑到 0x0A 之后)
     expect(gs.mode).toBe('explore') // restoreModeAfterScript 收口
     expect(gs.dialogBox).toBeUndefined() // 问句被 clearDialogBoxes 清掉
@@ -86,7 +86,7 @@ describe('TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同', () => {
       [0xffff, 90],
     ] as const) {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       gs.party = { x: 300, y: 200, facing: 'down' }
       gs.camera = { x: -999, y: -999 }
       gs.eventCursor = {
@@ -109,7 +109,7 @@ describe('TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同', () => {
       let observed = false
       for (let i = 0; i < 200 && gs.eventCursor !== undefined; i++) {
         gs.nowMs += 100
-        tickEventSystem(gs, snap(['Confirm']), bus)
+        tickEventSystem(gs, snap(['Confirm']))
         if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
         if (gs.dialogBox?.currentLineText?.includes('蛇女'))
           lingerPortrait = gs.dialogBox.portraitIcon

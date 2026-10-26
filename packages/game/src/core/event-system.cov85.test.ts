@@ -465,7 +465,7 @@ describe('cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecy
     const gs = freshGs()
     gs.mode = 'event'
     const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.mode).toBe('explore')
     expect(bus.drain()).toEqual([]) // 该路径无 Present emit(一手证明)
   })
@@ -476,16 +476,16 @@ describe('cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecy
     gs.eventCursor = cursorAt(0, { waiting: 'fade-screen' })
     gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 4000, appliedSteps: 0 }
     const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.dwCash).toBe(0) // elapsed 1000 < 2160 → 阻塞
     now.mockReturnValue(6200)
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.fadeState).toBeUndefined()
     expect(gs.dwCash).toBe(111)
     const gs2 = installWaitScript(0)
     gs2.eventCursor = cursorAt(1, { waiting: 'fade-screen' }) // 防御臂不推 ip → 直落 0x1E
     const { bus: bus2 } = realBus()
-    tickEventSystem(gs2, snapR3(), bus2)
+    tickEventSystem(gs2, snapR3())
     expect(gs2.dwCash).toBe(111)
     expect(bus.drain()).toEqual([])
     expect(bus2.drain()).toEqual([])
@@ -505,10 +505,10 @@ describe('cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecy
       increment: 4,
     }
     const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.dwCash).toBe(0) // elapsed 100 < 600 → 阻塞
     vi.spyOn(performance, 'now').mockReturnValue(5600)
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.paletteFadeState).toBeUndefined()
     expect(gs.dwCash).toBe(111) // 旧 0x4E 用例只证 reload;无 reload 的完成续跑是本合同
     expect(bus.drain()).toEqual([])
@@ -518,11 +518,11 @@ describe('cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecy
     const gs = installWaitScript(0)
     gs.eventCursor = cursorAt(0, { waiting: 'scene-load' })
     const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
+    tickEventSystem(gs, snapR3())
     expect(gs.dwCash).toBe(0)
     gs.eventCursor = cursorAt(1)
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.dwCash).toBe(111)
     expect(bus.drain()).toEqual([])
   })
@@ -531,7 +531,7 @@ describe('cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecy
     const gs = installWaitScript(0)
     gs.eventCursor = cursorAt(1, { waiting: 'dialog' }) // 防御臂不推 ip → 直落 0x1E
     const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.dwCash).toBe(111)
     expect(bus.drain()).toEqual([])
   })
@@ -567,7 +567,7 @@ describe('cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 
     gs.npcs = [npc(0)]
     gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
     const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 1 })
     expect(gs.currentDialogPortraitLayout).toBe(false) // 旧测未证:PAL_EndDialog 复位段
     expect(gs.currentDialogPortraitIcon).toBeUndefined()
@@ -582,14 +582,14 @@ describe('cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 
     gs.mode = 'event'
     gs.dialogBox = dialogBox({ dialogLineCount: 2, phase: 'typing' })
     gs.eventCursor = cursorAt(0)
-    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3())
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.dialogBox?.phase).toBe('waiting-end-key')
     const gs2 = freshGs()
     gs2.mode = 'event'
     gs2.dialogBox = dialogBox({ dialogLineCount: 0 })
     gs2.eventCursor = cursorAt(0)
-    tickEventSystem(gs2, snapR3(), bus)
+    tickEventSystem(gs2, snapR3())
     expect(gs2.dialogBox).toBeUndefined()
     expect(gs2.eventCursor).toBeUndefined()
     expect(bus.drain()).toEqual([])

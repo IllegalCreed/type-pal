@@ -16,12 +16,14 @@ describe('SemanticFrameShelf', () => {
   let host: HTMLDivElement
   let root: Root
   let contextSpy: ReturnType<typeof vi.spyOn>
+  let scrollDescriptor: PropertyDescriptor | undefined
 
   beforeEach(() => {
     ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
     host = document.createElement('div')
     document.body.append(host)
     root = createRoot(host)
+    scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')
     contextSpy = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
       clearRect: vi.fn(),
       drawImage: vi.fn(),
@@ -33,6 +35,11 @@ describe('SemanticFrameShelf', () => {
     await act(async () => root.unmount())
     contextSpy.mockRestore()
     host.remove()
+    if (scrollDescriptor)
+      Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)
+    else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')
+    vi.unstubAllGlobals()
+    vi.useRealTimers()
   })
 
   test('单帧行只有具体帧，多帧行首格动画后跟完整帧序', async () => {
@@ -231,10 +238,7 @@ describe('SemanticFrameShelf', () => {
       configurable: true,
       value: scrollIntoView,
     })
-    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
-      callback(0)
-      return 1
-    })
+    vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })
     function Harness() {
       const [selected, setSelected] = useState(1)
       return (
@@ -253,6 +257,7 @@ describe('SemanticFrameShelf', () => {
     expect(buttons.map((button) => button.tabIndex)).toEqual([-1, 0, -1, -1])
     const end = new KeyboardEvent('keydown', { key: 'End', bubbles: true, cancelable: true })
     await act(async () => buttons[1]!.dispatchEvent(end))
+    await act(async () => vi.advanceTimersToNextFrame())
     expect(end.defaultPrevented).toBe(true)
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')].map(
@@ -260,6 +265,7 @@ describe('SemanticFrameShelf', () => {
       ),
     ).toEqual([-1, -1, -1, 0])
     expect(scrollIntoView).toHaveBeenCalled()
+    expect(document.activeElement).toBe(buttons[3])
     expect(host.querySelector('[role="status"]')?.textContent).toContain('源帧 3')
     const boundary = new KeyboardEvent('keydown', {
       key: 'ArrowRight',

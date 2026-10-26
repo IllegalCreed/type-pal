@@ -316,7 +316,6 @@ describe('BattlePresent', () => {
       state,
       [
         {
-          cmdId: 1,
           cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
         },
       ],
@@ -342,11 +341,9 @@ describe('BattlePresent', () => {
     const assets = mkAssets()
     const commands: BusEntry[] = [
       {
-        cmdId: 1,
         cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
       },
       {
-        cmdId: 2,
         cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 50, color: 'yellow' },
       },
     ]
@@ -362,20 +359,7 @@ describe('BattlePresent', () => {
     const present = new BattlePresent()
     const state = mkState([], [])
     const commands: BusEntry[] = [
-      { cmdId: 1, cmd: { op: 'playEnemyAttack', enemyIdx: 0, targetPlayerIdx: 0 } },
-      { cmdId: 2, cmd: { op: 'flashEnemy', enemyIdx: 0, durationMs: 100 } },
-      { cmdId: 4, cmd: { op: 'showBattleUI', state: 'mainMenu' } },
-      {
-        cmdId: 5,
-        cmd: {
-          op: 'playMagicAnim',
-          magicId: 1,
-          casterType: 'player',
-          casterIdx: 0,
-          targetType: 'enemy',
-          targetIdx: 0,
-        },
-      },
+      { cmd: { op: 'playEnemyAttack', enemyIdx: 0, targetPlayerIdx: 0 } },
     ]
     present.draw(fb, mkGs(), state, commands, mkAssets(), 0)
     expect(fbHasWrites(fb)).toBe(false)
@@ -387,7 +371,6 @@ describe('BattlePresent', () => {
     const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
     const cmds: BusEntry[] = [
       {
-        cmdId: 1,
         cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
       },
     ]
@@ -440,11 +423,9 @@ describe('BattlePresent —— 多帧命令累积', () => {
       state,
       [
         {
-          cmdId: 1,
           cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 1, color: 'blue' },
         },
         {
-          cmdId: 2,
           cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 2, color: 'blue' },
         },
       ],
@@ -459,7 +440,6 @@ describe('BattlePresent —— 多帧命令累积', () => {
       state,
       [
         {
-          cmdId: 3,
           cmd: {
             op: 'showDamageNum',
             target: { kind: 'player', idx: 0 },

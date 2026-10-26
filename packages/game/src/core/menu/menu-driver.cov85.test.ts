@@ -18,7 +18,7 @@ import type {
 } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
-import { createCommandBus } from '../command-bus.js'
+
 import { setGlobalEvents, tickEventSystem } from '../event-system.js'
 import {
   createInitialGameState,
@@ -823,13 +823,13 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
 
   it('shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本', () => {
     const gs = openShopWithScript()
-    const bus = createCommandBus()
+
     dispatchMenuInput(gs, snap(['Menu'])) // 关店 → 栈空
     expect(gs.menuStack).toHaveLength(0)
     tickMenu(gs, snap()) // 栈空 → resumeAfterMenusClosed
     expect(gs.eventCursor?.waiting).toBeUndefined()
     expect(gs.mode).toBe('event')
-    tickEventSystem(gs, snap(), bus) // 续跑 ip1 → 0x1E +77
+    tickEventSystem(gs, snap()) // 续跑 ip1 → 0x1E +77
     expect(gs.dwCash).toBe(127)
   })
 
