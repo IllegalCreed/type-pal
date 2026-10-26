@@ -50,12 +50,12 @@ describe('PAL 迁移工程快照', () => {
     expect(() => assertProjectSnapshotCurrent(repo, snapshot)).toThrow('music.json')
 
     rmSync(resolve(repo, 'projects/pal/content/music.json'))
-    put(repo, 'content/scripts/chunks/new-target.json', '{}\n')
+    put(repo, 'content/maps/new-target.json', '{}\n')
     expect(() =>
       assertProjectSnapshotCurrent(
         repo,
         snapshot,
-        new Set([...managed, 'content/scripts/chunks/new-target.json']),
+        new Set([...managed, 'content/maps/new-target.json']),
       ),
     ).toThrow('new-target.json')
   })
@@ -83,22 +83,37 @@ describe('PAL 迁移工程快照', () => {
     expect([...hashes.keys()]).toEqual(['notes.txt'])
   })
 
-  test('只发现 index 明示引用的额外场景和 chunk', () => {
+  test('只发现当前 index 明示引用的额外场景', () => {
     const repo = tempRepo()
     put(
       repo,
       'content/scenes/index.json',
       '{"version":1,"scenes":[{"id":"s000","name":"起点","path":"content/scenes/s000.json"},{"id":"manual","name":"手工","path":"content/authored/manual.json"}]}\n',
     )
-    put(repo, 'content/scripts/index.json', '{"chunks":{"manual":{"path":"chunks/manual.json"}}}\n')
-    put(repo, 'content/scripts/chunks/unreferenced.json', '{}\n')
-    const managed = discoverProjectManagedFiles(
-      repo,
-      new Set(['content/scenes/index.json', 'content/scripts/index.json']),
+    const managed = discoverProjectManagedFiles(repo, new Set(['content/scenes/index.json']))
+    expect(managed).toEqual(
+      new Set([
+        'content/scenes/index.json',
+        'content/scenes/s000.json',
+        'content/authored/manual.json',
+      ]),
     )
-    expect(managed).toContain('content/authored/manual.json')
-    expect(managed).toContain('content/scripts/chunks/manual.json')
-    expect(managed).not.toContain('content/scripts/chunks/unreferenced.json')
+  })
+
+  test('退役脚本索引及其引用保留为非托管字节，坏索引也不再解析', () => {
+    const repo = tempRepo()
+    const oldIndex = 'content/scripts/index.json'
+    const oldChunk = 'content/scripts/chunks/manual.json'
+    put(repo, oldIndex, '{"chunks":{"manual":{"path":"chunks/manual.json"}}}\n')
+    put(repo, oldChunk, '{"keepFormatting": true}\n')
+    const managed = discoverProjectManagedFiles(repo, new Set(['content/items.json']))
+    expect(managed).toEqual(new Set(['content/items.json']))
+    const before = hashUnmanagedProjectFiles(repo, managed)
+    expect([...before.keys()]).toEqual([oldChunk, oldIndex])
+    expect(loadProjectMigrationSnapshot(repo, managed).files).toEqual(new Map())
+    expect(hashUnmanagedProjectFiles(repo, managed)).toEqual(before)
+    put(repo, oldIndex, '{old-invalid:')
+    expect(discoverProjectManagedFiles(repo, new Set())).toEqual(new Set())
   })
 
   test('工作区 identity 旁车不进入 managed census，并作为非托管字节受保护', () => {
