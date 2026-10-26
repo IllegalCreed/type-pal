@@ -12,39 +12,45 @@ evidence: e2e/evidence/e2e-006.json
 
 Status: rework
 Owner: Codex
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-26
 Template: test-run-report-v1 / 1.0.0
 
 ## Scope
 
-本页是 `e2e-006` 的唯一正式报告，覆盖 phase1/game 与 phase2/reforge 从真实 005 saves 到仙灵岛口的剧情段。顶部 testing-meta 与配对 JSON 原机器字段保持不变：原 revision `d02278dc0154dd73b5db24388a35c30bb096cc81`、content22/SAVE11、历史执行和来源日期均不升级。当前版本常量为 content22/minimumSave12，只属源码核读；本轮没有游戏、浏览器、E2E、视觉或 coverage 执行。
+2026-10-26按用户要求复核006出版过期并补验实际缺口。出版状态仍为rework，`lastVerified`仍为10-03；顶部testing-meta与配对JSON原生字段仍是`d02278dc`/content22/SAVE11的历史身份。下述新执行从本分支base `14e0336fe045d038a29ab773acaa639696d31ea8`及真实工作树输入产生，各report的依赖SHA绑定实际字节，不冒称在未来提交上运行，也不刷新旧raw或旧SHA。
 
 ## Execution and assertions
 
-| 步骤 | 合法输入 / caller | 断言与业务停止线 | 本轮证据边界 |
-|---|---|---|---|
-| 接续 005 | 同引擎真实 saves checkpoint；Reforge `boat-reforge.mjs` → `runBoatJourney` | caller 核前驱 fragment005、engine、case=saves、passed 及 checkpoint SHA | 直接核读 Reforge caller 全文；没有重新生成或恢复旧存档 |
-| 求药与码头 | 正常走回客栈，洪大夫、小虎子首次与两次复读、苗人头领、张四、走到 e116 | 当前 Reforge caller 对 e123 精确断言 primary state2；旧 report/card 的 state3 保留为历史，不能作为当前源断言 | 源码职责核对，不把源码路径可达说成新的双轨通过 |
-| 船段与落地 | 实际 island-arrival route 与对白确认 | boarding artifact/interval 绑定实际 route start；完整确认1886/1888/1889/1890，剧情结束、控制返回，才结束006 | 末 draw 与 ride leg 的 settlement/completion 分开；未查看当前执行图像或重算运动数据 |
+| 本轮范围 | 实际结果与边界 |
+|---|---|
+| 必要前驱 | 当前001/002双轨执行与比较通过；003双端独立通过，修正提取标签元数据后离线比较0 finding；004/005仅两端saves通过，正常生成同引擎真档，RF为SAVE12/content22。未重授004 items/005 guards全套或连续演示信用。 |
+| 求药到出海 | 两端公开boat入口均passed，95条正文及说话人、洪大夫/小虎首段及复读/苗人头领/张四/船边正常路线、e123当前state2及方案后继均由真实采集核对。两端`006-state-trace.json`、`006-trace.json`保留实际NPC状态/方案/控制权/位置/朝向变化。 |
+| 船与落地 | 船运动专项passed，实际party offset两端均[-2,-4]、rower offset[-2,2.25]，71/72运动样本分别留原值；actual draw/rider归一化与普通逻辑facing分轴，不能把Game up/RF down字段直接称视觉差异已闭合。1886/1888/1889/1890全部确认，清空对话并返回控制后结束s014。 |
+| 全比较 | 最新离线比较`passed`，0项finding；storyTiming错误为`[]`。最初15项红及后续每轮原件均保留，不改旧输出。 |
 
-不把“首句出现”当完整终点，不以单帧截图证明划桨逐帧观感，也不把只有李逍遥的原存档扩成三人队伍验收。第一阶段详细 caller、本段原始事件与 raw 没有在本轮重新执行或完整重审；下方原一手引用保留其原范围。
+工具根因与修复限证据消费：①依赖扫描曾把合法`?worker&url`当文件名，首轮Game启动前红保留；现在纳入worker及传递源码，未知query/越界仍拒。②原始SSS735/737两条0x14已带L_735/L_737标签，补齐期待对象的这两个元数据，六条原始opcode/operands未改。③等待到期同帧的自动方案替换须有真实selectEntityBehavior、完成、旧activation取消、旧gate拒绝和新run，不能当换场景取消。④第一段慢走在触发前已到精确目标时允许真实settled；后段仍须取消prefix，要求完整步进/到达/最新pose/实际draw。没有加入ID豁免、时间容差、忽略项或产品源码修改。新IO夹具只证检查器判别力，不冒充产品反控。
 
 ## Results
 
-发布状态仍为 `rework`。原独立实跑和 comparison 的 passed 只属各自 10-04 路径；10-07 用户已撤销旧首句停止点的完整结束信用。后继连续任务顶部在固定候选上的 done 具有不同日期/范围，本轮只读其前160/3510行，不能据顶栏取代本发布结论。
+2026-10-26：当前两端006独立路线及95条正文/完整上岛收尾通过；最新离线全比较passed（0项finding），船只专项通过。编辑器初态、命名与正式006checkpoint仍按下列范围待核，整段保持rework。
 
-原“当前双轨独立实跑”记 Reforge 偏移 `[0,0]` / down，原“独立轨迹对比”记两轨 `[-2,-4]` / up，并都引用同一组日期级产物。缺原 raw、每轮 revision 与指标/修正时序绑定，本轮不能断言两段描述已相互解释或任选一段升级为当前真值；两组数值完整保留为明确未闭合冲突。若后续恢复对应原始数据，须逐项记录归属后再更正。
+未完成义务：正式006 save/checkpoint与fresh恢复未产生（`006-end.json`只是终态观察）；方案/步骤仍有“默认触发行为/步骤1”等泛名，未以命名改动刷新content digest；完整划桨/船锚/落船位观感未由四张静态截图替代；编辑器12入口的完整上下文与保存重开/播放逐入口验收按下面边界执行。任一未闭合即不标done、不合main、不推送，不授下游前驱或覆盖率信用。
 
-本轮不会将原命名、NPC、视觉待核项认作今天重新确认的产品缺陷；它们是原 rework 的证据边界。原 `reviewBy: 2026-10-15` 到本地2026-10-16实测过期。此次完整原/新正文、配对机器/来源/状态/反证与不同候选边界经非作者receipt_review实质发布复核，文档迁移accept；明确续至10-23仅安排下一次published evidence/status review。lastVerified10-03、rework、原revision/versions/历史机器执行不变；不是排版自动延期或新E2E通过，原失败和续期理由留catalog history。
+编辑器已真实打开s002/e35：场景默认医生hidden=true、collide=false，而本轮真实执行前为visible=true/state2，故“未配置”不是“已核正确”。从实际run-started前pose提取12个稳定入口；当前状态库支持NPC位置/高度/朝向/显隐/碰撞，可配置10套显示初态供12入口绑定。它不表达玩家位置、numeric entityState、行为cursor、固定帧/动作、authority/暂停auto或未观测的动态zBias，不能把字段投影宣称完整现场恢复。正式配置与UI逐入口结果以本轮`preview-projection-audit.json`及UI原件为准；未实查项不得标“场景默认已核”。
 
 ## Evidence
 
-- [阶段入口](README.md)、[测试 catalog](../../../catalog.json)与[配对机器回执](../../evidence/e2e-006.json)共同保留唯一 ID 和原 sourceRefs/callers/legalInputs/oracle/dedupe/revision；真实 paired consumer 校验只能说明结构与引用一致。
-- 原 game、Reforge 和 comparison 的 `build/e2e/` 路径及 trace/screenshot 名称完整留在下方历史正文。本轮没有恢复 ignored raw 或验证原文件 hash/exit/signal，不把引用存在当原证据可重放。
-- [活动006卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)保留 rework/state3 与旧终点；[后继连续批次卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)负责其固定候选的后继证据，不能由本页代签全卡、运行或视觉验收。
-- 本次完整旧正文/标题可逆保留、source/after SHA、逐篇 review 与迁移检查写入[本批治理回执](../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json)。静态通过不授予 runtime/E2E/视觉/coverage 信用。
+- 新Game：`build/e2e/game-006-2026-10-26T13-01-49-753Z/report.json`；新Reforge：`build/e2e/reforge-006-2026-10-26T13-01-50-549Z/report.json`。各目录有`006-state-trace.json`、`006-trace.json`、`006-boat-motion.json`、`006-end.json`、before-ride/island-arrival截图；report内保存predecessor路径与SHA，链路不靠手填。
+- 当前比较`build/e2e/006-current-offline-selected-review.json`；003离线`build/e2e/003-current-offline-source-label-review.json`。旧`both-006-2026-10-26T13-08-33-056Z`和`006-current-offline-replacement-review.json`保持原红。
+- 原始命令、失败、起止/exit/signal、完整stdout/stderr及运行前后输入指纹集中保全于本轮工作包；本轮持久归档`/Users/zhangxu/illegal/type-pal/build/evidence-archive/e2e006-20261026/e2e006-20261026.tar.gz`，归档内部inventory/restore-map指回原工作树路径，不改report中的绝对路径，不作为第二套治理账本。
+- 已实际查看两端before-ride与island-arrival四截图，不能由静态图代签整个动作序列；未录capture视频、未跑产品单元/coverage、未对后期剧情扩审。
+- 旧10-11连续卡的正文与CI保全记录可读，但已查活跃树/资源备份未恢复其36 raw；旧卡历史验收不因本轮未寻获原件而擦除，也不能借用于当前合同。另一延后分支只读核过，不直接借其10-31日期或执行信用。
+- [阶段入口](README.md)、[catalog](../../../catalog.json)、[原机器回执](../../evidence/e2e-006.json)、[活动任务卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)共同记录当前出版状态；作者新delta待非作者验收，旧执行保全信用不等于本候选accept。
 
 ## Revision history
+
+2026-10-26：实质出版复核+必要真实补验；下一复核11-02，rework/lastVerified10-03/原native身份不改。旧10-16 current段落可按固定base `14e0336fe045d038a29ab773acaa639696d31ea8`逐字读取；以下既有带日期历史正文保持原字节和当时结论。
+
 
 2026-10-16：内容迁移经非作者receipt_review独立accept、根Codex接收。原 frontmatter/testing-meta 字节不变；以下完整保留原报告正文，仅 ATX 标题降两级以置于本历史节，未删除日期、失败、旧质量计数或反证。下方“当前”“正在执行”“待生成”等词仅指原日期，不指本次治理。新章节明确 state2/state3、偏移口径、首句撤信及不同冻结批次的边界；不静默改写旧结论。
 

@@ -49,6 +49,16 @@ export async function localDependencyGraph(root, entries, browserPackage) {
     }
   }
   const local = async (path) => {
+    if (path.includes('?')) {
+      const parts = path.split('?')
+      assert(
+        parts.length === 2 && parts[1] === 'worker&url',
+        `unsupported local evidence import query ${path}`,
+      )
+      // Vite emits this module as a worker URL. Pin its actual source and nested
+      // imports; the importing source and lockfile pin the transform itself.
+      path = parts[0]
+    }
     const candidates = [
       path,
       ...['.ts', '.tsx', '.mts', '.mjs', '.js', '/index.ts', '/index.js'].map((ext) => path + ext),

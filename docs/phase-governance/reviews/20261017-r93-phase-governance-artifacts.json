@@ -354,7 +354,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "b870205df21178e99aac00041653f6b31c21e85f4148b5913f09943147c48ae7",
+      "afterSha256": "a6a282b1269c1677c8d96ece86b4b1a3c575f6a6abfde4740c505e165d65614f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -555,6 +555,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "b870205df21178e99aac00041653f6b31c21e85f4148b5913f09943147c48ae7",
+          "afterSha256": "a6a282b1269c1677c8d96ece86b4b1a3c575f6a6abfde4740c505e165d65614f",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -1229,7 +1240,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "28d7a027bb27c86290fc5b8a6a76137842a200c962ea52ad09a18642de097ab5",
+      "afterSha256": "b816960564fba9ece1bb74483b407fb518372473690bcddc3f14e413aa969bdb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1898,6 +1909,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "28d7a027bb27c86290fc5b8a6a76137842a200c962ea52ad09a18642de097ab5",
+          "afterSha256": "b816960564fba9ece1bb74483b407fb518372473690bcddc3f14e413aa969bdb",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -3339,7 +3361,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "4af5efdba3305f01fdead3730368b180a5040e02b3e7de2ab89da6e49621adee",
+      "afterSha256": "0c4eef7c695df4e24828d1aa92113683c34239376cc94d2216302131fe2a1e09",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3473,6 +3495,17 @@
           "afterSha256": "4af5efdba3305f01fdead3730368b180a5040e02b3e7de2ab89da6e49621adee",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "4af5efdba3305f01fdead3730368b180a5040e02b3e7de2ab89da6e49621adee",
+          "afterSha256": "0c4eef7c695df4e24828d1aa92113683c34239376cc94d2216302131fe2a1e09",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -6157,7 +6190,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
-      "afterSha256": "18e74124ad1d6e75404c667e4909d4b572282e58866c167c66b7c2a8c71e6105",
+      "afterSha256": "86db408838dfb47974985862e3162a8a7f9e039bdc2f79bcae422160e99a74f4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6291,6 +6324,17 @@
           "afterSha256": "18e74124ad1d6e75404c667e4909d4b572282e58866c167c66b7c2a8c71e6105",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "18e74124ad1d6e75404c667e4909d4b572282e58866c167c66b7c2a8c71e6105",
+          "afterSha256": "86db408838dfb47974985862e3162a8a7f9e039bdc2f79bcae422160e99a74f4",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -9488,7 +9532,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "ed6d51ea9859842d80470bd26db54c8c50f1a57e8ab576cccb0e5a5cfe845b92",
+      "afterSha256": "bdb89a40301c8b494a705e4663e4e5b788b91c61ac36f521b35f4053bc204dfa",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9702,6 +9746,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "ed6d51ea9859842d80470bd26db54c8c50f1a57e8ab576cccb0e5a5cfe845b92",
+          "afterSha256": "bdb89a40301c8b494a705e4663e4e5b788b91c61ac36f521b35f4053bc204dfa",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -13731,7 +13786,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-      "afterSha256": "4c1e63a2ff133364b56857103a7c098704340601ac215085e4dac70c95e7d04d",
+      "afterSha256": "61ed3be5d0fbda9c2b99cf754452adc708b6cfdb92561c0ab2164d210f73f014",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13888,6 +13943,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "4c1e63a2ff133364b56857103a7c098704340601ac215085e4dac70c95e7d04d",
+          "afterSha256": "61ed3be5d0fbda9c2b99cf754452adc708b6cfdb92561c0ab2164d210f73f014",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -16090,7 +16156,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
-      "afterSha256": "7c96f4d96992aeb084f8d67213b02aae5329d8f1853e95354f5e7305c33ffe45",
+      "afterSha256": "df4b0e34c2ad28424e136552d29dd3ac03bfb0810edf229613c19c2495875ef5",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/build-phase-lore-governance.mjs",
@@ -16225,7 +16291,20 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "7c96f4d96992aeb084f8d67213b02aae5329d8f1853e95354f5e7305c33ffe45",
+          "afterSha256": "df4b0e34c2ad28424e136552d29dd3ac03bfb0810edf229613c19c2495875ef5",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/catalog.phase1.json",

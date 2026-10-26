@@ -5,15 +5,15 @@
   "entries": [
     {
       "path": "docs/testing/catalog.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-catalog",
       "templateId": "test-catalog-v1",
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Reuse complete fixed dd377 prior and independently accepted exact e136 maintenance semantics, not a new18-entry product/old-code review. Root reads the current small administrative reception delta; catalog JSON and quality ledger body unchanged. Exact e136: root Codex accepted all six code/test files and actual14 CLI cases; history_cards_a independently accepted canonical native8/governance and four maintenance records. Exact dd377 natural22 import separately accepted by history_cards_c_tail. Current later root administrative/central/matrix bytes require distinct scoped non-author reception.",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Only e2e006 publication reviewBy changes Oct23→Nov2 after substantive paired review/current necessary execution; status rework,lastVerified Oct3 and native revision/versions stay unchanged. Expiry failure retained; next deadline is editorial and never E2E acceptance. Other17 native entries unchanged.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -44,7 +44,7 @@
         "006仍rework，lastVerified10-03与原执行边界不变；10-15原过期失败保留，实质发布复核后明确续10-23，只安排下次publication review；e2e-route10-18未改。",
         "目录只登记18份published材料，不涵盖全部testing文件，也不单独证明全部配对报告模板迁移或动态通过。"
       ],
-      "nextStep": "Continue individual document migration/artifact ownership; preserve006 rework/lastVerified10-03, publication review10-23 and route10-18 obligations without silent renewal. F1 exact164 independent reception accepted; later metadata is a separate scoped writeback.",
+      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -95,13 +95,14 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
-        }
+        },
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
       ],
       "sourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "3b1604c8586eafb31123000d8f8a906f04328d505d23985cda3241a48d8065fa",
+      "afterSha256": "9bf9d76c09dafbf5776f856b9d9ed4d5deda08f0a15c0f2c8e26225b395a0082",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -187,6 +188,15 @@
             "entries.path": "docs/testing/catalog.json",
             "uniqueMatches": 1
           }
+        },
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-26",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
         }
       },
       "history": [
@@ -306,6 +316,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "action": "stage-owner-authored-publication-delta-for-non-author-review",
+          "priorRecord": {
+            "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+            "logicalPath": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "index": 0,
+            "entryCanonicalSha256": "4c4e8e96955fc88e0db62ed50370cf38cfd2922b7ce1e3b0d9eb082e941a975c"
+          },
+          "priorContentReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": [],
@@ -504,6 +530,17 @@
           "afterSha256": "3b1604c8586eafb31123000d8f8a906f04328d505d23985cda3241a48d8065fa",
           "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "3b1604c8586eafb31123000d8f8a906f04328d505d23985cda3241a48d8065fa",
+          "afterSha256": "9bf9d76c09dafbf5776f856b9d9ed4d5deda08f0a15c0f2c8e26225b395a0082",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

@@ -5,15 +5,15 @@
   "entries": [
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root full source/new prose and current Reforge caller; non-author receipt_review independently full original17/78+candidate42/119, machine pair, source364, activecard85 and explicit later top160-only boundary; final renewal delta reviewed separately",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Stable006 stage entry preserves rework/lastVerified10-03 and same-engine005 predecessor; complete island dialogue/control-return stop, historical machine flag vs current no-run, explicit7-day publication renewal and later frozen continuous scope; no new E2E.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "006 stable entry now separates Oct26 current95-row/control-return and zero-finding offline comparison from original d022/SAVE11 identity; formal checkpoint/naming/full editor+visual still rework, next publication review Nov2. Existing historical acceptance remains dated, author delta pending.",
       "documentStatus": "rework (catalog publication)",
       "owner": "Codex（文档治理，不代签原执行）",
       "provenance": [
@@ -28,7 +28,8 @@
           "reviewer": "receipt_review",
           "result": "final renewal delta accept;C2.5 closed",
           "scope": "Frozen stage/report/catalog/machine body SHAs in paired integration receipt; root later signoff-only record maintenance is not a new whole-record reviewer hash"
-        }
+        },
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
       ],
       "primarySource": [
         "docs/testing/e2e/stages/006-doctor-boat/README.md @ 2522c4531d68f7fd43be72380059316672c681a3",
@@ -90,7 +91,7 @@
       "sourceGitRevision": "2522c4531d68f7fd43be72380059316672c681a3",
       "sourceGitObject": "65d23a97019de02e779462caa7087156b6e54e65",
       "candidateSha256": "8457faa7344c73e8f97a13a910167bbc5d17296d417b714d5405ad54dd1517c2",
-      "afterSha256": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
+      "afterSha256": "d13737bfcb8ffff898b882bfbaabb4c00dbe94ca95554d03b9dfcf68cdef3ad1",
       "revision": {
         "currentSha": "2522c4531d68f7fd43be72380059316672c681a3",
         "implementationSha": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
@@ -111,7 +112,16 @@
         "candidateSha256": "8457faa7344c73e8f97a13a910167bbc5d17296d417b714d5405ad54dd1517c2",
         "afterSha256": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
         "lineCount": 42,
-        "preservation": "Original H1/conclusion byte-exact; original YAML byte-exact except explicit independently reviewed reviewBy10-15→10-23; original date retained in source Git and dated publication renewal history"
+        "preservation": "Original H1/conclusion byte-exact; original YAML byte-exact except explicit independently reviewed reviewBy10-15→10-23; original date retained in source Git and dated publication renewal history",
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-26",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
+        }
       },
       "history": [
         {
@@ -130,11 +140,27 @@
           "action": "non-author final renewal delta accepted",
           "reviewer": "receipt_review",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "action": "stage-owner-authored-publication-delta-for-non-author-review",
+          "priorRecord": {
+            "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+            "logicalPath": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+            "index": 0,
+            "entryCanonicalSha256": "19e2429a9e41418c48ebb3f668778cb4bccb1ebb472ad35f1a7b2e4e4aa72b10"
+          },
+          "priorContentReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": [],
       "stopLine": "Do not change original machine fields, convert old performed=true into current execution credit, invent reconciliation of conflicting offsets, inherit later continuous done or renew by formatting alone.",
-      "nextStep": "Continue remaining full-docs/control-artifact governance and independent final audit; next006 publication review10-23, dynamic rework remains separate.",
+      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
       "userVisibleBeforeAfter": "Original H1/conclusion byte-exact; original YAML byte-exact except explicit independently reviewed reviewBy10-15→10-23; original date retained in source Git and dated publication renewal history; add concrete caller/oracle/results/evidence/history and non-current execution boundaries.",
       "reviewedLines": "1-42",
       "phase": "testing",
@@ -143,19 +169,32 @@
         "result": "template-compliant",
         "version": "1.0.0",
         "method": "Actual typed required sections/metadata, exact source preservation, real paired consumer and non-author content review; no new test type or runtime acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
+          "afterSha256": "d13737bfcb8ffff898b882bfbaabb4c00dbe94ca95554d03b9dfcf68cdef3ad1",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-run-report",
       "templateId": "test-run-report-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-run-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root full source/new prose and current Reforge caller; non-author receipt_review independently full original17/78+candidate42/119, machine pair, source364, activecard85 and explicit later top160-only boundary; final renewal delta reviewed separately",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current publication rework remains separate from original10-04 paths and later33afa37 frozen continuous acceptance. Source state2 vs old state3 and conflicting old offsets remain explicit;10-07 first-sentence credit withdrawn; full arrival/control-return stop and no current run.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Current two-engine006 actual95rows and complete island closeout pass; whole offline comparison0findings with exact source-label, actual auto replacement and exact completed first-leg evidence rules. Real traces/four screenshots retained; formal006save,naming,full editor+visual and capture not accepted. All preexisting dated report history remains exact.",
       "documentStatus": "rework (catalog publication)",
       "owner": "Codex（文档治理，不代签原执行）",
       "provenance": [
@@ -170,7 +209,8 @@
           "reviewer": "receipt_review",
           "result": "final renewal delta accept;C2.5 closed",
           "scope": "Frozen stage/report/catalog/machine body SHAs in paired integration receipt; root later signoff-only record maintenance is not a new whole-record reviewer hash"
-        }
+        },
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
       ],
       "primarySource": [
         "docs/testing/e2e/stages/006-doctor-boat/report.md @ 2522c4531d68f7fd43be72380059316672c681a3",
@@ -232,7 +272,7 @@
       "sourceGitRevision": "2522c4531d68f7fd43be72380059316672c681a3",
       "sourceGitObject": "bdec5b721d95aeed9532af501ff4b21460f17e57",
       "candidateSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
-      "afterSha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+      "afterSha256": "69b7237ee891c24a13a35633f7a039d1b4733b3b5747c3f9d32e0837d5ead558",
       "revision": {
         "currentSha": "2522c4531d68f7fd43be72380059316672c681a3",
         "implementationSha": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
@@ -253,7 +293,16 @@
         "candidateSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
         "afterSha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
         "lineCount": 119,
-        "preservation": "Original frontmatter/testing-meta exact prefix; entire original body byte-exact after reversing only2-level ATX demotion, including all original chronology/status/numbers/failed and passed results"
+        "preservation": "Original frontmatter/testing-meta exact prefix; entire original body byte-exact after reversing only2-level ATX demotion, including all original chronology/status/numbers/failed and passed results",
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-26",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
+        }
       },
       "history": [
         {
@@ -272,11 +321,27 @@
           "action": "non-author final renewal delta accepted",
           "reviewer": "receipt_review",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "action": "stage-owner-authored-publication-delta-for-non-author-review",
+          "priorRecord": {
+            "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+            "logicalPath": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+            "index": 1,
+            "entryCanonicalSha256": "201f4d757d9003d263982f898b89d4636cd53887a5700cad540a2de1f9ddce84"
+          },
+          "priorContentReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": [],
       "stopLine": "Do not change original machine fields, convert old performed=true into current execution credit, invent reconciliation of conflicting offsets, inherit later continuous done or renew by formatting alone.",
-      "nextStep": "Continue remaining full-docs/control-artifact governance and independent final audit; next006 publication review10-23, dynamic rework remains separate.",
+      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
       "userVisibleBeforeAfter": "Original frontmatter/testing-meta exact prefix; entire original body byte-exact after reversing only2-level ATX demotion, including all original chronology/status/numbers/failed and passed results; add concrete caller/oracle/results/evidence/history and non-current execution boundaries.",
       "reviewedLines": "1-119",
       "phase": "testing",
@@ -285,7 +350,20 @@
         "result": "template-compliant",
         "version": "1.0.0",
         "method": "Actual typed required sections/metadata, exact source preservation, real paired consumer and non-author content review; no new test type or runtime acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+          "afterSha256": "69b7237ee891c24a13a35633f7a039d1b4733b3b5747c3f9d32e0837d5ead558",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     }
   ],
   "supersededBindings": [

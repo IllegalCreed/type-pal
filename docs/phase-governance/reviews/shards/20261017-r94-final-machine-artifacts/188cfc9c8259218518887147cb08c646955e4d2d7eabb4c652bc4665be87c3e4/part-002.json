@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "b554d8112426b7acc1ab0e3c65052396f091b7d627c16d54081c938b9aa44021",
+  "generation": "188cfc9c8259218518887147cb08c646955e4d2d7eabb4c652bc4665be87c3e4",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -6315,7 +6315,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "779e9c56ed08466f56265839a0a7918204dba0fa758aae781c1477de0105624e",
+      "afterSha256": "4d8c6558fafce974ba2707492615ce1a1790fc0ecfb774dbce312afcf1f06911",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6782,6 +6782,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "779e9c56ed08466f56265839a0a7918204dba0fa758aae781c1477de0105624e",
+          "afterSha256": "4d8c6558fafce974ba2707492615ce1a1790fc0ecfb774dbce312afcf1f06911",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

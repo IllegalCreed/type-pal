@@ -765,7 +765,7 @@
       "evidence": "e2e/evidence/e2e-006.json",
       "tags": ["story", "npc", "boat", "visual", "rework"],
       "lastVerified": "2026-10-03",
-      "reviewBy": "2026-10-23",
+      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-005"],
       "sourceRefs": [
         {
@@ -2053,6 +2053,50 @@
           }
         },
         "notRun": ["runtime", "E2E", "visual", "editor-preview", "coverage"],
+        "semanticMigrationCreditAdded": 0
+      },
+      {
+        "id": "e2e-006",
+        "date": "2026-10-26",
+        "owner": "Codex",
+        "kind": "scoped-publication-review",
+        "previousReviewBy": "2026-10-23",
+        "nextReviewBy": "2026-11-02",
+        "rationale": "Substantive paired source/report/contract review plus necessary current two-engine execution; old 10-11 raw not recovered in checked roots. Deadline schedules continued publication review, earlier on source changes; not runtime freshness or stage acceptance.",
+        "findings": [
+          "2026-10-26：当前两端006独立路线及95条正文/完整上岛收尾通过；最新离线全比较passed（0项finding），船只专项通过。编辑器初态、命名与正式006checkpoint仍按下列范围待核，整段保持rework。",
+          "Current 006 formal save/reopen, naming, editor and full visual acceptance remain open. Native d022/SAVE11 identity and prior withdrawal stay immutable."
+        ],
+        "actuallyRead": [
+          "006 stage/report/native paired evidence and catalog row",
+          "current boat callers and shared input/endpoint/assertion contracts",
+          "current actual006 traces, boat motion and four screenshots",
+          "current common E2E preview/naming/checkpoint completion clauses",
+          "old continuous card plus available preservation/cleanup evidence; referenced raw not recovered in checked live roots"
+        ],
+        "newExecutionReports": [
+          "build/e2e/game-006-2026-10-26T13-01-49-753Z/report.json",
+          "build/e2e/reforge-006-2026-10-26T13-01-50-549Z/report.json"
+        ],
+        "unchangedExecutionIdentity": {
+          "status": "rework",
+          "lastVerified": "2026-10-03",
+          "revision": {
+            "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                "date": "2026-10-04",
+                "action": "source-and-publication-audit",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          }
+        },
+        "author": "Codex",
+        "independentAcceptance": "pending",
         "semanticMigrationCreditAdded": 0
       }
     ]

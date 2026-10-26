@@ -352,14 +352,14 @@
     },
     {
       "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Original GLM scoped body facts independently accepted by Codex; GLM accepts only Codex S44 concrete-section/authority delta. S45 composes these disjoint read domains for this exact current SHA; no full source reread or runtime reexecution.",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "006求药→出海卡:独立验收rework——链路与船队数学有证(SAVE11/content22重建链;ride(e116)→loadScene(s014)对齐L_1509;相对位移全程零),但NPC状态/位置/朝向日志、一阶段对比、用户视觉counter(船锚/抖动/划桨/落船位)未闭合,不能done。分节核读:quote含目标(2026-10-07用户终点纠正)、前提真值门四维矩阵(原版L_1026/L_1070/L_1465/L_1509;e35后继缺e123 legacy-002选择;e36误回置003)、反证与替代解释、上下文锚点、验收条件(1886/1888/1889/1890确认)、推进记录、交接日志(10-07/10-03/10-04)、Build/Review收口八类实节;前缀封套泛化(自引用行号:23/:77失效、阻塞句三处重复、SAVE12口径与quote SAVE11链未区分),判replace-prefix。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "E2E006 current card adds user-authorized current evidence review/tool IO corrections/editor-only NPC start data and real results. Necessary same-engine saves rebuilt; zero-finding006 comparison closes comparison only. Formal006save,naming,full editor/visual stop lines keep rework; original quote unchanged.",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
@@ -368,7 +368,7 @@
       "unresolved": [
         "Product implementation, original runtime/E2E/visual/coverage evidence and preserved historical conflicts remain outside this document-version acceptance."
       ],
-      "nextStep": "Use this accepted document version and actual template route; changed body/source/dependency invalidates affected acceptance. Continue652native contract design and Owner control-content review.",
+      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
       "phase": "ops",
       "module": "tasks",
       "capability": "e2e-006-1",
@@ -377,10 +377,11 @@
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
+      "afterSha256": "092a3ba76781203ea2a120750a198f553ff8ac1fbab464a9882ed73c31239e34",
       "publicCallers": [
         "projects/pal/content/scenes/s002.json",
         "projects/pal/content/scenes/s005.json",
@@ -440,7 +441,16 @@
         "afterSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
         "scope": "Specific current document body and contract; not original execution credit",
         "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false
+        "historicClaimsReexecuted": false,
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-26",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
+        }
       },
       "history": [
         {
@@ -570,6 +580,64 @@
             "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
             "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
           }
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "action": "stage-owner-authored-publication-delta-for-non-author-review",
+          "priorRecord": {
+            "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "index": 1,
+            "entryCanonicalSha256": "6db8993fe98a80e4f3c2ea258df96efd8bfdd24562b622841a133019cdfb3bfa"
+          },
+          "priorContentReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": {
+            "protocol": "document-delivery-acceptance/1.0.0",
+            "reviewer": "GLM (Codex delta); Codex (GLM original facts)",
+            "nonAuthorReviewer": true,
+            "verdict": "accept",
+            "candidate": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
+            "afterSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
+            "reportSha256": "c784859ca1559b2fbefbf1f4026b779be423e209775202b5f7ed510042e31c0e",
+            "readDomain": {
+              "authorRecord": {
+                "protocol": "document-delivery-acceptance/1.0.0",
+                "author": "Codex (bounded delta) + GLM (specific original prefix facts)",
+                "nonAuthorReviewer": false,
+                "creditGranted": 0,
+                "sourceRevision": "1404e6057ced43036e8cef262d056af7477cc435",
+                "beforeSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+                "afterSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
+                "contributorReadDomain": {
+                  "method": "MD全文人工读+grep引用核验",
+                  "manual": ["1-135行@83743275全读"],
+                  "mechanical": [
+                    "git grep卡ID(board/index/reviews/evidence)",
+                    "registry.ops行实取"
+                  ],
+                  "unread": []
+                },
+                "OwnerReadDomain": "All12 proposed prefixes/exact contract/quote-tail and frozen authority routing; bounded fact samples only, not683 full read",
+                "scope": "Exact section/body scope and current navigation-role repair; original facts not reexecuted",
+                "runtimeExecutionPerformed": false,
+                "historicClaimsReexecuted": false
+              },
+              "reviewScope": "GLM owner-delta report: twelve exact contract/tail checks, two risk prefix reads; Codex original author-fact acceptance remains separate, not GLM self-sign."
+            },
+            "ownerDecision": {
+              "actor": "Codex",
+              "task": "DOCS-FULL-TEMPLATE-1/S45",
+              "date": "2026-10-25",
+              "currentBodyReview": true,
+              "currentTemplateMigration": true,
+              "oldClaimRestored": false,
+              "runtimeCredit": false
+            }
+          },
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -654,48 +722,19 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
-        }
-      ],
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "reviewer": "GLM (Codex delta); Codex (GLM original facts)",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "candidate": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
-        "afterSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
-        "reportSha256": "c784859ca1559b2fbefbf1f4026b779be423e209775202b5f7ed510042e31c0e",
-        "readDomain": {
-          "authorRecord": {
-            "protocol": "document-delivery-acceptance/1.0.0",
-            "author": "Codex (bounded delta) + GLM (specific original prefix facts)",
-            "nonAuthorReviewer": false,
-            "creditGranted": 0,
-            "sourceRevision": "1404e6057ced43036e8cef262d056af7477cc435",
-            "beforeSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
-            "afterSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
-            "contributorReadDomain": {
-              "method": "MD全文人工读+grep引用核验",
-              "manual": ["1-135行@83743275全读"],
-              "mechanical": ["git grep卡ID(board/index/reviews/evidence)", "registry.ops行实取"],
-              "unread": []
-            },
-            "OwnerReadDomain": "All12 proposed prefixes/exact contract/quote-tail and frozen authority routing; bounded fact samples only, not683 full read",
-            "scope": "Exact section/body scope and current navigation-role repair; original facts not reexecuted",
-            "runtimeExecutionPerformed": false,
-            "historicClaimsReexecuted": false
-          },
-          "reviewScope": "GLM owner-delta report: twelve exact contract/tail checks, two risk prefix reads; Codex original author-fact acceptance remains separate, not GLM self-sign."
         },
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S45",
-          "date": "2026-10-25",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
+          "afterSha256": "092a3ba76781203ea2a120750a198f553ff8ac1fbab464a9882ed73c31239e34",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
-      }
+      ]
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",

@@ -3260,7 +3260,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "2898ff34da0c5919b5049a94b0968e1c33c57377fcf1279ee204d57e5899297a",
+      "afterSha256": "92c3f034d1654210796d3e877fe393d69b8a070e12fcca3cee492ae711f87f3f",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3531,6 +3531,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "2898ff34da0c5919b5049a94b0968e1c33c57377fcf1279ee204d57e5899297a",
+          "afterSha256": "92c3f034d1654210796d3e877fe393d69b8a070e12fcca3cee492ae711f87f3f",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -3625,7 +3636,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
-      "afterSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+      "afterSha256": "12171b736de75e73482065bcb91cde53902505bbfd955d013cc32e4a1387dd9b",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3635,7 +3646,20 @@
       "templateConformance": {
         "status": "needs-migration",
         "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+          "afterSha256": "12171b736de75e73482065bcb91cde53902505bbfd955d013cc32e4a1387dd9b",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/document-registry.phase1.json",
@@ -4311,7 +4335,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "7f4cf69d5157d39ab0768d0efc05fa51fda9190edfeef18b36436a5a684f3cb2",
+      "afterSha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -4467,6 +4491,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "7f4cf69d5157d39ab0768d0efc05fa51fda9190edfeef18b36436a5a684f3cb2",
+          "afterSha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

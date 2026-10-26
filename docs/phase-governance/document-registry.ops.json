@@ -1108,14 +1108,15 @@
       "phase": "ops",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261004-semantic-current-batch.json",
       "retentionException": {
         "kind": "user-protected-working-tree",
         "reason": "User/other-task uncommitted edits were explicitly protected; integration must preserve current main content and re-run review after reconciliation.",
         "recordedIn": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
-      }
+      },
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
@@ -1204,10 +1205,11 @@
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r57-current-task-cards.json",
-      "templateVersion": "1.0.0"
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",

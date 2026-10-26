@@ -223,9 +223,9 @@ export function verifyKitchenSourceCycle(
     commands.slice(734, 740),
     [
       { op: 'end', advance: true, label: 'L_734' },
-      { op: 'raw', opcode: 20, operands: [1, 0, 0] },
+      { op: 'raw', opcode: 20, operands: [1, 0, 0], label: 'L_735' },
       { op: 'end', advance: true },
-      { op: 'raw', opcode: 20, operands: [0, 0, 0] },
+      { op: 'raw', opcode: 20, operands: [0, 0, 0], label: 'L_737' },
       { op: 'raw', opcode: 9, operands: [10, 0, 0] },
       { op: 'end', reset: true, resetTo: 734, idleFrames: 0 },
     ],

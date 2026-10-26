@@ -5611,15 +5611,15 @@
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-006.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "templateVersion": "1.5.0",
       "templateVariant": "historical-execution-publication-v2",
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Distinct B read full original96/dc120/before120/new447 and16native/full new+old governance, boat unique sources plus exact bounded/shared prior scopes. Some own initial reads at prior405 are fixedb166 sameSHA and reverified; errand508 own full union, not author-S09 borrowed judgment. Root current120/admission and report adoption only, not all fresh boat source reads.",
-      "coreConclusion": "006原16native/3refs/5artifacts/4676B前缀及原governance保全；33cc96行4679B才是原源，当前dc120行不是。historical performedtrue与当前auditfalse分轴，沿既有1.5 historical-execution-publication-v2，不翻原true适配普通audit。source95=17+23+40+11+4含岛落地收尾；最小island+ready子谓词可过不能证明95正文原意。实际投影只选draw并可丢未绘commit；任意常量相对offset/up可过，不等正确canonical偏移，静止中段漂移反控可拒。terminal/真实slot continuation/rider resource各有独立源码合同；005真实reader与generic checkpoint分层，both只消费报告不启动两轨。当前doctor state2与旧state3、RF[0,0]/down与[-2,-4]/up保分时点未知。缺原1513/1516/1517、真实raw/slot/rider/完整SAVE12船链及视觉继续blocked，未认证历史执行真实性。",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "coreConclusion": "Only mutable governance appends a dated Oct26 publication/current-execution reference; original16native fields and4676B prefix, 33cc source pins and dated currentAudit false stay exact. New reports are real independent95row journeys plus zero-finding offline comparison, not a refresh of original SAVE11 execution or full006 acceptance.",
       "truthAnchors": [
         "docs/testing/e2e/evidence/e2e-006.json:1",
         "docs/testing/e2e/evidence/e2e-006.json:121",
@@ -5635,7 +5635,7 @@
         "Historicalstate3/offset-facing conflicts remain date-bounded unknown; no false choice of one historicalvalue.",
         "Other withdrawn bindings/fivequarantines/global hardgates remain open."
       ],
-      "nextStep": "Obtain distinct actual successor central acceptance; continue true per-document semantic review without adjacent/global/runtime credit.",
+      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
       "phase": "testing",
       "module": "e2e006-historical-execution-document-audit",
       "capability": "doctor-island-terminal-and-rider-provenance-boundaries",
@@ -5643,7 +5643,8 @@
       "provenance": [
         "Body author /root/e2e_entry_semantic_author",
         "Distinct body reviewer /root/receipt_integrity_independent",
-        "Root central adoption preserves exact original B output/280manifest/external seal and5finalization artifacts; no root fresh primary-corpus claim."
+        "Root central adoption preserves exact original B output/280manifest/external seal and5finalization artifacts; no root fresh primary-corpus claim.",
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
       ],
       "primarySource": [
         {
@@ -6419,6 +6420,15 @@
             "inverseSuffixHex": "0a7d0a",
             "exactOriginalInverse": true
           }
+        },
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-26",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
         }
       },
       "history": [
@@ -6461,6 +6471,22 @@
           },
           "firstActualPilotReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
           "actualSuccessorCentralAccepted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "action": "stage-owner-authored-publication-delta-for-non-author-review",
+          "priorRecord": {
+            "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+            "logicalPath": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+            "index": 10,
+            "entryCanonicalSha256": "1671367a77e2c15eba45212c05d285aebc99e9ec59080603df24b8878e3f91aa"
+          },
+          "priorContentReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -6478,7 +6504,7 @@
       },
       "stopLine": "Do not flip native historicaltrue, certify oldrun/originalgame equivalence from helper/gzip/template, fill missing raw/unknowns, or grant adjacent/bulk/global/main/done.",
       "sourceSha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
-      "afterSha256": "b19bf66515a1ec6be444dad115cdab629bb770ac119d4c8100a142b29d87bd46",
+      "afterSha256": "8d119d94b2af6580f2a3b6cb9814dc4a5b02f984a66d54a783ca05eee6db2daf",
       "sourceGitRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
       "reviewedLines": "B actual full original96/dc120/before120/new447 and16fields plus explicit fresh/shared exact scopes. Root report/admission adoption, not fresh allsource.",
       "historyOverlay": false,
@@ -6520,7 +6546,20 @@
           "scope": "Real public migrated-document and publication consumers with ownedpair fixture and no repository writes. Rejection controls are publication/template/source-preservation controls, not product runtime tests or originalrun authenticity."
         },
         "scope": "Originaltrue/currentAuditfalse and approved frozen original source Buffer fit existing historical variant. Specific semantic body accepted, not raw execution or futurecentral."
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "b19bf66515a1ec6be444dad115cdab629bb770ac119d4c8100a142b29d87bd46",
+          "afterSha256": "8d119d94b2af6580f2a3b6cb9814dc4a5b02f984a66d54a783ca05eee6db2daf",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
@@ -9052,7 +9091,7 @@
       "documentStatus": "done",
       "reviewDepth": "deep-semantic",
       "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
-      "coreConclusion": "本卡是能力地图/议题池/看板真值对账历史记录（2026-09-03 用户“对账你自己做就行了，用不到三签”单人裁决）：仅改 capability-map/design-backlog/board-20261004 三文档+本卡，证据为 12 张任务卡首行 Status 与 Git 收口记录；修正 X4/A7、B2、W4、W5、B10、X7 及九项议题陈旧说明，看板删全部历史 done/cancelled 行恢复自身合同；对账后真实半完成仅 W6/E6/B5、未实现 A1/A6（A6 非 MVP）；陈旧短语定向检索归零、剩余 ⚠️/❌ 精确为五项。该能力状态是 2026-09 时点结论，后续以现行文档为准。本次治理零重跑零重授。",
+      "coreConclusion": "本卡是能力地图/议题池/看板真值对账历史记录（2026-09-03 用户“对账你自己做就行了，用不到三签”单人裁决）：仅改 capability-map/design-backlog/board-20261004 三文档+本卡，证据为 12 张任务卡首行 Status 与 Git 收口记录；修正 X4/A7、B2、W4、W5、B10、X7 及九项议题陈旧说明，看板删全部历史 done/cancelled 行恢复自身合同；对账后真实半完成仅 W6/E6/B5、未实现 A1/A6（A6 非 MVP）；陈旧短语定向检索归零、剩余 \u26a0️/❌ 精确为五项。该能力状态是 2026-09 时点结论，后续以现行文档为准。本次治理零重跑零重授。",
       "truthAnchors": [
         "原卡：用户裁决/范围与证据/对账结果/验证四节（quote 全文）",
         "docs/phase2/capability-map.md",
@@ -9090,7 +9129,7 @@
         "type": "historical-document-governance-not-runtime",
         "assertions": [
           "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
-          "本卡是能力地图/议题池/看板真值对账历史记录（2026-09-03 用户“对账你自己做就行了，用不到三签”单人裁决）：仅改 capability-map/design-backlog/board-20261004 三文档+本卡，证据为 12 张任务卡首行 Status 与 Git 收口记录；修正 X4/A7、B2、W4、W5、B10、X7 及九项议题陈旧说明，看板删全部历史 done/cancelled 行恢复自身合同；对账后真实半完成仅 W6/E6/B5、未实现 A1/A6（A6 非 MVP）；陈旧短语定向检索归零、剩余 ⚠️/❌ 精确为五项。该能力状态是 2026-09 时点结论，后续以现行文档为准。本次治理零重跑零重授。"
+          "本卡是能力地图/议题池/看板真值对账历史记录（2026-09-03 用户“对账你自己做就行了，用不到三签”单人裁决）：仅改 capability-map/design-backlog/board-20261004 三文档+本卡，证据为 12 张任务卡首行 Status 与 Git 收口记录；修正 X4/A7、B2、W4、W5、B10、X7 及九项议题陈旧说明，看板删全部历史 done/cancelled 行恢复自身合同；对账后真实半完成仅 W6/E6/B5、未实现 A1/A6（A6 非 MVP）；陈旧短语定向检索归零、剩余 \u26a0️/❌ 精确为五项。该能力状态是 2026-09 时点结论，后续以现行文档为准。本次治理零重跑零重授。"
         ]
       },
       "dedupe": {

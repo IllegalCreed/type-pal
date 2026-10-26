@@ -378,8 +378,8 @@
     },
     {
       "path": "docs/lore/timeline.md",
-      "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "2026-10-04 原复核：Combines an early rolling route for 001–005 with a 21-chapter historical overview and explicit warnings that later chapters are not fully reverified for current E2E routing. 2026-10-11 集成增量：001–006 当前终点为上岛叮嘱结束并恢复控制，最终验收由 E2E 任务卡绑定；带日期的旧 rework 与后续章节未核结论不升级。",
+      "contentReviewStatus": "partial-review-unknown",
+      "coreConclusion": "Bounded Oct26 flow increment records current00695rows and island1886/1888/1889/1890/control return, stops at s014 and refers sole report for open gates. Historical timeline/source quote and all later chapter/cross-work uncertainties remain unchanged; not a renewed full lore review.",
       "truthAnchors": [
         "docs/lore/timeline.md:1",
         "docs/lore/timeline.md:1 仙剑剧情时间线与流程攻略",
@@ -402,7 +402,7 @@
         "正文信号 219:> \u26a0️ \"生育即死\"和\"不入轮回\"这两条在粉丝圈广泛流传，但是否为**官方明文设定**需进一步核实（有说法认为是设定解读）。**在扩展剧情里动用这两条前，建议作者先确认官方表述**。",
         "正文信号 282:> \u26a0️ 2026-06-25 修正——鬼阴山/鬼阴坛在**白河村之后、扬州之前**，不是扬州之后。石长老在此**第一次**出场。"
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
       "phase": "lore",
       "module": "timeline.md",
       "capability": "lore-timeline",
@@ -414,10 +414,11 @@
           "nonAuthorReviewer": "r33_readonly_review",
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42"
-        }
+        },
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
       ],
       "sourceSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
-      "afterSha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7",
+      "afterSha256": "eaf2561c860e3ac9b0891fb3b99a959ec4489cfac2e44d8decf2052aaa868903",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/lore/timeline.md"],
       "businessOracle": {
@@ -479,6 +480,15 @@
             "space": "␠",
             "tab": "⇥"
           }
+        },
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-26",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
         }
       },
       "history": [
@@ -502,6 +512,22 @@
           "action": "R33 readonly proposal accepted then migration/envelope",
           "reviewer": "r33_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "action": "stage-owner-authored-publication-delta-for-non-author-review",
+          "priorRecord": {
+            "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+            "index": 2,
+            "entryCanonicalSha256": "7798182ab772dae11b5bfa4a31ddc4c6ca80c4e2a00e01a3f95cd8d51d88385e"
+          },
+          "priorContentReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -511,9 +537,9 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R33 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "reviewDepth": "partial-semantic",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-11",
@@ -609,7 +635,20 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7",
+          "afterSha256": "eaf2561c860e3ac9b0891fb3b99a959ec4489cfac2e44d8decf2052aaa868903",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
