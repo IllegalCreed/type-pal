@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "a933b12c7a5ca23efd2b8c8b56309815d85c0f2d3457b610635a1821b1cac89e",
+  "generation": "907a25e4957049168f2a9e114b8f0bb00fba8bdffb8553b4dea89484393803fc",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
   "entries": [
@@ -2079,7 +2079,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "f6f082a377b7e0928e48a32bed5b26692845bc3b50b8bece329812ec18ed785c",
+      "afterSha256": "7128385150f394cc0549832fc37e6ce59fed336b92c844e9b87f8df39e13ade2",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2908,6 +2908,18 @@
           "beforeSha256": "8deefe17a131fbba688612ca7bc6302f0b9298afa2f37d2fbe387b9bd52f2643",
           "afterSha256": "f6f082a377b7e0928e48a32bed5b26692845bc3b50b8bece329812ec18ed785c",
           "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S53",
+          "revision": "cbbb3be44f09639787f3ab324915f5fd5108cbf3",
+          "beforeSha256": "f6f082a377b7e0928e48a32bed5b26692845bc3b50b8bece329812ec18ed785c",
+          "afterSha256": "7128385150f394cc0549832fc37e6ce59fed336b92c844e9b87f8df39e13ade2",
+          "scope": "Receive fixed S52 non-author intake acceptance and S51 partial evidence/Owner23 draft corrections; parent/board administrative after pins only. No semantic/template/state credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

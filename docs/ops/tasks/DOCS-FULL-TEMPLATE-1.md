@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s52-s51-partial-intake
+Branch: codex/docs-s53-json-content-reconciliation
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2535,3 +2535,14 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 26篇MD/HTML具体保留候选可复用；Owner直接修两处旧结论截断与设计稿容量表述（1047444距1MiB尚1132），不改源正文、不让贡献者为小错循环返工。42条exact建议：27沿用已准入形状实施、2HTML沿用冻结pilot实施；另外13HTML仍需Owner合同，不因结构相近自动准入。两派生视图与catalog重渲染字节一致，生成格式合同由Owner处理，禁止手改视图过门。
 - Codex build allowed从c2c0e859隔离后继：接收GLM据证保留内容，先接8份未改字节且现有正文合同0issue的Markdown；具体源SHA/作者实读域在现有唯一review内。仅3新增已存在父类型的route，registry8条匹配投影、矩阵当前接受边界、本卡/board及真实after级联和既有gzip。没有新产品或代码合同，无代码/旧测试/coverage/模板规则修改。父卡C2旧体接受保留，新S52行政段不倒签为GLM已读，父卡本轮不晋升。
 - 原source/quote/history/withdrawal逐值保持；旧claimCorrection移入新历史记录，不恢复旧执行。原生全部零字节变化，212历史交付与已接收S50八原生/旧272保持；每篇新信用只属当前Markdown内容/模板，不授runtime/E2E/视觉/coverage。先镜像再真实物化，必要门与扣减按实记录；父子卡rework，硬门未满足不合main、不推送、不done。
+
+
+## S53 S51补证裁定与S52非作者接收（2026-10-26）
+
+- 接收GLM对cbbb3be44的只读非作者accept（HANDBACK 14f599be/verdict c4185642）：范围仅S52八篇未改正文的接入、三route/八registry、旧历史/原生/after pin与行政封存；不重做原八篇全文，不自签本轮505 JSON。S52实减16诊断/8文档已成立，1718/862为上轮实际基线，不借新回执再扣。
+- S51定点包39192868的505身份/663新指针值与C2源只读快检通过；源505相对83743275字节未变，原22JSON漂移均在Owner控制127范围，不向贡献者虚扩大。程序解析、旧具体人工读稿与本轮风险核分轴；不能把schemaVersion/id/首末元素当完整业务oracle。
+- Codex build allowed从cbbb3be44隔离后继：保护冻结S50/C2与S52，先完成内容证据裁定、Owner定向补20份仍泛化的旧稿与通用来源locator/缺失轴勘误，原生/旧包零写。其余正确旧稿据证复用，不再让GLM重做505全包。Owner补稿须非作者按真实新增范围复验，之前不授reviewed/template-compliant/迁移/runtime信用；本轮中央仅本卡/board、真实after行政级联与既有单份gzip，0产品/代码/旧测试/模板/routing/registry改动。
+- 七MUT-restored与SHARED字节别名的合并设计沿用先前裁定，须保留逐针还原相位、固定1838显式retired、原Git/历史引用/当前consumer映射；loader合同及负检前仍保留，不靠删文件/缩分母消待办。498 retain不据族名或路径直接认定不可替代，维持安全暂留与后续精简权。
+- 127当前控制件与其通用合同由Owner继续，652分族设计不因505新witness自动注册。必要门按真实日期/输入记录，E2E006不自动续，父子卡rework，不合main、不推送、不done。
+
+- 本轮Owner原生对照37件totals/11个完整单失败集合、五数组/五命令件成立；保留482份旧具体稿并不冒称重新全文。新增23路径稀疏Owner稿=20角色/具体结论扩展+此前PLB/BF两勘误+ScriptEditor摘要真实exit0补正，均待GLM只审Owner新增范围；499旧core引用从无该字段的S46设计行改为S42精确locator，六原生pilot仍取当前r37/r85。498暂留不等于已证不可替代。旧脚本按形状取值的663见证保留，但不以包绿宣布505全量语义已完成。

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "a933b12c7a5ca23efd2b8c8b56309815d85c0f2d3457b610635a1821b1cac89e",
+  "generation": "907a25e4957049168f2a9e114b8f0bb00fba8bdffb8553b4dea89484393803fc",
   "key": "part-002",
   "positions": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2359,7 +2359,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "995c3eeec0d2ac0c6003e65dca6b3cc4d54f1a38480c6751a88af0c54017434b",
+      "afterSha256": "fab65d8c804bee4f06c8635c357f75210ff006dcf8e65006baa8c9a854775dde",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3311,6 +3311,18 @@
           "beforeSha256": "f54b466da3da468689d677d0a6e987a39f26615683ad27924297bb2eda124525",
           "afterSha256": "995c3eeec0d2ac0c6003e65dca6b3cc4d54f1a38480c6751a88af0c54017434b",
           "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S53",
+          "revision": "cbbb3be44f09639787f3ab324915f5fd5108cbf3",
+          "beforeSha256": "995c3eeec0d2ac0c6003e65dca6b3cc4d54f1a38480c6751a88af0c54017434b",
+          "afterSha256": "fab65d8c804bee4f06c8635c357f75210ff006dcf8e65006baa8c9a854775dde",
+          "scope": "Receive fixed S52 non-author intake acceptance and S51 partial evidence/Owner23 draft corrections; parent/board administrative after pins only. No semantic/template/state credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

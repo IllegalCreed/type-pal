@@ -1217,7 +1217,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "4ef4fc31f33e3376f6944be48ca58aa7aeccaad2f9154e6b2690aa4023aa8729",
+      "afterSha256": "1bb3a9ccb22d32ffed8bd0cd4edcbd2a610382d7b5fdce13af18a7536bc748ec",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1834,6 +1834,18 @@
           "beforeSha256": "67f1c79ef5fd323fdc85ae186ce79aaf0247c528b8bd5b31e97b4b77661386cc",
           "afterSha256": "4ef4fc31f33e3376f6944be48ca58aa7aeccaad2f9154e6b2690aa4023aa8729",
           "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S53",
+          "revision": "cbbb3be44f09639787f3ab324915f5fd5108cbf3",
+          "beforeSha256": "4ef4fc31f33e3376f6944be48ca58aa7aeccaad2f9154e6b2690aa4023aa8729",
+          "afterSha256": "1bb3a9ccb22d32ffed8bd0cd4edcbd2a610382d7b5fdce13af18a7536bc748ec",
+          "scope": "Receive fixed S52 non-author intake acceptance and S51 partial evidence/Owner23 draft corrections; parent/board administrative after pins only. No semantic/template/state credit.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
