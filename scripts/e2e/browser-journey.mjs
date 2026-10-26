@@ -281,7 +281,11 @@ export async function runBrowserJourney({
       report.visualReviewVideoFiles = []
       for (const { label, video } of reviewVideos) {
         await cleanup('visual review video finalization', async () => {
-          const path = await video.path()
+          const path = resolve(
+            out,
+            `visual-review-${report.visualReviewVideoFiles.length + 1}.webm`,
+          )
+          await video.saveAs(path)
           const bytes = await readFile(path)
           assert(bytes.length > 0, 'empty visual review video')
           report.visualReviewVideoFiles.push({

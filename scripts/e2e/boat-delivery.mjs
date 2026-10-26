@@ -74,6 +74,9 @@ export async function deliverBoatCheckpoint({
   } else {
     payload = await getPage().evaluate(() => window.__tpE2e.dumpSave())
     bytes = JSON.stringify(payload)
+    // The delivered file is the restore input. Browser structured-clone values
+    // can contain optional undefined properties that JSON correctly omits.
+    payload = JSON.parse(bytes)
     assert.equal(payload.version, 12)
     assert.equal(payload.contentVersion, 22)
     assert.equal(payload.projectId, 'pal')
