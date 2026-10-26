@@ -34,7 +34,7 @@ export interface PerformItemInput {
   playerRoles: PlayerRoles
   /** Present 命令通道(同 T20;handler 内可 emit)。 */
   bus: CommandBus
-  /** events.bin 全局 commands(scriptOnUse 是其 ip)。 */
+  /** 当前全局脚本目录 commands，scriptOnUse 是其中的 ip。 */
   commands: Command[]
   /** EventSystem.runScript 注入(T17 free function)。 */
   runScript: RunScriptFn
@@ -47,7 +47,7 @@ export interface PerformItemInput {
  *     (count=0 保留 entry,由 add/sub 命令决定剔除,见 GameState.inventory 注释)
  *     敌人 cast → 不扣(敌人不 track inventory)
  *  3. scriptOnUse!=0 时跑 runScript(runtimeMode='battle' + battleCtx);0 则 no-op
- *  4. 队员 cast 且 item.flags.consuming → 脚本后 count--
+ *  4. 队员 cast → 脚本后重新读取当前 OBJECT 消耗标志及同 id 库存，再扣一次。
  *
  * item 找不到 / 队员无 inventory → console.warn + 早退(不扣 + 不 runScript)。
  */
@@ -59,9 +59,8 @@ export function performItem(input: PerformItemInput): void {
   }
 
   // —— 队员使用:先检查库存;原版战斗 UseItem 在脚本之后才按 consuming 扣(sdlpal fight.c:4387-4400) ——
-  let inventoryEntry: { itemId: number; count: number } | undefined
   if (!input.casterIsEnemy) {
-    inventoryEntry = input.gs.inventory.find((e) => e.itemId === input.itemId)
+    const inventoryEntry = input.gs.inventory.find((e) => e.itemId === input.itemId)
     if (!inventoryEntry || inventoryEntry.count === 0) {
       console.warn(`[item] no inventory for item ${input.itemId}`)
       return
@@ -106,5 +105,11 @@ export function performItem(input: PerformItemInput): void {
     setItemScriptEntry(input.gs, item, 'scriptOnUse', nextEntry)
   }
 
-  if (inventoryEntry && item.flags.consuming) inventoryEntry.count--
+  if (!input.casterIsEnemy) {
+    // 脚本可以替换库存行或改 OBJECT，不能借用脚本前的对象引用/静态标志。
+    const objectFlags = input.gs.rgObject[input.itemId]?.rgwData[6]
+    const consuming = objectFlags === undefined ? item.flags.consuming : (objectFlags & 8) !== 0
+    const currentEntry = input.gs.inventory.find((entry) => entry.itemId === input.itemId)
+    if (consuming && currentEntry && currentEntry.count > 0) currentEntry.count--
+  }
 }
