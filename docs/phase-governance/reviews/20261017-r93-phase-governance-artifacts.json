@@ -1217,7 +1217,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "8ad8bccc5e274814639b2a5f613e5b4f24ebc7debb993abe2f700a44ca2b1556",
+      "afterSha256": "789308090b7100d3ff8d24cdd7284daef650a82d434b2e1a4e257627558a99c1",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1858,6 +1858,18 @@
           "beforeSha256": "1bb3a9ccb22d32ffed8bd0cd4edcbd2a610382d7b5fdce13af18a7536bc748ec",
           "afterSha256": "8ad8bccc5e274814639b2a5f613e5b4f24ebc7debb993abe2f700a44ca2b1556",
           "scope": "Receive S53 scoped non-author accept and S54 exact27 native admission implementation/rehearsal; administrative after pins only. No live semantic/template/state publication.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S55",
+          "revision": "f623859b1adb28a31e07d2c0d04e9c19756223d5",
+          "beforeSha256": "8ad8bccc5e274814639b2a5f613e5b4f24ebc7debb993abe2f700a44ca2b1556",
+          "afterSha256": "789308090b7100d3ff8d24cdd7284daef650a82d434b2e1a4e257627558a99c1",
+          "scope": "Owner S55 one-handoff build admission for239 final native candidates; parent and board administrative after pins only. No accepted content or state promotion.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

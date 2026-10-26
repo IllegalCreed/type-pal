@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s54-native-expansion
+Branch: codex/docs-s55-glm-native-completion
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2557,3 +2557,14 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 临时树实际consumer演练：27逐篇合同0issue；public model/progress为0issue、目标27全部pending、completed=0，另有11临时控制JSON单列。联合伪晋升使两个public门均exit1且完成仍0。CLI预加载由首八扩为精确35准入集合，首八接受清单保持8；27内容19字段复用S53具体稿并显式原生角色、两来源轴和未读域，归一化新稿待非作者集中复核。准备期读域类型与临时树分母误断言均由现有门拒绝后修正，未改规则，原失败原件保留。
 
 - Owner内容对照补正五稿：n2/n3失败身份不再抄n1，n1/replay-n1采用原值完整fullName；adjacent的counterproof旧totals.files=38与fileCount=18明确分轴，不再互证文件数。旧S53来源与修正前稿均保留，代码/原生未改。必要门实跑270工具测试全过、4589文件lint零诊断；全仓门仍因E2E006日期过期exit1，严格1718/862未扣。末段写回后按当前输入重新实跑集中门，最终身份取封存回执。
+
+## S55 一次交接：S54独立验收与239原生文档最终候选（2026-10-26）
+
+- 用户尚未转发S54提示词，要求现在调整；废止“只验27即停”的交接方式。Codex build allowed：GLM先在冻结f623859b1只读非作者验收S54，再在本独立后继分支作为作者连续完成27扩展原生文档+212历史交付回执的最终候选、受控接入工具及全包临时树演练，一次回交，不以设计/预核/内容ready替代作者候选完成。小问题在候选修复，冻结S54及其原包不写。
+- 精确范围由仓外Owner execution-manifest绑定239路径/当前唯一review位置/原生SHA/OID/历史来源/当前行指纹：27取S54扩展准入，212取historicalDeliveryCohort，交集为0。既有S30–S54真实合格结论、见证、历史与源码依据直接复用，只补缺口；不机械重写正确字段或虚称239新全文深审。S54若有counter，仅阻止受影响路径沿用其接受；212和其余可独立成立部分继续，最终交精确ready/blocked集合。
+- 本轮Owner冻结的实现边界：复用现有四native-family变体和historical-document-delivery-native-v1，无新类型/父版本/source pin变化。27的S50旧八接受清单不扩写；可新增一个精确completion资格分支和准入数据。212保留V1原合同与旧测试语义，将Owner接受前的晋升控制放在新受控writer入口，不能为新策略静默重写旧V1合同或旧测试。已有S34零信用writer及存储层保持原行为，不放宽原mutable集合或通配路径。
+- 作者在本候选可写239条的最终内容/分类、27真实route与registry投影及必要after级联，但所有目标保持partial-review-unknown/needs-migration，无作者自签独立接受。新writer必须要求Owner的精确非作者验收绑定（逐路径内容digest+原生after+角色/来源+报告SHA+Owner明确决定）；Owner grant默认null，真实晋升命令缺grant必须拒绝且零写。27未改S54内容可复用GLM本轮非作者报告；212或GLM改过的内容由Codex终验，不能以GLM旧稿/作者自验代签。
+- 必须交可直接由Owner验收和接入的候选提交：新脚本不依赖硬编码/tmp材料；计划路径可由CLI参数传入。复用已有保护loader/packer/物理事务，原生零改、sourcePins不改、历史前缀保全、字节级当前after级联、独立物化、重复运行零写、失败保留锁/staging和受控恢复。旧writer不扩大权限；同一组metadata/review/mirror必须同事务或经等价先验和完整读回，不留半个候选。
+- 全239在隔离完整树演练：无Owner grant拒绝；标明synthetic的临时Owner grant验证正常晋升、精确扣减、伪签/跨篇借签/语义改后刷新hash拒绝、并发输入漂移拒绝、二次零写。synthetic接受只存在临时树，不入真实候选或验收证据中的真实Owner字段。三轴分列：作者最终内容完成、候选部分状态、Owner接受后的演练/实际投影；候选1718/862不得写成已减，演练按actual逐篇计数，不猜1838基线/增量归属。
+- 白名单：既有historical-native-family-qualification.mjs仅新27completion分派；新historical-json-completion.mjs、historical-json-completion-admission.mjs、historical-native-family-completion-admission.mjs、update-historical-json-completion.mjs与至多两个有必要判别力的新文档工具测试；本卡/board，27 route和对应registry投影、239唯一review及真实after级联、既有单份gzip。新文件按需不全建；不改其他脚本、旧测试、模板registry、产品/coverage/运行回执。单篇事实不足留blocked，不影响其余交付；旧测试适配确需新授权时保留完整补丁/失败证据，继续其它可独立部分，不能改旧断言过门。
+- 作者自验使用实际命令/输入指纹/raw输出；同输入稳定证据复用，全套和lint集中到最终候选，不逐小批重复。E2E006日期不自动续，严格门与全仓门红如实保留；不合main、不推送、不标父子卡done。127控制件与其它未准入合同仍归Owner，不在本包扩张；待本239最终候选回交后由Codex集中验收、小修、真实签发和实际扣减，不再让用户逐阶段传话。

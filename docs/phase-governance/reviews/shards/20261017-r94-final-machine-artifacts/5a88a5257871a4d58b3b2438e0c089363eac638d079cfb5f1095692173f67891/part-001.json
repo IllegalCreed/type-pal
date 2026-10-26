@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "1bde671f253a391728c33f1c7ebca8f58ef2a9d5dc16c1de13ee00f32c22f48d",
+  "generation": "5a88a5257871a4d58b3b2438e0c089363eac638d079cfb5f1095692173f67891",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
   "entries": [
@@ -2079,7 +2079,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "4aa8e4e6dff232266a4630d276b894b5b76239d16e7899731a2f139611138812",
+      "afterSha256": "f811f4c43b1ccc80498a4b8d48f8df742f207cebccd6db15dbf7a833b05ba86f",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2932,6 +2932,18 @@
           "beforeSha256": "7128385150f394cc0549832fc37e6ce59fed336b92c844e9b87f8df39e13ade2",
           "afterSha256": "4aa8e4e6dff232266a4630d276b894b5b76239d16e7899731a2f139611138812",
           "scope": "Receive S53 scoped non-author accept and S54 exact27 native admission implementation/rehearsal; administrative after pins only. No live semantic/template/state publication.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S55",
+          "revision": "f623859b1adb28a31e07d2c0d04e9c19756223d5",
+          "beforeSha256": "4aa8e4e6dff232266a4630d276b894b5b76239d16e7899731a2f139611138812",
+          "afterSha256": "f811f4c43b1ccc80498a4b8d48f8df742f207cebccd6db15dbf7a833b05ba86f",
+          "scope": "Owner S55 one-handoff build admission for239 final native candidates; parent and board administrative after pins only. No accepted content or state promotion.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

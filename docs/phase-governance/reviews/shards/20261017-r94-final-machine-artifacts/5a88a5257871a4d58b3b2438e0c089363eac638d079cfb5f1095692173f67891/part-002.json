@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "1bde671f253a391728c33f1c7ebca8f58ef2a9d5dc16c1de13ee00f32c22f48d",
+  "generation": "5a88a5257871a4d58b3b2438e0c089363eac638d079cfb5f1095692173f67891",
   "key": "part-002",
   "positions": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -2359,7 +2359,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "34ed61968606c12c2562feec6695a0c8c161e13cff74c9afff4830253f3f39fd",
+      "afterSha256": "5bd51003361288177a31a050aeb089a50804b45e437f5f48e8a2160a7fc81b90",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -3335,6 +3335,18 @@
           "beforeSha256": "fab65d8c804bee4f06c8635c357f75210ff006dcf8e65006baa8c9a854775dde",
           "afterSha256": "34ed61968606c12c2562feec6695a0c8c161e13cff74c9afff4830253f3f39fd",
           "scope": "Receive S53 scoped non-author accept and S54 exact27 native admission implementation/rehearsal; administrative after pins only. No live semantic/template/state publication.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S55",
+          "revision": "f623859b1adb28a31e07d2c0d04e9c19756223d5",
+          "beforeSha256": "34ed61968606c12c2562feec6695a0c8c161e13cff74c9afff4830253f3f39fd",
+          "afterSha256": "5bd51003361288177a31a050aeb089a50804b45e437f5f48e8a2160a7fc81b90",
+          "scope": "Owner S55 one-handoff build admission for239 final native candidates; parent and board administrative after pins only. No accepted content or state promotion.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
