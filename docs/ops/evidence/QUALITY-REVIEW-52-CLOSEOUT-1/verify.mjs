@@ -28,6 +28,57 @@ function readNativePacket(native) {
 const directory = 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/'
 const scope = json(`${directory}scope.json`)
 const review = json(`${directory}review.json`)
+if (review.approvedRemainder) {
+  assert.equal(sha(read(review.approvedRemainder.path)), review.approvedRemainder.sha256)
+  const current = json(review.approvedRemainder.path)
+  assert.equal(current.files.length, 5)
+  for (const binding of [
+    ...current.files,
+    ...current.extras,
+    ...current.bindings,
+    ...(current.existingAcceptedVersionBridges ?? []),
+  ]) {
+    assert.equal(sha(read(binding.path)), binding.sha256, binding.path)
+    if (binding.dimensions)
+      for (const axis of 'ABCDEFGH') assert(binding.dimensions[axis]?.length > 20)
+  }
+  const receipts = readNativePacket(current.native)
+  for (const run of current.runs) {
+    const result = JSON.parse(receipts[`${run.id}.native.json`])
+    assert.deepEqual(
+      [
+        result.testResults.length,
+        result.numPassedTests,
+        result.numFailedTests,
+        result.numPendingTests,
+      ],
+      [run.files, run.passed, 0, 0],
+    )
+    assert.equal(JSON.parse(receipts[`${run.id}.execution.json`]).exit, 0)
+    assert.equal(receipts[`${run.id}.stderr.raw`], '')
+  }
+  const red = JSON.parse(receipts['migration-legacy-red-r2.native.json'])
+  assert.deepEqual([red.numPassedTests, red.numFailedTests], [6, 1])
+  assert(
+    red.testResults
+      .flatMap((suite) => suite.assertionResults)
+      .filter((test) => test.status === 'failed')
+      .every((test) => test.failureMessages.some((message) => message.includes('AssertionError:'))),
+  )
+  for (const id of ['approved-game-types-r5', 'approved-adjacent-types']) {
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, 0)
+    assert.equal(receipts[`${id}.stderr.raw`], '')
+  }
+  const delta = JSON.parse(receipts['approved-delta-proof.json'])
+  for (const file of delta.files) {
+    assert.equal(sha(read(file.path)), file.sha256, file.path)
+    assert.equal(
+      sha(execFileSync('git', ['show', `${delta.base}:${file.path}`], { cwd: root })),
+      file.beforeSha256,
+      file.path,
+    )
+  }
+}
 if (review.workbench) {
   assert.equal(sha(read(review.workbench.path)), review.workbench.sha256)
   const module = json(review.workbench.path)
@@ -88,11 +139,47 @@ if (review.tooling) {
   assert.equal(audit.adjustmentCount, 20)
   assert.equal(audit.distinctOldBaselines, 20)
   for (const file of audit.unchanged) {
-    assert.equal(sha(read(file.path)), file.sha256)
+    if (!module.retirementMaintenance?.files.includes(file.path))
+      assert.equal(sha(read(file.path)), file.sha256)
     assert.equal(
       sha(execFileSync('git', ['show', `0e14c184e:${file.path}`], { cwd: root })),
       file.sha256,
     )
+  }
+  if (module.retirementMaintenance) {
+    const freeze = json(module.retirementMaintenance.path)
+    assert.equal(sha(read(module.retirementMaintenance.path)), module.retirementMaintenance.sha256)
+    const { approvedTestRetirements } = await import(
+      '../../../../scripts/coverage/approved-test-retirements.mjs'
+    )
+    assert.equal(approvedTestRetirements.length, 74)
+    for (const change of freeze.changes) {
+      assert.equal(sha(read(change.file)), change.fileSha256)
+      const current = approvedTestRetirements.find((row) => row.file === change.file)
+      for (const key of [
+        'previous',
+        'current',
+        'previousIdentityDigest',
+        'currentIdentityDigest',
+        'fileSha256',
+      ])
+        assert.equal(current[key], change[key], `${change.file}:${key}`)
+    }
+    const historical = execFileSync(
+      'git',
+      ['show', `0e14c184e:scripts/coverage/approved-test-retirements.mjs`],
+      { cwd: root, encoding: 'utf8' },
+    )
+    const { approvedTestRetirements: original } = await import(
+      `data:text/javascript;base64,${Buffer.from(historical).toString('base64')}`
+    )
+    for (const row of original) {
+      if (freeze.changes.some((change) => change.file === row.file)) continue
+      assert.deepEqual(
+        approvedTestRetirements.find((current) => current.file === row.file),
+        row,
+      )
+    }
   }
 }
 if (review.presentation) {

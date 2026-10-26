@@ -3,10 +3,10 @@
   "id": "QUALITY-REVIEW-52-CLOSEOUT-1",
   "base": "0e14c184eed91841ee0f48323b98c98b734a3129",
   "owner": "Codex",
-  "status": "in-progress;40fixed-cohort code-accepted, unified gates/publication pending",
+  "status": "52/52 code-accepted; concentrated uniform gates/publication pending",
   "scope": "scope.json",
-  "resolved": 47,
-  "remaining": 5,
+  "resolved": 52,
+  "remaining": 0,
   "files": [
     {
       "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
@@ -679,7 +679,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
+        "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -710,7 +710,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
+        "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -741,7 +741,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
+        "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -772,7 +772,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
+        "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -803,7 +803,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
+        "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -834,7 +834,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
+        "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -865,7 +865,7 @@
       "remaining": "No blocking eight-axis gap for this file. Uniform gates and remote publication remain pending.",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-        "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09",
+        "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd",
         "readScope": "Existing full author review reused where cited; Codex full current target source/test and focused real caller/lifecycle/primary deltas actually read; no repeated full dependent module credit."
       },
       "currentReview": "Current target full read plus specific caller/primary deltas; valid prior evidence reused.",
@@ -1204,7 +1204,7 @@
       "status": "code-accepted",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
-        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+        "sha256": "8bd124d9c2834222e6136e6a378140fbdb8ee1e8fa03a39dccf147c0eadf8882"
       },
       "dimensions": {
         "A": "完整383行：真实git NUL清单/物理存在性→namespace→链接/导航/卡顶/index/board→canonical版本，错误保持exit1，非法CLI exit throw；index只写stdout。旧>1MiB真实git反例与恢复证据按同字节复用。",
@@ -1233,7 +1233,7 @@
       "status": "code-accepted",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
-        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+        "sha256": "8bd124d9c2834222e6136e6a378140fbdb8ee1e8fa03a39dccf147c0eadf8882"
       },
       "dimensions": {
         "A": "原586行全文与所有阶段caller补读；profile/flag、版本、full输入、完整test census、provider/scope/protected比较及原子baseline写回保持。只提取既有调度；并行生命周期两正式反例后修，非指标规则变化。",
@@ -1262,7 +1262,7 @@
       "status": "code-accepted",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
-        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+        "sha256": "8bd124d9c2834222e6136e6a378140fbdb8ee1e8fa03a39dccf147c0eadf8882"
       },
       "dimensions": {
         "A": "全文算法/全部注释及20条有限数据解码补核；完整旧JSON摘要命中才读逐源SHA，逐包before必须精确、after normalize后重聚合total。未知baseline不读源不调整、失败不修改原对象。",
@@ -1291,7 +1291,7 @@
       "status": "code-accepted",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
-        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+        "sha256": "8bd124d9c2834222e6136e6a378140fbdb8ee1e8fa03a39dccf147c0eadf8882"
       },
       "dimensions": {
         "A": "三例完整输入为四个safe非负covered≤total指标、两包及唯一有限批准；原始baseline深拷贝仅作不变性oracle，不是clone自比功能正确性。",
@@ -1315,12 +1315,12 @@
     },
     {
       "path": "scripts/coverage/approved-test-retirements.mjs",
-      "sha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+      "sha256": "b86ca4f3d13fc0b2b5c05d87781bba2652ad518f40eadf2b569170b5e71f9c3d",
       "lines": 725,
       "status": "code-accepted",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
-        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+        "sha256": "8bd124d9c2834222e6136e6a378140fbdb8ee1e8fa03a39dccf147c0eadf8882"
       },
       "dimensions": {
         "A": "全部72条有限tuple及predicate补核：file/kind/old-new数量/两个identity摘要/当前源码摘要全部相等才允许；空前后snapshot与其它scope类型拒绝，无glob/模糊前缀。",
@@ -1340,16 +1340,20 @@
         "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
         "all unchanged source/table bytes pinned to origin/main immutable0e14",
         "new parallel5 tests include old3green/new2 business reds→green"
-      ]
+      ],
+      "retirementMaintenance": {
+        "previousSha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
     },
     {
       "path": "scripts/coverage/approved-test-retirements.test.mjs",
-      "sha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+      "sha256": "7e0bae2851085609c20b13814cfdac557ad560abbb0003012dd322e1529e8843",
       "lines": 88,
       "status": "code-accepted",
       "prior": {
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
-        "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+        "sha256": "8bd124d9c2834222e6136e6a378140fbdb8ee1e8fa03a39dccf147c0eadf8882"
       },
       "dimensions": {
         "A": "完整88行：72个精确tuple成功、两个冻结拒绝、14种拒绝值均对应真实matcher合同；declared72/222只证数据规模，不给产品质量授信。",
@@ -1369,7 +1373,136 @@
         "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
         "all unchanged source/table bytes pinned to origin/main immutable0e14",
         "new parallel5 tests include old3green/new2 business reds→green"
-      ]
+      ],
+      "retirementMaintenance": {
+        "previousSha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "202fa50fcefecdb5cab5e2da6ff4dfc5fa7e8dfbdfcdec1c27e2adb4dff5b1b8",
+      "lines": 65,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整当前声明与队列实现，30个生产emit返回值不消费，shell只读cmd；删除四无发送类型和两无消费者通知，攻击/阵亡SFX保留。队列实例局部，drain转移旧数组后换新数组；无异步/取消/外部资源。",
+        "B": "模块头明确Core→shell、对白由状态与法术由时间线持有；存留各命令的单位/颜色/索引注释与实际消费者一致。历史cmdId/complete描述不再留在当前接口。",
+        "C": "总线只承载顺序传输，无业务处理与全局流水器；shell分发音频/呈现，脚本及动画各自拥有状态。tickEventSystem最后一个bus用途已消失，同步409直接调用及一个namespace调用，不把runScript的真实bus依赖一起删除。",
+        "D": "保留窄cmd信封与统一emit/drain，未造确认/重试/泛型消息框架；真实攻击与阵亡通知有音效消费者，不因画面由状态驱动而误删。",
+        "E": "原6例中4条只证明获批退役协议；两队列例改为精确完整内容及旧数组所有权，另加实例隔离。当前3例随35文件795绿，真实对白/法术状态与声音回归保留，不拿空通知断言代替业务。",
+        "F": "局部queue、emit、drain表达方向与批次；仅两个操作，一目了然，无隐式递增编号和空完成函数。未为指标增加层次。",
+        "G": "获批删除complete、cmdId、无用返回与六种空命令；去掉新产生的死bus变量和未用参数，不新增忽略/宽断言。仍发送的八种命令均有实际责任方。",
+        "H": "每次创建独立闭包，确定性同步API可直接断言内容、交付数组和实例隔离，无mock框架/计时器；生产caller通过类型检查与实际业务回归核对。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "647cbd84e72b17e5684c0542e56875358b6b37431c6c17f93f95feca28c0e713",
+      "lines": 115,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整performItem输入/前置拒绝、玩家/敌人库存归属、目标角色映射与全体FFFF、script续点写回；解释器返回后按当前OBJECT消耗位与当前同id库存扣一次。真实小脚本替换行/0x90改位两红后11绿，普通0行保留。异常自然传播，不伪报成功或加补偿。",
+        "B": "模块头/步骤注明脚本后live重读、无script仍消耗、敌人不拥有玩家库存，commands改为真实全局目录。注释不宣称普通剧情已触达角点或全部脚本行为已验。",
+        "C": "物品动作负责入口/目标/一次消耗，解释器负责效果，object-script-state负责当前续点；不保留跨脚本失效对象借用。同步入口没有新取消/资源义务，BattleState与GameState由真实caller持有。",
+        "D": "复用get/setItemScriptEntry与RunScriptFn，不复制解释器/库存指令算法。末尾按id找到当前行有明确时序需求，不能复用脚本前引用；未增加模式helper。",
+        "E": "正式三例原1绿2指定AssertionError后全绿；同8例角色/临时毒抗相邻回归合计11。原三例fixture/断言未变，零行与两脚本变化分别判别，不以bus次数当库存oracle。",
+        "F": "preflight局部变量不跨脚本，objectFlags/consuming/currentEntry直接说明当前数据来源；顺序对应查找→脚本→续点→扣除，无新隐藏回退链。",
+        "G": "没有新增导出/冗余中间层，公开PerformItemInput均由动作或真实handler消费；未删除0脚本/敌人分支或恢复旧upgrader。fallback只为现有缺OBJECT的静态项目合同。",
+        "H": "已有真实runScript注入、明确GS/BattleState输入，可在真实startBattle与原盘OBJECT上写合法小脚本，输出库存直接观测；无需复制算法或依赖真实网络。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json",
+        "sha256": "f867fe64ca19be715474179c0a894b224a5510052fa8ae7db98fdc2bb8fadca9"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "sha256": "2dd0856ddc6b2460a422efe6e318f98ca76c8b19414f6ba4371796fafe5ec891",
+      "lines": 430,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "MP/use/success/autoDefend/RNG/数字/声音和脚本入口writeback顺序保留；实际battle-system传GS，独立无GS域的flag/入口/声音限制已明示，未扩大输入。",
+        "B": "删掉延期实现/API草稿/enum不含效果等过时头注，当前编排/动画职责准确；修全局commands非events.bin、资源id及缺艺术资源即时反馈描述。",
+        "C": "动作协调持脚本与持久状态；动画新私有输入仅battle projection、资源、已解effects，无GS/runScript/库存表；脚本owner仍是原端口。",
+        "D": "四攻击类型判定、SHORT与待显示数字类型只由两个真实消费者共享；施法音/效果音的trance差别不机械合并，不复制新fallback。",
+        "E": "原14文件226身份与编译类型反控按未变职责复用；本轮35实际文件795例/0stderr涵盖动作、原盘脚本、法术parity及fizzle声音。旧空通知断言删除映射到既存实际MP/伤害/帧链断言，不声称所有测试正文相同。",
+        "F": "1079行拆为433行动与约675动画、26行公共纯合同；动作保留成本→脚本→结算→反馈单一有序编排，复杂度不是指标性关闭依据。",
+        "G": "原1079行已拆动作/动画/窄共享合同，七函数正文保持证明复用；本轮获批删除无消费者playMagicAnim及旧空通知断言，实际battleAnim帧链、MP、脚本、伤害和SFX保持。整文件剩余设计/死协议缺口闭合。",
+        "H": "真实执行/帧序可控，compile-only边界禁止动画入参反扩；临时副本加gs触发唯一TS2344，恢复0且根状态未变。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/magic-module-reviewed.json",
+        "sha256": "c0927d828941107c2be66c14ef35b63e1aeac5654eb1c7445dd8959660e69537"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
+    },
+    {
+      "path": "packages/migrate/src/migration-project-io.ts",
+      "sha256": "ad5c2a6f9fb940c15c02c8b0270721091fa697535e0de40b95389dcabf7fcca8",
+      "lines": 123,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整123行当前discovery/safeProjectPath/snapshot/TOCTOU/unmanagedhash及真实plan/execution调用补核。seed来自迁移目标集合，scene经validateSceneIndex、map索引检查path；真正读写前拒绝绝对/上跳路径。获批不再读取退役script index，旧文本包含坏JSON均留非托管。",
+        "B": "注释改为当前scene/map显式引用，hashes说明写盘前TOCTOU；不称旧脚本仍受托管，读JSON失败含路径与cause，不以类型声明冒称完整schema验收。",
+        "C": "只负责工程读取、集合发现与字节所有权；计划/合并/原子发布由其它模块负责。返回新Set/Map，不改seed、不写项目，错误传播到上层；无长期资源或异步生命周期。",
+        "D": "复用content场景validator与窄sha256，两个hash差异接口各有真实plan/执行用途；无通用万能walker或兼容索引解析。当前map窄path投影不是整个内容validator的替身。",
+        "E": "正式主测原6+新1，旧发现legacy的唯一业务红先存后修；5相关文件36绿。TOCTOU合法当前maps目标与scene exact Set、旧文件字节保护/坏索引忽略皆有判别，未运行会写项目的迁移CLI。",
+        "F": "managed/snapshot/hashes/excluded命名表达所有权，早期路径拒绝和带路径错误清楚；IO同步边界集中，无穿插用户界面或产品状态。",
+        "G": "删除用户批准的退役脚本发现及专属正向断言；seed、scene/map、TOCTOU与工作区旁车保留。没有新增忽略或放宽源格式规则，不恢复旧目录兼容。",
+        "H": "repo根参数可注入，纯临时目录可测真实FS/哈希/读错，无mockFS；snapshot断言直接比较真实字节，afterEach删除独占根，不共享主工作树输出。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/migrate-all/README.md",
+        "sha256": "e67c750b8c58c2cbdf8c049266169dac46ce4eaa969708b265af2207291eb571"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "sha256": "da110be6dfa1fbe80b13d4c61858f85bb30c3377b09258a93a042b29369a3b1d",
+      "lines": 693,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整当前工作台与真实picker/drop/action-position caller补核；MIME只查transport形状，实际drop另核同asset与帧域；动画时长由当前引擎真值计算。新增focus退出释放的两实际scheduler反例先红后绿，未改变选择/拖拽/绘制参数。",
+        "B": "frame/playbackSteps/loopFrom说明与作者与当前引擎一致；C05 case09原标题夸大2色，现明确只核非透明像素与透明留白，断言字节保持。未知坏资产处理和产品视觉信用不泛化。",
+        "C": "上层session/command拥有资产写入与undo，工作台只显示与回调；同一picker拥有全部待执行focus，回调完成删除记录、卸载逐项cancel。动画timer与reduced-motion订阅仍各由自己的effect对称释放。",
+        "D": "RawInspector/动作弹窗复用SourceFramePicker，semantic/instance复用FrameRowView；动画位置复用reforge入口，不复制循环和时长算法。不因共享外观合并语义与实例计数ownership。",
+        "E": "当前五文件21绿，包含两focus释放例与迁移后的合法/标量两个inspect例；C05最后标题另做文案勘误，最终全仓核当前身份。现行focus/动画/真实像素各自oracle，不把跨域结果相加。",
+        "F": "职责按Canvas→Cell→Picker→Inspector→Row/Shelves分函数；684行多为明确JSX装配，未为缩行强拆微组件。pendingFocus名字直接说明资源owner，单次调度按现行RAF优先顺序保留。",
+        "G": "用户批准后只删除测试专用readSpriteFrameDragPayload包装，生产inspect与两旧测试改为真实tagged结果；所有其余出口有library/dialog/inline消费者。无拖拽格式或显示行为变化。",
+        "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json",
+        "sha256": "d1d4340cb23123b1d1bf6ec2e0f4ee54f05236bd070bf2d01d39a0506cadf56a"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
     }
   ],
   "adjacent": [
@@ -1515,6 +1648,106 @@
         "G": "无新增skip/only/弱断言；新2例是不同资源回收分支，旧5例不删，原函数布局与拖拽协议未被测试改写。",
         "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
       }
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item-inventory-lifecycle.test.ts",
+      "sha256": "3962197b476fd7b82ee0bbd8ace00a00e0436eaadc963f81d0906ceae870c11f",
+      "lines": 82,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "三例均真实startBattle/runScript与完整OBJECT，合法0x20/0x90脚本；检查当前库存对象替换、标志取消、普通零行三个不同输入合同。",
+        "B": "标题只描述live行/flag和0行，不宣称原剧情覆盖；原正式R2冻结源与当前内容匹配，无过时通知注释。",
+        "C": "每例独立GS/BattleState，脚本表/OBJECT不共写；无全局mock、网络或计时资源，解释器是生产入口。",
+        "D": "复用现有battle fixture，不造复制库存算法；不与角色传递8例重复，三角度分别观察库存/标志。",
+        "E": "正式原1绿2AssertionErrors；当前三例绿且相邻11绿。直接库存值oracle，未改变原fixture或断言以消除失败。",
+        "F": "小脚本与期望值贴近测试体，命名体现替换行和修改flag；无需靠注释推导复杂分支。",
+        "G": "三例无skip/only/恒真，不为覆盖率加旁支，正常零行是原合同保护，不将无关调用次数当业务。",
+        "H": "同步真实解释器可重复，无随机/时钟/外部数据下载；byte-level OBJECT由现有合法fixture提供，失败因业务值不同。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json",
+        "sha256": "cdc955829418d7dea274f5f9074f2f72c9795a28c36355457a6280ad705f17cb"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
+    },
+    {
+      "path": "packages/game/src/core/command-bus.test.ts",
+      "sha256": "b495592913a8458f125aa6025ee23074959d5b78f0d5325be345acea61989178",
+      "lines": 37,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整三例覆盖FIFO精确payload、drain空后批次/旧数组归属、不同实例隔离；全为合法当前命令。",
+        "B": "标题与实际断言一致，数组所有权注释说明两方向隔离；无旧cmdId/完成回执表述。",
+        "C": "每例创建独立bus闭包，没有共享fake或全局恢复义务，测试只依赖公开实际入口。",
+        "D": "两个所有权断言同例是一次批次转移合同，实例隔离另有独立输入；不复制生产实现或合并为泛型测试框架。",
+        "E": "原6删四专属退役例、保留两例加强加一实例例；当前3随795绿。精确数组证明内容/顺序/隔离，移除队列交换或共享实例会业务失败。",
+        "F": "输入与输出相邻，三段短例意图直接可读，无辅助中间层或循环掩盖期望。",
+        "G": "无恒真/only/skip；减少3个运行身份来自批准死协议，按实际旧新名精确登记，不伪称等价迁移。",
+        "H": "纯同步真实bus无需mock，天然确定性，直接观察drain的实际数组，测试不用返回编号或内部字段。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json",
+        "sha256": "cdc955829418d7dea274f5f9074f2f72c9795a28c36355457a6280ad705f17cb"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
+    },
+    {
+      "path": "packages/migrate/src/migration-project-io.test.ts",
+      "sha256": "aae45ba04b4582f53c286714c5a11a6ae8f3175cea3c79e3b8c6768d6b5c4c12",
+      "lines": 130,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整七例：managed读值/unmanagedhash、TOCTOU内容及新增目标、差异检测、显式排除、scene发现、legacy不托管、workspace旁车。fixture符合各当前合同。",
+        "B": "旧非托管哈希标题曾夸大新增删除而只测改动，现收窄为实际改动断言；其余标题和步骤与真正oracle对应。",
+        "C": "每例mkdtemp独占根，afterEach回收roots；无对主树、产物或共享FS的写入，读取不变直接核字节。",
+        "D": "复用tempRepo/put只准备目录，不复制discovery算法；legacy新反例与scene当前Set合同不重叠。",
+        "E": "七例真实FS，36相邻绿；新legacy原6绿1业务红后绿。TOCTOU改合法maps路径，scene从部分contains升级完整Set。",
+        "F": "每例顺序写入→调用→直接结果，路径名称区分当前maps/scenes与退役scripts，无难读模式参数。",
+        "G": "无weak mock/恒真，旧专属chunks正向覆盖随批准退役移除；现保留原字节hash、坏旧JSON不读，不为数量堆例。",
+        "H": "repo注入和临时FS可控，无真实迁移CLI/网络/时钟；expect精确集合、Map、文本与路径错误，可独立复验。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-native.json.gz",
+        "sha256": "87ab91818ec24594dad79eecae01e5d0582b0e0c981cc71c9f89f4168c7c5961"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "sha256": "891d143621e72fe0e4fdc13a751ab4801be13c747f207dcada73f150f3ccc453",
+      "lines": 148,
+      "status": "code-accepted",
+      "dimensions": {
+        "A": "完整九例：缺MIME/坏JSON/非整数/合法payload/标量、选中夹限、箭头与HomeEnd、真实像素留白；payload fixture与生产inspect/PAL帧域一致。",
+        "B": "模块排重限定各oracle；case09错误两色标题纠正为实际非透明/留白，不加强或削弱断言冒充新像素合同。",
+        "C": "每例独立host/root和C05session，act包render/事件/unmount；setup/teardown恢复调度与canvas，焦点资源由生产picker回收。",
+        "D": "键盘ArrowRight与HomeEnd不是重复输入轴；main picker已有End但此例有Home，保留有限补充，不删未知合同。",
+        "E": "旧wrapper合法/非法两例迁至inspect的tagged结构；21相邻绿，原九身份仅三标题修正无增删。像素用真实bakeFrame/canvas census而非clone自比。",
+        "F": "九例编号与标题指明合同，真实输入/期望相邻；renderPicker仅装配，不隐藏行为或oracle。",
+        "G": "不保留无caller reader专测，移到真正生产入口；无only/skip或弱化assert；RGB>=1与transparent>0只授该范围信用。",
+        "H": "payload是纯函数，交互通过真实DOM事件，canvas检查实际像素；无网络且fixture会话按测试隔离，不把mock次数当可见结果。"
+      },
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json",
+        "sha256": "d1d4340cb23123b1d1bf6ec2e0f4ee54f05236bd070bf2d01d39a0506cadf56a"
+      },
+      "currentReview": "Prior full eight-axis evidence reused where valid; actual delta/callers/source ownership and tests reviewed in this finite approved closeout.",
+      "verification": [
+        "See approved-remaining-native.json.gz exact native/execution receipts; uniform gates separately pending"
+      ],
+      "remaining": "No unresolved blocking A–H gap within this file contract; stated limitations remain explicit."
     }
   ],
   "changes": [
@@ -1588,7 +1821,7 @@
       "beforeAfter": "14files226identical identities,stderr0",
       "body": "7 moved bodies+remaining action+dispatch+public input",
       "typeBoundary": "oneTS2344 counter in ownedtemp/restored0",
-      "originalDisposition": "magic.ts remains review for pending bus API choice",
+      "originalDisposition": "Prior bus review closed by user-approved notification retirement; current five-file decisions in approvedRemainder",
       "coverage": "deferred"
     }
   },
@@ -1695,8 +1928,12 @@
     },
     {
       "path": "packages/game/src/core/event-system.ts",
-      "sha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210",
-      "scope": "whole CLI/data-assets/MSG reads plus named type, half-cell, trigger, teleport, palette, throwing/description and fireDelay consumers; unexpanded adjacent code not accepted"
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+      "scope": "whole CLI/data-assets/MSG reads plus named type, half-cell, trigger, teleport, palette, throwing/description and fireDelay consumers; unexpanded adjacent code not accepted",
+      "approvedDeltaBridge": {
+        "previousSha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json"
+      }
     },
     {
       "path": "packages/game/src/core/scene-loading.ts",
@@ -1869,7 +2106,7 @@
   "gameModules": [
     {
       "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
-      "sha256": "28ecb30811e319b49f3ac76eb778ec8599438ff4df8c4fd6eec3fe083e936a09"
+      "sha256": "710a9b0953ee4c29db9199bc0329c0d933e0734092413ba0aaacda459bdbfbfd"
     }
   ],
   "phase2": {
@@ -1882,7 +2119,7 @@
   },
   "magicModule": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/magic-module-reviewed.json",
-    "sha256": "a3d3f0a57bb87f43d2526982ef73b2698d3d55d1a1d1846ce9d219e89dfa6b8d"
+    "sha256": "c0927d828941107c2be66c14ef35b63e1aeac5654eb1c7445dd8959660e69537"
   },
   "presentation": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-reviewed.json",
@@ -1890,10 +2127,14 @@
   },
   "tooling": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json",
-    "sha256": "1fb1e7abe6089b7ddd861829c39f0476b57b5156cf8640ab3843c3f6de8de18c"
+    "sha256": "8bd124d9c2834222e6136e6a378140fbdb8ee1e8fa03a39dccf147c0eadf8882"
   },
   "workbench": {
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json",
-    "sha256": "95aaf40941970ac065230216c1ee776b2f070ac23a404e9e99d403e434b5194e"
+    "sha256": "d1d4340cb23123b1d1bf6ec2e0f4ee54f05236bd070bf2d01d39a0506cadf56a"
+  },
+  "approvedRemainder": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+    "sha256": "78b7733be4c47de5ccb36ad41cec6145d00efdad43c0bf30bba113a154157bcf"
   }
 }

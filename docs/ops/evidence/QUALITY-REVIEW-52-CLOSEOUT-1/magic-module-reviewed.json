@@ -17,9 +17,14 @@
         "G": "新内部类型均私有，公开performMagic/PerformMagicInput/RunScriptFn不变；playMagicAnim空通知仍保留待用户，重要G项未被代码重组或226绿抹掉。",
         "H": "真实执行/帧序可控，compile-only边界禁止动画入参反扩；临时副本加gs触发唯一TS2344，恢复0且根状态未变。"
       },
-      "sha256": "d0e77bd6701cd4c7fc7bb93f42c109941672d4e2efc098c5e8c8aa556f104ad8",
-      "lines": 439,
-      "readScope": "Full original1079line source read; own exact routing/type/comment diff inspected; seven moved implementations reused with per-function body equality, not a second line-by-line reread claim."
+      "sha256": "2dd0856ddc6b2460a422efe6e318f98ca76c8b19414f6ba4371796fafe5ec891",
+      "lines": 430,
+      "readScope": "Full original1079line source read; own exact routing/type/comment diff inspected; seven moved implementations reused with per-function body equality, not a second line-by-line reread claim.",
+      "approvedDeltaBridge": {
+        "previousSha256": "d0e77bd6701cd4c7fc7bb93f42c109941672d4e2efc098c5e8c8aa556f104ad8",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     },
     {
       "path": "packages/game/src/core/battle/actions/magic-animation.ts",
@@ -276,11 +281,21 @@
     },
     {
       "path": "packages/game/src/core/command-bus.ts",
-      "sha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06"
+      "sha256": "202fa50fcefecdb5cab5e2da6ff4dfc5fa7e8dfbdfcdec1c27e2adb4dff5b1b8",
+      "approvedDeltaBridge": {
+        "previousSha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     },
     {
       "path": "packages/game/src/core/event-system.ts",
-      "sha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210"
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+      "approvedDeltaBridge": {
+        "previousSha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     },
     {
       "path": "packages/game/src/shell/main-loop.ts",
@@ -306,7 +321,12 @@
     },
     {
       "path": "packages/game/src/present/battle/present-battle.ts",
-      "sha256": "f47dc971302485060c4d70db88b0c91108610d3f7865c2821e530b08d0b7e8cb"
+      "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453",
+      "approvedDeltaBridge": {
+        "previousSha256": "f47dc971302485060c4d70db88b0c91108610d3f7865c2821e530b08d0b7e8cb",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     },
     {
       "path": "scripts/coverage/config.mjs",

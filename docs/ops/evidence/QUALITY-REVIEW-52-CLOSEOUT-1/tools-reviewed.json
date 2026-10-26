@@ -120,7 +120,7 @@
     },
     {
       "path": "scripts/coverage/approved-test-retirements.mjs",
-      "sha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+      "sha256": "b86ca4f3d13fc0b2b5c05d87781bba2652ad518f40eadf2b569170b5e71f9c3d",
       "lines": 725,
       "status": "code-accepted",
       "prior": {
@@ -145,11 +145,15 @@
         "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
         "all unchanged source/table bytes pinned to origin/main immutable0e14",
         "new parallel5 tests include old3green/new2 business reds→green"
-      ]
+      ],
+      "retirementMaintenance": {
+        "previousSha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
     },
     {
       "path": "scripts/coverage/approved-test-retirements.test.mjs",
-      "sha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+      "sha256": "7e0bae2851085609c20b13814cfdac557ad560abbb0003012dd322e1529e8843",
       "lines": 88,
       "status": "code-accepted",
       "prior": {
@@ -174,7 +178,11 @@
         "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
         "all unchanged source/table bytes pinned to origin/main immutable0e14",
         "new parallel5 tests include old3green/new2 business reds→green"
-      ]
+      ],
+      "retirementMaintenance": {
+        "previousSha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
     }
   ],
   "extras": [
@@ -228,11 +236,19 @@
     },
     {
       "path": "scripts/coverage/approved-test-retirements.mjs",
-      "sha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2"
+      "sha256": "b86ca4f3d13fc0b2b5c05d87781bba2652ad518f40eadf2b569170b5e71f9c3d",
+      "retirementMaintenance": {
+        "previousSha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
     },
     {
       "path": "scripts/coverage/approved-test-retirements.test.mjs",
-      "sha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d"
+      "sha256": "7e0bae2851085609c20b13814cfdac557ad560abbb0003012dd322e1529e8843",
+      "retirementMaintenance": {
+        "previousSha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
     },
     {
       "path": "scripts/coverage/package-collection.mjs",
@@ -296,15 +312,30 @@
     },
     {
       "path": "docs/testing/catalog.json",
-      "sha256": "13113b4734d626a519c58c92b0d30bf01f9e9293f63b3305de7773c79272d863"
+      "sha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+      "currentMetadataBridge": {
+        "previousSha256": "13113b4734d626a519c58c92b0d30bf01f9e9293f63b3305de7773c79272d863",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only paired oracle sourceRefs changed with approved unused bus parameter removal; previous runtime claims retained."
+      }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
-      "sha256": "9a84191be3e49843c5e7e86b9fd39139631b93f5baeed5707857494a66a30311"
+      "sha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+      "currentMetadataBridge": {
+        "previousSha256": "9a84191be3e49843c5e7e86b9fd39139631b93f5baeed5707857494a66a30311",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only paired oracle sourceRefs changed with approved unused bus parameter removal; previous runtime claims retained."
+      }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
-      "sha256": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b"
+      "sha256": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784",
+      "currentMetadataBridge": {
+        "previousSha256": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only paired oracle sourceRefs changed with approved unused bus parameter removal; previous runtime claims retained."
+      }
     }
   ],
   "native": {
@@ -489,5 +520,14 @@
       "Metadata formatter briefly rejected r93 by17bytes over the existing1MiB bound. Shortened only owned repeated current metadata; rules unchanged. Tool transcript only for this producer error.",
       "Second full docs run passed tools/local/model/testing/phase-lore, then failed stale navigation/r93 SHA; complete raw attached. Strict leaf and paired checker now0 issues."
     ]
+  },
+  "retirementMaintenance": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json",
+    "sha256": "22aa6ea6321d2220eddf51fd4865c04835ca9be77726579dffe18d4ee69af58a",
+    "files": [
+      "scripts/coverage/approved-test-retirements.mjs",
+      "scripts/coverage/approved-test-retirements.test.mjs"
+    ],
+    "scope": "Only explicit three old/new file snapshots (two additions, bus replacement) and finite aggregate census; predicate/other historical snapshots unchanged."
   }
 }

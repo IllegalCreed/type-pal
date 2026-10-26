@@ -566,11 +566,21 @@
     },
     {
       "path": "packages/game/src/core/battle/actions/item.ts",
-      "sha256": "52a7e16669cecf84179ed85d317adc979615c8af3d93833f6e6444bae3c2bbf0"
+      "sha256": "647cbd84e72b17e5684c0542e56875358b6b37431c6c17f93f95feca28c0e713",
+      "approvedDeltaBridge": {
+        "previousSha256": "52a7e16669cecf84179ed85d317adc979615c8af3d93833f6e6444bae3c2bbf0",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     },
     {
       "path": "packages/game/src/core/battle/actions/magic.ts",
-      "sha256": "d0e77bd6701cd4c7fc7bb93f42c109941672d4e2efc098c5e8c8aa556f104ad8"
+      "sha256": "2dd0856ddc6b2460a422efe6e318f98ca76c8b19414f6ba4371796fafe5ec891",
+      "approvedDeltaBridge": {
+        "previousSha256": "d0e77bd6701cd4c7fc7bb93f42c109941672d4e2efc098c5e8c8aa556f104ad8",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     },
     {
       "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",

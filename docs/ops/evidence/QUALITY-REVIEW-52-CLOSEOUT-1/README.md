@@ -15,11 +15,11 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 
 ## 结果
 
-当前固定47/52代码接受：首组13、提取器余10、game9、phase2九个、工具6；game余3、phase2余2共5仍review。额外诊断/测试及新内部模块10接受、物品红例1待裁决，单列不换分母。机器3462tracked／588closed／6review／2868pending。原基线3453／531／52／2870固定于scope。本窗8个解析相关文件136/136、shared/extract类型检查均0诊断；四个源码仅改注释，去注释语法树一致。未改fixture、断言、标题或运行时；尚未执行本阶段全仓或coverage；旧PR23/main的零诊断门仅可用于身份/影响域确切一致的claim。后续实际结果追加同一索引和原件，不复制或改写历史日志。
+当前固定52/52代码接受，0仍review；52之外四个本轮相邻专测单列接受，机器3462tracked／597closed／0review／2865pending。每个文件A–H及源/原件版本在review.json；当前最后五文件与四专测见[有限批准收口](approved-remaining-reviewed.json)、[完整当前/中间失败原件](approved-remaining-native.json.gz)、[精确退役快照](retirement-freeze.json)。统一全仓、official、ratchet、protected与PR/main CI尚未完成，不能宣布阶段发布。早期局部数字只在各自历史段有效。
 
 ## 限制与退出条件
 
-52之外只核必要依赖delta，2870个pending不随门通过升级。高风险新产品取舍停受影响步骤并另核，ED实体方案与活跃任务不抢写。所有52实质收口且集中门/保护CI及发布完成，才能宣布本阶段完成；不等于全仓专项完成。
+52之外只核必要依赖delta，其余pending不随门通过升级。高风险新产品取舍停受影响步骤并另核，ED实体方案与活跃任务不抢写。所有52实质收口且集中门/保护CI及发布完成，才能宣布本阶段完成；不等于全仓专项完成。
 
 ## 首组原件与复验
 
@@ -39,7 +39,7 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 
 ## game准入候选
 
-[bus与item具体方案](game-boundary-candidates.json)、[源码绑定/30处caller清单及两正式红完整原件](game-boundary-native.json.gz)，分别见[通道接口卡](../../tasks/GAME-COMMAND-BUS-API-CLEANUP-1.md)和[物品生命周期卡](../../tasks/GAME-BATTLE-ITEM-LIVE-INVENTORY-1.md)。产品尚未改，待对应接口/机制裁决；其余范围继续。
+[bus与item具体方案](game-boundary-candidates.json)、[源码绑定/30处caller清单及两正式红完整原件](game-boundary-native.json.gz)，分别见[通道接口卡](../../tasks/GAME-COMMAND-BUS-API-CLEANUP-1.md)和[物品生命周期卡](../../tasks/GAME-BATTLE-ITEM-LIVE-INVENTORY-1.md)。上述材料为批准前冻结候选；现已明确批准并实施，当前结论以本页有限批准收口为准，原生红不改写。
 
 ## game装备、工厂与法术pair增量
 

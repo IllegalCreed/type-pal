@@ -40,11 +40,11 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE3q: 32 cases relocate; 4 redundant cases transfer to stronger literal/matrix oracles.
   // CODE1: main26->19; GLM-o input-axis splits increase its current count.
   // CODE42: two test-only rectangle placeholders removed; native full identities pinned.
-  assert.equal(approvedTestRetirements.length, 72)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 72)
+  assert.equal(approvedTestRetirements.length, 74)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 74)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    222,
+    224,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

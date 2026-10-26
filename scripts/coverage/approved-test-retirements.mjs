@@ -7,6 +7,24 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-26 explicit sprite-wrapper and bus-protocol retirement.
+    // Exact protected old/new identities and kept contracts: review52 retirement-freeze.json.
+    {
+      file: 'packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts',
+      previous: 16,
+      current: 15,
+      previousIdentityDigest: 'fa35f09edc8a7c4eed46f61204faf8f6d027004ffc9a50c5d51957367f3ca3be',
+      currentIdentityDigest: '3891ac1cd63e163a4ad2d00e5252529df678d763e79c34118d8ea5ec6b6cb504',
+      fileSha256: '229c6433140e78fcb7df5a9e8a4e576698ff7cae3909011316f19718db2d9790',
+    },
+    {
+      file: 'packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'e4c4d3dcb8cc086f2825b866b2e8fe9c9177d3abfaf60278710b2a08d82cbc66',
+      currentIdentityDigest: '6fd045f04a02606659fcd8ee87364fad16b5ab4ea38c82f9ad98c14f362a10d9',
+      fileSha256: 'c02fe8adea672225ac43017baa84d1b0039a23e762d6b24487455890e11acc80',
+    },
     // User2026-10-25 approved old-menu API removal; exact per-file mappings
     // and native originals are in CODE94 approved-closeout. Predicate unchanged.
     {
@@ -520,11 +538,11 @@ export const approvedTestRetirements = Object.freeze(
     },
     {
       file: 'packages/game/src/core/command-bus.test.ts',
-      previous: 9,
-      current: 6,
-      previousIdentityDigest: 'f2af6faf54355e2f5633a0dff4e18fe713f1df6557030db0450c43b9d91df796',
-      currentIdentityDigest: '736f547d102e1581733d3aadae0328e7ce3d33d9f66d3383a97936a27601a7fe',
-      fileSha256: 'e51a7c04e5236379f98f7ed851e45d9079cd4a09b645169546649b2f0bf2c93b',
+      previous: 6,
+      current: 3,
+      previousIdentityDigest: '736f547d102e1581733d3aadae0328e7ce3d33d9f66d3383a97936a27601a7fe',
+      currentIdentityDigest: '39245a5a74e429f89967f93523a8027a6762c7d39cdd9d6e3afa867ddf3b4fb2',
+      fileSha256: 'b495592913a8458f125aa6025ee23074959d5b78f0d5325be345acea61989178',
     },
     // 2026-10-07 Codex accepted TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.
     // Six old rows all exercised both version conditions; three independent

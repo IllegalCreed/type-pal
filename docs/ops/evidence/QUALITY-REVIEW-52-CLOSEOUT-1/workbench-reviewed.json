@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sha256": "e6267a9a0c6cc429e68447d97ae5e5690113af72599300d2964ec3f6a9f9588c",
-      "lines": 700,
+      "sha256": "da110be6dfa1fbe80b13d4c61858f85bb30c3377b09258a93a042b29369a3b1d",
+      "lines": 693,
       "status": "review; G zero-caller wrapper decision pending",
       "dimensions": {
         "A": "完整当前工作台与真实picker/drop/action-position caller补核；MIME只查transport形状，实际drop另核同asset与帧域；动画时长由当前引擎真值计算。新增focus退出释放的两实际scheduler反例先红后绿，未改变选择/拖拽/绘制参数。",
@@ -17,6 +17,11 @@
         "F": "职责按Canvas→Cell→Picker→Inspector→Row/Shelves分函数；684行多为明确JSX装配，未为缩行强拆微组件。pendingFocus名字直接说明资源owner，单次调度按现行RAF优先顺序保留。",
         "G": "readSpriteFrameDragPayload仅两旧测试调用，真实业务用inspect；删除/保留已向用户提交有限裁决，当前不删除、不关闭整文件。其余展示接口有实际library/dialog/inline调用，无新产品出口或模式分支。",
         "H": "具体canvas使用effect端口，已有动画专测控制真实时间/像素；picker新例控制真实调度队列与React卸载，不mock生产picker。两业务红均预期0实际1，配置路径错误首跑明确排除反例信用。"
+      },
+      "approvedDeltaBridge": {
+        "previousSha256": "e6267a9a0c6cc429e68447d97ae5e5690113af72599300d2964ec3f6a9f9588c",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
       }
     },
     {
@@ -55,7 +60,12 @@
   "bindings": [
     {
       "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-      "sha256": "e6267a9a0c6cc429e68447d97ae5e5690113af72599300d2964ec3f6a9f9588c"
+      "sha256": "da110be6dfa1fbe80b13d4c61858f85bb30c3377b09258a93a042b29369a3b1d",
+      "approvedDeltaBridge": {
+        "previousSha256": "e6267a9a0c6cc429e68447d97ae5e5690113af72599300d2964ec3f6a9f9588c",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     },
     {
       "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
@@ -87,7 +97,12 @@
     },
     {
       "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
-      "sha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e"
+      "sha256": "891d143621e72fe0e4fdc13a751ab4801be13c747f207dcada73f150f3ccc453",
+      "approvedDeltaBridge": {
+        "previousSha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only finite authorized delta; historical native results remain at their original source version; current regression and current eight-axis decisions in named receipt."
+      }
     }
   ],
   "native": {

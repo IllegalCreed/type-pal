@@ -1820,7 +1820,7 @@
           "lines": "26",
           "anchor": "describe('D1 shared-state ownership",
           "role": "oracle",
-          "sha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502"
+          "sha256": "7a58919553a2c6849c457f8d8afff9a208c7cdaa3a562eee7b8b5e285b064206"
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
@@ -2038,6 +2038,21 @@
             "sourceSha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
             "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
             "scope": "Six effective-stat sums now share a private narrow helper; owner exports/inputs/storage and numeric results retained. Actual44 equipment and36 adjacent tests are finite regression only. No new historical D1 SCC/161-token/needles/browser or E2E claim; catalog dates/status/versions retained."
+          },
+          {
+            "date": "2026-10-26",
+            "action": "review52-approved-unused-event-argument-removal",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502"
+              }
+            ],
+            "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+            "scope": "Only current oracle sourceRef identity/anchor; actual diff removes unused bus argument/fixture. Preserve historical execution/status/version claims, no re-credit of old SCC or route runs."
           }
         ]
       },
@@ -2095,14 +2110,14 @@
           "lines": "33",
           "anchor": "function play",
           "role": "oracle",
-          "sha256": "912ae80ee2c9d7f162999488b21b7ea48d350231590e5d660ff147dd2abda192"
+          "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
         },
         {
           "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
           "lines": "59",
           "anchor": "function portal",
           "role": "oracle",
-          "sha256": "a95ff231f2a7c434c31d1c989f025e52f2dc1152967ce8f9704c371b6890110b"
+          "sha256": "2c5c4f954b78df9bf8c2f23e159dfe51dbe29f098e71a480fe5d14cc7a5257a6"
         },
         {
           "path": "packages/reforge/src/pal-story-corrections.test.ts",
@@ -2213,6 +2228,28 @@
             ],
             "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md"
+          },
+          {
+            "date": "2026-10-26",
+            "action": "review52-approved-unused-event-argument-removal",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+                "lines": "33",
+                "anchor": "function play",
+                "role": "oracle",
+                "sha256": "912ae80ee2c9d7f162999488b21b7ea48d350231590e5d660ff147dd2abda192"
+              },
+              {
+                "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+                "lines": "59",
+                "anchor": "function portal",
+                "role": "oracle",
+                "sha256": "a95ff231f2a7c434c31d1c989f025e52f2dc1152967ce8f9704c371b6890110b"
+              }
+            ],
+            "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+            "scope": "Only current oracle sourceRef identity/anchor; actual diff removes unused bus argument/fixture. Preserve historical execution/status/version claims, no re-credit of old SCC or route runs."
           }
         ]
       }

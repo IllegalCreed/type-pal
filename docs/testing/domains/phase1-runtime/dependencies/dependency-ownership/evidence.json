@@ -56,7 +56,7 @@
       "lines": "26",
       "anchor": "describe('D1 shared-state ownership",
       "role": "oracle",
-      "sha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502"
+      "sha256": "7a58919553a2c6849c457f8d8afff9a208c7cdaa3a562eee7b8b5e285b064206"
     },
     {
       "path": "packages/game/src/core/cross-module-boundaries.test.ts",
@@ -326,6 +326,21 @@
       "sourceSha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
       "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
       "scope": "Six effective-stat sums now share a private narrow helper; owner exports/inputs/storage and numeric results retained. Actual44 equipment and36 adjacent tests are finite regression only. No new historical D1 SCC/161-token/needles/browser or E2E claim; catalog dates/status/versions retained."
+    },
+    {
+      "date": "2026-10-26",
+      "action": "review52-approved-unused-event-argument-removal",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/dependency-ownership.test.ts",
+          "lines": "26",
+          "anchor": "describe('D1 shared-state ownership",
+          "role": "oracle",
+          "sha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502"
+        }
+      ],
+      "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+      "scope": "Only current oracle sourceRef identity/anchor; actual diff removes unused bus argument/fixture. Preserve historical execution/status/version claims, no re-credit of old SCC or route runs."
     }
   ],
   "_governance": {

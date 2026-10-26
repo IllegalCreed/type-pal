@@ -34,4 +34,4 @@ Branch: codex/code-quality-94-102
 
 用户明确批准删除complete/cmdId/返回编号、四无发送类型及showDialogBox/playMagicAnim两个空通知；保留攻击/阵亡SFX与cmd信封和FIFO。 Codex核当前main未变、单一Owner与隔离治理分支，build allowed。上文待裁决描述保留为历史提案；本轮以此明确答复为准。定向与相邻集中验证，纯清理/行为修复独立提交，全部52稳定后统一门。
 
-2026-10-26 实施：删除流水号/complete/六空类型及两生产通知，保留真实SFX、cmd信封和FIFO；tickEventSystem最后一个bus用途随通知退役，同步409处直接调用及一个namespace调用，删新产生的纯空bus夹具；其它RunScript仍需bus，保留其依赖。机械清理曾漏简写引用，中间TC/回归失败原件保留，最终game TC0、35实际文件773测试域另核native且0stderr。原bus6例中4条专属协议退役，两队列例加强并补实例隔离；其余测试只去接口/实参、空通知断言迁移实际dialog/帧链。未放宽规则，统一门/发布仍待。
+2026-10-26 实施：删除流水号/complete/六空类型及两生产通知，保留真实SFX、cmd信封和FIFO；tickEventSystem最后一个bus用途随通知退役，同步409处直接调用及一个namespace调用，删新产生的纯空bus夹具；其它RunScript仍需bus，保留其依赖。机械清理曾漏简写引用，中间TC/回归失败原件保留，最终game TC0、35实际文件795例通过、0stderr。原bus6例中4条专属协议退役，两队列例加强并补实例隔离；其余测试只去接口/实参、空通知断言迁移实际dialog/帧链。未放宽规则，统一门/发布仍待。

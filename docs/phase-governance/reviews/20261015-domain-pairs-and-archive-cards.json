@@ -4607,7 +4607,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; in-progress;40fixed-cohort code-accepted, unified gates/publication pending",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code-accepted; concentrated uniform gates/publication pending",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -4687,16 +4687,16 @@
           "whole-docs governance"
         ]
       },
-      "unresolved": ["Five decisions/gates/publication pending; see task."],
-      "nextStep": "Finish52 and gates before protected PR.",
+      "unresolved": ["52 code accepted; gates/publication pending."],
+      "nextStep": "Complete uniform gates before protected PR.",
       "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b",
+      "afterSha256": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784",
       "revision": {
-        "currentSha": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b",
-        "implementationSha": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b",
+        "currentSha": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784",
+        "implementationSha": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4770,14 +4770,14 @@
       "evidence": {
         "kind": "owned-review52-closeout",
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-        "afterSha256": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b",
-        "lineCount": 372,
+        "afterSha256": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784",
+        "lineCount": 387,
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
         "workingTreeDelta": true,
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b",
+          "afterSha256": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784",
           "scope": "Owned52 delta; history retained."
         }
       },

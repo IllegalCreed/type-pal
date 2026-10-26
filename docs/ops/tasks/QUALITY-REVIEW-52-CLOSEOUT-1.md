@@ -104,3 +104,7 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 治理工具六个整文件代码接受：docs checker、coverage runner、两个精确批准表及两专测补齐八维；五未改文件与main逐字节同一，20完整旧baseline/全部有限源pin与72退役tuple按实际reader/保护caller核定，历史产品证据复用而非逐例重跑。调度纯提取先独立提交，随后两正式业务红修拒绝与在途报告所有权，105相邻工具绿/0stderr；先前118门保留独立身份不相加。新调度叶/专测2另计已接受，固定47/52、余5；机器3461／586／6／2869。批准表/官方baseline未更改，sprite四项精确退役与可能结构重计留最终冻结，未跑全仓/official/ratchet/protected或推合。
 
 - 2026-10-26 工作台生命周期独立修复：真实picker点击后卸载，RAF/timeout各一资源红（应0实际1）；当前Set由同一effect回收，已执行项即删除。旧测试同步RAF改为真实下一帧排队，并恢复prototype descriptor/时钟/全局。五相邻文件21绿、最终修改两文件7绿、editor TC0；首跑配置路径错误完整披露，不作反例。新增focus2例文件与此前未登整文件的主测5例各八维接受，两个额外路径单列，固定仍47/52，3462／588／6／2868。工作台G的readSpriteFrameDragPayload退役/保留尚待用户，main impl仍review；不新增视觉/保存/ED实体状态或资产格式信用。本阶段全仓/coverage/protected未跑、未推合。
+
+- 2026-10-26 用户一次明确批准五项剩余边界：bus空协议与两通知、脚本后live库存/flag、旧script index停止托管、workbench两测试专用reader包装退役。单一Codex实施，原反例/范围复用；不需重复裁决，统一门仍等全52稳定。
+
+- 2026-10-26 最后五文件与相邻四专测逐维代码接受：bus协议/两空通知、脚本后live库存/flags、退役脚本不托管、工作台reader删除均按本次明确批准；源码/测试/行为提交分离。game35实际文件795绿、物品11/迁移36/编辑器21分别记录不相加；game/migrate/editor TC0。两测试夸大标题按真实oracle收窄，测试正文不改。固定52/52、0仍review；机器3462／597／0／2865。全部pending不随包绿关闭；统一门/official/protected/PR仍待本次集中冻结。原错误路径/机械清理失败/原业务红完整保留，不改写历史。
