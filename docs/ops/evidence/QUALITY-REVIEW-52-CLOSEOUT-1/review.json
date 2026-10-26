@@ -3,7 +3,7 @@
   "id": "QUALITY-REVIEW-52-CLOSEOUT-1",
   "base": "0e14c184eed91841ee0f48323b98c98b734a3129",
   "owner": "Codex",
-  "status": "52/52 code/local gates accepted; actual protected publication separate",
+  "status": "52/52 code accepted; CI test repair locally verified; publication pending",
   "scope": "scope.json",
   "resolved": 52,
   "remaining": 0,
@@ -1775,8 +1775,8 @@
   ],
   "checks": {
     "directed": "8 extract files136/136; explicit default+JSON, stderr0; first wrong package-local binary paths spawned ENOENT, zero cases, both originals retained",
-    "whole": "20620 product +721tools,7typechecks,lint0/0/0; uniform-check-r2 exit0/stderr0",
-    "coverage": "One official20185/809; original old-floor exit1 retained; exact two-file recount and same-policy replay0",
+    "whole": "Original20620+721 remains frozen; one test-only delta bridged by6 instrumented contracts, game3754 and TC0; no second whole-command claim",
+    "coverage": "20186/809: original six package inputs reused, official game collector3754 refreshed; original policy ratchet/protected0",
     "protected": "same-report protected-fast exit0; all three finite retirements matched",
     "typecheck": "shared+extract exit0 stdout/stderr0",
     "extractModule": "17files110 +4files27;1overlap file/6overlap identity occurrences;20files131union identities (not137);TC0;4approved retirements;whole/official deferred",
@@ -2145,5 +2145,9 @@
     "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json",
     "sha256": "839d8545f65102362fb84f71dd6bf6033001d420da01e29cc5363ad50f27c2e1",
     "status": "passed"
+  },
+  "ciRepair": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/ci-repair.json",
+    "sha256": "ec3755825c208cb6f8ba69ee0b7a498df9dde5e88b6790e5deec7188ce33cdaf"
   }
 }

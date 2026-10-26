@@ -1023,7 +1023,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
-      "afterSha256": "924dd122df944dd494a450ab3f938c7e6244441ca1a6abd0e0262bf40bd654be",
+      "afterSha256": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "924dd122df944dd494a450ab3f938c7e6244441ca1a6abd0e0262bf40bd654be",
-        "implementationSha": "924dd122df944dd494a450ab3f938c7e6244441ca1a6abd0e0262bf40bd654be",
+        "currentSha": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
+        "implementationSha": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1832,7 +1832,7 @@
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "924dd122df944dd494a450ab3f938c7e6244441ca1a6abd0e0262bf40bd654be",
+        "afterSha256": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
         "lineCount": 20226,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1851,7 +1851,7 @@
         },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "924dd122df944dd494a450ab3f938c7e6244441ca1a6abd0e0262bf40bd654be",
+          "afterSha256": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
           "scope": "Owned52 delta; history retained."
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."

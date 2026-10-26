@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "status": "test repair/local gates accepted; PR25 retry/main publication pending",
+  "ciFailure": {
+    "run": 40282911533,
+    "job": 121439944714,
+    "head": "0ecccc81dbcbbf2a9f9078c24f5cba53eeda05e7",
+    "kind": "one test timeout5000ms; not a percentage or product assertion failure",
+    "observedMillis": {
+      "oldComposite": 5048,
+      "firstTwoRasters": 3209
+    }
+  },
+  "file": {
+    "path": "packages/game/src/shell/scene-thumbnail.test.ts",
+    "sha256": "716780e087ed40a06ee43b19d608be4a2a3e15b664050e1ae2e578afaa02acec",
+    "dimensions": {
+      "A": "完整实现、五旧测试及bootstrap picker/minimap caller核读；固定64×128、GOP32×16、真实Canvas/PNG保持，故不用不合法小图绕超时。只改测试，真实并发上限2及map/width缓存未改。",
+      "B": "拆开去重与槽位交接标题，明确stop以500结束受控网络，避免在finally额外整图渲染；不宣称5秒能涵盖任意机器负载，未修改原deadline。",
+      "C": "每例独立renderer/transport，fetch响应逐请求登记，异常实现的重复请求也不会覆盖旧resolver；所有真实job在finally结清、console spy再恢复、afterEach恢复fetch。",
+      "D": "两例共享窄HTTP夹具，不复制队列/缓存算法；四个像素/缓存/scene/失败重试原合同正文保持。PNG和尺寸oracle不拿mock次数替代。",
+      "E": "旧复合例先在CI真实超时；新两合同独立核实际请求列表、两个真实PNG、第二job仍pending及清理时精确一次500。插桩六绿，真实inflight保护单点删掉恰一AssertionError、五过滤不授信用；不是超时反控。",
+      "F": "started/complete/stop/settled表达受控HTTP生命周期；await已完成job再核下一请求，不用轮询等待器和挂钟推进。两case分别有单一独立合同。",
+      "G": "没有skip/only、fake地图、空绘制或更长超时。拆分净增一个身份有两个独立故障轴；cleanup第三整图不属于并发oracle，以显式失败正确释放同一请求。",
+      "H": "真实renderer保持，运输完成时机由当前fixture控制；不mock drawTilemap/repairTilemapSeams/framebuffer/Canvas。反控隔离的临时对清理完且根状态相同，确定性Promise推进替代时间轮询。"
+    }
+  },
+  "bindings": [
+    {
+      "path": "packages/game/src/shell/scene-thumbnail.ts",
+      "sha256": "2eb15d46f4fb08c60fc8ebd679edf635f3b1fb523d874226f1c2ec4411830c5f"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "2c668a5fb6db33fe2d9e51f9a95759fb671e6108081febec62569316653ea336"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "20a8afc7754a956b2b3dd1b395466e39377f51c4aa096ae937765c63baebd517"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "e56a03b609ee6177c3e27f99521d6f142a5bd8c4c0d7ad865b2ce2b9e84d7a92"
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "originalSummarySha256": "c0fe879a2824a7987a34a879eb123d5653f382f3f9fb714bdd7ed224d5cc1911",
+    "composedSummarySha256": "401426e3af92568d2e4db2afad9f82da81f9264397bed4af98d1f431a4bd8ba1",
+    "originalFullCollection": {
+      "testCount": 20185,
+      "sourceFiles": 809
+    },
+    "singlePackageCollection": {
+      "testCount": 3754,
+      "testFiles": 352,
+      "sourceFiles": 196
+    },
+    "composed": {
+      "testCount": 20186,
+      "sourceFiles": 809
+    },
+    "reusedPackages": ["shared", "content", "pal-extract", "migrate", "reforge", "editor"],
+    "removed": [
+      "packages/game/src/shell/scene-thumbnail.test.ts :: project root :: shared scene thumbnail renderer > deduplicates inflight map/width jobs and hands one of two slots to queued work"
+    ],
+    "added": [
+      "packages/game/src/shell/scene-thumbnail.test.ts :: project root :: shared scene thumbnail renderer > deduplicates inflight requests for the same map and width",
+      "packages/game/src/shell/scene-thumbnail.test.ts :: project root :: shared scene thumbnail renderer > hands one of two occupied slots to queued work while the other request stays held"
+    ],
+    "gameMetricsBefore": {
+      "statements": {
+        "covered": 15396,
+        "total": 17063
+      },
+      "branches": {
+        "covered": 9885,
+        "total": 12201
+      },
+      "functions": {
+        "covered": 1861,
+        "total": 2143
+      },
+      "lines": {
+        "covered": 13739,
+        "total": 14969
+      }
+    },
+    "gameMetricsAfter": {
+      "statements": {
+        "covered": 15396,
+        "total": 17063
+      },
+      "branches": {
+        "covered": 9885,
+        "total": 12201
+      },
+      "functions": {
+        "covered": 1861,
+        "total": 2143
+      },
+      "lines": {
+        "covered": 13739,
+        "total": 14969
+      }
+    },
+    "packageResultsUnchangedExceptGame": true,
+    "productionCensusUnchanged": true,
+    "inputFreezeSha256": "b8b976259ae587911ef93eb3c31f06153167fa6e2a74b4dfbeddd23d20c6ff99"
+  },
+  "bodyProof": {
+    "base": "0ecccc81dbcbbf2a9f9078c24f5cba53eeda05e7",
+    "path": "packages/game/src/shell/scene-thumbnail.test.ts",
+    "beforeSha256": "f4e177bccb473672c63f32e3aea5020c556ca8c54a79dae53bee003e3468fe4f",
+    "sha256": "716780e087ed40a06ee43b19d608be4a2a3e15b664050e1ae2e578afaa02acec",
+    "productSha256": "2eb15d46f4fb08c60fc8ebd679edf635f3b1fb523d874226f1c2ec4411830c5f",
+    "keptBodies": [
+      "keeps picker and minimap sizes distinct while caching each successful map/width",
+      "resolves missing map numbers from the scene and then shares the map cache",
+      "reports a failed map load once and leaves failure uncached for retry",
+      "fills an uncovered edge before downsampling the actual 640px minimap image"
+    ],
+    "oldComposite": [
+      "deduplicates inflight map/width jobs and hands one of two slots to queued work"
+    ],
+    "newContracts": [
+      "deduplicates inflight requests for the same map and width",
+      "hands one of two occupied slots to queued work while the other request stays held"
+    ],
+    "limits": "Test-only repair: full64x128 input/32x16 GOP/real PNG and four pixel/cache/retry bodies retained; max two successful map rasters per case, unchanged default5000ms. Held request cleanup uses explicit500 with exact warn assertion, not another unrelated raster. No production/API/timeout/exclusion change."
+  },
+  "previousBaselineSha256": "c00ff705b128bf67545d050f956af77b9df47b68c1e29a90aa2c3a906714d115",
+  "baselineSha256": "15d5e8b1e443a60996a4731eab8d2e4c10813cb5652897516d7d1bb053ae7f11",
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/ci-repair-native.json.gz",
+    "sha256": "a6d81b3c2408a966c5f4f74bc291e8176a1b32a8c24d539463c41de46d50a6d3",
+    "decodedSha256": "3ecc64749b46aee34d03d1021d3473119b23dc3f72e91b4ff1308d8963280f8e",
+    "members": [
+      {
+        "name": "ci-thumbnail-directed.execution.json",
+        "bytes": 1447,
+        "sha256": "e0a78459c378d64cb7cfaa505caf0f019f8029eb114c06b468b81bb25e1bf95c"
+      },
+      {
+        "name": "ci-thumbnail-directed.stdout.raw",
+        "bytes": 1000,
+        "sha256": "22ed23965e8788c72bdbbae4cbb43404e872642ac7b46ba97239362223560ff1"
+      },
+      {
+        "name": "ci-thumbnail-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-thumbnail-directed.native.json",
+        "bytes": 4132566,
+        "sha256": "30903443a6303d13c385e056a1afa97628f9859499c5c1b8ef05b759cf498a78"
+      },
+      {
+        "name": "ci-thumbnail-types.execution.json",
+        "bytes": 457,
+        "sha256": "a6d5c4bb972192dd5246d71fc0f82f1dff84bc5fae9622bb57f35553e061efe3"
+      },
+      {
+        "name": "ci-thumbnail-types.stdout.raw",
+        "bytes": 120,
+        "sha256": "0d7d9d03f0fa19d82767f86a9c95459736ed1a227afdab43e601316e3cfdbe4c"
+      },
+      {
+        "name": "ci-thumbnail-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "thumbnail-dedup-counter.execution.json",
+        "bytes": 998,
+        "sha256": "f535995196084f6a829d881968af4e8f817a2d2ee619ce073c4acc59ec93b614"
+      },
+      {
+        "name": "thumbnail-dedup-counter.stdout.raw",
+        "bytes": 1006,
+        "sha256": "9d9ea8839bf510d069b390c9a0e05fb384ff62a83de938c17b2d905149b34b76"
+      },
+      {
+        "name": "thumbnail-dedup-counter.stderr.raw",
+        "bytes": 769,
+        "sha256": "2ce501125da001ec35dafbf04a6f0c3ce055f3d4777f2caf878e91e26619c9fa"
+      },
+      {
+        "name": "thumbnail-dedup-counter.native.json",
+        "bytes": 2971,
+        "sha256": "10d2e8ca3529091963a406d9bfbcc638062b95ba19681201bb5ce09251610203"
+      },
+      {
+        "name": "ci-game-collection.execution.json",
+        "bytes": 502,
+        "sha256": "252098e536f7edcd1646b48f9e9859705c4c7483fcac410125765e762cc09274"
+      },
+      {
+        "name": "ci-game-collection.stdout.raw",
+        "bytes": 33532,
+        "sha256": "8854ad0a90180aba061a3740c9cf86e25b76df46c5395c6f48b8eefa6a722324"
+      },
+      {
+        "name": "ci-game-collection.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-repair-ratchet.execution.json",
+        "bytes": 513,
+        "sha256": "7fd88c1bb4cd654aa76a04bfa22286e51dad1f0d72b1d2b700bf253fbab2dcc4"
+      },
+      {
+        "name": "ci-repair-ratchet.stdout.raw",
+        "bytes": 286,
+        "sha256": "dea402ac12cc4103daca9854ed64094d4883a3e0d16e3bee2430d9eaf55f7e39"
+      },
+      {
+        "name": "ci-repair-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-repair-protected.execution.json",
+        "bytes": 498,
+        "sha256": "d990d3173e0e673a5c75d78056bcd63fa1d943236f394924926add494e7bcfb9"
+      },
+      {
+        "name": "ci-repair-protected.stdout.raw",
+        "bytes": 591,
+        "sha256": "2ab694e8b84d19be9332e4ad8b076cd00a76beb7f56ed227fd1b893ba5d540c1"
+      },
+      {
+        "name": "ci-repair-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-repair-docs.execution.json",
+        "bytes": 407,
+        "sha256": "76f67f3e5f6f3d49fce3c58ecc54d3751a352b718cf0845c4654cb6439fa6088"
+      },
+      {
+        "name": "ci-repair-docs.stdout.raw",
+        "bytes": 30735,
+        "sha256": "9f0cea691bbd6956a52c5cd4cd797899a78914889f142d58187499a1acd2c7ed"
+      },
+      {
+        "name": "ci-repair-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-repair-lint.execution.json",
+        "bytes": 399,
+        "sha256": "90fb2afeeeafb695a9712f9cd523b3b767f56b4e5c6258a068f95c73a1a59205"
+      },
+      {
+        "name": "ci-repair-lint.stdout.raw",
+        "bytes": 188,
+        "sha256": "74cb27683ca54ac55e82957f44bebd3adb8f27b2465dd5760ed1017a521fb76a"
+      },
+      {
+        "name": "ci-repair-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-repair-ledger.execution.json",
+        "bytes": 436,
+        "sha256": "5557b091ee99159b894b38bb2d09028d14582baa32325c71a52d99be0d72e489"
+      },
+      {
+        "name": "ci-repair-ledger.stdout.raw",
+        "bytes": 111,
+        "sha256": "b06edf1127c6169bd1057346da1bff518ad6804d9bb9966ad5a4d1f4a1c7f31f"
+      },
+      {
+        "name": "ci-repair-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-repair-diff.execution.json",
+        "bytes": 411,
+        "sha256": "acdb2c5185cdd6165178ab3d1599e9cd28fcee55850b33812f2868e79411b2de"
+      },
+      {
+        "name": "ci-repair-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-repair-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "pr-coverage-failed.raw",
+        "bytes": 378649,
+        "sha256": "88f9f17eb5093ef5382e15f792f403d030276b5fcc5ae31a7fb2d1a73d0179f5"
+      },
+      {
+        "name": "ci-public-pr-r1.json",
+        "bytes": 14832,
+        "sha256": "61895278e2d4ea7b661e97d670a4deb9f931096beaa6c2e37a565b814fa7d9e9"
+      },
+      {
+        "name": "thumbnail-counter.json",
+        "bytes": 739,
+        "sha256": "e0f46d8ee0aecf4479d5003682d871bea37fc788d9284c17db929e7cb4c70fe0"
+      },
+      {
+        "name": "thumbnail-counter-source.ts",
+        "bytes": 4952,
+        "sha256": "5444db0e44570ce041f3af3134b11d0f9909db4fd643b3ff969bec377190ed8a"
+      },
+      {
+        "name": "thumbnail-counter-test.ts",
+        "bytes": 8359,
+        "sha256": "5378766ee0a9419fcb83a61c2b37e6c473bf3eaa59a08b73c599b3756c3afcdb"
+      },
+      {
+        "name": "thumbnail-counter.cjs",
+        "bytes": 2689,
+        "sha256": "75de40deee767e525cbfc832c349636e9cb66883c3cbddc739e6007f01adc64a"
+      },
+      {
+        "name": "ci-game-collector-proof.json",
+        "bytes": 635,
+        "sha256": "e24accc48cce771830ab4bacb289e231201a580cb6e7a31ad4787394f96f82f1"
+      },
+      {
+        "name": "collect-game-repair.mjs",
+        "bytes": 19336,
+        "sha256": "a9ca44aae4a2e3e16f01c2040573b267f0cbfac1681a3fc912f5cc408aa78170"
+      },
+      {
+        "name": "ci-game-collected.json",
+        "bytes": 1684375,
+        "sha256": "aba548f3e866036fc996093c932a04fe42eb87f582e4903eb710e4dde363d049"
+      },
+      {
+        "name": "ci-composition-proof.json",
+        "bytes": 1950,
+        "sha256": "58d2e259d4f3b607a9dca9e13f9dde34c450ff51bf87ec6c4811e4510124c502"
+      },
+      {
+        "name": "ci-composed-summary.json",
+        "bytes": 8571246,
+        "sha256": "401426e3af92568d2e4db2afad9f82da81f9264397bed4af98d1f431a4bd8ba1"
+      },
+      {
+        "name": "ci-repair-inputs.json",
+        "bytes": 630048,
+        "sha256": "b8b976259ae587911ef93eb3c31f06153167fa6e2a74b4dfbeddd23d20c6ff99"
+      },
+      {
+        "name": "ci-repair-previous-baseline.json",
+        "bytes": 545312,
+        "sha256": "c00ff705b128bf67545d050f956af77b9df47b68c1e29a90aa2c3a906714d115"
+      },
+      {
+        "name": "ci-replay-proof.json",
+        "bytes": 795,
+        "sha256": "1f4d2d2c2771df2d940ec4dca65ce98c08b5c0ed53c8c0415750f1186331d8ff"
+      },
+      {
+        "name": "replay-ci-repair.mjs",
+        "bytes": 22828,
+        "sha256": "2441e47272bc9be5827dce7ae6bf344c140327add55fadcc2b465ebbe0a91070"
+      },
+      {
+        "name": "build-ci-replay.cjs",
+        "bytes": 3317,
+        "sha256": "f740ad462e8ee6542b6722f90edb0f80141b3100f572c8f785c1563cb2ffb87c"
+      },
+      {
+        "name": "compose-game-repair.cjs",
+        "bytes": 4808,
+        "sha256": "0b9a1061fd8bb3eb835075d9cc65843bc4fcf3dd7571a283a04e354b591d5516"
+      },
+      {
+        "name": "thumbnail-before.test.ts",
+        "bytes": 6318,
+        "sha256": "f4e177bccb473672c63f32e3aea5020c556ca8c54a79dae53bee003e3468fe4f"
+      },
+      {
+        "name": "thumbnail-current.test.ts",
+        "bytes": 8313,
+        "sha256": "716780e087ed40a06ee43b19d608be4a2a3e15b664050e1ae2e578afaa02acec"
+      },
+      {
+        "name": "game-coverage-summary.json",
+        "bytes": 67543,
+        "sha256": "0fb18c0cf6dcfef42fae9a0b7baa62a365d37757440e2a0b8836518134c79b21"
+      },
+      {
+        "name": "game-lcov.info",
+        "bytes": 466107,
+        "sha256": "b35fd29c2f4f80dddc955b37bf498a1bb31d84c22f37406a06d4fe08f24940c8"
+      },
+      {
+        "name": "ci-thumbnail-body-proof.json",
+        "bytes": 1325,
+        "sha256": "67609b71e7e9a7d14bfa0213f80c2499c42aef7ffa9f8882e741fcb385080e84"
+      }
+    ]
+  },
+  "wholeCheckReuse": "Original whole pnpm check20620 product+721tools remains at its frozen snapshot. Only this already-included test file changes; new6 instrumented contracts and fresh full-fast game3754 plus game TC bridge it. Six packages and unchanged PAL contracts retain their original exact input scope; no claim a second whole check command ran.",
+  "limits": [
+    "One original full official collection plus one necessary game-only re-collection after actual CI failure; not misreported as one collection for the new candidate.",
+    "Four production coverage counters exactly equal; baseline changes game test count/identity digest only, no new metric adjustment or threshold/exclusion/predicate change.",
+    "Net ledger closure unchanged: this is one already-accepted pre94 test path repaired, not a new closed file or another fixed52 member."
+  ]
+}

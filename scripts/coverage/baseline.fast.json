@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-26T06:34:24.545Z",
+  "generatedAt": "2026-10-26T11:45:46.495Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 809,
-  "testCount": 20185,
+  "testCount": 20186,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4840,7 +4840,7 @@
       ],
       "scopeDigest": "f44964f0b44441e3c5401592c6e5246f9b5b79202c9086e3b4b9c5cd07b907af",
       "fastTests": {
-        "testCount": 3753,
+        "testCount": 3754,
         "testFileCount": 352,
         "files": [
           "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
@@ -6749,8 +6749,8 @@
           },
           {
             "file": "packages/game/src/shell/scene-thumbnail.test.ts",
-            "testCount": 5,
-            "identityDigest": "01b6e88e3cb31c06340cae1b50bebb34eacb04fa17eaf0dae1db627981885d47"
+            "testCount": 6,
+            "identityDigest": "10e835a18c2d089e47bb5803f7c6a17477fc3042c8f3966c8bf986735c09bea1"
           },
           {
             "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
@@ -6958,9 +6958,9 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "81653dbe6adf13f8a275e655d55d60bdd3938cdee5ed7ec16633eff5e0c32762",
+        "identityDigest": "95576d471b009c050787ddee41f932c6bd5a8cfb5d3ba2d1a8892f9492d5e5f1",
         "duplicateIdentityCount": 0,
-        "executionDigest": "9dd7f24bf9683a0039ee005ab6ad25c49a27d23bbad9329eaf810b00751f8abf"
+        "executionDigest": "83baa2d5b311ca534713dc4a68386a43786f87f0d4023bf44f522cadcb80d10c"
       },
       "metrics": {
         "statements": {

@@ -2871,7 +2871,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "documentStatus": "active",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3150,7 +3150,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3303,10 +3303,10 @@
       "sourceSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "1208b86e9ff1bb80fa156cd15cb42872fc15bc6e366337a861af257086a9e4b2",
+      "afterSha256": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
       "revision": {
-        "currentSha": "1208b86e9ff1bb80fa156cd15cb42872fc15bc6e366337a861af257086a9e4b2",
-        "implementationSha": "1208b86e9ff1bb80fa156cd15cb42872fc15bc6e366337a861af257086a9e4b2",
+        "currentSha": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
+        "implementationSha": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4166,12 +4166,12 @@
       "evidence": {
         "kind": "owned-review52-closeout",
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-        "afterSha256": "1208b86e9ff1bb80fa156cd15cb42872fc15bc6e366337a861af257086a9e4b2",
+        "afterSha256": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "lineCount": 1165,
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "1208b86e9ff1bb80fa156cd15cb42872fc15bc6e366337a861af257086a9e4b2",
+          "afterSha256": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
           "scope": "Owned52 delta; history retained."
         }
       },

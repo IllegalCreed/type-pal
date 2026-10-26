@@ -503,7 +503,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -3356,7 +3356,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",

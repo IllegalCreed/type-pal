@@ -45,7 +45,12 @@ if (review.uniform) {
   assert(receipts['official-ratchet.stderr.raw'].includes('覆盖率不得下降'))
   const official = JSON.parse(receipts['official-summary.json'])
   assert.deepEqual([official.testCount, official.sourceFileCount], [20185, 809])
-  assert.equal(sha(read('scripts/coverage/baseline.fast.json')), uniform.coverage.baselineSha256)
+  assert.equal(
+    sha(read('scripts/coverage/baseline.fast.json')),
+    review.ciRepair ? json(review.ciRepair.path).baselineSha256 : uniform.coverage.baselineSha256,
+  )
+  if (review.ciRepair)
+    assert.equal(json(review.ciRepair.path).previousBaselineSha256, uniform.coverage.baselineSha256)
   const recount = JSON.parse(receipts['recount.json'])
   assert.equal(recount.files.length, 2)
   for (const pin of recount.sourcePins) assert.equal(sha(read(pin.path)), pin.sha256, pin.path)
@@ -87,6 +92,101 @@ if (review.uniform) {
   assert.equal(uniform.whole.productTests, 20620)
   assert.equal(uniform.whole.toolTests, 721)
   assert.equal(uniform.whole.diagnosticMarkerCount, 0)
+}
+if (review.ciRepair) {
+  assert.equal(sha(read(review.ciRepair.path)), review.ciRepair.sha256)
+  const repair = json(review.ciRepair.path)
+  assert.equal(sha(read(repair.file.path)), repair.file.sha256)
+  for (const axis of 'ABCDEFGH') assert(repair.file.dimensions[axis].length > 20)
+  for (const pin of repair.bindings) assert.equal(sha(read(pin.path)), pin.sha256, pin.path)
+  const receipts = readNativePacket(repair.native)
+  assert(receipts['pr-coverage-failed.raw'].includes('Test timed out in 5000ms.'))
+  for (const id of [
+    'ci-thumbnail-directed',
+    'ci-thumbnail-types',
+    'ci-game-collection',
+    'ci-repair-ratchet',
+    'ci-repair-protected',
+  ]) {
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, 0)
+    assert.equal(receipts[`${id}.stderr.raw`], '')
+  }
+  const green = JSON.parse(receipts['ci-thumbnail-directed.native.json'])
+  const red = JSON.parse(receipts['thumbnail-dedup-counter.native.json'])
+  assert.deepEqual([green.numPassedTests, green.numFailedTests, green.numPendingTests], [6, 0, 0])
+  assert.deepEqual([red.numFailedTests, red.numPendingTests], [1, 5])
+  for (const test of red.testResults
+    .flatMap((suite) => suite.assertionResults)
+    .filter((test) => test.status === 'failed'))
+    assert(test.failureMessages.some((message) => message.startsWith('AssertionError:')))
+  const counter = JSON.parse(receipts['thumbnail-counter.json'])
+  assert(counter.temporaryRemoved && counter.rootStatusEqual)
+  const production = read(counter.sourcePath).toString()
+  assert.equal(sha(production), counter.sourceSha256)
+  assert.equal(
+    production.replace('    if (inflight) return inflight\n', ''),
+    receipts['thumbnail-counter-source.ts'],
+  )
+  const proof = repair.bodyProof
+  const before = execFileSync('git', ['show', `${proof.base}:${proof.path}`], {
+    cwd: root,
+    encoding: 'utf8',
+  })
+  assert.equal(sha(before), proof.beforeSha256)
+  assert.equal(proof.keptBodies.length, 4)
+  assert.equal(proof.oldComposite.length, 1)
+  assert.equal(proof.newContracts.length, 2)
+  const changedNames = new Set([...proof.oldComposite, ...proof.newContracts])
+  const withoutQueueCases = (source) => {
+    const file = ts.createSourceFile('spec.ts', source, ts.ScriptTarget.Latest, true)
+    const transformed = ts.transform(file, [
+      (context) => {
+        const visit = (node) => {
+          if (ts.isFunctionDeclaration(node) && node.name?.text === 'holdMapRequests')
+            return undefined
+          if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
+            const call = node.expression
+            if (
+              call.expression.getText(file) === 'it' &&
+              ts.isStringLiteral(call.arguments[0]) &&
+              changedNames.has(call.arguments[0].text)
+            )
+              return undefined
+          }
+          return ts.visitEachChild(node, visit, context)
+        }
+        return (node) => ts.visitNode(node, visit)
+      },
+    ])
+    try {
+      return ts.createPrinter({ removeComments: true }).printFile(transformed.transformed[0])
+    } finally {
+      transformed.dispose()
+    }
+  }
+  assert.equal(withoutQueueCases(before), withoutQueueCases(read(proof.path).toString()))
+  const freeze = JSON.parse(receipts['ci-repair-inputs.json'])
+  for (const file of freeze.files)
+    if (file.path !== 'scripts/coverage/baseline.fast.json')
+      assert.equal(sha(read(file.path)), file.sha256, file.path)
+  const original = JSON.parse(
+    readNativePacket(json(review.uniform.path).native)['official-summary.json'],
+  )
+  const composed = JSON.parse(receipts['ci-composed-summary.json'])
+  assert.deepEqual([composed.testCount, composed.sourceFileCount], [20186, 809])
+  for (const id of repair.composition.reusedPackages)
+    assert.deepEqual(composed.packages[id], original.packages[id])
+  assert.deepEqual(composed.packages.game.metrics, original.packages.game.metrics)
+  assert.deepEqual(composed.packages.game.sourceFiles, original.packages.game.sourceFiles)
+  assert.equal(composed.packages.game.selectedTests.testCount, 3754)
+  const collectorProof = JSON.parse(receipts['ci-game-collector-proof.json'])
+  const runner = read(collectorProof.runner).toString()
+  assert.equal(sha(runner), collectorProof.runnerSha256)
+  const ast = ts.createSourceFile('run.mjs', runner, ts.ScriptTarget.Latest, true)
+  const collector = ast.statements.find(
+    (node) => ts.isFunctionDeclaration(node) && node.name?.text === 'collectPackage',
+  )
+  assert.equal(sha(collector.getText(ast)), collectorProof.collectorSha256)
 }
 if (review.approvedRemainder) {
   assert.equal(sha(read(review.approvedRemainder.path)), review.approvedRemainder.sha256)

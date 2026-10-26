@@ -76,3 +76,9 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 [当前统一回执](uniform.json)与[完整未裁剪原件](uniform-native.json.gz)：全仓20620产品＋721工具／七TC，lint6137文件0/0/0；唯一official20185测试与809源全绿，原命令exit1因旧比率拒绝保留。只对pal-extract两文件精确调整：已批准死包装移除＋真实子进程验证的视频输出保护。后者是行为保护新增的V8未执行计数，不冒称纯重构；其它六包收益全部保留。同报告原policy重放ratchet/protected均0，精确退役三项逐一匹配；未重复采集覆盖率。
 
 首轮check中Git读取stdin停滞，由Codex终止该子进程；采样、操作说明与失败原件均保留，复跑完整通过。前文局部窗口结论仅是历史范围；本节统一门与下游真实GitHub运行分别承担本地/发布事实，不相互替代。最终静态回执追加同一原件包后才推送。
+
+## PR25 首轮 CI 与单测试修复
+
+[当前修复/八维/组合证明](ci-repair.json)、[失败作业及全部原件](ci-repair-native.json.gz)：首轮 Coverage 在scene-thumbnail复合并发例超时5000ms。将去重和槽位交接分为两个独立合同，保留四个原正文、64×128真输入及实际PNG，不改生产代码/超时/并发配置。6例插桩绿，去掉真实inflight保护恰1业务AssertionError（5例按名过滤不授信用）；game TC0。
+
+仅用未修改的官方collector重采game3754，其余六包源码/测试/config逐指纹复用；组合20186／809，game四项覆盖率计数完全不变，baseline只更新测试身份/数量，同policy ratchet/protected0。原whole check20620＋721保留原快照并按唯一测试delta桥接，不声称又跑了一遍整仓；这次是一次全量采集加必要单包重采，不再称新候选只有一次采集。PR重试/main实际发布仍以GitHub为准。

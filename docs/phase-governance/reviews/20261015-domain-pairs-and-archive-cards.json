@@ -4607,7 +4607,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",

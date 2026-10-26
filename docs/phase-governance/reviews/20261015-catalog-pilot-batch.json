@@ -13,7 +13,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -3234,7 +3234,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
