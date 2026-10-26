@@ -60,7 +60,7 @@ describe('PAL 迁移工程快照', () => {
     ).toThrow('new-target.json')
   })
 
-  test('非托管哈希集合会报告新增、删除或改动', () => {
+  test('非托管哈希集合会报告文件字节改动', () => {
     const repo = tempRepo()
     put(repo, 'manifest.json', '{}\n')
     const before = hashUnmanagedProjectFiles(repo, new Set())

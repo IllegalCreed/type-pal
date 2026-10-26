@@ -126,7 +126,7 @@ describe('C05-G07 拖拽协议与源帧选择器', () => {
     expect(onSelect).toHaveBeenLastCalledWith(open.frameCount - 1)
   })
 
-  test('C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 像素（互异 RGB 至少 2）', async () => {
+  test('C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白', async () => {
     requireRealCanvas2d()
     const open = await openC05('g07-09')
     act(() => {
