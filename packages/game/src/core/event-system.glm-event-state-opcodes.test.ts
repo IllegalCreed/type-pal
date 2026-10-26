@@ -15,7 +15,7 @@
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import {
   buildLabelMap,
   OP_ADD_CASH,
@@ -55,7 +55,7 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // 预铺 5 条 trail(合法 rgTrail 满员形态),走位 unshift 后必须持续收口在 5(scene.c:823-830)
     gs.trail = [0, 1, 2, 3, 4].map((i) => ({ x: 0, y: -16 * (i + 1), dir: 'down' as const }))
-    const bus = createCommandBus()
+
     // 目标 (col1,row1,h0) = (32,16);0x7A speed4 每 tick (+8,+4),第 4 tick |dx|=8<=8 / |dy|=4<=4 → snap 到达
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [1, 1, 0] },
@@ -63,10 +63,10 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
       { op: 'end' },
     ])
     for (let t = 0; t < 3; t++) {
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.walkingFrame.walking).toBe(true) // 行进中 PAL_UpdatePartyGestures(TRUE)
     }
-    tickEventSystem(gs, snap(), bus) // 第 4 tick:到达
+    tickEventSystem(gs, snap()) // 第 4 tick:到达
     expect(gs.party.x).toBe(32)
     expect(gs.party.y).toBe(16)
     expect(gs.walkingFrame.walking).toBe(false) // UpdatePartyGestures(FALSE) — 站立
@@ -78,14 +78,14 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
 
   it('0x7A 走位首步清 0x15 scripted pose(UpdatePartyGestures(TRUE) 覆写 rgParty[*].wFrame,script.c:185-188)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // 0x15 [dir=up, frameOffset=1, member=1] → partyScriptedFrame[1] = 2*3+1 = 7;随后走位一步
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [2, 1, 1] },
       { op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [1, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(8) // 走出一步(dx=32 → +8)
     expect(gs.walkingFrame.walking).toBe(true)
     // 走路覆写 wFrame:0x15 的 pose 被清,静止后不得恢复旧 pose(present 择帧依据)
@@ -96,13 +96,13 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
     const gs = createInitialGameState({ x: 32, y: 16, facing: 'down' })
     gs.trail = [{ x: 32, y: 16, dir: 'down' }]
     gs.partyScriptedFrame = { 0: 7 } // 0x15 设的剧情 pose 必须保留
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PARTY_WALK_TO, operands: [1, 1, 0] }, // 目标 = 当前位
       { op: 'raw', opcode: OP_ADD_CASH, operands: [50, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus) // 单 tick:零距离立即到达 + 续跑 0x1E + end
+    tickEventSystem(gs, snap()) // 单 tick:零距离立即到达 + 续跑 0x1E + end
     expect(gs.dwCash).toBe(50)
     expect(gs.party.x).toBe(32)
     expect(gs.party.y).toBe(16)
@@ -120,13 +120,12 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
     const loader = vi.fn(() => Promise.resolve())
     setSceneLoader(loader)
     try {
-      const bus = createCommandBus()
       loadEvent(gs, [
         { op: 'loadScene', sceneId: 5 }, // 与当前场景相同 → 冗余 reload 被 guard 跳过
         { op: 'raw', opcode: OP_ADD_CASH, operands: [100, 0, 0] },
         { op: 'end' },
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.pendingSceneLoad).toBeUndefined() // 不进 reload 流程
       expect(gs.sceneLoading).toBeUndefined() // 不置冻屏(初值 undefined;reload 分支会置 true)
       expect(gs.wNumScene).toBe(5)
@@ -172,7 +171,7 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
     setObstacleChecker(() => true) // 全阻挡:走位被弹回菱形 snap 基准(产品注入 setter,旧测同法)
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       // npc (348,330):i=348%32=28, j=330%16=10 → i+j*2=48 >= 48 → 子格基准 = (floor+1)*tile 双进位
       gs.npcs = [{ id: 4, x: 348, y: 330, spriteNum: 1, facing: 'up' }]
       gs.party.x = 300 // x=-48, y=-30(均非 0,不触发随机方向;|x|+2|y|=108 < 8*32*1 在追击范围)
@@ -180,7 +179,7 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
       gs.wChaseRange = 1
       loadEvent(gs, [{ op: 'raw', opcode: OP_MONSTER_CHASE, operands: [0, 0, 0] }, { op: 'end' }])
       cursorOf(gs).currentEventObjectId = 4
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       // 回弹基准 = ((10+1)*32, (20+1)*16) = (352,336);四向微调全阻挡逐个回弹,末步 speed=0 不位移
       expect(gs.npcs[0]?.x).toBe(352)
       expect(gs.npcs[0]?.y).toBe(336)
@@ -191,13 +190,13 @@ describe('event-system 状态 opcode 合同(GLM state-opcodes r1)', () => {
 
   it('0x90 setObjectScript 稀疏写回:rgwData 不足长度零填充扩展后落值(script.c:2605-2611)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // 新建 entry 零填充 7 槽;idx = 2+7 = 9 越界 → 扩展槽 [7]/[8] 必须是 0(C rgwData 定长零初始化语义)
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_OBJECT_SCRIPT, operands: [42, 777, 7] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     const row = gs.rgObject[42]?.rgwData
     expect(row?.length).toBe(10)
     expect(row?.[7]).toBe(0)

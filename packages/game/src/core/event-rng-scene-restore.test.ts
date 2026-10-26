@@ -2,7 +2,7 @@ import type { AbstractKey, Command } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createFramebuffer } from '../present/framebuffer.js'
 import { type PresentContext, presentFrame } from '../present/present.js'
-import { createCommandBus } from './command-bus.js'
+
 import { buildLabelMap, setRngPlayHandler, tickEventSystem } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 
@@ -34,7 +34,7 @@ function cutscene(commands: Command[]) {
     partyWalkFrames: 3,
     npcSprites: new Map(),
   }
-  const bus = createCommandBus()
+
   let now = 1000
   vi.spyOn(performance, 'now').mockImplementation(() => now)
   setRngPlayHandler(({ gs: playing }) => {
@@ -56,7 +56,7 @@ function cutscene(commands: Command[]) {
     async tick(pressed: AbstractKey[] = []) {
       now += 100
       gs.nowMs = now
-      tickEventSystem(gs, { pressed: new Set(pressed), held: new Set(), frameNum: 0 }, bus)
+      tickEventSystem(gs, { pressed: new Set(pressed), held: new Set(), frameNum: 0 })
       await Promise.resolve()
       presentFrame(fb, gs, ctx)
     },

@@ -1,15 +1,10 @@
 /**
  * Core → Present 单向命令通道(02 架构 + D15)。
  * Core 系统在 tick 内 emit;shell 在 tick 末 drain 后分发给音频/画面消费者。
- * complete(cmdId) 当前为 no-op,不跟踪异步资源完成,无生产调用。
- * 回执接口的退役候选见 glm-foundation/game-core-residual 评审记录。
+ * 队列只传实际音画意图；脚本对白和法术动画由状态/时间线各自持有。
  */
 
-import type { DialogBoxStyle } from '@type-pal/shared'
-
 export type PresentCommand =
-  | { op: 'showDialogBox'; text: string; style: DialogBoxStyle }
-  | { op: 'clearDialogBox' }
   // M3 战斗 UI 命令(T15)
   /**
    * 战斗单行消息条(sdlpal 逃跑失败 label 31 等)。present 在固定位置显示 text 一段时间
@@ -31,20 +26,9 @@ export type PresentCommand =
       value: number
       color: 'yellow' | 'blue' | 'cyan'
     }
-  | { op: 'flashEnemy'; enemyIdx: number; durationMs: number }
-  | { op: 'flashPlayer'; playerIdx: number; durationMs: number }
   | { op: 'playEnemyAttack'; enemyIdx: number; targetPlayerIdx: number }
   | { op: 'playPlayerAttack'; playerIdx: number; targetEnemyIdx: number }
-  | {
-      op: 'playMagicAnim'
-      magicId: number
-      casterType: 'enemy' | 'player'
-      casterIdx: number
-      targetType: 'enemy' | 'player'
-      targetIdx: number | 'all'
-    }
   | { op: 'playEnemyDeath'; enemyIdx: number }
-  | { op: 'showBattleUI'; state: 'mainMenu' | 'magicMenu' | 'itemMenu' | 'targetSelect' | 'hidden' }
   // M6 音频意图(core 发,shell AudioManager Web Audio 消费;core 不碰 Web Audio):
   /** SFX 一次性播放(sdlpal `AUDIO_PlaySound(num)`,script.c:1708 0x47 / 战斗攻击受击 / 菜单)。soundId = SOUNDS.MKF chunk。 */
   | { op: 'playSound'; soundId: number }
@@ -57,33 +41,25 @@ export type PresentCommand =
   | { op: 'stopMusic'; fadeMs: number }
 
 export interface BusEntry {
-  cmdId: number
   cmd: PresentCommand
 }
 
 export interface CommandBus {
-  emit(cmd: PresentCommand): number
+  emit(cmd: PresentCommand): void
   drain(): BusEntry[]
-  complete(cmdId: number): void
 }
 
 export function createCommandBus(): CommandBus {
   let queue: BusEntry[] = []
-  let nextId = 1
 
   return {
     emit(cmd) {
-      const cmdId = nextId++
-      queue.push({ cmdId, cmd })
-      return cmdId
+      queue.push({ cmd })
     },
     drain() {
       const out = queue
       queue = []
       return out
-    },
-    complete(_cmdId) {
-      // 当前不关联待完成资源;调用不会改变队列。
     },
   }
 }

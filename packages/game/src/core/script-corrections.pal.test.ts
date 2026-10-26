@@ -65,7 +65,7 @@ test.each([
         : choice
       : 'Confirm'
     if (inConfirmation && pressed === choice) decisions++
-    tickEventSystem(gs, { held: new Set(), pressed: new Set([pressed]), frameNum: frame }, bus)
+    tickEventSystem(gs, { held: new Set(), pressed: new Set([pressed]), frameNum: frame })
     bus.drain()
   }
   expect(gs.mode).toBe('explore')

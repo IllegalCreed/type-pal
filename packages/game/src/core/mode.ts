@@ -44,7 +44,7 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickSceneSystem(gs, input)
       break
     case 'event':
-      tickEventSystem(gs, input, bus)
+      tickEventSystem(gs, input)
       break
     case 'battle':
       tickBattle(gs, input, bus)
@@ -58,6 +58,6 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // 让战后隐藏怪物、菜单物品效果等先于下一次呈现生效，避免露出一帧旧场景或消失的菜单。
   // tickEventSystem 新建对话时会先设置 waiting，不会再消费本帧已用于确认菜单的按键。
   if ((prevMode === 'battle' || prevMode === 'menu') && gs.mode === 'event') {
-    tickEventSystem(gs, input, bus)
+    tickEventSystem(gs, input)
   }
 }

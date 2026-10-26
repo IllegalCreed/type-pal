@@ -57,7 +57,7 @@ export interface PerformMagicInput {
   items?: Item[]
   /** PlayerRoles(扣 MP 用)。 */
   playerRoles: PlayerRoles
-  /** Present 命令通道(emit playMagicAnim)。 */
+  /** 实际数字/音效反馈通道，动画由帧链持有。 */
   bus: CommandBus
   /** 全局脚本 commands(scriptOnUse 是全局 ip)。 */
   commands: Command[]
@@ -99,8 +99,7 @@ export interface PerformMagicInput {
  *  1. 查 spell + magic(Spell.magicNumber 对应 Magic.id)
  *  2. 队员 cast → 检查 + 扣 MP(敌人不 track mp,跳过)
  *  3. 敌方先预掷 autoDefend,再运行 scriptOnUse;失败则保留已扣 MP 并早退。
- *  4. 成功后 emit playMagicAnim 并运行 scriptOnSuccess,再构建实际动画时间线。
- *     playMagicAnim 当前无视觉消费方、audio 解析为 0;画面由 buildAndStart* 驱动。
+ *  4. 成功后运行 scriptOnSuccess，再构建实际动画时间线。
  *     脚本经 runScript(runtimeMode='battle' + battleCtx);全体目标不指定单个 target。
  *
  * spell / magic 找不到 → console.warn + 早退;MP 不足 → console.warn + 早退(不扣 + 不 emit + 不 runScript)。
@@ -254,15 +253,7 @@ export function performMagic(input: PerformMagicInput): void {
     return
   }
 
-  // —— scriptOnUse 成功 → emit 法术动画命令 + scriptOnSuccess(fight.c:4233-4264)——
-  input.bus.emit({
-    op: 'playMagicAnim',
-    magicId: magic.id,
-    casterType: input.casterIsEnemy ? 'enemy' : 'player',
-    casterIdx: input.casterIdx,
-    targetType: input.targetIsEnemy ? 'enemy' : 'player',
-    targetIdx: input.targetIdx,
-  })
+  // scriptOnUse 成功后运行 scriptOnSuccess，再结算与拼装帧链。
   // M6 法术效果音 magic.sound:**player 攻击魔法(OffMagic)已挪到动画时间线帧同步**(见下方动画派发后),
   //   此处不再 cast 起手立即 push(那样比效果动画提前,user 2026-06-03 报"音效没对齐")。其余类型在派发后即时 push。
   // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——

@@ -10,12 +10,7 @@
  *   - `playEnemyAttack` / `playPlayerAttack` / `playEnemyDeath`:本层不消费 —— 声音由
  *     shell 解析(bootstrap → audio.sfxForBattleEvent 映射 per-单位声),画面由动画
  *     时间线(battleAnim frames)驱动。
- *   - `playMagicAnim`:通知性 op,无消费方(声音解析为 0;真实法术动画由
- *     actions/magic-animation.ts 的帧链驱动)。
- *   - `flashEnemy` / `flashPlayer` / `showBattleUI` / `clearDialogBox`:无 emit 方 ——
- *     受击色闪实际走动画帧 iColorShift(draw-battle-sprites),uiState 由 battle-system 直写。
- *   - `showDialogBox`:战斗内对话框不经 bus —— tickBattleDialog 写 gs.dialogBox,
- *     本层步骤 6 直接画。
+ *   对白读 gs.dialogBox；法术动画与受击色闪读 battleAnim 帧链，不经通知通道。
  *
  * 绘制顺序(对照 sdlpal `battle.c::PAL_BattleMakeScene`):
  *   1. 战斗背景(底)
@@ -204,10 +199,7 @@ export class BattlePresent {
         const frames = Math.ceil((cmd.durationMs ?? 800) / 40)
         this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames, pos: cmd.pos }
       }
-      // 其余 op 本视觉层不消费(详列见模块头):playEnemyAttack / playPlayerAttack /
-      //   playEnemyDeath 由 shell 解析 SFX、画面走动画时间线;playMagicAnim 无消费方;
-      //   flashEnemy / flashPlayer / showBattleUI / clearDialogBox 无 emit 方;
-      //   战斗内对话框经 gs.dialogBox(步骤 6 画),不经 bus。
+      // 攻击/阵亡通知由 shell 映射 SFX；对白与动画分别从状态/帧链绘制。
     }
 
     // 召唤演出(state.battleAnim.summon):in/loop 期画召唤神替换队员 + 背景染色;out 期(淡出)正常画队员。

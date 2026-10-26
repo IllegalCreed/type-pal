@@ -142,7 +142,7 @@ function snap(pressed: AbstractKey[] = [], frameNum = 0): InputSnapshot {
  */
 function tickWithTime(gs: GameState, pressed: AbstractKey[] = [], ms = 100): void {
   gs.nowMs += ms
-  tickEventSystem(gs, snap(pressed), createCommandBus())
+  tickEventSystem(gs, snap(pressed))
 }
 
 // 回归(user 2026-06-13:扬州宝物屋开出道具「?0」):宝物屋数据含 giveItem itemId=0 的空槽标记,
@@ -311,14 +311,14 @@ describe('buildLabelMap', () => {
 })
 
 describe('EventSystem', () => {
-  it('showDialog → 设 dialogBox + waiting + emit', () => {
+  it('showDialog → 设实际 dialogBox 与 waiting', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'showDialog', messageIndex: 0, text: '你好' }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogBox?.currentLineText).toBe('你好')
     expect(gs.eventCursor?.waiting).toBe('dialog')
-    expect(bus.drain()[0]?.cmd.op).toBe('showDialogBox')
+    expect(gs.dialogBox?.phase).toBe('typing')
   })
 
   // BUG(user 2026-06-24:麒麟洞·麒麟老人对话「蛋．．．这．．(」末尾露出半角 `(`):对话历史面板直接渲染
@@ -327,9 +327,9 @@ describe('EventSystem', () => {
   //   文本。历史应与玩家所见一致 = 可见文本(剥 `( ) ~ $ \ "` 等全部控制符)。
   it('对话历史存可见文本:剥离「等待图标」控制符 —— 「蛋．．．这．．(」→「蛋．．．这．．」', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'showDialog', messageIndex: 0, text: '蛋．．．这．．(' }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogHistory?.at(-1)?.text).toBe('蛋．．．这．．')
   })
 
@@ -338,7 +338,7 @@ describe('EventSystem', () => {
   //   gameOverActive 的根因。回归保证:showDialog 清 sceneLoading,但**绝不**碰 gameOverActive / deathHoldActive。
   it('showDialog 清 sceneLoading 但不碰 gameOverActive/deathHoldActive(死亡4句对话不露大世界)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.gameOverActive = true // 0x4F 已点亮死亡演出
     gs.deathHoldActive = true
     gs.sceneLoading = true // 同时有冻屏(对照:showDialog 该清它)
@@ -346,7 +346,7 @@ describe('EventSystem', () => {
       { op: 'showDialog', messageIndex: 0, text: '大侠请重新来过吧' }, // 死亡对话之一
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneLoading).toBe(false) // showDialog 清了 sceneLoading
     expect(gs.gameOverActive).toBe(true) // 但死亡演出标记原样保留 → present 续 hold 染红帧 + 画对话
     expect(gs.deathHoldActive).toBe(true)
@@ -358,13 +358,13 @@ describe('EventSystem', () => {
   //   修:走位 op 同 0x09 清 sceneLoading,走位逐帧可见 + 跟随者正常追踪。
   it('Bug1:PartyWalkTo 走位清 sceneLoading(onEnter 走入演出不被切场景黑屏盖)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.sceneLoading = true // 切场景冻屏
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [10, 10, 0] }, // 远目标 → 走 1 步未到、不 ip++
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneLoading).toBe(false) // 走位清了冻屏 → 走入演出可见(否则整段走位黑屏)
   })
 
@@ -374,12 +374,12 @@ describe('EventSystem', () => {
     //  tick 3 (Confirm): line-done → 自动 ip++ → end → 有行 → setWaitingEndKey
     //  tick 4 (Confirm): waiting-end-key → dialog-end → 清 dialogBox + waiting=undef → end → mode=explore
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'showDialog', messageIndex: 0, text: '你好' }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
-    tickEventSystem(gs, snap(['Confirm']), bus)
-    tickEventSystem(gs, snap(['Confirm']), bus)
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap(['Confirm']))
+    tickEventSystem(gs, snap(['Confirm']))
+    tickEventSystem(gs, snap(['Confirm']))
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.dialogBox).toBeUndefined()
@@ -392,7 +392,7 @@ describe('EventSystem', () => {
     const debug = vi.spyOn(console, 'debug')
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       loadEvent(gs, [
         { op: 'setDialogStyleCenter' },
         { op: 'showDialog', messageIndex: 0, text: '李逍遥，李逍遥！~30' }, // center,~ 收尾
@@ -411,7 +411,7 @@ describe('EventSystem', () => {
       gs.nowMs = 1000
       for (; ticks < 300; ticks++) {
         gs.nowMs += 100 // Bug1 fix:wall-clock 打字,每 tick 推进 100ms
-        tickEventSystem(gs, snap(), bus)
+        tickEventSystem(gs, snap())
         // 0x05 redraw 现在按 sdlpal UTIL_Delay(60ms)设 waiting='delay';测试里跳过实时延时(delay 非等键,不影响断言)
         if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
         const ph = gs.dialogBox?.phase
@@ -432,25 +432,25 @@ describe('EventSystem', () => {
   // (sdlpal text.c:1271 `if (fPlayingRNG && iNumCharFace)`),present 据此保留 RNG 画面不露大世界。
   it('setDialogStyleBottom 带 arg2(fPlayingRNG)+ 头像 → dialogPlayingRNG=true', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleBottom', arg0: 88, arg2: 0xffff }, // 头像 88 + fPlayingRNG=0xFFFF
       { op: 'showDialog', messageIndex: 0, text: '终于恢复和平的日子' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogPlayingRNG).toBe(true)
   })
 
   it('普通 setDialogStyleTop(无 arg2)→ dialogPlayingRNG 不置(对峙对话照常重绘大世界)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleTop', arg0: 81 }, // 有头像但无 arg2(fPlayingRNG=0)
       { op: 'showDialog', messageIndex: 0, text: '拜月教主:' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogPlayingRNG).toBeFalsy()
   })
 
@@ -462,14 +462,14 @@ describe('EventSystem', () => {
   it('RNG 播放(0x37)后的 setDialogStyleTop(无 arg2)→ dialogPlayingRNG=true(求雨:天地诸神叠 RNG 末帧不露大世界)', () => {
     setRngPlayHandler(null) // 无 modal handler → 0x37 直接 ip++(测纯状态逻辑,不起真实播放)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 0, 8] }, // 0x37 PlayRNG(求雨 chunk 7)
       { op: 'setDialogStyleTop' }, // 无 arg2(求雨真实数据 op2=0,fPlayingRNG=FALSE)
       { op: 'showDialog', messageIndex: 0, text: '天地诸神啊～我以女娲圣灵之名' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogPlayingRNG).toBe(true)
   })
 
@@ -480,7 +480,7 @@ describe('EventSystem', () => {
   //   sdlpal scene.c:503-508 PAL_MakeScene 末尾 if(fNeedToFadeIn)PAL_FadeIn:loadScene 后、对话前淡入。
   it('loadScene 后 onEnter 直接对话(无 fade-in opcode)+ needToFadeIn → 消费 needToFadeIn 启动淡入(太好了段不卡黑屏)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.needToFadeIn = true // 拜月 0x93 SceneFade(-2)设
     gs.sceneLoading = true // loadScene 冻屏(onEnter 跑中)
     gs.basePalette = {
@@ -492,7 +492,7 @@ describe('EventSystem', () => {
       { op: 'showDialog', messageIndex: 0, text: '太好了．．．' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneLoading).toBe(false) // 对话解冻渲染(原有行为)
     expect(gs.needToFadeIn).toBe(false) // 被消费(修复:对话前淡入)
     expect(gs.paletteFadeState).toBeTruthy() // fade-in ramp 启动(否则永久黑屏)
@@ -503,7 +503,7 @@ describe('EventSystem', () => {
   //   仅 onEnter 首句对话(sceneLoading 由 true→false 那刻 = PAL_MakeScene 解冻)才淡入。
   it('同 scene 对话(sceneLoading=false)+ needToFadeIn → 不自动淡入(对话不抢 needToFadeIn,留给后续 0x51)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.needToFadeIn = true
     gs.sceneLoading = false // 非切场景(同 scene 内 0x50 FadeOut 后的对话)
     gs.basePalette = {
@@ -511,7 +511,7 @@ describe('EventSystem', () => {
       cycles: [],
     }
     loadEvent(gs, [{ op: 'showDialog', messageIndex: 0, text: '一夜过去' }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.needToFadeIn).toBe(true) // 不消费(同 scene 对话不淡入)
     expect(gs.paletteFadeState).toBeFalsy()
   })
@@ -530,13 +530,13 @@ describe('EventSystem', () => {
     // 撞 loadScene/fade 等渲染门时,dialog-line-done 的 pre-op clear(1872)等键先画满行。
     // (旧"梦境 Space 只出 1 行"现由 lineDoneRenderPending 给 `~` 尾行 + pre-op clear 兜底,不靠旧 return。)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // 时间驱动后短行 1 tick 即打完,用长行(16 字 ≈ 384ms > 100ms/tick)保证 Confirm 时仍在 typing。
     const longLine = '这是一句比较长的对话需要好几帧才能打完字'
     loadEvent(gs, [{ op: 'showDialog', messageIndex: 0, text: longLine }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus) // tick1: typing(部分字)
+    tickEventSystem(gs, snap()) // tick1: typing(部分字)
     expect(gs.dialogBox?.phase).toBe('typing') // 长行未打完
-    tickEventSystem(gs, snap(['Confirm']), bus) // tick2: Confirm → skip → userSkip=true → 连锁推进到段末
+    tickEventSystem(gs, snap(['Confirm'])) // tick2: Confirm → skip → userSkip=true → 连锁推进到段末
     expect(gs.dialogBox?.charsRevealed).toBe(longLine.length) // 整行已满(可渲染)
     expect(gs.dialogBox?.userSkip).toBe(true) // fUserSkip 跨行持续
     expect(gs.eventCursor?.ip).toBe(1) // 已推进到 end(同 tick 连锁,不再留一帧)
@@ -545,13 +545,13 @@ describe('EventSystem', () => {
 
   it('setDialogStyle 累积到 currentDialogStyle', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleTop' },
       { op: 'showDialog', messageIndex: 0, text: 'x' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.currentDialogStyle).toBe('top')
     expect(gs.dialogBox?.style).toBe('top')
   })
@@ -559,13 +559,13 @@ describe('EventSystem', () => {
   it('setDialogStyleTop 带 arg0 (iNumCharFace) + arg1 (bFontColor) → 写入 gs.currentDialogPortraitIcon/FontColor', () => {
     // sdlpal script.c:3404 PAL_StartDialog(kDialogUpper, op[1], op[0], ...)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleTop', arg0: 55, arg1: 12 },
       { op: 'showDialog', messageIndex: 0, text: 'x' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.currentDialogPortraitIcon).toBe(55)
     expect(gs.currentDialogFontColor).toBe(12)
     expect(gs.dialogBox?.portraitIcon).toBe(55)
@@ -574,13 +574,13 @@ describe('EventSystem', () => {
 
   it('setDialogStyleCenter arg0 = fontColor(不是 portraitIcon — sdlpal Center 不画头像)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleCenter', arg0: 22 },
       { op: 'showDialog', messageIndex: 0, text: 'x' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.currentDialogPortraitIcon).toBeUndefined()
     expect(gs.currentDialogFontColor).toBe(22)
   })
@@ -634,7 +634,7 @@ describe('EventSystem', () => {
     //   无 PAL_StartDialog → 不重绘立绘 → 原版师爷无立绘。我们 portrait 是 currentDialogPortraitIcon
     //   持久态,0x05 须一并清(同 ShowFBP/fadeScreen 等清除点),否则师爷复用太守头像 62。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleTop', arg0: 62 }, // 太守立绘 62
       { op: 'showDialog', messageIndex: 0, text: '甲' }, // 太守说话
@@ -642,14 +642,14 @@ describe('EventSystem', () => {
       { op: 'showDialog', messageIndex: 1, text: '乙' }, // 师爷说话(无 setDialogStyle)
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogBox?.portraitIcon).toBe(62) // 太守立绘正常显示
 
     // 一路 Confirm:翻完太守 → 0x05 等键翻页(page-advance 擦立绘) → 师爷 showDialog 建立。
     // 捕获师爷对话框那一刻(currentLineText='乙')即停,断言其立绘已被擦除。
     let shiyeBox: typeof gs.dialogBox
     for (let i = 0; i < 40 && gs.eventCursor !== undefined; i++) {
-      tickEventSystem(gs, snap(['Confirm']), bus)
+      tickEventSystem(gs, snap(['Confirm']))
       if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
       if (gs.dialogBox?.currentLineText?.includes('乙')) {
         shiyeBox = gs.dialogBox
@@ -676,7 +676,7 @@ describe('EventSystem', () => {
     //   ⚠ **单行简化序列复现不了此 bug**(单行不翻页,pre-op clear 直接清 box)——必须 5 行触发翻页
     //   (2026-06-19 教训:手写单行简化测试假阳性通过、真实游戏没修好;用真实多行序列才暴露 append 路径)。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleBottom', arg0: 90 }, // 赵灵儿立绘 90
       { op: 'showDialog', messageIndex: 0, text: '我只是丑陋的蛇女' },
@@ -696,7 +696,7 @@ describe('EventSystem', () => {
     for (let i = 0; i < 200 && gs.eventCursor !== undefined; i++) {
       // 第5行现在不会被翻页错误跳过，~80必须经过真实时钟推进，不能靠连按跳过尾停顿。
       gs.nowMs += 100
-      tickEventSystem(gs, snap(['Confirm']), bus)
+      tickEventSystem(gs, snap(['Confirm']))
       if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
       if (gs.dialogBox?.currentLineText?.includes('蛇女'))
         lingerPortrait = gs.dialogBox.portraitIcon
@@ -714,7 +714,7 @@ describe('EventSystem', () => {
 
   it('raw 命令 skip + console.debug + ip++', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     // 用两个明确未具名 opcode 走 default debug 分支(0x10 / 0x49 等已陆续实做,改用 0xC0 / 0xD0)
     loadEvent(gs, [
@@ -722,7 +722,7 @@ describe('EventSystem', () => {
       { op: 'raw', opcode: 0xd0, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.mode).toBe('explore') // 一帧内连跑完
     expect(debugSpy).toHaveBeenCalledTimes(2)
     debugSpy.mockRestore()
@@ -730,24 +730,24 @@ describe('EventSystem', () => {
 
   it('goto 跳转', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'goto', to: 'target' },
       { op: 'raw', opcode: 0, operands: [0, 0, 0] }, // 不应执行
       { op: 'end', label: 'target' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.mode).toBe('explore')
   })
 
   it('单 tick > 256 条 → 抛错防死循环', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const cmds: Command[] = []
     for (let i = 0; i < 1000; i++) cmds.push({ op: 'raw', opcode: 0, operands: [0, 0, 0] })
     loadEvent(gs, cmds)
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
-    expect(() => tickEventSystem(gs, snap(), bus)).toThrow(/single-tick instruction limit/)
+    expect(() => tickEventSystem(gs, snap())).toThrow(/single-tick instruction limit/)
     debugSpy.mockRestore()
   })
 })
@@ -817,6 +817,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('runtimeMode=battle + setDialogStyleTop → 下条 showDialog 入队带该风格 + portrait/fontColor', () => {
     const bus = createCommandBus()
+
     const ctx = makeBattleContext()
     runScript({
       commands: [
@@ -836,6 +837,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('D26(2b):dialog 序列中 0x69 敌逃跑入队为 effect(保序);队列空时立即跑', () => {
     const bus = createCommandBus()
+
     // (a) 已有 dialog 入队(蛇女灵儿 obj502@41060:嘲讽 → 0x69 → narration)→ 0x69 defer 为 effect 条目,
     //     保 sdlpal 序(嘲讽对话 → 逃跑动画 → narration),不在收集时立即跑。
     const ctx = makeBattleContext()
@@ -885,6 +887,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('battle raw 0x35:缓冲到 pendingScreenShake,不提前写全局 shakeTime', () => {
     const bus = createCommandBus()
+
     const ctx = { ...makeBattleContext(), pendingScreenShake: { time: 0, level: 0 } }
     const { gs } = ctx
     runScript({
@@ -902,6 +905,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('runtimeMode=battle + 0x05 ClearDialog → 下条 showDialog 入队标 clearBefore', () => {
     const bus = createCommandBus()
+
     const ctx = makeBattleContext()
     runScript({
       commands: [
@@ -924,8 +928,10 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('runtimeMode=battle + raw → console.debug 含 [event-system battle] 前缀 + ip++', () => {
-    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     const bus = createCommandBus()
+
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+
     const ctx: BattleCtx = makeBattleContext()
     ctx.gs = undefined
     runScript({
@@ -949,12 +955,14 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('runtimeMode=battle + 未具名 raw(0x06 概率跳)+ gs → fall 到 applyRawOpcode 真生效:法术失败分支可达', () => {
+    const bus = createCommandBus()
+
     // 结构修(2026-05-31):battle raw 未被 dispatchBattleOpcode 消费 → fall 到大世界统一解释器 applyRawOpcode
     //   (对齐 sdlpal 单一 PAL_InterpretInstruction)。0x06 jump-by-rate rate=0 → RandomLong(1,100)>=0 恒真
     //   → 必跳 operand[1](L_3 失败分支)。旧:battle raw 直接 skip → 0x06 不跳 → 失败分支(setDialogStyle
     //   Narration + showDialog "失败 没有效果" msg13364)永不达。需 gs(applyRawOpcode 形参)。
     const ctx = makeBattleContext()
-    const bus = createCommandBus()
+
     runScript({
       commands: [
         { op: 'raw', opcode: 0x06, operands: [0, 3, 0], label: 'L_0' }, // rate=0 恒跳 → L_3
@@ -976,12 +984,14 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('runtimeMode=battle + 0x1E 减钱不足 → 跳 operand[1](资源条件跳转在战斗内真生效)', () => {
+    const bus = createCommandBus()
+
     // 0x1E:operand[0]<0 且 dwCash < |operand[0]| → jump operand[1];否则 dwCash += operand[0]。
     //   钱不足分支(sdlpal script.c:952-968)在战斗法术脚本(花钱法术)中靠它。结构修后 fall 到 applyRawOpcode。
     const ctx = makeBattleContext()
     const { gs } = ctx
     gs.dwCash = 5 // 不足以扣 100
-    const bus = createCommandBus()
+
     runScript({
       commands: [
         { op: 'raw', opcode: 0x1e, operands: [0xff9c, 3, 0], label: 'L_0' }, // -100;cash=5<100 → 跳 L_3
@@ -1000,12 +1010,14 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('runtimeMode=battle:条件跳转目标**未打 label** → fall back globalIp(修乾坤一掷43064/酒神43078)', () => {
+    const bus = createCommandBus()
+
     // 真 bug(user 报):乾坤一掷"钱不够"分支 @43064 / 酒神"酒不足"@43078 **无 label**;cursor 带 labelMap
     //   时 jumpToGlobalIp 查 L_<n> 查不到 → 旧逻辑静默不跳 → 没钱仍放乾坤一掷且 0 伤害。修:fall back globalIp。
     const ctx = makeBattleContext()
     const { gs } = ctx
     gs.dwCash = 0 // 没钱
-    const bus = createCommandBus()
+
     runScript({
       commands: [
         { op: 'raw', opcode: 0x1e, operands: [0xffff, 3, 0], label: 'L_0' }, // -1;cash=0<1 → 跳 index3(**无 label**)
@@ -1056,6 +1068,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('runtimeMode=battle 缺 battleCtx 抛错', () => {
     const bus = createCommandBus()
+
     expect(() =>
       runScript({
         commands: [{ op: 'end' }],
@@ -1068,6 +1081,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('runtimeMode=explore 误传 battleCtx 抛错', () => {
     const bus = createCommandBus()
+
     expect(() =>
       runScript({
         commands: [{ op: 'end' }],
@@ -1101,10 +1115,12 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('battle mode 下 setDialogStyle* 只改战斗队列样式，保留宿主样式', () => {
+    const bus = createCommandBus()
+
     const ctx = makeBattleContext()
     const { gs } = ctx
     gs.currentDialogStyle = 'narration'
-    const bus = createCommandBus()
+
     runScript({
       commands: [{ op: 'setDialogStyleTop' }, { op: 'setDialogStyleBottom' }, { op: 'end' }],
       ip: 0,
@@ -1123,6 +1139,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
   it('死循环防御:battle mode raw 链 > 256 条抛错', () => {
     const bus = createCommandBus()
+
     const cmds: Command[] = []
     for (let i = 0; i < 1000; i++) cmds.push({ op: 'raw', opcode: 0, operands: [0, 0, 0] })
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
@@ -1142,12 +1159,12 @@ describe('runScript (M3 T17, battle mode)', () => {
 describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
   it('explore mode 撞 loadScene → no-op + console.warn + ip++ 不抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // M4 P3:无 _sceneLoader 注入时走 warn 分支(配置缺失 → warn 比 debug 更准)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     loadEvent(gs, [{ op: 'loadScene', sceneId: 42 }, { op: 'end' }])
     // 不抛错(stub no-op)
-    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(() => tickEventSystem(gs, snap())).not.toThrow()
     // 一帧内 loadScene + end 连跑完 → mode=explore
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
@@ -1190,13 +1207,13 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
 
   it('explore mode: fetchPalette 被调用,gs.palette 异步更新', async () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const mockFetch = vi.fn().mockResolvedValue(fakePalette)
     setFetchPalette(mockFetch)
 
     loadEvent(gs, [{ op: 'setPalette', paletteIndex: 3 }, { op: 'end' }])
 
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
 
     // tickEventSystem は同期で ip++ して end まで走る → mode=explore
     expect(gs.mode).toBe('explore')
@@ -1212,12 +1229,12 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
     // reset injection to null so handler takes the "未注入" branch
     setFetchPalette(null)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
 
     loadEvent(gs, [{ op: 'setPalette', paletteIndex: 5 }, { op: 'end' }])
 
-    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(() => tickEventSystem(gs, snap())).not.toThrow()
     expect(gs.mode).toBe('explore')
     expect(debugSpy.mock.calls).toEqual([
       ['event-system: setPalette paletteIndex=5 ip=0(palette 源未注入)'],
@@ -1252,7 +1269,7 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
 describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', () => {
   it('raw#7 → 调 startBattle handler + 清 eventCursor + mode 切 battle', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const handler = vi.fn(({ gs: handlerGs }: { gs: GameState }) => {
       handlerGs.mode = 'battle'
     })
@@ -1263,7 +1280,7 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
       { op: 'end' },
     ])
 
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
 
     expect(handler).toHaveBeenCalledOnce()
     expect(handler).toHaveBeenCalledWith({
@@ -1283,7 +1300,7 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
       { op: 'showDialog', text: '大侠请重新来过吧', messageIndex: 0 }, // 真行(从第 2 行起)
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     // C 真值:TEXT_DisplayText 返回后无条件 nCurrentDialogLine++ → "$00" 占一空行,
     //   正文从下一行起(死亡文案 y=58/76 而非 40/58);$00 → iDelayTime=0 → 正文瞬显。
     expect(gs.dialogIDelayFrames).toBe(0)
@@ -1306,7 +1323,7 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
     ])
     cursorOf(gs).currentEventObjectId = 3 // 开战那只怪的 event object id
     cursorOf(gs).triggerOwnerId = 3
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined() // 战斗中清 cursor
     expect(gs.postBattleResume?.wonIp).toBe(1) // 胜 → 0x07 后下一条(0x52)
     expect(gs.postBattleResume?.lostIp).toBe(41075) // 负 → op[1]
@@ -1317,7 +1334,7 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
 
   it('operand[2]=0 → isBoss=true(sdlpal !operand[2])', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const handler = vi.fn(({ gs: g }: { gs: GameState }) => {
       g.mode = 'battle'
     })
@@ -1325,7 +1342,7 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
 
     loadEvent(gs, [{ op: 'raw', opcode: OP_START_BATTLE, operands: [5, 0, 0] }, { op: 'end' }])
 
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
 
     expect(handler).toHaveBeenCalledWith({
       gs,
@@ -1338,12 +1355,12 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
   it('handler 未注入 → warn + 清 cursor 但不抛错(P0.e 简化版安全网)', () => {
     setStartBattleHandler(null)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     loadEvent(gs, [{ op: 'raw', opcode: OP_START_BATTLE, operands: [7, 0, 0] }, { op: 'end' }])
 
-    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(() => tickEventSystem(gs, snap())).not.toThrow()
     expect(warnSpy.mock.calls).toEqual([
       [
         'event-system: opcode 7 startBattle handler 未注入,跳过 (enemyTeamId=7)。 测试外 bootstrap 应 setStartBattleHandler。',
@@ -1355,7 +1372,7 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
 
   it('具名 op:startBattle → 同 raw#7 走 handler 路径', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const handler = vi.fn(({ gs: g }: { gs: GameState }) => {
       g.mode = 'battle'
     })
@@ -1363,7 +1380,7 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
 
     loadEvent(gs, [{ op: 'startBattle', enemyTeamId: 9, operands: [9, 0, 1234] }, { op: 'end' }])
 
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
 
     expect(handler).toHaveBeenCalledWith({
       gs,
@@ -1379,12 +1396,12 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
 describe('opcode 0xA7 explicit no-op', () => {
   it('推进脚本且不落入 unknown raw debug(sdlpal script.c:3639)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     try {
       loadEvent(gs, [{ op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, { op: 'end' }])
 
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
 
       expect(gs.eventCursor).toBeUndefined()
       expect(
@@ -1414,12 +1431,12 @@ describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 label
     setGlobalEvents(globalCommands)
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       // 生产 cursor 只存 ip,默认读全局数组(无 commands/labelMap override)。
       gs.eventCursor = { ip: 0 }
       gs.mode = 'event'
 
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
 
       // P2#5:cursor 不换来源(commands/labelMap 仍 undefined → 默认全局);ip 落到全局 L_S1 = idx2。
       expect(gs.eventCursor?.commands).toBeUndefined()
@@ -1439,11 +1456,11 @@ describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 label
     ])
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       gs.eventCursor = { ip: 0 }
       gs.mode = 'event'
 
-      expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+      expect(() => tickEventSystem(gs, snap())).not.toThrow()
       expect(gs.mode).toBe('explore')
       expect(gs.eventCursor).toBeUndefined()
       expect(warn.mock.calls).toEqual([
@@ -1457,14 +1474,14 @@ describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 label
 
   it('普通 goto(无 shared# 前缀)走 cursor.labelMap 原路径', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'goto', to: 'L_LOCAL' },
       { op: 'showDialog', messageIndex: 0, text: 'wrong path' },
       { op: 'end', label: 'L_LOCAL' },
     ])
 
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.mode).toBe('explore')
     expect(gs.dialogBox).toBeUndefined()
   })
@@ -1477,11 +1494,11 @@ describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 label
     ])
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       gs.eventCursor = { ip: 0 }
       gs.mode = 'event'
 
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
 
       expect(gs.mode).toBe('explore')
       expect(gs.eventCursor).toBeUndefined()
@@ -1495,11 +1512,11 @@ describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 label
 describe('opcode 0x4A setBattlefield(P0.e — sdlpal script.c:1719)', () => {
   it('raw#0x4A → gs.wNumBattleField = operand[0]', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     expect(gs.wNumBattleField).toBe(0) // M5 Sync.1: 改为 required 字段, 初始值 0
 
     loadEvent(gs, [{ op: 'raw', opcode: OP_SET_BATTLE_FIELD, operands: [10, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
 
     expect(gs.wNumBattleField).toBe(10)
     expect(gs.mode).toBe('explore')
@@ -1507,13 +1524,13 @@ describe('opcode 0x4A setBattlefield(P0.e — sdlpal script.c:1719)', () => {
 
   it('多次 setBattlefield → 写入最后一次值', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_BATTLE_FIELD, operands: [5, 0, 0] },
       { op: 'raw', opcode: OP_SET_BATTLE_FIELD, operands: [10, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wNumBattleField).toBe(10)
   })
 })
@@ -1523,27 +1540,27 @@ describe('opcode 0x4A setBattlefield(P0.e — sdlpal script.c:1719)', () => {
 describe('opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)', () => {
   it('wait 3 frames → cursor 卡 3 tick 再 ip++', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: OP_WAIT_FRAMES, operands: [3, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('frame-wait')
     expect(gs.eventCursor?.waitFramesRemaining).toBe(3)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waitFramesRemaining).toBe(2)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // 第 3 次 waitFramesRemaining 减到 0 → clear waiting + ip++ + end → mode=explore
     expect(gs.mode).toBe('explore')
   })
 
   it('wait operand[0]==0 → 视作 1 帧(sdlpal 真值 fallback)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: OP_WAIT_FRAMES, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.mode).toBe('explore')
   })
 })
@@ -1551,46 +1568,46 @@ describe('opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)', () => {
 describe('opcode 0x004D wait-for-any-key(sdlpal script.c:1753 / play.c:602-638 PAL_WaitForKeyInternal(0,FALSE))', () => {
   it('设 waiting=wait-key 永久阻塞,无按键不前进', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('wait-key')
     expect(gs.eventCursor?.ip).toBe(0) // 未推进
     // 连续多 tick 无按键 → 仍卡在 wait-key
-    tickEventSystem(gs, snap(), bus)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('wait-key')
     expect(gs.mode).toBe('event')
   })
 
   it('Confirm(kKeySearch)解除 → 清 waiting + ip++ + 续跑到 end → mode=explore', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('wait-key')
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']))
     expect(gs.mode).toBe('explore') // 解除 + ip++ + end
   })
 
   it('Menu(kKeyMenu)与 Cancel 同样解除', () => {
     for (const key of ['Menu', 'Cancel'] as const) {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       loadEvent(gs, [{ op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] }, { op: 'end' }])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.eventCursor?.waiting).toBe('wait-key')
-      tickEventSystem(gs, snap([key]), bus)
+      tickEventSystem(gs, snap([key]))
       expect(gs.mode).toBe('explore')
     }
   })
 
   it('方向键不解除 wait-key(sdlpal 只认 kKeySearch|kKeyMenu)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
-    tickEventSystem(gs, snap(['Up']), bus)
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap(['Up']))
     expect(gs.eventCursor?.waiting).toBe('wait-key')
     expect(gs.mode).toBe('event')
   })
@@ -1612,9 +1629,9 @@ describe('opcode 0x000A goto-if-no / ConfirmMenu(sdlpal script.c:3373-3387 / uig
 
   it('进入 → waiting=confirm + 默认 否(confirmYes=false)+ ip 不动', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     load0a(gs)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('confirm')
     expect(gs.eventCursor?.confirmYes).toBe(false)
     expect(gs.eventCursor?.ip).toBe(0)
@@ -1622,27 +1639,27 @@ describe('opcode 0x000A goto-if-no / ConfirmMenu(sdlpal script.c:3373-3387 / uig
 
   it('无按键 → 永久阻塞(autoScript 冻,ip 不动)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     load0a(gs)
-    tickEventSystem(gs, snap(), bus)
-    tickEventSystem(gs, snap(), bus)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('confirm')
     expect(gs.eventCursor?.ip).toBe(0)
   })
 
   it('Up/Down/Left/Right 切换选择(2 项 next/prev 均 toggle,sdlpal ui.c wrap),不提交', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     load0a(gs)
-    tickEventSystem(gs, snap(), bus) // enter,默认 否
-    tickEventSystem(gs, snap(['Right']), bus)
+    tickEventSystem(gs, snap()) // enter,默认 否
+    tickEventSystem(gs, snap(['Right']))
     expect(gs.eventCursor?.confirmYes).toBe(true)
-    tickEventSystem(gs, snap(['Left']), bus)
+    tickEventSystem(gs, snap(['Left']))
     expect(gs.eventCursor?.confirmYes).toBe(false)
-    tickEventSystem(gs, snap(['Up']), bus)
+    tickEventSystem(gs, snap(['Up']))
     expect(gs.eventCursor?.confirmYes).toBe(true)
-    tickEventSystem(gs, snap(['Down']), bus)
+    tickEventSystem(gs, snap(['Down']))
     expect(gs.eventCursor?.confirmYes).toBe(false)
     // 仍阻塞
     expect(gs.eventCursor?.waiting).toBe('confirm')
@@ -1651,39 +1668,39 @@ describe('opcode 0x000A goto-if-no / ConfirmMenu(sdlpal script.c:3373-3387 / uig
 
   it('是(Right + Confirm)→ ip++ 跨过 0x0A → 跑是分支(showDialog "YES")', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     load0a(gs)
-    tickEventSystem(gs, snap(), bus) // enter
-    tickEventSystem(gs, snap(['Right']), bus) // 选 是
-    tickEventSystem(gs, snap(['Confirm']), bus) // 提交 是 → ip++ → showDialog YES
+    tickEventSystem(gs, snap()) // enter
+    tickEventSystem(gs, snap(['Right'])) // 选 是
+    tickEventSystem(gs, snap(['Confirm'])) // 提交 是 → ip++ → showDialog YES
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.dialogBox?.currentLineText).toBe('YES')
   })
 
   it('否(默认 + Confirm)→ goto operand[0] → 跑否分支(showDialog "NO")', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     load0a(gs)
-    tickEventSystem(gs, snap(), bus) // enter,默认 否
-    tickEventSystem(gs, snap(['Confirm']), bus) // 提交 否 → goto L_3 → showDialog NO
+    tickEventSystem(gs, snap()) // enter,默认 否
+    tickEventSystem(gs, snap(['Confirm'])) // 提交 否 → goto L_3 → showDialog NO
     expect(gs.dialogBox?.currentLineText).toBe('NO')
   })
 
   it('Cancel / Menu 等价 否(sdlpal CANCELLED→FALSE)→ goto operand[0],即便已选 是', () => {
     for (const key of ['Cancel', 'Menu'] as const) {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       load0a(gs)
-      tickEventSystem(gs, snap(), bus)
-      tickEventSystem(gs, snap(['Right']), bus) // 故意选 是
-      tickEventSystem(gs, snap([key]), bus) // Cancel/Menu → 仍 goto 否分支
+      tickEventSystem(gs, snap())
+      tickEventSystem(gs, snap(['Right'])) // 故意选 是
+      tickEventSystem(gs, snap([key])) // Cancel/Menu → 仍 goto 否分支
       expect(gs.dialogBox?.currentLineText).toBe('NO')
     }
   })
 
   it('PAL_ClearDialog(FALSE):问句 confirm 期保留可见,选完才清(且不触发 Space-wait pre-op clear)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'showDialog', messageIndex: 0, text: '要不要' },
       { op: 'raw', opcode: OP_GOTO_IF_NO, operands: [3, 0, 0] },
@@ -1695,13 +1712,13 @@ describe('opcode 0x000A goto-if-no / ConfirmMenu(sdlpal script.c:3373-3387 / uig
     gs.nowMs = 1000
     for (let i = 0; i < 12 && gs.eventCursor?.waiting !== 'confirm'; i++) {
       gs.nowMs += 100 // Bug1 fix:wall-clock 打字推进
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
     }
     expect(gs.eventCursor?.waiting).toBe('confirm') // 不是 'dialog'(Space-wait)
     expect(gs.dialogBox?.currentLineText).toBe('要不要') // 问句 confirm 期保留
     // 选 否(默认)→ goto L_3(end)→ 清问句 + 结束脚本
     gs.nowMs += 100
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']))
     expect(gs.dialogBox).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.mode).toBe('explore')
@@ -1715,12 +1732,12 @@ describe('opcode 0x0046 setPartyPos 填 trail(sdlpal script.c 0x46:rgTrail[0..4]
 
   it('设位置 → gs.trail 填满 5 槽,每槽身后偏 i*(xOff,yOff),朝向=队伍朝向(down:xOff=16,yOff=-8)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x46, operands: [2, 3, 0] }, // px=2*32=64, py=3*16=48
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.trail).toHaveLength(5)
     expect(gs.trail[0]).toEqual({ x: 64, y: 48, dir: 'down' })
     expect(gs.trail[1]).toEqual({ x: 64 + 16, y: 48 - 8, dir: 'down' })
@@ -1736,12 +1753,12 @@ describe('opcode 0x0046 setPartyPos 填 trail(sdlpal script.c 0x46:rgTrail[0..4]
     ] as const
     for (const [facing, xOff, yOff] of cases) {
       const gs = createInitialGameState({ x: 0, y: 0, facing })
-      const bus = createCommandBus()
+
       loadEvent(gs, [
         { op: 'raw', opcode: 0x46, operands: [1, 1, 0] }, // px=32, py=16
         { op: 'end' },
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.trail[2]).toEqual({ x: 32 + 2 * xOff, y: 16 + 2 * yOff, dir: facing })
     }
   })
@@ -1750,18 +1767,18 @@ describe('opcode 0x0046 setPartyPos 填 trail(sdlpal script.c 0x46:rgTrail[0..4]
 describe('opcode 0x00A0 quit(sdlpal script.c:2988-2996;用户决策:跳过 PAL_AdditionalCredits 回标题)', () => {
   it('有 _quitHandler:调 handler 一次 + 设 waiting=quit 阻塞(不步进/不重复调)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     let called = 0
     setQuitHandler(() => {
       called++
     })
     loadEvent(gs, [{ op: 'raw', opcode: OP_QUIT, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(called).toBe(1)
     expect(gs.eventCursor?.waiting).toBe('quit')
     expect(gs.eventCursor?.ip).toBe(0) // 未步进
     // 后续 tick:waiting=quit 派发分支 block,handler 不重复调(回标题前 cursor 弃用由 bootstrap 异步做)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(called).toBe(1)
     expect(gs.eventCursor?.waiting).toBe('quit')
     setQuitHandler(null)
@@ -1769,11 +1786,11 @@ describe('opcode 0x00A0 quit(sdlpal script.c:2988-2996;用户决策:跳过 PAL_A
 
   it('无 _quitHandler:降级清 cursor(不卡死)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     setQuitHandler(null)
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     loadEvent(gs, [{ op: 'raw', opcode: OP_QUIT, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined()
     debugSpy.mockRestore()
   })
@@ -1782,7 +1799,7 @@ describe('opcode 0x00A0 quit(sdlpal script.c:2988-2996;用户决策:跳过 PAL_A
 describe('opcode 0x0013 setObjectPos(sdlpal script.c:716-722)', () => {
   it('设当前 trigger NPC 坐标 → gs.npcs[id].x/y', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 5, x: 100, y: 100, spriteNum: 1 }]
     // 手动模拟 scene-system 触发:设 currentEventObjectId
     loadEvent(gs, [
@@ -1790,17 +1807,17 @@ describe('opcode 0x0013 setObjectPos(sdlpal script.c:716-722)', () => {
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.x).toBe(200)
     expect(gs.npcs[0]?.y).toBe(150)
   })
 
   it('无 currentEventObjectId → 跳过 + warn(不抛错)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     loadEvent(gs, [{ op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 50, 60] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(warnSpy.mock.calls).toEqual([
       ['event-system: setObjectPos 无 currentEventObjectId(可能从 runEnterScript 跑),跳过'],
     ])
@@ -1812,14 +1829,14 @@ describe('opcode 0x0013 setObjectPos(sdlpal script.c:716-722)', () => {
 describe('opcode 0x0014 setObjectGesture(sdlpal script.c:724-730)— pose 核心', () => {
   it('设 npc.scriptedFrame=operand[0] + 强制 facing=down', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, facing: 'up' }]
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [5, 0, 0] },
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 7
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.scriptedFrame).toBe(5)
     expect(gs.npcs[0]?.facing).toBe('down') // sdlpal 强制 kDirSouth
   })
@@ -1829,14 +1846,14 @@ describe('opcode 0x0016 setEventObjectDirAndFrame(sdlpal script.c:741-750)', () 
   it('operand[0]=0xFFFF → 用 self(currentEventObjectId)+ facing=operand[1] + scriptedFrame=operand[2]', () => {
     // fix4:operand[0]=0/0xFFFF → self;operand[0]==0 在 0x16 是 silent skip,所以 self 用 0xFFFF
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1 }]
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_AND_FRAME, operands: [0xffff, 2, 8] },
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 7
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('up')
     expect(gs.npcs[0]?.scriptedFrame).toBe(8)
   })
@@ -1844,7 +1861,7 @@ describe('opcode 0x0016 setEventObjectDirAndFrame(sdlpal script.c:741-750)', () 
   it('operand[0] 显式 NPC id(1-based)→ 作用于 npcs.find(id==op0-1),即使 currentEventObjectId 不同', () => {
     // fix4:operand[0] = 8 → 显式找 npc.id = 7(1-based op[0] - 1 = 0-based id)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [
       { id: 0, x: 0, y: 0, spriteNum: 1 },
       { id: 7, x: 100, y: 0, spriteNum: 1 },
@@ -1854,7 +1871,7 @@ describe('opcode 0x0016 setEventObjectDirAndFrame(sdlpal script.c:741-750)', () 
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 0 // self 是 npc 0,但 operand[0]=8 显式找 npc 7
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBeUndefined() // npc 0 未改
     expect(gs.npcs[1]?.facing).toBe('left') // npc 7 被改
     expect(gs.npcs[1]?.scriptedFrame).toBe(5)
@@ -1862,14 +1879,14 @@ describe('opcode 0x0016 setEventObjectDirAndFrame(sdlpal script.c:741-750)', () 
 
   it('operand[0]==0 → no-op(sdlpal 真值)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, facing: 'down', scriptedFrame: 3 }]
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_AND_FRAME, operands: [0, 2, 8] },
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 7
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('down') // 未改
     expect(gs.npcs[0]?.scriptedFrame).toBe(3) // 未改
   })
@@ -1878,7 +1895,7 @@ describe('opcode 0x0016 setEventObjectDirAndFrame(sdlpal script.c:741-750)', () 
 describe('opcode 0x000F setEventObjectDirOrFrame(sdlpal script.c:663-675)', () => {
   it('operand[0] != 0xFFFF → 设 facing;operand[1] != 0xFFFF → 设 scriptedFrame', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1 }]
     loadEvent(gs, [
       // operand[0]=3 → right (kDirEast),operand[1]=2 → frame=2
@@ -1886,21 +1903,21 @@ describe('opcode 0x000F setEventObjectDirOrFrame(sdlpal script.c:663-675)', () =
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 4
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('right')
     expect(gs.npcs[0]?.scriptedFrame).toBe(2)
   })
 
   it('operand[0]==0xFFFF → 仅设 scriptedFrame,不改 facing', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1, facing: 'left' }]
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_OR_FRAME, operands: [0xffff, 7, 0] },
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 4
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('left') // 未改
     expect(gs.npcs[0]?.scriptedFrame).toBe(7)
   })
@@ -1909,26 +1926,26 @@ describe('opcode 0x000F setEventObjectDirOrFrame(sdlpal script.c:663-675)', () =
 describe('opcode 0x0015 setPartyDirectionAndFrame(sdlpal script.c:732-739)— fix3 真值修', () => {
   it('设 facing=op[0] + partyScriptedFrame[op[2]] = op[0]*3 + op[1]', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       // op[0]=2 (up=North), op[1]=1 (frame offset), op[2]=0 (leader)
       // 期望 wFrame = 2*3 + 1 = 7,facing=up
       { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [2, 1, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.facing).toBe('up')
     expect(gs.partyScriptedFrame[0]).toBe(7)
   })
 
   it('member index 非 0 → 写到对应槽位', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [1, 2, 2] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.partyScriptedFrame[2]).toBe(1 * 3 + 2) // dir=1 (left) * 3 + 2 = 5
     expect(gs.partyScriptedFrame[0]).toBeUndefined()
   })
@@ -1937,7 +1954,7 @@ describe('opcode 0x0015 setPartyDirectionAndFrame(sdlpal script.c:732-739)— fi
 describe('opcode 0x006C npcWalkOneStep(sdlpal script.c:2056-2063)', () => {
   it('apply operand[1]/[2] 偏移 + SHORT 真转(负值)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 3, x: 100, y: 50, spriteNum: 1 }]
     loadEvent(gs, [
       // operand[1] = -8(0xFFF8 SHORT),operand[2] = +4
@@ -1945,14 +1962,14 @@ describe('opcode 0x006C npcWalkOneStep(sdlpal script.c:2056-2063)', () => {
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.x).toBe(92)
     expect(gs.npcs[0]?.y).toBe(54)
   })
 
   it('Sync.2 fix5:每次调 wCurrentFrameNum++ 循环 mod 4(初值 undefined → 0,然后 1/2/3/0)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 9, x: 0, y: 0, spriteNum: 628 }]
     const cmds: Array<{ op: 'raw'; opcode: number; operands: [number, number, number] }> = []
     for (let i = 0; i < 5; i++) {
@@ -1962,7 +1979,7 @@ describe('opcode 0x006C npcWalkOneStep(sdlpal script.c:2056-2063)', () => {
     cursorOf(gs).currentEventObjectId = 9
     // 单 tick 跑完 5 walkOneStep + end:scriptedFrame 应循环到 (0+1+1+1+1) mod 4 = 4 mod 4 = 0
     // (undefined → 0 → 1 → 2 → 3 → 0)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.scriptedFrame).toBe(0) // 5 次后回到 0
   })
 })
@@ -1970,142 +1987,142 @@ describe('opcode 0x006C npcWalkOneStep(sdlpal script.c:2056-2063)', () => {
 describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
   function setup(npcs: GameState['npcs']) {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = npcs
-    return { gs, bus }
+    return { gs }
   }
 
   it('0x7D moveObject:pCurrent.x += SHORT(op1), y += SHORT(op2)(script.c:2277-2283)', () => {
-    const { gs, bus } = setup([{ id: 3, x: 100, y: 50, spriteNum: 1 }])
+    const { gs } = setup([{ id: 3, x: 100, y: 50, spriteNum: 1 }])
     // op0=0 → self(currentEventObjectId);op1 = -8(0xFFF8 SHORT),op2 = +6
     loadEvent(gs, [{ op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 0xfff8, 6] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.x).toBe(92)
     expect(gs.npcs[0]?.y).toBe(56)
   })
 
   it('0x7D moveObject:operand[0] 显式选其他 NPC(1-based → id==op0-1)', () => {
-    const { gs, bus } = setup([
+    const { gs } = setup([
       { id: 3, x: 0, y: 0, spriteNum: 1 },
       { id: 7, x: 200, y: 100, spriteNum: 1 },
     ])
     loadEvent(gs, [{ op: 'raw', opcode: OP_MOVE_OBJECT, operands: [8, 10, 20] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3 // self=3,但 op0=8 → 选 id=7
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[1]?.x).toBe(210)
     expect(gs.npcs[1]?.y).toBe(120)
   })
 
   it('0x7E setObjectLayer:pCurrent.sLayer = SHORT(op1)(script.c:2285-2290)', () => {
-    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sLayer: 0 }])
+    const { gs } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sLayer: 0 }])
     loadEvent(gs, [{ op: 'raw', opcode: OP_SET_OBJECT_LAYER, operands: [0, 3, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sLayer).toBe(3)
   })
 
   it('0x87 animateObject:仅推进动画帧 mod 4,不位移(script.c:2540-2544 PAL_NPCWalkOneStep id,0)', () => {
-    const { gs, bus } = setup([{ id: 3, x: 100, y: 50, spriteNum: 1, scriptedFrame: 0 }])
+    const { gs } = setup([{ id: 3, x: 100, y: 50, spriteNum: 1, scriptedFrame: 0 }])
     loadEvent(gs, [{ op: 'raw', opcode: OP_ANIMATE_OBJECT, operands: [0, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.scriptedFrame).toBe(1)
     expect(gs.npcs[0]?.x).toBe(100) // 无位移
     expect(gs.npcs[0]?.y).toBe(50)
   })
 
   it('0x4B nullifyObject:self.sVanishTime = -15(script.c:1726-1730)', () => {
-    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1 }])
+    const { gs } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1 }])
     loadEvent(gs, [{ op: 'raw', opcode: OP_NULLIFY_OBJECT, operands: [0, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sVanishTime).toBe(-15)
   })
 
   it('0x52 hideObject:self.sState *= -1; sVanishTime = op0?op0:800(script.c:1794-1799)', () => {
-    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 2 }])
+    const { gs } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 2 }])
     loadEvent(gs, [{ op: 'raw', opcode: OP_HIDE_OBJECT, operands: [0, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(-2)
     expect(gs.npcs[0]?.sVanishTime).toBe(800) // op0=0 → 默认 800
   })
 
   it('0x52 hideObject:op0 非 0 → sVanishTime = op0', () => {
-    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }])
+    const { gs } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }])
     loadEvent(gs, [{ op: 'raw', opcode: OP_HIDE_OBJECT, operands: [120, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(-1)
     expect(gs.npcs[0]?.sVanishTime).toBe(120)
   })
 
   it('0x62 chasePause:wChasespeedChangeCycles=op0, wChaseRange=0(script.c:1967-1972)', () => {
-    const { gs, bus } = setup([])
+    const { gs } = setup([])
     loadEvent(gs, [{ op: 'raw', opcode: OP_CHASE_PAUSE, operands: [50, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wChasespeedChangeCycles).toBe(50)
     expect(gs.wChaseRange).toBe(0)
   })
 
   it('0x63 chaseSpeedup:wChasespeedChangeCycles=op0, wChaseRange=3(script.c:1975-1980)', () => {
-    const { gs, bus } = setup([])
+    const { gs } = setup([])
     loadEvent(gs, [{ op: 'raw', opcode: OP_CHASE_SPEEDUP, operands: [30, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wChasespeedChangeCycles).toBe(30)
     expect(gs.wChaseRange).toBe(3)
   })
 
   it('0x7A partyWalkTo speed 4:每 tick 走 1 step(|dx|>8 → ±8)(script.c:2245-2249)', () => {
-    const { gs, bus } = setup([])
+    const { gs } = setup([])
     gs.party.x = 0
     gs.party.y = 0
     // target (10,0,0) → tx=320,远 → 一步走 speed*2=8
     loadEvent(gs, [{ op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [10, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(8)
     expect(gs.eventCursor?.ip).toBe(0) // 未到 → 不 ip++,下 tick 续走
   })
 
   it('0x7B partyWalkTo speed 8:一步走 16(script.c:2252-2256)', () => {
-    const { gs, bus } = setup([])
+    const { gs } = setup([])
     gs.party.x = 0
     gs.party.y = 0
     loadEvent(gs, [{ op: 'raw', opcode: OP_PARTY_WALK_TO_8, operands: [10, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(16)
   })
 
   it('0x7C npcWalkTo speed 4:stagger gate TRUE(id 偶 + frameNum 偶)→ 走', () => {
-    const { gs, bus } = setup([{ id: 2, x: 0, y: 0, spriteNum: 1 }])
+    const { gs } = setup([{ id: 2, x: 0, y: 0, spriteNum: 1 }])
     gs.frameNum = 0 // (id+1=3)&1=1 ^ 0&1=0 → 1 → gate TRUE
     // target (10,10,0):tx=320 ty=160,两轴均 >= speed*2 → 走 1 step(非 snap)
     loadEvent(gs, [{ op: 'raw', opcode: OP_NPC_WALK_TO_4, operands: [10, 10, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 2
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.x).toBe(8) // 'right' → +2 * speed4
     expect(gs.npcs[0]?.y).toBe(4) // 'right' → +1 * speed4
   })
 
   it('0x7C npcWalkTo speed 4:stagger gate FALSE(id 奇 + frameNum 偶)→ 本 tick 不走 + 重试', () => {
-    const { gs, bus } = setup([{ id: 1, x: 0, y: 0, spriteNum: 1 }])
+    const { gs } = setup([{ id: 1, x: 0, y: 0, spriteNum: 1 }])
     gs.frameNum = 0 // (id+1=2)&1=0 ^ 0&1=0 → 0 → gate FALSE
     loadEvent(gs, [{ op: 'raw', opcode: OP_NPC_WALK_TO_4, operands: [10, 10, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 1
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.x).toBe(0) // 隔帧:本 tick 跳过
     expect(gs.eventCursor?.ip).toBe(0) // 未推进,下 tick 重试
   })
 
   it('0x3F/0x44/0x97 rideObject:party + 骑乘对象一起移动 dx/dy(script.c:203-307)', () => {
-    const { gs, bus } = setup([{ id: 5, x: 200, y: 100, spriteNum: 1 }])
+    const { gs } = setup([{ id: 5, x: 200, y: 100, spriteNum: 1 }])
     gs.party.x = 0
     gs.party.y = 0
     // 0x44 speed 4,target (10,0,0) → tx=320,xOffset=320 → dx=8;yOffset=0 → dy=0
     loadEvent(gs, [{ op: 'raw', opcode: OP_RIDE_OBJECT_4, operands: [10, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(8) // party 移动
     expect(gs.npcs[0]?.x).toBe(208) // 骑乘对象同步移动 +8
     expect(gs.npcs[0]?.y).toBe(100) // y 不变
@@ -2118,12 +2135,12 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
   //   旧码 `camera = party - 常量(160,112)` 每步把队伍**绝对回正** → 抹掉 0x7F 偏移 → 后续平移从
   //   "主角居中"错误基准出发 → 镜头跟不上彩依(user 2026-06-17 报)。修同 0x6E(2026-06-08 林家堡)。
   it('0x7A partyWalkTo:相机已被 0x7F 偏离居中 → 走位 camera += step 保偏移,不绝对回正(彩依飞走)', () => {
-    const { gs, bus } = setup([])
+    const { gs } = setup([])
     // 模拟 0x7F[128,-96] 已把相机推离居中:party 世界 (160,112),camera (128,-96) → 队伍屏幕偏移 (32,208)
     gs.party = { x: 160, y: 112, facing: 'down' }
     gs.camera = { x: 128, y: -96 }
     loadEvent(gs, [{ op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [10, 4, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party).toMatchObject({ x: 168, y: 108 }) // 走 1 步 (+8,-4)(target 远)
     expect(gs.camera).toEqual({ x: 136, y: -100 }) // camera 同步 += (8,-4)
     expect(gs.party.x - gs.camera.x).toBe(32) // 屏幕偏移不变(忠实 sdlpal partyoffset)
@@ -2131,13 +2148,13 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
   })
 
   it('0x44 rideObject:相机已偏离居中 → 骑乘移动 camera += step 保偏移,不绝对回正', () => {
-    const { gs, bus } = setup([{ id: 5, x: 200, y: 100, spriteNum: 1 }])
+    const { gs } = setup([{ id: 5, x: 200, y: 100, spriteNum: 1 }])
     gs.party = { x: 160, y: 112, facing: 'down' }
     gs.camera = { x: 128, y: -96 } // 偏离居中(偏移 32,208)
     // target (10,7,0) → tx=320 ty=112=party.y → xOffset=160→dx=8, yOffset=0→dy=0
     loadEvent(gs, [{ op: 'raw', opcode: OP_RIDE_OBJECT_4, operands: [10, 7, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party).toMatchObject({ x: 168, y: 112 })
     expect(gs.npcs[0]).toMatchObject({ x: 208, y: 100 }) // 骑乘对象同步 +8
     expect(gs.camera).toEqual({ x: 136, y: -96 }) // camera += (8,0) 保偏移
@@ -2161,7 +2178,7 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
       { x: 1328, y: 1288, dir: 'down' },
     ]
     gs.npcs = [{ id: 5, x: 1328, y: 1340, spriteNum: 1 }] // 骑乘对象 = self
-    const bus = createCommandBus()
+
     // 0xA1 摆位 → 0x44 骑乘到远目标(多步)→ end
     loadEvent(gs, [
       { op: 'raw', opcode: 0xa1, operands: [0, 0, 0] },
@@ -2187,7 +2204,7 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
 
     // 跑 5 个 tick(tick1 = 0xA1 + 骑乘 step1,其后每 tick 一步);每步后阿奴必须重叠队长。
     for (let i = 0; i < 5; i++) {
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.walkingFrame.walking).toBe(false) // 骑乘 = PAL_GameUpdate(FALSE),站立 pose
       const f = followerWorld()
       expect(f.x).toBe(gs.party.x) // 重叠:同列
@@ -2197,14 +2214,14 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
 
   it('0x4C monsterChase:无障碍 → 朝 party 走 1 步 + 设朝向(script.c:309-501)', () => {
     setObstacleChecker(null) // 无 checker → isObstacle 恒 false(无障碍)
-    const { gs, bus } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'up' }])
+    const { gs } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'up' }])
     gs.party.x = 100
     gs.party.y = 60 // party 在怪左下方,x=-32 y=10(均非 0,不触发 random)
     gs.wChaseRange = 1
     // op0=maxDist(默认 8),op1=speed(默认 4),op2=floating(0)
     loadEvent(gs, [{ op: 'raw', opcode: OP_MONSTER_CHASE, operands: [0, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 4
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('down') // x<0,y>=0 → kDirSouth=down
     expect(gs.npcs[0]?.x).toBe(124) // 132 + (-2 * speed4)
     expect(gs.npcs[0]?.y).toBe(54) // 50 + (1 * speed4)
@@ -2223,7 +2240,7 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
         { op: 'end' },
       ])
       cursorOf(ground.gs).currentEventObjectId = 4
-      tickEventSystem(ground.gs, snap(), ground.bus)
+      tickEventSystem(ground.gs, snap())
       expect(obstacle).toHaveBeenCalled()
 
       obstacle.mockClear()
@@ -2236,7 +2253,7 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
         { op: 'end' },
       ])
       cursorOf(floating.gs).currentEventObjectId = 4
-      tickEventSystem(floating.gs, snap(), floating.bus)
+      tickEventSystem(floating.gs, snap())
       expect(obstacle).not.toHaveBeenCalled()
       expect(floating.gs.npcs[0]).toMatchObject({ x: 124, y: 54 })
     } finally {
@@ -2246,14 +2263,14 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
 
   it('0x4C monsterChase:wChaseRange==0(驱魔香)→ 原地打转换向,不位移', () => {
     setObstacleChecker(null)
-    const { gs, bus } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'down' }])
+    const { gs } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'down' }])
     gs.party.x = 100
     gs.party.y = 60
     gs.wChaseRange = 0
     gs.frameNum = 1 // 奇帧 → 换向
     loadEvent(gs, [{ op: 'raw', opcode: OP_MONSTER_CHASE, operands: [0, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 4
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('left') // down(0) → +1 → left(1)
     expect(gs.npcs[0]?.x).toBe(132) // wMonsterSpeed=0 → 不位移
     expect(gs.npcs[0]?.y).toBe(50)
@@ -2276,14 +2293,14 @@ describe('opcode 0x0005 redrawScreen / PAL_ClearDialog(TRUE)(sdlpal script.c:326
 
   it('无 dialog → sdlpal UTIL_Delay(60ms):设 waiting=delay,延时完才 ip++ 续跑(script.c:3293)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 5, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // 0x05 redraw 不再立即续跑:设 time-based delay(60ms)—— 走一步序列(0x0B-0x0E)逐帧动画的节拍源
     expect(gs.eventCursor?.waiting).toBe('delay')
     expect(gs.dialogBox).toBeUndefined()
     cursorOf(gs).delayUntilMs = 0 // 强制延时已过(测试不实际等 60ms)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.mode).toBe('explore') // 延时完 → ip++ → end
   })
 })
@@ -2291,14 +2308,14 @@ describe('opcode 0x0005 redrawScreen / PAL_ClearDialog(TRUE)(sdlpal script.c:326
 describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
   it('trail unshift + party.x/y += operand[0]/[1](SHORT)+ wLayer 设', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'right' })
-    const bus = createCommandBus()
+
     gs.trail = [{ x: 84, y: 42, dir: 'right' }]
     loadEvent(gs, [
       // operand[0] = 16(向右),operand[1] = 8,operand[2] = 1 → wLayer = 8
       { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [16, 8, 1] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(116)
     expect(gs.party.y).toBe(58)
     expect(gs.wLayer).toBe(8)
@@ -2309,13 +2326,13 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
 
   it('trail 已 5 项 → unshift 后截至长度 5', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.trail = Array.from({ length: 5 }, (_, i) => ({ x: i, y: i, dir: 'down' as const }))
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 8, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.trail).toHaveLength(5)
     expect(gs.trail[0]).toEqual({ x: 100, y: 50, dir: 'down' })
   })
@@ -2325,7 +2342,7 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
   //   单步 unshift / cap5 / 单帧 follower 位置已分散测;此处补**连续走的完整时序**(B2 残留)。
   it('B2 连走 4 步 → trail 逐步 unshift 累积 leader 历史 + follower 滞后跟随', () => {
     const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.trail = [{ x: 100, y: 100, dir: 'down' }] // 起点
     // op6e unshift 用"走前"的 party 位置(scene.c:2097-2101);每步 +16 y(向下)
     loadEvent(gs, [
@@ -2335,7 +2352,7 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
       { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus) // 无 waitable,一 tick 跑完 4 步
+    tickEventSystem(gs, snap()) // 无 waitable,一 tick 跑完 4 步
     expect(gs.party).toMatchObject({ x: 100, y: 164 }) // 100 + 4*16
     // trail = [第4步走前, 第3步走前, 第2步走前, 第1步走前, 初始残留](cap 5,最近在前)
     expect(gs.trail).toHaveLength(5)
@@ -2348,26 +2365,26 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
 
   it('operand[0]==0 && operand[1]==0 → 不推 stepFrame(sdlpal 真值)', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.walkingFrame = { stepFrame: 2, walking: false }
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.walkingFrame.stepFrame).toBe(2)
     expect(gs.walkingFrame.walking).toBe(false)
   })
 
   it('密道帧修:0x6E 设 walking=true 后,0x15 给 leader 设 pose → 清 walking(scene1 李逍遥爬密道帧错乱根因)', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] }, // 移动 → 0x6E 设 walking=true
       { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [0, 4, 0] }, // leader pose 帧 = dir0*3+4 = 4
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // sdlpal 0x15 写 rgParty.wFrame 覆盖步频(script.c:737)→ ts:0x15 清 walking,present 用 scriptedFrame
     //   (密道爬帧 chunk193[4]),否则 0x6E 的 walking=true 把爬帧拽成步频帧 0,1,0,2。
     expect(gs.partyScriptedFrame[0]).toBe(4)
@@ -2376,13 +2393,13 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
 
   it('0x15 给 follower(member>0)设 pose 不清 leader walking(只 leader 帧被 0x15 覆盖)', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] }, // walking=true
       { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [0, 4, 1] }, // member 1(follower)
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.walkingFrame.walking).toBe(true) // leader walking 不被 follower 的 0x15 清(gate member===0)
   })
 })
@@ -2635,33 +2652,33 @@ describe('对话期触发 NPC 的 autoScript 冻结 — NPC 转向玩家后保�
 describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4', () => {
   it('operand[0]=0 → silent no-op', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 0 }]
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [0, 5, 0] },
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(0) // 未改
   })
 
   it('operand[0]=0xFFFF → self;operand[1] → sState', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 11, x: 0, y: 0, spriteNum: 628, sState: 1 }]
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [0xffff, -1 & 0xffff, 0] },
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 11
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(-1)
   })
 
   it('operand[0]=explicit NPC id(1-based)→ 选别的 NPC', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [
       { id: 0, x: 0, y: 0, spriteNum: 1, sState: 0 },
       { id: 11, x: 0, y: 0, spriteNum: 628, sState: 0 },
@@ -2672,14 +2689,14 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(0) // 未改
     expect(gs.npcs[1]?.sState).toBe(3)
   })
 
   it('跨 scene:目标不在当前 scene → 回退全局 allEventObjects 改状态(客栈苗人→房间苗人显形)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // 当前 scene 只有 id 59(客栈苗人头领);房间苗人头领是全局 obj 24(sState=0 隐藏),不在当前 scene。
     const roomMiao = { id: 24, x: 544, y: 288, spriteNum: 207, sState: 0 }
     gs.npcs = [{ id: 59, x: 0, y: 0, spriteNum: 207, sState: 2 }]
@@ -2696,7 +2713,7 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 59
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(roomMiao.sState).toBe(2) // 跨 scene 改到全局对象,进房间时 slice 引用即显形
   })
 
@@ -2708,13 +2725,13 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 }, // 触发 cutscene 的 self
       { id: 62, x: 100, y: 100, spriteNum: 56, sState: 2, triggerLabel: 'L_601' }, // 酒剑仙
     ]
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x25, operands: [63, 604, 0] }, // op0=63 → id62,trigger → L_604
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[1]?.triggerLabel).toBe('L_604') // 酒剑仙(operand[0] 选)改了
     expect(gs.npcs[0]?.triggerLabel).toBeUndefined() // self(id5)没动(旧 bug 会误改 self)
   })
@@ -2736,29 +2753,29 @@ describe('opcode 0x0086 jumpIfNotEquipped — op1=0 缺省按 1(镜像 sdlpal#32
 
   it('未佩戴玉佛珠(count=0)+ op1=0 → 跳到挡回分支(修复前会误放行)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadGate(gs, 0) // 默认 partyMembers=[0]、无装备 → count=0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogBox?.currentLineText).toBe('BLOCKED')
   })
 
   it('已佩戴玉佛珠(count=1)+ op1=0 → 不跳,正常进入', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.partyMembers = [0, 1]
     setEquip(gs, 0, 1, 274) // 赵灵儿(role 1)饰品槽装玉佛珠
     loadGate(gs, 0)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogBox?.currentLineText).toBe('PASS')
   })
 
   it('op1 显式 ≥1 不受影响(需 2 件、仅 1 件 → 仍跳)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.partyMembers = [0, 1]
     setEquip(gs, 0, 1, 274) // count=1
     loadGate(gs, 2)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogBox?.currentLineText).toBe('BLOCKED') // 1 < 2 → 跳
   })
 })
@@ -2768,7 +2785,7 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
     // 客栈李大娘苗人演出 L_285 以 0x01 收尾 → sdlpal 推进 wTriggerScript 到下一条("记得喔"),
     // 再接触不重播全段。旧实现不持久化 → 重播(2026-05-28 user 发现)。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 56, x: 0, y: 0, spriteNum: 21, sState: 2 }]
     const commands: Command[] = [
       { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [1, 0, 0] }, // 0: 演出
@@ -2778,7 +2795,7 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
     ]
     gs.eventCursor = { commands, labelMap: {}, ip: 0, currentEventObjectId: 56, triggerOwnerId: 56 }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), bus) // 跑 ip0 raw → ip1 end advance → 持久化 + 结束
+    tickEventSystem(gs, snap()) // 跑 ip0 raw → ip1 end advance → 持久化 + 结束
     expect(gs.mode).toBe('explore')
     expect(gs.npcs[0]?.triggerResume?.ip).toBe(2) // 续跑指 idx2,不重播 idx0
     // P2#5:triggerResume 只存全局 ip(不内嵌 commands)→ 续跑时默认读单一全局数组。
@@ -2788,7 +2805,7 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
   it('0x00 plain:trigger 跑完 → triggerResume **不动**(sdlpal 返回起始 entry,原地可重触发)', () => {
     // 已推进到续跑点(idx 5)的 trigger 再跑、以 plain 收尾 → 应停在 idx 5(原地),不回退重播。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const commands: Command[] = [
       { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [0, 0, 0] }, // 0..4 占位
       { op: 'end' },
@@ -2802,14 +2819,14 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
     gs.npcs = [{ id: 62, x: 0, y: 0, spriteNum: 56, sState: 2, triggerResume: resume }]
     gs.eventCursor = { commands, labelMap: {}, ip: 5, currentEventObjectId: 62, triggerOwnerId: 62 }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.triggerResume?.ip).toBe(5) // plain 不动 → 停在续跑点 5(不回退原点)
   })
 
   it('0x08 checkpoint:推进 resume 点到 0x08 后 + 继续跑;0x00 plain 不覆盖 → 重触发跳过 0x08 前内容(P2#6b)', () => {
     // 商店类:[内容..., 0x08, buyMenu, 0x00 end] — 重触发从 0x08 后续(不重播对话)。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.dwCash = 100
     gs.npcs = [{ id: 5, x: 0, y: 0, spriteNum: 1, sState: 2 }]
     const commands: Command[] = [
@@ -2820,14 +2837,14 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
     ]
     gs.eventCursor = { commands, labelMap: {}, ip: 0, currentEventObjectId: 5, triggerOwnerId: 5 }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(50) // 0x08 继续跑到 halveCash(没停)
     expect(gs.npcs[0]?.triggerResume?.ip).toBe(2) // checkpoint = 0x08 后(ip1→2);重触发跳过 ip0 giveItem
   })
 
   it('0x25 setTriggerScript:清 triggerResume(新 trigger label 生效,不被旧续跑点盖)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
       {
@@ -2845,7 +2862,7 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[1]?.triggerLabel).toBe('L_604')
     expect(gs.npcs[1]?.triggerResume).toBeUndefined() // 旧续跑点清掉 → L_604 生效
   })
@@ -2856,13 +2873,13 @@ describe('对话框样式复位(sdlpal PAL_EndDialog text.c:1814 → kDialogUppe
     // 厨房李大娘 L_560 直接 showDialog 没 setDialogStyle → 应继承 top 默认而非上段 cutscene 的
     // center/narration(2026-05-28 "逍遥快把酒菜"显示成居中框的根因)。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.currentDialogStyle = 'narration' // 上段 cutscene 残留
     loadEvent(gs, [
       { op: 'raw', opcode: 0x35, operands: [0, 0, 0] }, // 任意非对话 raw(shakeScreen stub)
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.currentDialogStyle).toBe('top') // PAL_EndDialog 复位
   })
 })
@@ -2870,24 +2887,24 @@ describe('对话框样式复位(sdlpal PAL_EndDialog text.c:1814 → kDialogUppe
 describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () => {
   it('operand[0]=0 (主角) + operand[1]=spriteId → 写 runtime rgwSpriteNum + 兼容 partyLeaderSpriteId', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_PLAYER_SPRITE, operands: [0, 18, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwSpriteNum[0]).toBe(18)
     expect(gs.partyLeaderSpriteId).toBe(18)
   })
 
   it('operand[0] != 0(非主角)→ 写对应角色 rgwSpriteNum,不污染队长', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_PLAYER_SPRITE, operands: [1, 18, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwSpriteNum[1]).toBe(18)
     expect(gs.partyLeaderSpriteId).toBeUndefined()
   })
@@ -2941,13 +2958,13 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
 
   it('setDialogStyleBottom arg0=1 arg1=10 → portrait=1 + fontColor=10(显式 set,不 default)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'setDialogStyleBottom', arg0: 1, arg1: 10 },
       { op: 'showDialog', messageIndex: 0, text: 'A' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.currentDialogPortraitIcon).toBe(1)
     expect(gs.currentDialogFontColor).toBe(10)
     expect(gs.dialogBox?.portraitIcon).toBe(1)
@@ -2961,32 +2978,32 @@ describe('I-w1.a chest opcodes', () => {
   it('addCash(0x1E):正数加;u16 0xFFFF = signed -1', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 100
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x1e, operands: [200, 0, 0] },
       { op: 'raw', opcode: 0x1e, operands: [0xffff, 0, 0] }, // signed -1
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(299) // 100+200-1
   })
 
   it('addCash:钱足 → 扣钱继续(operand[0]<0 且够)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 100
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x1e, operands: [0xffce, 3, 0], label: 'L_0' }, // -50;cash=100≥50 → 扣
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(50) // 100-50
   })
 
   it('addCash:钱不足 → 跳 operand[1] 失败分支(sdlpal script.c:961,不再简版 clamp 到 0)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 10
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x1e, operands: [0xffce, 3, 0], label: 'L_0' }, // -50;cash=10<50 → 跳 L_3
       { op: 'raw', opcode: 0x1f, operands: [42, 1, 0] }, // 够钱分支给道具42(被跳过)
@@ -2994,16 +3011,16 @@ describe('I-w1.a chest opcodes', () => {
       { op: 'raw', opcode: 0x1f, operands: [99, 1, 0], label: 'L_3' }, // 失败分支给道具99
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(10) // 未扣(走 jump 分支)
     expect(gs.inventory).toEqual([{ itemId: 99, count: 1 }]) // 跳到 L_3 → 给道具99(非42)
   })
 
   it('addItem(0x1F):空 inventory → 新增条目', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x1f, operands: [42, 3, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.inventory).toEqual([{ itemId: 42, count: 3 }])
   })
 
@@ -3011,9 +3028,9 @@ describe('I-w1.a chest opcodes', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     setEquip(gs, 0, 0, 88) // role0 slot0 装备 item 88
     setEquipEffect(gs, 0, 'rgwAttackStrength', 0, 50) // 该装备的攻击加成
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x23, operands: [0, 0, 0] }, { op: 'end' }]) // role0 全卸
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwEquipment[0]?.[0]).toBe(0) // 装备卸下
     expect(gs.rgEquipmentEffect[0]?.rgwAttackStrength[0]).toBe(0) // 加成撤销(此前残留 50)
     expect(gs.inventory.find((e) => e.itemId === 88)?.count).toBe(1) // 回包
@@ -3023,10 +3040,10 @@ describe('I-w1.a chest opcodes', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwHP[0] = 100 // 活人
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x2d, operands: [6, 20, 0] }, { op: 'end' }]) // statusId 6=Protect dur 20
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgPlayerStatus[0]?.[6]).toBe(20) // 此前 stub → 0
   })
 
@@ -3035,10 +3052,10 @@ describe('I-w1.a chest opcodes', () => {
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwHP[0] = 100
     gs.fScriptSuccess = true
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x2d, operands: [4, 20, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgPlayerStatus[0]?.[4]).toBe(0)
     expect(gs.fScriptSuccess).toBe(false)
   })
@@ -3047,10 +3064,10 @@ describe('I-w1.a chest opcodes', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     setStatus(gs, 0, 2, 5) // sleep 5
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x2f, operands: [2, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgPlayerStatus[0]?.[2]).toBe(0)
   })
 
@@ -3058,10 +3075,10 @@ describe('I-w1.a chest opcodes', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     setStatus(gs, 0, 8, 32760) // 装备授 DualAttack 永久哨兵
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x2f, operands: [8, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgPlayerStatus[0]?.[8]).toBe(32760) // >999 不清
   })
 
@@ -3071,10 +3088,10 @@ describe('I-w1.a chest opcodes', () => {
     gs.PlayerRolesRuntime.rgwHP[0] = 0 // 死
     gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
     setStatus(gs, 0, 2, 5) // sleep
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x22, operands: [0, 5, 0] }, { op: 'end' }]) // 单体复活 50%
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 复活
     expect(gs.rgPlayerStatus[0]?.[2]).toBe(0) // 状态清(此前残留)
   })
@@ -3085,12 +3102,12 @@ describe('I-w1.a chest opcodes', () => {
     //   重设装备授予的状态;我方此前漏调 → 连续游玩(无存读档)下归队不重建。此处验证 OP_SET_PARTY
     //   现会触发装备重建(实际重建 / 0x2D→DualAttack 见 equip-effect.test.ts)。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const refresh = vi.fn()
     setRefreshEquipmentsHandler(refresh)
     try {
       loadEvent(gs, [{ op: 'raw', opcode: OP_SET_PARTY, operands: [1, 2, 0] }, { op: 'end' }]) // 李逍遥+赵灵儿
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
     } finally {
       setRefreshEquipmentsHandler(null)
     }
@@ -3103,9 +3120,9 @@ describe('I-w1.a chest opcodes', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 42, count: 3 }]
     gs.partyMembers = [0]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x20, operands: [42, 2, 100] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.inventory.find((e) => e.itemId === 42)?.count).toBe(1) // 3-2
   })
 
@@ -3115,9 +3132,9 @@ describe('I-w1.a chest opcodes', () => {
     gs.partyMembers = [0]
     setEquip(gs, 1, 0, 42) // role0 slot1 装备 item42
     setEquipEffect(gs, 1, 'rgwDefense', 0, 30)
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x20, operands: [42, 1, 0] }, { op: 'end' }]) // op[2]=0 无失败分支
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwEquipment[1]?.[0]).toBe(0) // 装备被消耗
     expect(gs.rgEquipmentEffect[1]?.rgwDefense[0]).toBe(0) // 效果撤销
   })
@@ -3126,7 +3143,7 @@ describe('I-w1.a chest opcodes', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = []
     gs.partyMembers = [0]
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x20, operands: [42, 1, 3], label: 'L_0' }, // 不足 + op[2]=3 → 跳 L_3
       { op: 'raw', opcode: 0x1f, operands: [99, 1, 0] }, // 成功路径给 99(跳过)
@@ -3134,7 +3151,7 @@ describe('I-w1.a chest opcodes', () => {
       { op: 'raw', opcode: 0x1f, operands: [88, 1, 0], label: 'L_3' }, // 失败分支给 88
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.inventory.find((e) => e.itemId === 88)?.count).toBe(1) // 跳到失败分支
     expect(gs.inventory.find((e) => e.itemId === 99)).toBeUndefined() // 成功路径未走
   })
@@ -3142,35 +3159,35 @@ describe('I-w1.a chest opcodes', () => {
   it('addItem:已有 itemId → count 累加', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 42, count: 2 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x1f, operands: [42, 5, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.inventory).toEqual([{ itemId: 42, count: 7 }])
   })
 
   it('removeItem(0x20):qty=0 默认按 1 移除', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 42, count: 3 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x20, operands: [42, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.inventory).toEqual([{ itemId: 42, count: 2 }])
   })
 
   it('removeItem:count 减到 0 → entry 从 inventory 删除', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 42, count: 1 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x20, operands: [42, 1, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.inventory).toEqual([])
   })
 
   it('playSound(0x47):push gs.pendingSounds + ip++(shell audio drain 播)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x47, operands: [10, 0, 0] }, { op: 'end' }])
-    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(() => tickEventSystem(gs, snap())).not.toThrow()
     expect(gs.mode).toBe('explore') // 一帧跑完
     expect(gs.pendingSounds).toEqual([10]) // soundId 入队供 shell AudioManager 播
   })
@@ -3181,10 +3198,10 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
   it('setObjectPosRelParty(0x12):pCurrent.x = operand[1] + party.x', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
     gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 1 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x12, operands: [0, 16, 8] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 7
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.x).toBe(116) // 16 + 100
     expect(gs.npcs[0]?.y).toBe(58) // 8 + 50
   })
@@ -3206,14 +3223,13 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
     ]
     setGlobalEvents(globalCmds)
     try {
-      const bus = createCommandBus()
       loadEvent(gs, [
         // operand[0]=0xFFFF(self),operand[1]=42(全局 entry → L_42)
         { op: 'raw', opcode: 0x24, operands: [0xffff, 42, 0] },
         { op: 'end' },
       ])
       cursorOf(gs).currentEventObjectId = 3
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.npcs[0]?.autoLabel).toBe('L_42')
       expect(gs.npcs[0]?.autoCursor?.ip).toBe(7) // 全局 ip
       // P2#5:autoCursor 只存全局 ip(无 labelMap override)→ 默认读全局数组。
@@ -3231,10 +3247,9 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
     const globalCmds: Command[] = [{ op: 'end', label: 'L_406' }]
     setGlobalEvents(globalCmds)
     try {
-      const bus = createCommandBus()
       loadEvent(gs, [{ op: 'raw', opcode: 0x24, operands: [0xffff, 406, 0] }, { op: 'end' }])
       cursorOf(gs).currentEventObjectId = 3
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.npcs[0]?.autoCursor?.ip).toBe(0) // 全局 ip(L_406)
       // P2#5:autoCursor 不内嵌 commands(默认读全局数组),不再"指向 shared 切片来源"。
       expect(gs.npcs[0]?.autoCursor?.commands).toBeUndefined()
@@ -3246,28 +3261,28 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
   it('setAutoScript:operand[0]==0 → no-op(sdlpal `if (operand[0] != 0)` 真值)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 5 } }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x24, operands: [0, 99, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 5 }) // 未改
   })
 
   it('setAutoScript:operand[1]=0 → 清空 autoCursor', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 5 } }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x24, operands: [0xffff, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.autoCursor).toBeUndefined()
   })
 
   it('shakeScreen(0x35):op0=10,op1=4 → shakeTime=10,shakeLevel=4(script.c:1521-1535)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x35, operands: [10, 4, 0] }, { op: 'end' }])
-    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(() => tickEventSystem(gs, snap())).not.toThrow()
     expect(gs.mode).toBe('explore')
     expect(gs.shakeTime).toBe(10)
     expect(gs.shakeLevel).toBe(4)
@@ -3275,21 +3290,21 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
 
   it('shakeScreen(0x35):op1=0 → shakeLevel 默认 4(script.c:1527 if(i==0)i=4)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x35, operands: [7, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.shakeTime).toBe(7)
     expect(gs.shakeLevel).toBe(4)
   })
 
   it('shakeScreen(0x35):op0=0 → shakeTime=0 立即复位关抖(script.c:1531-1534)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // 先设一次摇晃,再 op0=0 复位
     gs.shakeTime = 99
     gs.shakeLevel = 8
     loadEvent(gs, [{ op: 'raw', opcode: 0x35, operands: [0, 8, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.shakeTime).toBe(0)
     // level 仍写入(sdlpal VIDEO_ShakeScreen 无条件写 g_wShakeLevel),但 shakeTime=0 → present 不抖
     expect(gs.shakeLevel).toBe(8)
@@ -3297,9 +3312,9 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
 
   it('shakeScreen(0x35):op0=5,op1=8 → shakeTime=5,shakeLevel=8(非默认 level)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x35, operands: [5, 8, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.shakeTime).toBe(5)
     expect(gs.shakeLevel).toBe(8)
   })
@@ -3311,10 +3326,10 @@ describe('I-w1.c NPC contact opcodes', () => {
   it('walkOneStep dir=South(0x0B):facing=down,位移 (-4,+2)(PAL_NPCWalkOneStep iSpeed=2)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 5, x: 100, y: 50, spriteNum: 1, sState: 1 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x0b, operands: [0, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('down')
     expect(gs.npcs[0]?.x).toBe(96) // 100 + (-2*2)
     expect(gs.npcs[0]?.y).toBe(52) // 50 + (1*2)
@@ -3323,10 +3338,10 @@ describe('I-w1.c NPC contact opcodes', () => {
   it('walkOneStep dir=East(0x0E):facing=right,位移 (+4,+2)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 5, x: 100, y: 50, spriteNum: 1, sState: 1 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x0e, operands: [0, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.facing).toBe('right')
     expect(gs.npcs[0]?.x).toBe(104) // 100 + (2*2)
     expect(gs.npcs[0]?.y).toBe(52) // 50 + (1*2)
@@ -3337,10 +3352,10 @@ describe('I-w1.c NPC contact opcodes', () => {
     for (let i = 0; i < 4; i++) {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gs.npcs = [{ id: 5, x: 100, y: 50, spriteNum: 1, sState: 1 }]
-      const bus = createCommandBus()
+
       loadEvent(gs, [{ op: 'raw', opcode: 0x0b + i, operands: [0, 0, 0] }, { op: 'end' }])
       cursorOf(gs).currentEventObjectId = 5
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.npcs[0]?.facing).toBe(dirs[i])
     }
   })
@@ -3349,7 +3364,7 @@ describe('I-w1.c NPC contact opcodes', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // 设 chest NPC 在 (100, 50),trigger script 跑:加 1 个 item 42 + 隐藏自己 + 显对话框
     gs.npcs = [{ id: 9, x: 100, y: 50, spriteNum: 1, sState: 1, triggerLabel: 'L_chest' }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x1f, operands: [42, 1, 0], label: 'L_chest' }, // addItem 42 x1
       { op: 'raw', opcode: 0x49, operands: [0xffff, 0, 0] }, // setSceneObjectState self → 0 (Hidden)
@@ -3357,7 +3372,7 @@ describe('I-w1.c NPC contact opcodes', () => {
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 9
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // 跑到 showDialog 时停在 dialog 等键
     expect(gs.inventory).toEqual([{ itemId: 42, count: 1 }])
     expect(gs.npcs[0]?.sState).toBe(0)
@@ -3367,7 +3382,7 @@ describe('I-w1.c NPC contact opcodes', () => {
   it('walkOneStep 推进 scriptedFrame mod 4(动画循环)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 5, x: 100, y: 50, spriteNum: 1, sState: 1 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x0b, operands: [0, 0, 0] },
       { op: 'raw', opcode: 0x0b, operands: [0, 0, 0] },
@@ -3377,7 +3392,7 @@ describe('I-w1.c NPC contact opcodes', () => {
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.scriptedFrame).toBe(0) // (-1+1)%4=0 → 1 → 2 → 3 → 0
   })
 })
@@ -3636,16 +3651,16 @@ describe('narration dialog 自动消失(sdlpal text.c:1701 PAL_DialogWaitForKeyW
   it('narration:跑满 14 帧(1.4s @10fps)自动消失,无需 Confirm', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.currentDialogStyle = 'narration'
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'showDialog', text: '得到净衣符', messageIndex: 0 }, { op: 'end' }])
     // tick 1:showDialog 建 narration 框
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dialogBox?.style).toBe('narration')
     // 不按任何键,跑 12 帧仍在显示(< 14)
-    for (let i = 0; i < 12; i++) tickEventSystem(gs, snap(), bus)
+    for (let i = 0; i < 12; i++) tickEventSystem(gs, snap())
     expect(gs.dialogBox).toBeDefined()
     // 再跑几帧凑满 14 → 自动消失(全程无 Confirm)
-    for (let i = 0; i < 5; i++) tickEventSystem(gs, snap(), bus)
+    for (let i = 0; i < 5; i++) tickEventSystem(gs, snap())
     expect(gs.dialogBox).toBeUndefined()
   })
 
@@ -3654,11 +3669,11 @@ describe('narration dialog 自动消失(sdlpal text.c:1701 PAL_DialogWaitForKeyW
     for (const key of ['Confirm', 'Cancel', 'Down', 'Menu'] as const) {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gs.currentDialogStyle = 'narration'
-      const bus = createCommandBus()
+
       loadEvent(gs, [{ op: 'showDialog', text: '得到净衣符', messageIndex: 0 }, { op: 'end' }])
-      tickEventSystem(gs, snap(), bus) // 建框
+      tickEventSystem(gs, snap()) // 建框
       expect(gs.dialogBox).toBeDefined()
-      tickEventSystem(gs, snap([key]), bus) // 任意键 → 立即消失
+      tickEventSystem(gs, snap([key])) // 任意键 → 立即消失
       expect(gs.dialogBox, `key=${key} 应能关闭 narration`).toBeUndefined()
     }
   })
@@ -3666,11 +3681,11 @@ describe('narration dialog 自动消失(sdlpal text.c:1701 PAL_DialogWaitForKeyW
   it('narration 消失后 cursor 继续推进(后续 opcode 不被阻塞)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.currentDialogStyle = 'narration'
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'showDialog', text: '得到大蒜', messageIndex: 0 }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus) // 建框
+    tickEventSystem(gs, snap()) // 建框
     // Confirm 提前关 → 同 tick fall-through 跑 'end' → eventCursor 清空 → 回 explore
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']))
     expect(gs.dialogBox).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.mode).toBe('explore')
@@ -3681,20 +3696,19 @@ describe('0x81 jumpIfNotFacing(用桂花酒对酒剑仙 — 设对象 triggerMod
   it('面对 → pCurrent(operand[0] 选的对象,非 self)triggerMode = 5+op1(应用 applyToAll 物品 self=0xFFFF)', () => {
     // facing up 几何:pCurrent.x=116,y=42 → fx=fy=0 命中(< op1*32+16)。
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'up' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 5, x: 116, y: 42, spriteNum: 1, sState: 1, triggerMode: 1 }]
     loadEvent(gs, [
       { op: 'raw', opcode: 0x81, operands: [6, 1, 999] }, // op0=6→id5,op1=1
       { op: 'end' },
     ])
     cursorOf(gs).currentEventObjectId = 0xffff // applyToAll 物品上下文(self 找不到)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.triggerMode).toBe(6) // 5+op1=6,设到 pCurrent(id5)非 self
     expect(gs.fScriptSuccess).toBe(true)
   })
 
   it('未面对 / 对象不存在 → jump op2 且 fScriptSuccess=false(script.c:2402/2432)', () => {
-    const bus = createCommandBus()
     const gsMiss = createInitialGameState({ x: 100, y: 50, facing: 'down' })
     gsMiss.npcs = [{ id: 5, x: 116, y: 42, spriteNum: 1, sState: 1, triggerMode: 1 }]
     gsMiss.fScriptSuccess = true
@@ -3704,7 +3718,7 @@ describe('0x81 jumpIfNotFacing(用桂花酒对酒剑仙 — 设对象 triggerMod
       { op: 'end' },
     ])
     cursorOf(gsMiss).currentEventObjectId = 0xffff
-    tickEventSystem(gsMiss, snap(), bus)
+    tickEventSystem(gsMiss, snap())
     expect(gsMiss.iCurPlayingRNG).toBe(0)
     expect(gsMiss.fScriptSuccess).toBe(false)
 
@@ -3715,7 +3729,7 @@ describe('0x81 jumpIfNotFacing(用桂花酒对酒剑仙 — 设对象 triggerMod
       { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gsMissing, snap(), bus)
+    tickEventSystem(gsMissing, snap())
     expect(gsMissing.iCurPlayingRNG).toBe(0)
     expect(gsMissing.fScriptSuccess).toBe(false)
   })
@@ -3724,14 +3738,14 @@ describe('0x81 jumpIfNotFacing(用桂花酒对酒剑仙 — 设对象 triggerMod
 describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent,非 self)', () => {
   it('0x12 setObjectPosRelParty:operand[0] 选对象(非 self)→ 设该对象相对 party 位置', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 }, // self(触发者)
       { id: 7, x: 0, y: 0, spriteNum: 1, sState: 1 }, // op0 选的对象
     ]
     loadEvent(gs, [{ op: 'raw', opcode: 0x12, operands: [8, 16, 8] }, { op: 'end' }]) // op0=8→id7
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[1]?.x).toBe(116) // id7 = op1 + party.x(非 self id5)
     expect(gs.npcs[1]?.y).toBe(58)
     expect(gs.npcs[0]?.x).toBe(0) // self(id5)未动
@@ -3739,25 +3753,25 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
 
   it('0x6F syncObjState:pCurrent.sState==op1 → pEvtObj(self).sState=op1', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.npcs = [
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 0 }, // self(pEvtObj)
       { id: 7, x: 0, y: 0, spriteNum: 1, sState: 2 }, // pCurrent(op0 选)
     ]
     loadEvent(gs, [{ op: 'raw', opcode: 0x6f, operands: [8, 2, 0] }, { op: 'end' }]) // op0=8→id7,op1=2
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(2) // pCurrent(id7).sState==2 → self(id5).sState=2
   })
 
   it('0x84 placeUsedItem:把 pCurrent(op0)放 party 正前方 + sState=op1(无障碍)', () => {
     setObstacleChecker(null) // 无 checker → 无障碍
     const gs = createInitialGameState({ x: 200, y: 100, facing: 'right' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 0 }]
     loadEvent(gs, [{ op: 'raw', opcode: 0x84, operands: [8, 1, 999] }, { op: 'end' }]) // op0=8→id7
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.x).toBe(216) // facing right → party.x + 16
     expect(gs.npcs[0]?.y).toBe(108) // party.y + 8
     expect(gs.npcs[0]?.sState).toBe(1) // sState = op1
@@ -3767,16 +3781,15 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
   it('0x84 placeUsedItem:sState op1 按 SHORT 写入,0xFFFF → -1', () => {
     setObstacleChecker(null)
     const gs = createInitialGameState({ x: 200, y: 100, facing: 'right' })
-    const bus = createCommandBus()
+
     gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 0 }]
     loadEvent(gs, [{ op: 'raw', opcode: 0x84, operands: [8, 0xffff, 999] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(-1)
   })
 
   it('0x83 jumpIfObjNotInZone:对象不在 zone / 当前对象缺失 → jump op2 且 fScriptSuccess=false(script.c:2448-2471)', () => {
-    const bus = createCommandBus()
     const gsFar = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gsFar.npcs = [
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
@@ -3789,7 +3802,7 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
       { op: 'end' },
     ])
     cursorOf(gsFar).currentEventObjectId = 5
-    tickEventSystem(gsFar, snap(), bus)
+    tickEventSystem(gsFar, snap())
     expect(gsFar.iCurPlayingRNG).toBe(0)
     expect(gsFar.fScriptSuccess).toBe(false)
 
@@ -3802,13 +3815,12 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
       { op: 'end' },
     ])
     cursorOf(gsMissingSelf).currentEventObjectId = 5
-    tickEventSystem(gsMissingSelf, snap(), bus)
+    tickEventSystem(gsMissingSelf, snap())
     expect(gsMissingSelf.iCurPlayingRNG).toBe(0)
     expect(gsMissingSelf.fScriptSuccess).toBe(false)
   })
 
   it('0x84 placeUsedItem:对象不存在或前方有障碍 → jump op2 且 fScriptSuccess=false(script.c:2484/2501)', () => {
-    const bus = createCommandBus()
     const gsMissing = createInitialGameState({ x: 200, y: 100, facing: 'right' })
     gsMissing.fScriptSuccess = true
     loadEvent(gsMissing, [
@@ -3816,7 +3828,7 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
       { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gsMissing, snap(), bus)
+    tickEventSystem(gsMissing, snap())
     expect(gsMissing.iCurPlayingRNG).toBe(0)
     expect(gsMissing.fScriptSuccess).toBe(false)
 
@@ -3830,7 +3842,7 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
         { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
         { op: 'end' },
       ])
-      tickEventSystem(gsBlocked, snap(), bus)
+      tickEventSystem(gsBlocked, snap())
       expect(gsBlocked.iCurPlayingRNG).toBe(0)
       expect(gsBlocked.fScriptSuccess).toBe(false)
       expect(gsBlocked.npcs[0]).toMatchObject({ x: 0, y: 0, sState: 0 })
@@ -3851,17 +3863,17 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 0 },
       { id: 6, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 0 },
     ]
-    const bus = createCommandBus()
+
     // operand[0]=0xFFFF → self(currentEventObjectId=5)
     loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [0xffff, 4, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.triggerMode).toBe(4) // self id5
     expect(gs.npcs[1]?.triggerMode).toBe(0) // 未动
     // operand[0]=7 → pCurrent = object[7-1=6] = id6(非 self)
     loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [7, 6, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[1]?.triggerMode).toBe(6) // pCurrent id6
     expect(gs.npcs[0]?.triggerMode).toBe(4) // self id5 不变
   })
@@ -3869,18 +3881,18 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
   it('0x40:operand[0]==0 → no-op(triggerMode 不变)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 5, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 6 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [0, 4, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.triggerMode).toBe(6) // 未改
   })
 
   it('0x55 addMagic:role=operand[1]-1,spell=operand[0] 填空槽(global.c:2084)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x55, operands: [350, 1, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // role 0(operand[1]=1 → 1-1=0)第一个空槽 = 350
     expect(gs.PlayerRolesRuntime.rgwMagic[0]?.[0]).toBe(350)
   })
@@ -3888,9 +3900,9 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
   it('0x55 addMagic:已学该法术 → no-op(不重复填槽)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     setMagic(gs, 0, 0, 350)
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x55, operands: [350, 1, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwMagic[0]?.[0]).toBe(350)
     expect(gs.PlayerRolesRuntime.rgwMagic[1]?.[0]).toBe(0) // 第二槽未被占
   })
@@ -3899,9 +3911,9 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     setMagic(gs, 0, 0, 350)
     setMagic(gs, 1, 0, 351)
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x56, operands: [350, 1, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwMagic[0]?.[0]).toBe(0) // 移除
     expect(gs.PlayerRolesRuntime.rgwMagic[1]?.[0]).toBe(351) // 其他不动
   })
@@ -3914,10 +3926,10 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
       { id: 6, x: 0, y: 0, spriteNum: 1, sState: 1 },
     ]
-    const bus = createCommandBus()
+
     // P0#2:operands [4,5,2] → i=4→idx3, i=5→idx4 → 设 id 3/4(不是旧错的 id 4/5)
     loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [4, 5, 2] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs.map((n) => n.sState)).toEqual([2, 2, 1, 1]) // id 3/4 改成 2
   })
 
@@ -3933,10 +3945,10 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
     ]
     gs.npcs = [gs.allEventObjects[4]!] // 当前 scene 只含 id 4(引用)
-    const bus = createCommandBus()
+
     // [4,6,2] → i=4/5/6 → idx 3/4/5 → 设 id 3/4/5,其中 3/5 只在全局表
     loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [4, 6, 2] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.allEventObjects.map((n) => n.sState)).toEqual([1, 1, 1, 2, 2, 2]) // id 3/4/5 全改(含跨 scene)
   })
 
@@ -3948,9 +3960,9 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
       { id: 2, x: 0, y: 0, spriteNum: 1, sState: 1 },
     ]
     gs.npcs = [gs.allEventObjects[1]!, gs.allEventObjects[2]!]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [2, 3, 0xffff] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.allEventObjects.map((n) => n.sState)).toEqual([1, -1, -1])
   })
 })
@@ -3960,18 +3972,18 @@ describe('A 类补全:0x8F / 0xA1 / 0x8D / 0x85', () => {
   it('0x8F halveCash:dwCash /= 2(向下取整)(script.c:2598-2603)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 101
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x8f, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(50)
   })
 
   it('0xA1 setAllPartyPos:全 trail(5 项)= 队首世界坐标 + 朝向(script.c:2998-3014)', () => {
     const gs = createInitialGameState({ x: 320, y: 240, facing: 'left' })
     gs.trail = [{ x: 1, y: 2, dir: 'up' }] // 旧 trail 被覆盖
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0xa1, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.trail).toHaveLength(5)
     for (const t of gs.trail) expect(t).toEqual({ x: 320, y: 240, dir: 'left' })
   })
@@ -3983,10 +3995,10 @@ describe('A 类补全:0x8F / 0xA1 / 0x8D / 0x85', () => {
     r.rgwMaxHP[0] = 100
     r.rgwAttackStrength[0] = 20
     gs.Exp.rgPrimaryExp[0] = { wExp: 999, wLevel: 5 }
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x8d, operands: [2, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 0 // role 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(r.rgwLevel[0]).toBe(7) // +2
     // 2 级:MaxHP += (10..17)×2 → [120,134];Atk += (4..5)×2 → [28,30]
     expect(r.rgwMaxHP[0]).toBeGreaterThanOrEqual(120)
@@ -3999,17 +4011,17 @@ describe('A 类补全:0x8F / 0xA1 / 0x8D / 0x85', () => {
   it('0x8D level clamp 99', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.PlayerRolesRuntime.rgwLevel[0] = 98
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x8d, operands: [5, 0, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(99)
   })
 
   it('0x85 delay:op0>0 → waiting=delay,到 delayUntilMs 后继续跑后续 opcode(script.c:2511-2516)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 100
-    const bus = createCommandBus()
+
     const t0 = 1000
     const spy = vi.spyOn(performance, 'now').mockReturnValue(t0)
     // 0:delay [3] → 240ms;1:halveCash(延迟后继续的证据);2:end
@@ -4018,18 +4030,18 @@ describe('A 类补全:0x8F / 0xA1 / 0x8D / 0x85', () => {
       { op: 'raw', opcode: 0x8f, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('delay')
     expect(gs.eventCursor?.delayUntilMs).toBe(t0 + 240)
     expect(gs.dwCash).toBe(100) // 还没跑到 halveCash
     // 未到点:仍等
     spy.mockReturnValue(t0 + 100)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('delay')
     expect(gs.dwCash).toBe(100)
     // 到点:清 waiting + 继续跑 halveCash
     spy.mockReturnValue(t0 + 240)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(50)
     spy.mockRestore()
   })
@@ -4037,13 +4049,13 @@ describe('A 类补全:0x8F / 0xA1 / 0x8D / 0x85', () => {
   it('0x85 delay op0=0 → 即时(不进 waiting,本 tick 继续)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 100
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x85, operands: [0, 0, 0] },
       { op: 'raw', opcode: 0x8f, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.dwCash).toBe(50) // op0=0 即时 → 同 tick 跑到 halveCash
   })
 })
@@ -4055,10 +4067,10 @@ describe('0x19/0x1A player-stat 行索引(sdlpal global.h tagPLAYERROLES 真值)
     const r = gs.PlayerRolesRuntime
     r.rgwAttackStrength[0] = 10
     r.rgwMagicStrength[0] = 20
-    const bus = createCommandBus()
+
     // operand: [row=17(AttackStrength), value=99, role+1=1→role0]
     loadEvent(gs, [{ op: 'raw', opcode: 0x1a, operands: [17, 99, 1] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(r.rgwAttackStrength[0]).toBe(99) // 旧错表会写到 MagicStrength → 这里仍是 10
     expect(r.rgwMagicStrength[0]).toBe(20) // 未被误写
   })
@@ -4069,14 +4081,14 @@ describe('0x19/0x1A player-stat 行索引(sdlpal global.h tagPLAYERROLES 真值)
     r.rgwLevel[0] = 3
     r.rgwMagicStrength[0] = 5
     r.rgwCoveredBy[0] = 0
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x19, operands: [6, 2, 1] }, // Level += 2
       { op: 'raw', opcode: 0x19, operands: [18, 7, 1] }, // MagicStrength += 7
       { op: 'raw', opcode: 0x1a, operands: [31, 1, 1] }, // CoveredBy = 1
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(r.rgwLevel[0]).toBe(5)
     expect(r.rgwMagicStrength[0]).toBe(12)
     expect(r.rgwCoveredBy[0]).toBe(1) // 旧错表 CoveredBy=28(写不进)→ 仍 0
@@ -4088,9 +4100,9 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
   it('默认 fScriptSuccess=true;0x41 markScriptFailed → false', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(gs.fScriptSuccess).toBe(true)
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x41, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.fScriptSuccess).toBe(false)
   })
 
@@ -4099,10 +4111,10 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs1.PlayerRolesRuntime.rgwHP[0] = 100
     gs1.PlayerRolesRuntime.rgwMaxHP[0] = 100
-    const bus = createCommandBus()
+
     loadEvent(gs1, [{ op: 'raw', opcode: 0x1b, operands: [0, 50, 0] }, { op: 'end' }])
     cursorOf(gs1).currentEventObjectId = 0
-    tickEventSystem(gs1, snap(), bus)
+    tickEventSystem(gs1, snap())
     expect(gs1.fScriptSuccess).toBe(false)
     // 受伤:HP=50 → +50 → 100(变化)→ 仍 true
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -4110,7 +4122,7 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
     gs2.PlayerRolesRuntime.rgwMaxHP[0] = 100
     loadEvent(gs2, [{ op: 'raw', opcode: 0x1b, operands: [0, 50, 0] }, { op: 'end' }])
     cursorOf(gs2).currentEventObjectId = 0
-    tickEventSystem(gs2, snap(), bus)
+    tickEventSystem(gs2, snap())
     expect(gs2.fScriptSuccess).toBe(true)
     expect(gs2.PlayerRolesRuntime.rgwHP[0]).toBe(100)
   })
@@ -4119,10 +4131,10 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.PlayerRolesRuntime.rgwHP[0] = 0 // 死人
     gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x1b, operands: [0, 50, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(0) // 死人 HP 不变(此前 bug:加成 50)
     expect(gs.fScriptSuccess).toBe(false) // 无变化 → false
   })
@@ -4131,16 +4143,15 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.PlayerRolesRuntime.rgwHP[0] = 30
     gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x22, operands: [0, 5, 0] }, { op: 'end' }])
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.fScriptSuccess).toBe(false)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(30) // 未复活
   })
 
   it('物品延迟消耗:脚本成功 → 扣 1;脚本 0x41 失败 → 不扣(play.c:298)', () => {
-    const bus = createCommandBus()
     // P2#5:item.scriptOnUse 是全局 entry → resolveScriptLabel 经全局 labelMap 解全局 ip。
     // 成功脚本:L_1 = 单条 end(无失败 opcode),落在单一全局数组 idx1。
     const gsOk = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -4160,7 +4171,7 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
       ).toBe(true)
       expect(gsOk.pendingItemConsume).toBe(5) // 延迟:还没扣
       expect(gsOk.inventory[0]?.count).toBe(3)
-      tickEventSystem(gsOk, snap(), bus)
+      tickEventSystem(gsOk, snap())
       expect(gsOk.inventory[0]?.count).toBe(2) // 脚本成功 → 扣 1
       expect(gsOk.pendingItemConsume).toBeUndefined()
     } finally {
@@ -4185,7 +4196,7 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
         }),
         0,
       )
-      tickEventSystem(gsFail, snap(), bus)
+      tickEventSystem(gsFail, snap())
       expect(gsFail.inventory[0]?.count).toBe(3) // 脚本失败 → 不扣
       expect(gsFail.pendingItemConsume).toBeUndefined()
     } finally {
@@ -4194,7 +4205,6 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
   })
 
   it('applyToAll 物品(0xFFFF)用完 → 关全菜单回 explore(桂花酒);非 applyToAll → 留菜单(INNER 循环)', () => {
-    const bus = createCommandBus()
     // P2#5:scriptOnUse=1 → 全局 L_1(idx1 = end)。
     setGlobalEvents([{ op: 'end' }, { op: 'end', label: 'L_1' }])
     try {
@@ -4211,7 +4221,7 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
         0xffff,
       ) // 桂花酒类:applyToAll consuming=false
       expect(gsAll.itemUseApplyToAll).toBe(true)
-      tickEventSystem(gsAll, snap(), bus) // L_1 = end → 脚本结束
+      tickEventSystem(gsAll, snap()) // L_1 = end → 脚本结束
       expect(gsAll.mode).toBe('explore')
       expect(gsAll.menuStack).toEqual([])
       expect(gsAll.itemUseApplyToAll).toBeUndefined()
@@ -4229,7 +4239,7 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
         0,
       )
       expect(gsOne.itemUseApplyToAll).toBe(false)
-      tickEventSystem(gsOne, snap(), bus)
+      tickEventSystem(gsOne, snap())
       expect(gsOne.mode).toBe('menu')
       expect(gsOne.menuStack.length).toBe(1)
     } finally {
@@ -4258,7 +4268,7 @@ function onEnterCursor(gs: GameState, commands: Command[], ip: number, sceneId: 
 describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
   it('0x01(advance)收尾 → sceneOnEnterIp 存 ip+1;重进从 0x00 跑不重播 cutscene', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const commands: Command[] = [
       { op: 'raw', opcode: 0x15, operands: [0, 0, 0] }, // ip0 cutscene 动作(重进不该再跑)
       { op: 'end', advance: true }, // ip1 0x01 收尾
@@ -4266,41 +4276,41 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     ]
     // 首次进 scene 2:从 ip0 跑
     onEnterCursor(gs, commands, 0, 2)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined() // onEnter 结束
     expect(gs.sceneOnEnterIp[2]).toBe(2) // 0x01@ip1 → ip1+1=2(下一条 0x00)
 
     // 重进 scene 2:用持久化的 override ip=2(0x00)
     onEnterCursor(gs, commands, gs.sceneOnEnterIp[2]!, 2)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneOnEnterIp[2]).toBe(2) // 0x00 → 原地不推进,cutscene(ip0)不再跑
   })
 
   it('0x00 直接收尾 → sceneOnEnterIp 存起始 ip(replay-in-place,"每次进都跑"的脚本)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     const commands: Command[] = [
       { op: 'raw', opcode: 0x15, operands: [0, 0, 0] }, // ip0
       { op: 'end' }, // ip1 0x00(无 advance)
     ]
     onEnterCursor(gs, commands, 0, 3)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneOnEnterIp[3]).toBe(0) // 0x00 → 返回起始 ip 0(下次仍从头跑)
   })
 
   it('onEnter 结束幂等清 sceneLoading(override 入口无 fadeScreen 也不残留)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.sceneLoading = true // P2#7:loadScene 设的"加载期跳渲染"标志(正常已在 loadSceneCommon 清)
     // override 入口 = 已推进过开场的 0x00(无 fadeScreen)
     onEnterCursor(gs, [{ op: 'end' }], 0, 2)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneLoading).toBe(false) // onEnter 结束 → 幂等清(防御:任何路径不残留)
   })
 
   it('0x08 checkpoint + 0x00 收尾 → sceneOnEnterIp 存 0x08 后,不被起始 ip 冲掉(隐龙窟救人演出重进重播根因)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // 仿隐龙窟救人 onEnter L_10708 末尾结构:[演出动作, 0x08, 收尾, 0x00 end](是 0x08+0x00,非 0x01)。
     const commands: Command[] = [
       { op: 'raw', opcode: 0x15, operands: [0, 0, 0] }, // ip0 演出(重进不该再跑)
@@ -4309,12 +4319,12 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
       { op: 'end' }, // ip3 0x00 plain stop
     ]
     onEnterCursor(gs, commands, 0, 5)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.sceneOnEnterIp[5]).toBe(2) // 0x08@ip1 → checkpoint ip2;**不是**起始 0(否则演出 ip0 重播)
     // 重进:从 checkpoint ip2 跑 → 跳过演出 ip0,仍停在 2
     onEnterCursor(gs, commands, gs.sceneOnEnterIp[5]!, 5)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneOnEnterIp[5]).toBe(2)
   })
 
@@ -4366,13 +4376,13 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     })
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       loadEvent(gs, [
         { op: 'loadScene', sceneId: 14 }, // ip0
         { op: 'raw', opcode: 0x46, operands: [21, 55, 0] }, // ip1 setPartyPos(续跑必须执行)
         { op: 'end' }, // ip2
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.party.x).toBe(21 * 32) // setPartyPos col21 → x=672(续跑没被抛弃;旧版会丢)
       expect(gs.sceneLoading).toBe(true) // reload 期间保留旧帧
       expect(loadedScene).toBe(14) // 脚本结束触发延迟 reload
@@ -4389,9 +4399,9 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gs.wLayer = 8 // 上一场景 0x6E 设的队伍层残留(operand*8)
-      const bus = createCommandBus()
+
       loadEvent(gs, [{ op: 'loadScene', sceneId: 14 }, { op: 'end' }])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.wLayer).toBe(0) // 换场景归 0(script.c:1883 gpGlobals->wLayer = 0)
       expect(loadedScene).toBe(14)
     } finally {
@@ -4409,12 +4419,12 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     })
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       loadEvent(gs, [
         { op: 'loadScene', sceneId: 15 }, // ip0:仙灵岛船渡目标(wNumScene 15)
         { op: 'end' }, // ip1:脚本结束 → triggerPendingSceneLoad
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       // 触发瞬间:sceneLoading=true(等 async),cursor 已被 end 清,mode=explore
       expect(gs.sceneLoading).toBe(true)
       // 等 _sceneLoader 的 reject + catch 兜底跑完(flush 微任务)
@@ -4450,24 +4460,24 @@ describe('A2 条件跳转 opcode', () => {
   it('0x95 jumpIfScene:wNumScene==op0 → 跳(L_99→x=640);不等 → fall-through(x=320)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.wNumScene = 5
-    const bus = createCommandBus()
+
     loadEvent(gs, jumpScript(0x95, [5, 99, 0])) // scene==5 → jump L_99
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(640) // 跳了
 
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs2.wNumScene = 6
     loadEvent(gs2, jumpScript(0x95, [5, 99, 0]))
-    tickEventSystem(gs2, snap(), createCommandBus())
+    tickEventSystem(gs2, snap())
     expect(gs2.party.x).toBe(320) // 没跳,fall-through
   })
 
   it('0x58 jumpIfItemLess:背包不足 op1 → 跳', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 7, count: 2 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, jumpScript(0x58, [7, 5, 99])) // item7 数量 2 < 5 → jump op2=99
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(640) // 数量不足 → 跳
   })
 
@@ -4475,31 +4485,31 @@ describe('A2 条件跳转 opcode', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwName[0] = 36 // 李逍遥 name=36
-    const bus = createCommandBus()
+
     loadEvent(gs, jumpScript(0x79, [36, 99, 0])) // name 36 在队伍 → jump op1=99
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(640)
   })
 
   it('0x94 jumpIfObjState:pCurrent.sState==op1 → 跳', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1, sState: 2 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, jumpScript(0x94, [5, 2, 99])) // obj id=5(op0-1=4) sState==2 → jump op2=99
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(640)
   })
 
   it('0xA2 randomJump:cursor.ip += RandomLong(0,op0-1)(op0=1 → offset 0,确定)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // op0=1 → RandomLong(0,0)=0 → ip += 0 → caller ip++ → ip1(setPartyPos 10,10 → x=320)
     loadEvent(gs, [
       { op: 'raw', opcode: 0xa2, operands: [1, 0, 0] }, // ip0
       { op: 'raw', opcode: 0x46, operands: [10, 10, 0] }, // ip1
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(320) // offset 0 → 跑 ip1
   })
 })
@@ -4510,9 +4520,9 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     gs.rgPoisonStatus = { '0_0': { wPoisonID: 5, wPoisonScript: 0 } }
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x75, operands: [1, 2, 3] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.partyMembers).toEqual([0, 1, 2]) // roleId = operand-1
     expect(gs.rgPoisonStatus).toEqual({}) // poison 清空
   })
@@ -4520,17 +4530,17 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
   it('0x75 setParty:全 0 → 兜底 [0](sdlpal HACK)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0, 1, 2]
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x75, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.partyMembers).toEqual([0])
   })
 
   it('0x90 setObjectScript:rgObject[op0].rgwData[2+op2]=op1(script.c:2605)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x90, operands: [42, 777, 1] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgObject[42]?.rgwData[3]).toBe(777) // idx = 2 + op2(1) = 3
   })
 
@@ -4550,10 +4560,10 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     ])
     try {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      const bus = createCommandBus()
+
       // 刀手对话尾 0x90 [454,0,0]:turnStart(rgwData[2])清 0,其余字段播种静态值
       loadEvent(gs, [{ op: 'raw', opcode: 0x90, operands: [454, 0, 0] }, { op: 'end' }])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(gs.rgObject[454]?.rgwData.slice(0, 5)).toEqual([57, 3, 0, 11, 22])
     } finally {
       setEnemyObjectsTable(null)
@@ -4567,9 +4577,9 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     gs.partyMembers = [0, 1]
     gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
     gs.PlayerRolesRuntime.rgwPoisonResistance[1] = 0
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x29, operands: [1, 5, 0] }, { op: 'end' }]) // applyAll poison=5
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 5, wPoisonScript: 40866 })
     expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 5, wPoisonScript: 40866 })
   })
@@ -4587,10 +4597,10 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwHP[0] = 200
     gs.rgPoisonStatus = { '0_0': { wPoisonID: 563, wPoisonScript: 0 } } // 只挂 level99 伪毒
-    const bus = createCommandBus()
+
     loadEvent(gs, cmds, 0)
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // level99 伪毒不算"中毒" → 0x61 跳过减血段 → HP 不变(修复前不看 level 会判中毒→不跳→HP 100)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(200)
   })
@@ -4608,10 +4618,10 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
     gs.PlayerRolesRuntime.rgwHP[0] = 50
-    const bus = createCommandBus()
+
     loadEvent(gs, cmds, 0)
     cursorOf(gs).currentEventObjectId = 0
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(70) // 入口脚本当下执行
     expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 5, wPoisonScript: 4 }) // L_20 后 advance → ip+1
   })
@@ -4621,9 +4631,9 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 100
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x29, operands: [1, 5, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgPoisonStatus['0_0']).toBeUndefined()
   })
 
@@ -4633,9 +4643,9 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
     gs.rgPoisonStatus = { '0_0': { wPoisonID: 5, wPoisonScript: 40866 } }
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x29, operands: [1, 5, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.rgPoisonStatus['1_0']).toBeUndefined() // 未加第二槽
   })
 
@@ -4657,21 +4667,21 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
 
   it('0x6D setSceneScripts:op1!=0 → sceneOnEnterOverride[op0]=op1;op1=0&&op2=0 → 0(清)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [3, 500, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneOnEnterOverride?.[3]).toBe(500)
 
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     loadEvent(gs2, [{ op: 'raw', opcode: 0x6d, operands: [3, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs2, snap(), createCommandBus())
+    tickEventSystem(gs2, snap())
     expect(gs2.sceneOnEnterOverride?.[3]).toBe(0) // 清
   })
 
   it('0x6D op2!=0 → sceneOnTeleportOverride[op0]=op2(script.c:2077-2081)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [5, 0, 9139] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.sceneOnTeleportOverride?.[5]).toBe(9139)
     expect(gs.sceneOnEnterOverride?.[5]).toBeUndefined() // op1=0 不动 onEnter(op2!=0,非 both-zero)
   })
@@ -4679,7 +4689,7 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
   it('0x6D op1!=0 && op2!=0 → 同时设 onEnter + onTeleport', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [5, 500, 9139] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.sceneOnEnterOverride?.[5]).toBe(500)
     expect(gs.sceneOnTeleportOverride?.[5]).toBe(9139)
   })
@@ -4688,25 +4698,25 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.sceneOnTeleportOverride = { 5: 9139 }
     loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [5, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.sceneOnEnterOverride?.[5]).toBe(0)
     expect(gs.sceneOnTeleportOverride?.[5]).toBe(0)
   })
 
   it('0x98 setFollower:operand[0..1]>0 → gs.followers + nFollower(script.c:2709)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x98, operands: [3, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.followers).toEqual([3]) // role id 直接(sdlpal 无 -1)
     expect(gs.nFollower).toBe(1)
   })
 
   it('0x99 changeMap:op0!=0xFFFF → sceneMapNumOverride[op0]=op1(script.c:2740)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: 0x99, operands: [5, 99, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneMapNumOverride?.[5]).toBe(99)
   })
 })
@@ -4716,7 +4726,7 @@ describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
   it('调用子脚本 → 跑完 → 返回 caller 下一条继续', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1, sState: 1 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x04, operands: [50, 0, 0] }, // ip0 call L_50
       { op: 'raw', opcode: 0x46, operands: [30, 30, 0] }, // ip1 返回后:setPartyPos → x=960
@@ -4724,7 +4734,7 @@ describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
       { label: 'L_50', op: 'raw', opcode: 0x49, operands: [5, 7, 0] }, // ip3 子脚本:npc id4 sState=7
       { op: 'end' }, // ip4 子脚本 end → 弹栈返回 ip1
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.sState).toBe(7) // 子脚本跑了(0x49)
     expect(gs.party.x).toBe(960) // 返回 caller 后继续跑了 ip1
     expect(gs.eventCursor).toBeUndefined() // 最终 end 清 cursor
@@ -4736,7 +4746,7 @@ describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
       { id: 4, x: 0, y: 0, spriteNum: 1, sState: 0 },
       { id: 5, x: 0, y: 0, spriteNum: 1, sState: 0 },
     ]
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x04, operands: [60, 0, 0] }, // ip0 call B(L_60)
       { op: 'raw', opcode: 0x46, operands: [30, 30, 0] }, // ip1 A 返回后 x=960
@@ -4747,7 +4757,7 @@ describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
       { label: 'L_80', op: 'raw', opcode: 0x49, operands: [6, 2, 0] }, // ip6 C:npc id5 sState=2
       { op: 'end' }, // ip7 C end → 返回 ip4
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[1]?.sState).toBe(2) // C 跑了
     expect(gs.npcs[0]?.sState).toBe(1) // B 返回后跑了
     expect(gs.party.x).toBe(960) // A 返回后跑了
@@ -4757,7 +4767,7 @@ describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
   it('op1!=0 → 子脚本内 currentEventObjectId 覆盖为 op1-1(作用于 op1 指定 npc)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 8, x: 0, y: 0, spriteNum: 1, sState: 1 }]
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: 0x04, operands: [50, 9, 0] }, // ip0 call L_50,eventObj=9(1-based)→ id 8
       { op: 'end' }, // ip1
@@ -4766,26 +4776,24 @@ describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
       { op: 'end' }, // ip3
     ])
     cursorOf(gs).currentEventObjectId = 0 // caller 的
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.npcs[0]?.scriptedFrame).toBe(5) // 子脚本 self 作用于 op1 指定的 npc id8
   })
 })
 
 describe('特效 A — 调色板 state opcode(2026-05-29)', () => {
   it('0x53 setDayPalette → gs.nightPalette=false;0x54 setNightPalette → true', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(gs.nightPalette).toBe(false) // 默认白天
     loadEvent(gs, [{ op: 'raw', opcode: 0x54, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.nightPalette).toBe(true)
     loadEvent(gs, [{ op: 'raw', opcode: 0x53, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.nightPalette).toBe(false)
   })
 
   it('setPalette(0x8B)→ gs.numPalette 记当前调色板索引(供 FadeIn/SceneFade 选目标)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     setPaletteSource(() => ({
       colors: Array.from({ length: 256 }, () => [10, 20, 30]),
@@ -4793,7 +4801,7 @@ describe('特效 A — 调色板 state opcode(2026-05-29)', () => {
     }))
     expect(gs.numPalette).toBe(0)
     loadEvent(gs, [{ op: 'setPalette', paletteIndex: 7 }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.numPalette).toBe(7)
     expect(gs.basePalette?.colors[0]).toEqual([10, 20, 30])
   })
@@ -4821,10 +4829,9 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   }
 
   it('0x50 FadeOut → paletteFadeState(lerp→黑)+ waiting=palette-fade + needToFadeIn=true', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([200, 100, 50], [200, 100, 50])
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_OUT, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.needToFadeIn).toBe(true)
     expect(gs.paletteFadeState?.mode).toBe('lerp')
@@ -4832,7 +4839,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.paletteFadeState?.totalMs).toBe(600) // (op0||1)*600
     // 淡完 → finalize(工作 palette 变黑)+ 清状态 + ip 推进到 end → explore
     expireFade(gs)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.paletteFadeState).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined() // end → mode explore,cursor 清
     expect(gs.palette?.colors[0]).toEqual([0, 0, 0])
@@ -4858,7 +4865,6 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   })
 
   it('0x4E load-last-save → fade-out + reloadSlotAfterFade=当前槽 → 淡完调 handler(slot) + 停脚本', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([200, 100, 50], [200, 100, 50])
     gs.currentSaveSlot = 3
     const loaded: number[] = []
@@ -4867,7 +4873,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     })
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     loadEvent(gs, [{ op: 'raw', opcode: OP_LOAD_LAST_SAVE, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // fade-out 启动:waiting=palette-fade,target 黑,记 reloadSlotAfterFade=3,handler 未调
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0])
@@ -4877,7 +4883,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.needToFadeIn).not.toBe(true) // 0x4E 不在淡黑时设 needToFadeIn(loaded scene 淡入由 handler 设)
     // 淡完 → fire handler(slot 3)+ 停脚本(cursor 清,对齐 sdlpal return 0)
     expireFade(gs)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(loaded).toEqual([3])
     expect(gs.eventCursor).toBeUndefined()
     debugSpy.mockRestore()
@@ -4888,7 +4894,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     // 真因:onEnter(如仙灵岛靠岸 5117)序 setpos→0x05→对话;旧码 0x05 无 dialog 时纯 ip++,
     //   不重绘/淡入 → FadeOut(0x50)后的黑屏留到对话期(waiting='dialog' 门控挡掉 auto fade-in)→ 对话浮黑屏。
     //   sdlpal 0x05 = PAL_MakeScene(needToFadeIn → PAL_FadeIn)→ 岛在对话前淡入。
-    const bus = createCommandBus()
+
     const gs = gsWithPalette([0, 0, 0], [180, 120, 60]) // 当前黑(FadeOut 后),base 有色
     gs.needToFadeIn = true // sail FadeOut(0x50)设
     gs.sceneLoading = true // loadScene 后未清
@@ -4897,7 +4903,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
       { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] }, // 0x05 redraw(无 dialog)
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     // 0x05 触发淡入:paletteFadeState 黑→base,waiting=palette-fade,needToFadeIn 清,sceneLoading 解冻
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.needToFadeIn).toBe(false)
@@ -4907,13 +4913,12 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.paletteFadeState?.totalMs).toBe(600)
     // 淡完 → ip++ 到 end → explore(cursor 清)
     expireFade(gs)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined()
     debugSpy.mockRestore()
   })
 
   it('0x05 redraw 无 needToFadeIn → 解冻 + UTIL_Delay(60ms) 后续跑(不误触发淡入)', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([180, 120, 60], [180, 120, 60])
     gs.needToFadeIn = false
     gs.sceneLoading = true
@@ -4922,13 +4927,13 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
       { op: 'raw', opcode: OP_PLAY_SOUND, operands: [77, 0, 0] }, // 合法可观察的后续动作
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.paletteFadeState).toBeUndefined() // 无 pending 淡入 → 不触发
     expect(gs.sceneLoading).toBe(false) // 解冻(PAL_MakeScene 重绘)
     expect(gs.eventCursor?.waiting).toBe('delay') // 0x05 UTIL_Delay(60ms,sdlpal script.c:3293)
     expect(gs.pendingSounds).toBeUndefined()
     cursorOf(gs).delayUntilMs = 0 // 强制延时已过
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.mode).toBe('explore') // 延时完 → 续跑到 end
     expect(gs.pendingSounds).toEqual([77])
   })
@@ -4938,23 +4943,23 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   //   全游戏 4 处 0x05[0,0,0xFFFF](剑圣/女子/火麒麟士兵对话);余 2655+ 处 operand[2]=0 不复位(如张四上船逐步走)。
   it('0x05[*,*,0xFFFF] 无对话(脚本起手)→ 复位走路姿势(walking=false + 相位复位)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.walkingFrame = { walking: true, stepFrame: 1 } // 走路中触发
     loadEvent(gs, [
       { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0xffff] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.walkingFrame.walking).toBe(false)
     expect(gs.walkingFrame.stepFrame).toBe(2) // (1 & 2) ^ 2 = 2(scene.c:773-774 相位复位)
   })
 
   it('0x05[*,*,0] operand[2]=0 → 不复位走路姿势(张四上船逐步走 0x05 不能停步)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.walkingFrame = { walking: true, stepFrame: 1 }
     loadEvent(gs, [{ op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.walkingFrame.walking).toBe(true) // operand[2]=0 → gate 跳过,迈步相位不动
   })
 
@@ -4963,7 +4968,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   //   handler 主体**不再重入**。故复位必须在 handler 入口(dialog 检查之前),否则此路径漏复位(队伍整段对话冻迈步帧)。
   it('0x05[*,*,0xFFFF] 紧跟 NPC 对话(段间复位)→ 早返回路径也复位走路姿势', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.walkingFrame = { walking: true, stepFrame: 1 }
     loadEvent(gs, [
       { op: 'setDialogStyleTop' },
@@ -4975,7 +4980,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     ])
     let resetWhileDialogShown = false
     for (let i = 0; i < 80; i++) {
-      tickEventSystem(gs, snap(['Confirm']), bus)
+      tickEventSystem(gs, snap(['Confirm']))
       if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
       // 复位发生时对话框仍在(0x05 clear 等键)→ 证明是「有 dialog」早返回路径复位的
       if (gs.dialogBox && !gs.walkingFrame.walking) resetWhileDialogShown = true
@@ -4986,34 +4991,31 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   })
 
   it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([0, 0, 0], [180, 120, 60])
     gs.needToFadeIn = true
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [2, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.needToFadeIn).toBe(false)
     expect(gs.paletteFadeState?.startColors[0]).toEqual([0, 0, 0])
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60]) // → base
     expect(gs.paletteFadeState?.totalMs).toBe(1200) // delay 2 * 600
     expireFade(gs)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.palette?.colors[0]).toEqual([180, 120, 60])
   })
 
   it('0x51 FadeIn delay 取 (SHORT)op0>0?op0:1 — 负/0 → 1', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([0, 0, 0], [10, 10, 10])
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [0xffff, 0, 0] }, { op: 'end' }]) // (SHORT)0xFFFF=-1 → delay 1
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.paletteFadeState?.totalMs).toBe(600)
   })
 
   it('0x93 SceneFade step>0 → scene-fade(放行 autoScript)+ 黑→base + needToFadeIn=false', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([5, 5, 5], [100, 0, 0])
     loadEvent(gs, [{ op: 'raw', opcode: OP_SCENE_FADE, operands: [2, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('scene-fade') // 关键:放行 autoScript 的 tag
     expect(gs.needToFadeIn).toBe(false) // step>0
     expect(gs.paletteFadeState?.startColors[0]).toEqual([0, 0, 0])
@@ -5022,10 +5024,9 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   })
 
   it('0x93 SceneFade step<0 → cur→黑 + needToFadeIn=true', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([100, 0, 0], [100, 0, 0])
     loadEvent(gs, [{ op: 'raw', opcode: OP_SCENE_FADE, operands: [0xfffe, 0, 0] }, { op: 'end' }]) // (SHORT)0xFFFE = -2
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('scene-fade')
     expect(gs.needToFadeIn).toBe(true)
     expect(gs.paletteFadeState?.startColors[0]).toEqual([100, 0, 0])
@@ -5033,12 +5034,11 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   })
 
   it('0x80 PaletteFade → toggle night + crossfade;op0=0 → fUpdateScene → scene-fade;op0!=0 → palette-fade', () => {
-    const bus = createCommandBus()
     // op0=0:fUpdateScene=true → scene-fade,32*100=3200ms
     const gs = gsWithPalette([0, 0, 0], [80, 80, 80])
     expect(gs.nightPalette).toBe(false)
     loadEvent(gs, [{ op: 'raw', opcode: OP_PALETTE_FADE, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.nightPalette).toBe(true) // toggle
     expect(gs.eventCursor?.waiting).toBe('scene-fade')
     expect(gs.paletteFadeState?.totalMs).toBe(3200)
@@ -5047,19 +5047,18 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     // op0!=0:fUpdateScene=false → palette-fade(冻),32*25=800ms
     const gs2 = gsWithPalette([0, 0, 0], [80, 80, 80])
     loadEvent(gs2, [{ op: 'raw', opcode: OP_PALETTE_FADE, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs2, snap(), bus)
+    tickEventSystem(gs2, snap())
     expect(gs2.eventCursor?.waiting).toBe('palette-fade')
     expect(gs2.paletteFadeState?.totalMs).toBe(800)
   })
 
   it('0x8C ColorFade → approach ±4 + needToFadeIn=false;!fFrom 场景→纯色', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
     const palette = gs.basePalette
     if (palette) palette.colors[7] = [40, 40, 40]
     // PAL_ColorFade(op1=delay, (BYTE)op0=color, op2=fFrom);!fFrom(op2=0)= 场景淡成纯色
     loadEvent(gs, [{ op: 'raw', opcode: OP_COLOR_FADE, operands: [7, 1, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.needToFadeIn).toBe(false)
     expect(gs.paletteFadeState?.mode).toBe('approach')
@@ -5070,10 +5069,9 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   })
 
   it('0x4F FadeToRed → approach ±8 + skipIndex 0x4F + remap', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_RED, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.paletteFadeState?.mode).toBe('approach')
     expect(gs.paletteFadeState?.increment).toBe(8)
@@ -5087,20 +5085,18 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   //   C2 已移除 resumePostBattleScript 里 `outcome==='lost'` 无条件置 gameOverActive,
   //   故 gameOverActive 现只由这里(脚本真跑到 0x4F)置 → 死亡红屏纯由 opcode 驱动,无"按战斗结局"判据。
   it('0x4F FadeToRed → 置 gameOverActive=true(死亡演出由 opcode 驱动,非战斗结局)', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
     expect(gs.gameOverActive).toBeFalsy() // 前置:未置
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_RED, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.gameOverActive).toBe(true)
   })
 
   it('0x4F FadeToRed → 清 deathHoldActive(过渡帧 hold 交棒给 gameOverActive)', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
     gs.deathHoldActive = true // 模拟:T0 resume 预置了过渡帧 hold,等脚本跑到 0x4F
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_RED, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.deathHoldActive).toBe(false) // 交棒:纯 hold 结束,转 gameOverActive(hold+染红+画死亡对话)
     expect(gs.gameOverActive).toBe(true)
   })
@@ -5109,7 +5105,6 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   //   验证两标记的交棒在真事件循环里成立:T0 战败接回置 deathHoldActive(纯 hold,gameOver 未亮)→
   //   脚本跑到 0x4F → 同一拍清 deathHold、亮 gameOver、起染红 ramp。补 C1-C4 各单测没覆盖的"接缝时序"。
   it('C7 死亡序列端到端:resume→deathHold(纯hold)→0x4F→交棒 gameOver(染红)', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
     // mini 死亡脚本(mimic L_41075):0x43 music → 0x4F FadeToRed → showDialog → end。lostIp 指 ip1 避开"=0 续"语义。
     const deathScript: Command[] = [
@@ -5133,7 +5128,7 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.paletteFadeState).toBeFalsy() // 还没染红
 
     // tick1:0x43(非阻塞,ip++)→ 0x4F → 同一拍交棒。
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.deathHoldActive).toBe(false) // 纯 hold 结束
     expect(gs.gameOverActive).toBe(true) // 死亡演出接管(present 改 hold+画对话)
     expect(gs.paletteFadeState?.totalMs).toBe(2400) // FadeToRed ramp 起(染保持的战斗帧)
@@ -5141,10 +5136,9 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
   })
 
   it('0x9B fadeToScene → 复用 dither gs.fadeState(speed=2)+ waiting=fade-screen,不建 paletteFadeState', () => {
-    const bus = createCommandBus()
     const gs = gsWithPalette([10, 10, 10], [10, 10, 10])
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_SCENE, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('fade-screen')
     expect(gs.fadeState?.speed).toBe(2)
     expect(gs.fadeState?.totalMs).toBe(2160)
@@ -5157,12 +5151,12 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
       cycles: [],
     }
     setFetchPalette(() => Promise.resolve(fake))
-    const bus = createCommandBus()
+
     const gs = gsWithPalette([0, 0, 0], [1, 1, 1])
     gs.needToFadeIn = true
     const blackRef = gs.palette
     loadEvent(gs, [{ op: 'setPalette', paletteIndex: 4 }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     await vi.waitFor(() => expect(gs.basePalette?.colors[0]).toEqual([50, 60, 70])) // basePalette 更新
     expect(gs.palette).toBe(blackRef) // 屏幕仍黑(needToFadeIn → 不套新色)
     setFetchPalette(() => Promise.resolve(fake))
@@ -5178,26 +5172,24 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
   }
 
   it('FadeOut 不清 sceneLoading(冻屏淡黑触发前帧,不重绘 setPartyPos 瞬移)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = mkPal([200, 100, 50])
     gs.basePalette = mkPal([200, 100, 50])
     gs.sceneLoading = true // loadScene 已设(door 切换序:setPartyPos→loadScene→FadeOut)
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_OUT, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.sceneLoading).toBe(true) // **关键**:FadeOut 保持冻屏(不像 FadeIn 解冻)
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0])
   })
 
   it('FadeIn 清 sceneLoading(需重绘目标 scene 淡入)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = mkPal([0, 0, 0])
     gs.basePalette = mkPal([100, 100, 100])
     gs.sceneLoading = true
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.sceneLoading).toBe(false) // FadeIn 解冻
   })
 
@@ -5280,25 +5272,22 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
 
 describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
   it('0x36 SetRNG → gs.iCurPlayingRNG = op0(instant 非阻塞)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     loadEvent(gs, [{ op: 'raw', opcode: OP_SET_RNG, operands: [7, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.iCurPlayingRNG).toBe(7)
   })
 
   it('0x71 WaveScreen → wScreenWave=op0,sWaveProgression=(SHORT)op1(负数符号转换)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // op1=0xFFFE = -2(SHORT):波幅渐弱
     loadEvent(gs, [{ op: 'raw', opcode: OP_WAVE_SCREEN, operands: [40, 0xfffe, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wScreenWave).toBe(40)
     expect(gs.sWaveProgression).toBe(-2)
   })
 
   it('0x37 PlayRNG → 调注入 handler(chunk=iCurPlayingRNG,end/speed 三元真值)+ waiting=rng-play + ip++', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     let captured: RngPlayHandlerInput | undefined
     setRngPlayHandler((input) => {
@@ -5311,7 +5300,7 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
         { op: 'raw', opcode: OP_PLAY_RNG, operands: [10, 0, 0] },
         { op: 'end' },
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(captured).toBeDefined()
       expect(captured!.chunkIdx).toBe(3) // 来自 gs.iCurPlayingRNG,非 operand
       expect(captured!.startFrame).toBe(10)
@@ -5325,7 +5314,6 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
   })
 
   it('0x50 后 0x37:首帧消费 needToFadeIn,恢复稳定 palette 并请求 RNG 淡入(山神庙传剑 CG)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.needToFadeIn = true
     gs.palette = makeWorkingPaletteFor([0, 0, 0])
@@ -5336,7 +5324,7 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
     })
     try {
       loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 112, 16] }, { op: 'end' }])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
 
       expect(captured?.fadeIn).toBe(true)
       expect(gs.needToFadeIn).toBe(false)
@@ -5352,7 +5340,7 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
     //   sdlpal 0x8B 同步 PAL_SetPalette(pat.mkf 同步读)→ RNG fadeIn 用 palette 2。
     //   旧实现 setPalette 异步 fire-and-forget → 同一同步 tick 内 PlayRNG 读到的 basePalette 还是旧色
     //   → 酒剑仙坐葫芦整段偏色。本测试驱动**真实 opcode 序列**(非手设 basePalette)复现并锁定。
-    const bus = createCommandBus()
+
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // 0x50 FadeOut 后态:屏幕黑、needToFadeIn、basePalette 仍是旧场景色(应被 setPalette 2 覆盖)
     gs.needToFadeIn = true
@@ -5375,7 +5363,7 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
         { op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 0, 8] },
         { op: 'end' },
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
 
       expect(gs.numPalette).toBe(2)
       // RNG 淡入目标必须是 palette#2([42,42,42]),不是旧 basePalette([10,10,10])
@@ -5388,11 +5376,10 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
   })
 
   it('0x37 PlayRNG 无 handler 注入 → skip + ip++(不卡死)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     setRngPlayHandler(null)
     loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined() // 跑到 end → 脚本结束
   })
 })
@@ -5407,7 +5394,6 @@ describe('特效 A 夜间调色板(resolveNightColors fade target)', () => {
   }
 
   it('nightPalette=true + basePalette 有 nightColors → FadeIn target = 夜色', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = {
       colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
@@ -5416,12 +5402,11 @@ describe('特效 A 夜间调色板(resolveNightColors fade target)', () => {
     gs.basePalette = palWithNight()
     gs.nightPalette = true
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([20, 20, 40]) // 夜色,非 [200,200,200]
   })
 
   it('nightPalette=false → FadeIn target = 白天色', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = {
       colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
@@ -5430,24 +5415,22 @@ describe('特效 A 夜间调色板(resolveNightColors fade target)', () => {
     gs.basePalette = palWithNight()
     gs.nightPalette = false
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([200, 200, 200])
   })
 
   it('0x80 PaletteFade toggle night → target 用 toggle 后的夜色', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = makeWorkingPaletteFor([100, 100, 100])
     gs.basePalette = palWithNight()
     gs.nightPalette = false // toggle → true → 夜色 target
     loadEvent(gs, [{ op: 'raw', opcode: OP_PALETTE_FADE, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.nightPalette).toBe(true)
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([20, 20, 40])
   })
 
   it('basePalette 无 nightColors(白天 only chunk)+ night=true → 回退白天色(不崩)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = makeWorkingPaletteFor([0, 0, 0])
     gs.basePalette = {
@@ -5456,7 +5439,7 @@ describe('特效 A 夜间调色板(resolveNightColors fade target)', () => {
     }
     gs.nightPalette = true
     loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([77, 77, 77]) // 无夜色 → 白天
   })
 })
@@ -5470,7 +5453,6 @@ function makeWorkingPaletteFor(c: [number, number, number]): Palette {
 
 describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
   it('0x76 → 调注入 handler(chunkIdx=op0, fade=op1)+ waiting=show-fbp + ip++', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     let captured: ShowFbpHandlerInput | undefined
     setShowFbpHandler((input) => {
@@ -5478,7 +5460,7 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
     })
     try {
       loadEvent(gs, [{ op: 'raw', opcode: OP_SHOW_FBP, operands: [75, 7, 0] }, { op: 'end' }])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(captured).toBeDefined()
       expect(captured!.chunkIdx).toBe(75)
       expect(captured!.fade).toBe(7)
@@ -5489,7 +5471,6 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
   })
 
   it('0x76 chunk=0xFFFF → 进入黑屏保持;0x51 FadeIn **不**释放(只 ramp 调色板,场景靠后续 MakeScene 才揭)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = makeWorkingPaletteFor([0, 0, 0])
     gs.basePalette = makeWorkingPaletteFor([180, 120, 60])
@@ -5503,13 +5484,13 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
         { op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] },
         { op: 'end' },
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(captured?.chunkIdx).toBe(65535)
       expect(gs.blackScreenHold).toBe(true)
       expect(gs.eventCursor?.waiting).toBe('show-fbp')
 
       cursorOf(gs).waiting = undefined
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       // 2026-06-08 当夜/次日 bug:FadeIn 只 ramp 调色板,gpScreen 内容仍是 ShowFBP 填的 index0 黑 →
       //   blackScreenHold 撑住(屏幕保持黑),场景靠之后 loadScene/0x05/0x73/0x9B 的 PAL_MakeScene 才揭。
       expect(gs.blackScreenHold).toBe(true)
@@ -5520,18 +5501,16 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
   })
 
   it('0x76 无 handler 注入 → skip + ip++(不卡死)', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     setShowFbpHandler(null)
     loadEvent(gs, [{ op: 'raw', opcode: OP_SHOW_FBP, operands: [65535, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined()
   })
 })
 
 describe('特效 B ScrollFBP opcode(0xA4)', () => {
   it('0xA4 → 调注入 handler(chunkIdx=op0, speed=op2)+ waiting=scroll-fbp + ip++', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     let captured: { chunkIdx: number; speed: number } | undefined
     setScrollFbpHandler((input) => {
@@ -5539,7 +5518,7 @@ describe('特效 B ScrollFBP opcode(0xA4)', () => {
     })
     try {
       loadEvent(gs, [{ op: 'raw', opcode: OP_SCROLL_FBP, operands: [74, 0, 15] }, { op: 'end' }])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(captured).toEqual({ chunkIdx: 74, speed: 15 }) // op0=chunk, op2=speed(op1 未用)
       expect(gs.eventCursor?.waiting).toBe('scroll-fbp')
     } finally {
@@ -5550,7 +5529,6 @@ describe('特效 B ScrollFBP opcode(0xA4)', () => {
 
 describe('结局 EndingAnimation opcode(0x96)', () => {
   it('0x96 → 调注入 handler + waiting=ending-anim + ip++', () => {
-    const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     let called = false
     setEndingAnimationHandler(() => {
@@ -5561,7 +5539,7 @@ describe('结局 EndingAnimation opcode(0x96)', () => {
         { op: 'raw', opcode: OP_ENDING_ANIMATION, operands: [0, 0, 0] },
         { op: 'end' },
       ])
-      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap())
       expect(called).toBe(true)
       expect(gs.eventCursor?.waiting).toBe('ending-anim')
     } finally {
@@ -5575,14 +5553,14 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
   it('collectValue>0 → 扣 RandomLong(1,cv) + 发 store[0].rgwItems[i-1]', () => {
     setStoreTable([{ items: [100, 105, 95] }])
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.wCollectValue = 3
     vi.spyOn(Math, 'random').mockReturnValue(0) // RandomLong(1,3) = floor(0*3)+1 = 1
     loadEvent(gs, [
       { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [99, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wCollectValue).toBe(2) // 3 - 1
     expect(gs.inventory).toEqual([{ itemId: 100, count: 1 }]) // items[1-1]=items[0]
     vi.restoreAllMocks()
@@ -5592,14 +5570,14 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
   it('PAL_CLASSIC cap:i=RandomLong(1,cv) 截到 9', () => {
     setStoreTable([{ items: [100, 105, 95, 112, 72, 131, 97, 102, 111] }])
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.wCollectValue = 100
     vi.spyOn(Math, 'random').mockReturnValue(0.999) // floor(0.999*100)+1 = 100 → cap 9
     loadEvent(gs, [
       { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [99, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wCollectValue).toBe(91) // 100 - 9
     expect(gs.inventory).toEqual([{ itemId: 111, count: 1 }]) // items[9-1]=items[8]
     vi.restoreAllMocks()
@@ -5614,7 +5592,7 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
     setWordTable(words)
     setStoreTable([{ items: [100, 105, 95] }])
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.wCollectValue = 1
     vi.spyOn(Math, 'random').mockReturnValue(0) // RandomLong(1,1) = 1 → i-1 = 0 → items[0]=100
     loadEvent(gs, [
@@ -5622,7 +5600,7 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
       { op: 'end' },
     ])
     // tick1:发物品 + 弹物品框 + 暂停(不推进 ip)
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.inventory).toEqual([{ itemId: 100, count: 1 }])
     expect(gs.wCollectValue).toBe(0)
     expect(gs.dialogBox?.style).toBe('item-box')
@@ -5630,7 +5608,7 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.eventCursor?.ip).toBe(0) // 暂停在 0x34,未推进
     // tick2:任意键关物品框(复用 narration auto-dismiss)→ 推进 ip → 'end' 结束
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']))
     expect(gs.dialogBox).toBeUndefined()
     vi.restoreAllMocks()
     setStoreTable([])
@@ -5639,7 +5617,7 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
 
   it('collectValue==0 → jump op0(跳过线性后继 op)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.wCollectValue = 0
     gs.eventCursor = {
       commands: [
@@ -5650,7 +5628,7 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
       ip: 0,
     }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.iCurPlayingRNG).toBe(0) // idx1 被跳过
     expect(gs.inventory).toEqual([]) // 无发放
   })
@@ -5658,14 +5636,14 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
   it('i 越过 store items 长度(尾部 0 槽)→ 不发但仍扣 collectValue', () => {
     setStoreTable([{ items: [] }]) // 空 store
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.wCollectValue = 1
     vi.spyOn(Math, 'random').mockReturnValue(0) // i=1 → 扣到 0;i--=0;items[0]=undefined→不发
     loadEvent(gs, [
       { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [99, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wCollectValue).toBe(0)
     expect(gs.inventory).toEqual([])
     vi.restoreAllMocks()
@@ -5676,7 +5654,7 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
 describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
   it('失败路径:fScriptSuccess=FALSE + jump op0(scriptOnTeleport==0 场景忠实)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.fScriptSuccess = true
     gs.eventCursor = {
       commands: [
@@ -5687,7 +5665,7 @@ describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
       ip: 0,
     }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.fScriptSuccess).toBe(false)
     expect(gs.iCurPlayingRNG).toBe(0) // idx1 被跳过 → 确实跳转
     expect(gs.eventCursor).toBeUndefined() // 到 end
@@ -5710,7 +5688,7 @@ describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
       ip: 0,
     }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.iCurPlayingRNG).toBe(111) // teleport 脚本跑了
     expect(gs.wNumBattleMusic).toBe(7) // 弹帧回 caller 续跑 0x47 后续(call+return)
     expect(gs.fScriptSuccess).toBe(true) // 成功不置 false
@@ -5737,7 +5715,7 @@ describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
       ip: 0,
     }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.iCurPlayingRNG).toBe(222) // 走 override entry(ip6),非 base(ip3)
   })
 
@@ -5772,7 +5750,7 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     gs.party = { x: 300, y: 200, facing: 'down' }
     gs.camera = { x: -999, y: -999 }
     loadEvent(gs, [{ op: 'raw', opcode: 0x7f, operands: [0, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.camera).toEqual({ x: 140, y: 88 }) // 300-160, 200-112
   })
 
@@ -5781,7 +5759,7 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     gs.party = { x: 300, y: 200, facing: 'down' }
     gs.camera = { x: 0, y: 0 }
     loadEvent(gs, [{ op: 'raw', opcode: 0x7f, operands: [5, 3, 0xffff] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.camera).toEqual({ x: 0, y: -64 }) // 5*32-160=0, 3*16-112=-64
   })
 
@@ -5789,7 +5767,7 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.camera = { x: 100, y: 100 }
     loadEvent(gs, [{ op: 'raw', opcode: 0x7f, operands: [8, 4, 0] }, { op: 'end' }]) // op2=0 → 1 帧
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.camera).toEqual({ x: 108, y: 104 })
   })
 
@@ -5805,12 +5783,12 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
       ip: 0,
     }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), createCommandBus()) // 帧1
+    tickEventSystem(gs, snap()) // 帧1
     expect(gs.camera).toEqual({ x: 8, y: 4 })
     expect(gs.eventCursor?.waiting).toBe('camera-pan')
-    tickEventSystem(gs, snap(), createCommandBus()) // 帧2
+    tickEventSystem(gs, snap()) // 帧2
     expect(gs.camera).toEqual({ x: 16, y: 8 })
-    tickEventSystem(gs, snap(), createCommandBus()) // 帧3 → 完成 + 续跑 ip1
+    tickEventSystem(gs, snap()) // 帧3 → 完成 + 续跑 ip1
     expect(gs.camera).toEqual({ x: 24, y: 12 })
     expect(gs.iCurPlayingRNG).toBe(77) // pan 完弹回续跑
     expect(gs.eventCursor).toBeUndefined()
@@ -5824,9 +5802,9 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
       ip: 0,
     }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), createCommandBus()) // 帧1
+    tickEventSystem(gs, snap()) // 帧1
     expect(gs.camera).toEqual({ x: 92, y: 96 })
-    tickEventSystem(gs, snap(), createCommandBus()) // 帧2 → 完成
+    tickEventSystem(gs, snap()) // 帧2 → 完成
     expect(gs.camera).toEqual({ x: 84, y: 92 })
   })
 
@@ -5850,16 +5828,16 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
       ip: 0,
     }
     // 第 1 对:0x6E(party+=(-16,8), camera+=(-16,8))→ 0x7F(camera+=(16,-8) 移回 + yield 1 帧)
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.camera).toEqual({ x: 0, y: 0 }) // 相机固定(净位移 0,不跟随)
     expect(gs.party).toMatchObject({ x: 144, y: 120 }) // 走 1 步 (-16,8)
     expect(gs.eventCursor?.waiting).toBe('camera-pan') // 逐帧 yield(非瞬移)
     // 第 2 对(handler 清第1对 yield + 跑第2对)
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.camera).toEqual({ x: 0, y: 0 }) // 仍固定
     expect(gs.party).toMatchObject({ x: 128, y: 128 }) // 走 2 步
     // 收尾
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.camera).toEqual({ x: 0, y: 0 }) // 全程相机未跟随 → 队首偏离中心可走出画
   })
@@ -5884,7 +5862,7 @@ describe('opcode 0x03 goto frameDelay(trigger 走步循环,script.c:3239-3256)',
     }
     gs.mode = 'event'
     // 跑足够多 tick(若死循环则 wNumBattleMusic 永不置 / SINGLE_TICK_LIMIT 抛)。
-    for (let i = 0; i < 8; i++) tickEventSystem(gs, snap(), createCommandBus())
+    for (let i = 0; i < 8; i++) tickEventSystem(gs, snap())
     expect(gs.iCurPlayingRNG).toBe(11) // loop 体跑过
     expect(gs.wNumBattleMusic).toBe(7) // fd=3 次后退出 → 续跑 ip3
     expect(gs.eventCursor).toBeUndefined() // 到 end
@@ -5905,14 +5883,14 @@ describe('opcode 0x03 goto frameDelay(trigger 走步循环,script.c:3239-3256)',
     }
     gs.mode = 'event'
     // tick1: ip0 setRNG + ip1 0x09 yield
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.wNumBattleMusic).toBe(0) // 还在 loop
     // tick2: 0x03(idle=1<3 跳)+ ip0 + 0x09 yield;tick3: 0x03(idle=2<3 跳)+ ...
-    tickEventSystem(gs, snap(), createCommandBus())
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
     expect(gs.wNumBattleMusic).toBe(0) // 仍在 loop(idle=2<3)
     // tick4: 0x03(idle=3>=3 → 退出)→ ip3 setBattleMusic
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.wNumBattleMusic).toBe(7) // 退出
   })
 
@@ -5929,7 +5907,7 @@ describe('opcode 0x03 goto frameDelay(trigger 走步循环,script.c:3239-3256)',
       ip: 0,
     }
     gs.mode = 'event'
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.iCurPlayingRNG).toBe(0) // ip1 跳过
     expect(gs.wNumBattleMusic).toBe(7)
   })
@@ -5939,29 +5917,29 @@ describe('opcode 0x03 goto frameDelay(trigger 走步循环,script.c:3239-3256)',
 describe('audio opcodes(core state-set + shell audio 播放)', () => {
   it('0x45 setBattleMusic → gs.wNumBattleMusic = op0(script.c:1658)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [{ op: 'raw', opcode: OP_SET_BATTLE_MUSIC, operands: [7, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wNumBattleMusic).toBe(7)
   })
 
   it('0x77 stopMusic → gs.wNumMusic = 0(script.c:2215)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     gs.wNumMusic = 12
     loadEvent(gs, [{ op: 'raw', opcode: OP_STOP_MUSIC, operands: [3, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wNumMusic).toBe(0)
   })
 
   it('0xA3 playCDMusic → gs.wNumMusic = op1(RIX 回退,script.c:3023)+ looped', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PLAY_CD_MUSIC, operands: [2, 19, 0] }, // op0=CD track,op1=RIX id
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wNumMusic).toBe(19)
     expect(gs.musicLoop).toBe(true) // AUDIO_PlayMusic(op1, TRUE, 0)
   })
@@ -5969,27 +5947,27 @@ describe('audio opcodes(core state-set + shell audio 播放)', () => {
   // M6 音频意图层:opcode → gs 字段(shell AudioManager 每帧消费 → Web Audio)。
   it('0x43 playMusic → wNumMusic=op0 + musicLoop=(op1!=1)(script.c:1647)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     // op1=0 → loop
     loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_MUSIC, operands: [16, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.wNumMusic).toBe(16)
     expect(gs.musicLoop).toBe(true)
     // op1=1 → no-loop(一次性 stinger)
     loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_MUSIC, operands: [16, 1, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.musicLoop).toBe(false)
   })
 
   it('0x47 playSound → push gs.pendingSounds(队列,shell drain 播)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
+
     loadEvent(gs, [
       { op: 'raw', opcode: OP_PLAY_SOUND, operands: [88, 0, 0] },
       { op: 'raw', opcode: OP_PLAY_SOUND, operands: [47, 0, 0] }, // "啧～" 不可用音
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap())
     expect(gs.pendingSounds).toEqual([88, 47])
   })
 })

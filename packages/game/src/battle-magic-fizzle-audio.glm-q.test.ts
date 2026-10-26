@@ -1,3 +1,4 @@
+import { runScript } from './core/event-system.js'
 // Q08 r13 · performMagic 合法 fizzle 施法音臂（typed driver，零强转，真实 runScript）。
 //
 // Q-R12-01 修正：r12 版用 mock 手置 fScriptSuccess=false 且 commands 只有 1 条 end 却
@@ -17,8 +18,8 @@ import type { Command, Magic, PlayerRole, Spell } from '@type-pal/shared'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { performMagic } from './core/battle/actions/magic.js'
 import type { BattleEnemy, BattleState } from './core/battle/battle-state.js'
-import { type CommandBus, createCommandBus } from './core/command-bus.js'
-import { runScript } from './core/event-system.js'
+import { createCommandBus } from './core/command-bus.js'
+
 import { createInitialGameState, type GameState } from './core/game-state.js'
 
 function role(opts: Partial<PlayerRole> = {}): PlayerRole {
@@ -186,9 +187,11 @@ function magicDef(id: number): Magic {
 
 describe('Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41）', () => {
   test('fizzle（scriptOnUse entry1 = raw 0x41）施法音仍即时播（fight.c:4184 vs 4215）', () => {
+    const bus = createCommandBus()
+
     const st = battleState()
     const gs: GameState = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus: CommandBus = createCommandBus()
+
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     performMagic({
       state: st,
@@ -208,7 +211,7 @@ describe('Q08 performMagic 合法 fizzle 施法音（真实 runScript + 0x41）'
     expect(warn).not.toHaveBeenCalled() // 合法 entry，无越界 warning
     expect(gs.fScriptSuccess).toBe(false) // 0x41 真实置失败
     expect(gs.pendingSounds).toEqual([9]) // 施法音 9 fizzle 仍播
-    expect(bus.drain().filter((c) => c.cmd.op === 'playMagicAnim')).toHaveLength(0)
+    expect(st.battleAnim).toBeUndefined()
     warn.mockRestore()
   })
 

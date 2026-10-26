@@ -19,7 +19,7 @@
  */
 import type { AbstractKey, Command, InputSnapshot, Palette } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import {
   buildLabelMap,
   OP_FADE_SCREEN,
@@ -61,7 +61,7 @@ describe('K05 opcode 0x73 fadeScreen:dither fadeState 数学 + 等待消费(sdlp
     gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
     gs.mode = 'event'
     // —— 触发:进 fade-screen 等待,ip 不动 ——
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     // dither 引擎数学(video.c):(op0+1)×10ms × 72 步 = 2×10×72 = 1440ms
     expect(gs.fadeState?.speed).toBe(1)
     expect(gs.fadeState?.totalMs).toBe(1440)
@@ -75,7 +75,7 @@ describe('K05 opcode 0x73 fadeScreen:dither fadeState 数学 + 等待消费(sdlp
     const fade = gs.fadeState
     expect(fade).toBeDefined()
     if (fade) fade.startTimeMs -= 1600
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.fadeState).toBeUndefined() // fade 收尾清态
     expect(gs.eventCursor?.waiting).toBeUndefined()
     expect(soundsOf(gs)).toEqual([77]) // ip++ 后同帧 fall-through 跑后续 op

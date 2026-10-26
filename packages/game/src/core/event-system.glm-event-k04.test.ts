@@ -10,7 +10,7 @@
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import {
   buildLabelMap,
   OP_CHANGE_MAP,
@@ -46,7 +46,7 @@ describe('K04 opcode 0x7E setObjectLayer:sLayer 是 SHORT(global.h:78)——op1 
       currentEventObjectId: 7,
     }
     gsNeg.mode = 'event'
-    tickEventSystem(gsNeg, snap(), createCommandBus())
+    tickEventSystem(gsNeg, snap())
     expect(gsNeg.npcs[0]?.sLayer).toBe(-2)
 
     // —— 单轴对照:同脚本仅 op1 改 3 → 正数直通(排除"恒取负"式误实现) ——
@@ -63,7 +63,7 @@ describe('K04 opcode 0x7E setObjectLayer:sLayer 是 SHORT(global.h:78)——op1 
       currentEventObjectId: 7,
     }
     gsPos.mode = 'event'
-    tickEventSystem(gsPos, snap(), createCommandBus())
+    tickEventSystem(gsPos, snap())
     expect(gsPos.npcs[0]?.sLayer).toBe(3)
   })
 })
@@ -86,7 +86,7 @@ describe('K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即
       })
       gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
       gs.mode = 'event'
-      tickEventSystem(gs, snap(), createCommandBus())
+      tickEventSystem(gs, snap())
       // 当前场景(1-based wNumScene=5)地图被改写为 99
       expect(gs.sceneMapNumOverride?.[5]).toBe(99)
       // 负控:其它 scene 未被误改(单键覆盖)
@@ -104,7 +104,7 @@ describe('K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即
       gsNoReloader.wNumScene = 2
       gsNoReloader.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
       gsNoReloader.mode = 'event'
-      tickEventSystem(gsNoReloader, snap(), createCommandBus())
+      tickEventSystem(gsNoReloader, snap())
       expect(gsNoReloader.sceneMapNumOverride?.[2]).toBe(99)
       expect(gsNoReloader.mode).toBe('explore')
       expect(reloadedMaps).toEqual([99]) // 撤下注入后未再触发 reload
@@ -129,7 +129,7 @@ describe('K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即
       })
       gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
       gs.mode = 'event'
-      tickEventSystem(gs, snap(), createCommandBus())
+      tickEventSystem(gs, snap())
       await Promise.resolve()
       expect(error).toHaveBeenCalledExactlyOnceWith(
         'event-system: mapReloader(99) failed:',

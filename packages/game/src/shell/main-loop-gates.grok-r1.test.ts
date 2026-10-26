@@ -130,11 +130,10 @@ describe('G09-B 主循环门控', () => {
   })
 
   it('G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent', () => {
-    const entry: BusEntry = { cmdId: 7, cmd: { op: 'clearDialogBox' } }
+    const entry: BusEntry = { cmd: { op: 'stopMusic', fadeMs: 0 } }
     const bus: CommandBus = {
-      emit: () => 1,
+      emit: () => {},
       drain: () => [entry],
-      complete: () => {},
     }
     let got: BusEntry[] = []
     const ctx = ctxOf(undefined, (drained) => {
