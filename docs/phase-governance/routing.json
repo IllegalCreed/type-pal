@@ -20,10 +20,7 @@
       "operation": "第一阶段机制或缺陷",
       "required": ["CLAUDE.md", "docs/phase1/game-mechanics.md"]
     },
-    {
-      "operation": "第二阶段引擎、编辑器或内容",
-      "required": ["docs/phase2/READ-FIRST.md"]
-    },
+    { "operation": "第二阶段引擎、编辑器或内容", "required": ["docs/phase2/READ-FIRST.md"] },
     {
       "operation": "E2E、剧情回写或编辑器预览起点",
       "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
@@ -34,42 +31,15 @@
     }
   ],
   "migratedDocuments": [
-    {
-      "path": "docs/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase-governance/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase-governance/templates/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/ops/guides/documentation-model.md",
-      "templateId": "guide-runbook-v1"
-    },
-    {
-      "path": "docs/ops/agent-workflow.md",
-      "templateId": "guide-runbook-v1"
-    },
-    {
-      "path": "docs/ops/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/ops/templates/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/ops/tasks/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/ops/archive/protocols/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase-governance/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase-governance/templates/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/ops/guides/documentation-model.md", "templateId": "guide-runbook-v1" },
+    { "path": "docs/ops/agent-workflow.md", "templateId": "guide-runbook-v1" },
+    { "path": "docs/ops/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/ops/templates/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/ops/tasks/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/ops/archive/protocols/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/ops/archive/protocols/three-sages-20261015.md",
       "templateId": "archive-record-v1"
@@ -78,23 +48,14 @@
       "path": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
       "templateId": "archive-record-v1"
     },
-    {
-      "path": "docs/testing/e2e/stages/001-opening/README.md",
-      "templateId": "test-e2e-stage-v1"
-    },
-    {
-      "path": "docs/testing/e2e/stages/001-opening/report.md",
-      "templateId": "test-run-report-v1"
-    },
+    { "path": "docs/testing/e2e/stages/001-opening/README.md", "templateId": "test-e2e-stage-v1" },
+    { "path": "docs/testing/e2e/stages/001-opening/report.md", "templateId": "test-run-report-v1" },
     {
       "path": "docs/testing/e2e/evidence/e2e-001.json",
       "templateId": "test-machine-evidence-v1",
       "variant": "document-audit-v2"
     },
-    {
-      "path": "docs/ops/archive/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/ops/archive/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
       "templateId": "task-card-v1",
@@ -114,44 +75,26 @@
       "templateId": "plan-status-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/phase2/specs/save-system.md",
-      "templateId": "design-spec-v1"
-    },
+    { "path": "docs/phase2/specs/save-system.md", "templateId": "design-spec-v1" },
     {
       "path": "docs/phase3/reference/art-pipeline.md",
       "templateId": "reference-canon-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/lore/dlc-ideas.md",
-      "templateId": "narrative-idea-v1"
-    },
+    { "path": "docs/lore/dlc-ideas.md", "templateId": "narrative-idea-v1" },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
       "templateId": "test-domain-report-v1"
     },
-    {
-      "path": "docs/phase-governance/cross-phase-matrix.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/e2e/contract.md",
-      "templateId": "test-contract-v1"
-    },
+    { "path": "docs/phase-governance/cross-phase-matrix.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/e2e/contract.md", "templateId": "test-contract-v1" },
     {
       "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
       "templateId": "quality-gate-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/catalog.json",
-      "templateId": "test-catalog-v1"
-    },
-    {
-      "path": "docs/testing/_templates/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/catalog.json", "templateId": "test-catalog-v1" },
+    { "path": "docs/testing/_templates/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
       "templateId": "test-domain-report-v1"
@@ -359,22 +302,10 @@
       "templateId": "task-card-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/phase3/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase3/reference/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase3/backlog.md",
-      "templateId": "narrative-idea-v1"
-    },
-    {
-      "path": "docs/phase3/map-reconstruction.md",
-      "templateId": "design-spec-v1"
-    },
+    { "path": "docs/phase3/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase3/reference/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase3/backlog.md", "templateId": "narrative-idea-v1" },
+    { "path": "docs/phase3/map-reconstruction.md", "templateId": "design-spec-v1" },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
       "templateId": "evidence-receipt-v1",
@@ -763,10 +694,7 @@
       "templateId": "test-machine-evidence-v1",
       "variant": "historical-command-integration-v1"
     },
-    {
-      "path": "docs/testing/domains/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
       "templateId": "governance-index-v1",
@@ -787,10 +715,7 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/domains/editor/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/editor/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
       "templateId": "governance-index-v1",
@@ -820,10 +745,7 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/domains/editor/map/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/editor/map/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
       "templateId": "governance-index-v1",
@@ -849,10 +771,7 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/domains/ops/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/ops/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/ops/testing-governance/README.md",
       "templateId": "governance-index-v1"
@@ -895,10 +814,7 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/domains/runtime/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/runtime/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/runtime/battle/README.md",
       "templateId": "governance-index-v1"
@@ -938,10 +854,7 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/domains/runtime/menu/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/runtime/menu/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
       "templateId": "governance-index-v1",
@@ -957,10 +870,7 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/domains/runtime/scene/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/runtime/scene/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
       "templateId": "governance-index-v1",
@@ -981,10 +891,7 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/domains/runtime/world/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/domains/runtime/world/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
       "templateId": "governance-index-v1",
@@ -1010,46 +917,16 @@
       "templateId": "evidence-receipt-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/indexes/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-domain.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-engine.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-module.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-owner.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-phase.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-stage.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-status.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/by-tag.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/indexes/legacy-by-domain.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/indexes/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-domain.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-engine.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-module.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-owner.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-phase.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-stage.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-status.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/by-tag.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/indexes/legacy-by-domain.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
       "templateId": "test-e2e-stage-v1"
@@ -1064,138 +941,42 @@
       "variant": "frozen-document-binding-baseline-v1",
       "historyOverlay": false
     },
-    {
-      "path": "docs/lore/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/lore/narrative-workflow.md",
-      "templateId": "guide-runbook-v1"
-    },
-    {
-      "path": "docs/lore/taboos.md",
-      "templateId": "reference-canon-v1"
-    },
-    {
-      "path": "docs/testing/e2e/stages/003-kitchen/README.md",
-      "templateId": "test-e2e-stage-v1"
-    },
-    {
-      "path": "docs/testing/e2e/stages/003-kitchen/report.md",
-      "templateId": "test-run-report-v1"
-    },
-    {
-      "path": "docs/testing/e2e/stages/004-meal/README.md",
-      "templateId": "test-e2e-stage-v1"
-    },
-    {
-      "path": "docs/testing/e2e/stages/004-meal/report.md",
-      "templateId": "test-run-report-v1"
-    },
-    {
-      "path": "docs/testing/e2e/stages/005-shrimp/README.md",
-      "templateId": "test-e2e-stage-v1"
-    },
-    {
-      "path": "docs/testing/e2e/stages/005-shrimp/report.md",
-      "templateId": "test-run-report-v1"
-    },
-    {
-      "path": "docs/phase2/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/guides/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/specs/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/reference/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/archive/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/archive/slices/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/archive/mockups/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/archive/slices/indoor/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/archive/designs/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/archive/plans/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/archive/audits/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/lore/versions.md",
-      "templateId": "reference-canon-v1"
-    },
-    {
-      "path": "docs/lore/world-rules.md",
-      "templateId": "reference-canon-v1"
-    },
-    {
-      "path": "docs/lore/world-rules-ghost-realm.md",
-      "templateId": "reference-canon-v1"
-    },
-    {
-      "path": "docs/lore/factions.md",
-      "templateId": "reference-canon-v1"
-    },
-    {
-      "path": "docs/lore/ideas/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/lore/ideas/guijie/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/phase2/guides/content-publication.md",
-      "templateId": "guide-runbook-v1"
-    },
-    {
-      "path": "docs/phase2/guides/actor-presets.md",
-      "templateId": "guide-runbook-v1"
-    },
-    {
-      "path": "docs/phase2/guides/battlefield-authoring.md",
-      "templateId": "guide-runbook-v1"
-    },
-    {
-      "path": "docs/phase2/guides/debug-tools.md",
-      "templateId": "guide-runbook-v1"
-    },
-    {
-      "path": "docs/phase2/guides/scene-entry-authoring.md",
-      "templateId": "guide-runbook-v1"
-    },
+    { "path": "docs/lore/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/lore/narrative-workflow.md", "templateId": "guide-runbook-v1" },
+    { "path": "docs/lore/taboos.md", "templateId": "reference-canon-v1" },
+    { "path": "docs/testing/e2e/stages/003-kitchen/README.md", "templateId": "test-e2e-stage-v1" },
+    { "path": "docs/testing/e2e/stages/003-kitchen/report.md", "templateId": "test-run-report-v1" },
+    { "path": "docs/testing/e2e/stages/004-meal/README.md", "templateId": "test-e2e-stage-v1" },
+    { "path": "docs/testing/e2e/stages/004-meal/report.md", "templateId": "test-run-report-v1" },
+    { "path": "docs/testing/e2e/stages/005-shrimp/README.md", "templateId": "test-e2e-stage-v1" },
+    { "path": "docs/testing/e2e/stages/005-shrimp/report.md", "templateId": "test-run-report-v1" },
+    { "path": "docs/phase2/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/guides/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/specs/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/reference/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/archive/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/archive/slices/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/archive/mockups/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/archive/slices/indoor/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/archive/designs/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/archive/plans/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/archive/audits/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/lore/versions.md", "templateId": "reference-canon-v1" },
+    { "path": "docs/lore/world-rules.md", "templateId": "reference-canon-v1" },
+    { "path": "docs/lore/world-rules-ghost-realm.md", "templateId": "reference-canon-v1" },
+    { "path": "docs/lore/factions.md", "templateId": "reference-canon-v1" },
+    { "path": "docs/lore/ideas/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/lore/ideas/guijie/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase2/guides/content-publication.md", "templateId": "guide-runbook-v1" },
+    { "path": "docs/phase2/guides/actor-presets.md", "templateId": "guide-runbook-v1" },
+    { "path": "docs/phase2/guides/battlefield-authoring.md", "templateId": "guide-runbook-v1" },
+    { "path": "docs/phase2/guides/debug-tools.md", "templateId": "guide-runbook-v1" },
+    { "path": "docs/phase2/guides/scene-entry-authoring.md", "templateId": "guide-runbook-v1" },
     {
       "path": "docs/phase2/guides/shared-script-author-guide.md",
       "templateId": "guide-runbook-v1"
     },
-    {
-      "path": "docs/lore/characters.md",
-      "templateId": "reference-canon-v1"
-    },
+    { "path": "docs/lore/characters.md", "templateId": "reference-canon-v1" },
     {
       "path": "docs/phase2/archive/audits/am-asset-migrate-audit.md",
       "templateId": "audit-report-v1",
@@ -1956,11 +1737,7 @@
       "templateId": "reference-canon-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/lore/timeline.md",
-      "templateId": "plan-status-v1",
-      "historyOverlay": true
-    },
+    { "path": "docs/lore/timeline.md", "templateId": "plan-status-v1", "historyOverlay": true },
     {
       "path": "docs/phase2/READ-FIRST.md",
       "templateId": "governance-index-v1",
@@ -1991,11 +1768,7 @@
       "templateId": "reference-canon-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/phase2/roadmap.md",
-      "templateId": "plan-status-v1",
-      "historyOverlay": true
-    },
+    { "path": "docs/phase2/roadmap.md", "templateId": "plan-status-v1", "historyOverlay": true },
     {
       "path": "docs/phase2/specs/content-schema.md",
       "templateId": "design-spec-v1",
@@ -3406,14 +3179,8 @@
       "templateId": "task-card-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/ops/audits/architecture-debt.md",
-      "templateId": "audit-report-v1"
-    },
-    {
-      "path": "docs/ops/audits/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/ops/audits/architecture-debt.md", "templateId": "audit-report-v1" },
+    { "path": "docs/ops/audits/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
       "templateId": "evidence-receipt-v1",
@@ -3436,18 +3203,12 @@
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "templateId": "task-card-v1"
     },
-    {
-      "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
-      "templateId": "task-card-v1"
-    },
+    { "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md", "templateId": "task-card-v1" },
     {
       "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
       "templateId": "task-card-v1"
     },
-    {
-      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
-      "templateId": "task-card-v1"
-    },
+    { "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md", "templateId": "task-card-v1" },
     {
       "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
       "templateId": "task-card-v1",
@@ -3628,22 +3389,13 @@
       "templateId": "task-card-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/testing/e2e/README.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/testing/e2e/cross-stage/README.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/testing/e2e/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/testing/e2e/cross-stage/README.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "templateId": "test-domain-report-v1"
     },
-    {
-      "path": "docs/testing/e2e/route-proposal.md",
-      "templateId": "design-spec-v1"
-    },
+    { "path": "docs/testing/e2e/route-proposal.md", "templateId": "design-spec-v1" },
     {
       "path": "docs/testing/e2e/evidence/e2e-002.json",
       "templateId": "test-machine-evidence-v1",
@@ -6221,18 +5973,9 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    {
-      "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
-      "templateId": "task-card-v1"
-    },
-    {
-      "path": "docs/ops/board.md",
-      "templateId": "governance-index-v1"
-    },
-    {
-      "path": "docs/ops/tasks/index.md",
-      "templateId": "governance-index-v1"
-    },
+    { "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "templateId": "task-card-v1" },
+    { "path": "docs/ops/board.md", "templateId": "governance-index-v1" },
+    { "path": "docs/ops/tasks/index.md", "templateId": "governance-index-v1" },
     {
       "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
       "templateId": "design-spec-v1"
@@ -8093,6 +7836,1338 @@
     {
       "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
       "templateId": "design-spec-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-designs-r24-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-plans-r25-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r27-phase1-plans-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r28-phase1-plans-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r29-phase1-status-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r31-ops-archive-records-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r37-ops-json-evidence-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r53-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r55-ops-dedup-ledger-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r59-ops-archive-task-cards-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r63-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r65-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r66-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r68-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r69-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r70-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r71-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r72-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r73-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r74-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r75-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r76-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r77-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r79-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r80-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r81-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r82-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r84-ops-evidence-index-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r85-testing-archive-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r86-ops-evidence-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r87-ops-evidence-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r24-phase2-designs-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r27-phase1-plans-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r28-phase1-plans-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r28-phase1-plans-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r29-phase1-status-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r29-phase1-status-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r33-phase2-lore-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r33-phase2-lore-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r34-ops-pre-e2e-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r34-ops-pre-e2e-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r35-ops-guides-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r35-ops-guides-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r36-ops-evidence-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r36-ops-evidence-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r39-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r39-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r40-ops-machine-json-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r40-ops-machine-json-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r41-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r41-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r42-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r42-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r43-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r43-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r44-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r44-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r45-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r45-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r46-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r46-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r47-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r47-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r48-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r48-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r49-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r49-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r50-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r50-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r52-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r52-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r56-ops-machine-evidence-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r56-ops-machine-evidence-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r57-current-task-cards-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r57-current-task-cards-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r59-ops-archive-task-cards-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r59-ops-archive-task-cards-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r60-testing-e2e-entry-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r60-testing-e2e-entry-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r61-testing-domain-history-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r61-testing-domain-history-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r62-template-sources-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r62-template-sources-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r63-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r63-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r64-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r64-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r65-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r65-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r66-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r66-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r67-testing-legacy-html-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r67-testing-legacy-html-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r68-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r68-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r69-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r69-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r70-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r70-ops-evidence-readmes-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r71-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r71-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r72-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r72-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r73-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r73-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r74-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r74-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r75-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r75-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r76-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r76-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r77-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r77-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r78-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r78-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r79-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r79-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r80-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r80-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r81-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r81-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r82-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r82-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r83-testing-current-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r83-testing-current-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r84-ops-evidence-index-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r84-ops-evidence-index-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r85-testing-archive-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r85-testing-archive-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r86-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r86-ops-evidence-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r87-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r87-ops-evidence-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r92-phase-governance-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r92-phase-governance-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r93-phase-governance-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r93-phase-governance-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r89-ops-evidence-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r90-ops-evidence-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r91-ops-evidence-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r88-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r88-ops-evidence-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r89-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r89-ops-evidence-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r90-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r90-ops-evidence-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r91-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r91-ops-evidence-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r94-final-machine-artifacts-candidate-acceptance-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r94-final-machine-artifacts-readonly-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green0.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green2.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n1.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n2.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n3.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/replay-n1.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/green-baseline.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.green.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.red.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.green.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.red.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.green.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.red.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/instrumentation.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-distilled-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/baseline.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.red.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.green.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.red.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-vitest-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-b-directed.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-identity-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-c-directed.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-identity-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-d-directed.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-identity-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-summary-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-c-directed.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-summary-native-v1",
       "historyOverlay": false
     }
   ],

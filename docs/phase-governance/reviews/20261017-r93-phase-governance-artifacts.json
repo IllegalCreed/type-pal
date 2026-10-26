@@ -585,7 +585,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "d074221efa0b05a270021d1ec153b2ae2bc414bc088e80a6ec7c3f060d6488ac",
+      "afterSha256": "d2da6c7651331b0d4eefb17a8e258d9748623c49297cf42b64b12d6a0a43a65a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1034,6 +1034,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "d074221efa0b05a270021d1ec153b2ae2bc414bc088e80a6ec7c3f060d6488ac",
+          "afterSha256": "d2da6c7651331b0d4eefb17a8e258d9748623c49297cf42b64b12d6a0a43a65a",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -1217,7 +1229,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "789308090b7100d3ff8d24cdd7284daef650a82d434b2e1a4e257627558a99c1",
+      "afterSha256": "28d7a027bb27c86290fc5b8a6a76137842a200c962ea52ad09a18642de097ab5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1870,6 +1882,18 @@
           "beforeSha256": "8ad8bccc5e274814639b2a5f613e5b4f24ebc7debb993abe2f700a44ca2b1556",
           "afterSha256": "789308090b7100d3ff8d24cdd7284daef650a82d434b2e1a4e257627558a99c1",
           "scope": "Owner S55 one-handoff build admission for239 final native candidates; parent and board administrative after pins only. No accepted content or state promotion.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "789308090b7100d3ff8d24cdd7284daef650a82d434b2e1a4e257627558a99c1",
+          "afterSha256": "28d7a027bb27c86290fc5b8a6a76137842a200c962ea52ad09a18642de097ab5",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

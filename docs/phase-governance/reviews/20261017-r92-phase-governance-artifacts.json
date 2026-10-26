@@ -998,7 +998,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "d1d0c721a60228989d938bbffc6c474c17b367239eec0d00527248b0b0c0127c",
+      "afterSha256": "bab3a8088c21078e2975273f5d0d6f69e6843abe303e93fe5de2923b1699cb46",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1180,6 +1180,18 @@
           "beforeSha256": "deee28fc61417592ed56fe9467e3d1c6254e60b108db6712ed11b409469ef028",
           "afterSha256": "d1d0c721a60228989d938bbffc6c474c17b367239eec0d00527248b0b0c0127c",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "d1d0c721a60228989d938bbffc6c474c17b367239eec0d00527248b0b0c0127c",
+          "afterSha256": "bab3a8088c21078e2975273f5d0d6f69e6843abe303e93fe5de2923b1699cb46",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3399,7 +3411,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
-      "afterSha256": "4d70a0fb68963d5356450ea4bf5440050cb527951c0d88e3ece31dd9eb2835ae",
+      "afterSha256": "6ca9226f947df2051d71fb721ad8bad26afd10d1df6e93865ebcb16e797a7609",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3558,6 +3570,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "4d70a0fb68963d5356450ea4bf5440050cb527951c0d88e3ece31dd9eb2835ae",
+          "afterSha256": "6ca9226f947df2051d71fb721ad8bad26afd10d1df6e93865ebcb16e797a7609",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3588,7 +3612,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
-      "afterSha256": "c90e5600874542f34e715265715df3a4f27068400482c5b1c8947400f25392c8",
+      "afterSha256": "d80f527c37e84046ca339a0b458cb73656117e0bf5964d4f332f69f8812ae974",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3743,6 +3767,18 @@
           "beforeSha256": "271f45b24b0fb4728a665ca359efd5c13fcab1ecb32d827bcfcc796148f3a903",
           "afterSha256": "c90e5600874542f34e715265715df3a4f27068400482c5b1c8947400f25392c8",
           "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "c90e5600874542f34e715265715df3a4f27068400482c5b1c8947400f25392c8",
+          "afterSha256": "d80f527c37e84046ca339a0b458cb73656117e0bf5964d4f332f69f8812ae974",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3952,7 +3988,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-      "afterSha256": "e40a90dbc587e12aff7ba9366ea4908aeb1984147a6d076d8efc249babebea91",
+      "afterSha256": "e5883c28aa6cc77bd3c1c3864384e154c255ff041f3d82d07cb4cdcf5d99d0a4",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4140,6 +4176,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "e40a90dbc587e12aff7ba9366ea4908aeb1984147a6d076d8efc249babebea91",
+          "afterSha256": "e5883c28aa6cc77bd3c1c3864384e154c255ff041f3d82d07cb4cdcf5d99d0a4",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -4170,7 +4218,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-      "afterSha256": "d4ed9d4d00bfd4620bae99d2d5830c8fad93333e351d621aaa59ea726e55fd8f",
+      "afterSha256": "671907da4df44c2a1dd536f4d04a332241e30bd284bb52f85bdce0f474f85c39",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4358,6 +4406,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "d4ed9d4d00bfd4620bae99d2d5830c8fad93333e351d621aaa59ea726e55fd8f",
+          "afterSha256": "671907da4df44c2a1dd536f4d04a332241e30bd284bb52f85bdce0f474f85c39",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -4388,7 +4448,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
-      "afterSha256": "f2cdce312329033d6b9be6f1d9d93af2dad7951f1f71525a0a021d312ee270a7",
+      "afterSha256": "cf5bf8534e4be83305e1691e14db5e968f5999a7d8338ff8d42832250d3641be",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4572,6 +4632,18 @@
           "beforeSha256": "04aadd0b593f5e696ddcf74149a8c8ef7d92030b0e6adc9f061f3d6f7a1ba9b4",
           "afterSha256": "f2cdce312329033d6b9be6f1d9d93af2dad7951f1f71525a0a021d312ee270a7",
           "scope": "Match the accepted native receipt classification and explicit carrier evidence path; statuses, historical claims and original source axes unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "f2cdce312329033d6b9be6f1d9d93af2dad7951f1f71525a0a021d312ee270a7",
+          "afterSha256": "cf5bf8534e4be83305e1691e14db5e968f5999a7d8338ff8d42832250d3641be",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,

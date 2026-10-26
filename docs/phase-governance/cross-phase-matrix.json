@@ -145,10 +145,7 @@
             "path": "docs/phase-governance/cross-phase-matrix.json",
             "gitObject": "e933f16d2bbb37df9d37500642d4d3ca4cdc7cd0",
             "fileSha256": "54663beb4f547bda782f4190ab5c81a1130170a4bcbd803490c4337f8f9dff05",
-            "selector": {
-              "rows.id": "lore-canon-vs-phase2-content",
-              "uniqueMatches": 1
-            },
+            "selector": { "rows.id": "lore-canon-vs-phase2-content", "uniqueMatches": 1 },
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousCompleteRow": {
@@ -312,11 +309,11 @@
         }
       ],
       "currentAcceptedBoundary": {
-        "task": "DOCS-FULL-TEMPLATE-1/S52",
-        "date": "2026-10-25",
-        "bodyScope": "Eight unchanged C2 Markdown document versions accepted from GLM S51 declared reading and Codex risk evidence review; actual existing template contracts pass, three missing routes connected. Prior accepted boundaries remain in their records.",
-        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s52-s51据证裁定与八篇现成markdown接入2026-10-25",
-        "excluded": "No blanket658 readiness, no632 JSON migration, no15 HTML production contract, no historical15 receipt execution reauthentication, no212 migration or runtime/E2E/visual/coverage credit. Parent new S52 administrative prose not covered by GLM C2 reading."
+        "task": "DOCS-FULL-TEMPLATE-1/S56",
+        "date": "2026-10-26",
+        "bodyScope": "195 historical native-document versions accepted via unchanged GLM source cores/previously accepted six pilots.27 S54 typed contents now staged with strict-compatible metadata;17 Codex-authored cores pending independent review. Total44 not promoted.",
+        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s56-s55据证返工owner接手与限定接受接入2026-10-26",
+        "excluded": "S55 delivery implementation is countered; original R-wave claims remain withdrawn. No old execution/runtime/E2E/visual/coverage credit, no overall completion or main integration."
       }
     },
     {

@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import { nativeFamilyContentAcceptance } from './historical-native-family-admission.mjs'
+import { nativeFamilyExpansionContentAcceptance } from './historical-native-family-completion-admission.mjs'
 
 // The fixed content proposal has these fields only; administrative/source history
 // is retained separately by the publication transaction, not silently discarded.
@@ -51,7 +52,9 @@ export function nativeFamilyQualificationIssues(row, pilot) {
     row.currentIndependentAcceptance === undefined
   )
     return []
-  const accepted = nativeFamilyContentAcceptance
+  const accepted = Object.hasOwn(nativeFamilyContentAcceptance.contentByPath, pilot.path)
+    ? nativeFamilyContentAcceptance
+    : nativeFamilyExpansionContentAcceptance
   const contentSha256 = accepted.contentByPath[pilot.path]
   const expected = {
     protocol: 'document-delivery-acceptance/1.0.0',
@@ -64,7 +67,7 @@ export function nativeFamilyQualificationIssues(row, pilot) {
     reportSha256: accepted.reportSha256,
     ownerDecision: {
       actor: 'Codex',
-      task: 'DOCS-FULL-TEMPLATE-1/S50',
+      task: accepted.task ?? 'DOCS-FULL-TEMPLATE-1/S50',
       currentBodyReview: true,
       currentTemplateMigration: true,
       oldClaimRestored: false,

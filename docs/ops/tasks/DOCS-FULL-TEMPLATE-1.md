@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s55-glm-native-completion
+Branch: codex/docs-s56-owner-completion
 Last reviewed: 2026-10-25
 Template: task-card-v1 / 1.0.0
 
@@ -2568,3 +2568,12 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 全239在隔离完整树演练：无Owner grant拒绝；标明synthetic的临时Owner grant验证正常晋升、精确扣减、伪签/跨篇借签/语义改后刷新hash拒绝、并发输入漂移拒绝、二次零写。synthetic接受只存在临时树，不入真实候选或验收证据中的真实Owner字段。三轴分列：作者最终内容完成、候选部分状态、Owner接受后的演练/实际投影；候选1718/862不得写成已减，演练按actual逐篇计数，不猜1838基线/增量归属。
 - 白名单：既有historical-native-family-qualification.mjs仅新27completion分派；新historical-json-completion.mjs、historical-json-completion-admission.mjs、historical-native-family-completion-admission.mjs、update-historical-json-completion.mjs与至多两个有必要判别力的新文档工具测试；本卡/board，27 route和对应registry投影、239唯一review及真实after级联、既有单份gzip。新文件按需不全建；不改其他脚本、旧测试、模板registry、产品/coverage/运行回执。单篇事实不足留blocked，不影响其余交付；旧测试适配确需新授权时保留完整补丁/失败证据，继续其它可独立部分，不能改旧断言过门。
 - 作者自验使用实际命令/输入指纹/raw输出；同输入稳定证据复用，全套和lint集中到最终候选，不逐小批重复。E2E006日期不自动续，严格门与全仓门红如实保留；不合main、不推送、不标父子卡done。127控制件与其它未准入合同仍归Owner，不在本包扩张；待本239最终候选回交后由Codex集中验收、小修、真实签发和实际扣减，不再让用户逐阶段传话。
+
+## S56 S55据证返工、Owner接手与限定接受接入（2026-10-26）
+
+- S54独立accept已核两SHA：HANDBACK 7edf41e9、verdict b330793b，复用27真实十九字段与5勘误，不重做505。S55 ec259853a不接收：239行仅新增三个_completion标志，未应用27正文；实际model162 issues、strict另8项漂移，源回执280 pass/1 fail并非281/0，node_modules仍被追踪。grant接受任意64位报告和未准入路径、CLI硬编码仓外依赖、未校验批事务或级联。原候选/回执冻结留存，不签发其grant或运行其writer。
+- Codex build allowed从干净准入f639587e隔离后继接手；放弃六个未验不安全新工具/弱测试，沿用已验保护loader/packer/成组物理事务。既有S50资格算法仅增加精确S54二十七篇已接受数据的选择及task来源，原八接受表/其算法与旧272/212合同不变；一个必要新测试检验27真实接受及刷新hash/借签拒绝，旧测试/产品/coverage不改。
+- 全212核心结论与GLM原稿逐篇精确比对：192原样，20既有Owner勘误；其中3在六个S33 pilot范围内，沿用GLM原复核+C1关闭，其余17篇须非作者补审，不由Owner自签。六pilot使用既有GLM内容接受，其余189原稿由Codex据证风险验收；共195历史回执可接受。另27使用S54 GLM非作者接受，195历史回执本轮接入；27新增元数据校正与17既有Owner稿合计44保持partial/needs，原始R波/执行撤信一律不恢复。
+- 195实际接入先完整临时树，27仅元数据候选，再真实有界物化；复用现有唯一review，按新接受迁移旧claimCorrection到历史逐值保留，source/provenance/revision history前缀和所有原生字节保全。registry为195状态及27候选分类，routing按222已准入现有变体补齐缺失入口，矩阵仅当前接受边界、本卡/board及真实after级联、既有单份gzip。不堆复本或给review再造review。原sourcePins/1838分母固定，未通过完整硬门仍rework，不合main、不推送、不done。Owner仅签其非作者范围及据证继承的独立范围；待补17另列，不虚报239全过。
+
+- 首个临时树拦截了历史195缺正式路由/registry变体，以及27稿的通用reviewDepth/证据路径/公开caller元数据缺口；不加豁免，不授27新状态。Owner仅规范这27的审阅元数据并保留待非作者复核；其核心结论/nativeReading/oracle等原业务说明不改。S54旧报告只接受原稿，不冒称覆盖S56新元数据，未签发的completion接受表为空。
