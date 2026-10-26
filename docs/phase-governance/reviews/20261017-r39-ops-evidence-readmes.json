@@ -14,13 +14,15 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code-accepted; concentrated uniform gates/publication pending",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
       "truthAnchors": [
         "docs/ops/evidence/README.md:1",
         "当前证据:8; 历史交付入口:18; DOCS-FULL-TEMPLATE-1:57"
       ],
-      "unresolved": ["52 code accepted; gates/publication pending."],
-      "nextStep": "Complete uniform gates before protected PR.",
+      "unresolved": [
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+      ],
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "ops",
       "module": "evidence",
       "capability": "ops-evidence-evidence-README",

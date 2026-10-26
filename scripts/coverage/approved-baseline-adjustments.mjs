@@ -5,6 +5,99 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'review52-approved-video-guards-and-sprite-retirement-20261026',
+    authority:
+      'User2026-10-26 explicitly approved output symlink rejection/atomic publish and zero-caller sprite-wrapper retirement; standing instruction permits justified exact baseline changes without dead-code restoration or weak tests. This finite adjustment includes behavioral CLI guards, not just pure restructuring: CLI subprocess byte/error regressions pass but the standalone script is outside in-process V8 execution. Its new uncovered denominators stay visible. Exactly two per-file deltas explain the pal-extract package change; other six packages and their real gains are not rebased. One official collection reused; no metric tolerance, exclusion, rule or predicate change.',
+    evidence: 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json',
+    baselineSha256: '8851d8d5b176469254e5504a3971917f1f02aa5541f6fba62983d91a49469c4a',
+    sources: [
+      {
+        path: 'packages/pal-extract/scripts/extract-videos.ts',
+        sha256: 'af09a60afc0340809c0edaa4289dffe1700ebdffe1bb1ea49c58d70791d01f20',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite.ts',
+        sha256: '95e171528c60e7c06f3b82aade6e991bed39546b7cff93e62a69037334b15b9a',
+      },
+      {
+        path: 'packages/pal-extract/src/output-boundary.ts',
+        sha256: '2b7f92f1d5713dd9d1753c14917dca80582add06f304712be857d1cc4e6a0bdd',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-entrypoint-paths.test.ts',
+        sha256: 'f622af31fdef664f7607681b0e9f04512709c1123e5adf7ac4a95aee4c607f2b',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite.test.ts',
+        sha256: '03b9a0a2172040c0fca3e823956029d1b45196dad6f3e460e4bb1fed555e803f',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts',
+        sha256: 'c02fe8adea672225ac43017baa84d1b0039a23e762d6b24487455890e11acc80',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts',
+        sha256: '229c6433140e78fcb7df5a9e8a4e576698ff7cae3909011316f19718db2d9790',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/metrics.mjs',
+        sha256: '5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: 'b86ca4f3d13fc0b2b5c05d87781bba2652ad518f40eadf2b569170b5e71f9c3d',
+      },
+    ],
+    packages: {
+      'pal-extract': {
+        before: {
+          statements: {
+            covered: 1350,
+            total: 1782,
+          },
+          branches: {
+            covered: 648,
+            total: 761,
+          },
+          functions: {
+            covered: 133,
+            total: 190,
+          },
+          lines: {
+            covered: 1186,
+            total: 1567,
+          },
+        },
+        after: {
+          statements: {
+            covered: 1341,
+            total: 1785,
+          },
+          branches: {
+            covered: 646,
+            total: 766,
+          },
+          functions: {
+            covered: 132,
+            total: 191,
+          },
+          lines: {
+            covered: 1177,
+            total: 1568,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'quality94-102-unused-menu-api-removal-20261025',
     authority:
       'User explicitly approved unused old-menu API deletion and the corresponding test retirement; standing authority permits justified exact structural rebaselining. Only the three unchanged-active-body helpers are recounted from old/current per-file official data. No uncovered-count increase in those files. Driver, Save API and IDB gains are excluded from the adjustment and retained; all other packages/scope/threshold algorithms unchanged. One official collection, original rejection retained, no recollection.',

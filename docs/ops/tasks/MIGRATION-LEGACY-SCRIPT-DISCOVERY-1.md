@@ -1,6 +1,6 @@
 # MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围
 
-Status: review
+Status: done
 Phase: phase2
 Capability: current migration IO ownership
 Coding Owner: Codex（单一实现写入者）
@@ -29,3 +29,5 @@ Branch: codex/code-quality-94-102
 用户明确批准删除退役脚本index读取，旧文件保持非托管；当前场景/地图/seed/TOCTOU不扩域。 Codex核当前main未变、单一Owner与隔离治理分支，build allowed。上文待裁决描述保留为历史提案；本轮以此明确答复为准。定向与相邻集中验证，纯清理/行为修复独立提交，全部52稳定后统一门。
 
 2026-10-26 实施：只删除退役脚本index读取，显式seed/scene/map保持。正式新例6绿1指定业务红后修，五迁移/plan文件36绿0stderr；原专测chunk片段退休、场景精确全集保留，TOCTOU换当前map路径。旧JSON及chunk按非托管哈希，坏旧索引亦不解析；未启动真实migrate命令/不写工程。统一门与发布另核。
+
+- 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。

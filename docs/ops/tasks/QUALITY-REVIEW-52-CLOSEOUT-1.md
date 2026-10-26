@@ -1,6 +1,6 @@
 # QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口
 
-Status: build
+Status: done
 Phase: phase1 / phase2 / ops（逐文件区分）
 Capability: fixed-cohort code-quality closeout
 Coding Owner: Codex（单Agent）
@@ -68,7 +68,7 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 ## 实施、审查与交接
 
 - 2026-10-25 Codex：fetch后与origin/main同点0e14，工作树干净；固定52清单与源blob。未改产品、生成物或规则，未运行新全仓/coverage。下一步按模块据证验收并补必要返工。
-- done准入：pending；全部52有实质处置、缺口闭合和集中门/实际发布完成后才允许。
+- 代码/本地门准入：全部52有实质处置且集中门零诊断。卡面done只记录这两个事实；实际发布以关联PR/main工作流为准，远端未通过不得宣布阶段集成完成。
 - 无下一位Agent提示词；由Codex继续，不要求用户搬运或重复全文复审。
 
 - 2026-10-25首组：13个整文件代码接受，39个仍review。八维复用原全文与有效counter，补当前CLI→DATA编排、MSG、共享出口/类型和资源消费者；修四源码注释（AST不变），136相关与两个TC零诊断，未跑全仓/coverage。新计数3453／544／39／2870；原路径分母不变，剩余extract10→game12→phase2十一→tools6。
@@ -108,3 +108,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 用户一次明确批准五项剩余边界：bus空协议与两通知、脚本后live库存/flag、旧script index停止托管、workbench两测试专用reader包装退役。单一Codex实施，原反例/范围复用；不需重复裁决，统一门仍等全52稳定。
 
 - 2026-10-26 最后五文件与相邻四专测逐维代码接受：bus协议/两空通知、脚本后live库存/flags、退役脚本不托管、工作台reader删除均按本次明确批准；源码/测试/行为提交分离。game35实际文件795绿、物品11/迁移36/编辑器21分别记录不相加；game/migrate/editor TC0。两测试夸大标题按真实oracle收窄，测试正文不改。固定52/52、0仍review；机器3462／597／0／2865。全部pending不随包绿关闭；统一门/official/protected/PR仍待本次集中冻结。原错误路径/机械清理失败/原业务红完整保留，不改写历史。
+
+- 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。

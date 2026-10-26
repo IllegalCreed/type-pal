@@ -62,7 +62,7 @@
     },
     {
       "path": "scripts/coverage/approved-baseline-adjustments.mjs",
-      "sha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e",
+      "sha256": "aaefc818e0da3243b71ab0350e57ea97bf3b22051a5060e2f9d5175617db90f8",
       "lines": 2655,
       "status": "code-accepted",
       "prior": {
@@ -87,7 +87,11 @@
         "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
         "all unchanged source/table bytes pinned to origin/main immutable0e14",
         "new parallel5 tests include old3green/new2 business reds→green"
-      ]
+      ],
+      "recountMaintenance": {
+        "previousSha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json"
+      }
     },
     {
       "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
@@ -228,7 +232,11 @@
     },
     {
       "path": "scripts/coverage/approved-baseline-adjustments.mjs",
-      "sha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e"
+      "sha256": "aaefc818e0da3243b71ab0350e57ea97bf3b22051a5060e2f9d5175617db90f8",
+      "recountMaintenance": {
+        "previousSha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json"
+      }
     },
     {
       "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
@@ -529,5 +537,10 @@
       "scripts/coverage/approved-test-retirements.test.mjs"
     ],
     "scope": "Only explicit three old/new file snapshots (two additions, bus replacement) and finite aggregate census; predicate/other historical snapshots unchanged."
+  },
+  "recountMaintenance": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json",
+    "files": ["scripts/coverage/approved-baseline-adjustments.mjs"],
+    "scope": "One finite two-file old/current count migration, consumer unchanged; 20 historical approval rows retained. Current row explicitly includes subprocess-tested behavioral guards, not only refactoring."
   }
 }

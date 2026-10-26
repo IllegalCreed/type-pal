@@ -1,6 +1,6 @@
 # GAME-BATTLE-ITEM-LIVE-INVENTORY-1 — 物品脚本后的库存与标志所有权
 
-Status: review
+Status: done
 Phase: phase1
 Capability: battle item script lifetime
 Coding Owner: Codex（单一实现写入者）
@@ -31,3 +31,5 @@ SDLPal fight.c::kBattleActionUseItem在脚本后读活wFlags并按id调用PAL_Ad
 用户明确批准按SDLPal脚本后读取当前库存与consuming，普通count0行不改；复用已冻结1绿2业务红。 Codex核当前main未变、单一Owner与隔离治理分支，build allowed。上文待裁决描述保留为历史提案；本轮以此明确答复为准。定向与相邻集中验证，纯清理/行为修复独立提交，全部52稳定后统一门。
 
 2026-10-26 实施：脚本后读取rgObject[itemId].rgwData[6]（无overlay沿静态合同），按id重查当前库存，count>0才扣且保留0行；玩家/敌人归属和script续点不变。既有正式1绿2业务红恢复，两个物品文件11绿/0stderr、game TC0；产品实现与bus纯清理分提交。新阶段全门/发布尚待，未冒称完成。
+
+- 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。

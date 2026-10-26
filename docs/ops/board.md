@@ -28,11 +28,7 @@ Template: governance-index-v1 / 1.0.0
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 | [退役脚本与托管范围](tasks/MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | review | Codex / 只读事实，待ownership裁决 | 当前格式禁止旧scripts，发现分支仍存；不夹改资产管线。 |
-| GAME-COMMAND-BUS-API-CLEANUP-1 | [通道无用回执与编号](tasks/GAME-COMMAND-BUS-API-CLEANUP-1.md) | review | Codex / 待本项接口裁决 | 30生产发送均不读编号；四个无emit类型，不混淆真实音效。 |
-| GAME-BATTLE-ITEM-LIVE-INVENTORY-1 | [脚本后库存与标志所有权](tasks/GAME-BATTLE-ITEM-LIVE-INVENTORY-1.md) | review | Codex / 两正式红，待机制裁决 | 合法小脚本可漏扣/误扣；普通主线可达未证，产品未改。 |
 | GAME-VIDEO-PUBLISH-BOUNDARY-1 | [视频子路径所有权与失败发布](tasks/GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | Codex / 用户已批准，先红后修 | 三正式字节反例已红；仅输出后代链接/失败发布，编码参数与raw链接保持。 |
-| QUALITY-REVIEW-52-CLOSEOUT-1 | [剩余52个review文件收口](tasks/QUALITY-REVIEW-52-CLOSEOUT-1.md) | build | Codex / 固定清单、复用证据补缺 | main0e14同一治理分支；固定52/52代码接受，集中全门/发布待核；新增内部叶/专测单列，重门集中阶段收尾。 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案、脚本组合与编辑器预览](tasks/ED-ENTITY-STATE-PLAN-1.md) | review | Codex / 完整现场与E2E采集待续 | 首批UI用户验收通过；临时方案丢弃，正式状态须经E2E核对 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界测试](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | GLM / 补原始反控与合法输入；Codex复核 | 先前accept撤回；全绿与已合入不等于合同验收 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |

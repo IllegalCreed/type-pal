@@ -178,7 +178,7 @@
         "D": "复用根所有权guard，后代检查只对六个实际输出；不把root guard参数扩大或新建万能事务层，六个文件独占临时目录。",
         "E": "用户批准前三个字节反例失败、原6绿；修复后10入口例及root/诊断相邻27绿，含旧字节/链接目标不变、临时目录清理、六转换/跳过、缺encoder。fake仅替codec，真实fs/entrypoints执行。",
         "F": "guard→mtime→独占临时编码→非空→rename→finally流程直接，变量明确区分published与temporary路径。",
-        "G": "删从不读取的results集合，保留每次用于日志的r；不新增force/兼容/重试开关，三个被检后代并非盲目全树扫描。",
+        "G": "删从不读取的results集合，保留每次用于日志的r；不新增force/兼容/重试开关，三个被检后代并非盲目全树扫描。 非阻塞可改善结构：私有ConvertResult.id只是返回外层loop已有id，main未消费该属性；可精简内部返回形状，按“可改善不强行修”登记，未声称没有任何可改善点。",
         "H": "真实入口通过自有文件/可控encoder失败测试，未新增仅供测试导出；不宣称已验证真实codec画质或对抗同UID恶意并发TOCTOU。"
       },
       "readScope": "Codex full current source/fixture read; existing primary/native source semantics reused, current callers and stated gap deltas actually inspected",
@@ -529,5 +529,14 @@
     "unionFiles": 20,
     "unionIdentityOccurrences": 131,
     "method": "repo-relative file×fullName; same-name parameter rows keep ordinal occurrence identities; executions are not test additions"
-  }
+  },
+  "optionalStructureCandidates": [
+    {
+      "id": "review52-video-result-id",
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "classification": "可改善结构，非产品缺陷",
+      "evidence": "Private ConvertResult.id is populated in both convertOne returns; main logs outer AVI_IDS loop id and never reads r.id.",
+      "disposition": "Deferred minor private-return cleanup; not an input/ownership/behavior gap. No scope expansion or extra coverage collection for this optional change."
+    }
+  ]
 }

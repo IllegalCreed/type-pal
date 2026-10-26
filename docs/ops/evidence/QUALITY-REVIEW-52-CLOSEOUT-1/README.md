@@ -15,7 +15,7 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 
 ## 结果
 
-当前固定52/52代码接受，0仍review；52之外四个本轮相邻专测单列接受，机器3462tracked／597closed／0review／2865pending。每个文件A–H及源/原件版本在review.json；当前最后五文件与四专测见[有限批准收口](approved-remaining-reviewed.json)、[完整当前/中间失败原件](approved-remaining-native.json.gz)、[精确退役快照](retirement-freeze.json)。统一全仓、official、ratchet、protected与PR/main CI尚未完成，不能宣布阶段发布。早期局部数字只在各自历史段有效。
+当前固定52/52代码接受，0仍review；52之外四个本轮相邻专测单列接受，机器3462tracked／597closed／0review／2865pending。每个文件A–H及源/原件版本在review.json；当前最后五文件与四专测见[有限批准收口](approved-remaining-reviewed.json)、[完整当前/中间失败原件](approved-remaining-native.json.gz)、[精确退役快照](retirement-freeze.json)。本地全仓、official计数核定、同报告ratchet/protected已完成；PR/main CI与发布待真实远端核验，不能预告通过。早期局部数字只在各自历史段有效。
 
 ## 限制与退出条件
 
@@ -70,3 +70,9 @@ id：QUALITY-REVIEW-52-CLOSEOUT-1；schemaVersion：1；Owner：Codex，单Agent
 [六工具整文件裁定](tools-reviewed.json)与[完整原始TAP、命令和数据审计](tools-native.json.gz)：规则/基线数据保持，只有可选调度错误所有权修复。原118与新105保留各自身份，不当作223独立测试。
 
 工作台[当前八维与保留停止线](workbench-reviewed.json)、[正式资源红绿及启动错误披露原件](workbench-native.json.gz)：两类焦点队列释放，21相邻与最终7例绿；旧reader出口裁决仍待，不关闭工作台。
+
+## 集中统一门（本地冻结）
+
+[当前统一回执](uniform.json)与[完整未裁剪原件](uniform-native.json.gz)：全仓20620产品＋721工具／七TC，lint6137文件0/0/0；唯一official20185测试与809源全绿，原命令exit1因旧比率拒绝保留。只对pal-extract两文件精确调整：已批准死包装移除＋真实子进程验证的视频输出保护。后者是行为保护新增的V8未执行计数，不冒称纯重构；其它六包收益全部保留。同报告原policy重放ratchet/protected均0，精确退役三项逐一匹配；未重复采集覆盖率。
+
+首轮check中Git读取stdin停滞，由Codex终止该子进程；采样、操作说明与失败原件均保留，复跑完整通过。前文局部窗口结论仅是历史范围；本节统一门与下游真实GitHub运行分别承担本地/发布事实，不相互替代。最终静态回执追加同一原件包后才推送。

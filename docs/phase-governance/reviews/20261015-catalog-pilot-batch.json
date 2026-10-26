@@ -13,7 +13,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code-accepted; concentrated uniform gates/publication pending",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -40,8 +40,10 @@
         "priorAcceptance": "Entire immediate prior current record actually retrieved/equal in fixed dd377 Git with unique selector; original ec2 fullprior and dated author pending fields preserved.",
         "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit."
       },
-      "unresolved": ["52 code accepted; gates/publication pending."],
-      "nextStep": "Complete uniform gates before protected PR.",
+      "unresolved": [
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+      ],
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -3232,7 +3234,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code-accepted; concentrated uniform gates/publication pending",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -3264,8 +3266,10 @@
           "current dynamic evidence and original task counters"
         ]
       },
-      "unresolved": ["52 code accepted; gates/publication pending."],
-      "nextStep": "Complete uniform gates before protected PR.",
+      "unresolved": [
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+      ],
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "testing",
       "module": "phase1-dependency-ownership",
       "owner": "Codex",

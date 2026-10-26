@@ -503,7 +503,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code-accepted; concentrated uniform gates/publication pending",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -511,15 +511,17 @@
         "docs/ops/tasks/GAME-ENGLISH-1.md",
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
-      "unresolved": ["52 code accepted; gates/publication pending."],
-      "nextStep": "Complete uniform gates before protected PR.",
+      "unresolved": [
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+      ],
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
-      "afterSha256": "a68be2dfadf3932f4780355351a3c086adc9468ac35f636ea37b8a146181fa8e",
+      "afterSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -547,8 +549,8 @@
         "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
-        "currentSha": "a68be2dfadf3932f4780355351a3c086adc9468ac35f636ea37b8a146181fa8e",
-        "implementationSha": "a68be2dfadf3932f4780355351a3c086adc9468ac35f636ea37b8a146181fa8e",
+        "currentSha": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
+        "implementationSha": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1718,12 +1720,12 @@
       "evidence": {
         "kind": "owned-review52-closeout",
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-        "afterSha256": "a68be2dfadf3932f4780355351a3c086adc9468ac35f636ea37b8a146181fa8e",
+        "afterSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
-        "lineCount": 87,
+        "lineCount": 83,
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "a68be2dfadf3932f4780355351a3c086adc9468ac35f636ea37b8a146181fa8e",
+          "afterSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
           "scope": "Owned52 delta; history retained."
         }
       },
@@ -3354,22 +3356,24 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code-accepted; concentrated uniform gates/publication pending",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "scripts/docs/check.mjs:67",
         "docs/ops/tasks/GAME-ENGLISH-1.md",
         "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
       ],
-      "unresolved": ["52 code accepted; gates/publication pending."],
-      "nextStep": "Complete uniform gates before protected PR.",
+      "unresolved": [
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+      ],
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
-      "afterSha256": "bca0265017cc0881d8ed944c9f840700fa2d720f189bf8d5f9efa5cd5acf7fc3",
+      "afterSha256": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3389,8 +3393,8 @@
         "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "bca0265017cc0881d8ed944c9f840700fa2d720f189bf8d5f9efa5cd5acf7fc3",
-        "implementationSha": "bca0265017cc0881d8ed944c9f840700fa2d720f189bf8d5f9efa5cd5acf7fc3",
+        "currentSha": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
+        "implementationSha": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3754,12 +3758,12 @@
       "evidence": {
         "kind": "owned-review52-closeout",
         "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-        "afterSha256": "bca0265017cc0881d8ed944c9f840700fa2d720f189bf8d5f9efa5cd5acf7fc3",
+        "afterSha256": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "lineCount": 535,
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "bca0265017cc0881d8ed944c9f840700fa2d720f189bf8d5f9efa5cd5acf7fc3",
+          "afterSha256": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
           "scope": "Owned52 delta; history retained."
         }
       },

@@ -4607,7 +4607,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Read actual owned delta; previous document/history unchanged",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code-accepted; concentrated uniform gates/publication pending",
+      "coreConclusion": "Fixed52 file quality closeout; 52/52 code/local gates accepted; actual protected publication separate",
       "truthAnchors": [
         "packages/game/src/core/script-catalog.ts:33-40",
         "packages/game/src/core/inventory-state.ts:10-23",
@@ -4687,8 +4687,10 @@
           "whole-docs governance"
         ]
       },
-      "unresolved": ["52 code accepted; gates/publication pending."],
-      "nextStep": "Complete uniform gates before protected PR.",
+      "unresolved": [
+        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+      ],
+      "nextStep": "Complete required PR/main CI and publish exact receipt.",
       "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",

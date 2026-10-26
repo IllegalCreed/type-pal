@@ -28,6 +28,66 @@ function readNativePacket(native) {
 const directory = 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/'
 const scope = json(`${directory}scope.json`)
 const review = json(`${directory}review.json`)
+if (review.uniform) {
+  assert.equal(sha(read(review.uniform.path)), review.uniform.sha256)
+  const uniform = json(review.uniform.path)
+  const receipts = readNativePacket(uniform.native)
+  for (const id of [
+    'uniform-check-r2',
+    'ratchet-replay',
+    'protected-fast',
+    'coverage-tools-final',
+  ]) {
+    assert.equal(JSON.parse(receipts[`${id}.execution.json`]).exit, 0)
+    assert.equal(receipts[`${id}.stderr.raw`], '')
+  }
+  assert.equal(JSON.parse(receipts['official-ratchet.execution.json']).exit, 1)
+  assert(receipts['official-ratchet.stderr.raw'].includes('覆盖率不得下降'))
+  const official = JSON.parse(receipts['official-summary.json'])
+  assert.deepEqual([official.testCount, official.sourceFileCount], [20185, 809])
+  assert.equal(sha(read('scripts/coverage/baseline.fast.json')), uniform.coverage.baselineSha256)
+  const recount = JSON.parse(receipts['recount.json'])
+  assert.equal(recount.files.length, 2)
+  for (const pin of recount.sourcePins) assert.equal(sha(read(pin.path)), pin.sha256, pin.path)
+  const consumer = read('scripts/coverage/approved-baseline-adjustments.mjs').toString()
+  const approvalData = (source) => {
+    const file = ts.createSourceFile('approvals.mjs', source, ts.ScriptTarget.Latest, true)
+    const declaration = file.statements
+      .filter(ts.isVariableStatement)
+      .flatMap((statement) => statement.declarationList.declarations)
+      .find((node) => node.name.getText(file) === 'approvedAdjustments')
+    const literal = (node) => {
+      if (ts.isStringLiteral(node)) return node.text
+      if (ts.isNumericLiteral(node)) return Number(node.text)
+      if (ts.isArrayLiteralExpression(node)) return node.elements.map(literal)
+      assert(ts.isObjectLiteralExpression(node), 'approval data must remain literal')
+      return Object.fromEntries(
+        node.properties.map((property) => {
+          assert(ts.isPropertyAssignment(property))
+          return [property.name.text, literal(property.initializer)]
+        }),
+      )
+    }
+    return literal(declaration.initializer)
+  }
+  const historical = execFileSync(
+    'git',
+    ['show', '0e14c184e:scripts/coverage/approved-baseline-adjustments.mjs'],
+    { cwd: root, encoding: 'utf8' },
+  )
+  const approvals = approvalData(consumer)
+  assert.equal(approvals.length, 21)
+  assert.deepEqual(approvals.slice(1), approvalData(historical))
+  assert.equal(
+    sha(consumer.slice(consumer.indexOf('export async function adjustApprovedBaseline'))),
+    recount.predicateSha256,
+  )
+  const runner = read('scripts/coverage/run.mjs').toString()
+  assert.equal(sha(runner), JSON.parse(receipts['replay-proof.json']).sourceSha256)
+  assert.equal(uniform.whole.productTests, 20620)
+  assert.equal(uniform.whole.toolTests, 721)
+  assert.equal(uniform.whole.diagnosticMarkerCount, 0)
+}
 if (review.approvedRemainder) {
   assert.equal(sha(read(review.approvedRemainder.path)), review.approvedRemainder.sha256)
   const current = json(review.approvedRemainder.path)
@@ -139,7 +199,10 @@ if (review.tooling) {
   assert.equal(audit.adjustmentCount, 20)
   assert.equal(audit.distinctOldBaselines, 20)
   for (const file of audit.unchanged) {
-    if (!module.retirementMaintenance?.files.includes(file.path))
+    if (
+      !module.retirementMaintenance?.files.includes(file.path) &&
+      !module.recountMaintenance?.files.includes(file.path)
+    )
       assert.equal(sha(read(file.path)), file.sha256)
     assert.equal(
       sha(execFileSync('git', ['show', `0e14c184e:${file.path}`], { cwd: root })),
