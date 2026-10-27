@@ -357,9 +357,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded current performance appendix/single board row plus actual code and native evidence; original quote/history unchanged; not a new whole-document semantic review.",
+      "readMethod": "Bounded boat-bob user counter/code/current native replay and preview retirement; frozen original quote/history retained; not a new whole-document semantic review.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "Bounded save-performance appendix records serial≈1134.7s versus final58.728s full2474-file native SaveAs/reopen, exact public bytes, real2% page interruption,2599-file unchanged foreign-manifest refusal and original-plan recovery; explicitv2 empty-copy constraints, oldv1 safety and no self/main/done credit.",
+      "coreConclusion": "Bounded carrier-animation rework admission and actual0847b1a6e replay; preserve transport appearance and explicit page pose,retire orphan auto preview,retain approved old-test adapters/earlier failures and all frozen525/save-performance evidence; no main/done or independent credit.",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
@@ -384,7 +384,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "e250528ad6fc596078a07b40ef543a13431fe4b16abce87e13ad320f53404819",
+      "afterSha256": "3a0622d3451eaa76011044cb37775ad90d5d6a096f33220899ada873b04c9981",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -462,6 +462,23 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "archive": "build/evidence-archive/editor-save-performance-20261027/editor-save-performance.tar.gz"
+        },
+        "currentBoatBobCandidate": {
+          "task": "E2E-006-1",
+          "sourceRevision": "ed9fa09e8f21d8cfc2afd348835cdc7f0b4c240d",
+          "runtimeRevision": "0847b1a6e43fbd3cd189e9f3201ceb53e527d1bb",
+          "author": "Codex",
+          "nonAuthorReviewer": false,
+          "independentAcceptance": "pending",
+          "userVisualAcceptance": "pending",
+          "boatDrawRecords": 71,
+          "bobFrameChanges": 6,
+          "renderedFrames": [0, 1],
+          "dialogueRows": 95,
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "newGameRuntimeCredit": 0,
+          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz"
         }
       },
       "history": [
@@ -717,7 +734,7 @@
       ],
       "templateConformance": {
         "status": "needs-migration",
-        "scope": "New save-performance author delta pending independent acceptance; prior conformance preserved by fixed record locator in maintenanceDeltas."
+        "scope": "New boat-bob author delta pending independent/user acceptance; prior conformance preserved by fixed record locator in maintenanceDeltas."
       },
       "currentAuthoredReview": {
         "protocol": "document-delivery-acceptance/1.0.0",
@@ -785,6 +802,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
             "index": 1,
             "entryCanonicalSha256": "8ea4119344ecce582f3beecbec5da6eb426214c0261e224d5ef5bccd0f2ee3c4"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/boat-bob",
+          "revision": "ed9fa09e8f21d8cfc2afd348835cdc7f0b4c240d",
+          "beforeSha256": "e250528ad6fc596078a07b40ef543a13431fe4b16abce87e13ad320f53404819",
+          "afterSha256": "3a0622d3451eaa76011044cb37775ad90d5d6a096f33220899ada873b04c9981",
+          "scope": "Bounded user visual counter and Reforge boat-bob replay, no independent acceptance",
+          "priorRecord": {
+            "revision": "31040375d468730dca6022a21cd1a1dce33aa561",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "index": 1,
+            "entryCanonicalSha256": "ec4ae1476d7bb05bb7a2a32f17bd7f1425db268e9996e6dfeb24bb92aa905b6f"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

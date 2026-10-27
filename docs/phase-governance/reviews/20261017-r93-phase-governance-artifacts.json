@@ -1251,7 +1251,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "c060692ee8725286ef2691ec124cdfcbb5351c101d9c42b9874fa8753ce7f309",
+      "afterSha256": "9de6b5d20ec1bea76d3ad6339c2da22a5513a7a264fa75c87c147a8e7a1f8858",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1955,6 +1955,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 5,
             "entryCanonicalSha256": "1e2e7839c92f02f6e8ba2d70be660c6e079898e95d03e9edd0ba84e00ffd1327"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/boat-bob",
+          "revision": "ed9fa09e8f21d8cfc2afd348835cdc7f0b4c240d",
+          "beforeSha256": "c060692ee8725286ef2691ec124cdfcbb5351c101d9c42b9874fa8753ce7f309",
+          "afterSha256": "9de6b5d20ec1bea76d3ad6339c2da22a5513a7a264fa75c87c147a8e7a1f8858",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "31040375d468730dca6022a21cd1a1dce33aa561",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 5,
+            "entryCanonicalSha256": "7b083bda33119c057998df8c357ef686c395c9ac35d9838935b0ac059e095727"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
@@ -6240,7 +6257,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
-      "afterSha256": "5ba7e39c556544dea9ed3808aa4c8d10f5aa09d81ae97f0d019908d330278d7b",
+      "afterSha256": "416b395c57548327102452375f31a8c5805f61b96c38886a52da4e0c61baccde",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6393,6 +6410,23 @@
           "beforeSha256": "86db408838dfb47974985862e3162a8a7f9e039bdc2f79bcae422160e99a74f4",
           "afterSha256": "5ba7e39c556544dea9ed3808aa4c8d10f5aa09d81ae97f0d019908d330278d7b",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/boat-bob",
+          "revision": "ed9fa09e8f21d8cfc2afd348835cdc7f0b4c240d",
+          "beforeSha256": "5ba7e39c556544dea9ed3808aa4c8d10f5aa09d81ae97f0d019908d330278d7b",
+          "afterSha256": "416b395c57548327102452375f31a8c5805f61b96c38886a52da4e0c61baccde",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "31040375d468730dca6022a21cd1a1dce33aa561",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 32,
+            "entryCanonicalSha256": "bc6ef29d66a56609f6e10c93fd56364842c1089a5a5a69bb74c4d06197e44068"
+          },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -13858,7 +13892,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-      "afterSha256": "520e4e56fd44404782877985e976f728300b825b89f1f710d3b4176ac2a1beb1",
+      "afterSha256": "a318c0accfdc8fa35f43678c584a5829d910a951c4fbd57894866e8599b01407",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14050,6 +14084,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 75,
             "entryCanonicalSha256": "0dbef93c8dda8b23e123e201480da80cc29deced1eb7e456bb4d39c7355f2a3c"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/boat-bob",
+          "revision": "ed9fa09e8f21d8cfc2afd348835cdc7f0b4c240d",
+          "beforeSha256": "520e4e56fd44404782877985e976f728300b825b89f1f710d3b4176ac2a1beb1",
+          "afterSha256": "a318c0accfdc8fa35f43678c584a5829d910a951c4fbd57894866e8599b01407",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "31040375d468730dca6022a21cd1a1dce33aa561",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 75,
+            "entryCanonicalSha256": "4809ce44de539d81e05e862e2043f22b327468a43b24f5bc2e74083237713741"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
