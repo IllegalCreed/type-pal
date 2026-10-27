@@ -1,4 +1,6 @@
 import type { AbstractKey } from '@type-pal/shared'
+import { inputDirection } from './input-direction.js'
+import { INPUT_ROTATION_CHANGE, isInputRotated } from './input-rotation.js'
 
 export interface TouchInput {
   press(key: AbstractKey, contact: string): void
@@ -14,6 +16,7 @@ interface TouchContact {
 /** One captured contact owns its action until release/cancel, including a slide across the pad. */
 export function bindTouchControls(root: HTMLElement, input: TouchInput): () => void {
   const pointers = new Map<number, TouchContact>()
+  let rotated = isInputRotated()
   const buttons = (): NodeListOf<HTMLButtonElement> => root.querySelectorAll('button[data-action]')
   const refresh = (): void => {
     for (const button of buttons()) {
@@ -49,7 +52,7 @@ export function bindTouchControls(root: HTMLElement, input: TouchInput): () => v
     const distance = Math.hypot(dx, dy)
     // A quiet center stops walking; an expanded held radius tolerates a thumb drifting off the rim.
     if (distance < rect.width * 0.13 || distance > rect.width * (dragging ? 0.75 : 0.5)) return null
-    const key = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'Right' : 'Left') : dy > 0 ? 'Down' : 'Up'
+    const key = inputDirection(dx, dy, rotated)
     return (
       [...pad.querySelectorAll<HTMLButtonElement>('button')].find(
         (button) => actions.get(button) === key,
@@ -103,6 +106,10 @@ export function bindTouchControls(root: HTMLElement, input: TouchInput): () => v
     pointers.clear()
     refresh()
   }
+  const rotation = (): void => {
+    rotated = isInputRotated()
+    clear()
+  }
   const visibility = (): void => {
     if (document.hidden) clear()
   }
@@ -113,6 +120,7 @@ export function bindTouchControls(root: HTMLElement, input: TouchInput): () => v
   root.addEventListener('lostpointercapture', up)
   root.addEventListener('click', click)
   root.addEventListener('keydown', keyActivation)
+  window.addEventListener(INPUT_ROTATION_CHANGE, rotation)
   window.addEventListener('blur', clear)
   document.addEventListener('visibilitychange', visibility)
   return () => {
@@ -124,6 +132,7 @@ export function bindTouchControls(root: HTMLElement, input: TouchInput): () => v
     root.removeEventListener('lostpointercapture', up)
     root.removeEventListener('click', click)
     root.removeEventListener('keydown', keyActivation)
+    window.removeEventListener(INPUT_ROTATION_CHANGE, rotation)
     window.removeEventListener('blur', clear)
     document.removeEventListener('visibilitychange', visibility)
   }

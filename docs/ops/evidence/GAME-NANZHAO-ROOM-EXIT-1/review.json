@@ -1,0 +1,1200 @@
+{
+  "schemaVersion": 1,
+  "id": "GAME-NANZHAO-ROOM-EXIT-1-review",
+  "template": "evidence-receipt-v1",
+  "task": "docs/ops/tasks/GAME-NANZHAO-ROOM-EXIT-1.md",
+  "owner": "Codex",
+  "recordedAt": "2026-10-27T06:00:55.390213+00:00",
+  "base": "123595ac3a651957b36061eacced329369c495e5",
+  "contributorCandidates": [
+    "1e00fd113886bb41ddf05f8913ecb89b4d1f383f",
+    "e4a78b9d986902c9b07c1cb0ce485a52434c0d4b"
+  ],
+  "integratedCandidates": [
+    "4088bcd2141d7736fe44fa38954032a0ab3dfa6a",
+    "f150c49222ade116f063ad2d70c510095aff521b"
+  ],
+  "decision": "Accept finite independent-exit/old-save feature; local user experience pending. No whole-file code-quality closures or CI/release credit.",
+  "independentRead": [
+    "Actual 21-file implementation/content delta plus real-party test follow-up",
+    "Resource plan stable allocation, native ranges and actual CLI/slice roots",
+    "Complete supplemental helper, loader/bootstrap publications and typed/lifecycle tests",
+    "Canonical restored enemy, complete independent zone and exact historical projection/hash contract",
+    "Contributor file A-H, final native counts, formal mutation errors/restoration and source fingerprints",
+    "Root repeated extraction manifests/raw-source integrity/global command equality and partition attribution",
+    "Actual public browser save import/read, native directional contact, exit/reentry/second-exit and visible coordinate readouts",
+    "Input testing publication actual12-file delta,17 original validation attachments; root consumer/model pass before final centralized gates"
+  ],
+  "results": {
+    "game": "Original88 green; test-only real-party strengthening reruns current5 PAL cases, retained83 adjacent same-byte contracts reused. No second full88 run claimed.",
+    "extract": "49 green including actual child CLI global/owner roots",
+    "reforge": "5421 green including real bootGame touch exit/reentry and unchanged historical hash",
+    "formalMutations": "Disconnect public load supply:4 specified old-save state AssertionErrors/1pass/0skip. Wrong original enemy team:1 specified AssertionError/5413pass/0skip. Exact source restoration; filtered prior attempts only exploratory.",
+    "generation": "Two complete pnpm extract exits0 and identical manifest version d3cd8958ddbe2de9. Raw and English SSS hashes unchanged; native5077 IDs/ranges preserved; fresh4841 restored;5077 added. all.json exact bytes unchanged. Expected empty map0 source skip is retained in stderr, not hidden.",
+    "partition": "True old/current producer probes reproduce production/new021/289. Existing main b285b5a5b traversal accounts for021; restored native41999 root accounts for289/shared membership. Synthetic shared# fallthrough bridges target valid global labels; no opcode edits in all.json.",
+    "browser": "Real public UI imports prepared raw-native already-won save, normal game menus load slot5;928816/#287 ->1392616/#286 ->928816/#287 ->1392616/#286. Party1,0,4 unchanged; warn/error[]. Initial normal fixture encountered actual original enemies during inspection, retained as calibration; not counted as an exit pass.",
+    "static": "Root integrated seven-package typecheck passed before test-only follow-up; contributor current game typecheck/affected statics pass after follow-up. Unified docs/lint recorded separately in integration-gates.json.",
+    "inputDocs": "Root independent accepted docs candidate5859b8b04: prior19 catalog entries/history retained, new active pair and official generated navigation; actual root check-testing and document-model0issues. Isolated27 missing-original failures retained, not reclassified as pass."
+  },
+  "scope": "Preserve original encounter; append only one explicitly authored stable tail exit and supply it when absent in live old saves. Phase2 canonical restored enemy plus separate zone.",
+  "native": [
+    {
+      "path": "native/contributor-README.md.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/README.md",
+      "sourceSha256": "831163508e46bf5199239fb1c678d23a7b0bf3fddb7877ca106f792b4da2a3ef",
+      "bytes": 4284,
+      "archiveSha256": "7ca183c46d320fb6c222ec2cdbffdc57f6893805a75de28d2c39cd116b2e6827",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-already-won-fixture.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/already-won-fixture.json",
+      "sourceSha256": "d7bb103a03c3605d371a54d9c7766695cff69d488d1062cf7293f13da9fe748a",
+      "bytes": 3066,
+      "archiveSha256": "e2af3c172a956b01346d9771572d01f71a47e034666f9831bb97bb2d3e897342",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-biome-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/biome-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-biome-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/biome-final.stdout.txt",
+      "sourceSha256": "a3fa3a619bde4b9da4320c7b0cb1d727b18749174c3fa307ecaa13ee8572e4c5",
+      "bytes": 44,
+      "archiveSha256": "7410a40269a1ea3a89d6cfa63432c589d4a90364c0efe1a85811a5763438c69d",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-biome.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/biome.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-biome.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/biome.stdout.txt",
+      "sourceSha256": "ed2001efb835e3c4f5c0696a77ddd92b66fbd338df4fa0702f8d63e3a84af606",
+      "bytes": 44,
+      "archiveSha256": "89b9593ddeba896b04092cf5416c9a3ab7df45fc6425ce40295aa5bd7a67d2d1",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-business-red-final.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/business-red-final.json",
+      "sourceSha256": "56cd81fb0cc0b1cf933538252941b319dfac18297dbac9db8b5abb67632e1551",
+      "bytes": 3097,
+      "archiveSha256": "568165876b369463223eaed3ab95aa706d2f61af787c70e5a7c09f24b7e1cb02",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-business-red-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/business-red-final.stderr.txt",
+      "sourceSha256": "801fc15c87293c969e6e512b9a001e28d56c76521b2be3df863da1179109ee8b",
+      "bytes": 948,
+      "archiveSha256": "9d45343fe17b1c1cbdefceb7a53ca2ed5c03951fc59aedf341f5e2e45f5eb5eb",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-business-red-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/business-red-final.stdout.txt",
+      "sourceSha256": "90aed5d059b4b2a197deddb3a936a5601660a14a2ee4ff3ec76cf526970463b6",
+      "bytes": 1290,
+      "archiveSha256": "fee2832dc3547489be37a144936ff3757fe70c6f30dc7d23b69bb08e51d57380",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-business-red.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/business-red.json",
+      "sourceSha256": "9e3458397bd6e6aa0023f1af908149aacb8c8f995fbcad93e2439e28b2c62021",
+      "bytes": 3097,
+      "archiveSha256": "134a470501636b64db0151c570a026b72212d350fc8455f5862c7ddd5c170ece",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-business-red.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/business-red.stderr.txt",
+      "sourceSha256": "b96d68f235955dc504f15b682bbcb8b8bd1b6ff41110977a0b346da7fb6b9c05",
+      "bytes": 948,
+      "archiveSha256": "7dabce1d4341aa596dbf911454a6d20c978477f9a0a78c16569998d86a406a79",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-business-red.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/business-red.stdout.txt",
+      "sourceSha256": "63d0c559429ffc1f3eb61ceb7decdd37fd863af826181696b3940328304f2c01",
+      "bytes": 1278,
+      "archiveSha256": "63c65fb1aeb7a549f2a10c0644534250f6cebabc877c9eefcaa292978c39b7fa",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-bytecode-comparison.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/bytecode-comparison.json",
+      "sourceSha256": "145479bdfe6c37a3975ceaf355f01bc3c37c59e09bc4048537eca39b03b8c5c8",
+      "bytes": 619,
+      "archiveSha256": "7c5b93d887c63a236eb28c725eb7e32d2e9c9973f865e2335c674cf3887e575a",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-caller-full-red.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/caller-full-red.json",
+      "sourceSha256": "936f0cd2e0626a3e438d2849fe5cc85399dfd72ee62141729c4b655c25ceba86",
+      "bytes": 6128,
+      "archiveSha256": "3ff7621ba8d73e3dbaa376e6dedc871788050964fed7d417ac6fffa97ba3006b",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-caller-full-red.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/caller-full-red.stderr.txt",
+      "sourceSha256": "4f6d7e85aaaca69419b22094297b5f1c8e6785d379076fb780cfe441ee02cb8f",
+      "bytes": 1379,
+      "archiveSha256": "5b98baf69f59788b48b8bb87f792a2dea8bb3fb037665984693d8c5ebdd752a9",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-caller-full-red.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/caller-full-red.stdout.txt",
+      "sourceSha256": "0de8f305809afccf6bd4eca293099543ccdd6524882d40ddbb9de48facb1602b",
+      "bytes": 1262,
+      "archiveSha256": "1a01ef1fd532cb358660a4a36909504323b83ddc270611a55451ad1f401d1f5f",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-candidate.diff.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/candidate.diff",
+      "sourceSha256": "d948661430e4fc0a7d30c372a2eaa20c488057b62778302f9bfdb314d70c671c",
+      "bytes": 50029,
+      "archiveSha256": "20766ed0f39435dcc99779fb7632331da7b0fde0f6ad6fc2cb119dc8dc0d88e0",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-combined-candidate.diff.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/combined-candidate.diff",
+      "sourceSha256": "ec4f4d445801615db6b23880f75f690746c0d2ed3061723ab9245fcf5bb8971b",
+      "bytes": 50221,
+      "archiveSha256": "afc5e0a2535297b484fe33dd5e6e2456b87b1162114f6e4f6c9db60b20e6326a",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-comment-biome.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/comment-biome.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-comment-biome.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/comment-biome.stdout.txt",
+      "sourceSha256": "b54f1072cc1448964fcd1cd1c29374a493b718938521ec519120902ed58452d9",
+      "bytes": 43,
+      "archiveSha256": "396a7f6f58c0c3975c8ad7ca4c76ad78bcbcada8b0d81598480489fc84adadb8",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-compare-bytecode.mjs.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/compare-bytecode.mjs",
+      "sourceSha256": "e3baf7f070d5ecd4929917af1d4d71363913d1a1e242800dad0b700c1394d380",
+      "bytes": 1771,
+      "archiveSha256": "0acf936ad8353fa14797ec1d802bce048139e32a8e11bebfe66432fc471386f6",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-diff-check.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/diff-check.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-diff-check.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/diff-check.stdout.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-enemy-business-red.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/enemy-business-red.json",
+      "sourceSha256": "be7af691f71999222284ce40a18925aff5d8d9a63258b1ed7e0e5f157f9e2a55",
+      "bytes": 1536837,
+      "archiveSha256": "bf40c5cea2baeeae1d90171805039d2eb5b8ebd8136fadc21ecef5e6460819df",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-enemy-business-red.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/enemy-business-red.stderr.txt",
+      "sourceSha256": "de6782a025879dde0b76a0ac0a9a4db02663fa6adb70fbc5e6332d6f3f70c23d",
+      "bytes": 1020,
+      "archiveSha256": "036af745b437ef3ebc17b936ba1e4016f13bdbfa6575283a94e5cf1aaaf6c429",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-enemy-business-red.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/enemy-business-red.stdout.txt",
+      "sourceSha256": "a47ff72445870dda6456f65b90b25f1ac68507d53bef83e68c939f89c62848fc",
+      "bytes": 522350,
+      "archiveSha256": "d7c27682677102a763a3c73676ae92217a8a2851d4f812dadab0f04f0984f8e6",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-enemy-full-red.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/enemy-full-red.json",
+      "sourceSha256": "cb7ce1c548e21519db31227a82192bfd4867ef91f2e5c4bf4321099ddd21098f",
+      "bytes": 1696102,
+      "archiveSha256": "e945694c33ff884baaf6c8a45cfe74f7d7b7c9aeb417d9cc68f4cb3554023b5b",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-enemy-full-red.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/enemy-full-red.stderr.txt",
+      "sourceSha256": "de6782a025879dde0b76a0ac0a9a4db02663fa6adb70fbc5e6332d6f3f70c23d",
+      "bytes": 1020,
+      "archiveSha256": "036af745b437ef3ebc17b936ba1e4016f13bdbfa6575283a94e5cf1aaaf6c429",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-enemy-full-red.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/enemy-full-red.stdout.txt",
+      "sourceSha256": "9873dc751683ada6e86710ae578eb1cb4e04a2b9f49cef141e0efae931eea9a6",
+      "bytes": 543950,
+      "archiveSha256": "8348bd091a36f93974438eb5a3846b6cf14d92fc91d9aa89e8be774beb49f7ba",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-enemy-mutation.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/enemy-mutation.json",
+      "sourceSha256": "019a48303473e7d111a5da004679a23b5f2e3664e85b84c5c8fa3ab9f5f95393",
+      "bytes": 372,
+      "archiveSha256": "3d231f3e342b863980790ed08bc8346da4d52b231cca3c0f74daa4796bd3936b",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-final.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-final.json",
+      "sourceSha256": "31c9f49fc89a8c2b650903d7a44e7c6e0f8f14c2a3d8e96867c9edcd24307797",
+      "bytes": 16268,
+      "archiveSha256": "e89140faf4131d1a6c19bd92663314967c69d1d34b4aff9c8e30af3da2b16d17",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-final.stdout.txt",
+      "sourceSha256": "a2a7cb039f81af369f30777932357c9e999c897e9a7c7d963ce33797003bf35f",
+      "bytes": 1130,
+      "archiveSha256": "49d9b0967befbedc482473fe610687237a6aae3876b6f12703e9fd4bc5c48fb9",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-initial.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-initial.json",
+      "sourceSha256": "ac2f324359d44b93db499dc732dfa59bae2c198afdeff8bf55d1802f59f647a2",
+      "bytes": 11071,
+      "archiveSha256": "fcede6d669e238b2e44a138e843c2189aa68e5a1badbfb94e7024b63b6a21c43",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-initial.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-initial.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-initial.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-initial.stdout.txt",
+      "sourceSha256": "5bd89342b3d5d93eff3f9cca3384b2c89f0651712d6f5c194f8daf53b4373046",
+      "bytes": 1087,
+      "archiveSha256": "d82f352d2855f2283431769f0efc8866d07d11929a6a3e0111528251ce9ae607",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-typecheck-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-typecheck-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-extract-typecheck-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/extract-typecheck-final.stdout.txt",
+      "sourceSha256": "c07b13b81206e5513a8dfef6ce7d2f47bc72fa2feb03a7e3ca47633b2293f640",
+      "bytes": 131,
+      "archiveSha256": "071ef13316b5a387c7d811a4879772d0cf48b7a2c04ff249173548418f4a11b9",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-final-mutation.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/final-mutation.json",
+      "sourceSha256": "50f025710f3b2cabf09e0ac5238c71d00cc77187f1e8840bfa5e012f8572ebcf",
+      "bytes": 381,
+      "archiveSha256": "68d3fff3a88baad6413c549699bfc742990c96070bf0d3a7704203a1a70f004d",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-final.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-final.json",
+      "sourceSha256": "178a83450c654166c0d2f97749c7772f3ab5a596e17343ecf43a5412a34b1fe6",
+      "bytes": 32914,
+      "archiveSha256": "7e257e816b439d51b5a6112993887daef7e8b86d631b12da57c49d55aec2af79",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-final.stdout.txt",
+      "sourceSha256": "8d9e9f3b8dd51676a94a156173cce5c51d1079fe143f69519afab0d991ae4649",
+      "bytes": 678,
+      "archiveSha256": "e8a8bc727da67d4a2236aad1757419bcdcd6b645144e2408259cb23beff3f41b",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-initial.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-initial.json",
+      "sourceSha256": "ca6469f31f3ee707bfc991eb2385e9f4ca2efb305aeff335f4f4b713e01ab388",
+      "bytes": 4687,
+      "archiveSha256": "97d33caddb5ad9bbc50469065c0ad949e633054b0175638701dfe651f66c25f4",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-initial.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-initial.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-initial.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-initial.stdout.txt",
+      "sourceSha256": "ecafa6f9f88c76a99317adac0a1f9aa725173ae426f342cdb51ccc9019b50519",
+      "bytes": 578,
+      "archiveSha256": "aebe1e270bae2b57513651eecba72032644bae659fab56388bb4ecd3586f165a",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-typecheck-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-typecheck-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-typecheck-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-typecheck-final.stdout.txt",
+      "sourceSha256": "4fc5d5cf70a44b750b929b07f76297198b4d4057169dd72d75406a6374708251",
+      "bytes": 117,
+      "archiveSha256": "e98e5dfcdbe9f4e8e220f064c13a2e90907a775a1a7b1bd81bd9a0897742c581",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-typecheck.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-typecheck.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-game-typecheck.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/game-typecheck.stdout.txt",
+      "sourceSha256": "4fc5d5cf70a44b750b929b07f76297198b4d4057169dd72d75406a6374708251",
+      "bytes": 117,
+      "archiveSha256": "e98e5dfcdbe9f4e8e220f064c13a2e90907a775a1a7b1bd81bd9a0897742c581",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-generate-events.mjs.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/generate-events.mjs",
+      "sourceSha256": "ef3bbbfa0f389656c2a9333cf59ca6dd4cb9ad7eba91649f0ba44960a692e720",
+      "bytes": 1438,
+      "archiveSha256": "366bfc7953ab2a717e346c785c5caa1df4f7a0cb08c28541519e9e6847e41b65",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-generation.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/generation.json",
+      "sourceSha256": "592b2844ada7e3976b935db15431a7cabde26dca0f342ad101b2c3a09bcf722d",
+      "bytes": 348,
+      "archiveSha256": "f6111ec14aef7b3ff0485f9edcd45e22782afaebb30165244939e26b797baee3",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-invocations.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/invocations.json",
+      "sourceSha256": "4e28f72725e1f9aa390033b7fda692c4878e3e161bcda4c7ddf0d3f21227b904",
+      "bytes": 20491,
+      "archiveSha256": "597101c1edc1b0651345c1de3d271ac43ae7c6366f2fa1ef16eb22117a483d4f",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-make-old-save.mjs.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/make-old-save.mjs",
+      "sourceSha256": "2e4bce3e0820a457ed617cfce87b8ce6ec7998779782d50f8c0b39b534c497ca",
+      "bytes": 4775,
+      "archiveSha256": "26b3539d8a8822f0cf348b730c9752c10e0c468ec4c64825235a9d79a82ebcfc",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-mutation.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/mutation.json",
+      "sourceSha256": "8f1cb22e4f9d5ec5d134ef4e9e7373fc89cec021dd37cac326970db74dc74a53",
+      "bytes": 381,
+      "archiveSha256": "cd1bdc4cf9a61d88245d8740f7df8a0a67de7033ea988ba02d06bb460dba0720",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-old-native-palace-already-won.save.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/old-native-palace-already-won.save.json",
+      "sourceSha256": "7b2d11f74ee0cdad24f2db64d7e346fb64d9b2d0444a1bbbc5d82b4d7f0f8828",
+      "bytes": 987647,
+      "archiveSha256": "863cce10d33c12b9ca670969da0589240f217c155112560a932e69155f890edc",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-old-native-palace.save.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/old-native-palace.save.json",
+      "sourceSha256": "8b2f1bbc7081d4648aca0778fe0594a92e69d5f8e5ced91b06ae1a5f25f8dffb",
+      "bytes": 987575,
+      "archiveSha256": "e57767a6225f408dfaa3e432efb32a7da15f8742b7cda29f8834f15eb4dfff0b",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-old-save-fixture.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/old-save-fixture.json",
+      "sourceSha256": "485d8eae978c86c6c6a035d7932acd6592d8087fac4174b51854d4c03e822ca5",
+      "bytes": 1844,
+      "archiveSha256": "fab27ffe3eda79ae5d374058c20ec73d0341a2344def3c863d9141aab582072c",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-partition-probes.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/partition-probes.json",
+      "sourceSha256": "778ae7312b1a97901afc2dc8bde5f98890e57954404264a4786d74a33849978e",
+      "bytes": 1497,
+      "archiveSha256": "c34d8687f4c8813e48b3afb9397562d4513484a7a8c15935e67b62f06c3ffe9d",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-prior-partition-comparison.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/prior-partition-comparison.json",
+      "sourceSha256": "d7e470d8b25cdedc5efebfd2ef79dffa6b3ff2c656bfc83e226a7d1affd38214",
+      "bytes": 484,
+      "archiveSha256": "7f8c1eeec4ffdc445be0ec1452cfa3b6ddd52f781df2e82ddeae742cd3cc10f9",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-probe-partition.mjs.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/probe-partition.mjs",
+      "sourceSha256": "5b7ae9ea0ad858c4713614e795add88b78ca183bbd506144ab385d5ea4197299",
+      "bytes": 5186,
+      "archiveSha256": "0b24767cfc2bbf7698aecf44e105d413f03dd1da75d341dc93cf78d2bf93e183",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-receipt.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/receipt.json",
+      "sourceSha256": "dbea49427a4f47ab1da768fe761d5218dfac82fcfccd82df0d4fab9e08947ec7",
+      "bytes": 19340,
+      "archiveSha256": "e3a7721b6df250943a16c332f4029d990afebb9bb26bb7791f0e5ea7f35f5479",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-final.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-final.json",
+      "sourceSha256": "5e47565b0f31eff467226044990e404b399e7c7d936d5648e9509fa2d4ebf7b2",
+      "bytes": 1697649,
+      "archiveSha256": "845dc60ca345b3996066293a5a0e7b516cd4dd7ad5a356eb3b27799d7283fae6",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-final.stdout.txt",
+      "sourceSha256": "d204168cb3d95daa537bacea1e9a2e75a9555176c00b99524565a35e2a88f2b0",
+      "bytes": 897,
+      "archiveSha256": "db29433b12cb5d2260ab4a68e649ba545fa173623202553ddec61a923f419242",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-initial.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-initial.json",
+      "sourceSha256": "5684366ce52b8034dbf0470c93432ca9e1dc5b2138d8e5176aba7a7c28bcd3e7",
+      "bytes": 1698017,
+      "archiveSha256": "511025571ea053f721d79fefc00b6ed877c7dc9498c0ac0f8d8ee4bbe7f53e7d",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-initial.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-initial.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-initial.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-initial.stdout.txt",
+      "sourceSha256": "7cc931047b21c9d85b021f6282b1c2897faa807a768a773450cc1cf4443d3213",
+      "bytes": 896,
+      "archiveSha256": "ac0a1fdc4b05a8e1150203d19ce2cf6b456b0a02e161c635f2587fa2e40d119b",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-typecheck-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-typecheck-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-reforge-typecheck-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/reforge-typecheck-final.stdout.txt",
+      "sourceSha256": "9a349d01980474644c8d6b692b02745ca044dc3e46ecf82825575bdbe19ac849",
+      "bytes": 123,
+      "archiveSha256": "626d971c753578ee669a32430e9e57a89f089903bea0175ba69a18260894d7f3",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-review-initial.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/review-initial.json",
+      "sourceSha256": "315fd84153d5bbb299867cab1c4b475065b2e7b893f4c25e4ce3c3cb06603182",
+      "bytes": 22881,
+      "archiveSha256": "950a42a63be8fc663ee57db49b363c7070cd10ed29612ba30d57631381a1a297",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-review.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/review.json",
+      "sourceSha256": "d18472b2539d86b6c55e4b80623c584833bbb2f87939e489cf3e3dc79fbda5e6",
+      "bytes": 23089,
+      "archiveSha256": "d1c1b43730e82118afc79bd19506983ac66a1fe399745eb2f4ba3b33720f799f",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-s286.candidate.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/s286.candidate.json",
+      "sourceSha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38",
+      "bytes": 28628,
+      "archiveSha256": "e0465dc49e1bcced817dff8390f7889a4caa0c772e12e5774f6a8dcc3ec2aaf3",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-scene-loading.candidate.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/scene-loading.candidate.ts",
+      "sourceSha256": "0528106e01f6313ca16401d9b2b0f9ea250be09ad1614cde19a976781359bc4f",
+      "bytes": 3529,
+      "archiveSha256": "b4fa61a86a7cc6d76e001ca4bf9495ed966772d88da8457241e0db33c4176c27",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-scene-loading.final-candidate.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/scene-loading.final-candidate.ts",
+      "sourceSha256": "0528106e01f6313ca16401d9b2b0f9ea250be09ad1614cde19a976781359bc4f",
+      "bytes": 3529,
+      "archiveSha256": "b4fa61a86a7cc6d76e001ca4bf9495ed966772d88da8457241e0db33c4176c27",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-shared-typecheck-final.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/shared-typecheck-final.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-shared-typecheck-final.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/shared-typecheck-final.stdout.txt",
+      "sourceSha256": "74680f044cb8e0f1dad715b87a81981e14324edb3a6f15f1a5914d54d8ef7813",
+      "bytes": 121,
+      "archiveSha256": "edfc68d7fd4b77419795ef04d224e50b82b037f641963fc31d5f4aea6d012782",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-slice-at-prior-extraction.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/slice-at-prior-extraction.ts",
+      "sourceSha256": "4612ef122eed2a06534f5bf7ad7ae9d19437983e920ea9e98f1ed4d7d930cae9",
+      "bytes": 6914,
+      "archiveSha256": "bcce3df4a088f38d2ba9070876a8afb056395252a82aaf58da09f47e5d938412",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-biome.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-biome.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-biome.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-biome.stdout.txt",
+      "sourceSha256": "78f2f8d1b56cd7a01588b66fac25e5f7778599326018e59d79efacc4a80103c6",
+      "bytes": 42,
+      "archiveSha256": "de617c8aed79101fc54dd6eadd65950a6626394619199a374c417ef6c6708231",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-full-red.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-full-red.json",
+      "sourceSha256": "fd11fa75aff3bb96ae0fa028ed20f74d486244d1ef60c5391fbb056d6b706419",
+      "bytes": 6129,
+      "archiveSha256": "b2e95c528e416ba09b890110afe149cd7dd431165d9b5c15c573940d3b5c9ef1",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-full-red.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-full-red.stderr.txt",
+      "sourceSha256": "668d630bdfb3039ec2f4826ffd4cfee7b579832d22490443f64ceec04bc6568d",
+      "bytes": 1379,
+      "archiveSha256": "e4cdb2911f6c41b28567f7de35a0b738f369b06d46e87e64b154a573aa5ca880",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-full-red.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-full-red.stdout.txt",
+      "sourceSha256": "c9fde27d2b32a935dba7f405ac3ad734aa4b41893c665e8051a0be8ae839de4e",
+      "bytes": 1275,
+      "archiveSha256": "1c3e7bddad62fa8fd57012bd71021deb90bb46ffac03abf695f9e9173218980a",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-green.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-green.json",
+      "sourceSha256": "dabf7caac5e2a64254e264f86a3b926407f59cb37b6449b4ade7a4622da1b496",
+      "bytes": 2235,
+      "archiveSha256": "709b84ca176f90f143f9137c153ed1b2510614bde13cc65d153f344153da91b4",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-green.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-green.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-green.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-green.stdout.txt",
+      "sourceSha256": "6bc3e06c586fe681ddc7c8d05efdeb083a2a7b5c58bc08da024a250b805a4ad5",
+      "bytes": 447,
+      "archiveSha256": "aa3235a2e91b8030e3bf46bd9455653487102c8fbed8255c03ee1f88e2b00b91",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-mutation.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-mutation.json",
+      "sourceSha256": "df6eb27c91a341ea8a8f58b82606174dd6cf7c134b603a990a2db024b1efdd1e",
+      "bytes": 397,
+      "archiveSha256": "975df4169b29833254c64aaec5983f4dbbcd4b5f41efb5619b57fdd22f0fa9be",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-typecheck.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-typecheck.stderr.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party-typecheck.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party-typecheck.stdout.txt",
+      "sourceSha256": "4fc5d5cf70a44b750b929b07f76297198b4d4057169dd72d75406a6374708251",
+      "bytes": 117,
+      "archiveSha256": "e98e5dfcdbe9f4e8e220f064c13a2e90907a775a1a7b1bd81bd9a0897742c581",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-strict-party.scene-loading.candidate.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/strict-party.scene-loading.candidate.ts",
+      "sourceSha256": "0528106e01f6313ca16401d9b2b0f9ea250be09ad1614cde19a976781359bc4f",
+      "bytes": 3529,
+      "archiveSha256": "b4fa61a86a7cc6d76e001ca4bf9495ed966772d88da8457241e0db33c4176c27",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/contributor-native-manifest.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal/build/map204-supplemental/native-manifest.json",
+      "sourceSha256": "f7b690618c2dc61fef3bf90ef720975fd91d914251d8dc6c9cc72ce78f6ac6d4",
+      "bytes": 14181,
+      "archiveSha256": "47e87067a8d8d12513dea637526080bf241b73782e9af7223dc6333b4e6cff2d",
+      "producer": "contributor"
+    },
+    {
+      "path": "native/root-browser-viewport-reset.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-browser/viewport-reset.json",
+      "sourceSha256": "27128d2e1ffdfccaff01692c2f6797d2e9b1425aa40619d4a758105de0562d6e",
+      "bytes": 120,
+      "archiveSha256": "3c1cb2367a17667b10f8dbba5ca1ea6ec0d0307c79aed9c3adc3c12a27ade8f9",
+      "producer": "root-browser"
+    },
+    {
+      "path": "native/root-browser-reentered.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-browser/reentered.png",
+      "sourceSha256": "be7e4cf8cbc899ad8c166267c89fcb6d972a30de3502b0256992a5d98520af99",
+      "bytes": 89355,
+      "archiveSha256": "be7e4cf8cbc899ad8c166267c89fcb6d972a30de3502b0256992a5d98520af99",
+      "producer": "root-browser"
+    },
+    {
+      "path": "native/root-browser-won-before-exit.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-browser/won-before-exit.png",
+      "sourceSha256": "0fe7aaae3c56e4e414c18028b9a4c0d5be25fc5710fb54d2ae883f12c6e21604",
+      "bytes": 87483,
+      "archiveSha256": "0fe7aaae3c56e4e414c18028b9a4c0d5be25fc5710fb54d2ae883f12c6e21604",
+      "producer": "root-browser"
+    },
+    {
+      "path": "native/root-browser-before-exit.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-browser/before-exit.png",
+      "sourceSha256": "7432fe9c7ff3b6e56c2fa6d541408502a5cef2b341e503a4978dfd7f3d68ecbc",
+      "bytes": 47657,
+      "archiveSha256": "7432fe9c7ff3b6e56c2fa6d541408502a5cef2b341e503a4978dfd7f3d68ecbc",
+      "producer": "root-browser"
+    },
+    {
+      "path": "native/root-browser-won-after-exit.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-browser/won-after-exit.png",
+      "sourceSha256": "0bc76cdf4ce0d22624217da8e60a9d62812e2902857d9a832244a36c702475f1",
+      "bytes": 119373,
+      "archiveSha256": "0bc76cdf4ce0d22624217da8e60a9d62812e2902857d9a832244a36c702475f1",
+      "producer": "root-browser"
+    },
+    {
+      "path": "native/root-browser-browser.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-browser/browser.json",
+      "sourceSha256": "f85acda12be42801b1bf4aa74747cb8d62d3ad5f69b816b7daee62e6f2e086bc",
+      "bytes": 10106,
+      "archiveSha256": "32320e735eef309a29e85dab680edc4e8d95920bd311aa35f40406ab3b33ebf5",
+      "producer": "root-browser"
+    },
+    {
+      "path": "native/root-browser-initial-normal-attempt-still-in-room.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-browser/initial-normal-attempt-still-in-room.png",
+      "sourceSha256": "e10310ce818f4ced1f52ef687713a05222a1238c38b0dd1d28edba8f9a73b0a2",
+      "bytes": 47679,
+      "archiveSha256": "e10310ce818f4ced1f52ef687713a05222a1238c38b0dd1d28edba8f9a73b0a2",
+      "producer": "root-browser"
+    },
+    {
+      "path": "native/root-integration-before-extract.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/before-extract.json",
+      "sourceSha256": "48bea5e44acc6e94050674b21d3d36fd5d6add804217f39a1faae8a950fa2980",
+      "bytes": 2073,
+      "archiveSha256": "51e93b0f09408b5bdd32852ed4eceae45bba620bf65361c5bdda5d09c5217dda",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-before-asset-manifest.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/before-asset-manifest.json",
+      "sourceSha256": "14865dfa10c8783a5058c73d4185c4f243e718ba57e54d3280f8de95d0cb997e",
+      "bytes": 450435,
+      "archiveSha256": "d409d55232c5a9cfe3e81162303d4316a4ea8f08a75cddb3327cd94c8db1f536",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-first-asset-manifest.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/first-asset-manifest.json",
+      "sourceSha256": "36ce438a572dda8ffffd3a20177476b1532a2e074107d928a4b40ed00c8d1267",
+      "bytes": 450449,
+      "archiveSha256": "add986b43906627b90824fc6f624d5b4b7bd9e49702260f8cc43f1f2a5909229",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-generation-check.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/generation-check.json",
+      "sourceSha256": "fb0c3d3978655d443006ec3251b6ae24c10f95025c958322562942240edc5dc1",
+      "bytes": 2612,
+      "archiveSha256": "3e19fb7c65d180b5c4b8b40c8bbeab67864e836c645198858efdf1e2b958b9c7",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-extract-first.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/extract-first.run.json",
+      "sourceSha256": "1601ed27e5e66f7af2bba85a855f926ea1b12a5cb11937a46c4e86e765a5d2fa",
+      "bytes": 652,
+      "archiveSha256": "b8869a9525ac3d424df666a79b5d1d12c2c7718ec814e725df68b73c89b9fd4e",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-extract-first.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/extract-first.stdout",
+      "sourceSha256": "d3b802d943e177ce1ba5f3f64e59c4bca0c31f4b99c1eb0bd4c2d093a1e7f1b5",
+      "bytes": 2224,
+      "archiveSha256": "0c52cf3e718a06a754bb341d9609af0d39d188b05ddaf30af1cfe5b46e9b7fad",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-extract-first.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/extract-first.stderr",
+      "sourceSha256": "0e38e20407ffac9b20dca269e7d6fb1c2b03bec9ceb3c369e9019f7ab2252998",
+      "bytes": 50,
+      "archiveSha256": "7a9e203ec4e4a8cb662a11646a978648f537c2cb708790aaa403707627e3aca7",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-extract-second.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/extract-second.run.json",
+      "sourceSha256": "44b2488c9388446699a229c7a0f7b5d2a406d2641ef35ed974a7c68a5df3a027",
+      "bytes": 654,
+      "archiveSha256": "9cce00c75f559abc083764e46cffcc430d74e2b506f3d30d4e55e9a84d15d823",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-extract-second.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/extract-second.stdout",
+      "sourceSha256": "d3b802d943e177ce1ba5f3f64e59c4bca0c31f4b99c1eb0bd4c2d093a1e7f1b5",
+      "bytes": 2224,
+      "archiveSha256": "0c52cf3e718a06a754bb341d9609af0d39d188b05ddaf30af1cfe5b46e9b7fad",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-extract-second.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/extract-second.stderr",
+      "sourceSha256": "0e38e20407ffac9b20dca269e7d6fb1c2b03bec9ceb3c369e9019f7ab2252998",
+      "bytes": 50,
+      "archiveSha256": "7a9e203ec4e4a8cb662a11646a978648f537c2cb708790aaa403707627e3aca7",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-integrated-typecheck.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/integrated-typecheck.run.json",
+      "sourceSha256": "83537a5d6d19d96a6e578599dfecd426029d120f1f9037a62aa993b8bbc878fe",
+      "bytes": 669,
+      "archiveSha256": "ad6f65eaaa7511a875d17c7d515e5d7316992109a2c57b0988fd33a66a4a0c09",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-integrated-typecheck.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/integrated-typecheck.stdout",
+      "sourceSha256": "c77cd732f7fb420f937e6a4763250e85e099954f844be89de58c00a7efc733ae",
+      "bytes": 683,
+      "archiveSha256": "f8d340d0add132006dcbe95fe539b7583d7c0a6665d3a69f9cb72d1cd59fd1f5",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-integrated-typecheck.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/integrated-typecheck.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-partition-delta.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/partition-delta.json",
+      "sourceSha256": "47f72eaf1b413f51cc1f79655814fdf817c1c0619b55d5f8292b14e1a530bf25",
+      "bytes": 2759,
+      "archiveSha256": "0343d00b3ceb9662b1bcffee2978d3102587de08245bd62631f999e981e08ae4",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-partition-observation.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/partition-observation.run.json",
+      "sourceSha256": "539263ce8692dcb5defdee187234f56dc7ebf7753c906529e26a9e12d6dc5dbd",
+      "bytes": 708,
+      "archiveSha256": "5593fccfdb3ef2668155888f595feece51cd7a53293037ffefeaeb28cb65d9f4",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-partition-observation.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/partition-observation.stdout",
+      "sourceSha256": "5ac8b2f07ff6d849a247376f5bb359ca0eae21d25432808138b5ae0b2cec1207",
+      "bytes": 1306,
+      "archiveSha256": "4d4caa2f97611191967f0c1ed873a61722649ba1fc23d5a4bb6580e76329eaa2",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-partition-observation.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/partition-observation.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-partition-verification.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/partition-verification.run.json",
+      "sourceSha256": "3a20038655fbaf53fd90a24cfe70d01d6ade34b5f0933d1fb80f0a90fdc352eb",
+      "bytes": 719,
+      "archiveSha256": "9299da0180189c867ad321a85125fb44da793f01d0fb8379153367f22e257996",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-partition-verification.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/partition-verification.stdout",
+      "sourceSha256": "04b319e2e974fa5d79f61df090fee3139f6fde3cd37524f156f31a81a728a465",
+      "bytes": 889,
+      "archiveSha256": "36704b96fcb272b1bd03aced368059aa8ff8052aff244a95a5d7c65cd21ab085",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-partition-verification.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/partition-verification.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-check-partitions.py.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/check-partitions.py",
+      "sourceSha256": "da139f352d876ce3d9e86466b5f0b649e901c7bea68abb905c73e61d7edfde9f",
+      "bytes": 1404,
+      "archiveSha256": "9976e4ac8264adfd0a04bfdd23df7a24e9b2e0508e9536a2498700274a97ca82",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-verify-partitions.py.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/verify-partitions.py",
+      "sourceSha256": "cc3c10cd98f83a66acb5ae705a53df2c6757d8eaf9447b7de9653e60551f95ef",
+      "bytes": 1523,
+      "archiveSha256": "c89c2f24cb1358eb49f33f1aff64993b0eb4bc3c01797e5707c15f33691a78b8",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/root-integration-run.py.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/run.py",
+      "sourceSha256": "6796a5a828215e214f963ff8708e35b900eff4269430925cc81642f94661f503",
+      "bytes": 1096,
+      "archiveSha256": "6047e042e87bee0e8b621d6faa1785464acf18ff1fe5c16dac29b0e66182bdc1",
+      "producer": "root-integration"
+    },
+    {
+      "path": "native/input-docs-pair-validation.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/pair-validation.stdout",
+      "sourceSha256": "e530b2cc8a8a6bf60f32d74d0ebc2e99894bc8601789afadaf4323f82e1f5f72",
+      "bytes": 323,
+      "archiveSha256": "935b9d44058cfe868d0221a804c97752901298af763f67600e1d3de812ced662",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-run.py.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/run.py",
+      "sourceSha256": "850595325b7d641c627a886fb6fd2122e5d525458cd4789c7bb5f3d48e7f468a",
+      "bytes": 773,
+      "archiveSha256": "57bd001b9b3df1a0ab96b86adc88eea36ec057359a9e7e7e3530a6f49a8119c7",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-testing-docs.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/testing-docs.stderr",
+      "sourceSha256": "a9b84686f87b6c848a418cfdfa6b673dd533648a73ce7170a46215d2b9c70c59",
+      "bytes": 3486,
+      "archiveSha256": "561824e8fd365e20835951077659613806be52afebaee9ae6ce71d8abbc659e9",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-pair-validation.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/pair-validation.run.json",
+      "sourceSha256": "f7c9ae69e3f4da1954b9b7861bfd27236ae8b232c88f592d26720bca4571b435",
+      "bytes": 297,
+      "archiveSha256": "2d2a53a4df9bb29b3bcc1691e82a097344c01225f6a0bfef8c6d443a444193f0",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-biome-docs.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/biome-docs.stdout",
+      "sourceSha256": "f7e42ac863d85a165cd1423d7fe31935363382e0f8d1f63916f24c74d20b6bba",
+      "bytes": 231,
+      "archiveSha256": "c123b88591a688de625512319f36774d8e74f996bfb24d5cb14039bfd44ec4dc",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-pair-validation.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/pair-validation.json",
+      "sourceSha256": "e530b2cc8a8a6bf60f32d74d0ebc2e99894bc8601789afadaf4323f82e1f5f72",
+      "bytes": 323,
+      "archiveSha256": "935b9d44058cfe868d0221a804c97752901298af763f67600e1d3de812ced662",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-testing-docs.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/testing-docs.run.json",
+      "sourceSha256": "b504736fbd1cee75bd81654897530960be860012e238d9e0dd827c23608d99ab",
+      "bytes": 280,
+      "archiveSha256": "0ee3318c083a64bafb3e5fdbb6a33fa5c6b071dc914cf2a2dd19fb54230d8421",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-biome-docs.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/biome-docs.stderr",
+      "sourceSha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "bytes": 103,
+      "archiveSha256": "4409892cc7dde01032204346ecbfc46fb00bae046ee29ce05f8d22f5919a6595",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-testing-docs.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/testing-docs.stdout",
+      "sourceSha256": "0a016bb29c2160cda12ad927c1431c7112b491ddad0f99833c3b8bfcd019cd60",
+      "bytes": 298,
+      "archiveSha256": "81125287fdec95fb4647065bb0ae0083bd6ff9b6afc6f6b6ba3dde425220a235",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-pair-validation.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/pair-validation.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-pair-final.stderr.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/pair-final.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-pair-final.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/pair-final.run.json",
+      "sourceSha256": "99880d1cb648731b3558f3171349e1c39228050f4d41668a6b8f663a1af36dda",
+      "bytes": 297,
+      "archiveSha256": "a1b4a350b9afd1b4ea9434329b42834ca9ff43390c2eaed617a8b777a60833a3",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-biome-docs.run.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/biome-docs.run.json",
+      "sourceSha256": "a4be50b4961c642b1db2eb411e6c84bef0283fd08a9c7b046a1d55fbac7c76bd",
+      "bytes": 474,
+      "archiveSha256": "4da944a9916bf938b84b4a25f4d2a44c49e9272846125d50753e523b6022e5e0",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-check.mjs.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/check.mjs",
+      "sourceSha256": "55a34365ccdc385a1d819c2eb4b4764cadd467958421e3b6b2f780f0278c01c7",
+      "bytes": 2284,
+      "archiveSha256": "82e07ce6298590b3f34af9c5ee4dd97391607438e4af2ad8b637cfb5ee3a4c58",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-candidate.diff.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/candidate.diff",
+      "sourceSha256": "bc438f5152f4f9fb75501fe0437d4ceed82681148f4aebb72a43e585c0c8d024",
+      "bytes": 64302,
+      "archiveSha256": "82c2c015ba45831d555fb5282a79ca2e73f0a92a8a5d339f3ad4dc7d53aeb0e2",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-review.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/review.json",
+      "sourceSha256": "177b01c96d698b2905593d80065094176e1c9d6b1d6cff7e3ac75fecb9d3a89b",
+      "bytes": 8017,
+      "archiveSha256": "4a82a23d2f1ac90c9d697225398c9707b822b1e21dc8e9044addd3248f95fe37",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-pair-final.stdout.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/pair-final.stdout",
+      "sourceSha256": "e530b2cc8a8a6bf60f32d74d0ebc2e99894bc8601789afadaf4323f82e1f5f72",
+      "bytes": 323,
+      "archiveSha256": "935b9d44058cfe868d0221a804c97752901298af763f67600e1d3de812ced662",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/input-docs-publish.py.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-integration/input-docs/publish.py",
+      "sourceSha256": "10eabb2fe527dcb74067dfab1f8024e78a43255466512d8b99ce3fa226a90d86",
+      "bytes": 22139,
+      "archiveSha256": "d73e47df13638ae803b75ca782f20285651391d28ab7803e5172436fdbe70d97",
+      "producer": "input-docs"
+    },
+    {
+      "path": "native/root-investigation-probe.mjs.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-investigation/probe.mjs",
+      "sourceSha256": "4755f0636dec39df7b5ae8a79cfee2339cc523b1740d6a7d641abc92bf669203",
+      "bytes": 4357,
+      "archiveSha256": "db5f39fe5b961d51e698fa44e22f88ef9e6f83f4798311f6b372bc99250a8140",
+      "producer": "root-investigation"
+    },
+    {
+      "path": "native/root-investigation-probe.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-investigation/probe.json",
+      "sourceSha256": "58722ec1ac97cf2d1307c0b185627ac0d3f491451c0e8e3c546212ec8d80bac0",
+      "bytes": 8885,
+      "archiveSha256": "3c3274397ad8c00f49469469a25e9c207d2e9832917ef9f63b48e052c04114ea",
+      "producer": "root-investigation"
+    },
+    {
+      "path": "native/root-investigation-lifecycle-probe.mjs.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-investigation/lifecycle-probe.mjs",
+      "sourceSha256": "dc25a4b170b7b7e654ca591c34ac0bda50e8687beb2aadb47ae50f3d77df4e43",
+      "bytes": 3271,
+      "archiveSha256": "c1aa1ee904fdd6c09814a6ba863e59894b489a120230cccfda9c4fffd7d35508",
+      "producer": "root-investigation"
+    },
+    {
+      "path": "native/root-investigation-lifecycle-probe.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-investigation/lifecycle-probe.json",
+      "sourceSha256": "4760de4438ad4b4370c8017681f95447dfb1263ec243e92688da4f597f72f2f1",
+      "bytes": 4059,
+      "archiveSha256": "002b274654df70686c2347e28e433a3db0ae45bf1a8633baff6d842f4d65879e",
+      "producer": "root-investigation"
+    },
+    {
+      "path": "native/root-investigation-production-resource-observation.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-investigation/production-resource-observation.json",
+      "sourceSha256": "4e5a8e68e6874a4fa455ed620b5cd524e331ae0173799818c987beeff4ecb69d",
+      "bytes": 897,
+      "archiveSha256": "9d1756e7ca11424c2206c392f6fd3e961b90ea56695b0e15c85c443ac6af5cba",
+      "producer": "root-investigation"
+    }
+  ],
+  "codeQualityBoundary": "Inventory3469/597closed/0review/2872pending; seven new implementation/test paths remain pending, existing closed large files receive only finite version delta review.",
+  "notRun": [
+    "Reporter-specific save inspection",
+    "Natural-story full E2E and complete battle/reward progression",
+    "Physical gamepad/touch device validation",
+    "Official coverage recalculation/full repository tests/protected CI in this local window",
+    "GitHub push/merge/comment/issue close or Alibaba deploy"
+  ],
+  "limitations": [
+    "Only the current single contiguous tail addition5077 with fixed script identity is supported. Future additions in multiple scenes may require lower tail slots first; ID gaps are deliberately refused.",
+    "sameDefinition deliberately refuses collisions when trigger/auto/sprite identity differs; arbitrary self-modifying supplemental scripts are not a supported migration framework.",
+    "Previously published portal saves keep their historical missing enemy; this patch does not restore or reset that saved event. Fresh canonical data retains the original enemy."
+  ],
+  "next": "User tries local preview; actual final docs/lint/binding evidence in integration-gates.json. Preserve raw attachments and retired replacement candidate evidence without final implementation credit."
+}

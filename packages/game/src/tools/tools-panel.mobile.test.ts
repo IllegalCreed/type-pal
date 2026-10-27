@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { isInputRotated } from '../shell/input-rotation.js'
 import { LAYOUT_CHANGE } from '../shell/presentation.js'
 import { setupToolsPanel } from './tools-panel.js'
 import { useToolsPanelTestHost } from './tools-panel.test-fixtures.js'
@@ -77,5 +78,25 @@ describe('mobile tools', () => {
     expect(onOpenChange.mock.calls).toEqual([[true], [false]])
     expect(openPrivacySettings).toHaveBeenCalledTimes(1)
     expect(document.activeElement).toBe(launcher)
+  })
+
+  it('remembers clockwise controls when returning to the settings page', () => {
+    setupToolsPanel(makeDeps())
+    document.getElementById('tp-tools-launcher')?.click()
+    const row = [...document.querySelectorAll<HTMLLabelElement>('.tp-toggle')].find(
+      (label) => label.textContent === '虚拟方向键 / 左摇杆顺时针旋转45°',
+    )!
+    const toggle = row.querySelector('input')!
+    expect(toggle.checked).toBe(false)
+    toggle.click()
+    expect(isInputRotated()).toBe(true)
+    expect(localStorage.getItem('tp-input-rotation')).toBe('45')
+    document.querySelector<HTMLButtonElement>('.tp-tab[data-key="scene"]')?.click()
+    document.querySelector<HTMLButtonElement>('.tp-tab[data-key="system"]')?.click()
+    expect(
+      [...document.querySelectorAll<HTMLLabelElement>('.tp-toggle')]
+        .find((label) => label.textContent === '虚拟方向键 / 左摇杆顺时针旋转45°')
+        ?.querySelector('input')?.checked,
+    ).toBe(true)
   })
 })

@@ -1,6 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest'
 import { createGameShell } from './game-shell.js'
 import { KeyboardInputSource } from './input.js'
+import { setInputRotated } from './input-rotation.js'
 import { setTouchControlsVisible } from './touch-preference.js'
 
 afterEach(() => {
@@ -136,5 +137,74 @@ it('connects real touch actions and gates them through visibility and the tools 
     for (const [type, listener, options] of documentListeners.mock.calls)
       document.removeEventListener(type, listener, options)
     localStorage.removeItem('tp-touch-controls')
+  }
+})
+
+it('mounts the remembered rotated pad and updates its real touch routing on setting changes', () => {
+  const events = new EventTarget()
+  vi.stubGlobal(
+    'matchMedia',
+    () =>
+      ({
+        matches: true,
+        addEventListener: events.addEventListener.bind(events),
+      }) satisfies Pick<MediaQueryList, 'matches' | 'addEventListener'>,
+  )
+  vi.stubGlobal(
+    'ResizeObserver',
+    class implements ResizeObserver {
+      observe(): void {}
+      unobserve(): void {}
+      disconnect(): void {}
+    },
+  )
+  vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(1)
+  vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {})
+  const windowListeners = vi.spyOn(window, 'addEventListener')
+  const documentListeners = vi.spyOn(document, 'addEventListener')
+  setInputRotated(true)
+  const canvas = document.createElement('canvas')
+  document.body.append(canvas)
+  const input = new KeyboardInputSource(window)
+  try {
+    createGameShell(canvas).connect(input)
+    const pad = document.querySelector<HTMLElement>('.tp-dpad')!
+    pad.setPointerCapture = vi.fn()
+    vi.spyOn(pad, 'getBoundingClientRect').mockReturnValue(new DOMRect(16, 400, 150, 150))
+    expect(pad.dataset.rotated).toBe('true')
+    expect(pad.style.getPropertyValue('--tp-input-rotation')).toBe('45deg')
+    const point = (type: string): void => {
+      pad.dispatchEvent(
+        new PointerEvent(type, {
+          bubbles: true,
+          pointerId: 4,
+          button: 0,
+          clientX: 136,
+          clientY: 435,
+        }),
+      )
+    }
+    point('pointerdown')
+    expect([...input.nextSnapshot(1).held]).toEqual(['Up'])
+    setInputRotated(false)
+    expect(pad.dataset.rotated).toBe('false')
+    expect(pad.style.getPropertyValue('--tp-input-rotation')).toBe('0deg')
+    expect([...input.nextSnapshot(2).held]).toEqual([])
+    point('pointermove')
+    expect([...input.nextSnapshot(3).held]).toEqual([])
+    point('pointerup')
+    point('pointerdown')
+    // The same upper-right coordinate follows the original dominant horizontal axis.
+    expect([...input.nextSnapshot(4).held]).toEqual(['Right'])
+    expect(
+      [...document.querySelectorAll('.tp-touch-actions button')].map((b) => b.textContent),
+    ).toEqual(['确认', '取消'])
+  } finally {
+    input.detach()
+    for (const [type, listener, options] of windowListeners.mock.calls)
+      window.removeEventListener(type, listener, options)
+    for (const [type, listener, options] of documentListeners.mock.calls)
+      document.removeEventListener(type, listener, options)
+    localStorage.removeItem('tp-input-rotation')
   }
 })

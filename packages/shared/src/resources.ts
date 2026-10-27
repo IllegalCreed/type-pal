@@ -60,7 +60,7 @@ export interface SpriteSet {
  * 字段名沿用 sdlpal 命名(去掉 w/n/s 匈牙利前缀)。
  */
 export interface SceneEventObject {
-  /** 在原 SSS.MKF EventObject 数组里的下标。 */
+  /** 当前全局事件数组下标；原盘对象保留 SSS.MKF 下标，补充对象追加在尾部。 */
   id: number
   /** [1] x —— sdlpal world 像素坐标(M5 P0.0:pixel,非 tile)。 */
   x: number
@@ -79,6 +79,8 @@ export interface SceneEventObject {
   /** Optional world-pixel trigger anchor; the sprite retains its original x/y. */
   autoTriggerAnchorX?: number
   autoTriggerAnchorY?: number
+  /** Resource-authored addition outside native scene ranges; scene loading supplies it if absent. */
+  supplemental?: boolean
   /** [6] sState (signed i16)：Hidden=0 / Normal=1 / Blocker=2。
    *      触发距离由独立的 triggerMode 决定，不属于状态枚举；负数也隐藏。 */
   sState?: number
@@ -115,13 +117,13 @@ export interface SceneObjects {
 
 /**
  * 全局 event object 表 —— 忠实 sdlpal `lprgEventObject[MAX_EVENT_OBJECTS]`。
- * 一个文件含全部 scene 的 event object(下标 = 全局 0-based id)+ 各 scene 的区间。
- * 运行时一次性加载成持久全局数组,gs.npcs = 当前 scene 切片(引用全局元素 → 脚本改动持久)。
+ * 一个文件含全部原盘与补充 event object(下标 = 全局 0-based id)。场景区间仅覆盖原盘对象；
+ * 运行时从当前场景定义补入 supplemental 对象，均引用全局元素以保留脚本改动。
  */
 export interface EventObjectsFile {
-  /** 全部 event object,下标 = 全局 0-based id(= SSS.MKF EventObject 数组下标)。 */
+  /** 全部 event object；原盘下标不变，补充对象占据连续尾部 ID。 */
   eventObjects: SceneEventObject[]
-  /** 各 scene 的 [start, end) event object 区间(键 = scene 0-based index = wNumScene-1)。 */
+  /** 各 scene 的原盘 [start, end) 区间，不包含 supplemental(键 = wNumScene-1)。 */
   sceneRanges: Record<number, [number, number]>
 }
 

@@ -135,6 +135,28 @@ html[data-tp-layout="mobile"] .tp-dpad {
   left: 33.333%;
   bottom: 0;
 }
+.tp-dpad[data-rotated="true"]::before {
+  transform: rotate(45deg);
+}
+/* 45° centers use radius 1/3 of pad width and axis offset 1/(3√2); hit bounds stay fixed. */
+.tp-dpad[data-rotated="true"] [data-action="Up"] {
+  left: 56.904%;
+  top: 9.763%;
+}
+.tp-dpad[data-rotated="true"] [data-action="Right"] {
+  right: auto;
+  left: 56.904%;
+  top: 56.904%;
+}
+.tp-dpad[data-rotated="true"] [data-action="Down"] {
+  left: 9.763%;
+  top: 56.904%;
+  bottom: auto;
+}
+.tp-dpad[data-rotated="true"] [data-action="Left"] {
+  left: 9.763%;
+  top: 9.763%;
+}
 .tp-dpad-hub {
   position: absolute;
   width: 22%;

@@ -1,5 +1,5 @@
 {
-  "version": "pal-win-1",
+  "version": "pal-win-2",
   "sourceSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
   "instructionCount": 43503,
   "rules": [
@@ -217,7 +217,7 @@
     },
     {
       "id": "D10",
-      "reason": "Connect both palace eras; reuse one ordinary enemy event as the missing exit.",
+      "reason": "Connect both palace eras and supply an independent missing exit without replacing an enemy.",
       "instructions": [
         {
           "ip": 34025,
@@ -241,29 +241,24 @@
           "instructions": [[89, 286, 0, 0], [70, 43, 38, 1], [80, 0, 0, 0], [0, 0, 0, 0]]
         }
       ],
-      "objects": [
+      "supplementalObjects": [
         {
-          "id": 4841,
-          "before": {
-            "x": 1088,
-            "y": 464,
-            "triggerScript": 41999,
-            "autoScript": 41099,
-            "state": 2,
-            "spriteNum": 548,
-            "nSpriteFrames": 3,
-            "triggerMode": 5
-          },
-          "after": {
+          "id": 5077,
+          "sceneId": 286,
+          "object": {
             "x": 880,
             "y": 840,
+            "spriteNum": 0,
             "triggerScript": {
               "block": "palaceExit"
             },
-            "autoScript": 0,
-            "state": 1,
-            "spriteNum": 0,
-            "nSpriteFrames": 0
+            "triggerMode": 5,
+            "sState": 1,
+            "sLayer": 0,
+            "vanishTime": 0,
+            "nSpriteFrames": 0,
+            "direction": 0,
+            "currentFrameNum": 0
           }
         }
       ]

@@ -360,10 +360,21 @@ test('non-script definitions preserve the source except for explicitly asserted 
       withoutScripts.entries = original
     }
     if (scene.id === 's286') {
-      withoutScripts.entities = withoutScripts.entities.map((entity) => {
-        if (entity.id !== 'e4841') return entity
-        expect(entity).toEqual({
-          id: 'e4841',
+      expect(scene.entities.find((entity) => entity.id === 'e4841')).toEqual({
+        id: 'e4841',
+        pos: { col: 63, row: -5, height: 0 },
+        sprite: 'sprite-548',
+        collide: true,
+        hostile: {
+          chase: { range: 8, speed: 4 },
+          onVictory: { kind: 'hide', ticks: 800 },
+          onPlayerFlee: { kind: 'suspend', ticks: 15 },
+          enemyTeamId: 'team-267',
+        },
+      })
+      expect(scene.entities.filter((entity) => entity.id === 'palace-isolated-exit')).toEqual([
+        {
+          id: 'palace-isolated-exit',
           pos: { col: 80, row: 25, height: 0 },
           zone: true,
           pages: [
@@ -375,20 +386,44 @@ test('non-script definitions preserve the source except for explicitly asserted 
             },
           ],
           initialPage: 'default',
-        })
-        return {
-          id: 'e4841',
-          pos: { col: 63, row: -5, height: 0 },
-          sprite: 'sprite-548',
-          collide: true,
-          hostile: {
-            chase: { range: 8, speed: 4 },
-            onVictory: { kind: 'hide', ticks: 800 },
-            onPlayerFlee: { kind: 'suspend', ticks: 15 },
-            enemyTeamId: 'team-267',
+          behaviors: {
+            trigger: {
+              default: {
+                label: '返回地下宫殿上层',
+                order: 0,
+                flow: {
+                  kind: 'stages',
+                  initial: 'initial',
+                  stages: [
+                    {
+                      id: 'initial',
+                      body: [
+                        {
+                          kind: 'loadScene',
+                          scene: 's285',
+                          entryId: 'palace-upper-return',
+                          transition: {
+                            kind: 'source',
+                            outMs: 600,
+                            inMs: 600,
+                            color: 'black',
+                            evidenceId: 'pal-script-correction-D10',
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
           },
-        }
-      })
+        },
+      ])
+      // Only the independently added zone is absent from the historical source. The restored
+      // original enemy stays in the comparison, so its complete historical hash still applies.
+      withoutScripts.entities = withoutScripts.entities.filter(
+        (entity) => entity.id !== 'palace-isolated-exit',
+      )
     }
     if (!governedSceneIds.has(scene.id))
       expect(await hash(withoutScripts), scene.id).toBe(sourceHashes.get(scene.id))

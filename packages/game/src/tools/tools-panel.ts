@@ -13,6 +13,7 @@ import { getWord } from '../core/word-lookup.js'
 import { getLanguage, localize, setLanguage, subscribeLanguage } from '../localization/language.js'
 import { uiText } from '../localization/ui-text.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
+import { isInputRotated, setInputRotated } from '../shell/input-rotation.js'
 import type { MusicSourceController } from '../shell/music-source.js'
 import { isMobileLayout, LAYOUT_CHANGE } from '../shell/presentation.js'
 import { areTouchControlsVisible, setTouchControlsVisible } from '../shell/touch-preference.js'
@@ -546,6 +547,7 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   if (isMobileLayout()) {
     toggleRow(parent, '显示虚拟按键', areTouchControlsVisible(), setTouchControlsVisible)
   }
+  toggleRow(parent, '虚拟方向键 / 左摇杆顺时针旋转45°', isInputRotated(), setInputRotated)
   muted(
     parent,
     '手柄：十字键/左摇杆移动，底部面键确认，右侧面键取消，Start打开菜单。连接后按任意键激活。',

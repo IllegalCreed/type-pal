@@ -5040,8 +5040,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Original49/400 source lines root/author/non-author fully read during frozen design; current source all49 raw bytes/blob/SHA exact and quoted inverse. Author and non-author cover every governance clause, repeated literals by exact identity. Root independently read all453 unique new literal definitions and49 order maps; not claiming3175 raw lines separately printed or full13080 author receipt root reread. Root changes only listed owner/current-administration clauses; independent root intake accepted exact fixed f85 candidate; this later root signoff only dates and records that actual decision.",
-      "coreConclusion": "第一阶段 runtime 的依赖所有权入口，不把二阶段版本轴授予Game执行。",
+      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
+      "coreConclusion": "Add the optional control-rotation domain beside dependency ownership; other source/history stays scoped.",
       "documentStatus": "current navigation only; original publication/execution claims retain their dates",
       "owner": "Codex (current document integration; history_cards_a author, history_cards_c_tail independent candidate review)",
       "originalIdentity": {
@@ -5173,10 +5173,10 @@
       "reviewedSourceSha256": "09d2a1cf95c3f2566f75cdd4a70bbcbc6bc887665bf52c97d30dc785a466ac1d",
       "reviewedSourceGitRevision": "af42cdeb23d62afbb63985184efc4c8bb9361a08",
       "rootIntegrationBase": "7fde0e04cff2064b9d5eee6b7bf07e3fd5d3ea6c",
-      "afterSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+      "afterSha256": "de5417ad709a22520ed25355d7ab3d52360d7bd18af05ba24e7f4015b241432c",
       "revision": {
         "currentSha": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
-        "implementationSha": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+        "implementationSha": "de5417ad709a22520ed25355d7ab3d52360d7bd18af05ba24e7f4015b241432c",
         "history": [
           {
             "date": "2026-10-16",
@@ -5197,56 +5197,11 @@
         ]
       },
       "evidence": {
-        "kind": "independent-domain-navigation-source-and-administrative-intake",
-        "path": "docs/testing/domains/phase1-runtime/README.md",
-        "sourceSha256": "417feab18846d13a87e0aa8540d007717c5ac361f4b19818c94bf5cd807b983c",
-        "afterSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
-        "lineCount": 43,
-        "originalPreservation": {
-          "completeOriginalIncluded": true,
-          "startMarker": "<!-- K-SOURCE-BEGIN -->",
-          "endMarker": "<!-- K-SOURCE-END -->",
-          "inverseMethod": "remove exactly one > or >+space quote prefix per original line; preserve all other original bytes including final LF; no ATX heading rewrite",
-          "inverseSha256": "417feab18846d13a87e0aa8540d007717c5ac361f4b19818c94bf5cd807b983c",
-          "inverseEqualToFixedSourceBlob": true,
-          "sourceLinksUnchangedInQuote": true
-        },
-        "authoredCandidate": {
-          "revision": "af42cdeb23d62afbb63985184efc4c8bb9361a08",
-          "gitObject": "ecf4bf8922dcd0e61789181ba0b147860079d455",
-          "sha256": "09d2a1cf95c3f2566f75cdd4a70bbcbc6bc887665bf52c97d30dc785a466ac1d"
-        },
-        "independentContentReview": {
-          "reviewer": "history_cards_c_tail",
-          "result": "accept authored candidate only; root metadata delta separate",
-          "proofSha256": "463526de639fb28fc015663bc9ae941992691fb8738f8602437f52b980ea53c2",
-          "actualModelIssues": []
-        },
-        "rootAdministration": {
-          "beforeSha256": "09d2a1cf95c3f2566f75cdd4a70bbcbc6bc887665bf52c97d30dc785a466ac1d",
-          "afterSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
-          "exactReplacementCounts": {
-            "Governance Owner: Codex / history_cards_a（本次文档候选，待非作者独立验收）": 1,
-            "候选等待独立复核。": 1,
-            "非作者逐篇核本页正文、原源与真实链接后，由根线程维护中央记录；本候选不自签接收。": 1
-          },
-          "originalQuoteExact": true,
-          "actualRootConsumer": {
-            "sharedModel": "PASS202 body contracts/0 issues; all49 current per-page actual consumer0",
-            "strictReview": "PASS711 complete current records/0 issues",
-            "actualGFMProof": "/tmp/type-pal-k49-matrix-gfm-20261016.json",
-            "actualGFMProofSha256": "cff7b45ab36028b41e01cade0261c1ea18ea2cfa550c1785cc0dc4b0b2d50e30",
-            "scope": "Structure/SHA/link/source inverse actual0 issues; independent current integration accepted exact f85 snapshot. Current root signoff metadata is later bytes, no retroactive peer hash signature."
-          },
-          "independentIntake": {
-            "reviewer": "receipt_review",
-            "result": "accept exact59 f85 candidate; K1 closed",
-            "reviewedCandidateGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04",
-            "proof": "/tmp/type-pal-k49-independent-central-integration-snapshot-20261016.json",
-            "proofSha256": "924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436",
-            "scope": "49 administrative differences, normalized current records and immutable author snapshots, mapping/routes/matrix/sharding/source and actual consumers. No new full13080 raw receipt sequential read, downstream script/report/runtime audit or future metadata signature."
-          }
-        }
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
+        "afterSha256": "de5417ad709a22520ed25355d7ab3d52360d7bd18af05ba24e7f4015b241432c",
+        "scope": "Add the optional control-rotation domain beside dependency ownership; other source/history stays scoped.",
+        "lineCount": 46,
+        "kind": "owned-delta-review"
       },
       "history": [
         {
@@ -5288,18 +5243,24 @@
           "proofSha256": "924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436",
           "bodyAfterSha256Unchanged": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-27",
+          "action": "map204-input-owned-delta",
+          "previousAfterSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+          "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
         }
       ],
       "supersedes": [],
       "supersessionScope": "rewrites this README navigation layer only; no technical/runtime replacement of linked documents",
       "stopLine": "Navigation completeness only, not source/caller business semantics, runtime/E2E/visual/coverage or all-docs completion. Do not invent missing original owners/dates.",
-      "nextStep": "继续三J配对历史MD、L索引及全量逐篇治理；工具语义/caller/raw/运行仍按真实后继任务核，不从本页导航接收扩张。",
+      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
       "userVisibleBeforeAfter": {
         "before": "原3行导航 -> 实质五节governance-index；保留原完整副本、不同链接、身份与时态。",
         "after": "Source-specific five-section navigation and36 history overlays retained; root owner/accepted-candidate acknowledgement now current, original quote/version/date/links unchanged.",
         "scope": "导航职责与证据范围显式化；工具目录可达和重复入口收敛，不改变产品行为。"
       },
-      "reviewedLines": "1-43",
+      "reviewedLines": "Add the optional control-rotation domain beside dependency ownership; other source/history stays scoped.",
       "phase": "testing",
       "module": "domain-navigation-and-historical-source-boundaries",
       "templateConformity": {

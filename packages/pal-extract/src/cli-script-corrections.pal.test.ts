@@ -41,6 +41,18 @@ test('default CLI corrects gameplay before every event consumer is emitted', asy
     readFileSync(join(tree, 'data/extracted/events/scene-081.json'), 'utf8'),
   )
   const allCommands = all.segments.flatMap((segment) => segment.commands)
+  const palace: EventFile = JSON.parse(
+    readFileSync(join(tree, 'data/extracted/events/scene-286.json'), 'utf8'),
+  )
+  expect(
+    palace.segments
+      .flatMap((segment) => segment.commands)
+      .find((command) => command.label === 'L_43518'),
+  ).toMatchObject({ op: 'loadScene', sceneId: 286 })
+  expect(allCommands.find((command) => command.label === 'L_43518')).toMatchObject({
+    op: 'loadScene',
+    sceneId: 286,
+  })
   for (const segment of scene.segments) {
     for (const command of segment.commands) {
       if (command.label)

@@ -14,6 +14,7 @@ import {
 } from './game-state.js'
 import { setSceneContext } from './scene-context.js'
 import { setCurrentMapNum } from './scene-identity.js'
+import { supplySupplementalSceneObjects } from './scene-supplemental-objects.js'
 
 export interface LoadSceneInput {
   gs: GameState
@@ -52,6 +53,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   gs.npcs =
     sliceSceneEventObjects(gs, wNumScene) ??
     sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+  supplySupplementalSceneObjects(gs, sceneAssets.eventObjects)
   hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
 
   // 资源完成后发布当前探索上下文；脚本入口仍解析全局命令表。

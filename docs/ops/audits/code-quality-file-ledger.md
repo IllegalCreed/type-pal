@@ -155,8 +155,10 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-21存档中间片：MSIO四合同迁入parser/quick-save后删除旧文件，不算关闭；quick-save主测8→9且统一门待收尾，旧关闭暂撤review。18定向/相邻与静态零诊断、旧绿/新两业务红原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json)。329/129/2868须由机器清单复核，不授CODE59完整内容信用。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,462。
-当前已闭合核验：597；已读但待审：0；尚未逐文件核验：2865；合计未闭合：2865。
+2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
+
+起始基点机器清单：2,962。当前 tracked 清单：3,470。
+当前已闭合核验：597；已读但待审：0；尚未逐文件核验：2873；合计未闭合：2873。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -887,6 +889,8 @@ live机器字段属于持续维护输入，历史原文属于不可升格的出�
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
+2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
+
 起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG 回归及第一阶段音乐音源）：3,283。
 当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,049；合计未闭合：3,054。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
@@ -1163,3 +1167,5 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
 ~~~~
 <!-- original-source-fenced:end -->
+
+2026-10-27发布准备：新增scene-supplemental专测1个tracked路径，当前3470/597closed/0review/2873pending；五文件有限A–H与合法caller/反控见[准备回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json)，零整文件新增关闭。

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-26T11:45:46.495Z",
+  "generatedAt": "2026-10-27T07:08:54.379Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 809,
-  "testCount": 20186,
+  "sourceFileCount": 812,
+  "testCount": 20203,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1220,8 +1220,8 @@
       ],
       "scopeDigest": "92f3bde9954c0828d7a723924b714ac635425a1c2136a31c5107bcf7ab4739ee",
       "fastTests": {
-        "testCount": 368,
-        "testFileCount": 70,
+        "testCount": 372,
+        "testFileCount": 71,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
@@ -1287,6 +1287,7 @@
           "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+          "packages/pal-extract/src/resources/scene-supplemental.test.ts",
           "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/scene.test.ts",
           "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
@@ -1407,13 +1408,13 @@
           },
           {
             "file": "packages/pal-extract/src/events/script-corrections.test.ts",
-            "testCount": 14,
-            "identityDigest": "025485fe90c4d65e11e35e5f3add59ff25959f97be846467aef7ab7a9a77433c"
+            "testCount": 15,
+            "identityDigest": "92a75eb9996f8e1638853939877ec47081a449a100ec9c9aa691ab6b41a2842a"
           },
           {
             "file": "packages/pal-extract/src/events/script-entries.test.ts",
-            "testCount": 2,
-            "identityDigest": "9e80b318cb9ba57da027dcde3be4b775d8d1b39ced7b3745414e38131ddd59b0"
+            "testCount": 3,
+            "identityDigest": "3360411e1bf93f1dcaddb8224ee8c7e456d92a5b0f5417ea490842342209b821"
           },
           {
             "file": "packages/pal-extract/src/events/slice.boundaries.test.ts",
@@ -1432,8 +1433,8 @@
           },
           {
             "file": "packages/pal-extract/src/events/slice.test.ts",
-            "testCount": 16,
-            "identityDigest": "21a174d0c11deee154c565c607e7a4a58003801ec8dd612018f2f4dad9e01d1d"
+            "testCount": 17,
+            "identityDigest": "54792d2e9c953997754e32c7dcfb550e0dc34d12583df309e5379f89ca9660a3"
           },
           {
             "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
@@ -1616,6 +1617,11 @@
             "identityDigest": "26b8f4034559a82d853e93c95c2a2be99502809190edb197f87b9636aa58f3e3"
           },
           {
+            "file": "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+            "testCount": 1,
+            "identityDigest": "b749e6feaf5bf15551f485e2722e0e2230ac9097e0de660856f12fecb2336fe5"
+          },
+          {
             "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
             "testCount": 5,
             "identityDigest": "a91ccdec0efb216dc8b4f45ee051e26fbeb8e0b39c162c0c0bfc7cb7e45a6e18"
@@ -1646,26 +1652,26 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "18e194ee999c1adb3ae69ccf038591bd360b67fddee7b1aec7ac734f18f41cc0",
+        "identityDigest": "538fa7ded11ec4320b2d2b1ee8b2c7747f0d656ffb2aa3ecf7d6d2cb168aa443",
         "duplicateIdentityCount": 1,
-        "executionDigest": "021fca30ba8360a0a229fb3636d7d2dae248e5ff296690cbeb940a244f03ca51"
+        "executionDigest": "959187cf2538cd60ccf029708d8ab432a32d392c8654bb8de9ddfb38a2ab958e"
       },
       "metrics": {
         "statements": {
-          "covered": 1341,
-          "total": 1785
+          "covered": 1366,
+          "total": 1810
         },
         "branches": {
-          "covered": 646,
-          "total": 766
+          "covered": 673,
+          "total": 796
         },
         "functions": {
-          "covered": 132,
-          "total": 191
+          "covered": 134,
+          "total": 193
         },
         "lines": {
-          "covered": 1177,
-          "total": 1568
+          "covered": 1199,
+          "total": 1590
         }
       }
     },
@@ -2408,8 +2414,8 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8993,
-        "testFileCount": 365,
+        "testCount": 8994,
+        "testFileCount": 366,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2591,6 +2597,7 @@
           "packages/reforge/src/main.menu-flows.test.ts",
           "packages/reforge/src/main.menu-storage-flows.test.ts",
           "packages/reforge/src/main.observation.test.ts",
+          "packages/reforge/src/main.pal-palace-exit.test.ts",
           "packages/reforge/src/main.party-nudge-flows.test.ts",
           "packages/reforge/src/main.presentation-clock-root.test.ts",
           "packages/reforge/src/main.presentation-clock.test.ts",
@@ -3679,6 +3686,11 @@
             "identityDigest": "4b00e222658734c054339aebdaee19d9869baba72be607cff690910faac8aefd"
           },
           {
+            "file": "packages/reforge/src/main.pal-palace-exit.test.ts",
+            "testCount": 1,
+            "identityDigest": "d12c89f97527007bcdef33ff51311eb826df02e03394daa29d5d9377929d773c"
+          },
+          {
             "file": "packages/reforge/src/main.party-nudge-flows.test.ts",
             "testCount": 3,
             "identityDigest": "24021d73ad48be1dd92436ba2b9f8035a8313aa5616b8a84e0735a1f204b4ff3"
@@ -3981,7 +3993,7 @@
           {
             "file": "packages/reforge/src/pal-palace-corrections.test.ts",
             "testCount": 6,
-            "identityDigest": "d1bc7cc423761411c000601b23dacef8cf2749ac0c44e97953c9a34c1f76090f"
+            "identityDigest": "557dbd1bdef6d1c31eeddb37355f5ab746c6483d329b3fa96c1b8a32882029f9"
           },
           {
             "file": "packages/reforge/src/pal-script-names.test.ts",
@@ -4604,25 +4616,25 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "8234de357384d576fb41097f05edfac4637baf0ff16bb3b03a354fa090d55969",
+        "identityDigest": "904ed81499317eb87e1a33b3c42b16d38d4d796ff8713911e23a589aad3f3a2c",
         "duplicateIdentityCount": 3,
-        "executionDigest": "a90602d621bd16e114619e09ffbc0db3cb0223c9fbda34f50291e934486e0687"
+        "executionDigest": "3d84cf643ed1667988d1c11417900a1ca18cefee23b0ba4b172c27257631f259"
       },
       "metrics": {
         "statements": {
-          "covered": 17037,
+          "covered": 17040,
           "total": 18888
         },
         "branches": {
-          "covered": 10821,
+          "covered": 10824,
           "total": 13095
         },
         "functions": {
-          "covered": 2776,
+          "covered": 2779,
           "total": 3075
         },
         "lines": {
-          "covered": 15249,
+          "covered": 15251,
           "total": 16483
         }
       }
@@ -4639,7 +4651,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 196,
+      "sourceFileCount": 199,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4732,6 +4744,7 @@
         "packages/game/src/core/scene-context.ts",
         "packages/game/src/core/scene-identity.ts",
         "packages/game/src/core/scene-loading.ts",
+        "packages/game/src/core/scene-supplemental-objects.ts",
         "packages/game/src/core/scene-system-search.ts",
         "packages/game/src/core/scene-system.ts",
         "packages/game/src/core/scene.test-fixtures.ts",
@@ -4800,6 +4813,8 @@
         "packages/game/src/shell/fetch-retry.ts",
         "packages/game/src/shell/game-shell.ts",
         "packages/game/src/shell/gamepad-input.ts",
+        "packages/game/src/shell/input-direction.ts",
+        "packages/game/src/shell/input-rotation.ts",
         "packages/game/src/shell/input.ts",
         "packages/game/src/shell/main-loop.ts",
         "packages/game/src/shell/music-source.ts",
@@ -4838,10 +4853,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "f44964f0b44441e3c5401592c6e5246f9b5b79202c9086e3b4b9c5cd07b907af",
+      "scopeDigest": "66d64738395370ba000494810f47c2d6eca3de6cc10fec207f8a96af37b41c7f",
       "fastTests": {
-        "testCount": 3754,
-        "testFileCount": 352,
+        "testCount": 3766,
+        "testFileCount": 354,
         "files": [
           "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5007,6 +5022,7 @@
           "packages/game/src/core/save/__tests__/slot-domain.test.ts",
           "packages/game/src/core/scene-collision.test.ts",
           "packages/game/src/core/scene-loading.test.ts",
+          "packages/game/src/core/scene-supplemental-objects.test.ts",
           "packages/game/src/core/scene-system-search.test.ts",
           "packages/game/src/core/scene-system.test.ts",
           "packages/game/src/core/word-lookup.test.ts",
@@ -5136,6 +5152,7 @@
           "packages/game/src/shell/gamepad-host.test.ts",
           "packages/game/src/shell/gamepad-input.test.ts",
           "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "packages/game/src/shell/input-rotation.test.ts",
           "packages/game/src/shell/input.boundaries.test.ts",
           "packages/game/src/shell/input.test.ts",
           "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
@@ -6018,6 +6035,11 @@
             "identityDigest": "d3ac241dfcd41d02b4ef0081ddea29a10110d1ce899c850f8dfee33f3c90ea7d"
           },
           {
+            "file": "packages/game/src/core/scene-supplemental-objects.test.ts",
+            "testCount": 3,
+            "identityDigest": "462bdd6c26c98784f3ad3ec881a659381f747c2bac84a98ab2144a11510bcf24"
+          },
+          {
             "file": "packages/game/src/core/scene-system-search.test.ts",
             "testCount": 12,
             "identityDigest": "fc1a46682188587d40f0c9e1b7e8cc1888d287e741969a1537c644bb90e59699"
@@ -6644,8 +6666,8 @@
           },
           {
             "file": "packages/game/src/shell/game-shell.test.ts",
-            "testCount": 2,
-            "identityDigest": "8cf8cd0e1c8d3d8c6d1e8453bc61d60d6f1a14da3bea62a96655f72e3e772353"
+            "testCount": 3,
+            "identityDigest": "06466feaa793ffe088336ea9ab95508fad764f20f618fc450f759183323e9369"
           },
           {
             "file": "packages/game/src/shell/gamepad-host.test.ts",
@@ -6654,13 +6676,18 @@
           },
           {
             "file": "packages/game/src/shell/gamepad-input.test.ts",
-            "testCount": 7,
-            "identityDigest": "e48a97fe0f468c08e345b5f3c68b3da34cf094e27755d8f49adfd2feaadb91da"
+            "testCount": 10,
+            "identityDigest": "336c9c585914e12ce4b7cdee5ab36e581b206a82f7257e2f0dcd3acbf0fb6d0c"
           },
           {
             "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
             "testCount": 11,
             "identityDigest": "3d46777294bbf3460d14fd686f559281de3726ff21bdd895af70d1c841f55f71"
+          },
+          {
+            "file": "packages/game/src/shell/input-rotation.test.ts",
+            "testCount": 2,
+            "identityDigest": "0d14498fc222159e47b500ed730465a628201e08389eab829130550b7a1fa7d1"
           },
           {
             "file": "packages/game/src/shell/input.boundaries.test.ts",
@@ -6769,8 +6796,8 @@
           },
           {
             "file": "packages/game/src/shell/touch-controls.test.ts",
-            "testCount": 10,
-            "identityDigest": "c951f617c7b37fe48c8402641437dcd234593a20b79f0f86f7050239a3973909"
+            "testCount": 12,
+            "identityDigest": "7ce699ab5800cea0afb1f1e906743c17c13a157bcbe573ed228311347add8065"
           },
           {
             "file": "packages/game/src/shell/touch-preference.test.ts",
@@ -6944,8 +6971,8 @@
           },
           {
             "file": "packages/game/src/tools/tools-panel.mobile.test.ts",
-            "testCount": 3,
-            "identityDigest": "373a1370f9c1970dcd6d9dc5287d4a184ca6bc1b014f77d4f2a1ed709cdc4b22"
+            "testCount": 4,
+            "identityDigest": "f7e149484a94651dabf64f5f3296e5c385e39cba91b624370eba34588dc54d8f"
           },
           {
             "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
@@ -6958,26 +6985,26 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "95576d471b009c050787ddee41f932c6bd5a8cfb5d3ba2d1a8892f9492d5e5f1",
+        "identityDigest": "9c9909c5c3057fd3c4a7b2b02528ce81c65adf021604cf1a31a4b4adc3210245",
         "duplicateIdentityCount": 0,
-        "executionDigest": "83baa2d5b311ca534713dc4a68386a43786f87f0d4023bf44f522cadcb80d10c"
+        "executionDigest": "3dca575c7d4db3385e8a18dff2b198ca73390f35f15d16bb0b0ef47455f863d2"
       },
       "metrics": {
         "statements": {
-          "covered": 15396,
-          "total": 17063
+          "covered": 15463,
+          "total": 17134
         },
         "branches": {
-          "covered": 9885,
-          "total": 12201
+          "covered": 9921,
+          "total": 12237
         },
         "functions": {
-          "covered": 1861,
-          "total": 2143
+          "covered": 1872,
+          "total": 2154
         },
         "lines": {
-          "covered": 13739,
-          "total": 14969
+          "covered": 13797,
+          "total": 15030
         }
       }
     },
@@ -11002,20 +11029,20 @@
   },
   "total": {
     "statements": {
-      "covered": 72785,
-      "total": 80520
+      "covered": 72880,
+      "total": 80616
     },
     "branches": {
-      "covered": 52592,
-      "total": 62634
+      "covered": 52658,
+      "total": 62700
     },
     "functions": {
-      "covered": 13768,
-      "total": 15342
+      "covered": 13784,
+      "total": 15355
     },
     "lines": {
-      "covered": 65014,
-      "total": 70468
+      "covered": 65096,
+      "total": 70551
     }
   }
 }

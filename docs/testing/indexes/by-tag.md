@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 34 个标签组、70 个成员关系、19 个唯一 ID；标签成员数不是测试数。
+当前 37 个标签组、74 个成员关系、20 个唯一 ID；标签成员数不是测试数。
 
 ## 当前状态
 
@@ -82,6 +82,10 @@ Template: governance-index-v1 / 1.0.0
 - e2e-contract — [两阶段 E2E 与录像合同](../e2e/contract.md)（current）
 - e2e-route — [双阶段快速通关路线方案](../e2e/route-proposal.md)（proposal）
 
+### gamepad
+
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
+
 ### governance
 
 - e2e-contract — [两阶段 E2E 与录像合同](../e2e/contract.md)（current）
@@ -95,6 +99,10 @@ Template: governance-index-v1 / 1.0.0
 
 - e2e-002 — [002 客栈住客与赏银](../e2e/stages/002-inn-guests-and-reward/report.md)（verified）
 - e2e-003 — [003 下楼、道士与厨房交代](../e2e/stages/003-kitchen/report.md)（verified）
+
+### input
+
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
 
 ### items
 
@@ -121,6 +129,10 @@ Template: governance-index-v1 / 1.0.0
 
 - legacy-flat-audit — [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md)（current）
 
+### mobile
+
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
+
 ### npc
 
 - e2e-003 — [003 下楼、道士与厨房交代](../e2e/stages/003-kitchen/report.md)（verified）
@@ -144,6 +156,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### regression
 
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
 - game-script-corrections — [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md)（active）
 
 ### rework

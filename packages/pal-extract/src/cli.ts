@@ -188,14 +188,21 @@ async function main(): Promise<void> {
     },
   })
   // Recompute roots and labels after correction, including appended blocks and changed object hooks.
-  const { entryIps, globalScriptEntries } = collectScriptEntries({
+  const { entryIps, globalScriptEntries, sceneExtraRoots } = collectScriptEntries({
     ...sources,
     scenes: sss.scenes,
     eventObjects: sss.eventObjects,
+    supplementalObjects: corrected?.supplementalObjects,
   })
   const commands = disasm(sss.bytecode, messages, entryIps)
   const annotated = annotate(commands, words, symbols)
-  const sliced = sliceByScene(annotated, sss.scenes, sss.eventObjects, globalScriptEntries)
+  const sliced = sliceByScene(
+    annotated,
+    sss.scenes,
+    sss.eventObjects,
+    globalScriptEntries,
+    sceneExtraRoots,
+  )
 
   sliced.scenes.forEach((sceneFile, i) => {
     const padded = i.toString().padStart(3, '0')
@@ -233,7 +240,14 @@ async function main(): Promise<void> {
 
   console.log('[pal-extract] data tables written')
 
-  writeWorldAssets(RAW, OUT, sss.scenes, sss.eventObjects, corrected?.eventMetadata)
+  writeWorldAssets(
+    RAW,
+    OUT,
+    sss.scenes,
+    sss.eventObjects,
+    corrected?.eventMetadata,
+    corrected?.supplementalObjects,
+  )
 
   writePaletteAssets(RAW, OUT)
 

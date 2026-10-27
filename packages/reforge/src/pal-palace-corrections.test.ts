@@ -11,7 +11,7 @@ test.each([
   { scene: 's249', entity: 'e4400', target: 's260', col: 80, row: 22 },
   { scene: 's260', entity: 'e4557', target: 's249', col: 82, row: -5 },
   { scene: 's285', entity: 'e4813', target: 's286', col: 80, row: 22 },
-  { scene: 's286', entity: 'e4841', target: 's285', col: 82, row: -5 },
+  { scene: 's286', entity: 'palace-isolated-exit', target: 's285', col: 82, row: -5 },
   { scene: 's285', entity: 'e4814', target: 's286', col: 102, row: 29 },
 ])('$scene/$entity keeps the intended palace room and era on arrival', async ({
   scene,
@@ -32,7 +32,7 @@ test.each([
 
 test('现世独立房间出口可从邻格触发，不要求踩进墙格或与敌人战斗', async () => {
   const run = correctionRuntime('s286')
-  const exit = gov3Scene('s286').entities.find((entity) => entity.id === 'e4841')!
+  const exit = gov3Scene('s286').entities.find((entity) => entity.id === 'palace-isolated-exit')!
   expect(exit.pages?.[0]?.triggerActivation).toEqual({ on: 'touch', range: 1 })
   expect(exit.pos).toEqual({ col: 80, row: 25, height: 0 })
   expect(exit.hostile).toBeUndefined()

@@ -2073,30 +2073,30 @@
       "index": "domains/cross-phase/script-corrections/README.md",
       "evidence": "domains/cross-phase/script-corrections/evidence.json",
       "tags": ["script-corrections", "source-integrity", "save", "regression"],
-      "lastVerified": "2026-10-22",
-      "reviewBy": "2026-11-22",
+      "lastVerified": "2026-10-27",
+      "reviewBy": "2026-11-27",
       "dependsOn": [],
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/events/script-corrections.ts",
-          "lines": "148",
+          "lines": "186",
           "anchor": "export function correctScripts",
           "role": "correction-source",
-          "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c"
+          "sha256": "05e3cb0844eb8cd24b5f7d64c2b5ca30ab9aef3fe36ecf5a1913b31b5fc4593d"
         },
         {
           "path": "packages/pal-extract/src/events/win-script-corrections.json",
           "lines": "2",
-          "anchor": "\"version\": \"pal-win-1\"",
+          "anchor": "\"version\": \"pal-win-2\"",
           "role": "reviewed-rule-data",
-          "sha256": "c345c2a9b823446105369001d6a672d1368a55784c8dcaa6ec5fed87310c7e02"
+          "sha256": "323331dff539ba2fa4dcb6c0aeaa6e834987b3d10699bf39a12b9cd5e05017cd"
         },
         {
           "path": "packages/pal-extract/src/cli.ts",
           "lines": "138",
           "anchor": "const corrected = faithful",
           "role": "caller",
-          "sha256": "1e467403d0bce8f169b0d4be83dd8dfdb02c22831ed2929374a711002eb54387"
+          "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
         },
         {
           "path": "packages/game/src/core/object-script-state.ts",
@@ -2117,7 +2117,7 @@
           "lines": "59",
           "anchor": "function portal",
           "role": "oracle",
-          "sha256": "2c5c4f954b78df9bf8c2f23e159dfe51dbe29f098e71a480fe5d14cc7a5257a6"
+          "sha256": "633033d8faadf015b1e70e2b14b9901bb272b270d37cba435aa34cab0ef64270"
         },
         {
           "path": "packages/reforge/src/pal-story-corrections.test.ts",
@@ -2132,17 +2132,90 @@
           "anchor": "test.each",
           "role": "oracle",
           "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5"
+        },
+        {
+          "path": "packages/game/src/core/scene-supplemental-objects.ts",
+          "lines": "20",
+          "anchor": "export function supplySupplementalSceneObjects",
+          "role": "supplement-owner",
+          "sha256": "155e2f84ab3c30a5ff475833b89a8492ab86e3331fd8ff045f58ca9737d51620"
+        },
+        {
+          "path": "packages/game/src/core/scene-loading.ts",
+          "lines": "56",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "load-scene-caller",
+          "sha256": "0528106e01f6313ca16401d9b2b0f9ea250be09ad1614cde19a976781359bc4f"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "346",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/scene.ts",
+          "lines": "50",
+          "anchor": "export function dumpAllEventObjects",
+          "role": "native-range-owner",
+          "sha256": "2980e190a4133f2123cee42cab14b942e4ba7661932aa26170ba679cf8dfceee"
+        },
+        {
+          "path": "packages/pal-extract/src/events/slice.ts",
+          "lines": "52",
+          "anchor": "sceneExtraRoots:",
+          "role": "scene-script-root-owner",
+          "sha256": "02326cae203ba0c9ace378f284d77a8c75ba9da88526506b42bd23542390d583"
+        },
+        {
+          "path": "projects/pal/content/scenes/s286.json",
+          "lines": "1100",
+          "anchor": "\"id\": \"palace-isolated-exit\"",
+          "role": "canonical-exit",
+          "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
+        },
+        {
+          "path": "packages/game/src/core/scene-supplemental-objects.pal.test.ts",
+          "lines": "92",
+          "anchor": "loaded %s palace save",
+          "role": "save-caller-oracle",
+          "sha256": "1506d5c485ed5396c79f8a7490325b71419400dc5bd25a376b90432dfcf2e8c5"
+        },
+        {
+          "path": "packages/reforge/src/main.pal-palace-exit.test.ts",
+          "lines": "19",
+          "anchor": "canonical palace zone returns",
+          "role": "zone-delivery-oracle",
+          "sha256": "5ab918612be5c6d5607063323d0398286079f8c8dc807f2e7b2676c65d84a43d"
+        },
+        {
+          "path": "packages/pal-extract/src/events/script-entries.ts",
+          "anchor": "export function collectScriptEntries",
+          "lines": "25",
+          "role": "supplemental-root-owner",
+          "sha256": "4ea2e6817e5fc3e7f36dcd2f5e17aa2e08d093a263f06d9ab7a7ae7f1dee9adf"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+          "anchor": "test('supplemental objects publish",
+          "lines": "6",
+          "role": "supplemental-publication-oracle",
+          "sha256": "b01ec8ace3707d39ecd47650c0f7a6ff1e1d715503de5e32b173f822ee528dad"
         }
       ],
       "publicCallers": [
         "pnpm extract",
         "pnpm --filter @type-pal/game exec vitest run src/core/script-corrections.pal.test.ts src/core/script-story-corrections.pal.test.ts src/core/script-topology-corrections.pal.test.ts --reporter=default",
-        "pnpm --filter @type-pal/reforge exec vitest run src/pal-story-corrections.test.ts src/pal-court-corrections.test.ts src/pal-trial-portals-corrections.test.ts src/pal-palace-corrections.test.ts src/battle/pal-cure-status-corrections.test.ts --reporter=default"
+        "pnpm --filter @type-pal/reforge exec vitest run src/pal-story-corrections.test.ts src/pal-court-corrections.test.ts src/pal-trial-portals-corrections.test.ts src/pal-palace-corrections.test.ts src/battle/pal-cure-status-corrections.test.ts --reporter=default",
+        "Save.saveSlot/loadSlot -> serializeSave/parseImportedSave -> loadScene -> actual tickSceneSystem/tickEventSystem; raw-native normal/won/fled and already-published D10 saves",
+        "bootGame -> canonical collision -> real input move/touch zone delivery -> loadScene -> return/reenter; isolated shell IO artwork seam"
       ],
       "legalInputs": [
         "Supported Win SSS.MKF SHA and original M.MSG; default corrected generation after faithful round-trip",
         "Current typed GameState, real extracted scripts, isolated legal script boundaries",
-        "Canonical PAL author content22 and SAVE12; stable actor/entity identities"
+        "Canonical PAL author content22 and SAVE12; stable actor/entity identities",
+        "Native5077 event array and unchanged scene ranges; explicit independent scene286 addition5077; prepared legal original-raw save at928,816, not reporter save or natural-story checkpoint"
       ],
       "businessOracle": {
         "type": "paired-script-gameplay-and-source-integrity",
@@ -2151,7 +2224,9 @@
           "Cures remove silence while retaining buffs; replacing/removing the blade keeps correct slot bonuses",
           "Story completion, conditional actor presence, early handover cleanup and portal return routes hold independently in each phase",
           "Wine God progress belongs to saved OBJECT state, removes Li Xiaoyao magic on use nine, rejects a tenth through normal action validation, resets on new game",
-          "Bad source/prevalue rejects; raw bytes unchanged; generation is repeatable and final byte changes update asset manifest"
+          "Bad source/prevalue rejects; raw bytes unchanged; generation is repeatable and final byte changes update asset manifest",
+          "New D10 appends stable5077, leaves enemy4841 and every native ID/range unchanged; both all.json and scene286 contain exit root43518; missing old-save object is shared with global state without resetting native progress.",
+          "Old normal/won/fled/published-portal saves exit through real contact, reach scene286 at1392,616 and do not loop; Reforge original team267 enemy remains beside the separate palace-isolated-exit zone, with real touch exit/reentry."
         ]
       },
       "dedupe": {
@@ -2162,7 +2237,7 @@
           "packages/reforge/src/battle/r13-six-b-battle.test.ts",
           "packages/reforge/src/pal-unified-steps-content.test.ts"
         ],
-        "notes": "Retired two runtime treasure patch tests with their removed helper; extraction rules and real caller tests replace that contract. Existing generic mechanisms retained. Headless runner/effect seams and map connectivity do not grant complete route or visual E2E credit."
+        "notes": "Retired two runtime treasure patch tests with their removed helper; extraction rules and real caller tests replace that contract. Existing generic mechanisms retained. Headless runner/effect seams and map connectivity do not grant complete route or visual E2E credit. 2026-10-27 keeps the original topology case and updates its present-era exit identity4841->5077. New save lifecycle, missing-tail/collision and actual shell zone delivery are distinct callers; historical source hash still includes the restored original enemy and removes only the strictly asserted new zone."
       },
       "revision": {
         "currentSha": null,
@@ -2250,6 +2325,260 @@
             ],
             "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
             "scope": "Only current oracle sourceRef identity/anchor; actual diff removes unused bus argument/fixture. Preserve historical execution/status/version claims, no re-credit of old SCC or route runs."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "map204-independent-exit-and-old-save-supply",
+            "candidate": "e4a78b9d986902c9b07c1cb0ce485a52434c0d4b",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/events/script-corrections.ts",
+                "lines": "148",
+                "anchor": "export function correctScripts",
+                "role": "correction-source",
+                "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c"
+              },
+              {
+                "path": "packages/pal-extract/src/events/win-script-corrections.json",
+                "lines": "2",
+                "anchor": "\"version\": \"pal-win-1\"",
+                "role": "reviewed-rule-data",
+                "sha256": "c345c2a9b823446105369001d6a672d1368a55784c8dcaa6ec5fed87310c7e02"
+              },
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "138",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "1e467403d0bce8f169b0d4be83dd8dfdb02c22831ed2929374a711002eb54387"
+              },
+              {
+                "path": "packages/game/src/core/object-script-state.ts",
+                "lines": "63",
+                "anchor": "export function setMagicScriptEntry",
+                "role": "saved-entry-owner",
+                "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+              },
+              {
+                "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+                "lines": "33",
+                "anchor": "function play",
+                "role": "oracle",
+                "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
+              },
+              {
+                "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+                "lines": "59",
+                "anchor": "function portal",
+                "role": "oracle",
+                "sha256": "2c5c4f954b78df9bf8c2f23e159dfe51dbe29f098e71a480fe5d14cc7a5257a6"
+              },
+              {
+                "path": "packages/reforge/src/pal-story-corrections.test.ts",
+                "lines": "11",
+                "anchor": "test('鬼阴坛告别",
+                "role": "oracle",
+                "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9"
+              },
+              {
+                "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+                "lines": "54",
+                "anchor": "test.each",
+                "role": "oracle",
+                "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5"
+              }
+            ],
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
+            "scope": "pal-win-2 keeps native5077 IDs/ranges and original enemy4841, appends resource-authored5077 plus owner roots, supplies absent old-save tail only. Both phases tested; original coverage and historical results retain their dates. Full story/device/CI/release remain separate."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "supplemental-root-owner-and-fast-caller-coverage",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "138",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "e6920452adb384babd70e681ab0301dc4f89af741b5240119e18023a88e54ad6"
+              }
+            ],
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
+            "scope": "Byte-equivalent CLI loop move, two atomic real-caller tests, formal ownership counter and exact restoration. Prior executions and nonfast PAL/CLI limits retained."
+          }
+        ]
+      }
+    },
+    {
+      "id": "game-input-rotation",
+      "kind": "report",
+      "title": "第一阶段可选45°方向控制回归",
+      "status": "active",
+      "phase": ["phase1"],
+      "engines": ["game"],
+      "owner": "Codex",
+      "provenance": ["Codex", "input_rotation"],
+      "domain": "phase1-runtime",
+      "module": "control-rotation",
+      "canonical": "domains/phase1-runtime/control-rotation/report.md",
+      "index": "domains/phase1-runtime/control-rotation/README.md",
+      "evidence": "domains/phase1-runtime/control-rotation/evidence.json",
+      "tags": ["input", "mobile", "gamepad", "regression"],
+      "lastVerified": "2026-10-27",
+      "reviewBy": "2026-11-27",
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "packages/game/src/shell/input-direction.ts",
+          "lines": "6",
+          "anchor": "export function inputDirection",
+          "role": "direction-rule",
+          "sha256": "9a7a7159df05493113165a5eac28c20cf6dc4343ade0cdb63c8df9a15a15d104"
+        },
+        {
+          "path": "packages/game/src/shell/input-rotation.ts",
+          "lines": "6",
+          "anchor": "export function isInputRotated",
+          "role": "preference-owner",
+          "sha256": "3607d404261b9012f63cca24f9b60248d242d62deaed9474a6c2c26a24d5d48e"
+        },
+        {
+          "path": "packages/game/src/shell/gamepad-input.ts",
+          "lines": "28",
+          "anchor": "setRotation(rotated: boolean)",
+          "role": "stick-owner",
+          "sha256": "d8bfd6ce3cc90fb3942a3ecf12035ca6bcb2b79a9908f9fcca5f96c2a7d9a2ce"
+        },
+        {
+          "path": "packages/game/src/shell/touch-controls.ts",
+          "lines": "43",
+          "anchor": "const directionButton =",
+          "role": "pointer-owner",
+          "sha256": "025ba5a83f315f0ec97f2161cbf9f6fe083f3aaddec16c5e184f31f51d6f9b56"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.ts",
+          "lines": "65",
+          "anchor": "const updateRotation =",
+          "role": "visual-caller",
+          "sha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.css",
+          "lines": "141",
+          "anchor": "/* 45° centers use radius",
+          "role": "visual-geometry",
+          "sha256": "6a34f83dc3302058a85a0489edfd554fd8a0fd2fc25a71878cefb7b98c4ae6b1"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "lines": "550",
+          "anchor": "toggleRow(parent, '虚拟方向键 / 左摇杆顺时针旋转45°'",
+          "role": "setting-caller",
+          "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596"
+        },
+        {
+          "path": "packages/game/src/localization/ui-text.ts",
+          "lines": "46",
+          "anchor": "'虚拟方向键 / 左摇杆顺时针旋转45°'",
+          "role": "display-label",
+          "sha256": "8da4ef228621a771220c861dd8fe75eba28cfb888d0b295848165b378677513a"
+        },
+        {
+          "path": "packages/game/src/core/scene-system.ts",
+          "lines": "44",
+          "anchor": "const DIR_DELTA:",
+          "role": "movement-oracle",
+          "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+        },
+        {
+          "path": "packages/game/src/shell/gamepad-input.test.ts",
+          "lines": "76",
+          "anchor": "it('maps the four screen diagonals clockwise",
+          "role": "oracle",
+          "sha256": "b13e36c479b34b432a02e013d3e42fb9b97a9e821927c1c55f2ce2af0b1cba81"
+        },
+        {
+          "path": "packages/game/src/shell/touch-controls.test.ts",
+          "lines": "186",
+          "anchor": "it('maps four clockwise touch sectors",
+          "role": "oracle",
+          "sha256": "ca06bbe7830122617460dfb9ddd974e060e75713ebac65cd8f7bf02b14682e67"
+        },
+        {
+          "path": "packages/game/src/shell/input-rotation.test.ts",
+          "lines": "10",
+          "anchor": "it('defaults to the original layout",
+          "role": "oracle",
+          "sha256": "b24a2fcc4824f0c074cdf108539be421222dc3d4156cde2e960451b7267b57e7"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.test.ts",
+          "lines": "143",
+          "anchor": "it('mounts the remembered rotated pad",
+          "role": "integration-oracle",
+          "sha256": "fcdbb4607f369754392d75aca6418db4b68b1a74f601420a73c6dbec1023264d"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "lines": "83",
+          "anchor": "it('remembers clockwise controls",
+          "role": "setting-oracle",
+          "sha256": "772120d2e645e2da776e2bbc3ef05def2b19220f91865455bed6b99169895eda"
+        }
+      ],
+      "publicCallers": [
+        "createGameShell(canvas).connect(KeyboardInputSource) -> bindTouchControls / startGamepadInput; pointer contacts and standard Gamepad axes -> inputDirection -> InputSnapshot.held -> scene-system pickFacing / DIR_DELTA",
+        "setupToolsPanel -> renderSystemTab -> toggleRow -> setInputRotated; input rotation change event updates mounted shell and input adapters",
+        "pnpm --filter @type-pal/game exec vitest run src/shell/gamepad-input.test.ts src/shell/touch-controls.test.ts src/shell/input-rotation.test.ts src/shell/game-shell.test.ts src/shell/input.test.ts src/shell/touch-preference.test.ts src/tools/tools-panel.mobile.test.ts src/tools/tools-panel.english.test.ts src/localization/shell-surfaces.test.ts --reporter=default --reporter=json --outputFile=/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.json",
+        "Cua public mobile Settings checkbox/reload/language UI and NE pointer hold350ms at explicit skip-intro dev route; root browser receipt records actual observations"
+      ],
+      "legalInputs": [
+        "Connected standard-mapping typed GamepadState with left axes in[-1,1], normal hardware buttons and multiple device indices; keyboard owns separate contacts",
+        "Primary PointerEvent on buttons created by createTouchButton or circular .tp-dpad; legal coordinates in a stable square bounding rectangle; ordinary pointer up/cancel/capture loss and visibility/blur events",
+        "Browser preference absent, explicit45/on or0/off; unknown persisted string is storage IO input; DOMException storage denial exercises failure fallback only",
+        "Real KeyboardInputSource snapshots and mounted shell/tools UI; jsdom substitutes only browser scheduling/layout/capture/Storage boundaries. Root browser uses real desktop pointer at844x390 and390x844; no physical gamepad/touch fixture"
+      ],
+      "businessOracle": {
+        "type": "screen-direction-and-input-contact-ownership",
+        "assertions": [
+          "Defaultoff preserves original mapping; one remembered optional clockwise45 setting applies jointly to virtual pad and standard left stick; storage failure preserves an effective in-memory choice",
+          "NE/SE/SW/NW input yields Up/Right/Down/Left; independent scene DIR_DELTA means screen NE/SE/SW/NW movement(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)",
+          "Rotation preserves raw gamepad entry0.35/held0.2 thresholds and circular touch center0.13/rim0.5/held0.75; pad bounds do not rotate",
+          "Changing setting releases old touch/stick contacts; old pointer moves do not resume and each old stick must center before new motion; keyboard/hardware Dpad/other-device ownership remains",
+          "Actual settings UI writes preference and renders it on tab reopen; new shell initializes saved choice; Chinese and English labels identify virtual pad/left stick scope",
+          "Formal quadrant mutant causes exactly one designated AssertionError(expectedLeft,gotRight), with9 neighboring passes/zero skip; exact source restoration returns60 passing assertions",
+          "Root browser shows two mobile layouts, on/reload/off and English/Chinese; real NE pointerhold moves visible party coordinates1312,288 to1328,280 facingup, with logs[]"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-51-retained-9-added-0-retired",
+        "against": [
+          "packages/game/src/shell/gamepad-input.test.ts",
+          "packages/game/src/shell/touch-controls.test.ts",
+          "packages/game/src/shell/input.test.ts",
+          "packages/game/src/shell/game-shell.test.ts",
+          "packages/game/src/shell/touch-preference.test.ts",
+          "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "packages/game/src/tools/tools-panel.english.test.ts",
+          "packages/game/src/localization/shell-surfaces.test.ts"
+        ],
+        "notes": "The selected baseline51 file/fullName contracts remain;9 additions are preference IO2, gamepad mapping/rearm/browser wiring3, touch mapping/reset2, shell initialization/live setting1 and settings reopen1. Existing touch-slide test only moves fixture construction to directionPad; all6 snapshots remain. English case adds one label assertion, not a new test. Different callers/lifecycles distinguish these layers; no formula-mirror oracle or retired/renamed test."
+      },
+      "revision": {
+        "currentSha": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "versionScope": "These are the current project publication axes recorded for the paired consumer; this phase1 browser-input preference does not consume content/save schema, change compatibility or authorize phase2 execution.",
+        "history": [
+          {
+            "date": "2026-10-27",
+            "action": "initial-control-rotation-publication",
+            "base": "123595ac3a651957b36061eacced329369c495e5",
+            "candidate": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+            "integratedCandidate": "ae9e3226c24f37d1f33c14c9b6e28ba2d72e52ec",
+            "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+            "scope": "Reuse contributor60/native counter/static gates plus root finite browser acceptance. This documentation publication runs no product tests and grants no whole-repository,coverage,hardware,complete-story or deployment credit. Publication remains active pending unified window and user experience."
           }
         ]
       }
@@ -2278,7 +2607,7 @@
       "packages/editor/src/ui/MapMode.tsx:403-420",
       "packages/game/src/core/dependency-ownership.test.ts:1-45"
     ],
-    "scope": "Original eighteen published records plus one 2026-10-22 script-corrections report. This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
+    "scope": "Original eighteen published records plus the 2026-10-22 script-corrections report and the 2026-10-27 control-rotation report (20 publication entries). This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
     "publicationRules": [
       "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
       "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
@@ -2362,7 +2691,11 @@
       },
       {
         "id": "game-script-corrections",
-        "conclusion": "新增两阶段脚本/资源/入口持久化回归记录；支持本地原盘生成和canonical作者内容，精确区分业务红绿、存档与headless边界，未授完整E2E/视觉/发布信用。"
+        "conclusion": "2026-10-27只核独立新增出口/原敌保留/旧档加载与两阶段真实接触合同；复用83邻测+当前PAL5、extract49、Reforge5421和两有效业务反控及精确恢复，根提取/准备旧档浏览器另核；不续签历史coverage或完整剧情。"
+      },
+      {
+        "id": "game-input-rotation",
+        "conclusion": "新增phase1/game可选45°输入报告，active等待统一窗/用户体验；复用60native、精确单红恢复与根两viewport真实pointer/刷新/双语证据；51旧合同保留、9新增、0退役，不授真机/完整剧情/覆盖率/部署信用。"
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",
@@ -2426,6 +2759,26 @@
         "action": "add-script-correction-regression-publication",
         "scope": "One new paired report plus D1 catalog-owner source delta; preserve all other entries and execution dates.",
         "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+      },
+      {
+        "date": "2026-10-27",
+        "action": "add-control-rotation-regression-publication",
+        "scope": "One new phase1/game active report/index/evidence and its reading; preserve the other19 entries and their original status,versions,dates and execution credit. Generated views reflect20 total entries.",
+        "previousScope": "Original eighteen published records plus one 2026-10-22 script-corrections report. This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
+        "candidate": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+        "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+        "runtimeExecutionPerformedByPublication": false
+      },
+      {
+        "date": "2026-10-27",
+        "action": "map204-independent-exit-publication",
+        "candidate": "e4a78b9d986902c9b07c1cb0ce485a52434c0d4b",
+        "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
+        "scope": "Only game-script-corrections current refs/contracts/readings; all other entries and old execution dates/history retained.",
+        "previousEntryReading": {
+          "id": "game-script-corrections",
+          "conclusion": "新增两阶段脚本/资源/入口持久化回归记录；支持本地原盘生成和canonical作者内容，精确区分业务红绿、存档与headless边界，未授完整E2E/视觉/发布信用。"
+        }
       }
     ],
     "supersedes": [],

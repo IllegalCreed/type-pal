@@ -1,6 +1,7 @@
 import { localize, subscribeLanguage } from '../localization/language.js'
 import { startGamepadInput } from './gamepad-input.js'
 import type { KeyboardInputSource } from './input.js'
+import { INPUT_ROTATION_CHANGE, isInputRotated } from './input-rotation.js'
 import { isMobileLayout, LAYOUT_CHANGE } from './presentation.js'
 import { bindTouchControls, createTouchButton } from './touch-controls.js'
 import { areTouchControlsVisible, TOUCH_VISIBILITY_CHANGE } from './touch-preference.js'
@@ -38,7 +39,7 @@ export function createGameShell(canvas: HTMLCanvasElement): GameShell {
     const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     icon.setAttribute('viewBox', '0 0 24 24')
     icon.setAttribute('aria-hidden', 'true')
-    icon.style.transform = `rotate(${rotation}deg)`
+    icon.style.transform = `rotate(calc(${rotation}deg + var(--tp-input-rotation, 0deg)))`
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
     path.setAttribute('d', 'M6 15 L12 9 L18 15')
     icon.append(path)
@@ -60,6 +61,14 @@ export function createGameShell(canvas: HTMLCanvasElement): GameShell {
   actions.append(confirm, menu)
   stage.append(dpad, actions)
   shell.append(stage)
+
+  const updateRotation = (): void => {
+    const rotated = isInputRotated()
+    dpad.dataset.rotated = String(rotated)
+    dpad.style.setProperty('--tp-input-rotation', rotated ? '45deg' : '0deg')
+  }
+  updateRotation()
+  window.addEventListener(INPUT_ROTATION_CHANGE, updateRotation)
 
   const updateLabels = (): void => {
     dpad.setAttribute('aria-label', localize('方向控制', 'Direction controls'))

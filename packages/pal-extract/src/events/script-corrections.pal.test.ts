@@ -93,3 +93,56 @@ test('unexpected Chinese message bytes cannot silently receive the text repair',
   altered[1503] = 'another source'
   expect(() => correctScripts(parseSss(input), sourceSha256, altered)).toThrow('D01: message')
 })
+
+test('the independent palace exit appends one stable object without changing native enemy identity or ranges', () => {
+  const source = parseSss(input)
+  const corrected = correctScripts(source, sourceSha256, messages)
+  expect(corrected.sss.eventObjects).toHaveLength(5077)
+  expect(corrected.sss.eventObjects[4841]).toEqual(source.eventObjects[4841])
+  const native = dumpAllEventObjects(
+    corrected.sss.scenes,
+    corrected.sss.eventObjects,
+    corrected.eventMetadata,
+  )
+  const published = dumpAllEventObjects(
+    corrected.sss.scenes,
+    corrected.sss.eventObjects,
+    corrected.eventMetadata,
+    corrected.supplementalObjects,
+  )
+  expect(published.sceneRanges).toEqual(native.sceneRanges)
+  expect(published.eventObjects.slice(0, 5077)).toEqual(native.eventObjects)
+  expect(published.eventObjects.slice(5077)).toEqual([
+    expect.objectContaining({
+      id: 5077,
+      x: 880,
+      y: 840,
+      spriteNum: 0,
+      triggerMode: 5,
+      supplemental: true,
+    }),
+  ])
+  const extra = corrected.supplementalObjects[0]!
+  expect(extra.sceneId).toBe(286)
+  expect(
+    dumpScene(
+      286,
+      corrected.sss.scenes,
+      corrected.sss.eventObjects,
+      corrected.eventMetadata,
+      corrected.supplementalObjects,
+    ).eventObjects,
+  ).toContainEqual(extra.object)
+  expect(
+    dumpScene(
+      294,
+      corrected.sss.scenes,
+      corrected.sss.eventObjects,
+      corrected.eventMetadata,
+      corrected.supplementalObjects,
+    ).eventObjects,
+  ).not.toContainEqual(extra.object)
+  const entry = Number(extra.object.triggerLabel!.slice(2))
+  expect(instruction(corrected.sss.bytecode, entry)).toEqual([89, 286, 0, 0])
+  expect(instruction(corrected.sss.bytecode, entry + 1)).toEqual([70, 43, 38, 1])
+})

@@ -71,6 +71,7 @@ import { createSellMenu } from '../core/menu/sell-menu.js'
 import { createBuyMenu } from '../core/menu/shop-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
 import { Save } from '../core/save/api.js'
+import { supplySupplementalSceneObjects } from '../core/scene-supplemental-objects.js'
 import { isWalkable, setCurrentMapNum, setSceneContext } from '../core/scene-system.js'
 import { setEnglishWordTable, setWordTable } from '../core/word-lookup.js'
 import {
@@ -342,6 +343,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   gs.npcs =
     sliceSceneEventObjects(gs, gs.wNumScene) ??
     scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+  supplySupplementalSceneObjects(gs, scene.eventObjects)
   hydrateNpcStaticDefaults(gs.npcs, scene.eventObjects)
 
   // M5.6 T17:onEnter 启动改由 startNewGameFromPrimary helper 触发,
@@ -770,15 +772,15 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       gs.npcs =
         sliceSceneEventObjects(gs, newWNumScene) ??
         sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
-      hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     } else {
       // C8 load game 路径:存档 JSON.stringify 会断开 gs.npcs 与 gs.allEventObjects 的引用。
       // 从加载回的 gs.allEventObjects 重切当前 scene → 重建引用(状态一致,后续脚本改动持久)。
       // 旧档无 allEventObjects → sliceSceneEventObjects 返 undefined → 保留存档内 gs.npcs。
       const reslice = sliceSceneEventObjects(gs, newWNumScene)
       if (reslice) gs.npcs = reslice
-      hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     }
+    supplySupplementalSceneObjects(gs, sceneAssets.eventObjects)
+    hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     applySceneAssetsToPresent(sceneAssets)
     await preloadCutsceneSprites(sceneAssets.eventCommands)
     await ensurePlayerSpritesLoaded()
@@ -1376,6 +1378,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     gs.npcs =
       sliceSceneEventObjects(gs, gs.wNumScene) ??
       scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+    supplySupplementalSceneObjects(gs, scene.eventObjects)
     hydrateNpcStaticDefaults(gs.npcs, scene.eventObjects)
     // 渲染路由复位到 primary scene(等价 applySceneAssetsToPresent;scene 闭包是 SceneObjects 无
     //   tilemap/palette,故用 loadAll 顶层 primary tilemap)。
