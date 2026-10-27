@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 3 个适用阶段组、31 个成员关系、19 个唯一 ID：ops 1；phase1 12；phase2 18。跨组出现指向同一报告。
+当前 3 个适用阶段组、32 个成员关系、20 个唯一 ID：ops 1；phase1 13；phase2 18。跨组出现指向同一报告。
 
 ## 当前状态
 
@@ -45,6 +45,7 @@ catalog.phase 决定组别，报告分别提供各阶段 primary source 与执�
 | e2e-common-issues | [001–005 共性问题族](../e2e/cross-stage/common-issues.md) | current | Codex |
 | e2e-contract | [两阶段 E2E 与录像合同](../e2e/contract.md) | current | Codex |
 | e2e-route | [双阶段快速通关路线方案](../e2e/route-proposal.md) | proposal | Codex |
+| game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | active | Codex |
 | game-script-corrections | [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md) | active | Codex |
 | legacy-flat-audit | [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md) | current | Codex |
 | phase1-dependency-ownership | [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | current | Codex |

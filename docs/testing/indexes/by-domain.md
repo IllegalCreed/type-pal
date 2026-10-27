@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 6 个工程域、19 个唯一 ID：cross-phase 1；e2e 9；editor 2；ops 1；phase1-runtime 1；runtime 5。每份登记记录在该维度只列一次。
+当前 6 个工程域、20 个唯一 ID：cross-phase 1；e2e 9；editor 2；ops 1；phase1-runtime 2；runtime 5。每份登记记录在该维度只列一次。
 
 ## 当前状态
 
@@ -66,6 +66,7 @@ domain 字段决定组别；人和 Agent 从组内 canonical 继续查 evidence�
 
 | ID | 文档 | 状态 | Owner |
 |---|---|---|---|
+| game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | active | Codex |
 | phase1-dependency-ownership | [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | current | Codex |
 
 

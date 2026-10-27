@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 18 个 domain/module 组、19 个唯一 ID：cross-phase/script-corrections 1；e2e/cross-stage-audit 1；e2e/cross-stage-contract 1；e2e/doctor-and-boat 1；e2e/inn-guests-and-reward 1；e2e/meal-and-gift 1；e2e/route-planning 1；e2e/shrimp-errand-and-news 1；e2e/stairs-and-kitchen-handoff 1；e2e/story-opening 1；editor/commands 1；editor/map 1；ops/testing-governance 1；phase1-runtime/dependencies 1；runtime/battle 2；runtime/menu 1；runtime/scene 1；runtime/world 1。同组多篇仍是不同稳定 ID。
+当前 19 个 domain/module 组、20 个唯一 ID：cross-phase/script-corrections 1；e2e/cross-stage-audit 1；e2e/cross-stage-contract 1；e2e/doctor-and-boat 1；e2e/inn-guests-and-reward 1；e2e/meal-and-gift 1；e2e/route-planning 1；e2e/shrimp-errand-and-news 1；e2e/stairs-and-kitchen-handoff 1；e2e/story-opening 1；editor/commands 1；editor/map 1；ops/testing-governance 1；phase1-runtime/control-rotation 1；phase1-runtime/dependencies 1；runtime/battle 2；runtime/menu 1；runtime/scene 1；runtime/world 1。同组多篇仍是不同稳定 ID。
 
 ## 当前状态
 
@@ -114,6 +114,13 @@ Template: governance-index-v1 / 1.0.0
 | ID | 文档 | 状态 | Owner |
 |---|---|---|---|
 | legacy-flat-audit | [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md) | current | Codex |
+
+
+### phase1-runtime/control-rotation
+
+| ID | 文档 | 状态 | Owner |
+|---|---|---|---|
+| game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | active | Codex |
 
 
 ### phase1-runtime/dependencies

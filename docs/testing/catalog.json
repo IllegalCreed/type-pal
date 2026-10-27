@@ -2253,6 +2253,180 @@
           }
         ]
       }
+    },
+    {
+      "id": "game-input-rotation",
+      "kind": "report",
+      "title": "第一阶段可选45°方向控制回归",
+      "status": "active",
+      "phase": ["phase1"],
+      "engines": ["game"],
+      "owner": "Codex",
+      "provenance": ["Codex", "input_rotation"],
+      "domain": "phase1-runtime",
+      "module": "control-rotation",
+      "canonical": "domains/phase1-runtime/control-rotation/report.md",
+      "index": "domains/phase1-runtime/control-rotation/README.md",
+      "evidence": "domains/phase1-runtime/control-rotation/evidence.json",
+      "tags": ["input", "mobile", "gamepad", "regression"],
+      "lastVerified": "2026-10-27",
+      "reviewBy": "2026-11-27",
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "packages/game/src/shell/input-direction.ts",
+          "lines": "6",
+          "anchor": "export function inputDirection",
+          "role": "direction-rule",
+          "sha256": "9a7a7159df05493113165a5eac28c20cf6dc4343ade0cdb63c8df9a15a15d104"
+        },
+        {
+          "path": "packages/game/src/shell/input-rotation.ts",
+          "lines": "6",
+          "anchor": "export function isInputRotated",
+          "role": "preference-owner",
+          "sha256": "3607d404261b9012f63cca24f9b60248d242d62deaed9474a6c2c26a24d5d48e"
+        },
+        {
+          "path": "packages/game/src/shell/gamepad-input.ts",
+          "lines": "28",
+          "anchor": "setRotation(rotated: boolean)",
+          "role": "stick-owner",
+          "sha256": "d8bfd6ce3cc90fb3942a3ecf12035ca6bcb2b79a9908f9fcca5f96c2a7d9a2ce"
+        },
+        {
+          "path": "packages/game/src/shell/touch-controls.ts",
+          "lines": "43",
+          "anchor": "const directionButton =",
+          "role": "pointer-owner",
+          "sha256": "025ba5a83f315f0ec97f2161cbf9f6fe083f3aaddec16c5e184f31f51d6f9b56"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.ts",
+          "lines": "65",
+          "anchor": "const updateRotation =",
+          "role": "visual-caller",
+          "sha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.css",
+          "lines": "141",
+          "anchor": "/* 45° centers use radius",
+          "role": "visual-geometry",
+          "sha256": "6a34f83dc3302058a85a0489edfd554fd8a0fd2fc25a71878cefb7b98c4ae6b1"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "lines": "550",
+          "anchor": "toggleRow(parent, '虚拟方向键 / 左摇杆顺时针旋转45°'",
+          "role": "setting-caller",
+          "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596"
+        },
+        {
+          "path": "packages/game/src/localization/ui-text.ts",
+          "lines": "46",
+          "anchor": "'虚拟方向键 / 左摇杆顺时针旋转45°'",
+          "role": "display-label",
+          "sha256": "8da4ef228621a771220c861dd8fe75eba28cfb888d0b295848165b378677513a"
+        },
+        {
+          "path": "packages/game/src/core/scene-system.ts",
+          "lines": "44",
+          "anchor": "const DIR_DELTA:",
+          "role": "movement-oracle",
+          "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+        },
+        {
+          "path": "packages/game/src/shell/gamepad-input.test.ts",
+          "lines": "76",
+          "anchor": "it('maps the four screen diagonals clockwise",
+          "role": "oracle",
+          "sha256": "b13e36c479b34b432a02e013d3e42fb9b97a9e821927c1c55f2ce2af0b1cba81"
+        },
+        {
+          "path": "packages/game/src/shell/touch-controls.test.ts",
+          "lines": "186",
+          "anchor": "it('maps four clockwise touch sectors",
+          "role": "oracle",
+          "sha256": "ca06bbe7830122617460dfb9ddd974e060e75713ebac65cd8f7bf02b14682e67"
+        },
+        {
+          "path": "packages/game/src/shell/input-rotation.test.ts",
+          "lines": "10",
+          "anchor": "it('defaults to the original layout",
+          "role": "oracle",
+          "sha256": "b24a2fcc4824f0c074cdf108539be421222dc3d4156cde2e960451b7267b57e7"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.test.ts",
+          "lines": "143",
+          "anchor": "it('mounts the remembered rotated pad",
+          "role": "integration-oracle",
+          "sha256": "fcdbb4607f369754392d75aca6418db4b68b1a74f601420a73c6dbec1023264d"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "lines": "83",
+          "anchor": "it('remembers clockwise controls",
+          "role": "setting-oracle",
+          "sha256": "772120d2e645e2da776e2bbc3ef05def2b19220f91865455bed6b99169895eda"
+        }
+      ],
+      "publicCallers": [
+        "createGameShell(canvas).connect(KeyboardInputSource) -> bindTouchControls / startGamepadInput; pointer contacts and standard Gamepad axes -> inputDirection -> InputSnapshot.held -> scene-system pickFacing / DIR_DELTA",
+        "setupToolsPanel -> renderSystemTab -> toggleRow -> setInputRotated; input rotation change event updates mounted shell and input adapters",
+        "pnpm --filter @type-pal/game exec vitest run src/shell/gamepad-input.test.ts src/shell/touch-controls.test.ts src/shell/input-rotation.test.ts src/shell/game-shell.test.ts src/shell/input.test.ts src/shell/touch-preference.test.ts src/tools/tools-panel.mobile.test.ts src/tools/tools-panel.english.test.ts src/localization/shell-surfaces.test.ts --reporter=default --reporter=json --outputFile=/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.json",
+        "Cua public mobile Settings checkbox/reload/language UI and NE pointer hold350ms at explicit skip-intro dev route; root browser receipt records actual observations"
+      ],
+      "legalInputs": [
+        "Connected standard-mapping typed GamepadState with left axes in[-1,1], normal hardware buttons and multiple device indices; keyboard owns separate contacts",
+        "Primary PointerEvent on buttons created by createTouchButton or circular .tp-dpad; legal coordinates in a stable square bounding rectangle; ordinary pointer up/cancel/capture loss and visibility/blur events",
+        "Browser preference absent, explicit45/on or0/off; unknown persisted string is storage IO input; DOMException storage denial exercises failure fallback only",
+        "Real KeyboardInputSource snapshots and mounted shell/tools UI; jsdom substitutes only browser scheduling/layout/capture/Storage boundaries. Root browser uses real desktop pointer at844x390 and390x844; no physical gamepad/touch fixture"
+      ],
+      "businessOracle": {
+        "type": "screen-direction-and-input-contact-ownership",
+        "assertions": [
+          "Defaultoff preserves original mapping; one remembered optional clockwise45 setting applies jointly to virtual pad and standard left stick; storage failure preserves an effective in-memory choice",
+          "NE/SE/SW/NW input yields Up/Right/Down/Left; independent scene DIR_DELTA means screen NE/SE/SW/NW movement(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)",
+          "Rotation preserves raw gamepad entry0.35/held0.2 thresholds and circular touch center0.13/rim0.5/held0.75; pad bounds do not rotate",
+          "Changing setting releases old touch/stick contacts; old pointer moves do not resume and each old stick must center before new motion; keyboard/hardware Dpad/other-device ownership remains",
+          "Actual settings UI writes preference and renders it on tab reopen; new shell initializes saved choice; Chinese and English labels identify virtual pad/left stick scope",
+          "Formal quadrant mutant causes exactly one designated AssertionError(expectedLeft,gotRight), with9 neighboring passes/zero skip; exact source restoration returns60 passing assertions",
+          "Root browser shows two mobile layouts, on/reload/off and English/Chinese; real NE pointerhold moves visible party coordinates1312,288 to1328,280 facingup, with logs[]"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-51-retained-9-added-0-retired",
+        "against": [
+          "packages/game/src/shell/gamepad-input.test.ts",
+          "packages/game/src/shell/touch-controls.test.ts",
+          "packages/game/src/shell/input.test.ts",
+          "packages/game/src/shell/game-shell.test.ts",
+          "packages/game/src/shell/touch-preference.test.ts",
+          "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "packages/game/src/tools/tools-panel.english.test.ts",
+          "packages/game/src/localization/shell-surfaces.test.ts"
+        ],
+        "notes": "The selected baseline51 file/fullName contracts remain;9 additions are preference IO2, gamepad mapping/rearm/browser wiring3, touch mapping/reset2, shell initialization/live setting1 and settings reopen1. Existing touch-slide test only moves fixture construction to directionPad; all6 snapshots remain. English case adds one label assertion, not a new test. Different callers/lifecycles distinguish these layers; no formula-mirror oracle or retired/renamed test."
+      },
+      "revision": {
+        "currentSha": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "versionScope": "These are the current project publication axes recorded for the paired consumer; this phase1 browser-input preference does not consume content/save schema, change compatibility or authorize phase2 execution.",
+        "history": [
+          {
+            "date": "2026-10-27",
+            "action": "initial-control-rotation-publication",
+            "base": "123595ac3a651957b36061eacced329369c495e5",
+            "candidate": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+            "integratedCandidate": "ae9e3226c24f37d1f33c14c9b6e28ba2d72e52ec",
+            "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+            "scope": "Reuse contributor60/native counter/static gates plus root finite browser acceptance. This documentation publication runs no product tests and grants no whole-repository,coverage,hardware,complete-story or deployment credit. Publication remains active pending unified window and user experience."
+          }
+        ]
+      }
     }
   ],
   "_governance": {
@@ -2278,7 +2452,7 @@
       "packages/editor/src/ui/MapMode.tsx:403-420",
       "packages/game/src/core/dependency-ownership.test.ts:1-45"
     ],
-    "scope": "Original eighteen published records plus one 2026-10-22 script-corrections report. This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
+    "scope": "Original eighteen published records plus the 2026-10-22 script-corrections report and the 2026-10-27 control-rotation report (20 publication entries). This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
     "publicationRules": [
       "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
       "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
@@ -2363,6 +2537,10 @@
       {
         "id": "game-script-corrections",
         "conclusion": "新增两阶段脚本/资源/入口持久化回归记录；支持本地原盘生成和canonical作者内容，精确区分业务红绿、存档与headless边界，未授完整E2E/视觉/发布信用。"
+      },
+      {
+        "id": "game-input-rotation",
+        "conclusion": "新增phase1/game可选45°输入报告，active等待统一窗/用户体验；复用60native、精确单红恢复与根两viewport真实pointer/刷新/双语证据；51旧合同保留、9新增、0退役，不授真机/完整剧情/覆盖率/部署信用。"
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",
@@ -2426,6 +2604,15 @@
         "action": "add-script-correction-regression-publication",
         "scope": "One new paired report plus D1 catalog-owner source delta; preserve all other entries and execution dates.",
         "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+      },
+      {
+        "date": "2026-10-27",
+        "action": "add-control-rotation-regression-publication",
+        "scope": "One new phase1/game active report/index/evidence and its reading; preserve the other19 entries and their original status,versions,dates and execution credit. Generated views reflect20 total entries.",
+        "previousScope": "Original eighteen published records plus one 2026-10-22 script-corrections report. This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
+        "candidate": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+        "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+        "runtimeExecutionPerformedByPublication": false
       }
     ],
     "supersedes": [],
