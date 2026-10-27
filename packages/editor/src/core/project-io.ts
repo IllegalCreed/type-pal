@@ -143,6 +143,11 @@ export function toEditorState(
   }
 }
 
+export type ProjectWriteActivity =
+  | { phase: 'staging'; completed: number; total: number }
+  | { phase: 'validating' }
+  | { phase: 'writing'; completed: number; total: number }
+
 export interface ProjectWriteResult {
   snapshot: Map<string, string>
   cleanupWarning?: string
@@ -492,6 +497,7 @@ export async function writeProject(
     prevSnapshot?: Map<string, string>
     removePaths?: readonly string[]
     onProgress?: (progress: { completed: number; total: number }) => void
+    onActivity?: (activity: ProjectWriteActivity) => void
     copies?: readonly ProjectCopyInput[]
     directories?: readonly string[]
     verifySource?: () => Promise<void>
@@ -600,10 +606,14 @@ export async function writeProject(
             : serializeOne(value)),
       )
     }
+    const notifyWrite = (progress: { completed: number; total: number }): void => {
+      opts?.onProgress?.(progress)
+      opts?.onActivity?.({ phase: 'writing', ...progress })
+    }
     const advance = (size: number): void => {
       completed += size
       // 100% 只在删除也落定后报告；避免 manifest close 后、函数返回前 UI 先宣告完成。
-      if (completed < total) opts?.onProgress?.({ completed, total })
+      if (completed < total) notifyWrite({ completed, total })
     }
     const inputs: AuthorSaveInput[] = []
     const completions: Array<() => Promise<void>> = []
@@ -681,24 +691,33 @@ export async function writeProject(
     }
     const scope = authorizedSaveScope(mutation)
     const workspace = scope.workspace
+    const stagingTotal = inputs.filter((input) => input.kind === 'write').length
+    let stagedFiles = 0
+    opts?.onActivity?.({ phase: 'staging', completed: 0, total: stagingTotal })
     const prepared = await prepareAuthorSave(
       mutation,
       inputs,
-      (source) => validatePreparedProject(source, scope.firstSave ? undefined : previousCatalog),
+      (source) => {
+        opts?.onActivity?.({ phase: 'validating' })
+        return validatePreparedProject(source, scope.firstSave ? undefined : previousCatalog)
+      },
       {
         catalogPath,
         beforeSeal: verifySource,
-        onStaged: opts?.onStaged,
+        onStaged: (bytes) => {
+          opts?.onStaged?.(bytes)
+          opts?.onActivity?.({ phase: 'staging', completed: ++stagedFiles, total: stagingTotal })
+        },
       },
     )
     interruptedSnapshots.set(workspace, new Map(snapshot))
-    opts?.onProgress?.({ completed, total })
+    notifyWrite({ completed, total })
     let appliedIndex = 0
     const result = await commitAuthorSave(prepared, async (step) => {
       if (step.kind !== 'mkdir') await completions[appliedIndex++]!()
     })
     interruptedSnapshots.delete(workspace)
-    opts?.onProgress?.({ completed: total, total })
+    notifyWrite({ completed: total, total })
     return { snapshot, ...(result.cleanupWarning ? { cleanupWarning: result.cleanupWarning } : {}) }
   })
 }

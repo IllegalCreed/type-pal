@@ -33,6 +33,7 @@ import {
 } from './handle-store.js'
 import { type OpenedProject, openLocalProject } from './open-local.js'
 import { assetCopyInputs, observeProjectCopySource } from './project-copy-source.js'
+import type { ProjectWriteActivity } from './project-io.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
 import {
@@ -265,12 +266,15 @@ export async function assertSaveAsTargetOutsideSource(
  * 另存为:先在原始点击手势内选目标夹，再异步组装当前项目文件集并写入。
  * File System Access 要求 transient user activation，不能先 await 序列化再弹 picker。
  */
+export type SaveAsProgress = ProjectWriteActivity | { phase: 'preparing' | 'reopening' }
+
 export async function saveProjectAs(
   sourceWorkspace: WorkspaceContext,
   buildFiles: () => Promise<Record<string, unknown>>,
   srcDir?: FileSystemDirectoryHandle,
   removePaths: readonly string[] = [],
   sourceEvidence?: { source: FileSource; authorBaseline: AuthorDiskBaseline },
+  onProgress?: (progress: SaveAsProgress) => void,
 ): Promise<Opened | null> {
   const dir = await pickDir()
   if (!dir) return null
@@ -280,6 +284,7 @@ export async function saveProjectAs(
   await preflightFirstSaveTarget(workspace, dir)
   if (sourceDir) await assertSaveAsTargetOutsideSource(sourceDir, dir)
   const original = sourceDir ? fsaSource(sourceDir) : sourceEvidence?.source
+  onProgress?.({ phase: 'preparing' })
   const observed = sourceEvidence && original ? await observeProjectCopySource(original) : undefined
   const verifyAuthor = async () => {
     if (!sourceEvidence || !original) throw new Error('另存为缺少源项目基线，请重新打开项目')
@@ -301,6 +306,7 @@ export async function saveProjectAs(
     await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
     const saved = await writeProject(mutation, files, {
       removePaths,
+      onActivity: onProgress,
       copies: copied?.copies ?? assetCopyInputs(files, observed.source),
       directories: copied?.directories,
       verifySource: async () => {
@@ -309,6 +315,7 @@ export async function saveProjectAs(
         await observed.verify()
       },
     })
+    onProgress?.({ phase: 'reopening' })
     const opened = await finishOpen(dir, {
       workspaceHint: workspace,
       registrationMutation: mutation,
