@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "486a69d6b752823f6cff9d606ce36c42ea0079e6aa1219ded62b0b926160c07f",
+      "afterSha256": "e11c4047a3b811d35b745b080393a06102b7772b94d03e2a370501954aee7e13",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3752,6 +3752,23 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/contract-pilot",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "beforeSha256": "486a69d6b752823f6cff9d606ce36c42ea0079e6aa1219ded62b0b926160c07f",
+          "afterSha256": "e11c4047a3b811d35b745b080393a06102b7772b94d03e2a370501954aee7e13",
+          "scope": "S57 non-author accept received; S58 factual reuse, Owner supplements and HTML design/pilot only; no additional content/state grants",
+          "priorRecord": {
+            "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 9,
+            "entryCanonicalSha256": "0569852cbb3dbf50a6a57388fb147d78d2c1d8af296d68f6aaddf19c4920b26a"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "templateConformance": {
@@ -3829,7 +3846,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-      "afterSha256": "1d5408a3de72bf2e48229f1c57038cd40da822e55c1d740b0cd74c33d534f356",
+      "afterSha256": "66f6e98e75a74a8b864884437e28335acec69352c1ae8d8f6a12503ac476ea37",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3982,6 +3999,23 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/contract-pilot",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "beforeSha256": "1d5408a3de72bf2e48229f1c57038cd40da822e55c1d740b0cd74c33d534f356",
+          "afterSha256": "66f6e98e75a74a8b864884437e28335acec69352c1ae8d8f6a12503ac476ea37",
+          "scope": "S57 non-author accept received; S58 factual reuse, Owner supplements and HTML design/pilot only; no additional content/state grants",
+          "priorRecord": {
+            "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 10,
+            "entryCanonicalSha256": "3c34cd9d86e6e8cf5f07f3634eb23173496901ead2307de51e0420365c384192"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

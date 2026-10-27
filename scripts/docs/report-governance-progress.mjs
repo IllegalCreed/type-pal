@@ -8,11 +8,13 @@ import { readDocumentRetirements } from './document-retirements.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
+import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
 import { gitInventory } from './git-inventory.mjs'
 import {
   historicalDeliveryContract,
   historicalDeliveryPilots,
 } from './historical-document-delivery-native.mjs'
+import { historicalHtmlPilots } from './historical-html-admission.mjs'
 import { nativeFamilyAdmissions } from './historical-native-family-admission.mjs'
 import { historicalVitestContract } from './historical-vitest-native.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
@@ -38,6 +40,7 @@ const sourceOptions = {
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
   readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
+  readHtmlSourceBuffer: (pin) => readGitHtmlSnapshot(root, pin),
 }
 const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource, sourceOptions)
 const cohort = new Set(baseline.entries.map((entry) => entry.path))
@@ -61,7 +64,7 @@ const requiredReviews = new Set(
 )
 if (routing.migratedDocuments.some((doc) => doc.variant === historicalVitestContract.variant))
   requiredReviews.add(historicalVitestContract.reviewRecord)
-for (const pilot of nativeFamilyAdmissions)
+for (const pilot of [...nativeFamilyAdmissions, ...historicalHtmlPilots])
   if (routing.migratedDocuments.some((doc) => doc.path === pilot.path))
     requiredReviews.add(pilot.reviewRecord)
 for (const pilot of historicalDeliveryPilots)

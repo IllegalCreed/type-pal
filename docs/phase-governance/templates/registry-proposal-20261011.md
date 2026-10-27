@@ -556,3 +556,19 @@ S49七形状的实际model/progress联合pilot与非作者代码/封存复核已
 ## S54 现有四变体的27精确路径实现（2026-10-26）
 
 S49/S52已准入的21 raw reporter、1 distilled、2 summary及3 identity数组复用原1.0.0合同，无新variant或父版本变化。精确carrier、历史来源及唯一review位置由historical-native-family-expansion-admission.mjs锁定；原S48八pilot和S50内容接受清单不扩张；真实model/progress按合并后的精确准入全集预加载review，partial条目同样要通过保护reader。结构试接入仅允许partial-review-unknown/needs-migration，27不继承S50报告，不能借S53组合accept直接晋升。临时树中逐篇归一字段并通过真实model/progress后交非作者集中复核，正式路由/registry/语义状态另行受控发布。原生字段、缺pending与distillation来源、历史撤信均保留，不复制原生到新账本。
+
+## 2026-10-27 S59：原生HTML合同冻结与当前控制JSON设计边界
+
+### HTML两变体（设计冻结1.0.0，pilot待独立验收）
+
+- historical-ui-mockup-native-v1属于design-spec；仅历史静态设计样机，Status historical，不表明当前编辑器功能。historical-browser-host-native-v1属于evidence-receipt；仅历史浏览器取证入口源码，Status historical，不表明脚本已运行或结果通过。各自format=html-native/templateVersion=1.0.0/metadataLocation=existing-current-review，父Markdown合同/版本、17类型分母不变。
+- 目的/必填内容：具体界面或宿主职责、固定Git原源和旧来源轴、真实DOM title/root/canvas/script/resource结构、可解析原文见证、输入/oracle/依赖、排重、缺失构建产物、时点/历史/stopLine/下一步。现有唯一review承载；原HTML、脚本/交互/资源引用/字节不改，不注入wrapper/_governance/payload，不新增sidecar或来源副本。
+- 证据：新HTML-only Git provider验证真实commit/普通100644 blob/路径/OID/SHA；不扩展原JSON-only reader。parse5解析文档而不运行脚本，直接记录DOM和依赖存在性；相对脚本、dev-root绝对脚本与缺编译main.js分轴。root-only宿主合法，不强求canvas；缺编译产物仅对固定rv2 pilot显式保留，不创建忽略规则或认证原执行。原title/script/text/native witness和读取对象不可靠自刷SHA或换variant洗白。
+- 当前接受/历史：pilot仅partial-review-unknown/needs-migration，独立报告表为空，任何自行promote/借旧S54报告一律拒。新接受只可绑定精确正文digest、原始after、身份/报告和Owner决定；不恢复旧artifactOnly/deep/执行信用。不授runtime/E2E/视觉/coverage；任何源码/引用/合同改变须重新核对应claim。
+- pilot精确集：actor-mode-v2.html（mockup）、wave-F/browser-host/index.html（root-only脚本宿主）、rv2/index.html（canvas+缺main.js、保留entry.ts归档边界）。每变体至少一篇；15篇批量迁移/路由及实际信用另据pilot非作者接受和各篇具体内容决定。本批真实中央源/row/routing不改，owned overlay经同一model/progress-per-document consumer验证。
+
+### 当前控制JSON（draft，未冻结为准入合同）
+
+- 拟分current-review-ledger与current-governance-control，两者均live控制面，不允许绑定一次原生SHA后永远当immutable历史。当前原生字节/逻辑物化/原source pin/语义接受/例行after边必须分轴；不把entries中的content-reviewed视为该ledger自身已完整受审，不借一个control接受给下游恢复信用。
+- 单一现有review位置，禁止self hash与为review无限生成review。结构根、权威清册、派生manifest/shard与控制对象的语义分别定义；写入沿已接受组事务、源快照/锁/staging/readback、DAG/清理退出，不在新合同绕开。
+- Owner已按明确读域补核matrix65条关系声明和17父模板合同；未重读全部下游证据/旧变体，不恢复历史真值。版本/状态词、必填目的/政策/事实权/caller/oracle、历史/撤信保留和行政可变字段仍待当前变动/信用失效规则及真实pilot闭合。当前只冻结HTML设计，control保持draft/contract-pending，不注册正式variant，不减632/1258。

@@ -233,6 +233,15 @@
           "templateVersion": "1.0.0",
           "metadataLocation": "existing-current-review",
           "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-browser-host-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-browser-host-native-v1",
+          "format": "html-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "lifecycle": "historical"
         }
       }
     },
@@ -256,7 +265,18 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "historical-ui-mockup-native-v1": {
+          "templateId": "design-spec-v1",
+          "variant": "historical-ui-mockup-native-v1",
+          "format": "html-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "lifecycle": "historical"
+        }
+      }
     },
     {
       "docType": "plan-status",

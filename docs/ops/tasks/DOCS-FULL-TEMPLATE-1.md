@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s57-final44-intake
+Branch: codex/docs-s59-native-contract-pilots
 Last reviewed: 2026-10-27
 Template: task-card-v1 / 1.0.0
 
@@ -2597,3 +2597,10 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - GLM一次完成S57有界发布/夹具/行政封存非作者验收，再作为贡献者处理首次交出的127当前控制JSON与15HTML，共142份终版内容候选。127清单精确沿S51责任分割ownerControls（此前由Owner预留，未让GLM重复505稿），15为当前未迁HTML全集；逐篇具体路径、固定Git/物理SHA及logical读取轴由仓外执行清单冻结在本S57终态候选。既有正确稿按来源复用，仅补真实缺口；内部自主分段，单篇确实blocked则记录具体解除条件并继续，最终一次回交，不以设计/shape盘点/只读预核替代终稿。
 - 本包允许GLM仓外作者最终review稀疏差异及必要HTML wrapper patch；原生JSON/HTML源字节保持，运行字段、旧审阅信用和历史不改。review manifest只读页不等于逻辑对象/下游文档全文已读，必须按固定Git provider物化后逐篇核本控制对象的目的、真实消费者、集合/状态分轴、结果、source pin、生命周期与停止线，不复审其所引用的数千下游正文。HTML核实际DOM/脚本/资源/公开职责，不能把静态样机称为运行验证，原码保全。
 - 来源语义/具体正文/可解析原文见证/真实consumer/处置建议由GLM交最终内容；通用存储/格式合同、准入表、共享中央写入/退役执行与产品取舍继续归Codex并行处理。不得复制全量原生/完整下游稿，不再造canonical账本；不得写仓库、生成器、共享配置/规则、旧测试、产品或coverage。S57独立接受只签Owner增量，142作者稿nonAuthorReviewer=false，不混用身份。本包零自动迁移/runtime信用，必要合同未准入者明确contract-pending，不要求用户逐批许可。
+
+## S59 S57接收、S58据证裁定与原生HTML合同pilot准入（2026-10-27）
+
+- S57固定c801f5fd的GLM非作者接受原件两SHA已实核：报告b958a5f3、verdict abed3a13，七轴accept/零counter。复用44晋升、17route/44registry、授权夹具/四新回归、源/native/行政/封存证据；报告把17 Owner core复核归S53的旁述不作为新事实，实际44grant直接绑定S56报告1f3c0cc9，原件保留不改。不重复195/44正文或整轮工具。
+- S58五件清单SHA、142路径/原生源及结构计数可复用，0仓库变动。Owner据实际稿区分：15HTML的静态用途/依赖/缺构建产物边界可据证验收并作字段规范化；111逻辑review稿的集合/状态/存储说明可作为当前control数据说明复用，不冒称已审下游正文；其省略号身份与不合法required pointer由Owner修正。matrix65裁决及templates17合同内容在作者稿中明确未逐项作声明级语义核读，Owner现已补核关系/停线与父合同字段，未补读下游真值或所有旧变体。所有142稿缺primary/witness/排重/下一步等终态字段，本轮Owner补机械归一，不令贡献者重建全包；上述2控制对象补尚缺语义，不撤销正确的结构事实。具体集合/解除条件在唯一仓外裁定，父卡不据all-ready授信。
+- Codex build allowed从冻结c801f5fd隔离S59：先在既有模板提案冻结两种HTML-native变体1.0.0（historical-ui-mockup、historical-browser-host），父design-spec/evidence-receipt版本不滚动。原始HTML全字节保全，元数据使用唯一现有review位置；新增独立HTML Git reader不放宽JSON reader，parse5真实静态DOM结构/引用/固定源/真实消费者与未执行边界共同检查；model/progress两个公共caller接线。只准入三个owned pilot（mockup、root-only宿主、缺main.js构建输出宿主），新测试须含真实固定源正例和换标/改字节自刷hash/引用误报/借签晋升拒绝，先完成证据演练再中央批量接入。
+- 当前127控制JSON是可变控制面，不套immutable历史JSON合同：先写生命周期/内容与行政投影、非循环信用/来源规则草案，未读语义和组写入前提未闭合时保持draft，不冻结为可发布合同。源control/15HTML、产品/旧产品测试/coverage及原source pin零改；旧测试不改，若确需适配另按用户指定补丁授权。S57/006候选/GLM原包冻结，632/1258待办不扣；Owner代码/pilot非作者验收前不合main、不推送、不标done，不重复造review或sidecar。

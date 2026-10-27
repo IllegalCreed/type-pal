@@ -1263,7 +1263,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "bb3de18d7bcc9ac6b0b5a7fb899f3b5f1ebb74b028a1ff0c6eaffde476d4bbee",
+      "afterSha256": "535b432631a90ec7566490744564a8bb5c4f4085e85c87a6519216012f87764a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2047,6 +2047,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 5,
             "entryCanonicalSha256": "3b0ee2e8136ed23356c0d8b851c0b9fc3b115a1a9a9789b52f1d466c67e0bc5c"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/contract-pilot",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "beforeSha256": "bb3de18d7bcc9ac6b0b5a7fb899f3b5f1ebb74b028a1ff0c6eaffde476d4bbee",
+          "afterSha256": "535b432631a90ec7566490744564a8bb5c4f4085e85c87a6519216012f87764a",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 5,
+            "entryCanonicalSha256": "4bb282dcf49984f41435a9a0ea0ba6aad42b44983c202013d4d2eb86025eb9d5"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
@@ -3311,7 +3328,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "be499a5ba2deb19d27810a615d4057bbaea2dde81b7695482425eef1ab283eed",
+      "afterSha256": "6015c8acd04dfef2666466e717782d134f5cc048ba9ae1762a8edccdc29c5f92",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3462,6 +3479,23 @@
           "afterSha256": "bc942cce2353a9dada76aed85d342140ae603e084a9b33f4c7b73e6d6c281c39",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/contract-pilot",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "beforeSha256": "be499a5ba2deb19d27810a615d4057bbaea2dde81b7695482425eef1ab283eed",
+          "afterSha256": "6015c8acd04dfef2666466e717782d134f5cc048ba9ae1762a8edccdc29c5f92",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 14,
+            "entryCanonicalSha256": "20ba289b35f1f5751373507810f938764477fee0c4f3dd3acb1a4ee80404255f"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -15115,7 +15149,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "9eb4514a0df8511c2f85b45ae22c136ccab2830acfb3aafcf6038b57547ec82e",
+      "afterSha256": "ba1a07fc5ac99878c2c65ba9a6069e7dce20b5b23917bbee6c546f19e29ca2d2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15431,6 +15465,23 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/contract-pilot",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "beforeSha256": "9eb4514a0df8511c2f85b45ae22c136ccab2830acfb3aafcf6038b57547ec82e",
+          "afterSha256": "ba1a07fc5ac99878c2c65ba9a6069e7dce20b5b23917bbee6c546f19e29ca2d2",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 80,
+            "entryCanonicalSha256": "137694755a49ebdce3707f99dfa2f43c283b3529fe0d2f49c01799ce6a5dbb84"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

@@ -316,7 +316,7 @@
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "b5650b150fad2ae8b303d1c1ca95a50a4021f03b",
       "sourceState": "present",
-      "afterSha256": "8b96be2d0561a71f0ec74b6032d357afbbd1b6ef44e5e933e5f5a5848212f948",
+      "afterSha256": "a7d58b3224a5536b6b9f7f7eef0bce48f7931f4ee77d185f8d2ab781169751b4",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -2957,6 +2957,25 @@
             "uniqueMatches": 1
           },
           "completePriorObjectRetrievedAndCompared": true
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/contract-pilot",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "beforeSha256": "8b96be2d0561a71f0ec74b6032d357afbbd1b6ef44e5e933e5f5a5848212f948",
+          "afterSha256": "a7d58b3224a5536b6b9f7f7eef0bce48f7931f4ee77d185f8d2ab781169751b4",
+          "scope": "S57 non-author accept received; S58 factual reuse, Owner supplements and HTML design/pilot only; no additional content/state grants",
+          "priorRecord": {
+            "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+            "logicalPath": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+            "index": 2,
+            "entryCanonicalSha256": "dc13267ddbb057e32339ecc4d9be59d034bdf5e0ba588f21160377ebf2f9830b"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
