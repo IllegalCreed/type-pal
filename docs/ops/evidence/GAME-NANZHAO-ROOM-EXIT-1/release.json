@@ -1,0 +1,631 @@
+{
+  "schemaVersion": 1,
+  "template": "evidence-receipt-v1",
+  "id": "map204-input-production-release",
+  "owner": "Codex",
+  "recordedAt": "2026-10-27T08:19:33.041755+00:00",
+  "status": "deployed-verified-issues-closed",
+  "tasks": ["GAME-NANZHAO-ROOM-EXIT-1", "GAME-INPUT-ROTATION-1"],
+  "userAuthorization": "2026-10-27 accepted both local features and authorized push/CI/merge/deploy/issue replies+closure/related cleanup; later requested a new phase1 release milestone.",
+  "pullRequest": "https://github.com/IllegalCreed/type-pal/pull/28",
+  "candidate": "c42e333385fe464805de88a51b95ab092abb9f6a",
+  "mergedAndDeployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+  "requiredCI": {
+    "number": 28,
+    "head": "c42e333385fe464805de88a51b95ab092abb9f6a",
+    "base": "123595ac3a651957b36061eacced329369c495e5",
+    "state": "open",
+    "merged": false,
+    "mergeable_state": "clean",
+    "requiredPassed": true,
+    "checks": [
+      {
+        "name": "documentation",
+        "status": "completed",
+        "conclusion": "success",
+        "app": 15368,
+        "head": "c42e333385fe464805de88a51b95ab092abb9f6a",
+        "url": "https://github.com/IllegalCreed/type-pal/actions/runs/40465761976/job/122060655775"
+      },
+      {
+        "name": "fast-coverage",
+        "status": "completed",
+        "conclusion": "success",
+        "app": 15368,
+        "head": "c42e333385fe464805de88a51b95ab092abb9f6a",
+        "url": "https://github.com/IllegalCreed/type-pal/actions/runs/40465761974/job/122060655463"
+      }
+    ]
+  },
+  "deployment": {
+    "run": {
+      "command": ["env", "COPYFILE_DISABLE=1", "bash", "scripts/deploy.sh", "all", "--skip-check"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T07:43:11.039678+00:00",
+      "endUtc": "2026-10-27T07:43:26.612975+00:00",
+      "elapsedSeconds": 15.573210291,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+      "native": [
+        {
+          "path": "build/map204-release/deploy.stdout",
+          "sha256": "970faa2d5cc8f16f1da05bbccff9356b5d442de2ac413f85fbe41e4a8db082e7"
+        },
+        {
+          "path": "build/map204-release/deploy.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "mode": "all --skip-check after actual complete local gates and both required protected CI checks; fresh merged production build, resources before app switch",
+    "backup": "/var/www/type-pal/release-backups/map204-controls-20261027T062435Z.tgz",
+    "backupSha256": "a6ad5d5097fd5a505b4999951b28ad2ab6157c367f3474cbed0385c25c533394",
+    "rollbackBoundary": "App switch is atomic; extracted is shared/file-level atomic. Full previous dist+extracted backup retained."
+  },
+  "postflight": {
+    "passed": true,
+    "manifest": {
+      "path": "asset-manifest.json",
+      "bytes": 450449,
+      "sha256": "36ce438a572dda8ffffd3a20177476b1532a2e074107d928a4b40ed00c8d1267"
+    },
+    "resourceCount": 2909,
+    "resourceBytes": 208979306,
+    "exactFileSets": true,
+    "httpsChecks": 46,
+    "issues": [],
+    "scope": "Actual SSH all-file checks, original ranges/enemy/independent exit and root/language semantics; certificate-validated origin+CDN status/body SHA/cache/MIME, without redirect, cache-busting or TLS bypass."
+  },
+  "browser": {
+    "passed": true,
+    "recordedAtUtc": "2026-10-27T07:50:07.297701+00:00",
+    "url": "https://pal.illegalscreed.cn/?skip-intro=1",
+    "mode": "finite production functional smoke through public UI; enter/tools/system/rotation/reload/restore",
+    "checks": {
+      "defaultOff": true,
+      "turnedOn": true,
+      "reloadRetained": true,
+      "restoredOriginalOff": true,
+      "warnErrorLogsEmpty": true
+    },
+    "evidence": [
+      {
+        "path": "build/map204-release/browser/before.txt",
+        "sha256": "d09e11958197d92e6a633cf4b1b7b7f163680b7aa07b893c4b8247d0b7085a6e"
+      },
+      {
+        "path": "build/map204-release/browser/enabled.png",
+        "sha256": "369b55bcfb8aa726f749a9e62f6eeeda4d2d5a5950f6c9a1ecb77368bb71954f"
+      },
+      {
+        "path": "build/map204-release/browser/enabled.txt",
+        "sha256": "3a328e3cb8ae022c4f6576b5f497a2de9473db6e5323cffc60a8460faa4b87bd"
+      },
+      {
+        "path": "build/map204-release/browser/logs.json",
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "path": "build/map204-release/browser/reloaded.png",
+        "sha256": "d391cf42880832a95d860b22c76d31484210aeb4fb01f023747e83b47989db18"
+      },
+      {
+        "path": "build/map204-release/browser/reloaded.txt",
+        "sha256": "0de7ce6c547d8c9874c8386a1bef6c8d37086e5fa51538fb07285de91a35c478"
+      },
+      {
+        "path": "build/map204-release/browser/restored.png",
+        "sha256": "feb04959a19659a3b52a71a0f212122bfbcbd53aa121e8b5509b63efd79b18de"
+      },
+      {
+        "path": "build/map204-release/browser/restored.txt",
+        "sha256": "cd5522db8d8d1212b3daad72459ab14520a4e97051194874bfce13a5471dee96"
+      }
+    ],
+    "limits": [
+      "No save slots imported or changed",
+      "No physical hardware, natural story, offline activation or production map204 gameplay claim; local prepared old-save exit and deployed exact bytes recorded separately"
+    ]
+  },
+  "release": {
+    "tag": "v1.1.0",
+    "url": "https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0",
+    "target": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+    "phase": "phase1",
+    "assetsUploaded": 0,
+    "scope": "Source milestone and player-facing release notes; no raw/exe upload or phase2 release claim."
+  },
+  "issues": {
+    "24": {
+      "url": "https://github.com/IllegalCreed/type-pal/issues/24",
+      "state": "closed",
+      "reason": "completed"
+    },
+    "27": {
+      "url": "https://github.com/IllegalCreed/type-pal/issues/27",
+      "state": "closed",
+      "reason": "completed"
+    }
+  },
+  "cleanup": {
+    "passed": true,
+    "removedLocalBranches": [
+      {
+        "ref": "codex/input-rotation",
+        "sha": "0b0ce187e70f540ec2de198d671afd82ddaa99c5"
+      },
+      {
+        "ref": "codex/input-rotation-docs",
+        "sha": "7dafde5d01d3bf0df098c8b0a92ac32806a0c9e7"
+      },
+      {
+        "ref": "codex/map204-fast-coverage",
+        "sha": "53c9c790b050c3e8b937d0b83c7f4eba72839122"
+      },
+      {
+        "ref": "codex/map204-exit",
+        "sha": "e4a78b9d986902c9b07c1cb0ce485a52434c0d4b"
+      },
+      {
+        "ref": "codex/map204-input-rotation",
+        "sha": "c42e333385fe464805de88a51b95ab092abb9f6a"
+      }
+    ],
+    "remoteBranch": {
+      "name": "codex/map204-input-rotation",
+      "before": null,
+      "after": null,
+      "lease": "c42e333385fe464805de88a51b95ab092abb9f6a",
+      "pushExit": null
+    },
+    "backup": {
+      "refs": [
+        {
+          "ref": "codex/input-rotation",
+          "sha": "0b0ce187e70f540ec2de198d671afd82ddaa99c5"
+        },
+        {
+          "ref": "codex/input-rotation-docs",
+          "sha": "7dafde5d01d3bf0df098c8b0a92ac32806a0c9e7"
+        },
+        {
+          "ref": "codex/map204-fast-coverage",
+          "sha": "53c9c790b050c3e8b937d0b83c7f4eba72839122"
+        },
+        {
+          "ref": "codex/map204-exit",
+          "sha": "e4a78b9d986902c9b07c1cb0ce485a52434c0d4b"
+        },
+        {
+          "ref": "codex/map204-input-rotation",
+          "sha": "c42e333385fe464805de88a51b95ab092abb9f6a"
+        },
+        {
+          "ref": "refs/tags/v1.1.0",
+          "sha": "f15536c8ce2a3ed8e923a0f17ecb70c216f1b5b0"
+        }
+      ],
+      "bundle": "/Users/zhangxu/illegal/type-pal/build/map204-release/implementation-retirement.bundle",
+      "sha256": "3a6188d43d5c48d3bbe7a00db7655f7baf17c09c46526aa6f983fe6bbe3db4b8",
+      "verified": true
+    },
+    "worktrees": {
+      "archived": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal",
+      "retainedPrimary": "/Users/zhangxu/.codex/worktrees/map204-exit/type-pal",
+      "retainedReason": "archive_worktree explicitly rejects deletion of the task primary checkout. Retained and detached at deployed main; no filesystem removal bypass.",
+      "primaryHead": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+      "ignoredBuildArtifactsPreserved": 406
+    },
+    "scope": "Only this release implementation refs; documentation-closeout branch remains until its protected PR merges. Unrelated worktrees/branches and root untracked English data remain."
+  },
+  "native": [
+    {
+      "path": "native/release-pr-created.json.gz",
+      "sourcePath": "build/map204-release/pr-created.json",
+      "sourceSha256": "67f5d53772b01b548f1620c20406a4de175c237789a4ed8dd738d6c12c2ef622",
+      "archiveSha256": "7b261eb0202023b5ce707f2dedcaf194746bf050a99ce34ae6d789c4d4314296",
+      "bytes": 17745
+    },
+    {
+      "path": "native/release-pr-accepted-status.json.gz",
+      "sourcePath": "build/map204-release/pr-accepted-status.json",
+      "sourceSha256": "5bfae5bfa8cf6b3278a28becbeee73e2fb69497cdab4b9ee04fe535dd17a631f",
+      "archiveSha256": "e88991a4520894cc6af2c6d6fa3d430699c842301173f3db9251bb678ef06814",
+      "bytes": 799
+    },
+    {
+      "path": "native/release-pr-accepted-checks.json.gz",
+      "sourcePath": "build/map204-release/pr-accepted-checks.json",
+      "sourceSha256": "6e17e88a67ee9cfe6574fe3381c466e30218d633c877bf4c6ecfa76ab2ad95be",
+      "archiveSha256": "a89b7a3aba0fdb2801e0b6763e984fae66f78f87e33b06759853dda2b1478775",
+      "bytes": 17732
+    },
+    {
+      "path": "native/release-pr-accepted-pull.json.gz",
+      "sourcePath": "build/map204-release/pr-accepted-pull.json",
+      "sourceSha256": "c08e8ea5ddb018ee9a0ea719d6860388b4c150c48e3ca202824f88b6a64da683",
+      "archiveSha256": "95ab9b917cdbeb0775836d160874d9ae7811e8721845f369f09b7c6fde1d9420",
+      "bytes": 21662
+    },
+    {
+      "path": "native/release-merge.json.gz",
+      "sourcePath": "build/map204-release/merge.json",
+      "sourceSha256": "0b08515a873f5f7ee4c66393107aaa869c8c30745da08032575655349ba8e0dc",
+      "archiveSha256": "91653c61bf8b0d5f86351704a406632c3aaaaeb4ea6127a91769a22a47d6c323",
+      "bytes": 109
+    },
+    {
+      "path": "native/release-deploy.run.json.gz",
+      "sourcePath": "build/map204-release/deploy.run.json",
+      "sourceSha256": "71d583b751d92c4823b3c282f5b0f797339d79f7af2297757b3d3f9424dfe0ce",
+      "archiveSha256": "7004078a6d9983876e98d25ac9b11983ee1d844278b7f36684d6bd0f535cbdaa",
+      "bytes": 709
+    },
+    {
+      "path": "native/release-deploy.stdout.gz",
+      "sourcePath": "build/map204-release/deploy.stdout",
+      "sourceSha256": "970faa2d5cc8f16f1da05bbccff9356b5d442de2ac413f85fbe41e4a8db082e7",
+      "archiveSha256": "5e5f3a30c7bf0b8a4a8595b289ca39a030d0172f1fc4b6482a6b8acb7dc33304",
+      "bytes": 213498
+    },
+    {
+      "path": "native/release-deploy.stderr.gz",
+      "sourcePath": "build/map204-release/deploy.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/release-postflight.run.json.gz",
+      "sourcePath": "build/map204-release/postflight.run.json",
+      "sourceSha256": "f0d55615a559e8b9d7f5ecd7bcbdd741f6885034c57b24d064176cbbefa78a31",
+      "archiveSha256": "d604f6066600a2760b8a0f7381fdbd98edc9b14600959fb48405d9eb8b2f9e56",
+      "bytes": 814
+    },
+    {
+      "path": "native/release-postflight.stdout.gz",
+      "sourcePath": "build/map204-release/postflight.stdout",
+      "sourceSha256": "534feb821f6dcf25b66295a894b01dccd41328343230d854762b405bf817efbc",
+      "archiveSha256": "7d3693b5cd6526175e33f878cb720dcba4a9f2de72f09d9a3b486a253842f4ad",
+      "bytes": 1095852
+    },
+    {
+      "path": "native/release-postflight.stderr.gz",
+      "sourcePath": "build/map204-release/postflight.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/release-browser-production.json.gz",
+      "sourcePath": "build/map204-release/browser-production.json",
+      "sourceSha256": "44f7e1ef00deef8dc2522efffde3fe84c553862503a7c98bc27e05cac9eaf1a6",
+      "archiveSha256": "f8c21b0ece40766489dc7bfb558d129c504d318b181c2c23d73d03200436c874",
+      "bytes": 1884
+    },
+    {
+      "path": "native/release-server-backup.txt.gz",
+      "sourcePath": "build/map204-release/server-backup.txt",
+      "sourceSha256": "b9fa5a4deddb7db2c019e70eb0ae72af50bf6aa2fecc0080da1bcae6c7f31af0",
+      "archiveSha256": "ad4b263f455d396d50c847f91ff9dd032199ac9b113168fe831ceab90e5b0847",
+      "bytes": 494
+    },
+    {
+      "path": "native/release-server-before-deploy.txt.gz",
+      "sourcePath": "build/map204-release/server-before-deploy.txt",
+      "sourceSha256": "301823f7aea62423575ac3574fe8c255dd9dcccb7761b99138bf1dd0d6eeeb74",
+      "archiveSha256": "0bc19080bca7946489e5e84b1012a91144cb9970cf16822fefd74e0694f9d4fe",
+      "bytes": 469
+    },
+    {
+      "path": "native/release-cdn-refresh-status.json.gz",
+      "sourcePath": "build/map204-release/cdn-refresh-status.json",
+      "sourceSha256": "6aac5d898307d9a76ab7f5e1f29efcbfc4acbaa7c33d689e7ad48458f1c2be75",
+      "archiveSha256": "1d86b5cefbf989d04633595e23d85a18300a5125a55c3bda6780e3611362fddb",
+      "bytes": 391
+    },
+    {
+      "path": "native/release-release-created.json.gz",
+      "sourcePath": "build/map204-release/release-created.json",
+      "sourceSha256": "23ec590b8003e9875343e803789adc468a1045a1606b3ee36c6b0648c029eb76",
+      "archiveSha256": "311cb1d040927fec5f6bcd9f7b513c844ce2e23df95698936c6098699211f74c",
+      "bytes": 3558
+    },
+    {
+      "path": "native/release-release-notes.md.gz",
+      "sourcePath": "build/map204-release/release-notes.md",
+      "sourceSha256": "ef5cf01bb4c564fc32378c1422567fe66286011b8780f4149da2c16f4172a3c6",
+      "archiveSha256": "012c4f0b5475aa1c2535ccee7889f66c6623a6d69b066fe3b4a7efdd69eecd99",
+      "bytes": 1649
+    },
+    {
+      "path": "native/release-issue24-comment.json.gz",
+      "sourcePath": "build/map204-release/issue24-comment.json",
+      "sourceSha256": "84355e32bc316376c4d81c003f5d44fdc8711fe919071b668a4cf327a18d344b",
+      "archiveSha256": "96b4e28de774513e8ca2c07d5163aa94649f33ca3887d7131349a868cc7b43ae",
+      "bytes": 2575
+    },
+    {
+      "path": "native/release-issue27-comment.json.gz",
+      "sourcePath": "build/map204-release/issue27-comment.json",
+      "sourceSha256": "eea3d63da9d7d3e3141f5024e670fd557b9076e92dda1c4f4a275b075f875930",
+      "archiveSha256": "33cfc248875db247034f4b460c3f16c287f094e7f8f79b7d25befa94725b6c49",
+      "bytes": 2386
+    },
+    {
+      "path": "native/release-issue24-closed.json.gz",
+      "sourcePath": "build/map204-release/issue24-closed.json",
+      "sourceSha256": "e605ec5e7106bbdc6354bb17fde4156f7869b143ec8b8d41e6f1b2ef807e820a",
+      "archiveSha256": "decc61f61d0b2af02c68d98f38e36de2c86d1faec1fa589f25e9c02a9d95c48f",
+      "bytes": 4006
+    },
+    {
+      "path": "native/release-issue27-closed.json.gz",
+      "sourcePath": "build/map204-release/issue27-closed.json",
+      "sourceSha256": "915a0a5960d011614d0505b4577f5c63aeda838fcf3585d04ac733e0dd5cfce9",
+      "archiveSha256": "99e5a2918465860c64aab440900c5519da30a42b3048a5b213d17024e542b328",
+      "bytes": 5043
+    },
+    {
+      "path": "native/release-contributor-backup.json.gz",
+      "sourcePath": "build/map204-release/contributor-backup.json",
+      "sourceSha256": "a4e248f2b2583c31fc4d272d6e3de7d2f9bd897954b9b173c49ba3e8978c7980",
+      "archiveSha256": "9419875168e2629f84c3f352783d06d03cfdf0c5814765bc6646ac42773ef2e5",
+      "bytes": 637
+    },
+    {
+      "path": "native/release-cleanup-implementation.json.gz",
+      "sourcePath": "build/map204-release/cleanup-implementation.json",
+      "sourceSha256": "d782f7b804040b8383553a054643a0b7a2cf98c2449da0ae2a8fb433027f4994",
+      "archiveSha256": "ac396bf31132c0df8effb88a256aab3a8524ec44e5330234cad114fd2ab5d946",
+      "bytes": 2365
+    },
+    {
+      "path": "native/release-final-submit-docs.run.json.gz",
+      "sourcePath": "build/map204-release/final-submit-docs.run.json",
+      "sourceSha256": "2117622f6d782aafc1c687f8baf884e1ebec2d27662a7380e3ec2082302db112",
+      "archiveSha256": "3d26a3b27d0266bdadf609f46287f513923e1d5fc5f2cd27aa98448c3fb729c9",
+      "bytes": 662
+    },
+    {
+      "path": "native/release-final-submit-docs.stdout.gz",
+      "sourcePath": "build/map204-release/final-submit-docs.stdout",
+      "sourceSha256": "a610df4b92fa1d763e7f7088b8e2565ce4963c55ea9418548262a06731706521",
+      "archiveSha256": "d1f1681fbae9a9c5a39dd80401c265cb6942336186a2727cb2b0210060b29027",
+      "bytes": 30670
+    },
+    {
+      "path": "native/release-final-submit-docs.stderr.gz",
+      "sourcePath": "build/map204-release/final-submit-docs.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/release-final-submit-lint.run.json.gz",
+      "sourcePath": "build/map204-release/final-submit-lint.run.json",
+      "sourceSha256": "c5b3d32e52634567754bd7a564e11faeeddb34c7d458c01123fb4afe6656cf99",
+      "archiveSha256": "a1d887bbcba4161fc155ff0b4ea074297a5e64b3b3649d78f226efab81a461c2",
+      "bytes": 649
+    },
+    {
+      "path": "native/release-final-submit-lint.stdout.gz",
+      "sourcePath": "build/map204-release/final-submit-lint.stdout",
+      "sourceSha256": "bcc8bf99c3a4515b5788581deb768a77a0f9013745555c1e7db8bd93f77a177f",
+      "archiveSha256": "27bf5213e1177ab3fe4700aec53bbc39e3b8a54bd4b763a7ae17dc7a1812cf16",
+      "bytes": 164
+    },
+    {
+      "path": "native/release-final-submit-lint.stderr.gz",
+      "sourcePath": "build/map204-release/final-submit-lint.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/release-tag.json.gz",
+      "sourcePath": "build/map204-release/tag.json",
+      "sourceSha256": "f9e3112b1a2c293947e314df6132392f4728f531c6454a484fa5ce4a0362a778",
+      "archiveSha256": "405d4b61b29f4b08ba15fa528d7867a3dcbc15d02ae4a30c67a373e919b5cc56",
+      "bytes": 227
+    },
+    {
+      "path": "native/release-retirement-backup.json.gz",
+      "sourcePath": "build/map204-release/retirement-backup.json",
+      "sourceSha256": "55460e94255d0d8f46f398d6e5edac41e2fcd18cc47294d130264317fa60e2aa",
+      "archiveSha256": "3746815e8a9fbfcb7527dccbba2531033b957fe1364633d2c1e568e4f0bced3c",
+      "bytes": 867
+    },
+    {
+      "path": "native/release-retirement-bundle-verify.txt.gz",
+      "sourcePath": "build/map204-release/retirement-bundle-verify.txt",
+      "sourceSha256": "74ce31a09089ba0e945f6b642ed11ddd7757f2aa0f7bb21d1ff8c7f9584c8253",
+      "archiveSha256": "cd4d7259f9dfd1bafa33d146c2b1b972a758914f51d01073fb85c60c44b9dcce",
+      "bytes": 615
+    },
+    {
+      "path": "native/release-archive-map204.json.gz",
+      "sourcePath": "build/map204-release/archive-map204.json",
+      "sourceSha256": "e57ec4092e505393576ccd9258df06630a447a9bc83dc7b0745053ebc2cfc24a",
+      "archiveSha256": "f505d2940fdf55ee1b281045e860ba6f5db537166f4d995c0ad735e37fccb918",
+      "bytes": 176
+    },
+    {
+      "path": "native/release-archive-input.json.gz",
+      "sourcePath": "build/map204-release/archive-input.json",
+      "sourceSha256": "2513c0ffbf1a256a5fad0d825bf4a63b671e757b5c39e99f48a3d09db55547c1",
+      "archiveSha256": "c9210dd21ee8b1c952628e2375358d2a6fa4ce284775ce329f33d9be810840ad",
+      "bytes": 115
+    },
+    {
+      "path": "native/release-cleanup-implementation.py.gz",
+      "sourcePath": "build/map204-release/cleanup-implementation.py",
+      "sourceSha256": "144436338443c0e78081186d9db969aa71e21b296dd6e2b44aefd0bf6c3fbba6",
+      "archiveSha256": "a5adb69e632f0488ffe59757e16fe255c45731a671b4db6e66ea76d100f6bbbf",
+      "bytes": 3059
+    },
+    {
+      "path": "native/release-issue-actions.py.gz",
+      "sourcePath": "build/map204-release/issue-actions.py",
+      "sourceSha256": "d0c2a53c4009e0a93db39fc3b198fa2af488c03e433e4e3a36742fe1412f5096",
+      "archiveSha256": "c915cb50828f4baf6ce605c12d6896bafaa7ede0dd92b926c722050df0f5cda3",
+      "bytes": 1728
+    },
+    {
+      "path": "native/release-merged-tree.json.gz",
+      "sourcePath": "build/map204-release/merged-tree.json",
+      "sourceSha256": "0c7cf762d2c1414a93a282ed4baedd24b7a1f528d95c8b7e21261101d286b308",
+      "archiveSha256": "6cbf5e6b0d5a8b56235813044689917dd744c03d7e9977912c154efa8c2662ad",
+      "bytes": 171
+    },
+    {
+      "path": "native/release-main-before-merge.json.gz",
+      "sourcePath": "build/map204-release/main-before-merge.json",
+      "sourceSha256": "de3d5d95db68c8299e39a9752d8c542168bf8497aaf86c123e77b6b6735cf936",
+      "archiveSha256": "34f2aaae3c47796936cb015679fa3e58cdb93ff9e48e00112c6258ac3615459a",
+      "bytes": 340
+    },
+    {
+      "path": "native/release-deploy-initial.run.json.gz",
+      "sourcePath": "build/map204-release/deploy-initial.run.json",
+      "sourceSha256": "c6963f444f37445db99d3c082a282b7817a3befe3a11c21e6b06bce3c66495cb",
+      "archiveSha256": "abb410a1324e1a8e230ced5229d57dedc40e7dc0736fd6a0e21e9095f0b05b07",
+      "bytes": 708
+    },
+    {
+      "path": "native/release-deploy-initial.stdout.gz",
+      "sourcePath": "build/map204-release/deploy-initial.stdout",
+      "sourceSha256": "97ec7af0c70fc9b158931600305be0d17f329ce1c6a574a03c7a3af3b8c5a9a7",
+      "archiveSha256": "00d0097fde72ff6dd87522b78ee7e2d6b03c50e4f9d9d7a6063bfcefb2c24a55",
+      "bytes": 965
+    },
+    {
+      "path": "native/release-deploy-initial.stderr.gz",
+      "sourcePath": "build/map204-release/deploy-initial.stderr",
+      "sourceSha256": "0ee5dfc3ec75cf7049b78be9d25c1064e1256d913bf8fff5d8b819b1f28f2928",
+      "archiveSha256": "f1f1aff57200b3e46a9da1511c28853f0304ab0962ef7763adab9e03cd1ad38e",
+      "bytes": 1395
+    },
+    {
+      "path": "native/release-deploy-runtime.json.gz",
+      "sourcePath": "build/map204-release/deploy-runtime.json",
+      "sourceSha256": "f64e6842153544614b1e1d95145ad0759c80a21c19116c16c1714de787e6002c",
+      "archiveSha256": "38388e7da3025a2ed85d1dd7618cf39cc2f67df5038bfc1a7d8d53d892363514",
+      "bytes": 297
+    },
+    {
+      "path": "native/release-deploy-with-gnu-rsync.py.gz",
+      "sourcePath": "build/map204-release/deploy-with-gnu-rsync.py",
+      "sourceSha256": "e092e0fdb6937ace5828fc70675889b4c8505cd9e7500e14c681ca09e6f4cecd",
+      "archiveSha256": "eef71a69f65e0e9ee51995b56d529fdf1950471e803259b67b24b1da016a4f40",
+      "bytes": 763
+    },
+    {
+      "path": "native/release-publish-closeout.py.gz",
+      "sourcePath": "build/map204-release/publish-closeout.py",
+      "sourceSha256": "0896e86b3073787e536bda9de77bb0018b8c9d02c07ec3411cd2b81198f0f1dd",
+      "archiveSha256": "b0dbf7a39624bb847e86391e72237dfe507757055e2c563f60b7fefdf939900c",
+      "bytes": 12861
+    },
+    {
+      "path": "native/release-bind-closeout.py.gz",
+      "sourcePath": "build/map204-release/bind-closeout.py",
+      "sourceSha256": "b211d1dff0d9fd3104886037b213802b26acb5d5f1c3c13040d5ed8daee7be2d",
+      "archiveSha256": "4858b91b772e9d74951dcc965a8ee6a7ea77740275d5ab1dc5632a698a1abd08",
+      "bytes": 2670
+    },
+    {
+      "path": "native/release-api.py.gz",
+      "sourcePath": "build/map204-release/api.py",
+      "sourceSha256": "5796d96afef19309e9d216f78e23f8cd04c9c3812ad1e7816409ea29c3c33aa1",
+      "archiveSha256": "65c16a29568f84efd024a9b90411d4da0ecd0e57832edbedd89ae16f71275cd9",
+      "bytes": 1688
+    },
+    {
+      "path": "native/release-snapshot-pr.py.gz",
+      "sourcePath": "build/map204-release/snapshot-pr.py",
+      "sourceSha256": "de2132d2494cf25398750e2a535a7e97c843aaa5cdbe5ad7021e72f7fdbaf5d0",
+      "archiveSha256": "fda652a27b278420da0072f881b6c254351829b36c164e408b3ee4a415db2198",
+      "bytes": 1575
+    },
+    {
+      "path": "native/release-browser-before.txt.gz",
+      "sourcePath": "build/map204-release/browser/before.txt",
+      "sourceSha256": "d09e11958197d92e6a633cf4b1b7b7f163680b7aa07b893c4b8247d0b7085a6e",
+      "archiveSha256": "348602ae039e9d2030fc9c34a615b3834eef911ac9634d9c03190f5e740ffe8a",
+      "bytes": 2623
+    },
+    {
+      "path": "native/release-browser-enabled.png.gz",
+      "sourcePath": "build/map204-release/browser/enabled.png",
+      "sourceSha256": "369b55bcfb8aa726f749a9e62f6eeeda4d2d5a5950f6c9a1ecb77368bb71954f",
+      "archiveSha256": "dd51acf38dd6189dbd2d93611ee189d932d7637851e9d5f4db251f2de24b7f1a",
+      "bytes": 93629
+    },
+    {
+      "path": "native/release-browser-enabled.txt.gz",
+      "sourcePath": "build/map204-release/browser/enabled.txt",
+      "sourceSha256": "3a328e3cb8ae022c4f6576b5f497a2de9473db6e5323cffc60a8460faa4b87bd",
+      "archiveSha256": "e4790cb5a8546435867e7adaf194bf9022d5d2be24e72bb324cca57f73c3c7ea",
+      "bytes": 512
+    },
+    {
+      "path": "native/release-browser-logs.json.gz",
+      "sourcePath": "build/map204-release/browser/logs.json",
+      "sourceSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "archiveSha256": "64406e753d82e11c6bd63d1d04bb6aa083eefa0a46949bbfce994d556b989f0f",
+      "bytes": 2
+    },
+    {
+      "path": "native/release-browser-reloaded.png.gz",
+      "sourcePath": "build/map204-release/browser/reloaded.png",
+      "sourceSha256": "d391cf42880832a95d860b22c76d31484210aeb4fb01f023747e83b47989db18",
+      "archiveSha256": "87f54bff7c1ff0ff56eda0464602aced292a2e3a154618161440d20bfd39e21b",
+      "bytes": 91638
+    },
+    {
+      "path": "native/release-browser-reloaded.txt.gz",
+      "sourcePath": "build/map204-release/browser/reloaded.txt",
+      "sourceSha256": "0de7ce6c547d8c9874c8386a1bef6c8d37086e5fa51538fb07285de91a35c478",
+      "archiveSha256": "e424d3a148e120c65e5cae9ab3ae7995f4cd90d6557805dc50d59e1d2c33f24a",
+      "bytes": 2579
+    },
+    {
+      "path": "native/release-browser-restored.png.gz",
+      "sourcePath": "build/map204-release/browser/restored.png",
+      "sourceSha256": "feb04959a19659a3b52a71a0f212122bfbcbd53aa121e8b5509b63efd79b18de",
+      "archiveSha256": "7f1872700cb2db0196be479f92960478d9c472d03c410f3b68a40294af1c5c5e",
+      "bytes": 91619
+    },
+    {
+      "path": "native/release-browser-restored.txt.gz",
+      "sourcePath": "build/map204-release/browser/restored.txt",
+      "sourceSha256": "cd5522db8d8d1212b3daad72459ab14520a4e97051194874bfce13a5471dee96",
+      "archiveSha256": "581b8d1e5770ad764453b7b980918e3facf9434bc3f0470d68f75b45f8df1b03",
+      "bytes": 512
+    }
+  ],
+  "notRun": [
+    "Physical gamepad/phone",
+    "Reporter original save",
+    "Full natural-story E2E or offline cache activation"
+  ],
+  "closeoutBoundary": "This receipt records already completed product deployment/release. Its documentation-only protected PR and own branch retirement are separately verified after publication.",
+  "rootReadmeDelta": [
+    {
+      "path": "README.md",
+      "beforeSha256": "ea9a8af0e8f9a200a35d03fa2dcaea2222ad026dd3893d160d311e7cba8ff4c7",
+      "afterSha256": "e0ee563b11e52c581514c4218b7e1ada3ad4285e58e9017a43f48407f97d18ca",
+      "sourceCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+      "scope": "Both complete current READMEs read; only actual v1.1.0 entry, old v1.0.0 milestone and optional control-setting bullet updated. Setup, licenses, phase2 status and images retained."
+    },
+    {
+      "path": "README.en.md",
+      "beforeSha256": "fb4ea640995b8f676adde0938baa5816b5b057064147cc86b8049132b90e527a",
+      "afterSha256": "556a7670f0a6210252a15b80152860d8ae083aca4438d63b26daa261a0f064da",
+      "sourceCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+      "scope": "Both complete current READMEs read; only actual v1.1.0 entry, old v1.0.0 milestone and optional control-setting bullet updated. Setup, licenses, phase2 status and images retained."
+    }
+  ]
+}

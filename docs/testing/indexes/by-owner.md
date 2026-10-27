@@ -38,7 +38,7 @@ Template: governance-index-v1 / 1.0.0
 - e2e-route — [双阶段快速通关路线方案](../e2e/route-proposal.md)（proposal）
 - editor-command-form-families — [编辑器命令表单族所有权](../domains/editor/commands/command-form-families/report.md)（current）
 - editor-map-workspace-sessions — [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md)（current）
-- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
 - game-script-corrections — [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md)（active）
 - legacy-flat-audit — [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md)（current）
 - phase1-dependency-ownership — [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md)（current）

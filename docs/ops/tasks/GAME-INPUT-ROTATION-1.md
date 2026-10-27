@@ -1,6 +1,6 @@
 # GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转
 
-Status: review
+Status: done
 Phase: phase1
 Capability: 玩家输入与移动端
 Coding Owner: input_rotation（隔离实现）；Codex（集成）
@@ -65,7 +65,7 @@ Branch: codex/map204-input-rotation
 - Codex build allowed：核DIR_DELTA与两输入caller后，允许在隔离worktree实现本卡输入外壳及定向测试。Owner独占相应shell、tools设置、字典；不改scene-system、存档、第二阶段或质量规则。
 - 贡献者候选`0b0ce187e70f540ec2de198d671afd82ddaa99c5`已本地集成为`ae9e3226c`；14文件A–H、60定向/相邻、正式四象限单业务红→恢复、game TC与局部Biome零诊断。51旧合同保留、9新增、0退役。
 - Codex独立accept本功能：实际diff、新叶与contacts/CSS边界、原生集合及附件指纹已核；[唯一回执与无损原件](../evidence/GAME-INPUT-ROTATION-1/review.json)。不增加整文件代码治理关闭。
-- 用户产品方向已授权；本地体验已获用户确认；发布CI与部署仍待实际完成。
+- 用户产品方向已授权；本地体验已获用户确认；受保护CI、合并与部署已完成，见发布收口。
 
 ## Draft: 设计与风险
 
@@ -79,7 +79,7 @@ Branch: codex/map204-input-rotation
 
 ## Review: 审查与返工
 
-有限功能接收；共享开关默认不转、可持久化，键盘和硬件十字键保持原语义。浏览器视觉/实际输入已核，集成静态窗见[当前回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)，本地用户体验已确认，发布待收口，不从原件指纹推导设计正确。
+有限功能接收；共享开关默认不转、可持久化，键盘和硬件十字键保持原语义。浏览器视觉/实际输入已核，集成静态窗见[当前回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)，本地用户体验已确认，发布已核验，不从原件指纹推导设计正确。
 
 ## 用户验收
 
@@ -94,6 +94,12 @@ Branch: codex/map204-input-rotation
 
 ## 下一位 Agent 提示词
 
-无用户转交；当前Owner完成输入实现和定向证据，Codex独立验收并提供本地体验。
+无下一位Agent；用户已接受本地结果，CI、合并、部署与v1.1.0发布完成。后续从最新main另定范围。
 
 2026-10-27发布窗口：用户已接受两项本地结果并授权完整发布。补齐提取快测真实caller与旧FPS测试语义定位，五文件有限A–H、正式反控及两遍资源一致见[准备回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json)。当前review等待受保护PR/CI与真实部署，不提前声明上线或关闭issue。
+
+## 2026-10-27 发布收口
+
+用户本地验收已确认。PR [#28](https://github.com/IllegalCreed/type-pal/pull/28) 的 documentation / fast-coverage（Actions App15368）在最新base、精确候选`c42e333385fe464805de88a51b95ab092abb9f6a`上通过；按保护规则合并为`bde596695d9c4d90a8031443ddd1ea033edd5245`。本地官方20,203例/812源、七包类型检查、lint与完整文档门零诊断见[本地门](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json)。
+
+实际从合并树新构建并部署阿里云应用和资源；源站/CDN逐字节及完整资源清单、浏览器设置/刷新回退验证通过，两个issue已回复并关闭；第一阶段[v1.1.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0)固定该部署提交。实现分支已按可恢复备份清理；一份临时worktree已归档，当前聊天主工作树按工具保护规则保留并同步最新main。完整命令、原件、CDN任务、备份与限制见[发布回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)。未宣称实物手柄、issue原存档、离线激活或自然全剧情E2E。无下一位Agent；收尾文档继续走受保护PR。

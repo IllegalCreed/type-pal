@@ -28,8 +28,6 @@ Template: governance-index-v1 / 1.0.0
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| GAME-NANZHAO-ROOM-EXIT-1 | [南诏地宫中间房间出口回归](tasks/GAME-NANZHAO-ROOM-EXIT-1.md) | review | Codex / 用户已接受，待CI与发布 | 保留原遇敌、独立出口及旧档补缺已核；两阶段回归、浏览器往返和静态门通过 |
-| GAME-INPUT-ROTATION-1 | [手柄摇杆与虚拟方向键旋转](tasks/GAME-INPUT-ROTATION-1.md) | review | Codex / 用户已接受，待CI与发布 | 默认off、可持久化；60定向、手机布局/NE移动和静态门通过，实物手柄未测 |
 | GAME-VIDEO-PUBLISH-BOUNDARY-1 | [视频子路径所有权与失败发布](tasks/GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | Codex / 用户已批准，先红后修 | 三正式字节反例已红；仅输出后代链接/失败发布，编码参数与raw链接保持。 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案、脚本组合与编辑器预览](tasks/ED-ENTITY-STATE-PLAN-1.md) | review | Codex / 完整现场与E2E采集待续 | 首批UI用户验收通过；临时方案丢弃，正式状态须经E2E核对 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界测试](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | GLM / 补原始反控与合法输入；Codex复核 | 先前accept撤回；全绿与已合入不等于合同验收 |

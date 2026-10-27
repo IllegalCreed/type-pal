@@ -53,11 +53,11 @@ Map editing, scene editing, an NPC script, then play preview. The burned-in capt
 
 | Phase | Status | What you get |
 |---|---|---|
-| Phase 1 · faithful recreation | [v1.0.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) is live | The browser runtime [`@type-pal/game`](packages/game). The main story can be played through: the final boss is defeated and the ending plays. That tag marks the first complete playthrough, not a bug-free stable release. |
+| Phase 1 · faithful recreation | [v1.1.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0) is live | The browser runtime [`@type-pal/game`](packages/game), with English, mobile and gamepad support. [v1.0.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) remains the first complete-playthrough milestone. |
 | Phase 2 · Reforge | In development | A new runtime [`@type-pal/reforge`](packages/reforge), a React visual editor [`@type-pal/editor`](packages/editor), and an offline migrator [`@type-pal/migrate`](packages/migrate). |
 | Phase 3 · productization | Planned | Replace copyrighted assets for a public release, plus a site and offline desktop builds. See [`docs/phase3/README.md`](docs/phase3/README.md). |
 
-Phase 1, from the [v1.0.0 release notes](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) and the in-repo implementation notes:
+Phase 1 features, from the [v1.1.0 release notes](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0) and the current implementation:
 
 - [`@type-pal/pal-extract`](packages/pal-extract) unpacks data tables, sprites, and event bytecode from the original MKF archives. YJ1 decompression corresponds to `yj1.c` in the reference tree ([`reference/README.md`](reference/README.md)).
 - A TypeScript bytecode interpreter drives dialogue, cutscenes, scene changes, and battle triggers.
@@ -66,6 +66,7 @@ Phase 1, from the [v1.0.0 release notes](https://github.com/IllegalCreed/type-pa
 - Music defaults to MIDI synthesized with SpessaSynth and TimGM6mb. Choose DOS FM (RIX) under Tools → System → Audio → Music source for live WebAssembly + AudioWorklet synthesis. The browser remembers the selection; see the source and license notes below.
 - Simplified Chinese or English, under Tools → System → Language. Story text, names, and menus follow the choice, and the browser stores it locally.
 - An on-screen direction pad and OK / Back on a phone, a narrow window, or a short wide window. That layout’s System page can show or hide them. A normal desktop window leaves them hidden.
+- Standard gamepad support. System offers an optional clockwise 45° rotation for the on-screen direction pad and left stick, off by default and remembered locally. Keyboard and hardware D-pad mappings stay unchanged.
 
 Phase 2 pieces that are already in the tree (live detail is the [capability map](docs/phase2/capability-map.md) and the [task board](docs/ops/board.md)):
 

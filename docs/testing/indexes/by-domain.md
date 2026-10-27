@@ -66,7 +66,7 @@ domain 字段决定组别；人和 Agent 从组内 canonical 继续查 evidence�
 
 | ID | 文档 | 状态 | Owner |
 |---|---|---|---|
-| game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | active | Codex |
+| game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | verified | Codex |
 | phase1-dependency-ownership | [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | current | Codex |
 
 

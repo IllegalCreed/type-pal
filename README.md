@@ -53,11 +53,11 @@
 
 | 阶段 | 状态 | 内容 |
 |---|---|---|
-| 第一阶段 · 忠实复刻 | [v1.0.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) 已上线 | 浏览器运行时 [`@type-pal/game`](packages/game)。主线可以端到端玩通：打败拜月教主，结局演出正确。这个版本标记的是「首次完整可通关」，不是「无 bug 稳定版」。 |
+| 第一阶段 · 忠实复刻 | [v1.1.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0) 已上线 | 浏览器运行时 [`@type-pal/game`](packages/game)，新增英文、移动端与手柄等支持；[v1.0.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) 保留首次完整通关的里程碑。 |
 | 第二阶段 · Reforge | 正在开发 | 新运行时 [`@type-pal/reforge`](packages/reforge)、React 可视化编辑器 [`@type-pal/editor`](packages/editor)、离线迁移器 [`@type-pal/migrate`](packages/migrate)。 |
 | 第三阶段 · 产品化 | 规划中 | 按发行范围替换版权资源，并规划官网、离线桌面发行等。见 [`docs/phase3/README.md`](docs/phase3/README.md)。 |
 
-第一阶段已经做到的，来自 [v1.0.0 发布说明](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) 和仓库里的实现说明：
+第一阶段的功能见 [v1.1.0 发布说明](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0) 与当前实现：
 
 - 用 [`@type-pal/pal-extract`](packages/pal-extract) 从原版 MKF 归档解包数据表、精灵和事件字节码。YJ1 解压对应参考树里的 `yj1.c`（见 [`reference/README.md`](reference/README.md)）。
 - TypeScript 事件字节码解释器驱动对话、过场、场景切换和战斗触发。
@@ -66,6 +66,7 @@
 - 音乐默认使用 SpessaSynth + TimGM6mb 合成 MIDI，也可在「工具 → 系统 → 音频 → 音源」选择 DOS FM（RIX）。RIX 通过 WebAssembly + AudioWorklet 实时合成，选择会在浏览器中记住；第三方来源与许可见下文。
 - 简体中文或英文：工具 → 系统 → 语言。剧情、人名和菜单跟随所选语言，浏览器在本地记住。
 - 手机、窄窗口或矮宽窗口会显示屏幕方向键和确认/取消，并在「系统」里提供显示或隐藏。普通桌面窗口不显示这组按键。
+- 标准手柄支持；「系统」中可选择虚拟方向键与左摇杆顺时针旋转45°，默认关闭并记住选择。键盘和手柄十字键保持原映射。
 
 第二阶段已经落地的部分（细节以 [能力地图](docs/phase2/capability-map.md) 和 [任务看板](docs/ops/board.md) 为准）：
 

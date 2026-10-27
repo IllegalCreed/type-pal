@@ -513,8 +513,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "readMethod": "Read owned delta and release receipt.",
+      "coreConclusion": "Owned release bindings; historical scope retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -717,10 +717,10 @@
       "reviewedSourceSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "2c046473f1371ba93fbb97147cd23a89e28aecac59481efb2c308cf6339117b3",
+      "afterSha256": "be689ec1490382605574c0b34b8180fcb5aabc0f8d4a8f933f5273c098fdf63f",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "2c046473f1371ba93fbb97147cd23a89e28aecac59481efb2c308cf6339117b3",
+        "implementationSha": "be689ec1490382605574c0b34b8180fcb5aabc0f8d4a8f933f5273c098fdf63f",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -753,11 +753,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "2c046473f1371ba93fbb97147cd23a89e28aecac59481efb2c308cf6339117b3",
-        "scope": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
-        "lineCount": 87,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+        "afterSha256": "be689ec1490382605574c0b34b8180fcb5aabc0f8d4a8f933f5273c098fdf63f",
+        "scope": "Release delta.",
+        "lineCount": 87
       },
       "history": [
         {
@@ -827,18 +827,23 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "7ab13356f50a489ad0f05bb9dd8f6545bbfdf9fbf6689d2763fbe5c22b18fe66",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "2c046473f1371ba93fbb97147cd23a89e28aecac59481efb2c308cf6339117b3"
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Release verified; documentation PR separate.",
       "userVisibleBeforeAfter": {
         "before": "Original 46 lines -> 79 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
         "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
         "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
       },
-      "reviewedLines": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "reviewedLines": "Owned delta only.",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -895,8 +900,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "readMethod": "Read owned delta and release receipt.",
+      "coreConclusion": "Owned release bindings; historical scope retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -1101,10 +1106,10 @@
       "reviewedSourceSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "cca1d67835a194c7714dc335c134e91cda651ef0f5c41f77ac827a706d10aa79",
+      "afterSha256": "10715bcfbbe16d391e77243094bcde3dd5461013f4e66e92fc9544dc2e66d015",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "cca1d67835a194c7714dc335c134e91cda651ef0f5c41f77ac827a706d10aa79",
+        "implementationSha": "10715bcfbbe16d391e77243094bcde3dd5461013f4e66e92fc9544dc2e66d015",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -1137,11 +1142,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "cca1d67835a194c7714dc335c134e91cda651ef0f5c41f77ac827a706d10aa79",
-        "scope": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
-        "lineCount": 96,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+        "afterSha256": "10715bcfbbe16d391e77243094bcde3dd5461013f4e66e92fc9544dc2e66d015",
+        "scope": "Release delta.",
+        "lineCount": 96
       },
       "history": [
         {
@@ -1215,18 +1220,23 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "ef8bd331d462db11d8fcf60ff8814877b90059a25d8e61de73ae71194b7cd86f",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "cca1d67835a194c7714dc335c134e91cda651ef0f5c41f77ac827a706d10aa79"
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Release verified; documentation PR separate.",
       "userVisibleBeforeAfter": {
         "before": "Original 54 lines -> 86 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3; Earlier58d2456c correction moved editor-command-form-families/editor-map-workspace-sessions reforge→editor and phase1-dependency-ownership reforge→game; 18IDs/31 memberships unchanged. This predates L; actual Git stat/diff/capture SHA directly read. Baseline/capture remain historical, no L product/runtime change or fake after drift.",
         "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
         "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
       },
-      "reviewedLines": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "reviewedLines": "Owned delta only.",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -1283,8 +1293,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "readMethod": "Read owned delta and release receipt.",
+      "coreConclusion": "Owned release bindings; historical scope retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -1487,10 +1497,10 @@
       "reviewedSourceSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "342c04566e440e504d4da3d5a146ff5d4faee93787306251f5ef07c6b5580c02",
+      "afterSha256": "4d052c15992e7628c10651f2d421e572aaf4cc7cae07701e5c2a3cf91c6cd3ce",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "342c04566e440e504d4da3d5a146ff5d4faee93787306251f5ef07c6b5580c02",
+        "implementationSha": "4d052c15992e7628c10651f2d421e572aaf4cc7cae07701e5c2a3cf91c6cd3ce",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -1523,11 +1533,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "342c04566e440e504d4da3d5a146ff5d4faee93787306251f5ef07c6b5580c02",
-        "scope": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
-        "lineCount": 165,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+        "afterSha256": "4d052c15992e7628c10651f2d421e572aaf4cc7cae07701e5c2a3cf91c6cd3ce",
+        "scope": "Release delta.",
+        "lineCount": 165
       },
       "history": [
         {
@@ -1597,18 +1607,23 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "1742df3466766e365ca366b5a0f98d12325f984a5a628eb64e09c7470cf4d17c",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "342c04566e440e504d4da3d5a146ff5d4faee93787306251f5ef07c6b5580c02"
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Release verified; documentation PR separate.",
       "userVisibleBeforeAfter": {
         "before": "Original 106 lines -> 151 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
         "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
         "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
       },
-      "reviewedLines": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "reviewedLines": "Owned delta only.",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -1665,8 +1680,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "readMethod": "Read owned delta and release receipt.",
+      "coreConclusion": "Owned release bindings; historical scope retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -1869,10 +1884,10 @@
       "reviewedSourceSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "e199d6f662a16c390e56a93d0aba4be457add949ae391c2f3838bee3aacd1dd3",
+      "afterSha256": "afa8b6a8c7605599bc102d0b67f131c6c2014d5c52e5ea7b47857082b661f038",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "e199d6f662a16c390e56a93d0aba4be457add949ae391c2f3838bee3aacd1dd3",
+        "implementationSha": "afa8b6a8c7605599bc102d0b67f131c6c2014d5c52e5ea7b47857082b661f038",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -1905,11 +1920,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "e199d6f662a16c390e56a93d0aba4be457add949ae391c2f3838bee3aacd1dd3",
-        "scope": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
-        "lineCount": 55,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+        "afterSha256": "afa8b6a8c7605599bc102d0b67f131c6c2014d5c52e5ea7b47857082b661f038",
+        "scope": "Release delta.",
+        "lineCount": 55
       },
       "history": [
         {
@@ -1979,18 +1994,23 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "05db59bc22b74da32581aabed6cedfd2c8c2301ba42633055ab1fe737368601c",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "e199d6f662a16c390e56a93d0aba4be457add949ae391c2f3838bee3aacd1dd3"
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Release verified; documentation PR separate.",
       "userVisibleBeforeAfter": {
         "before": "Original 24 lines -> 53 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
         "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
         "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
       },
-      "reviewedLines": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "reviewedLines": "Owned delta only.",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -2047,8 +2067,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "readMethod": "Read owned delta and release receipt.",
+      "coreConclusion": "Owned release bindings; historical scope retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -2253,10 +2273,10 @@
       "reviewedSourceSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "584146bd908b2f2da80de8b9785c26a3c14c9f53432a1199a81ceb3c47549eb5",
+      "afterSha256": "0f4489e10cc39ccda36a288ecdfc1f1f87527d054dd2123c6218742fafc4ea59",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "584146bd908b2f2da80de8b9785c26a3c14c9f53432a1199a81ceb3c47549eb5",
+        "implementationSha": "0f4489e10cc39ccda36a288ecdfc1f1f87527d054dd2123c6218742fafc4ea59",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -2289,11 +2309,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "584146bd908b2f2da80de8b9785c26a3c14c9f53432a1199a81ceb3c47549eb5",
-        "scope": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
-        "lineCount": 81,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+        "afterSha256": "0f4489e10cc39ccda36a288ecdfc1f1f87527d054dd2123c6218742fafc4ea59",
+        "scope": "Release delta.",
+        "lineCount": 81
       },
       "history": [
         {
@@ -2367,18 +2387,23 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "d564af398fa6b76665ffaf50bf02cb406ae2daedd9d8c1f80bf9cbdd54d47957",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "584146bd908b2f2da80de8b9785c26a3c14c9f53432a1199a81ceb3c47549eb5"
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Release verified; documentation PR separate.",
       "userVisibleBeforeAfter": {
         "before": "Original 47 lines -> 78 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3; Earlier58d2456c correction moved phase1-dependency-ownership phase2→phase1; 18IDs/29 memberships unchanged. This predates L; actual Git stat/diff/capture SHA directly read. Baseline/capture remain historical, no L product/runtime change or fake after drift.",
         "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
         "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
       },
-      "reviewedLines": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "reviewedLines": "Owned delta only.",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -2921,8 +2946,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "readMethod": "Read owned delta and release receipt.",
+      "coreConclusion": "Owned release bindings; historical scope retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -3125,10 +3150,10 @@
       "reviewedSourceSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "f8189f50c124c04aeae34cd63134d956d1bd5dc92229c5ec50d7d55539f61f4c",
+      "afterSha256": "f39ae822e51e8b634b7906a9852c995edc3a54929da8ecdc23099c9f39ba7184",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "f8189f50c124c04aeae34cd63134d956d1bd5dc92229c5ec50d7d55539f61f4c",
+        "implementationSha": "f39ae822e51e8b634b7906a9852c995edc3a54929da8ecdc23099c9f39ba7184",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -3161,11 +3186,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "f8189f50c124c04aeae34cd63134d956d1bd5dc92229c5ec50d7d55539f61f4c",
-        "scope": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
-        "lineCount": 81,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+        "afterSha256": "f39ae822e51e8b634b7906a9852c995edc3a54929da8ecdc23099c9f39ba7184",
+        "scope": "Release delta.",
+        "lineCount": 81
       },
       "history": [
         {
@@ -3235,18 +3260,23 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "c2354fc190aaaacd148c8c4124724df6eb992f9f181aebf6c46ffe0c2013d6bd",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "f8189f50c124c04aeae34cd63134d956d1bd5dc92229c5ec50d7d55539f61f4c"
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Release verified; documentation PR separate.",
       "userVisibleBeforeAfter": {
         "before": "Original 41 lines -> 73 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
         "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
         "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
       },
-      "reviewedLines": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "reviewedLines": "Owned delta only.",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -3303,8 +3333,8 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "readMethod": "Read owned delta and release receipt.",
+      "coreConclusion": "Owned release bindings; historical scope retained.",
       "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
@@ -3507,10 +3537,10 @@
       "reviewedSourceSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "80431bc419be0eaaffbef839bc5b12ae680366afc5438937741f2e81502293e1",
+      "afterSha256": "a329a1b95020621f9f487d2c4057f0df3c9c853e4972f8e9e14c032a0483649a",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "implementationSha": "80431bc419be0eaaffbef839bc5b12ae680366afc5438937741f2e81502293e1",
+        "implementationSha": "a329a1b95020621f9f487d2c4057f0df3c9c853e4972f8e9e14c032a0483649a",
         "contentVersion": "N/A-index; each canonical report/evidence retains its own original version",
         "minimumSaveVersion": "N/A-index; no inherited SAVE compatibility or execution claim",
         "history": [
@@ -3543,11 +3573,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "80431bc419be0eaaffbef839bc5b12ae680366afc5438937741f2e81502293e1",
-        "scope": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
-        "lineCount": 217,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+        "afterSha256": "a329a1b95020621f9f487d2c4057f0df3c9c853e4972f8e9e14c032a0483649a",
+        "scope": "Release delta.",
+        "lineCount": 217
       },
       "history": [
         {
@@ -3617,18 +3647,23 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "7b78e87a8f94aa6f80cce5087259031ae5a13136bda5e3b8af75e616d0fb89c1",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "80431bc419be0eaaffbef839bc5b12ae680366afc5438937741f2e81502293e1"
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Release verified; documentation PR separate.",
       "userVisibleBeforeAfter": {
         "before": "Original 159 lines -> 188 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
         "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
         "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
       },
-      "reviewedLines": "Official generated view adds only the input-rotation entry and projects the owned script-correction update; no runtime credit from generation.",
+      "reviewedLines": "Owned delta only.",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {

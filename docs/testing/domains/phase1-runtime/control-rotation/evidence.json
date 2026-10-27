@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "id": "game-input-rotation",
-  "status": "active",
-  "candidateSha": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+  "status": "verified",
+  "candidateSha": "bde596695d9c4d90a8031443ddd1ea033edd5245",
   "versions": {
     "content": 22,
     "minimumSave": 12
@@ -155,15 +155,23 @@
       "integratedCandidate": "ae9e3226c24f37d1f33c14c9b6e28ba2d72e52ec",
       "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
       "scope": "Reuse contributor60/native counter/static gates plus root finite browser acceptance. This documentation publication runs no product tests and grants no whole-repository,coverage,hardware,complete-story or deployment credit. Publication remains active pending unified window and user experience."
+    },
+    {
+      "date": "2026-10-27",
+      "action": "protected-production-release",
+      "candidate": "c42e333385fe464805de88a51b95ab092abb9f6a",
+      "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+      "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+      "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
     }
   ],
   "kind": "runtime-execution",
   "runtimeExecution": {
     "performed": true,
-    "scope": "Reused contributor targeted60 tests/formal mutant/static gates and root finite mobile browser; this documentation publication performs no new product execution.",
+    "scope": "Reused contributor targeted60 tests/formal mutant/static gates and root finite mobile browser; this documentation publication performs no new product execution.; complete official fast coverage and actual production release, see release receipt",
     "completeE2E": false,
     "physicalHardware": false,
-    "officialCoverage": false,
+    "officialCoverage": true,
     "visual": "Root finite mobile Settings/layout/pointer smoke at two viewports only"
   },
   "claims": [
@@ -316,6 +324,10 @@
     {
       "path": "docs/ops/evidence/GAME-INPUT-ROTATION-1/native/browser-unrotated-landscape.png",
       "sha256": "f1cc3a6347d4c530086e2dfcb922770160e0cc889bbbd9f3094cb3e224d99eb2"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+      "sha256": "377ce9166785ab668bfad3b1ea1c18d062fd807df63a8f12f1ee430f897bd88b"
     }
   ],
   "execution": {
