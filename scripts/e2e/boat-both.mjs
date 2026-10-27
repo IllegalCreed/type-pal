@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { checkBoatCheckpoint } from './boat-checkpoint-contract.mjs'
 import { repoRoot } from './browser-journey.mjs'
 import { recompareRecording } from './recompare-recording.mjs'
 
@@ -22,6 +23,20 @@ const result = await recompareRecording(
   options['--game-report'],
   options['--reforge-report'],
 )
+result.checkpointProofs = []
+for (const path of [options['--game-report'], options['--reforge-report']]) {
+  try {
+    const report = JSON.parse(await readFile(path, 'utf8'))
+    result.checkpointProofs.push({
+      engine: report.engine,
+      ...(await checkBoatCheckpoint(path, report)),
+    })
+  } catch (error) {
+    result.checkpointProofs.push({ report: path, status: 'rejected', reason: String(error) })
+  }
+}
+if (result.checkpointProofs.some((proof) => proof.status !== 'proved'))
+  result.status = 'needs-review'
 const out = resolve(
   repoRoot,
   'build/e2e',

@@ -17,6 +17,7 @@ import {
 import { historicalNativeFamilyIssues } from './historical-native-family.mjs'
 import { historicalVitestNativeIssues } from './historical-vitest-native.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
+import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
 
 function documentStatus(text, contract) {
   if (contract.format === 'json') {
@@ -44,7 +45,7 @@ function documentStatus(text, contract) {
   return /^([a-z][a-z-]*)(?=$|[\s（(])/.exec(fields[0][1])?.[1]
 }
 
-function publicationIssues(text, contract, read) {
+function publicationIssues(text, contract, read, documentPath) {
   const catalogPath = contract.statusPolicy?.catalog
   if (!catalogPath) return []
   let catalog
@@ -57,7 +58,16 @@ function publicationIssues(text, contract, read) {
   }
   const entries = catalog?.entries?.filter((entry) => entry.id === id) ?? []
   if (!id || entries.length !== 1) return ['publication status requires one catalog identity']
-  return documentStatus(text, contract) === entries[0].status
+  const entry = entries[0]
+  const lineageIssues = testingEvidenceLineageIssues(entry, (path) =>
+    read(posix.join(dirname(catalogPath), path)),
+  )
+  if (lineageIssues.length) return lineageIssues
+  const isHistorical =
+    entry.historical?.publication &&
+    documentPath === posix.join(dirname(catalogPath), entry.historical.evidence)
+  const expectedStatus = isHistorical ? entry.historical.publication.status : entry.status
+  return documentStatus(text, contract) === expectedStatus
     ? []
     : ['publication status differs from catalog']
 }
@@ -327,7 +337,7 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
     issues.push('history overlay contract missing')
   issues.push(...(historicalDocumentReceiptIssues(text, doc, template, contract, options) ?? []))
   if (contract) {
-    issues.push(...publicationIssues(text, contract, read))
+    issues.push(...publicationIssues(text, contract, read, doc.path))
     const baselineIssues = bindingBaselineIssues(doc, template, contract, options)
     issues.push(
       ...(baselineIssues ?? preservedSourceIssues(text, doc, registry, contract, read, options)),

@@ -42,6 +42,8 @@ Template: guide-runbook-v1 / 1.0.0
 
 配对evidence保持schema2/id、catalog发布status、候选SHA、content/save版本与history一致；sourceRefs的文件、数值行范围、范围内anchor和当前全文件SHA要可核。`source-backed`只能引用声明过的来源；`runtime-backed`还需`kind: runtime-execution`、`runtimeExecution.performed: true`及真实存在、SHA吻合的artifact。字段齐全与日志匹配仍不单独证明业务验收。已批准的历史原生格式保持原顶层字段、原诊断和原执行范围，不伪造catalog身份或本轮执行。
 
+2026-10-27冻结原件与当前执行分代配对：原生历史回执不能改写为新执行时，保留原路径与原字节，catalog的`evidence`指向唯一当前回执；`historical.evidence`记录原路径，`historical.publication`恰含原件的`sha256/status/candidateSha`。新回执的`supersedes`须逐值回指这四项。consumer先核原件完整字节、两件同一稳定ID及回链，才接纳历史配对；历史文档按该固定旧status验证，当前正文仍按live catalog验证。原源Git/prefix保全门继续生效，缺pin、坏回链或仅有同名ID不能免除孤儿或状态冲突。已有无`publication`的历史导航引用保持原职责，不获得本合同信用。当前原生执行复用`test-machine-evidence-v1/1.5.0`的基础execution合同，不新增变体、不改原冻结合同或原回执。
+
 ### 3. 分开发布状态、执行结果和审查状态
 
 常见发布推进为`draft → active → verified | rework → superseded → archived`；当前consumer还接受`proposal`与`current`。依赖只可指向同catalog的`current`/`verified`，不得有未知ID或环。`current`/`verified`表示发布状态，不能让一次未跑命令变成成功。

@@ -4,6 +4,7 @@ import { dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
 import { loadCatalog, renderIndexes } from './generate-testing-index.mjs'
+import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 export const testingRoot = resolve(repoRoot, 'docs/testing')
@@ -137,6 +138,11 @@ export function validateTestingOrphans(catalog, root = testingRoot) {
   const canonical = new Set(entries.map((entry) => entry.canonical))
   const indexes = new Set(entries.map((entry) => entry.index))
   const evidence = new Set(entries.map((entry) => entry.evidence))
+  for (const entry of entries) {
+    const lineage = testingEvidenceLineageIssues(entry, (path) => readFileSync(resolve(root, path)))
+    issues.push(...lineage.map((issue) => `${entry.id}: ${issue}`))
+    if (!lineage.length && entry.historical?.publication) evidence.add(entry.historical.evidence)
+  }
   const stagesRoot = resolve(root, 'e2e/stages')
   if (existsSync(stagesRoot)) {
     for (const stage of readdirSync(stagesRoot, { withFileTypes: true })) {
@@ -185,7 +191,9 @@ export function validateTestingOrphans(catalog, root = testingRoot) {
 }
 
 export function validateCanonicalEvidence(entry, root = testingRoot, sourceRoot = repoRoot) {
-  const issues = []
+  const issues = testingEvidenceLineageIssues(entry, (path) =>
+    readFileSync(resolve(root, path)),
+  ).map((issue) => `${entry.id}: ${issue}`)
   if (!safePath(entry.canonical) || !safePath(entry.evidence))
     return [`${entry.id}: unsafe canonical/evidence path`]
   const canonicalPath = resolve(root, entry.canonical)
