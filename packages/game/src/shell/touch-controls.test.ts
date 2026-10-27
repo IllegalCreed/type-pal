@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { KeyboardInputSource } from './input.js'
+import { setInputRotated } from './input-rotation.js'
 import { bindTouchControls, createTouchButton } from './touch-controls.js'
 
 describe('touch controls through the live input source', () => {
@@ -9,6 +10,7 @@ describe('touch controls through the live input source', () => {
   let confirm: HTMLButtonElement
   let unbind: () => void
   beforeEach(() => {
+    setInputRotated(false)
     input = new KeyboardInputSource(window)
     root = document.createElement('div')
     right = createTouchButton('Right', '向右')
@@ -21,12 +23,34 @@ describe('touch controls through the live input source', () => {
   })
   afterEach(() => {
     unbind()
+    setInputRotated(false)
+    localStorage.removeItem('tp-input-rotation')
     input.detach()
     root.remove()
     vi.restoreAllMocks()
   })
   const pointer = (button: HTMLElement, type: string, pointerId: number): void => {
     button.dispatchEvent(new PointerEvent(type, { bubbles: true, pointerId, button: 0 }))
+  }
+
+  const directionPad = (): HTMLDivElement => {
+    const pad = document.createElement('div')
+    pad.className = 'tp-dpad'
+    pad.setPointerCapture = vi.fn()
+    pad.append(
+      createTouchButton('Up', '向上'),
+      createTouchButton('Left', '向左'),
+      right,
+      createTouchButton('Down', '向下'),
+    )
+    root.append(pad)
+    vi.spyOn(pad, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, 0, 150, 150))
+    return pad
+  }
+  const point = (pad: HTMLElement, type: string, x: number, y: number): void => {
+    pad.dispatchEvent(
+      new PointerEvent(type, { bubbles: true, pointerId: 5, button: 0, clientX: x, clientY: y }),
+    )
   }
 
   it('a tap between logic ticks latches one press, without a duplicate click edge', () => {
@@ -139,15 +163,7 @@ describe('touch controls through the live input source', () => {
   })
 
   it('a held thumb slides between four directions, stops in the center, and resumes after leaving the rim', () => {
-    const pad = document.createElement('div')
-    pad.className = 'tp-dpad'
-    pad.setPointerCapture = vi.fn()
-    const up = createTouchButton('Up', '向上')
-    const left = createTouchButton('Left', '向左')
-    const down = createTouchButton('Down', '向下')
-    pad.append(up, left, right, down)
-    root.append(pad)
-    vi.spyOn(pad, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, 0, 150, 150))
+    const pad = directionPad()
     const slide = (type: string, x: number, y: number): void => {
       pad.dispatchEvent(
         new PointerEvent(type, { bubbles: true, pointerId: 5, button: 0, clientX: x, clientY: y }),
@@ -165,5 +181,43 @@ describe('touch controls through the live input source', () => {
     expect([...input.nextSnapshot(5).held]).toEqual(['Right'])
     slide('pointerup', 140, 75)
     expect([...input.nextSnapshot(6).held]).toEqual([])
+  })
+
+  it('maps four clockwise touch sectors while preserving the circular rim and quiet center', () => {
+    const pad = directionPad()
+    setInputRotated(true)
+    point(pad, 'pointerdown', 135, 15)
+    expect([...input.nextSnapshot(1).held]).toEqual([])
+    point(pad, 'pointerup', 135, 15)
+    point(pad, 'pointerdown', 120, 30)
+    expect([...input.nextSnapshot(2).held]).toEqual(['Up'])
+    point(pad, 'pointermove', 120, 120)
+    expect([...input.nextSnapshot(3).held]).toEqual(['Right'])
+    point(pad, 'pointermove', 30, 120)
+    expect([...input.nextSnapshot(4).held]).toEqual(['Down'])
+    point(pad, 'pointermove', 30, 30)
+    expect([...input.nextSnapshot(5).held]).toEqual(['Left'])
+    point(pad, 'pointermove', 75, 75)
+    expect([...input.nextSnapshot(6).held]).toEqual([])
+    point(pad, 'pointermove', 74, 10)
+    expect([...input.nextSnapshot(7).held]).toEqual(['Left'])
+    point(pad, 'pointermove', 76, 10)
+    expect([...input.nextSnapshot(8).held]).toEqual(['Up'])
+  })
+
+  it('rotation releases old touch contacts and requires a fresh touch without releasing keyboard ownership', () => {
+    const pad = directionPad()
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))
+    point(pad, 'pointerdown', 75, 10)
+    pointer(confirm, 'pointerdown', 2)
+    input.nextSnapshot(1)
+    setInputRotated(true)
+    expect([...input.nextSnapshot(2).held]).toEqual(['Right'])
+    expect(root.querySelectorAll('.is-held')).toHaveLength(0)
+    point(pad, 'pointermove', 120, 30)
+    expect([...input.nextSnapshot(3).pressed]).toEqual([])
+    point(pad, 'pointerup', 120, 30)
+    point(pad, 'pointerdown', 120, 30)
+    expect([...input.nextSnapshot(4).held]).toEqual(['Right', 'Up'])
   })
 })

@@ -1,5 +1,7 @@
 import type { AbstractKey } from '@type-pal/shared'
 import type { KeyboardInputSource } from './input.js'
+import { inputDirection } from './input-direction.js'
+import { INPUT_ROTATION_CHANGE, isInputRotated } from './input-rotation.js'
 
 type ActionSink = Pick<KeyboardInputSource, 'press' | 'release'>
 
@@ -19,7 +21,21 @@ export class GamepadInputController {
   private readonly contacts = new Map<string, AbstractKey>()
   private readonly sticks = new Map<number, AbstractKey>()
   private waitForNeutral = false
+  private readonly waitingSticks = new Set<number>()
+  private rotated = isInputRotated()
   constructor(private readonly input: ActionSink) {}
+
+  setRotation(rotated: boolean): void {
+    if (rotated === this.rotated) return
+    this.rotated = rotated
+    for (const index of this.sticks.keys()) {
+      const contact = `gamepad:${index}:stick`
+      this.input.release(contact)
+      this.contacts.delete(contact)
+      this.waitingSticks.add(index)
+    }
+    this.sticks.clear()
+  }
 
   poll(pads: readonly (GamepadState | null)[], active = true): void {
     const desired = new Map<string, AbstractKey>()
@@ -31,12 +47,21 @@ export class GamepadInputController {
       }
       const x = pad.axes[0] ?? 0
       const y = pad.axes[1] ?? 0
+      const magnitude = Math.max(Math.abs(x), Math.abs(y))
+      if (this.waitingSticks.has(pad.index)) {
+        if (magnitude >= 0.2) continue
+        this.waitingSticks.delete(pad.index)
+      }
       const threshold = this.sticks.has(pad.index) ? 0.2 : 0.35
-      if (Math.max(Math.abs(x), Math.abs(y)) >= threshold) {
-        const key = Math.abs(x) > Math.abs(y) ? (x > 0 ? 'Right' : 'Left') : y > 0 ? 'Down' : 'Up'
+      if (magnitude >= threshold) {
+        const key = inputDirection(x, y, this.rotated)
         stickDirections.set(pad.index, key)
         desired.set(`gamepad:${pad.index}:stick`, key)
       }
+    }
+    for (const index of this.waitingSticks) {
+      if (!pads.some((pad) => pad?.connected && pad.index === index))
+        this.waitingSticks.delete(index)
     }
     if (!active) {
       this.release()
@@ -83,15 +108,18 @@ export function startGamepadInput(input: ActionSink, isBlocked: () => boolean): 
     controller.poll(pads, !document.hidden && document.hasFocus() && !isBlocked())
     frame = window.requestAnimationFrame(poll)
   }
+  const rotation = (): void => controller.setRotation(isInputRotated())
   const blur = (): void => controller.poll([], false)
   const visibility = (): void => {
     if (document.hidden) blur()
   }
+  window.addEventListener(INPUT_ROTATION_CHANGE, rotation)
   window.addEventListener('blur', blur)
   document.addEventListener('visibilitychange', visibility)
   let frame = window.requestAnimationFrame(poll)
   return () => {
     window.cancelAnimationFrame(frame)
+    window.removeEventListener(INPUT_ROTATION_CHANGE, rotation)
     window.removeEventListener('blur', blur)
     document.removeEventListener('visibilitychange', visibility)
     controller.release()

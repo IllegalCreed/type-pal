@@ -43,6 +43,7 @@ const ENGLISH_LABELS: Readonly<Record<string, string>> = {
   队伍: 'Party',
   操作: 'Controls',
   显示虚拟按键: 'Show touch controls',
+  '虚拟方向键 / 左摇杆顺时针旋转45°': 'Rotate touch D-pad / left stick 45° clockwise',
   '手柄：十字键/左摇杆移动，底部面键确认，右侧面键取消，Start打开菜单。连接后按任意键激活。':
     'Gamepad: D-pad / left stick to move, bottom face button to confirm, right face button to cancel, Start for the menu. Press a button after connecting to activate.',
   显示: 'Display',

@@ -76,6 +76,7 @@ it('keeps mobile feature exclusions while showing English settings and bilingual
   document.getElementById('tp-tools-launcher')?.click()
   const body = document.querySelector('.tp-body')!
   expect(body.textContent).toContain('Show touch controls')
+  expect(body.textContent).toContain('Rotate touch D-pad / left stick 45° clockwise')
   expect(body.textContent).toContain('简体中文')
   expect(body.textContent).not.toMatch(/Fullscreen|FPS|Import \/ export|Quick save|Scale/)
   expect(body.querySelectorAll('input[type="range"]')).toHaveLength(3)
