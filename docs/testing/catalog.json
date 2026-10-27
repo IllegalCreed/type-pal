@@ -95,7 +95,7 @@
       "evidence": "e2e/evidence/e2e-route.json",
       "tags": ["e2e", "route", "checkpoint"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-10-26",
+      "reviewBy": "2026-11-03",
       "dependsOn": ["e2e-contract"],
       "sourceRefs": [
         {
@@ -798,10 +798,17 @@
         },
         {
           "path": "scripts/e2e/boat-checkpoint-contract.mjs",
-          "lines": "14-14",
+          "lines": "15-15",
           "anchor": "export async function checkBoatCheckpoint(",
           "role": "oracle",
-          "sha256": "19270786e49abdfc13b061abf274a715c3755edbf56a94732696992196d126c1"
+          "sha256": "a7fee751d036e52aa5b331ca8a8ae3b4dd3adf2cd8830fa145acb80da1e0a819"
+        },
+        {
+          "path": "scripts/e2e/boat-game-save-domain.mjs",
+          "lines": "18-18",
+          "anchor": "export function assertBoatGameRestore(",
+          "role": "oracle",
+          "sha256": "b248d03140c6107b53f83c146dade96b3d9b79d581ae009e5df3bf479bcf4b0f"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -936,14 +943,14 @@
           "lines": "407-414",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "448-455",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1047,7 +1054,7 @@
           "lines": "1242-1261",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -1267,7 +1274,7 @@
           "lines": "434-445",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -2164,6 +2171,15 @@
         "lastVerifiedUnchanged": "2026-10-03",
         "reviewByUnchanged": "2026-11-02",
         "newDocumentAcceptanceGranted": false
+      },
+      {
+        "id": "e2e-route",
+        "date": "2026-10-27",
+        "kind": "scoped-publication-review-reference",
+        "previousReviewBy": "2026-10-26",
+        "nextReviewBy": "2026-11-03",
+        "evidence": "e2e/evidence/e2e-route.json#/_governance/publicationReviews/1",
+        "scope": "continued proposal publication only; no new execution or migration credit"
       }
     ]
   }

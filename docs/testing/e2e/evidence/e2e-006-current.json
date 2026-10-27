@@ -77,10 +77,17 @@
     },
     {
       "path": "scripts/e2e/boat-checkpoint-contract.mjs",
-      "lines": "14-14",
+      "lines": "15-15",
       "anchor": "export async function checkBoatCheckpoint(",
       "role": "oracle",
-      "sha256": "19270786e49abdfc13b061abf274a715c3755edbf56a94732696992196d126c1"
+      "sha256": "a7fee751d036e52aa5b331ca8a8ae3b4dd3adf2cd8830fa145acb80da1e0a819"
+    },
+    {
+      "path": "scripts/e2e/boat-game-save-domain.mjs",
+      "lines": "18-18",
+      "anchor": "export function assertBoatGameRestore(",
+      "role": "oracle",
+      "sha256": "b248d03140c6107b53f83c146dade96b3d9b79d581ae009e5df3bf479bcf4b0f"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -277,7 +284,9 @@
       ]
     }
   ],
-  "findings": [],
+  "findings": [
+    "2026-10-27 技术独立复核 C1：在原始字节钉定 raw 上新增完整 GameState 保存/重开比对，仅按真实 loader 将 needToFadeIn 置 true；旧摘要 hash 与旧运行身份不改。原始 Game/Reforge 正例及五个合法标量单字段反控另据实际输出记录，不将新增校验冒充新剧情录制。"
+  ],
   "failures": [
     {
       "scope": "prior failed attempts",

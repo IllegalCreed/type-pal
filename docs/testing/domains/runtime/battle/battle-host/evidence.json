@@ -14,7 +14,7 @@
       "lines": "1242-1261",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
+      "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -92,7 +92,8 @@
     "2026-10-10 对白留显修复：仅同步当前sourceRefs源码索引及核验其原有anchor，历史revision/运行结论/数字/raw保持原样。新增全槽draw/显隐义务以E2E-CONTINUOUS-001-006任务卡及dialogue-visibility-fix-20261010局部验证为准，本条不授信当前001–006完整演出。",
     "2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核 bootGame 的 BattleHost 端口、prepare 后 commit、身份取消与同步 finishWorld，以及真实 battleHostFixture 的 live inventory / queued observer 断言；本轮 SAVE12 未改该战斗业务合同。",
     "2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。",
-    "历史候选 57794d15/348a50d1 被原子收尾 46287966 取代。历史单次严格 fast7972 与 warnings 数字不改写为当前质量。主壳当前 caller 仍消费该 owner；未复跑原反控、PAL 战斗或覆盖基线。"
+    "历史候选 57794d15/348a50d1 被原子收尾 46287966 取代。历史单次严格 fast7972 与 warnings 数字不改写为当前质量。主壳当前 caller 仍消费该 owner；未复跑原反控、PAL 战斗或覆盖基线。",
+    "2026-10-27 当前 caller 索引维护：逐字节比较525656d2与dccd4095的本页 main.ts声明范围，全部原位相等；完整文件仅另含已核的载具步态/页动画所有权修复。同步当前文件 SHA，不变更历史 candidate/revision/versions、原执行结论、source pin 或 performed=false；本页不新增运行时/覆盖率信用。"
   ],
   "artifacts": [],
   "history": [
@@ -141,6 +142,26 @@
     ],
     "supersedes": [],
     "stopLine": "performed=false、空artifacts与缺raw保持；source-backed不构成新runtime/视觉/coverage或旧测试质量accept。",
-    "nextStep": "核验移除envelope后原对象deep-equal与真实paired consumer，登记after SHA；后续动态/测试质量任务不得从静态迁移继承通过。"
+    "nextStep": "核验移除envelope后原对象deep-equal与真实paired consumer，登记after SHA；后续动态/测试质量任务不得从静态迁移继承通过。",
+    "currentSourceMaintenance": [
+      {
+        "date": "2026-10-27",
+        "task": "E2E-006-1/technical-closeout",
+        "sourcePath": "packages/reforge/src/main.ts",
+        "beforeRevision": "525656d2370d249367ce03fb1e2f74f98021280f",
+        "afterRevision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+        "beforeFileSha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+        "afterFileSha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120",
+        "scopes": [
+          {
+            "lines": "1242-1261",
+            "anchor": "const battleHost = new BattleHost",
+            "scopeBytesUnchanged": true
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "newSemanticCredit": 0
+      }
+    ]
   }
 }

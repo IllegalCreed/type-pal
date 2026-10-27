@@ -150,6 +150,64 @@
         },
         "notRun": ["runtime", "E2E", "visual", "editor-preview", "coverage"],
         "semanticMigrationCreditAdded": 0
+      },
+      {
+        "date": "2026-10-27",
+        "owner": "Codex /root",
+        "kind": "scoped-publication-review",
+        "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+        "previousReviewBy": "2026-10-26",
+        "nextReviewBy": "2026-11-03",
+        "rationale": "Actual current route-design and complete paired evidence review; proposal remains a route-admission plan, not execution status. Existing7day publication policy retained; source/caller/contract changes trigger earlier review.",
+        "actuallyRead": [
+          "route-proposal: complete current five sections and preservation contract; historical quote retained, not reawarded deep review",
+          "paired e2e-route evidence: complete native object and earlier publication review",
+          "catalog e2e-route entry and testing-governance expiry/status/source contracts",
+          "inn-contract.validatePredecessor: exact byte hash/same engine/currentRF12 checks and revision-syntax limitation",
+          "content22/minimumSave12, RF SAVE_VERSION12 constants",
+          "opening-both and inn-both argv/child execution/same-revision/comparison paths",
+          "E2E common contract: admission/profiles/minimum rerun/user visual boundaries; R4/005/006 current status headers"
+        ],
+        "findings": [
+          "Proposal remains proposed/catalog proposal; no full-route completion or product build is granted.",
+          "Both route callers and predecessor restrictions remain accurate; syntactically valid revision alone does not prove execution or currentHEAD.",
+          "Current version22/12 and original publication22/11 remain separate, with original d022 identity and performed=false preserved.",
+          "006 current user visual acceptance does not imply fullQ1/Q2 or current same-revision dual route acceptance.",
+          "Refuse unknown routes/unclassified battle/missing actualdraw or preview; no checker rule changed."
+        ],
+        "sourcePins": [
+          {
+            "path": "scripts/e2e/inn-contract.mjs",
+            "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+            "scopeRead": "67-111"
+          },
+          {
+            "path": "packages/content/src/character.ts",
+            "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+            "scopeRead": "168-170"
+          }
+        ],
+        "unchangedExecutionIdentity": {
+          "status": "proposal",
+          "lastVerified": "2026-10-04",
+          "revision": {
+            "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                "date": "2026-10-04",
+                "action": "source-and-publication-audit",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidenceCandidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "runtimePerformed": false
+        },
+        "notRun": ["route execution", "new E2E chain", "visual", "coverage"],
+        "semanticMigrationCreditAdded": 0
       }
     ]
   }
