@@ -188,23 +188,12 @@ async function main(): Promise<void> {
     },
   })
   // Recompute roots and labels after correction, including appended blocks and changed object hooks.
-  const { entryIps, globalScriptEntries } = collectScriptEntries({
+  const { entryIps, globalScriptEntries, sceneExtraRoots } = collectScriptEntries({
     ...sources,
     scenes: sss.scenes,
     eventObjects: sss.eventObjects,
+    supplementalObjects: corrected?.supplementalObjects,
   })
-  // Supplemental objects keep explicit scene ownership without entering native SSS ranges.
-  // Their hooks need global labels as well as the owning scene's reachable-script slice.
-  const sceneExtraRoots: Record<number, number[]> = {}
-  for (const entry of corrected?.supplementalObjects ?? [])
-    for (const label of [entry.object.triggerLabel, entry.object.autoLabel])
-      if (label) {
-        const ip = Number(label.slice(2))
-        entryIps.push(ip)
-        const roots = sceneExtraRoots[entry.sceneId] ?? []
-        roots.push(ip)
-        sceneExtraRoots[entry.sceneId] = roots
-      }
   const commands = disasm(sss.bytecode, messages, entryIps)
   const annotated = annotate(commands, words, symbols)
   const sliced = sliceByScene(
