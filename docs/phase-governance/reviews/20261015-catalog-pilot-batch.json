@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta; previous document/history unchanged",
+      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
+      "coreConclusion": "Add game-input-rotation and update only game-script-corrections with independent supplemental-exit contracts and actual source refs; preserve other entries/history.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -43,7 +43,7 @@
       "unresolved": [
         "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Complete required PR/main CI and publish exact receipt.",
+      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -100,7 +100,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+      "afterSha256": "dc9b364169de97088494ccd11a0b1a1bce38bde44a016358f144ad13e8d9cb5c",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -128,7 +128,7 @@
       },
       "revision": {
         "currentSha": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
-        "implementationSha": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+        "implementationSha": "dc9b364169de97088494ccd11a0b1a1bce38bde44a016358f144ad13e8d9cb5c",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -193,18 +193,11 @@
         ]
       },
       "evidence": {
-        "kind": "owned-review52-closeout",
-        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-        "afterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
-        "lineCount": 2435,
-        "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
-        "candidateBaseRevision": "624478c9ff3554d51142214d4d7aef78d67922fb",
-        "workingTreeDelta": true,
-        "currentMaintenance": {
-          "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
-          "scope": "Owned52 delta; history retained."
-        }
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
+        "afterSha256": "dc9b364169de97088494ccd11a0b1a1bce38bde44a016358f144ad13e8d9cb5c",
+        "scope": "Add game-input-rotation and update only game-script-corrections with independent supplemental-exit contracts and actual source refs; preserve other entries/history.",
+        "lineCount": 2759,
+        "kind": "owned-delta-review"
       },
       "history": [
         {
@@ -455,6 +448,12 @@
           "date": "2026-10-25",
           "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
           "action": "review52 closeout"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "map204-input-owned-delta",
+          "previousAfterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+          "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
         }
       ],
       "supersedes": [],
@@ -464,7 +463,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "Owned current source/binding delta",
+      "reviewedLines": "Add game-input-rotation and update only game-script-corrections with independent supplemental-exit contracts and actual source refs; preserve other entries/history.",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",

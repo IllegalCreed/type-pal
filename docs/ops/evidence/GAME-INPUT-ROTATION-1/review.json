@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "id": "GAME-INPUT-ROTATION-1-review",
+  "template": "evidence-receipt-v1",
+  "task": "docs/ops/tasks/GAME-INPUT-ROTATION-1.md",
+  "owner": "Codex",
+  "recordedAt": "2026-10-27T05:29:37.935Z",
+  "base": "123595ac3a651957b36061eacced329369c495e5",
+  "contributorCandidate": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+  "integratedCandidate": "ae9e3226c",
+  "decision": "accept finite feature; product experience pending",
+  "independentRead": [
+    "Actual14-file diff",
+    "New preference/direction leaf full source",
+    "Controller contact reset/input mapper and CSS positions",
+    "Contributor file A-H review and native quickcheck",
+    "Actual browser mobile Settings/reload/off/on/English and pointer movement"
+  ],
+  "results": {
+    "contributorTests": 60,
+    "formalCounter": "9pass,1designated business AssertionError,0skip",
+    "typecheck": "game0diagnostics",
+    "biome": "14files0diagnostics",
+    "browser": "public UI pointer:1312,288 to1328,280; two mobile viewports; logs[]"
+  },
+  "codeQualityBoundary": "No new whole-file governance closures; feature acceptance and old code-quality credits remain distinct. Source delta under tools panel reviewed; not full runtime branch coverage.",
+  "scope": "Single persisted optional clockwise45 switch for touch pad and leftstick; keyboard/hardwareDpad unchanged",
+  "native": [
+    {
+      "path": "native/review.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/review.json",
+      "sourceSha256": "ea071721a940050e183d9f7f7f85fbeeb4809e77f01a583241b8dcc61b9648f1",
+      "bytes": 39017,
+      "gzipSha256": "a6e1590733ec022e07b6867d11286ab64403f1a26b0ba7229ebe1ed65acf7444"
+    },
+    {
+      "path": "native/biome-final.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/biome-final.run.json",
+      "sourceSha256": "49b0e9c9e97d3b8294495c3bf3f04563602f524c0214f7c00293d34525315a3a",
+      "bytes": 1977,
+      "gzipSha256": "5e17cec504d972ad4937b385d074b0847b611258910fe8675f1b89dbe7828ab9"
+    },
+    {
+      "path": "native/biome-final.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/biome-final.stderr",
+      "sourceSha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "bytes": 103,
+      "gzipSha256": "cbe1311bbd49f3f5d2df791e9e8df60821c3fd6832a325a2b93bb2ea6172cedd"
+    },
+    {
+      "path": "native/biome-final.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/biome-final.stdout",
+      "sourceSha256": "3790a62e4a029941cb2a97d8c655be8a5957acb4b0cbb9801a270ac2dc959a44",
+      "bytes": 232,
+      "gzipSha256": "1133606dd3690666be085d7225b1e52ef302e1c10311b462e693f00b55d8d7ad"
+    },
+    {
+      "path": "native/biome.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/biome.run.json",
+      "sourceSha256": "2e6cc98aa8923ed26b19b434024dc0338c59d7963d236820a9e07e5a86b05001",
+      "bytes": 1965,
+      "gzipSha256": "109433f5b0d3f32ae4210d3ee08ff0446e882ecbb0d8d8f04f11789e5bd07ebe"
+    },
+    {
+      "path": "native/biome.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/biome.stderr",
+      "sourceSha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "bytes": 103,
+      "gzipSha256": "cbe1311bbd49f3f5d2df791e9e8df60821c3fd6832a325a2b93bb2ea6172cedd"
+    },
+    {
+      "path": "native/biome.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/biome.stdout",
+      "sourceSha256": "7f5089be6139cbea3f06dd1d80178adb9c4d991e51ac98641ef36792d6ae46a8",
+      "bytes": 232,
+      "gzipSha256": "31ba46ec5b89017a7d5b3f2a270dff4f8945fc0a9ba4e18b8fcbb8136bf1ee12"
+    },
+    {
+      "path": "native/biome.validation.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/biome.validation.json",
+      "sourceSha256": "756b577c022d5cafdf6dcfac672019f84584cb66b5236f33b67739368e6c243a",
+      "bytes": 394,
+      "gzipSha256": "eb3d1fbb4d2704d74e549f6f25c71cafdac81877507786576c86c4092a4a72db"
+    },
+    {
+      "path": "native/candidate.diff.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/candidate.diff",
+      "sourceSha256": "19e5050e6416184d70069bab4be9b52bc5c4cb742b62e5007560a4d79cbca3db",
+      "bytes": 30703,
+      "gzipSha256": "7b8d1e4fa916615731be53ef89653876c82fcbd2fda9ef1462b346057cabbe7c"
+    },
+    {
+      "path": "native/candidate.stat.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/candidate.stat",
+      "sourceSha256": "5c33d8d09b4cd2072bacb7150ca2fe614bc3ff35a1dfb8f5d7941ad36435ffd4",
+      "bytes": 988,
+      "gzipSha256": "7e1737d15eb28c915c28197ec9f86ad84eadfddbb7d9a4ebd19c923c1161b82a"
+    },
+    {
+      "path": "native/counter-quadrant.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.json",
+      "sourceSha256": "9ac06a515f725a962c4aff134a1b143b8865373d5c848aacb911ecc7bbf1d825",
+      "bytes": 5898,
+      "gzipSha256": "72e1fc874c3d76a7b553f61b35a81b6009e7b3dafe6fdcb62da8e3c49ee7407c"
+    },
+    {
+      "path": "native/counter-quadrant.manifest.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.manifest.json",
+      "sourceSha256": "75c033419c5abca93cf96ee15208f5531dccb8c62aa86f9b0126d807f9d9379d",
+      "bytes": 761,
+      "gzipSha256": "1583a1b72729bbd2a49079c93cb97e75386a24890f9de91d8a238afd1cf729c0"
+    },
+    {
+      "path": "native/counter-quadrant.mutant.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.mutant.ts",
+      "sourceSha256": "5e5c3a1e38077cf399cfd739c3577beae696745fad4dddc11fc64240e752c000",
+      "bytes": 516,
+      "gzipSha256": "fcb51ca67be5e2c3647152b550ccb3458fc6ea7dc22a9874d06323eb108e6238"
+    },
+    {
+      "path": "native/counter-quadrant.original.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.original.ts",
+      "sourceSha256": "9a7a7159df05493113165a5eac28c20cf6dc4343ade0cdb63c8df9a15a15d104",
+      "bytes": 468,
+      "gzipSha256": "aef5d68ed4e0cb034e57594d57fc63e03fcb66971631893e3c0bcb39821a5c95"
+    },
+    {
+      "path": "native/counter-quadrant.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.run.json",
+      "sourceSha256": "08faedcd92331ce7c0f23243004f349b9b489b4a9262099eff857bd81ab58662",
+      "bytes": 1498,
+      "gzipSha256": "9910485de15557812bf5d542b64092eeb2ebd0dd1408071ba4ed6a8c4abaab46"
+    },
+    {
+      "path": "native/counter-quadrant.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.stderr",
+      "sourceSha256": "d2764a73590c7b0218f314139f86c90359b47b1d3ae5263a1bf1f2d74b43d1d6",
+      "bytes": 764,
+      "gzipSha256": "d27be18f92e71c34052029154ee92439e968869503e01fd31aed7a66f075300c"
+    },
+    {
+      "path": "native/counter-quadrant.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.stdout",
+      "sourceSha256": "992cf256824777bf29e114fc1ec82d83f7ba25327a2c18e1d1a7112a91a329f1",
+      "bytes": 1736,
+      "gzipSha256": "ad8c7655c9e3bc980173564eb329627587250c5a5cfbc849b06a4a53f2d4d2e0"
+    },
+    {
+      "path": "native/counter-quadrant.validation.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter-quadrant.validation.json",
+      "sourceSha256": "525ffb84e081d2cd54ff4b857a6c3d0365bb96a4dc73ab528053709fd4e2b301",
+      "bytes": 1711,
+      "gzipSha256": "630f622d822eab47f614e7bc8d7e3e3ce245aecebf4c65bbee746b0eaffaa707"
+    },
+    {
+      "path": "native/counter.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter.json",
+      "sourceSha256": "29c96ea5c10a169e12ce105d61e3d72b0384f557c17b33c752a161893daec190",
+      "bytes": 5636,
+      "gzipSha256": "5366e9fc22876de0b0c5b333fecd0bd2e47a1a2b23303342ebc507fcccaae4c9"
+    },
+    {
+      "path": "native/counter.manifest.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter.manifest.json",
+      "sourceSha256": "0ba1d25b11f4fa5f25d41f7af3946ef6af2a7540b071b9b07793b4e652ac3f51",
+      "bytes": 672,
+      "gzipSha256": "9596c24c8616f641a81e75ff7fce0ea4446cb024210a8dc6a0f51904a46a9cd9"
+    },
+    {
+      "path": "native/counter.mutant.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter.mutant.ts",
+      "sourceSha256": "f2baabf63c1aceff66fda5a2c1405755fd40b93efdcb252d073efa7a82a86275",
+      "bytes": 468,
+      "gzipSha256": "be929ec119ee23948948254bbafeb684e1a6960098a7cc26c48f90c429160853"
+    },
+    {
+      "path": "native/counter.original.ts.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter.original.ts",
+      "sourceSha256": "9a7a7159df05493113165a5eac28c20cf6dc4343ade0cdb63c8df9a15a15d104",
+      "bytes": 468,
+      "gzipSha256": "aef5d68ed4e0cb034e57594d57fc63e03fcb66971631893e3c0bcb39821a5c95"
+    },
+    {
+      "path": "native/counter.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter.run.json",
+      "sourceSha256": "ac606a861fc1a0160c7d94883e97bb89aa603bbd8145c20a6866fc2698c4fb80",
+      "bytes": 1567,
+      "gzipSha256": "b0c863f8b97797b464055520c2db6c7553e754ab0a7fe542fbd4f11f263edce6"
+    },
+    {
+      "path": "native/counter.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter.stderr",
+      "sourceSha256": "796cace0647b2669aac2e8afc97c8a4cf5c1e794c3de4b8aa14782de49ece45b",
+      "bytes": 764,
+      "gzipSha256": "e5c0b357a72b84d9c5802ef30e65bb8c9acff8cf67f70d223c61d285e1cc2646"
+    },
+    {
+      "path": "native/counter.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/counter.stdout",
+      "sourceSha256": "741e034f7af32a3303bc361c04e2c9211ad8cfde5453e6023dd04669ef1e57c7",
+      "bytes": 1775,
+      "gzipSha256": "8ecdd80712515159f0143111220fda45be65c13e3b849e84a832ff3f47e469ec"
+    },
+    {
+      "path": "native/diff-check.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/diff-check.run.json",
+      "sourceSha256": "f948dbf537119a16e65fc68db64f62afaae197ae1af7d78b3d48519d803a371a",
+      "bytes": 1255,
+      "gzipSha256": "dbc38d19ee34c4168ca5eca6625ed028a04394f6fb3d5b8d12038f58189e7dd4"
+    },
+    {
+      "path": "native/diff-check.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/diff-check.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "path": "native/diff-check.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/diff-check.stdout",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "path": "native/restored.inventory.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.inventory.json",
+      "sourceSha256": "82381ef19636e9e877cd8e1d9ac9a957c47b887f67655c77f44dedd9877e16fa",
+      "bytes": 11933,
+      "gzipSha256": "201cf959608aae6c83304d74956f7f3b949c89d5adefacbea1f163789a0c8ff4"
+    },
+    {
+      "path": "native/restored.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.json",
+      "sourceSha256": "d39490eff2054d3bec19ddffe8c0403c2fda176ccd067a537333d1ddbf6b9ac0",
+      "bytes": 22819,
+      "gzipSha256": "72ad542eca44f27806e09c84f337f57c09ef6f48f4dfdeb40f388e7024961de5"
+    },
+    {
+      "path": "native/restored.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.run.json",
+      "sourceSha256": "7c57c94ffe0fd5cdaeb3201f5e71be0d0b37233536d2a5954e33d433e8c7e642",
+      "bytes": 1799,
+      "gzipSha256": "8b2941f7e798dd225e70e34c37c93201227ae8696bd5d7f09bb1ce1dbaa0539c"
+    },
+    {
+      "path": "native/restored.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "path": "native/restored.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.stdout",
+      "sourceSha256": "d8e53279e715b01008b44f4798a55f93be5485d9d390a7ebd356411d0a380197",
+      "bytes": 854,
+      "gzipSha256": "3598342bfad7e582a5a5a2c1e906261fe279451c58deb127c0b64591cff3c701"
+    },
+    {
+      "path": "native/run.py.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/run.py",
+      "sourceSha256": "f30854f59ea802b7189f2d4f99832aa76a7a1d87b661d959e23e6ea00c14ed22",
+      "bytes": 1343,
+      "gzipSha256": "ad3775c94af2592570d0287e49307f211b41d4d4cadd4573299ad62849b9492b"
+    },
+    {
+      "path": "native/targeted.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/targeted.json",
+      "sourceSha256": "36260454ba46206a359467b1461e6b33d07cfbe6007b78b20cbd70e21b956be3",
+      "bytes": 22840,
+      "gzipSha256": "b5c988f9e81ffd0b80cee5fdfe01e5e524542e7e72f64ba6ed6ba2ca91e9b72a"
+    },
+    {
+      "path": "native/targeted.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/targeted.run.json",
+      "sourceSha256": "370561c1773f4adc3bfcb56f868ec913287469944d68031b722cd7d9e11f926b",
+      "bytes": 1799,
+      "gzipSha256": "5e7cb11c7cae4436eb93d7e6f7d81380883741572c6aa5efa4ec1546f9fb9e0a"
+    },
+    {
+      "path": "native/targeted.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/targeted.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "path": "native/targeted.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/targeted.stdout",
+      "sourceSha256": "01f1909e3aaa9b94261c9924822597a9deb009772e5097b2fe8e3ef1db4bca6a",
+      "bytes": 853,
+      "gzipSha256": "fe04aad78f3b1a7271e993d73c10ee566c1ac373196f377e18e4ced5c8cf9766"
+    },
+    {
+      "path": "native/typecheck-final.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/typecheck-final.run.json",
+      "sourceSha256": "f722851f32a9a9cd52313466d7905de8299d5392f9891a49c80407af09140476",
+      "bytes": 1280,
+      "gzipSha256": "0361a4f4b2c5e605f8b5fdadabfa733cf6e3a0b10cdcaa6b568bb075ac340fa7"
+    },
+    {
+      "path": "native/typecheck-final.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/typecheck-final.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "path": "native/typecheck-final.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/typecheck-final.stdout",
+      "sourceSha256": "aac571dea01777d0ab0444c47ceb582eec5c490af5b423a27b7deaa5bfe394ce",
+      "bytes": 120,
+      "gzipSha256": "eb2cdcf5f50bcdf10f2995c25eeca922cbf0189f067203e0b20a602f1e164ec7"
+    },
+    {
+      "path": "native/typecheck.run.json.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/typecheck.run.json",
+      "sourceSha256": "660ce47581095a6edc723ea6f58dfeb457cbc2c5772d066f027ee2fd2eed9e67",
+      "bytes": 1268,
+      "gzipSha256": "5b94c16c1e86d22ab302870cb0ce96db41e098940ee910f9c590f38cddaf0a20"
+    },
+    {
+      "path": "native/typecheck.stderr.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/typecheck.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "path": "native/typecheck.stdout.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/typecheck.stdout",
+      "sourceSha256": "aac571dea01777d0ab0444c47ceb582eec5c490af5b423a27b7deaa5bfe394ce",
+      "bytes": 120,
+      "gzipSha256": "eb2cdcf5f50bcdf10f2995c25eeca922cbf0189f067203e0b20a602f1e164ec7"
+    },
+    {
+      "path": "native/verify.py.gz",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/verify.py",
+      "sourceSha256": "fa3db22a7572ab4197ab644f9f3aa07790f29615e11143e83c3a04378e21ebdc",
+      "bytes": 2478,
+      "gzipSha256": "25db9002f10b21980ce5c8b69c188102ff6290bcd83afd2c1b292993883a21e3"
+    },
+    {
+      "path": "native/browser-after-input-dom.txt.gz",
+      "sourcePath": "build/input-rotation-browser/after-input-dom.txt",
+      "sourceSha256": "24d1ba189b8b00d962236bdc9820985789ef4c323767116b73fcc3df4f01ef4b",
+      "bytes": 1086,
+      "storedSha256": "80d98fab84fa022c66e1469ed91dc7d21c9fe2dce7b830dfdd83b04ed1fab4b3"
+    },
+    {
+      "path": "native/browser-before-input-dom.txt.gz",
+      "sourcePath": "build/input-rotation-browser/before-input-dom.txt",
+      "sourceSha256": "32d2f4f1654b0f0219c1f9cba0e785ec53c19863e10209ddaa6ac018947f1b81",
+      "bytes": 1088,
+      "storedSha256": "b07c9acd98f39a84121e5cf8fbe13bd0f2b72ef079d6029857101a8a872d9004"
+    },
+    {
+      "path": "native/browser-browser.json.gz",
+      "sourcePath": "build/input-rotation-browser/browser.json",
+      "sourceSha256": "04973a2bb18bae0f26faa99637b8fdc2eac89d838f9690d6adafdb3d846b72e7",
+      "bytes": 1374,
+      "storedSha256": "484a8908310ff2589b0d47bd34265f1314dc7a2f19a793327cc6c4c73836b3a6"
+    },
+    {
+      "path": "native/browser-english-settings-dom.txt.gz",
+      "sourcePath": "build/input-rotation-browser/english-settings-dom.txt",
+      "sourceSha256": "04a716f4b5af1d49725d61abbeb07a50c18d050689b1eac712e6c67fb070ad6b",
+      "bytes": 1534,
+      "storedSha256": "58b2eb50e495c61701bef2a3f637f770b65a9bb07ea0613a82cb83bf222ff886"
+    },
+    {
+      "path": "native/browser-reloaded-settings-dom.txt.gz",
+      "sourcePath": "build/input-rotation-browser/reloaded-settings-dom.txt",
+      "sourceSha256": "8d8d24dc0f571ae6179853d1d1858c861a02ec2c03809278fa49db9ed3f94aab",
+      "bytes": 1507,
+      "storedSha256": "8bd9e18f2742dab4ca1c88e1b63ebc4b183cca3191aad107a1f43b0ad8c6eedb"
+    },
+    {
+      "path": "native/browser-rotated-landscape.png",
+      "sourcePath": "build/input-rotation-browser/rotated-landscape.png",
+      "sourceSha256": "98913b60c5e9c85d01fbe93e50b4454bfe5e77a113322e984f7611d622a8787d",
+      "bytes": 38877,
+      "storedSha256": "98913b60c5e9c85d01fbe93e50b4454bfe5e77a113322e984f7611d622a8787d"
+    },
+    {
+      "path": "native/browser-rotated-portrait.png",
+      "sourcePath": "build/input-rotation-browser/rotated-portrait.png",
+      "sourceSha256": "4f4e7281ed50b482188e7f4aea6b43d09ef139bd9293df804a3c381c888f9698",
+      "bytes": 22506,
+      "storedSha256": "4f4e7281ed50b482188e7f4aea6b43d09ef139bd9293df804a3c381c888f9698"
+    },
+    {
+      "path": "native/browser-settings.png",
+      "sourcePath": "build/input-rotation-browser/settings.png",
+      "sourceSha256": "4990a48bb41f5b8aabfdb1c2fb567f0880ea9bd7dfca4f33245f6f3c5fdd730f",
+      "bytes": 37934,
+      "storedSha256": "4990a48bb41f5b8aabfdb1c2fb567f0880ea9bd7dfca4f33245f6f3c5fdd730f"
+    },
+    {
+      "path": "native/browser-unrotated-landscape.png",
+      "sourcePath": "build/input-rotation-browser/unrotated-landscape.png",
+      "sourceSha256": "f1cc3a6347d4c530086e2dfcb922770160e0cc889bbbd9f3094cb3e224d99eb2",
+      "bytes": 39010,
+      "storedSha256": "f1cc3a6347d4c530086e2dfcb922770160e0cc889bbbd9f3094cb3e224d99eb2"
+    }
+  ],
+  "notRun": [
+    "Full repository tests/official coverage/protected gate in this finite local feature step",
+    "Physical touch/gamepad hardware",
+    "Natural full-story E2E"
+  ],
+  "next": "Concentrate affected checks after map204 candidate stabilizes; user local experience then authorized publish separately"
+}
