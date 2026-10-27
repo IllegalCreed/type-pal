@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { dirname } from 'node:path'
+import { assertBoatGameRestore, assertBoatGameSaveCapture } from './boat-game-save-domain.mjs'
 import { sha256 } from './browser-journey.mjs'
 import { assertErrandCollector, errandSaveView } from './errand-contract.mjs'
 import { readEvidenceArtifact } from './evidence-artifact.mjs'
@@ -56,6 +57,7 @@ export async function checkBoatCheckpoint(reportPath, report) {
     assert.equal(capture.slot, 1)
     assert.equal(ack.captureSeq, capture.seq)
     assert(capture.order > report.storyScope.end.afterOrder && ack.order > capture.order)
+    assertBoatGameSaveCapture(payload, capture.payload)
     assert.deepEqual(errandSaveView(capture.payload, engine), errandSaveView(payload, engine))
     assert.deepEqual(report.checkpoint.captureProof, {
       inputOrder: capture.order,
@@ -75,6 +77,10 @@ export async function checkBoatCheckpoint(reportPath, report) {
     commits[0].source,
     engine === 'game' ? 'commit:loadGameFromSlot' : 'commit:restorePayload',
   )
+  const completeGameDomain =
+    engine === 'game' ? assertBoatGameRestore(payload, commits[0].payload) : undefined
+  // Immutable earlier receipts hash this summary. Authenticate that historical field
+  // separately; current complete-domain acceptance is derived above from byte-bound raw.
   const expected = errandSaveView(payload, engine),
     actual = errandSaveView(commits[0].payload, engine)
   assert.deepEqual(actual, expected, '006 terminal checkpoint lost persistent fields')
@@ -95,6 +101,7 @@ export async function checkBoatCheckpoint(reportPath, report) {
   assert.deepEqual(saveKeys, engine === 'game' ? ['Escape', 'Escape', 'F5'] : ['Escape', 'Escape'])
   return {
     status: 'proved',
+    ...(completeGameDomain ? { completeGameDomain } : {}),
     checkpoint: report.checkpoint,
     saveArtifact: report.persistence.saveArtifact,
     restoredArtifact: report.contextTraces[1],

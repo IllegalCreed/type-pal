@@ -101,6 +101,23 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
 }
 
 export default {
+  // Split generated chunks at module boundaries; retain Vite's 500kB warning guard.
+  // Runtime evaluation order and the normal entry/dynamic-import graph stay with Rolldown.
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            {
+              name: 'runtime',
+              test: /[/\\]packages[/\\]reforge[/\\]src[/\\]/,
+              maxSize: 400_000,
+            },
+          ],
+        },
+      },
+    },
+  },
   // Each real-host flow cold-loads the production graph after resetModules. Bound
   // concurrent transforms across pnpm's parallel packages; keep default timeouts.
   test: { maxWorkers: 2 },
