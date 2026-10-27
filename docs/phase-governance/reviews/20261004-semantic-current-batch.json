@@ -433,7 +433,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0d0f520a219b70d743c62417f2c8dffa8c2ddfc151662bd876bf395c6891719e",
+      "afterSha256": "ca4a4c04271ac99f6906c4cee7a88e50541ad822cd3a601429e68da51cb30fae",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1681,6 +1681,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
             "index": 1,
             "entryCanonicalSha256": "6d079d0045714e00d8ff749a5b567d6d4db2417c54752a159e778ab85a7647bb"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/terminal-record",
+          "revision": "33076986c7cdd808b9d2089aaca2936542275666",
+          "beforeSha256": "0d0f520a219b70d743c62417f2c8dffa8c2ddfc151662bd876bf395c6891719e",
+          "afterSha256": "ca4a4c04271ac99f6906c4cee7a88e50541ad822cd3a601429e68da51cb30fae",
+          "scope": "Actual S59 result and acceptance handoff scope only; no additional content/state grants",
+          "priorRecord": {
+            "revision": "33076986c7cdd808b9d2089aaca2936542275666",
+            "logicalPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+            "index": 1,
+            "entryCanonicalSha256": "f94e9eac42a871492b684a823ed4cb09c3874c9f02c51165142dc117c89a3fdd"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

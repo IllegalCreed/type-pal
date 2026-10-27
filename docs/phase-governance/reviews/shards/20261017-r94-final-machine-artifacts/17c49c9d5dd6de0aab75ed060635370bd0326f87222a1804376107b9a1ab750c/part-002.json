@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "a446da2cb187a834ef394e0e852e425b75e064ffe0122dadd1a48b7913c21a7f",
+  "generation": "17c49c9d5dd6de0aab75ed060635370bd0326f87222a1804376107b9a1ab750c",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -5264,7 +5264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "5e1a267eb9238ff953b65145208688302525e0fdd263bf74fdb472781b8a0192",
+      "afterSha256": "82ea328328ab0036ed98e4868daf13d850a0272da3a954f8683c527dbaa7203a",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6310,6 +6310,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
             "index": 33,
             "entryCanonicalSha256": "dd5f48aec149a5e25f42b9ee25ba8be38ea6fad73a3de6e34c3eebea19d22ee2"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/terminal-record",
+          "revision": "33076986c7cdd808b9d2089aaca2936542275666",
+          "beforeSha256": "5e1a267eb9238ff953b65145208688302525e0fdd263bf74fdb472781b8a0192",
+          "afterSha256": "82ea328328ab0036ed98e4868daf13d850a0272da3a954f8683c527dbaa7203a",
+          "scope": "Actual S59 result and acceptance handoff scope only; no additional content/state grants",
+          "priorRecord": {
+            "revision": "33076986c7cdd808b9d2089aaca2936542275666",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "705013b81b1ea8dcdc50b6f399561a1767525fa2b4aa3578d7ed37db2b23d9d4"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

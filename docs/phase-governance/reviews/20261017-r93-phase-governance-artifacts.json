@@ -1263,7 +1263,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "535b432631a90ec7566490744564a8bb5c4f4085e85c87a6519216012f87764a",
+      "afterSha256": "bb372a440eccc699acadeb1bce3b8c2a15e76068acfd0840d73a43e57b830b4a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2064,6 +2064,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 5,
             "entryCanonicalSha256": "4bb282dcf49984f41435a9a0ea0ba6aad42b44983c202013d4d2eb86025eb9d5"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S59/terminal-record",
+          "revision": "33076986c7cdd808b9d2089aaca2936542275666",
+          "beforeSha256": "535b432631a90ec7566490744564a8bb5c4f4085e85c87a6519216012f87764a",
+          "afterSha256": "bb372a440eccc699acadeb1bce3b8c2a15e76068acfd0840d73a43e57b830b4a",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "33076986c7cdd808b9d2089aaca2936542275666",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 5,
+            "entryCanonicalSha256": "02659fe266aad62fb40214f7e98ab87b1b440bb682763e914eaa06234c69cbdd"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
