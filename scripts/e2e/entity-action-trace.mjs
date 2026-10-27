@@ -44,7 +44,7 @@ export function instrumentEntityActions(code, file) {
           add(
             'action-gate-input',
             node.getStart(ast),
-            "\nglobalThis.__openingCauseActionGateInputs?.({entity:id,source,owner:owner??null,battle:!!battleHost.active,present:!!entity,visible:!!entity&&entityLifecycleGates(entity).visible,fixed:worldPresentation.hasEntityFrame(id),gait:motion.hasGait(id),explicit:motion.hasExplicitAnimation(id),held:authority.get(id)?.kind==='script',ownerHeld:owner!==undefined&&authority.get(owner)?.kind==='script'});\n",
+            "\nglobalThis.__openingCauseActionGateInputs?.({entity:id,source,owner:owner??null,battle:!!battleHost.active,present:!!entity,visible:!!entity&&entityLifecycleGates(entity).visible,fixed:worldPresentation.hasEntityFrame(id),gait:motion.hasGait(id),explicit:motion.hasExplicitAnimation(id),held:authority.get(id)?.kind==='script'&&!transporting,ownerHeld:owner!==undefined&&authority.get(owner)?.kind==='script'});\n",
           )
       }
       ts.forEachChild(node, visit)

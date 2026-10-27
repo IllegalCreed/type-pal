@@ -1,6 +1,6 @@
 /** Opt-in timings only; no file bytes, identities or persistence decisions are cached. */
 const enabled =
-  import.meta.env.MODE === 'save-performance' &&
+  import.meta.env?.MODE === 'save-performance' &&
   typeof window !== 'undefined' &&
   new URLSearchParams(window.location.search).has('profile-save')
 const totals = new Map<string, { calls: number; milliseconds: number; maximum: number }>()

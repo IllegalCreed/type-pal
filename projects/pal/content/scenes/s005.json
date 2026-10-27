@@ -77,7 +77,11 @@
         {
           "id": "default",
           "label": "默认模式",
-          "auto": "default"
+          "animation": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true
+          }
         }
       ],
       "initialPage": "default",
@@ -208,74 +212,6 @@
                     }
                   ],
                   "label": "登船、划出码头并载入仙灵岛"
-                }
-              ]
-            }
-          }
-        },
-        "auto": {
-          "default": {
-            "label": "停泊码头：船身轻摆",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "停泊时轮换船身静帧",
-                  "body": [
-                    {
-                      "kind": "loop",
-                      "mode": "forever",
-                      "body": [
-                        {
-                          "kind": "wait",
-                          "ms": 1200
-                        },
-                        {
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "facing": "down"
-                        },
-                        {
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "frame": 1
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 1000
-                        },
-                        {
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "facing": "down"
-                        },
-                        {
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "frame": 0
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 200
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             }
