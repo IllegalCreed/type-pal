@@ -30,7 +30,10 @@ export async function deliverBoatCheckpoint({
   evidence,
   restore,
   begin,
+  storyTrace,
 }) {
+  assertErrandCollector(storyTrace, '006')
+  report.contextTraces = [await writeLongEvidenceArtifact(out, '006-trace.json', storyTrace)]
   await begin('006-terminal-save')
   assertBoatStoryEnd(await snapshot(), engine)
   await press('Escape', '006 prove normal save-eligible menu')
@@ -97,11 +100,22 @@ export async function deliverBoatCheckpoint({
         : 'actual public dumpSave after complete006',
     captureProof,
   }
-  // Keep the real save input/ack in the first context's raw; the declared story
-  // boundary still ends before menus/save, so those are not compared as story.
+  // Retain post-story actual input/ack separately. Never extend the story's
+  // final observation to include save/menu UI or duplicate its complete raw.
   const savedTrace = await evidence()
   assertErrandCollector(savedTrace, '006')
-  report.contextTraces = [await writeLongEvidenceArtifact(out, '006-trace.json', savedTrace)]
+  const saveTrace = Object.fromEntries(
+    Object.entries(savedTrace).map(([key, value]) => [
+      key,
+      Array.isArray(value)
+        ? value.filter(
+            (event) =>
+              !Number.isSafeInteger(event?.order) || event.order > report.storyScope.end.afterOrder,
+          )
+        : value,
+    ]),
+  )
+  const saveArtifact = await writeLongEvidenceArtifact(out, '006-persistence-trace.json', saveTrace)
   await begin('006-fresh-checkpoint-restore')
   await getPage().close()
   await restore(bytes)
@@ -133,6 +147,7 @@ export async function deliverBoatCheckpoint({
     endFrame,
     restoredFrame,
     artifact,
+    saveArtifact,
     frameContract:
       'actual nonblack frames plus exact atomic persistent state; any pixel difference remains explicitly observable',
   }

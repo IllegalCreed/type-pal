@@ -63,6 +63,29 @@ export function verifySelectedRouteTerminal(route, index, target) {
   return settled
 }
 
+/** Completion acknowledgement can be queued behind foreground commands. The
+ * actual final displacement must already precede take; acknowledgement alone
+ * must never stand in for that causal boundary. */
+export function verifySelectedRouteHandoff(take, select, release, first, second) {
+  assert(
+    take &&
+      select &&
+      release &&
+      take.runId === select.runId &&
+      take.runId === release.runId &&
+      take.order < select.order &&
+      select.order < release.order &&
+      (first.settled
+        ? Number.isSafeInteger(first.lastCommitOrder) &&
+          first.lastCommitOrder < take.order &&
+          first.lastCommitOrder < first.to &&
+          first.to < release.order
+        : select.order < first.to) &&
+      release.order < second.from,
+    'route cancellation lacks real foreground take/select/release',
+  )
+}
+
 /** This is one installed two-leg source prefix, not an endpoint tolerance or a
  * certificate for arbitrary selections. Enclosing motion/pose proofs still owe
  * every eligible RF step and every actual draw. Unexecuted later legs are excluded.
@@ -266,6 +289,7 @@ export function verifyInterruptedMiaoRoute(game, reforge, receipts, adapters) {
       slot: route.slotId,
       terminal: route.terminal,
       settled,
+      lastCommitOrder: route.commits.at(-1).order,
       from: registration.order,
       to: cancellation.order,
     }
@@ -295,19 +319,7 @@ export function verifyInterruptedMiaoRoute(game, reforge, receipts, adapters) {
   const release = commands.find(
     (event) => leaf(event)?.kind === 'releaseEntity' && same(leaf(event).target, targetRef),
   )
-  assert(
-    take &&
-      select &&
-      release &&
-      take.runId === select.runId &&
-      take.runId === release.runId &&
-      take.order < select.order &&
-      (authoredLegs[0].settled
-        ? authoredLegs[0].to < take.order
-        : select.order < authoredLegs[0].to) &&
-      release.order < authoredLegs[1].from,
-    'route cancellation lacks real foreground take/select/release',
-  )
+  verifySelectedRouteHandoff(take, select, release, authoredLegs[0], authoredLegs[1])
   assert.deepEqual(
     leaf(select).selection,
     { kind: 'use', value: 'legacy-002' },

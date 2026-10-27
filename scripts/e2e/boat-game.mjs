@@ -420,6 +420,7 @@ export async function runBoatGame() {
         try {
           await deliverBoatCheckpoint({
             engine: 'game',
+            storyTrace: npcTrace,
             getPage: () => page,
             out,
             report,

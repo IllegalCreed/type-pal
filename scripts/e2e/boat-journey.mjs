@@ -335,6 +335,7 @@ export async function runBoatJourney() {
         try {
           await deliverBoatCheckpoint({
             engine: 'reforge',
+            storyTrace: npcTrace,
             getPage: () => page,
             out,
             report,
