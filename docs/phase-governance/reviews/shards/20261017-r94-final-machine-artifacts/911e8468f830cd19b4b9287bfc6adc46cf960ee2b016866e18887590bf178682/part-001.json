@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "da283164aca9403b0409c58fdda969840382aca1fb03e7bbea238c8d83b5b190",
+  "generation": "911e8468f830cd19b4b9287bfc6adc46cf960ee2b016866e18887590bf178682",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
   "entries": [
@@ -2384,7 +2384,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "678653216d74da253cd6aa9db117ff55c03309d3537b6c21f7f7fd530f810142",
+      "afterSha256": "499cf23049f794a1810fc841574470bccedf3033a8c283c619d6153f7750f4a5",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -3284,6 +3284,23 @@
           "beforeSha256": "4454499080dd1fc95ecdc6cc6d541b3bb6a583848c16936d158fa2c017dcc149",
           "afterSha256": "678653216d74da253cd6aa9db117ff55c03309d3537b6c21f7f7fd530f810142",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/save-performance",
+          "revision": "bc8bd7231924f3f22507ae21b0d7eee943965d2c",
+          "beforeSha256": "678653216d74da253cd6aa9db117ff55c03309d3537b6c21f7f7fd530f810142",
+          "afterSha256": "499cf23049f794a1810fc841574470bccedf3033a8c283c619d6153f7750f4a5",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "525656d2370d249367ce03fb1e2f74f98021280f",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 7,
+            "entryCanonicalSha256": "f445e16d71469846f92b6498c41227d274f40f6db993d7d85f95d7968dd09067"
+          },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

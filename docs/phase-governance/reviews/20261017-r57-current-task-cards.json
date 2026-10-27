@@ -357,9 +357,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
+      "readMethod": "Bounded current performance appendix/single board row plus actual code and native evidence; original quote/history unchanged; not a new whole-document semantic review.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "User-authorized complete006 card separates real technical deliverables, precise evidence-consumer fixes, static NPC preview and save-progress counter from pending independent/user/global acceptance. Original task quote unchanged; no main/push/done.",
+      "coreConclusion": "Bounded save-performance appendix records serial≈1134.7s versus final58.728s full2474-file native SaveAs/reopen, exact public bytes, real2% page interruption,2599-file unchanged foreign-manifest refusal and original-plan recovery; explicitv2 empty-copy constraints, oldv1 safety and no self/main/done credit.",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
@@ -384,7 +384,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "d84760106f2ade90e530d449df2420139f44f5aa4686380b5a219715726dd78c",
+      "afterSha256": "e250528ad6fc596078a07b40ef543a13431fe4b16abce87e13ad320f53404819",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -444,6 +444,24 @@
           "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
           "independentAcceptance": "pending",
           "runtimeAcceptanceGranted": false
+        },
+        "currentSavePerformanceCandidate": {
+          "task": "E2E-006-1",
+          "sourceRevision": "bc8bd7231924f3f22507ae21b0d7eee943965d2c",
+          "author": "Codex",
+          "nonAuthorReviewer": false,
+          "independentAcceptance": "pending",
+          "runtimeScope": "Editor native SaveAs/Open only, not game E2E/visual/coverage",
+          "nativePublicFiles": 2474,
+          "nativePublicBytes": 145309841,
+          "finalSeconds": 58.7279,
+          "publicBytesEqualToSerialBaseline": true,
+          "actualPageReloadAtWritePercent": 2,
+          "foreignCounterPhysicalFilesUnchanged": 2599,
+          "originalPlanRecovered": true,
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "archive": "build/evidence-archive/editor-save-performance-20261027/editor-save-performance.tar.gz"
         }
       },
       "history": [
@@ -698,8 +716,8 @@
         }
       ],
       "templateConformance": {
-        "status": "template-compliant",
-        "scope": "Exact current body and actual task-card-v1 route; preserved history is not accepted current implementation."
+        "status": "needs-migration",
+        "scope": "New save-performance author delta pending independent acceptance; prior conformance preserved by fixed record locator in maintenanceDeltas."
       },
       "currentAuthoredReview": {
         "protocol": "document-delivery-acceptance/1.0.0",
@@ -751,6 +769,23 @@
           "beforeSha256": "092a3ba76781203ea2a120750a198f553ff8ac1fbab464a9882ed73c31239e34",
           "afterSha256": "d84760106f2ade90e530d449df2420139f44f5aa4686380b5a219715726dd78c",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/save-performance",
+          "revision": "bc8bd7231924f3f22507ae21b0d7eee943965d2c",
+          "beforeSha256": "d84760106f2ade90e530d449df2420139f44f5aa4686380b5a219715726dd78c",
+          "afterSha256": "e250528ad6fc596078a07b40ef543a13431fe4b16abce87e13ad320f53404819",
+          "scope": "Bounded author performance appendix/board update, no independent acceptance",
+          "priorRecord": {
+            "revision": "525656d2370d249367ce03fb1e2f74f98021280f",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "index": 1,
+            "entryCanonicalSha256": "8ea4119344ecce582f3beecbec5da6eb426214c0261e224d5ef5bccd0f2ee3c4"
+          },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
