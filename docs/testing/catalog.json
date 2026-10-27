@@ -2096,7 +2096,7 @@
           "lines": "138",
           "anchor": "const corrected = faithful",
           "role": "caller",
-          "sha256": "e6920452adb384babd70e681ab0301dc4f89af741b5240119e18023a88e54ad6"
+          "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
         },
         {
           "path": "packages/game/src/core/object-script-state.ts",
@@ -2188,6 +2188,20 @@
           "anchor": "canonical palace zone returns",
           "role": "zone-delivery-oracle",
           "sha256": "5ab918612be5c6d5607063323d0398286079f8c8dc807f2e7b2676c65d84a43d"
+        },
+        {
+          "path": "packages/pal-extract/src/events/script-entries.ts",
+          "anchor": "export function collectScriptEntries",
+          "lines": "25",
+          "role": "supplemental-root-owner",
+          "sha256": "4ea2e6817e5fc3e7f36dcd2f5e17aa2e08d093a263f06d9ab7a7ae7f1dee9adf"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+          "anchor": "test('supplemental objects publish",
+          "lines": "6",
+          "role": "supplemental-publication-oracle",
+          "sha256": "b01ec8ace3707d39ecd47650c0f7a6ff1e1d715503de5e32b173f822ee528dad"
         }
       ],
       "publicCallers": [
@@ -2376,6 +2390,21 @@
             ],
             "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
             "scope": "pal-win-2 keeps native5077 IDs/ranges and original enemy4841, appends resource-authored5077 plus owner roots, supplies absent old-save tail only. Both phases tested; original coverage and historical results retain their dates. Full story/device/CI/release remain separate."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "supplemental-root-owner-and-fast-caller-coverage",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "138",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "e6920452adb384babd70e681ab0301dc4f89af741b5240119e18023a88e54ad6"
+              }
+            ],
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
+            "scope": "Byte-equivalent CLI loop move, two atomic real-caller tests, formal ownership counter and exact restoration. Prior executions and nonfast PAL/CLI limits retained."
           }
         ]
       }

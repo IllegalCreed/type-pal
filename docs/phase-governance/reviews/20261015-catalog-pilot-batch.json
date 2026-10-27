@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
+      "readMethod": "Read actual owned delta and native receipts.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Add game-input-rotation and update only game-script-corrections with independent supplemental-exit contracts and actual source refs; preserve other entries/history.",
+      "coreConclusion": "Owned release-preparation delta; prior provenance retained.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -43,7 +43,7 @@
       "unresolved": [
         "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Protected CI and deployment remain separate.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -100,7 +100,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "dc9b364169de97088494ccd11a0b1a1bce38bde44a016358f144ad13e8d9cb5c",
+      "afterSha256": "9ec39bf1d57fee923e7bada4b61f7c9c5fcc74a7d52f05c8537fa40e43fc6fd5",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -128,7 +128,7 @@
       },
       "revision": {
         "currentSha": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
-        "implementationSha": "dc9b364169de97088494ccd11a0b1a1bce38bde44a016358f144ad13e8d9cb5c",
+        "implementationSha": "9ec39bf1d57fee923e7bada4b61f7c9c5fcc74a7d52f05c8537fa40e43fc6fd5",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -193,11 +193,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "dc9b364169de97088494ccd11a0b1a1bce38bde44a016358f144ad13e8d9cb5c",
-        "scope": "Add game-input-rotation and update only game-script-corrections with independent supplemental-exit contracts and actual source refs; preserve other entries/history.",
-        "lineCount": 2759,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
+        "afterSha256": "9ec39bf1d57fee923e7bada4b61f7c9c5fcc74a7d52f05c8537fa40e43fc6fd5",
+        "scope": "Owned release-preparation delta.",
+        "lineCount": 2788
       },
       "history": [
         {
@@ -454,6 +454,11 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release-prep",
+          "previousAfterSha256": "dc9b364169de97088494ccd11a0b1a1bce38bde44a016358f144ad13e8d9cb5c"
         }
       ],
       "supersedes": [],
@@ -463,7 +468,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "Add game-input-rotation and update only game-script-corrections with independent supplemental-exit contracts and actual source refs; preserve other entries/history.",
+      "reviewedLines": "Owned delta only.",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",

@@ -3153,8 +3153,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read the owned semantic delta and actual consumer/native evidence; prior history retained, no whole-source re-audit.",
-      "coreConclusion": "Add only the new tracked implementation/test inventory and finite feature bridges; zero new whole-file closures.",
+      "readMethod": "Read actual owned delta and native receipts.",
+      "coreConclusion": "Owned release-preparation delta; prior provenance retained.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3307,10 +3307,10 @@
       "sourceSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "3f47eaf5b48b6214457419d9134abede3c8fc241b6bcb3980b35e8d9ddf7a4f0",
+      "afterSha256": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
       "revision": {
         "currentSha": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
-        "implementationSha": "3f47eaf5b48b6214457419d9134abede3c8fc241b6bcb3980b35e8d9ddf7a4f0",
+        "implementationSha": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4168,11 +4168,11 @@
         ]
       },
       "evidence": {
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-        "afterSha256": "3f47eaf5b48b6214457419d9134abede3c8fc241b6bcb3980b35e8d9ddf7a4f0",
-        "scope": "Add only the new tracked implementation/test inventory and finite feature bridges; zero new whole-file closures.",
-        "lineCount": 1169,
-        "kind": "owned-delta-review"
+        "kind": "owned-release-preparation",
+        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
+        "afterSha256": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
+        "scope": "Owned release-preparation delta.",
+        "lineCount": 1171
       },
       "history": [
         {
@@ -5473,6 +5473,11 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release-prep",
+          "previousAfterSha256": "3f47eaf5b48b6214457419d9134abede3c8fc241b6bcb3980b35e8d9ddf7a4f0"
         }
       ],
       "supersedes": [
@@ -5483,13 +5488,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Protected CI and deployment remain separate.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Add only the new tracked implementation/test inventory and finite feature bridges; zero new whole-file closures.",
+      "reviewedLines": "Owned delta only.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

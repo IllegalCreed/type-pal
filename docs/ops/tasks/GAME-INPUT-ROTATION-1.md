@@ -65,7 +65,7 @@ Branch: codex/map204-input-rotation
 - Codex build allowed：核DIR_DELTA与两输入caller后，允许在隔离worktree实现本卡输入外壳及定向测试。Owner独占相应shell、tools设置、字典；不改scene-system、存档、第二阶段或质量规则。
 - 贡献者候选`0b0ce187e70f540ec2de198d671afd82ddaa99c5`已本地集成为`ae9e3226c`；14文件A–H、60定向/相邻、正式四象限单业务红→恢复、game TC与局部Biome零诊断。51旧合同保留、9新增、0退役。
 - Codex独立accept本功能：实际diff、新叶与contacts/CSS边界、原生集合及附件指纹已核；[唯一回执与无损原件](../evidence/GAME-INPUT-ROTATION-1/review.json)。不增加整文件代码治理关闭。
-- 用户产品方向已授权；最终体验待查看本地版本。done准入尚未满足。
+- 用户产品方向已授权；本地体验已获用户确认；发布CI与部署仍待实际完成。
 
 ## Draft: 设计与风险
 
@@ -79,11 +79,11 @@ Branch: codex/map204-input-rotation
 
 ## Review: 审查与返工
 
-有限功能接收；共享开关默认不转、可持久化，键盘和硬件十字键保持原语义。浏览器视觉/实际输入已核，集成静态窗见[当前回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)，用户体验仍待最终收口，不从原件指纹推导设计正确。
+有限功能接收；共享开关默认不转、可持久化，键盘和硬件十字键保持原语义。浏览器视觉/实际输入已核，集成静态窗见[当前回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)，本地用户体验已确认，发布待收口，不从原件指纹推导设计正确。
 
 ## 用户验收
 
-待本地试用；不预填硬件或完整剧情E2E结论。
+2026-10-27用户明确“可以了”，接受本地结果并授权提交、CI、合并、阿里云部署与issue回复关闭；不外推为实物手柄或完整剧情E2E。
 
 ## 交接日志
 
@@ -95,3 +95,5 @@ Branch: codex/map204-input-rotation
 ## 下一位 Agent 提示词
 
 无用户转交；当前Owner完成输入实现和定向证据，Codex独立验收并提供本地体验。
+
+2026-10-27发布窗口：用户已接受两项本地结果并授权完整发布。补齐提取快测真实caller与旧FPS测试语义定位，五文件有限A–H、正式反控及两遍资源一致见[准备回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json)。当前review等待受保护PR/CI与真实部署，不提前声明上线或关闭issue。

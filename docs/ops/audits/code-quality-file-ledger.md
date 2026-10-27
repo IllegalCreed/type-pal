@@ -157,8 +157,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,469。
-当前已闭合核验：597；已读但待审：0；尚未逐文件核验：2872；合计未闭合：2872。
+起始基点机器清单：2,962。当前 tracked 清单：3,470。
+当前已闭合核验：597；已读但待审：0；尚未逐文件核验：2873；合计未闭合：2873。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -1167,3 +1167,5 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
 ~~~~
 <!-- original-source-fenced:end -->
+
+2026-10-27发布准备：新增scene-supplemental专测1个tracked路径，当前3470/597closed/0review/2873pending；五文件有限A–H与合法caller/反控见[准备回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json)，零整文件新增关闭。

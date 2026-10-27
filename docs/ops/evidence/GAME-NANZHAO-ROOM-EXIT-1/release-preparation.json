@@ -1,0 +1,597 @@
+{
+  "schemaVersion": 1,
+  "template": "evidence-receipt-v1",
+  "id": "map204-input-release-preparation",
+  "owner": "Codex",
+  "recordedAt": "2026-10-27T06:56:01.465171+00:00",
+  "candidate": "adaf6ea71a1335677f87450c28b57ffc51bdfe14",
+  "userAcceptance": "2026-10-27 user accepted both local features and authorized protected PR/CI/merge/deploy/reply-close24+27/related cleanup.",
+  "scope": "Finite five-file preparation delta. Contributor product/native handoff was complete; final prose receipt was interrupted by usage limit. Codex read actual differences and current files, checked native identities/hash/restore and completes this receipt. No new whole-file quality closure.",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77",
+      "A-H": {
+        "A": "CLI owns orchestration only; corrected supplemental input passes to collector then disasm/slice.",
+        "B": "No new correction or raw policy; root loop moved byte-equivalently.",
+        "C": "No new import cycle: supplemental type import is erased.",
+        "D": "Uses existing collector, no parallel owner.",
+        "E": "Two full extractions retain audited manifest and all 2909 bytes/hash entries; raw round trip passes.",
+        "F": "Destructure and explicit argument replace inline loop.",
+        "G": "No flags/exclusions/threshold changes.",
+        "H": "Existing output preflight, cleanup and error exit unchanged."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-entries.ts",
+      "sha256": "4ea2e6817e5fc3e7f36dcd2f5e17aa2e08d093a263f06d9ab7a7ae7f1dee9adf",
+      "A-H": {
+        "A": "Parsed roots and scene ownership are this module responsibility.",
+        "B": "Order, alias multiplicity and empty/default semantics retained.",
+        "C": "Only optional readonly typed input plus scene-root return map; two callers checked.",
+        "D": "Moves existing loop, does not add traversal/IO.",
+        "E": "Formal one AssertionError for wrong global ownership; restored file3 green and adjacent31.",
+        "F": "Independent returned arrays/maps, readable loop.",
+        "G": "Native/global OBJECT hooks keep ownership.",
+        "H": "Frozen supplemental inputs remain unchanged; no retained mutable state."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-entries.test.ts",
+      "sha256": "f2a81879e2b52afb8e64c262ed846bc4654a9638f41c1bada80378341c0314db",
+      "A-H": {
+        "A": "Real collectScriptEntries->sliceByScene caller contract.",
+        "B": "Legal typed scenes/events/supplementals, explicit independent expected root order.",
+        "C": "No private state/core mock/cast widening.",
+        "D": "Two previous test identities retained, one distinct scene ownership contract added.",
+        "E": "Counter complete3:2pass/1AssertionError/0skip; exact source restored and31pass.",
+        "F": "Explicit fixtures cost lines but encode native input boundaries.",
+        "G": "Shared alias belongs shared slice; scene-specific hooks stay local.",
+        "H": "Frozen inputs and returned-array mutation assert ownership; no IO."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+      "sha256": "b01ec8ace3707d39ecd47650c0f7a6ff1e1d715503de5e32b173f822ee528dad",
+      "A-H": {
+        "A": "Real global and per-scene resource serializers, not a mirror helper.",
+        "B": "Legal native ranges include last scene; three supplemental objects across two owners.",
+        "C": "Uses current readonly serializer contracts and native metadata.",
+        "D": "New owner/publication contract complements old pure-native scene tests.",
+        "E": "Exact native ranges, all IDs, explicit new objects and scene membership are independent oracles.",
+        "F": "One focused publication test, no parameterized redundant weak cases.",
+        "G": "Native last range cannot absorb appended tail; metadata must remain.",
+        "H": "Frozen inputs; all results stay local."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "96576ca3cddfd558a967aa36f8247191face17a03e73bc52b29f5cafe0efd490",
+      "A-H": {
+        "A": "Existing settings UI->FPS persistence caller.",
+        "B": "New rotation checkbox made first-checkbox lookup incorrect; locate semantic FPS label.",
+        "C": "Production code and fixture unchanged.",
+        "D": "Retains existing3 tests and both on/off assertions; no new duplicate.",
+        "E": "Initial official run3765pass/1failure retained; restored3 and same-config game3766 pass.",
+        "F": "Small label lookup only.",
+        "G": "No assertion deletion, skip, timeout or config change.",
+        "H": "Existing per-test host cleanup retained."
+      }
+    }
+  ],
+  "results": {
+    "extractRepairTargeted": 31,
+    "extractSameConfigurationProbe": 372,
+    "gameSameConfigurationProbe": 3766,
+    "formalCounter": "full file2pass/1business AssertionError/0skip, source exactly restored",
+    "resources": "Two complete extract runs retain manifest d3cd8958ddbe2de9; independent verifier checks all2909 entries/208979306bytes, native ranges/enemy4841/exit5077/roots and unchanged common-script/English pack hashes.",
+    "officialCoverage": "Pending final complete run; probes do not update official baseline."
+  },
+  "retainedFailures": [
+    "First official coverage run failed the stale FPS first-checkbox selector; no baseline written.",
+    "An interrupted final collection left no completion receipt; restarted complete producer, no partial result promoted."
+  ],
+  "native": [
+    {
+      "path": "native/fast-repair-baseline-targeted.json.gz",
+      "sourcePath": "build/map204-release/extract-review/baseline-targeted.json",
+      "sourceSha256": "2af5bc935da157376883c3edf49e4ea20c53e592697821f41c7ec98f9106bcbb",
+      "archiveSha256": "1610ff9fa5e1baef61614c832fced79b2c0a4331b4c7d09805a6776d6239840f",
+      "bytes": 10082
+    },
+    {
+      "path": "native/fast-repair-baseline-targeted.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/baseline-targeted.run.json",
+      "sourceSha256": "a6bba3fd3983e29254a378bb4967a3e69be708959087a8d1686dd3314504eb8c",
+      "archiveSha256": "6169ee0b5d00c8a4d4c69c3b47e86cca88e875ab18cc7a23ebb1560048b8881f",
+      "bytes": 1770
+    },
+    {
+      "path": "native/fast-repair-baseline-targeted.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/baseline-targeted.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/fast-repair-baseline-targeted.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/baseline-targeted.stdout",
+      "sourceSha256": "a050967b41ecc07bb179d347485931a1e6002feac46bacab1f26874d07cc9f2d",
+      "archiveSha256": "c1e4b6698b804aae96616a33bbbcf72fccb120148e56695e8bb4f71db57c0048",
+      "bytes": 592
+    },
+    {
+      "path": "native/fast-repair-before-coverage-summary.json.gz",
+      "sourcePath": "build/map204-release/extract-review/before-coverage-summary.json",
+      "sourceSha256": "cdfef56f9d5e912f3f3f93fc6d2a4bf918e822784f8f8fe002f4da7f9d9cb9c3",
+      "archiveSha256": "4148559c3677a89423e6ee9be2e6853676049af84536d66e0acb14fbe60cbccd",
+      "bytes": 17734
+    },
+    {
+      "path": "native/fast-repair-before-fast-inventory.json.gz",
+      "sourcePath": "build/map204-release/extract-review/before-fast-inventory.json",
+      "sourceSha256": "13469ae067bd68bc2a2d153b6938b2c7731927a4a17374540af3cedd48132ab4",
+      "archiveSha256": "ac230fa07ebdeb9de0100b2f3ae8d7a9dad473f55ee1265548b91b8190c636c7",
+      "bytes": 80060
+    },
+    {
+      "path": "native/fast-repair-before-src_cli.ts.html.gz",
+      "sourcePath": "build/map204-release/extract-review/before-src_cli.ts.html",
+      "sourceSha256": "e9a1bd6b5bec0a390607fbdaa9f3934ad27a7968971190e2f35561de76308c6f",
+      "archiveSha256": "9d89c66d915b0b77f640dec344eb85c51aa6848c4a5e0c86eb17f980eeadcb17",
+      "bytes": 47202
+    },
+    {
+      "path": "native/fast-repair-before-src_events_script-corrections.ts.html.gz",
+      "sourcePath": "build/map204-release/extract-review/before-src_events_script-corrections.ts.html",
+      "sourceSha256": "8daa7ac69bed4652eb079ab630f8c482444db7aff9dc8287fc468a8ca6d5ce99",
+      "archiveSha256": "5d9ae8937decfff564cfe643f5233ff950b35e3c27b991b6110e4ee34810281a",
+      "bytes": 27934
+    },
+    {
+      "path": "native/fast-repair-before-src_events_script-entries.ts.html.gz",
+      "sourcePath": "build/map204-release/extract-review/before-src_events_script-entries.ts.html",
+      "sourceSha256": "fc6f27742c8bccd8479d102ffd68c947a8dee099c8a5ddce656adb9ca8269cd8",
+      "archiveSha256": "073afdde870a4cf4d6d56c30338f49759d6607eede9009c6b02dcbf1fb552fc5",
+      "bytes": 11833
+    },
+    {
+      "path": "native/fast-repair-before-src_resources_scene.ts.html.gz",
+      "sourcePath": "build/map204-release/extract-review/before-src_resources_scene.ts.html",
+      "sourceSha256": "6b5615b13a1c3aa53732e9ac6d9c20f7aba17302e5dffc837f024218ea065e03",
+      "archiveSha256": "55cca435b883303e56b2cfacb7f1e4778b501f402fe65803459a8a71ad749d96",
+      "bytes": 16216
+    },
+    {
+      "path": "native/fast-repair-before-src_resources_world-assets.ts.html.gz",
+      "sourcePath": "build/map204-release/extract-review/before-src_resources_world-assets.ts.html",
+      "sourceSha256": "11dfcdbea1a880c022e30eda6cd3d993f0a86467891073f366972c5f01c5b013",
+      "archiveSha256": "5fb095c4436b6d7a05249d025da4e1e593b6a525abe7fb9db2bb4c82d0063a0a",
+      "bytes": 23762
+    },
+    {
+      "path": "native/fast-repair-biome.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/biome.run.json",
+      "sourceSha256": "c4de232bbd4218dc19398b508079d652147f5a7de96afd75c0b93b9c9d74abe9",
+      "archiveSha256": "63eddc40408c7e41ccc7a90fb322b791a89457c18bac3892019f171793161493",
+      "bytes": 1783
+    },
+    {
+      "path": "native/fast-repair-biome.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/biome.stderr",
+      "sourceSha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "archiveSha256": "4409892cc7dde01032204346ecbfc46fb00bae046ee29ce05f8d22f5919a6595",
+      "bytes": 103
+    },
+    {
+      "path": "native/fast-repair-biome.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/biome.stdout",
+      "sourceSha256": "8477456c1844d471b1acee48aeb333452b3ee9b4f74fd2649256f5bad1df7f7b",
+      "archiveSha256": "16759cdb59e191cf090198689684eb8b40a16c6c39c62f86989bff3e727fb304",
+      "bytes": 231
+    },
+    {
+      "path": "native/fast-repair-candidate.diff.gz",
+      "sourcePath": "build/map204-release/extract-review/candidate.diff",
+      "sourceSha256": "65a2ade05d18d19d84b7bb106a408832a64ea581e4c4e67defa79f55000c49f8",
+      "archiveSha256": "e2e55aa9d747f6de13b5debbed1f4bc1e7aa6be2f0836570769149a1fd666ac8",
+      "bytes": 12857
+    },
+    {
+      "path": "native/fast-repair-candidate.stat.gz",
+      "sourcePath": "build/map204-release/extract-review/candidate.stat",
+      "sourceSha256": "04a919f71a3ed84023f9bc34f64fb837b85161a41a3c2c38c0d7a565f4189662",
+      "archiveSha256": "7f5201993bbf228e6ca2eaf4f9b7734f307612c75309e0088d6669083a956384",
+      "bytes": 330
+    },
+    {
+      "path": "native/fast-repair-counter.json.gz",
+      "sourcePath": "build/map204-release/extract-review/counter.json",
+      "sourceSha256": "c0346159127ed278062a6d630166620fa55a0e4b81379dbde8bc294a149b8fd9",
+      "archiveSha256": "6d946299d5be3722ef76a08865d2013e454587e4ca35b8db3c67bc4cee7e3138",
+      "bytes": 2950
+    },
+    {
+      "path": "native/fast-repair-counter.manifest.json.gz",
+      "sourcePath": "build/map204-release/extract-review/counter.manifest.json",
+      "sourceSha256": "9b2c532b79f1f900f3c7983b6cc9a15a547e28651f5e6c03e7a5bd7c49d2e159",
+      "archiveSha256": "43b2be71b6123ad44534af7055395317e18b623114302ec502865fc8de60c42f",
+      "bytes": 690
+    },
+    {
+      "path": "native/fast-repair-counter.mutant.ts.gz",
+      "sourcePath": "build/map204-release/extract-review/counter.mutant.ts",
+      "sourceSha256": "c1751c81ddc158e77130a9ae421c49435dda0518de8bc95735747370f39bba12",
+      "archiveSha256": "468d831f6655af311e52eed08a4562eeaf2c333781334c74102b1435906b3885",
+      "bytes": 3531
+    },
+    {
+      "path": "native/fast-repair-counter.original.ts.gz",
+      "sourcePath": "build/map204-release/extract-review/counter.original.ts",
+      "sourceSha256": "4ea2e6817e5fc3e7f36dcd2f5e17aa2e08d093a263f06d9ab7a7ae7f1dee9adf",
+      "archiveSha256": "598ee9fdd3f0635d1cafaf00b3f7b8ba0dcba3e5b6004ece5074a888a00771b1",
+      "bytes": 3494
+    },
+    {
+      "path": "native/fast-repair-counter.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/counter.run.json",
+      "sourceSha256": "70dabbcba3d697d266b1a376123854b0554a953cba1d9e02a6363ec0805175b9",
+      "archiveSha256": "f36642352328c997348d68544e2170a9a1e4c5416706ab19286436319c7894f1",
+      "bytes": 1774
+    },
+    {
+      "path": "native/fast-repair-counter.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/counter.stderr",
+      "sourceSha256": "8157c7d8f199eed3342eb1123b8588a3fbb8d683793a42ca68e85c06dfa7d6e6",
+      "archiveSha256": "12aa86a1579d0625f26ea993de3f3177bcf681cb65b01b725b0f57424c420c37",
+      "bytes": 807
+    },
+    {
+      "path": "native/fast-repair-counter.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/counter.stdout",
+      "sourceSha256": "541a746e10609abaa86331d7ad15fd3221aa2d34b7f40390991c2000bf1816a4",
+      "archiveSha256": "7cb110156be384bbfd7ee78e19dca8e279d045ad8d615d7e4baed02a6177b1f3",
+      "bytes": 1077
+    },
+    {
+      "path": "native/fast-repair-coverage-command.json.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-command.json",
+      "sourceSha256": "14d5074f72a56e3642359b2f54545131a6ca260444208b3786ce9a1d650cf3a3",
+      "archiveSha256": "f63d8a2c4393f1162164149aa0e0707a6dc9f284eb79182b84d687263b1c2559",
+      "bytes": 2395
+    },
+    {
+      "path": "native/fast-repair-coverage-comparison.json.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-comparison.json",
+      "sourceSha256": "ff6a73680f5f5714918409ffaa9ac5944395fef5ac8e64ad8377133aba66e8a6",
+      "archiveSha256": "30b07c7716958ba3488f2371c7830838fddda29351a685704e50cf6a7f69a5bb",
+      "bytes": 1254
+    },
+    {
+      "path": "native/fast-repair-coverage-effect.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-effect.run.json",
+      "sourceSha256": "8d8a42c344da163a5eee49ef1f039cac60e97775eb5f146755a79e55b53c83b2",
+      "archiveSha256": "7557ca6ba28eac4b2e17f8e32f553506a4fd45f2ddb3b7b3f96dd949f72e6c75",
+      "bytes": 1533
+    },
+    {
+      "path": "native/fast-repair-coverage-effect.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-effect.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/fast-repair-coverage-effect.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-effect.stdout",
+      "sourceSha256": "7998b3abb7633c28773e184d862c8deecb52bd5558ed8d4455179fa101301b94",
+      "archiveSha256": "2e9d3dd3cb8dcaee4449c513772317a8903592b4ad8bc8d4d224fcdf213f3729",
+      "bytes": 9125
+    },
+    {
+      "path": "native/fast-repair-coverage-final-native.json.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-final-native.json",
+      "sourceSha256": "dac9ec8f68bcbb154ab8e993e7179bbcc0c7b5a35c46db886744fc70b1e934c1",
+      "archiveSha256": "c9df56043710c3ba47aecb6dd473fd96675aea4bf12746baad46c74ab3d821b2",
+      "bytes": 489421
+    },
+    {
+      "path": "native/fast-repair-coverage-final-summary.json.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-final-summary.json",
+      "sourceSha256": "6ddff48cdea9c17c9ffa87df01ebdc942b36bb4dec7a89fd7113968c9edb39e5",
+      "archiveSha256": "35e7ef1c2561a2ab6553dc3af07fae30b0c11432a56aff1335a010c302772377",
+      "bytes": 19046
+    },
+    {
+      "path": "native/fast-repair-coverage-final.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-final.run.json",
+      "sourceSha256": "3ff330262b94d43b4efd0d18b6c29975bee5bef73015988c6a0a31245f0eff30",
+      "archiveSha256": "d3c899a8c59623c08171e4cea8eac4b55389b79066c5ceb590c862f70d46e72e",
+      "bytes": 1533
+    },
+    {
+      "path": "native/fast-repair-coverage-final.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-final.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/fast-repair-coverage-final.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-final.stdout",
+      "sourceSha256": "ebc972ad957f18645994c8a5c6120d1ed7ddb9cbacd2693799d7a04656b6dba1",
+      "archiveSha256": "e966dd416713e54e68fa16e50330398cca645dc8d516a41ac3901287e17b5a4f",
+      "bytes": 9337
+    },
+    {
+      "path": "native/fast-repair-coverage-native.json.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage-native.json",
+      "sourceSha256": "dac9ec8f68bcbb154ab8e993e7179bbcc0c7b5a35c46db886744fc70b1e934c1",
+      "archiveSha256": "c9df56043710c3ba47aecb6dd473fd96675aea4bf12746baad46c74ab3d821b2",
+      "bytes": 489421
+    },
+    {
+      "path": "native/fast-repair-coverage.mjs.gz",
+      "sourcePath": "build/map204-release/extract-review/coverage.mjs",
+      "sourceSha256": "d04cd5f58131705721bc22b7cec94653aa8a45f2d4445aa46981e8b44c7dfe70",
+      "archiveSha256": "14db51fcca734ab2c458270397cb61cca22b5b1cf7373631a84d9769283cc4f4",
+      "bytes": 2019
+    },
+    {
+      "path": "native/fast-repair-move-proof.json.gz",
+      "sourcePath": "build/map204-release/extract-review/move-proof.json",
+      "sourceSha256": "9614385f77c883cfeaae739bbd519835a7783cf9058933200fa683716491ee12",
+      "archiveSha256": "9005b73e08165183ea90b3184b597987249e86421b1fbe106a69d2f5373259be",
+      "bytes": 714
+    },
+    {
+      "path": "native/fast-repair-restored.json.gz",
+      "sourcePath": "build/map204-release/extract-review/restored.json",
+      "sourceSha256": "af6c390857b96f854b73e5ab372f86dea36b98d10e5f055e822f66238ace92e6",
+      "archiveSha256": "afe9f53d3bbf9b9a0dc6310b747f044671bd86b053bc2dc374f59c4efaa1be3b",
+      "bytes": 10981
+    },
+    {
+      "path": "native/fast-repair-restored.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/restored.run.json",
+      "sourceSha256": "19d4d7879bba1b424e877fd22c81eca729970cd652b76822c818f914862de34e",
+      "archiveSha256": "3b5233038514a21494467bc1022124a28dd3e3ac109806850241bed5f6cb9fb3",
+      "bytes": 1946
+    },
+    {
+      "path": "native/fast-repair-restored.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/restored.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/fast-repair-restored.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/restored.stdout",
+      "sourceSha256": "e60062c54236be403767adedcd3269fb21b237e032b2c95682705626cbdf0f52",
+      "archiveSha256": "92bc054ff11ad1843ea19224691c7fa7fc9d143112e1ab17f94aca818ded4206",
+      "bytes": 643
+    },
+    {
+      "path": "native/fast-repair-run.py.gz",
+      "sourcePath": "build/map204-release/extract-review/run.py",
+      "sourceSha256": "2737727f57071b45c9f93d534cdf991b4a8319edf7f0cb829852aff76d183b26",
+      "archiveSha256": "6e765d02a5b0f15b35aeb6c8fb62ca20a6bde37b6b5c8035d0abf4794c0656db",
+      "bytes": 1431
+    },
+    {
+      "path": "native/fast-repair-targeted.json.gz",
+      "sourcePath": "build/map204-release/extract-review/targeted.json",
+      "sourceSha256": "227dd762638f8db8c32a202855d12edd94b6dfa578989e5eebb68c810571aaec",
+      "archiveSha256": "0395b8be9180aec9c9939615f8bc081b6947230fe473c38395bf2aa313fa2bb5",
+      "bytes": 10986
+    },
+    {
+      "path": "native/fast-repair-targeted.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/targeted.run.json",
+      "sourceSha256": "c3d6df6de22d462e81abebea985124405bcca39887dadd9fdd90238caa34153e",
+      "archiveSha256": "318d26cd8d8d99d553903210da0690c49e4ae16471295af7666b0838397c7ff8",
+      "bytes": 1946
+    },
+    {
+      "path": "native/fast-repair-targeted.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/targeted.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/fast-repair-targeted.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/targeted.stdout",
+      "sourceSha256": "b77f450b6e27cce6ddddd63bc2ae2c017f216ade73f90560b522120c32cb8f02",
+      "archiveSha256": "15354451a3b73da78ab1ebd28a024c715ea6b89815b78dd3fa936d19428358cc",
+      "bytes": 643
+    },
+    {
+      "path": "native/fast-repair-typecheck-final.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/typecheck-final.run.json",
+      "sourceSha256": "2806bc8d1c731de2261713af8620acd9a6af266643eb2bac519497994428ad26",
+      "archiveSha256": "7652030ac7505fa74ce426e9edea79afc83f5d8f4602e877e76ae2ce306b5de5",
+      "bytes": 1568
+    },
+    {
+      "path": "native/fast-repair-typecheck-final.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/typecheck-final.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/fast-repair-typecheck-final.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/typecheck-final.stdout",
+      "sourceSha256": "4c0aa5d2a1de89fe80c100c047287720915ed9086bcff95d6cb84d6611c388eb",
+      "archiveSha256": "d79e702a0b56bf7e75110f8e59fbd978386f47d811c8e0f4955b03cf90c6c39a",
+      "bytes": 134
+    },
+    {
+      "path": "native/fast-repair-typecheck.run.json.gz",
+      "sourcePath": "build/map204-release/extract-review/typecheck.run.json",
+      "sourceSha256": "f6dad2e6651a7bd77aa06a460d2f4887c02725c6777fa4f46033c1225dbc27af",
+      "archiveSha256": "9c787ddc74abd9d5721c9ddf2ceede8bae9772925512f200e15b4aa0bf679b41",
+      "bytes": 1568
+    },
+    {
+      "path": "native/fast-repair-typecheck.stderr.gz",
+      "sourcePath": "build/map204-release/extract-review/typecheck.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/fast-repair-typecheck.stdout.gz",
+      "sourcePath": "build/map204-release/extract-review/typecheck.stdout",
+      "sourceSha256": "4c0aa5d2a1de89fe80c100c047287720915ed9086bcff95d6cb84d6611c388eb",
+      "archiveSha256": "d79e702a0b56bf7e75110f8e59fbd978386f47d811c8e0f4955b03cf90c6c39a",
+      "bytes": 134
+    },
+    {
+      "path": "native/fast-repair-verify.py.gz",
+      "sourcePath": "build/map204-release/extract-review/verify.py",
+      "sourceSha256": "872648af789fa17e112b82efbba5457c95d8f7be14eff979a5581ad614220ab9",
+      "archiveSha256": "da4cc65c3ecb3db8cf3dafccb5a7943df657525ce848d5dbb61fe6f7ef26819e",
+      "bytes": 2314
+    },
+    {
+      "path": "native/release-prep-coverage-ratchet.run.json.gz",
+      "sourcePath": "build/map204-release/coverage-ratchet.run.json",
+      "sourceSha256": "6d08265bcbc42e3adb9af4cce153a1446207df436687bc70f537930fb54c0ca8",
+      "archiveSha256": "cbe2bd87f69eac3814a977e6eb0cf00ebd4736245fa69c713acc573f17bd45c0",
+      "bytes": 660
+    },
+    {
+      "path": "native/release-prep-coverage-ratchet.stdout.gz",
+      "sourcePath": "build/map204-release/coverage-ratchet.stdout",
+      "sourceSha256": "81a83a745ee41bbf0aef3774bed3df924530271086e2c66768171490f52f5e67",
+      "archiveSha256": "0af4467ebe36c8e34cee9200c03378914de12c1196968968d68311c71141cb66",
+      "bytes": 170683
+    },
+    {
+      "path": "native/release-prep-coverage-ratchet.stderr.gz",
+      "sourcePath": "build/map204-release/coverage-ratchet.stderr",
+      "sourceSha256": "8c1102db2cca3cdf759ef5930377d28b37d65fa77d48567e9800a2d482f30d4c",
+      "archiveSha256": "04a38b83a912382b13041806e47f6fb906e63914d8c5c210d0be034b0a4a4ffb",
+      "bytes": 851
+    },
+    {
+      "path": "native/release-prep-fps-selector-restored.run.json.gz",
+      "sourcePath": "build/map204-release/fps-selector-restored.run.json",
+      "sourceSha256": "2168983d01f8a786eb460f9a2bf210b23a701472484d1050104188e7204479e4",
+      "archiveSha256": "eda9ed9c9cafab500bd1bad8e80443c0d4a2e83f3b1a8464fdff8f7db1b75353",
+      "bytes": 898
+    },
+    {
+      "path": "native/release-prep-fps-selector-restored.stdout.gz",
+      "sourcePath": "build/map204-release/fps-selector-restored.stdout",
+      "sourceSha256": "41f9a2be8a6bbb9875ef4b92097e8cdaec2f01ec4d2aebd57639237c824d0ab1",
+      "archiveSha256": "396cd601a557237064db82ebef7be68eea4f5617a7660cf96b557de60550051a",
+      "bytes": 404
+    },
+    {
+      "path": "native/release-prep-fps-selector-restored.stderr.gz",
+      "sourcePath": "build/map204-release/fps-selector-restored.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/release-prep-fps-selector-restored.json.gz",
+      "sourcePath": "build/map204-release/fps-selector-restored.json",
+      "sourceSha256": "8e7ab98ebc23027cc8af047eae6c617f78257d49edb91a7c518a0c90d4fb9aeb",
+      "archiveSha256": "4a1f57fd3a47395a101eafac114dc63b55ec3e4c4da4106943543c4de309164c",
+      "bytes": 1676
+    },
+    {
+      "path": "native/release-prep-game-probe.run.json.gz",
+      "sourcePath": "build/map204-release/game-probe.run.json",
+      "sourceSha256": "38653e4534670651602e432cc695ec516ec3d64b42d05fb4f7d23e1e783d6a78",
+      "archiveSha256": "3345daa312f06048a9b206dcca30257661fe3e1bd9e6d3bcbf3aa682a3353872",
+      "bytes": 683
+    },
+    {
+      "path": "native/release-prep-game-probe.stdout.gz",
+      "sourcePath": "build/map204-release/game-probe.stdout",
+      "sourceSha256": "49d171a68746852070fd7ba746efc97ce80dbcae083391ded1b96784b6c8af64",
+      "archiveSha256": "af07ff25f287c6e72bd817d2a2541f1b95f8decd671ed3eec0950a147141eea1",
+      "bytes": 34353
+    },
+    {
+      "path": "native/release-prep-game-probe.stderr.gz",
+      "sourcePath": "build/map204-release/game-probe.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/release-prep-extract-after-root-move-first.run.json.gz",
+      "sourcePath": "build/map204-release/extract-after-root-move-first.run.json",
+      "sourceSha256": "58943043205e877aca434c612b97569c07628ec77d19ed7a75237681ed094e3a",
+      "archiveSha256": "a60fcd8f02a7dbe1ce81668a0cbc593ae7e5c6340fad4ff1265cd5455c736d78",
+      "bytes": 676
+    },
+    {
+      "path": "native/release-prep-extract-after-root-move-first.stdout.gz",
+      "sourcePath": "build/map204-release/extract-after-root-move-first.stdout",
+      "sourceSha256": "d3b802d943e177ce1ba5f3f64e59c4bca0c31f4b99c1eb0bd4c2d093a1e7f1b5",
+      "archiveSha256": "0c52cf3e718a06a754bb341d9609af0d39d188b05ddaf30af1cfe5b46e9b7fad",
+      "bytes": 2224
+    },
+    {
+      "path": "native/release-prep-extract-after-root-move-first.stderr.gz",
+      "sourcePath": "build/map204-release/extract-after-root-move-first.stderr",
+      "sourceSha256": "0e38e20407ffac9b20dca269e7d6fb1c2b03bec9ceb3c369e9019f7ab2252998",
+      "archiveSha256": "7a9e203ec4e4a8cb662a11646a978648f537c2cb708790aaa403707627e3aca7",
+      "bytes": 50
+    },
+    {
+      "path": "native/release-prep-extract-after-root-move-second.run.json.gz",
+      "sourcePath": "build/map204-release/extract-after-root-move-second.run.json",
+      "sourceSha256": "df267dc6574b4c472b5c3cf7a4088b15768223f3a9ec9ee5700660d585499710",
+      "archiveSha256": "edf00097aa427e1117f7f1286060807d37b1fff3dedbf7ca3345600e3dfb3fe4",
+      "bytes": 678
+    },
+    {
+      "path": "native/release-prep-extract-after-root-move-second.stdout.gz",
+      "sourcePath": "build/map204-release/extract-after-root-move-second.stdout",
+      "sourceSha256": "d3b802d943e177ce1ba5f3f64e59c4bca0c31f4b99c1eb0bd4c2d093a1e7f1b5",
+      "archiveSha256": "0c52cf3e718a06a754bb341d9609af0d39d188b05ddaf30af1cfe5b46e9b7fad",
+      "bytes": 2224
+    },
+    {
+      "path": "native/release-prep-extract-after-root-move-second.stderr.gz",
+      "sourcePath": "build/map204-release/extract-after-root-move-second.stderr",
+      "sourceSha256": "0e38e20407ffac9b20dca269e7d6fb1c2b03bec9ceb3c369e9019f7ab2252998",
+      "archiveSha256": "7a9e203ec4e4a8cb662a11646a978648f537c2cb708790aaa403707627e3aca7",
+      "bytes": 50
+    },
+    {
+      "path": "native/release-prep-resources-current.run.json.gz",
+      "sourcePath": "build/map204-release/resources-current.run.json",
+      "sourceSha256": "21d9ac9fc5fe51582945067cfed90126387cb7e4a9b0af07443caaee7e90f486",
+      "archiveSha256": "daf3340ec995b63682214d7be8512f6c0955512b6e0221b50a483bb9264984ff",
+      "bytes": 778
+    },
+    {
+      "path": "native/release-prep-resources-current.stdout.gz",
+      "sourcePath": "build/map204-release/resources-current.stdout",
+      "sourceSha256": "1de0612690b6596243a3ecb26decdd6d0a517bde125e3784bc1d52f6afb371ea",
+      "archiveSha256": "c7e1c6fcd88998d3d02911c3950bcf3379c67e2fb34985e8fe61d3ee7ece4213",
+      "bytes": 501456
+    },
+    {
+      "path": "native/release-prep-resources-current.stderr.gz",
+      "sourcePath": "build/map204-release/resources-current.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    }
+  ],
+  "notRun": [
+    "Protected remote CI and actual deployment in this preparation receipt",
+    "Physical gamepad, reporter save, full natural-story E2E"
+  ]
+}

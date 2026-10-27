@@ -56,9 +56,11 @@ describe('L17 tools-panel 显示区委托', () => {
     setupToolsPanel(mkDeps())
     openSystemTab()
     // FPS toggle：默认关 → 勾选即委派 setFpsEnabled(true)（经持久化可观察）
-    const fpsCheckbox = document.querySelector<HTMLInputElement>(
-      '.tp-toggle input[type="checkbox"]',
-    )!
+    const fpsRow = [...document.querySelectorAll<HTMLLabelElement>('.tp-toggle')].find(
+      (label) => label.textContent === '左上角显示 FPS',
+    )
+    expect(fpsRow).toBeDefined()
+    const fpsCheckbox = fpsRow!.querySelector('input')!
     expect(fpsCheckbox.checked).toBe(false)
     fpsCheckbox.checked = true
     fpsCheckbox.dispatchEvent(new Event('change', { bubbles: true }))
