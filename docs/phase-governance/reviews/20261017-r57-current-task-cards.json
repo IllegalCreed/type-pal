@@ -357,18 +357,20 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "E2E006 current card adds user-authorized current evidence review/tool IO corrections/editor-only NPC start data and real results. Necessary same-engine saves rebuilt; zero-finding006 comparison closes comparison only. Formal006save,naming,full editor/visual stop lines keep rework; original quote unchanged.",
+      "coreConclusion": "User-authorized complete006 card separates real technical deliverables, precise evidence-consumer fixes, static NPC preview and save-progress counter from pending independent/user/global acceptance. Original task quote unchanged; no main/push/done.",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:77"
       ],
       "unresolved": [
-        "Product implementation, original runtime/E2E/visual/coverage evidence and preserved historical conflicts remain outside this document-version acceptance."
+        "Non-author current candidate acceptance pending",
+        "User boat/rower/landing perception pending, silent actual clips available",
+        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
       ],
-      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
+      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
       "phase": "ops",
       "module": "tasks",
       "capability": "e2e-006-1",
@@ -378,40 +380,31 @@
         "repository-history",
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018",
-        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "092a3ba76781203ea2a120750a198f553ff8ac1fbab464a9882ed73c31239e34",
+      "afterSha256": "d84760106f2ade90e530d449df2420139f44f5aa4686380b5a219715726dd78c",
       "publicCallers": [
-        "projects/pal/content/scenes/s002.json",
-        "projects/pal/content/scenes/s005.json",
-        "scripts/e2e/boat-contract.mjs",
-        "docs/testing/e2e/stages/006-doctor-boat/report.md",
-        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+        "node scripts/docs/check-testing.mjs",
+        "node scripts/docs/check-document-model.mjs",
+        "node scripts/e2e/boat-both.mjs"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-        "corresponding code/content/test/e2e consumer"
+        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
       ],
       "businessOracle": {
-        "type": "current-task-card-template-migration",
+        "type": "bounded-owner-e2e-publication-no-self-credit",
         "assertions": [
-          "original goal/scope/status/owner remain traceable",
-          "current status is not advanced by formatting migration",
-          "source/after SHA and quote inverse pass",
-          "no runtime/E2E/visual/coverage credit"
+          "User-authorized complete006 card separates real technical deliverables, precise evidence-consumer fixes, static NPC preview and save-progress counter from pending independent/user/global acceptance. Original task quote unchanged; no main/push/done.",
+          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-          "projects/pal/content/scenes/s002.json",
-          "projects/pal/content/scenes/s005.json",
-          "scripts/e2e/boat-contract.mjs",
-          "docs/testing/e2e/stages/006-doctor-boat/report.md"
-        ]
+        "result": "distinct-bounded-current-delta",
+        "against": ["2026-10-26 partial006 closeout", "historical006 receipt"],
+        "notes": "No duplicate current binding or restored old acceptance."
       },
       "revision": {
         "currentSha": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
@@ -445,9 +438,10 @@
         "currentPublicationDelta": {
           "kind": "author-candidate",
           "task": "E2E-006-1",
-          "date": "2026-10-26",
+          "date": "2026-10-27",
           "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
+          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
           "independentAcceptance": "pending",
           "runtimeAcceptanceGranted": false
         }
@@ -638,6 +632,22 @@
           },
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "action": "current-complete-technical-author-candidate-pending-nonauthor-and-user-visual",
+          "priorRecord": {
+            "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "index": 1,
+            "entryCanonicalSha256": "2242e547c59270a024a1a041e3c16df902e59bac9539c10fdab338e39372d00f"
+          },
+          "priorContentReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -733,8 +743,20 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "092a3ba76781203ea2a120750a198f553ff8ac1fbab464a9882ed73c31239e34",
+          "afterSha256": "d84760106f2ade90e530d449df2420139f44f5aa4686380b5a219715726dd78c",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",

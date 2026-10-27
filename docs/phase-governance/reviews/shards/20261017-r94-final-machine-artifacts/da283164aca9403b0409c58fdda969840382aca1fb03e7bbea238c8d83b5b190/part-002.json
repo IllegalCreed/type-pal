@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "188cfc9c8259218518887147cb08c646955e4d2d7eabb4c652bc4665be87c3e4",
+  "generation": "da283164aca9403b0409c58fdda969840382aca1fb03e7bbea238c8d83b5b190",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -6315,7 +6315,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "4d8c6558fafce974ba2707492615ce1a1790fc0ecfb774dbce312afcf1f06911",
+      "afterSha256": "3a9c60970cb877331e9efa9b3e08f6c89233d4980d5d0660640aa5af805d478b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6793,6 +6793,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "4d8c6558fafce974ba2707492615ce1a1790fc0ecfb774dbce312afcf1f06911",
+          "afterSha256": "3a9c60970cb877331e9efa9b3e08f6c89233d4980d5d0660640aa5af805d478b",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -6803,15 +6814,16 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Exactly one new current006 runtime receipt binds existing base test-machine-evidence1.5/execution contract with no new variant or rule relaxation; original historical006 binding unchanged.",
       "truthAnchors": ["docs/phase-governance/routing.json:1"],
       "unresolved": [
-        "Structural self-reference root requires external review record; do not route the registry or routing file through itself.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "Non-author current candidate acceptance pending",
+        "User boat/rower/landing perception pending, silent actual clips available",
+        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
       "phase": "phase-governance",
       "module": "registry-root",
       "capability": "routing-registry",
@@ -6820,26 +6832,31 @@
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "1c90139228b0b88c617aeb7244e40b4be6869c99ff0408a81f48314503551d0f",
+      "afterSha256": "285f755b61a457489c268d2ff943add6f4dfc24e2efa94f12d6b236b974e13de",
       "publicCallers": [
-        "docs/phase-governance/document-registry.json",
-        "docs/phase-governance/routing.json"
+        "node scripts/docs/check-testing.mjs",
+        "node scripts/docs/check-document-model.mjs",
+        "node scripts/e2e/boat-both.mjs"
       ],
-      "legalInputs": ["current repository documentation", "docs/phase-governance/routing.json"],
+      "legalInputs": [
+        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
+      ],
       "businessOracle": {
-        "type": "structural-root-artifact",
+        "type": "bounded-owner-e2e-publication-no-self-credit",
         "assertions": [
-          "native structural JSON remains traceable",
-          "self-reference boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "Exactly one new current006 runtime receipt binds existing base test-machine-evidence1.5/execution contract with no new variant or rule relaxation; original historical006 binding unchanged.",
+          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": ["docs/phase-governance/routing.json"]
+        "result": "distinct-bounded-current-delta",
+        "against": ["2026-10-26 partial006 closeout", "historical006 receipt"],
+        "notes": "No duplicate current binding or restored old acceptance."
       },
       "revision": {
         "currentSha": "e9b223e60c77f0adb1707eef3bd8b294b31cc5a6f3c0ffc8edd87a879e1dffc3",
@@ -6881,7 +6898,17 @@
           "inverseSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
           "exactRoundTrip": true
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn",
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-27",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
+          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
+        }
       },
       "history": [
         {
@@ -6897,6 +6924,22 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "action": "current-complete-technical-author-candidate-pending-nonauthor-and-user-visual",
+          "priorRecord": {
+            "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 36,
+            "entryCanonicalSha256": "867a99442f8a854ebcef42af6bb3cc8de83712c77f681d12ce26e480ef66031a"
+          },
+          "priorContentReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": ["none; structural root"],
@@ -7121,8 +7164,20 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "1c90139228b0b88c617aeb7244e40b4be6869c99ff0408a81f48314503551d0f",
+          "afterSha256": "285f755b61a457489c268d2ff943add6f4dfc24e2efa94f12d6b236b974e13de",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
     }
   ]
 }

@@ -258,14 +258,14 @@
     },
     {
       "path": "docs/testing/governance.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Root full read of original73/before108/new83 lines and exact listed validator/producer/migration scopes; manually wrote six-stage runbook. Distinct non-author reviewer independently read all source/body and consumer scopes, replayed publication-IO probes, ran current complete docs gate (FAIL), lint and full-base/staged diff, then accepted only fixedfe54 body/template.",
-      "coreConclusion": "测试治理须分开catalog发布、一次执行和文档迁移信用；当前schema2 canonical需要front matter与testing-meta/evidence配对，非归档/非替代记录都受reviewBy约束，原legacy census不准追加扩容。新runbook按唯一身份、真实配对、状态、业务质量、显式迁移与实跑留存重写，九投影由producer生成，不改业务状态/机器字段。 固定dbd68ac…正文与runbook模板已获非作者限定接收，不授任何其他R83或运行信用。",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
+      "coreConclusion": "General paired evidence contract allows immutable historical native publication only with exact whole-file SHA/status/candidate and current backward supersedes. It never exempts malformed/orphan files, changes source pins or treats history as current runtime proof.",
       "truthAnchors": [
         "scripts/docs/check-testing.mjs:193",
         "scripts/docs/check-testing.mjs:475",
@@ -274,10 +274,11 @@
         "scripts/docs/generate-testing-index.mjs:76"
       ],
       "unresolved": [
-        "Catalog/reports/raw were not all business-semantically reviewed; five receipt scopes remain quarantined.",
-        "Whole-docs hard gates andremaining affected binding rework remain incomplete."
+        "Non-author current candidate acceptance pending",
+        "User boat/rower/landing perception pending, silent actual clips available",
+        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
       ],
-      "nextStep": "Continue S03 and remaining actual semantic reviews; handle registry structural size before additional bulk intake. No other R83 status is restored.",
+      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "publication-and-evidence-governance",
@@ -286,7 +287,8 @@
         "actual full original and current body read",
         "actual public validators and producer source scopes",
         "manual semantic runbook rewrite",
-        "no execution/business-test recertification"
+        "no execution/business-test recertification",
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "primarySource": [
         {
@@ -365,34 +367,25 @@
         "notRun": ["product", "old tests", "coverage", "E2E", "visual"]
       },
       "publicCallers": [
-        "AGENTS.md testing operation",
-        "docs/ops/agent-workflow.md testing quality",
-        "docs/testing/_templates/README.md publication routing",
-        "pnpm check:testing-docs current consumers"
+        "node scripts/docs/check-testing.mjs",
+        "node scripts/docs/check-document-model.mjs",
+        "node scripts/e2e/boat-both.mjs"
       ],
       "legalInputs": [
-        "Current registered canonical/index/evidence and legitimate public typed callers; unknown IO inputs only within explicit boundary",
-        "Explicit migration plan with stable old identity/SHA; frozen legacy census does not authorize append-only new flat entries"
+        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
       ],
       "businessOracle": {
-        "type": "actual-testing-publication-runbook",
+        "type": "bounded-owner-e2e-publication-no-self-credit",
         "assertions": [
-          "Missing schema2 front matter cannot pass merely because testing-meta is present.",
-          "Expired proposal/draft/active are not exempt from current reviewBy validation; only archived/superseded bypass expiry.",
-          "Changing publication status never rewrites immutable execution raw or fabricates a fresh historical run.",
-          "A newly appended legacy entry cannot satisfy unchanged frozenCensus.",
-          "Nine generated views preserve one catalog/classification authority; counts are not tests/acceptance.",
-          "Document governance alone cannot authorize modifying/deleting old tests or official coverage."
+          "General paired evidence contract allows immutable historical native publication only with exact whole-file SHA/status/candidate and current backward supersedes. It never exempts malformed/orphan files, changes source pins or treats history as current runtime proof.",
+          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
         ]
       },
       "dedupe": {
-        "result": "one current runbook replaces R83 generic envelope; no parallel protocol",
-        "against": [
-          "docs/ops/agent-workflow.md",
-          "docs/testing/_templates/README.md",
-          "20261017-r83-testing-current.json"
-        ],
-        "notes": "Workflow owns business quality; template registry owns format versions; this runbook owns publication and migration procedure."
+        "result": "distinct-bounded-current-delta",
+        "against": ["2026-10-26 partial006 closeout", "historical006 receipt"],
+        "notes": "No duplicate current binding or restored old acceptance."
       },
       "counterReworkBlocked": [
         {
@@ -467,7 +460,17 @@
             "exitCode": 0
           }
         ],
-        "probeDisclosure": "v1 author harness chose contract/status, producing an extra legitimate dependency rejection and failing the harness; that reproduced failure is retained. v2 expires an already-proposal leaf, then independently probes missing-frontmatter and frozen-census through real validators with exact fixture cleanup. No repository rule or product test changed."
+        "probeDisclosure": "v1 author harness chose contract/status, producing an extra legitimate dependency rejection and failing the harness; that reproduced failure is retained. v2 expires an already-proposal leaf, then independently probes missing-frontmatter and frozen-census through real validators with exact fixture cleanup. No repository rule or product test changed.",
+        "currentPublicationDelta": {
+          "kind": "author-candidate",
+          "task": "E2E-006-1",
+          "date": "2026-10-27",
+          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
+          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+          "independentAcceptance": "pending",
+          "runtimeAcceptanceGranted": false
+        }
       },
       "history": [
         {
@@ -493,6 +496,22 @@
           "reportSha256": "db1c98bc5bbc3d2b7a52f51ce37e7c732932ba4ea205289a5e64edebf7291381",
           "priorWithdrawalRemainsHistorical": true,
           "globalHardGatePassed": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "action": "current-complete-technical-author-candidate-pending-nonauthor-and-user-visual",
+          "priorRecord": {
+            "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+            "logicalPath": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+            "index": 1,
+            "entryCanonicalSha256": "d72d1b5f1ecd8ddd77367666766dccdc919d41edf76245ccf6386de0644a9952"
+          },
+          "priorContentReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "historicalWithdrawal": {
@@ -509,7 +528,7 @@
       ],
       "stopLine": "No reviewed/template-compliant before non-author acceptance of new bytes; no bulk restoration or product/old-test/coverage edits; global gate failures remain failures.",
       "sourceSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-      "afterSha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+      "afterSha256": "3e35f47d9a0bb497e99b6b9957079bb40033f04ba564c9914cbea3a94b3d7b8e",
       "sourceGitRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
       "reviewedLines": "1-83 current;1-108 before;original73; dependency ranges explicit",
       "historyOverlay": false,
@@ -525,7 +544,21 @@
         "failureHandling": "specific validator failures, raw preservation and stop conditions",
         "completion": "consumer zero diagnostics + non-author content review, no runtime inference",
         "status": "non-author accepted fixedfe546c7e body"
-      }
+      },
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "afterSha256": "3e35f47d9a0bb497e99b6b9957079bb40033f04ba564c9914cbea3a94b3d7b8e",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/README.md",
@@ -9229,6 +9262,167 @@
           "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
           "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
         }
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-006-current.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "Complete newly authored native receipt plus actual byte-bound runtime/UI evidence; external acceptance pending",
+      "coreConclusion": "New current006 machine execution receipt binds c68 actual producer and017 code/verification axes, two real terminal checkpoints/fresh restores,0-finding whole comparison and12 static preview persisted entries. Whole old receipt remains immutable, rework and all independent/user/global limits explicit.",
+      "truthAnchors": [
+        "f1fc131fefac6708ff5c21c47a083c5e8d37e79c:docs/testing/e2e/evidence/e2e-006-current.json",
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md"
+      ],
+      "primarySource": [
+        {
+          "revision": "f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+          "path": "docs/testing/e2e/evidence/e2e-006-current.json",
+          "gitObject": "1ccbcb397e147e1f84d7c88d34e64a38b564aee7",
+          "sha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9"
+        },
+        {
+          "path": "build/e2e/game-006-2026-10-27T00-43-43-197Z/report.json",
+          "sha256": "4a2eaaf81c821bff215213975b4f20c6020da9d4ef5fabab3860d73821b33dc4",
+          "bytes": 402421
+        },
+        {
+          "path": "build/e2e/reforge-006-2026-10-27T00-43-43-972Z/report.json",
+          "sha256": "65617cd11b93a7dab1dc1de3051cb19f09d729bed01239fe6829c4379b860107",
+          "bytes": 423805
+        },
+        {
+          "path": "build/e2e/game-006-2026-10-27T00-43-43-197Z/006.end.save.json",
+          "sha256": "f7fcd30690bbef4a5aa60db73b5d1672f98adef80f7de2ed84c6397ff0798d5d",
+          "bytes": 993417
+        },
+        {
+          "path": "build/e2e/reforge-006-2026-10-27T00-43-43-972Z/006.end.save.json",
+          "sha256": "5dc166438471aeaacaf731ff82b0df71d616a0a9606b19e3fb3aca3e2cdbc50e",
+          "bytes": 41609
+        },
+        {
+          "path": "build/e2e/both-006-2026-10-27T01-06-28-897Z/comparison.json",
+          "sha256": "bf257785b30b8d222a3909aa821c607ffab1344044154eb130376fcc77bcc620",
+          "bytes": 13983358
+        },
+        {
+          "path": "build/evidence-archive/e2e006-20261027/e2e006-20261027.tar.gz",
+          "sha256": "25b6587094406374d3ffa26a8af3d508a0e86fd4d8dcb79bbe2740e4076cea66",
+          "bytes": 114016097
+        },
+        {
+          "path": "build/e2e/006-visual-review-20261027/game-boat-and-arrival.mp4",
+          "sha256": "f8450c711b03abcdb699f30c1c57ff9adc336267b3f6cd4d9051ca45bfe2bf30",
+          "bytes": 7916524
+        },
+        {
+          "path": "build/e2e/006-visual-review-20261027/reforge-boat-and-arrival.mp4",
+          "sha256": "98dd5102ebcf355db37a755d87c0cfd75704983ed1159bb527511d38ea528113",
+          "bytes": 8291093
+        }
+      ],
+      "phaseAnchors": ["docs/testing/e2e/contract.md", "docs/phase2/READ-FIRST.md"],
+      "dependencies": ["e2e-005", "docs/testing/catalog.json"],
+      "phase": "testing",
+      "module": "doctor-and-boat",
+      "owner": "Codex",
+      "provenance": [
+        "2026-10-27 Owner-authored current runtime publication; no external acceptance yet"
+      ],
+      "documentStatus": "rework",
+      "publicCallers": [
+        "node scripts/e2e/boat-game.mjs --from <same-engine005/report.json>",
+        "node scripts/e2e/boat-reforge.mjs --from <same-engine005/report.json>",
+        "node scripts/e2e/boat-both.mjs --game-report <game006/report.json> --reforge-report <reforge006/report.json>"
+      ],
+      "legalInputs": [
+        "Actual same-engine001–003 then004/005 saves chain; no injected scene or forged digest",
+        "Current content22, Reforge SAVE12; naming changes labels only",
+        "Normal Game F5/public Reforge dumpSave at completed006; fresh context consumes actual persisted JSON"
+      ],
+      "businessOracle": {
+        "type": "dual006-story-persistence-and-static-preview",
+        "assertions": [
+          "95 dialogue rows and complete island1886/1888/1889/1890, clear dialogue and return control at Game15/RF s014",
+          "Byte-bound whole story/timing/ride/draw comparison has zero findings",
+          "Formal terminal save and fresh-context restore match the complete persistent state with actual input/ack or restore commit and no arrival replay",
+          "12 saved static NPC entry bindings/11 states survive public Save As/Open and actual Play/Reset",
+          "Silent actual boat clips support separate user visual review; no audio, full runtime preview, continuous or downstream credit"
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-distinct",
+        "against": [
+          "e2e-005",
+          "historical e2e-006 d022 publication",
+          "2026-10-26 partial closeout"
+        ],
+        "notes": "005 establishes real inputs; old receipt identity is immutable. Current terminal save, fresh restore and static editor persistence are distinct; no004 items/005 guards/continuous regrant."
+      },
+      "revision": {
+        "currentSha": "f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "history": [
+          {
+            "date": "2026-10-27",
+            "action": "new current execution publication; historical receipt untouched; acceptance pending"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "owner-authored-current-runtime-publication",
+        "path": "docs/testing/e2e/evidence/e2e-006-current.json",
+        "sha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
+        "sourceRevision": "f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "nonAuthorReviewer": false,
+        "acceptance": "pending"
+      },
+      "history": [
+        {
+          "date": "2026-10-27",
+          "action": "one new current publication; original historical complete bytes retained",
+          "runtimePerformed": true,
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/e2e/evidence/e2e-006.json",
+          "scope": "Current paired execution only; original complete publication remains byte-pinned history"
+        }
+      ],
+      "counterReworkBlocked": {
+        "independent": "pending",
+        "userVisual": "pending",
+        "global": "strict backlog and e2e-route expired, not green"
+      },
+      "unresolved": [
+        "Independent candidate acceptance pending",
+        "User visual decision pending",
+        "No full docs/main completion"
+      ],
+      "nextStep": "Independent scoped review and user visual decision; no main/push/done",
+      "stopLine": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+      "sourceSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
+      "reviewedSourceSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
+      "sourceGitRevision": "f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+      "sourceGitObject": "1ccbcb397e147e1f84d7c88d34e64a38b564aee7",
+      "afterSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
+      "reviewedLines": "Full newly authored native object and all bounded evidence references; no repeated historical full-source semantic claim",
+      "historyOverlay": false,
+      "templateConformance": {
+        "status": "author-structure-only",
+        "templateId": "test-machine-evidence-v1",
+        "templateVersion": "1.5.0",
+        "variant": "execution",
+        "independentAcceptance": false
       }
     }
   ]

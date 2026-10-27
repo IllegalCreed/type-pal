@@ -379,7 +379,7 @@
     {
       "path": "docs/lore/timeline.md",
       "contentReviewStatus": "partial-review-unknown",
-      "coreConclusion": "Bounded Oct26 flow increment records current00695rows and island1886/1888/1889/1890/control return, stops at s014 and refers sole report for open gates. Historical timeline/source quote and all later chapter/cross-work uncertainties remain unchanged; not a renewed full lore review.",
+      "coreConclusion": "Bounded current006 timeline ends at s014 after all four island rows/control return and refers sole report for actual formal-save/editor and acceptance axes; source quote, later chapters and cross-work uncertainty unchanged.",
       "truthAnchors": [
         "docs/lore/timeline.md:1",
         "docs/lore/timeline.md:1 仙剑剧情时间线与流程攻略",
@@ -392,17 +392,11 @@
         "docs/lore/timeline.md:100 005 买虾出门与香兰报信"
       ],
       "unresolved": [
-        "absolute dating, later chapter step-by-step verification, and cross-version differences remain open",
-        "正文信号 3:> 仙剑系列历代作品的时间线关系。扩展剧情必须安插在正确的时间点，不与前后作品冲突。",
-        "正文信号 4:> 可靠性：✅ 官方/多源一致 ＞ \u26a0️ 单源 ＞ ❓ 存疑",
-        "正文信号 197:> \u26a0️ 仙剑 4 / 6 / 7 的时间线位置作者尚需确认，本库暂不纳入，**待扩展剧情需要时再查**。",
-        "正文信号 205:| 第一代 | 紫萱 | 林青儿之母 | 仙剑三 | 饱受三生三世之苦，将内丹渡给徐长卿 \u26a0️ |",
-        "正文信号 216:- **\"一旦繁衍后代便会灵力衰竭而死\"**——母亲生育后必亡。\u26a0️ 网易/粉丝向设定解读",
-        "正文信号 217:- **死后不入轮回**。\u26a0️ [爱Pia戏](https://aipiaxi.com/article-detail/843599)",
-        "正文信号 219:> \u26a0️ \"生育即死\"和\"不入轮回\"这两条在粉丝圈广泛流传，但是否为**官方明文设定**需进一步核实（有说法认为是设定解读）。**在扩展剧情里动用这两条前，建议作者先确认官方表述**。",
-        "正文信号 282:> \u26a0️ 2026-06-25 修正——鬼阴山/鬼阴坛在**白河村之后、扬州之前**，不是扬州之后。石长老在此**第一次**出场。"
+        "Non-author current candidate acceptance pending",
+        "User boat/rower/landing perception pending, silent actual clips available",
+        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
       ],
-      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
+      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
       "phase": "lore",
       "module": "timeline.md",
       "capability": "lore-timeline",
@@ -415,23 +409,31 @@
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42"
         },
-        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
-      "afterSha256": "eaf2561c860e3ac9b0891fb3b99a959ec4489cfac2e44d8decf2052aaa868903",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/timeline.md"],
+      "afterSha256": "6c33ccfaf40a5d5685a75bf2ea447c97802daa899b767ff71dc4715ec87ead94",
+      "publicCallers": [
+        "node scripts/docs/check-testing.mjs",
+        "node scripts/docs/check-document-model.mjs",
+        "node scripts/e2e/boat-both.mjs"
+      ],
+      "legalInputs": [
+        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
+      ],
       "businessOracle": {
-        "type": "historical-template-migration",
+        "type": "bounded-owner-e2e-publication-no-self-credit",
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "Bounded current006 timeline ends at s014 after all four island rows/control return and refers sole report for actual formal-save/editor and acceptance axes; source quote, later chapters and cross-work uncertainty unchanged.",
+          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/lore/timeline.md"]
+        "result": "distinct-bounded-current-delta",
+        "against": ["2026-10-26 partial006 closeout", "historical006 receipt"],
+        "notes": "No duplicate current binding or restored old acceptance."
       },
       "revision": {
         "currentSha": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
@@ -484,9 +486,10 @@
         "currentPublicationDelta": {
           "kind": "author-candidate",
           "task": "E2E-006-1",
-          "date": "2026-10-26",
+          "date": "2026-10-27",
           "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
+          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
           "independentAcceptance": "pending",
           "runtimeAcceptanceGranted": false
         }
@@ -528,6 +531,22 @@
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "action": "current-complete-technical-author-candidate-pending-nonauthor-and-user-visual",
+          "priorRecord": {
+            "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+            "index": 2,
+            "entryCanonicalSha256": "d51754c32a1386304b1058cd1de3204e0a661ec83e9eb33891968a7aa44fb0b4"
+          },
+          "priorContentReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -538,7 +557,7 @@
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
       "reviewDepth": "partial-semantic",
       "integrationReview": {
         "reviewer": "Codex",
@@ -647,8 +666,20 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "eaf2561c860e3ac9b0891fb3b99a959ec4489cfac2e44d8decf2052aaa868903",
+          "afterSha256": "6c33ccfaf40a5d5685a75bf2ea447c97802daa899b767ff71dc4715ec87ead94",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v1.html",

@@ -4137,7 +4137,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
-      "afterSha256": "126c5e5ead4096eda0f83298ae66d181f31c163d34006010e1805206541c7dc4",
+      "afterSha256": "2d1e0560080e445cf5e09c693222b51dc889dc556f775e5f072e194a4c708c8a",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -4235,6 +4235,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "126c5e5ead4096eda0f83298ae66d181f31c163d34006010e1805206541c7dc4",
+          "afterSha256": "2d1e0560080e445cf5e09c693222b51dc889dc556f775e5f072e194a4c708c8a",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -4335,7 +4346,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790",
+      "afterSha256": "758a0b502946dfcde27f6426d4f81b7f1ad9a37a48a453037c2d2842074061f1",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -4499,6 +4510,17 @@
           "beforeSha256": "7f4cf69d5157d39ab0768d0efc05fa51fda9190edfeef18b36436a5a684f3cb2",
           "afterSha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790",
+          "afterSha256": "758a0b502946dfcde27f6426d4f81b7f1ad9a37a48a453037c2d2842074061f1",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

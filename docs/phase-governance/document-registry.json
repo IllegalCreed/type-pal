@@ -32,7 +32,7 @@
     }
   ],
   "summary": {
-    "total": 2434,
+    "total": 2435,
     "byPhase": {
       "ops": 1331,
       "lore": 14,
@@ -40,7 +40,7 @@
       "phase2": 109,
       "phase3": 5,
       "phase-governance": 156,
-      "testing": 759
+      "testing": 760
     },
     "byType": {
       "task-card": 366,
@@ -51,7 +51,7 @@
       "design-spec": 45,
       "evidence-receipt": 355,
       "quality-gate": 3,
-      "test-machine-evidence": 351,
+      "test-machine-evidence": 352,
       "reference-canon": 38,
       "narrative-idea": 2,
       "plan-status": 74,
@@ -62,12 +62,12 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "content-reviewed": 1766,
-      "partial-review-unknown": 668
+      "content-reviewed": 1765,
+      "partial-review-unknown": 670
     },
     "templateCompliance": {
-      "needs-migration": 674,
-      "template-compliant": 1760
+      "needs-migration": 676,
+      "template-compliant": 1759
     }
   },
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta.",
@@ -120,14 +120,14 @@
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
       "total": 156,
-      "sha256": "126c5e5ead4096eda0f83298ae66d181f31c163d34006010e1805206541c7dc4"
+      "sha256": "2d1e0560080e445cf5e09c693222b51dc889dc556f775e5f072e194a4c708c8a"
     },
     {
       "key": "testing",
       "phase": "testing",
       "path": "document-registry.testing.json",
-      "total": 759,
-      "sha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790"
+      "total": 760,
+      "sha256": "758a0b502946dfcde27f6426d4f81b7f1ad9a37a48a453037c2d2842074061f1"
     }
   ],
   "documentRetirements": {

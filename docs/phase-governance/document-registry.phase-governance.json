@@ -1811,7 +1811,8 @@
       "reviewRecord": "20261017-r94-final-machine-artifacts.json",
       "artifactOnly": true,
       "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactFormat": "json",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",

@@ -11,9 +11,9 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "needs-migration",
-      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
+      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "Only e2e006 publication reviewBy changes Oct23→Nov2 after substantive paired review/current necessary execution; status rework,lastVerified Oct3 and native revision/versions stay unchanged. Expiry failure retained; next deadline is editorial and never E2E acceptance. Other17 native entries unchanged.",
+      "coreConclusion": "Exactly e2e006 pairs a new current execution receipt with the full-byte-pinned historical receipt and backward supersedes. Other17 entry objects unchanged; rework,lastVerifiedOct3,reviewByNov2 remain. Publication deadline is not runtime outcome.",
       "truthAnchors": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
         "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
@@ -33,7 +33,7 @@
         "docs/testing/catalog.json",
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
-      "applicability": "F1 source-specific document/contract maintenance only; no current product/runtime or whole-doc acceptance. Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
       "publicEntry": "docs/testing/catalog.json",
       "counterReworkBlocked": {
         "F1": "Exact e136 source and final164 root14 independently accepted, C1/C2 closed. This subsequent current-record metadata only separately reviewed; no original pending source acceptance remains.",
@@ -41,10 +41,11 @@
         "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit."
       },
       "unresolved": [
-        "006仍rework，lastVerified10-03与原执行边界不变；10-15原过期失败保留，实质发布复核后明确续10-23，只安排下次publication review；e2e-route10-18未改。",
-        "目录只登记18份published材料，不涵盖全部testing文件，也不单独证明全部配对报告模板迁移或动态通过。"
+        "Non-author current candidate acceptance pending",
+        "User boat/rower/landing perception pending, silent actual clips available",
+        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
       ],
-      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
+      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -96,37 +97,34 @@
             "completePriorObjectRetrievedAndCompared": true
           }
         },
-        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "9bf9d76c09dafbf5776f856b9d9ed4d5deda08f0a15c0f2c8e26225b395a0082",
+      "afterSha256": "d6e2bc4432e5c6904e935d0798c920140b0f66a4946bc813beaa44cd2bd33a95",
       "publicCallers": [
-        "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
-        "node scripts/docs/generate-testing-index.mjs"
+        "node scripts/docs/check-document-model.mjs",
+        "node scripts/e2e/boat-both.mjs"
       ],
       "legalInputs": [
-        "Complete original18-entry schema2 publicationcatalog with real IDs/paths/statuses/dependencies/owner/source fields and governance1.2; othergov/native values exactec2.",
-        "Original ordered16/default schema2/runtimefalse/entryreading gate and realvalidateCatalog duties preserved; generatedBy differentstring/null remain accepted. Frozen-capture variant is not an alternative input for this canonical publicationcatalog."
+        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
       ],
       "businessOracle": {
-        "type": "F1-source-specific-maintenance-and-no-new-credit",
+        "type": "bounded-owner-e2e-publication-no-self-credit",
         "assertions": [
-          "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
-          "Exact e136/DD377 independent reception now recorded; current later root administrative bytes still require separate acceptance, no runtime/E2E/visual/coverage credit."
+          "Exactly e2e006 pairs a new current execution receipt with the full-byte-pinned historical receipt and backward supersedes. Other17 entry objects unchanged; rework,lastVerifiedOct3,reviewByNov2 remain. Publication deadline is not runtime outcome.",
+          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
         ]
       },
       "dedupe": {
-        "result": "source-specific-maintenance-no-new-migration",
-        "against": [
-          "docs/testing/catalog.json",
-          "docs/phase-governance/templates/registry.json",
-          "docs/phase-governance/reviews/20261016-binding-baseline-contract.json"
-        ],
-        "notes": "Existing unique current record; original pilotCandidate remains immutable historical authored snapshot. New baseline current entry in F1 control is a different nonmember document, eligible incremental1 only."
+        "result": "distinct-bounded-current-delta",
+        "against": ["2026-10-26 partial006 closeout", "historical006 receipt"],
+        "notes": "No duplicate current binding or restored old acceptance."
       },
       "revision": {
         "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
@@ -192,9 +190,10 @@
         "currentPublicationDelta": {
           "kind": "author-candidate",
           "task": "E2E-006-1",
-          "date": "2026-10-26",
+          "date": "2026-10-27",
           "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
+          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
+          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
           "independentAcceptance": "pending",
           "runtimeAcceptanceGranted": false
         }
@@ -329,6 +328,22 @@
           },
           "priorContentReviewStatus": "content-reviewed",
           "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newDocumentAcceptanceGranted": false,
+          "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "action": "current-complete-technical-author-candidate-pending-nonauthor-and-user-visual",
+          "priorRecord": {
+            "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+            "logicalPath": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "index": 0,
+            "entryCanonicalSha256": "cc8bfb4a2d5aa3745aa2fd2c63edac715ef3c58dd7e4314faac7876fee39de7c"
+          },
+          "priorContentReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
@@ -538,6 +553,17 @@
           "beforeSha256": "3b1604c8586eafb31123000d8f8a906f04328d505d23985cda3241a48d8065fa",
           "afterSha256": "9bf9d76c09dafbf5776f856b9d9ed4d5deda08f0a15c0f2c8e26225b395a0082",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "9bf9d76c09dafbf5776f856b9d9ed4d5deda08f0a15c0f2c8e26225b395a0082",
+          "afterSha256": "d6e2bc4432e5c6904e935d0798c920140b0f66a4946bc813beaa44cd2bd33a95",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
