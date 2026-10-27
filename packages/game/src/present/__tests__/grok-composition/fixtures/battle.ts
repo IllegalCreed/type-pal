@@ -4,7 +4,11 @@ import type {
   BattlePlayer,
   BattleState,
 } from '../../../../core/battle/battle-state.js'
-import { createInitialGameState, type GameState } from '../../../../core/game-state.js'
+import {
+  createInitialGameState,
+  type GameState,
+  hydratePlayerRolesRuntime,
+} from '../../../../core/game-state.js'
 import { createSeedableRng } from '../../../../core/rng.js'
 import type { BattleBgAsset } from '../../../battle/draw-battle-bg.js'
 
@@ -138,8 +142,13 @@ export function battleState(
 }
 
 export function battleGs(patch: Partial<GameState> = {}): GameState {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  hydratePlayerRolesRuntime(
+    gs.PlayerRolesRuntime,
+    rolesOf(Array.from({ length: 6 }, (_, id) => role(id))),
+  )
   return {
-    ...createInitialGameState({ x: 0, y: 0, facing: 'down' }),
+    ...gs,
     mode: 'battle',
     ...patch,
   }

@@ -54,13 +54,20 @@ test('full directory guard 要求真实目录和最低文件数', async (context
   )
   await mkdir(resolve(root, 'assets'))
   await writeFile(resolve(root, 'assets/a.rle'), 'x')
+  await writeFile(resolve(root, 'assets/notes.txt'), 'not an rle')
+  await mkdir(resolve(root, 'assets/directory.rle'))
+  await assert.rejects(
+    () => assertDirectoryFileCount(root, { path: 'assets', extension: '.rle', minimumFiles: 2 }),
+    { name: 'Error', message: 'assets: .rle 文件只有 1，至少需要 2' },
+  )
+  await writeFile(resolve(root, 'assets/b.rle'), 'y')
   assert.equal(
     await assertDirectoryFileCount(root, {
       path: 'assets',
       extension: '.rle',
-      minimumFiles: 1,
+      minimumFiles: 2,
     }),
-    1,
+    2,
   )
 })
 
@@ -70,17 +77,17 @@ test('full JSON contract 拒绝错版本 current 工程与错误 scene identity'
   const wrongVersion = validJsonContracts()
   wrongVersion.set('projects/pal/manifest.json', {
     id: 'pal',
-    contentVersion: 19,
-    minimumSaveVersion: 10,
+    contentVersion: 21,
+    minimumSaveVersion: 12,
   })
   assert.throws(() => assertFullJsonContracts(wrongVersion), /content22\/SAVE12/)
-  const previous = validJsonContracts()
-  previous.set('projects/pal/manifest.json', {
+  const wrongSaveFloor = validJsonContracts()
+  wrongSaveFloor.set('projects/pal/manifest.json', {
     id: 'pal',
-    contentVersion: 21,
-    minimumSaveVersion: 10,
+    contentVersion: 22,
+    minimumSaveVersion: 11,
   })
-  assert.throws(() => assertFullJsonContracts(previous), /content22\/SAVE12/)
+  assert.throws(() => assertFullJsonContracts(wrongSaveFloor), /content22\/SAVE12/)
   const wrongScene = validJsonContracts()
   wrongScene.set('data/extracted/data/scene/14.json', { sceneId: 17 })
   assert.throws(() => assertFullJsonContracts(wrongScene), /sceneId 不匹配/)

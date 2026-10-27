@@ -1,5 +1,5 @@
 import type { Palette } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { createInventoryMenu } from '../../../core/menu/inventory-menu.js'
 import { openMenu } from '../../../core/menu/menu-mode.js'
 import { startDialogLine } from '../../dialog-box.js'
@@ -8,6 +8,10 @@ import { presentFrame } from '../../present.js'
 import { resetScreenWavePhase } from '../../screen-wave.js'
 import { BOX, DIALOG, glyphsOf, image, SENTINEL, sprite, TILE } from './fixtures/images.js'
 import { baseContext, bitmapView, emptyMap, exploreState, worldView } from './fixtures/world.js'
+
+afterEach(() => {
+  resetScreenWavePhase()
+})
 
 function layer0Tile(index: number) {
   const map = emptyMap(12, 14)

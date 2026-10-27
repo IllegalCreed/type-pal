@@ -13,7 +13,8 @@
  *   - 字面量走真实自适应 Huffman 编码（树初始态/adjustTree/0x8000 归约与 decoder 镜像）；
  *   - 流尾追加 pos=0xFFF 终止符（yj1.c:416 break 语义；b0=0→data1[0]=0x3f，
  *     扩展位按 decoder 总读位长 data2+6 精确写入）。
- * 合法性由测试内 `decompressYj2(encoded) === data` 往返断言证明（产品 decoder 未改动）。
+ * 当前小/空/跨归约字面流由有界 SDLPal 原生解码核到 EOS，测试内 TS 往返仅作接线验证；
+ * TS 按声明长度提前结束，单独往返不能证明结束符存在（产品 decoder 未改动）。
  * 仅测试 fixture；不 mock 业务核心，不触产品代码。
  */
 
@@ -136,7 +137,7 @@ export function yj2EncodeLiterals(data: Uint8Array): Uint8Array {
   // 0xFFF 终止符（yj1.c:416）：回引 symbol 0x100 的 Huffman 码 + LZSS 位。
   // decoder 读法：低 8 bit（b0）→ data2[b0&0xf] → 再读 (data2[b0]+6-8) 扩展位；
   // 取 b0=0：data2[0]=8，总读 8+6=14 bit（扩展段 6 bit，非 8）。temp = b0 | (ext<<8)，
-  // ext 低 6 位全 1 → temp=0x3F → >>8=0 → pos = 0 | (data1[0]=0x3F << 6) = 0xFFF。
+  // ext=0x3F → temp=0x3F00 → >>8=0x3F → pos=0x3F | (data1[0]=0x3F << 6)=0xFFF。
   emit(0x100)
   for (let i = 0; i < 8; i++) bits.push(0) // b0 = 0x00（LSB 先）
   const extra = YJ2_DATA2[0]! - 2 // 扩展段 = data2-2 = 6 bit（primary 总读 data2+6）

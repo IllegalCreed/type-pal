@@ -1,12 +1,11 @@
 /**
  * RNG 动画 blob 真值对拍(资源管线优化 · 补 GLM 审查缺口)。
  *
- * 不变式:每个 RNG chunk 的 `.rle` blob 解出的帧,必须与原版 `data/raw/RNG.MKF`
- * 直接解出的帧逐字节一致。RNG 是五类 blob 里解码最复杂的(sub-MKF + YJ2 + RLE delta +
- * surface 累加),故端到端对拍价值最高。
+ * 不变式:每个 RNG chunk 的 `.rle` 解压字节，必须等于原 RNG.MKF 对应 chunk。
+ * 原盘帧数只用于核 extractor 是否应输出 blob；不把同一 codec 两次调用当独立像素真值。
  *
  * 真值源:`data/raw/RNG.MKF` 的 chunk → shared `decodeRngFrames`
- * 新链路:`data/extracted/data/animation/rng-{NN}.rle` → decompressGzip → 同一 `decodeRngFrames`
+ * 新链路:`data/extracted/data/animation/rng-{NN}.rle` → decompressGzip → 原 chunk 字节
  *
  * 可选整组输入缺席时显式 skip（且不读文件）；已提供输入中的坏包/缺帧 blob 必须失败。
  * 此约定仅限本套件，不代表整个仓库 check 无需 PAL 数据。
@@ -37,12 +36,12 @@ describe.skipIf(!hasData)('RNG blob 真值对拍(raw RNG.MKF vs extracted .rle)'
   if (!rng) return
 
   for (let i = 0; i < n; i++) {
-    it(`chunk ${i}: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)`, async () => {
+    it(`chunk ${i}: gzip 解压字节等于原 RNG.MKF chunk`, async () => {
       const raw = readChunk(rng, i)
       const truth = decodeRngFrames(raw)
       const blobPath = resolve(BLOB_DIR, `rng-${i.toString().padStart(2, '0')}.rle`)
       if (!existsSync(blobPath)) {
-        // extractor 只在 frames.length>0 时写 blob;空/坏 chunk 无 blob 且 truth 应 0 帧
+        // extractor 只在 frames.length>0 时写 blob；缺文件只能对应没有可解帧的 chunk。
         expect(truth.length).toBe(0)
         return
       }
@@ -52,28 +51,8 @@ describe.skipIf(!hasData)('RNG blob 真值对拍(raw RNG.MKF vs extracted .rle)'
       expect(blobBytes[1]).toBe(0x8b)
       const decompressed = await decompressGzip(new Blob([Buffer.from(blobBytes)]))
 
-      // 第一层:gzip 往返无损(blob 解压 == 原 chunk 字节)
-      expect(decompressed.byteLength).toBe(raw.byteLength)
-
-      // 第二层:解出帧数 + 每帧 320×200 像素逐字节一致
-      const blobFrames = decodeRngFrames(decompressed)
-      expect(blobFrames.length).toBe(truth.length)
-      let pixelDiffs = 0
-      let firstDiffFrame = -1
-      for (let f = 0; f < truth.length; f++) {
-        const a = truth[f]!.pixels
-        const b = blobFrames[f]!.pixels
-        if (a.length !== b.length) throw new Error(`chunk ${i} frame ${f}: 尺寸不符`)
-        for (let p = 0; p < a.length; p++) {
-          if (a[p] !== b[p]) {
-            pixelDiffs++
-            if (firstDiffFrame === -1) firstDiffFrame = f
-          }
-        }
-      }
-      if (pixelDiffs > 0) {
-        throw new Error(`chunk ${i}: ${pixelDiffs} 像素不一致(首个差异 frame=${firstDiffFrame})`)
-      }
+      // 包括未影响画面的 padding；相同字节交给同一 codec 必然产生相同帧，无需重解一遍。
+      expect(Buffer.compare(Buffer.from(decompressed), Buffer.from(raw))).toBe(0)
     }, 30_000)
   }
 })

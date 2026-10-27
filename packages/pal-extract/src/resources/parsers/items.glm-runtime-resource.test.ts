@@ -1,7 +1,6 @@
 /**
  * TEST-GLM-RUNTIME-RESOURCE-2 R07（parsers/items.ts）。
- * 去重账：tables.test 覆盖 flags 位序/截断 throw/真实规模/_name；items.boundaries（PAL-TABLES P04）
- * 覆盖全 296×14B 七 WORD 逐条、六基础位 + 六装备位一热、295 梦蛇排除邻位。
+ * tables.test核原盘全字段/名称；items.boundaries核非对称七WORD、一热flags与截断拒绝。
  * 本文件只做未占用合同：words 空串名不产 _name 键（`if (nm)` 假臂）、同表非空名产 _name、
  * 输入零突变。
  */

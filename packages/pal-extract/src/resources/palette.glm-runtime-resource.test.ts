@@ -20,8 +20,10 @@ describe('R02 decodePalette 默认 cycles 与组合轴', () => {
     buf[0] = 63
     buf[768] = 31
     const cycles = [{ start: 200, length: 8, step: 1, frameInterval: 4 }]
+    const before = structuredClone(cycles)
     const palette = decodePalette(buf, cycles)
     expect(palette.cycles).toBe(cycles) // 引用透传，不复制
+    expect(cycles).toEqual(before)
     expect(palette.colors[0]).toEqual([255, 0, 0])
     expect(palette.nightColors).toHaveLength(256)
     expect(palette.nightColors![0]![0]).toBe(125) // 31 → (31<<2)|(31>>4) = 124|1
@@ -35,5 +37,13 @@ describe('R02 decodePalette 默认 cycles 与组合轴', () => {
     buf[11] = 32
     const palette = decodePalette(buf)
     expect(palette.colors[3]).toEqual([4, 28, 130])
+  })
+})
+
+test('decodePalette：短缓冲仅保留首通道，所有缺位补零且无夜色', () => {
+  const palette = decodePalette(new Uint8Array([0x3f]))
+  expect(palette).toEqual({
+    colors: [[255, 0, 0], ...Array.from({ length: 255 }, () => [0, 0, 0])],
+    cycles: [],
   })
 })

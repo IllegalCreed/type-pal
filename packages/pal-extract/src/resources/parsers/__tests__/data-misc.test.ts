@@ -186,3 +186,8 @@ describe('chunk 10 battle effect sprite — parseSpriteChunk + framesToOut', () 
     expect(digest.hex()).toBe('1d2ae53fae5d912b3307c0a4d7f09404304b61b19c39e7e35bb8e0244517d3bb')
   })
 })
+
+it('parseLevelUpMagic：负roleCount与不足一条输入返回空', () => {
+  expect(parseLevelUpMagic(new Uint8Array(20), -3)).toEqual([])
+  expect(parseLevelUpMagic(new Uint8Array(19), 5)).toEqual([])
+})

@@ -14,8 +14,6 @@ import {
 } from '../../../core/menu/inventory-menu.js'
 import { setWordTable } from '../../../core/word-lookup.js'
 
-const NO_ROLE: ItemFlags['equipableBy'] = [false, false, false, false, false, false]
-
 export function makeItem(
   id: number,
   name: string,
@@ -39,7 +37,7 @@ export function makeItem(
       consuming: false,
       applyToAll: false,
       sellable: false,
-      equipableBy: NO_ROLE,
+      equipableBy: [false, false, false, false, false, false],
       ...flags,
     },
   }
@@ -56,7 +54,7 @@ export function makeRole(id: number, name: string, patch: Partial<PlayerRole> = 
     attackAll: 0,
     level: 1,
     maxHP: 100,
-    maxMP: 40,
+    maxMP: 100,
     hp: 99,
     mp: 99,
     attackStrength: 1,
@@ -85,14 +83,15 @@ export function makeRoles(): PlayerRoles {
 }
 
 export function makeGs(): GameState {
-  return createInitialGameState({ x: 160, y: 112, facing: 'down' })
+  const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, makeRoles())
+  return gs
 }
 
 /** 正常菜单场景：数值合法且 runtime 已 hydrate；死亡/缺目录等防御输入由各例显式构造。 */
 export function makeLiveScene(party: readonly number[] = [0]) {
   const gs = makeGs()
   const roles = makeRoles()
-  for (const role of roles.roles) role.maxMP = 100
   gs.partyMembers = [...party]
   hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
   return { gs, roles }
@@ -107,7 +106,7 @@ export function freezeNow(ms: number): () => void {
 }
 
 /** 物品目标光标是模块静态。用公开 confirm/cancel 把它拨回 0，避免用例互相污染。 */
-export function resetInventoryTargetSlot(): void {
+function resetInventoryTargetSlot(): void {
   const item = makeItem(9001, '甲', { flags: { usable: true } })
   const roles = makeRoles()
   const gs = makeGs()

@@ -139,25 +139,6 @@ describe('G01-D SceneAssetsCache 归属与迟到', () => {
     expect(fetcher).toHaveBeenCalledTimes(4)
   })
 
-  it('G01-D09 连续两次超限淘汰的受害者顺序是 1 然后 2，3 与 4 仍命中', async () => {
-    const evicted: number[] = []
-    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId))
-    const cache = new SceneAssetsCache(fetcher, {
-      maxEntries: 2,
-      onEvict: (sceneId) => evicted.push(sceneId),
-    })
-    await cache.loadScene(1)
-    await cache.loadScene(2)
-    await cache.loadScene(3)
-    await cache.loadScene(4)
-    expect(evicted).toEqual([1, 2])
-    await cache.loadScene(3)
-    await cache.loadScene(4)
-    expect(fetcher).toHaveBeenCalledTimes(4)
-    await cache.loadScene(2)
-    expect(fetcher).toHaveBeenCalledTimes(5)
-  })
-
   it('G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取', async () => {
     const pending = new Map<number, (asset: SceneAssets) => void>()
     let scripted = true

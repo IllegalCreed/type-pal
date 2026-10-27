@@ -19,30 +19,25 @@ describe('R05 recompile authored 结构化命令拒绝', () => {
     ['if', [{ op: 'if', cond: { op: 'raw', opcode: 1, operands: [0, 0, 0] }, then: [] }]],
     ['choice', [{ op: 'choice', prompt: '选择', options: [] }]],
   ]
-  test.each(authoredCases)('%s 不是字节码命令：抛 unsupported op', (_name, commands) => {
-    expect(() => recompile(commands, [])).toThrow('unsupported op')
+  test.each(authoredCases)('%s 不是字节码命令：抛 unsupported op', (name, commands) => {
+    expect(() => recompile(commands, [])).toThrow(`recompile: unsupported op ${name}`)
   })
 })
 
 describe('R05 混合脚本往返（入口 ip + goto + raw + 样式）', () => {
-  test('disasm(entryIps) → recompile 与原始字节逐字节相等；entry 标签参与 goto 定位', () => {
-    const bc = new Uint8Array(5 * 8)
-    const v = new DataView(bc.buffer)
-    const set = (i: number, op: number, o0 = 0, o1 = 0, o2 = 0): void => {
-      v.setUint16(i * 8, op, true)
-      v.setUint16(i * 8 + 2, o0, true)
-      v.setUint16(i * 8 + 4, o1, true)
-      v.setUint16(i * 8 + 6, o2, true)
-    }
-    set(0, 0x0059, 12) // loadScene 12（入口 0）
-    set(1, 0x003c, 55, 7, 1) // setDialogStyleTop + args
-    set(2, 0x0003, 4, 3) // goto L_4 delay 3
-    set(3, 0x00a2, 1) // 随机跳 → 4
-    set(4, 0x0002, 0, 6) // end reset resetTo=0 idle=6
-
+  test('disasm(entryIps) → recompile 与原始字节逐字节相等；额外入口和跳转标签均保留', () => {
+    const bc = new Uint8Array([
+      0x59, 0, 12, 0, 0, 0, 0, 0, 0x3c, 0, 55, 0, 7, 0, 1, 0, 3, 0, 4, 0, 3, 0, 0, 0, 0xa2, 0, 1, 0,
+      0, 0, 0, 0, 2, 0, 0, 0, 6, 0, 0, 0,
+    ])
     const commands = disasm(bc, [], [0, 3])
-    expect(commands[0]?.label).toBe('L_0') // 入口 ip 打标
-    expect(commands[4]?.label).toBe('L_4') // goto + 随机跳目标
+    expect(commands).toEqual([
+      { op: 'loadScene', sceneId: 12, label: 'L_0' },
+      { op: 'setDialogStyleTop', arg0: 55, arg1: 7, arg2: 1 },
+      { op: 'goto', to: 'L_4', frameDelay: 3 },
+      { op: 'raw', opcode: 0xa2, operands: [1, 0, 0], label: 'L_3' },
+      { op: 'end', reset: true, resetTo: 0, idleFrames: 6, label: 'L_4' },
+    ])
     const back = recompile(commands, [])
     expect([...back]).toEqual([...bc]) // 独立预期 = 原始字节（round-trip 不变式）
   })

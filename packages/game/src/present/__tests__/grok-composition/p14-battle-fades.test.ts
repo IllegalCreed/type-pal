@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import type { BattleAnimState } from '../../../core/battle/battle-state.js'
 import { BattlePresent } from '../../battle/present-battle.js'
 import { createFramebuffer } from '../../framebuffer.js'
@@ -26,6 +26,10 @@ import {
   yellowDigit,
 } from './fixtures/images.js'
 import { bitmapView } from './fixtures/world.js'
+
+afterEach(() => {
+  resetScreenWavePhase()
+})
 
 function summonAnim(step: number | undefined): BattleAnimState {
   return {

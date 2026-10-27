@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { decodeRngFrames, rngBlitDelta } from './rng.js'
 
-// 纯逻辑单测(shared 为同构包,不依赖 node:fs)。真实 RNG.MKF 集成解码覆盖在
-// pal-extract `rng-frames.test.ts`(decodeRngAnim 走同一份 shared decodeRngFrames)。
+// 纯逻辑单测不依赖 node:fs；真实 RNG.MKF 的发布与解码接线由
+// pal-extract animation-assets.rng.test.ts 验证，不保留旧逐帧 PNG 适配器。
 describe('rngBlitDelta (RLE delta opcodes)', () => {
   it('0x06 写 1 个 2-byte literal pair', () => {
     const s = new Uint8Array(8)

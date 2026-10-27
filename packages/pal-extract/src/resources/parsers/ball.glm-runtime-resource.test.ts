@@ -1,7 +1,7 @@
 /**
  * TEST-GLM-RUNTIME-RESOURCE-2 R03（pal-extract/resources/parsers/ball.ts）。
  * 与misc-mkf真实原盘回归分工。合同：短空槽null、坏尺寸warn+null、
- * 0x02000000 标记头剥离与非标记直解、半标记不剥离、零尺寸 null、chunkIndex 透传、
+ * 02 00 00 00 标记头剥离与非标记直解、零尺寸 null、chunkIndex 透传、
  * PNG 以 pngjs 真解码核对尺寸/像素/alpha（不以魔数冒充）。
  */
 import { PNG } from 'pngjs'
@@ -15,7 +15,7 @@ describe('R03 decodeBallIcon 空槽与标记头', () => {
     expect(decodeBallIcon(3, new Uint8Array([0x02, 0x00, 0x00]))).toBeNull()
   })
 
-  test('0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255', () => {
+  test('02 00 00 00 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255', () => {
     const buf = new Uint8Array([
       0x02,
       0x00,

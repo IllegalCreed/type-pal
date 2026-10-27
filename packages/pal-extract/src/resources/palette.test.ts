@@ -16,11 +16,10 @@ describe('decodePalette', () => {
     expect(palette.colors[0]).toEqual([0, 0, 0])
   })
 
-  it('cycles 默认为空,可传入', () => {
+  it('cycles 保留传入的完整配置', () => {
     const palette = decodePalette(new Uint8Array(768), [
       { start: 200, length: 8, step: 1, frameInterval: 4 },
     ])
-    expect(palette.cycles).toHaveLength(1)
-    expect(palette.cycles[0]!.start).toBe(200)
+    expect(palette.cycles).toEqual([{ start: 200, length: 8, step: 1, frameInterval: 4 }])
   })
 })

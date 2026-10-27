@@ -100,3 +100,10 @@ describe('parseEnemies · object→enemy 反查 _name', () => {
     expect(() => parseEnemyObjects(mkTable(OBJ_BYTES - 1, []))).toThrow(/< required/)
   })
 })
+
+test('buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map', () => {
+  const words = mkWords({ enemies: ['不会被短表读取'] })
+  const short = new Uint8Array(100)
+  expect(buildEnemyObjectNameMap(short, words)).toEqual(new Map())
+  expect(buildObjectIndexToEnemyIdMap(short)).toEqual(new Map())
+})

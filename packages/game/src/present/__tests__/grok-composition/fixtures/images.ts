@@ -16,7 +16,17 @@ export const WORLD = 0x13
 export const SUMMON_TO = 0x5a
 
 export function at(fb: Framebuffer, x: number, y: number): number {
-  return fb.indices[y * fb.width + x] ?? 0
+  if (
+    !Number.isInteger(x) ||
+    !Number.isInteger(y) ||
+    x < 0 ||
+    x >= fb.width ||
+    y < 0 ||
+    y >= fb.height
+  ) {
+    throw new Error(`pixel outside framebuffer: (${x}, ${y})`)
+  }
+  return fb.indices[y * fb.width + x]!
 }
 
 /** 只点亮左上角一位。宽 16 的字形用两字节一行。 */

@@ -64,3 +64,16 @@ describe('P02 parseWordDat 合成全表段界', () => {
     expect(words.flat[37]).toBe('BBBBBBBBBB') // 满长不截
   })
 })
+
+test('parseWordDat：短缓冲只产完整flat记录，分类段保持固定长度与空文本', () => {
+  expect(parseWordDat(new Uint8Array(100).fill(0x20))).toEqual({
+    flat: Array(10).fill(''),
+    system: Array(36).fill(''),
+    persons: Array(6).fill(''),
+    battleUi: Array(19).fill(''),
+    items: Array(235).fill(''),
+    spells: Array(102).fill(''),
+    enemies: Array(153).fill(''),
+    scenes: Array(14).fill(''),
+  })
+})

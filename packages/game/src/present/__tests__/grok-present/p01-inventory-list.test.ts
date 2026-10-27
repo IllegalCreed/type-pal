@@ -25,14 +25,7 @@ import {
   rightDigitX,
   SENTINEL,
 } from './images.js'
-import {
-  cloneInputs,
-  freezeNow,
-  makeGs,
-  makeItem,
-  makeRoles,
-  resetHostSingletons,
-} from './world.js'
+import { cloneInputs, freezeNow, makeGs, makeItem, resetHostSingletons } from './world.js'
 
 const NAMES = '甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥'
 const glyphs = fixtureGlyphs()
@@ -155,7 +148,6 @@ describe('P01 物品列表', () => {
 
   it('P01 不可用、可用数量与已装备虚拟条目用不同色和数字', () => {
     const gs = makeGs()
-    const roles = makeRoles()
     const blocked = makeItem(10, '甲')
     const potion = makeItem(11, '乙', { flags: { usable: true } })
     const bead = makeItem(12, '丙', { flags: { usable: true } })
@@ -173,14 +165,14 @@ describe('P01 物品列表', () => {
     const frames = makeUiFrames()
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items, roles, frames })
+    const before = cloneInputs({ gs, menu, items, frames })
     const restore = freezeNow(0)
     try {
       drawInventoryMenu({ fb, state: menu, items, uiSpriteFrames: frames, glyphs })
     } finally {
       restore()
     }
-    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)
+    expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)
 
     expect(pixel(fb, labelOf('甲', 0, 0).x, labelOf('甲', 0, 0).y)).toBe(
       MENUITEM_COLOR_SELECTED_INACTIVE,

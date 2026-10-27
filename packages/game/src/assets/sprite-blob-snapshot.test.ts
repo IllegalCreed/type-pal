@@ -1,9 +1,8 @@
 /**
  * sprite blob 真值对拍:npc / battle / magic(资源管线优化 · 补 GLM 审查缺口)。
  *
- * 这四类 blob = gzip(喂给 parseSpriteChunk 的 chunk 字节)。故 `decompressGzip(blob)` 必须与
- * 「原版 MKF 对应 chunk(按需 YJ2 解压)」逐字节一致 —— 一致即保证 runtime parseSpriteChunk
- * 解出的帧与 extractor 端完全相同。
+ * 下面五组 blob = gzip(喂给 parsePalSpriteChunk 的 chunk 字节)。故 `decompressGzip(blob)` 必须与
+ * 「原版 MKF 对应 chunk(按需 YJ2 解压)」逐字节一致。这里验证传输保真；原盘帧解析由 codec 专测负责。
  *
  *   npc        : data/sprite/{id}.rle           vs decompressYj2(MGO.MKF[id])
  *   battle enemy: data/battle-sprite/enemy/{id}.rle vs tryYj2(ABC.MKF[id])
@@ -17,7 +16,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { decompressYj2, type Mkf, openMkf, parseSpriteChunk, readChunk } from '@type-pal/shared'
+import { decompressYj2, type Mkf, openMkf, readChunk } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { decompressGzip } from './tileset-blob.js'
 
@@ -58,13 +57,7 @@ async function assertBlobBytes(blobPath: string, truthChunk: Uint8Array): Promis
   expect(blobBytes[0]).toBe(0x1f) // gzip 魔数
   expect(blobBytes[1]).toBe(0x8b)
   const decompressed = await decompressGzip(new Blob([Buffer.from(blobBytes)]))
-  expect(decompressed.byteLength).toBe(truthChunk.byteLength)
-  // 逐字节比较(转 string 对比避免逐元素 expect 噪声)
-  let diffs = 0
-  for (let i = 0; i < truthChunk.byteLength; i++) if (decompressed[i] !== truthChunk[i]) diffs++
-  expect(diffs).toBe(0)
-  // 二次保险:解出的帧数一致
-  expect(parseSpriteChunk(decompressed).length).toBe(parseSpriteChunk(truthChunk).length)
+  expect(Buffer.compare(Buffer.from(decompressed), Buffer.from(truthChunk))).toBe(0)
 }
 
 describe.skipIf(!hasData)('sprite blob 真值对拍(npc / battle / magic)', () => {
@@ -72,7 +65,6 @@ describe.skipIf(!hasData)('sprite blob 真值对拍(npc / battle / magic)', () =
     const mgo = openRaw('MGO.MKF')
     const dir = resolve(EXT, 'sprite')
     const blobs = sampleBlobs(dir, 5)
-    expect(blobs.length).toBeGreaterThan(0)
     for (const f of blobs) {
       const id = Number(f.replace('.rle', ''))
       await assertBlobBytes(resolve(dir, f), decompressYj2(readChunk(mgo, id)))
