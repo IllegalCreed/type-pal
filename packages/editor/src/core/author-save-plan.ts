@@ -1,5 +1,6 @@
 /** Immutable current-only save plan. This module validates data; it grants no IO capability. */
 import { CONTENT_VERSION, validateProjectRelativePath } from '@type-pal/content'
+import { beginSaveMeasurement } from './save-performance.js'
 import type { WorkspaceMode, WorkspaceSource } from './workspace-context.js'
 import { isWorkspaceId, isWorkspaceIdentityPath } from './workspace-context.js'
 
@@ -16,7 +17,10 @@ export type SaveStep =
   | { kind: 'mkdir'; path: string }
 export interface AuthorSavePlan {
   kind: 'type-pal-author-save-plan'
-  version: 1
+  version: 1 | 2
+  /** V2 first-save only: catalog/manifest must remain ordered publication barriers. */
+  barriers?: string[]
+  copyLimits?: { files: 32 | 64 | 128; bytes: number }
   contentVersion: typeof CONTENT_VERSION
   operationId: string
   identity: SaveIdentity
@@ -95,10 +99,11 @@ export function parseAuthorSavePlan(value: unknown, identity: SaveIdentity): Aut
     'before',
     'directories',
     'steps',
+    ...(r.version === 2 ? ['barriers', 'copyLimits'] : []),
   ])
   if (
     r.kind !== 'type-pal-author-save-plan' ||
-    r.version !== 1 ||
+    (r.version !== 1 && r.version !== 2) ||
     r.contentVersion !== CONTENT_VERSION
   )
     throw new Error('恢复计划版本不符；请保留目录，在对应版本完成未结束的保存')
@@ -174,9 +179,48 @@ export function parseAuthorSavePlan(value: unknown, identity: SaveIdentity): Aut
       throw new Error(`恢复步骤父目录尚未创建：${step.path}`)
     if (step.kind === 'mkdir') knownDirectories.add(step.path)
   }
+  let barriers: string[] | undefined
+  let copyLimits: AuthorSavePlan['copyLimits']
+  if (r.version === 2) {
+    if (
+      parsedIdentity.mode !== 'local-project' ||
+      parsedIdentity.source !== 'save-as' ||
+      Object.values(before).some((value) => value !== null) ||
+      Object.values(directories).some(Boolean) ||
+      steps.filter((step) => step.kind === 'write').length < 64
+    )
+      throw new Error('并行恢复计划仅允许全新空目录另存')
+    const files = steps.filter((step) => step.kind !== 'mkdir').map((step) => step.path)
+    if (new Set(files).size !== files.length) throw new Error('并行恢复计划含重复文件步骤')
+    if (
+      !Array.isArray(r.barriers) ||
+      r.barriers.length !== 2 ||
+      r.barriers[0] !== 'manifest.json' ||
+      new Set(r.barriers).size !== r.barriers.length
+    )
+      throw new Error('并行恢复计划缺少发布屏障')
+    const limits = object(r.copyLimits)
+    keys(limits, ['files', 'bytes'])
+    if (
+      (limits.files !== 32 && limits.files !== 64 && limits.files !== 128) ||
+      limits.bytes !== COPY_SAVE_MAX_BYTES
+    )
+      throw new Error('并行恢复计划批次上限无效')
+    copyLimits = { files: limits.files, bytes: COPY_SAVE_MAX_BYTES }
+    barriers = r.barriers.map((value: unknown) => {
+      if (
+        typeof value !== 'string' ||
+        !steps.some((step) => step.kind === 'write' && step.path === value)
+      )
+        throw new Error('并行恢复计划发布屏障无效')
+      assertSavePath(value)
+      return value
+    })
+  }
   return {
     kind: r.kind,
     version: r.version,
+    ...(barriers ? { barriers, copyLimits } : {}),
     contentVersion: CONTENT_VERSION,
     operationId: r.operationId,
     identity: parsedIdentity,
@@ -188,14 +232,40 @@ export function parseAuthorSavePlan(value: unknown, identity: SaveIdentity): Aut
 
 /** Derive the only acceptable committed prefix; never accept arbitrary per-file old/new mixes. */
 export function savePrefix(plan: AuthorSavePlan, completed: number) {
-  if (!Number.isSafeInteger(completed) || completed < 0 || completed > plan.steps.length)
-    throw new Error('恢复游标越界')
-  const files = new Map(Object.entries(plan.before))
-  const directories = new Map(Object.entries(plan.directories))
-  for (let i = 0; i < completed; i++) {
-    const step = plan.steps[i]!
-    if (step.kind === 'mkdir') directories.set(step.path, true)
-    else files.set(step.path, step.kind === 'remove' ? null : step.signature)
+  const finishMeasurement = beginSaveMeasurement('savePrefix')
+  try {
+    if (!Number.isSafeInteger(completed) || completed < 0 || completed > plan.steps.length)
+      throw new Error('恢复游标越界')
+    const files = new Map(Object.entries(plan.before))
+    const directories = new Map(Object.entries(plan.directories))
+    for (let i = 0; i < completed; i++) {
+      const step = plan.steps[i]!
+      if (step.kind === 'mkdir') directories.set(step.path, true)
+      else files.set(step.path, step.kind === 'remove' ? null : step.signature)
+    }
+    return { files, directories }
+  } finally {
+    finishMeasurement()
   }
-  return { files, directories }
+}
+
+export const COPY_SAVE_MAX_FILES = 128
+export const COPY_SAVE_MAX_BYTES = 16 * 1024 * 1024
+
+/** A deterministic, sealed-plan range; no caller-supplied range can widen issuance. */
+export function copySaveBatchEnd(plan: AuthorSavePlan, completed: number): number {
+  if (!Number.isSafeInteger(completed) || completed < 0 || completed >= plan.steps.length)
+    throw new Error('恢复游标越界')
+  if (plan.version !== 2) return completed + 1
+  let bytes = 0
+  let end = completed
+  while (end < plan.steps.length && end - completed < plan.copyLimits!.files) {
+    const step = plan.steps[end]!
+    if (step.kind !== 'write' || plan.barriers!.includes(step.path)) break
+    const size = Number(step.signature.split(':')[1]) // signature already strictly parsed
+    if (end > completed && bytes + size > plan.copyLimits!.bytes) break
+    bytes += size
+    end++
+  }
+  return Math.max(end, completed + 1)
 }

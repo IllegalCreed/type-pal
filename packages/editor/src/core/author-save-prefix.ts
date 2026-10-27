@@ -1,9 +1,16 @@
-import { type AuthorSavePlan, type SaveSignature, savePrefix } from './author-save-plan.js'
+import {
+  type AuthorSavePlan,
+  copySaveBatchEnd,
+  type SaveSignature,
+  type SaveStep,
+  savePrefix,
+} from './author-save-plan.js'
 
 export interface SaveCursor {
   completed: number
   /** Durable issuance BEFORE author IO; at most one operation can be uncertain. */
   issued: boolean
+  batchEnd?: number | null
 }
 export interface SaveDiskState {
   files: ReadonlyMap<string, SaveSignature>
@@ -29,9 +36,39 @@ export function reconcileSaveCursor(
   disk: SaveDiskState,
 ): SaveCursor {
   if (typeof cursor.issued !== 'boolean') throw new Error('恢复 issued 状态无效')
+  if (!cursor.issued && cursor.batchEnd != null) throw new Error('未发出操作却带恢复批次')
   const expected = savePrefix(plan, cursor.completed)
   let result = { ...cursor }
-  if (cursor.issued) {
+  if (
+    plan.version === 2 &&
+    cursor.issued &&
+    cursor.batchEnd == null &&
+    copySaveBatchEnd(plan, cursor.completed) > cursor.completed + 1
+  )
+    throw new Error('恢复批次缺少完整范围')
+  if (cursor.batchEnd != null) {
+    if (
+      !cursor.issued ||
+      plan.version !== 2 ||
+      cursor.batchEnd !== copySaveBatchEnd(plan, cursor.completed) ||
+      cursor.batchEnd <= cursor.completed + 1
+    )
+      throw new Error('恢复批次范围与封存计划不符')
+    let allAfter = true
+    for (let i = cursor.completed; i < cursor.batchEnd; i++) {
+      const step = plan.steps[i]!
+      if (step.kind !== 'write') throw new Error('恢复批次包含非写入步骤')
+      const actual = disk.files.get(step.path)
+      if (actual === step.signature) expected.files.set(step.path, step.signature)
+      else {
+        allAfter = false
+        if (expected.files.get(step.path) !== null || (actual !== null && actual !== EMPTY_FILE))
+          throw new AuthorSaveRecoveryConflict(step.path)
+        expected.files.set(step.path, actual)
+      }
+    }
+    if (allAfter) result = { completed: cursor.batchEnd, issued: false, batchEnd: null }
+  } else if (cursor.issued) {
     const step = plan.steps[cursor.completed]
     if (!step) throw new Error('恢复已完成但仍有 issued 步骤')
     if (step.kind === 'mkdir') {
@@ -64,4 +101,34 @@ export function reconcileSaveCursor(
     if (!disk.directories.has(path) || disk.directories.get(path) !== exists)
       throw new AuthorSaveRecoveryConflict(path)
   return result
+}
+
+/** Same per-target check used between the full entry/exit disk scans, without O(n²) map copies. */
+export function assertSaveTargetBeforeIO(
+  plan: AuthorSavePlan,
+  cursor: SaveCursor,
+  prefix: SaveDiskState,
+  actual: SaveSignature | boolean | undefined,
+): void {
+  if (
+    !Number.isSafeInteger(cursor.completed) ||
+    cursor.completed < 0 ||
+    cursor.completed >= plan.steps.length ||
+    typeof cursor.issued !== 'boolean'
+  )
+    throw new Error('恢复游标越界')
+  const step = plan.steps[cursor.completed]!
+  const before =
+    step.kind === 'mkdir' ? prefix.directories.get(step.path) : prefix.files.get(step.path)
+  const after = step.kind === 'mkdir' ? true : step.kind === 'remove' ? null : step.signature
+  // The entry scan alone may reconcile an uncertain close. A change AFTER admission
+  // must still stop, just as the former full-prefix loop rejected a changed cursor.
+  if (cursor.issued && actual === after) throw new AuthorSaveRecoveryConflict(step.path)
+  if (cursor.issued && step.kind === 'write' && before === null && actual === EMPTY_FILE) return
+  if (actual === undefined || actual !== before) throw new AuthorSaveRecoveryConflict(step.path)
+}
+
+export function advanceSavePrefix(prefix: ReturnType<typeof savePrefix>, step: SaveStep): void {
+  if (step.kind === 'mkdir') prefix.directories.set(step.path, true)
+  else prefix.files.set(step.path, step.kind === 'remove' ? null : step.signature)
 }

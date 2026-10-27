@@ -35,6 +35,7 @@ import { type OpenedProject, openLocalProject } from './open-local.js'
 import { assetCopyInputs, observeProjectCopySource } from './project-copy-source.js'
 import type { ProjectWriteActivity } from './project-io.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
+import { beginSaveMeasurement } from './save-performance.js'
 import { buildBlankProject } from './seed.js'
 import {
   assertSamePalDevelopmentProof,
@@ -278,48 +279,58 @@ export async function saveProjectAs(
 ): Promise<Opened | null> {
   const dir = await pickDir()
   if (!dir) return null
-  const sourceDir =
-    srcDir ?? (sourceEvidence ? authorBaselineDirectory(sourceEvidence.authorBaseline) : undefined)
-  const workspace = createSaveAsWorkspaceContext(sourceWorkspace)
-  await preflightFirstSaveTarget(workspace, dir)
-  if (sourceDir) await assertSaveAsTargetOutsideSource(sourceDir, dir)
-  const original = sourceDir ? fsaSource(sourceDir) : sourceEvidence?.source
-  onProgress?.({ phase: 'preparing' })
-  const observed = sourceEvidence && original ? await observeProjectCopySource(original) : undefined
-  const verifyAuthor = async () => {
-    if (!sourceEvidence || !original) throw new Error('另存为缺少源项目基线，请重新打开项目')
-    if (sourceDir) await verifyOpenedAuthorBaseline(sourceEvidence.authorBaseline, sourceDir)
-    else await verifySourceAuthorBaseline(sourceEvidence.authorBaseline, original)
+
+  const finishMeasurement = beginSaveMeasurement('saveProjectAs')
+  try {
+    const sourceDir =
+      srcDir ??
+      (sourceEvidence ? authorBaselineDirectory(sourceEvidence.authorBaseline) : undefined)
+    const workspace = createSaveAsWorkspaceContext(sourceWorkspace)
+    await preflightFirstSaveTarget(workspace, dir)
+    if (sourceDir) await assertSaveAsTargetOutsideSource(sourceDir, dir)
+    const original = sourceDir ? fsaSource(sourceDir) : sourceEvidence?.source
+    onProgress?.({ phase: 'preparing' })
+    const observed =
+      sourceEvidence && original ? await observeProjectCopySource(original) : undefined
+    const verifyAuthor = async () => {
+      if (!sourceEvidence || !original) throw new Error('另存为缺少源项目基线，请重新打开项目')
+      if (sourceDir) await verifyOpenedAuthorBaseline(sourceEvidence.authorBaseline, sourceDir)
+      else await verifySourceAuthorBaseline(sourceEvidence.authorBaseline, original)
+    }
+    if (sourceEvidence) await verifyAuthor()
+    const files = structuredClone(await buildFiles())
+    await preflightProjectWriteSet(files, removePaths)
+    await verifyAuthor()
+    if (!observed) throw new Error('另存为缺少源项目读取证据')
+    const copied = sourceDir ? await readDirectoryCopy(sourceDir, observed.source) : undefined
+    const target = await authorizeFirstSaveTarget(workspace, dir, {
+      additionalVerify: sourceDir
+        ? () => assertSaveAsTargetOutsideSource(sourceDir, dir)
+        : undefined,
+    })
+    // Source bytes, current edits and removals form ONE staged intent. No source W lock is
+    // nested inside the target lock: source revision/bytes/inventory are checked before sealing.
+    return await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+      await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
+      const saved = await writeProject(mutation, files, {
+        removePaths,
+        onActivity: onProgress,
+        copies: copied?.copies ?? assetCopyInputs(files, observed.source),
+        directories: copied?.directories,
+        verifySource: async () => {
+          await verifyAuthor()
+          await copied?.verify()
+          await observed.verify()
+        },
+      })
+      onProgress?.({ phase: 'reopening' })
+      const opened = await finishOpen(dir, {
+        workspaceHint: workspace,
+        registrationMutation: mutation,
+      })
+      return saved.cleanupWarning ? { ...opened, recoveryWarning: saved.cleanupWarning } : opened
+    })
+  } finally {
+    finishMeasurement()
   }
-  if (sourceEvidence) await verifyAuthor()
-  const files = structuredClone(await buildFiles())
-  await preflightProjectWriteSet(files, removePaths)
-  await verifyAuthor()
-  if (!observed) throw new Error('另存为缺少源项目读取证据')
-  const copied = sourceDir ? await readDirectoryCopy(sourceDir, observed.source) : undefined
-  const target = await authorizeFirstSaveTarget(workspace, dir, {
-    additionalVerify: sourceDir ? () => assertSaveAsTargetOutsideSource(sourceDir, dir) : undefined,
-  })
-  // Source bytes, current edits and removals form ONE staged intent. No source W lock is
-  // nested inside the target lock: source revision/bytes/inventory are checked before sealing.
-  return withAuthorizedWorkspaceMutation(target, async (mutation) => {
-    await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
-    const saved = await writeProject(mutation, files, {
-      removePaths,
-      onActivity: onProgress,
-      copies: copied?.copies ?? assetCopyInputs(files, observed.source),
-      directories: copied?.directories,
-      verifySource: async () => {
-        await verifyAuthor()
-        await copied?.verify()
-        await observed.verify()
-      },
-    })
-    onProgress?.({ phase: 'reopening' })
-    const opened = await finishOpen(dir, {
-      workspaceHint: workspace,
-      registrationMutation: mutation,
-    })
-    return saved.cleanupWarning ? { ...opened, recoveryWarning: saved.cleanupWarning } : opened
-  })
 }
