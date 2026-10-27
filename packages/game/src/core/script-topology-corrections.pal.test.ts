@@ -116,7 +116,7 @@ it.each([
   expect(env.gs.wNumScene).toBe(destination)
   expect({ x: env.gs.party.x, y: env.gs.party.y }).toEqual({ x: 928, y: 816 })
   const map = resource<Tilemap>('data/tilemap/204.json')
-  const exit = env.gs.allEventObjects![source === 249 ? 4557 : 4841]!
+  const exit = env.gs.allEventObjects![source === 249 ? 4557 : 5077]!
   expect(exit.spriteNum).toBe(0)
   expect(exit.sState).toBe(1)
   const threshold = ((exit.triggerMode ?? 0) - 4) * 32 + 16

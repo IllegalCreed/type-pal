@@ -13,6 +13,17 @@ function makeScene(scriptOnEnter: number, eventObjectIndex: number): import('../
 }
 
 describe('sliceByScene', () => {
+  it('explicit extra roots belong only to their owning scene without adding native event objects', () => {
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'loadScene', sceneId: 3, label: 'L_1' },
+      { op: 'end' },
+    ]
+    const result = sliceByScene(commands, [makeScene(0, 0), makeScene(0, 0)], [], [], { 1: [1] })
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([])
+    expect(result.scenes[1]!.segments[0]!.commands).toEqual(commands.slice(1))
+    expect(result.shared.segments[0]!.commands).toEqual([])
+  })
   it('单场景:可达的命令进 scene-0;不可达不出现', () => {
     // commands: [padding, end, end] — scene 0 scriptOnEnter=1, index 2 unreachable
     const result = sliceByScene(

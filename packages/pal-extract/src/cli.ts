@@ -193,9 +193,27 @@ async function main(): Promise<void> {
     scenes: sss.scenes,
     eventObjects: sss.eventObjects,
   })
+  // Supplemental objects keep explicit scene ownership without entering native SSS ranges.
+  // Their hooks need global labels as well as the owning scene's reachable-script slice.
+  const sceneExtraRoots: Record<number, number[]> = {}
+  for (const entry of corrected?.supplementalObjects ?? [])
+    for (const label of [entry.object.triggerLabel, entry.object.autoLabel])
+      if (label) {
+        const ip = Number(label.slice(2))
+        entryIps.push(ip)
+        const roots = sceneExtraRoots[entry.sceneId] ?? []
+        roots.push(ip)
+        sceneExtraRoots[entry.sceneId] = roots
+      }
   const commands = disasm(sss.bytecode, messages, entryIps)
   const annotated = annotate(commands, words, symbols)
-  const sliced = sliceByScene(annotated, sss.scenes, sss.eventObjects, globalScriptEntries)
+  const sliced = sliceByScene(
+    annotated,
+    sss.scenes,
+    sss.eventObjects,
+    globalScriptEntries,
+    sceneExtraRoots,
+  )
 
   sliced.scenes.forEach((sceneFile, i) => {
     const padded = i.toString().padStart(3, '0')
@@ -233,7 +251,14 @@ async function main(): Promise<void> {
 
   console.log('[pal-extract] data tables written')
 
-  writeWorldAssets(RAW, OUT, sss.scenes, sss.eventObjects, corrected?.eventMetadata)
+  writeWorldAssets(
+    RAW,
+    OUT,
+    sss.scenes,
+    sss.eventObjects,
+    corrected?.eventMetadata,
+    corrected?.supplementalObjects,
+  )
 
   writePaletteAssets(RAW, OUT)
 

@@ -48,6 +48,8 @@ export function sliceByScene(
    * 默认空数组(向后兼容)。
    */
   globalEntries: number[] = [],
+  /** Resource-authored additions retain explicit scene ownership outside native EO ranges. */
+  sceneExtraRoots: Readonly<Record<number, readonly number[]>> = {},
 ): SliceResult {
   // 1. 收集每个场景的入口指令下标
   const sceneEntries: number[][] = scenes.map((sc, si) => {
@@ -64,6 +66,7 @@ export function sliceByScene(
       if (eo.triggerScript > 0) entries.push(eo.triggerScript)
       if (eo.autoScript > 0) entries.push(eo.autoScript)
     }
+    entries.push(...(sceneExtraRoots[si] ?? []).filter((entry) => entry > 0))
     return entries
   })
 

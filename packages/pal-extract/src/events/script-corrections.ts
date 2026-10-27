@@ -9,6 +9,10 @@ export type EventObjectMetadata = Pick<
   SceneEventObject,
   'autoTriggerOnce' | 'autoTriggerAnchorX' | 'autoTriggerAnchorY'
 >
+export interface SupplementalEventObject {
+  sceneId: number
+  object: SceneEventObject
+}
 type Instruction = readonly [number, number, number, number]
 type Word = number | { block: string }
 export interface ScriptCorrectionPlan {
@@ -27,6 +31,14 @@ export interface ScriptCorrectionPlan {
     }[]
     messages?: { index: number; before: string; after: string }[]
     metadata?: { id: number; value: EventObjectMetadata }[]
+    supplementalObjects?: {
+      id: number
+      sceneId: number
+      object: Omit<SceneEventObject, 'id' | 'triggerLabel' | 'autoLabel' | 'supplemental'> & {
+        triggerScript?: Word
+        autoScript?: Word
+      }
+    }[]
   }[]
 }
 export interface ScriptCorrectionManifest {
@@ -50,6 +62,7 @@ export function applyScriptCorrectionPlan(
   messages: string[]
   manifest: ScriptCorrectionManifest
   eventMetadata: ReadonlyMap<number, EventObjectMetadata>
+  supplementalObjects: SupplementalEventObject[]
 } {
   if (sourceSha256 !== plan.sourceSha256)
     throw new Error(
@@ -92,6 +105,7 @@ export function applyScriptCorrectionPlan(
     return [resolved[0]!, resolved[1]!, resolved[2]!, resolved[3]!]
   }
   const eventMetadata = new Map<number, EventObjectMetadata>()
+  const supplementalObjects: SupplementalEventObject[] = []
   for (const rule of plan.rules) {
     for (const edit of rule.instructions ?? []) {
       const actual = instructions[edit.ip]
@@ -125,6 +139,29 @@ export function applyScriptCorrectionPlan(
     for (const block of rule.appends ?? [])
       instructions.push(...block.instructions.map(resolveInstruction))
     for (const entry of rule.metadata ?? []) eventMetadata.set(entry.id, { ...entry.value })
+    for (const entry of rule.supplementalObjects ?? []) {
+      if (entry.id !== source.eventObjects.length + supplementalObjects.length)
+        throw new Error(`${rule.id}: supplemental event ${entry.id} must append the native table`)
+      if (
+        !Number.isInteger(entry.sceneId) ||
+        entry.sceneId < 0 ||
+        entry.sceneId >= source.scenes.length
+      )
+        throw new Error(`${rule.id}: supplemental event ${entry.id} has invalid scene`)
+      const { triggerScript, autoScript, ...definition } = entry.object
+      const trigger = triggerScript === undefined ? 0 : resolveWord(triggerScript)
+      const auto = autoScript === undefined ? 0 : resolveWord(autoScript)
+      supplementalObjects.push({
+        sceneId: entry.sceneId,
+        object: {
+          ...definition,
+          id: entry.id,
+          triggerLabel: trigger ? `L_${trigger}` : undefined,
+          autoLabel: auto ? `L_${auto}` : undefined,
+          supplemental: true,
+        },
+      })
+    }
   }
   sss.bytecode = new Uint8Array(instructions.length * 8)
   const output = new DataView(sss.bytecode.buffer)
@@ -136,6 +173,7 @@ export function applyScriptCorrectionPlan(
     sss,
     messages,
     eventMetadata,
+    supplementalObjects,
     manifest: {
       source: { file: 'SSS.MKF', sha256: sourceSha256 },
       mode: 'corrected',

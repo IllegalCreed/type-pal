@@ -495,53 +495,26 @@
     {
       "id": "e4841",
       "pos": {
-        "col": 80,
-        "row": 25,
+        "col": 63,
+        "row": -5,
         "height": 0
       },
-      "zone": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "独立房间出口",
-          "trigger": "default",
-          "triggerActivation": {
-            "on": "touch",
-            "range": 1
-          }
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "trigger": {
-          "default": {
-            "label": "返回地下宫殿上层",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "loadScene",
-                      "scene": "s285",
-                      "entryId": "palace-upper-return",
-                      "transition": {
-                        "kind": "source",
-                        "outMs": 600,
-                        "inMs": 600,
-                        "color": "black",
-                        "evidenceId": "pal-script-correction-D10"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
+      "sprite": "sprite-548",
+      "collide": true,
+      "hostile": {
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        },
+        "enemyTeamId": "team-267"
       }
     },
     {
@@ -1114,6 +1087,58 @@
                         "slot": "center"
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "palace-isolated-exit",
+      "pos": {
+        "col": 80,
+        "row": 25,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "独立房间出口",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "touch",
+            "range": 1
+          }
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "返回地下宫殿上层",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s285",
+                      "entryId": "palace-upper-return",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-script-correction-D10"
+                      }
                     }
                   ]
                 }

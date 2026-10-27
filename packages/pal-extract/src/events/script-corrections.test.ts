@@ -110,6 +110,56 @@ test('wrong source identity and instruction count reject before applying edits',
   )
 })
 
+test('supplemental event IDs append contiguously and reject collisions, gaps, duplicates and invalid owners', () => {
+  const input = example()
+  input.source.scenes = [
+    {
+      mapNum: 0,
+      scriptOnEnter: 0,
+      scriptOnTeleport: 0,
+      eventObjectIndex: 0,
+      raw: new Uint16Array(4),
+    },
+  ]
+  const entry = {
+    id: 1,
+    sceneId: 0,
+    object: { x: 32, y: 48, spriteNum: 0, triggerMode: 5, triggerScript: { block: 'stop' } },
+  }
+  input.plan.rules[0]!.supplementalObjects = [entry]
+  const result = applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan)
+  expect(result.sss.eventObjects).toHaveLength(1)
+  expect(result.supplementalObjects).toEqual([
+    {
+      sceneId: 0,
+      object: {
+        id: 1,
+        x: 32,
+        y: 48,
+        spriteNum: 0,
+        triggerMode: 5,
+        triggerLabel: 'L_3',
+        autoLabel: undefined,
+        supplemental: true,
+      },
+    },
+  ])
+  for (const id of [0, 2]) {
+    input.plan.rules[0]!.supplementalObjects = [{ ...entry, id }]
+    expect(() =>
+      applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan),
+    ).toThrow('must append the native table')
+  }
+  input.plan.rules[0]!.supplementalObjects = [entry, entry]
+  expect(() =>
+    applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan),
+  ).toThrow('must append the native table')
+  input.plan.rules[0]!.supplementalObjects = [{ ...entry, sceneId: 1 }]
+  expect(() =>
+    applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan),
+  ).toThrow('invalid scene')
+})
+
 test('metadata-only rules preserve script, object and message data without requiring empty edit lists', () => {
   const input = example()
   input.plan.rules = [

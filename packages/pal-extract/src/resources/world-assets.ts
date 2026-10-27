@@ -5,7 +5,7 @@
  */
 import { resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
-import type { EventObjectMetadata } from '../events/script-corrections.js'
+import type { EventObjectMetadata, SupplementalEventObject } from '../events/script-corrections.js'
 import { chunkCount, openMkf, readChunk } from '../io/mkf.js'
 import { readBinary } from '../io/read.js'
 import type { EventObject, Scene } from '../io/sss.js'
@@ -20,6 +20,7 @@ export function writeWorldAssets(
   scenes: Scene[],
   eventObjects: EventObject[],
   eventMetadata?: ReadonlyMap<number, EventObjectMetadata>,
+  supplementalObjects: readonly SupplementalEventObject[] = [],
 ): void {
   // 沿用.rle后缀存gzip字节；runtime仍负责解压，避免与传输层重复处理。
   function tilesetBlobRelPath(mapNum: number): string {
@@ -104,7 +105,13 @@ export function writeWorldAssets(
     for (let allSceneId = 0; allSceneId < scenes.length; allSceneId++) {
       const s = scenes[allSceneId]
       if (!s) continue
-      const sceneObjs = dumpScene(allSceneId, scenes, eventObjects, eventMetadata)
+      const sceneObjs = dumpScene(
+        allSceneId,
+        scenes,
+        eventObjects,
+        eventMetadata,
+        supplementalObjects,
+      )
       writeJson(dataSubdirPath('scene', String(allSceneId)), sceneObjs)
       sceneWritten++
     }
@@ -113,7 +120,7 @@ export function writeWorldAssets(
 
   // 最后写全局对象表，保留全局id和各场景的半开区间。
   {
-    const allEvtObjs = dumpAllEventObjects(scenes, eventObjects, eventMetadata)
+    const allEvtObjs = dumpAllEventObjects(scenes, eventObjects, eventMetadata, supplementalObjects)
     writeJson(resolve(outputRoot, 'data', 'event-objects.json'), allEvtObjs)
     console.log(
       `[pal-extract] event-objects.json written: ${allEvtObjs.eventObjects.length} objects, ` +
