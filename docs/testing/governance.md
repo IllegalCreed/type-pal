@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（测试文档合同维护；测试作者与审查者分别署名）
-Last reviewed: 2026-10-18
+Last reviewed: 2026-10-27
 Template: guide-runbook-v1 / 1.0.0
 
 ## 目的

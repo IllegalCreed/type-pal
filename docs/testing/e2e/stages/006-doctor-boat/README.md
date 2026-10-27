@@ -1,6 +1,6 @@
 # E2E-006 · 求药与出海
 
-Last reviewed: 2026-10-26
+Last reviewed: 2026-10-27
 Template: test-e2e-stage-v1 / 1.0.0
 
 ```yaml
@@ -22,15 +22,13 @@ canonicalReport: report.md
 
 ## 当前结论
 
-2026-10-26：当前两端006独立路线及95条正文/完整上岛收尾通过；最新离线全比较passed（0项finding），船只专项通过。编辑器初态、命名与正式006checkpoint仍按下列范围待核，整段保持rework。
+10-27两端95正文/完整上岛收尾、零finding全比较、正式006终档与新上下文读回均有passed原件；12入口/11状态已真实另存、File/Open重开并逐一播放重置，23处用途label补齐。技术产物与边界见[正式报告](report.md)。
 
-`lastVerified: 2026-10-03`保留原发布身份；10-26新执行是另有原件的局部补验，不能把原native SAVE11回执改号成SAVE12，也不授capture-ready、下游正式前驱或整段done。
+状态仍rework：作者不代签非作者/用户视觉；lastVerified10-03、reviewBy11-02不变，本次不再延期。静态NPC初态不等于玩家/cursor/authority全现场恢复，不扩大连续、后续剧情或coverage信用。
 
 ## 证据与状态
 
-[机器回执](../../evidence/e2e-006.json)原顶层字段和历史执行保持逐字节；新增_governance publicationReview20261026只指向新原件和当前结论。旧`currentAudit.runtimeExecutionPerformed=false`仍描述10-18文档核读，不描述10-26新实跑。
-
-本轮实质核读配对报告、catalog、当前caller、共同E2E合同、两端原始trace/关键截图和归档来源，发现原10-11raw在已查活跃树/备份中未恢复，故只重建必要合法前驱与当前006。原10-23截止在10-26已过期，原失败保留；下一次**出版复核**设11-02（或source/准入变化时提前），继续rework，不能把该日期解释为执行结果或自动续期。
+[当前回执](../../evidence/e2e-006-current.json)绑定新执行；[历史回执](../../evidence/e2e-006.json)整个文件字节不变，catalog完整SHA/原状态/原候选与新回执supersedes反向配对。原10-18文档audit false和旧SAVE11身份不刷新。短片、终档SHA、重开与失败原件由正式报告唯一定位，不复制进度账本。
 
 ## 依赖与历史
 

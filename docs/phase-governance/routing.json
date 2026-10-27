@@ -9169,6 +9169,11 @@
       "templateId": "test-machine-evidence-v1",
       "variant": "historical-test-summary-native-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-006-current.json",
+      "templateId": "test-machine-evidence-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

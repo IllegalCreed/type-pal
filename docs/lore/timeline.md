@@ -72,9 +72,9 @@ historical。do not promote historical claims to current truth without a current
 - Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
-## 2026-10-26 006运行增量（不重授后期剧情）
+## 2026-10-27 006运行增量（不重授后期剧情）
 
-本轮两端正常接续当前005 saves，求药/小虎复读/苗人头领/张四出海到岛口95条正文与1886/1888/1889/1890完整确认、控制返回已有新原件；仅止于s014，不进入水月宫或破阵。全演出比较、预览初态、命名和正式006checkpoint的实际状态见[006唯一正式报告](../testing/e2e/stages/006-doctor-boat/report.md)。本页历史原稿与原始quote保持原字节，不把新路线结果移授给后续章节、跨作设定或整卡done。
+两端正常接续真实005 saves，95正文与岛口1886/1888/1889/1890完整确认、控制返回已有原件，全比较0finding；新增正式006终档/新上下文读回。编辑器静态NPC起点经真实另存/重开、12入口播放重置。只止s014，不授水月宫/破阵、后期剧情、全现场预览或done；机器原件、独立/用户观感由[006唯一正式报告](../testing/e2e/stages/006-doctor-boat/report.md)分别持有，旧原稿/quote字节不变。
 
 ## 原文保全
 
