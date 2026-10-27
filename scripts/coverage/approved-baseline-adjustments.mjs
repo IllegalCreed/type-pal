@@ -69,7 +69,7 @@ const approvedAdjustments = [
       },
       {
         path: 'packages/pal-extract/src/resources/animation-assets.rng.test.ts',
-        sha256: '54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3',
+        sha256: '50a55707f9ac594cf5c8bde3b60106f465b2d0736b337fcda015d7e72b36149c',
       },
       {
         path: 'packages/pal-extract/src/resources/map.test.ts',
@@ -106,6 +106,10 @@ const approvedAdjustments = [
       {
         path: 'scripts/coverage/approved-test-retirements.mjs',
         sha256: '5a43a8cccde1289e24f5614ebb3b54af6a0b4f80d217d1c8cb9e67d92c738302',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/animation-assets.rng.pal.test.ts',
+        sha256: '54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3',
       },
     ],
     packages: {

@@ -1311,21 +1311,34 @@
       "decision": "code-accepted",
       "initialState": "new necessary shared test fixture or production-caller regression",
       "baseSha256": null,
-      "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3",
+      "sha256": "50a55707f9ac594cf5c8bde3b60106f465b2d0736b337fcda015d7e72b36149c",
       "lines": 50,
       "readExtent": "full",
       "changed": true,
       "caller": "实际CLI animation-assets.writeRngAssets",
       "oracle": "Python原始offset表12档1464帧身份；gzip与原chunk逐字节相同",
       "axes": {
-        "A": "真实12档发布完整字节与literal帧数/index；第6档54帧/每帧64000，初帧确实全黑。",
-        "B": "纠正旧首帧非黑标题；不再以PNG大小差异冒充像素验证。",
-        "C": "只读原盘复制到自有raw/out；每次注册清理，runtime解码与writer发布合同分开。",
-        "D": "不重写解码；共享真实decodeRngFrames与原始表的独立literal预期。",
-        "E": "全12blob exact byte comparison＋完整manifest；初黑/末帧不同直接看像素。",
-        "F": "Buffer.compare调用原生完整字节比较，避免通用deep matcher枚举大Buffer导致默认超时。",
-        "G": "替代旧RNG三弱集成例；11重复opcode由shared22例承接；未改变默认timeout/过滤。",
-        "H": "没有缺盘skip；真实IO且输出隔离，最终与相邻52绿/0stderr；先前timeout原件保留。"
+        "A": "全文重核真实writeRngAssets/IO/shared decoder；三外chunk含空位，内层0/2稀疏帧与空尾槽均由合法MKF/YJ2构成。",
+        "B": "模块注释区分fast自足合同与原盘full通道；op06/02/13由SDLPal真实case核定，不冒称TS回环证明EOS。",
+        "C": "writer只接显式owned临时输入/输出根；onTestFinished清理本例全部资源，不读repo原盘或改业务核心。",
+        "D": "既有纯LE容器与literal-only编码器只造输入；三个完整manifest对象和两帧surface字面期望独立。",
+        "E": "无data临时树复现原唯一ENOENT后新唯一通过；index压紧变异旧原盘绿、新恰一manifest业务AssertionError，原盘原合同迁同目录.pal逐字节保留。",
+        "F": "first/later/other与0/2显式索引揭示增量语义；chunk空位/输出文件号/完整字节可直接对照。",
+        "G": "只路由真实原盘依赖与替换fast输入，未加skip/exclude或弱化原断言；原12chunk/1464frame合同完整保留。",
+        "H": "fast唯一case在无data根下执行真实IO与codec，输入确定且无需mock；原盘用例保留既有full/raw前提。"
+      },
+      "beforeCiReview": {
+        "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3",
+        "axes": {
+          "A": "真实12档发布完整字节与literal帧数/index；第6档54帧/每帧64000，初帧确实全黑。",
+          "B": "纠正旧首帧非黑标题；不再以PNG大小差异冒充像素验证。",
+          "C": "只读原盘复制到自有raw/out；每次注册清理，runtime解码与writer发布合同分开。",
+          "D": "不重写解码；共享真实decodeRngFrames与原始表的独立literal预期。",
+          "E": "全12blob exact byte comparison＋完整manifest；初黑/末帧不同直接看像素。",
+          "F": "Buffer.compare调用原生完整字节比较，避免通用deep matcher枚举大Buffer导致默认超时。",
+          "G": "替代旧RNG三弱集成例；11重复opcode由shared22例承接；未改变默认timeout/过滤。",
+          "H": "没有缺盘skip；真实IO且输出隔离，最终与相邻52绿/0stderr；先前timeout原件保留。"
+        }
       }
     },
     {
@@ -2571,9 +2584,10 @@
     },
     {
       "path": "scripts/coverage/approved-baseline-adjustments.mjs",
-      "sha256": "f505e2fbf909b4eb4d7e664ddf90b6bc6712cc5413ea6383b9fe6f5509156d43",
-      "scope": "Read full current table; only one finite authorized data record added; runtime predicate AST unchanged. See uniform/approval-proof.json.",
-      "beforeWindowGateSha256": "aaefc818e0da3243b71ab0350e57ea97bf3b22051a5060e2f9d5175617db90f8"
+      "sha256": "fbef2868e70658f54fcb37199cdba20f66e8b7bbcd797f03f8faf8a0eea4a41e",
+      "scope": "CI repair updates only current writer source pins and adds byte-identical raw companion pin; finite metric data and runtime predicate unchanged.",
+      "beforeWindowGateSha256": "aaefc818e0da3243b71ab0350e57ea97bf3b22051a5060e2f9d5175617db90f8",
+      "beforeCiSha256": "f505e2fbf909b4eb4d7e664ddf90b6bc6712cc5413ea6383b9fe6f5509156d43"
     },
     {
       "path": "package.json",
@@ -2879,6 +2893,11 @@
       "path": "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
       "sha256": "ced78d3df8af9be40a002ab3945b7bea18c834c27adfe0f9e4632a0128e803f8",
       "scope": "previous ledger accepted module; only moved contract delta independently read, see rawtables-version-bridges.json; not new primary credit"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.rng.pal.test.ts",
+      "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3",
+      "scope": "Full old raw contract byte-identical after canonical .pal routing; adjacent CI bridge, no new primary credit."
     }
   ],
   "native": {
@@ -8911,8 +8930,8 @@
   "remainingCandidates": [],
   "next": "Next candidate after this100 window publishes: present.test.ts + present-hold.grok-r1.test.ts, reuse accepted present/framebuffer contracts; recheck current Owner before any write. Localization/English/SLF active range excluded.",
   "ledgerAfter": {
-    "tracked": 3465,
-    "closed": 694,
+    "tracked": 3466,
+    "closed": 695,
     "review": 0,
     "pending": 2771
   },
@@ -16077,7 +16096,7 @@
     "path": "uniform/README.md",
     "review": "uniform/recount.json",
     "codeAccepted": 100,
-    "coverageCollections": 1,
+    "coverageCollections": 2,
     "officialFirstExit": 1,
     "ratchetReplayExit": 0,
     "protectedReplayExit": 0,
@@ -16086,6 +16105,16 @@
     "wholeLint": "0errors/0warnings/0infos",
     "packageTests": 20536,
     "toolTests": 732,
-    "remainingPending": 2771
+    "remainingPending": 2771,
+    "currentValidation": "Original whole check20536+732 plus actual current extract413/TC0, new official/protected; unchanged packages reused by exact source identities."
+  },
+  "ciFollowup": {
+    "path": "uniform/ci-rng/README.md",
+    "base": "be4ab0cb8d294050da4b5d6f004b4748ea3f982b",
+    "primaryFilesStill": 100,
+    "adjacentRawCompanion": 1,
+    "oldContractByteIdentical": true,
+    "configurationChanged": false,
+    "validation": "No-data1green; nativeEOS3; directed5; current extract83files/413/TC0; new official20188/809 ratchet0 and protected0; remote PR30 recheck pending."
   }
 }

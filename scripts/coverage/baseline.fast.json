@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-27T14:39:04.010Z",
+  "generatedAt": "2026-10-27T15:48:39.188Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -1489,7 +1489,7 @@
           {
             "file": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
             "testCount": 1,
-            "identityDigest": "609d3e6a10269cb45d1b10093862a1428ed937aab89f48e22a4058fb923d3a63"
+            "identityDigest": "a403b41d0edc94ad6012c5a46793be3025ad807137c615fc4eaa84bd6938b491"
           },
           {
             "file": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
@@ -1637,9 +1637,9 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "aa0b040ec3842f58255fde0fc8e63bb1819dfa56559f9579e2cfe6dc53a2d3f4",
+        "identityDigest": "1125c1f97454625b8d9ec674012d6e98ff36960e10eba8646f72f3a25114317e",
         "duplicateIdentityCount": 0,
-        "executionDigest": "0a089eb9ee76520c9a879de6933a012e4f3e9c2d8bc6c5b184b55f1dd4dea280"
+        "executionDigest": "66c123cbd21b7a512a481310b4c94029d4bc2d69c15bf31afe070fbfb536bca2"
       },
       "metrics": {
         "statements": {

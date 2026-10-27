@@ -1,3 +1,5 @@
+2026-10-28 PR30必要CI返工：RNG原盘测试回既有full/raw通道，fast使用无data可运行的真实writer夹具；原断言逐字节保留，新单点业务反控成立。100主体不变，新增相邻原盘伴随测试1条closed；3466tracked／695closed／0review／2771pending。当前extract413/TC0、新official20188/809及protected0；七包逐文件覆盖计数与首候选完全相同。远端重验/合并待，不把原全仓结果改写成新的整仓运行。[当前增量](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md)。
+
 2026-10-28 百文件窗口本地门收口：100实际主体逐文件A–H，20536包测试＋732工具绿、七TC与whole lint0；唯一official20188/809，经有限branch调整后同报ratchet/protected0。3465tracked／694closed／0review／2771pending不变；提交时远端PR/CI/合并尚待，不授其它pending信用。[原件与复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。
 
 2026-10-27 百文件窗口末30主体代码接受，累计100；两PNG重复文件退役不计数。资产字节oracle、合法runtime与状态隔离、原子结算用例完成，137定向/相邻与12增量重叠不相加；3465tracked／694closed／0review／2771pending。全仓/official/受保护发布进入集中窗口，尚未宣布通过。[逐文件证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)。
@@ -173,8 +175,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,465。
-当前已闭合核验：694；已读但待审：0；尚未逐文件核验：2771；合计未闭合：2771。
+起始基点机器清单：2,962。当前 tracked 清单：3,466。
+当前已闭合核验：695；已读但待审：0；尚未逐文件核验：2771；合计未闭合：2771。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -273,7 +275,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts` | fixture | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 | `packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 | `packages/pal-extract/src/resources/animation-assets.fire.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
-| `packages/pal-extract/src/resources/animation-assets.rng.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/animation-assets.rng.test.ts` | test | 已验证 | [CI环境与八维返工](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md) | 无data绿/真实writer字节与索引、有效业务反控；原盘合同完整迁.pal，不加skip/exclude。 |
+| `packages/pal-extract/src/resources/animation-assets.rng.pal.test.ts` | test | 已验证 | [原盘合同逐字节迁移](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md) | 原12chunk/1464帧与读回断言全文保留；当前413完整包实际执行；相邻桥接不凑第101主体。 |
 | `packages/pal-extract/src/resources/__tests__/scene-fixtures.ts` | fixture | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 | `packages/pal-extract/src/resources/scene.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 | `packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |

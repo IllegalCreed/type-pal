@@ -53,3 +53,9 @@ FIRE专测从parsers/fire.glm-runtime-resource.test.ts迁到与当前producer相
 ## 本窗口本地验收收口
 
 2026-10-28（JST）：100主体八维及本地统一门接受；本次提交时远端PR/CI/合并尚待，发布以受保护PR实际结果为准。 20536包测试＋732工具测试全部通过、七包typecheck和whole lint error/warning/info为0；唯一official20,188fast/809src，有限计数调整后原报告ratchet/protected0。文件关闭只来自本卡既有逐文件证据，未扩大到其它pending。见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。本卡done指本地审查/整改/验收，远端发布不是预先完成声明。
+
+## PR30 CI环境合同返工
+
+Codex build allowed：只修animation-assets.rng两测试的fast/full原盘路由与对应证据/精确source pin。远端40529517328唯一ENOENT；原盘合同逐字节迁.pal，fast使用自足真实writer夹具，配置/规则/机制不改。无data红→绿、五定向、extract413/TC0与一个有效业务反控已完成；新官方采集与远端复验仍待。见[CI增量](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md)。
+
+CI返工本地收口：原盘源码逐字节保留，当前extract413/TC0、无data单绿、原生EOS与单点反控成立；当前official20188/809 ratchet0/protected0。实际七包逐文件覆盖计数等于首候选；共两次不同候选采集，因真实CI失败而重采，不伪称一次。全仓20536/732仅作未变包的原件复用。远端PR30复验与合并当前仍待。

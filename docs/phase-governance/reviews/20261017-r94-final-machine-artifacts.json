@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
-      "afterSha256": "ccdf2eabd97be426d2853940aaf04a0f3b8e74ad00d5613d83f0b5e907356fd1",
+      "afterSha256": "c2b9850fba5020a8b381ba803d537ee6419ff9f37632b2b853b3119c58b3fe0a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
-        "implementationSha": "ccdf2eabd97be426d2853940aaf04a0f3b8e74ad00d5613d83f0b5e907356fd1",
+        "implementationSha": "c2b9850fba5020a8b381ba803d537ee6419ff9f37632b2b853b3119c58b3fe0a",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1853,7 +1853,7 @@
           "task": "QUALITY-PENDING-100-1",
           "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
           "sourceBeforeSha256": "be21012f454c1c53b59a603649608c82c698c772cfe9b4a306d3ee4c58e3a7ba",
-          "afterSha256": "ccdf2eabd97be426d2853940aaf04a0f3b8e74ad00d5613d83f0b5e907356fd1",
+          "afterSha256": "c2b9850fba5020a8b381ba803d537ee6419ff9f37632b2b853b3119c58b3fe0a",
           "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."

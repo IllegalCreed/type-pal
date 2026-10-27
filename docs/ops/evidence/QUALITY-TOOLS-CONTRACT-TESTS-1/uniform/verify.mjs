@@ -30,6 +30,10 @@ for (const row of index.blobs) {
   blobs[row.path] = JSON.parse(bytes)
 }
 const parent = JSON.parse(fs.readFileSync(path.join(here, '../review.json')))
+const ciPath = path.join(here, 'ci-rng/review.json')
+const ciReview = fs.existsSync(ciPath) ? JSON.parse(fs.readFileSync(ciPath)) : undefined
+assert.equal(Boolean(parent.ciFollowup), Boolean(ciReview), 'missing CI follow-up evidence')
+if (ciReview) await import('./ci-rng/verify.mjs')
 assert.equal(parent.actualPrimaryFilesReviewed, 100)
 assert.equal(parent.files.length, 100)
 assert.equal(new Set(parent.files.map((row) => row.path)).size, 100)
@@ -43,7 +47,9 @@ for (const row of parent.files) {
 for (const row of parent.dependencies) assert.equal(hash(read(row.path)), row.sha256, row.path)
 for (const row of parent.retiredFiles)
   assert(!fs.existsSync(path.resolve(root, row.path)), row.path)
-const current = blobs['summary.current.json.gz']
+const current = ciReview
+  ? JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(here, 'ci-rng/summary.current.json.gz'))))
+  : blobs['summary.current.json.gz']
 const main = blobs['summary.main.json.gz']
 const old = JSON.parse(native['window100-baseline.before.json'])
 const recount = json('recount.json')
@@ -65,6 +71,13 @@ const { isApprovedTestRetirement } = await import(
   pathToFileURL(path.resolve(root, 'scripts/coverage/approved-test-retirements.mjs'))
 )
 const summaries = blobs['coverage-summaries.json.gz'].members
+const ciSummaries = ciReview
+  ? JSON.parse(
+      zlib.gunzipSync(
+        fs.readFileSync(path.join(here, 'ci-rng/coverage-summaries.current.json.gz')),
+      ),
+    )
+  : undefined
 for (const id of Object.keys(old.packages)) {
   assert.deepEqual(main.packages[id].metrics, old.packages[id].metrics)
   assert.deepEqual(
@@ -72,7 +85,7 @@ for (const id of Object.keys(old.packages)) {
     old.packages[id].metrics,
   )
   assert.deepEqual(
-    normalizeMetrics(JSON.parse(summaries[`current/${id}`]).total),
+    normalizeMetrics(JSON.parse(ciSummaries?.[id] ?? summaries[`current/${id}`]).total),
     current.packages[id].metrics,
   )
   if (id !== 'pal-extract') assert.deepEqual(current.packages[id].metrics, old.packages[id].metrics)
@@ -142,5 +155,7 @@ const first = JSON.parse(native['window100-official-ratchet.execution.json'])
 assert.equal(first.exit, 1)
 assert(native['window100-official-ratchet.stderr.raw'].includes('pal-extract.branches'))
 console.log(
-  'PASS:100 full A-H identities; immutable originals; actual final check; one official report; exact recount/retirements and protected guards. Hashes do not replace semantic review.',
+  ciReview
+    ? 'PASS:100 full A-H identities; original whole check + current CI-focused validation; two justified candidate collections; exact recount/retirements/protected guards. No duplicate full review.'
+    : 'PASS:100 full A-H identities; immutable originals; actual final check; one official report; exact recount/retirements and protected guards. Hashes do not replace semantic review.',
 )

@@ -1,0 +1,526 @@
+{
+  "schemaVersion": 1,
+  "parent": "QUALITY-PENDING-100-1",
+  "scope": "Required PR30 CI repair, primary100 unchanged;1 byte-identical raw companion gains no extra primary credit.",
+  "base": "be4ab0cb8d294050da4b5d6f004b4748ea3f982b",
+  "firstCI": {
+    "run": 40529517328,
+    "job": 122278166775,
+    "head": "be4ab0cb8d294050da4b5d6f004b4748ea3f982b",
+    "testedMerge": "32e0d8e566f529d591919ceed33bb61173639d0f",
+    "failed": 1,
+    "reason": "ENOENT data/raw/RNG.MKF in fast test;356other extract fast pass."
+  },
+  "sources": [
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
+      "sha256": "50a55707f9ac594cf5c8bde3b60106f465b2d0736b337fcda015d7e72b36149c"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.rng.pal.test.ts",
+      "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "fbef2868e70658f54fcb37199cdba20f66e8b7bbcd797f03f8faf8a0eea4a41e"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "sha256": "1a2f17ce1d2ca8d0447cf91bd77ff5cdaa1aee49bfbbcebf791abb7a64dfb252"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "sha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.ts",
+      "sha256": "ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9"
+    },
+    {
+      "path": "packages/pal-extract/src/io/read.ts",
+      "sha256": "2dcd57f6a51469b9ce5b50d50a817e0922295e3281ef895c8a03e66a42ce75e2"
+    },
+    {
+      "path": "packages/pal-extract/src/io/write.ts",
+      "sha256": "664539a20d5a23f296dcaeb08e54d32cba0a4789fc5fc8feb56b7de0bffbda77"
+    },
+    {
+      "path": "packages/shared/src/rng.ts",
+      "sha256": "b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e"
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4"
+    },
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc"
+    },
+    {
+      "path": "reference/sdlpal/rngplay.c",
+      "sha256": "3fd4066442ea41352737d30ea3f41d05082137ae788e7d1ac792a62cf6f4e1f1"
+    }
+  ],
+  "primaryReview": {
+    "path": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
+    "category": "test",
+    "decision": "code-accepted",
+    "initialState": "new necessary shared test fixture or production-caller regression",
+    "baseSha256": null,
+    "sha256": "50a55707f9ac594cf5c8bde3b60106f465b2d0736b337fcda015d7e72b36149c",
+    "lines": 50,
+    "readExtent": "full",
+    "changed": true,
+    "caller": "实际CLI animation-assets.writeRngAssets",
+    "oracle": "Python原始offset表12档1464帧身份；gzip与原chunk逐字节相同",
+    "axes": {
+      "A": "全文重核真实writeRngAssets/IO/shared decoder；三外chunk含空位，内层0/2稀疏帧与空尾槽均由合法MKF/YJ2构成。",
+      "B": "模块注释区分fast自足合同与原盘full通道；op06/02/13由SDLPal真实case核定，不冒称TS回环证明EOS。",
+      "C": "writer只接显式owned临时输入/输出根；onTestFinished清理本例全部资源，不读repo原盘或改业务核心。",
+      "D": "既有纯LE容器与literal-only编码器只造输入；三个完整manifest对象和两帧surface字面期望独立。",
+      "E": "无data临时树复现原唯一ENOENT后新唯一通过；index压紧变异旧原盘绿、新恰一manifest业务AssertionError，原盘原合同迁同目录.pal逐字节保留。",
+      "F": "first/later/other与0/2显式索引揭示增量语义；chunk空位/输出文件号/完整字节可直接对照。",
+      "G": "只路由真实原盘依赖与替换fast输入，未加skip/exclude或弱化原断言；原12chunk/1464frame合同完整保留。",
+      "H": "fast唯一case在无data根下执行真实IO与codec，输入确定且无需mock；原盘用例保留既有full/raw前提。"
+    },
+    "beforeCiReview": {
+      "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3",
+      "axes": {
+        "A": "真实12档发布完整字节与literal帧数/index；第6档54帧/每帧64000，初帧确实全黑。",
+        "B": "纠正旧首帧非黑标题；不再以PNG大小差异冒充像素验证。",
+        "C": "只读原盘复制到自有raw/out；每次注册清理，runtime解码与writer发布合同分开。",
+        "D": "不重写解码；共享真实decodeRngFrames与原始表的独立literal预期。",
+        "E": "全12blob exact byte comparison＋完整manifest；初黑/末帧不同直接看像素。",
+        "F": "Buffer.compare调用原生完整字节比较，避免通用deep matcher枚举大Buffer导致默认超时。",
+        "G": "替代旧RNG三弱集成例；11重复opcode由shared22例承接；未改变默认timeout/过滤。",
+        "H": "没有缺盘skip；真实IO且输出隔离，最终与相邻52绿/0stderr；先前timeout原件保留。"
+      }
+    }
+  },
+  "rawCompanion": {
+    "path": "packages/pal-extract/src/resources/animation-assets.rng.pal.test.ts",
+    "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3",
+    "readExtent": "full; original entire source re-read and compared byte-identical",
+    "countAsPrimary": false,
+    "axes": {
+      "A": "Exact old12chunk/1464frame writer/raw IO contract preserved; only filename uses current full/raw route.",
+      "B": "Original comments/unknown boundaries unchanged; no new runtime/PNG correctness claim.",
+      "C": "Original owned temporary roots/onTestFinished cleanup unchanged; main/source raw input borrowed read-only.",
+      "D": "Separate actual-disc conservation from fast self-contained contract; no universal loader or modes.",
+      "E": "Original single identity and every assertion byte-identical; current directed/full package actually run it.",
+      "F": "Canonical .pal.test.ts suffix reveals required original-resource precondition.",
+      "G": "No original assertions removed, no skip/exclude/config edits; this is relocated existing contract, not a filler test.",
+      "H": "Raw case intentionally requires raw; fast is independently runnable without a data directory."
+    }
+  },
+  "priorCheckpoint": {
+    "path": "native.json.gz",
+    "sha256": "2f4bbd5c8e5ff77ab3f3f0ba54e44c4066c3cfd3e17ce1fd4aa3045afe54421d",
+    "complete": false,
+    "reason": "First package captured official stdout while collector still running; preserved as checkpoint, not a complete passing original."
+  },
+  "native": {
+    "path": "native-complete.json.gz",
+    "sha256": "ae2b84bf2a3147724ccc2d74e388430b42350eae0f8abe8e8af350cf4a2ae483",
+    "members": [
+      {
+        "name": "window100-ci-baseline.before.json",
+        "bytes": 545323,
+        "sha256": "e788e0f41e97e867151fd1c0dac96d0db8d83133c0d111a53c115883b25cadfb"
+      },
+      {
+        "name": "window100-ci-counter-new.execution.json",
+        "bytes": 747,
+        "sha256": "e641dee1c64085c08bb6c8cfbb146ac97feedd29d6d10ae4041edbc4078ec16c"
+      },
+      {
+        "name": "window100-ci-counter-new.stderr.raw",
+        "bytes": 1036,
+        "sha256": "785ea6d9c52a5cbb9973bed96e5ac1dcf09bcc04a9ae00e926e96e521e6008e6"
+      },
+      {
+        "name": "window100-ci-counter-new.stdout.raw",
+        "bytes": 794,
+        "sha256": "0c5a9c747b8482091325c54b78fccee00a824d3b708c9dd8858be12f71efd482"
+      },
+      {
+        "name": "window100-ci-counter-new.vitest.json",
+        "bytes": 2598,
+        "sha256": "ade9930934fee5129238d48852616491b96df40e38075d3eae7b264b75b1925f"
+      },
+      {
+        "name": "window100-ci-counter-old.execution.json",
+        "bytes": 723,
+        "sha256": "a8831fc63212554a4efd4999e9328871890e467c4afaa8acc051036b5a288863"
+      },
+      {
+        "name": "window100-ci-counter-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-counter-old.stdout.raw",
+        "bytes": 768,
+        "sha256": "2633bd5c4b49659f9170deccb15d150bd3b42aa2cbefc051dcf314e6e7d2d3d7"
+      },
+      {
+        "name": "window100-ci-counter-old.vitest.json",
+        "bytes": 1032,
+        "sha256": "bfca0a572076c3d76171d3cb197c22d62753223fa8868047f471a0a166043fd9"
+      },
+      {
+        "name": "window100-ci-counter.mjs",
+        "bytes": 1733,
+        "sha256": "3d381bd974c361a2d740c1b0a852f8c17c3615a6aa0b80ad2c05b20c204ba96b"
+      },
+      {
+        "name": "window100-ci-directed.execution.json",
+        "bytes": 788,
+        "sha256": "8387450f99da7aae1dd98a61f892110c282c1f4fa10e1dae8ce96ae805a0a432"
+      },
+      {
+        "name": "window100-ci-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-directed.stdout.raw",
+        "bytes": 1691,
+        "sha256": "e6b02a5e810a801f228256bdc6db80e822ee155fc13b343c10188f2bd2a28292"
+      },
+      {
+        "name": "window100-ci-directed.vitest.json",
+        "bytes": 2695,
+        "sha256": "d5dde7380baa59933fd565e9ab2f62a334bf3107af1a7548ca129e7eb207986e"
+      },
+      {
+        "name": "window100-ci-docs-static.execution.json",
+        "bytes": 499,
+        "sha256": "f39b044f6cb2df3eafdf9fec30b5b93e8fbf7017649a03319feb1c1aa76cc154"
+      },
+      {
+        "name": "window100-ci-docs-static.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-docs-static.stdout.raw",
+        "bytes": 727,
+        "sha256": "c81b210d39efdf275740fc091ec445421dd6b5e2514700299af02665467d8322"
+      },
+      {
+        "name": "window100-ci-extract-check.execution.json",
+        "bytes": 459,
+        "sha256": "a43440853fde6ef33711ccc409aba37b9d5c734c104cca8f8070b874c0f04b93"
+      },
+      {
+        "name": "window100-ci-extract-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-extract-check.stdout.raw",
+        "bytes": 12117,
+        "sha256": "4547004c907872f5c727e310ee54bcce57656bd3fc56d425bfa640de2d9751f4"
+      },
+      {
+        "name": "window100-ci-fast-inventory.json",
+        "bytes": 85815,
+        "sha256": "ab8820437d485bc0c13091304d117bc93f77e6b2c30f460e84481f70ef81d2da"
+      },
+      {
+        "name": "window100-ci-full-inventory.execution.json",
+        "bytes": 749,
+        "sha256": "b4e4729d9f8faaa16d59e52f7287f9f23f7547d0b570257fe30d6e1916a7eef3"
+      },
+      {
+        "name": "window100-ci-full-inventory.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-full-inventory.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-full-inventory.vitest.json",
+        "bytes": 99030,
+        "sha256": "1eab566b99ce531dea1b4efdac6c332fa9140602bb6bf53da80089807a9bedfd"
+      },
+      {
+        "name": "window100-ci-integrity-r2.execution.json",
+        "bytes": 473,
+        "sha256": "55cb7687fa56e20b9f09d7172ba9c8a632485624ef438ead5c6b9e862154a8b4"
+      },
+      {
+        "name": "window100-ci-integrity-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-integrity-r2.stdout.raw",
+        "bytes": 366,
+        "sha256": "019399389f08f9d6d39df9706adaadebb7cef2e7b1cea9ea9f6e97223c5bfe11"
+      },
+      {
+        "name": "window100-ci-integrity.execution.json",
+        "bytes": 470,
+        "sha256": "1d9d6f9509eacc5cc0e1f08f8d5943c75701a918313c9daf1ef70f937c764e10"
+      },
+      {
+        "name": "window100-ci-integrity.stderr.raw",
+        "bytes": 582,
+        "sha256": "bf8c79d6f0cb313fa1493227c884e88d84d6c6cab584a9a9d56d3ac8cf9ad17b"
+      },
+      {
+        "name": "window100-ci-integrity.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-ledger.execution.json",
+        "bytes": 439,
+        "sha256": "91ed6e90db653417e1b49853cf2b08d56529d56e3603a34aa5b1e20a42bc59a2"
+      },
+      {
+        "name": "window100-ci-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-ledger.stdout.raw",
+        "bytes": 111,
+        "sha256": "923298075ba092b1badc6e9eda6f6daf145f0954b7d8a287c1ea2d85e3cf0eaa"
+      },
+      {
+        "name": "window100-ci-lint-r2.execution.json",
+        "bytes": 405,
+        "sha256": "b86cd12705249910cb6b8bd1daaf630780eafea390b4f4b5179b114fabd177e5"
+      },
+      {
+        "name": "window100-ci-lint-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-lint-r2.stdout.raw",
+        "bytes": 188,
+        "sha256": "3ab4891b40a3453b8b9621e538cb1b13d9cf20385acc0cbbf0fbd215585daae4"
+      },
+      {
+        "name": "window100-ci-lint.execution.json",
+        "bytes": 404,
+        "sha256": "3f5d47c4d3055ec5a0bd44dfcd8b7e6517d853126fdbb9d3d5e7f73558907140"
+      },
+      {
+        "name": "window100-ci-lint.stderr.raw",
+        "bytes": 189,
+        "sha256": "dced06a2b7bc9815c8e06dcdf599de6b6b6c54c39e5a408197c91818bba085ea"
+      },
+      {
+        "name": "window100-ci-lint.stdout.raw",
+        "bytes": 162,
+        "sha256": "8abd6e30e489e3f4520750f39d3d6203d1cb2e6826c5e28b3fe6af462d514b07"
+      },
+      {
+        "name": "window100-ci-native-vectors.execution.json",
+        "bytes": 607,
+        "sha256": "6efd99a8529a6bc16eb4de82d28e8ac4e9a595a7440df44ca3d28b76b39c2eea"
+      },
+      {
+        "name": "window100-ci-native-vectors.json",
+        "bytes": 1343,
+        "sha256": "e64dcb14b115e6abe3b2c8b47c3dd3659ccfe57eb6e577f703398c51e7dba5f8"
+      },
+      {
+        "name": "window100-ci-native-vectors.mts",
+        "bytes": 1550,
+        "sha256": "dbf7cf5fd8aada392e48155d3d84d85b0780d722ac30c8640ef7325c37911e9a"
+      },
+      {
+        "name": "window100-ci-native-vectors.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-native-vectors.stdout.raw",
+        "bytes": 171,
+        "sha256": "2eb649f275d286e874cca71629e8e53831a4d6cb5114d9df4711f3d41ed1121a"
+      },
+      {
+        "name": "window100-ci-no-raw-after.execution.json",
+        "bytes": 633,
+        "sha256": "536d8bc5cd18c96e4f6f606657e066debcc11c711d0ba2f2836a17be701ef1af"
+      },
+      {
+        "name": "window100-ci-no-raw-after.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-no-raw-after.stdout.raw",
+        "bytes": 685,
+        "sha256": "7ca78e17361114e1a616bfe5604cf8b7f6929a6cd56150313f3ae4d562dcecf9"
+      },
+      {
+        "name": "window100-ci-no-raw-after.vitest.json",
+        "bytes": 1042,
+        "sha256": "cda8c4198b5aae1460dae7b763ede8694d8ee16ea833a755b80e3f476e83b349"
+      },
+      {
+        "name": "window100-ci-no-raw-before.execution.json",
+        "bytes": 637,
+        "sha256": "c04c2d24bb14f783c1d04ea7d10c42bcc5a38641e16646bc7b41309499921285"
+      },
+      {
+        "name": "window100-ci-no-raw-before.stderr.raw",
+        "bytes": 867,
+        "sha256": "71ea404f1256ea458876625eff55951fb9e0c2041bcaa71768359113e0ec15e2"
+      },
+      {
+        "name": "window100-ci-no-raw-before.stdout.raw",
+        "bytes": 573,
+        "sha256": "30f4505f20e45b6b64959301f1af7604a94b4b7066fa39705a200a1dc848a6f6"
+      },
+      {
+        "name": "window100-ci-no-raw-before.vitest.json",
+        "bytes": 2602,
+        "sha256": "d87d7f0779b0b17db7a5541714a9e4c05704fc86c79e67f3700c7650edba9e3b"
+      },
+      {
+        "name": "window100-ci-no-raw.mjs",
+        "bytes": 1431,
+        "sha256": "b54b2dd78fa8bcd4189cb9bbbf416d1c933ee30ef21f4826026d944c706f42e5"
+      },
+      {
+        "name": "window100-ci-official-ratchet.execution.json",
+        "bytes": 544,
+        "sha256": "5ae36936e61974491fc80ec8daf7a9a1ed838b8ecd1f52b2ff89e101cb6c0aa2"
+      },
+      {
+        "name": "window100-ci-official-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-official-ratchet.stdout.raw",
+        "bytes": 218129,
+        "sha256": "8b6ab113b34078f790f0976ec7c2db508a1c7ebbd3038d22618773923c7751c7"
+      },
+      {
+        "name": "window100-ci-per-file-conservation.json",
+        "bytes": 1140,
+        "sha256": "4adb188ae8791aa6b8d85717fe502b197ce5bd94e75188360cd3e5489a400d49"
+      },
+      {
+        "name": "window100-ci-protected.execution.json",
+        "bytes": 557,
+        "sha256": "52982f612829684b826ceb0f43862297ba1bdeac98d62b97bb3124f547647fa5"
+      },
+      {
+        "name": "window100-ci-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-protected.stdout.raw",
+        "bytes": 2544,
+        "sha256": "d92b29d8c509fafa2629a79ec98ee3f2431885d9d3678a2d0a69ac7581b2952b"
+      },
+      {
+        "name": "window100-ci-rng-before.ts",
+        "bytes": 2386,
+        "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3"
+      },
+      {
+        "name": "window100-ci-source-bridge.json",
+        "bytes": 664,
+        "sha256": "1c9a4df1d17bdedb8e3092a5ea852a91e5cd66e9b855b7cfedeea2da21f2e18d"
+      },
+      {
+        "name": "window100-ci-typecheck.execution.json",
+        "bytes": 453,
+        "sha256": "035a447c03ce44043bd17920f398a0c1e8dcc2bca6068fb4da6c71dc148ba9e5"
+      },
+      {
+        "name": "window100-ci-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "window100-ci-typecheck.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "first-pr-ci-job.raw",
+        "bytes": 149767,
+        "sha256": "215f06d420f7aafccce880c15042469e17b2c4b5a51112437a56e1e2f54a2425"
+      },
+      {
+        "name": "yj2-bounded-primary.c",
+        "bytes": 6805,
+        "sha256": "888b49d48a09c9ce13eb305dbe5c2bf87b08e0e2c719fc8d8641c40b7fc179b3"
+      }
+    ]
+  },
+  "validation": {
+    "baseWholeCheck": "20536 product+732tool, original candidate; not rerun or relabeled current",
+    "currentExtract": "83files/413cases/TC0",
+    "directed": "3files/5cases/stderr0",
+    "counter": "old original1pass/new self-contained1AssertionError, temporary producer copies only",
+    "noRaw": "original1ENOENT/new1pass, isolated package without data",
+    "nativeEos": "3payloads checked by bounded primary C through EOS",
+    "currentOfficial": {
+      "id": "window100-ci-official-ratchet",
+      "command": "env",
+      "args": [
+        "TYPE_PAL_COVERAGE_BASE_REF=72db417255d8ca4227522420e9185ef468462aa7",
+        "pnpm",
+        "coverage:ratchet",
+        "--allow-scope-removal"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-94-102/type-pal",
+      "start": "2026-10-27T15:33:30.844Z",
+      "end": "2026-10-27T15:48:39.544Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "be4ab0cb8d294050da4b5d6f004b4748ea3f982b",
+      "observerTimeout": false,
+      "stdoutBytes": 218129,
+      "stderrBytes": 0
+    },
+    "protected": {
+      "id": "window100-ci-protected",
+      "command": "env",
+      "args": [
+        "TYPE_PAL_COVERAGE_BASE_REF=72db417255d8ca4227522420e9185ef468462aa7",
+        "node",
+        "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/replay.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-94-102/type-pal",
+      "start": "2026-10-27T15:50:39.641Z",
+      "end": "2026-10-27T15:50:39.830Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "be4ab0cb8d294050da4b5d6f004b4748ea3f982b",
+      "observerTimeout": false,
+      "stdoutBytes": 2544,
+      "stderrBytes": 0
+    },
+    "localCollections": 2,
+    "reasonForSecond": "New CI failure and corrected test selection/input; original collection remains immutable."
+  },
+  "currentReportSha256": "7612c1346a60ea2d79957f8f1728cb8d8a57d42c86cc574fb344ed9572278293"
+}
