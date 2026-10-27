@@ -331,6 +331,14 @@
       ],
       "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
       "scope": "Byte-equivalent CLI loop move, two atomic real-caller tests, formal ownership counter and exact restoration. Prior executions and nonfast PAL/CLI limits retained."
+    },
+    {
+      "date": "2026-10-27",
+      "action": "protected-production-release",
+      "candidate": "c42e333385fe464805de88a51b95ab092abb9f6a",
+      "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+      "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+      "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
     }
   ],
   "claims": [
@@ -481,6 +489,10 @@
     {
       "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
       "sha256": "67aa117784fb0a541273d0c58c8f3f4efa5997dfe3369bcf0cd24fe59fe1226e"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+      "sha256": "377ce9166785ab668bfad3b1ea1c18d062fd807df63a8f12f1ee430f897bd88b"
     }
   ],
   "notRun": ["complete story browser E2E", "visual", "deployment"],

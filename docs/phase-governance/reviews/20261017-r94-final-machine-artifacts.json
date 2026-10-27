@@ -1021,16 +1021,16 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta and native receipts.",
+      "readMethod": "Read release binding.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Owned release-preparation delta; prior provenance retained.",
+      "coreConclusion": "Release binding; history retained.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
       "unresolved": [
         "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Protected CI and deployment remain separate.",
+      "nextStep": "Documentation PR pending.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
-      "afterSha256": "1b042a46f09f16bb4b86f4546bda8774bef2a25a5c902f9d59e8a0b619d5841c",
+      "afterSha256": "be21012f454c1c53b59a603649608c82c698c772cfe9b4a306d3ee4c58e3a7ba",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
-        "implementationSha": "1b042a46f09f16bb4b86f4546bda8774bef2a25a5c902f9d59e8a0b619d5841c",
+        "implementationSha": "be21012f454c1c53b59a603649608c82c698c772cfe9b4a306d3ee4c58e3a7ba",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1850,10 +1850,10 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
-          "afterSha256": "1b042a46f09f16bb4b86f4546bda8774bef2a25a5c902f9d59e8a0b619d5841c",
-          "scope": "Owned release-preparation delta.",
-          "lineCount": 20300
+          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+          "afterSha256": "be21012f454c1c53b59a603649608c82c698c772cfe9b4a306d3ee4c58e3a7ba",
+          "scope": "Release.",
+          "lineCount": 20315
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
@@ -4863,6 +4863,11 @@
           "date": "2026-10-27",
           "action": "release-prep",
           "previousAfterSha256": "3cf2808c1504b3ff6bc5b9a50d384b392187fe557807f395ca3d1957e0e83025"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "1b042a46f09f16bb4b86f4546bda8774bef2a25a5c902f9d59e8a0b619d5841c"
         }
       ],
       "supersedes": [

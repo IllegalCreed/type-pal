@@ -1,6 +1,6 @@
 # GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归
 
-Status: review
+Status: done
 Phase: phase1 / phase2
 Capability: 地图传送与脚本纠错
 Coding Owner: map204_investigation（隔离实现）；Codex（集成）
@@ -65,7 +65,7 @@ yes（用户2026-10-27追加方向）：从复用原遇敌作出口，改为保�
 - 白名单：shared资源类型、提取器现有纠错与场景/global输出、game窄helper与两场景装载caller和定向tests、canonical s286原敌恢复/独立zone及Reforge回归tests；不改Save/GameState schema/版本/通用触发语义/其它剧情/规则/coverage基线。
 - 新ID从原生5077实体之后追加，不插入中段、不改变任何原ID或sceneRanges。场景加载只补显式supplemental缺项；已有新实体引用/状态保持，不覆盖未知撞ID。
 - 旧replacement候选及其定向结果另保留为探索历史，不计最终新方案修复信用。
-- 用户明确授权保留原遇敌并另加出口；本地功能接收与统一静态门完成后仍待用户体验，不预填done或发布。
+- 用户明确授权保留原遇敌并另加出口；本地结果已获用户接受；保护CI、合并与实际部署完成，见发布收口。
 
 ## Draft: 设计与风险
 
@@ -92,6 +92,12 @@ yes（用户2026-10-27追加方向）：从复用原遇敌作出口，改为保�
 
 ## 下一位 Agent 提示词
 
-无用户转交；本地两项实现已接收，保留当前原件和用户试用入口；未来PR、受保护CI与发布另按用户授权执行。
+无下一位Agent；两项实现及用户体验已接收，保护CI、合并、部署和v1.1.0发布完成。后续从最新main另定范围。
 
 2026-10-27发布窗口：用户已接受两项本地结果并授权完整发布。补齐提取快测真实caller与旧FPS测试语义定位，五文件有限A–H、正式反控及两遍资源一致见[准备回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json)。当前review等待受保护PR/CI与真实部署，不提前声明上线或关闭issue。
+
+## 2026-10-27 发布收口
+
+用户本地验收已确认。PR [#28](https://github.com/IllegalCreed/type-pal/pull/28) 的 documentation / fast-coverage（Actions App15368）在最新base、精确候选`c42e333385fe464805de88a51b95ab092abb9f6a`上通过；按保护规则合并为`bde596695d9c4d90a8031443ddd1ea033edd5245`。本地官方20,203例/812源、七包类型检查、lint与完整文档门零诊断见[本地门](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json)。
+
+实际从合并树新构建并部署阿里云应用和资源；源站/CDN逐字节及完整资源清单、浏览器设置/刷新回退验证通过，两个issue已回复并关闭；第一阶段[v1.1.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0)固定该部署提交。实现分支已按可恢复备份清理；一份临时worktree已归档，当前聊天主工作树按工具保护规则保留并同步最新main。完整命令、原件、CDN任务、备份与限制见[发布回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)。未宣称实物手柄、issue原存档、离线激活或自然全剧情E2E。无下一位Agent；收尾文档继续走受保护PR。

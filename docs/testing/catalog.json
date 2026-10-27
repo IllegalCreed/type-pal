@@ -2405,6 +2405,14 @@
             ],
             "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
             "scope": "Byte-equivalent CLI loop move, two atomic real-caller tests, formal ownership counter and exact restoration. Prior executions and nonfast PAL/CLI limits retained."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "protected-production-release",
+            "candidate": "c42e333385fe464805de88a51b95ab092abb9f6a",
+            "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+            "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
           }
         ]
       }
@@ -2413,7 +2421,7 @@
       "id": "game-input-rotation",
       "kind": "report",
       "title": "第一阶段可选45°方向控制回归",
-      "status": "active",
+      "status": "verified",
       "phase": ["phase1"],
       "engines": ["game"],
       "owner": "Codex",
@@ -2566,7 +2574,7 @@
         "notes": "The selected baseline51 file/fullName contracts remain;9 additions are preference IO2, gamepad mapping/rearm/browser wiring3, touch mapping/reset2, shell initialization/live setting1 and settings reopen1. Existing touch-slide test only moves fixture construction to directionPad; all6 snapshots remain. English case adds one label assertion, not a new test. Different callers/lifecycles distinguish these layers; no formula-mirror oracle or retired/renamed test."
       },
       "revision": {
-        "currentSha": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+        "currentSha": "bde596695d9c4d90a8031443ddd1ea033edd5245",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "versionScope": "These are the current project publication axes recorded for the paired consumer; this phase1 browser-input preference does not consume content/save schema, change compatibility or authorize phase2 execution.",
@@ -2579,6 +2587,14 @@
             "integratedCandidate": "ae9e3226c24f37d1f33c14c9b6e28ba2d72e52ec",
             "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
             "scope": "Reuse contributor60/native counter/static gates plus root finite browser acceptance. This documentation publication runs no product tests and grants no whole-repository,coverage,hardware,complete-story or deployment credit. Publication remains active pending unified window and user experience."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "protected-production-release",
+            "candidate": "c42e333385fe464805de88a51b95ab092abb9f6a",
+            "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+            "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
           }
         ]
       }
@@ -2691,11 +2707,11 @@
       },
       {
         "id": "game-script-corrections",
-        "conclusion": "2026-10-27只核独立新增出口/原敌保留/旧档加载与两阶段真实接触合同；复用83邻测+当前PAL5、extract49、Reforge5421和两有效业务反控及精确恢复，根提取/准备旧档浏览器另核；不续签历史coverage或完整剧情。"
+        "conclusion": "2026-10-27有限功能与用户接受、官方20203/812、保护CI及实际应用/资源部署收口；保留原合同和执行身份，真机/自然剧情/离线激活未核。"
       },
       {
         "id": "game-input-rotation",
-        "conclusion": "新增phase1/game可选45°输入报告，active等待统一窗/用户体验；复用60native、精确单红恢复与根两viewport真实pointer/刷新/双语证据；51旧合同保留、9新增、0退役，不授真机/完整剧情/覆盖率/部署信用。"
+        "conclusion": "2026-10-27有限功能与用户接受、官方20203/812、保护CI及实际应用/资源部署收口；保留原合同和执行身份，真机/自然剧情/离线激活未核。"
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",
@@ -2779,6 +2795,20 @@
           "id": "game-script-corrections",
           "conclusion": "新增两阶段脚本/资源/入口持久化回归记录；支持本地原盘生成和canonical作者内容，精确区分业务红绿、存档与headless边界，未授完整E2E/视觉/发布信用。"
         }
+      },
+      {
+        "date": "2026-10-27",
+        "action": "production-release-reading",
+        "id": "game-input-rotation",
+        "previousConclusion": "新增phase1/game可选45°输入报告，active等待统一窗/用户体验；复用60native、精确单红恢复与根两viewport真实pointer/刷新/双语证据；51旧合同保留、9新增、0退役，不授真机/完整剧情/覆盖率/部署信用。",
+        "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json"
+      },
+      {
+        "date": "2026-10-27",
+        "action": "production-release-reading",
+        "id": "game-script-corrections",
+        "previousConclusion": "2026-10-27只核独立新增出口/原敌保留/旧档加载与两阶段真实接触合同；复用83邻测+当前PAL5、extract49、Reforge5421和两有效业务反控及精确恢复，根提取/准备旧档浏览器另核；不续签历史coverage或完整剧情。",
+        "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json"
       }
     ],
     "supersedes": [],

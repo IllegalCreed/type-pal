@@ -1067,14 +1067,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta and native receipts.",
+      "readMethod": "Read release binding.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Owned release-preparation delta; prior provenance retained.",
+      "coreConclusion": "Release binding; history retained.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Protected CI and deployment remain separate.",
+      "nextStep": "Documentation PR pending.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261004-semantic-current-batch.json machine artifact",
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
-      "afterSha256": "53454b103c3a32be8cef6e9d36a95209f89386054f8e0a91575ea1cea9fcd250",
+      "afterSha256": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "7faa2bd7fe3dabf8a92b5f1455fa94e24c7c3d1af0f55cb0d2ad3e0cdeeb7e3a",
-        "implementationSha": "53454b103c3a32be8cef6e9d36a95209f89386054f8e0a91575ea1cea9fcd250",
+        "implementationSha": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1816,10 +1816,10 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
-          "afterSha256": "53454b103c3a32be8cef6e9d36a95209f89386054f8e0a91575ea1cea9fcd250",
-          "scope": "Owned release-preparation delta.",
-          "lineCount": 5555
+          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+          "afterSha256": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
+          "scope": "Release.",
+          "lineCount": 5565
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
@@ -3845,6 +3845,11 @@
           "date": "2026-10-27",
           "action": "release-prep",
           "previousAfterSha256": "1816337b8412ab437cf1a922a2f937d6ac0826ebc0e0210e6020c89bee961f6a"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "53454b103c3a32be8cef6e9d36a95209f89386054f8e0a91575ea1cea9fcd250"
         }
       ],
       "supersedes": [
@@ -5315,14 +5320,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta and native receipts.",
+      "readMethod": "Read release binding.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Owned release-preparation delta; prior provenance retained.",
+      "coreConclusion": "Release binding; history retained.",
       "truthAnchors": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json:1"],
       "unresolved": [
         "At local freeze: remote PR/main CI publication separate; check associated Git records."
       ],
-      "nextStep": "Protected CI and deployment remain separate.",
+      "nextStep": "Documentation PR pending.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json machine artifact",
@@ -5338,7 +5343,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "a1f896022220125746e1fee3cea238d3f93572c646b2c7d84962cb9d7e82f4f8",
+      "afterSha256": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5362,7 +5367,7 @@
       },
       "revision": {
         "currentSha": "122630f065f6cd0e4c7dd69daf09492b3c176a37896b025fc522bc682d1a2c2c",
-        "implementationSha": "a1f896022220125746e1fee3cea238d3f93572c646b2c7d84962cb9d7e82f4f8",
+        "implementationSha": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -5430,10 +5435,10 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
-          "afterSha256": "a1f896022220125746e1fee3cea238d3f93572c646b2c7d84962cb9d7e82f4f8",
-          "scope": "Owned release-preparation delta.",
-          "lineCount": 3508
+          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+          "afterSha256": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
+          "scope": "Release.",
+          "lineCount": 3513
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
@@ -5541,6 +5546,11 @@
           "date": "2026-10-27",
           "action": "release-prep",
           "previousAfterSha256": "ce2cbb7303698fa594cb8206b7d6b76243534da031d5d3b370ae9382d75361ab"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "a1f896022220125746e1fee3cea238d3f93572c646b2c7d84962cb9d7e82f4f8"
         }
       ],
       "supersedes": [
@@ -12779,14 +12789,14 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read owned incoming hash edge; no new source audit.",
+      "readMethod": "Read release binding.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Owned map204/input record delta; historical/native envelope preserved.",
+      "coreConclusion": "Release binding; history retained.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-testing-index-navigation.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
       ],
-      "nextStep": "Local feature review only; user experience and any future PR/CI/release remain separate.",
+      "nextStep": "Documentation PR pending.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261016-testing-index-navigation.json machine artifact",
@@ -12802,7 +12812,7 @@
         }
       ],
       "sourceSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
-      "afterSha256": "9b0238ff7d5a68065d09e6697c7604823a4a2755681f7bd904d4c9bc3c68fb61",
+      "afterSha256": "f8791290984e17afeb8c24caced927517e577697885cf52838896c5402a9c7ab",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -12826,7 +12836,7 @@
       },
       "revision": {
         "currentSha": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
-        "implementationSha": "9b0238ff7d5a68065d09e6697c7604823a4a2755681f7bd904d4c9bc3c68fb61",
+        "implementationSha": "f8791290984e17afeb8c24caced927517e577697885cf52838896c5402a9c7ab",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -12869,10 +12879,10 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
-          "afterSha256": "9b0238ff7d5a68065d09e6697c7604823a4a2755681f7bd904d4c9bc3c68fb61",
-          "scope": "Owned delta; see receipt.",
-          "lineCount": 8717
+          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+          "afterSha256": "f8791290984e17afeb8c24caced927517e577697885cf52838896c5402a9c7ab",
+          "scope": "Release.",
+          "lineCount": 8752
         }
       },
       "history": [
@@ -12907,6 +12917,11 @@
           "action": "map204-input-owned-delta",
           "previousAfterSha256": "07506fbd67760dc3eb0e28a758aa77beca644b7fb566c105ff8c12e674a6f93b",
           "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+        },
+        {
+          "date": "2026-10-27",
+          "action": "release",
+          "previousAfterSha256": "9b0238ff7d5a68065d09e6697c7604823a4a2755681f7bd904d4c9bc3c68fb61"
         }
       ],
       "supersedes": [
@@ -12914,7 +12929,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Incoming control hash edge only.",
+      "reviewedLines": "Owned delta only.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

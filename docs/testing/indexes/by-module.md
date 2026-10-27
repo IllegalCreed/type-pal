@@ -120,7 +120,7 @@ Template: governance-index-v1 / 1.0.0
 
 | ID | 文档 | 状态 | Owner |
 |---|---|---|---|
-| game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | active | Codex |
+| game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | verified | Codex |
 
 
 ### phase1-runtime/dependencies

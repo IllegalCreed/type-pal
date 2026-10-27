@@ -84,7 +84,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### gamepad
 
-- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
 
 ### governance
 
@@ -102,7 +102,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### input
 
-- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
 
 ### items
 
@@ -131,7 +131,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### mobile
 
-- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
 
 ### npc
 
@@ -156,7 +156,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### regression
 
-- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（active）
+- game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
 - game-script-corrections — [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md)（active）
 
 ### rework
